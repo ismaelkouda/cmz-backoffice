@@ -1,0 +1,28 @@
+import { SeuilAlarmesComponent } from './ui/seuil-alarmes/seuil-alarmes.component';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { ProfilSupervisionComponent } from './ui/profil-supervision/profil-supervision.component';
+
+const SEUIL_ALARMES = 'seuil-alarme';
+const PROFIL_SUPERVISION = 'profil-supervision';
+
+
+const routes: Routes = [{
+    path: "",
+    children: [
+        {
+            path: SEUIL_ALARMES,
+            component: SeuilAlarmesComponent
+        },
+        {
+            path: PROFIL_SUPERVISION,
+            component: ProfilSupervisionComponent
+        }
+    ]
+}];
+
+@NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
+})
+export class RefTelemetrieRoutingModule { }

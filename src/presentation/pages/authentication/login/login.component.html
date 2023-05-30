@@ -1,0 +1,51 @@
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-12">
+            <div class="login-card">
+                <div>
+                    <div>
+                        <a class="logo" routerLink='/'>
+                            <img class="img-fluid for-light" width="200" src="assets/images/logo/logo-orange-full.png"
+                                alt="looginpage">
+                            <img class="img-fluid for-dark" width="200" src="assets/images/logo/logo-orange-full.png"
+                                alt="looginpage">
+                        </a>
+                    </div>
+                    <div class="login-main">
+                        <form class="theme-form needs-validation" [formGroup]="loginForm">
+                            <h4 class="text-center mb-5">Authentification</h4>
+                            <!-- <p>Entrez votre adresse électronique et votre mot de passe pour vous connecter</p> -->
+                            <div class="form-group">
+                                <label class="col-form-label"><b>Adresse email <span
+                                            class="text-danger">*</span></b></label>
+                                <input class="form-control" type="email" formControlName="email"
+                                    placeholder="app@yourmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label"><b>Mot de passe <span
+                                            class="text-danger">*</span></b></label>
+                                <input class="form-control" formControlName="password"
+                                    [type]="show ? 'text' : 'password'" name="login[password]" required=""
+                                    placeholder="*********">
+                                <div class="show-hide" (click)="showPassword()" *ngIf="!show">
+                                    <i class="pi pi-eye"></i>
+                                </div>
+                                <div class="show-hide" (click)="showPassword()" *ngIf="show">
+                                    <i class="pi pi-eye-slash"></i>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <a (click)="onLogin()" class="btn btn-primary d-block w-100" type="button">
+                                    Connexion
+                                </a>
+                            </div>
+                            <p class="mt-4 mb-0">Mot de passe oublié ?
+                                <a class="ms-2">Réinitialiser mot de passe</a>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

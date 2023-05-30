@@ -1,0 +1,140 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="'Patrimoine SIM'" [active_item]="'Cartes SIM'"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div [hidden]="!initialView">
+            <div class="row filter_wrapper">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Direction Régionale</b>
+                  </label>
+                  <p-dropdown [options]="listDirections" optionLabel="nom" (onChange)="onChangeItem($event)"
+                    [showClear]="true" placeholder="Selectionnez la direction">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.nom}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Exploitation</b>
+                  </label>
+                  <p-dropdown [options]="listExploitations" optionLabel="fullName" [(ngModel)]="selectedExploitation"
+                    placeholder="Selectionnez l'exploitation">>
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.fullName}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>MSISDN</b>
+                  </label>
+                  <input placeholder="Saisir le numéro" [(ngModel)]="selectedSim" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-1">
+                <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
+                  [disabled]="isFilter()"></p-button>
+              </div>
+            </div>
+            <hr>
+            <div class="table_actions_wrapper">
+              <!-- <button pButton pRipple label="Ajout simple" (click)="onInitForm()" icon="pi pi-plus"
+                class="p-button-success"></button> -->
+              <button pButton pRipple label="Rafraichir" (click)="GetAllPatrimoines()" icon="pi pi-refresh"
+                class="p-button-secondary"></button>
+              <button pButton pRipple label="Exporter" icon="pi pi-download" [disabled]="disableAction()"
+                class="p-button-helf"></button>
+            </div>
+            <div class="table_content_wrapper">
+              <div class="table_header mt-2">
+                <div class="table_header__legende">
+                  <h4 class="pt-2">
+                    <b>Liste 50 dernières SIM mises à jour</b>
+                  </h4>
+                </div>
+                <div class="table_header__input">
+                  <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)]="term" placeholder="Recherche" />
+                  </span>
+                </div>
+              </div>
+              <table [ngClass]="['native_table table']">
+                <thead>
+                  <th class="text-center">#</th>
+                  <th>D.Régionale</th>
+                  <th>Exploitation</th>
+                  <th class="text-center">MSISDN</th>
+                  <th class="text-center">IMSI</th>
+                  <th>Zone Géographique</th>
+                  <th class="text-center">Usage</th>
+                  <th>Statut</th>
+                  <th class="text-center">Actions</th>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let data of listPatrimoines | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                    <td>{{ (this.offset + i)}}</td>
+                    <td>{{data.direction_regionale?.code}}</td>
+                    <td>{{data.exploitation?.nom}} [{{data.exploitation?.code}}]</td>
+                    <td (click)="copyData(data.msisdn)" style="cursor: pointer;">{{data.msisdn}}</td>
+                    <td>{{data?.imsi}}</td>
+                    <td style="text-align: left !important;">{{data?.zone_geographique}}</td>
+                    <td>{{data?.usage}}</td>
+                    <td>
+                      <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+                        [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
+                        {{ data.statut }}
+                      </span>
+                    </td>
+                    <td class="td-actions">
+                      <p-button icon="pi pi-map-marker" pTooltip="Localisation" tooltipPosition="top"
+                        (click)="showDialog('map', data)" styleClass="p-button-success p-button-outlined"></p-button>
+                      <p-button icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" (click)="onShowForm(data)"
+                        styleClass="p-button-dark"></p-button>
+                      <p-button icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top" (click)="onEditForm(data)"
+                        styleClass="p-button-secondary"></p-button>
+                      <!-- <p-button icon="pi pi-trash" (click)="handleDelete(data)" pTooltip="Supprimer"
+                        tooltipPosition="top" styleClass="p-button-danger"></p-button> -->
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div [ngClass]="['pagination-controls']">
+                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+          <app-patrimoine-forms [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
+            (listPatrimoines)="pushListPatrimoines($event)"></app-patrimoine-forms>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-dialog header="Vue géographique" (onHide)="hideDialog('map')" (onMaximize)="onDialogMaximized($event)"
+    [(visible)]="display" [maximizable]="true" [style]="{width: '100vw',height: '45vw'}">
+    <ng-template pTemplate="content" class="mt-4">
+      <div class="mt-4">
+        <div #parcelleMap></div>
+      </div>
+    </ng-template>
+  </p-dialog>

@@ -1,0 +1,17 @@
+<div class="media profile-media">
+    <img class="b-r-10" src="assets/images/dashboard/profile.png" width="35" alt="">
+    <div class="media-body"><span>{{currentUser?.nom}} {{currentUser?.prenoms}}</span>
+        <p class="mb-0 font-roboto">{{currentUser?.email}}<i class="middle fa fa-angle-down"></i></p>
+    </div>
+</div>
+<ul class="profile-dropdown onhover-show-div">
+    <li>
+        <i [attr.data-feather]="'user'"></i><span>Mon compte </span>
+    </li>
+    <li>
+        <i [attr.data-feather]="'monitor'"></i><span>Espace digital</span>
+    </li>
+    <li (click)="logout()">
+        <i [attr.data-feather]="'log-in'"></i><span>Déconnexion</span>
+    </li>
+</ul>

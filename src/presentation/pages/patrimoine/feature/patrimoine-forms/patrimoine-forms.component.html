@@ -1,0 +1,614 @@
+<div>
+  <div class="forms-feature-header">
+    <div>
+      <h4>
+        <b *ngIf="currentObject === undefined">
+          <span>Formulaire d'ajout simple de Carte SIM</span>
+        </b>
+        <b *ngIf="currentObject !== undefined && !currentObject?.show">
+          <span>Modification SIM</span>
+          <span class="current_values">[{{currentObject?.msisdn}}]</span>
+        </b>
+      </h4>
+    </div>
+    <div class="forms-feature-header__button" [ngStyle]="{display: 'flex',gap: '1rem'}">
+      <div *ngIf="!currentObject?.show">
+        <p-button label="Enregistrer" [label]="currentObject === undefined ? 'Enregistrer': 'Modifier'"
+          [disabled]="!adminForm.valid" styleClass="p-button-success" (click)="currentObject === undefined
+                    ? handleSaveCampagne()
+                    : handleUpdateCampagne()
+                    "></p-button>
+      </div>
+      <div>
+        <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+
+      </div>
+    </div>
+  </div>
+  <hr *ngIf="!currentObject?.show">
+  <!--------------------------FORMS-------------------------->
+  <div *ngIf="!currentObject?.show" style="margin-top: 3rem;">
+    <div [formGroup]="adminForm" novalidate>
+      <fieldset>
+        <legend [ngStyle]="{width: '18rem'}">
+          <b>Informations d'indentifications</b>
+        </legend>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Direction Régionale<span class="text-danger">*</span></b>
+              </label>
+              <p-dropdown [options]="listDirectionRegionales" formControlName="direction_regionale" optionLabel="nom"
+                optionValue="id" placeholder="Selectionnez la direction">
+                <ng-template let-data pTemplate="item">
+                  <div class="country-item">
+                    <div>
+                      {{data.nom}}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Exploitation<span class="text-danger">*</span></b>
+              </label>
+              <p-dropdown [options]="listExploitations" placeholder="Selectionnez l'exploitation"
+                formControlName="exploitation" optionLabel="code" optionValue="id">
+                <ng-template let-data pTemplate="item">
+                  <div class="country-item">
+                    <div>
+                      {{data.code}}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>IMSI<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="imsi" pInputText />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Numéro de téléphone<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="msisdn" pInputText />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Zone de Géographique<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="zone_geographique" pInputText />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Usage<span class="text-danger">*</span></b>
+              </label>
+              <p-dropdown [options]="listUsage" formControlName="usage" placeholder="Usage">
+                <ng-template let-data pTemplate="item">
+                  <div class="country-item">
+                    <div>
+                      {{data}}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Code PIN<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="code_pin" pInputText />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Code PUK<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="code_puk" pInputText />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Adresse géographique</b>
+              </label>
+              <input type="text" formControlName="adresse_geographique" pInputText />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Nom & Prenom<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="nom_prenoms" pInputText />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Adresse mail<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="adresse_email" pInputText />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Longitude<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="longitude" pInputText />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Latitude<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="latitude" pInputText />
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend [ngStyle]="{width: '12rem'}">
+          <b>Informations Réseau</b>
+        </legend>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Catégorie<span class="text-danger">*</span></b>
+              </label>
+              <p-dropdown [options]="" optionLabel="libelle" formControlName="categorie"
+                placeholder="Selectionnez la catégorie">
+                <ng-template let-data pTemplate="item">
+                  <div class="country-item">
+                    <div>
+                      {{data.libelle}}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Profil<span class="text-danger">*</span></b>
+              </label>
+              <p-dropdown [options]="listProfils" formControlName="profil" placeholder="Selectionnez le profil">
+                <ng-template let-data pTemplate="item">
+                  <div class="country-item">
+                    <div>
+                      {{data}}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Service<span class="text-danger">*</span></b>
+              </label>
+              <p-dropdown [options]="listServices" placeholder="Selectionnez le service">
+                <ng-template let-data pTemplate="item">
+                  <div class="country-item">
+                    <div>
+                      {{data}}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Site BTS<span class="text-danger">*</span></b>
+              </label>
+              <p-dropdown [options]="" optionLabel="libelle" placeholder="Selectionnez le site">
+                <ng-template let-data pTemplate="item">
+                  <div class="country-item">
+                    <div>
+                      {{data.libelle}}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend [ngStyle]="{width: '13rem'}">
+          <b>Informations de Trafic</b>
+        </legend>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>APN<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="apni" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Username<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="username" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Password<span class="text-danger">*</span></b>
+              </label>
+              <p-password formControlName="password" [toggleMask]="true" [feedback]="false"></p-password>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>DHCP<span class="text-danger">*</span></b>
+              </label>
+              <p-dropdown [options]="listDHCP" placeholder="selectionner l'etat" formControlName="dhcp">
+                <ng-template let-data pTemplate="item">
+                  <div class="country-item">
+                    <div>
+                      {{data}}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Adresse IP<span class="text-danger">*</span></b>
+              </label>
+              <p-inputMask mask="999.999.999" formControlName="adresse_ip" placeholder="000.000.000"></p-inputMask>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Proxy<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="proxy" pInputText />
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="forms-feature-footer">
+      <p-button label="Enregistrer" [label]="currentObject === undefined ? 'Enregistrer': 'Modifier'"
+        [disabled]="!adminForm.valid" styleClass="p-button-success" (click)="currentObject === undefined
+                ? handleSaveCampagne()
+                : handleUpdateCampagne()
+                "></p-button>
+    </div>
+  </div>
+  <div *ngIf="currentObject?.show">
+    <p-tabView>
+      <p-tabPanel header="IDENTIFICATION">
+        <div [formGroup]="adminForm" novalidate>
+          <fieldset>
+            <legend [ngStyle]="{width: '18rem'}">
+              <b>Informations d'indentifications</b>
+            </legend>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>Direction Régionale<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listDirectionRegionales" formControlName="direction_regionale"
+                    optionLabel="nom" optionValue="id" placeholder="Selectionnez la direction">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.nom}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>Exploitation<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listExploitations" formControlName="exploitation" optionLabel="code"
+                    optionValue="id">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.code}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>IMSI<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="imsi" pInputText />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Numéro de téléphone<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="msisdn" pInputText />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Zone de Géographique<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="zone_geographique" pInputText />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Usage<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listUsage" formControlName="usage" placeholder="Usage">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Code PIN<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="code_pin" pInputText />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Code PUK<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="code_puk" pInputText />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Adresse géographique</b>
+                  </label>
+                  <input type="text" formControlName="adresse_geographique" pInputText />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Nom & Prenom<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="nom_prenoms" pInputText />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Adresse mail<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="adresse_email" pInputText />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Longitude<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="longitude" pInputText />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Latitude<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="latitude" pInputText />
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend [ngStyle]="{width: '12rem'}">
+              <b>Informations Réseau</b>
+            </legend>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Catégorie<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="" optionLabel="libelle" formControlName="categorie"
+                    placeholder="Selectionnez la catégorie">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.libelle}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Profil<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listProfils" formControlName="profil" placeholder="Selectionnez le profil">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Service<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listServices" formControlName="service" placeholder="Selectionnez le service">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Site BTS<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="" optionLabel="libelle" placeholder="Selectionnez le site">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.libelle}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend [ngStyle]="{width: '13rem'}">
+              <b>Informations de Trafic</b>
+            </legend>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>APN<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="apni" pInputText />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>Username<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="username" pInputText />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>Password<span class="text-danger">*</span></b>
+                  </label>
+                  <p-password formControlName="password" [toggleMask]="true" [feedback]="false"></p-password>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>DHCP<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listDHCP" placeholder="selectionner l'etat" formControlName="dhcp">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>Adresse IP<span class="text-danger">*</span></b>
+                  </label>
+                  <p-inputMask mask="999.999.999" formControlName="adresse_ip" placeholder="000.000.000"></p-inputMask>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>Proxy<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="proxy" pInputText />
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="HISTORIQUE">
+        <app-historique [module]="'PATRIMOINE SIM'" [sous_module]="'CARTE SIM'" [modele]="'sims'"
+          [modele_id]="currentObject.id">
+        </app-historique>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

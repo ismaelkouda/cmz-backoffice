@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="card" style="margin-top: -0.7%; padding: 0 !important">
+        <div class="card-body" style="padding: 0 !important">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ngb-tabset #t="ngbTabset" class="nav-primary" style="font-size: 18px">
+                        <ngb-tab>
+                            <ng-template ngbTabTitle class="nav">
+                                <button class="btn-tab-code">
+                                    Collecte terrain
+                                </button>
+                            </ng-template>
+                            <ng-template ngbTabContent>
+                                <app-operations></app-operations>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab>
+                            <ng-template ngbTabTitle class="nav">
+                                <button class="btn-tab-code">
+                                    Vue géographique
+                                </button>
+                            </ng-template>
+                            <ng-template ngbTabContent> </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,300 @@
+@import './utils/variables';
+
+/*@@@@@@@@@@@@@@@@@@@@@@@@@Forms view Styles@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+.p-dropdown,
+.p-input,
+.p-inputnumber,
+.p-inputtext,
+.p-password,
+label {
+    width: 100% !important;
+}
+
+.filter-button {
+    height: 3rem !important;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-button {
+    margin-top: 1.8rem !important;
+}
+
+.filter_wrapper {
+    padding-bottom: 0.5rem;
+}
+
+.table_actions_wrapper {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    border: none;
+}
+
+/*@@@@@@@@@@@@@@@@@@@@@@@@@Table Styles@@@@@@@@@@@@@@@@@@@@@@@@@*/
+.table_header {
+    display: flex;
+    justify-content: space-between;
+
+    &__legende {
+        padding-top: 0.7rem;
+    }
+}
+
+.p-datatable .p-datatable-header {
+    border: none;
+    background-color: transparent !important;
+}
+
+.p-datatable .p-datatable-thead>tr>th {
+    border: none !important;
+    color: $white;
+    background: $black;
+}
+
+.p-datatable .p-datatable-tbody>tr>td {
+    border: 1px solid #dee2e6;
+    padding: 0.1rem;
+
+    button {
+        height: 2.9rem;
+    }
+}
+
+.td-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+}
+
+
+.p-button-dark {
+    background-color: $black;
+    border: none;
+
+    &:hover {
+        background-color: $black !important;
+    }
+}
+
+
+
+.p-paginator {
+    justify-content: end !important;
+}
+
+//@@@@@@@@@@@@@@@@@@@@@
+
+.forms-feature-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.forms-feature-footer {
+    display: flex;
+    justify-content: end;
+    margin-top: 1rem;
+}
+
+fieldset {
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 2rem;
+
+    .row {
+        padding-top: 1.3rem;
+    }
+
+    legend {
+        background-color: $black;
+        color: $white;
+        font-size: 17px;
+        padding: 11px 6px;
+        border-radius: 10px;
+        position: relative;
+        margin-top: -2rem;
+    }
+}
+
+/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@TAB VIEW@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link {
+    background: $black;
+    border-color: $white;
+    color: $white;
+}
+
+.p-tabview .p-tabview-nav .p-tabview-nav-link {
+    padding: 1em !important;
+    font-size: 14px !important;
+}
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    background: $black;
+    border-color: $white;
+    color: $white;
+}
+
+.p-tabview .p-tabview-nav .p-tabview-ink-bar {
+    z-index: 1;
+    display: block;
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    background-color: $black;
+    transition: 500ms cubic-bezier(0.35, 0, 0.25, 1);
+}
+
+/*@@@@@@@@@@@@@@@@@@@@@@@ BADGE @@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+.badge {
+    border-radius: 0.2rem;
+}
+
+.badge-dark {
+    background-color: #000 !important;
+    color: #fff;
+}
+
+.badge-primary {
+    background-color: #13A6F4 !important;
+    color: #fff;
+}
+
+.badge-info {
+    background-color: #1abc9c !important;
+    color: #fff;
+}
+
+.badge-green {
+    background-color: #06B5B6 !important;
+    color: #fff;
+}
+
+.badge-success {
+    background-color: #51bb25 !important;
+    color: #fff;
+}
+
+.badge-danger {
+    background-color: #dc3545 !important;
+    color: #fff;
+}
+
+.current_values {
+    color: #FF6600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.3rem;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.container_flex_space_between {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/*@@@@@@@@@@@@@@@@@@@@DIALOGUE @@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+.p-dialog .p-dialog-header {
+    border-bottom: 0 none;
+    background: $black !important;
+    color: $white !important;
+    padding: 1rem;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+}
+
+.p-dialog .p-dialog-header .p-dialog-header-icon {
+    width: 2rem;
+    height: 2rem;
+    color: #000;
+    border: 0 none;
+    background: #fff;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    margin-right: 0.5rem;
+}
+
+input[type="text"]:disabled {
+    background: #ccc !important;
+    font-weight: 800;
+    color: #000 !important;
+}
+
+input[type="number"]:disabled {
+    background: #ccc !important;
+    font-weight: 800;
+    color: #000 !important;
+}
+
+input[type="inputmask"]:disabled {
+    background: #ccc !important;
+    font-weight: 800;
+    color: #000 !important;
+}
+
+textarea[type="text"]:disabled {
+    background: #ccc !important;
+    font-weight: 800;
+    color: #000 !important;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+
+::-webkit-input-placeholder,
+.p-dropdown .p-dropdown-label.p-placeholder {
+    color: #D8D8D8 !important;
+}
+
+/*Native Table*/
+
+.native_table {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1rem;
+    font-weight: normal;
+
+    thead {
+        background-color: #000000;
+
+        th {
+            padding: 1.2rem;
+            font-weight: 700;
+            color: white;
+        }
+    }
+
+    thead>tr>th {
+        text-align: left;
+        padding: 1.2rem;
+        border: 1px solid #dee2e6;
+        border-width: 0 0 1px 0;
+        font-weight: 700;
+        color: #FFFFFF !important;
+        transition: box-shadow 0.2s;
+    }
+
+    tbody>tr>td {
+        border: 1px solid #dee2e6;
+        padding: 0.1rem;
+        color: #495057;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+}

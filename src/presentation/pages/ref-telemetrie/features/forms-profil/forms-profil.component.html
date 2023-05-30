@@ -1,0 +1,147 @@
+<div>
+  <div class="container_flex_space_between">
+    <div class="row filter_wrapper" [formGroup]="adminForm" style="width: 100%;">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>
+            <b>Nom du profil<span class="text-danger">*</span></b>
+          </label>
+          <input placeholder="Nom du Profil" formControlName="nom" type="text" pInputText />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>
+            <b>Description<span class="text-danger">*</span></b>
+          </label>
+          <input placeholder="Description du Profil" formControlName="description" type="text" pInputText />
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="table_actions_wrapper pt-3">
+        <button pButton pRipple label="Soumettre" icon="pi pi-save" class="p-button-success"
+          (click)="handleUpdateProfilSupervision()"></button>
+        <button pButton pRipple label="Fermer" (click)="close()" class="p-button-danger"></button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="table_content_wrapper" *ngIf="currentObject === undefined">
+    <p-table #dt [value]="listTelemetries" [rows]="10" [paginator]="true" responsiveLayout="scroll" [rowHover]="true"
+      dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+                données" [showCurrentPageReport]="true">
+      <ng-template pTemplate="caption">
+        <div class="table_header">
+          <div class="table_header__legende">
+            <h4>
+              <b>Liste des Alarmes</b>
+            </h4>
+          </div>
+          <div class="table_header__input">
+            <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                placeholder="Recherche" />
+            </span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>#</th>
+          <th>Classification</th>
+          <th>Description mésure</th>
+          <th>Type de mesure</th>
+          <th>Seuil</th>
+          <th>Unité</th>
+          <th>Statut</th>
+          <th style="width: 2rem;" class="text-center"></th>
+        </tr>
+      </ng-template>
+      <ng-template let-i="rowIndex" pTemplate="body" let-data>
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td>{{data?.classification}}</td>
+          <td>{{data?.description}}</td>
+          <td>{{data?.type_mesure}}</td>
+          <td>{{data?.seuil}}</td>
+          <td>{{data?.unite}}</td>
+          <td class="text-center">
+            <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'actif'"
+              [class.badge-danger]="data.statut !== 'actif'">
+              {{ data.statut }}
+            </span>
+          </td>
+          <td class="td-actions">
+            <p-checkbox [binary]="true"></p-checkbox>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <p-tabView *ngIf="currentObject !== undefined">
+    <p-tabPanel header="ALARMES">
+      <div class="table_content_wrapper">
+        <p-table #dt [value]="listAffectations" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+          [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+                    données" [showCurrentPageReport]="true">
+          <ng-template pTemplate="caption">
+            <div class="table_header">
+              <div class="table_header__legende">
+                <h4>
+                  <b>Liste des Alarmes</b>
+                </h4>
+              </div>
+              <div class="table_header__input">
+                <span class="p-input-icon-left ml-auto">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Recherche" />
+                </span>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="text-center">#</th>
+              <th>Classification</th>
+              <th>Description mésure</th>
+              <th>Type de mesure</th>
+              <th>Seuil</th>
+              <th>Unité</th>
+              <th>Statut</th>
+              <th style="width: 2rem;" class="text-center">
+                <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()"
+                  [(ngModel)]="checkedAllConsumers"></p-checkbox>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template let-i="rowIndex" pTemplate="body" let-data>
+            <tr>
+              <td class="text-center">{{ i + 1 }}</td>
+              <td>{{data?.classification}}</td>
+              <td>{{data?.description}}</td>
+              <td>{{data?.type_mesure}}</td>
+              <td>{{data?.seuil}}</td>
+              <td>{{data?.unite}}</td>
+              <td class="text-center">
+                <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'actif'"
+                  [class.badge-danger]="data.statut !== 'actif'">
+                  {{ data.statut }}
+                </span>
+              </td>
+              <td class="td-actions">
+                <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
+                  (click)="onCheckedOneConsumer(data)"></p-checkbox>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="HISTORIQUE">
+      <app-historique></app-historique>
+    </p-tabPanel>
+  </p-tabView>
+</div>

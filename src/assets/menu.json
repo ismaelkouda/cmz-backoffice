@@ -1,0 +1,112 @@
+[
+    {
+        "title": "Tableau de bord",
+        "icon": "home",
+        "type": "link",
+        "path": "/dashboard",
+        "active": true
+    },
+    {
+        "headtitle1": "Modules",
+        "active": false
+    },
+    {
+        "title": "Patrimoine",
+        "icon": "disc",
+        "type": "sub",
+        "children": [
+            {
+                "path": "/patrimoine/cartes-sim",
+                "title": "Cartes SIM",
+                "type": "link"
+            }
+        ]
+    },
+    {
+        "title": "Réferentiel de télemetrie",
+        "icon": "thermometer",
+        "type": "sub",
+        "children": [
+            {
+                "path": "/ref-telemetrie/seuil-alarme",
+                "title": "Seuils & Alarmes",
+                "type": "link"
+            },
+            {
+                "path": "/ref-telemetrie/profil-supervision",
+                "title": "Profils de supervision",
+                "type": "link"
+            }
+        ]
+    },
+    {
+        "title": "Supervision des opérations",
+        "icon": "airplay",
+        "path": "/operations",
+        "type": "sub",
+        "children": [
+            {
+                "path": "/operations/statuts",
+                "title": "Statuts",
+                "type": "link"
+            },
+            {
+                "path": "/operations/prise-en-charge",
+                "title": "Prise en charge",
+                "type": "link"
+            },
+            {
+                "path": "/operations/suivie-et-traitements",
+                "title": "Suivi et traitement",
+                "type": "link"
+            }
+        ]
+    },
+    {
+        "title": "Analyses  & Alertes",
+        "icon": "activity",
+        "type": "sub",
+        "children": [
+            {
+                "path": "/analyse-alerte/performance-de-collecte",
+                "title": "Analyse du Trafic",
+                "type": "link"
+            },
+            {
+                "path": "/analyse-alerte/courbes-messages",
+                "title": "Analyse des Alarmes",
+                "type": "link"
+            },
+            {
+                "path": "/zone-trafic/zone-exploitation",
+                "title": "Zones Exploitatations",
+                "type": "link"
+            }
+        ]
+    },
+    {
+        "headtitle1": "Administration"
+    },
+    {
+        "title": "Paramètres & Sécurité",
+        "icon": "settings",
+        "type": "sub",
+        "children": [
+            {
+                "path": "/settings/alarmes",
+                "title": "Profils utilisateurs",
+                "type": "link"
+            },
+            {
+                "path": "/settings/utilisateurs",
+                "title": "Utilisateurs",
+                "type": "link"
+            },
+            {
+                "path": "/settings/activation-collecte",
+                "title": "Activation de collecte",
+                "type": "link"
+            }
+        ]
+    }
+]

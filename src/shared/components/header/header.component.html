@@ -1,0 +1,48 @@
+<!-- Page Header Start-->
+<div class="page-header" [class.close_icon]="navServices.collapseSidebar">
+    <div class="header-wrapper row m-0" *ngIf="statutLayout()">
+        <div class="col col-12 horizontal-wrapper pl-0" style="display: flex; justify-content: center">
+            <h3 style="font-weight: bold; font-size: 24px; position: relative">
+                <span class="legende">
+                    <b>{{ headerTitle }}</b>
+                </span>
+            </h3>
+        </div>
+    </div>
+    <div class="header-wrapper row m-0" [hidden]="statutLayout()">
+        <div class="header-logo-wrapper col-auto p-0">
+            <div class="logo-wrapper">
+                <a routerLink="/dashboard">
+                    <img class="img-fluid for-light" src="assets/images/logo/logo_orange.png" alt="" />
+                    <img class="img-fluid for-dark" src="assets/images/logo/logo_orange.png" alt="" />
+                </a>
+            </div>
+        </div>
+        <div class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0">
+            <div class="header-wrapper row m-0">
+                <div class="col col-12 horizontal-wrapper pl-0">
+                    <h3 style="font-weight: bold; font-size: 24px; position: relative">
+                        <span class="legende">
+                            <b>{{ headerTitle }}</b>
+                        </span>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="nav-right col-xxl-7 col-xl-6 col-md-7 col-8 pull-right right-header p-0 ms-auto">
+            <ul class="nav-menus">
+                <li>
+                    <div class="mode" (click)="layoutToggle()">
+                        <svg>
+                            <use href="assets/svg/icon-sprite.svg#moon"></use>
+                        </svg>
+                    </div>
+                </li>
+                <li class="profile-nav onhover-dropdown p-0">
+                    <app-my-account></app-my-account>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Page Header Ends -->
