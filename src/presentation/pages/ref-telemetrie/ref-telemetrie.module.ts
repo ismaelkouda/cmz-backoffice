@@ -24,6 +24,8 @@ import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { BadgeModule } from 'primeng/badge';
+
 
 
 @NgModule({
@@ -44,7 +46,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     DialogModule,
     TooltipModule,
     InputSwitchModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    BadgeModule
   ],
   declarations: [
     SeuilAlarmesComponent,

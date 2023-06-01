@@ -48,6 +48,14 @@
                   <input placeholder="Saisir le numéro" [(ngModel)]="selectedSim" type="text" pInputText />
                 </div>
               </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>IMSI</b>
+                  </label>
+                  <input placeholder="Saisir le numéro" [(ngModel)]="selectedimsi" type="text" pInputText />
+                </div>
+              </div>
               <div class="col-md-1">
                 <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
                   [disabled]="isFilter()"></p-button>
@@ -70,10 +78,7 @@
                   </h4>
                 </div>
                 <div class="table_header__input">
-                  <span class="p-input-icon-left ml-auto">
-                    <i class="pi pi-search"></i>
-                    <input pInputText type="text" [(ngModel)]="term" placeholder="Recherche" />
-                  </span>
+
                 </div>
               </div>
               <table [ngClass]="['native_table table']">
@@ -86,6 +91,7 @@
                   <th>Zone Géographique</th>
                   <th class="text-center">Usage</th>
                   <th>Statut</th>
+                  <th class="text-center">Raccourcis</th>
                   <th class="text-center">Actions</th>
                 </thead>
                 <tbody>
@@ -94,8 +100,8 @@
                     <td>{{ (this.offset + i)}}</td>
                     <td>{{data.direction_regionale?.code}}</td>
                     <td>{{data.exploitation?.nom}} [{{data.exploitation?.code}}]</td>
-                    <td (click)="copyData(data.msisdn)" style="cursor: pointer;">{{data.msisdn}}</td>
-                    <td>{{data?.imsi}}</td>
+                    <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data.msisdn}}</td>
+                    <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
                     <td style="text-align: left !important;">{{data?.zone_geographique}}</td>
                     <td>{{data?.usage}}</td>
                     <td>
@@ -111,8 +117,15 @@
                         styleClass="p-button-dark"></p-button>
                       <p-button icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top" (click)="onEditForm(data)"
                         styleClass="p-button-secondary"></p-button>
-                      <!-- <p-button icon="pi pi-trash" (click)="handleDelete(data)" pTooltip="Supprimer"
-                        tooltipPosition="top" styleClass="p-button-danger"></p-button> -->
+                    </td>
+                    <td class="text-center">
+                      <div ngbDropdown>
+                        <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Actions</button>
+                        <div ngbDropdownMenu [ngStyle]="{width: '2rem'}">
+                          <button ngbDropdownItem (click)="openForm(content,data)">Suspendre</button>
+                          <button ngbDropdownItem>Resiler</button>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -129,7 +142,6 @@
       </div>
     </div>
   </div>
-
   <p-dialog header="Vue géographique" (onHide)="hideDialog('map')" (onMaximize)="onDialogMaximized($event)"
     [(visible)]="display" [maximizable]="true" [style]="{width: '100vw',height: '45vw'}">
     <ng-template pTemplate="content" class="mt-4">
@@ -138,3 +150,39 @@
       </div>
     </ng-template>
   </p-dialog>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Suspension de la carte SIM</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
+    </div>
+    <div class="modal-body" novalidate>
+      <div class="form-group">
+        <label>
+          <b>MSNDN</b>
+        </label>
+        <input type="text" [ngStyle]="{width: '100%'}" [placeholder]="currentData?.msisdn" [disabled]="true"
+          pInputText />
+      </div>
+      <br>
+      <div class="form-group">
+        <label><b>Justificatif<span class="text-danger">*</span></b></label>
+        <input type="file" (change)="fileChangeEvent($event.target.files)" accept="application/pdf"
+          class="form-control">
+      </div>
+      <br>
+      <div class="form-group">
+        <label>
+          <b>Description</b>
+        </label>
+        <textarea class="form-control" rows="2"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div>
+        <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-save">Valider</button>
+      </div>
+    </div>
+  </ng-template>

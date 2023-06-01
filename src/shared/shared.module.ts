@@ -37,6 +37,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { TableFilterPipe } from './pipes/table-filter.pipe';
 import { TooltipModule } from 'primeng/tooltip';
+import { DialogModule } from 'primeng/dialog';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { TooltipModule } from 'primeng/tooltip';
     InputTextModule,
     DropdownModule,
     CalendarModule,
-    TooltipModule
+    TooltipModule,
+    DialogModule
   ],
   providers: [NavService, LayoutService, DecimalPipe],
   exports: [

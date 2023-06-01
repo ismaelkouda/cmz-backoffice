@@ -34,10 +34,18 @@
                                     <i class="pi pi-eye-slash"></i>
                                 </div>
                             </div>
+                            <div class="recaptcha-wrapper"
+                                style="padding: 0 0 0 30px;margin-top: 1.2rem;margin-bottom: 2rem;">
+                                <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" required
+                                    [(ngModel)]="recaptcha" (success)="handleSuccess($event)" (expire)="handleExpire()"
+                                    [ngModelOptions]="{ standalone: true }">
+                                </ngx-recaptcha2>
+                            </div>
                             <div class="form-group mb-0">
-                                <a (click)="onLogin()" class="btn btn-primary d-block w-100" type="button">
+                                <button (click)="onLogin()" [disabled]="keyValue == undefined"
+                                    class="btn btn-primary d-block w-100" type="button">
                                     Connexion
-                                </a>
+                                </button>
                             </div>
                             <p class="mt-4 mb-0">Mot de passe oublié ?
                                 <a class="ms-2">Réinitialiser mot de passe</a>

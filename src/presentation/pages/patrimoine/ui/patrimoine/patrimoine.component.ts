@@ -5,6 +5,7 @@ import { GetAllPatrimoineUseCase } from 'src/domain/usecases/patrimoine/get-all-
 import { ToastrService } from 'ngx-toastr';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ClipboardService } from 'ngx-clipboard';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 const Swal = require('sweetalert2');
 
 
@@ -33,11 +34,12 @@ export class PatrimoineComponent implements OnInit {
   public listZones: Array<any> = [];
   public selectedDirection: any;
   public selectedExploitation: any;
-  public selectedSim: any;
-  public term: any
-  @ViewChild('parcelleMap') parcelleMap: ElementRef;
-  @ViewChild('searchValue') searchValue: ElementRef;
+  public selectedSim: string;
+  public selectedimsi: string
+  public currentData: any;
 
+
+  @ViewChild('parcelleMap') parcelleMap: ElementRef;
 
   OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'PATRIMOINE SIM-MAP',
@@ -63,12 +65,12 @@ export class PatrimoineComponent implements OnInit {
   })
 
   constructor(
-    private readonly getAllPatrimoineUseCase: GetAllPatrimoineUseCase,
+    //private readonly getAllPatrimoineUseCase: GetAllPatrimoineUseCase,
     public toastrService: ToastrService,
     public settingService: SettingService,
     private patrimoineService: PatrimoineService,
     private clipboardApi: ClipboardService,
-
+    private modalService: NgbModal,
 
   ) {
 
@@ -121,7 +123,8 @@ export class PatrimoineComponent implements OnInit {
       .GetAllPatrimoines({
         direction_regionale_id: this.selectedDirection?.id,
         exploitation: this.selectedExploitation?.code,
-        msisdn: this.selectedSim
+        msisdn: this.selectedSim,
+        imsi: this.selectedimsi
       }, 1)
       .subscribe({
         next: (response) => {
@@ -149,7 +152,13 @@ export class PatrimoineComponent implements OnInit {
       })
   }
 
-
+  openForm(content, data) {
+    this.currentData = data;
+    this.modalService.open(content);
+  }
+  hideForm() {
+    this.modalService.dismissAll();
+  }
 
   onChangeItem(event: any) {
     this.selectedDirection = event.value;
@@ -235,6 +244,9 @@ export class PatrimoineComponent implements OnInit {
       }
     }
   }
+  public fileChangeEvent(event: any) {
+
+  }
   copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
@@ -243,7 +255,7 @@ export class PatrimoineComponent implements OnInit {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
   public isFilter(): boolean {
-    return (!this.selectedDirection && !this.selectedSim) ? true : false
+    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi) ? true : false
   }
   public disableAction(): boolean {
     return (this.listPatrimoines === undefined || this.listPatrimoines?.length === 0) ? true : false

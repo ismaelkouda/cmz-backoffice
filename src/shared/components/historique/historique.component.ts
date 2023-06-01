@@ -27,6 +27,9 @@ export class HistoriqueComponent implements OnInit {
   public currentUser: any;
   public currentEvent: any;
   public currentEventParse;
+  public display: boolean = false;
+  public maxi: boolean;
+
 
   constructor(
     private loadingBar: LoadingBarService,
@@ -37,6 +40,8 @@ export class HistoriqueComponent implements OnInit {
   ) {
     this.filterDateStart = new Date();
     this.filterDateEnd = new Date();
+    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
   }
 
   ngOnInit(): void {
@@ -45,9 +50,8 @@ export class HistoriqueComponent implements OnInit {
     this.getAllHistoriques()
   }
 
-  showHistorique(content, data: any) {
-    console.log("constent", JSON.parse(data.data));
-    this.modalService.open(content);
+  showHistorique(data: any) {
+    this.display = true;
     this.currentEvent = data;
     this.currentEventParse = JSON.parse(data.data)
   }
@@ -109,6 +113,13 @@ export class HistoriqueComponent implements OnInit {
       );
   }
 
+  hideDialog() {
+    this.display = false;
+  }
+
+  onMaximized(e) {
+    this.maxi = e.maximized;
+  }
   refreshHistorique() {
     this.settingService.statutSubject$.subscribe((response: any) => {
       if (response === true) {
@@ -118,9 +129,7 @@ export class HistoriqueComponent implements OnInit {
   }
   exportTable() { }
   changeDateStart(e) {
-    this.selectDateStart = moment(this.filterDateStart).format(
-      'YYYY-MM-DD'
-    );
+    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
   }
   changeDateEnd(e) {
     this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
@@ -133,5 +142,6 @@ export class HistoriqueComponent implements OnInit {
     }
     this.getAllHistoriques();
   }
+
 
 }

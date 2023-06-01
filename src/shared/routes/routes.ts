@@ -6,7 +6,9 @@ export const ANALYSE_ALERTE = 'analyse-alerte';
 export const SUPERVISION_OPERATIONS = 'operations';
 export const ZONE_TRAFIC = 'zone-trafic';
 export const INTERCONNEXION_ECHANGE = 'interconnexion';
-export const SUPERVISION_SYSTEME = 'supervision-systeme'
+export const SUPERVISION_SYSTEME = 'supervision-systeme';
+export const PARAMETRE_SECURITE = 'parametre-securite'
+
 
 
 export const content: Routes = [
@@ -48,5 +50,10 @@ export const content: Routes = [
     path: SUPERVISION_SYSTEME,
     loadChildren: () => import("../../presentation/pages/supervision-systeme/supervision-systeme.module").then((m) => m.SupervisionSystemeModule),
     data: { title: SUPERVISION_SYSTEME }
+  },
+  {
+    path: PARAMETRE_SECURITE,
+    loadChildren: () => import("../../presentation/pages/parametre-securite/parametre-securite.module").then((m) => m.ParametreSecuriteModule),
+    data: { title: PARAMETRE_SECURITE }
   },
 ];

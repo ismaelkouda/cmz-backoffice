@@ -78,7 +78,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <label>
                 <b>Numéro de téléphone<span class="text-danger">*</span></b>
@@ -86,15 +86,7 @@
               <input type="text" formControlName="msisdn" pInputText />
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>
-                <b>Zone de Géographique<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" formControlName="zone_geographique" pInputText />
-            </div>
-          </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <label>
                 <b>Usage<span class="text-danger">*</span></b>
@@ -110,7 +102,7 @@
               </p-dropdown>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <label>
                 <b>Code PIN<span class="text-danger">*</span></b>
@@ -153,24 +145,6 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>
-                <b>Longitude<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" formControlName="longitude" pInputText />
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>
-                <b>Latitude<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" formControlName="latitude" pInputText />
-            </div>
-          </div>
-        </div>
       </fieldset>
       <fieldset>
         <legend [ngStyle]="{width: '12rem'}">
@@ -180,18 +154,9 @@
           <div class="col-md-3">
             <div class="form-group">
               <label>
-                <b>Catégorie<span class="text-danger">*</span></b>
+                <b>Coordonnées Géographiques (Lat,Long)<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="" optionLabel="libelle" formControlName="categorie"
-                placeholder="Selectionnez la catégorie">
-                <ng-template let-data pTemplate="item">
-                  <div class="country-item">
-                    <div>
-                      {{data.libelle}}
-                    </div>
-                  </div>
-                </ng-template>
-              </p-dropdown>
+              <input type="text" formControlName="longitude" pInputText />
             </div>
           </div>
           <div class="col-md-3">
@@ -229,17 +194,48 @@
           <div class="col-md-3">
             <div class="form-group">
               <label>
-                <b>Site BTS<span class="text-danger">*</span></b>
+                <b>Zone de Géographique<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="" optionLabel="libelle" placeholder="Selectionnez le site">
-                <ng-template let-data pTemplate="item">
-                  <div class="country-item">
-                    <div>
-                      {{data.libelle}}
-                    </div>
-                  </div>
-                </ng-template>
-              </p-dropdown>
+              <input type="text" formControlName="zone_geographique" pInputText />
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend [ngStyle]="{width: '12rem'}">
+          <b>Informations Carte</b>
+        </legend>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>IMSI<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="imsi" pInputText />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Code PIN<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="code_pin" pInputText />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Code PUK<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="code_puk" pInputText />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Code PUK 2<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="code_puk" pInputText />
             </div>
           </div>
         </div>
@@ -349,8 +345,8 @@
                   <label>
                     <b>Exploitation<span class="text-danger">*</span></b>
                   </label>
-                  <p-dropdown [options]="listExploitations" formControlName="exploitation" optionLabel="code"
-                    optionValue="id">
+                  <p-dropdown [options]="listExploitations" placeholder="Selectionnez l'exploitation"
+                    formControlName="exploitation" optionLabel="code" optionValue="id">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -371,7 +367,7 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label>
                     <b>Numéro de téléphone<span class="text-danger">*</span></b>
@@ -379,15 +375,7 @@
                   <input type="text" formControlName="msisdn" pInputText />
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label>
-                    <b>Zone de Géographique<span class="text-danger">*</span></b>
-                  </label>
-                  <input type="text" formControlName="zone_geographique" pInputText />
-                </div>
-              </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label>
                     <b>Usage<span class="text-danger">*</span></b>
@@ -403,7 +391,7 @@
                   </p-dropdown>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label>
                     <b>Code PIN<span class="text-danger">*</span></b>
@@ -446,24 +434,6 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label>
-                    <b>Longitude<span class="text-danger">*</span></b>
-                  </label>
-                  <input type="text" formControlName="longitude" pInputText />
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label>
-                    <b>Latitude<span class="text-danger">*</span></b>
-                  </label>
-                  <input type="text" formControlName="latitude" pInputText />
-                </div>
-              </div>
-            </div>
           </fieldset>
           <fieldset>
             <legend [ngStyle]="{width: '12rem'}">
@@ -473,18 +443,9 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label>
-                    <b>Catégorie<span class="text-danger">*</span></b>
+                    <b>Coordonnées Géographiques (Lat,Long)<span class="text-danger">*</span></b>
                   </label>
-                  <p-dropdown [options]="" optionLabel="libelle" formControlName="categorie"
-                    placeholder="Selectionnez la catégorie">
-                    <ng-template let-data pTemplate="item">
-                      <div class="country-item">
-                        <div>
-                          {{data.libelle}}
-                        </div>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
+                  <input type="text" formControlName="longitude" pInputText />
                 </div>
               </div>
               <div class="col-md-3">
@@ -508,7 +469,7 @@
                   <label>
                     <b>Service<span class="text-danger">*</span></b>
                   </label>
-                  <p-dropdown [options]="listServices" formControlName="service" placeholder="Selectionnez le service">
+                  <p-dropdown [options]="listServices" placeholder="Selectionnez le service">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -522,17 +483,48 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label>
-                    <b>Site BTS<span class="text-danger">*</span></b>
+                    <b>Zone de Géographique<span class="text-danger">*</span></b>
                   </label>
-                  <p-dropdown [options]="" optionLabel="libelle" placeholder="Selectionnez le site">
-                    <ng-template let-data pTemplate="item">
-                      <div class="country-item">
-                        <div>
-                          {{data.libelle}}
-                        </div>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
+                  <input type="text" formControlName="zone_geographique" pInputText />
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend [ngStyle]="{width: '12rem'}">
+              <b>Informations Carte</b>
+            </legend>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>IMSI<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="imsi" pInputText />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Code PIN<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="code_pin" pInputText />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Code PUK<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="code_puk" pInputText />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Code PUK 2<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="code_puk" pInputText />
                 </div>
               </div>
             </div>

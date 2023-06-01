@@ -196,7 +196,7 @@
     "symbol-observable" "4.0.0"
     "yargs" "17.6.2"
 
-"@angular/common@ ^15.0.0-rc.0 || ^15.0.0", "@angular/common@^10.0.0", "@angular/common@^13.0.0", "@angular/common@^14.0.0 || ^15.0.0", "@angular/common@^15.0.0", "@angular/common@^15.0.4", "@angular/common@<16.0.0", "@angular/common@>=12.0.0", "@angular/common@>=13.0.0", "@angular/common@>=14.0.0", "@angular/common@>=14.0.0-0", "@angular/common@>=2.0.0", "@angular/common@>=9.0.0", "@angular/common@13.0.3", "@angular/common@15.0.4":
+"@angular/common@ ^15.0.0-rc.0 || ^15.0.0", "@angular/common@^10.0.0", "@angular/common@^13.0.0", "@angular/common@^14.0.0 || ^15.0.0", "@angular/common@^15.0.0", "@angular/common@^15.0.4", "@angular/common@<16.0.0", "@angular/common@>= 15.0.0", "@angular/common@>=12.0.0", "@angular/common@>=13.0.0", "@angular/common@>=14.0.0", "@angular/common@>=14.0.0-0", "@angular/common@>=2.0.0", "@angular/common@>=9.0.0", "@angular/common@13.0.3", "@angular/common@15.0.4":
   "integrity" "sha512-0x/2IhaetJqfXMeQ4DlRnOTzGWD0OvOeKORyi0q7WXPxSoD9MUezQHGmzkc5lK9tDYE9cNYyQfkUBcbJT/k6MA=="
   "resolved" "https://registry.npmjs.org/@angular/common/-/common-15.0.4.tgz"
   "version" "15.0.4"
@@ -231,7 +231,7 @@
   "resolved" "https://registry.npmjs.org/@angular/compiler/-/compiler-9.0.0.tgz"
   "version" "9.0.0"
 
-"@angular/core@^10.0.0", "@angular/core@^13.0.0", "@angular/core@^14.0.0 || ^15.0.0", "@angular/core@^15.0.0", "@angular/core@^15.0.0-rc.0 || ^15.0.0", "@angular/core@^15.0.4", "@angular/core@<16.0.0", "@angular/core@>=12.0.0", "@angular/core@>=13.0.0", "@angular/core@>=14.0.0", "@angular/core@>=14.0.0-0", "@angular/core@>=2.0.0", "@angular/core@>=5.0.0", "@angular/core@>=9.0.0", "@angular/core@13.0.3", "@angular/core@15.0.4":
+"@angular/core@^10.0.0", "@angular/core@^13.0.0", "@angular/core@^14.0.0 || ^15.0.0", "@angular/core@^15.0.0", "@angular/core@^15.0.0-rc.0 || ^15.0.0", "@angular/core@^15.0.4", "@angular/core@<16.0.0", "@angular/core@>= 15.0.0", "@angular/core@>=12.0.0", "@angular/core@>=13.0.0", "@angular/core@>=14.0.0", "@angular/core@>=14.0.0-0", "@angular/core@>=2.0.0", "@angular/core@>=5.0.0", "@angular/core@>=9.0.0", "@angular/core@13.0.3", "@angular/core@15.0.4":
   "integrity" "sha512-Xf8Nuu0iM/VjQHPS4A0jufqTYZCfiGqc0iAD7j9zM3TD6caQ3OP4mxXVYYTpIG+APKel38+Gol8cpQB/8PVbqQ=="
   "resolved" "https://registry.npmjs.org/@angular/core/-/core-15.0.4.tgz"
   "version" "15.0.4"
@@ -6552,6 +6552,13 @@
   "version" "15.0.0"
   dependencies:
     "deepmerge" "^4.2.2"
+    "tslib" "^2.3.0"
+
+"ngx-captcha@^13.0.0":
+  "integrity" "sha512-WmT0p0C1iaR4PT7etFdpuQ5rS8EILkizBJhgbP9Prc14jfwYsLTfAsevYPxZPwlU4Dd02osH1//a37Qb93wTWg=="
+  "resolved" "https://registry.npmjs.org/ngx-captcha/-/ngx-captcha-13.0.0.tgz"
+  "version" "13.0.0"
+  dependencies:
     "tslib" "^2.3.0"
 
 "ngx-clipboard@^16.0.0":

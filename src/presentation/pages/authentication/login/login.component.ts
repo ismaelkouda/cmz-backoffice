@@ -3,12 +3,10 @@ import { UserLoginUseCase } from '../../../../domain/usecases/users/user-login.u
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
-import { Store } from '@ngrx/store';
-import { AppState } from '../../../../core/store/app.state';
-import { setLoadingSpinner } from '../../../../core/store/shared/shared.actions';
-import { loginStart } from '../state/auth.actions';
 import { ToastrService } from 'ngx-toastr';
-import { LocalStorageService } from 'ngx-webstorage';
+
+// @ts-ignore
+import appConfig from '../../../../assets/config/app-config.json';
 
 @Component({
   selector: "app-login",
@@ -19,10 +17,11 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   public show: boolean = false
-
+  public recaptcha: string;
+  public siteKey: string;
+  public keyValue: string;
   constructor(
     private fb: FormBuilder,
-    //private store: Store<AppState>,
     private readonly userLoginUseCase: UserLoginUseCase,
     private router: Router,
     private toastrService: ToastrService,
@@ -30,10 +29,13 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.siteKey = appConfig.siteKey;
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
+    console.log("keyValue", this.keyValue);
+
   }
 
   onLogin() {
@@ -55,5 +57,15 @@ export class LoginComponent implements OnInit {
 
   showPassword() {
     this.show = !this.show
+  }
+  handleSuccess(event: string) {
+    console.log("evtevtevt", this.handleExpire());
+    this.keyValue = event;
+    console.log("keyValue", this.keyValue);
+
+  }
+
+  handleExpire() {
+
   }
 }

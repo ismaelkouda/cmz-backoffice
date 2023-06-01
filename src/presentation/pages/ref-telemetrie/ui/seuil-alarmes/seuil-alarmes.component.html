@@ -6,11 +6,18 @@
         <div>
           <p-tabView (onChange)="handleChangeTabviewIndex($event)">
             <p-tabPanel header="SEUIL & ALARME">
-              <div class="table_actions_wrapper">
-                <button pButton pRipple label="Exporter" [disabled]="disableAction()" icon="pi pi-download"
-                  class="p-button-helf"></button>
-                <button pButton pRipple label="Enregistrer" (click)="handleUpdateReferentielTelemetrie()"
-                  [disabled]="globalMetriquesEditRow.length === 0" icon="pi pi-save" class="p-button-success"></button>
+              <div class="table_actions_wrapper" style="display: flex;justify-content: space-between;">
+                <div>
+                  <button pButton pRipple label="Exporter" [disabled]="disableAction()" icon="pi pi-download"
+                    class="p-button-helf"></button>
+                  <button pButton pRipple label="Enregistrer" (click)="handleUpdateReferentielTelemetrie()"
+                    [disabled]="globalMetriquesEditRow.length === 0" icon="pi pi-save"
+                    class="p-button-success ms-3"></button>
+                </div>
+                <div>
+                  <p-button label="Deployer" styleClass="p-button-secondary" badge="ok"
+                    badgeClass="p-badge-success"></p-button>
+                </div>
               </div>
               <div class="table_content_wrapper">
                 <p-table #dt [value]="listTelemetries" [rows]="10" [paginator]="true" responsiveLayout="scroll"
@@ -19,12 +26,12 @@
                   [showCurrentPageReport]="true" editMode="row">
                   <ng-template pTemplate="caption">
                     <div class="table_header">
-                      <div class="table_header__legende">
+                      <div class="table_header__legende" style="position: relative;left: -1rem;">
                         <h4>
                           <b>Liste des Alarmes</b>
                         </h4>
                       </div>
-                      <div class="table_header__input">
+                      <div class="table_header__input" style="position: relative;left: 1rem;">
                         <span class="p-input-icon-left ml-auto">
                           <i class="pi pi-search"></i>
                           <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
@@ -36,7 +43,7 @@
                   <ng-template pTemplate="header">
                     <tr>
                       <th class="text-center">#</th>
-                      <th class="text-center">Classification</th>
+                      <th class="text-center">Services</th>
                       <th>Description mésure</th>
                       <th class="text-center">Type de mesure</th>
                       <th class="text-center" [ngStyle]="{width: '5rem'}">Seuil</th>

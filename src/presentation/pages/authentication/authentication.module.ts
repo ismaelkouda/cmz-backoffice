@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { PortailComponent } from './portail/portail.component';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { PortailComponent } from './portail/portail.component';
     ReactiveFormsModule,
     FormsModule,
     AuthenticationRoutingModule,
+    NgxCaptchaModule
     //EffectsModule.forFeature(),
   ],
   declarations: [

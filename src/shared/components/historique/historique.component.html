@@ -6,8 +6,7 @@
             <div class="col-md-3">
                 <label class="block"><b>Date début <span class="text-danger">*</span></b></label>
                 <p-calendar [ngStyle]="{width: '21rem'}" [(ngModel)]="filterDateStart" [showIcon]="true"
-                    (ngModelChange)="
-                    changeDateStart($event)" dateFormat="dd-mm-yy"></p-calendar>
+                    (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy"></p-calendar>
             </div>
             <div class="col-md-3">
                 <label class="block"><b>Date fin <span class="text-danger">*</span></b></label>
@@ -31,7 +30,7 @@
                     (click)="filterHistoriques()"></p-button>
             </div>
         </div>
-        <div class="header-table">
+        <div class="header-table mt-3" style="display: flex;justify-content: space-between;">
             <div class="pt-3">
                 <h4><b>Liste des Historiques</b></h4>
             </div>
@@ -65,17 +64,22 @@
             <td class="text-center">
 
                 <button pButton pRipple label="Voir" class="p-button-dark"
-                    (click)="showHistorique(content,historique)"></button>
+                    (click)="showHistorique(historique)"></button>
             </td>
         </tr>
     </ng-template>
 </p-table>
-<ng-template #content let-modal [ngClass]="'modal-content'">
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Vue Globale des Activités</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
-    </div>
-    <div class="modal-body">
+
+
+<p-dialog [(visible)]="display" position="bottom-right" (onHide)="hideDialog()" (onMaximize)="onMaximized($event)"
+    [modal]="true" [responsive]="true" [style]=" {width: '96vw'}" [maximizable]="true" [draggable]="false"
+    [resizable]="false">
+    <ng-template pTemplate="header">
+        <h3>
+            <b [style]="{ color: '#FFFFFF' }">Vue Globale des activités</b>
+        </h3>
+    </ng-template>
+    <ng-template pTemplate="content">
         <div class="ressource_wrapper">
             <div class="identification">
                 <div class="row">
@@ -156,6 +160,5 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="modal-footer"></div>
-</ng-template>
+    </ng-template>
+</p-dialog>

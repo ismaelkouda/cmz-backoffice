@@ -298,3 +298,64 @@ input::-webkit-inner-spin-button {
     }
 
 }
+
+/*@@@@@@@@@@@@@@@@@@@@@@@@@@Modal@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+.modal-header {
+    background-color: #000;
+
+    h4 {
+        text-transform: uppercase;
+    }
+
+    h4,
+    button {
+        color: #FFFFFF;
+    }
+}
+
+.modal-content {
+
+    ::-webkit-input-placeholder,
+    .p-dropdown .p-dropdown-label.p-placeholder {
+        color: #000 !important;
+    }
+
+}
+
+.btn-save {
+    background-color: #00B25F !important;
+    color: #FFFFFF !important;
+}
+
+.btn-hide {
+    background-color: #DF013A !important;
+    color: #FFFFFF !important;
+}
+
+.dropdown .dropdown-toggle {
+    background-color: rgba(115, 102, 255, 0.08);
+    color: #FF6600;
+    border-radius: 6px !important;
+    padding: 11px 22px !important;
+    /* width: 100px; */
+    text-align: center !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+
+    :hover {
+        background-color: transparent !important;
+    }
+}
+
+.dropdown-menu {
+    --bs-dropdown-min-width: 6.5rem !important;
+}
+
+.dropdown .dropdown-toggle {
+    color: #FFFFFF !important;
+}
+
+.dropdown .dropdown-toggle:after {
+    top: 53% !important;
+    right: 7px !important;
+}

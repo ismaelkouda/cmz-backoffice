@@ -87,3 +87,12 @@
     display: flex;
     justify-content: space-around;
 }
+
+.text-white {
+    //font-family: "FUTURA";
+}
+
+@font-face {
+    font-family: FUTURA;
+    src: url("../../../../assets/fonts/FUTURA.otf");
+}

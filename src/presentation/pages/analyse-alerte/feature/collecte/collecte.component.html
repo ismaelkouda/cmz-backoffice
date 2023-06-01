@@ -54,65 +54,6 @@
     <button pButton pRipple label="Exporter" [disabled]="disableAction()" icon="pi pi-download"
       class="p-button-helf"></button>
   </div>
-  <!--
-  <div class="table_content_wrapper">
-    <p-table #dt [value]="listFluxCollecte" [rows]="10" [paginator]="true" responsiveLayout="scroll" [rowHover]="true"
-      dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-            données" [showCurrentPageReport]="true">
-      <ng-template pTemplate="caption">
-        <div class="table_header">
-          <div class="table_header__legende">
-            <h4>
-              <b>Liste des {{this.title}}</b>
-            </h4>
-          </div>
-          <div class="table_header__input">
-            <span class="p-input-icon-left ml-auto">
-              <i class="pi pi-search"></i>
-              <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
-                placeholder="Recherche" />
-            </span>
-          </div>
-        </div>
-      </ng-template>
-      <ng-template pTemplate="header">
-        <tr>
-          <th class="text-center">#</th>
-          <th>Identifiant SIM</th>
-          <th>Numéro SIM</th>
-          <th>Direction Régionale</th>
-          <th>Exploitation</th>
-          <th *ngIf="router.url === '/analyse-alerte/performance-de-collecte'">
-            Position
-          </th>
-          <th class="text-center">Etat des Services</th>
-          <th class="text-center">Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template let-i="rowIndex" pTemplate="body" let-data>
-        <tr>
-          <td class="text-center">{{ i + 1 }}</td>
-          <td>{{data.nom_sim}}</td>
-          <td class="text-center">{{data.msisdn}}</td>
-          <td>{{data.direction_regionale}}</td>
-          <td class="text-center">{{data.exploitation}}</td>
-          <td *ngIf="router.url === '/analyse-alerte/performance-de-collecte'">
-
-          </td>
-          <td class="text-center">
-            <button pButton pRipple label="AIRTIME" class="p-button-helf mx-2"></button>
-            <button pButton pRipple label="DATA" class="p-button-helf mx-2"></button>
-            <button pButton pRipple label="SMS" class="p-button-helf mx-2"></button>
-          </td>
-          <td class="td-actions">
-            <button pButton pRipple label="Visualiser" (click)=onVisualiser(data) icon="pi pi-chart-line"
-              class="p-button-helf"></button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
-  -->
   <div class="table_content_wrapper">
     <div class="table_header mt-2">
       <div class="table_header__legende">
@@ -120,12 +61,7 @@
           <b>Liste des {{this.title}}</b>
         </h4>
       </div>
-      <div class="table_header__input">
-        <!-- <span class="p-input-icon-left ml-auto">
-          <i class="pi pi-search"></i>
-          <input pInputText type="text" placeholder="Recherche" />
-        </span> -->
-      </div>
+      <div class="table_header__input"></div>
     </div>
     <table [ngClass]="['native_table table']" style="margin-top: -0.2rem">
       <thead>
@@ -136,28 +72,23 @@
         <th>Exploitation</th>
         <th>Date MAJ</th>
         <th class="text-center">Etat des Services</th>
-        <th class="text-center">Actions</th>
+        <th class="text-center" [ngStyle]="{width: '3rem'}">Actions</th>
       </thead>
       <tbody>
         <tr
           *ngFor="let data of listFluxCollecte | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
           <td>{{ (this.offset + i)}}</td>
-          <td style="text-align: left !important;">{{data.nom_sim}}</td>
-          <td style="text-align: left !important;">{{data.msisdn}}</td>
-          <td style="text-align: left !important;">{{data.direction_regionale}}</td>
-          <td style="text-align: left !important;">{{data.exploitation}}</td>
+          <td style="text-align: left !important;">{{data?.imsi}}</td>
+          <td style="text-align: left !important;">{{data?.msisdn}}</td>
+          <td style="text-align: left !important;">{{data?.direction_regionale}}</td>
+          <td style="text-align: left !important;">{{data?.exploitation}}</td>
           <td style="text-align: left !important;">{{data?.date_id}}</td>
           <td style="text-align: center !important;">
             <button pButton pRipple label="AIRTIME" [disabled]="true" class="p-button-helf"></button>
-
-            <button *ngIf="data?.statut_criticite === 'CRITIQUE'" pButton pRipple label="DATA" class="p-button-danger"
-              [pTooltip]="data?.statut_criticite" tooltipPosition="top"></button>
-            <button *ngIf="data?.statut_criticite === 'NORMALE'" pButton pRipple label="DATA" class="p-button-success"
-              [pTooltip]="data?.statut_criticite" tooltipPosition="top"></button>
-            <button *ngIf="data?.statut_criticite === 'ELEVE'" pButton pRipple label="DATA" class="p-button-warning"
-              [pTooltip]="data?.statut_criticite" tooltipPosition="top"></button>
-
-
+            <button pButton pRipple label="DATA" style="margin-left: 0.5rem;margin-right: 0.5rem;"
+              [pTooltip]="data?.statut_criticite"
+              [ngClass]="(data?.statut_criticite === 'CRITIQUE') ? 'p-button-danger' : (data?.statut_criticite  === 'NORMALE') ? 'p-button-success' : (data?.statut_criticite === 'ELEVE') ? 'p-button-warning': (data?.statut_criticite === 'MAJEURE') ? 'p-button-secondary': 'p-button-secondary'"
+              tooltipPosition="top"></button>
             <button pButton pRipple label="SMS" [disabled]="true" class="p-button-helf"></button>
           </td>
           <td class="td-actions">

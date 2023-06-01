@@ -41,15 +41,16 @@ export class PatrimoineFormsComponent implements OnInit {
     this.listTypePersonne = ['Morale', 'Physique'],
       this.listDHCP = ['OUI', 'NON'],
       this.listServices = ['DATA_VOLORISEE'],
-      this.listProfils = ['Prépayer', 'Postpayé'],
+      this.listProfils = ['Prepaid', 'Postpaid', 'Hybride'],
       this.listUsage = ['Compteur Prépayé', 'Terminal', 'Internet Personnel', 'Internet Backup']
   }
 
   ngOnInit() {
     this.initForm();
     this.getAllDirectionRegionales();
+    this.getAllExploitation(this.currentObject?.direction_regionale.id,)
     //this.onGetExploitationValueChanges()
-    this.onGetDrValueChanges();
+    //this.onGetDrValueChanges();
 
     if (this.currentObject !== undefined) {
       this.onFormPachValues();

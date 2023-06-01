@@ -4,20 +4,61 @@
         "icon": "home",
         "type": "link",
         "path": "/dashboard",
-        "active": true
-    },
-    {
-        "headtitle1": "Modules",
-        "active": false
+        "active": true,
+        "children": []
     },
     {
         "title": "Patrimoine",
+        "label": "Patrimoine",
+        "data": "1-0-0-patrimoine",
+        "expanded": true,
         "icon": "disc",
         "type": "sub",
         "children": [
             {
+                "data": "1-1-0-cartes-sim-actives",
                 "path": "/patrimoine/cartes-sim",
-                "title": "Cartes SIM",
+                "title": "Cartes SIM Actives",
+                "label": "Cartes SIM Actives",
+                "type": "link"
+            },
+            {
+                "data": "1-2-0-cartes-sim-suspendu",
+                "path": "#",
+                "title": "Cartes SIM Suspendues",
+                "label": "Cartes SIM Suspendues",
+                "type": "link"
+            },
+            {
+                "data": "1-3-0-cartes-sim-resiliees",
+                "path": "#",
+                "title": "Cartes SIM Resiliées",
+                "label": "Cartes SIM Resiliées",
+                "type": "link"
+            }
+        ]
+    },
+    {
+        "label": "Transaction sur SIM",
+        "title": "Transaction sur SIM",
+        "data": "1-0-0-transaction-sim",
+        "expanded": true,
+        "icon": "disc",
+        "type": "sub",
+        "children": [
+            {
+                "path": "#",
+                "title": "Suspension de Cartes SIM",
+                "type": "link"
+            },
+            {
+                "path": "#",
+                "title": "Résiliation de Cartes SIM",
+                "type": "link"
+            },
+            {
+                "path": "#",
+                "title": "SIM-SWAP",
                 "type": "link"
             }
         ]
@@ -35,6 +76,28 @@
             {
                 "path": "/ref-telemetrie/profil-supervision",
                 "title": "Profils de supervision",
+                "type": "link"
+            }
+        ]
+    },
+    {
+        "title": "Operations de Provisionning",
+        "icon": "thermometer",
+        "type": "sub",
+        "children": [
+            {
+                "path": "#",
+                "title": "Activations SIM",
+                "type": "link"
+            },
+            {
+                "path": "#",
+                "title": "Commandes Cartes SIM",
+                "type": "link"
+            },
+            {
+                "path": "#",
+                "title": "Volume Data",
                 "type": "link"
             }
         ]
@@ -79,13 +142,10 @@
             },
             {
                 "path": "/zone-trafic/zone-exploitation",
-                "title": "Zones Exploitatations",
+                "title": "Zones Trafic",
                 "type": "link"
             }
         ]
-    },
-    {
-        "headtitle1": "Administration"
     },
     {
         "title": "Paramètres & Sécurité",
@@ -93,17 +153,17 @@
         "type": "sub",
         "children": [
             {
-                "path": "/settings/alarmes",
-                "title": "Profils utilisateurs",
+                "path": "/parametre-securite/profils-habilitations",
+                "title": "Profils Habilitations",
                 "type": "link"
             },
             {
-                "path": "/settings/utilisateurs",
+                "path": "/parametre-securite/utilisateurs",
                 "title": "Utilisateurs",
                 "type": "link"
             },
             {
-                "path": "/settings/activation-collecte",
+                "path": "/parametre-securite/activation-collecte",
                 "title": "Activation de collecte",
                 "type": "link"
             }

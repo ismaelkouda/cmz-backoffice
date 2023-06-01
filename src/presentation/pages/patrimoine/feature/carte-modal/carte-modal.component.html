@@ -1,0 +1,23 @@
+<div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Suspension de la carte SIM</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
+    </div>
+    <div class="modal-body" novalidate>
+      <div class="form-group">
+        <label><b>Justificatif<span class="text-danger">*</span></b></label>
+        <input type="file" (change)="fileChangeEvent($event.target.files)" accept="application/pdf"
+          class="form-control">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div>
+        <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-save">Valider</button>
+      </div>
+    </div>
+  </ng-template>
+</div>
