@@ -1,0 +1,151 @@
+<div *ngIf="initialView">
+  <div class="forms-feature-header">
+    <div>
+      <h3>
+        <b>
+          <span>Nouveau Achat</span>
+          <span class="current_values">[{{numeroCommande}}]</span>
+        </b>
+      </h3>
+    </div>
+    <div></div>
+    <div class="forms-feature-header__button">
+      <div>
+        <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <!---------------------------SIM------------------BLANCHE----------------->
+  <div class="card-commande">
+    <fieldset>
+      <legend [ngStyle]="{width: '100%'}">
+        <b>SIM Blanche</b>
+      </legend>
+      <div class="row">
+        <div class="col-md-1">
+          <div class="form-group">
+            <label>
+              <b>Code</b>
+            </label>
+            <input [(ngModel)]="fiedlistA.code_produit" [disabled]="true" type="text" pInputText />
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="form-group">
+            <label>
+              <b>PU (FCFA)</b>
+            </label>
+            <input [(ngModel)]="fiedlistA.prix_unitaire" [disabled]="true" type="text" pInputText />
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="form-group">
+            <label>
+              <b>Qté</b>
+            </label>
+            <input placeholder="" [(ngModel)]="selectedQtyBlanche" type="number" pInputText />
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="form-group">
+            <label>
+              <b>Description</b>
+            </label>
+            <input type="text" [(ngModel)]="selectedDescBlanche" pInputText />
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <div class="card-commande">
+    <fieldset>
+      <legend [ngStyle]="{width: '100%'}">
+        <b>SIM MSISDN</b>
+      </legend>
+      <div class="row">
+        <div class="col-md-1">
+          <div class="form-group">
+            <label>
+              <b>Code</b>
+            </label>
+            <input [(ngModel)]="fiedlistB.code_produit" [disabled]="true" type="text" pInputText />
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="form-group">
+            <label>
+              <b>PU (FCFA)</b>
+            </label>
+            <input [(ngModel)]="fiedlistB.prix_unitaire" [disabled]="true" type="text" pInputText />
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="form-group">
+            <label>
+              <b>Qté</b>
+            </label>
+            <input type="number" [(ngModel)]="selectedQtyMsimsdn" pInputText />
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="form-group">
+            <label>
+              <b>Description</b>
+            </label>
+            <input type="text" [(ngModel)]="selectedDescSimMsisdn" pInputText />
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <div class="card-commande">
+    <fieldset>
+      <legend [ngStyle]="{width: '100%'}">
+        <b>Volume Partagé</b>
+      </legend>
+      <div class="row">
+        <div class="col-md-1">
+          <div class="form-group">
+            <label>
+              <b>Code</b>
+            </label>
+            <input [(ngModel)]="fiedlistC.code_produit" [disabled]="true" type="text" pInputText />
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="form-group">
+            <label>
+              <b>PU (FCFA)</b>
+            </label>
+            <input [(ngModel)]="fiedlistC.prix_unitaire" [disabled]="true" type="text" pInputText />
+          </div>
+        </div>
+        <div class="col-md-1">
+          <div class="form-group">
+            <label>
+              <b>Volume (Go)</b>
+            </label>
+            <input placeholder="" type="number" [(ngModel)]="selectedvp" pInputText />
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="form-group">
+            <label>
+              <b>Description</b>
+            </label>
+            <input placeholder="" type="text" [(ngModel)]="selectedDescVp" pInputText />
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <div class="submit-form">
+    <button pButton pRipple label="Voir la facture" (click)="CreateProformatCommande()" [disabled]="isFilter()"
+      class="p-button-success"></button>
+  </div>
+</div>
+<div>
+  <app-facture [currentObject]="currentObject" *ngIf="factureView"
+    (factureView)="pushStatutView($event,'data')"></app-facture>
+</div>

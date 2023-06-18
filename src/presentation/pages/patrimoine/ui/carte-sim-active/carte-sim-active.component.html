@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12">
-      <app-breadcrumb [title]="'Patrimoine SIM'" [active_item]="'Cartes SIM'"></app-breadcrumb>
+      <app-breadcrumb [title]="'Patrimoine'" [active_item]="'Cartes SIM'"></app-breadcrumb>
       <div class="card">
         <div class="card-body">
           <div [hidden]="!initialView">
@@ -12,7 +12,7 @@
                     <b>Direction Régionale</b>
                   </label>
                   <p-dropdown [options]="listDirections" optionLabel="nom" (onChange)="onChangeItem($event)"
-                    [showClear]="true" placeholder="Selectionnez la direction">
+                    [showClear]="true" placeholder="Direction Régionale">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -23,13 +23,13 @@
                   </p-dropdown>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <div class="form-group">
                   <label>
                     <b>Exploitation</b>
                   </label>
                   <p-dropdown [options]="listExploitations" optionLabel="fullName" [(ngModel)]="selectedExploitation"
-                    placeholder="Selectionnez l'exploitation">>
+                    placeholder="Exploitation">>
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -45,7 +45,7 @@
                   <label>
                     <b>MSISDN</b>
                   </label>
-                  <input placeholder="Saisir le numéro" [(ngModel)]="selectedSim" type="text" pInputText />
+                  <input placeholder="Numéro" [(ngModel)]="selectedSim" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-2">
@@ -53,7 +53,24 @@
                   <label>
                     <b>IMSI</b>
                   </label>
-                  <input placeholder="Saisir le numéro" [(ngModel)]="selectedimsi" type="text" pInputText />
+                  <input placeholder="Numéro" [(ngModel)]="selectedimsi" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Statut</b>
+                  </label>
+                  <p-dropdown [options]="listStatus" [(ngModel)]="selectedStatut" [showClear]="true"
+                    placeholder="Statut">>
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
                 </div>
               </div>
               <div class="col-md-1">
@@ -63,8 +80,6 @@
             </div>
             <hr>
             <div class="table_actions_wrapper">
-              <!-- <button pButton pRipple label="Ajout simple" (click)="onInitForm()" icon="pi pi-plus"
-                class="p-button-success"></button> -->
               <button pButton pRipple label="Rafraichir" (click)="GetAllPatrimoines()" icon="pi pi-refresh"
                 class="p-button-secondary"></button>
               <button pButton pRipple label="Exporter" icon="pi pi-download" [disabled]="disableAction()"
@@ -77,9 +92,7 @@
                     <b>Liste 50 dernières SIM mises à jour</b>
                   </h4>
                 </div>
-                <div class="table_header__input">
-
-                </div>
+                <div class="table_header__input"></div>
               </div>
               <table [ngClass]="['native_table table']">
                 <thead>
@@ -112,7 +125,7 @@
                     </td>
                     <td class="td-actions">
                       <p-button icon="pi pi-map-marker" pTooltip="Localisation" tooltipPosition="top"
-                        (click)="showDialog('map', data)" styleClass="p-button-success p-button-outlined"></p-button>
+                        (click)="showDialog('map',data)" styleClass="p-button-success p-button-outlined"></p-button>
                       <p-button icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" (click)="onShowForm(data)"
                         styleClass="p-button-dark"></p-button>
                       <p-button icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top" (click)="onEditForm(data)"
@@ -122,8 +135,8 @@
                       <div ngbDropdown>
                         <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Actions</button>
                         <div ngbDropdownMenu [ngStyle]="{width: '2rem'}">
-                          <button ngbDropdownItem (click)="openForm(content,data)">Suspendre</button>
-                          <button ngbDropdownItem>Resiler</button>
+                          <button ngbDropdownItem (click)="suspensionForm(content,data)">Suspendre</button>
+                          <button ngbDropdownItem (click)="resilierForm(content,data)">Resiler</button>
                         </div>
                       </div>
                     </td>
@@ -152,7 +165,8 @@
   </p-dialog>
   <ng-template #content let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Suspension de la carte SIM</h4>
+      <h4 class="modal-title" id="modal-basic-title">{{currentData?.type === 'suspendu' ? 'suspension' : 'resiliation'}}
+        de la carte SIM</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
     </div>
     <div class="modal-body" novalidate>
@@ -160,21 +174,14 @@
         <label>
           <b>MSNDN</b>
         </label>
-        <input type="text" [ngStyle]="{width: '100%'}" [placeholder]="currentData?.msisdn" [disabled]="true"
-          pInputText />
-      </div>
-      <br>
-      <div class="form-group">
-        <label><b>Justificatif<span class="text-danger">*</span></b></label>
-        <input type="file" (change)="fileChangeEvent($event.target.files)" accept="application/pdf"
-          class="form-control">
+        <input type="text" [ngStyle]="{width: '100%'}" [placeholder]="currentData?.imsi" [disabled]="true" pInputText />
       </div>
       <br>
       <div class="form-group">
         <label>
           <b>Description</b>
         </label>
-        <textarea class="form-control" rows="2"></textarea>
+        <textarea class="form-control" [(ngModel)]="selectedDescription" rows="2"></textarea>
       </div>
     </div>
     <div class="modal-footer">
@@ -182,7 +189,8 @@
         <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
       </div>
       <div>
-        <button type="button" class="btn btn-save">Valider</button>
+        <button type="button" class="btn btn-save" [disabled]="!selectedDescription"
+          (click)="OnChangeStatut()">Valider</button>
       </div>
     </div>
   </ng-template>

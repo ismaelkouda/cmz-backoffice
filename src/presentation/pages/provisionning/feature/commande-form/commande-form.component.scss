@@ -1,0 +1,13 @@
+.header-wrapper {
+    display: flex;
+    justify-content: space-evenly !important;
+
+    >div {
+        width: 50%;
+    }
+
+}
+
+.card-commande {
+    margin-top: 2.5rem;
+}

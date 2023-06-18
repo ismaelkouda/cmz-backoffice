@@ -1,0 +1,190 @@
+<div
+  class="relative flex flex-col min-w-0 rounded break-words border shadow-lg bg-white border-1 border-gray-300 overflow-auto lg:overflow-visible"
+  style="padding: 1rem 4rem;">
+  <div style="display: flex;gap: 2rem;justify-content: end;">
+    <button class="p-button p-component p-button-info p-button-md" type="button" aria-label="Export">
+      <!---->
+      <span class="fas fa-file-excel p-button-icon p-button-icon-left"></span><span class="p-button-label">Export</span>
+      <!---->
+    </button>
+    <button class="p-button p-component p-button-danger" type="button" aria-label="Fermer">
+      <!----><!---->
+      <span class="p-button-label" (click)="close()">Fermer</span>
+      <!---->
+    </button>
+  </div>
+  <div class="flex-auto p-6 p-0" id="testHtml" style="letter-spacing: 0.2px;">
+    <div style="display: flex;justify-content: space-between;flex-wrap: wrap;padding-top: 2rem;">
+      <div><img src="assets/images/logo/logo-orange-full.png" width="300" height="150" />
+      </div>
+      <div>
+        <p class="text-gray-700">
+          <span class="text-blue">RCCM :</span>CI-ABJ-2016-B-6684 <span class="text-blue">CC :</span> 1613729B <br />
+          ABIDJAN - MARCORY <br />
+          25 BP 622 ABIDJAN 01 <br />
+          <span class="text-blue">Email :</span>infos@orange.ci - <span class="text-blue">Web :</span> orange.ci
+          <br />
+          <span class="text-blue">Contacts :</span>+225 0707070707 / +225 0707070707
+        </p>
+      </div>
+    </div>
+    <div style="padding-top: 2rem;">
+      <table class="table table-bordered border-collapse border border-slate-400">
+        <tbody>
+          <tr class="background-blue white">
+            <td><b>DATE</b></td>
+            <td><b>VALIDITE</b></td>
+            <td><b>REFERENCE</b></td>
+            <td rowspan="2">
+              <br />
+              <b class="fs-16">A l'attention de GS2E (Groupement des Services Eau et Électricité)</b>
+            </td>
+          </tr>
+          <tr>
+            <td>09/06/2023</td>
+            <td>30 JOURS</td>
+            <td>CAT0051720230609154037</td>
+          </tr>
+          <tr>
+            <td colspan="3">FACTURE PROFORMA</td>
+            <td>
+              <br />
+              <b class="fs-16"> Suivi par Henri KOUAME [53-65-65-66 | sales@orange.ci]</b>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="padding-top: 2rem;">
+      <table class="table table-bordered border-collapse border border-slate-400">
+        <thead class="background-blue white">
+          <tr>
+            <th>Code</th>
+            <th>Quantité</th>
+            <th>Description</th>
+            <th>Prix unitaire</th>
+            <th>Montant HT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="">CAT0051720230609154037</td>
+            <td class="">1</td>
+            <td><b class="">Achat de 100 de credit airtime</b></td>
+            <td>
+              100
+            </td>
+            <td class="background-yellow">
+              100
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total (HT)</td>
+            <td class="background-yellow">
+              100
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td>
+              Taux de TVA
+            </td>
+            <td>
+              18 %
+            </td>
+            <td class="background-yellow">
+              18
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b> Total T.T.C. FCFA </b></td>
+            <td class="background-yellow">
+              <b class="">118</b>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="padding-top: 2rem;">
+      <div>
+        Arrêté cette commande à la somme de <b class="">cent dix-huit</b>
+        francs cfa TTC sauf erreur
+      </div>
+    </div>
+    <div style="display: flex;gap: 1rem;">
+      <div style="width: 50%;">
+        <table class="table table-bordered border-collapse border border-slate-400">
+          <tbody>
+            <tr class="background-blue white">
+              <th colspan="2">
+                CONDITIONS DE PAIEMENT
+              </th>
+            </tr>
+            <tr>
+              <td>Acompte à la commande</td>
+              <td>0%</td>
+            </tr>
+            <tr>
+              <td>Solde à la reception</td>
+              <td>100%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="width: 50%;">
+        <table class="table table-bordered border-collapse border border-slate-400">
+          <tbody>
+            <tr class="background-blue white">
+              <th colspan="2">
+                MODES DE PAIEMENT
+              </th>
+            </tr>
+            <tr>
+              <td>Chèques à l'ordre de :</td>
+              <td class="">Orange</td>
+            </tr>
+            <tr>
+              <td>Banque :</td>
+              <td class="">Banque Nationale d'Investissement</td>
+            </tr>
+            <tr>
+              <td>Compte :</td>
+              <td class="">CI092 01011 007524540007 24</td>
+            </tr>
+            <tr>
+              <td>Mobile Money (collect)</td>
+              <td class="">71134960</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <hr />
+    <div class="w-full px-2 py-2 text-center">
+      <button class="p-button p-component p-button-info p-button-md" type="button" aria-label="precedent">
+        <!----><!---->
+        <span class="p-button-label" (click)="onToBack()">precedent</span>
+        <!---->
+      </button>
+      &nbsp;
+      <button class="p-button p-component p-button-danger p-button-md" type="button" aria-label="Annuler">
+        <!----><!---->
+        <span class="p-button-label" (click)="close()">Annuler</span>
+        <!---->
+      </button>
+      &nbsp;
+      <button class="p-button p-component p-button-success p-button-md" type="button" aria-label="Valider">
+        <!----><!---->
+        <span class="p-button-label" (click)="onValidate()">Valider</span>
+        <!---->
+      </button>
+    </div>
+  </div>
+</div>

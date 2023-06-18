@@ -1,0 +1,44 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="'Operations Provisionning'" [active_item]="'Volume Partagé'"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div>
+            <!--------------------------FORMS-------------------------->
+            <div style="display: flex;gap: 1rem;">
+              <div style="width: 100%">
+                <fieldset style="margin-top: 2.5rem;">
+                  <legend [ngStyle]="{width: '100%'}">
+                    <b>Volume Partagé</b>
+                  </legend>
+                  <div style="display: flex;gap: 1rem;padding-top: 0.5rem;">
+                    <div style="width: 30%;">
+                      <div class="form-group">
+                        <label>
+                          <b>Volume (GO) <span class="text-danger">*</span></b>
+                        </label>
+                        <input type="text" [(ngModel)]="selectedDescription" pInputText />
+                      </div>
+                    </div>
+                    <div style="width: 70%;">
+                      <div class="form-group">
+                        <label>
+                          <b>Description <span class="text-danger">*</span></b>
+                        </label>
+                        <input type="text" [(ngModel)]="selectedDescription" pInputText />
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+            <div>
+              <button pButton pRipple label="Enregistrer" [disabled]="false" class="p-button-success"
+                style="margin-top: 1rem;"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

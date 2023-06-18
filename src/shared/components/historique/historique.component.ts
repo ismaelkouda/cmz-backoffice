@@ -33,7 +33,7 @@ export class HistoriqueComponent implements OnInit {
 
   constructor(
     private loadingBar: LoadingBarService,
-    private toastrService: ToastrService,
+    private toastService: ToastrService,
     private settingService: SettingService,
     private modalService: NgbModal,
 
@@ -70,7 +70,7 @@ export class HistoriqueComponent implements OnInit {
         },
         (error) => {
           this.loadingBar.stop();
-          this.toastrService.error(error.message);
+          this.toastService.error(error.message);
         }
       );
   }
@@ -108,7 +108,7 @@ export class HistoriqueComponent implements OnInit {
           //response.data.length === 0 ? this.toastrService.info('Historique vide !') : this.toastrService.success(response.message);
         },
         (error) => {
-          this.toastrService.error(error.message);
+          this.toastService.error(error.message);
         }
       );
   }
@@ -137,7 +137,7 @@ export class HistoriqueComponent implements OnInit {
 
   filterHistoriques() {
     if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
-      this.toastrService.error('Plage de date invalide');
+      this.toastService.error('Plage de date invalide');
       return;
     }
     this.getAllHistoriques();

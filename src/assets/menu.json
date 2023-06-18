@@ -16,49 +16,17 @@
         "type": "sub",
         "children": [
             {
-                "data": "1-1-0-cartes-sim-actives",
+                "data": "1-1-0-cartes-sim",
                 "path": "/patrimoine/cartes-sim",
-                "title": "Cartes SIM Actives",
-                "label": "Cartes SIM Actives",
+                "title": "Cartes SIM",
+                "label": "Cartes SIM",
                 "type": "link"
             },
             {
-                "data": "1-2-0-cartes-sim-suspendu",
-                "path": "#",
-                "title": "Cartes SIM Suspendues",
-                "label": "Cartes SIM Suspendues",
-                "type": "link"
-            },
-            {
-                "data": "1-3-0-cartes-sim-resiliees",
-                "path": "#",
-                "title": "Cartes SIM Resiliées",
-                "label": "Cartes SIM Resiliées",
-                "type": "link"
-            }
-        ]
-    },
-    {
-        "label": "Transaction sur SIM",
-        "title": "Transaction sur SIM",
-        "data": "1-0-0-transaction-sim",
-        "expanded": true,
-        "icon": "disc",
-        "type": "sub",
-        "children": [
-            {
-                "path": "#",
-                "title": "Suspension de Cartes SIM",
-                "type": "link"
-            },
-            {
-                "path": "#",
-                "title": "Résiliation de Cartes SIM",
-                "type": "link"
-            },
-            {
-                "path": "#",
-                "title": "SIM-SWAP",
+                "data": "1-2-0-transaction-sur-sim",
+                "path": "/patrimoine/transaction-sur-sim",
+                "title": "Transactions sur SIM",
+                "label": "Transactions sur SIM",
                 "type": "link"
             }
         ]
@@ -81,29 +49,29 @@
         ]
     },
     {
-        "title": "Operations de Provisionning",
-        "icon": "thermometer",
+        "title": "Gestion de Portefeuille",
+        "icon": "shopping-bag",
         "type": "sub",
         "children": [
             {
-                "path": "#",
-                "title": "Activations SIM",
+                "path": "provisionning/ligne-credit",
+                "title": "Lignes de Crédits",
                 "type": "link"
             },
             {
-                "path": "#",
-                "title": "Commandes Cartes SIM",
+                "path": "provisionning/commande-cartes-sim",
+                "title": "Achat de Produits & Services",
                 "type": "link"
             },
             {
-                "path": "#",
-                "title": "Volume Data",
+                "path": "provisionning/stock-produits",
+                "title": "Stock de Produits & Services",
                 "type": "link"
             }
         ]
     },
     {
-        "title": "Supervision des opérations",
+        "title": "Suivi des opérations",
         "icon": "airplay",
         "path": "/operations",
         "type": "sub",
@@ -126,7 +94,7 @@
         ]
     },
     {
-        "title": "Analyses  & Alertes",
+        "title": "Supervision des SIM",
         "icon": "activity",
         "type": "sub",
         "children": [

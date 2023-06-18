@@ -170,8 +170,6 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log("this.selectedItemsDataSource", this.selectedItemsDataSource);
-
-    this.newPermissions = {}
+    location.reload()
   }
 }

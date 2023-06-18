@@ -22,14 +22,35 @@ export class PatrimoineService {
     const url: string = (<string>EndPointUrl.GET_ALL_PATRIMOINES);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
-
   GetAllPatrimoines(data, page): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_PATRIMOINES).replace('{page}', page);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
 
+  GetAllTransactions(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_TRANSACTIONS).replace('{page}', page);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  OnVerify(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.VERIFY_PATRIMOINE);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+
   UpdatePatrimoine(data): Observable<any> {
     const url: string = (<string>EndPointUrl.UPDATE_PATRIMOINE);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+
+  OnChangeStatut(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.CHANGE_STATUT);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  OnSwaper(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.SWAPER_SIM);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  OnVolume(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.VOLUME_DATA);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
 }

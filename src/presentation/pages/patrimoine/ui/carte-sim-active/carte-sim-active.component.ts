@@ -1,3 +1,4 @@
+import { SimStatut } from './../../../../../shared/enum/SimStatut.enum';
 import { PatrimoineService } from './../../data-access/patrimoine.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
@@ -10,11 +11,11 @@ const Swal = require('sweetalert2');
 
 
 @Component({
-  selector: 'app-patrimoine',
-  templateUrl: './patrimoine.component.html',
-  styleUrls: ['./patrimoine.component.scss']
+  selector: 'app-carte-sim-active',
+  templateUrl: './carte-sim-active.component.html',
+  styleUrls: ['./carte-sim-active.component.scss']
 })
-export class PatrimoineComponent implements OnInit {
+export class CarteSimActiveComponent implements OnInit {
 
   public initialView: boolean = true;
   public formsView: boolean = false;
@@ -35,9 +36,11 @@ export class PatrimoineComponent implements OnInit {
   public selectedDirection: any;
   public selectedExploitation: any;
   public selectedSim: string;
-  public selectedimsi: string
+  public selectedimsi: string;
+  public selectedStatut: string;
   public currentData: any;
-
+  public listStatus: Array<any> = [];
+  public selectedDescription: string;
 
   @ViewChild('parcelleMap') parcelleMap: ElementRef;
 
@@ -65,15 +68,13 @@ export class PatrimoineComponent implements OnInit {
   })
 
   constructor(
-    //private readonly getAllPatrimoineUseCase: GetAllPatrimoineUseCase,
     public toastrService: ToastrService,
     public settingService: SettingService,
     private patrimoineService: PatrimoineService,
     private clipboardApi: ClipboardService,
-    private modalService: NgbModal,
-
+    private modalService: NgbModal
   ) {
-
+    this.listStatus = [SimStatut.ACTIF, SimStatut.SUSPENDU, SimStatut.RESILIE]
   }
 
   ngOnInit() {
@@ -82,22 +83,6 @@ export class PatrimoineComponent implements OnInit {
     this.isFilter();
     this.disableAction()
   }
-
-  // public GetAllPatrimoines() {
-  //   this.getAllPatrimoineUseCase
-  //     .execute()
-  //     .subscribe({
-  //       next: (response) => {
-  //         this.listPatrimoines = response.data
-  //       },
-  //       error: (error) => {
-  //         this.toastrService.error(error.message);
-  //       }
-  //     })
-  // }
-
-
-
   public GetAllPatrimoines() {
     this.patrimoineService
       .GetAllPatrimoines({}, this.p)
@@ -116,7 +101,11 @@ export class PatrimoineComponent implements OnInit {
   }
   public onPageChange(event) {
     this.p = event;
-    this.GetAllPatrimoines()
+    if (this.isFilter()) {
+      this.GetAllPatrimoines()
+    } else {
+      this.onFilter()
+    }
   }
   public onFilter() {
     this.patrimoineService
@@ -124,8 +113,9 @@ export class PatrimoineComponent implements OnInit {
         direction_regionale_id: this.selectedDirection?.id,
         exploitation: this.selectedExploitation?.code,
         msisdn: this.selectedSim,
-        imsi: this.selectedimsi
-      }, 1)
+        imsi: this.selectedimsi,
+        statut: this.selectedStatut
+      }, this.p)
       .subscribe({
         next: (response) => {
           this.listPatrimoines = response.data.data;
@@ -152,15 +142,35 @@ export class PatrimoineComponent implements OnInit {
       })
   }
 
-  openForm(content, data) {
-    this.currentData = data;
+  public suspensionForm(content, data) {
+    this.currentData = { ...data, type: SimStatut.SUSPENDU };
     this.modalService.open(content);
   }
-  hideForm() {
+  public resilierForm(content, data) {
+    this.currentData = { ...data, type: SimStatut.RESILIE };
+    this.modalService.open(content);
+  }
+  public hideForm() {
     this.modalService.dismissAll();
   }
-
-  onChangeItem(event: any) {
+  public OnChangeStatut() {
+    this.patrimoineService
+      .OnChangeStatut({
+        operation: this.currentData?.type,
+        imsi: this.currentData?.imsi,
+        description: this.selectedDescription
+      })
+      .subscribe({
+        next: (response) => {
+          this.GetAllPatrimoines();
+          this.selectedDescription = null;
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+  public onChangeItem(event: any) {
     this.selectedDirection = event.value;
     this.listExploitations = this.selectedDirection?.exploitations.map(element => {
       return { ...element, fullName: `${element.nom} [${element.code}]` }
@@ -210,13 +220,9 @@ export class PatrimoineComponent implements OnInit {
         "<strong>Exploitation :</strong>" + "<span>" + this.currentComposant?.exploitation?.code + "</span>" + "<br>" +
         "<strong>Code Usage :</strong>" + "<span>" + this.currentComposant.usage + "</span>" + "<br>" +
         "</div>",
-        //{direction: 'top',},
       ).openPopup();
     marker.addTo(this.map);
-
     this.map.addLayer(osmLayer);
-
-
     var baseMaps = {
       'OpenStreetMap': this.OpenStreetMap,
       'Satellite': this.satelite
@@ -255,7 +261,7 @@ export class PatrimoineComponent implements OnInit {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
   public isFilter(): boolean {
-    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi) ? true : false
+    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi && !this.selectedStatut) ? true : false
   }
   public disableAction(): boolean {
     return (this.listPatrimoines === undefined || this.listPatrimoines?.length === 0) ? true : false

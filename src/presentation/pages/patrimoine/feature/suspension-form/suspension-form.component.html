@@ -1,0 +1,202 @@
+<div>
+  <div class="forms-feature-header">
+    <div>
+      <h3>
+        <b>
+          <span>Nouvelle Transaction</span>
+        </b>
+      </h3>
+    </div>
+    <div class="forms-feature-header__button">
+      <div>
+        <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <!--------------------------FORMS-------------------------->
+  <div style="display: flex;gap: 7rem;">
+    <div class="d-flex gap-5" style="padding-top: 1.3rem;">
+      <div class="d-flex gap-2">
+        <p-radioButton name="valeur" value="IMSI" [(ngModel)]="radioValue" (onClick)="changeItem($event)" inputId="imsi"
+          class="mt-2"></p-radioButton>
+        <label for="imsi" style="margin-top: 1.6rem">IMSI</label>
+      </div>
+      <div class="d-flex gap-2">
+        <p-radioButton name="valeur" value="MSISDN" [(ngModel)]="radioValue" (onClick)="changeItem($event)"
+          inputId="msisdn" class="mt-2"></p-radioButton>
+        <label for="msisdn" style="margin-top: 1.6rem">MSISDN</label>
+      </div>
+    </div>
+    <div class="d-flex gap-3" style="margin-top: 1.9rem;">
+      <!-- <div>
+        <label>
+          <b>{{radioValue}}<span class="text-danger">*</span></b>
+        </label>
+      </div> -->
+      <div style="display: flex;gap: 1rem;">
+        <div class="pt-3">
+          <b>{{radioValue}}<span class="text-danger">*</span></b>
+        </div>
+        <div>
+          <input placeholder="Saisir le numéro" [(ngModel)]="selectedValue" type="text" pInputText />
+        </div>
+      </div>
+      <div>
+        <button pButton pRipple label="Verifier" (click)="onVerify()" [disabled]="isFilter()" icon="pi pi-sync"
+          class="p-button-success"></button>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top: 3rem;">
+    <div>
+      <fieldset>
+        <legend [ngStyle]="{width: '100%'}">
+          <b>Informations</b>
+        </legend>
+        <div class="wrapper">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>
+                  <b>MSIDN</b>
+                </label>
+                <input type="text" [(ngModel)]="currentPatrimoine.msisdn" [disabled]="true" pInputText />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>
+                  <b>IMSI</b>
+                </label>
+                <input type="text" [(ngModel)]="currentPatrimoine.imsi" [disabled]="true" pInputText />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>
+                  <b>Statut</b>
+                </label>
+                <input type="text" [(ngModel)]="currentPatrimoine.statut" [disabled]="true" pInputText />
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend [ngStyle]="{width: '100%'}">
+          <b>Détails</b>
+        </legend>
+        <div class="wrapper">
+          <div class="row">
+            <div>
+              <div class="form-group">
+                <label>
+                  <b>Bénéficiaire</b>
+                </label>
+                <input type="text" [disabled]="true" pInputText />
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset style="margin-top: 2.5rem;" *ngIf="currentPatrimoine">
+        <legend [ngStyle]="{width: '100%'}">
+          <b>Transactions</b>
+        </legend>
+        <div style="display: flex;gap: 2rem;">
+          <div class="d-flex gap-2" *ngIf="!isActiver()" [ngClass]="{'disabled_radio': isActiver()}">
+            <p-radioButton name="valeur" [value]="activation" [(ngModel)]="operationValue"
+              (onClick)="selectedAction(activation)" [inputId]="activation"></p-radioButton>
+            <label [for]="activation" style="margin-top: 0.9rem">Activer</label>
+          </div>
+          <div class="d-flex gap-2" *ngIf="!isSuspendu()" [ngClass]="{'disabled_radio': isSuspendu()}">
+            <p-radioButton name="valeur" [value]="suspension" [(ngModel)]="operationValue"
+              (onClick)="selectedAction(suspension)" [inputId]="suspension"></p-radioButton>
+            <label [for]="suspension" style="margin-top: 0.9rem">Suspendre</label>
+          </div>
+          <div class="d-flex gap-2" *ngIf="!isResilier()" [ngClass]="{'disabled_radio': isResilier()}">
+            <p-radioButton name="valeur" [value]="resiliation" [(ngModel)]="operationValue"
+              (onClick)="selectedAction(resiliation)" [inputId]="resiliation"></p-radioButton>
+            <label [for]="resiliation" style="margin-top: 0.9rem">Résilier</label>
+          </div>
+          <div class="d-flex gap-2" *ngIf="!isSwaper()" [ngClass]="{'disabled_radio': isSwaper()}">
+            <p-radioButton name="valeur" [value]="swap" [(ngModel)]="operationValue" (onClick)="selectedAction(swap)"
+              [inputId]="swap"></p-radioButton>
+            <label [for]="swap" style="margin-top: 0.9rem">Changer (SIM SWAP)</label>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset style="margin-top: 2.5rem;" *ngIf="selectedActionValue">
+        <legend [ngStyle]="{width: '100%'}">
+          <b>Données de {{selectedActionValue | titlecase}}</b>
+        </legend>
+        <div *ngIf="selectedActionValue === swap">
+          <div class="value-wrapper" style="margin-top: 1rem;margin-bottom: 1rem;">
+            <div class="row mb-2">
+              <div class="col-md-3">
+                <p-button label="Visualiser SIM disponible" styleClass="p-button-warning mt-4"></p-button>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>IMSI Fournie</b>
+                  </label>
+                  <input [(ngModel)]="selectedImsi" [disabled]="true" type="text" pInputText />
+                </div>
+              </div>
+              <!-- <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>Justificatif</b>
+                  </label>
+                  <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                    (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                </div>
+              </div> -->
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label>
+                    <b>Description <span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" [(ngModel)]="selectedDescription" pInputText />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="selectedActionValue !== swap">
+          <div class="col-md-4" *ngIf="selectedActionValue === volumeData">
+            <div class="form-group">
+              <label>
+                <b>Volume Data<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" [(ngModel)]="selectedVolume" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Description <span class="text-danger">*</span></b>
+              </label>
+              <input type="text" [(ngModel)]="selectedDescription" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Justificatif</b>
+              </label>
+              <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="submit-form" *ngIf="selectedActionValue">
+      <p-button label="Soumettre" styleClass="p-button-success" [disabled]="!selectedDescription"
+        (click)="handleSaveNewTransaction()"></p-button>
+    </div>
+  </div>
+</div>

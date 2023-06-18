@@ -1,9 +1,12 @@
 import { Routes } from "@angular/router";
 
+export const DASHBOARD = 'dashboard';
 export const PATRIMOINE = 'patrimoine';
+export const TRANSACTIONS_SIM = 'transactions-sim';
 export const REFERENTIEL_TELEMETRIE = 'ref-telemetrie';
 export const ANALYSE_ALERTE = 'analyse-alerte';
 export const SUPERVISION_OPERATIONS = 'operations';
+export const OPERATION_PROVISIONNING = 'provisionning';
 export const ZONE_TRAFIC = 'zone-trafic';
 export const INTERCONNEXION_ECHANGE = 'interconnexion';
 export const SUPERVISION_SYSTEME = 'supervision-systeme';
@@ -13,7 +16,7 @@ export const PARAMETRE_SECURITE = 'parametre-securite'
 
 export const content: Routes = [
   {
-    path: "dashboard",
+    path: DASHBOARD,
     loadChildren: () => import("../../presentation/pages/dashboard/dashboard.module").then((m) => m.DashboardModule),
     data: { title: 'Tableau de bord' }
   },
@@ -23,9 +26,19 @@ export const content: Routes = [
     data: { title: PATRIMOINE }
   },
   {
+    path: TRANSACTIONS_SIM,
+    loadChildren: () => import("../../presentation/pages/transaction/transaction.module").then((m) => m.TransactionModule),
+    data: { title: TRANSACTIONS_SIM }
+  },
+  {
     path: REFERENTIEL_TELEMETRIE,
     loadChildren: () => import("../../presentation/pages/ref-telemetrie/ref-telemetrie.module").then((m) => m.RefTelemetrieModule),
     data: { title: REFERENTIEL_TELEMETRIE }
+  },
+  {
+    path: OPERATION_PROVISIONNING,
+    loadChildren: () => import("../../presentation/pages/provisionning/provisionning.module").then((m) => m.ProvisionningModule),
+    data: { title: OPERATION_PROVISIONNING }
   },
   {
     path: SUPERVISION_OPERATIONS,

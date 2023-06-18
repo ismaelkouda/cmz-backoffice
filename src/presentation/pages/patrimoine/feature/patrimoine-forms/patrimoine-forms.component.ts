@@ -11,7 +11,9 @@ import { PatrimoineService } from '../../data-access/patrimoine.service';
 })
 export class PatrimoineFormsComponent implements OnInit {
 
+  @Input() currentObject;
   @Output() listPatrimoines = new EventEmitter();
+  @Output() formsView = new EventEmitter();
   public listDirectionRegionales: Array<any> = [];
   public listExploitations: Array<any> = [];
   public listZones: Array<any> = [];
@@ -26,10 +28,6 @@ export class PatrimoineFormsComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
-
-
-  @Input() currentObject;
-  @Output() formsView = new EventEmitter();
   adminForm: FormGroup;
 
   constructor(
@@ -48,16 +46,14 @@ export class PatrimoineFormsComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.getAllDirectionRegionales();
-    this.getAllExploitation(this.currentObject?.direction_regionale.id,)
-    //this.onGetExploitationValueChanges()
-    //this.onGetDrValueChanges();
-
+    this.onGetDrValueChanges();
     if (this.currentObject !== undefined) {
       this.onFormPachValues();
       //this.getAllExploitation(this.currentObject?.direction_regionale?.id);
       //this.getAllZones(this.currentObject?.exploitation?.id);
     }
   }
+
 
   public close(): void {
     this.formsView.emit(false);
@@ -206,8 +202,6 @@ export class PatrimoineFormsComponent implements OnInit {
 
   onGetDrValueChanges() {
     return this.adminForm.get('direction_regionale').valueChanges.subscribe((value) => {
-      console.log("valuevalue", value);
-
       this.getAllExploitation(value)
     });
   }

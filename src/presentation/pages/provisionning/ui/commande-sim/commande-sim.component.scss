@@ -1,0 +1,5 @@
+.statistique-block {
+    grid-template-columns: repeat(auto-fill, minmax(18%, 1fr));
+    display: grid;
+    gap: 1rem;
+}

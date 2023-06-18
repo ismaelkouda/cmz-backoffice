@@ -9,8 +9,8 @@
                     </div>
                     <div class="header_title--right">
                         <h4 class="text-white">
-                            <b class="pull-right">{{profil.nom}} {{profil.prenoms}}</b><br />
-                            <span>{{profil.email}}</span>
+                            <b class="pull-right">{{profil?.nom}} {{profil?.prenoms}}</b><br />
+                            <span>{{profil?.email}}</span>
                         </h4>
                     </div>
                     <div class="pos_logout">
@@ -39,10 +39,14 @@
         <br /><br />
         <div class="container">
             <br />
+
             <div class="row div_pos">
                 <div class="col-md-3 col-sm-12 min-w min-h" *ngFor="let m of listItemPortail; trackBy:identity">
                     <div class="flex-item center">
-                        <a [routerLink]="m.routerLink">
+                        <a [routerLink]="m.statut? m.routerLink : null">
+                            <div class="icon" *ngIf="!m.statut">
+                                <i class="pi pi-times"></i>
+                            </div>
                             <img class="image_icone" [src]="m.url" alt="ICONE" width="96" height="96" />
                             <br />
                             <h3 class="icone_title">

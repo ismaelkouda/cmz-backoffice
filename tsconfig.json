@@ -16,15 +16,15 @@
     {
       "path": "./e2e/tsconfig.json"
     }
-],
-"compilerOptions": {
-  "allowJs": true,
-  "target": "ES2022",
-  "importHelpers": true,
-  "emitDecoratorMetadata": true,
-  "experimentalDecorators": true,
-  "resolveJsonModule": true,
-  "useDefineForClassFields": false,
-  "moduleResolution": "node",
-}
+  ],
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "ES2022",
+    "importHelpers": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "useDefineForClassFields": false,
+    "moduleResolution": "node"
+  }
 }

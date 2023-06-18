@@ -3,11 +3,16 @@ import { PortailData } from './portail-data';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-import { UserModel } from 'src/domain/models/user.model';
-import { LocalStorageService } from 'ngx-webstorage';
+//import { writeJsonFile } from 'write-json-file';
 const Swal = require('sweetalert2');
+
+// @ts-ignore
+import menuJson from '../../../../assets/menu.json';
+
+// @ts-ignore
+import portailJson from '../../../../assets/portail.json';
+
 
 
 @Component({
@@ -18,21 +23,41 @@ const Swal = require('sweetalert2');
 export class PortailComponent implements OnInit, AfterViewInit {
   public dateOfDay: string = '';
   public heureOfDay: string = '';
-  public listModule: any = [];
+  public listModule: any;
   public listItemPortail: PortailData;
-  public profil: UserModel;
+  public profil: any;
+  public permissionsJson: any = [];
+  public portailJsonDats: any;
+  //List Check Menu As Permissions
+
+
+  //List Permissions
+  public permissionsPatrimoines: string = 'patrimoine/cartes-sim-actives';
 
   constructor(
     private readonly http: HttpClient,
     public router: Router,
-    private title: Title,
     private storage: EncodingDataService,
-  ) { }
+  ) {
+    this.permissionsJson = menuJson;
+    this.portailJsonDats = portailJson;
+  }
 
   ngOnInit() {
     this.getDate();
     this.getTime();
     this.profil = JSON.parse(this.storage.getData('user'));
+    // Vérification des permission
+    this.permissionsJson.map(module => {
+      if (module.children) {
+        module.children.map(sous_module => {
+          if (module.data === "1-0-0-patrimoine" && this.profil.permissions.includes(sous_module.data)) {
+            portailJson[0].statut;
+          }
+        })
+      }
+    })
+
   }
 
   ngAfterViewInit(): void {

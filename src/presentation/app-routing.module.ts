@@ -12,6 +12,10 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'réinitialisation',
+    loadChildren: () => import("../presentation/pages/password-reset/password-reset.module").then((m) => m.PasswordResetModule),
+  },
+  {
     path: "",
     component: ContentComponent,
     children: content

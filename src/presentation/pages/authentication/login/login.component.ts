@@ -20,13 +20,16 @@ export class LoginComponent implements OnInit {
   public recaptcha: string;
   public siteKey: string;
   public keyValue: string;
+
   constructor(
     private fb: FormBuilder,
     private readonly userLoginUseCase: UserLoginUseCase,
     private router: Router,
     private toastrService: ToastrService,
     private storage: EncodingDataService
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
     this.siteKey = appConfig.siteKey;
@@ -34,8 +37,6 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
-    console.log("keyValue", this.keyValue);
-
   }
 
   onLogin() {
@@ -54,15 +55,11 @@ export class LoginComponent implements OnInit {
       }
     })
   }
-
   showPassword() {
     this.show = !this.show
   }
   handleSuccess(event: string) {
-    console.log("evtevtevt", this.handleExpire());
     this.keyValue = event;
-    console.log("keyValue", this.keyValue);
-
   }
 
   handleExpire() {
