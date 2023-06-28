@@ -117,3 +117,35 @@
     padding-top: 1rem;
     float: right;
 }
+
+p-dropdown .p-disabled,
+p-password .p-disabled {
+    background-color: #ccc !important;
+    color: #000 !important;
+    font-weight: bold;
+
+}
+
+.p-datatable .p-datatable-header {
+
+    padding: 0rem 0rem 0.5rem 0rem !important;
+}
+
+.form-group {
+    label {
+        b {
+            span {
+                margin-left: 0.2rem;
+            }
+        }
+    }
+}
+
+.p-dialog {
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    max-height: 100% !important;
+    transform: scale(1);
+    position: relative;
+}

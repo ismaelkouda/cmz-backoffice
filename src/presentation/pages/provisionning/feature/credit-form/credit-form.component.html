@@ -67,7 +67,7 @@
           </div>
         </div>
         <div class="wrapper-assets" *ngIf="currentObject">
-          <img src="../../../../../assets/images/logo/logo_orange.png" alt="">
+          <img src="{{filUrl+currentObject?.justificatif}}" alt="">
         </div>
       </fieldset>
     </div>
@@ -129,7 +129,7 @@
               </div>
             </div>
             <div class="wrapper-assets" *ngIf="currentObject">
-              <img src="{{curr?.justificatif}}" alt="">
+              <img src="{{filUrl+currentObject?.justificatif}}" alt="">
             </div>
           </fieldset>
         </div>

@@ -22,4 +22,19 @@ export class ZoneTraficService {
     const url: string = (<string>EndPointUrl.POSITION_SIM_GEOJSON);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
+
+  GetAllZOneTrafic(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_ZONE_TRAFIC).replace('{page}', page);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+
+  GetAllDepartements(): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_DEPARTEMENT);
+    return this.http.get(`${this.BASE_URL}${url}`);
+  }
+
+  GetAllCommunes(): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_COMMUNE);
+    return this.http.get(`${this.BASE_URL}${url}`);
+  }
 }

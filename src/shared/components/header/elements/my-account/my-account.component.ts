@@ -27,7 +27,7 @@ export class MyAccountComponent implements OnInit {
 
   public logout(): void {
     Swal.fire({
-      title: 'En êtes vous sûr?',
+      title: 'En êtes vous sûr ?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#569C5B',
@@ -37,7 +37,9 @@ export class MyAccountComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.storage.removeData('user');
+        this.storage.removeData('current_menu');
         this.router.navigateByUrl('auth/login');
+
       }
     });
   }

@@ -9,25 +9,25 @@
             <div class="statistique-block">
               <div>
                 <app-card-stock [cardBgColor]="'#FFFFFF'" [ngClass]="['ligne-card']" [cardBorderColor]="'#DF7401'"
-                  [legend]="'Crédits disponible'" [count]="500500" [legendColor]="'#DF7401'"
+                  [legend]="'Crédits disponible'" [count]="creditDisponible || '0'" [legendColor]="'#DF7401'"
                   [countColor]="'#000000'"></app-card-stock>
               </div>
               <div>
                 <app-card-stock [cardBgColor]="'#FFFFFF'" [ngClass]="['ligne-card']" [cardBorderColor]="'#DF7401'"
-                  [legend]="'Achats/Année'" [count]="500500" [legendColor]="'#DF7401'"
+                  [legend]="'Achats/Année'" [count]="achatByyear || '0'" [legendColor]="'#DF7401'"
                   [countColor]="'#000000'"></app-card-stock>
               </div>
               <div>
                 <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'Achats/Mois'"
-                  [count]="500500" [legendColor]="'#DF7401'" [countColor]="'#000000'"></app-card-stock>
+                  [count]="achatByMounth || '0'" [legendColor]="'#DF7401'" [countColor]="'#000000'"></app-card-stock>
               </div>
               <div>
                 <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'Achats/Semaine'"
-                  [count]="500500" [legendColor]="'#DF7401'" [countColor]="'#000000'"></app-card-stock>
+                  [count]="achatByWeek || '0'" [legendColor]="'#DF7401'" [countColor]="'#000000'"></app-card-stock>
               </div>
               <div>
                 <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'Achats/Jour'"
-                  [count]="500500" [legendColor]="'#DF7401'" [countColor]="'#000000'"></app-card-stock>
+                  [count]="achatByDay || '0'" [legendColor]="'#DF7401'" [countColor]="'#000000'"></app-card-stock>
               </div>
             </div>
             <hr style="margin-top: -0.4rem;">
@@ -81,7 +81,7 @@
             </div>
             <hr>
             <div class="table_actions_wrapper">
-              <button pButton pRipple label="Nouveau Achat" (click)="GenerateNumeroCommande()" icon="pi pi-plus"
+              <button pButton pRipple label="Nouveau Achat" (click)="onInitForm()" icon="pi pi-plus"
                 class="p-button-success"></button>
               <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="GetAllAchats()"
                 class="p-button-secondary"></button>
@@ -115,15 +115,15 @@
                     <td>{{ (this.offset + i)}}</td>
                     <td>{{data?.created_at}}</td>
                     <td>{{data?.transaction}}</td>
-                    <td>{{data?.reference}}</td>
+                    <td>{{data?.numero_commande}}</td>
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>{{data?.initiateur}}</td>
+                    <td>{{data.initiateur?.nom}} {{data.initiateur?.prenoms}}</td>
                     <td>
-                      <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
-                        [class.badge-warning]="data.statut === 'en-cours'"
-                        [class.badge-danger]="data.statut !== 'en-cours'">
+                      <span [ngStyle]="{'font-size': '16px' }" class="badge"
+                        [class.badge-warning]="data.statut === 'en-attente'"
+                        [class.badge-danger]="data.statut !== 'en-attente'">
                         {{ data.statut }}
                       </span>
                     </td>
@@ -133,8 +133,8 @@
                       <button [ngClass]="'p-button-danger'" pButton pRipple icon="pi pi-times" [pTooltip]="'Annuler'"
                         (click)="handleCancel(data)" tooltipPosition="top">
                       </button>
-                      <p-button icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" styleClass="p-button-dark"
-                        (click)="onShowForm(data)"></p-button>
+                      <!-- <p-button icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" styleClass="p-button-dark"
+                        (click)="onShowForm(data)"></p-button> -->
                       <p-button icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
                         styleClass="p-button-secondary"></p-button>
                       <p-button icon="pi pi-dollar" pTooltip="Solder" tooltipPosition="top"

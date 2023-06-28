@@ -22,12 +22,12 @@
         <label>
           <b>Exploitation</b>
         </label>
-        <p-dropdown [options]="listExploitations" [(ngModel)]="selectedExploitation" optionLabel="nom"
+        <p-dropdown [options]="listExploitations" [(ngModel)]="selectedExploitation" optionLabel="fullName"
           placeholder="Selectionnez la l'exploitation">
           <ng-template let-data pTemplate="item">
             <div class="country-item">
               <div>
-                {{data.nom}}
+                {{data.fullName}}
               </div>
             </div>
           </ng-template>
@@ -92,10 +92,10 @@
             <button pButton pRipple label="SMS" [disabled]="true" class="p-button-helf"></button>
           </td>
           <td class="td-actions">
-            <button *ngIf="router.url === '/analyse-alerte/performance-de-collecte'" pButton pRipple label="Visualiser"
-              (click)=onVisualiser(data) icon="pi pi-chart-line" class="p-button-helf"></button>
-            <button *ngIf="router.url === '/analyse-alerte/courbes-messages'" pButton pRipple label="Visualiser"
-              (click)=onVisualiserTwo(data) icon="pi pi-chart-line" class="p-button-helf"></button>
+            <button *ngIf="router.url === '/supervision-sim/performance-de-collecte'" pButton pRipple label="Visualiser"
+              (click)=onVisualiserTrafic(data) icon="pi pi-chart-line" class="p-button-helf"></button>
+            <button *ngIf="router.url === '/supervision-sim/courbes-messages'" pButton pRipple label="Visualiser"
+              (click)=onVisualiserAlarme(data) icon="pi pi-chart-line" class="p-button-helf"></button>
           </td>
         </tr>
       </tbody>

@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 
 // @ts-ignore
 import appConfig from '../../../../assets/config/app-config.json';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: "app-login",
@@ -17,29 +18,32 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   public show: boolean = false
-  public recaptcha: string;
   public siteKey: string;
-  public keyValue: string;
-
+  public currentRecaptcha: string;
   constructor(
     private fb: FormBuilder,
     private readonly userLoginUseCase: UserLoginUseCase,
     private router: Router,
-    private toastrService: ToastrService,
-    private storage: EncodingDataService
+    private toastService: ToastrService,
+    private storage: EncodingDataService,
   ) {
 
   }
 
   ngOnInit() {
-    this.siteKey = appConfig.siteKey;
+    this.siteKey = environment.recaptcha.siteKey;
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      email: ['', [Validators.required]],
+      password: ['', Validators.required]
     });
+
   }
 
   onLogin() {
+    // if (!this.currentRecaptcha) {
+    //   this.toastService.warning('Etes vous un robot ?');
+    //   return;
+    // }
     this.userLoginUseCase.execute(this.loginForm.value).subscribe({
       next: (response) => {
         this.storage.saveData('user', JSON.stringify(response.data));
@@ -48,18 +52,15 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('layout', 'Paris');
           }
         );
-        this.toastrService.success(`Bienvenue ${response.data.nom} ${response.data.prenoms}`);
+        this.toastService.success(`Bienvenue ${response.data.nom} ${response.data.prenoms}`);
       },
       error: (error) => {
-        this.toastrService.error(error.message);
+        this.toastService.error(error.message);
       }
     })
   }
   showPassword() {
     this.show = !this.show
-  }
-  handleSuccess(event: string) {
-    this.keyValue = event;
   }
 
   handleExpire() {

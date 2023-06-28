@@ -29,6 +29,14 @@ export class CommandeSimComponent implements OnInit {
   public offset: any;
   public p: number = 1;
 
+  public creditDisponible: number = 0;
+  public achatByyear: number = 0;
+  public achatByWeek: number = 0;
+  public achatByDay: number = 0;
+  public achatByMounth: number = 0;
+
+
+
   constructor(
     private provisionningService: ProvisionningService,
     private toastService: ToastrService,
@@ -44,6 +52,7 @@ export class CommandeSimComponent implements OnInit {
 
   ngOnInit() {
     this.GetAllAchats();
+    this.OnStatAchat();
     this.isFilter()
   }
 
@@ -52,11 +61,12 @@ export class CommandeSimComponent implements OnInit {
       .GetAllAchats({}, this.p)
       .subscribe({
         next: (response) => {
-          this.listAchats = response['data'];
-          this.totalPage = response[''];
-          this.totalRecords = response['total'];
-          this.recordsPerPage = response['per_page'];
-          this.offset = (response['current_page'] - 1) * this.recordsPerPage + 1;
+          // this.listAchats = response['data'];
+          this.listAchats = response.data;
+          this.totalPage = response.last_page;
+          this.totalRecords = response.total;
+          this.recordsPerPage = response.per_page;
+          this.offset = (response.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
           this.toastService.error(error.message);
@@ -64,6 +74,37 @@ export class CommandeSimComponent implements OnInit {
       })
   }
 
+  public OnStatAchat() {
+    this.provisionningService
+      .OnStatAchat({})
+      .subscribe({
+        next: (response) => {
+          const data = response;
+          this.creditDisponible = data?.achat_annuel;
+          this.achatByDay = data?.achat_journalier;
+          this.achatByWeek = data?.achat_hebdomadaire;
+          this.achatByMounth = data?.achat_mensuel
+          this.achatByyear = data?.achat_annuel;
+        },
+        error: (error) => {
+          this.toastService.error(error.error.message);
+        }
+      })
+  }
+
+  public GenerateNumeroCommande() {
+    this.provisionningService
+      .GenerateNumeroCommande()
+      .subscribe({
+        next: (response) => {
+          this.storage.saveData('numero_commande', response['data']);
+          this.onInitForm();
+        },
+        error: (error) => {
+          this.toastService.error(error.error.message);
+        }
+      })
+  }
   public onFilter() {
     if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
       this.toastService.error('Plage de date invalide');
@@ -80,19 +121,6 @@ export class CommandeSimComponent implements OnInit {
     }
   }
 
-  public GenerateNumeroCommande() {
-    this.provisionningService
-      .GenerateNumeroCommande()
-      .subscribe({
-        next: (response) => {
-          this.storage.saveData('numero_commande', response['data']);
-          this.onInitForm();
-        },
-        error: (error) => {
-          this.toastService.error(error.error.message);
-        }
-      })
-  }
   public onInitForm(): void {
     this.initialView = false;
     this.formsView = true;

@@ -9,6 +9,8 @@ import { EndPointUrl } from '../../data-access/api.enum';
 
 //@ts-ignore
 import appConfig from '../../../../../assets/config/app-config.json';
+import { environment } from 'src/environments/environment.prod';
+import { SettingService } from 'src/shared/services/setting.service';
 
 @Component({
   selector: 'app-suspension-form',
@@ -44,39 +46,60 @@ export class SuspensionFormComponent implements OnInit {
   public offset: any;
   public p: number = 1;
   public currentListSimsPage: number;
+  public siteKey: string;
+
   //Statut
   public statutActif: string = SimStatut.ACTIF;
   public statutSuspendu: string = SimStatut.SUSPENDU;
   public statutResilier: string = SimStatut.RESILIE;
   public statutSwaper: string = SimStatut.SWAPER;
 
-  //71177071
   //Operations Transaction
   public activation: string = OperationTransaction.ACTIVATION;
   public suspension: string = OperationTransaction.SUSPENSION;
   public resiliation: string = OperationTransaction.RESILIATION;
   public swap: string = OperationTransaction.SWAP;
-  public volumeData: string = OperationTransaction.VOLUME_DATA;
 
   //FormsControl
+  public listDirections: Array<any> = [];
+  public listExploitations: Array<any> = [];
+  public listUsages: Array<any> = [];
   public selectedImsi: string;
   public selectedDescription: string;
   public selectedPiece: any;
   public selectedMsisdn: string;
+  public selectedDirection: any;
+  public selectedExploitation: any;
+  public selectedBeneficaire: string;
+  public selectedUsage: any;
+  public selectedEmail: string;
+  public selectedAdresseGeo: string;
+  public selectedLongitude: string;
+  public selectedLatitude: string;
 
-  //612030246992221
+  //Type Source
+  public sourceStock: string = 'stock';
+  public sourceOrange: string = 'orange';
+  public sourceValue: string = this.sourceStock;
+
+
   constructor(
     private patrimoineService: PatrimoineService,
+    private settingService: SettingService,
     private toastrService: ToastrService,
     private httpClient: HttpClient
   ) { }
 
   ngOnInit() {
+    this.siteKey = environment.recaptcha.siteKey;
+    this.getAllDirectionRegionales();
+    this.getAllUsages()
     this.isFilter();
     this.isActiver();
     this.isSuspendu();
     this.isResilier();
     this.isSwaper();
+    this.isVerify()
   }
 
 
@@ -120,6 +143,36 @@ export class SuspensionFormComponent implements OnInit {
         }
       })
   }
+  public getAllDirectionRegionales() {
+    this.settingService
+      .getAllDirectionRegionales({})
+      .subscribe({
+        next: (response) => {
+          this.listDirections = response.data
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+  public getAllUsages() {
+    this.patrimoineService
+      .GetAllUsages({})
+      .subscribe({
+        next: (response) => {
+          this.listUsages = response.data
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+  public onChangeItem(event: any) {
+    this.selectedDirection = event.value;
+    this.listExploitations = this.selectedDirection?.niveaux_deux.map(element => {
+      return { ...element, fullName: `${element.nom} [${element.code}]` }
+    });
+  }
   public onVerify() {
     this.patrimoineService
       .OnVerify({
@@ -142,23 +195,43 @@ export class SuspensionFormComponent implements OnInit {
   }
   public handleSaveNewTransaction() {
     let baseUrl;
-    const formdata = formDataBuilder({
-      operation: this.selectedActionValue,
-      imsi: this.currentPatrimoine.imsi,
-      ...(this.selectedActionValue === OperationTransaction.SWAP ? { nouveau_imsi: this.selectedImsi } : ''),
-      ...(this.selectedActionValue === OperationTransaction.VOLUME_DATA ? { volume: this.selectedVolume } : ''),
-      description: this.selectedDescription,
-      justificatif: this.selectedPiece,
-      data: this.selectedVolume
-    })
+    let data;
     if (this.selectedActionValue === OperationTransaction.SWAP) {
+      data = {
+        operation: this.selectedActionValue,
+        imsi: this.currentPatrimoine.imsi,
+        bac_a_pioche: this.sourceValue,
+        description: this.selectedDescription,
+      }
       baseUrl = `${this.BASE_URL}${EndPointUrl.SWAPER_SIM}`
-    } else if (this.selectedActionValue === OperationTransaction.VOLUME_DATA) {
-      baseUrl = `${this.BASE_URL}${EndPointUrl.VOLUME_DATA}`
+    } else if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
+      data = {
+        operation: this.selectedActionValue,
+        bac_a_pioche: this.sourceValue,
+        niveau_un_id: this.selectedDirection?.id,
+        niveau_deux_id: this.selectedExploitation,
+        beneficiaire: this.selectedBeneficaire,
+        usage_id: this.selectedUsage,
+        adresse_email: this.selectedEmail,
+        adresse_geographique: this.selectedAdresseGeo,
+        longitude: this.selectedLongitude,
+        latitude: this.selectedLatitude,
+      }
+      baseUrl = `${this.BASE_URL}${EndPointUrl.ACTIVATION_SIM}`
+
     } else {
+      data = formDataBuilder({
+        operation: this.selectedActionValue,
+        imsi: this.currentPatrimoine.imsi,
+        description: this.selectedDescription,
+        justificatif: this.selectedPiece,
+      })
       baseUrl = `${this.BASE_URL}${EndPointUrl.CHANGE_STATUT}`
     }
-    this.httpClient.post(`${baseUrl}`, formdata)
+
+    console.log("datass", data);
+
+    this.httpClient.post(`${baseUrl}`, data)
       .subscribe({
         next: (res: any) => {
           this.GetAllTransactions();
@@ -176,15 +249,13 @@ export class SuspensionFormComponent implements OnInit {
     this.selectedDescription = null;
     this.selectedMsisdn = null;
     this.selectedPiece = null;
-  }
+    this.selectedValue = null;
+    //612030246985370
 
-  // public piocheAction(value: string) {
-  //   this.selectedPioche = value;
-  //   this.selectedImsi = null;
-  //   if (this.selectedPioche === 'reserver') {
-  //     this.GetAllPatrimoines();
-  //   }
-  // }
+  }
+  public selectedSource(value: string) {
+    this.sourceValue = value;
+  }
 
   public onSelectedSim(data) {
     this.selectedImsi = data;
@@ -209,6 +280,10 @@ export class SuspensionFormComponent implements OnInit {
     setTimeout(() => {
       this.display = false;
     }, 500);
+  }
+
+  public isVerify(): boolean {
+    return (Object.keys(this.currentPatrimoine).length === 0) ? true : false
   }
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);

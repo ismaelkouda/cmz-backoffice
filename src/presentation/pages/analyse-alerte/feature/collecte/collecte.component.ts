@@ -1,5 +1,4 @@
 import { SettingService } from 'src/shared/services/setting.service';
-import { ANALYSE_ALERTE } from './../../../../../shared/routes/routes';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,6 +8,7 @@ import { COURBE_MESSAGE, ETAT_LIAISON, PERFORMANCE_COLLECTE } from '../../analys
 // @ts-ignore
 import appConfig from '../../../../../assets/config/app-config.json';
 import { EndPointUrl } from '../../data-access/api.enum';
+import { SUPERVISION_SIM } from 'src/shared/routes/routes';
 
 @Component({
   selector: 'app-collecte',
@@ -35,7 +35,7 @@ export class CollecteComponent implements OnInit {
   public p: number = 1;
 
 
-  readonly ANALYSE_ALERTE = ANALYSE_ALERTE;
+  readonly SUPERVISION_SIM = SUPERVISION_SIM;
   readonly PERFORMANCE_COLLECTE = PERFORMANCE_COLLECTE;
   readonly COURBE_MESSAGE = COURBE_MESSAGE;
   readonly ETAT_LIAISON = ETAT_LIAISON;
@@ -60,11 +60,11 @@ export class CollecteComponent implements OnInit {
 
   public onGetAllFluxCollecte() {
     let baseUrl;
-    if (this.router.url === `/${ANALYSE_ALERTE}/${PERFORMANCE_COLLECTE}`) {
+    if (this.router.url === `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`) {
       baseUrl = `${this.BASE_URL}${EndPointUrl.PERFORMANCES_COLLECTE}`
-    } else if (this.router.url === `/${ANALYSE_ALERTE}/${COURBE_MESSAGE}`) {
+    } else if (this.router.url === `/${SUPERVISION_SIM}/${COURBE_MESSAGE}`) {
       baseUrl = `${this.BASE_URL}${EndPointUrl.PERFORMANCES_COLLECTE}`
-    } else if (this.router.url === `/${ANALYSE_ALERTE}/${ETAT_LIAISON}`) {
+    } else if (this.router.url === `/${SUPERVISION_SIM}/${ETAT_LIAISON}`) {
       baseUrl = `${this.BASE_URL}${EndPointUrl.ANALYSE_ALERTES}`
     }
     this.http.post(`${baseUrl}?page=${this.p}`, {})
@@ -88,15 +88,15 @@ export class CollecteComponent implements OnInit {
 
   public onFilter() {
     let baseUrl;
-    if (this.router.url === `/${ANALYSE_ALERTE}/${PERFORMANCE_COLLECTE}`) {
+    if (this.router.url === `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`) {
       baseUrl = `${this.BASE_URL}${EndPointUrl.PERFORMANCES_COLLECTE}`
-    } else if (this.router.url === `/${ANALYSE_ALERTE}/${COURBE_MESSAGE}`) {
+    } else if (this.router.url === `/${SUPERVISION_SIM}/${COURBE_MESSAGE}`) {
       baseUrl = `${this.BASE_URL}${EndPointUrl.PERFORMANCES_COLLECTE}`
-    } else if (this.router.url === `/${ANALYSE_ALERTE}/${ETAT_LIAISON}`) {
+    } else if (this.router.url === `/${SUPERVISION_SIM}/${ETAT_LIAISON}`) {
       baseUrl = `${this.BASE_URL}${EndPointUrl.ANALYSE_ALERTES}`
     }
     this.http.post(`${baseUrl}?page=1`, {
-      direction_regionale_id: this.selectedDirection?.id,
+      niveau_un_id: this.selectedDirection?.id,
       exploitation: this.selectedExploitation?.code,
       msisdn: this.selectedSim
     })
@@ -125,14 +125,15 @@ export class CollecteComponent implements OnInit {
         }
       })
   }
-  public onVisualiser(data) {
+  public onVisualiserAlarme(data) {
     //2250788856624
-    this.visualUrl = `http://10.10.10.83:3000/d/cs8d-C8Vk/tb-analyse-des-alarmes-data-tracking?orgId=1&refresh=15m&from=now-1h&to=now&var-zone=&var-number=${data.msisdn}&var-apni=`
+    //this.visualUrl = `http://10.10.10.83:3000/d/cs8d-C8Vk/tb-analyse-des-alarmes-data-tracking?orgId=1&refresh=15m&from=now-1h&to=now&var-zone=&var-number=${data.msisdn}&var-apni=`
     //this.visualUrl = `http://10.10.10.83:3000`
     this.dialogHeader(this.router.url);
     this.showIframe = true;
+    this.visualUrl = "http://10.10.10.93:30031/d/fUHASnXVk/tb-analyse-des-alarmes-actives?orgId=1"
   }
-  public onVisualiserTwo(data) {
+  public onVisualiserTrafic(data) {
     //2250788856624
     this.visualUrl = `http://10.10.10.83:3000/d/106TI5w4k/tb-analyse-du-trafic-par-sim-orange?orgId=1&from=now-6h&to=now&var-zone=a&var-number=${data.msisdn}&var-apn=cie`
     //this.visualUrl = `http://10.10.10.83:3000`
@@ -141,20 +142,23 @@ export class CollecteComponent implements OnInit {
   }
   dialogHeader(link) {
     switch (link) {
-      case `/${ANALYSE_ALERTE}/${PERFORMANCE_COLLECTE}`:
+      case `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`:
         this.title = 'Analyses du trafic'
         break;
-      case `/${ANALYSE_ALERTE}/${COURBE_MESSAGE}`:
+      case `/${SUPERVISION_SIM}/${COURBE_MESSAGE}`:
         this.title = 'Analyses Alarmes'
         break
-      case `/${ANALYSE_ALERTE}/${ETAT_LIAISON}`:
+      case `/${SUPERVISION_SIM}/${ETAT_LIAISON}`:
         this.title = 'Statuts des Services'
     }
   }
 
-  onChangeItem(event: any) {
+
+  public onChangeItem(event: any) {
     this.selectedDirection = event.value;
-    this.listExploitations = this.selectedDirection?.exploitations
+    this.listExploitations = this.selectedDirection?.niveaux_deux.map(element => {
+      return { ...element, fullName: `${element.nom} [${element.code}]` }
+    });
   }
   isFilter(): boolean {
     return (!this.selectedDirection && !this.selectedSim) ? true : false

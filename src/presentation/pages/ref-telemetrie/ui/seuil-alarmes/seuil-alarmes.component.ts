@@ -54,18 +54,6 @@ export class SeuilAlarmesComponent implements OnInit {
     };
     this.globalMetriquesEditRow.push(data);
     this.toastrService.info('Enregistrement en attente !', 'EDITION');
-    // if (metrique.seuil === null || metrique.statut === null) {
-    //   this.toastrService.warning(
-    //     'Les différents champs sont obligatoires'); return;
-    // } else if (metrique.seuil !== null || metrique.statut !== null) {
-    //   const data = {
-    //     metrique_id: currentMetrique.id,
-    //     ...(metrique.seuil === null ? { seuil: currentMetrique.seuil } : { seuil: metrique.seuil }),
-    //     ...(metrique.statut === null ? { statut: currentMetrique.statut } : { statut: metrique.statut })
-    //   };
-    //   this.globalMetriquesEditRow.push(data);
-    //   this.toastrService.info('Enregistrement en attente !', 'EDITION');
-    // }
   }
   public onCancelRowMetrique(metrique: any, index: number) {
     this.listTelemetries[index] = this.clonedMetrique[metrique.id];

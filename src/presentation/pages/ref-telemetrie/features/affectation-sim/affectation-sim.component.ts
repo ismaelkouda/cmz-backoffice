@@ -158,7 +158,7 @@ export class AffectationSimComponent implements OnInit {
   public onFilter() {
     let filterTab: string = '';
     if (this.selectedDirection !== undefined && this.selectedDirection !== null) {
-      filterTab += `&direction_regionale_id=${this.selectedDirection?.id}`;
+      filterTab += `&niveau_un_id=${this.selectedDirection?.id}`;
     }
     console.log("selectedSim", this.selectedSim);
     console.log("selectedDirection", this.selectedDirection);

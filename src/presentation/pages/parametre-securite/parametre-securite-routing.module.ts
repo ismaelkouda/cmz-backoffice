@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProfilHabilitationComponent } from './ui/profil-habilitation/profil-habilitation.component';
 
-const PROFILS_HABILITATIONS = 'profils-habilitations';
-const UTILISATEURS = 'utilisateurs';
+export const PROFILS_HABILITATIONS = 'profils-habilitations';
+export const UTILISATEURS = 'utilisateurs';
 
 
 const routes: Routes = [

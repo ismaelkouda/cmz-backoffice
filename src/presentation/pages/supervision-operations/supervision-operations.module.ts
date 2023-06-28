@@ -1,3 +1,4 @@
+import { PerformancesComponent } from './ui/performances/performances.component';
 import { PriseEnChargeComponent } from './feature/prise-en-charge/prise-en-charge.component';
 import { AlarmesComponent } from './feature/alarmes/alarmes.component';
 import { SuivieTraitementComponent } from './feature/suivie-traitement/suivie-traitement.component';
@@ -38,7 +39,8 @@ import { TransactionsComponent } from './feature/transactions/transactions.compo
         TransactionsComponent,
         SuivieTraitementComponent,
         AlarmesComponent,
-        PriseEnChargeComponent
+        PriseEnChargeComponent,
+        PerformancesComponent
     ],
     imports: [
         CommonModule,

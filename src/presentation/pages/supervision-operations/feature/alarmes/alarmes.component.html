@@ -5,28 +5,37 @@
       <div class="card" [ngStyle]="{ width: '300px' }">
         <div class="card-body" [ngStyle]="{ 'margin-top': '-1.4%', padding: '0' }">
           <ul class="list-group">
-            <li [ngClass]="filterStatus === 'all'? 'active': 'bg_light_green'" (click)="filterService('all')"
+            <li [ngClass]="filterStatus === typeAchat? 'active': 'bg_light_green'" (click)="filterService(typeAchat)"
               class="list-group-item cursor-pointer" style="font-size: 16px !important">
-              Modification SIM ({{dataSource.length}})
+              {{typeAchat}} ({{dataSource.length}})
             </li>
-            <li [ngClass]="filterStatus === 'prametre_collecte'? 'active': 'bg_light_green'"
-              (click)="filterService('prametre_collecte')" class="list-group-item cursor-pointer"
+            <li [ngClass]="filterStatus === typeActivation? 'active': 'bg_light_green'"
+              (click)="filterService(typeActivation)" class="list-group-item cursor-pointer"
               style="font-size: 16px !important">
-              Seuils Alarmes ({{parametresListe.length}})
+              {{typeActivation}} ({{parametresListe.length}})
             </li>
-            <li [ngClass]="filterStatus === 'synchronisation'? 'active': 'bg_light_green'"
-              (click)="filterService('synchronisation')" class="list-group-item cursor-pointer"
+            <li [ngClass]="filterStatus === typeChangement? 'active': 'bg_light_green'"
+              (click)="filterService(typeChangement)" class="list-group-item cursor-pointer"
               style="font-size: 16px !important">
-              Synchronisation ({{synchroListe.length}})
+              {{typeChangement}} ({{synchroListe.length}})
             </li>
-            <li [ngClass]=" filterStatus === 'activations'? 'active': 'bg_light_green'"
-              (click)="filterService('activations')" class="list-group-item cursor-pointer"
+            <li [ngClass]=" filterStatus === typeSupervision? 'active': 'bg_light_green'"
+              (click)="filterService(typeSupervision)" class="list-group-item cursor-pointer"
               style="font-size: 16px !important">
-              Activations ({{activationsListe.length}})
+              {{typeSupervision}} ({{activationsListe.length}})
             </li>
-            <li [ngClass]="filterStatus === 'securite'? 'active': 'bg_light_green'" (click)="filterService('securite')"
+            <li [ngClass]="filterStatus === typeResiliation? 'active': 'bg_light_green'"
+              (click)="filterService(typeResiliation)" class="list-group-item cursor-pointer"
+              style="font-size: 16px !important">
+              {{typeResiliation}} ({{securitesListe.length}})
+            </li>
+            <li [ngClass]="filterStatus === typeVolume? 'active': 'bg_light_green'" (click)="filterService(typeVolume)"
               class="list-group-item cursor-pointer" style="font-size: 16px !important">
-              Sécurité ({{securitesListe.length}})
+              {{typeVolume}} ({{securitesListe.length}})
+            </li>
+            <li [ngClass]="filterStatus === typeLigne? 'active': 'bg_light_green'" (click)="filterService(typeLigne)"
+              class="list-group-item cursor-pointer" style="font-size: 16px !important">
+              {{typeLigne}} ({{securitesListe.length}})
             </li>
           </ul>
         </div>
@@ -52,7 +61,7 @@
                   <div class="pt-2">
                     <h4>
                       <b>
-                        Catégorie de transaction - {{ filtreSelected }}
+                        Catégorie de transaction - {{ filterStatus }}
                       </b>
                     </h4>
                   </div>

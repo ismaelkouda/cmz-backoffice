@@ -1,17 +1,11 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { PortailData } from './portail-data';
 import { HttpClient } from '@angular/common/http';
-import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-//import { writeJsonFile } from 'write-json-file';
 const Swal = require('sweetalert2');
 
 // @ts-ignore
-import menuJson from '../../../../assets/menu.json';
-
-// @ts-ignore
-import portailJson from '../../../../assets/portail.json';
+import { menuJson } from 'src/assets/menu';
 
 
 
@@ -24,48 +18,55 @@ export class PortailComponent implements OnInit, AfterViewInit {
   public dateOfDay: string = '';
   public heureOfDay: string = '';
   public listModule: any;
-  public listItemPortail: PortailData;
   public profil: any;
   public permissionsJson: any = [];
-  public portailJsonDats: any;
-  //List Check Menu As Permissions
-
-
-  //List Permissions
-  public permissionsPatrimoines: string = 'patrimoine/cartes-sim-actives';
+  public portailJson: any = [];
+  public listPermissionMapper: any;
 
   constructor(
-    private readonly http: HttpClient,
     public router: Router,
     private storage: EncodingDataService,
   ) {
     this.permissionsJson = menuJson;
-    this.portailJsonDats = portailJson;
   }
 
   ngOnInit() {
     this.getDate();
     this.getTime();
     this.profil = JSON.parse(this.storage.getData('user'));
+
+    console.log("this.profil this.profil ", this.profil?.permissions);
+
     // Vérification des permission
     this.permissionsJson.map(module => {
-      if (module.children) {
-        module.children.map(sous_module => {
+      if (module?.children) {
+        module?.children.map(sous_module => {
           if (module.data === "1-0-0-patrimoine" && this.profil.permissions.includes(sous_module.data)) {
-            portailJson[0].statut;
+            this.permissionsJson[1] = { ...module, statut: true }
+          }
+          if (module.data === "2-0-0-referentiel-telemetrie" && this.profil.permissions.includes(sous_module.data)) {
+            this.permissionsJson[2] = { ...module, statut: true }
+          }
+          if (module.data === "3-0-0-gestion-portefeuille" && this.profil.permissions.includes(sous_module.data)) {
+            this.permissionsJson[3] = { ...module, statut: true }
+          }
+          if (module.data === "4-0-0-suivi-operations" && this.profil.permissions.includes(sous_module.data)) {
+            this.permissionsJson[4] = { ...module, statut: true }
+          }
+          if (module.data === "5-0-0-supervision-sim" && this.profil.permissions.includes(sous_module.data)) {
+            this.permissionsJson[5] = { ...module, statut: true }
+          }
+          if (module.data === "6-0-0-parametres-securite" && this.profil.permissions.includes(sous_module.data)) {
+            this.permissionsJson[6] = { ...module, statut: true }
           }
         })
       }
     })
-
+    this.portailJson = this.permissionsJson.slice(1);
+    this.storage.saveData("current_menu", JSON.stringify(this.permissionsJson))
   }
 
   ngAfterViewInit(): void {
-    this.loadDataPortail();
-  }
-
-  async loadDataPortail(): Promise<void> {
-    this.listItemPortail = await lastValueFrom(this.http.get<PortailData>('assets/portail.json'));
   }
 
   getDate() {

@@ -6,38 +6,46 @@
         <div class="card-body">
           <div>
             <div class="row filter_wrapper">
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Direction Régionale<span class="text-danger">*</span></b>
+                    <b>Département</b>
                   </label>
-                  <p-dropdown [options]="listDirections" optionLabel="nom" (onChange)="onChangeItem($event)"
-                    [showClear]="true" placeholder="Selectionnez la direction">
+                  <p-dropdown [options]="listDepartements" optionLabel="libelle" (onChange)="onChangeItem($event)"
+                    [showClear]="true" placeholder="Département">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
-                          {{data.nom}}
+                          {{data.libelle}}
                         </div>
                       </div>
                     </ng-template>
                   </p-dropdown>
                 </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Exploitation</b>
+                    <b>Commune/Sous-Préfecture</b>
                   </label>
-                  <p-dropdown [options]="listExploitations" optionLabel="fullName" [(ngModel)]="selectedExploitation"
-                    placeholder="Selectionnez l'exploitation">>
+                  <p-dropdown [options]="listCommunes" optionLabel="libelle" [(ngModel)]="selectedCommune"
+                    [showClear]="true" placeholder="Commune" optionValue="id">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
-                          {{data.fullName}}
+                          {{data.libelle}}
                         </div>
                       </div>
                     </ng-template>
                   </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Zone de trafic</b>
+                  </label>
+                  <input placeholder="Zone trafic" [(ngModel)]="selectedZone" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-1">
@@ -47,58 +55,51 @@
             </div>
             <hr>
             <div class="table_actions_wrapper">
-              <button pButton pRipple label="Rafraichir" (click)="getAllExploiatations()" icon="pi pi-refresh"
+              <button pButton pRipple label="Rafraichir" (click)="GetAllZOneTrafic()" icon="pi pi-refresh"
                 class="p-button-secondary"></button>
               <button pButton pRipple label="Exporter" icon="pi pi-download" [disabled]="disableAction()"
                 class="p-button-helf"></button>
             </div>
             <div class="table_content_wrapper">
-              <p-table #dt [value]="listZonesExploitations" [rows]="10" [paginator]="true" responsiveLayout="scroll"
-                [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                    données" [showCurrentPageReport]="true">
-                <ng-template pTemplate="caption">
-                  <div class="table_header">
-                    <div class="table_header__legende">
-                      <h4>
-                        <b>Liste des zones de trafics</b>
-                      </h4>
-                    </div>
-                    <div class="table_header__input">
-                      <span class="p-input-icon-left ml-auto">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
-                          placeholder="Recherche" />
-                      </span>
-                    </div>
-                  </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th class="text-center">#</th>
-                    <th>Directions Régionales</th>
-                    <th class="text-center">Exploitations</th>
-                    <th class="text-center"># SIM</th>
-                    <th class="text-center"># SIM Actives</th>
-                    <th class="text-center"># SIM Inactives</th>
-                    <th class="text-center" [ngStyle]="{width: '0.5rem'}">Action</th>
-                  </tr>
-                </ng-template>
-                <ng-template let-i="rowIndex" pTemplate="body" let-data>
-                  <tr>
-                    <td class="text-center">{{ i + 1 }}</td>
-                    <td>{{ data?.direction_regionale?.nom}}</td>
-                    <td class="text-center">{{data?.nom}} [{{data?.code}}]</td>
-                    <td class="text-center">{{data?.sims_count}}</td>
-                    <td class="text-center">{{data?.active_sims_count}}</td>
-                    <td class="text-center">{{data?.inactive_sims_count}}</td>
+              <div class="table_header mt-2">
+                <div class="table_header__legende">
+                  <h4 class="pt-2">
+                    <b>Liste des zones de trafics</b>
+                  </h4>
+                </div>
+                <div class="table_header__input"></div>
+              </div>
+              <table [ngClass]="['native_table table']">
+                <thead>
+                  <th class="text-center">#</th>
+                  <th>Département</th>
+                  <th class="text-center">Commune/Sous-Préfecture</th>
+                  <th class="text-center">Zone Trafic</th>
+                  <th class="text-center"># Sites</th>
+                  <th class="text-center" [ngStyle]="{width: '2rem'}">Action</th>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let data of listZonesTrafics | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                    <td>{{ (this.offset + i)}}</td>
+                    <td>{{data.departement?.libelle}}</td>
+                    <td>{{data.commune?.libelle}}</td>
+                    <td (click)="copyData(data?.libelle)" style="cursor: pointer">{{data?.libelle}}</td>
+                    <td>{{data?.sites_count}}</td>
                     <td class="td-actions">
                       <p-button icon="pi pi-map-marker" [pTooltip]="data.sims_count === 0 ? '' : 'Vue géographique'"
                         tooltipPosition="top" [disabled]="data.sims_count === 0" (click)="showMap(data)"
                         [styleClass]="data.sims_count === 0 ? 'p-button-success p-button-outlined' : 'p-button-success'"></p-button>
+                      <p-button icon="pi pi-eye" pTooltip="Voir Sites" tooltipPosition="top"
+                        styleClass="p-button-dark"></p-button>
                     </td>
                   </tr>
-                </ng-template>
-              </p-table>
+                </tbody>
+              </table>
+              <div [ngClass]="['pagination-controls']">
+                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                </pagination-controls>
+              </div>
             </div>
           </div>
         </div>
@@ -107,15 +108,16 @@
   </div>
 </div>
 
-<p-dialog [(visible)]="display" position="bottom-right" (onHide)="hideDialog()" (onMaximize)="onMaximized($event)"
-  [modal]="true" [responsive]="true" [style]=" {width: '96vw'}" [maximizable]="true" [draggable]="false"
+<p-dialog [(visible)]="display" position="bottom-right" (onHide)="hideDialog()" [style]="{ width: '100%' }"
+  (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true" [maximizable]="true" [draggable]="false"
   [resizable]="false">
   <ng-template pTemplate="header">
     <h3>
-      <b [style]="{ color: '#FFFFFF' }">Zone Exploitation: <u class="current_values">[{{currentZone.nom}}]</u></b>
+      <b [style]="{ color: '#FFFFFF' }">Zone de Trafic: <u class="current_values">[]</u></b>
     </h3>
   </ng-template>
   <ng-template pTemplate="content">
-    <app-carte [maxi]="maxi" [datas]="datas"></app-carte>
+    <!--<app-carte [maxi]="maxi" [datas]="datas"></app-carte>-->
+    <app-card-second [maxi]="maxi" [datas]="datas"></app-card-second>
   </ng-template>
 </p-dialog>

@@ -102,8 +102,8 @@ export class PriseEnChargeComponent implements OnInit {
   public onFilter(): void {
     const data = {
       operation: this.selectedTypeOperation?.code,
-      direction_regionale_id: this.selectedDirection?.id,
-      exploitation_id: this.selectedExploitation?.id,
+      niveau_un_id: this.selectedDirection?.id,
+      niveau_deux_id: this.selectedExploitation?.id,
       transaction: this.selectedTransaction,
       intervenant_id: this.selectedIntervenant?.id,
       rapport: this.selectedRapport,

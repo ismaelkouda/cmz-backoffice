@@ -1,3 +1,4 @@
+import { CardSecondComponent } from './feature/card-second/card-second.component';
 import { CarteComponent } from './feature/carte/carte.component';
 import { VueGeographiqueComponent } from './ui/vue-geographique/vue-geographique.component';
 import { SharedModule } from './../../../shared/shared.module';
@@ -35,7 +36,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
     declarations: [
         VueGeographiqueComponent,
-        CarteComponent
+        CarteComponent,
+        CardSecondComponent
     ],
     imports: [
         CommonModule,

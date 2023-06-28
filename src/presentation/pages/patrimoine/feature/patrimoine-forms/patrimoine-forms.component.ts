@@ -28,6 +28,7 @@ export class PatrimoineFormsComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public currentDhcpValue: string;
   adminForm: FormGroup;
 
   constructor(
@@ -45,12 +46,11 @@ export class PatrimoineFormsComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.getAllDirectionRegionales();
     this.onGetDrValueChanges();
+    this.onGetDhcpValueChanges()
+    this.getAllDirectionRegionales();
     if (this.currentObject !== undefined) {
       this.onFormPachValues();
-      //this.getAllExploitation(this.currentObject?.direction_regionale?.id);
-      //this.getAllZones(this.currentObject?.exploitation?.id);
     }
   }
 
@@ -144,16 +144,13 @@ export class PatrimoineFormsComponent implements OnInit {
       })
   }
   public getAllExploitation(id: number) {
-    const data = { direction_regionale_id: id };
     this.settingService
-      .getAllExploiatations(data)
+      .getAllExploiatations(id)
       .subscribe(
         (response: any) => {
           this.listExploitations = response['data'];
           this.listExploitations.forEach((element) => (element.all_exp = element.nom + ' ' + '[' + element.code + ']'));
-          if (this.idDirectionRegionale !== undefined) {
-            this.listZones = this.listExploitations[0]['zones'];
-          }
+
         },
         (error) => {
           this.toastrService.error(error.message);
@@ -162,7 +159,7 @@ export class PatrimoineFormsComponent implements OnInit {
   }
 
   public getAllZones(id: number) {
-    const data = { exploitation_id: id };
+    const data = { niveau_deux_id: id };
     this.settingService
       .getAllZones(data)
       .subscribe(
@@ -185,9 +182,9 @@ export class PatrimoineFormsComponent implements OnInit {
       .UpdatePatrimoine({
         ...this.adminForm.value,
         sim_id: this.currentObject?.id,
-        direction_regionale_id: this.adminForm.get('direction_regionale').value,
-        exploitation_id: this.adminForm.get('exploitation').value,
-        zone_id: this.adminForm.get('zone').value,
+        niveau_un_id: this.adminForm.get('direction_regionale').value,
+        niveau_deux_id: this.adminForm.get('exploitation').value,
+        niveau_trois_id: this.adminForm.get('zone').value,
       })
       .subscribe({
         next: (response) => {
@@ -202,12 +199,21 @@ export class PatrimoineFormsComponent implements OnInit {
 
   onGetDrValueChanges() {
     return this.adminForm.get('direction_regionale').valueChanges.subscribe((value) => {
+      console.log("loggggggggggggggg", value);
+
       this.getAllExploitation(value)
     });
   }
-  onGetExploitationValueChanges() {
-    return this.adminForm.get('exploitation').valueChanges.subscribe((value) => {
-      this.getAllZones(value)
+
+  onGetDhcpValueChanges() {
+    return this.adminForm.get('dhcp').valueChanges.subscribe((value) => {
+      this.currentDhcpValue = value;
+      if (this.currentDhcpValue === 'OUI') {
+        this.adminForm.get('apni').disable();
+      } else {
+        this.adminForm.get('apni').enable();
+
+      }
     });
   }
 

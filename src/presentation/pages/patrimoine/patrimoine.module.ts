@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PatrimoineRoutingModule } from './patrimoine-routing.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 
 //Modules Primeng
@@ -19,12 +20,14 @@ import { TooltipModule } from 'primeng/tooltip';
 import { InputMaskModule } from 'primeng/inputmask';
 import { PasswordModule } from 'primeng/password';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { CalendarModule } from 'primeng/calendar';
 
 //Components
-import { PatrimoineFormsComponent } from './feature/patrimoine-forms/patrimoine-forms.component';
 import { CarteSimActiveComponent } from './ui/carte-sim-active/carte-sim-active.component';
-import { SuspensionFormComponent } from './feature/suspension-form/suspension-form.component';
+import { LifecycleSimComponent } from './ui/lifecycle-sim/lifecycle-sim.component';
 import { TransactionSimComponent } from './ui/transaction-sim/transaction-sim.component';
+import { PatrimoineFormsComponent } from './feature/patrimoine-forms/patrimoine-forms.component';
+import { SuspensionFormComponent } from './feature/suspension-form/suspension-form.component';
 
 
 @NgModule({
@@ -46,10 +49,13 @@ import { TransactionSimComponent } from './ui/transaction-sim/transaction-sim.co
         NgxPaginationModule,
         InputMaskModule,
         PasswordModule,
-        RadioButtonModule
+        RadioButtonModule,
+        NgxCaptchaModule,
+        CalendarModule
     ],
     declarations: [
         CarteSimActiveComponent,
+        LifecycleSimComponent,
         PatrimoineFormsComponent,
         TransactionSimComponent,
         SuspensionFormComponent

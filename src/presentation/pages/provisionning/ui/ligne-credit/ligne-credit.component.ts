@@ -3,7 +3,6 @@ import * as moment from 'moment';
 import { ProvisionningService } from '../../data-access/provisionning.service';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -32,13 +31,16 @@ export class LigneCreditComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public creditDisponible: number;
+  public creditAttente: number;
+  public provisioncurrentMount: number;
+  public provisionLastMount: number;
+
 
   constructor(
     private provisionningService: ProvisionningService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
-    private modalService: NgbModal
-
 
   ) {
     this.filterDateStart = new Date();
@@ -50,6 +52,7 @@ export class LigneCreditComponent implements OnInit {
 
   ngOnInit() {
     this.GetAllLigneCredits();
+    this.OnStatCredit()
   }
 
 
@@ -63,6 +66,23 @@ export class LigneCreditComponent implements OnInit {
           this.totalRecords = res.data.total;
           this.recordsPerPage = res.data.per_page;
           this.offset = (res.data.current_page - 1) * this.recordsPerPage + 1;
+        },
+        error: (err) => {
+          this.toastrService.error(err.message);
+        }
+      })
+  }
+
+  public OnStatCredit() {
+    this.provisionningService
+      .OnStatCredit({})
+      .subscribe({
+        next: (res) => {
+          const data = res['data'];
+          this.creditDisponible = data?.credit_disponible;
+          this.creditAttente = data?.credit_en_attente;
+          this.provisioncurrentMount = data?.provision_mois;
+          this.provisionLastMount = data?.provision_mois_m_1;
         },
         error: (err) => {
           this.toastrService.error(err.message);

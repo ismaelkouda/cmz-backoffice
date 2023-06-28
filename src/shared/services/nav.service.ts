@@ -2,7 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Subject, BehaviorSubject, fromEvent } from "rxjs";
 import { takeUntil, debounceTime } from "rxjs/operators";
 import { Router } from "@angular/router";
-import * as menuJson from "../../assets/menu.json";
+import { menuJson } from 'src/assets/menu';
+import { EncodingDataService } from './encoding-data.service';
 
 // Menu
 export interface Menu {
@@ -17,15 +18,23 @@ export interface Menu {
   active?: boolean;
   bookmark?: boolean;
   children?: Menu[];
+  statut?: boolean;
+  data?: string;
 }
 
 @Injectable({
   providedIn: "root",
 })
 export class NavService implements OnDestroy {
+
+
+  public listMenuItems: any[]
+  public user: any;
+
   private unsubscriber: Subject<any> = new Subject();
   public screenWidth: BehaviorSubject<number> = new BehaviorSubject(window.innerWidth);
-  MENU_SIDEBAR: any = (menuJson as any).default;;
+  MENU_SIDEBAR: any = menuJson;
+
   // Search Box
   public search: boolean = false;
 
@@ -49,7 +58,11 @@ export class NavService implements OnDestroy {
   // Full screen
   public fullScreen: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private storage: EncodingDataService
+  ) {
+
     this.setScreenWidth(window.innerWidth);
     fromEvent(window, "resize")
       .pipe(debounceTime(1000), takeUntil(this.unsubscriber))
@@ -82,7 +95,6 @@ export class NavService implements OnDestroy {
   private setScreenWidth(width: number): void {
     this.screenWidth.next(width);
   }
-
 
   // Array
   items = new BehaviorSubject<Menu[]>(this.MENU_SIDEBAR);

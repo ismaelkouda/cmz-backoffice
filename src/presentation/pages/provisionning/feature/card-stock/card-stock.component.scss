@@ -1,6 +1,6 @@
 .card {
     border-radius: 0.5rem;
-    padding: 0.8rem;
+    padding: 0.2rem 0.8rem;
     width: 100%;
 
     .content {
@@ -17,7 +17,7 @@
 
         &__value {
             span {
-                font-size: 1rem;
+                font-size: 1.5rem;
             }
         }
     }

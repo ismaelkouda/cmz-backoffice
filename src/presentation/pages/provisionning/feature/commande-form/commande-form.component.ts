@@ -4,6 +4,7 @@ import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum'
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { ProvisionningService } from '../../data-access/provisionning.service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-commande-form',
@@ -23,6 +24,7 @@ export class CommandeFormComponent implements OnInit {
   public numeroCommande: string;
   public selectedDescription: string;
   public selectedCountSim: string;
+  public currentRecaptcha: string;
 
 
   //Operations Transaction
@@ -48,6 +50,7 @@ export class CommandeFormComponent implements OnInit {
   public selectedCodea: string;
   public selectedVol: string;
 
+  public siteKey: string;
 
 
   fiedlistA: any = {};
@@ -64,26 +67,21 @@ export class CommandeFormComponent implements OnInit {
   public selectedDescVp: string;
 
 
+  public currentId: any;
+
 
   constructor(
     private storage: EncodingDataService,
     private provisionningService: ProvisionningService,
-    private toastService: ToastrService
+    private toastService: ToastrService,
 
   ) { }
 
   ngOnInit() {
-    this.numeroCommande = this.storage.getData('numero_commande');
-    // if (this.currentObject?.show) {
-    //   this.selectedQtySimb = this.currentObject?.qte_sim_blanche;
-    //   this.selectedDescSimb = this.currentObject?.description_sim_blanche,
-    //     this.selectedQtySima = this.currentObject?.qte_sim_msisdn;
-    //   this.selectedDescSima = this.currentObject?.description_sim_msisdn;
-    //   this.selectedvp = this.currentObject?.volume_data
-    // }
+    this.siteKey = environment.recaptcha.siteKey;
+    //this.numeroCommande = this.storage.getData('numero_commande');
     this.isFilter();
     this.GetAllServices()
-    console.log("currentObject", this.currentObject);
   }
 
   public close(): void {
@@ -111,26 +109,44 @@ export class CommandeFormComponent implements OnInit {
   }
   public CreateProformatCommande() {
     const data = [
-      { ...this.fiedlistA, qte_sim_blanche: this.selectedQtyBlanche, description_sim_blanche: this.selectedDescBlanche },
-      { ...this.fiedlistB, qte_sim_msisdn: this.selectedQtyMsimsdn, description_sim_msisdn: this.selectedDescSimMsisdn },
-      { ...this.fiedlistA, qte_sim_blanche: this.selectedvp }
-    ]
+      //SIMA
+      {
+        id: this.fiedlistA?.id,
+        code_produit: this.fiedlistA?.code_produit,
+        libelle_produit: this.fiedlistA?.libelle_produit,
+        prix_unitaire: this.fiedlistA?.prix_unitaire,
+        qte: this.selectedQtyBlanche,
+        description: this.selectedDescBlanche
+      },
+
+      //SIMB
+      {
+        id: this.fiedlistB?.id,
+        code_produit: this.fiedlistB?.code_produit,
+        libelle_produit: this.fiedlistB?.libelle_produit,
+        prix_unitaire: this.fiedlistB?.prix_unitaire,
+        qte: this.selectedQtyMsimsdn,
+        description: this.selectedDescSimMsisdn
+      },
+      //SIMC
+
+      {
+        id: this.fiedlistC?.id,
+        code_produit: this.fiedlistC?.code_produit,
+        libelle_produit: this.fiedlistC?.libelle_produit,
+        prix_unitaire: this.fiedlistC?.prix_unitaire,
+        qte: this.selectedvp,
+        description: this.selectedDescVp
+      },
+    ];
     this.provisionningService
       .CreateProformatCommande({
-        numero_commande: this.numeroCommande,
         operation: "commande-produits",
         achats: data
-      }
-        // numero_commande: this.numeroCommande,
-        // qte_sim_blanche: this.selectedQtyBlanche,
-        // description_sim_blanche: this.selectedDescBlanche,
-        // qte_sim_msisdn: this.selectedQtyMsimsdn,
-        // description_sim_msisdn: this.selectedDescSimMsisdn,
-        // volume_data: this.selectedvp,
-        // operation: this.selectedDescVp
-      )
-      .subscribe({
+      }).subscribe({
         next: (response) => {
+          const data = response['data'][0];
+          this.currentId = data?.id;
           this.showFacture();
         },
         error: (error) => {

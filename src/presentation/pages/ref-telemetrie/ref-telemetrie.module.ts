@@ -1,3 +1,4 @@
+import { ObjectifSlaComponent } from './ui/objectif-sla/objectif-sla.component';
 import { VisualisationComponent } from './features/visualisation/visualisation.component';
 import { AffectationSimComponent } from './features/affectation-sim/affectation-sim.component';
 import { NgModule } from '@angular/core';
@@ -52,6 +53,7 @@ import { BadgeModule } from 'primeng/badge';
   declarations: [
     SeuilAlarmesComponent,
     ProfilSupervisionComponent,
+    ObjectifSlaComponent,
     FormsProfilComponent,
     AffectationSimComponent,
     VisualisationComponent

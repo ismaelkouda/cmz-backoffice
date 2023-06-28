@@ -1,12 +1,9 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12">
-      <app-breadcrumb [title]="'Supervision des SIM'" [active_item]="'Analyse du Trafic'"></app-breadcrumb>
-      <div class="card">
-        <div class="card-body">
-          <app-collecte></app-collecte>
-        </div>
-      </div>
+<p-dialog [header]="'APPROVISIONNEMENTS'" [(visible)]="showIframe" (onHide)="hideDialog()" [modal]="true"
+  [style]="{ width: '100%' }" (onMaximize)="onDialogMaximized($event)" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="content">
+    <div>
+      <iframe class="iframe__constainer" [src]="visualUrl | safe">
+      </iframe>
     </div>
-  </div>
-</div>
+  </ng-template>
+</p-dialog>

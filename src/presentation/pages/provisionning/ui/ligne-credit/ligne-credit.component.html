@@ -8,21 +8,22 @@
             <div class="row statistique">
               <div class="col-md-3">
                 <app-card-stock [cardBgColor]="'#FFFFFF'" [ngClass]="['ligne-card']" [cardBorderColor]="'#DF7401'"
-                  [legend]="'Crédit Disponible (FCFA)'" [count]="500500" [legendColor]="'#DF7401'"
+                  [legend]="'Crédit Disponible (FCFA)'" [count]="creditDisponible || '0'" [legendColor]="'#DF7401'"
                   [countColor]="'#000000'"></app-card-stock>
               </div>
               <div class="col-md-3">
                 <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'"
-                  [legend]="'Crédit en Attente (FCFA)'" [count]="500500" [legendColor]="'#DF7401'"
+                  [legend]="'Crédit en Attente (FCFA)'" [count]="creditAttente || '0'" [legendColor]="'#DF7401'"
                   [countColor]="'#000000'"></app-card-stock>
               </div>
               <div class="col-md-3">
                 <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'Provision Mois (M)'"
-                  [count]="500500" [legendColor]="'#DF7401'" [countColor]="'#000000'"></app-card-stock>
+                  [count]="provisioncurrentMount || '0'" [legendColor]="'#DF7401'"
+                  [countColor]="'#000000'"></app-card-stock>
               </div>
               <div class="col-md-3">
                 <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'"
-                  [legend]="'Provision Mois (M-1)'" [count]="500500" [legendColor]="'#DF7401'"
+                  [legend]="'Provision Mois (M-1)'" [count]="provisionLastMount || '0'" [legendColor]="'#DF7401'"
                   [countColor]="'#000000'"></app-card-stock>
               </div>
             </div>
@@ -127,9 +128,12 @@
                     <td class="td-actions">
                       <p-button icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" styleClass="p-button-dark"
                         (click)="onShowForm(data)"></p-button>
-                      <p-button *ngIf="data?.statut === 'en-cours'" icon="pi pi-pencil" pTooltip="Editer"
-                        (click)="onEditForm(data)" tooltipPosition="top" styleClass="p-button-secondary"></p-button>
-                      <button *ngIf="data?.statut === 'en-cours'" [ngClass]="'p-button-danger'" pButton pRipple icon="pi pi-times
+                      <button [disabled]="data?.statut !== 'en-cours'" [ngClass]="'p-button-secondary'" pButton pRipple
+                        icon="pi pi-pencil
+                        " [pTooltip]="'Editer'" (click)="onEditForm(data)" tooltipPosition="top">
+                      </button>
+                      <button [disabled]="data?.statut !== 'en-cours'" [ngClass]="'p-button-danger'" pButton pRipple
+                        icon="pi pi-times
                         " [pTooltip]="'Annuler'" (click)="OnCancelCredit(data)" tooltipPosition="top">
                       </button>
                     </td>

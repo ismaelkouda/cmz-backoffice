@@ -2,9 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { LoginComponent } from './login/login.component';
-// import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EffectsModule } from '@ngrx/effects';
 import { PortailComponent } from './portail/portail.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
 
@@ -15,7 +13,6 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     FormsModule,
     AuthenticationRoutingModule,
     NgxCaptchaModule
-    //EffectsModule.forFeature(),
   ],
   declarations: [
     LoginComponent,

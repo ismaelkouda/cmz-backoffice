@@ -19,11 +19,14 @@ export class FormsProfilComponent implements OnInit {
   adminForm: FormGroup;
   checkedAll: boolean = false;
   public checkedAllConsumers: boolean = false;
-
   public listAffectations: Array<any> = [];
   public checkedconsumer: boolean = false;
   public listconfigCheckedTrue: any[] = [];
   public checkconsumerList: any[] = [];
+
+  public clonedMetrique: { [s: string]: any } = {};
+  public currentMetrique: any;
+  public globalMetriquesEditRow: Array<any> = [];
 
   constructor(
     private telemetrieService: TelemetrieService,
@@ -46,22 +49,13 @@ export class FormsProfilComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listAffectations = response['data'];
-          // this.listconfigCheckedTrue =
-          //   this.listAffectations.filter((data) => {
-          //     return data.checked === true;
-          //   });
-          // this.listconfigCheckedTrue.forEach((c) => {
-          //   this.checkconsumerList.push(c.id);
-          // });
-          // if (this.listAffectations.length === this.listconfigCheckedTrue.length) {
-          //   this.checkedAllConsumers = true;
-          // }
         },
         error: (error) => {
           this.toastrService.error(error.message);
         }
       })
-  } public onCheckedOneConsumer(consumer: any) {
+  }
+  public onCheckedOneConsumer(consumer: any) {
     if (this.checkconsumerList.includes(consumer.id)) {
       this.checkconsumerList.forEach((value, index) => {
         if (value == consumer.id)
@@ -117,6 +111,28 @@ export class FormsProfilComponent implements OnInit {
       })
   }
 
+  public OnEditOneRowMetrique(item: any) {
+    this.currentMetrique = item;
+    this.clonedMetrique[item.id] = { ...item };
+  }
+
+  public onRowEditMetriqueSave(metrique: any) {
+    const currentMetrique = this.clonedMetrique[metrique.id];
+    const data = {
+      metrique_id: currentMetrique.id,
+      ...(metrique.seuil === null ? { seuil: currentMetrique.seuil } : { seuil: metrique.seuil }),
+      ...(metrique.statut === null ? { statut: currentMetrique.statut } : { statut: metrique.statut })
+    };
+    this.globalMetriquesEditRow.push(data);
+    this.toastrService.info('Enregistrement en attente !', 'EDITION');
+  }
+  public onCancelRowMetrique(metrique: any, index: number) {
+    this.listAffectations[index] = this.clonedMetrique[metrique.id];
+    delete this.clonedMetrique[metrique.id];
+    this.globalMetriquesEditRow.forEach((index) => {
+      this.globalMetriquesEditRow.splice(index, 1);
+    });
+  }
   public initForm(): void {
     this.adminForm = this.fb.group({
       nom: [''],

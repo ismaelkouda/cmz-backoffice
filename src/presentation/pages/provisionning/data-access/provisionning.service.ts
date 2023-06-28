@@ -22,6 +22,8 @@ export class ProvisionningService {
     const url: string = (<string>EndPointUrl.GET_ALL_COMMANDES_SIM);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
+
+  // Ligne Credits
   GetAllLigneCredits(data, page): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_LIGNE_CREDIT).replace('{page}', page);
     return this.http.post(`${this.BASE_URL}${url}`, data);
@@ -34,7 +36,10 @@ export class ProvisionningService {
     const url: string = (<string>EndPointUrl.CANCEL_CREDIT);
     return this.http.put(`${this.BASE_URL}${url}`, data);
   }
-
+  OnStatCredit(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.STAT_CREDIT);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
   //Achats Produits & Services
 
   GetAllAchats(data, page): Observable<any> {
@@ -51,6 +56,14 @@ export class ProvisionningService {
   }
   CreateProformatCommande(data): Observable<any> {
     const url: string = (<string>EndPointUrl.CREATE_COMMANDE_PROFORMAT);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  OnValidate(id): Observable<any> {
+    const url: string = (<string>EndPointUrl.VALIDATE_COMMANDE_PROFORMAT).replace('{id}', id);
+    return this.http.get(`${this.BASE_URL}${url}`);
+  }
+  OnStatAchat(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.STAT_ACHAT);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
 }

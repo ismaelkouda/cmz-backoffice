@@ -2,9 +2,10 @@ import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angu
 import { ToastrService } from 'ngx-toastr';
 import { ParametreSecuriteService } from '../../data-access/parametre-securite.service';
 import { TreeNode } from 'primeng/api';
+import { menuJson } from 'src/assets/menu';
+import { Router } from '@angular/router';
+import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 
-// @ts-ignore
-import menuJson from '../../../../../assets/menu.json';
 
 @Component({
   selector: 'app-forms-profil',
@@ -23,19 +24,24 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
   public selectedItemsDataDirectReg: any;
   public permissions: Array<any> = [];
   public newPermissions: any;
+  public newPermissionSlice: any;
   public selectedNom: string;
   public selectedDescription: string;
   public currentACtion: any;
   constructor(
     private parametreSecuriteService: ParametreSecuriteService,
     private toastrService: ToastrService,
+    private router: Router,
+    private storage: EncodingDataService
   ) {
     this.newPermissions = menuJson;
+    this.newPermissions.slice(1)
   }
 
   ngOnInit() {
     this.isDisabled();
-    this.newPermissions.map(module => {
+    this.newPermissionSlice = this.newPermissions.slice(1)
+    this.newPermissionSlice.map(module => {
       if (module.children) {
         module.children = module.children.map(sous_module => {
           return {
@@ -50,7 +56,7 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
     if (this.currentObject !== undefined) {
       this.selectedNom = this.currentObject.nom;
       this.selectedDescription = this.currentObject.description;
-      this.newPermissions.map(parentN1Permission => {
+      this.newPermissionSlice.map(parentN1Permission => {
         if (this.currentObject.permissions.includes(parentN1Permission.data)) {
           this.selectedItemsDataSource.push(parentN1Permission)
         }
@@ -59,22 +65,6 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
             this.selectedItemsDataSource.push(element)
           }
         })
-        // if (parentN1Permission.data) {
-        //   if (this.currentObject.permissions.includes(parentN1Permission.data)) {
-        //     this.selectedItemsDataSource.push(parentN1Permission);
-        //     parentN1Permission?.children.map(action => {
-        //       if (this.currentObject.permissions.includes(action.data)) {
-        //         this.selectedItemsDataSource.push(action)
-        //       }
-        //     })
-        //   }
-        // } if (!parentN1Permission.data) {
-        //   parentN1Permission.children.map((element) => {
-        //     if (this.currentObject.permissions.includes(element.data)) {
-        //       this.selectedItemsDataSource.push(element)
-        //     }
-        //   })
-        // }
       })
     }
   }
@@ -144,11 +134,6 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
   }
   handleUpdateProfilHabilitation() {
     const selectedItemsDataSource = this.selectedItemsDataSource.map(element => element.data)
-    const data = {
-      nom: this.selectedNom,
-      description: this.selectedDescription,
-      permissions: selectedItemsDataSource
-    }
     this.parametreSecuriteService
       .handleUpdateProfilHabilitation({
         nom: this.selectedNom,
@@ -158,6 +143,9 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.GetAllProfilHabilitations();
           this.toastrService.success(response.message);
+          this.storage.removeData('user');
+          this.storage.removeData('current_menu');
+          this.router.navigateByUrl('auth/login');
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -170,6 +158,6 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    location.reload()
+    //location.reload()
   }
 }

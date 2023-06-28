@@ -2,8 +2,17 @@ import { PatrimoineService } from './../../../patrimoine/data-access/patrimoine.
 import { ToastrService } from 'ngx-toastr';
 import { SupervisionOperationService } from './../../data-access/supervision-operation.service';
 import { Component, OnInit } from '@angular/core';
-import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 
+
+export enum TypesTransactions {
+  ACHAT_SERVICE = 'Achats de Services',
+  ACTIVATION_SIM = 'Activation de SIM',
+  CHANGEMENT_SIM = 'Changement de SIM',
+  SUPERVISION_SIM = 'Supervision de SIM',
+  RESILIATION_SIM = 'Résiliation',
+  DEPOT_VOLUME = 'Dépot de Volume',
+  LIGNE_CREDIT = 'Ligne de credit'
+}
 @Component({
   selector: 'app-alarmes',
   templateUrl: './alarmes.component.html',
@@ -21,18 +30,29 @@ export class AlarmesComponent implements OnInit {
   public filterStatus: string;
   public filtreSelected: string;
 
+  public typeAchat: string = TypesTransactions.ACHAT_SERVICE;
+  public typeActivation: string = TypesTransactions.ACTIVATION_SIM;
+  public typeChangement: string = TypesTransactions.CHANGEMENT_SIM;
+  public typeSupervision: string = TypesTransactions.SUPERVISION_SIM;
+  public typeResiliation: string = TypesTransactions.RESILIATION_SIM;
+  public typeVolume: string = TypesTransactions.DEPOT_VOLUME;
+  public typeLigne: string = TypesTransactions.LIGNE_CREDIT;
+
+
+
   constructor(
     private supervisionOperationService: SupervisionOperationService,
     private toastrService: ToastrService,
     private patrimoineService: PatrimoineService,
   ) {
-    this.filterStatus = 'all';
-    this.filtreSelected = 'Modification SIM';
+
+    this.filterStatus = this.typeAchat;
+    this.filtreSelected = TypesTransactions.ACHAT_SERVICE;
   }
 
   ngOnInit() {
-    this.GetAllTrnasactions();
-    this.GetAllPatrimoine();
+    // this.GetAllTrnasactions();
+    // this.GetAllPatrimoine();
     localStorage.setItem('layout', 'Barcelona');
 
   }
@@ -65,23 +85,6 @@ export class AlarmesComponent implements OnInit {
       })
   }
   filterService(status) {
-    console.log(this.filtreSelected);
     this.filterStatus = status;
-    if (status === 'all') {
-      this.filtreSelected = 'Modification SIM';
-      this.listOperations = this.dataSource;
-    } else if (status === 'synchronisation') {
-      this.filtreSelected = 'Synchronisation';
-      this.listOperations = this.synchroListe;
-    } else if (status === 'prametre_collecte') {
-      this.filtreSelected = 'Seuils Alarmes';
-      this.listOperations = this.parametresListe;
-    } else if (status === 'activations') {
-      this.filtreSelected = 'Activations';
-      this.listOperations = this.activationsListe;
-    } else if (status === 'securite') {
-      this.filtreSelected = 'Sécurité';
-      this.listOperations = this.securitesListe;
-    }
   }
 }

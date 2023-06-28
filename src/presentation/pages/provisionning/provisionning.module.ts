@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ProvisionningRoutingModule } from './provisionning-routing.module';
-
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 //Modules Primeng
 import { TableModule } from 'primeng/table';
@@ -52,7 +52,8 @@ import { LigneCreditComponent } from './ui/ligne-credit/ligne-credit.component';
         InputMaskModule,
         PasswordModule,
         RadioButtonModule,
-        CalendarModule
+        CalendarModule,
+        NgxCaptchaModule
     ],
     declarations: [
         CommandeSimComponent,

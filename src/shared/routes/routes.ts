@@ -1,18 +1,15 @@
 import { Routes } from "@angular/router";
-
 export const DASHBOARD = 'dashboard';
 export const PATRIMOINE = 'patrimoine';
-export const TRANSACTIONS_SIM = 'transactions-sim';
-export const REFERENTIEL_TELEMETRIE = 'ref-telemetrie';
-export const ANALYSE_ALERTE = 'analyse-alerte';
+export const REFERENTIEL_TELEMETRIE = 'ref-supervision';
+export const SUPERVISION_SIM = 'supervision-sim';
 export const SUPERVISION_OPERATIONS = 'operations';
 export const OPERATION_PROVISIONNING = 'provisionning';
 export const ZONE_TRAFIC = 'zone-trafic';
 export const INTERCONNEXION_ECHANGE = 'interconnexion';
 export const SUPERVISION_SYSTEME = 'supervision-systeme';
 export const PARAMETRE_SECURITE = 'parametre-securite'
-
-
+export const OPERATIONS_SIM = 'operations-sim'
 
 export const content: Routes = [
   {
@@ -23,12 +20,6 @@ export const content: Routes = [
   {
     path: PATRIMOINE,
     loadChildren: () => import("../../presentation/pages/patrimoine/patrimoine.module").then((m) => m.PatrimoineModule),
-    data: { title: PATRIMOINE }
-  },
-  {
-    path: TRANSACTIONS_SIM,
-    loadChildren: () => import("../../presentation/pages/transaction/transaction.module").then((m) => m.TransactionModule),
-    data: { title: TRANSACTIONS_SIM }
   },
   {
     path: REFERENTIEL_TELEMETRIE,
@@ -50,9 +41,9 @@ export const content: Routes = [
     data: { title: ZONE_TRAFIC }
   },
   {
-    path: ANALYSE_ALERTE,
+    path: SUPERVISION_SIM,
     loadChildren: () => import("../../presentation/pages/analyse-alerte/analyse-alerte.module").then((m) => m.AnalyseAlerteModule),
-    data: { title: ANALYSE_ALERTE }
+    data: { title: SUPERVISION_SIM }
   },
   {
     path: INTERCONNEXION_ECHANGE,
@@ -69,4 +60,8 @@ export const content: Routes = [
     loadChildren: () => import("../../presentation/pages/parametre-securite/parametre-securite.module").then((m) => m.ParametreSecuriteModule),
     data: { title: PARAMETRE_SECURITE }
   },
+  {
+    path: OPERATIONS_SIM,
+    loadChildren: () => import("../../presentation/pages/operation-sim/operation-sim.module").then((m) => m.OperationSimModule),
+  }
 ];

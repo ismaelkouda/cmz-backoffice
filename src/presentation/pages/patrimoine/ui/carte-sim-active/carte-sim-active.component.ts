@@ -2,11 +2,11 @@ import { SimStatut } from './../../../../../shared/enum/SimStatut.enum';
 import { PatrimoineService } from './../../data-access/patrimoine.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
-import { GetAllPatrimoineUseCase } from 'src/domain/usecases/patrimoine/get-all-patrimoine.usecase';
 import { ToastrService } from 'ngx-toastr';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute } from '@angular/router';
 const Swal = require('sweetalert2');
 
 
@@ -72,7 +72,8 @@ export class CarteSimActiveComponent implements OnInit {
     public settingService: SettingService,
     private patrimoineService: PatrimoineService,
     private clipboardApi: ClipboardService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private activatedRoute: ActivatedRoute
   ) {
     this.listStatus = [SimStatut.ACTIF, SimStatut.SUSPENDU, SimStatut.RESILIE]
   }
@@ -81,7 +82,12 @@ export class CarteSimActiveComponent implements OnInit {
     this.GetAllPatrimoines();
     this.getAllDirectionRegionales();
     this.isFilter();
-    this.disableAction()
+    this.disableAction();
+    this.activatedRoute.data.subscribe(
+      (res) => {
+        console.log("this.activatedRoute.data", res);
+      }
+    )
   }
   public GetAllPatrimoines() {
     this.patrimoineService
@@ -110,7 +116,7 @@ export class CarteSimActiveComponent implements OnInit {
   public onFilter() {
     this.patrimoineService
       .GetAllPatrimoines({
-        direction_regionale_id: this.selectedDirection?.id,
+        niveau_un_id: this.selectedDirection?.id,
         exploitation: this.selectedExploitation?.code,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
@@ -172,7 +178,7 @@ export class CarteSimActiveComponent implements OnInit {
   }
   public onChangeItem(event: any) {
     this.selectedDirection = event.value;
-    this.listExploitations = this.selectedDirection?.exploitations.map(element => {
+    this.listExploitations = this.selectedDirection?.niveaux_deux.map(element => {
       return { ...element, fullName: `${element.nom} [${element.code}]` }
     });
   }

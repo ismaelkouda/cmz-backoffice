@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "Zone_NULL",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::32630" } },
+"features": [
+
+]
+}

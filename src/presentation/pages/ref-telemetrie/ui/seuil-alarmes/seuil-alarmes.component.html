@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="col-sm-12">
-    <app-breadcrumb [title]="'Refrentiel Télémetrie'" [active_item]="'Seuils & Alarmes'"></app-breadcrumb>
+    <app-breadcrumb [title]="'Refrentiel Supervision'" [active_item]="'Seuils & Alarmes'"></app-breadcrumb>
     <div class="card">
       <div class="card-body">
         <div>
@@ -59,7 +59,7 @@
                       <td>{{data?.description}}</td>
                       <td class="text-center">{{data?.type_mesure}}</td>
                       <td class="text-center">
-                        <p-cellEditor>
+                        <!-- <p-cellEditor>
                           <ng-template pTemplate="input">
                             <input class="text-center" [ngStyle]="{width: '8rem'}" pInputText type="number"
                               [(ngModel)]="data.seuil" #data.seuil="ngModel" />
@@ -67,7 +67,9 @@
                           <ng-template pTemplate="output">
                             <span>{{ data.seuil }}</span>
                           </ng-template>
-                        </p-cellEditor>
+                        </p-cellEditor> -->
+                        <span>{{ data.seuil }}</span>
+
                       </td>
                       <td class="text-center">{{data?.unite}}</td>
                       <td class="text-center">

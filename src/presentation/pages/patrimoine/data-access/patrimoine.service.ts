@@ -26,7 +26,14 @@ export class PatrimoineService {
     const url: string = (<string>EndPointUrl.GET_ALL_PATRIMOINES).replace('{page}', page);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
-
+  GetAllCycles(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_CYCLES).replace('{page}', page);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  GetAllUsages(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_USAGES);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
   GetAllTransactions(data, page): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_TRANSACTIONS).replace('{page}', page);
     return this.http.post(`${this.BASE_URL}${url}`, data);
@@ -43,6 +50,10 @@ export class PatrimoineService {
 
   OnChangeStatut(data): Observable<any> {
     const url: string = (<string>EndPointUrl.CHANGE_STATUT);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  OnActiver(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.ACTIVATION_SIM);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
   OnSwaper(data): Observable<any> {

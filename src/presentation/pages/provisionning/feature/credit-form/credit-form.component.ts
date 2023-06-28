@@ -4,6 +4,10 @@ import { ToastrService } from 'ngx-toastr';
 import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+// @ts-ignore
+import appConfig from '../../../../../assets/config/app-config.json';
+
+
 @Component({
   selector: 'app-credit-form',
   templateUrl: './credit-form.component.html',
@@ -24,7 +28,7 @@ export class CreditFormComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
-
+  public filUrl: string;
   creditForm: FormGroup;
 
 
@@ -38,6 +42,7 @@ export class CreditFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.filUrl = appConfig.filUrl
     this.isFilter();
     this.initForm();
     if (this.currentObject !== undefined) {
