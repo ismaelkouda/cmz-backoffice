@@ -81,6 +81,8 @@
                     <td class="td-actions">
                       <p-button icon="pi pi-pencil" styleClass="p-button-secondary" pTooltip="Editer"
                         tooltipPosition="top" (click)="onEditForm(data)"></p-button>
+                      <p-button icon="pi pi-eye" styleClass="p-button-dark" pTooltip="Editer" tooltipPosition="top"
+                        (click)="onShowForm(data)"></p-button>
                       <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
                               " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
                               ? 'Désactiver'

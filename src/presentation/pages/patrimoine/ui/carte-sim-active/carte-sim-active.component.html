@@ -6,17 +6,17 @@
         <div class="card-body">
           <div [hidden]="!initialView">
             <div class="row filter_wrapper">
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Direction Régionale</b>
+                    <b>{{firstLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listDirections" optionLabel="nom" (onChange)="onChangeItem($event)"
-                    [showClear]="true" placeholder="Direction Régionale">
+                  <p-dropdown [options]="listDirections" optionLabel="fullName" (onChange)="onChangeItem($event)"
+                    [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
-                          {{data.nom}}
+                          {{data.fullName}}
                         </div>
                       </div>
                     </ng-template>
@@ -26,14 +26,31 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Exploitation</b>
+                    <b>{{secondLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listExploitations" optionLabel="fullName" [(ngModel)]="selectedExploitation"
-                    placeholder="Exploitation">>
+                  <p-dropdown [options]="listExploitations" optionLabel="fullName" optionLabel="nom" [filter]="true"
+                    [(ngModel)]="selectedExploitation" [showClear]="true" [placeholder]="secondLevelLibelle">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
                           {{data.fullName}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div style="width: 13rem;">
+                <div class="form-group">
+                  <label>
+                    <b>{{thirdLevelLibelle}}</b>
+                  </label>
+                  <p-dropdown [options]="listActivites" [(ngModel)]="selectedUsage" [showClear]="true"
+                    [placeholder]="thirdLevelLibelle">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data}}
                         </div>
                       </div>
                     </ng-template>
@@ -48,7 +65,7 @@
                   <input placeholder="Numéro" [(ngModel)]="selectedSim" type="text" pInputText />
                 </div>
               </div>
-              <div class="col-md-2">
+              <div style="width: 13rem;">
                 <div class="form-group">
                   <label>
                     <b>IMSI</b>
@@ -56,7 +73,7 @@
                   <input placeholder="Numéro" [(ngModel)]="selectedimsi" type="text" pInputText />
                 </div>
               </div>
-              <div class="col-md-2">
+              <div style="width: 13rem;">
                 <div class="form-group">
                   <label>
                     <b>Statut</b>
@@ -73,7 +90,7 @@
                   </p-dropdown>
                 </div>
               </div>
-              <div class="col-md-1">
+              <div style="width: 4rem;">
                 <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
                   [disabled]="isFilter()"></p-button>
               </div>
@@ -89,7 +106,7 @@
               <div class="table_header mt-2">
                 <div class="table_header__legende">
                   <h4 class="pt-2">
-                    <b>Liste 50 dernières SIM Actives mises à jour</b>
+                    <b>Liste 50 dernières SIM mises à jour</b>
                   </h4>
                 </div>
                 <div class="table_header__input"></div>
@@ -97,26 +114,25 @@
               <table [ngClass]="['native_table table']">
                 <thead>
                   <th class="text-center">#</th>
-                  <th>D.Régionale</th>
-                  <th>Exploitation</th>
+                  <th>{{firstLevelLibelle}}</th>
+                  <th>{{secondLevelLibelle}}</th>
                   <th class="text-center">MSISDN</th>
                   <th class="text-center">IMSI</th>
-                  <th>Zone Géographique</th>
-                  <th class="text-center">Usage</th>
+                  <th class="text-center">{{thirdLevelLibelle}}</th>
+                  <th class="text-center">Bénéficiaire</th>
                   <th>Statut</th>
-                  <th class="text-center">Raccourcis</th>
                   <th class="text-center">Actions</th>
                 </thead>
                 <tbody>
                   <tr
                     *ngFor="let data of listPatrimoines | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                     <td>{{ (this.offset + i)}}</td>
-                    <td>{{data.direction_regionale?.code}}</td>
+                    <td>{{data.direction_regionale?.nom}} [{{data.direction_regionale?.code}}]</td>
                     <td>{{data.exploitation?.nom}} [{{data.exploitation?.code}}]</td>
                     <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data.msisdn}}</td>
-                    <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
-                    <td style="text-align: left !important;">{{data?.zone_geographique}}</td>
-                    <td>{{data?.usage}}</td>
+                    <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi ? data?.imsi : 'N/A' }}</td>
+                    <td>{{data?.zone?.nom}}</td>
+                    <td>{{data?.nom_prenoms}}</td>
                     <td>
                       <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
                         [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
@@ -124,14 +140,13 @@
                       </span>
                     </td>
                     <td class="td-actions">
-                      <p-button icon="pi pi-map-marker" pTooltip="Localisation" tooltipPosition="top"
-                        (click)="showDialog('map',data)" styleClass="p-button-success p-button-outlined"></p-button>
-                      <p-button icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" (click)="onShowForm(data)"
-                        styleClass="p-button-dark"></p-button>
-                      <p-button icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top" (click)="onEditForm(data)"
-                        styleClass="p-button-secondary"></p-button>
-                    </td>
-                    <td class="text-center">
+                      <button pButton icon="pi pi-map-marker" [disabled]="data.statut ==='inactif'"
+                        pTooltip="Localisation" tooltipPosition="top" (click)="showDialog('map',data)"
+                        class="p-button-success p-button-outlined"></button>
+                      <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" (click)="onShowForm(data)"
+                        class="p-button-dark"></button>
+                      <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+                        (click)="onEditForm(data)" class="p-button-secondary"></button>
                       <div ngbDropdown>
                         <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Actions</button>
                         <div ngbDropdownMenu [ngStyle]="{width: '2rem'}">
@@ -140,6 +155,15 @@
                         </div>
                       </div>
                     </td>
+                    <!-- <td class="text-center">
+                      <div ngbDropdown>
+                        <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Actions</button>
+                        <div ngbDropdownMenu [ngStyle]="{width: '2rem'}">
+                          <button ngbDropdownItem (click)="suspensionForm(content,data)">Suspendre</button>
+                          <button ngbDropdownItem (click)="resilierForm(content,data)">Resiler</button>
+                        </div>
+                      </div>
+                    </td> -->
                   </tr>
                 </tbody>
               </table>

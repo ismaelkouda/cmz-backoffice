@@ -11,6 +11,7 @@ import { EndPointUrl } from '../../data-access/api.enum';
 import appConfig from '../../../../../assets/config/app-config.json';
 import { environment } from 'src/environments/environment.prod';
 import { SettingService } from 'src/shared/services/setting.service';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
   selector: 'app-suspension-form',
@@ -47,7 +48,7 @@ export class SuspensionFormComponent implements OnInit {
   public p: number = 1;
   public currentListSimsPage: number;
   public siteKey: string;
-
+  public currentRecaptcha: string;
   //Statut
   public statutActif: string = SimStatut.ACTIF;
   public statutSuspendu: string = SimStatut.SUSPENDU;
@@ -64,12 +65,14 @@ export class SuspensionFormComponent implements OnInit {
   public listDirections: Array<any> = [];
   public listExploitations: Array<any> = [];
   public listUsages: Array<any> = [];
+  public listActivites: Array<any> = [];
   public selectedImsi: string;
   public selectedDescription: string;
   public selectedPiece: any;
   public selectedMsisdn: string;
   public selectedDirection: any;
   public selectedExploitation: any;
+  public selectedActivite: any;
   public selectedBeneficaire: string;
   public selectedUsage: any;
   public selectedEmail: string;
@@ -82,27 +85,33 @@ export class SuspensionFormComponent implements OnInit {
   public sourceOrange: string = 'orange';
   public sourceValue: string = this.sourceStock;
 
+  //Mapping
+  firstLevelLibelle: string;
+  secondLevelLibelle: string;
+  thirdLevelLibelle: string;
+
 
   constructor(
     private patrimoineService: PatrimoineService,
     private settingService: SettingService,
     private toastrService: ToastrService,
-    private httpClient: HttpClient
-  ) { }
+    private httpClient: HttpClient,
+    private mappingService: MappingService
+  ) {
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+  }
 
   ngOnInit() {
     this.siteKey = environment.recaptcha.siteKey;
     this.getAllDirectionRegionales();
-    this.getAllUsages()
+    this.getAllUsages();
+    this.getAllZones();
     this.isFilter();
-    this.isActiver();
-    this.isSuspendu();
-    this.isResilier();
-    this.isSwaper();
+    this.isValidateActivation();
     this.isVerify()
   }
-
-
   close() {
     this.formsView.emit(false);
   }
@@ -160,10 +169,22 @@ export class SuspensionFormComponent implements OnInit {
       .GetAllUsages({})
       .subscribe({
         next: (response) => {
-          this.listUsages = response.data
+          this.listUsages = response['data'];
         },
         error: (error) => {
           this.toastrService.error(error.message);
+        }
+      })
+  }
+  public getAllZones(): void {
+    this.settingService
+      .getAllZones({})
+      .subscribe({
+        next: (response) => {
+          this.listActivites = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.message)
         }
       })
   }
@@ -210,6 +231,7 @@ export class SuspensionFormComponent implements OnInit {
         bac_a_pioche: this.sourceValue,
         niveau_un_id: this.selectedDirection?.id,
         niveau_deux_id: this.selectedExploitation,
+        niveau_trois_id: this.selectedActivite,
         beneficiaire: this.selectedBeneficaire,
         usage_id: this.selectedUsage,
         adresse_email: this.selectedEmail,
@@ -291,17 +313,19 @@ export class SuspensionFormComponent implements OnInit {
   public isFilter(): boolean {
     return !this.selectedValue ? true : false
   }
-  public isActiver(): boolean {
-    return (this.listPatrimoine.length === 0 || (this.currentPatrimoine?.statut === this.statutActif || this.currentPatrimoine?.statut === this.statutResilier)) ? true : false
-  }
-  public isSuspendu(): boolean {
-    return (this.listPatrimoine.length === 0 || (this.currentPatrimoine?.statut === this.statutSuspendu || this.currentPatrimoine?.statut === this.statutResilier)) ? true : false
-  }
-  public isResilier(): boolean {
-    return (this.listPatrimoine.length === 0 || (this.currentPatrimoine?.statut === this.statutResilier)) ? true : false
-  }
-  public isSwaper(): boolean {
-    return (this.listPatrimoine.length === 0 || (this.currentPatrimoine?.statut === this.statutSwaper || this.currentPatrimoine?.statut === this.statutResilier)) ? true : false
+  public isValidateActivation(): boolean {
+    return (
+      // !this.currentRecaptcha ||
+      !this.selectedDirection ||
+      !this.selectedExploitation ||
+      !this.selectedActivite ||
+      !this.selectedBeneficaire ||
+      !this.selectedUsage ||
+      !this.selectedEmail ||
+      !this.selectedAdresseGeo ||
+      !this.selectedLongitude ||
+      !this.selectedLatitude
+    ) ? true : false
   }
 
 }

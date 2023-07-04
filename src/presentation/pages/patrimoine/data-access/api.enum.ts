@@ -9,6 +9,7 @@ export const enum EndPointUrl {
     SWAPER_SIM = 'patrimoine-sim/transactions/demande_swap',
     VOLUME_DATA = 'patrimoine-sim/transactions/demande_volume_data',
     //Transactions
-    GET_ALL_TRANSACTIONS = 'patrimoine-sim/transactions/all?page={page}'
-
+    GET_ALL_TRANSACTIONS = 'patrimoine-sim/transactions/all?page={page}',
+    GET_ALL_DEPARTEMENT = 'analyse-alerte/departements/all',
+    GET_ALL_COMMUNE = 'analyse-alerte/communes/all',
 }

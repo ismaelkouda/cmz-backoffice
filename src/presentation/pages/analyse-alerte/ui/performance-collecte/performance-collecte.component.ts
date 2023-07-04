@@ -26,7 +26,7 @@ export class PerformanceCollecteComponent implements OnInit {
   public onVisualiserTrafic() {
     this.showIframe = true;
     this.onDialogMaximized(true);
-    this.visualUrl = "http://10.10.10.83:3000/d/106TI5w4k/tb-analyse-du-trafic-par-sim-orange?orgId=1&from=now-6h&to=now&var-zone=a&var-apn=cie"
+    this.visualUrl = "http://10.10.10.93:50200/d/XLhNXou4z/tb-approvisionnement?orgId=1"
   }
 
   public hideDialog() {

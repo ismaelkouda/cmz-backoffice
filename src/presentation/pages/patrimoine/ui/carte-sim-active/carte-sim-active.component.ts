@@ -1,4 +1,7 @@
+import { MappingService } from './../../../../../shared/services/mapping.service';
 import { SimStatut } from './../../../../../shared/enum/SimStatut.enum';
+import { Activity } from './../../../../../shared/enum/Activity.enum';
+
 import { PatrimoineService } from './../../data-access/patrimoine.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
@@ -32,15 +35,23 @@ export class CarteSimActiveComponent implements OnInit {
   public currentComposant: any;
   public listDirections: Array<any> = [];
   public listExploitations: Array<any> = [];
-  public listZones: Array<any> = [];
+  public listUsages: Array<any> = [];
   public selectedDirection: any;
   public selectedExploitation: any;
   public selectedSim: string;
   public selectedimsi: string;
   public selectedStatut: string;
+  public selectedUsage: string;
   public currentData: any;
   public listStatus: Array<any> = [];
   public selectedDescription: string;
+
+  //SEMLEX
+  public listActivites: Array<any> = [];
+  public listDepartements: Array<any> = [];
+  public listCommunes: Array<any> = [];
+  public selectedDepartement: any;
+  public selectedCommune: any;
 
   @ViewChild('parcelleMap') parcelleMap: ElementRef;
 
@@ -67,20 +78,40 @@ export class CarteSimActiveComponent implements OnInit {
     tms: false,
   })
 
+
+  //Mapping
+  firstLevelLibelle: string;
+  secondLevelLibelle: string;
+  thirdLevelLibelle: string;
+
   constructor(
     public toastrService: ToastrService,
     public settingService: SettingService,
     private patrimoineService: PatrimoineService,
     private clipboardApi: ClipboardService,
     private modalService: NgbModal,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private mappingService: MappingService
   ) {
     this.listStatus = [SimStatut.ACTIF, SimStatut.SUSPENDU, SimStatut.RESILIE]
+    this.listActivites = [
+      Activity.CENTRE_ETAT_CIVITE,
+      Activity.CENTRE_SANTE,
+      Activity.CENTRE_ENROLLEMENT,
+      Activity.CENTRE_COORDINATION,
+      Activity.CENTRE_DISTRIBUTION,
+    ];
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
   }
 
   ngOnInit() {
     this.GetAllPatrimoines();
     this.getAllDirectionRegionales();
+    //this.GetAllUsages();
+
+    //this.GetAllDepartements();
     this.isFilter();
     this.disableAction();
     this.activatedRoute.data.subscribe(
@@ -117,10 +148,11 @@ export class CarteSimActiveComponent implements OnInit {
     this.patrimoineService
       .GetAllPatrimoines({
         niveau_un_id: this.selectedDirection?.id,
-        exploitation: this.selectedExploitation?.code,
+        niveau_deux_id: this.selectedExploitation?.id,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
-        statut: this.selectedStatut
+        statut: this.selectedStatut,
+        usage_id: this.selectedUsage
       }, this.p)
       .subscribe({
         next: (response) => {
@@ -140,7 +172,36 @@ export class CarteSimActiveComponent implements OnInit {
       .getAllDirectionRegionales({})
       .subscribe({
         next: (response) => {
-          this.listDirections = response.data
+          // this.listDirections = response['data'];
+          this.listDirections = response['data'].map(element => {
+            return { ...element, fullName: `${element.nom} [${element.code}]` }
+          });
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+  public GetAllDepartements() {
+    this.patrimoineService
+      .GetAllDepartements({})
+      .subscribe({
+        next: (response) => {
+          this.listDepartements = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+
+
+  public GetAllUsages() {
+    this.patrimoineService
+      .GetAllUsages({})
+      .subscribe({
+        next: (response) => {
+          this.listUsages = response['data']
         },
         error: (error) => {
           this.toastrService.error(error.message);
@@ -181,6 +242,8 @@ export class CarteSimActiveComponent implements OnInit {
     this.listExploitations = this.selectedDirection?.niveaux_deux.map(element => {
       return { ...element, fullName: `${element.nom} [${element.code}]` }
     });
+    // this.selectedDepartement = event.value;
+    // this.listCommunes = this.selectedDepartement?.communes;
   }
   public onInitForm(): void {
     this.initialView = false;
@@ -221,10 +284,10 @@ export class CarteSimActiveComponent implements OnInit {
       .setIcon(customIcon)
       .bindPopup(
         "<div>" + "" +
-        "<strong>Numero SIM :</strong>" + "<span>" + this.currentComposant.msisdn + "</span>" + "<br>" +
-        "<strong>Direction Regionale :</strong>" + "<span>" + this.currentComposant?.direction_regionale.code + "</span>" + "<br>" +
-        "<strong>Exploitation :</strong>" + "<span>" + this.currentComposant?.exploitation?.code + "</span>" + "<br>" +
-        "<strong>Code Usage :</strong>" + "<span>" + this.currentComposant.usage + "</span>" + "<br>" +
+        "<strong>Numero SIM :</strong>" + "<span>" + this.currentComposant?.msisdn + "</span>" + "<br>" +
+        "<strong>" + this.firstLevelLibelle + ":</strong>" + "<span>" + this.currentComposant?.direction_regionale?.nom + "</span>" + "<br>" +
+        "<strong>" + this.secondLevelLibelle + ":</strong>" + "<span>" + this.currentComposant?.exploitation?.nom + "</span>" + "<br>" +
+        "<strong>Statut:</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
         "</div>",
       ).openPopup();
     marker.addTo(this.map);
@@ -267,7 +330,8 @@ export class CarteSimActiveComponent implements OnInit {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
   public isFilter(): boolean {
-    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi && !this.selectedStatut) ? true : false
+    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi && !this.selectedStatut && !this.selectedUsage) ? true : false
+
   }
   public disableAction(): boolean {
     return (this.listPatrimoines === undefined || this.listPatrimoines?.length === 0) ? true : false

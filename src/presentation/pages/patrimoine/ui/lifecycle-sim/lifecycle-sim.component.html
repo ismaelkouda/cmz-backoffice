@@ -9,10 +9,10 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Direction Régionale</b>
+                    <b>Département</b>
                   </label>
-                  <p-dropdown [options]="listDirections" optionLabel="nom" (onChange)="onChangeItem($event)"
-                    [showClear]="true" placeholder="D. Régionale">
+                  <p-dropdown [options]="" optionLabel="nom" (onChange)="onChangeItem($event)" [showClear]="true"
+                    placeholder="Département">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -26,10 +26,10 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Exploitation</b>
+                    <b>Commune/Sous-Préfecture</b>
                   </label>
-                  <p-dropdown [options]="listExploitations" optionLabel="fullName" [(ngModel)]="selectedExploitation"
-                    placeholder="Exploitation">>
+                  <p-dropdown [options]="" optionLabel="fullName" [(ngModel)]="selectedExploitation"
+                    placeholder="Commune">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -40,14 +40,6 @@
                   </p-dropdown>
                 </div>
               </div>
-              <!-- <div class="col-md-2">
-                <div class="form-group">
-                  <label>
-                    <b>MSISDN</b>
-                  </label>
-                  <input placeholder="Numéro" [(ngModel)]="selectedSim" type="text" pInputText />
-                </div>
-              </div> -->
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
@@ -84,10 +76,10 @@
                 <thead>
                   <th>#</th>
                   <th>Date</th>
-                  <th>User </th>
                   <th>Operation</th>
                   <th>Statut Avant</th>
                   <th>Statut Après</th>
+                  <th>User </th>
                   <th class="text-center">Action</th>
                 </thead>
                 <tbody>

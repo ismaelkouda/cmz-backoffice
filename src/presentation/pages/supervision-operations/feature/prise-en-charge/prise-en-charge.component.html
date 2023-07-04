@@ -152,18 +152,20 @@
         <br />
         <ng-template pTemplate="header">
           <tr>
-            <th pSortableColumn="id">#</th>
-            <th pSortableColumn="date">Date</th>
-            <th pSortableColumn="num_transaction">N°Transaction</th>
+            <th>#</th>
+            <th>Date</th>
+            <th>N°Transaction</th>
             <th pSortableColumn="dr">DR</th>
-            <th [ngStyle]="{ width: '200px' }" pSortableColumn="exploitation">Exploitation</th>
-            <th pSortableColumn="operation">Opération</th>
-            <th pSortableColumn="code_erreur">Code Rapport</th>
-            <th pSortableColumn="message">Message</th>
-            <th pSortableColumn="affectation">Affectation</th>
-            <th pSortableColumn="intervenant">Intervenant</th>
+            <th [ngStyle]="{ width: '200px' }">Exploitation</th>
+            <th>Opération</th>
+            <th>Code Rapport</th>
+            <th>Message</th>
+            <th>Affectation</th>
+            <th>Intervenant</th>
             <th>Action</th>
           </tr>
+          pi-info-circle
+
         </ng-template>
         <ng-template let-i="rowIndex" pTemplate="body" let-prise>
           <tr>

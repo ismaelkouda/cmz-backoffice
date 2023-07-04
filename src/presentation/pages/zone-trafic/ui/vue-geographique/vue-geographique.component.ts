@@ -1,9 +1,8 @@
 import { ZoneTraficService } from './../../data-access/zone-trafic.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { SettingService } from 'src/shared/services/setting.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { HttpClient } from '@angular/common/http';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
   selector: 'app-vue-geographique',
@@ -28,21 +27,28 @@ export class VueGeographiqueComponent implements OnInit {
   public selectedDepartement: any;
   public selectedCommune: any;
   public selectedZone: any;
+  public currentObject: any;
+  public initialView: boolean = true;
+  public formsView: boolean = false;
+
+  //Mapping
+  firstLevelLibelle: string;
+  secondLevelLibelle: string;
+  thirdLevelLibelle: string;
 
   constructor(
     private zoneTraficService: ZoneTraficService,
     private toastrService: ToastrService,
-    private settingService: SettingService,
     private clipboardApi: ClipboardService,
-    private httpClient: HttpClient,
-
-
-  ) { }
+    private mappingService: MappingService,
+  ) {
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+  }
 
   ngOnInit() {
     this.GetAllZOneTrafic();
     this.GetAllDepartements();
-    this.GetAllCommunes()
     this.isFilter();
   }
 
@@ -70,9 +76,19 @@ export class VueGeographiqueComponent implements OnInit {
       this.onFilter()
     }
   }
+
+  public onInitForm(data): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = data;
+  }
+  public pushStatutView(event: boolean): void {
+    this.formsView = event;
+    this.initialView = !event;
+  }
   public GetAllDepartements() {
     this.zoneTraficService
-      .GetAllDepartements()
+      .GetAllDepartements({})
       .subscribe({
         next: (response) => {
           this.listDepartements = response['data'];
@@ -82,34 +98,10 @@ export class VueGeographiqueComponent implements OnInit {
         }
       })
   }
-  public GetAllCommunes() {
-    this.zoneTraficService
-      .GetAllCommunes()
-      .subscribe({
-        next: (response) => {
-          this.listCommunes = response['data'];
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
-        }
-      })
-  }
-  showMap(data) {
-    if (data.poste_distributions_count === 0) {
-      return
-    } else {
-      this.currentZone = data;
-      this.GetPositionSimGeojson(data.id);
-      this.maxi = false;
-    }
-  }
-
-  hideDialog() {
-    this.display = false;
-  }
 
   onChangeItem(event: any) {
     this.selectedDepartement = event.value;
+    this.listCommunes = this.selectedDepartement?.communes;
   }
   onMaximized(e) {
     this.maxi = e.maximized;
@@ -141,30 +133,30 @@ export class VueGeographiqueComponent implements OnInit {
       })
   }
   GetPositionSimGeojson(id: number) {
-
-    this.httpClient.get("assets/site.geojson")
-      .subscribe({
-        next: (res: any) => {
-          this.datas = res;
-          this.display = true;
+    this.zoneTraficService
+      .GetPositionSimGeojson(id).subscribe({
+        next: (response) => {
+          this.datas = response.data;
           this.onDialogMaximized(true);
-          //this.datas = res.data;
-        }, error: (error) => {
+          this.display = true;
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
         }
       })
+  }
+  showMap(data) {
+    if (data.poste_distributions_count === 0) {
+      return
+    } else {
+      this.currentZone = data;
+      this.GetPositionSimGeojson(data.id);
+      this.maxi = false;
+    }
+  }
 
-    // this.zoneTraficService
-    //   .GetPositionSimGeojson({
-    //     niveau_deux_id: id
-    //   }).subscribe({
-    //     next: (response) => {
-    //       this.datas = response.data;
-    //       this.display = true;
-    //     },
-    //     error: (error) => {
-    //       this.toastrService.error(error.message);
-    //     }
-    //   })
+  hideDialog() {
+    this.display = false;
   }
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);

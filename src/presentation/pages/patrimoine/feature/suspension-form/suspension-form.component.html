@@ -68,74 +68,37 @@
       </div>
     </fieldset>
     <div>
-      <!-- <fieldset>
-        <legend [ngStyle]="{width: '12rem'}">
-          <b>Informations SIM</b>
-        </legend>
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>
-                <b>IMSI<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" placeholder="IMSI" pInputText />
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>
-                <b>Code PIN<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" placeholder="Code PIN" pInputText />
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>
-                <b>Code PUK<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" placeholder="Code PUK" pInputText />
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>
-                <b>Code PUK 2<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" placeholder="Code PUK 2" pInputText />
-            </div>
-          </div>
-        </div>
-      </fieldset> -->
       <fieldset>
         <legend [ngStyle]="{width: '18rem'}">
           <b>Informations d'identifications</b>
         </legend>
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <label>
-                <b>Direction Régionale<span class="text-danger">*</span></b>
+                <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
               <p-dropdown [options]="listDirections" [(ngModel)]="selectedDirection" optionLabel="nom"
-                (onChange)="onChangeItem($event)" placeholder="Direction Régionale">
+                (onChange)="onChangeItem($event)" [showClear]="true" [filter]="true" filterBy="nom"
+                [placeholder]="firstLevelLibelle">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
-                      {{data.nom}}
+                      {{data.nom}} [{{data.code}}]
                     </div>
                   </div>
                 </ng-template>
               </p-dropdown>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <label>
-                <b>Exploitation<span class="text-danger">*</span></b>
+                <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
               <p-dropdown [options]="listExploitations" [(ngModel)]="selectedExploitation" optionLabel="fullName"
-                optionValue="id">
+                optionValue="id" [showClear]="true" [filter]="true" filterBy="fullName"
+                [placeholder]="secondLevelLibelle">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
@@ -146,7 +109,26 @@
               </p-dropdown>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
+              </label>
+              <p-dropdown [options]="listActivites" [(ngModel)]="selectedActivite" optionLabel="nom"
+                [placeholder]="thirdLevelLibelle" optionValue="id">
+                <ng-template let-data pTemplate="item">
+                  <div class="country-item">
+                    <div>
+                      {{data.nom}}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
             <div class="form-group">
               <label>
                 <b>Usage<span class="text-danger">*</span></b>
@@ -163,7 +145,7 @@
               </p-dropdown>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <label>
                 <b>Bénéficiaire<span class="text-danger">*</span></b>
@@ -171,9 +153,7 @@
               <input type="text" [(ngModel)]="selectedBeneficaire" placeholder="Bénéficiaire" pInputText />
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <label>
                 <b>Adresse mail<span class="text-danger">*</span></b>
@@ -181,7 +161,9 @@
               <input type="text" [(ngModel)]="selectedEmail" placeholder="Adresse Email" pInputText />
             </div>
           </div>
-          <div class="col-md-3">
+        </div>
+        <div class="row">
+          <div class="col-md-4">
             <div class="form-group">
               <label>
                 <b>Adresse géographique</b>
@@ -189,7 +171,7 @@
               <input type="text" [(ngModel)]="selectedAdresseGeo" placeholder="Adresse Geo" pInputText />
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <label>
                 <b>Latitude<span class="text-danger">*</span></b>
@@ -197,7 +179,7 @@
               <input type="text" [(ngModel)]="selectedLatitude" placeholder="Latitude" pInputText />
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="form-group">
               <label>
                 <b>Longitude<span class="text-danger">*</span></b>
@@ -265,7 +247,7 @@
           <div class="col-md-3">
             <div class="form-group">
               <label>
-                <b>Statut</b>
+                <b>Statut Contrat</b>
               </label>
               <input type="text" [(ngModel)]="currentPatrimoine.statut" style="text-transform: uppercase;"
                 [disabled]="true" pInputText />
@@ -276,7 +258,7 @@
               <label>
                 <b>Bénéficiaire</b>
               </label>
-              <input type="text" [(ngModel)]="currentPatrimoine.statut" [disabled]="true" pInputText />
+              <input type="text" [(ngModel)]="currentPatrimoine.nom_prenoms" [disabled]="true" pInputText />
             </div>
           </div>
         </div>
@@ -350,10 +332,10 @@
       <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha">
       </ngx-recaptcha2>
       <p-button *ngIf="selectedActionValue !== activation" style="float: right;margin-top: 1rem;" label="Soumettre"
-        styleClass="p-button-success" [disabled]="!selectedDescription || !currentRecaptcha"
-        (click)="handleSaveNewTransaction()"></p-button>
+        styleClass="p-button-success" [disabled]="!selectedDescription" (click)="handleSaveNewTransaction()"></p-button>
       <p-button *ngIf="selectedActionValue === activation" style="float: right;margin-top: 1rem;" label="Soumettre"
-        styleClass="p-button-success" [disabled]="!currentRecaptcha" (click)="handleSaveNewTransaction()"></p-button>
+        styleClass="p-button-success" [disabled]="isValidateActivation()"
+        (click)="handleSaveNewTransaction()"></p-button>
     </div>
   </div>
 

@@ -1,6 +1,7 @@
 export const enum EndPointUrl {
 
     GET_ALL_REFERENTIEL_TELEMETRIE = 'profil-supervision/referentiel-telemetriques/all',
+    SAVE_PROFIL_SUPERVISION = 'profil-supervision/referentiel-telemetriques/all',
     GET_METRIQUES_BY_PROFIL = 'profil-supervision/profils/{id}/metriques',
     GET_ALL_PROFILS_SUPERVISION = 'profil-supervision/profils/all',
     ACTIVATE_PROFIL = 'profil-supervision/profils/{id}/activer',

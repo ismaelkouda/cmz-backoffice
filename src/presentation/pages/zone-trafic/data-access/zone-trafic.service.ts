@@ -18,9 +18,9 @@ export class ZoneTraficService {
     private http: HttpClient
   ) { }
 
-  GetPositionSimGeojson(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.POSITION_SIM_GEOJSON);
-    return this.http.post(`${this.BASE_URL}${url}`, data);
+  GetPositionSimGeojson(id): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_TRAFIC_GEOJSON).replace('{id}', id);
+    return this.http.get(`${this.BASE_URL}${url}`);
   }
 
   GetAllZOneTrafic(data, page): Observable<any> {
@@ -28,13 +28,13 @@ export class ZoneTraficService {
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
 
-  GetAllDepartements(): Observable<any> {
+  GetAllDepartements(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_DEPARTEMENT);
-    return this.http.get(`${this.BASE_URL}${url}`);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
   }
 
-  GetAllCommunes(): Observable<any> {
+  GetAllCommunes(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_COMMUNE);
-    return this.http.get(`${this.BASE_URL}${url}`);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
   }
 }

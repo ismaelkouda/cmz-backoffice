@@ -130,7 +130,7 @@
                         (click)="onShowForm(data)"></p-button>
                       <button [disabled]="data?.statut !== 'en-cours'" [ngClass]="'p-button-secondary'" pButton pRipple
                         icon="pi pi-pencil
-                        " [pTooltip]="'Editer'" (click)="onEditForm(data)" tooltipPosition="top">
+                        " [pTooltip]="'Editer'" [disabled]="true" (click)="onEditForm(data)" tooltipPosition="top">
                       </button>
                       <button [disabled]="data?.statut !== 'en-cours'" [ngClass]="'p-button-danger'" pButton pRipple
                         icon="pi pi-times

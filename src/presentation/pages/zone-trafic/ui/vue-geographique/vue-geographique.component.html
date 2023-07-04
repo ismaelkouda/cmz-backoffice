@@ -1,18 +1,18 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12">
-      <app-breadcrumb [title]="'Supervision des SIM'" [active_item]="'Zones Exploitations'"></app-breadcrumb>
+      <app-breadcrumb [title]="'Supervision des SIM'" [active_item]="'Zones Trafic'"></app-breadcrumb>
       <div class="card">
         <div class="card-body">
-          <div>
+          <div [hidden]="!initialView">
             <div class="row filter_wrapper">
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Département</b>
+                    <b>{{firstLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listDepartements" optionLabel="libelle" (onChange)="onChangeItem($event)"
-                    [showClear]="true" placeholder="Département">
+                  <p-dropdown [options]="listDepartements" optionLabel="libelle" [filter]="true" filterBy="libelle"
+                    (onChange)="onChangeItem($event)" [showClear]="true" [placeholder]="firstLevelLibelle">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -26,10 +26,10 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Commune/Sous-Préfecture</b>
+                    <b>{{secondLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listCommunes" optionLabel="libelle" [(ngModel)]="selectedCommune"
-                    [showClear]="true" placeholder="Commune" optionValue="id">
+                  <p-dropdown [options]="listCommunes" optionLabel="libelle" [filter]="true" filterBy="libelle"
+                    [(ngModel)]="selectedCommune" optionValue="id">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -72,8 +72,8 @@
               <table [ngClass]="['native_table table']">
                 <thead>
                   <th class="text-center">#</th>
-                  <th>Département</th>
-                  <th class="text-center">Commune/Sous-Préfecture</th>
+                  <th>{{firstLevelLibelle}}</th>
+                  <th class="text-center">{{secondLevelLibelle}}</th>
                   <th class="text-center">Zone Trafic</th>
                   <th class="text-center"># Sites</th>
                   <th class="text-center" [ngStyle]="{width: '2rem'}">Action</th>
@@ -90,8 +90,8 @@
                       <p-button icon="pi pi-map-marker" [pTooltip]="data.sims_count === 0 ? '' : 'Vue géographique'"
                         tooltipPosition="top" [disabled]="data.sims_count === 0" (click)="showMap(data)"
                         [styleClass]="data.sims_count === 0 ? 'p-button-success p-button-outlined' : 'p-button-success'"></p-button>
-                      <p-button icon="pi pi-eye" pTooltip="Voir Sites" tooltipPosition="top"
-                        styleClass="p-button-dark"></p-button>
+                      <p-button icon="pi pi-eye" pTooltip="Voir Sites" tooltipPosition="top" styleClass="p-button-dark"
+                        (click)="onInitForm(data)"></p-button>
                     </td>
                   </tr>
                 </tbody>
@@ -102,22 +102,22 @@
               </div>
             </div>
           </div>
+          <app-sites-wrapper [currentObject]="currentObject" *ngIf="formsView"
+            (formsView)="pushStatutView($event)"></app-sites-wrapper>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 <p-dialog [(visible)]="display" position="bottom-right" (onHide)="hideDialog()" [style]="{ width: '100%' }"
   (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true" [maximizable]="true" [draggable]="false"
   [resizable]="false">
   <ng-template pTemplate="header">
     <h3>
-      <b [style]="{ color: '#FFFFFF' }">Zone de Trafic: <u class="current_values">[]</u></b>
+      <b [style]="{ color: '#FFFFFF' }">Zone de Trafic: <u class="current_values">[{{currentZone?.libelle}}]</u></b>
     </h3>
   </ng-template>
   <ng-template pTemplate="content">
-    <!--<app-carte [maxi]="maxi" [datas]="datas"></app-carte>-->
     <app-card-second [maxi]="maxi" [datas]="datas"></app-card-second>
   </ng-template>
 </p-dialog>

@@ -34,9 +34,6 @@ export class PortailComponent implements OnInit, AfterViewInit {
     this.getDate();
     this.getTime();
     this.profil = JSON.parse(this.storage.getData('user'));
-
-    console.log("this.profil this.profil ", this.profil?.permissions);
-
     // Vérification des permission
     this.permissionsJson.map(module => {
       if (module?.children) {

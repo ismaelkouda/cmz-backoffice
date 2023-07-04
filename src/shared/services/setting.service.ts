@@ -41,7 +41,8 @@ export class SettingService {
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
   getAllZones(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.GET_ALL_ZONES);
+    const url: string = (<string>EndPointUrl.GET_ALL_NIVEAUX_3);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
+
 }

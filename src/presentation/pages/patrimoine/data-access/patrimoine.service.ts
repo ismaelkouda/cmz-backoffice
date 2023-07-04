@@ -64,4 +64,13 @@ export class PatrimoineService {
     const url: string = (<string>EndPointUrl.VOLUME_DATA);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
+  GetAllDepartements(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_DEPARTEMENT);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+
+  GetAllCommunes(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_COMMUNE);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
 }

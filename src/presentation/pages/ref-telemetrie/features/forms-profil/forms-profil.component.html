@@ -20,8 +20,8 @@
     </div>
     <div>
       <div class="table_actions_wrapper pt-3">
-        <button pButton pRipple label="Soumettre" icon="pi pi-save" class="p-button-success"
-          (click)="handleUpdateProfilSupervision()"></button>
+        <button pButton pRipple label="Soumettre" [disabled]="this.currentObject?.show" icon="pi pi-save"
+          class="p-button-success" (click)="handleUpdateProfilSupervision()"></button>
         <button pButton pRipple label="Fermer" (click)="close()" class="p-button-danger"></button>
       </div>
     </div>
@@ -111,8 +111,8 @@
               <th>Seuil</th>
               <th>Unité</th>
               <th>Statut</th>
-              <th>Action</th>
-              <th style="width: 2rem;" class="text-center">
+              <th *ngIf="!currentObject.show">Action</th>
+              <th style="width: 2rem;" class="text-center" *ngIf="!currentObject.show">
                 <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()"
                   [(ngModel)]="checkedAllConsumers"></p-checkbox>
               </th>
@@ -142,18 +142,18 @@
                   {{ data.statut }}
                 </span>
               </td>
-              <td class="text-center">
+              <td class="text-center" *ngIf="!currentObject.show">
                 <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow pTooltip="Modifier"
                   tooltipPosition="top" icon="pi pi-pencil" (click)="OnEditOneRowMetrique(data)"
                   class="p-button-secondary"></button>
-                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow pTooltip="Sauvegarder"
-                  tooltipPosition="top" icon="pi pi-check" (click)="onRowEditMetriqueSave(data)"
+                <button *ngIf="editing" [disabled]="currentObject.show" pButton pRipple type="button" pSaveEditableRow
+                  pTooltip="Sauvegarder" tooltipPosition="top" icon="pi pi-check" (click)="onRowEditMetriqueSave(data)"
                   class="p-button-success"></button>
                 <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow pTooltip="Fermer"
                   tooltipPosition="top" icon="pi pi-times" (click)="onCancelRowMetrique(data, i)"
                   class="p-button-danger" style="margin-left: 1rem"></button>
               </td>
-              <td>
+              <td *ngIf="!currentObject.show">
                 <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
                   (click)="onCheckedOneConsumer(data)"></p-checkbox>
               </td>

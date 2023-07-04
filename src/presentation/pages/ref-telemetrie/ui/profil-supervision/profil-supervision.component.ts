@@ -53,7 +53,11 @@ export class ProfilSupervisionComponent implements OnInit {
     this.formsView = true;
     this.currentObject = data;
   }
-
+  public onShowForm(data: any): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, show: true };
+  }
   public onViewAffection(data: any): void {
     this.initialView = false;
     this.affectationView = true;

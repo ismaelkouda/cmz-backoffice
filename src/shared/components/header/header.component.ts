@@ -6,6 +6,8 @@ import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import { Router } from "@angular/router";
 // @ts-ignore
 import appConfig from '../../../assets/config/app-config.json';
+import { EncodingDataService } from "src/shared/services/encoding-data.service";
+import { MappingService } from "src/shared/services/mapping.service";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -19,12 +21,14 @@ export class HeaderComponent implements OnInit {
   public elem: any;
   public typeLayout;
   public headerTitle: string;
+  public profil: any;
 
   constructor(
     public layout: LayoutService,
     public navServices: NavService,
     @Inject(DOCUMENT) private document: any,
     private router: Router,
+    private storage: EncodingDataService,
 
   ) {
     this.statutLayout();
@@ -34,6 +38,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.elem = document.documentElement;
+    this.profil = JSON.parse(this.storage.getData('user'));
   }
 
   statutLayout(): boolean {

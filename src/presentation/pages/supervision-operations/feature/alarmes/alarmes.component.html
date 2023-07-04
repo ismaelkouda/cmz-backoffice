@@ -84,13 +84,13 @@
             <ng-template pTemplate="header">
               <tr>
                 <th>#</th>
-                <th pSortableColumn="date"> Date/Heure </th>
-                <th pSortableColumn="num_transaction"> N° Transaction </th>
-                <th pSortableColumn="type_operation" *ngIf="filtreSelected !=='Synchronisation'"> Type opération </th>
-                <th pSortableColumn="operation" *ngIf="filtreSelected ==='Synchronisation'"> Opération </th>
-                <th [ngStyle]="{ width: '200px' }" pSortableColumn="demandeur"> Demandeur </th>
-                <th pSortableColumn="erreurs"> # Erreurs </th>
-                <th pSortableColumn="statut"> Statut </th>
+                <th> Date/Heure </th>
+                <th> N° Transaction </th>
+                <th *ngIf="filtreSelected !=='Synchronisation'"> Type opération </th>
+                <th *ngIf="filtreSelected ==='Synchronisation'"> Opération </th>
+                <th [ngStyle]="{ width: '200px' }"> Demandeur </th>
+                <th> # Erreurs </th>
+                <th> Statut </th>
                 <th>Actions</th>
               </tr>
             </ng-template>

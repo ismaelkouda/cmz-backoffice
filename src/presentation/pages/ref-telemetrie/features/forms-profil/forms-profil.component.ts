@@ -36,6 +36,7 @@ export class FormsProfilComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.GetAllReferentielTelemetrie();
     if (this.currentObject !== undefined) {
       this.onFormPachValues();
       this.GetMetriquesByProfil();
@@ -103,7 +104,7 @@ export class FormsProfilComponent implements OnInit {
       .GetAllReferentielTelemetrie({})
       .subscribe({
         next: (response) => {
-          this.listTelemetries = response['data']['environnement'];
+          this.listTelemetries = response['data'];
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -148,6 +149,9 @@ export class FormsProfilComponent implements OnInit {
   public onFormPachValues(): void {
     this.adminForm.get('nom').patchValue(this.currentObject?.nom);
     this.adminForm.get('description').patchValue(this.currentObject?.description);
+    if (this.currentObject.show) {
+      this.adminForm.disable()
+    }
   }
 
   public handleUpdateProfilSupervision() {

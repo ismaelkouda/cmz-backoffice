@@ -1,3 +1,4 @@
+import { SitesWrapperComponent } from './feature/sites-wrapper/sites-wrapper.component';
 import { CardSecondComponent } from './feature/card-second/card-second.component';
 import { CarteComponent } from './feature/carte/carte.component';
 import { VueGeographiqueComponent } from './ui/vue-geographique/vue-geographique.component';
@@ -37,7 +38,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     declarations: [
         VueGeographiqueComponent,
         CarteComponent,
-        CardSecondComponent
+        CardSecondComponent,
+        SitesWrapperComponent
     ],
     imports: [
         CommonModule,

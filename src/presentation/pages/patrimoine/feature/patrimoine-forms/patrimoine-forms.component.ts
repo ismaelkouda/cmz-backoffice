@@ -3,6 +3,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ToastrService } from 'ngx-toastr';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
+import { Activity } from 'src/shared/enum/Activity.enum';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
   selector: 'app-patrimoine-forms',
@@ -31,27 +33,41 @@ export class PatrimoineFormsComponent implements OnInit {
   public currentDhcpValue: string;
   adminForm: FormGroup;
 
+  public listActivites: Array<any> = [];
+  public listDepartements: Array<any> = [];
+  public listCommunes: Array<any> = [];
+  public selectedDepartement: any;
+  public selectedCommune: any;
+
+  //Mapping
+  firstLevelLibelle: string;
+  secondLevelLibelle: string;
+  thirdLevelLibelle: string;
+
   constructor(
     private fb: FormBuilder,
     private settingService: SettingService,
     private toastrService: ToastrService,
-    private patrimoineService: PatrimoineService
+    private patrimoineService: PatrimoineService,
+    private mappingService: MappingService
   ) {
-    this.listTypePersonne = ['Morale', 'Physique'],
-      this.listDHCP = ['OUI', 'NON'],
-      this.listServices = ['DATA_VOLORISEE'],
-      this.listProfils = ['Prepaid', 'Postpaid', 'Hybride'],
-      this.listUsage = ['Compteur Prépayé', 'Terminal', 'Internet Personnel', 'Internet Backup']
+    this.listDHCP = ['OUI', 'NON'];
+
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
   }
 
   ngOnInit() {
     this.initForm();
     this.onGetDrValueChanges();
-    this.onGetDhcpValueChanges()
     this.getAllDirectionRegionales();
-    if (this.currentObject !== undefined) {
-      this.onFormPachValues();
-    }
+    this.GetAllUsages();
+    this.getAllZones();
+    this.onFormPachValues();
+
+    console.log("logdata", this.currentObject);
+
   }
 
 
@@ -65,51 +81,27 @@ export class PatrimoineFormsComponent implements OnInit {
 
       //Identification Controls
       direction_regionale: ['', [Validators.required]],
-      exploitation: ['', [Validators.required]],
-      imsi: ['', [
-        Validators.required,
-        //Validators.maxLength(10),
-        //Validators.pattern('^[0-9]*$')
-      ]],
-      msisdn: ['', [
-        Validators.required,
-        //Validators.maxLength(10),
-      ]],
-      zone_geographique: [''],
-      usage: [''],
-      code_pin: ['', [
-        Validators.required,
-        //Validators.maxLength(4),
-      ]],
-      code_puk: ['', [
-        Validators.required,
-        //Validators.maxLength(5),
-      ]],
+      exploitation: [''],
+      zone: ['', [Validators.required]],
+      usage: ['', [Validators.required]],
+      nom_prenoms: [''],
       adresse_geographique: [''],
-      nom_prenoms: ['', [Validators.required]],
+      longitude: ['', [Validators.required]],
+      latitude: ['', [Validators.required]],
       adresse_email: ['', [
         Validators.email,
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
       ]],
-      longitude: [''],
-      latitude: [''],
 
-      //Reseaux Conrols
-      categorie: [''],
-      profil: [''],
-      service: [''],
-      site_bts: [''],
-
-      //Trafic Controls
+      imsi: [''],
+      statut: [''],
+      msisdn: [''],
+      code_pin: [''],
       apni: [''],
       username: [''],
-      password: [''],
       dhcp: [''],
       adresse_ip: [''],
-      proxy: ['', [
-        Validators.required,
-        //Validators.maxLength(8),
-      ]]
+      proxy: ['']
     });
   }
 
@@ -118,14 +110,49 @@ export class PatrimoineFormsComponent implements OnInit {
       .getAllDirectionRegionales({})
       .subscribe({
         next: (response) => {
-          this.listDirectionRegionales = response['data']
+          this.listDirectionRegionales = response['data'];
         },
         error: (error) => {
           this.toastrService.error(error.message)
         }
       })
   }
-
+  public getAllZones(): void {
+    this.settingService
+      .getAllZones({})
+      .subscribe({
+        next: (response) => {
+          this.listActivites = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.message)
+        }
+      })
+  }
+  public GetAllUsages(): void {
+    this.patrimoineService
+      .GetAllUsages({})
+      .subscribe({
+        next: (response) => {
+          this.listUsage = response['data']
+        },
+        error: (error) => {
+          this.toastrService.error(error.message)
+        }
+      })
+  }
+  public GetAllDepartements() {
+    this.patrimoineService
+      .GetAllDepartements({})
+      .subscribe({
+        next: (response) => {
+          this.listDepartements = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
   public GetAllPatrimoines() {
     this.patrimoineService
       .GetAllPatrimoines({}, this.p)
@@ -145,12 +172,13 @@ export class PatrimoineFormsComponent implements OnInit {
   }
   public getAllExploitation(id: number) {
     this.settingService
-      .getAllExploiatations(id)
+      .getAllExploiatations({
+        niveau_un_id: id,
+      })
       .subscribe(
         (response: any) => {
           this.listExploitations = response['data'];
-          this.listExploitations.forEach((element) => (element.all_exp = element.nom + ' ' + '[' + element.code + ']'));
-
+          // this.listExploitations.forEach((element) => (element.all_exp = element.nom + ' ' + '[' + element.code + ']'));
         },
         (error) => {
           this.toastrService.error(error.message);
@@ -158,22 +186,51 @@ export class PatrimoineFormsComponent implements OnInit {
       )
   }
 
-  public getAllZones(id: number) {
-    const data = { niveau_deux_id: id };
-    this.settingService
-      .getAllZones(data)
-      .subscribe(
-        (response: any) => {
-          this.listZones = response['data'];
-        },
-        (error) => {
-          this.toastrService.error(error.message);
-        }
-      );
+  onGetDrValueChanges() {
+    return this.adminForm.get('direction_regionale').valueChanges.subscribe((value) => {
+      this.getAllExploitation(value);
+    });
   }
 
-  handleSaveCampagne() {
+  public onFormPachValues(): void {
 
+    //Identification Controls
+    this.adminForm.get('direction_regionale').patchValue(this.currentObject.direction_regionale?.id);
+    this.adminForm.get('exploitation').patchValue(this.currentObject?.exploitation?.id);
+    this.adminForm.get('zone').patchValue(this.currentObject.zone?.id);
+    this.adminForm.get('imsi').patchValue(this.currentObject?.imsi);
+    this.adminForm.get('msisdn').patchValue(this.currentObject?.msisdn);
+    this.adminForm.get('statut').patchValue(this.currentObject?.statut);
+    this.adminForm.get('usage').patchValue(this.currentObject?.usage.id);
+    this.adminForm.get('code_pin').patchValue(this.currentObject?.code_pin);
+    this.adminForm.get('adresse_geographique').patchValue(this.currentObject?.adresse_geographique);
+    this.adminForm.get('nom_prenoms').patchValue(this.currentObject?.nom_prenoms);
+    this.adminForm.get('adresse_email').patchValue(this.currentObject?.adresse_email);
+    this.adminForm.get('longitude').patchValue(this.currentObject?.longitude);
+    this.adminForm.get('latitude').patchValue(this.currentObject?.latitude);
+
+    //Trafic Controls
+    this.adminForm.get('apni').patchValue(this.currentObject?.apni);
+    this.adminForm.get('username').patchValue(this.currentObject?.username);
+    this.adminForm.get('dhcp').patchValue(this.currentObject?.dhcp);
+    this.adminForm.get('adresse_ip').patchValue(this.currentObject?.adresse_ip);
+    this.adminForm.get('proxy').patchValue(this.currentObject?.proxy);
+
+
+    //Disabled Controls
+    this.adminForm.get('statut').disable();
+    this.adminForm.get('imsi').disable();
+    this.adminForm.get('msisdn').disable();
+    this.adminForm.get('code_pin').disable();
+    this.adminForm.get('apni').disable();
+    this.adminForm.get('dhcp').disable();
+    this.adminForm.get('proxy').disable();
+    this.adminForm.get('username').disable();
+    this.adminForm.get('adresse_ip').disable();
+
+    if (this.currentObject.show) {
+      this.adminForm.disable()
+    }
   }
   handleUpdateCampagne() {
     this.adminForm.get('direction_regionale').disable();
@@ -185,8 +242,8 @@ export class PatrimoineFormsComponent implements OnInit {
         niveau_un_id: this.adminForm.get('direction_regionale').value,
         niveau_deux_id: this.adminForm.get('exploitation').value,
         niveau_trois_id: this.adminForm.get('zone').value,
-      })
-      .subscribe({
+        usage_id: this.adminForm.get('usage').value,
+      }).subscribe({
         next: (response) => {
           this.toastrService.success(response.message);
           this.GetAllPatrimoines();
@@ -195,62 +252,6 @@ export class PatrimoineFormsComponent implements OnInit {
           this.toastrService.error(error.error.message);
         }
       })
-  }
-
-  onGetDrValueChanges() {
-    return this.adminForm.get('direction_regionale').valueChanges.subscribe((value) => {
-      console.log("loggggggggggggggg", value);
-
-      this.getAllExploitation(value)
-    });
-  }
-
-  onGetDhcpValueChanges() {
-    return this.adminForm.get('dhcp').valueChanges.subscribe((value) => {
-      this.currentDhcpValue = value;
-      if (this.currentDhcpValue === 'OUI') {
-        this.adminForm.get('apni').disable();
-      } else {
-        this.adminForm.get('apni').enable();
-
-      }
-    });
-  }
-
-  public onFormPachValues(): void {
-
-    //Identification Controls
-    this.adminForm.get('direction_regionale').patchValue(this.currentObject?.direction_regionale.id);
-    this.adminForm.get('exploitation').patchValue(this.currentObject?.exploitation.id);
-    this.adminForm.get('imsi').patchValue(this.currentObject?.imsi);
-    this.adminForm.get('msisdn').patchValue(this.currentObject?.msisdn);
-    this.adminForm.get('zone_geographique').patchValue(this.currentObject?.zone_geographique);
-    this.adminForm.get('usage').patchValue(this.currentObject?.usage);
-    this.adminForm.get('code_pin').patchValue(this.currentObject?.code_pin);
-    this.adminForm.get('code_puk').patchValue(this.currentObject?.code_puk);
-    this.adminForm.get('code_puk').patchValue(this.currentObject?.code_puk);
-    this.adminForm.get('adresse_geographique').patchValue(this.currentObject?.adresse_geographique);
-    this.adminForm.get('nom_prenoms').patchValue(this.currentObject?.nom_prenoms);
-    this.adminForm.get('adresse_email').patchValue(this.currentObject?.adresse_email);
-    this.adminForm.get('longitude').patchValue(this.currentObject?.longitude);
-    this.adminForm.get('latitude').patchValue(this.currentObject?.latitude);
-
-    //Réseaux Controls
-    this.adminForm.get('categorie').patchValue(this.currentObject?.categorie);
-    this.adminForm.get('profil').patchValue(this.currentObject?.profil);
-    this.adminForm.get('service').patchValue(this.currentObject?.service);
-    this.adminForm.get('site_bts').patchValue(this.currentObject?.site_bts);
-
-    //Trafic Controls
-    this.adminForm.get('apni').patchValue(this.currentObject?.apni);
-    this.adminForm.get('username').patchValue(this.currentObject?.username);
-    this.adminForm.get('password').patchValue(this.currentObject?.password);
-    this.adminForm.get('dhcp').patchValue(this.currentObject?.dhcp);
-    this.adminForm.get('adresse_ip').patchValue(this.currentObject?.adresse_ip);
-    this.adminForm.get('proxy').patchValue(this.currentObject?.proxy);
-    if (this.currentObject.show) {
-      this.adminForm.disable()
-    }
   }
 
 }      

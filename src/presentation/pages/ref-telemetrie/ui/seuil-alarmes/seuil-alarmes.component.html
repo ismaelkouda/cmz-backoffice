@@ -46,7 +46,6 @@
                       <th class="text-center">Services</th>
                       <th>Description mésure</th>
                       <th class="text-center">Type de mesure</th>
-                      <th class="text-center" [ngStyle]="{width: '5rem'}">Seuil</th>
                       <th class="text-center">Unité</th>
                       <th class="text-center">Statut</th>
                       <th style="width: 2rem;" class="text-center">Actions</th>
@@ -58,19 +57,6 @@
                       <td class="text-center">{{data?.classification}}</td>
                       <td>{{data?.description}}</td>
                       <td class="text-center">{{data?.type_mesure}}</td>
-                      <td class="text-center">
-                        <!-- <p-cellEditor>
-                          <ng-template pTemplate="input">
-                            <input class="text-center" [ngStyle]="{width: '8rem'}" pInputText type="number"
-                              [(ngModel)]="data.seuil" #data.seuil="ngModel" />
-                          </ng-template>
-                          <ng-template pTemplate="output">
-                            <span>{{ data.seuil }}</span>
-                          </ng-template>
-                        </p-cellEditor> -->
-                        <span>{{ data.seuil }}</span>
-
-                      </td>
                       <td class="text-center">{{data?.unite}}</td>
                       <td class="text-center">
                         <p-cellEditor>

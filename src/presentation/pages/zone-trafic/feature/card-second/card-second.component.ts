@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import {
   AfterViewInit,
   Component,
@@ -9,6 +10,7 @@ import { NgbAccordionConfig, } from '@ng-bootstrap/ng-bootstrap';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { Router } from '@angular/router';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
   selector: 'app-card-second',
@@ -47,9 +49,9 @@ export class CardSecondComponent implements AfterViewInit {
   layers: L.Layer[] = [];
   location: any;
   parcelleData: any;
-
+  map: any;
   OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'PATRIMOINE SIM-MAP',
+    attribution: 'ZONE DE TRAFIC',
     detectRetina: false,
     maxNativeZoom: 19,
     maxZoom: 19,
@@ -60,7 +62,7 @@ export class CardSecondComponent implements AfterViewInit {
     tms: false,
   })
   satelite = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: 'PATRIMOINE SIM-MAP',
+    attribution: 'ZONE DE TRAFIC',
     detectRetina: false,
     maxNativeZoom: 19,
     maxZoom: 19,
@@ -82,24 +84,30 @@ export class CardSecondComponent implements AfterViewInit {
   layer: any;
   showLayer: boolean = false;
   extended: boolean = false;
-  map: any;
   selectedCart: string = 'firstCart';
   public checkboxStates: any;
   public selectedCouche: any = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   @ViewChild('parcelleMap') parcelleMap: ElementRef;
   @Input() maxi: boolean;
   selectedMaximized: any;
-
   dataReady: any;
   selectedStates: string[] = [];
-
+  //Mapping
+  firstLevelLibelle: string;
+  secondLevelLibelle: string;
+  thirdLevelLibelle: string;
   constructor(
     config: NgbAccordionConfig,
     private router: Router,
+    private mappingService: MappingService,
+
   ) {
     this.activatedRoute = this.router.url;
     config.closeOthers = true;
 
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
   }
 
   /**
@@ -132,114 +140,141 @@ export class CardSecondComponent implements AfterViewInit {
         tms: false,
       });
     this.map = new L.Map('map');
-    this.map.setView(new L.LatLng(5.353225733019839, -4.012602892434985), 14);
+    //console.log("this.datas.site_geo.features[0].properties.LONGITUDE", this.datas.site_geo.features[0].properties.LONGITUDE);
+    this.map.setView(new L.LatLng(this.datas.site_geo.features[0].properties.LONGITUDE, this.datas.site_geo.features[0].properties.LATITUDE), 14);
     this.map.addLayer(osmLayer);
   }
   onMapReady() {
 
-    L.geoJSON(this.datas.data).addTo(this.map);
+    this.OpenStreetMap.addTo(this.map);
+
+    //@@@@@@@@@@@@@@@@@@@@@@GEOJSON SITE@@@@@@@@@@@@@@@@@
+
+    const geoJsonSite = L.geoJSON(this.datas.site_geo, {
+      style: function () {
+        return {
+          weight: 2,
+          opacity: 1,
+          color: 'black',
+          fillOpacity: 0
+        }
+      },
+      onEachFeature: function (feature, layer) {
+        layer.bindPopup(
+          '<span>' + feature.properties?.SITE + '</span>'
+        ).openPopup();
+      }
+    }).addTo(this.map);
 
 
-    var StateMarker = {
-      "<span style='font-weight:bold'>Site</span><span><img src='assets/images/map/geojson-actif.png' style='width: 10px;height: 10px;margin-left: 20px'/></span>": "",
-      "<span style='font-weight:bold'>SIM Trafic</span><span><img src='assets/images/map/geojson-inactif.png' style='width: 10px;height: 10px;margin-left: 20px'/></span>": "",
-      "<span style='font-weight:bold'>Ressort</span><span><img src='assets/images/map/geojson-inactif.png' style='width: 10px;height: 10px;margin-left: 20px'/></span>": "",
-      "<span style='font-weight:bold'>SIM</span><span><img src='assets/images/map/geojson-inactif.png' style='width: 10px;height: 10px;margin-left: 20px'/></span>": "",
-    }
-    L.control.layers(baseMaps, {}, { collapsed: false }).addTo(this.map);
-    return
+    //@@@@@@@@@@@@@@@@@@@@@@GEOJSON SIM@@@@@@@@@@@@@@@@@@@@@
     var AcitifIcon = L.icon({
-      iconUrl: '../../../../../assets/svg/sim_loc_vert.svg',
-      iconSize: [10, 10],
+      iconUrl: '../../../../../assets/svg/sim_loc_noir.svg',
+      iconSize: [50, 50],
     });
-    var InactifIcon = L.icon({
-      iconUrl: '../../../../../assets/images/map/geojson-inactif.png',
-      iconSize: [10, 10],
-    });
+    const geoJsonSim = L.geoJSON(this.datas.sim, {
+      pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, { icon: AcitifIcon });
+      },
+      onEachFeature: function (feature, layer) {
+        layer.bindPopup(
+          "<div>" + "" +
+          "<strong>Numero SIM :</strong>" + "<span>" + feature.properties?.msisdn + "</span>" + "<br>" +
+          "<strong>" + this.firstLevelLibelle + ":</strong>" + "<span>" + feature.properties?.Niveau_1 + "</span>" + "<br>" +
+          "<strong>" + this.secondLevelLibelle + ":</strong>" + "<span>" + feature.properties?.Niveau_2 + "</span>" + "<br>" +
+          "<strong>Statut:</strong>" + "<span>" + feature.properties?.Statut + "</span>" + "<br>" +
+          "</div>",
+        ).openPopup();
+      }
+    }).addTo(this.map)
 
-    const simActive = this.datas.sims.filter(function (data) {
-      return data.properties?.statut === 'actif'
-    });
+    //@@@@@@@@@@@@@@@@@@@GEOJSON RESSORT@@@@@@@@@@@@@@@@@@
+    const geojsonRessort = L.geoJSON(this.datas.ressort, {
+      style: function () {
+        return { fill: true, fillOpacity: 0 };
+      },
+      onEachFeature: function (feature, layer) {
+        layer.on({
+          mouseover: function () {
+            this.setStyle({
+              'fillColor': '#b45501',
+            });
+          },
+          mouseout: function () {
+            this.setStyle({
+              'fillColor': '#f0d1b1',
+            });
+          },
+        });
+        layer.bindTooltip(feature.properties.RESSORT, { permanent: true, direction: 'center', className: 'labelLimit' });
+      },
+    }).addTo(this.map)
 
-    const simInactive = this.datas.sims.filter(function (data) {
-      return data.properties?.statut === 'inactif'
-    });
+
+    //@@@@@@@@@@@@@@@@@@@@@@GEOJSON TRAFIC@@@@@@@@@@@@@@@@@
 
 
-    // const ActifControl = L.geoJSON(simActive, {
-    //   pointToLayer: function (feature, latlng) {
-    //     return L.marker(latlng, { icon: AcitifIcon });
-    //   }
-    // }).addTo(this.map)
-
-    // const InactifControl = L.geoJSON(simInactive, {
-    //   pointToLayer: function (feature, latlng) {
-    //     return L.marker(latlng, { icon: InactifIcon });
-    //   }
-    // }).addTo(this.map)
-
-    const geoJsonMarkerActfOptions = {
+    var AlarmeNormale = {
       radius: 8,
-      fillColor: "#3498db",
+      fillColor: "#04B431",
       color: "#000",
-      weight: 2,
+      weight: 1,
       opacity: 1,
       fillOpacity: 0.8
-    }
-    const geoJsonMarkerInactfOptions = {
+    };
+    var AlarmeMineur = {
+      radius: 8,
+      fillColor: "#FFFF00",
+      color: "#000",
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 0.8
+    };
+    var AlarmeMajeur = {
+      radius: 8,
+      fillColor: "#FFBF00",
+      color: "#000",
+      weight: 1,
+      opacity: 1,
+      fillOpacity: 0.8
+    };
+    var AlarmeCritique = {
       radius: 8,
       fillColor: "#DF0101",
       color: "#000",
-      weight: 2,
+      weight: 1,
       opacity: 1,
       fillOpacity: 0.8
-    }
-
-    const makerClusterActif = L.markerClusterGroup().addTo(this.map);
-    const makerClusterInactif = L.markerClusterGroup().addTo(this.map);
-
-    // Initialisation des geojson
-    L.geoJSON(this.datas.limite_exploitations).addTo(this.map);
-
-    const ActifControl = L.geoJSON(simActive, {
+    };
+    const geoJsonTrafic = L.geoJSON(this.datas.trafic, {
       pointToLayer: function (feature, latlng) {
-        return makerClusterActif.addLayer(L.circleMarker(latlng, geoJsonMarkerActfOptions));
-      },
-      onEachFeature: function (feature, layer) {
-        layer.bindPopup(
-          "<div class='bind_popup_class'>" + "" +
-          "<strong>Numero SIM :</strong>" + "<span>" + feature.properties.msisdn + "</span>" + "<br>" +
-          "<strong>Adresse IP:</strong>" + "<span>" + feature.properties.adresse_ip + "</span>" + "<br>" +
-          "<strong>Etat :</strong>" + "<span>" + feature.properties.etat + "</span>" + "<br>" +
-          "</div>"
-        );
-      },
-    }).addTo(this.map)
+        if (feature.properties.Alarme === "0") {
+          return L.circleMarker(latlng, AlarmeNormale);
+        } else if (feature.properties.Alarme === "1") {
+          return L.circleMarker(latlng, AlarmeMineur);
+        } else if (feature.properties.Alarme === "2") {
+          return L.circleMarker(latlng, AlarmeMajeur);
+        } else if (feature.properties.Alarme === "3") {
+          return L.circleMarker(latlng, AlarmeCritique);
+        }
+      }
+    }).addTo(this.map);
 
-    const InactifControl = L.geoJSON(simInactive, {
-      pointToLayer: function (feature, latlng) {
-        return makerClusterInactif.addLayer(L.circleMarker(latlng, geoJsonMarkerInactfOptions));
-      },
-      onEachFeature: function (feature, layer) {
-        layer.bindPopup(
-          "<div classs='bind_popup_class'>" + "" +
-          "<strong>Numero SIM :</strong>" + "<span>" + feature.properties.msisdn + "</span>" + "<br>" +
-          "<strong>Adresse IP:</strong>" + "<span>" + feature.properties.adresse_ip + "</span>" + "<br>" +
-          "<strong>Etat :</strong>" + "<span>" + feature.properties.etat + "</span>" + "<br>" +
-          "</div>"
-        );
-      },
-    }).addTo(this.map)
 
     var baseMaps = {
       'OpenStreetMap': this.OpenStreetMap,
       'Satellite': this.satelite
     }
-    // var StateMarker = {
-    //   "<span style='font-weight:bold'>Actif</span><span><img src='assets/images/map/geojson-actif.png' style='width: 10px;height: 10px;margin-left: 20px'/></span>": ActifControl,
-    //   "<span style='font-weight:bold'>Inactif</span><span><img src='assets/images/map/geojson-inactif.png' style='width: 10px;height: 10px;margin-left: 20px'/></span>": InactifControl,
-    // }
-    // L.control.layers(baseMaps, StateMarker, { collapsed: false }).addTo(this.map);
+    var layerGeoJson = {
+      "<span style='font-weight:bold'>SITE - OCI</span>": geoJsonSite,
+      "<span style='font-weight:bold'>SIM GEO</span>": geoJsonSim,
+      "<span style='font-weight:bold'>RESSORT</span>": geojsonRessort,
+      "<span style='font-weight:bold'>SIM ALARME</span>": geoJsonTrafic,
+    }
+    L.control.layers(baseMaps, layerGeoJson, {
+      collapsed: false,
+
+    }).addTo(this.map);
   }
   showModalSideBar() {
     this.sidebarShow = true;
