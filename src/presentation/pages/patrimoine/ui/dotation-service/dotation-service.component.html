@@ -1,0 +1,117 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div [hidden]="!initialView">
+            <div class="row filter_wrapper">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>IMSI</b>
+                  </label>
+                  <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>MSISDN</b>
+                  </label>
+                  <input placeholder="MSISDN" [(ngModel)]="selectedSim" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Emplacement</b>
+                  </label>
+                  <p-dropdown [options]="listGroupes" [showClear]="true" [(ngModel)]="selectedGroupe"
+                    placeholder="Emplacement">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data | titlecase}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-1">
+                <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
+                  [disabled]="isFilter()"></p-button>
+              </div>
+            </div>
+            <hr>
+            <div class="table_content_wrapper">
+              <div class="table_actions_wrapper pt-2">
+                <!-- <button pButton pRipple label="Nouvelle Dotation" icon="pi pi-plus" class="p-button-success"
+                  (click)="onInitForm()">
+                </button> -->
+                <button pButton pRipple label="Rafraichir" (click)="GetAllDotations()" icon="pi pi-refresh"
+                  class="p-button-secondary">
+                </button>
+              </div>
+              <div class="d-flex gap-3 mt-2">
+                <div class="table_header__legende">
+                  <h4 class="pt-2">
+                    <b>Liste des dotations mensuelles de services</b>
+                  </h4>
+                </div>
+                <div class="table_header__input"></div>
+              </div>
+              <table [ngClass]="['native_table table']">
+                <thead>
+                  <th class="text-center">#</th>
+                  <th class="text-center">IMSI</th>
+                  <th class="text-center">MSISDN</th>
+                  <th>Emplacement</th>
+                  <th>Fixe</th>
+                  <th>Data (Go)</th>
+                  <th>Airtime (FCFA)</th>
+                  <th># SMS</th>
+                  <th>Date Création</th>
+                  <th>Date MAJ</th>
+                  <th class="text-center">Actions</th>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let data of listGroupes | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                    <td>{{ (this.offset + i)}}</td>
+                    <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
+                    <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data.msisdn}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{data?.updated_at}}</td>
+                    <td>{{data?.created_at}}</td>
+                    <td>
+                      <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+                        [class.badge-success]="data.statut === 'cloture'"
+                        [class.badge-warning]="data.statut === 'en-cours'">
+                        {{ data.statut }}
+                      </span>
+                    </td>
+                    <td class="text-center">
+                      <p-button icon="pi pi-pencil" styleClass="p-button-secondary" pTooltip="Editer"
+                        tooltipPosition="top"></p-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div [ngClass]="['pagination-controls']">
+                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+          <app-suspension-form [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
+            (listTransactions)="pushListTransactions($event)"></app-suspension-form>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -79,19 +79,19 @@
                       </span>
                     </td>
                     <td class="td-actions">
-                      <p-button icon="pi pi-pencil" styleClass="p-button-secondary" pTooltip="Editer"
-                        tooltipPosition="top" (click)="onEditForm(data)"></p-button>
                       <p-button icon="pi pi-eye" styleClass="p-button-dark" pTooltip="Editer" tooltipPosition="top"
                         (click)="onShowForm(data)"></p-button>
-                      <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
-                              " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
-                              ? 'Désactiver'
-                              : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
-                              ? handleDisableProfil(data)
-                              : handleActivateProfil(data)">
-                      </button>
+                      <p-button icon="pi pi-pencil" styleClass="p-button-secondary" pTooltip="Editer"
+                        tooltipPosition="top" (click)="onEditForm(data)"></p-button>
                       <p-button icon="pi pi-arrow-right" (click)="onViewAffection(data)" styleClass="p-button-dark"
                         pTooltip="Affecter" tooltipPosition="top"></p-button>
+                      <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
+                        " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
+                        ? 'Désactiver'
+                        : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
+                        ? handleDisableProfil(data)
+                        : handleActivateProfil(data)">
+                      </button>
                       <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Supprimer"
                         tooltipPosition="top"></p-button>
                     </td>

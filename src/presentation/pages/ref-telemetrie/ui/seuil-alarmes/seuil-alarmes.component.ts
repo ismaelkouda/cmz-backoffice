@@ -24,7 +24,8 @@ export class SeuilAlarmesComponent implements OnInit {
 
   ngOnInit() {
     this.GetAllReferentielTelemetrie();
-    this.disableAction()
+    this.disableAction();
+    this.isValidate()
   }
 
   public GetAllReferentielTelemetrie(): void {
@@ -49,11 +50,23 @@ export class SeuilAlarmesComponent implements OnInit {
     const currentMetrique = this.clonedMetrique[metrique.id];
     const data = {
       metrique_id: currentMetrique.id,
-      ...(metrique.seuil === null ? { seuil: currentMetrique.seuil } : { seuil: metrique.seuil }),
-      ...(metrique.statut === null ? { statut: currentMetrique.statut } : { statut: metrique.statut })
+      ...(metrique.unite === null ? { unite: currentMetrique.unite } : { unite: metrique.unite }),
     };
-    this.globalMetriquesEditRow.push(data);
-    this.toastrService.info('Enregistrement en attente !', 'EDITION');
+    const checkValue = metriqueParam => this.globalMetriquesEditRow.some(({ metrique_id }) => metrique_id == metriqueParam);
+    if (data?.unite === null) {
+      const indexOfItemInArray = this.globalMetriquesEditRow.findIndex(q => q.metrique_id === data.metrique_id);
+      this.globalMetriquesEditRow.splice(indexOfItemInArray, 1);
+      this.toastrService.warning("Veuillez activez l'alarme ou Configurer l'unité");
+      return;
+    } else {
+      if (checkValue(data.metrique_id) === false) {
+        this.globalMetriquesEditRow.push(data);
+        this.toastrService.info('Enregistrement en attente !', 'EDITION');
+      } else {
+        const indexOfItemInArray = this.globalMetriquesEditRow.findIndex(q => q.metrique_id === data.metrique_id);
+        this.globalMetriquesEditRow.splice(indexOfItemInArray, 1, data);
+      }
+    }
   }
   public onCancelRowMetrique(metrique: any, index: number) {
     this.listTelemetries[index] = this.clonedMetrique[metrique.id];
@@ -90,6 +103,9 @@ export class SeuilAlarmesComponent implements OnInit {
 
   public disableAction(): boolean {
     return this.listTelemetries?.length === 0 ? true : false
+  }
+  isValidate(): boolean {
+    return (this.globalMetriquesEditRow.length === 0) ? true : false
   }
 }
 

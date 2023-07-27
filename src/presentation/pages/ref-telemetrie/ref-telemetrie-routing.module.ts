@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProfilSupervisionComponent } from './ui/profil-supervision/profil-supervision.component';
 import { ObjectifSlaComponent } from './ui/objectif-sla/objectif-sla.component';
 
-export const SEUIL_ALARMES = 'seuil-alarme';
+export const SEUIL_ALARMES = 'metriques-alarmes';
 export const OBJECTIFS_SLA = 'objectifs-sla';
 export const PROFIL_SUPERVISION = 'profil-supervision';
 

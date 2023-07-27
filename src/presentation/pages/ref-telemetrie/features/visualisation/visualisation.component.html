@@ -10,7 +10,12 @@
         </h3>
       </div>
       <div class="table_actions_wrapper mt-0">
-        <button pButton pRipple label="Fermer" class="p-button-danger" (click)="close()"></button>
+        <div class="table_actions_wrapper mt-0">
+          <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="GetAllListSimAffecte()"
+            class="p-button-secondary"></button>
+          <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button>
+          <button pButton pRipple label="Fermer" class="p-button-danger" (click)="close()"></button>
+        </div>
       </div>
     </div>
     <div class="container_flex_space_between">
@@ -18,27 +23,10 @@
         <div class="col-md-3">
           <div class="form-group">
             <label>
-              <b>Direction Régionale</b>
+              <b>{{firstLevelLibelle}}</b>
             </label>
-            <p-dropdown [options]="listDirections" optionLabel="nom" (onChange)="onChangeItem($event)"
-              [showClear]="true" placeholder="Selectionnez la direction">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>
-                    {{data.nom}}
-                  </div>
-                </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <b>Exploitation</b>
-            </label>
-            <p-dropdown [options]="listExploitations" optionLabel="fullName" [(ngModel)]="selectedExploitation"
-              placeholder="Selectionnez l'exploitation">>
+            <p-dropdown [options]="listDirections" optionLabel="fullName" (onChange)="onChangeItem($event)"
+              [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle">
               <ng-template let-data pTemplate="item">
                 <div class="country-item">
                   <div>
@@ -49,12 +37,29 @@
             </p-dropdown>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="form-group">
             <label>
-              <b>MSISDN</b>
+              <b>{{secondLevelLibelle}}</b>
             </label>
-            <input placeholder="Saisir le numéro" [(ngModel)]="selectedSim" type="text" pInputText />
+            <p-dropdown [options]="listExploitations" optionLabel="fullName" optionLabel="nom" [filter]="true"
+              [(ngModel)]="selectedExploitation" [showClear]="true" [placeholder]="secondLevelLibelle">
+              <ng-template let-data pTemplate="item">
+                <div class="country-item">
+                  <div>
+                    {{data.fullName}}
+                  </div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div style="width: 13rem;">
+          <div class="form-group">
+            <label>
+              <b>IMSI</b>
+            </label>
+            <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
           </div>
         </div>
         <div class="col-md-1">
@@ -81,8 +86,8 @@
       <table [ngClass]="['native_table table']" style="margin-top: -0.2rem">
         <thead>
           <th class="text-center">#</th>
-          <th>Direction Régionale</th>
-          <th>Exploitation</th>
+          <th>{{firstLevelLibelle}}</th>
+          <th>{{secondLevelLibelle}}</th>
           <th>Numéro SIM</th>
           <th>IMSI</th>
           <th>Statut</th>
@@ -93,12 +98,12 @@
         <tbody>
           <tr
             *ngFor="let data of listAffectations | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
-            <td class="text-center">{{ (this.offset + i)}}</td>
+            <td>{{ (this.offset + i)}}</td>
             <td>{{data.direction_regionale}}</td>
-            <td>{{data.direction_regionale}}</td>
+            <td>{{data.exploitation}}</td>
             <td>{{data.msisdn}}</td>
-            <td>{{data?.imsi}}</td>
-            <td class="text-center">
+            <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
+            <td>
               <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'actif'"
                 [class.badge-danger]="data.statut !== 'actif'">
                 {{ data.statut }}

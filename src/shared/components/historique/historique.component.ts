@@ -28,7 +28,7 @@ export class HistoriqueComponent implements OnInit {
   public currentEvent: any;
   public currentEventParse;
   public display: boolean = false;
-  public maxi: boolean;
+  public isMaximized: boolean = false;
 
 
   constructor(
@@ -53,7 +53,14 @@ export class HistoriqueComponent implements OnInit {
   showHistorique(data: any) {
     this.display = true;
     this.currentEvent = data;
-    this.currentEventParse = JSON.parse(data.data)
+    this.currentEventParse = JSON.parse(data.data);
+
+    // for (const value of Object.entries(this.currentEventParse)) {
+    //    const d = value;
+
+    // }
+    //console.log("this.currentEventParse", this.currentEventParse);
+
   }
   getAllUsers() {
     this.loadingBar.start();
@@ -113,12 +120,18 @@ export class HistoriqueComponent implements OnInit {
       );
   }
 
-  hideDialog() {
-    this.display = false;
+  showMap(data) {
+    this.currentEvent = data;
+    this.display = true;
+    this.onDialogMaximized(true);
   }
 
-  onMaximized(e) {
-    this.maxi = e.maximized;
+  public onDialogMaximized(event) {
+    event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
+  }
+
+  hideDialog() {
+    this.display = false;
   }
   refreshHistorique() {
     this.settingService.statutSubject$.subscribe((response: any) => {

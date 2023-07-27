@@ -12,7 +12,8 @@ export const enum EndPointUrl {
     GET_ALL_ACHATS = 'gestion-portefeuille/commande-produit/all?page={page}',
     GENERATE_NUMERO_COMMANDE = 'gestion-portefeuille/commande-produit/generate_numero_commande',
     CREATE_COMMANDE_PROFORMAT = 'gestion-portefeuille/commande-produit/create_proforma',
-    VALIDATE_COMMANDE_PROFORMAT = 'gestion-portefeuille/commande-produit/{id}/valider_proforma',
+    //VALIDATE_COMMANDE_PROFORMAT = 'gestion-portefeuille/commande-produit/{id}/valider_proforma',
+    VALIDATE_COMMANDE_PROFORMAT = 'gestion-portefeuille/commande-produit/create_proforma',
     GET_ALL_SERVICES = 'gestion-portefeuille/commande-produit/all_produits',
     STAT_ACHAT = 'gestion-portefeuille/commande-produit/stat',
 

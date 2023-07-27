@@ -10,7 +10,8 @@
         </h3>
       </div>
       <div class="table_actions_wrapper mt-0">
-        <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"></button>
+        <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="GetAllListAffectationBySim()"
+          class="p-button-secondary"></button>
         <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button>
         <button pButton pRipple label="Fermer" class="p-button-danger" (click)="close()"></button>
       </div>
@@ -20,27 +21,10 @@
         <div class="col-md-3">
           <div class="form-group">
             <label>
-              <b>Direction Régionale</b>
+              <b>{{firstLevelLibelle}}</b>
             </label>
-            <p-dropdown [options]="listDirections" optionLabel="nom" (onChange)="onChangeItem($event)"
-              [showClear]="true" placeholder="Selectionnez la direction">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>
-                    {{data.nom}}
-                  </div>
-                </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <b>Exploitation</b>
-            </label>
-            <p-dropdown [options]="listExploitations" optionLabel="fullName" [(ngModel)]="selectedExploitation"
-              placeholder="Selectionnez l'exploitation">>
+            <p-dropdown [options]="listDirections" optionLabel="fullName" (onChange)="onChangeItem($event)"
+              [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle">
               <ng-template let-data pTemplate="item">
                 <div class="country-item">
                   <div>
@@ -51,12 +35,29 @@
             </p-dropdown>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="form-group">
             <label>
-              <b>MSISDN</b>
+              <b>{{secondLevelLibelle}}</b>
             </label>
-            <input placeholder="Saisir le numéro" [(ngModel)]="selectedSim" type="text" pInputText />
+            <p-dropdown [options]="listExploitations" optionLabel="fullName" optionLabel="nom" [filter]="true"
+              [(ngModel)]="selectedExploitation" [showClear]="true" [placeholder]="secondLevelLibelle">
+              <ng-template let-data pTemplate="item">
+                <div class="country-item">
+                  <div>
+                    {{data.fullName}}
+                  </div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div style="width: 13rem;">
+          <div class="form-group">
+            <label>
+              <b>IMSI</b>
+            </label>
+            <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
           </div>
         </div>
         <div class="col-md-1">
@@ -70,62 +71,6 @@
       </div>
     </div>
     <hr>
-    <!-- <div class="table_content_wrapper">
-      <p-table #dt [value]="listAffectations" [rows]="10" [paginator]="true" responsiveLayout="scroll" [rowHover]="true"
-        dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-              données" [showCurrentPageReport]="true">
-        <ng-template pTemplate="caption">
-          <div class="table_header">
-            <div class="table_header__legende">
-              <h4>
-                <b>Liste des SIM Non Affectées au Profil</b>
-              </h4>
-            </div>
-            <div class="table_header__input">
-              <span class="p-input-icon-left ml-auto">
-                <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
-                  placeholder="Recherche" />
-              </span>
-            </div>
-          </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-          <tr>
-            <th class="text-center">#</th>
-            <th>Direction Régionale</th>
-            <th>Exploitation</th>
-            <th>Numéro SIM</th>
-            <th>IMSI</th>
-            <th>PUK</th>
-            <th>Statut</th>
-            <th class="text-center">
-              <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template let-i="rowIndex" pTemplate="body" let-data>
-          <tr>
-            <td class="text-center">{{ i + 1 }}</td>
-            <td>{{data.direction_regionale}}</td>
-            <td>{{data.direction_regionale}}</td>
-            <td>{{data.msisdn}}</td>
-            <td>{{data?.imsi}}</td>
-            <td>{{data?.puk}}</td>
-            <td class="text-center">
-              <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'online'"
-                [class.badge-danger]="data.statut !== 'online'">
-                {{ data.statut }}
-              </span>
-            </td>
-            <td class="td-actions">
-              <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
-                (click)="onCheckedOneConsumer(data)"></p-checkbox>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div> -->
     <div class="table_content_wrapper">
       <div class="table_header mt-2">
         <div class="table_header__legende">
@@ -133,21 +78,16 @@
             <b>Liste des SIM Non Affectées au Profil</b>
           </h4>
         </div>
-        <div class="table_header__input">
-          <!-- <span class="p-input-icon-left ml-auto">
-            <i class="pi pi-search"></i>
-            <input pInputText type="text" placeholder="Recherche" />
-          </span> -->
-        </div>
+        <div class="table_header__input"></div>
       </div>
       <table [ngClass]="['native_table table']" style="margin-top: -0.2rem">
         <thead>
           <th class="text-center">#</th>
-          <th>Direction Régionale</th>
-          <th>Exploitation</th>
-          <th>Numéro SIM</th>
-          <th>IMSI</th>
-          <th>Statut</th>
+          <th>{{firstLevelLibelle}}</th>
+          <th>{{secondLevelLibelle}}</th>
+          <th class="text-center">MSISDN</th>
+          <th class="text-center">IMSI</th>
+          <th class="text-center">Statut</th>
           <th class="text-center">
             <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
           </th>
@@ -156,10 +96,10 @@
           <tr
             *ngFor="let data of listAffectations | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
             <td>{{ (this.offset + i)}}</td>
-            <td>{{data.direction_regionale}}</td>
-            <td>{{data.direction_regionale}}</td>
+            <td>{{data.niveau_un}}</td>
+            <td>{{data.niveau_deux}}</td>
             <td>{{data.msisdn}}</td>
-            <td>{{data?.imsi}}</td>
+            <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
             <td>
               <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'actif'"
                 [class.badge-danger]="data.statut !== 'actif'">

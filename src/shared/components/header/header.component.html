@@ -3,11 +3,7 @@
     <div class="header-wrapper row m-0" *ngIf="statutLayout()">
         <div class="col col-12 horizontal-wrapper pl-0" style="display: flex; justify-content: center;gap: 1rem;">
             <div>
-                <img class="img-fluid" *ngIf="profil?.tenant?.nom_tenant !=='GS2E'" src="assets/images/semlex_ci.png"
-                    style="margin-top: 0rem;" width="130" alt="" />
-                <img class="img-fluid" *ngIf="profil?.tenant?.nom_tenant ==='GS2E'" src="assets/images/gs2e.png"
-                    style="width: 3.5rem;height: 4rem;margin-top: 0rem;" alt="" />
-
+                <img class="img-fluid" [src]="logoTenant" style="width: 3.5rem;height: 4rem;margin-top: 0rem;" alt="" />
             </div>
             <div>
                 <h3 style="font-weight: bold; font-size: 24px; position: relative">
@@ -31,10 +27,9 @@
             <div class="header-wrapper row m-0">
                 <div class="d-flex gap-3">
                     <div>
-                        <img class="img-fluid" *ngIf="profil?.tenant?.nom_tenant !=='GS2E'"
-                            src="assets/images/semlex_ci.png" style="margin-top: 0rem;" alt="" />
-                        <img class="img-fluid" *ngIf="profil?.tenant?.nom_tenant ==='GS2E'" src="assets/images/gs2e.png"
-                            style="width: 3.5rem;height: 4rem;margin-top: 0rem;" alt="" />
+                        <!-- <img class="img-fluid" src="assets/images/africa-connect.png" style="margin-top: 0rem;"
+                            alt="" /> -->
+                        <img class="img-fluid" [src]="logoTenant" style="margin-top: 0rem;" alt="" />
                     </div>
                     <div>
                         <h3 style="font-weight: bold; font-size: 24px; position: relative">

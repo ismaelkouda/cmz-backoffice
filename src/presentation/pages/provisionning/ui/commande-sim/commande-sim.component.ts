@@ -1,6 +1,7 @@
 import { ProvisionningService } from './../../data-access/provisionning.service';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 const Swal = require('sweetalert2');
@@ -18,7 +19,10 @@ export class CommandeSimComponent implements OnInit {
   public currentObject: any;
   public listTypeSims: Array<any> = [];
   public listAchats: any;
+  public selectedTranaction: string;
   public selectedReference: string;
+  public selectedImsi: string;
+  public selectedMsisdn: string;
   public filterDateStart: Date;
   public filterDateEnd: Date;
   public selectDateStart: any;
@@ -40,7 +44,8 @@ export class CommandeSimComponent implements OnInit {
   constructor(
     private provisionningService: ProvisionningService,
     private toastService: ToastrService,
-    private storage: EncodingDataService
+    private storage: EncodingDataService,
+    private clipboardApi: ClipboardService,
 
   ) {
     this.listTypeSims = ['SIM Blanche', 'SIM MSISDN'];
@@ -53,7 +58,8 @@ export class CommandeSimComponent implements OnInit {
   ngOnInit() {
     this.GetAllAchats();
     this.OnStatAchat();
-    this.isFilter()
+    this.isFilter();
+
   }
 
   public GetAllAchats() {
@@ -61,7 +67,6 @@ export class CommandeSimComponent implements OnInit {
       .GetAllAchats({}, this.p)
       .subscribe({
         next: (response) => {
-          // this.listAchats = response['data'];
           this.listAchats = response.data;
           this.totalPage = response.last_page;
           this.totalRecords = response.total;
@@ -73,6 +78,35 @@ export class CommandeSimComponent implements OnInit {
         }
       })
   }
+
+  public onFilter() {
+    if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
+      this.toastService.error('Plage de date invalide');
+      return;
+    }
+    this.provisionningService
+      .GetAllAchats({
+        transaction: this.selectedTranaction,
+        reference: this.selectedReference,
+        imsi: this.selectedImsi,
+        msisdn: this.selectedMsisdn,
+        date_debut: this.selectDateStart,
+        date_fin: this.selectDateEnd,
+      }, this.p)
+      .subscribe({
+        next: (response) => {
+          this.listAchats = response.data;
+          this.totalPage = response.last_page;
+          this.totalRecords = response.total;
+          this.recordsPerPage = response.per_page;
+          this.offset = (response.current_page - 1) * this.recordsPerPage + 1;
+        },
+        error: (error) => {
+          this.toastService.error(error.message);
+        }
+      })
+  }
+
 
   public OnStatAchat() {
     this.provisionningService
@@ -91,7 +125,10 @@ export class CommandeSimComponent implements OnInit {
         }
       })
   }
-
+  copyData(data: any): void {
+    this.toastService.success('Copié dans le presse papier');
+    this.clipboardApi.copyFromContent(data);
+  }
   public GenerateNumeroCommande() {
     this.provisionningService
       .GenerateNumeroCommande()
@@ -105,13 +142,6 @@ export class CommandeSimComponent implements OnInit {
         }
       })
   }
-  public onFilter() {
-    if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
-      this.toastService.error('Plage de date invalide');
-      return;
-    }
-  }
-
   public onPageChange(event) {
     this.p = event;
     if (this.isFilter()) {
@@ -126,7 +156,11 @@ export class CommandeSimComponent implements OnInit {
     this.formsView = true;
     this.currentObject = undefined;
   }
-
+  public onEditCoomande(data) {
+    // this.initialView = false;
+    // this.formsView = true;
+    // this.currentObject = data;
+  }
   public onShowForm(data: any): void {
     this.initialView = false;
     this.formsView = true;
@@ -135,6 +169,9 @@ export class CommandeSimComponent implements OnInit {
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;
+    if (this.initialView === true) {
+      this.GetAllAchats()
+    }
   }
 
   public handleCancel(data: any): void {
@@ -201,6 +238,6 @@ export class CommandeSimComponent implements OnInit {
   }
 
   public isFilter(): boolean {
-    return true
+    return (!this.selectedTranaction && !this.selectedReference && !this.selectedImsi && !this.selectedMsisdn && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
 }

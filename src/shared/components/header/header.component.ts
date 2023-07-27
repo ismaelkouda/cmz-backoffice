@@ -3,7 +3,6 @@ import { DOCUMENT } from "@angular/common";
 import { NavService } from "../../services/nav.service";
 import { LayoutService } from "../../services/layout.service";
 import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
-import { Router } from "@angular/router";
 // @ts-ignore
 import appConfig from '../../../assets/config/app-config.json';
 import { EncodingDataService } from "src/shared/services/encoding-data.service";
@@ -22,23 +21,24 @@ export class HeaderComponent implements OnInit {
   public typeLayout;
   public headerTitle: string;
   public profil: any;
+  public logoTenant: string;
 
   constructor(
     public layout: LayoutService,
     public navServices: NavService,
     @Inject(DOCUMENT) private document: any,
-    private router: Router,
     private storage: EncodingDataService,
+    private mappingService: MappingService
 
   ) {
     this.statutLayout();
     this.headerTitle = appConfig?.titlePage
-
   }
 
   ngOnInit() {
     this.elem = document.documentElement;
     this.profil = JSON.parse(this.storage.getData('user'));
+    this.logoTenant = this.mappingService?.logoTenant;
   }
 
   statutLayout(): boolean {

@@ -4,6 +4,7 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { ClipboardService } from 'ngx-clipboard';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-transaction-sim',
@@ -12,6 +13,8 @@ import { ClipboardService } from 'ngx-clipboard';
 })
 export class TransactionSimComponent implements OnInit {
 
+  public module: string;
+  public subModule: string;
   public listTransactions: Array<any> = [];
   public listTypeOperations: Array<any> = [];
   public listStatuts: Array<any> = [];
@@ -35,6 +38,7 @@ export class TransactionSimComponent implements OnInit {
     public patrimoineService: PatrimoineService,
     public toastrService: ToastrService,
     private clipboardApi: ClipboardService,
+    private route: ActivatedRoute
 
   ) {
     this.listTypeOperations = [
@@ -50,6 +54,10 @@ export class TransactionSimComponent implements OnInit {
   ngOnInit() {
     this.isFilter();
     this.GetAllTransactions();
+    this.route.data.subscribe((data) => {
+      this.module = data.module;
+      this.subModule = data.subModule[3];
+    });
   }
 
   public GetAllTransactions() {

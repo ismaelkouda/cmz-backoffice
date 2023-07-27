@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12">
-      <app-breadcrumb [title]="'Patrimoine'" [active_item]="'Cartes SIM'"></app-breadcrumb>
+      <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
       <div class="card">
         <div class="card-body">
           <div [hidden]="!initialView">
@@ -45,12 +45,12 @@
                   <label>
                     <b>{{thirdLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listActivites" [(ngModel)]="selectedUsage" [showClear]="true"
-                    [placeholder]="thirdLevelLibelle">
+                  <p-dropdown [options]="listActivites" [(ngModel)]="selectedUsage" optionLabel="nom" [showClear]="true"
+                    [placeholder]="thirdLevelLibelle" optionValue="id">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
-                          {{data}}
+                          {{data.nom}}
                         </div>
                       </div>
                     </ng-template>
@@ -70,7 +70,7 @@
                   <label>
                     <b>IMSI</b>
                   </label>
-                  <input placeholder="Numéro" [(ngModel)]="selectedimsi" type="text" pInputText />
+                  <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
                 </div>
               </div>
               <div style="width: 13rem;">
@@ -119,7 +119,7 @@
                   <th class="text-center">MSISDN</th>
                   <th class="text-center">IMSI</th>
                   <th class="text-center">{{thirdLevelLibelle}}</th>
-                  <th class="text-center">Bénéficiaire</th>
+                  <th class="text-center">Emplacement</th>
                   <th>Statut</th>
                   <th class="text-center">Actions</th>
                 </thead>
@@ -147,23 +147,14 @@
                         class="p-button-dark"></button>
                       <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
                         (click)="onEditForm(data)" class="p-button-secondary"></button>
-                      <div ngbDropdown>
+                      <!-- <div ngbDropdown>
                         <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Actions</button>
                         <div ngbDropdownMenu [ngStyle]="{width: '2rem'}">
                           <button ngbDropdownItem (click)="suspensionForm(content,data)">Suspendre</button>
                           <button ngbDropdownItem (click)="resilierForm(content,data)">Resiler</button>
                         </div>
-                      </div>
+                      </div> -->
                     </td>
-                    <!-- <td class="text-center">
-                      <div ngbDropdown>
-                        <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Actions</button>
-                        <div ngbDropdownMenu [ngStyle]="{width: '2rem'}">
-                          <button ngbDropdownItem (click)="suspensionForm(content,data)">Suspendre</button>
-                          <button ngbDropdownItem (click)="resilierForm(content,data)">Resiler</button>
-                        </div>
-                      </div>
-                    </td> -->
                   </tr>
                 </tbody>
               </table>
@@ -179,8 +170,9 @@
       </div>
     </div>
   </div>
-  <p-dialog header="Vue géographique" (onHide)="hideDialog('map')" (onMaximize)="onDialogMaximized($event)"
-    [(visible)]="display" [maximizable]="true" [style]="{width: '100vw',height: '45vw'}">
+  <p-dialog header="Vue géographique" [(visible)]="display" position="bottom-right" (onHide)="hideDialog('map')"
+    [style]="{ width: '100%' }" (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true"
+    [maximizable]="true" [draggable]="false" [resizable]="false">
     <ng-template pTemplate="content" class="mt-4">
       <div class="mt-4">
         <div #parcelleMap></div>

@@ -1,3 +1,4 @@
+import { TypeAlarme } from './../../../../../shared/enum/TypeAlarme.enum';
 import { map } from 'rxjs/operators';
 import {
   AfterViewInit,
@@ -5,12 +6,17 @@ import {
   Input,
   ViewChild,
   ElementRef,
+  OnChanges,
+  SimpleChange,
+  SimpleChanges,
 } from '@angular/core';
 import { NgbAccordionConfig, } from '@ng-bootstrap/ng-bootstrap';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import { Router } from '@angular/router';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { style } from '@angular/animations';
+import { PusherWebsocketService } from 'src/shared/services/pusher-websocket.service';
 
 @Component({
   selector: 'app-card-second',
@@ -96,10 +102,27 @@ export class CardSecondComponent implements AfterViewInit {
   firstLevelLibelle: string;
   secondLevelLibelle: string;
   thirdLevelLibelle: string;
+
+  GeoJsonNormale: any;
+  GeoJsonMineure: any;
+  GeoJsonMajeure: any;
+  GeoJsonCritique: any;
+
+  markerAlarmeNormal = [];
+  markerAlarmeMineure = [];
+  markerAlarmeMajeure = [];
+  markerAlarmeCritique = [];
+
+  traficLayer: any;
+  listEvents = [];
+  lastTraficEvent: any;
+
   constructor(
     config: NgbAccordionConfig,
     private router: Router,
     private mappingService: MappingService,
+    private pusherWebsocketService: PusherWebsocketService
+
 
   ) {
     this.activatedRoute = this.router.url;
@@ -108,6 +131,11 @@ export class CardSecondComponent implements AfterViewInit {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+
+    //setTimeout(() => {
+    // console.log("listEvents", this.listEvents);
+    // alert("dattattata")
+    // },1000);
   }
 
   /**
@@ -117,7 +145,9 @@ export class CardSecondComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     this.initMap();
     this.onMapReady();
+
   }
+
 
   onSelectActeur(value) {
     this.selectedActeur = value;
@@ -125,6 +155,7 @@ export class CardSecondComponent implements AfterViewInit {
   roundNumber(x) {
     return parseInt(x).toFixed(2);
   }
+
   initMap() {
     this.parcelleMap.nativeElement.innerHTML = "<div id='map' style='height: 53.5rem;postion: fixed;bottom:0;'></div>";
     var osmUrl = this.selectedCouche,
@@ -140,32 +171,49 @@ export class CardSecondComponent implements AfterViewInit {
         tms: false,
       });
     this.map = new L.Map('map');
-    //console.log("this.datas.site_geo.features[0].properties.LONGITUDE", this.datas.site_geo.features[0].properties.LONGITUDE);
-    this.map.setView(new L.LatLng(this.datas.site_geo.features[0].properties.LONGITUDE, this.datas.site_geo.features[0].properties.LATITUDE), 14);
+    this.map.setView(new L.LatLng(this.datas.site_geo.features[0]?.properties.LONGITUDE, this.datas.site_geo.features[0]?.properties.LATITUDE), 16);
+    //this.map.setView(new L.LatLng(5.541138, -3.96872), 16);
+
     this.map.addLayer(osmLayer);
   }
-  onMapReady() {
 
-    this.OpenStreetMap.addTo(this.map);
+  //-3.96872 ; 5.541138
+
+  onMapReady() {
 
     //@@@@@@@@@@@@@@@@@@@@@@GEOJSON SITE@@@@@@@@@@@@@@@@@
 
+    console.log("datas", this.datas);
+    this.traficLayer = this.datas.trafic
     const geoJsonSite = L.geoJSON(this.datas.site_geo, {
       style: function () {
         return {
           weight: 2,
           opacity: 1,
-          color: 'black',
-          fillOpacity: 0
+          color: '#FAAC58',
+          fillOpacity: 0.1
         }
       },
       onEachFeature: function (feature, layer) {
-        layer.bindPopup(
-          '<span>' + feature.properties?.SITE + '</span>'
-        ).openPopup();
+        layer.bindTooltip(feature.properties.SITE, { permanent: true, direction: 'bottom', className: 'leaflet-tooltip-site' });
       }
     }).addTo(this.map);
 
+    // this.map.on('zoomend',
+    //   function () {
+    //     if (this.map.hasLayer(geoJsonSite)) {
+    //       geoJsonSite.eachLayer(function (layer) {
+    //         if (this.map.getZoom()) {
+    //           //console.log('remove tooltip');
+    //           this.map.removeLayer(geoJsonSite);
+    //           layer.unbindTooltip();
+
+    //         }
+    //       });
+    //     }
+
+    //   }
+    // );
 
     //@@@@@@@@@@@@@@@@@@@@@@GEOJSON SIM@@@@@@@@@@@@@@@@@@@@@
     var AcitifIcon = L.icon({
@@ -206,7 +254,7 @@ export class CardSecondComponent implements AfterViewInit {
             });
           },
         });
-        layer.bindTooltip(feature.properties.RESSORT, { permanent: true, direction: 'center', className: 'labelLimit' });
+        layer.bindTooltip(feature.properties.RESSORT, { permanent: true, direction: 'center', className: 'leaflet-tooltip-ressort' });
       },
     }).addTo(this.map)
 
@@ -214,52 +262,130 @@ export class CardSecondComponent implements AfterViewInit {
     //@@@@@@@@@@@@@@@@@@@@@@GEOJSON TRAFIC@@@@@@@@@@@@@@@@@
 
 
-    var AlarmeNormale = {
-      radius: 8,
-      fillColor: "#04B431",
-      color: "#000",
-      weight: 1,
-      opacity: 1,
-      fillOpacity: 0.8
-    };
-    var AlarmeMineur = {
-      radius: 8,
-      fillColor: "#FFFF00",
-      color: "#000",
-      weight: 1,
-      opacity: 1,
-      fillOpacity: 0.8
-    };
-    var AlarmeMajeur = {
-      radius: 8,
-      fillColor: "#FFBF00",
-      color: "#000",
-      weight: 1,
-      opacity: 1,
-      fillOpacity: 0.8
-    };
-    var AlarmeCritique = {
-      radius: 8,
-      fillColor: "#DF0101",
-      color: "#000",
-      weight: 1,
-      opacity: 1,
-      fillOpacity: 0.8
-    };
-    const geoJsonTrafic = L.geoJSON(this.datas.trafic, {
+    // var AlarmeNormale = {
+    //   radius: 8,
+    //   fillColor: "#04B431",
+    //   color: "#000",
+    //   weight: 1,
+    //   opacity: 1,
+    //   fillOpacity: 0.8
+    // };
+    // var AlarmeMineur = {
+    //   radius: 8,
+    //   fillColor: "#FFFF00",
+    //   color: "#000",
+    //   weight: 1,
+    //   opacity: 1,
+    //   fillOpacity: 0.8
+    // };
+    // var AlarmeMajeur = {
+    //   radius: 8,
+    //   fillColor: "#FFBF00",
+    //   color: "#000",
+    //   weight: 1,
+    //   opacity: 1,
+    //   fillOpacity: 0.8
+    // };
+    // var AlarmeCritique = {
+    //   radius: 8,
+    //   fillColor: "#DF0101",
+    //   color: "#000",
+    //   weight: 1,
+    //   opacity: 1,
+    //   fillOpacity: 0.8
+    // };
+
+    const geojsonTrafic = L.geoJSON(this.traficLayer, {
       pointToLayer: function (feature, latlng) {
-        if (feature.properties.Alarme === "0") {
-          return L.circleMarker(latlng, AlarmeNormale);
-        } else if (feature.properties.Alarme === "1") {
-          return L.circleMarker(latlng, AlarmeMineur);
-        } else if (feature.properties.Alarme === "2") {
-          return L.circleMarker(latlng, AlarmeMajeur);
-        } else if (feature.properties.Alarme === "3") {
-          return L.circleMarker(latlng, AlarmeCritique);
-        }
+        return L.marker(latlng, {
+          icon: L.icon({
+            iconUrl: '../../../../../assets/svg/sim_loc_vert.svg',
+            iconSize: [50, 50],
+          })
+        });
+        // if (feature?.properties?.alarme_critique === 0) {
+        //   markerAlarmeNormal.push(feature);
+        // } else if (feature?.properties?.alarme_critique === 1) {
+        //   markerAlarmeMineure.push(feature);
+        //   //return L.circleMarker(latlng, AlarmeMineur);
+        // } else if (feature?.properties?.alarme_critique === 2) {
+        //   markerAlarmeMajeure.push(feature);
+        //   //return L.circleMarker(latlng, AlarmeMajeur);
+        // } else if (feature?.properties.alarme_critique === 3) {
+        //   markerAlarmeCritique.push(feature);
+        //   return null
+        // }
       }
     }).addTo(this.map);
+    this.pusherWebsocketService.channel.bind("event-zone-1595", (data) => {
+      this.listEvents.push(data);
+      this.lastTraficEvent = this.listEvents[this.listEvents.length - 1];
+      console.log("lastTraficEvent", this.lastTraficEvent);
+      if (this.listEvents.length !== 0) {
+        this.map.removeLayer(geojsonTrafic);
+        L.geoJSON(this.lastTraficEvent?.data?.trafic, {
+          pointToLayer: function (feature, latlng) {
+            if (feature?.properties?.Alarme === TypeAlarme.NORMAL) {
+              this.markerAlarmeNormal.push(feature);
+            } else if (feature?.properties?.Alarme === TypeAlarme.MINEUR) {
+              this.markerAlarmeMineure.push(feature);
+            } else if (feature?.properties?.Alarme === TypeAlarme.MAJEUR) {
+              this.markerAlarmeMajeure.push(feature);
+            } else if (feature?.properties.Alarme === TypeAlarme.CRITIQUE) {
+              this.markerAlarmeCritique.push(feature);
+              return null
+            }
+          }
+        })
+      }
+    });
 
+    //Alarme Normal
+    this.GeoJsonNormale = L.geoJSON(this.markerAlarmeNormal, {
+      pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {
+          icon: L.icon({
+            iconUrl: '../../../../../assets/svg/sim_loc_vert.svg',
+            iconSize: [50, 50],
+          })
+        });
+      },
+    }).addTo(this.map)
+
+    //Alarme Mineure
+    this.GeoJsonMineure = L.geoJSON(this.markerAlarmeMineure, {
+      pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {
+          icon: L.icon({
+            iconUrl: '../../../../../assets/svg/sim_loc_jaune.svg',
+            iconSize: [50, 50],
+          })
+        });
+      },
+    }).addTo(this.map);
+
+    //Alarme Majeure
+    this.GeoJsonMajeure = L.geoJSON(this.markerAlarmeMajeure, {
+      pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {
+          icon: L.icon({
+            iconUrl: '../../../../../assets/svg/sim_loc_orange.svg',
+            iconSize: [50, 50],
+          })
+        });
+      },
+    }).addTo(this.map);
+    //Alarme Critique
+    this.GeoJsonCritique = L.geoJSON(this.markerAlarmeCritique, {
+      pointToLayer: function (feature, latlng) {
+        return L.marker(latlng, {
+          icon: L.icon({
+            iconUrl: '../../../../../assets/svg/sim_loc_rouge.svg',
+            iconSize: [50, 50],
+          })
+        });
+      },
+    }).addTo(this.map);
 
     var baseMaps = {
       'OpenStreetMap': this.OpenStreetMap,
@@ -267,13 +393,17 @@ export class CardSecondComponent implements AfterViewInit {
     }
     var layerGeoJson = {
       "<span style='font-weight:bold'>SITE - OCI</span>": geoJsonSite,
-      "<span style='font-weight:bold'>SIM GEO</span>": geoJsonSim,
+      "<span style='font-weight:bold'>EMPLACEMENT</span>": geoJsonSim,
       "<span style='font-weight:bold'>RESSORT</span>": geojsonRessort,
-      "<span style='font-weight:bold'>SIM ALARME</span>": geoJsonTrafic,
+      //"<span style='font-weight:bold' class='trafic-sim'>SIM ALARME</span>": geoJsonTrafic,
+      "<span style='font-weight:bold;' ><b>Alarme Normale</b></span><span><img src='assets/svg/sim_loc_vert.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": this.GeoJsonNormale,
+      "<span style='font-weight:bold;' ><b>Alarme Mineure</b></span><span><img src='assets/svg/sim_loc_jaune.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": this.GeoJsonMineure,
+      "<span style='font-weight:bold;' ><b>Alarme Majeure</b></span><span><img src='assets/svg/sim_loc_orange.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": this.GeoJsonMajeure,
+      "<span style='font-weight:bold;' ><b>Alarme Critique</b></span><span><img src='assets/svg/sim_loc_rouge.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": this.GeoJsonCritique
     }
+
     L.control.layers(baseMaps, layerGeoJson, {
       collapsed: false,
-
     }).addTo(this.map);
   }
   showModalSideBar() {

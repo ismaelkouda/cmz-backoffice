@@ -20,10 +20,6 @@ export class FormsProfilComponent implements OnInit {
   checkedAll: boolean = false;
   public checkedAllConsumers: boolean = false;
   public listAffectations: Array<any> = [];
-  public checkedconsumer: boolean = false;
-  public listconfigCheckedTrue: any[] = [];
-  public checkconsumerList: any[] = [];
-
   public clonedMetrique: { [s: string]: any } = {};
   public currentMetrique: any;
   public globalMetriquesEditRow: Array<any> = [];
@@ -37,6 +33,7 @@ export class FormsProfilComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.GetAllReferentielTelemetrie();
+    this.isValidate();
     if (this.currentObject !== undefined) {
       this.onFormPachValues();
       this.GetMetriquesByProfil();
@@ -50,40 +47,16 @@ export class FormsProfilComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listAffectations = response['data'];
+          this.globalMetriquesEditRow = this.listAffectations.filter(item => {
+            return item?.statut === 'actif'
+          }).map((data) => {
+            return { metrique_id: data?.id, seuil: data?.seuil, statut: data?.statut }
+          });
         },
         error: (error) => {
           this.toastrService.error(error.message);
         }
       })
-  }
-  public onCheckedOneConsumer(consumer: any) {
-    if (this.checkconsumerList.includes(consumer.id)) {
-      this.checkconsumerList.forEach((value, index) => {
-        if (value == consumer.id)
-          this.checkconsumerList.splice(index, 1);
-      });
-    } else if (!this.checkconsumerList.includes(consumer.id)) {
-      this.checkconsumerList.push(consumer.id);
-    }
-    if (this.checkconsumerList.length === this.listAffectations.length) {
-      this.checkedAllConsumers = true;
-    } else {
-      this.checkedAllConsumers = false;
-    }
-  }
-  public OnCheckAllConsumer() {
-    this.checkconsumerList = [];
-    if (this.checkedAllConsumers) {
-      this.listAffectations.forEach((consumer) => {
-        consumer.checked = true;
-        this.checkconsumerList.push(consumer.id);
-      });
-    } else {
-      this.listAffectations.forEach((consumer) => {
-        consumer.checked = false;
-      });
-      this.checkconsumerList.splice(0, this.checkconsumerList.length);
-    }
   }
   public GetAllProfilSupervision(): void {
     this.telemetrieService
@@ -124,8 +97,23 @@ export class FormsProfilComponent implements OnInit {
       ...(metrique.seuil === null ? { seuil: currentMetrique.seuil } : { seuil: metrique.seuil }),
       ...(metrique.statut === null ? { statut: currentMetrique.statut } : { statut: metrique.statut })
     };
-    this.globalMetriquesEditRow.push(data);
-    this.toastrService.info('Enregistrement en attente !', 'EDITION');
+    const checkValue = metriqueParam => this.globalMetriquesEditRow.some(({ metrique_id }) => metrique_id == metriqueParam);
+    if (data?.statut === 'inactif' || data?.seuil === null) {
+      const indexOfItemInArray = this.globalMetriquesEditRow.findIndex(q => q.metrique_id === data.metrique_id);
+      this.globalMetriquesEditRow.splice(indexOfItemInArray, 1);
+      // metrique.statut = 'inactif';
+      metrique.seuil = null;
+      this.toastrService.warning("Veuillez activez l'alarme ou Configurer le seuil");
+      return;
+    } else {
+      if (checkValue(data.metrique_id) === false) {
+        this.globalMetriquesEditRow.push(data);
+        this.toastrService.info('Enregistrement en attente !', 'EDITION');
+      } else {
+        const indexOfItemInArray = this.globalMetriquesEditRow.findIndex(q => q.metrique_id === data.metrique_id);
+        this.globalMetriquesEditRow.splice(indexOfItemInArray, 1, data);
+      }
+    }
   }
   public onCancelRowMetrique(metrique: any, index: number) {
     this.listAffectations[index] = this.clonedMetrique[metrique.id];
@@ -154,13 +142,31 @@ export class FormsProfilComponent implements OnInit {
     }
   }
 
+  public handleSaveProfilSupervision() {
+    this.telemetrieService
+      .handleSaveProfilSupervision({
+        nom: this.adminForm.get('nom').value,
+        description: this.adminForm.get('description').value,
+        metriques: [...this.globalMetriquesEditRow]
+      }).subscribe({
+        next: (response) => {
+          this.adminForm.reset();
+          this.GetAllProfilSupervision();
+          this.toastrService.success(response.message);
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
   public handleUpdateProfilSupervision() {
+    console.log("globalMetriquesEditRow", this.globalMetriquesEditRow);
     this.telemetrieService
       .handleUpdateProfilSupervision({
         profil_id: this.currentObject?.id,
         nom: this.adminForm.get('nom').value,
         description: this.adminForm.get('description').value,
-        metriques: this.checkconsumerList
+        metriques: [...this.globalMetriquesEditRow]
       })
       .subscribe({
         next: (response) => {
@@ -172,5 +178,8 @@ export class FormsProfilComponent implements OnInit {
           this.toastrService.error(error.error.message);
         }
       })
+  }
+  isValidate(): boolean {
+    return ((this.globalMetriquesEditRow.length === 0) && !this.adminForm.valid) ? true : false
   }
 }

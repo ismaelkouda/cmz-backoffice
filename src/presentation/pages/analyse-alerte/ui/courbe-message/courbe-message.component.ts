@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { Dialog } from 'primeng/dialog';
-import { SettingService } from 'src/shared/services/setting.service';
-
+import { MappingService } from 'src/shared/services/mapping.service';
 @Component({
   selector: 'app-courbe-message',
   templateUrl: './courbe-message.component.html',
@@ -14,9 +11,12 @@ export class CourbeMessageComponent implements OnInit {
   public isMaximized: boolean = false;
   public showIframe: boolean = false;
   public visualUrl: string;
+  public grafanaLink: string;
+
 
   constructor(
-    private router: Router
+    private router: Router,
+    private mappingService: MappingService
   ) { }
 
   ngOnInit() {
@@ -26,7 +26,7 @@ export class CourbeMessageComponent implements OnInit {
   public onVisualiserAlarme() {
     this.showIframe = true;
     this.onDialogMaximized(true);
-    this.visualUrl = "http://10.10.10.93:50200/d/fUHASnXVk/tb-analyse-des-alarmes-actives?orgId=1&refresh=10m"
+    this.visualUrl = "http://160.120.143.6:50200/d/4G56s-rVk/tb-sim-cloud?orgId=1"
   }
 
   public hideDialog() {

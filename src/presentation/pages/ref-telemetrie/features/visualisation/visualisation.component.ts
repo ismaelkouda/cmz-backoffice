@@ -3,6 +3,8 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { TelemetrieService } from '../../data-access/telemetrie.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MappingService } from 'src/shared/services/mapping.service';
+import { ClipboardService } from 'ngx-clipboard';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -29,19 +31,31 @@ export class VisualisationComponent implements OnInit {
   public selectedDirection: any;
   public selectedExploitation: any;
   public selectedSim: any;
+  public selectedimsi: any;
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
 
+  //Mapping
+  firstLevelLibelle: string;
+  secondLevelLibelle: string;
+  thirdLevelLibelle: string;
+
   constructor(
     private telemetrieService: TelemetrieService,
     private toastrService: ToastrService,
     private modalService: NgbModal,
-    private settingService: SettingService
+    private settingService: SettingService,
+    private mappingService: MappingService,
+    private clipboardApi: ClipboardService,
 
-  ) { }
+  ) {
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+  }
 
   ngOnInit() {
     this.GetAllListSimAffecte();
@@ -75,7 +89,9 @@ export class VisualisationComponent implements OnInit {
 
   public GetAllListSimAffecte() {
     this.telemetrieService
-      .GetAllListSimAffecte(this.currentObject?.id, this.p)
+      .GetAllListSimAffecte({
+        profil_id: this.currentObject?.id
+      }, this.p)
       .subscribe({
         next: (response) => {
           this.listAffectations = response.data.data;
@@ -83,19 +99,6 @@ export class VisualisationComponent implements OnInit {
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
-          // this.listconfigCheckedTrue =
-          //   this.listAffectations.filter((data) => {
-          //     return data.checked === true;
-          //   });
-          // this.listconfigCheckedTrue.forEach((c) => {
-          //   this.checkconsumerList.push(c.id);
-          // });
-          // if (
-          //   this.listAffectations.length ===
-          //   this.listconfigCheckedTrue.length
-          // ) {
-          //   this.checkedAllConsumers = true;
-          // }
         },
         error: (error) => {
           this.toastrService.error(error.message);
@@ -108,7 +111,12 @@ export class VisualisationComponent implements OnInit {
   }
   public onFilter() {
     this.telemetrieService
-      .GetAllListSimAffecte(this.currentObject?.id, this.p)
+      .GetAllListSimAffecte({
+        profil_id: this.currentObject?.id,
+        niveau_un_id: this.selectedDirection?.id,
+        niveau_deux_id: this.selectedExploitation?.id,
+        imsi: this.selectedimsi
+      }, this.p)
       .subscribe({
         next: (response) => {
           this.listAffectations = response.data.data;
@@ -127,23 +135,28 @@ export class VisualisationComponent implements OnInit {
       .getAllDirectionRegionales({})
       .subscribe({
         next: (response) => {
-          this.listDirections = response.data
+          this.listDirections = response['data'].map(element => {
+            return { ...element, fullName: `${element.nom} [${element.code}]` }
+          });
         },
         error: (error) => {
           this.toastrService.error(error.message);
         }
       })
   }
-
-  onChangeItem(event: any) {
+  public onChangeItem(event: any) {
     this.selectedDirection = event.value;
-    this.listExploitations = this.selectedDirection?.exploitations.map(element => {
+    this.listExploitations = this.selectedDirection?.niveaux_deux.map(element => {
       return { ...element, fullName: `${element.nom} [${element.code}]` }
     });
   }
-  public isFilter(): boolean {
-    return (!this.selectedDirection && !this.selectedSim) ? true : false
+
+
+  copyData(data: any): void {
+    this.toastrService.success('Copié dans le presse papier');
+    this.clipboardApi.copyFromContent(data);
   }
+
   public onCheckedOneConsumer(consumer: any) {
     if (this.checkconsumerList.includes(consumer.id)) {
       this.checkconsumerList.forEach((value, index) => {
@@ -231,5 +244,8 @@ export class VisualisationComponent implements OnInit {
           })
       }
     });
+  }
+  public isFilter(): boolean {
+    return (!this.selectedDirection && !this.selectedExploitation && !this.selectedimsi) ? true : false
   }
 }

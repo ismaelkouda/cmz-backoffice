@@ -144,13 +144,13 @@
     <div>
       <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha">
       </ngx-recaptcha2>
-      <button style="float: right;margin-top: 1rem;" pButton pRipple label="Voir la facture"
-        (click)="CreateProformatCommande()" class="p-button-success"></button>
+      <button style="float: right;margin-top: 1rem;" [disabled]="isFilter()" pButton pRipple label="Voir la facture"
+        (click)="showFacture()" class="p-button-success"></button>
     </div>
   </div>
   <!--[disabled]="!currentRecaptcha"-->
 </div>
 <div>
-  <app-facture [currentObject]="currentObject" *ngIf="factureView" (factureView)="pushStatutView($event,'data')"
+  <app-facture [currentObjectTwo]="currentObjectTwo" *ngIf="factureView" (factureView)="pushStatutView($event,'data')"
     [currentId]="currentId"></app-facture>
 </div>

@@ -1,3 +1,5 @@
+import { PusherWebsocketService } from './../../../../../shared/services/pusher-websocket.service';
+import { WebsocketService } from './../../../../../shared/services/websocket.service';
 import { ZoneTraficService } from './../../data-access/zone-trafic.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
@@ -7,7 +9,9 @@ import { MappingService } from 'src/shared/services/mapping.service';
 @Component({
   selector: 'app-vue-geographique',
   templateUrl: './vue-geographique.component.html',
-  styleUrls: ['./vue-geographique.component.scss']
+  styleUrls: ['./vue-geographique.component.scss'],
+  //providers: [RxWebsocketService]
+
 })
 export class VueGeographiqueComponent implements OnInit {
 
@@ -31,6 +35,8 @@ export class VueGeographiqueComponent implements OnInit {
   public initialView: boolean = true;
   public formsView: boolean = false;
 
+  listMesssages = [];
+
   //Mapping
   firstLevelLibelle: string;
   secondLevelLibelle: string;
@@ -41,17 +47,24 @@ export class VueGeographiqueComponent implements OnInit {
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private mappingService: MappingService,
+    // private rxWebsocketService: RxWebsocketService,
+    private websocketService: WebsocketService,
+    private pusherWebsocketService: PusherWebsocketService
   ) {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+
   }
 
   ngOnInit() {
     this.GetAllZOneTrafic();
     this.GetAllDepartements();
     this.isFilter();
+    // this.pusherWebsocketService.channel.bind("event-zone-100", (data) => {
+    //   this.listMesssages.push(data);
+    // });
+    // console.log("listEvents", this.listMesssages);
   }
-
   public GetAllZOneTrafic() {
     this.zoneTraficService
       .GetAllZOneTrafic({}, this.p)
@@ -136,7 +149,7 @@ export class VueGeographiqueComponent implements OnInit {
     this.zoneTraficService
       .GetPositionSimGeojson(id).subscribe({
         next: (response) => {
-          this.datas = response.data;
+          this.datas = response['data'];
           this.onDialogMaximized(true);
           this.display = true;
         },

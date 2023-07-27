@@ -20,6 +20,15 @@ export const content: Routes = [
   {
     path: PATRIMOINE,
     loadChildren: () => import("../../presentation/pages/patrimoine/patrimoine.module").then((m) => m.PatrimoineModule),
+    data: {
+      module: 'Patrimoine',
+      subModule: [
+        'Cartes SIM',
+        'Groupe de SIM',
+        'Dotation de Services',
+        'Transaction sur SIM'
+      ]
+    }
   },
   {
     path: REFERENTIEL_TELEMETRIE,

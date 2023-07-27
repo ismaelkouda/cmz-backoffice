@@ -1,7 +1,7 @@
 import { PERFORMANCE_SLA } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
-import { CARTES_SIM, LIFECYCLE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
+import { CARTES_SIM, DOTATION_SERVICES, GROUPE_SIM, LIFECYCLE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
 import { SUPERSION_PRISE_EN_CHARGE, SUPERSION_STATUTS, SUPERVISION_SUIVIE_TRAITEMENT } from 'src/presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { DASHBOARD, OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
@@ -38,9 +38,16 @@ export var menuJson = [
                 type: "link"
             },
             {
-                path: `/${PATRIMOINE}/${LIFECYCLE_SIM}`,
-                title: "Cycle de Vie des SIM",
-                label: "Cycle de Vie des SIM",
+                path: `/${PATRIMOINE}/${GROUPE_SIM}`,
+                title: "Groupe de SIM",
+                label: "Groupe de SIM",
+                data: "1-1-0-cartes-sim",
+                type: "link"
+            },
+            {
+                path: `/${PATRIMOINE}/${DOTATION_SERVICES}`,
+                title: "Dotation de Services",
+                label: "Dotation de Services",
                 data: "1-1-0-cartes-sim",
                 type: "link"
             },
@@ -67,8 +74,8 @@ export var menuJson = [
         children: [
             {
                 path: `/${REFERENTIEL_TELEMETRIE}/${SEUIL_ALARMES}`,
-                title: "Seuils & Alarmes",
-                label: "Seuils & Alarmes",
+                title: "Métriques & Alarmes",
+                label: "Métriques & Alarmes",
                 data: "2-1-0-seuil-alarmes",
                 type: "link"
             },
@@ -232,5 +239,17 @@ export var menuJson = [
     }
 
 ]
-//160.120.143.6:28010
-//160.120.143.6:28010
+/*
+Lien BackEnd : http://144.91.103.143:12100/
+Email : admin@africaconnect.digital
+
+
+
+Lien BackEnd : http://144.91.103.143:12200/
+Email : admin@semlex.digital
+
+
+Lien BackEnd : http://144.91.103.143:12300/
+Email : admin@gs2e.digital
+Password : gs2e1234
+*/

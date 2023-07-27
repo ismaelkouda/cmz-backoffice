@@ -1,18 +1,17 @@
 <div class="container-fluid">
   <div class="col-sm-12">
-    <app-breadcrumb [title]="'Refrentiel Supervision'" [active_item]="'Seuils & Alarmes'"></app-breadcrumb>
+    <app-breadcrumb [title]="'Refrentiel Supervision'" [active_item]="'Métriques & Alarmes'"></app-breadcrumb>
     <div class="card">
       <div class="card-body">
         <div>
           <p-tabView (onChange)="handleChangeTabviewIndex($event)">
-            <p-tabPanel header="SEUIL & ALARME">
+            <p-tabPanel header="METRIQUE & ALARME">
               <div class="table_actions_wrapper" style="display: flex;justify-content: space-between;">
                 <div>
                   <button pButton pRipple label="Exporter" [disabled]="disableAction()" icon="pi pi-download"
                     class="p-button-helf"></button>
                   <button pButton pRipple label="Enregistrer" (click)="handleUpdateReferentielTelemetrie()"
-                    [disabled]="globalMetriquesEditRow.length === 0" icon="pi pi-save"
-                    class="p-button-success ms-3"></button>
+                    [disabled]="isValidate()" icon="pi pi-save" class="p-button-success ms-3"></button>
                 </div>
                 <div>
                   <p-button label="Deployer" styleClass="p-button-secondary" badge="ok"
@@ -28,7 +27,7 @@
                     <div class="table_header">
                       <div class="table_header__legende" style="position: relative;left: -1rem;">
                         <h4>
-                          <b>Liste des Alarmes</b>
+                          <b>Liste des Métriques et Alarmes</b>
                         </h4>
                       </div>
                       <div class="table_header__input" style="position: relative;left: 1rem;">
@@ -47,7 +46,6 @@
                       <th>Description mésure</th>
                       <th class="text-center">Type de mesure</th>
                       <th class="text-center">Unité</th>
-                      <th class="text-center">Statut</th>
                       <th style="width: 2rem;" class="text-center">Actions</th>
                     </tr>
                   </ng-template>
@@ -57,19 +55,16 @@
                       <td class="text-center">{{data?.classification}}</td>
                       <td>{{data?.description}}</td>
                       <td class="text-center">{{data?.type_mesure}}</td>
-                      <td class="text-center">{{data?.unite}}</td>
-                      <td class="text-center">
+                      <td style="width: 5rem !important;">
                         <p-cellEditor>
                           <ng-template pTemplate="input">
-                            <p-inputSwitch trueValue="actif" falseValue="inactif" [(ngModel)]="data.statut"
-                              #data.statut="ngModel"></p-inputSwitch>
+                            <input *ngIf="data?.classification !== 'data'" class="text-center" pInputText
+                              [(ngModel)]="data.unite" #data.unite="ngModel" />
+                            <p-dropdown [options]="['ko','Mo','Go','To']" *ngIf="data?.classification === 'data'"
+                              appendTo="body" [(ngModel)]="data.unite" #data.unite="ngModel"></p-dropdown>
                           </ng-template>
                           <ng-template pTemplate="output">
-                            <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
-                              [class.badge-success]="data.statut === 'actif'"
-                              [class.badge-danger]="data.statut !== 'actif'">
-                              {{ data.statut }}
-                            </span>
+                            <span>{{ data.unite }}</span>
                           </ng-template>
                         </p-cellEditor>
                       </td>

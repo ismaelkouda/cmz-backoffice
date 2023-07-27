@@ -1,10 +1,14 @@
-<div class="card widget-1">
-    <div class="card-body">
-        <div class="widget-content">
-            <div>
-                <h4>{{data.label}}</h4>
-            </div>
+<div class="card" [ngStyle]="{backgroundColor: cardBgColor,border: '1px solid'+ cardBorderColor}">
+    <div class="content">
+        <div class="content__legend">
+            <b>
+                <span [ngStyle]="{color: legendColor}">{{legend}}</span>
+            </b>
         </div>
-        <div class="font-{{data.font}} f-w-500" [ngStyle]="{'font-size' : '25px'}">{{data.value}}</div>
+        <div class="content__value">
+            <b>
+                <span [ngStyle]="{color:countColor}">{{ pipeValue(count)}}</span>
+            </b>
+        </div>
     </div>
 </div>

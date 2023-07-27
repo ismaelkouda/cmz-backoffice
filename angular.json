@@ -115,7 +115,9 @@
               "./node_modules/leaflet.markercluster/dist/MarkerCluster.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "./node_modules/pusher-js/dist/web/pusher.min.js"
+            ],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,

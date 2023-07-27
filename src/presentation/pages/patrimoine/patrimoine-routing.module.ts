@@ -3,9 +3,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CarteSimActiveComponent } from './ui/carte-sim-active/carte-sim-active.component';
 import { TransactionSimComponent } from './ui/transaction-sim/transaction-sim.component';
+import { GroupeSimComponent } from './ui/groupe-sim/groupe-sim.component';
+import { DotationServiceComponent } from './ui/dotation-service/dotation-service.component';
 
 export const CARTES_SIM = 'cartes-sim';
 export const LIFECYCLE_SIM = 'cycle-de-vie-sim';
+export const GROUPE_SIM = 'groupe-sim';
+export const DOTATION_SERVICES = 'dotation-services';
 export const TRANSACTION_SIM = 'transaction-sur-sim';
 
 const routes: Routes = [{
@@ -16,8 +20,12 @@ const routes: Routes = [{
             component: CarteSimActiveComponent
         },
         {
-            path: LIFECYCLE_SIM,
-            component: LifecycleSimComponent
+            path: GROUPE_SIM,
+            component: GroupeSimComponent
+        },
+        {
+            path: DOTATION_SERVICES,
+            component: DotationServiceComponent
         },
         {
             path: TRANSACTION_SIM,

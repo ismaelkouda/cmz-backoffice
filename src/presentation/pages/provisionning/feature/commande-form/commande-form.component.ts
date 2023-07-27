@@ -5,6 +5,7 @@ import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { ProvisionningService } from '../../data-access/provisionning.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment.prod';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
   selector: 'app-commande-form',
@@ -59,11 +60,11 @@ export class CommandeFormComponent implements OnInit {
 
   //Forms Model
 
-  public selectedQtyBlanche: number;
+  public selectedQtyBlanche: number = 0;
   public selectedDescBlanche: string;
-  public selectedQtyMsimsdn: number;
+  public selectedQtyMsimsdn: number = 0;
   public selectedDescSimMsisdn: string;
-  public selectedvp: number;
+  public selectedvp: number = 0;
   public selectedDescVp: string;
 
 
@@ -74,14 +75,16 @@ export class CommandeFormComponent implements OnInit {
     private storage: EncodingDataService,
     private provisionningService: ProvisionningService,
     private toastService: ToastrService,
+    private loadingBar: LoadingBarService,
+
 
   ) { }
 
   ngOnInit() {
     this.siteKey = environment.recaptcha.siteKey;
-    //this.numeroCommande = this.storage.getData('numero_commande');
     this.isFilter();
-    this.GetAllServices()
+    this.GetAllServices();
+
   }
 
   public close(): void {
@@ -108,6 +111,11 @@ export class CommandeFormComponent implements OnInit {
       })
   }
   public CreateProformatCommande() {
+    this.showFacture();
+
+  }
+  showFacture() {
+    this.loadingBar.start();
     const data = [
       //SIMA
       {
@@ -139,25 +147,15 @@ export class CommandeFormComponent implements OnInit {
         description: this.selectedDescVp
       },
     ];
-    this.provisionningService
-      .CreateProformatCommande({
-        operation: "commande-produits",
-        achats: data
-      }).subscribe({
-        next: (response) => {
-          const data = response['data'][0];
-          this.currentId = data?.id;
-          this.showFacture();
-        },
-        error: (error) => {
-          this.toastService.error(error.error.message);
-        }
-      })
-  }
-  showFacture() {
     this.initialView = false;
     this.factureView = true;
-    this.currentObject = undefined;
+    this.currentObjectTwo = data;
+
+    console.log("data", data);
+
+    setTimeout(() => {
+      this.loadingBar.stop();
+    }, 500);
   }
 
   public hideFacture(data) {
@@ -174,6 +172,11 @@ export class CommandeFormComponent implements OnInit {
       this.close()
     }
   }
+  // public pushListAchat(event: any): void {
+  //   this.listProfils = event;
+  //   this.currentObject
+  //   this.close()
+  // }
 
   public isFilter(): boolean {
     return (!this.selectedQtyBlanche && !this.selectedQtyMsimsdn && !this.selectedvp) ? true : false

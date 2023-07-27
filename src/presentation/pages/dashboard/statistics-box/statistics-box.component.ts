@@ -7,8 +7,20 @@ import { Component, Input } from "@angular/core";
 })
 export class StatisticsBoxComponent {
 
-  @Input() data: any
+  @Input() cardBgColor: any;
+  @Input() cardBorderColor: any;
+  @Input() legendColor: any;
+  @Input() countColor: any;
+  @Input() legend: string;
+  @Input() count: any;
 
+  constructor() { }
 
-  constructor() {}
+  ngOnInit(): void {
+  }
+
+  pipeValue(number: any) {
+    return new Intl.NumberFormat('fr-FR').format(number);
+  }
+
 }

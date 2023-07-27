@@ -90,7 +90,7 @@
               <div class="table_header mt-2">
                 <div class="table_header__legende">
                   <h4 class="pt-2">
-                    <b>Liste des 50 dernières Lignes de Credits</b>
+                    <b>Liste des 50 dernières Lignes de Crédits</b>
                   </h4>
                 </div>
                 <div class="table_header__input"></div>
@@ -113,7 +113,7 @@
                     <td>{{data?.created_at}}</td>
                     <td (click)="copyData(data.reference)" style="cursor: pointer">{{data?.transaction}}</td>
                     <td (click)="copyData(data.reference)" style="cursor: pointer">{{data?.reference}}</td>
-                    <td>{{data?.montant}}</td>
+                    <td>{{pipeValue(data?.montant)}}</td>
                     <td>
                       <button pButton pRipple pTooltip="Visualiser" (click)="showImage(data.justificatif)"
                         tooltipPosition="top" label="voir" class="p-button"></button>

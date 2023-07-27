@@ -52,7 +52,9 @@ export class LigneCreditComponent implements OnInit {
 
   ngOnInit() {
     this.GetAllLigneCredits();
-    this.OnStatCredit()
+    if (this.initialView = true) {
+      this.OnStatCredit();
+    }
   }
 
 
@@ -153,6 +155,10 @@ export class LigneCreditComponent implements OnInit {
 
       }
     });
+  }
+
+  pipeValue(number: any) {
+    return new Intl.NumberFormat('fr-FR').format(number);
   }
 
   showImage(data: any) {

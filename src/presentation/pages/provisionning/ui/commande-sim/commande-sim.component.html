@@ -37,7 +37,7 @@
                   <label>
                     <b>Transaction</b>
                   </label>
-                  <input placeholder="Transaction" [(ngModel)]="selectedReference" type="text" pInputText />
+                  <input placeholder="Transaction" [(ngModel)]="selectedTranaction" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-2">
@@ -53,7 +53,7 @@
                   <label>
                     <b>IMSI</b>
                   </label>
-                  <input placeholder="IMSI" [(ngModel)]="selectedReference" type="text" pInputText />
+                  <input placeholder="IMSI" [(ngModel)]="selectedImsi" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-2">
@@ -61,7 +61,7 @@
                   <label>
                     <b>MSISDN</b>
                   </label>
-                  <input placeholder="MSISDN" [(ngModel)]="selectedReference" type="text" pInputText />
+                  <input placeholder="MSISDN" [(ngModel)]="selectedMsisdn" type="text" pInputText />
                 </div>
               </div>
               <div style="width: 12rem;">
@@ -104,7 +104,7 @@
                   <th class="text-center">Reference</th>
                   <th class="text-center"># SIM A</th>
                   <th class="text-center"># SIM B</th>
-                  <th class="text-center"># Volume</th>
+                  <th class="text-center">Volume (Go)</th>
                   <th class="text-center">Initiateur</th>
                   <th class="text-center">Statut</th>
                   <th class="text-center">Actions</th>
@@ -114,11 +114,11 @@
                     *ngFor="let data of listAchats | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                     <td>{{ (this.offset + i)}}</td>
                     <td>{{data?.created_at}}</td>
-                    <td>{{data?.transaction}}</td>
-                    <td>{{data?.numero_commande}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td (click)="copyData(data.transaction)" style="cursor: pointer">{{data?.transaction}}</td>
+                    <td (click)="copyData(data.numero_commande)" style="cursor: pointer">{{data?.numero_commande}}</td>
+                    <td>{{pipeValue(data?.qte_sim_msisdn)}}</td>
+                    <td>{{pipeValue(data?.qte_sim_blanche)}}</td>
+                    <td>{{pipeValue(data?.volume_data)}}</td>
                     <td>{{data.initiateur?.nom}} {{data.initiateur?.prenoms}}</td>
                     <td>
                       <span [ngStyle]="{'font-size': '16px' }" class="badge"
@@ -135,8 +135,8 @@
                       </button>
                       <!-- <p-button icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" styleClass="p-button-dark"
                         (click)="onShowForm(data)"></p-button> -->
-                      <p-button icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
-                        styleClass="p-button-secondary"></p-button>
+                      <p-button icon="pi pi-pencil" (click)="onEditCoomande(data)" pTooltip="Editer"
+                        tooltipPosition="top" styleClass="p-button-secondary"></p-button>
                       <p-button icon="pi pi-dollar" pTooltip="Solder" tooltipPosition="top"
                         styleClass="p-button-success" (click)="handleSolder(data)"></p-button>
                     </td>

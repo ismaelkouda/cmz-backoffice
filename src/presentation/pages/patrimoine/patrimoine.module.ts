@@ -1,3 +1,5 @@
+import { DotationServiceComponent } from './ui/dotation-service/dotation-service.component';
+import { GroupeSimComponent } from './ui/groupe-sim/groupe-sim.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -28,6 +30,7 @@ import { LifecycleSimComponent } from './ui/lifecycle-sim/lifecycle-sim.componen
 import { TransactionSimComponent } from './ui/transaction-sim/transaction-sim.component';
 import { PatrimoineFormsComponent } from './feature/patrimoine-forms/patrimoine-forms.component';
 import { SuspensionFormComponent } from './feature/suspension-form/suspension-form.component';
+import { HistoriqueLifecycleComponent } from './feature/historique-lifecycle/historique-lifecycle.component';
 
 
 @NgModule({
@@ -55,10 +58,13 @@ import { SuspensionFormComponent } from './feature/suspension-form/suspension-fo
     ],
     declarations: [
         CarteSimActiveComponent,
+        GroupeSimComponent,
+        DotationServiceComponent,
         LifecycleSimComponent,
         PatrimoineFormsComponent,
         TransactionSimComponent,
-        SuspensionFormComponent
+        SuspensionFormComponent,
+        HistoriqueLifecycleComponent
     ],
 })
 export class PatrimoineModule { }

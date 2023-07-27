@@ -38,17 +38,13 @@ export class TelemetrieService {
     const url: string = (<string>EndPointUrl.DISABLE_PROFIL).replace('{id}', data)
     return this.http.put(`${this.BASE_URL}${url}`, {});
   }
-  GetAllListAffectationBySim(id, page): Observable<any> {
-    const url: string = (<string>EndPointUrl.GET_LIST_AFFECTATION_BY_SIM)
-      .replace('{id}', id)
-      .replace('{page}', page)
-    return this.http.get(`${this.BASE_URL}${url}`);
+  GetAllListAffectationBySim(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_LIST_AFFECTATION_BY_SIM).replace('{page}', page)
+    return this.http.post(`${this.BASE_URL}${url}`, data);
   }
-  GetAllListSimAffecte(id, page): Observable<any> {
-    const url: string = (<string>EndPointUrl.GET_LIST_SIM_AFFECTES)
-      .replace('{id}', id)
-      .replace('{page}', page)
-    return this.http.get(`${this.BASE_URL}${url}`);
+  GetAllListSimAffecte(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_LIST_SIM_AFFECTES).replace('{page}', page)
+    return this.http.post(`${this.BASE_URL}${url}`, data);
   }
   handleUpdateReferentielTelemetrie(data): Observable<any> {
     const url: string = (<string>EndPointUrl.UPDATE_REFERENTIEL_TELEMETRIE);
@@ -57,6 +53,10 @@ export class TelemetrieService {
   handleUpdateProfilSupervision(data): Observable<any> {
     const url: string = (<string>EndPointUrl.UPDATE_PROFIL_SUPERVISION);
     return this.http.put(`${this.BASE_URL}${url}`, data);
+  }
+  handleSaveProfilSupervision(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.SAVE_PROFIL_SUPERVISION);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
   }
   handleSaveAffectation(data): Observable<any> {
     const url: string = (<string>EndPointUrl.SAVE_AFFECTATION);

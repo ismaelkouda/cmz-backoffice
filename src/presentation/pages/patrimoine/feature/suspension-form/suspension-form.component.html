@@ -40,6 +40,11 @@
           (onClick)="selectedAction(suspension)" [inputId]="suspension"></p-radioButton>
         <label [for]="suspension" style="margin-top: 0.9rem">Suspension</label>
       </div>
+      <div class="d-flex gap-2">
+        <p-radioButton name="valeur" [value]="volume" [(ngModel)]="operationValue" (onClick)="selectedAction(volume)"
+          [inputId]="volume"></p-radioButton>
+        <label [for]="volume" style="margin-top: 0.9rem">Volume (Go)</label>
+      </div>
     </div>
   </fieldset>
   <!------------------------------ACTIVATION--------FORMS-------------------------------->
@@ -96,13 +101,12 @@
               <label>
                 <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="listExploitations" [(ngModel)]="selectedExploitation" optionLabel="fullName"
-                optionValue="id" [showClear]="true" [filter]="true" filterBy="fullName"
-                [placeholder]="secondLevelLibelle">
+              <p-dropdown [options]="listExploitations" [(ngModel)]="selectedExploitation" optionLabel="nom"
+                optionValue="id" [showClear]="true" [filter]="true" filterBy="nom" [placeholder]="secondLevelLibelle">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
-                      {{data.fullName}}
+                      {{data.nom}}
                     </div>
                   </div>
                 </ng-template>
@@ -148,7 +152,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>
-                <b>Bénéficiaire<span class="text-danger">*</span></b>
+                <b>Emplacement<span class="text-danger">*</span></b>
               </label>
               <input type="text" [(ngModel)]="selectedBeneficaire" placeholder="Bénéficiaire" pInputText />
             </div>
@@ -192,7 +196,7 @@
     </div>
   </div>
   <div
-    *ngIf="selectedActionValue === swap || selectedActionValue === resiliation || selectedActionValue === suspension">
+    *ngIf="selectedActionValue === swap || selectedActionValue === resiliation || selectedActionValue === suspension || selectedActionValue === volume">
 
     <fieldset style="margin-top: 2.5rem;">
       <legend [ngStyle]="{width: '100%'}">
@@ -258,7 +262,7 @@
               <label>
                 <b>Bénéficiaire</b>
               </label>
-              <input type="text" [(ngModel)]="currentPatrimoine.nom_prenoms" [disabled]="true" pInputText />
+              <input type="text" [(ngModel)]="currentPatrimoine.beneficiaire" [disabled]="true" pInputText />
             </div>
           </div>
         </div>
@@ -325,17 +329,54 @@
           </div>
         </div>
       </div>
+      <!--------------------------------VOLUME------------DATA-------------------------->
+      <div *ngIf="selectedActionValue === volume">
+        <div style="display: flex;gap: 2rem;">
+          <div class="d-flex gap-2">
+            <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
+              (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
+            <label [for]="sourceStock" style="margin-top: 0.9rem">Stock/Tenant</label>
+          </div>
+          <div class="d-flex gap-2">
+            <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
+              (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
+            <label [for]="sourceOrange" style="margin-top: 0.9rem">Orange CI</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Voume (Go) <span class="text-danger">*</span></b>
+              </label>
+              <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedVolume" pInputText />
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <label style="opacity: 0;">
+                <b> <span class="text-danger">*</span></b>
+              </label>
+              <input [disabled]="true"
+                [value]="sourceValue === 'stock' ?'Le système débitera le volume duc stock disponible': 'Orange CI fournira le volume, à l\'\issue de l\'operation une facture instantannée sera produite' "
+                type="text" pInputText
+                style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
+            </div>
+          </div>
+        </div>
+      </div>
     </fieldset>
   </div>
   <div class="submit-form" *ngIf="selectedActionValue">
     <div>
       <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha">
       </ngx-recaptcha2>
-      <p-button *ngIf="selectedActionValue !== activation" style="float: right;margin-top: 1rem;" label="Soumettre"
-        styleClass="p-button-success" [disabled]="!selectedDescription" (click)="handleSaveNewTransaction()"></p-button>
-      <p-button *ngIf="selectedActionValue === activation" style="float: right;margin-top: 1rem;" label="Soumettre"
-        styleClass="p-button-success" [disabled]="isValidateActivation()"
-        (click)="handleSaveNewTransaction()"></p-button>
+      <button pButton *ngIf="selectedActionValue !== activation" style="float: right;margin-top: 1rem;"
+        label="Soumettre" class="p-button-success" [disabled]="!selectedDescription && !selectedVolume"
+        (click)="handleSaveNewTransaction()"></button>
+      <button pButton *ngIf="selectedActionValue === activation" style="float: right;margin-top: 1rem;"
+        label="Soumettre" class="p-button-success" [disabled]="isValidateActivation()"
+        (click)="handleSaveNewTransaction()"></button>
     </div>
   </div>
 

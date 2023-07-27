@@ -9,14 +9,14 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Département</b>
+                    <b>{{firstLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="" optionLabel="nom" (onChange)="onChangeItem($event)" [showClear]="true"
-                    placeholder="Département">
+                  <p-dropdown [options]="listDirections" optionLabel="fullName" (onChange)="onChangeItem($event)"
+                    [showClear]="true" filterBy="fullName" [placeholder]="firstLevelLibelle">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
-                          {{data.nom}}
+                          {{data.fullName}}
                         </div>
                       </div>
                     </ng-template>
@@ -26,10 +26,10 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Commune/Sous-Préfecture</b>
+                    <b>{{secondLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="" optionLabel="fullName" [(ngModel)]="selectedExploitation"
-                    placeholder="Commune">
+                  <p-dropdown [options]="listExploitations" optionLabel="fullName" [(ngModel)]="selectedExploitation"
+                    [placeholder]="secondLevelLibelle">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -45,18 +45,18 @@
                   <label>
                     <b>IMSI</b>
                   </label>
-                  <input placeholder="Numéro" [(ngModel)]="selectedimsi" type="text" pInputText />
+                  <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
                 </div>
               </div>
               <div [ngStyle]="{width: '12rem'}">
                 <label class="block"><b>Date début</b></label>
                 <p-calendar [(ngModel)]="filterDateStart" [showIcon]="true" (ngModelChange)="changeDateStart($event)"
-                  dateFormat="dd-mm-yy"></p-calendar>
+                  dateFormat="dd-mm-yy" placeholder="jj/mm/aaaa"></p-calendar>
               </div>
               <div [ngStyle]="{width: '12rem'}">
                 <label class="block"><b>Date fin </b></label>
                 <p-calendar [(ngModel)]="filterDateEnd" [showIcon]="true" (ngModelChange)="changeDateEnd($event)"
-                  dateFormat="dd-mm-yy"></p-calendar>
+                  dateFormat="dd-mm-yy" placeholder="jj/mm/aaaa"></p-calendar>
               </div>
               <div [ngStyle]="{width: '3rem'}">
                 <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
@@ -66,6 +66,8 @@
             <div class="table_content_wrapper">
               <div class="table_header mt-2">
                 <div class="table_header__legende">
+                  <button pButton pRipple label="Rafraichir" (click)="GetAllCycles()" icon="pi pi-refresh"
+                    class="p-button-secondary"></button>
                   <h4 class="pt-2">
                     <b>Cycles de vie de SIM</b>
                   </h4>
@@ -76,6 +78,7 @@
                 <thead>
                   <th>#</th>
                   <th>Date</th>
+                  <th>IMSI</th>
                   <th>Operation</th>
                   <th>Statut Avant</th>
                   <th>Statut Après</th>
@@ -87,12 +90,14 @@
                     *ngFor="let data of listCycles | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                     <td>{{ (this.offset + i)}}</td>
                     <td class="text-center">{{data.created_at === null? 'N/A': data.created_at}}</td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td class="text-center">{{data?.sous_module === null? 'N/A': data?.sous_module}}</td>
-                    <td>{{data.action === null? 'N/A': data.action}}</td>
+                    <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
+                    <td>{{data?.operation}}</td>
+                    <td>{{data?.statut_avant}}</td>
+                    <td class="text-center">{{data?.statut_apres}}</td>
+                    <td>{{ data.ip }} [{{data?.user?.email}}]</td>
                     <td class="text-center">
-                      <button pButton pRipple label="Voir" class="p-button-dark"></button>
+                      <button pButton [disabled]="true" pRipple label="Voir" class="p-button-dark"
+                        (click)="showData(data)"></button>
                     </td>
                   </tr>
                 </tbody>
@@ -108,3 +113,15 @@
     </div>
   </div>
 </div>
+<p-dialog [(visible)]="display" position="bottom-right" (onHide)="hideDialog()" [style]="{ width: '100%' }"
+  (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true" [maximizable]="true" [draggable]="false"
+  [resizable]="false">
+  <ng-template pTemplate="header">
+    <h3>
+      <b [style]="{ color: '#FFFFFF' }">Historique</b>
+    </h3>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <app-historique-lifecycle [currentEvent]="currentEvent"></app-historique-lifecycle>
+  </ng-template>
+</p-dialog>

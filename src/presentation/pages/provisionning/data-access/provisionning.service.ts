@@ -58,9 +58,9 @@ export class ProvisionningService {
     const url: string = (<string>EndPointUrl.CREATE_COMMANDE_PROFORMAT);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
-  OnValidate(id): Observable<any> {
-    const url: string = (<string>EndPointUrl.VALIDATE_COMMANDE_PROFORMAT).replace('{id}', id);
-    return this.http.get(`${this.BASE_URL}${url}`);
+  OnValidate(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.VALIDATE_COMMANDE_PROFORMAT);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
   }
   OnStatAchat(data): Observable<any> {
     const url: string = (<string>EndPointUrl.STAT_ACHAT);

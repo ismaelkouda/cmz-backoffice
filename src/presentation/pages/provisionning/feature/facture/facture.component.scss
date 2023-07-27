@@ -1,0 +1,61 @@
+table,
+th,
+td {
+    border: 3px solid white;
+}
+
+table td {
+    padding: 5px !important;
+    background-color: #D8D8D8 !important;
+}
+
+table th {
+    padding: 10px !important;
+    background-color: #D8D8D8 !important;
+}
+
+//Order Wrapper
+.order-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.legende {
+    text-align: center;
+    color: #D8D8D8;
+}
+
+.facture-component {
+    font-family: "Poppins" !important;
+}
+
+//Recap Wrapper
+.recap-wrapper {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+
+    .blocks {
+        display: flex;
+        justify-content: space-between;
+
+        .personal-block {
+            font-weight: bold;
+            background-color: #D8D8D8;
+            padding: 0.5rem;
+            width: 50%;
+        }
+
+        >div {
+            width: 50%;
+        }
+
+        .company-block {
+            span {
+                float: right !important;
+
+            }
+        }
+    }
+}

@@ -60,6 +60,8 @@ export class SuspensionFormComponent implements OnInit {
   public suspension: string = OperationTransaction.SUSPENSION;
   public resiliation: string = OperationTransaction.RESILIATION;
   public swap: string = OperationTransaction.SWAP;
+  public volume: string = OperationTransaction.VOLUME_DATA;
+
 
   //FormsControl
   public listDirections: Array<any> = [];
@@ -68,6 +70,7 @@ export class SuspensionFormComponent implements OnInit {
   public listActivites: Array<any> = [];
   public selectedImsi: string;
   public selectedDescription: string;
+  public selectedVoume: any;
   public selectedPiece: any;
   public selectedMsisdn: string;
   public selectedDirection: any;
@@ -110,7 +113,9 @@ export class SuspensionFormComponent implements OnInit {
     this.getAllZones();
     this.isFilter();
     this.isValidateActivation();
-    this.isVerify()
+    this.isVerify();
+    //console.log("selectedActionValueselectedActionValue", this.selectedActionValue);
+
   }
   close() {
     this.formsView.emit(false);
@@ -158,6 +163,18 @@ export class SuspensionFormComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listDirections = response.data
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+  public getAllExploiatations() {
+    this.settingService
+      .getAllExploiatations({})
+      .subscribe({
+        next: (response) => {
+          this.listExploitations = response.data
         },
         error: (error) => {
           this.toastrService.error(error.message);
@@ -241,7 +258,17 @@ export class SuspensionFormComponent implements OnInit {
       }
       baseUrl = `${this.BASE_URL}${EndPointUrl.ACTIVATION_SIM}`
 
-    } else {
+    } else if (this.selectedActionValue === OperationTransaction.VOLUME_DATA) {
+      data = {
+        operation: this.selectedActionValue,
+        imsi: this.currentPatrimoine.imsi,
+        bac_a_pioche: this.sourceValue,
+        voume: this.selectedVolume,
+      }
+      baseUrl = `${this.BASE_URL}${EndPointUrl.VOLUME_DATA}`
+
+    }
+    else {
       data = formDataBuilder({
         operation: this.selectedActionValue,
         imsi: this.currentPatrimoine.imsi,
@@ -272,8 +299,8 @@ export class SuspensionFormComponent implements OnInit {
     this.selectedMsisdn = null;
     this.selectedPiece = null;
     this.selectedValue = null;
-    //612030246985370
-
+    this.sourceValue = 'stock'
+    this.currentPatrimoine = {};
   }
   public selectedSource(value: string) {
     this.sourceValue = value;

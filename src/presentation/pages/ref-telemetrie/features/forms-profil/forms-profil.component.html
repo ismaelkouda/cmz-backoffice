@@ -20,9 +20,17 @@
     </div>
     <div>
       <div class="table_actions_wrapper pt-3">
-        <button pButton pRipple label="Soumettre" [disabled]="this.currentObject?.show" icon="pi pi-save"
-          class="p-button-success" (click)="handleUpdateProfilSupervision()"></button>
-        <button pButton pRipple label="Fermer" (click)="close()" class="p-button-danger"></button>
+        <div *ngIf="!this.currentObject">
+          <button pButton pRipple label="Soumettre" [disabled]="isValidate()" icon="pi pi-save" class="p-button-success"
+            (click)="handleSaveProfilSupervision()"></button>
+        </div>
+        <div *ngIf="this.currentObject">
+          <button pButton pRipple label="Soumettre" [disabled]="this.currentObject?.show || isValidate()"
+            icon="pi pi-save" class="p-button-success" (click)="handleUpdateProfilSupervision()"></button>
+        </div>
+        <div>
+          <button pButton pRipple label="Fermer" (click)="close()" class="p-button-danger"></button>
+        </div>
       </div>
     </div>
   </div>
@@ -30,12 +38,12 @@
   <div class="table_content_wrapper" *ngIf="currentObject === undefined">
     <p-table #dt [value]="listTelemetries" [rows]="10" [paginator]="true" responsiveLayout="scroll" [rowHover]="true"
       dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                données" [showCurrentPageReport]="true">
+                données" [showCurrentPageReport]="true" editMode="row">
       <ng-template pTemplate="caption">
         <div class="table_header">
           <div class="table_header__legende">
             <h4>
-              <b>Liste des Alarmes</b>
+              <b>Liste des Seuils et Alarmes</b>
             </h4>
           </div>
           <div class="table_header__input">
@@ -53,28 +61,53 @@
           <th>Classification</th>
           <th>Description mésure</th>
           <th>Type de mesure</th>
-          <th>Seuil</th>
           <th>Unité</th>
+          <th>Seuil</th>
           <th>Statut</th>
-          <th style="width: 2rem;" class="text-center"></th>
+          <th style="width: 2rem;" class="text-center">Actions</th>
         </tr>
       </ng-template>
-      <ng-template let-i="rowIndex" pTemplate="body" let-data>
-        <tr>
-          <td>{{ i + 1 }}</td>
-          <td>{{data?.classification}}</td>
+      <ng-template let-i="rowIndex" pTemplate="body" let-editing="editing" let-data>
+        <tr [pEditableRow]="data">
+          <td class="text-center">{{ i + 1 }}</td>
+          <td class="text-center">{{data?.classification}}</td>
           <td>{{data?.description}}</td>
-          <td>{{data?.type_mesure}}</td>
-          <td>{{data?.seuil}}</td>
-          <td>{{data?.unite}}</td>
-          <td class="text-center">
-            <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'actif'"
-              [class.badge-danger]="data.statut !== 'actif'">
-              {{ data.statut }}
-            </span>
+          <td class="text-center">{{data?.type_mesure}}</td>
+          <td class="text-center">{{data?.unite}}</td>
+          <td style="width: 4rem;">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <input class="text-center" pInputText type="number" [(ngModel)]="data.seuil" #data.seuil="ngModel" />
+              </ng-template>
+              <ng-template pTemplate="output">
+                <span>{{ data.seuil }}</span>
+              </ng-template>
+            </p-cellEditor>
+          </td>
+          <td style="width: 4rem;">
+            <p-cellEditor>
+              <ng-template pTemplate="input">
+                <p-inputSwitch trueValue="actif" falseValue="inactif" [(ngModel)]="data.statut"
+                  #data.statut="ngModel"></p-inputSwitch>
+              </ng-template>
+              <ng-template pTemplate="output">
+                <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'actif'"
+                  [class.badge-danger]="data.statut !== 'actif'">
+                  {{ data.statut }}
+                </span>
+              </ng-template>
+            </p-cellEditor>
           </td>
           <td class="td-actions">
-            <p-checkbox [binary]="true"></p-checkbox>
+            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow pTooltip="Modifier"
+              tooltipPosition="top" icon="pi pi-pencil" (click)="OnEditOneRowMetrique(data)"
+              class="p-button-secondary"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow pTooltip="Sauvegarder"
+              tooltipPosition="top" icon="pi pi-check" (click)="onRowEditMetriqueSave(data)"
+              class="p-button-success"></button>
+            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow pTooltip="Fermer"
+              tooltipPosition="top" icon="pi pi-times" (click)="onCancelRowMetrique(data, i)" class="p-button-danger"
+              style="margin-left: 1rem"></button>
           </td>
         </tr>
       </ng-template>
@@ -90,7 +123,7 @@
             <div class="table_header">
               <div class="table_header__legende">
                 <h4>
-                  <b>Liste des Alarmes</b>
+                  <b>Liste des Seuils et Alarmes</b>
                 </h4>
               </div>
               <div class="table_header__input">
@@ -108,23 +141,20 @@
               <th>Classification</th>
               <th>Description mésure</th>
               <th>Type de mesure</th>
-              <th>Seuil</th>
               <th>Unité</th>
+              <th>Seuil</th>
               <th>Statut</th>
               <th *ngIf="!currentObject.show">Action</th>
-              <th style="width: 2rem;" class="text-center" *ngIf="!currentObject.show">
-                <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()"
-                  [(ngModel)]="checkedAllConsumers"></p-checkbox>
-              </th>
             </tr>
           </ng-template>
           <ng-template let-i="rowIndex" pTemplate="body" let-editing="editing" let-data>
             <tr [pEditableRow]="data">
               <td class="text-center">{{ i + 1 }}</td>
-              <td>{{data?.classification}}</td>
+              <td class="text-center">{{data?.classification}}</td>
               <td>{{data?.description}}</td>
-              <td>{{data?.type_mesure}}</td>
-              <td style="width: 4rem !important;">
+              <td class="text-center">{{data?.type_mesure}}</td>
+              <td class="text-center">{{data?.unite}}</td>
+              <td class="text-center" style="width: 4rem !important;">
                 <p-cellEditor>
                   <ng-template pTemplate="input">
                     <input class="text-center" pInputText type="number" [(ngModel)]="data.seuil"
@@ -135,12 +165,19 @@
                   </ng-template>
                 </p-cellEditor>
               </td>
-              <td>{{data?.unite}}</td>
-              <td class="text-center">
-                <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'actif'"
-                  [class.badge-danger]="data.statut !== 'actif'">
-                  {{ data.statut }}
-                </span>
+              <td style="width: 4rem;">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-inputSwitch trueValue="actif" falseValue="inactif" [(ngModel)]="data.statut"
+                      #data.statut="ngModel"></p-inputSwitch>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+                      [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
+                      {{ data.statut }}
+                    </span>
+                  </ng-template>
+                </p-cellEditor>
               </td>
               <td class="text-center" *ngIf="!currentObject.show">
                 <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow pTooltip="Modifier"
@@ -153,17 +190,13 @@
                   tooltipPosition="top" icon="pi pi-times" (click)="onCancelRowMetrique(data, i)"
                   class="p-button-danger" style="margin-left: 1rem"></button>
               </td>
-              <td *ngIf="!currentObject.show">
-                <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
-                  (click)="onCheckedOneConsumer(data)"></p-checkbox>
-              </td>
             </tr>
           </ng-template>
         </p-table>
       </div>
     </p-tabPanel>
     <p-tabPanel header="HISTORIQUE">
-      <app-historique></app-historique>
+      <app-historique [module]="'REFERENTIEL TELEMETRIE'" [sous_module]="'PROFIL SUPERVISION'"></app-historique>
     </p-tabPanel>
   </p-tabView>
 </div>
