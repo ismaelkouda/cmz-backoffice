@@ -1,5 +1,3 @@
-import { DotationServiceComponent } from './ui/dotation-service/dotation-service.component';
-import { GroupeSimComponent } from './ui/groupe-sim/groupe-sim.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,14 +21,18 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { PasswordModule } from 'primeng/password';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
+import { CheckboxModule } from 'primeng/checkbox';
 
 //Components
 import { CarteSimActiveComponent } from './ui/carte-sim-active/carte-sim-active.component';
-import { LifecycleSimComponent } from './ui/lifecycle-sim/lifecycle-sim.component';
 import { TransactionSimComponent } from './ui/transaction-sim/transaction-sim.component';
+import { TransactionFormComponent } from './feature/transaction-form/transaction-form.component';
+import { DotationServiceComponent } from './ui/dotation-service/dotation-service.component';
+import { GroupeSimComponent } from './ui/groupe-sim/groupe-sim.component';
 import { PatrimoineFormsComponent } from './feature/patrimoine-forms/patrimoine-forms.component';
-import { SuspensionFormComponent } from './feature/suspension-form/suspension-form.component';
+import { DotationFormComponent } from './feature/dotation-form/dotation-form.component';
 import { HistoriqueLifecycleComponent } from './feature/historique-lifecycle/historique-lifecycle.component';
+import { GroupeFormComponent } from './feature/groupe-form/groupe-form.component';
 
 
 @NgModule({
@@ -54,16 +56,18 @@ import { HistoriqueLifecycleComponent } from './feature/historique-lifecycle/his
         PasswordModule,
         RadioButtonModule,
         NgxCaptchaModule,
-        CalendarModule
+        CalendarModule,
+        CheckboxModule
     ],
     declarations: [
         CarteSimActiveComponent,
         GroupeSimComponent,
         DotationServiceComponent,
-        LifecycleSimComponent,
         PatrimoineFormsComponent,
         TransactionSimComponent,
-        SuspensionFormComponent,
+        TransactionFormComponent,
+        DotationFormComponent,
+        GroupeFormComponent,
         HistoriqueLifecycleComponent
     ],
 })

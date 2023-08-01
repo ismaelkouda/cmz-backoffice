@@ -4,7 +4,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Menu, NavService } from '../../services/nav.service';
 import { LayoutService } from '../../services/layout.service';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-import { DASHBOARD } from 'src/shared/routes/routes';
+import { ADMIN_USER, DASHBOARD } from 'src/shared/routes/routes';
+import { ADMIN_ACHAT, ADMIN_PRODUCT, ADMIN_STOCK, ADMIN_VENTE } from 'src/presentation/pages/administration/administration-routing.module';
 
 @Component({
   selector: 'app-sidebar',
@@ -27,6 +28,7 @@ export class SidebarComponent {
   public width: any = window.innerWidth;
   public leftArrowNone: boolean = true;
   public rightArrowNone: boolean = false;
+  public data: any = [];
 
   constructor(
     private router: Router,
@@ -34,59 +36,112 @@ export class SidebarComponent {
     public layout: LayoutService,
     private storage: EncodingDataService
   ) {
+    let user = JSON.parse(this.storage.getData('user') || null);
 
-    let data = JSON.parse(storage.getData('current_menu') || null);
-    let userPermissions = JSON.parse(this.storage.getData('user'));
-
-    // data.subscribe(menuItems => {
-    //   this.menuItems = menuItems.filter(data => {
-    //     return data.statut === true;
-    //   });
-    //   //this.menuItems = menuItems;
-    //   this.router.events.subscribe((event) => {
-    //     if (event instanceof NavigationEnd) {
-    //       menuItems.filter(items => {
-    //         if (items.path === event.url) {
-    //           this.setNavActive(items);
-    //         }
-    //         if (!items.children) { return false; }
-    //         items.children.filter(subItems => {
-    //           if (subItems.path === event.url) {
-    //             this.setNavActive(subItems);
-    //           }
-    //           if (!subItems.children) { return false; }
-    //           subItems.children.filter(subSubItems => {
-    //             if (subSubItems.path === event.url) {
-    //               this.setNavActive(subSubItems);
-    //             }
-    //           });
-    //         });
-    //       });
-    //     }
-    //   });
-    // });
-
-    data.unshift({
-      title: "Tableau de bord",
-      icon: "home",
-      type: "link",
-      path: `/${DASHBOARD}`,
-      statut: true,
-      children: [],
-      "active": true
+    // data.unshift({
+    //   title: "Tableau de bord",
+    //   icon: "home",
+    //   type: "link",
+    //   path: `/${DASHBOARD}`,
+    //   statut: true,
+    //   children: []
+    // })
+    if (user?.profil?.slug === 'utilisateur') {
+      this.data.push(
+        {
+          title: "Tableau de bord",
+          icon: "home",
+          type: "link",
+          path: `/${DASHBOARD}`,
+          statut: true,
+        },
+        {
+          title: "Ventes",
+          icon: "activity",
+          type: "link",
+          path: `/${ADMIN_USER}/${ADMIN_VENTE}`,
+          statut: true,
+        },
+        {
+          title: "Stock",
+          icon: "trending-up",
+          type: "link",
+          path: `/${ADMIN_USER}/${ADMIN_STOCK}`,
+          statut: true,
+        },
+        {
+          title: "Produits",
+          icon: "square",
+          type: "link",
+          path: `/${ADMIN_USER}/${ADMIN_PRODUCT}`,
+          statut: true,
+        },
+        {
+          title: "Achats",
+          icon: "shopping-cart",
+          type: "link",
+          path: `/${ADMIN_USER}/${ADMIN_ACHAT}`,
+          statut: true,
+        },
+        {
+          title: "Clients",
+          icon: "users",
+          type: "sub",
+          statut: true,
+          expanded: true,
+          children: [
+            {
+              title: "Liste",
+              type: "link",
+              path: ``,
+              statut: true,
+            },
+            {
+              title: "Hist.activations",
+              type: "link",
+              path: ``,
+              statut: true,
+            },
+            {
+              title: "Vos groupes",
+              type: "link",
+              path: ``,
+              statut: true,
+            },
+            {
+              title: "Points de ventes",
+              type: "link",
+              path: ``,
+              statut: true,
+            },
+          ]
+        },
+      )
+    } else {
+      this.data = JSON.parse(this.storage.getData('current_menu') || null);
+      this.data.unshift({
+        title: "Tableau de bord",
+        icon: "home",
+        type: "link",
+        path: `/${DASHBOARD}`,
+        statut: true,
+        children: []
+      })
     }
-    )
-    data.map(item => {
+
+    this.data.map(item => {
       if (item.statut === true) {
         this.filterArray.push(item);
       }
     });
     this.filterArray.map((d) => {
-      d.children.map((value, index) => {
-        // if (!userPermissions.permissions.includes(value.data)) {
-        //   d.children.splice(index, 1);
-        // }
-      })
+      if (d?.children) {
+        d.children.map((value, index) => {
+          // if (!userPermissions.permissions.includes(value.data)) {
+          //   d.children.splice(index, 1);
+          // }
+        })
+      }
     });
     this.menuItems = this.filterArray;
     this.router.events.subscribe((event) => {

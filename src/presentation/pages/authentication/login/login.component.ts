@@ -46,11 +46,14 @@ export class LoginComponent implements OnInit {
     this.userLoginUseCase.execute(this.loginForm.value).subscribe({
       next: (response) => {
         this.storage.saveData('user', JSON.stringify(response.data));
-        this.router.navigateByUrl(`/auth/portail`).then(
-          () => {
-            localStorage.setItem('layout', 'Paris');
-          }
-        );
+        if (response['data']?.profil?.slug === 'utilisateur') {
+          this.router.navigateByUrl(`/dashboard`)
+        } else {
+          this.router.navigateByUrl(`/auth/portail`).then(
+            () => {
+              localStorage.setItem('layout', 'Paris');
+            });
+        }
         this.toastService.success(`Bienvenue ${response.data.nom} ${response.data.prenoms}`);
       },
       error: (error) => {

@@ -73,4 +73,46 @@ export class PatrimoineService {
     const url: string = (<string>EndPointUrl.GET_ALL_COMMUNE);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
+
+  GetAllGroupes(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_GROUPE);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  HandleUpdateGroupe(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.UPDATE_GROUPE);
+    return this.http.put(`${this.BASE_URL}${url}`, data);
+  }
+  HandleSaveGroupe(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.SAVE_GROUPE);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+
+  GetAllSimNoGroupe(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_SIM_NO_GROUPE).replace('{page}', page)
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  GetAllsimAtGroupe(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_SIM_AT_GROUPE).replace('{page}', page)
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  handleSaveAffectation(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.SAVE_AFFECTATION);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  handleSaveReaffectation(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.SAVE_REAFFECTATION);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  handleRetraitSim(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.RETRAIT_SIM);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  handleActivateGroupe(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.ACTIVATE_GROUPE).replace('{id}', data)
+    return this.http.put(`${this.BASE_URL}${url}`, {});
+  }
+  handleDisableGroupe(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.DISABLE_GROUPE).replace('{id}', data)
+    return this.http.put(`${this.BASE_URL}${url}`, {});
+  }
 }

@@ -23,7 +23,7 @@
             <div class="table_actions_wrapper">
               <button pButton pRipple label="Ajout de groupe" icon="pi pi-plus" (click)="onInitForm()"
                 class="p-button-success"></button>
-              <button pButton pRipple label="Rafraichir" (click)="GetAllProfilSupervision()" icon="pi pi-refresh"
+              <button pButton pRipple label="Rafraichir" (click)="GetAllGroupes()" icon="pi pi-refresh"
                 class="p-button-secondary"></button>
               <button pButton pRipple label="Exporter" [disabled]="disableAction()" icon="pi pi-download"
                 class="p-button-helf"></button>
@@ -53,8 +53,8 @@
                     <th class="text-center">#</th>
                     <th>Nom du groupe</th>
                     <th>Description</th>
-                    <th>Date de création</th>
-                    <th>Date de modification</th>
+                    <th>Date création</th>
+                    <th>Date MAJ</th>
                     <th># SIM Affectés</th>
                     <th>Statut</th>
                     <th class="text-center">Actions</th>
@@ -69,7 +69,7 @@
                     <td>{{data?.updated_at}}</td>
                     <td class="text-center">
                       <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
-                        label="Visualiser ({{data.sims_count}})" class="p-button" (click)="onViewVisualisation(data)"
+                        label="Visualiser ({{data.sims_count}})" class="p-button" (click)="OnVisualisation(data)"
                         [disabled]="data.sims_count === 0"></button>
                     </td>
                     <td class="text-center">
@@ -83,7 +83,7 @@
                         (click)="onShowForm(data)"></p-button>
                       <p-button icon="pi pi-pencil" styleClass="p-button-secondary" pTooltip="Editer"
                         tooltipPosition="top" (click)="onEditForm(data)"></p-button>
-                      <p-button icon="pi pi-arrow-right" (click)="onViewAffection(data)" styleClass="p-button-dark"
+                      <p-button icon="pi pi-arrow-right" (click)="OnAffectaion(data)" styleClass="p-button-dark"
                         pTooltip="Affecter" tooltipPosition="top"></p-button>
                       <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
                         " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
@@ -100,9 +100,9 @@
               </p-table>
             </div>
           </div>
-          <app-forms-profil [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
+          <app-groupe-form [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
             (listProfils)="pushListProfils($event)">
-          </app-forms-profil>
+          </app-groupe-form>
         </div>
       </div>
     </div>

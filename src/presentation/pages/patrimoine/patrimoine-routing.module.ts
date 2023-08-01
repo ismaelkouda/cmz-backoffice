@@ -1,4 +1,3 @@
-import { LifecycleSimComponent } from './ui/lifecycle-sim/lifecycle-sim.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CarteSimActiveComponent } from './ui/carte-sim-active/carte-sim-active.component';

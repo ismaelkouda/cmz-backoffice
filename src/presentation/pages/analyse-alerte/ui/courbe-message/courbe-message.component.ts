@@ -26,7 +26,7 @@ export class CourbeMessageComponent implements OnInit {
   public onVisualiserAlarme() {
     this.showIframe = true;
     this.onDialogMaximized(true);
-    this.visualUrl = "http://160.120.143.6:50200/d/4G56s-rVk/tb-sim-cloud?orgId=1"
+    this.visualUrl = "http://160.120.143.6:50300/d/fUHASnXVk/tb-analyse-des-alarmes-actives?orgId=1&refresh=10m"
   }
 
   public hideDialog() {

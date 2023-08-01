@@ -10,6 +10,8 @@ export const INTERCONNEXION_ECHANGE = 'interconnexion';
 export const SUPERVISION_SYSTEME = 'supervision-systeme';
 export const PARAMETRE_SECURITE = 'parametre-securite'
 export const OPERATIONS_SIM = 'operations-sim'
+export const ADMIN_USER = 'user'
+
 
 export const content: Routes = [
   {
@@ -72,5 +74,18 @@ export const content: Routes = [
   {
     path: OPERATIONS_SIM,
     loadChildren: () => import("../../presentation/pages/operation-sim/operation-sim.module").then((m) => m.OperationSimModule),
+  },
+  {
+    path: ADMIN_USER,
+    loadChildren: () => import("../../presentation/pages/administration/administration.module").then((m) => m.AdministrationModule),
+    data: {
+      module: 'User',
+      subModule: [
+        'Ventes',
+        'Stock',
+        'Produits',
+        'Achats',
+      ]
+    }
   }
 ];

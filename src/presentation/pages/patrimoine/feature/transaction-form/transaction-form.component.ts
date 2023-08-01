@@ -1,5 +1,5 @@
-import { OperationTransaction } from './../../../../../shared/enum/OperationTransaction.enum';
-import { formDataBuilder } from './../../../../../shared/constants/formDataBuilder.constant';
+import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
+import { formDataBuilder } from '../../../../../shared/constants/formDataBuilder.constant';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
@@ -14,11 +14,11 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
-  selector: 'app-suspension-form',
-  templateUrl: './suspension-form.component.html',
-  styleUrls: ['./suspension-form.component.scss']
+  selector: 'app-transaction-form',
+  templateUrl: './transaction-form.component.html',
+  styleUrls: ['./transaction-form.component.scss']
 })
-export class SuspensionFormComponent implements OnInit {
+export class TransactionFormComponent implements OnInit {
 
 
   public BASE_URL: any = appConfig.serverUrl;

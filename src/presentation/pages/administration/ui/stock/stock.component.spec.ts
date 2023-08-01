@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { LifecycleSimComponent } from './lifecycle-sim.component';
+import { StockComponent } from './stock.component';
 
-describe('LifecycleSimComponent', () => {
-  let component: LifecycleSimComponent;
-  let fixture: ComponentFixture<LifecycleSimComponent>;
+describe('StockComponent', () => {
+  let component: StockComponent;
+  let fixture: ComponentFixture<StockComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LifecycleSimComponent ]
+      declarations: [ StockComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LifecycleSimComponent);
+    fixture = TestBed.createComponent(StockComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TelemetrieService } from 'src/presentation/pages/ref-telemetrie/data-access/telemetrie.service';
+import { PatrimoineService } from '../../data-access/patrimoine.service';
 const Swal = require('sweetalert2');
 @Component({
   selector: 'app-groupe-sim',
@@ -22,12 +23,13 @@ export class GroupeSimComponent implements OnInit {
 
   constructor(
     private telemetrieService: TelemetrieService,
+    private patrimoineService: PatrimoineService,
     private toastrService: ToastrService,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.GetAllProfilSupervision();
+    this.GetAllGroupes();
     this.disableAction();
     this.route.data.subscribe((data) => {
       this.module = data.module;
@@ -35,10 +37,9 @@ export class GroupeSimComponent implements OnInit {
     });
   }
 
-
-  public GetAllProfilSupervision(): void {
-    this.telemetrieService
-      .GetAllProfilSupervision({})
+  public GetAllGroupes(): void {
+    this.patrimoineService
+      .GetAllGroupes({})
       .subscribe({
         next: (response) => {
           this.listProfils = response['data'];
@@ -54,41 +55,30 @@ export class GroupeSimComponent implements OnInit {
     this.formsView = true;
     this.currentObject = undefined;
   }
-
   public onEditForm(data: any): void {
     this.initialView = false;
     this.formsView = true;
-    this.currentObject = data;
+    this.currentObject = { ...data, type: 'edit' };
   }
   public onShowForm(data: any): void {
     this.initialView = false;
     this.formsView = true;
-    this.currentObject = { ...data, show: true };
+    this.currentObject = { ...data, type: 'show' };
   }
-  public onViewAffection(data: any): void {
+  OnAffectaion(data) {
     this.initialView = false;
-    this.affectationView = true;
-    this.currentObject = data;
+    this.formsView = true;
+    this.currentObject = { ...data, type: 'affectation' };
   }
-
-  public onViewVisualisation(data: any): void {
+  OnVisualisation(data) {
     this.initialView = false;
-    this.visualisationView = true;
-    this.currentObject = data;
+    this.formsView = true;
+    this.currentObject = { ...data, type: 'visualiser' };
   }
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;
   }
-  public pushAffectationView(event: boolean): void {
-    this.affectationView = event;
-    this.initialView = !event;
-  }
-  public pushVisualisationView(event: boolean): void {
-    this.visualisationView = event;
-    this.initialView = !event;
-  }
-
   public pushListProfils(event: any): void {
     this.listProfils = event;
   }
@@ -104,12 +94,12 @@ export class GroupeSimComponent implements OnInit {
       confirmButtonText: 'Oui',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.telemetrieService
-          .handleActivateProfil(data.id)
+        this.patrimoineService
+          .handleActivateGroupe(data.id)
           .subscribe({
             next: (response) => {
               this.toastrService.success(response.message);
-              this.GetAllProfilSupervision();
+              this.GetAllGroupes();
             },
             error: (error) => {
               this.toastrService.error(error.error.message);
@@ -130,12 +120,12 @@ export class GroupeSimComponent implements OnInit {
       confirmButtonText: 'Oui',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.telemetrieService
-          .handleDisableProfil(data.id)
+        this.patrimoineService
+          .handleDisableGroupe(data.id)
           .subscribe({
             next: (response) => {
               this.toastrService.success(response.message);
-              this.GetAllProfilSupervision();
+              this.GetAllGroupes();
             },
             error: (error) => {
               this.toastrService.error(error.error.message);

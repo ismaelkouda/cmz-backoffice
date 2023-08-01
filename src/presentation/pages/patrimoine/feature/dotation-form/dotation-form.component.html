@@ -1,3 +1,193 @@
-<p>
-  dotation-form works!
-</p>
+<div>
+  <div class="forms-feature-header">
+    <div>
+      <h3>
+        <b>
+          <span>Nouvelle Dotation</span>
+        </b>
+      </h3>
+    </div>
+    <div class="forms-feature-header__button">
+      <div>
+        <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="form-wrapper">
+    <!------------------------TYPE-----------DOTATION------>
+    <div>
+      <fieldset>
+        <legend [ngStyle]="{width: '100%'}">
+          <b>Informations de Dotation</b>
+        </legend>
+        <div style="display: flex;gap: 7rem;">
+          <div class="d-flex gap-5" style="padding-top: 1.3rem;">
+            <div class="d-flex gap-2">
+              <p-radioButton name="valeur" value="IMSI" [(ngModel)]="radioValue" (onClick)="changeItem($event)"
+                inputId="imsi" class="mt-2"></p-radioButton>
+              <label for="imsi" style="margin-top: 1.6rem">Simple</label>
+            </div>
+            <div class="d-flex gap-2">
+              <p-radioButton name="valeur" value="GROUPE" [(ngModel)]="radioValue" (onClick)="changeItem($event)"
+                inputId="msisdn" class="mt-2"></p-radioButton>
+              <label for="msisdn" style="margin-top: 1.6rem">Groupe</label>
+            </div>
+          </div>
+          <div class="d-flex gap-3" style="margin-top: 1.9rem;">
+            <div style="display: flex;gap: 1rem;">
+              <div class="pt-3">
+                <b>{{radioValue}}<span class="text-danger ms-1">*</span></b>
+              </div>
+              <div *ngIf="radioValue === 'IMSI'">
+                <input placeholder="Saisir le numéro" [(ngModel)]="selectedValue" type="text" pInputText />
+              </div>
+              <div [ngStyle]="{width: '15rem'}" *ngIf="radioValue === 'GROUPE'">
+                <p-dropdown [options]="listGroupes" optionLabel="nom" placeholder="Nom Groupe" optionValue="id">
+                  <ng-template let-data pTemplate="item">
+                    <div class="country-item">
+                      <div>
+                        {{data.nom}}
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+              </div>
+            </div>
+            <div>
+              <button pButton pRipple label="Verifier" (click)="onVerify()" [disabled]="isFilter()" icon="pi pi-sync"
+                class="p-button-success"></button>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 1rem;" *ngIf="radioValue === 'IMSI'">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>
+                  <b>MSIDN</b>
+                </label>
+                <input type="text" [(ngModel)]="currentPatrimoine.msisdn" [disabled]="true" pInputText />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>
+                  <b>IMSI</b>
+                </label>
+                <input type="text" [(ngModel)]="currentPatrimoine.imsi" [disabled]="true" pInputText />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>
+                  <b>Statut Contrat</b>
+                </label>
+                <input type="text" [(ngModel)]="currentPatrimoine.statut" style="text-transform: uppercase;"
+                  [disabled]="true" pInputText />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>
+                  <b>Bénéficiaire</b>
+                </label>
+                <input type="text" [(ngModel)]="currentPatrimoine.beneficiaire" [disabled]="true" pInputText />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 1rem;" *ngIf="radioValue !== 'IMSI'">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>
+                  <b>Nom Groupe</b>
+                </label>
+                <input type="text" [(ngModel)]="currentPatrimoine.msisdn" [disabled]="true" pInputText />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>
+                  <b>SIM affectées</b>
+                </label>
+                <input type="text" [(ngModel)]="currentPatrimoine.imsi" [disabled]="true" pInputText />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>
+                  <b>Statut</b>
+                </label>
+                <input type="text" [(ngModel)]="currentPatrimoine.statut" style="text-transform: uppercase;"
+                  [disabled]="true" pInputText />
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <!------------------------SERVICES----------------------MONTANT------------------>
+    <div>
+      <div class="row">
+        <div class="col-md-6">
+          <fieldset>
+            <legend [ngStyle]="{width: '100%'}">
+              <b>Services</b>
+            </legend>
+            <div class="d-flex gap-5" style="padding-top: 1.3rem;">
+              <div class="d-flex gap-2">
+                <p-radioButton name="valeur" [value]="airtimeService" [(ngModel)]="selectedService" inputId="imsi"
+                  class="mt-2"></p-radioButton>
+                <label for="imsi" style="margin-top: 1.6rem">Airtime</label>
+              </div>
+              <div class="d-flex gap-2">
+                <p-radioButton name="valeur" [value]="dataService" [(ngModel)]="selectedService" inputId="msisdn"
+                  class="mt-2"></p-radioButton>
+                <label for="msisdn" style="margin-top: 1.6rem">Data</label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <fieldset>
+            <legend [ngStyle]="{width: '100%'}">
+              <b>{{selectedService === airtimeService ? 'Montant' : 'Volume'}}</b>
+            </legend>
+            <div class="row">
+              <div class="form-group" *ngIf="selectedService ===airtimeService">
+                <input type="text" placeholder="10 000" pInputText />
+              </div>
+              <div class="form-group" *ngIf="selectedService ===dataService">
+                <input type="text" placeholder="volume" pInputText />
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <!------------------------DESCRIPTION------------------>
+    <div>
+      <fieldset>
+        <legend [ngStyle]="{width: '100%'}">
+          <b>Description</b>
+        </legend>
+        <div class="row">
+          <div class="form-group">
+            <textarea class="" type="text" [(ngModel)]="selectedDescription" pInputText placeholder="Description"
+              [ngStyle]="{width: '100%'}" rows="3"></textarea>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <div class="submit-form">
+    <div>
+      <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha">
+      </ngx-recaptcha2>
+      <button pButton label="Soumettre" class="p-button-success" [disabled]="true"
+        (click)="HandleSaveDotation()"></button>
+    </div>
+  </div>
+</div>

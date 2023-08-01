@@ -136,8 +136,8 @@
               </div>
             </div>
           </div>
-          <app-suspension-form [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
-            (listTransactions)="pushListTransactions($event)"></app-suspension-form>
+          <app-transaction-form [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
+            (listTransactions)="pushListTransactions($event)"></app-transaction-form>
         </div>
       </div>
     </div>
