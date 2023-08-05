@@ -64,19 +64,19 @@
               <table [ngClass]="['native_table table']">
                 <thead>
                   <th class="text-center">#</th>
-                  <th class="text-center">Date Transaction</th>
-                  <th class="text-center">Transaction</th>
-                  <th class="text-center">Type Transaction</th>
-                  <th class="text-center">Initiateur</th>
-                  <th class="text-center">Produit</th>
-                  <th class="text-center">Quantité</th>
-                  <th>Action</th>
+                  <th>Date Création</th>
+                  <th>Data (Go)</th>
+                  <th>Airtime (FCFA)</th>
+                  <th>Bénéficiare</th>
+                  <th>Initiateur</th>
+                  <th>Solde Avant</th>
+                  <th>Solde Après</th>
+                  <th class="text-center">Actions</th>
                 </thead>
                 <tbody>
                   <tr
                     *ngFor="let data of listStocks | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                     <td>{{ (this.offset + i)}}</td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

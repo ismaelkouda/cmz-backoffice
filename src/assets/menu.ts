@@ -34,21 +34,21 @@ export var menuJson = [
                 path: `/${PATRIMOINE}/${GROUPE_SIM}`,
                 title: "Groupe de SIM",
                 label: "Groupe de SIM",
-                data: "1-1-0-cartes-sim",
+                data: "1-2-0-groupe-sim",
                 type: "link"
             },
             {
                 path: `/${PATRIMOINE}/${DOTATION_SERVICES}`,
                 title: "Dotation de Services",
                 label: "Dotation de Services",
-                data: "1-1-0-cartes-sim",
+                data: "1-3-0-dotation-service",
                 type: "link"
             },
             {
                 path: `/${PATRIMOINE}/${TRANSACTION_SIM}`,
                 title: "Transactions sur SIM",
                 label: "Transactions sur SIM",
-                data: "1-2-0-transaction-sur-sim",
+                data: "1-4-0-transaction-sur-sim",
                 type: "link"
             }
         ]
@@ -201,6 +201,7 @@ export var menuJson = [
         title: "Paramètres & Sécurité",
         label: "Paramètres & Sécurité",
         data: "6-0-0-parametres-securite",
+        statut: false,
         icon: "settings",
         url: "assets/images/portail/icone_settings.webp",
         path: `/${PARAMETRE_SECURITE}/${PROFILS_HABILITATIONS}`,

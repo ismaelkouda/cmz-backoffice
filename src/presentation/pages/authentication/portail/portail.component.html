@@ -43,7 +43,7 @@
             <div class="row div_pos">
                 <div class="col-md-4 col-sm-12 min-w min-h" *ngFor="let m of portailJson; trackBy:identity">
                     <div class="flex-item center">
-                        <a [routerLink]="m.statut? m.routerLink : null">
+                        <a [routerLink]="m.statut ? m.children[0]?.path : null">
                             <div class="icon" *ngIf="!m.statut">
                                 <i class="pi pi-times"></i>
                             </div>

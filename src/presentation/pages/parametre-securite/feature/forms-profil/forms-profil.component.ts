@@ -40,7 +40,7 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isDisabled();
-    this.newPermissionSlice = this.newPermissions.slice(1)
+    this.newPermissionSlice = this.newPermissions;
     this.newPermissionSlice.map(module => {
       if (module.children) {
         module.children = module.children.map(sous_module => {
@@ -133,7 +133,9 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
       })
   }
   handleUpdateProfilHabilitation() {
-    const selectedItemsDataSource = this.selectedItemsDataSource.map(element => element.data)
+
+    const selectedItemsDataSource = this.selectedItemsDataSource.map(element => element.data);
+
     this.parametreSecuriteService
       .handleUpdateProfilHabilitation({
         nom: this.selectedNom,
@@ -145,7 +147,8 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
           this.toastrService.success(response.message);
           this.storage.removeData('user');
           this.storage.removeData('current_menu');
-          this.router.navigateByUrl('auth/login');
+          this.router.navigateByUrl('auth/login')
+            .then(() => window.location.reload());
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

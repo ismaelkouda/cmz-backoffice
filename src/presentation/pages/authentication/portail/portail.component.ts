@@ -39,27 +39,39 @@ export class PortailComponent implements OnInit, AfterViewInit {
       if (module?.children) {
         module?.children.map(sous_module => {
           if (module.data === "1-0-0-patrimoine" && this.profil.permissions.includes(sous_module.data)) {
-            this.permissionsJson[1] = { ...module, statut: true }
+            this.permissionsJson[0] = { ...module, statut: true }
           }
           if (module.data === "2-0-0-referentiel-telemetrie" && this.profil.permissions.includes(sous_module.data)) {
-            this.permissionsJson[2] = { ...module, statut: true }
+            this.permissionsJson[1] = { ...module, statut: true }
           }
           if (module.data === "3-0-0-gestion-portefeuille" && this.profil.permissions.includes(sous_module.data)) {
-            this.permissionsJson[3] = { ...module, statut: true }
+            this.permissionsJson[2] = { ...module, statut: true }
           }
           if (module.data === "4-0-0-suivi-operations" && this.profil.permissions.includes(sous_module.data)) {
-            this.permissionsJson[4] = { ...module, statut: true }
+            this.permissionsJson[3] = { ...module, statut: true }
           }
           if (module.data === "5-0-0-supervision-sim" && this.profil.permissions.includes(sous_module.data)) {
-            this.permissionsJson[5] = { ...module, statut: true }
+            this.permissionsJson[4] = { ...module, statut: true }
           }
           if (module.data === "6-0-0-parametres-securite" && this.profil.permissions.includes(sous_module.data)) {
-            this.permissionsJson[6] = { ...module, statut: true }
+            this.permissionsJson[5] = { ...module, statut: true }
           }
         })
       }
     })
-    this.portailJson = this.permissionsJson.slice(1);
+    this.portailJson = this.permissionsJson;
+
+    // this.permissionsJson.map((item) => {
+    //   item?.children.map((value, index) => {
+    //     if (!this.profil?.permissions_sous_modules.includes(value?.data)) {
+    //       //item?.children.splice(index, 1);
+    //     }
+
+    //   });
+    // });
+
+    console.log("this.portailJson", this.portailJson);
+
     this.storage.saveData("current_menu", JSON.stringify(this.permissionsJson))
   }
 

@@ -1,0 +1,73 @@
+<div>
+  <div class="forms-feature-header">
+    <div>
+      <h4>
+        <b *ngIf="currentObject === undefined">
+          <span>Formulaire d'ajout Client</span>
+        </b>
+        <b *ngIf="currentObject !== undefined && !currentObject?.show">
+          <span>Modification de Client</span>
+          <span class="current_values">[{{currentObject?.nom_tenant}}]</span>
+        </b>
+      </h4>
+    </div>
+    <div class="forms-feature-header__button" [ngStyle]="{display: 'flex',gap: '1rem'}">
+      <div *ngIf="!currentObject?.show">
+        <p-button label="Enregistrer" [label]="currentObject === undefined ? 'Enregistrer': 'Modifier'"
+          [disabled]="!adminForm.valid" styleClass="p-button-success"
+          (click)="!currentObject ? handleSave() : handleUpdate()"></p-button>
+      </div>
+      <div>
+        <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+      </div>
+    </div>
+  </div>
+  <!--------------------------FORMS-------------------------->
+  <div style="margin-top: 3rem;">
+    <div>
+      <fieldset>
+        <legend [ngStyle]="{width: '13rem'}">
+          <b>Informations Client</b>
+        </legend>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Nom<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" pInputText />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Prénoms<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" pInputText />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Adresse Email<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" pInputText />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>MSISDN<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" pInputText />
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="forms-feature-footer">
+      <p-button label="Enregistrer" [label]="currentObject === undefined ? 'Enregistrer': 'Modifier'" [disabled]="true"
+        styleClass="p-button-success" (click)="!currentObject ? handleSave() : handleUpdate()"></p-button>
+    </div>
+  </div>
+</div>

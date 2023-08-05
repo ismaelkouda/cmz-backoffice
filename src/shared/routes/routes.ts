@@ -85,6 +85,10 @@ export const content: Routes = [
         'Stock',
         'Produits',
         'Achats',
+        'Clients',
+        'Historique des activations',
+        'Groupes',
+        'Point de Ventes'
       ]
     }
   }

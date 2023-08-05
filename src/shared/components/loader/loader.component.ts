@@ -20,7 +20,7 @@ export class LoaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.profil = JSON.parse(this.storage.getData('user'));
+    this.profil = JSON.parse(this.storage.getData('user') || null);
   }
 
   ngOnDestroy() { }

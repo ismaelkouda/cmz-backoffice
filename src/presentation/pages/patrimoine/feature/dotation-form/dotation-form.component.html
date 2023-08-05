@@ -22,7 +22,7 @@
           <b>Informations de Dotation</b>
         </legend>
         <div style="display: flex;gap: 7rem;">
-          <div class="d-flex gap-5" style="padding-top: 1.3rem;">
+          <div class="d-flex gap-5">
             <div class="d-flex gap-2">
               <p-radioButton name="valeur" value="IMSI" [(ngModel)]="radioValue" (onClick)="changeItem($event)"
                 inputId="imsi" class="mt-2"></p-radioButton>
@@ -34,7 +34,7 @@
               <label for="msisdn" style="margin-top: 1.6rem">Groupe</label>
             </div>
           </div>
-          <div class="d-flex gap-3" style="margin-top: 1.9rem;">
+          <div class="d-flex gap-3" style="margin-top: 0.7rem;">
             <div style="display: flex;gap: 1rem;">
               <div class="pt-3">
                 <b>{{radioValue}}<span class="text-danger ms-1">*</span></b>
@@ -60,7 +60,7 @@
             </div>
           </div>
         </div>
-        <div style="margin-top: 1rem;" *ngIf="radioValue === 'IMSI'">
+        <div *ngIf="radioValue === 'IMSI'">
           <div class="row">
             <div class="col-md-3">
               <div class="form-group">
@@ -97,7 +97,7 @@
             </div>
           </div>
         </div>
-        <div style="margin-top: 1rem;" *ngIf="radioValue !== 'IMSI'">
+        <div *ngIf="radioValue !== 'IMSI'">
           <div class="row">
             <div class="col-md-4">
               <div class="form-group">
@@ -153,7 +153,7 @@
         <div class="col-md-6">
           <fieldset>
             <legend [ngStyle]="{width: '100%'}">
-              <b>{{selectedService === airtimeService ? 'Montant' : 'Volume'}}</b>
+              <b>{{selectedService === airtimeService ? 'Montant (FCFA)' : 'Volume (Go)'}}</b>
             </legend>
             <div class="row">
               <div class="form-group" *ngIf="selectedService ===airtimeService">
@@ -176,7 +176,7 @@
         <div class="row">
           <div class="form-group">
             <textarea class="" type="text" [(ngModel)]="selectedDescription" pInputText placeholder="Description"
-              [ngStyle]="{width: '100%'}" rows="3"></textarea>
+              [ngStyle]="{width: '100%'}" rows="1"></textarea>
           </div>
         </div>
       </fieldset>

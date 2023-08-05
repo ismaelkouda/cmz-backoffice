@@ -3,18 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-ventes',
-  templateUrl: './ventes.component.html',
-  styleUrls: ['./ventes.component.scss']
+  selector: 'app-list-clients',
+  templateUrl: './list-clients.component.html',
+  styleUrls: ['./list-clients.component.scss']
 })
-export class VentesComponent implements OnInit {
+export class ListClientsComponent implements OnInit {
 
   public module: string;
   public subModule: string;
   public initialView: boolean = true;
   public formsView: boolean = false;
   public currentObject: any;
-  public listVentes: Array<any> = [];
+  public listClients: Array<any> = [];
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
@@ -33,7 +33,7 @@ export class VentesComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((data) => {
       this.module = data.module;
-      this.subModule = data.subModule[0];
+      this.subModule = data.subModule[4];
     });
   }
 
@@ -67,7 +67,7 @@ export class VentesComponent implements OnInit {
     this.formsView = event;
     this.initialView = !event;
   }
-  public pushListVentes(event: any): void {
-    this.listVentes = event;
+  public pushListClients(event: any): void {
+    this.listClients = event;
   }
 }

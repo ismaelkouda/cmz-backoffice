@@ -5,7 +5,7 @@ import { Menu, NavService } from '../../services/nav.service';
 import { LayoutService } from '../../services/layout.service';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { ADMIN_USER, DASHBOARD } from 'src/shared/routes/routes';
-import { ADMIN_ACHAT, ADMIN_PRODUCT, ADMIN_STOCK, ADMIN_VENTE } from 'src/presentation/pages/administration/administration-routing.module';
+import { ADMIN_ACHAT, ADMIN_ACTIVATION_HISTORIE, ADMIN_CLIENT, ADMIN_GROUPE, ADMIN_POINT_VENTE, ADMIN_PRODUCT, ADMIN_STOCK, ADMIN_VENTE } from 'src/presentation/pages/administration/administration-routing.module';
 
 @Component({
   selector: 'app-sidebar',
@@ -37,15 +37,6 @@ export class SidebarComponent {
     private storage: EncodingDataService
   ) {
     let user = JSON.parse(this.storage.getData('user') || null);
-
-    // data.unshift({
-    //   title: "Tableau de bord",
-    //   icon: "home",
-    //   type: "link",
-    //   path: `/${DASHBOARD}`,
-    //   statut: true,
-    //   children: []
-    // })
     if (user?.profil?.slug === 'utilisateur') {
       this.data.push(
         {
@@ -56,62 +47,83 @@ export class SidebarComponent {
           statut: true,
         },
         {
-          title: "Ventes",
-          icon: "activity",
-          type: "link",
-          path: `/${ADMIN_USER}/${ADMIN_VENTE}`,
-          statut: true,
-        },
-        {
-          title: "Stock",
+          title: "Votre Stock",
           icon: "trending-up",
           type: "link",
           path: `/${ADMIN_USER}/${ADMIN_STOCK}`,
           statut: true,
         },
         {
-          title: "Produits",
-          icon: "square",
+          title: "Vos Ventes",
+          icon: "activity",
           type: "link",
-          path: `/${ADMIN_USER}/${ADMIN_PRODUCT}`,
+          path: `/${ADMIN_USER}/${ADMIN_VENTE}`,
           statut: true,
         },
         {
-          title: "Achats",
+          title: "Vos Achats",
           icon: "shopping-cart",
           type: "link",
           path: `/${ADMIN_USER}/${ADMIN_ACHAT}`,
           statut: true,
         },
         {
-          title: "Clients",
+          title: "Vos Produits & Services",
+          icon: "package",
+          type: "link",
+          path: `/${ADMIN_USER}/${ADMIN_PRODUCT}`,
+          statut: true,
+        },
+        {
+          title: "Objectifs & Performances",
+          icon: "life-buoy",
+          type: "sub",
+          statut: true,
+          expanded: true,
+          children: [
+            {
+              title: "Objectifs",
+              type: "link",
+              path: ``,
+              statut: true,
+            },
+            {
+              title: "Réalisations [Rapport]",
+              type: "link",
+              path: ``,
+              statut: true,
+            }
+          ]
+        },
+        {
+          title: "Vos Clients",
           icon: "users",
           type: "sub",
           statut: true,
           expanded: true,
           children: [
             {
-              title: "Liste",
+              title: "Votre liste de Clients",
               type: "link",
-              path: ``,
+              path: `/${ADMIN_USER}/${ADMIN_CLIENT}`,
               statut: true,
             },
             {
-              title: "Hist.activations",
+              title: "Vos groupes de ventes",
               type: "link",
-              path: ``,
-              statut: true,
-            },
-            {
-              title: "Vos groupes",
-              type: "link",
-              path: ``,
+              path: `/${ADMIN_USER}/${ADMIN_GROUPE}`,
               statut: true,
             },
             {
               title: "Points de ventes",
               type: "link",
-              path: ``,
+              path: `/${ADMIN_USER}/${ADMIN_POINT_VENTE}`,
+              statut: true,
+            },
+            {
+              title: "Historique activations",
+              type: "link",
+              path: `/${ADMIN_USER}/${ADMIN_ACTIVATION_HISTORIE}`,
               statut: true,
             },
           ]
@@ -119,30 +131,30 @@ export class SidebarComponent {
       )
     } else {
       this.data = JSON.parse(this.storage.getData('current_menu') || null);
-      this.data.unshift({
+      this.data?.unshift({
         title: "Tableau de bord",
         icon: "home",
         type: "link",
         path: `/${DASHBOARD}`,
         statut: true,
-        children: []
       })
     }
 
     this.data.map(item => {
       if (item.statut === true) {
         this.filterArray.push(item);
+        this.filterArray.map((d) => {
+          if (d?.children) {
+            d.children.map((value, index) => {
+              if (!user.permissions.includes(value.data)) {
+                d.children.splice(index, 1);
+              }
+            })
+          }
+        });
       }
     });
-    this.filterArray.map((d) => {
-      if (d?.children) {
-        d.children.map((value, index) => {
-          // if (!userPermissions.permissions.includes(value.data)) {
-          //   d.children.splice(index, 1);
-          // }
-        })
-      }
-    });
+
     this.menuItems = this.filterArray;
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
