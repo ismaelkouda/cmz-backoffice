@@ -1,0 +1,352 @@
+<div class="modal-content">
+  <div class="modal-header" style="background-color:#569c5b;color:#fff;cursor: all-scroll;">
+    <h4 class="modal-title pl-3">
+      Détails <strong>[{{transaction?.transaction}}]</strong>
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="handleCloseModal('croix')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <!--------------------MODAL----------SIDEBAR---------->
+      <div class="col-lg-2" style="border-right: 1px solid #D8D8D8;">
+        <!--------------LIGNE CREDIT-----BLOCKS----------------->
+        <ul class="list-group pl-3" *ngIf="transaction?.rapport.ouvrage === operationLigneCredit">
+          <li style="cursor: pointer;font-size:15px;"
+            [ngClass]="filterTab === 'first-item' ? 'active' : 'bg_light_green'" (click)="filterItem('first-item')"
+            class="list-group-item cursor-pointer">
+            First
+          </li>
+        </ul>
+        <ul class="list-group pl-3" *ngIf="transaction?.rapport.ouvrage === operationActivation">
+          <li style="cursor: pointer;font-size:15px;"
+            [ngClass]="filterTab === 'first-item' ? 'active' : 'bg_light_green'" (click)="filterItem('first-item')"
+            class="list-group-item cursor-pointer">
+            Information de transaction
+          </li>
+        </ul>
+        <!--------------SECOND----BLOCKS----------------->
+        <br>
+        <div style="display: flex;justify-content: center;gap: 1rem;">
+          <button (click)="enregistrerForms()" pButton pRipple label="Enregistrer" class="p-button-success"
+            [disabled]="true">
+          </button>
+          <button pButton pRipple label="Abandonner" class="p-button-warning">
+          </button>
+        </div>
+      </div>
+      <!--------------------MODAL----------BODY---------->
+      <div class="col-lg-10">
+        <div class="d-flex justify-content-center align-items-center" style="height: 50px;" [ngClass]="{'styleForCodeRapport100':transaction?.rapport?.code.includes('100') , 
+        'styleForCodeRapportDifferentTo100':transaction?.rapport?.code.includes('100') == false}" role="alert">
+          <strong [innerHTML]="transaction.message"></strong>
+        </div>
+        <!--------------LIGNE CREDIT-----BLOCKS----------------->
+        <div [formGroup]="creditForm" *ngIf="transaction?.rapport.ouvrage === operationLigneCredit">
+          <div class="row">
+            <h4 class="col-6">
+              <strong>{{ formatTitleOuvrage(transaction?.rapport.ouvrage) }}
+                [{{ transaction?.identifiant ? transaction?.identifiant : 'xxxx-0000' }}]</strong>
+            </h4>
+          </div>
+          <hr>
+          <div [hidden]="filterTab !== 'first-item'">
+            <fieldset>
+              <legend>
+                <strong>First Block</strong>
+              </legend>
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>
+                      <b>Montant<span class="text-danger">*</span></b>
+                    </label>
+                    <input formControlName="montant" type="number" placeholder="montant" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>
+                      <b>Type Justificatif<span class="text-danger">*</span></b>
+                    </label>
+                    <p-dropdown [options]="listTypeJustificatif" formControlName="type_justificatif" placeholder="Type">
+                      <ng-template let-data pTemplate="item">
+                        <div class="country-item">
+                          <div>
+                            {{data}}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Justificatif<span class="text-danger">*</span></b>
+                    </label>
+                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label>
+                      <b>Description<span class="text-danger">*</span></b>
+                    </label>
+                    <input formControlName="description" type="text" pInputText />
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div style="display: flex;justify-content: center;gap: 1rem;">
+                <div>
+                  <strong class="text-danger">AUCUNE PHOTO DE L'ESPACE OCCUPE</strong>
+                </div>
+                <!-- <div>
+                      <img style="cursor: pointer" (click)="showPhoto(detailsOuvrage.photo_occupation)"
+                          [src]="fileUrl+detailsOuvrage.photo_occupation" width="150" alt="">
+                  </div> -->
+              </div>
+            </fieldset>
+            <br>
+            <fieldset>
+              <legend>
+                <strong>Acceptation</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div style="margin-left: 8%;" class="ml-3">
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
+                    </span>
+                    <div class="wrapper-check">
+                      <div class="form-check form-check-inline">
+                        <input [checked]="transaction.rapport?.statut === 'oui'"
+                          (change)="isAccepteForms($event, 'statut')" class="form-check-input" type="radio"
+                          name="infosLigne" value="oui" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input [checked]="transaction.rapport?.statut === 'non'"
+                          (change)="isAccepteForms($event, 'statut')" class="form-check-input" type="radio"
+                          name="infosLigne" value="non" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="ligne_comment" class="form-control" rows="2"
+                    style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                            </textarea>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div [hidden]="filterTab !== 'second-item'">
+            <fieldset>
+              <legend>
+                <strong>Second Block</strong>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+        <!-------------ACTIVATION-----BLOCKS----------------->
+        <div [formGroup]="activationForm" *ngIf="transaction?.rapport.ouvrage === operationActivation">
+          <div class="row">
+            <h4 class="col-6">
+              <strong>{{formatTitleOuvrage(transaction?.rapport.ouvrage) }}
+                [{{ transaction?.identifiant ? transaction?.identifiant : 'xxxx-0000' }}]</strong>
+            </h4>
+          </div>
+          <hr>
+          <div [hidden]="filterTab !== 'first-item'">
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Information / Identifications</b>
+              </legend>
+              <div style="display: flex;gap: 2rem;">
+                <div class="d-flex gap-2">
+                  <p-radioButton name="valeur" [value]="sourceStock" [inputId]="sourceStock"></p-radioButton>
+                  <label [for]="sourceStock" style="margin-top: 0.9rem">Stock/Tenant</label>
+                </div>
+                <div class="d-flex gap-2">
+                  <p-radioButton name="valeur" [value]="sourceOrange" [inputId]="sourceOrange"></p-radioButton>
+                  <label [for]="sourceOrange" style="margin-top: 0.9rem">Orange CI</label>
+                </div>
+              </div>
+              <div class="text-wrapper">
+                <input [disabled]="true"
+                  [value]="sourceValue === 'stock' ? 'Le système utilisera une SIM dans le stock': 'Orange CI fournira la SIM, à l\'\issue de l\'operation la SIM sera livrée au point de contact' "
+                  type="text" pInputText
+                  style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 20px;" />
+              </div>
+            </fieldset>
+            <br>
+            <fieldset>
+              <legend [ngStyle]="{width: '18rem'}">
+                <b>Informations d'identifications</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
+                    </label>
+                    <p-dropdown [options]="listDirections" optionLabel="nom" (onChange)="onChangeItem($event)"
+                      [showClear]="true" [filter]="true" filterBy="nom" [placeholder]="firstLevelLibelle">
+                      <ng-template let-data pTemplate="item">
+                        <div class="country-item">
+                          <div>
+                            {{data.nom}} [{{data.code}}]
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
+                    </label>
+                    <p-dropdown [options]="listExploitations" optionLabel="nom" optionValue="id" [showClear]="true"
+                      [filter]="true" filterBy="nom" [placeholder]="secondLevelLibelle">
+                      <ng-template let-data pTemplate="item">
+                        <div class="country-item">
+                          <div>
+                            {{data.nom}}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
+                    </label>
+                    <p-dropdown [options]="listActivites" optionLabel="nom" [placeholder]="thirdLevelLibelle"
+                      optionValue="id">
+                      <ng-template let-data pTemplate="item">
+                        <div class="country-item">
+                          <div>
+                            {{data.nom}}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Usage<span class="text-danger">*</span></b>
+                    </label>
+                    <p-dropdown [options]="listUsages" optionLabel="nom_usage" placeholder="Usage" optionValue="id">
+                      <ng-template let-data pTemplate="item">
+                        <div class="country-item">
+                          <div>
+                            {{data.nom_usage}}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Emplacement<span class="text-danger">*</span></b>
+                    </label>
+                    <input type="text" placeholder="Bénéficiaire" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Adresse mail<span class="text-danger">*</span></b>
+                    </label>
+                    <input type="text" placeholder="Adresse Email" pInputText />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Adresse géographique</b>
+                    </label>
+                    <input type="text" placeholder="Adresse Geo" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Latitude<span class="text-danger">*</span></b>
+                    </label>
+                    <input type="text" placeholder="Latitude" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Longitude<span class="text-danger">*</span></b>
+                    </label>
+                    <input type="text" placeholder="Longitude" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>
+                <strong>Acceptation</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div style="margin-left: 8%;" class="ml-3">
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
+                    </span>
+                    <div class="wrapper-check">
+                      <div class="form-check form-check-inline">
+                        <input [checked]="transaction.rapport?.statut === 'oui'"
+                          (change)="isAccepteForms($event, 'statut')" class="form-check-input" type="radio"
+                          name="infosLigne" value="oui" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input [checked]="transaction.rapport?.statut === 'non'"
+                          (change)="isAccepteForms($event, 'statut')" class="form-check-input" type="radio"
+                          name="infosLigne" value="non" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="ligne_comment" class="form-control" rows="2"
+                    style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                            </textarea>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div [hidden]="filterTab !== 'second-item'">
+            <fieldset>
+              <legend>
+                <strong>Second Block</strong>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>

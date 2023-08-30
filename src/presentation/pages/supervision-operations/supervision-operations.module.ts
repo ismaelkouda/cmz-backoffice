@@ -1,7 +1,4 @@
-import { PerformancesComponent } from './ui/performances/performances.component';
-import { PriseEnChargeComponent } from './feature/prise-en-charge/prise-en-charge.component';
-import { AlarmesComponent } from './feature/alarmes/alarmes.component';
-import { SuivieTraitementComponent } from './feature/suivie-traitement/suivie-traitement.component';
+import { TraitementShowComponent } from './feature/traitement-show/traitement-show.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SplitButtonModule } from 'primeng/splitbutton';
@@ -31,8 +28,14 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { SupervisionOperationsRoutingModule } from './supervision-operations-routing.module';
 import { SupervisionOperationService } from './data-access/supervision-operation.service';
 import { SharedModule } from 'src/shared/shared.module';
-import { TransactionsComponent } from './feature/transactions/transactions.component';
 
+
+//Components
+import { TransactionsComponent } from './ui/transactions/transactions.component';
+import { PriseEnChargeComponent } from './ui/prise-en-charge/prise-en-charge.component';
+import { AlarmesComponent } from './ui/alarmes/alarmes.component';
+import { SuivieTraitementComponent } from './ui/suivie-traitement/suivie-traitement.component';
+import { PerformancesComponent } from './ui/performances/performances.component';
 
 @NgModule({
     declarations: [
@@ -40,7 +43,8 @@ import { TransactionsComponent } from './feature/transactions/transactions.compo
         SuivieTraitementComponent,
         AlarmesComponent,
         PriseEnChargeComponent,
-        PerformancesComponent
+        PerformancesComponent,
+        TraitementShowComponent
     ],
     imports: [
         CommonModule,

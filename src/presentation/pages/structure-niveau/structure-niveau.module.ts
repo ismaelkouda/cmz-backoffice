@@ -1,16 +1,10 @@
-import { CardStockComponent } from './feature/card-stock/card-stock.component';
-import { StockProduitComponent } from './ui/stock-produit/stock-produit.component';
-import { CreditFormComponent } from './feature/credit-form/credit-form.component';
-import { SharedVolumeComponent } from './ui/shared-volume/shared-volume.component';
-import { FactureComponent } from './feature/facture/facture.component';
-import { SharedModule } from './../../../shared/shared.module';
+import { StructureNiveauRoutingModule } from './structure-niveau-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { ProvisionningRoutingModule } from './provisionning-routing.module';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { BadgeModule } from 'primeng/badge';
+
 
 //Modules Primeng
 import { TableModule } from 'primeng/table';
@@ -26,11 +20,14 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { PasswordModule } from 'primeng/password';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
+import { CheckboxModule } from 'primeng/checkbox';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 //Components
-import { CommandeFormComponent } from './feature/commande-form/commande-form.component';
-import { CommandeSimComponent } from './ui/commande-sim/commande-sim.component';
-import { LigneCreditComponent } from './ui/ligne-credit/ligne-credit.component';
+import { FirstLevelComponent } from './ui/first-level/first-level.component';
+import { SecondLevelComponent } from './ui/second-level/second-level.component';
+import { ThirdLevelComponent } from './ui/third-level/third-level.component';
+import { SharedModule } from 'src/shared/shared.module';
 
 
 @NgModule({
@@ -38,9 +35,9 @@ import { LigneCreditComponent } from './ui/ligne-credit/ligne-credit.component';
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        SharedModule,
-        ProvisionningRoutingModule,
+        StructureNiveauRoutingModule,
         DropdownModule,
+        SharedModule,
         ButtonModule,
         TableModule,
         InputTextModule,
@@ -53,19 +50,15 @@ import { LigneCreditComponent } from './ui/ligne-credit/ligne-credit.component';
         InputMaskModule,
         PasswordModule,
         RadioButtonModule,
-        CalendarModule,
         NgxCaptchaModule,
-        BadgeModule
+        CalendarModule,
+        CheckboxModule,
+        MultiSelectModule
     ],
     declarations: [
-        CommandeSimComponent,
-        LigneCreditComponent,
-        StockProduitComponent,
-        SharedVolumeComponent,
-        CommandeFormComponent,
-        FactureComponent,
-        CreditFormComponent,
-        CardStockComponent
+        FirstLevelComponent,
+        SecondLevelComponent,
+        ThirdLevelComponent
     ],
 })
-export class ProvisionningModule { }
+export class StructureNiveauModule { }

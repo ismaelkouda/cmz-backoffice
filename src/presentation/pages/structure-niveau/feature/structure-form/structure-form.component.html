@@ -1,0 +1,29 @@
+<div class="form-container">
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{firstLevelLibelle}}</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
+    </div>
+    <div class="modal-body" [formGroup]="adminForm" novalidate>
+      <div class="form-group">
+        <label><b>Nom<span class="text-danger">*</span></b></label>
+        <input type="text" formControlName="nom" pInputText />
+      </div>
+      <div class="form-group mt-3">
+        <label><b>Code<span class="text-danger">*</span></b></label>
+        <input type="text" formControlName="code" pInputText />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div>
+        <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
+      </div>
+      <div *ngIf="!isShow">
+        <button type="button" class="btn btn-save" (click)="OnSaveFirstLevel()" (click)="!isEdit
+                ? OnSaveLevel()
+                : OnUpdateLevel()" [disabled]="!adminForm.valid">{{!isEdit ? 'Valider':
+          'Modifiier'}}</button>
+      </div>
+    </div>
+  </ng-template>
+</div>

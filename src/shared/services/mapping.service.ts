@@ -13,6 +13,7 @@ export class MappingService {
   logoTenant: any;
   tenant: any;
   grafanaLink: string;
+  typeNiveau: string;
 
   constructor(
     private storage: EncodingDataService
@@ -22,6 +23,8 @@ export class MappingService {
     this.structureGlobale = data?.structure_organisationnelle;
     this.logoTenant = `${appConfig.fileUrl}${data?.env?.logo_tenant}`;
     this.grafanaLink = data?.env?.lien_dashboard_grafana;
+    const newDatatEnv = { ...data?.env, typeNiveau: 'Type Emplacement' };
+    this.typeNiveau = newDatatEnv?.typeNiveau
   }
 
 }

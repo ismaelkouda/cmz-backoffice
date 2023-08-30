@@ -4,8 +4,10 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Menu, NavService } from '../../services/nav.service';
 import { LayoutService } from '../../services/layout.service';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-import { ADMIN_USER, DASHBOARD } from 'src/shared/routes/routes';
+import { ADMIN_USER, DASHBOARD, STRUCTURE_ORGANISATIONNELLE } from 'src/shared/routes/routes';
 import { ADMIN_ACHAT, ADMIN_ACTIVATION_HISTORIE, ADMIN_CLIENT, ADMIN_GROUPE, ADMIN_POINT_VENTE, ADMIN_PRODUCT, ADMIN_STOCK, ADMIN_VENTE } from 'src/presentation/pages/administration/administration-routing.module';
+import { MappingService } from 'src/shared/services/mapping.service';
+import { FIRST_LEVEL_ROUTE, SECOND_LEVEL_ROUTE, THRID_LEVEL_ROUTE } from 'src/presentation/pages/structure-niveau/structure-niveau-routing.module';
 
 @Component({
   selector: 'app-sidebar',
@@ -34,7 +36,8 @@ export class SidebarComponent {
     private router: Router,
     public navServices: NavService,
     public layout: LayoutService,
-    private storage: EncodingDataService
+    private storage: EncodingDataService,
+    private mappingService: MappingService
   ) {
     let user = JSON.parse(this.storage.getData('user') || null);
     if (user?.profil?.slug === 'utilisateur') {
@@ -137,6 +140,40 @@ export class SidebarComponent {
         type: "link",
         path: `/${DASHBOARD}`,
         statut: true,
+      })
+      this.data?.push({
+        title: `Structure Organisationnelle`,
+        label: `Structure Organisationnelle`,
+        data: "7-0-0-parametres-securite",
+        statut: true,
+        icon: "bar-chart-2",
+        url: "assets/images/portail/icone_settings.webp",
+        path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
+        routerLink: ``,
+        type: "sub",
+        children: [
+          {
+            path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
+            title: `${mappingService.structureGlobale?.niveau_1}`,
+            label: `${mappingService.structureGlobale?.niveau_1}`,
+            data: "6-1-0-profils-habilitations",
+            type: "link"
+          },
+          {
+            path: `/${STRUCTURE_ORGANISATIONNELLE}/${SECOND_LEVEL_ROUTE}`,
+            title: `${mappingService.structureGlobale?.niveau_2}`,
+            label: `${mappingService.structureGlobale?.niveau_2}`,
+            data: "6-2-0-utilisateurs",
+            type: "link"
+          },
+          {
+            path: `/${STRUCTURE_ORGANISATIONNELLE}/${THRID_LEVEL_ROUTE}`,
+            title: `${mappingService.structureGlobale?.niveau_3}`,
+            label: `${mappingService.structureGlobale?.niveau_3}`,
+            data: "6-3-0-activation-collecte",
+            type: "link"
+          }
+        ]
       })
     }
 

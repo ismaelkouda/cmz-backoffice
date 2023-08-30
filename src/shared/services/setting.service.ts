@@ -32,16 +32,46 @@ export class SettingService {
     const url: string = (<string>EndPointUrl.GET_ALL_YEAR);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
+
+  //First Level
   getAllDirectionRegionales(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_DIRECTION_REGIONALE);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
+  OnSaveDirectionRegionale(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.SAVE_DIRECTION_REGIONALE);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  OnUpdateDirectionRegionale(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.UPDATE_DIRECTION_REGIONALE);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+
+  //Second Level
   getAllExploiatations(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_EXPLOITATION);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
+  OnSaveExploitation(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.SAVE_EXPLOITATION);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  OnUpdateEploitation(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.UPDATE_EXPLOITATION);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+
+  // Third Level
   getAllZones(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_NIVEAUX_3);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  OnSaveZone(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.SAVE_NIVEAUX_3);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
+  OnUpdateZone(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.UPDATE_NIVEAUX_3);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
 

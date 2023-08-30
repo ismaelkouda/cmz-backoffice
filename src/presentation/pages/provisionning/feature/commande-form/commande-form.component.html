@@ -4,148 +4,46 @@
       <h3>
         <b>
           <span>Nouveau Achat</span>
-          <!-- <span class="current_values">[{{numeroCommande}}]</span> -->
         </b>
       </h3>
     </div>
     <div></div>
-    <div class="forms-feature-header__button">
+    <div class="forms-feature-header__button" style="display: flex;gap: 1.5rem;">
+      <div>
+        <p-button label="Panier Produits" icon="pi pi-shopping-cart" [badge]="totalProduct() || '0'"
+          (click)="displays=true" [disabled]="panierList?.length ===0"></p-button>
+      </div>
       <div>
         <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
       </div>
     </div>
   </div>
   <hr>
-  <!---------------------------SIM------------------BLANCHE----------------->
-  <div class="card-commande">
-    <fieldset>
-      <legend [ngStyle]="{width: '100%'}">
-        <b>SIM Blanche</b>
-      </legend>
-      <div class="row">
-        <div class="col-md-1">
-          <div class="form-group">
-            <label>
-              <b>Code</b>
-            </label>
-            <input [(ngModel)]="fiedlistA.code_produit" [disabled]="true" type="text" pInputText />
-          </div>
+  <div class="product-container">
+
+    <div *ngFor="let prod of listProducts" class="card_component" (click)="OnModal(prod,content)"
+      [style]="{marginBottom: '10px',cursor: 'pointer'}">
+      <div class="card-body">
+        <div>
+          <div class="card_component__code">{{prod.code}}</div>
         </div>
-        <div class="col-md-1">
-          <div class="form-group">
-            <label>
-              <b>PU (FCFA)</b>
-            </label>
-            <input [(ngModel)]="fiedlistA.prix_unitaire" [disabled]="true" type="text" pInputText />
-          </div>
+        <div class="card_component__picture">
+          <span><img src="assets/images/unboxing.png" alt=""></span>
         </div>
-        <div class="col-md-1">
-          <div class="form-group">
-            <label>
-              <b>Qté</b>
-            </label>
-            <input placeholder="" [(ngModel)]="selectedQtyBlanche" type="number" pInputText />
+        <div class="card_component__namePrice">
+          <div>
+            <div class="card_component__namePrice--name">{{prod.nom}}</div>
           </div>
-        </div>
-        <div class="col-md-9">
-          <div class="form-group">
-            <label>
-              <b>Description</b>
-            </label>
-            <input type="text" [(ngModel)]="selectedDescBlanche" pInputText />
+          <div>
+            <div class="card_component__namePrice--price">{{pipeValue(prod.prix)}} F</div>
           </div>
         </div>
       </div>
-    </fieldset>
-  </div>
-  <div class="card-commande">
-    <fieldset>
-      <legend [ngStyle]="{width: '100%'}">
-        <b>SIM MSISDN</b>
-      </legend>
-      <div class="row">
-        <div class="col-md-1">
-          <div class="form-group">
-            <label>
-              <b>Code</b>
-            </label>
-            <input [(ngModel)]="fiedlistB.code_produit" [disabled]="true" type="text" pInputText />
-          </div>
-        </div>
-        <div class="col-md-1">
-          <div class="form-group">
-            <label>
-              <b>PU (FCFA)</b>
-            </label>
-            <input [(ngModel)]="fiedlistB.prix_unitaire" [disabled]="true" type="text" pInputText />
-          </div>
-        </div>
-        <div class="col-md-1">
-          <div class="form-group">
-            <label>
-              <b>Qté</b>
-            </label>
-            <input type="number" [(ngModel)]="selectedQtyMsimsdn" pInputText />
-          </div>
-        </div>
-        <div class="col-md-9">
-          <div class="form-group">
-            <label>
-              <b>Description</b>
-            </label>
-            <input type="text" [(ngModel)]="selectedDescSimMsisdn" pInputText />
-          </div>
-        </div>
+      <div class="card-footer">
+        <button pButton pRipple label="Ajouter au panier" icon="pi pi-plus" class="p-button-dark"
+          style="width: 100%;border-radius: 0 !important;">
+        </button>
       </div>
-    </fieldset>
-  </div>
-  <div class="card-commande">
-    <fieldset>
-      <legend [ngStyle]="{width: '100%'}">
-        <b>Volume Partagé</b>
-      </legend>
-      <div class="row">
-        <div class="col-md-1">
-          <div class="form-group">
-            <label>
-              <b>Code</b>
-            </label>
-            <input [(ngModel)]="fiedlistC.code_produit" [disabled]="true" type="text" pInputText />
-          </div>
-        </div>
-        <div class="col-md-1">
-          <div class="form-group">
-            <label>
-              <b>PU (FCFA)</b>
-            </label>
-            <input [(ngModel)]="fiedlistC.prix_unitaire" [disabled]="true" type="text" pInputText />
-          </div>
-        </div>
-        <div class="col-md-1">
-          <div class="form-group">
-            <label>
-              <b>Volume (Go)</b>
-            </label>
-            <input placeholder="" type="number" [(ngModel)]="selectedvp" pInputText />
-          </div>
-        </div>
-        <div class="col-md-9">
-          <div class="form-group">
-            <label>
-              <b>Description</b>
-            </label>
-            <input placeholder="" type="text" [(ngModel)]="selectedDescVp" pInputText />
-          </div>
-        </div>
-      </div>
-    </fieldset>
-  </div>
-  <div class="submit-form">
-    <div>
-      <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha">
-      </ngx-recaptcha2>
-      <button style="float: right;margin-top: 1rem;" [disabled]="isFilter()" pButton pRipple label="Voir la facture"
-        (click)="showFacture()" class="p-button-success"></button>
     </div>
   </div>
   <!--[disabled]="!currentRecaptcha"-->
@@ -154,3 +52,83 @@
   <app-facture [currentObjectTwo]="currentObjectTwo" *ngIf="factureView" (factureView)="pushStatutView($event,'data')"
     [currentId]="currentId"></app-facture>
 </div>
+<ng-template #content let-modal style="width: 70rem;">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{currentItem?.nom}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label><b>Quantité<span class="text-danger">*</span></b></label>
+      <input [(ngModel)]="currentItem.qty" type="number" pInputText />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div>
+      <button type="button" class="btn btn-hide" (click)="hideModal()">Fermer</button>
+    </div>
+    <div>
+      <button type="button" class="btn btn-save" (click)="addToPanier(currentItem)">Valider</button>
+    </div>
+  </div>
+</ng-template>
+
+<p-dialog [(visible)]="displays" position="bottom-right" [style]="{ width: '100%' }"
+  (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true" [maximizable]="true" [draggable]="false"
+  [resizable]="false">
+  <ng-template pTemplate="header">
+    <h3>
+
+    </h3>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <div style="    position: fixed;
+    display: flex;
+    gap: 1rem;
+    width: 100%;padding-right: 1.8rem;">
+      <div class="panier-wrapper">
+        <div class="legende">Mon Panier</div>
+        <div class="panier-card" *ngFor="let prod of panierList">
+          <div class="panier-card__file">
+            <img src="assets/images/unboxing.png" alt="">
+          </div>
+          <div class="panier-card__infos">
+            <div class="panier-card__infos--code">{{prod.code}}</div>
+            <div class="panier-card__infos--nom">{{prod.nom}}</div>
+          </div>
+          <div class="panier-card__quantity">
+            <button [ngClass]="['decrement']" (click)="decrementButton(prod)" decrementButtonIcon="pi pi-minus"><i
+                class="pi pi-minus"></i></button>
+            <span>{{prod.qty}}</span>
+            <button [ngClass]="['increment']" (click)="incrementButton(prod)"><i class="pi pi-plus"
+                incrementButtonClass="p-button-success"></i></button>
+          </div>
+          <div class="panier-card__price">{{ pipeValue((prod.prix)*(prod.qty))}} F</div>
+          <div class="panier-card__actions">
+            <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Retirer" tooltipPosition="top"
+              (click)="RemoveFromPanier(prod)"></p-button>
+          </div>
+        </div>
+      </div>
+      <div class="resume-wrapper">
+        <div class="legende">résumé</div>
+        <div class="resume-panier">
+          <div class="resume-panier__title">
+            <div>Prix HT</div>
+            <div>TVA 18 %</div>
+            <div>Montant totale à régler</div>
+          </div>
+          <div class="resume-panier__values">
+            <div>{{ pipeValue(totalPrice())}} FCFA</div>
+            <div>{{pipeValue(montantRemise()) }} FCFA</div>
+            <div class="global">{{ pipeValue(montantTotal())}} FCFA</div>
+          </div>
+        </div>
+        <div class="actions">
+          <button pButton pRipple label="Valider la commande" icon="pi pi-shopping-cart" class="p-button-success">
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

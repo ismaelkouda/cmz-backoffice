@@ -2,13 +2,12 @@ import { ADMIN_ACHAT } from './../presentation/pages/administration/administrati
 import { PERFORMANCE_SLA } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
-import { CARTES_SIM, DOTATION_SERVICES, GROUPE_SIM, LIFECYCLE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
+import { CARTES_SIM, DOTATION_SERVICES, GROUPE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
 import { SUPERSION_PRISE_EN_CHARGE, SUPERSION_STATUTS, SUPERVISION_SUIVIE_TRAITEMENT } from 'src/presentation/pages/supervision-operations/supervision-operations-routing.module';
-import { ADMIN_USER, DASHBOARD, OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
+import { OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
 import { VUE_GEOGRAPHIQUE } from 'src/presentation/pages/zone-trafic/zone-trafic-routing.module';
 import { PROFILS_HABILITATIONS, UTILISATEURS } from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
-import { ADMIN_PRODUCT, ADMIN_STOCK, ADMIN_VENTE } from 'src/presentation/pages/administration/administration-routing.module';
 
 export var menuJson = [
     {
@@ -230,7 +229,7 @@ export var menuJson = [
                 type: "link"
             }
         ]
-    }
+    },
 ]
 /*
 Lien BackEnd : http://144.91.103.143:12100/
@@ -243,3 +242,5 @@ Lien BackEnd : http://144.91.103.143:12300/
 Email : admin@gs2e.digital
 Password : gs2e1234
 */
+//10.10.0.200:12300
+//https://documenter.getpostman.com/view/21243117/2s93m4Xhtd

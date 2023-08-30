@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CommandeSimComponent } from './ui/commande-sim/commande-sim.component';
 
-export const COMMANDE_SIM = 'commande-cartes-sim';
+export const COMMANDE_SIM = 'commande-produits';
 export const LIGNE_CREDIT = 'ligne-credit';
 export const STOCK_PRODUITS = 'stock-produits';
 

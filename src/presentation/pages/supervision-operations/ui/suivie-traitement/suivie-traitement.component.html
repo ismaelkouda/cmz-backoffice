@@ -118,90 +118,95 @@
             [disabled]="isFilter()"></p-button>
         </div>
       </div>
-      <p-table #dt [value]="listPriseEncharges" [rows]="10" [paginator]="true" [globalFilterFields]="[
-                'id',
-                'date',
-                'num_transaction',
-                'dr',
-                'exploitation',
-                'operation',
-                'code_erreur',
-                'message',
-                'affectation',
-                'intervenant',
-            ]" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données"
-        [showCurrentPageReport]="true">
-        <ng-template pTemplate="caption">
-          <div class="seach_and_btns p-0">
-            <div>
-              <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"></button>
-              <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf ms-3"></button>
-            </div>
-            <div>
-              <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value,'contains')"
-                  placeholder="Recherche..." />
-              </span>
-            </div>
-          </div>
-        </ng-template>
-        <br />
-        <ng-template pTemplate="header">
-          <tr>
-            <th>#</th>
-            <th>Date</th>
-            <th>N°Transaction</th>
-            <th>DR</th>
-            <th [ngStyle]="{ width: '200px' }">Exploitation</th>
-            <th>Opération</th>
-            <th># SIM A</th>
-            <th># SIM B</th>
-            <th># Volume</th>
-            <th>Code Rapport</th>
-            <th>Message</th>
-            <th>Affectation</th>
-            <th>Intervenant</th>
-            <th>Action</th>
-          </tr>
-        </ng-template>
-        <ng-template let-i="rowIndex" pTemplate="body" let-prise>
-          <tr>
-            <td style="text-align: center">{{i+1}}</td>
-            <td style="text-align: center">{{ prise.updated_at}}</td>
-            <td (click)="copyTransaction(prise.transaction)" style="text-align: center; cursor: pointer">
-              {{prise.transaction}}</td>
-            <td style="text-align: center">{{ prise.direction_regionale_code}}</td>
-            <td (click)="copyTransaction(prise.exploitation_nom)" style="text-align: center">
-              <div style="cursor: pointer">
-                {{ prise.exploitation_nom }}
+      <div class="mt-4">
+        <p-table #dt [value]="listTraitemants" [rows]="10" [paginator]="true" [globalFilterFields]="[
+        'id',
+        'date',
+        'num_transaction',
+        'dr',
+        'exploitation',
+        'operation',
+        'code_erreur',
+        'message',
+        'affectation',
+        'intervenant',
+    ]" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
+          currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données"
+          [showCurrentPageReport]="true">
+          <ng-template pTemplate="caption">
+            <div class="seach_and_btns p-0">
+              <div>
+                <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"></button>
+                <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf ms-3"></button>
               </div>
-            </td>
-            <td style="text-align: center; cursor: pointer" (click)="copyTransaction(prise.operation)">
-              {{prise.operation}}
-            </td>
-            <td style="text-align: center; cursor: pointer">
-              <span [ngClass]="['badge', 'badge-'+prise.code_rapport.split('-')[1]]">{{ prise.code_rapport }}</span>
-            </td>
-            <td style="text-align: center">
-              <button pButton pRipple type="button" icon="pi pi-eye" label="Voir" class="p-button-secondary"></button>
-            </td>
-            <td style="text-align: center">
-              <span class="badge danger" *ngIf="prise.affectation === 'auto-affecté'">{{prise.affectation}}</span>
-              <span class="badge" *ngIf="prise.affectation === 'affecté'">{{prise.affectation}}</span>
-            </td>
-            <td style="text-align: center">
-              <span>
-                {{ prise.intervenant_nom }} {{prise.intervenant_prenoms}}
-              </span>
-            </td>
-            <td style="text-align: center">
-              <button pButton pRipple type="button" icon="pi pi-arrow-right" label="Affecter"></button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+              <div>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="dt.filterGlobal($event.target.value,'contains')"
+                    placeholder="Recherche..." />
+                </span>
+              </div>
+            </div>
+          </ng-template>
+          <br />
+          <ng-template pTemplate="header">
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>N°Transaction</th>
+              <th>DR</th>
+              <th [ngStyle]="{ width: '200px' }">Exploitation</th>
+              <th>Opération</th>
+              <th># SIM A</th>
+              <th># SIM B</th>
+              <th># Volume</th>
+              <th>Code Rapport</th>
+              <th>Message</th>
+              <th>Affectation</th>
+              <th>Intervenant</th>
+              <th>Action</th>
+            </tr>
+          </ng-template>
+          <ng-template let-i="rowIndex" pTemplate="body" let-prise>
+            <tr>
+              <td style="text-align: center">{{i+1}}</td>
+              <td style="text-align: center">{{ prise?.updated_at}}</td>
+              <td (click)="copyTransaction(prise?.transaction)" style="text-align: center; cursor: pointer">
+                {{prise?.transaction}}</td>
+              <td style="text-align: center">{{ prise?.direction_regionale_code}}</td>
+              <td (click)="copyTransaction(prise?.exploitation_nom)" style="text-align: center">
+                <div style="cursor: pointer">
+                  {{ prise?.exploitation_nom }}
+                </div>
+              </td>
+              <td style="text-align: center; cursor: pointer" (click)="copyTransaction(prise?.operation)">
+                {{prise.operation}}
+              </td>
+              <td style="text-align: center; cursor: pointer">
+                <span>{{ prise?.code_rapport }}</span>
+              </td>
+              <td style="text-align: center">
+              </td>
+              <td style="text-align: center">
+                <span class="badge danger" *ngIf="prise?.affectation === 'auto-affecté'">{{prise?.affectation}}</span>
+                <span class="badge" *ngIf="prise?.affectation === 'affecté'">{{prise?.affectation}}</span>
+              </td>
+              <td style="text-align: center">
+                <span>
+                  {{ prise?.intervenant_nom }} {{prise?.intervenant_prenoms}}
+                </span>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td style="text-align: center">
+                <p-button icon="pi pi-eye" styleClass="p-button-dark" pTooltip="Voir" tooltipPosition="top"
+                  (click)="OnShowTraitement(prise)"></p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
     </div>
   </div>
 </div>

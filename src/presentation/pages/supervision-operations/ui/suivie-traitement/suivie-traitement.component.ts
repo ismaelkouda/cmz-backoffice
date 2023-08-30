@@ -6,6 +6,8 @@ import { ClipboardService } from 'ngx-clipboard';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
 import { LocalStorageService } from 'ngx-webstorage';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TraitementShowComponent } from '../../feature/traitement-show/traitement-show.component';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -15,7 +17,7 @@ const Swal = require('sweetalert2');
 })
 export class SuivieTraitementComponent implements OnInit {
 
-  public listPriseEncharges: Array<any> = [];
+  public listTraitemants: Array<any> = [];
   public listDirectionsRegionales: Array<any> = [];
   public listExploitations: Array<any> = [];
   public listIntervenants: Array<any> = [];
@@ -41,13 +43,18 @@ export class SuivieTraitementComponent implements OnInit {
     private settingService: SettingService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
+    private modalService: NgbModal,
 
   ) {
     this.listOperations = LIST_OPERATIONS;
     this.listAffectes = LIST_AFFECTE;
     this.listCodeRapports = LIST_CODE_RAPPORT;
     this.listTraitements = LIST_TRAITEMENTS;
-
+    this.listTraitemants = [
+      {
+        id: 1
+      }
+    ]
   }
 
   ngOnInit() {
@@ -114,8 +121,8 @@ export class SuivieTraitementComponent implements OnInit {
       .GetAllPriseEnCharge(data)
       .subscribe({
         next: (response) => {
-          this.listPriseEncharges = response['data'];
-          this.listPriseEncharges.length === 0 ?
+          this.listTraitemants = response['data'];
+          this.listTraitemants.length === 0 ?
             Swal.fire('PATRIMOINE SIM', 'Aucune donnée pour cet exploitation', 'error')
             : ''
         },
@@ -124,11 +131,34 @@ export class SuivieTraitementComponent implements OnInit {
         }
       });
   }
-
   public copyTransaction(data: any): void {
     console.log(data);
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
+  }
+  OnShowTraitement(data: Object): void {
+    const modalRef = this.modalService.open(TraitementShowComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });
+    data = {
+      transaction: "REC02001230818212524",
+      message: "Soumis pour validation",
+      // message: "Soumis pour validation",
+      rapport: {
+        id: 1,
+        transaction: "REC02001230818212524",
+        ouvrage: "ligne-credit",
+        //ouvrage: "activation",
+        //ouvrage: "ligne-credit",
+        code: "REC-100",
+        statut: 'oui'
+      }
+    }
+    modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.vue = "traitements-suivis";
   }
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;

@@ -9,7 +9,8 @@ export const ZONE_TRAFIC = 'zone-trafic';
 export const INTERCONNEXION_ECHANGE = 'interconnexion';
 export const SUPERVISION_SYSTEME = 'supervision-systeme';
 export const PARAMETRE_SECURITE = 'parametre-securite'
-export const OPERATIONS_SIM = 'operations-sim'
+export const OPERATIONS_SIM = 'operations-sim';
+export const STRUCTURE_ORGANISATIONNELLE = 'structure-organisationnelle'
 export const ADMIN_USER = 'user'
 
 
@@ -90,6 +91,13 @@ export const content: Routes = [
         'Groupes',
         'Point de Ventes'
       ]
+    }
+  },
+  {
+    path: STRUCTURE_ORGANISATIONNELLE,
+    loadChildren: () => import("../../presentation/pages/structure-niveau/structure-niveau.module").then((m) => m.StructureNiveauModule),
+    data: {
+      module: 'Structure Organisationnelle',
     }
   }
 ];
