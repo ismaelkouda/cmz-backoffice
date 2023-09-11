@@ -1,5 +1,5 @@
 <div class="modal-content">
-  <div class="modal-header" style="background-color:#569c5b;color:#fff;cursor: all-scroll;">
+  <div class="modal-header" style="background-color:#569c5b;color:#fff;cursor: all-scroll;padding: 0.2rem 1rem;">
     <h4 class="modal-title pl-3">
       Détails <strong>[{{transaction?.transaction}}]</strong>
     </h4>
@@ -11,66 +11,123 @@
     <div class="row">
       <!--------------------MODAL----------SIDEBAR---------->
       <div class="col-lg-2" style="border-right: 1px solid #D8D8D8;">
-        <!--------------LIGNE CREDIT-----BLOCKS----------------->
-        <ul class="list-group pl-3" *ngIf="transaction?.rapport.ouvrage === operationLigneCredit">
+        <ul class="list-group pl-3" *ngIf="transaction?.operation === operationLigneCredit">
           <li style="cursor: pointer;font-size:15px;"
             [ngClass]="filterTab === 'first-item' ? 'active' : 'bg_light_green'" (click)="filterItem('first-item')"
             class="list-group-item cursor-pointer">
-            First
+            Information de Transaction
           </li>
         </ul>
-        <ul class="list-group pl-3" *ngIf="transaction?.rapport.ouvrage === operationActivation">
+        <ul class="list-group pl-3" *ngIf="transaction?.operation === OperationVolumeData">
           <li style="cursor: pointer;font-size:15px;"
             [ngClass]="filterTab === 'first-item' ? 'active' : 'bg_light_green'" (click)="filterItem('first-item')"
             class="list-group-item cursor-pointer">
-            Information de transaction
+            Information de Transaction
           </li>
         </ul>
-        <!--------------SECOND----BLOCKS----------------->
+        <ul class="list-group pl-3" *ngIf="transaction?.rapport?.ouvrage === operationActivation">
+          <li style="cursor: pointer;font-size:15px;"
+            [ngClass]="filterTab === 'first-item' ? 'active' : 'bg_light_green'" (click)="filterItem('first-item')"
+            class="list-group-item cursor-pointer">
+            Information de Transaction
+          </li>
+        </ul>
         <br>
-        <div style="display: flex;justify-content: center;gap: 1rem;">
-          <button (click)="enregistrerForms()" pButton pRipple label="Enregistrer" class="p-button-success"
-            [disabled]="true">
+        <div class="submit-wrapper">
+          <button pButton pRipple label="Rejeter" class="p-button-warning">
           </button>
-          <button pButton pRipple label="Abandonner" class="p-button-warning">
+          <button (click)="OnSaveTransaction()" pButton pRipple label="Enregistrer" class="p-button-success">
           </button>
+          <!-- <button (click)="OnSaveTransaction()" pButton pRipple label="Enregistrer" class="p-button-success"
+            [disabled]="!ligneForm.valid || !activationForm.valid || !adminForm.valid">
+          </button> -->
+        </div>
+        <br>
+        <div>
+          <fieldset>
+            <legend>
+              <strong>Tenant</strong>
+            </legend>
+            <span class="mb-0 fs__15"><strong> Code
+                equipe&nbsp;:&nbsp;</strong></span><span class="card-value">{{transaction?.agent?.equipe.code ??
+              "N/A"}}</span><br><br>
+            <span class="mb-0 fs__15"><strong> Equipe&nbsp;:&nbsp;
+              </strong></span><span class="card-value">{{transaction?.agent?.equipe.nom ?? "N/A"}}</span><br><br>
+            <span class="mb-0 fs__15"><strong> Nom complet&nbsp;:&nbsp;
+              </strong></span><span class="card-value">{{transaction?.agent?.nom_complet ?? "N/A"}}</span><br><br>
+            <span class="mb-0 fs__15"><strong> Matricule&nbsp;:&nbsp;
+              </strong></span><span class="card-value">{{transaction?.agent?.matricule ?? "N/A"}}</span><br><br>
+            <span class="mb-0 fs__15"><strong> contact&nbsp;:&nbsp;
+              </strong></span><span class="card-value">{{transaction?.agent?.contacts ?? "N/A"}}</span><br><br>
+            <span class="mb-0 fs__15"><strong> Email&nbsp;:&nbsp;
+              </strong></span><span class="card-value">{{transaction?.agent?.email ?? "N/A"}}</span><br><br>
+            <span *ngIf="transaction?.date_sauvegarde"><span class="mb-0 fs__1"><strong> Date&nbsp;:&nbsp;
+                </strong></span><span class="card-value">{{transaction?.date_sauvegarde ??
+                "N/A"}}</span></span><br><br>
+          </fieldset>
+        </div>
+        <br>
+        <div>
+          <fieldset>
+            <legend>
+              <strong>Traitement</strong>
+            </legend>
+            <span class="mb-0 fs__15"><strong> Matricule&nbsp;:&nbsp;
+              </strong></span><span class="card-value">{{transaction?.intervenant_matricule ?? "N/A"}}</span><br><br>
+            <span class="mb-0 fs__15"><strong> Nom&nbsp;:&nbsp;
+              </strong></span><span class="card-value">{{transaction?.intervenant_nom ?? "N/A"}}</span><br><br>
+            <span class="mb-0 fs__15"><strong> Prénom&nbsp;:&nbsp;
+              </strong></span><span class="card-value">{{transaction?.intervenant_prenoms ?? "N/A"}}</span><br><br>
+            <span class="mb-0 fs__15"><strong> Contact&nbsp;:&nbsp;
+              </strong></span><span class="card-value">{{transaction?.intervenant_contacts ?? "N/A"}}</span><br><br>
+          </fieldset>
         </div>
       </div>
       <!--------------------MODAL----------BODY---------->
       <div class="col-lg-10">
-        <div class="d-flex justify-content-center align-items-center" style="height: 50px;" [ngClass]="{'styleForCodeRapport100':transaction?.rapport?.code.includes('100') , 
-        'styleForCodeRapportDifferentTo100':transaction?.rapport?.code.includes('100') == false}" role="alert">
-          <strong [innerHTML]="transaction.message"></strong>
+        <div style="height: 50px;display: flex;justify-content: center;align-items: center;"
+          [ngClass]="[(detailTransaction?.rapport?.code.includes('100') || detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapport100102' 
+        :(!detailTransaction?.rapport?.code.includes('100') || !detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapportDifferentTo100' : '']" role="alert">>
+          <strong style="font-size: 18px;" [innerHTML]="detailTransaction?.rapport?.message"></strong>
         </div>
-        <!--------------LIGNE CREDIT-----BLOCKS----------------->
-        <div [formGroup]="creditForm" *ngIf="transaction?.rapport.ouvrage === operationLigneCredit">
-          <div class="row">
-            <h4 class="col-6">
-              <strong>{{ formatTitleOuvrage(transaction?.rapport.ouvrage) }}
-                [{{ transaction?.identifiant ? transaction?.identifiant : 'xxxx-0000' }}]</strong>
-            </h4>
-          </div>
-          <hr>
-          <div [hidden]="filterTab !== 'first-item'">
+        <div class="row">
+          <h4 *ngIf="detailTransaction?.rapport" class="col-md-7 wrapper-header">
+            <strong>{{ formatTitleOuvrage(detailTransaction?.operation) }}
+              <span style="color:#549B3D;font-weight: bold;">
+                <span> [{{ detailTransaction?.rapport?.tenant }} | {{detailTransaction?.rapport?.niveau1}} |
+                  {{detailTransaction?.rapport?.niveau2}} -
+                  {{detailTransaction?.rapport?.msisdn}}]</span>&nbsp;
+                <span
+                  *ngIf="detailTransaction?.rapport?.identifiant">[{{detailTransaction?.rapport?.identifiant}}]</span>
+              </span>
+            </strong>
+          </h4>
+          <div class="col-md-5" style="display: flex; justify-content: end; font-size: 20px;">Date de
+            traitement:&nbsp;<b><span>{{transaction?.date_traitement ?? 'N/A'}}</span></b></div>
+        </div>
+        <hr style="position: relative;top: -0.2rem;margin-top: -0.4rem;">
+        <!--------------LIGNE----------CREDIT------------FORMS----------------->
+        <div *ngIf="transaction?.operation === operationLigneCredit">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="ligneForm">
             <fieldset>
               <legend>
-                <strong>First Block</strong>
+                <strong>Information de Transaction</strong>
               </legend>
               <div class="row">
                 <div class="col-md-2">
                   <div class="form-group">
                     <label>
-                      <b>Montant<span class="text-danger">*</span></b>
+                      <b>Montant</b>
                     </label>
-                    <input formControlName="montant" type="number" placeholder="montant" pInputText />
+                    <input type="text" formControlName="montant" placeholder="montant" pInputText />
                   </div>
                 </div>
                 <div class="col-md-2">
                   <div class="form-group">
                     <label>
-                      <b>Type Justificatif<span class="text-danger">*</span></b>
+                      <b>Type Justificatif</b>
                     </label>
-                    <p-dropdown [options]="listTypeJustificatif" formControlName="type_justificatif" placeholder="Type">
+                    <p-dropdown [options]="listTypeJustificatif" formControlName="justificatif" placeholder="Type">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -81,33 +138,19 @@
                     </p-dropdown>
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-8">
                   <div class="form-group">
                     <label>
-                      <b>Justificatif<span class="text-danger">*</span></b>
+                      <b>Description</b>
                     </label>
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                  </div>
-                </div>
-                <div class="col-md-5">
-                  <div class="form-group">
-                    <label>
-                      <b>Description<span class="text-danger">*</span></b>
-                    </label>
-                    <input formControlName="description" type="text" pInputText />
+                    <input type="text" formControlName="description" pInputText />
                   </div>
                 </div>
               </div>
               <br>
-              <div style="display: flex;justify-content: center;gap: 1rem;">
-                <div>
-                  <strong class="text-danger">AUCUNE PHOTO DE L'ESPACE OCCUPE</strong>
-                </div>
-                <!-- <div>
-                      <img style="cursor: pointer" (click)="showPhoto(detailsOuvrage.photo_occupation)"
-                          [src]="fileUrl+detailsOuvrage.photo_occupation" width="150" alt="">
-                  </div> -->
+              <div style="display: flex;justify-content: center;">
+                <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                  class="p-button-success" (click)="downloadFile()"></button>
               </div>
             </fieldset>
             <br>
@@ -118,18 +161,16 @@
               <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
                 <div class="block-checked">
                   <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
                     </span>
                     <div class="wrapper-check">
                       <div class="form-check form-check-inline">
-                        <input [checked]="transaction.rapport?.statut === 'oui'"
-                          (change)="isAccepteForms($event, 'statut')" class="form-check-input" type="radio"
+                        <input formControlName="provisionning_accepte" class="form-check-input" type="radio"
                           name="infosLigne" value="oui" id="infosLigne">
                         <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input [checked]="transaction.rapport?.statut === 'non'"
-                          (change)="isAccepteForms($event, 'statut')" class="form-check-input" type="radio"
+                        <input formControlName="provisionning_accepte" class="form-check-input" type="radio"
                           name="infosLigne" value="non" id="infosLigne">
                         <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
                       </div>
@@ -138,53 +179,454 @@
                 </div>
                 <div style="width: 100%">
                   <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="ligne_comment" class="form-control" rows="2"
-                    style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  <textarea name="commentaire" formControlName="provisionning_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
                             </textarea>
                 </div>
               </div>
             </fieldset>
           </div>
-          <div [hidden]="filterTab !== 'second-item'">
+        </div>
+        <!--------------DEPOT----------VOLUME------------FORMS----------------->
+        <div *ngIf="transaction?.operation === OperationVolumeData">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="volumeForm">
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Informations de Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>MSIDN</b>
+                    </label>
+                    <input type="text" formControlName="msisdn" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>IMSI</b>
+                    </label>
+                    <input type="text" formControlName="imsi" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Statut Contrat</b>
+                    </label>
+                    <input type="text" formControlName="statut" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Bénéficiaire</b>
+                    </label>
+                    <input type="text" formControlName="beneficiaire" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Détails de la Transaction</b>
+              </legend>
+              <!-- <div style="display: flex;gap: 2rem;">
+                <div class="d-flex gap-2">
+                  <p-radioButton name="valeur" value="stock" formControlName="bac_a_pioche"
+                    inputId="b_1"></p-radioButton>
+                  <label style="margin-top: 0.9rem">Stock/Tenant</label>
+                </div>
+                <div class="d-flex gap-2">
+                  <p-radioButton name="valeur" value="orangeci" formControlName="bac_a_pioche"
+                    inputId="b_2"></p-radioButton>
+                  <label style="margin-top: 0.9rem">Orange CI</label>
+                </div>
+              </div> -->
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Voume (Go) <span class="text-danger">*</span></b>
+                    </label>
+                    <input type="number" formControlName="volume" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <label style="opacity: 0;">
+                      <b> <span class="text-danger">*</span></b>
+                    </label>
+                    <input [disabled]="true"
+                      [value]="sourceStock === 'stock' ? 'Le système débitera le volume duc stock disponible': 'Orange CI fournira le volume, à l\'\issue de l\'operation une facture instantannée sera produite' "
+                      type="text" pInputText
+                      style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
             <fieldset>
               <legend>
-                <strong>Second Block</strong>
+                <strong>Acceptation</strong>
               </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div style="margin-left: 8%;" class="ml-3">
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
+                    </span>
+                    <div class="wrapper-check">
+                      <div class="form-check form-check-inline">
+                        <input formControlName="volume_data_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="oui" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input formControlName="volume_data_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="non" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="volume_data_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                          </textarea>
+                </div>
+              </div>
             </fieldset>
           </div>
         </div>
-        <!-------------ACTIVATION-----BLOCKS----------------->
-        <div [formGroup]="activationForm" *ngIf="transaction?.rapport.ouvrage === operationActivation">
-          <div class="row">
-            <h4 class="col-6">
-              <strong>{{formatTitleOuvrage(transaction?.rapport.ouvrage) }}
-                [{{ transaction?.identifiant ? transaction?.identifiant : 'xxxx-0000' }}]</strong>
-            </h4>
+        <!--------------CHANGEMENT------------FORMS----------------->
+        <div *ngIf="transaction?.operation === operationSwap">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="swapForm">
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Informations de Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>MSIDN</b>
+                    </label>
+                    <input type="text" formControlName="msisdn" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>IMSI</b>
+                    </label>
+                    <input type="text" formControlName="imsi" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Statut Contrat</b>
+                    </label>
+                    <input type="text" formControlName="statut" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Bénéficiaire</b>
+                    </label>
+                    <input type="text" formControlName="beneficiaire" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Détails de la Transaction</b>
+              </legend>
+              <!-- <div style="display: flex;gap: 2rem;">
+                        <div class="d-flex gap-2">
+                          <p-radioButton name="valeur" value="stock" formControlName="bac_a_pioche"
+                            inputId="b_1"></p-radioButton>
+                          <label style="margin-top: 0.9rem">Stock/Tenant</label>
+                        </div>
+                        <div class="d-flex gap-2">
+                          <p-radioButton name="valeur" value="orangeci" formControlName="bac_a_pioche"
+                            inputId="b_2"></p-radioButton>
+                          <label style="margin-top: 0.9rem">Orange CI</label>
+                        </div>
+                      </div> -->
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Description<span class="text-danger">*</span></b>
+                    </label>
+                    <input type="text" formControlName="description" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <label style="opacity: 0;">
+                      <b> <span class="text-danger">*</span></b>
+                    </label>
+                    <input [disabled]="true"
+                      [value]="bacPiocheActivation === 'stock' ? 'Le système utilisera une SIM dans le stock': 'Orange fournira la SIM. A l\'\issue de l\'operation, la SIM sera livrée au point de contact accompagnée d\'\'une  facture' "
+                      type="text" pInputText
+                      style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>
+                <strong>Acceptation</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div style="margin-left: 8%;" class="ml-3">
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
+                    </span>
+                    <div class="wrapper-check">
+                      <div class="form-check form-check-inline">
+                        <input formControlName="swap_accepte" class="form-check-input" type="radio" name="infosLigne"
+                          value="oui" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input formControlName="swap_accepte" class="form-check-input" type="radio" name="infosLigne"
+                          value="non" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="swap_accepte_comment" class="form-control" rows="2"
+                    style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                                  </textarea>
+                </div>
+              </div>
+            </fieldset>
           </div>
-          <hr>
-          <div [hidden]="filterTab !== 'first-item'">
+        </div>
+        <!--------------RESILIATION------------FORMS----------------->
+        <div *ngIf="transaction?.operation === OperationResiliation">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="resiliationForm">
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Informations de Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>MSIDN</b>
+                    </label>
+                    <input type="text" formControlName="msisdn" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>IMSI</b>
+                    </label>
+                    <input type="text" formControlName="imsi" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Statut Contrat</b>
+                    </label>
+                    <input type="text" formControlName="statut" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Bénéficiaire</b>
+                    </label>
+                    <input type="text" formControlName="beneficiaire" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Détails de la Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="form-group">
+                  <label>
+                    <b>Description<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="description" pInputText />
+                </div>
+              </div>
+              <br>
+              <div>
+                <div style="display: flex;justify-content: center;">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>
+                <strong>Acceptation</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div style="margin-left: 8%;" class="ml-3">
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
+                    </span>
+                    <div class="wrapper-check">
+                      <div class="form-check form-check-inline">
+                        <input formControlName="resiliation_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="oui" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input formControlName="resiliation_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="non" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="resiliation_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  </textarea>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <!--------------SUSPENSION------------FORMS----------------->
+        <div *ngIf="transaction?.operation === OperationSuspension">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="suspensionForm">
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Informations de Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>MSIDN</b>
+                    </label>
+                    <input type="text" formControlName="msisdn" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>IMSI</b>
+                    </label>
+                    <input type="text" formControlName="imsi" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Statut Contrat</b>
+                    </label>
+                    <input type="text" formControlName="statut" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Bénéficiaire</b>
+                    </label>
+                    <input type="text" formControlName="beneficiaire" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Détails de la Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="form-group">
+                  <label>
+                    <b>Description<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="description" pInputText />
+                </div>
+              </div>
+              <br>
+              <div>
+                <div style="display: flex;justify-content: center;">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>
+                <strong>Acceptation</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div style="margin-left: 8%;" class="ml-3">
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
+                    </span>
+                    <div class="wrapper-check">
+                      <div class="form-check form-check-inline">
+                        <input formControlName="suspension_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="oui" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input formControlName="suspension_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="non" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="suspension_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  </textarea>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <!-------------ACTIVATION--------------FORMS--------------------------->
+        <div *ngIf="transaction?.operation === operationActivation">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
             <fieldset style="margin-top: 2.5rem;">
               <legend [ngStyle]="{width: '100%'}">
                 <b>Information / Identifications</b>
               </legend>
-              <div style="display: flex;gap: 2rem;">
+              <!-- <div style="display: flex;gap: 2rem;">
                 <div class="d-flex gap-2">
-                  <p-radioButton name="valeur" [value]="sourceStock" [inputId]="sourceStock"></p-radioButton>
-                  <label [for]="sourceStock" style="margin-top: 0.9rem">Stock/Tenant</label>
+                  <p-radioButton name="valeur" [value]="true" formControlName="stock"></p-radioButton>
+                  <label style="margin-top: 0.9rem">Stock/Tenant</label>
                 </div>
                 <div class="d-flex gap-2">
-                  <p-radioButton name="valeur" [value]="sourceOrange" [inputId]="sourceOrange"></p-radioButton>
-                  <label [for]="sourceOrange" style="margin-top: 0.9rem">Orange CI</label>
+                  <p-radioButton name="valeur" [value]="false" formControlName="stock"></p-radioButton>
+                  <label style="margin-top: 0.9rem">Orange CI</label>
                 </div>
-              </div>
+              </div> -->
               <div class="text-wrapper">
                 <input [disabled]="true"
-                  [value]="sourceValue === 'stock' ? 'Le système utilisera une SIM dans le stock': 'Orange CI fournira la SIM, à l\'\issue de l\'operation la SIM sera livrée au point de contact' "
+                  [value]="bacPiocheActivation === 'stock' ? 'Le système utilisera une SIM dans le stock': 'Orange fournira la SIM. A l\'\issue de l\'operation, la SIM sera livrée au point de contact accompagnée d\'\'une  facture' "
                   type="text" pInputText
                   style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 20px;" />
               </div>
             </fieldset>
-            <br>
             <fieldset>
               <legend [ngStyle]="{width: '18rem'}">
                 <b>Informations d'identifications</b>
@@ -193,10 +635,10 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
+                      <b>Niveau 1</b>
                     </label>
-                    <p-dropdown [options]="listDirections" optionLabel="nom" (onChange)="onChangeItem($event)"
-                      [showClear]="true" [filter]="true" filterBy="nom" [placeholder]="firstLevelLibelle">
+                    <p-dropdown [options]="listDirections" formControlName="niveau_1" optionLabel="nom"
+                      [showClear]="true" [filter]="true" filterBy="nom" [placeholder]="'Niveau 1'">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -210,10 +652,10 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
+                      <b>Niveau 2</b>
                     </label>
-                    <p-dropdown [options]="listExploitations" optionLabel="nom" optionValue="id" [showClear]="true"
-                      [filter]="true" filterBy="nom" [placeholder]="secondLevelLibelle">
+                    <p-dropdown [options]="listExploitations" formControlName="niveau_2" optionLabel="nom"
+                      optionValue="id" [showClear]="true" [filter]="true" filterBy="nom" [placeholder]="'Niveau 2'">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -227,10 +669,10 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
+                      <b>Niveau 3</b>
                     </label>
-                    <p-dropdown [options]="listActivites" optionLabel="nom" [placeholder]="thirdLevelLibelle"
-                      optionValue="id">
+                    <p-dropdown [options]="listActivites" formControlName="niveau_3" optionLabel="nom"
+                      [placeholder]="'Niveau 3'" optionValue="id">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -246,9 +688,10 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>Usage<span class="text-danger">*</span></b>
+                      <b>Usage</b>
                     </label>
-                    <p-dropdown [options]="listUsages" optionLabel="nom_usage" placeholder="Usage" optionValue="id">
+                    <p-dropdown [options]="listUsages" formControlName="usage" optionLabel="nom_usage"
+                      placeholder="Usage" optionValue="id">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -262,17 +705,17 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>Emplacement<span class="text-danger">*</span></b>
+                      <b>Emplacement</b>
                     </label>
-                    <input type="text" placeholder="Bénéficiaire" pInputText />
+                    <input type="text" formControlName="emplacement" placeholder="Bénéficiaire" pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>Adresse mail<span class="text-danger">*</span></b>
+                      <b>Adresse mail</b>
                     </label>
-                    <input type="text" placeholder="Adresse Email" pInputText />
+                    <input type="text" formControlName="email" placeholder="Adresse Email" pInputText />
                   </div>
                 </div>
               </div>
@@ -282,23 +725,23 @@
                     <label>
                       <b>Adresse géographique</b>
                     </label>
-                    <input type="text" placeholder="Adresse Geo" pInputText />
+                    <input type="text" formControlName="adresse_geographique" placeholder="Adresse Geo" pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>Latitude<span class="text-danger">*</span></b>
+                      <b>Latitude</b>
                     </label>
-                    <input type="text" placeholder="Latitude" pInputText />
+                    <input type="text" formControlName="latitude" placeholder="Latitude" pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>Longitude<span class="text-danger">*</span></b>
+                      <b>Longitude</b>
                     </label>
-                    <input type="text" placeholder="Longitude" pInputText />
+                    <input type="text" formControlName="longitude" placeholder="Longitude" pInputText />
                   </div>
                 </div>
               </div>
@@ -310,7 +753,88 @@
               <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
                 <div class="block-checked">
                   <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
+                    </span>
+                    <div class="wrapper-check">
+                      <div class="form-check form-check-inline">
+                        <input formControlName="activation_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="oui" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input formControlName="activation_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="non" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="activation_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  </textarea>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <div *ngIf="transaction?.rapport?.ouvrage === OperationAchat">
+          <div [hidden]="filterTab !== 'first-item'">
+            <fieldset>
+              <legend>
+                <strong>Information de Transaction</strong>
+              </legend>
+              <div class="row" *ngFor="let item of listProducts">
+                <div class="col-md-1 mt-4">
+                  <div class="form-group">
+                    <span><img src="assets/images/unboxing.png" style="height: 50px;width: 100px;" alt=""></span>
+                  </div>
+                </div>
+                <div style="width: 22rem;">
+                  <div class="form-group">
+                    <label>
+                      <b>Nom Produit</b>
+                    </label>
+                    <input type="text" [(ngModel)]="item.nom" [disabled]="true" placeholder="montant" pInputText />
+                  </div>
+                </div>
+                <div style="width: 22rem;">
+                  <div class="form-group">
+                    <label>
+                      <b>Prix Unitaire</b>
+                    </label>
+                    <input type="number" [(ngModel)]="item.prix" [disabled]="true" placeholder="montant" pInputText />
+                  </div>
+                </div>
+                <div style="width: 22rem;">
+                  <div class="form-group">
+                    <label>
+                      <b>Quantité</b>
+                    </label>
+                    <input type="number" [(ngModel)]="item.qty" [disabled]="true" placeholder="montant" pInputText />
+                  </div>
+                </div>
+                <div style="width: 22rem;">
+                  <div class="form-group">
+                    <label>
+                      <b>Prix Total</b>
+                    </label>
+                    <input type="number" [(ngModel)]="item.prix*item.qty" [disabled]="true" placeholder="montant"
+                      pInputText>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <br>
+            <fieldset>
+              <legend>
+                <strong>Acceptation</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div style="margin-left: 8%;" class="ml-3">
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
                     </span>
                     <div class="wrapper-check">
                       <div class="form-check form-check-inline">
@@ -330,8 +854,8 @@
                 </div>
                 <div style="width: 100%">
                   <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="ligne_comment" class="form-control" rows="2"
-                    style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  <textarea name="commentaire" class="form-control" rows="2" style="width:100%;margin-top:0%;"
+                    placeholder="Entrer un commentaire">
                             </textarea>
                 </div>
               </div>
@@ -345,7 +869,6 @@
             </fieldset>
           </div>
         </div>
-        <br>
       </div>
     </div>
   </div>

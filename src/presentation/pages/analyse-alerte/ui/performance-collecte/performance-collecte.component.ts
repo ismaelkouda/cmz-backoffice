@@ -26,9 +26,8 @@ export class PerformanceCollecteComponent implements OnInit {
   public onVisualiserTrafic() {
     this.showIframe = true;
     this.onDialogMaximized(true);
-    this.visualUrl = "http://160.120.143.6:50100/d/fUHASnXVk/tb-analyse-des-alarmes-actives?orgId=1&refresh=10m"
+    this.visualUrl = "http://160.120.143.6:50300/d/XLhNXou4z/tb-approvisionnement?orgId=1"
   }
-
   public hideDialog() {
     this.router.navigateByUrl('/zone-trafic/zone-exploitation')
   }

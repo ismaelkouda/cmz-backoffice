@@ -59,7 +59,7 @@ export class AlarmesComponent implements OnInit {
 
   public GetAllTrnasactions() {
     this.supervisionOperationService
-      .GetAllTrnasactions({})
+      .GetAllTransactions({}, 1)
       .subscribe({
         next: (response) => {
           this.activationsListe = response.data.activations;

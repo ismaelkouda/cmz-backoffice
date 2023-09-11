@@ -9,6 +9,10 @@
           <span>Modification de SIM</span>
           <span class="current_values">[{{currentObject?.msisdn}}]</span>
         </b>
+        <b *ngIf="currentObject?.show">
+          <span>Visualisation de SIM</span>
+          <span class="current_values">[{{currentObject?.msisdn}}]</span>
+        </b>
       </h4>
     </div>
     <div class="forms-feature-header__button" [ngStyle]="{display: 'flex',gap: '1rem'}">

@@ -3,7 +3,7 @@
     <div>
       <h3>
         <b>
-          <span>Nouvelle Transaction</span>
+          <span>Transaction sur SIM</span>
         </b>
       </h3>
     </div>
@@ -66,9 +66,7 @@
         </div>
       </div>
       <div class="text-wrapper">
-        <input [disabled]="true"
-          [value]="sourceValue === 'stock' ? 'Le système utilisera une SIM dans le stock': 'Orange CI fournira la SIM, à l\'\issue de l\'operation la SIM sera livrée au point de contact' "
-          type="text" pInputText
+        <input [disabled]="true" [value]="sourceValue === 'stock' ? systemText: orangeText" type="text" pInputText
           style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 20px;" />
       </div>
     </fieldset>
@@ -294,57 +292,69 @@
       </div>
       <!------------------------------CHANGEMENT--------FORMS-------------------------------->
       <div *ngIf="selectedActionValue === swap">
-        <div style="display: flex;gap: 2rem;">
-          <div class="d-flex gap-2">
-            <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
-              (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
-            <label [for]="sourceStock" style="margin-top: 0.9rem">Stock/Tenant</label>
-          </div>
-          <div class="d-flex gap-2">
-            <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
-              (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
-            <label [for]="sourceOrange" style="margin-top: 0.9rem">Orange CI</label>
-          </div>
-        </div>
         <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>
-                <b>Description <span class="text-danger">*</span></b>
-              </label>
-              <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
+          <div class="col-md-3">
+            <div style="display: flex;gap: 2rem;">
+              <div class="d-flex gap-2">
+                <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
+                  (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
+                <label [for]="sourceStock" style="margin-top: 0.9rem">Stock/Tenant</label>
+              </div>
+              <div class="d-flex gap-2">
+                <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
+                  (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
+                <label [for]="sourceOrange" style="margin-top: 0.9rem">Orange CI</label>
+              </div>
             </div>
           </div>
-          <div class="col-md-8">
-
+          <div class="col-md-9" style="margin-top: -1.8rem;">
             <div class="form-group">
               <label style="opacity: 0;">
                 <b> <span class="text-danger">*</span></b>
               </label>
-              <input [disabled]="true"
-                [value]="sourceValue === 'stock' ?'Le système utilisera une SIM dans le stock': 'Orange CI fournira la SIM, à l\'\issue de l\'operation la SIM sera livrée au point de contact' "
-                type="text" pInputText
+              <input [disabled]="true" [value]="sourceValue === 'stock' ? systemText: orangeText" type="text" pInputText
                 style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group">
+            <label>
+              <b>Description <span class="text-danger">*</span></b>
+            </label>
+            <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
           </div>
         </div>
       </div>
       <!--------------------------------VOLUME------------DATA-------------------------->
       <div *ngIf="selectedActionValue === volume">
-        <div style="display: flex;gap: 2rem;">
-          <div class="d-flex gap-2">
-            <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
-              (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
-            <label [for]="sourceStock" style="margin-top: 0.9rem">Stock/Tenant</label>
+        <div class="row">
+          <div class="col-md-3">
+            <div style="display: flex;gap: 2rem;">
+              <div class="d-flex gap-2">
+                <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
+                  (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
+                <label [for]="sourceStock" style="margin-top: 0.9rem">Stock/Tenant</label>
+              </div>
+              <div class="d-flex gap-2">
+                <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
+                  (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
+                <label [for]="sourceOrange" style="margin-top: 0.9rem">Orange CI</label>
+              </div>
+            </div>
           </div>
-          <div class="d-flex gap-2">
-            <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
-              (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
-            <label [for]="sourceOrange" style="margin-top: 0.9rem">Orange CI</label>
+          <div class="col-md-9" style="margin-top: -1.8rem;">
+            <div class="form-group">
+              <label style="opacity: 0;">
+                <b> <span class="text-danger">*</span></b>
+              </label>
+              <input [disabled]="true" [value]="sourceValue === 'stock' ? systemText: orangeText" type="text" pInputText
+                style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
+            </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-4">
+          <div class="col-md-3">
             <div class="form-group">
               <label>
                 <b>Voume (Go) <span class="text-danger">*</span></b>
@@ -352,15 +362,12 @@
               <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedVolume" pInputText />
             </div>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-9">
             <div class="form-group">
-              <label style="opacity: 0;">
-                <b> <span class="text-danger">*</span></b>
+              <label>
+                <b>Description</b>
               </label>
-              <input [disabled]="true"
-                [value]="sourceValue === 'stock' ?'Le système débitera le volume duc stock disponible': 'Orange CI fournira le volume, à l\'\issue de l\'operation une facture instantannée sera produite' "
-                type="text" pInputText
-                style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
+              <input type="text" [disabled]="true" [(ngModel)]="selectedDescription" pInputText />
             </div>
           </div>
         </div>

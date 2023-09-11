@@ -2,6 +2,7 @@
     width: 21.6rem !important;
 }
 
+
 .modal-content {
     width: 100vw !important;
     height: 100vh !important;
@@ -16,6 +17,17 @@
     padding-bottom: 1rem;
     margin-top: -30rem;
 
+}
+
+.submit-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.card-value {
+    color: #A4A4A4;
+    font-size: 12px;
 }
 
 .close {
@@ -46,9 +58,22 @@
     z-index: 1200 !important;
 }
 
-// input {
-//     width: auto;
-// }
+.file-wrapper {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-direction: column;
+
+    strong {
+        text-align: center;
+    }
+
+    img {
+        margin: auto;
+        display: block;
+    }
+
+}
 
 .ml-70px {
     text-align: center;
@@ -145,11 +170,11 @@ fieldset {
     border-radius: 0.25rem;
 }
 
-.styleForCodeRapport100 {
+.styleForCodeRapport100102 {
     @extend %messageAlert;
-    color: #004085;
-    background-color: #cce5ff;
-    border-color: #b8daff;
+    background-color: #c8e6c9;
+    color: #256029;
+    border-color: #c8e6c9;
 }
 
 .styleForCodeRapportDifferentTo100 {

@@ -36,19 +36,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   public GetAllTrnasactions() {
-    this.supervisionOperationService
-      .GetAllTrnasactions({})
-      .subscribe({
-        next: (response) => {
-          this.activationsListe = response.data.activations;
-          this.datasSourceListe = response.data.data_sources;
-          this.parametresListe = response.data.parametres_collecte;
-          this.securitesListe = response.data.securite;
-          this.synchroListe = response.data.synchronisations;
-        }, error: (error) => {
-          this.toastrService.error(error.message)
-        }
-      })
+
   }
   public GetAllPatrimoine() {
     this.patrimoineService

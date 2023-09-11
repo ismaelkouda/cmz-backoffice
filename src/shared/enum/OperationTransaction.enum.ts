@@ -4,5 +4,6 @@ export enum OperationTransaction {
     SWAP = 'swap',
     ACTIVATION = 'activation',
     VOLUME_DATA = 'volume-data',
-    LIGNE_CREDIT = 'ligne-credit'
+    PROVISIONNING = 'provisionning',
+    ACHAT_SERVICE = 'achat-service'
 }   

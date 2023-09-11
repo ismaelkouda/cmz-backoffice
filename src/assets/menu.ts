@@ -1,6 +1,6 @@
 import { ADMIN_ACHAT } from './../presentation/pages/administration/administration-routing.module';
 import { PERFORMANCE_SLA } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
-import { COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
+import { COURBE_MESSAGE, PERFORMANCE_COLLECTE, SOLDES_SIM } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
 import { CARTES_SIM, DOTATION_SERVICES, GROUPE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
@@ -31,15 +31,15 @@ export var menuJson = [
             },
             {
                 path: `/${PATRIMOINE}/${GROUPE_SIM}`,
-                title: "Groupe de SIM",
-                label: "Groupe de SIM",
+                title: "Groupes de SIM",
+                label: "Groupes de SIM",
                 data: "1-2-0-groupe-sim",
                 type: "link"
             },
             {
                 path: `/${PATRIMOINE}/${DOTATION_SERVICES}`,
-                title: "Dotation de Services",
-                label: "Dotation de Services",
+                title: "Dotations de Services",
+                label: "Dotations de Services",
                 data: "1-3-0-dotation-service",
                 type: "link"
             },
@@ -174,6 +174,13 @@ export var menuJson = [
         routerLink: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
         children: [
             {
+                path: `/zone-trafic/${VUE_GEOGRAPHIQUE}`,
+                title: "Zones de Trafic",
+                label: "Zones- de Trafic",
+                data: "5-2-0-zone-trafic",
+                type: "link"
+            },
+            {
                 path: `/${SUPERVISION_SIM}/${COURBE_MESSAGE}`,
                 title: "Analyse des Alarmes",
                 label: "Analyse des Alarmes",
@@ -181,17 +188,17 @@ export var menuJson = [
                 type: "link"
             },
             {
-                path: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
-                title: "Approvisionnements",
-                label: "Approvisionnements",
+                path: `/${SUPERVISION_SIM}/${SOLDES_SIM}`,
+                title: "Soldes par SIM",
+                label: "Soldes par SIM",
                 data: "5-1-0-analyse-trafic",
                 type: "link"
             },
             {
-                path: `/zone-trafic/${VUE_GEOGRAPHIQUE}`,
-                title: "Zones Trafic",
-                label: "Zones Trafic",
-                data: "5-2-0-zone-trafic",
+                path: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
+                title: "Approvisionnements",
+                label: "Approvisionnements",
+                data: "5-1-0-analyse-trafic",
                 type: "link"
             }
         ]

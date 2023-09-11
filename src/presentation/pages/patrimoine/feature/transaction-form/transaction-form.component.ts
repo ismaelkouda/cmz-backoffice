@@ -85,8 +85,11 @@ export class TransactionFormComponent implements OnInit {
 
   //Type Source
   public sourceStock: string = 'stock';
-  public sourceOrange: string = 'orange';
+  public sourceOrange: string = 'orangeci';
   public sourceValue: string = this.sourceStock;
+  public systemText: string = 'Le système utilisera une SIM dans le stock';
+  public orangeText: string = "Orange fournira la SIM. A l'issue de l'operation,la SIM sera livrée au point de contact accompagnée d'une facture";
+
 
   //Mapping
   firstLevelLibelle: string;
@@ -114,8 +117,6 @@ export class TransactionFormComponent implements OnInit {
     this.isFilter();
     this.isValidateActivation();
     this.isVerify();
-    //console.log("selectedActionValueselectedActionValue", this.selectedActionValue);
-
   }
   close() {
     this.formsView.emit(false);
@@ -215,15 +216,16 @@ export class TransactionFormComponent implements OnInit {
     this.patrimoineService
       .OnVerify({
         ...(this.radioValue === 'IMSI' ? { imsi: this.selectedValue } : { msisdn: this.selectedValue })
-      }).subscribe(
-        (response: any) => {
+      }).subscribe({
+        next: (response: any) => {
           this.listPatrimoine = response['data'];
           this.currentPatrimoine = this.listPatrimoine[0];
         },
-        (error) => {
-          this.toastrService.error(error.message);
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+          // this.currentPatrimoine = {}
         }
-      )
+      })
   }
   public changeItem(event: any) {
     this.selectedValue = null
@@ -263,7 +265,7 @@ export class TransactionFormComponent implements OnInit {
         operation: this.selectedActionValue,
         imsi: this.currentPatrimoine.imsi,
         bac_a_pioche: this.sourceValue,
-        voume: this.selectedVolume,
+        volume: this.selectedVolume,
       }
       baseUrl = `${this.BASE_URL}${EndPointUrl.VOLUME_DATA}`
 
@@ -277,9 +279,6 @@ export class TransactionFormComponent implements OnInit {
       })
       baseUrl = `${this.BASE_URL}${EndPointUrl.CHANGE_STATUT}`
     }
-
-    console.log("datass", data);
-
     this.httpClient.post(`${baseUrl}`, data)
       .subscribe({
         next: (res: any) => {

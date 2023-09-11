@@ -1,7 +1,4 @@
 import { SharedModule } from './../../../shared/shared.module';
-import { CollecteComponent } from './feature/collecte/collecte.component';
-import { PerformanceCollecteComponent } from './ui/performance-collecte/performance-collecte.component';
-import { CourbeMessageComponent } from './ui/courbe-message/courbe-message.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -19,6 +16,12 @@ import { DialogModule } from 'primeng/dialog';
 import { AnalyseAlerteRoutingModule } from './analyse-alerte-routing.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TooltipModule } from 'primeng/tooltip';
+
+//Components
+import { CollecteComponent } from './feature/collecte/collecte.component';
+import { PerformanceCollecteComponent } from './ui/performance-collecte/performance-collecte.component';
+import { CourbeMessageComponent } from './ui/courbe-message/courbe-message.component';
+import { SoldesSimComponent } from './ui/soldes-sim/soldes-sim.component';
 
 
 @NgModule({
@@ -41,6 +44,7 @@ import { TooltipModule } from 'primeng/tooltip';
   declarations: [
     CourbeMessageComponent,
     PerformanceCollecteComponent,
+    SoldesSimComponent,
     CollecteComponent
   ]
 })

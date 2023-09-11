@@ -28,6 +28,7 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { SupervisionOperationsRoutingModule } from './supervision-operations-routing.module';
 import { SupervisionOperationService } from './data-access/supervision-operation.service';
 import { SharedModule } from 'src/shared/shared.module';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 //Components
@@ -75,7 +76,8 @@ import { PerformancesComponent } from './ui/performances/performances.component'
         BadgeModule,
         InputSwitchModule,
         RadioButtonModule,
-        DynamicDialogModule
+        DynamicDialogModule,
+        PaginatorModule
     ],
     providers: [EditableRow, SupervisionOperationService]
 })

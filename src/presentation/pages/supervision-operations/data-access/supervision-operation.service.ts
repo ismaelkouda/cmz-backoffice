@@ -12,20 +12,29 @@ import { EndPointUrl } from './api.enum';
 })
 export class SupervisionOperationService {
 
-  public BASE_URL: any = appConfig.serverUrl;
+  public baseUrl: any = appConfig.serverUrl;
 
   constructor(
     private http: HttpClient
   ) { }
 
-  GetAllTrnasactions(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.GET_ALL_TRANSACTIONS);
-    return this.http.post(`${this.BASE_URL}${url}`, data);
+  GetAllTransactions(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_TRANSACTIONS).replace('{page}', page);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+
+  GetDetailTransaction(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_DETAIL_TRANSACTION);
+    return this.http.post(`${this.baseUrl}${url}`, data);
   }
 
   GetAllPriseEnCharge(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_PRISE_EN_CHARGE);
-    return this.http.post(`${this.BASE_URL}${url}`, data);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+  OnSaveTransaction(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.VALIDER_TRANSACTION);
+    return this.http.post(`${this.baseUrl}${url}`, data);
   }
 
 }

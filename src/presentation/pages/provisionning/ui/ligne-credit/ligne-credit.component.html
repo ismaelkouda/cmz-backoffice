@@ -102,7 +102,7 @@
                   <th class="text-center">Transaction</th>
                   <th class="text-center">Réference</th>
                   <th class="text-center">Montant</th>
-                  <th class="text-center">Pièce</th>
+                  <th class="text-center" [style]="{width: '5rem'}">Pièce</th>
                   <th [ngStyle]="{width: '4rem'}">Statut</th>
                   <th class="text-center" [ngStyle]="{width: '8rem'}">Actions</th>
                 </thead>
@@ -115,13 +115,14 @@
                     <td (click)="copyData(data.reference)" style="cursor: pointer">{{data?.reference}}</td>
                     <td>{{pipeValue(data?.montant)}}</td>
                     <td>
-                      <button pButton pRipple pTooltip="Visualiser" (click)="showImage(data.justificatif)"
-                        tooltipPosition="top" label="voir" class="p-button"></button>
+                      <button pButton pRipple pTooltip="Télecharger" icon="pi pi-download"
+                        (click)="showImage(data.justificatif)" tooltipPosition="top" label="Télecharger"
+                        class="p-button"></button>
                     </td>
                     <td>
                       <span [ngStyle]="{'font-size': '16px' }" class="badge"
-                        [class.badge-warning]="data.statut === 'en-cours'"
-                        [class.badge-danger]="data.statut !== 'en-cours'">
+                        [class.badge-dark]="data.statut === 'soumis'" [class.badge-success]="data.statut === 'cloturé'"
+                        [class.badge-danger]="data.statut === 'annulé'">
                         {{ data.statut }}
                       </span>
                     </td>

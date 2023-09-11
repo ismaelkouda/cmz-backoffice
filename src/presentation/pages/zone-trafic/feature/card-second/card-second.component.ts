@@ -405,6 +405,8 @@ export class CardSecondComponent implements AfterViewInit {
     L.control.layers(baseMaps, layerGeoJson, {
       collapsed: false,
     }).addTo(this.map);
+    //L.control.scale().addTo(this.map);
+
   }
   showModalSideBar() {
     this.sidebarShow = true;

@@ -1,13 +1,15 @@
-import { LIST_AFFECTE, LIST_CODE_RAPPORT, LIST_OPERATIONS, LIST_TRAITEMENTS } from './../../../../../shared/constants/operations.constants';
+import { LIST_AFFECTE, LIST_CODE_RAPPORT, LIST_TRAITEMENTS } from './../../../../../shared/constants/operations.constants';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { SettingService } from 'src/shared/services/setting.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
-import { LocalStorageService } from 'ngx-webstorage';
-import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TraitementShowComponent } from '../../feature/traitement-show/traitement-show.component';
+import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { StatutTransaction } from './../../../../../shared/enum/StatutTransaction.enum';
+import { MappingService } from 'src/shared/services/mapping.service';
+import { SettingService } from 'src/shared/services/setting.service';
+
 const Swal = require('sweetalert2');
 
 @Component({
@@ -18,112 +20,95 @@ const Swal = require('sweetalert2');
 export class SuivieTraitementComponent implements OnInit {
 
   public listTraitemants: Array<any> = [];
-  public listDirectionsRegionales: Array<any> = [];
-  public listExploitations: Array<any> = [];
-  public listIntervenants: Array<any> = [];
-  public listActivations: Array<any> = [];
   public listOperations: Array<any> = [];
+  public listStatutTransactions: Array<any> = [];
+  public listIntervenants: Array<any> = [];
   public listAffectes: Array<any> = [];
   public listCodeRapports: Array<any> = [];
   public listTraitements: Array<any> = [];
-
+  public listTenants: Array<any> = [];
+  public listFirstLevel: Array<any> = [];
+  public listSecondLevel: Array<any> = [];
+  public totalPage: 0;
+  public totalRecords: 0;
+  public recordsPerPage: 0;
+  public offset: any;
+  public p: number = 1;
   public selectedTypeOperation: any;
-  public selectedDirection: any;
-  public selectedExploitation: any;
   public selectedTransaction: any;
-  public selectedIntervenant: any;
+  public selectedStatut: any;
   public selectedTraitement: any;
-  public selectedRapport: any;
-
-  public selectedOperationSYN: boolean = false
+  public selectedFirstLevel: any;
+  public selectedSecondLevel: any;
   public secondFilter: boolean = false;
+  public firstLevelLibelle: string;
+  public secondLevelLibelle: string;
+  public thirdLevelLibelle: string;
 
   constructor(
     private supervisionOperationService: SupervisionOperationService,
-    private settingService: SettingService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private modalService: NgbModal,
+    private settingService: SettingService,
+    private mappingService: MappingService
 
   ) {
-    this.listOperations = LIST_OPERATIONS;
     this.listAffectes = LIST_AFFECTE;
     this.listCodeRapports = LIST_CODE_RAPPORT;
     this.listTraitements = LIST_TRAITEMENTS;
-    this.listTraitemants = [
-      {
-        id: 1
-      }
-    ]
+    Object.values(OperationTransaction).forEach(item => {
+      this.listOperations.push(item);
+    });
+    Object.values(StatutTransaction).forEach(item => {
+      this.listStatutTransactions.push(item);
+    });
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
   }
 
   ngOnInit() {
-    this.getAllDirectionRegionales();
-    this.getAllExploiatations();
-    this.getAllUsers();
     this.isFilter();
+    this.GetAllTransactions();
+    this.GetFirstLevel()
     localStorage.setItem('layout', 'Barcelona');
   }
 
-  public getAllDirectionRegionales(): void {
-    this.settingService
-      .getAllDirectionRegionales({})
-      .subscribe({
-        next: (response) => {
-          this.listDirectionsRegionales = response['data'];
-        },
-        error: (error) => {
-          this.toastrService.error(error.message)
-        }
-      })
-  }
 
-  public getAllExploiatations(): void {
-    this.settingService
-      .getAllExploiatations({})
+  public GetAllTransactions() {
+    this.supervisionOperationService
+      .GetAllTransactions({}, this.p)
       .subscribe({
         next: (response) => {
-          this.listExploitations = response['data']
+          this.listTraitemants = response.data.data;
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastrService.error(error.message)
+          this.toastrService.error(error.message);
         }
       })
-  }
-  public getAllUsers(): void {
-    this.settingService
-      .getAllUsers({})
-      .subscribe({
-        next: (response) => {
-          this.listIntervenants = response['data']
-        },
-        error: (error) => {
-          this.toastrService.error(error.message)
-        }
-      })
-  }
-
-  onChangeItem(value, type) {
-    this.selectedDirection = value;
-    this.listExploitations = value?.exploitations
   }
   public onFilter(): void {
     const data = {
-      operation: this.selectedTypeOperation?.code,
-      niveau_un_id: this.selectedDirection?.id,
-      niveau_deux_id: this.selectedExploitation?.id,
       transaction: this.selectedTransaction,
-      intervenant_id: this.selectedIntervenant?.id,
-      rapport: this.selectedRapport,
+      statut: this.selectedStatut,
       traitement: this.selectedTraitement,
     };
     this.supervisionOperationService
-      .GetAllPriseEnCharge(data)
+      .GetAllTransactions(data, this.p)
       .subscribe({
         next: (response) => {
-          this.listTraitemants = response['data'];
+          this.listTraitemants = response['data']['data'];
+          this.totalPage = response['data'].last_page;
+          this.totalRecords = response['data'].total;
+          this.recordsPerPage = response['data'].per_page;
+          this.offset = (response['data'].current_page - 1) * this.recordsPerPage + 1;
           this.listTraitemants.length === 0 ?
-            Swal.fire('PATRIMOINE SIM', 'Aucune donnée pour cet exploitation', 'error')
+            Swal.fire('PATRIMOINE SIM', 'Aucune donnée pour cet Tenant', 'error')
             : ''
         },
         error: (error) => {
@@ -131,11 +116,110 @@ export class SuivieTraitementComponent implements OnInit {
         }
       });
   }
+  onPageChange(event: any) {
+    console.log("event", event);
+    this.p = event.pageCount;
+    if (this.isFilter()) {
+      this.GetAllTransactions()
+    } else {
+      this.onFilter()
+    }
+  }
+  OnRefresh() {
+    this.GetAllTransactions();
+    this.selectedTransaction = null;
+    this.selectedStatut = null;
+    this.selectedTraitement = null;
+  }
+
+  public GetFirstLevel() {
+    this.settingService
+      .getAllDirectionRegionales({})
+      .subscribe({
+        next: (response) => {
+          this.listFirstLevel = response['data'].map(element => {
+            return { ...element, fullName: `${element.nom} [${element.code}]` }
+          });
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+  public onChangeItem(event: any) {
+    this.selectedFirstLevel = event.value;
+    this.listSecondLevel = this.selectedFirstLevel?.niveaux_deux.map(element => {
+      return { ...element, fullName: `${element.nom} [${element.code}]` }
+    });
+  }
   public copyTransaction(data: any): void {
-    console.log(data);
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
+  public formatTitle(title: string) {
+    switch (title) {
+      case OperationTransaction.ACHAT_SERVICE: {
+        return "Achat de Services";
+      }
+      case OperationTransaction.ACTIVATION: {
+        return "Activation de SIM";
+      }
+      case OperationTransaction.SWAP: {
+        return "Changement de SIM";
+      }
+      case OperationTransaction.SUSPENSION: {
+        return "Suspension de SIM";
+      }
+      case OperationTransaction.RESILIATION: {
+        return "Résiliation de SIM";
+      }
+      case OperationTransaction.VOLUME_DATA: {
+        return "Depot de volume	";
+      }
+      case 'provisionning': {
+        return 'Ligne de Credit';
+      }
+      default:
+        return 'N/A'
+    }
+  }
+  public getCodeRapport(value: string): string {
+    const code = value?.split("-");
+    if (code[1] === "102") {
+      return "102";
+    } else if (code[1] === "100") {
+      return "100";
+    } else if (code[1] === "200") {
+      return "200";
+    } else {
+      return "false";
+    }
+  }
+
+  public showDialog(data: Object): void {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+    swalWithBootstrapButtons.fire({
+      icon: "info",
+      html: `<strong>Message</strong> : ${data["message"]} <br><br> <strong>Action</strong> : ${data['action']}`,
+      confirmButtonColor: "#F07427",
+      confirmButtonText: "ok",
+    });
+  }
+
+  public truncateString(str: string, num: number = 20): string {
+    if (str.length > num) {
+      return str.slice(0, num) + "...";
+    } else {
+      return str;
+    }
+  }
+
   OnShowTraitement(data: Object): void {
     const modalRef = this.modalService.open(TraitementShowComponent, {
       ariaLabelledBy: "modal-basic-title",
@@ -143,28 +227,18 @@ export class SuivieTraitementComponent implements OnInit {
       keyboard: false,
       centered: true,
     });
-    data = {
-      transaction: "REC02001230818212524",
-      message: "Soumis pour validation",
-      // message: "Soumis pour validation",
-      rapport: {
-        id: 1,
-        transaction: "REC02001230818212524",
-        ouvrage: "ligne-credit",
-        //ouvrage: "activation",
-        //ouvrage: "ligne-credit",
-        code: "REC-100",
-        statut: 'oui'
-      }
-    }
     modalRef.componentInstance.transaction = data;
-    modalRef.componentInstance.vue = "traitements-suivis";
+    modalRef.componentInstance.resultTraitement.subscribe((res) => {
+      this.listTraitemants = res['data']
+    })
   }
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
   }
-  isFilter(): boolean {
-    return
+
+  public isFilter(): boolean {
+    //return (!this.sel) ? true : false
+    return null;
   }
 }
 
