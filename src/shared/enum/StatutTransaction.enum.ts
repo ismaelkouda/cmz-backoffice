@@ -1,6 +1,5 @@
 export enum StatutTransaction {
-    ACCEPTER = 'accepté',
-    ABANDONNER = 'abandonné',
-    REJETER = 'rejeté',
-    SOUMIS = 'soumis'
+    SOUMIS = 'soumis',
+    TARITER = 'traité',
+    CLOTURER = 'cloturé',
 }   

@@ -5,6 +5,7 @@ import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { ClipboardService } from 'ngx-clipboard';
 import { ActivatedRoute } from '@angular/router';
+import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 
 @Component({
   selector: 'app-transaction-sim',
@@ -32,6 +33,9 @@ export class TransactionSimComponent implements OnInit {
   public p: number = 1;
   public display: boolean = false;
   public isMaximized: boolean = false;
+  public stateSoumis: string = StatutTransaction.SOUMIS;
+  public stateTraite: string = StatutTransaction.TARITER;
+  public stateCloture: string = StatutTransaction.CLOTURER;
 
   constructor(
     public settingService: SettingService,

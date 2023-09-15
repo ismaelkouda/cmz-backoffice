@@ -1,12 +1,18 @@
-import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TraitementTransaction } from './../../../../../shared/enum/TraitementTransaction.enum';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
+
+import { SettingService } from 'src/shared/services/setting.service';
+import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
+import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
+import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
+
 // @ts-ignore
 import appConfig from '../../../../../assets/config/app-config.json';
-import { SettingService } from 'src/shared/services/setting.service';
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -34,6 +40,10 @@ export class TraitementShowComponent implements OnInit {
   public creditForm: FormGroup;
   public listTypeJustificatif: Array<any> = [];
   public listProducts: Array<any> = [];
+  public listFirstLevel: Array<any> = [];
+  public listSecondLevel: Array<any> = [];
+  public listThirdLevel: Array<any> = [];
+  public listUsages: Array<any> = [];
   public selectedJustificatif: any;
   public typeFilterValue: string;
   public sourceValue: string;
@@ -47,17 +57,23 @@ export class TraitementShowComponent implements OnInit {
   public activationForm: FormGroup;
   public adminForm: FormGroup;
   public achatForm: FormGroup;
-  public isError: boolean = false;
+  public currentFile: any;
+  public TextInfosSim: string = "Orange fournira la SIM. A l' issue de l' operation, la SIM sera livrée au point de contact accompagnée d'une facture";
+  public TextInfosVolume: string = "Orange CI fournira le volume, à l'issue de l'operation une facture instantannée sera produite";
+  public selectedNotation: string;
+  public selectedDescriptionNotation: string;
 
   constructor(
     private fb: FormBuilder,
     private activeModal: NgbActiveModal,
     private toastrService: ToastrService,
     private supervisionOperationService: SupervisionOperationService,
-    private settingService: SettingService
+    private settingService: SettingService,
+    private patrimoineService: PatrimoineService,
+
 
   ) {
-    this.listTypeJustificatif = ['document', 'email', 'bon commande', 'courier', 'autre'];
+    this.listTypeJustificatif = ['cni', 'document', 'email', 'courier', 'autre'];
     this.listProducts = [
       {
         id: 1,
@@ -94,6 +110,12 @@ export class TraitementShowComponent implements OnInit {
     this.OnInitSuspensionForm();
     this.OnInitActivationForm();
     this.isAccepteForms();
+    this.IsCancel();
+    this.IsUpdate();
+    this.IsCloture();
+    this.IsReject();
+    this.IsShow();
+    this.IsVerify();
   }
 
   public GetDetailTransaction() {
@@ -118,17 +140,70 @@ export class TraitementShowComponent implements OnInit {
           } else if (this.detailTransaction?.operation === OperationTransaction.SUSPENSION) {
             this.OnShowSuspensionForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION) {
+            this.GetFirstLevel();
+            this.GetSecondLevel();
+            this.GetThirdLevel();
+            this.GetAllUsages();
             this.OnShowActivationForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.ACHAT_SERVICE) {
             this.OnShowAchatForm();
           }
+          if (this.IsShow() || this.IsCloture()) {
+            this.activationForm.disable();
+            this.ligneForm.disable();
+            this.volumeForm.disable();
+            this.swapForm.disable();
+            this.resiliationForm.disable();
+            this.suspensionForm.disable();
+          }
         },
         error: (error) => {
           this.GetAllTransactions();
-          this.isError = true;
           this.toastrService.error(error.message);
         }
       })
+  }
+  public GetCurrentMessage(operation): string {
+    switch (operation) {
+      case OperationTransaction.ACTIVATION: {
+        return this.activationForm.get('activation_accepte_comment').value;
+      }
+      case OperationTransaction.SWAP: {
+        return this.swapForm.get('swap_accepte_comment').value;
+      }
+      case OperationTransaction.RESILIATION: {
+        return this.resiliationForm.get('resiliation_accepte_comment').value;
+      }
+      case OperationTransaction.SUSPENSION: {
+        return this.suspensionForm.get('suspension_accepte_comment').value;
+      }
+      case OperationTransaction.VOLUME_DATA: {
+        return this.volumeForm.get('volume_data_accepte_comment').value;
+      }
+      case OperationTransaction.ACHAT_SERVICE: {
+        return this.ligneForm.get('provisionning_accepte_comment').value;
+      }
+      case OperationTransaction.PROVISIONNING: {
+        return this.ligneForm.get('provisionning_accepte_comment').value;
+        ;
+      }
+      default:
+        return 'Aucun Message Pour cette Transaction !'
+    }
+  }
+
+  public mappingNotation(notation): string {
+    switch (notation) {
+      case 'mécontent': {
+        return 'assets/images/icones/sad.png';
+      }
+      case 'neutre': {
+        return 'assets/images/icones/confused.png';
+      }
+      case 'content': {
+        return 'assets/images/icones/smile.png';
+      }
+    }
   }
   public GetAllTransactions() {
     this.supervisionOperationService
@@ -155,23 +230,18 @@ export class TraitementShowComponent implements OnInit {
     this.ligneForm = this.fb.group({
       montant: [''],
       justificatif: [''],
-      url: [''],
+      type_justificatif: [''],
       description: [''],
       provisionning_accepte: [''],
-      provisionning_accepte_comment: ['', [Validators.required]]
+      provisionning_accepte_comment: ['']
     })
   }
   OnShowLigneForm() {
     this.ligneForm.get('montant').patchValue(this.detailTransaction?.montant);
-    this.ligneForm.get('justificatif').patchValue(this.detailTransaction?.type_justificatif);
+    this.ligneForm.get('type_justificatif').patchValue(this.detailTransaction?.type_justificatif);
     this.ligneForm.get('description').patchValue(this.detailTransaction?.description);
     this.ligneForm.get('provisionning_accepte').patchValue(this.detailTransaction?.rapport?.provisionning_accepte);
     this.ligneForm.get('provisionning_accepte_comment').patchValue(this.detailTransaction?.rapport?.provisionning_accepte_comment);
-    this.ligneForm.disable();
-    if (this.ligneForm.get('provisionning_accepte').value === 'non' || this.ligneForm.get('provisionning_accepte').value === null) {
-      this.ligneForm.get('provisionning_accepte').enable();
-      this.ligneForm.get('provisionning_accepte_comment').enable();
-    }
   }
   downloadFile() {
     window.open(this.fileUrl + this.detailTransaction?.justificatif)
@@ -183,11 +253,12 @@ export class TraitementShowComponent implements OnInit {
       imsi: [''],
       msisdn: [''],
       statut: [''],
-      beneficiaire: [null],
+      beneficiaire: [''],
       bac_a_pioche: [''],
+      description: [''],
       volume: [''],
       volume_data_accepte: [''],
-      volume_data_accepte_comment: ['', [Validators.required]]
+      volume_data_accepte_comment: ['']
     })
   }
   OnShowVolumeForm() {
@@ -197,13 +268,12 @@ export class TraitementShowComponent implements OnInit {
     this.volumeForm.get('beneficiaire').patchValue(this.detailTransaction?.beneficiaire);
     this.volumeForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
     this.volumeForm.get('volume').patchValue(this.detailTransaction?.volume);
+    this.volumeForm.get('description').patchValue(this.detailTransaction?.description);
     this.volumeForm.get('volume_data_accepte').patchValue(this.detailTransaction?.rapport?.volume_data_accepte);
     this.volumeForm.get('volume_data_accepte_comment').patchValue(this.detailTransaction?.rapport?.volume_data_accepte_comment);
-    this.volumeForm.disable();
-    if (this.volumeForm.get('volume_data_accepte').value === 'non' || this.volumeForm.get('volume_data_accepte').value === null) {
-      this.volumeForm.get('volume_data_accepte').enable();
-      this.volumeForm.get('volume_data_accepte_comment').enable();
-    }
+    this.volumeForm.get('msisdn').disable();
+    this.volumeForm.get('statut').disable();
+    this.volumeForm.get('beneficiaire').disable();
   }
   get sourceStock() {
     return this.volumeForm.get('bac_a_pioche').value;
@@ -215,7 +285,7 @@ export class TraitementShowComponent implements OnInit {
       imsi: [''],
       msisdn: [''],
       statut: [''],
-      beneficiaire: [null],
+      beneficiaire: [''],
       bac_a_pioche: [''],
       description: [''],
       swap_accepte: [''],
@@ -231,15 +301,15 @@ export class TraitementShowComponent implements OnInit {
     this.swapForm.get('description').patchValue(this.detailTransaction?.description);
     this.swapForm.get('swap_accepte').patchValue(this.detailTransaction?.rapport?.swap_accepte);
     this.swapForm.get('swap_accepte_comment').patchValue(this.detailTransaction?.rapport?.swap_accepte_comment);
-    this.swapForm.disable();
-    if (this.swapForm.get('swap_accepte').value === 'non' || this.swapForm.get('swap_accepte').value === null) {
-      this.swapForm.get('swap_accepte').enable();
-      this.swapForm.get('swap_accepte_comment').enable();
-    }
+    this.swapForm.get('msisdn').disable();
+    this.swapForm.get('statut').disable();
+    this.swapForm.get('beneficiaire').disable();
   }
   get sourceStockSwap() {
     return this.swapForm.get('bac_a_pioche').value;
   }
+
+
 
   /*@@@@@@@@@@@@@@@@@@@@@@Resiliation Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitResiliationForm() {
@@ -247,7 +317,8 @@ export class TraitementShowComponent implements OnInit {
       imsi: [''],
       msisdn: [''],
       statut: [''],
-      beneficiaire: [null],
+      justificatif: [''],
+      beneficiaire: [''],
       description: [''],
       resiliation_accepte: [''],
       resiliation_accepte_comment: ['']
@@ -261,11 +332,12 @@ export class TraitementShowComponent implements OnInit {
     this.resiliationForm.get('description').patchValue(this.detailTransaction?.description);
     this.resiliationForm.get('resiliation_accepte').patchValue(this.detailTransaction?.rapport?.resiliation_accepte);
     this.resiliationForm.get('resiliation_accepte_comment').patchValue(this.detailTransaction?.rapport?.resiliation_accepte_comment);
-    this.resiliationForm.disable();
-    if (this.resiliationForm.get('resiliation_accepte').value === 'non' || this.resiliationForm.get('resiliation_accepte').value === null) {
-      this.resiliationForm.get('resiliation_accepte').enable();
-      this.resiliationForm.get('resiliation_accepte_comment').enable();
-    }
+    this.resiliationForm.get('msisdn').disable();
+    this.resiliationForm.get('statut').disable();
+    this.resiliationForm.get('beneficiaire').disable();
+  }
+  public onChangeFile(file: FileList) {
+    this.currentFile = file.item(0);
   }
   /*@@@@@@@@@@@@@@@@@@@@@@Suspension Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitSuspensionForm() {
@@ -273,7 +345,8 @@ export class TraitementShowComponent implements OnInit {
       imsi: [''],
       msisdn: [''],
       statut: [''],
-      beneficiaire: [null],
+      justificatif: [''],
+      beneficiaire: [''],
       description: [''],
       suspension_accepte: [''],
       suspension_accepte_comment: ['']
@@ -287,23 +360,21 @@ export class TraitementShowComponent implements OnInit {
     this.suspensionForm.get('description').patchValue(this.detailTransaction?.description);
     this.suspensionForm.get('suspension_accepte').patchValue(this.detailTransaction?.rapport?.suspension_accepte);
     this.suspensionForm.get('suspension_accepte_comment').patchValue(this.detailTransaction?.rapport?.suspension_accepte_comment);
-    this.suspensionForm.disable();
-    if (this.suspensionForm.get('suspension_accepte').value === 'non' || this.suspensionForm.get('suspension_accepte').value === null) {
-      this.suspensionForm.get('suspension_accepte').enable();
-      this.suspensionForm.get('suspension_accepte_comment').enable();
-    }
+    this.suspensionForm.get('msisdn').disable();
+    this.suspensionForm.get('statut').disable();
+    this.suspensionForm.get('beneficiaire').disable();
   }
 
   /*@@@@@@@@@@@@@@@@@@@ Activation Form Controls @@@@@@@@@@@@@@@@@*/
   OnInitActivationForm() {
     this.activationForm = this.fb.group({
       bac_a_pioche: [''],
-      niveau_1: [''],
-      niveau_2: [''],
-      niveau_3: [''],
-      usage: [''],
-      emplacement: [''],
-      email: [''],
+      niveau_un_id: [''],
+      niveau_deux_id: [''],
+      niveau_trois_id: [''],
+      usage_id: [''],
+      beneficiaire: [''],
+      adresse_email: [''],
       adresse_geographique: [''],
       latitude: [''],
       longitude: [''],
@@ -313,22 +384,17 @@ export class TraitementShowComponent implements OnInit {
   }
   OnShowActivationForm() {
     this.activationForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
-    this.activationForm.get('niveau_1').patchValue({});
-    this.activationForm.get('niveau_2').patchValue({});
-    this.activationForm.get('niveau_3').patchValue({});
-    this.activationForm.get('usage').patchValue({});
-    this.activationForm.get('emplacement').patchValue('emplacement');
-    this.activationForm.get('email').patchValue(this.detailTransaction?.email);
+    this.activationForm.get('niveau_un_id').patchValue(this.detailTransaction?.niveau_un_id);
+    this.activationForm.get('niveau_deux_id').patchValue(this.detailTransaction?.niveau_deux_id);
+    this.activationForm.get('niveau_trois_id').patchValue(this.detailTransaction?.niveau_trois_id);
+    this.activationForm.get('usage_id').patchValue(this.detailTransaction?.usage_id);
+    this.activationForm.get('beneficiaire').patchValue(this.detailTransaction?.beneficiaire);
+    this.activationForm.get('adresse_email').patchValue(this.detailTransaction?.adresse_email);
     this.activationForm.get('adresse_geographique').patchValue(this.detailTransaction?.adresse_geographique);
     this.activationForm.get('latitude').patchValue(this.detailTransaction?.latitude);
     this.activationForm.get('longitude').patchValue(this.detailTransaction?.longitude);
     this.activationForm.get('activation_accepte').patchValue(this.detailTransaction?.rapport?.activation_accepte);
     this.activationForm.get('activation_accepte_comment').patchValue(this.detailTransaction?.rapport?.activation_accepte_comment);
-    this.activationForm.disable();
-    if (this.activationForm.get('activation_accepte').value === 'non' || this.activationForm.get('activation_accepte').value === null) {
-      this.activationForm.get('activation_accepte').enable();
-      this.activationForm.get('activation_accepte_comment').enable();
-    }
   }
 
   get bacPiocheActivation() {
@@ -340,7 +406,7 @@ export class TraitementShowComponent implements OnInit {
     this.achatForm = this.fb.group({
       produits: [''],
       statut: [''],
-      commentaire: ['', [Validators.required]]
+      commentaire: ['']
     })
   }
   OnShowAchatForm() {
@@ -351,53 +417,54 @@ export class TraitementShowComponent implements OnInit {
     this.achatForm.get('commentaire').enable();
     this.achatForm.get('statut').enable();
   }
-  public handleCloseModal(type: 'croix' | 'abandonner'): void {
-    switch (type) {
-      case 'croix':
-        this.activeModal.close();
-        break;
-      case 'abandonner':
-        const swalWithBootstrapButtons = Swal.mixin({
-          customClass: {
-            confirmButton: 'btn btn-success',
-            cancelButton: 'btn btn-danger'
-          },
-          buttonsStyling: false,
-        })
-        swalWithBootstrapButtons.fire({
-          title: 'En êtes vous sûr ?',
-          html: `Vous allez Abandonner cette transaction`,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          cancelButtonText: 'Annuler',
-          confirmButtonText: 'Oui'
-        }).then((result) => {
-          if (result.value) {
-            // this.loadingBar.start();
-            // const dataToSend = {
-            //   transaction: this.transaction.transaction,
-            //   ouvrage_id: this.transaction.ouvrage_id,
-            // };
-            // this.traitementService
-            //   .getLetDownPointLumineux(dataToSend)
-            //   .subscribe((data: {}) => {
-            //     if (!this.response.error) {
-            //       this.loadingBar.stop();
-            //       this.sharedDataService.sendRefreshListTraitement();
-            //     } else {
-            //       this.loadingBar.stop();
-            //       this.toastrService.error(this.response.message);
-            //     }
-            //   });
-            this.activeModal.close();
-          }
-        });
-        break;
-    }
+  public GetFirstLevel() {
+    this.settingService
+      .getAllDirectionRegionales({})
+      .subscribe({
+        next: (response) => {
+          this.listFirstLevel = response['data']
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
   }
-
+  public GetSecondLevel() {
+    this.settingService
+      .getAllExploiatations({})
+      .subscribe({
+        next: (response) => {
+          this.listSecondLevel = response['data']
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+  public GetThirdLevel(): void {
+    this.settingService
+      .getAllZones({})
+      .subscribe({
+        next: (response) => {
+          this.listThirdLevel = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.message)
+        }
+      })
+  }
+  public GetAllUsages() {
+    this.patrimoineService
+      .GetAllUsages({})
+      .subscribe({
+        next: (response) => {
+          this.listUsages = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
   public formatTitleOuvrage(title: string) {
     switch (title) {
       case OperationTransaction.ACTIVATION: {
@@ -423,13 +490,7 @@ export class TraitementShowComponent implements OnInit {
       }
     }
   }
-  public OnChangeTypeFilter(event) {
 
-  }
-
-  public onVerify() {
-
-  }
 
   public isAccepteForms(): boolean {
     return (
@@ -441,63 +502,188 @@ export class TraitementShowComponent implements OnInit {
       this.detailTransaction?.rapport?.activation_accepte === 'oui'
     ) ? false : true
   }
-  OnSaveTransaction(): void {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: "btn btn-success",
-        cancelButton: "btn btn-danger",
-      },
-      buttonsStyling: false,
+  public IsCancel(): boolean {
+    return ((this.transaction?.statut === StatutTransaction.SOUMIS && this.transaction?.traitement === TraitementTransaction.EN_ENTENTE)) ? true : false
+  }
+  public IsUpdate(): boolean {
+    return ((this.transaction?.statut === StatutTransaction.SOUMIS && this.transaction?.traitement === TraitementTransaction.EN_ENTENTE)
+      || (this.transaction?.statut === StatutTransaction.TARITER && this.transaction?.traitement === TraitementTransaction.REJETER)
+    ) ? true : false
+  }
+  IsReject() {
+    return (this.transaction?.statut === StatutTransaction.TARITER && this.transaction?.traitement === TraitementTransaction.REJETER) ? true : false
+  }
+  public IsCloture(): boolean {
+    return ((this.transaction?.statut === StatutTransaction.TARITER && this.transaction?.traitement === TraitementTransaction.ACCEPTER)) ? true : false
+  }
+  public IsShow(): boolean {
+    return (this.transaction?.statut === StatutTransaction.CLOTURER) ? true : false
+  }
+  public IsVerify(): boolean {
+    return (
+      this.transaction?.operation === OperationTransaction.SWAP ||
+      this.transaction?.operation === OperationTransaction.RESILIATION ||
+      this.transaction?.operation === OperationTransaction.SUSPENSION ||
+      this.transaction?.operation === OperationTransaction.VOLUME_DATA
+    ) ? true : false
+  }
+
+  OnVerify() {
+    Swal.fire({
+      title: "En êtes vous sûr ?",
+      html: `Veuillez proceder à la verification<strong><u>L'imsi</u></strong>`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: '#569C5B',
+      cancelButtonColor: '#dc3545',
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Annuler',
+    }).then((result) => {
+      if (result.value) {
+        this.patrimoineService
+          .OnVerify({
+            imsi: this.swapForm.get('imsi').value,
+          })
+          .subscribe({
+            next: (response) => {
+              const data = response['data'][0]
+              this.swapForm.get('msisdn').patchValue(data.msisdn);
+              this.swapForm.get('statut').patchValue(data.statut);
+              this.swapForm.get('beneficiaire').patchValue(data.beneficiaire);
+              this.toastrService.success(response.message);
+              this.OnUpdateTransaction();
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
+      }
+    });
+  }
+  public OnUpdateTransaction(): void {
+    Swal.fire({
+      title: "En êtes vous sûr ?",
+      html: `Les informations de mise à jour de la transaction <strong><u>${this.detailTransaction.rapport.transaction}</u></strong> seront enregistrées.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: '#569C5B',
+      cancelButtonColor: '#dc3545',
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Annuler',
+    }).then((result) => {
+      if (result.value) {
+        if (this.transaction?.operation === OperationTransaction.RESILIATION) {
+          this.resiliationForm.patchValue({
+            justificatif: this.currentFile,
+          })
+        } else if (this.transaction?.operation === OperationTransaction.SUSPENSION) {
+          this.suspensionForm.patchValue({
+            justificatif: this.currentFile,
+          })
+        } else if (this.transaction?.operation === OperationTransaction.PROVISIONNING) {
+          this.ligneForm.patchValue({
+            justificatif: this.currentFile,
+          })
+        }
+        const data = {
+          ...(
+            this.transaction?.operation === OperationTransaction.PROVISIONNING
+              ? this.ligneForm.value :
+              this.transaction?.operation === OperationTransaction.VOLUME_DATA
+                ? this.volumeForm.value :
+                this.transaction?.operation === OperationTransaction.SWAP
+                  ? this.swapForm.value :
+                  this.transaction?.operation === OperationTransaction.RESILIATION
+                    ? this.resiliationForm.value :
+                    this.transaction?.operation === OperationTransaction.SUSPENSION
+                      ? this.suspensionForm.value :
+                      this.transaction?.operation === OperationTransaction.ACTIVATION
+                        ? this.activationForm.value :
+                        this.achatForm.value
+          ),
+          transaction: this.transaction?.transaction,
+          operation: this.transaction.operation,
+          model_id: this.transaction.model_id
+        }
+        this.supervisionOperationService
+          .OnUpdateTransaction((this.transaction?.operation === OperationTransaction.RESILIATION || this.transaction?.operation === OperationTransaction.SUSPENSION || this.transaction?.operation === OperationTransaction.PROVISIONNING) ? formDataBuilder(data) : data)
+          .subscribe({
+            next: (response) => {
+              this.toastrService.success(response.message);
+              this.GetAllTransactions();
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
+      }
     });
 
-    swalWithBootstrapButtons
-      .fire({
-        title: "En êtes vous sûr ?",
-        html: `Les informations de traitement de la transaction <strong><u>${this.detailTransaction.rapport.transaction}</u></strong> seront enregistrées.`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: '#569C5B',
-        cancelButtonColor: '#dc3545',
-        confirmButtonText: 'Oui',
-        cancelButtonText: 'Annuler',
-      }).then((result) => {
-        if (result.value) {
-          const data = {
-            ...(
-              this.transaction?.operation === OperationTransaction.PROVISIONNING
-                ? this.ligneForm.value :
-                this.transaction?.operation === OperationTransaction.VOLUME_DATA
-                  ? this.volumeForm.value :
-                  this.transaction?.operation === OperationTransaction.SWAP
-                    ? this.swapForm.value :
-                    this.transaction?.operation === OperationTransaction.RESILIATION
-                      ? this.resiliationForm.value :
-                      this.transaction?.operation === OperationTransaction.SUSPENSION
-                        ? this.suspensionForm.value :
-                        this.transaction?.operation === OperationTransaction.ACTIVATION
-                          ? this.activationForm.value :
-                          this.achatForm.value
-            ),
+  }
+  public OnCancelTransaction(): void {
+    Swal.fire({
+      title: "En êtes vous sûr ?",
+      html: `Voulez-vous Abandonner la transaction <strong><u>${this.detailTransaction.rapport.transaction}</u></strong>`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: '#569C5B',
+      cancelButtonColor: '#dc3545',
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Annuler',
+    }).then((result) => {
+      if (result.value) {
+        this.supervisionOperationService
+          .OnCancelTransaction({
             transaction: this.transaction?.transaction,
             operation: this.transaction.operation,
             model_id: this.transaction.model_id,
-            tenant_id: this.detailTransaction?.tenant_id
-          }
-
-          //console.log("data", data);
-          this.supervisionOperationService
-            .OnSaveTransaction(data)
-            .subscribe({
-              next: (response) => {
-                this.toastrService.success(response.message);
-                this.GetAllTransactions();
-              },
-              error: (error) => {
-                this.toastrService.error(error.error.message);
-              }
-            })
-        }
-      });
+          })
+          .subscribe({
+            next: (response) => {
+              this.toastrService.success(response.message);
+              this.GetAllTransactions();
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
+      }
+    });
+  }
+  public OnCloseTransaction(): void {
+    Swal.fire({
+      title: "En êtes vous sûr ?",
+      html: `Voulez-vous Clôturer la transaction <strong><u>${this.detailTransaction.rapport.transaction}</u></strong>`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: '#569C5B',
+      cancelButtonColor: '#dc3545',
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Annuler',
+    }).then((result) => {
+      if (result.value) {
+        this.supervisionOperationService
+          .OnCloseTransaction({
+            transaction: this.transaction?.transaction,
+            operation: this.transaction.operation,
+            model_id: this.transaction.model_id,
+            notation_cloture: this.selectedNotation,
+            notation_description: this.selectedDescriptionNotation
+          })
+          .subscribe({
+            next: (response) => {
+              this.toastrService.success(response.message);
+              this.GetAllTransactions();
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
+      }
+    });
   }
 
+  public handleCloseModal(): void {
+    this.GetAllTransactions()
+  }
 }

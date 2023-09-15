@@ -19,6 +19,14 @@
 
 }
 
+.infos_text {
+    background-color: #ccc !important;
+    font-weight: 800;
+    color: #000000 !important;
+    font-size: 18px;
+    margin-top: -3px;
+}
+
 .submit-wrapper {
     display: flex;
     justify-content: center;
@@ -168,6 +176,14 @@ fieldset {
     margin-bottom: 1rem;
     border: 2px solid transparent;
     border-radius: 0.25rem;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    strong {
+        font-size: 18px;
+    }
 }
 
 .styleForCodeRapport100102 {
@@ -182,6 +198,13 @@ fieldset {
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
+}
+
+.style-infos-traitement {
+    @extend %messageAlert;
+    background-color: #E0F2F7;
+    color: #01A9DB;
+    border-color: #E0F2F7;
 }
 
 /* Stepper CSS */

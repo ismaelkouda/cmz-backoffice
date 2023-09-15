@@ -109,13 +109,19 @@
                     <td style="text-align: left;">{{data?.updated_at}}</td>
                     <td>{{data?.transaction}} </td>
                     <td>{{data?.operation | uppercase}}</td>
-                    <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
-                    <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data.msisdn}}</td>
+                    <td>
+                      <span *ngIf="data?.imsi" (click)="copyData(data.imsi)"
+                        style="cursor: pointer">{{data?.imsi}}</span>
+                    </td>
+                    <td>
+                      <span *ngIf="data?.msisdn" (click)="copyData(data.msisdn)"
+                        style="cursor: pointer">{{data?.msisdn}}</span>
+                    </td>
                     <td class="text-center">
                       <span [ngStyle]="{'font-size':'16px'}" class="badge"
-                        [class.badge-dark]="data?.statut === 'soumis'" [class.badge-danger]="data?.statut === 'rejeté'"
-                        [class.badge-warning]="data?.statut === 'abandonné'"
-                        [class.badge-success]="data?.statut === 'accepté'">
+                        [class.badge-dark]="data?.statut === stateSoumis"
+                        [class.badge-Infos]="data?.statut === stateTraite"
+                        [class.badge-success]="data?.statut === stateCloture">
                         {{ data.statut }}
                       </span>
                     </td>

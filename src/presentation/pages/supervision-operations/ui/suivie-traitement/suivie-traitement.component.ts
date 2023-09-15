@@ -9,6 +9,7 @@ import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum'
 import { StatutTransaction } from './../../../../../shared/enum/StatutTransaction.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
+import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 
 const Swal = require('sweetalert2');
 
@@ -22,6 +23,7 @@ export class SuivieTraitementComponent implements OnInit {
   public listTraitemants: Array<any> = [];
   public listOperations: Array<any> = [];
   public listStatutTransactions: Array<any> = [];
+  public listTraitementTransactions: Array<any> = [];
   public listIntervenants: Array<any> = [];
   public listAffectes: Array<any> = [];
   public listCodeRapports: Array<any> = [];
@@ -44,6 +46,14 @@ export class SuivieTraitementComponent implements OnInit {
   public firstLevelLibelle: string;
   public secondLevelLibelle: string;
   public thirdLevelLibelle: string;
+  public stateSoumis: string = StatutTransaction.SOUMIS;
+  public stateTraite: string = StatutTransaction.TARITER;
+  public stateCloture: string = StatutTransaction.CLOTURER;
+  public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
+  public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
+  public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
+  public treatmenRejeter: string = TraitementTransaction.REJETER;
+  public treatmenCancel: string = TraitementTransaction.ABANDONNER;
 
   constructor(
     private supervisionOperationService: SupervisionOperationService,
@@ -62,6 +72,9 @@ export class SuivieTraitementComponent implements OnInit {
     });
     Object.values(StatutTransaction).forEach(item => {
       this.listStatutTransactions.push(item);
+    });
+    Object.values(TraitementTransaction).forEach(item => {
+      this.listTraitementTransactions.push(item);
     });
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;

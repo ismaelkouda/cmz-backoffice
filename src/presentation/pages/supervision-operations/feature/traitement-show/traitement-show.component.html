@@ -3,7 +3,7 @@
     <h4 class="modal-title pl-3">
       Détails <strong>[{{transaction?.transaction}}]</strong>
     </h4>
-    <button type="button" class="close" aria-label="Close" (click)="handleCloseModal('croix')">
+    <button type="button" class="close" (click)="handleCloseModal()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -34,13 +34,15 @@
         </ul>
         <br>
         <div class="submit-wrapper">
-          <button pButton pRipple label="Rejeter" class="p-button-warning">
+          <button pButton pRipple label="Abandonner" *ngIf="IsCancel()" (click)="OnCancelTransaction()"
+            class="p-button-warning w-100">
           </button>
-          <button (click)="OnSaveTransaction()" pButton pRipple label="Enregistrer" class="p-button-success">
+          <button *ngIf="IsUpdate()" (click)="IsVerify() ? OnVerify(): OnUpdateTransaction()" pButton pRipple
+            label="Enregistrer" class="p-button-success w-100">
           </button>
-          <!-- <button (click)="OnSaveTransaction()" pButton pRipple label="Enregistrer" class="p-button-success"
-            [disabled]="!ligneForm.valid || !activationForm.valid || !adminForm.valid">
-          </button> -->
+          <button *ngIf="IsCloture()" (click)="OnCloseTransaction()" [disabled]="!selectedNotation" pButton pRipple
+            label="Clôturer" class="p-button-success w-100">
+          </button>
         </div>
         <br>
         <div>
@@ -85,10 +87,23 @@
       </div>
       <!--------------------MODAL----------BODY---------->
       <div class="col-lg-10">
-        <div style="height: 50px;display: flex;justify-content: center;align-items: center;"
+        <div
           [ngClass]="[(detailTransaction?.rapport?.code.includes('100') || detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapport100102' 
-        :(!detailTransaction?.rapport?.code.includes('100') || !detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapportDifferentTo100' : '']" role="alert">>
-          <strong style="font-size: 18px;" [innerHTML]="detailTransaction?.rapport?.message"></strong>
+        :(!detailTransaction?.rapport?.code.includes('100') || !detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapportDifferentTo100' : '']"
+          role="alert">
+          <strong [innerHTML]="detailTransaction?.rapport?.message"></strong>
+          <!-- <span class="ms-2"
+            *ngIf="this.transaction?.statut === 'cloturé' && this.transaction?.traitement === 'accepté'">
+            <img [src]="mappingNotation(detailTransaction?.rapport?.notation_cloture)" width="22" alt="">
+          </span> -->
+        </div>
+        <div *ngIf="this.transaction.traitement !== 'abandonné'">
+          <div *ngIf="
+          this.transaction?.statut === 'traité' || 
+          this.transaction?.statut === 'cloturé' || 
+          this.transaction?.traitement === 'rejeté'" class="style-infos-traitement" role="alert">
+            <strong>{{GetCurrentMessage(this.transaction.operation)}}</strong>
+          </div>
         </div>
         <div class="row">
           <h4 *ngIf="detailTransaction?.rapport" class="col-md-7 wrapper-header">
@@ -127,7 +142,7 @@
                     <label>
                       <b>Type Justificatif</b>
                     </label>
-                    <p-dropdown [options]="listTypeJustificatif" formControlName="justificatif" placeholder="Type">
+                    <p-dropdown [options]="listTypeJustificatif" formControlName="type_justificatif" placeholder="Type">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -148,20 +163,31 @@
                 </div>
               </div>
               <br>
-              <div style="display: flex;justify-content: center;">
-                <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                  class="p-button-success" (click)="downloadFile()"></button>
+              <div style="display: flex;justify-content: center;gap: 2rem;">
+                <div>
+                  <div style="display: flex;justify-content: center;">
+                    <button pButton pRipple label="Télécharger le justificatif initial" icon="pi pi-download"
+                      class="p-button-success" (click)="downloadFile()"></button>
+                  </div>
+                </div>
+                <div *ngIf="IsUpdate()">
+                  <div style="display: flex;justify-content: center;">
+                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                  </div>
+                </div>
               </div>
             </fieldset>
+            <!----
             <br>
-            <fieldset>
+            <fieldset *ngIf="!IsCloture()">
               <legend>
                 <strong>Acceptation</strong>
               </legend>
               <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
                 <div class="block-checked">
                   <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
                     </span>
                     <div class="wrapper-check">
                       <div class="form-check form-check-inline">
@@ -185,6 +211,7 @@
                 </div>
               </div>
             </fieldset>
+            -->
           </div>
         </div>
         <!--------------DEPOT----------VOLUME------------FORMS----------------->
@@ -233,48 +260,60 @@
               <legend [ngStyle]="{width: '100%'}">
                 <b>Détails de la Transaction</b>
               </legend>
-              <!-- <div style="display: flex;gap: 2rem;">
-                <div class="d-flex gap-2">
-                  <p-radioButton name="valeur" value="stock" formControlName="bac_a_pioche"
-                    inputId="b_1"></p-radioButton>
-                  <label style="margin-top: 0.9rem">Stock/Tenant</label>
-                </div>
-                <div class="d-flex gap-2">
-                  <p-radioButton name="valeur" value="orangeci" formControlName="bac_a_pioche"
-                    inputId="b_2"></p-radioButton>
-                  <label style="margin-top: 0.9rem">Orange CI</label>
-                </div>
-              </div> -->
               <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Voume (Go) <span class="text-danger">*</span></b>
-                    </label>
-                    <input type="number" formControlName="volume" pInputText />
+                <div class="col-md-3">
+                  <div style="display: flex;gap: 2rem;">
+                    <div class="d-flex gap-2">
+                      <p-radioButton name="bac_a_pioche" value="stock" formControlName="bac_a_pioche"
+                        inputId="b_1"></p-radioButton>
+                      <label style="margin-top: 0.9rem">Stock/Tenant</label>
+                    </div>
+                    <div class="d-flex gap-2">
+                      <p-radioButton name="bac_a_pioche" value="orangeci" formControlName="bac_a_pioche"
+                        inputId="b_2"></p-radioButton>
+                      <label style="margin-top: 0.9rem">Orange CI</label>
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9" style="margin-top: -1.8rem">
                   <div class="form-group">
                     <label style="opacity: 0;">
                       <b> <span class="text-danger">*</span></b>
                     </label>
-                    <input [disabled]="true"
-                      [value]="sourceStock === 'stock' ? 'Le système débitera le volume duc stock disponible': 'Orange CI fournira le volume, à l\'\issue de l\'operation une facture instantannée sera produite' "
-                      type="text" pInputText
-                      style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
+                    <input [disabled]="true" class="infos_text"
+                      [value]="sourceStock === 'stock' ? 'Le système débitera le volume duc stock disponible': TextInfosVolume "
+                      type="text" pInputText />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Voume (Go)<span class="text-danger">*</span></b>
+                    </label>
+                    <input type="number" formControlName="volume" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <label>
+                      <b>Description<span class="text-danger">*</span></b>
+                    </label>
+                    <input type="text" formControlName="description" pInputText />
                   </div>
                 </div>
               </div>
             </fieldset>
-            <fieldset>
+            <!---
+            <fieldset *ngIf="!IsCloture()">
               <legend>
                 <strong>Acceptation</strong>
               </legend>
               <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
                 <div class="block-checked">
                   <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
                     </span>
                     <div class="wrapper-check">
                       <div class="form-check form-check-inline">
@@ -298,6 +337,7 @@
                 </div>
               </div>
             </fieldset>
+          -->
           </div>
         </div>
         <!--------------CHANGEMENT------------FORMS----------------->
@@ -346,20 +386,20 @@
               <legend [ngStyle]="{width: '100%'}">
                 <b>Détails de la Transaction</b>
               </legend>
-              <!-- <div style="display: flex;gap: 2rem;">
-                        <div class="d-flex gap-2">
-                          <p-radioButton name="valeur" value="stock" formControlName="bac_a_pioche"
-                            inputId="b_1"></p-radioButton>
-                          <label style="margin-top: 0.9rem">Stock/Tenant</label>
-                        </div>
-                        <div class="d-flex gap-2">
-                          <p-radioButton name="valeur" value="orangeci" formControlName="bac_a_pioche"
-                            inputId="b_2"></p-radioButton>
-                          <label style="margin-top: 0.9rem">Orange CI</label>
-                        </div>
-                      </div> -->
+              <div style="display: flex;gap: 2rem;">
+                <div class="d-flex gap-2">
+                  <p-radioButton name="bac_a_pioche" value="stock" formControlName="bac_a_pioche"
+                    inputId="b_1"></p-radioButton>
+                  <label style="margin-top: 0.9rem">Stock/Tenant</label>
+                </div>
+                <div class="d-flex gap-2">
+                  <p-radioButton name="bac_a_pioche" value="orangeci" formControlName="bac_a_pioche"
+                    inputId="b_2"></p-radioButton>
+                  <label style="margin-top: 0.9rem">Orange CI</label>
+                </div>
+              </div>
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label>
                       <b>Description<span class="text-danger">*</span></b>
@@ -367,27 +407,27 @@
                     <input type="text" formControlName="description" pInputText />
                   </div>
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-9">
                   <div class="form-group">
                     <label style="opacity: 0;">
                       <b> <span class="text-danger">*</span></b>
                     </label>
-                    <input [disabled]="true"
-                      [value]="bacPiocheActivation === 'stock' ? 'Le système utilisera une SIM dans le stock': 'Orange fournira la SIM. A l\'\issue de l\'operation, la SIM sera livrée au point de contact accompagnée d\'\'une  facture' "
-                      type="text" pInputText
-                      style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
+                    <input [disabled]="true" class="infos_text"
+                      [value]="sourceStockSwap === 'stock' ? 'Le système utilisera une SIM dans le stock': TextInfosSim"
+                      type="text" pInputText />
                   </div>
                 </div>
               </div>
             </fieldset>
-            <fieldset>
+            <!--
+            <fieldset *ngIf="!IsCloture()">
               <legend>
                 <strong>Acceptation</strong>
               </legend>
               <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
                 <div class="block-checked">
                   <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
                     </span>
                     <div class="wrapper-check">
                       <div class="form-check form-check-inline">
@@ -411,6 +451,7 @@
                 </div>
               </div>
             </fieldset>
+          -->
           </div>
         </div>
         <!--------------RESILIATION------------FORMS----------------->
@@ -468,21 +509,30 @@
                 </div>
               </div>
               <br>
-              <div>
-                <div style="display: flex;justify-content: center;">
-                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                    class="p-button-success" (click)="downloadFile()"></button>
+              <div style="display: flex;justify-content: center;gap: 2rem;">
+                <div>
+                  <div style="display: flex;justify-content: center;">
+                    <button pButton pRipple label="Télécharger le justificatif initial" icon="pi pi-download"
+                      class="p-button-success" (click)="downloadFile()"></button>
+                  </div>
+                </div>
+                <div *ngIf="IsUpdate()">
+                  <div style="display: flex;justify-content: center;">
+                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                  </div>
                 </div>
               </div>
             </fieldset>
-            <fieldset>
+            <!---
+            <fieldset *ngIf="!IsCloture()">
               <legend>
                 <strong>Acceptation</strong>
               </legend>
               <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
                 <div class="block-checked">
                   <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
                     </span>
                     <div class="wrapper-check">
                       <div class="form-check form-check-inline">
@@ -506,6 +556,7 @@
                 </div>
               </div>
             </fieldset>
+          -->
           </div>
         </div>
         <!--------------SUSPENSION------------FORMS----------------->
@@ -563,21 +614,30 @@
                 </div>
               </div>
               <br>
-              <div>
-                <div style="display: flex;justify-content: center;">
-                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                    class="p-button-success" (click)="downloadFile()"></button>
+              <div style="display: flex;justify-content: center;gap: 2rem;">
+                <div>
+                  <div style="display: flex;justify-content: center;">
+                    <button pButton pRipple label="Télécharger le justificatif initial" icon="pi pi-download"
+                      class="p-button-success" (click)="downloadFile()"></button>
+                  </div>
+                </div>
+                <div *ngIf="IsUpdate()">
+                  <div style="display: flex;justify-content: center;">
+                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                  </div>
                 </div>
               </div>
             </fieldset>
-            <fieldset>
+            <!--
+            <fieldset *ngIf="!IsCloture()">
               <legend>
                 <strong>Acceptation</strong>
               </legend>
               <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
                 <div class="block-checked">
                   <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
                     </span>
                     <div class="wrapper-check">
                       <div class="form-check form-check-inline">
@@ -601,6 +661,7 @@
                 </div>
               </div>
             </fieldset>
+          -->
           </div>
         </div>
         <!-------------ACTIVATION--------------FORMS--------------------------->
@@ -610,19 +671,20 @@
               <legend [ngStyle]="{width: '100%'}">
                 <b>Information / Identifications</b>
               </legend>
-              <!-- <div style="display: flex;gap: 2rem;">
+              <div style="display: flex;gap: 2rem;">
                 <div class="d-flex gap-2">
-                  <p-radioButton name="valeur" [value]="true" formControlName="stock"></p-radioButton>
+                  <p-radioButton name="bac_a_pioche" [value]="'stock'" formControlName="bac_a_pioche"></p-radioButton>
                   <label style="margin-top: 0.9rem">Stock/Tenant</label>
                 </div>
                 <div class="d-flex gap-2">
-                  <p-radioButton name="valeur" [value]="false" formControlName="stock"></p-radioButton>
+                  <p-radioButton name="bac_a_pioche" [value]="'orangeci'"
+                    formControlName="bac_a_pioche"></p-radioButton>
                   <label style="margin-top: 0.9rem">Orange CI</label>
                 </div>
-              </div> -->
+              </div>
               <div class="text-wrapper">
-                <input [disabled]="true"
-                  [value]="bacPiocheActivation === 'stock' ? 'Le système utilisera une SIM dans le stock': 'Orange fournira la SIM. A l\'\issue de l\'operation, la SIM sera livrée au point de contact accompagnée d\'\'une  facture' "
+                <input [disabled]="true" class="infos_text"
+                  [value]="bacPiocheActivation === 'stock' ? 'Le système utilisera une SIM dans le stock': TextInfosSim"
                   type="text" pInputText
                   style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 20px;" />
               </div>
@@ -637,8 +699,8 @@
                     <label>
                       <b>Niveau 1</b>
                     </label>
-                    <p-dropdown [options]="listDirections" formControlName="niveau_1" optionLabel="nom"
-                      [showClear]="true" [filter]="true" filterBy="nom" [placeholder]="'Niveau 1'">
+                    <p-dropdown [options]="listFirstLevel" formControlName="niveau_un_id" optionLabel="nom"
+                      optionValue="id" [filter]="true" filterBy="nom">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -654,8 +716,8 @@
                     <label>
                       <b>Niveau 2</b>
                     </label>
-                    <p-dropdown [options]="listExploitations" formControlName="niveau_2" optionLabel="nom"
-                      optionValue="id" [showClear]="true" [filter]="true" filterBy="nom" [placeholder]="'Niveau 2'">
+                    <p-dropdown [options]="listSecondLevel" formControlName="niveau_deux_id" optionLabel="nom"
+                      optionValue="id" [filter]="true" filterBy="nom">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -671,8 +733,8 @@
                     <label>
                       <b>Niveau 3</b>
                     </label>
-                    <p-dropdown [options]="listActivites" formControlName="niveau_3" optionLabel="nom"
-                      [placeholder]="'Niveau 3'" optionValue="id">
+                    <p-dropdown [options]="listThirdLevel" formControlName="niveau_trois_id" optionLabel="nom"
+                      optionValue="id">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -690,8 +752,8 @@
                     <label>
                       <b>Usage</b>
                     </label>
-                    <p-dropdown [options]="listUsages" formControlName="usage" optionLabel="nom_usage"
-                      placeholder="Usage" optionValue="id">
+                    <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage"
+                      placeholder="Usage" optionValue="id" placeholder="Usage">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -707,7 +769,7 @@
                     <label>
                       <b>Emplacement</b>
                     </label>
-                    <input type="text" formControlName="emplacement" placeholder="Bénéficiaire" pInputText />
+                    <input type="text" formControlName="beneficiaire" placeholder="Bénéficiaire" pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -715,7 +777,7 @@
                     <label>
                       <b>Adresse mail</b>
                     </label>
-                    <input type="text" formControlName="email" placeholder="Adresse Email" pInputText />
+                    <input type="text" formControlName="adresse_email" placeholder="Adresse Email" pInputText />
                   </div>
                 </div>
               </div>
@@ -746,14 +808,15 @@
                 </div>
               </div>
             </fieldset>
-            <fieldset>
+            <!--
+            <fieldset *ngIf="!IsCloture()">
               <legend>
                 <strong>Acceptation</strong>
               </legend>
               <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
                 <div class="block-checked">
                   <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
                     </span>
                     <div class="wrapper-check">
                       <div class="form-check form-check-inline">
@@ -777,6 +840,7 @@
                 </div>
               </div>
             </fieldset>
+          -->
           </div>
         </div>
         <div *ngIf="transaction?.rapport?.ouvrage === OperationAchat">
@@ -826,7 +890,7 @@
                 </div>
               </div>
             </fieldset>
-            <br>
+            <!--
             <fieldset>
               <legend>
                 <strong>Acceptation</strong>
@@ -860,14 +924,62 @@
                 </div>
               </div>
             </fieldset>
+          -->
           </div>
-          <div [hidden]="filterTab !== 'second-item'">
-            <fieldset>
-              <legend>
-                <strong>Second Block</strong>
-              </legend>
-            </fieldset>
-          </div>
+        </div>
+        <div *ngIf="IsCloture()">
+          <fieldset>
+            <legend>
+              <strong>Message Clôture</strong>
+            </legend>
+            <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+              <div class="block-checked" style="width: 15rem;padding: 0 0.5rem 0.5rem 0.5rem;">
+                <div class="ml-3">
+                  <div class="wrapper-check">
+                    <div style="display: flex;flex-direction: column">
+                      <div>
+                        <label for="infosLigne" style="margin-left: 0 !important;">
+                          <img src="assets/images/icones/sad.png" width="22" alt="">
+                        </label>
+                      </div>
+                      <div>
+                        <input class="form-check-input" [(ngModel)]="selectedNotation" type="radio" name="infosLigne"
+                          value="mécontent" id="infosLigne">
+                      </div>
+                    </div>
+                    <div style="display: flex;flex-direction: column">
+                      <div>
+                        <label for="infosLigne" style="margin-left: 0 !important;">
+                          <img src="assets/images/icones/confused.png" width="22" alt="">
+                        </label>
+                      </div>
+                      <div>
+                        <input class="form-check-input" type="radio" [(ngModel)]="selectedNotation" name="infosLigne"
+                          value="neutre" id="infosLigne">
+                      </div>
+                    </div>
+                    <div style="display: flex;flex-direction: column">
+                      <div>
+                        <label for="infosLigne" style="margin-left: 0 !important;">
+                          <img src="assets/images/icones/smile.png" width="22" alt="">
+                        </label>
+                      </div>
+                      <div>
+                        <input class="form-check-input" type="radio" name="infosLigne" [(ngModel)]="selectedNotation"
+                          value="content" id="infosLigne">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="width: 100%">
+                <label for="commentaire"><strong>Commentaire</strong></label>
+                <textarea name="commentaire" [(ngModel)]="selectedDescriptionNotation" class="form-control" rows="2"
+                  style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                </textarea>
+              </div>
+            </div>
+          </fieldset>
         </div>
       </div>
     </div>

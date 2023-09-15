@@ -87,11 +87,11 @@
         <div class="col-md-2">
           <div class="form-group">
             <label><b>Traitement</b> </label>
-            <p-dropdown [options]="['Traité','Non traité']" [filter]="true" filterBy="libele" [showClear]="true"
+            <p-dropdown [options]="listTraitementTransactions" [filter]="true" filterBy="libele" [showClear]="true"
               [(ngModel)]="selectedTraitement" placeholder="Traitement" name="libele">
               <ng-template let-data pTemplate="item">
                 <div class="country-item">
-                  <div>{{ data }}</div>
+                  <div>{{ data | titlecase }}</div>
                 </div>
               </ng-template>
             </p-dropdown>
@@ -158,7 +158,7 @@
           <ng-template let-i="rowIndex" pTemplate="body" let-transaction>
             <tr>
               <td class="text-center">{{ (this.offset + i)}}</td>
-              <td class="text-center"> {{ transaction?.created_at }}</td>
+              <td [style]="{width: '10rem'}"> {{ transaction?.created_at }}</td>
               <td class="cursor-pointer text-center" (click)="copyTransaction(transaction.transaction)">
                 {{ transaction.transaction }}
               </td>
@@ -183,28 +183,24 @@
               </td>
               <td class="text-center">
                 <span [ngStyle]="{'font-size':'16px'}" class="badge"
-                  [class.badge-dark]="transaction?.statut === 'soumis'"
-                  [class.badge-danger]="transaction?.statut === 'rejeté'"
-                  [class.badge-warning]="transaction?.statut === 'abandonné'"
-                  [class.badge-info]="transaction?.statut === 'accepté'"
-                  [class.badge-success]="transaction?.statut === 'cloturé'">
+                  [class.badge-dark]="transaction?.statut === stateSoumis"
+                  [class.badge-info]="transaction?.statut === stateTraite"
+                  [class.badge-success]="transaction?.statut === stateCloture">
                   {{ transaction.statut }}
                 </span>
               </td>
               <td class="text-center">
                 <span [ngStyle]="{'font-size':'16px'}" class="badge"
-                  [class.badge-danger]="transaction?.traitement === 'non-traité'"
-                  [class.badge-info]="transaction?.traitement === 'traité'">
+                  [class.badge-dark]="transaction?.traitement === treatmenEntente || transaction?.traitement === treatmenAcquiter"
+                  [class.badge-danger]="transaction?.traitement === treatmenRejeter"
+                  [class.badge-warning]="transaction?.traitement === treatmenCancel"
+                  [class.badge-info]="transaction?.traitement === treatmenAccepter"
+                  [class.badge-success]="(transaction?.statut === stateCloture && transaction?.traitement === treatmenAccepter)">
                   {{ transaction.traitement }}
                 </span>
               </td>
-              <td>
-                <span *ngIf="transaction?.traitement === 'traité'">
-                  {{ transaction?.date_traitement }}
-                </span>
-                <span *ngIf="transaction?.traitement !== 'traité' ">
-                  N/A
-                </span>
+              <td [style]="{width: '10rem'}">
+                {{ transaction?.statut === stateTraite ? transaction?.date_traitement: 'N/A' }}
               </td>
               <td class="text-center">
                 <span>

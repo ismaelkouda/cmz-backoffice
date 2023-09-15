@@ -137,7 +137,6 @@ export class ProfilSupervisionComponent implements OnInit {
       }
     });
   }
-
   onFilter() {
     this.telemetrieService
       .GetAllProfilSupervision({
