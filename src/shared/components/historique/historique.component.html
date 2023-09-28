@@ -5,13 +5,14 @@
         <div class="row">
             <div class="col-md-3">
                 <label class="block"><b>Date début <span class="text-danger">*</span></b></label>
-                <p-calendar [ngStyle]="{width: '21rem'}" [(ngModel)]="filterDateStart" [showIcon]="true"
-                    (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy"></p-calendar>
+                <p-calendar [ngStyle]="{width: '100%'}" [(ngModel)]="filterDateStart" [showIcon]="true"
+                    (ngModelChange)="changeDateStart($event)" [placeholder]="'JJ-MM-AAAA'"
+                    dateFormat="dd-mm-yy"></p-calendar>
             </div>
             <div class="col-md-3">
                 <label class="block"><b>Date fin <span class="text-danger">*</span></b></label>
-                <p-calendar [ngStyle]="{width: '21rem'}" [(ngModel)]="filterDateEnd" [showIcon]="true"
-                    (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy"></p-calendar>
+                <p-calendar [ngStyle]="{width: '100%'}" [(ngModel)]="filterDateEnd" [showIcon]="true"
+                    (ngModelChange)="changeDateEnd($event)" placeholder="JJ-MM-AAAA" dateFormat="dd-mm-yy"></p-calendar>
             </div>
             <div class="col-md-3">
                 <label class="block"><b>Utilisateur </b></label>
@@ -25,7 +26,7 @@
                 </p-dropdown>
             </div>
             <div class="col-md-1">
-                <label class="no__opacity block"><b></b>Actions</label>
+                <label style="opacity: 0;"><b></b>Actions</label>
                 <p-button [style]="{'height':'60%'}" styleClass="p-button-success" icon="pi pi-filter"
                     (click)="filterHistoriques()"></p-button>
             </div>
@@ -45,7 +46,7 @@
     <ng-template pTemplate="header">
         <tr>
             <th>#</th>
-            <th>Source [Utilisteur]</th>
+            <th>Source [Utilisateur]</th>
             <th>Module</th>
             <th>Sous Module</th>
             <th>Action</th>
@@ -55,7 +56,7 @@
     </ng-template>
     <ng-template let-i="rowIndex" pTemplate="body" let-historique>
         <tr>
-            <td>{{ i + 1 }}</td>
+            <td class="text-center">{{ i + 1 }}</td>
             <td>{{ historique.ip }} [{{historique?.user.nom +' ' +historique?.user.prenoms}}]</td>
             <td>{{historique.module === null? 'N/A': historique?.module}}</td>
             <td class="text-center">{{historique?.sous_module === null? 'N/A': historique?.sous_module}}</td>
@@ -151,29 +152,31 @@
                         <td style="padding: 0 !important;">
                     <tr style="display: flex;flex-direction: column;">
                         <td style="text-align: left;text-transform:uppercase;font-weight: bold;"
-                            *ngFor="let item of this.currentEventParse?.before | keyvalue">
-                            {{item.key}}</td>
+                            *ngFor="let item of this.currentEventParseBeforeKeys">
+                            {{item}}</td>
                     </tr>
                     </td>
                     <td style="padding: 0 !important;">
                         <tr style="display: flex;flex-direction: column;">
                             <td style="text-align: left;text-transform: capitalize;font-weight: 600;"
-                                *ngFor="let item of this.currentEventParse?.before | keyvalue">
-                                {{item.value ? item.value : 'N/A'}}</td>
+                                *ngFor="let item of this.currentEventParseBeforeValues">
+                                {{item ?? 'N/A'}}</td>
                         </tr>
                     </td>
                     <td style="padding: 0 !important;">
                         <tr style="display: flex;flex-direction: column;">
                             <td style="text-align: left;text-transform: capitalize;font-weight: 600;"
-                                *ngFor="let item of this.currentEventParse?.after | keyvalue">
-                                {{item.value ? item.value : 'N/A'}}</td>
+                                *ngFor="let item of this.currentEventParseAfterValues;">
+                                {{item.item ?? 'N/A'}}
+                            </td>
                         </tr>
                     </td>
                     <td style="padding: 0 !important;">
                         <tr style="display: flex;flex-direction: column;">
                             <td style="text-align: left;text-transform: capitalize;font-weight: 600;text-align: center;"
-                                *ngFor="let item of this.currentEventParse?.before | keyvalue">
-                                -
+                                *ngFor="let item of this.currentEventParseAfterValues">
+                                <span *ngIf="!item?.isIdentique"><strong>Oui</strong></span>
+                                <span *ngIf="item?.isIdentique"><strong>-</strong></span>
                             </td>
                         </tr>
                     </td>

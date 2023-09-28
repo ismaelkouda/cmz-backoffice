@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { MappingService } from 'src/shared/services/mapping.service';
+import { SettingService } from 'src/shared/services/setting.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -8,12 +12,61 @@ const Swal = require('sweetalert2');
 })
 export class PerformancesComponent implements OnInit {
 
-  constructor() { }
+  public listOperations: Array<any> = [];
+  public firstLevelLibelle: string;
+  public secondLevelLibelle: string;
+  public thirdLevelLibelle: string;
+  public listFirstLevel: Array<any> = [];
+  public listSecondLevel: Array<any> = [];
+  public selectedTypeOperation: string;
+  public selectedTransaction: string;
+  public selectedFirstLevel: any;
+  public selectedSecondLevel: any;
+
+  constructor(
+    private settingService: SettingService,
+    private mappingService: MappingService,
+    private toastrService: ToastrService,
+
+
+  ) {
+    Object.values(OperationTransaction).forEach(item => {
+      this.listOperations.push(item);
+    });
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+  }
 
   ngOnInit() {
-
+    this.GetFirstLevel()
+    this.isFilter()
     localStorage.setItem('layout', 'Barcelona');
+  }
 
+
+  public onFilter() {
+
+  }
+  public GetFirstLevel() {
+    this.settingService
+      .getAllDirectionRegionales({})
+      .subscribe({
+        next: (response) => {
+          this.listFirstLevel = response['data'].map(element => {
+            return { ...element, fullName: `${element.nom} [${element.code}]` }
+          });
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+  public onChangeItem(event: any) {
+    this.selectedFirstLevel = event.value;
+    this.listSecondLevel = this.selectedFirstLevel?.niveaux_deux.map(element => {
+      return { ...element, fullName: `${element.nom} [${element.code}]` }
+    });
   }
 
   showInfos(data) {
@@ -40,5 +93,11 @@ export class PerformancesComponent implements OnInit {
       });
     }
   }
-
+  public isFilter(): boolean {
+    return (!this.selectedTypeOperation &&
+      !this.selectedFirstLevel &&
+      !this.selectedSecondLevel &&
+      !this.selectedTransaction
+    ) ? true : false
+  }
 }

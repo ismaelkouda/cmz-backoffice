@@ -4,6 +4,8 @@ import { ProvisionningService } from '../../data-access/provisionning.service';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 const Swal = require('sweetalert2');
+// @ts-ignore
+import appConfig from '../../../../../assets/config/app-config.json';
 
 @Component({
   selector: 'app-ligne-credit',
@@ -12,6 +14,7 @@ const Swal = require('sweetalert2');
 })
 export class LigneCreditComponent implements OnInit {
 
+  public fileUrl: string = appConfig.filUrl;
   public initialView: boolean = true;
   public formsView: boolean = false;
   public currentObject: any;
@@ -56,7 +59,6 @@ export class LigneCreditComponent implements OnInit {
       this.OnStatCredit();
     }
   }
-
 
   public GetAllLigneCredits() {
     this.provisionningService
@@ -160,17 +162,8 @@ export class LigneCreditComponent implements OnInit {
   pipeValue(number: any) {
     return new Intl.NumberFormat('fr-FR').format(number);
   }
-
-  showImage(data: any) {
-    Swal.fire({
-      //text: "<img src='" + data.storage + "' style='width:150px;'>",
-      html: "<img src='" + "http://10.10.0.15:8003" + data.justificatif + "' style='width:150px;'>",
-      icon: 'info',
-      showCancelButton: true,
-      showConfirmButton: false,
-      cancelButtonColor: '#dc3545',
-      cancelButtonText: 'Fermer',
-    });
+  downloadFile(data) {
+    window.open(this.fileUrl + data?.justificatif)
   }
   public copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');

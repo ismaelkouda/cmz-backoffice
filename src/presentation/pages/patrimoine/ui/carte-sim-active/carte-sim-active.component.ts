@@ -159,6 +159,16 @@ export class CarteSimActiveComponent implements OnInit {
         }
       })
   }
+  OnRefresh() {
+    this.GetAllPatrimoines();
+    this.selectedDirection = null;
+    this.selectedExploitation = null;
+    this.selectedUsage = null;
+    this.selectedSim = null;
+    this.selectedimsi = null;
+    this.selectedStatut = null;
+
+  }
   public getAllDirectionRegionales() {
     this.settingService
       .getAllDirectionRegionales({})

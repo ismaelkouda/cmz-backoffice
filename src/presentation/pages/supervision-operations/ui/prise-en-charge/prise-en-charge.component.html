@@ -5,28 +5,29 @@
       <div class="row filter_wrapper">
         <div class="col-md-2">
           <div class="form-group">
-            <div class="form-group">
-              <label><b>Type opération <span class="text-danger">*</span></b></label>
-              <p-dropdown [options]="listOperations" optionLabel="libele" [filter]="true" filterBy="nom,code"
-                [showClear]="true" [(ngModel)]="selectedTypeOperation" placeholder="Selectionner Opération">
-                <ng-template let-data pTemplate="item">
-                  <div class="country-item">
-                    <div>{{ data.libele }}</div>
+            <label><b>Type opération</b></label>
+            <p-dropdown [options]="listOperations" [showClear]="true" [(ngModel)]="selectedTypeOperation"
+              placeholder="Opération">
+              <ng-template let-data pTemplate="item">
+                <div class="country-item">
+                  <div>{{ data | titlecase }}</div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>
+              <b>{{firstLevelLibelle}}</b>
+            </label>
+            <p-dropdown [options]="listFirstLevel" optionLabel="fullName" (onChange)="onChangeItem($event)"
+              [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle">
+              <ng-template let-data pTemplate="item">
+                <div class="country-item">
+                  <div>
+                    {{data.fullName}}
                   </div>
-                </ng-template>
-              </p-dropdown>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label><b>Direction Régionale <span class="text-danger" *ngIf="!selectedOperationSYN">*</span></b></label>
-            <p-dropdown [options]="listDirectionsRegionales" optionLabel="code" [filter]="true" filterBy="nom,code"
-              [showClear]="true" (onChange)="onChangeItem($event.value, 'direction')" placeholder="Direction Régionale"
-              name="dr" [ngClass]="{'desactiver': selectedOperationSYN}">
-              <ng-template let-dr pTemplate="item">
-                <div class="country-item">
-                  <div>{{ dr.code }}</div>
                 </div>
               </ng-template>
             </p-dropdown>
@@ -34,19 +35,22 @@
         </div>
         <div class="col-md-2">
           <div class="form-group">
-            <label><b>Exploitation <span class="text-danger" *ngIf="!selectedOperationSYN">*</span></b></label>
-            <p-dropdown [options]="listExploitations" optionLabel="nom" [filter]="true" filterBy="nom"
-              [showClear]="true" [(ngModel)]="selectedExploitation" placeholder="Eexploitation" appendTo="body"
-              name="exploitations" [ngClass]="{'desactiver': selectedOperationSYN}">
-              <ng-template let-exploitation pTemplate="item">
+            <label>
+              <b>{{secondLevelLibelle}}</b>
+            </label>
+            <p-dropdown [options]="listSecondLevel" optionLabel="fullName" optionLabel="nom" [filter]="true"
+              [(ngModel)]="selectedSecondLevel" [showClear]="true" [placeholder]="secondLevelLibelle">
+              <ng-template let-data pTemplate="item">
                 <div class="country-item">
-                  <div>{{ exploitation.nom }}</div>
+                  <div>
+                    {{data.fullName}}
+                  </div>
                 </div>
               </ng-template>
             </p-dropdown>
           </div>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-3">
           <div class="form-group">
             <label><b>N°Transaction</b> </label>
             <input type="text" pInputText [(ngModel)]="selectedTransaction" />
@@ -54,25 +58,12 @@
         </div>
         <div class="col-md-2">
           <div class="form-group">
-            <label><b>Intervenant</b> </label>
-            <p-dropdown [options]="listIntervenants" optionLabel="nom" [filter]="true" filterBy="nom" [showClear]="true"
-              [(ngModel)]="selectedIntervenant" placeholder="Intervenant">
+            <label><b>Statut</b> </label>
+            <p-dropdown [options]="listStatutTransactions" [showClear]="true" [(ngModel)]="selectedStatut"
+              placeholder="Statut">
               <ng-template let-data pTemplate="item">
                 <div class="country-item">
-                  <div>{{ data.nom }}</div>
-                </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label><b>Code Rapport</b> </label>
-            <p-dropdown [options]="listCodeRapports" optionLabel="libele" [filter]="true" filterBy="libele"
-              [showClear]="true" [(ngModel)]="selectedRapport" placeholder="Code rapport" name="libele">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>{{ data.libele }}</div>
+                  <div>{{ data | titlecase }}</div>
                 </div>
               </ng-template>
             </p-dropdown>
@@ -94,19 +85,6 @@
       <!--------------------Second-------------Filter--------->
       <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
         <div class="col-md-2">
-          <div class="form-group">
-            <label><b>Traitement</b> </label>
-            <p-dropdown [options]="listTraitements" optionLabel="libele" [filter]="true" filterBy="libele"
-              [showClear]="true" [(ngModel)]="selectedTraitement" placeholder="Statut" name="libele">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>{{ data.libele }}</div>
-                </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
-        </div>
-        <div class="col-md-2">
           <label class="block"><b>Date début <span class="text-danger">*</span></b></label>
           <p-calendar [showIcon]="true" dateFormat="dd-mm-yy"></p-calendar>
         </div>
@@ -120,89 +98,116 @@
             [disabled]="isFilter()"></p-button>
         </div>
       </div>
-      <p-table #dt [value]="listPriseEncharges" [rows]="10" [paginator]="true" [globalFilterFields]="[
-                'id',
-                'date',
-                'num_transaction',
-                'dr',
-                'exploitation',
-                'operation',
-                'code_erreur',
-                'message',
-                'affectation',
-                'intervenant',
-            ]" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
-        currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données"
-        [showCurrentPageReport]="true">
-        <ng-template pTemplate="caption">
-          <div class="seach_and_btns p-0">
-            <div>
-              <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"></button>
-              <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf ms-3"></button>
-            </div>
-            <div>
-              <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value,'contains')"
-                  placeholder="Recherche..." />
-              </span>
-            </div>
-          </div>
-        </ng-template>
-        <br />
-        <ng-template pTemplate="header">
-          <tr>
-            <th>#</th>
-            <th>Date</th>
-            <th>N°Transaction</th>
-            <th pSortableColumn="dr">DR</th>
-            <th [ngStyle]="{ width: '200px' }">Exploitation</th>
-            <th>Opération</th>
-            <th>Code Rapport</th>
-            <th>Message</th>
-            <th>Affectation</th>
-            <th>Intervenant</th>
-            <th>Action</th>
-          </tr>
-          pi-info-circle
-
-        </ng-template>
-        <ng-template let-i="rowIndex" pTemplate="body" let-prise>
-          <tr>
-            <td style="text-align: center">{{i+1}}</td>
-            <td style="text-align: center">{{ prise.updated_at}}</td>
-            <td (click)="copyTransaction(prise.transaction)" style="text-align: center; cursor: pointer">
-              {{prise.transaction}}</td>
-            <td style="text-align: center">{{ prise.direction_regionale_code}}</td>
-            <td (click)="copyTransaction(prise.exploitation_nom)" style="text-align: center">
-              <div style="cursor: pointer">
-                {{ prise.exploitation_nom }}
+      <div class="mt-4">
+        <p-table #dt [value]="listTraitemants" [rows]="10" [paginator]="true" [globalFilterFields]="[
+        'id',
+        'date',
+        'num_transaction',
+        'dr',
+        'exploitation',
+        'operation',
+        'code_erreur',
+        'message',
+        'affectation',
+        'intervenant',
+    ]" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
+          currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données"
+          [showCurrentPageReport]="true">
+          <ng-template pTemplate="caption">
+            <div class="seach_and_btns p-0">
+              <div>
+                <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"></button>
+                <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf ms-3"></button>
               </div>
-            </td>
-            <td style="text-align: center; cursor: pointer" (click)="copyTransaction(prise.operation)">
-              {{prise.operation}}
-            </td>
-            <td style="text-align: center; cursor: pointer">
-              <span [ngClass]="['badge', 'badge-'+prise.code_rapport.split('-')[1]]">{{ prise.code_rapport }}</span>
-            </td>
-            <td style="text-align: center">
-              <button pButton pRipple type="button" icon="pi pi-eye" label="Voir" class="p-button-secondary"></button>
-            </td>
-            <td style="text-align: center">
-              <span class="badge danger" *ngIf="prise.affectation === 'auto-affecté'">{{prise.affectation}}</span>
-              <span class="badge" *ngIf="prise.affectation === 'affecté'">{{prise.affectation}}</span>
-            </td>
-            <td style="text-align: center">
-              <span>
-                {{ prise.intervenant_nom }} {{prise.intervenant_prenoms}}
-              </span>
-            </td>
-            <td style="text-align: center">
-              <button pButton pRipple type="button" icon="pi pi-arrow-right" label="Affecter"></button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
+              <div>
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="dt.filterGlobal($event.target.value,'contains')"
+                    placeholder="Recherche..." />
+                </span>
+                <button pButton pRipple label="Affecter" icon="pi pi-arrow-right"
+                  class="p-button-success ms-3"></button>
+              </div>
+            </div>
+          </ng-template>
+          <br />
+          <ng-template pTemplate="header">
+            <tr>
+              <th class="text-center" [style]="{width: '1.5rem'}">#</th>
+              <th class="text-center">Date / Heure</th>
+              <th class="text-center" [ngStyle]="{'width':'200px'}">N° Transaction</th>
+              <th class="text-center">{{firstLevelLibelle}}</th>
+              <th class="text-center">{{secondLevelLibelle}}</th>
+              <th class="text-center">Service</th>
+              <th class="text-center">Code R.</th>
+              <th pTooltip="Details de rapport" tooltipPosition="top">Détails R.</th>
+              <th pTooltip="Details de rapport" tooltipPosition="top">Affectation</th>
+              <th class="text-center">Statut</th>
+              <th class="text-center" [ngStyle]="{'width':'150px'}" pTooltip="Date de traitement" tooltipPosition="top">
+                Date T.</th>
+              <th pTooltip="Date de traitement" tooltipPosition="top">Intervenant</th>
+              <th class="text-center">
+                <p-checkbox [binary]="true" [(ngModel)]="checkedAllConsumers"></p-checkbox>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template let-i="rowIndex" pTemplate="body" let-prise>
+            <tr>
+              <td class="text-center">{{ (this.offset + i)}}</td>
+              <td [style]="{width: '10rem'}"> {{ transaction?.created_at }}</td>
+              <td class="cursor-pointer text-center" (click)="copyTransaction(transaction.transaction)">
+                {{ transaction.transaction }}
+              </td>
+              <td class="text-center">{{transaction?.niveau_1?.nom}}</td>
+              <td class="text-center">{{transaction?.niveau_2?.nom}}</td>
+              <td class="text-center">
+                {{ formatTitle(transaction?.operation ?? 'N/A') }}
+              </td>
+              <td class="text-center">
+                <span [ngStyle]="{'font-size':'16px'}" [class.text-white]="getCodeRapport(transaction?.code_rapport) === '200' ||
+                      getCodeRapport(transaction?.code_rapport) === 'false'"
+                  [class.badge-dark]="getCodeRapport(transaction?.code_rapport) === '100'"
+                  [class.badge-info]="getCodeRapport(transaction?.code_rapport) === '102'"
+                  [class.badge-success]="getCodeRapport(transaction?.code_rapport) === '200'"
+                  [class.badge-danger]="getCodeRapport(transaction?.code_rapport) === 'false'" class="badge">
+                  {{ transaction.code_rapport }}
+                </span>
+              </td>
+              <td class="cursor-pointer" [innerHTML]="transaction?.message" (click)="showDialog(transaction)"
+                pTooltip="cliquer pour voir" tooltipPosition="top">
+                {{ truncateString(transaction?.message, 20) }}
+              </td>
+              <td>
+              <td class="text-center">
+                <span [ngStyle]="{'font-size':'16px'}" class="badge"
+                  [class.badge-success]="transaction?.affectation === 'affecté'"
+                  [class.badge-info]="transaction?.affectation === 'auto-affecté'">
+                  {{ transaction?.affectation }}
+                </span>
+              </td>
+              <td class="text-center">
+                <span [ngStyle]="{'font-size':'16px'}" class="badge"
+                  [class.badge-dark]="transaction?.statut === stateSoumis"
+                  [class.badge-info]="transaction?.statut === stateTraite"
+                  [class.badge-success]="transaction?.statut === stateCloture">
+                  {{ transaction.statut }}
+                </span>
+              </td>
+              <td [style]="{width: '10rem'}">
+                {{ transaction?.statut === stateTraite ? transaction?.date_traitement: 'N/A' }}
+              </td>
+              <td class="text-center">
+                <span>
+                  {{ transaction?.intervenant_nom }} {{ transaction?.intervenant_prenoms }}
+                </span>
+              </td>
+              <td>
+                <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"></p-checkbox>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
     </div>
   </div>
 </div>

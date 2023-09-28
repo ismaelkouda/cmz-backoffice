@@ -99,8 +99,8 @@
                   <th class="text-center">Type Transaction</th>
                   <th class="text-center">IMSI</th>
                   <th class="text-center">MSISDN</th>
-                  <th class="text-center">Statut</th>
-                  <th class="text-center" [style]="{width: '5rem'}">Actions</th>
+                  <th class="text-center" [style]="{width: '4rem'}">Statut</th>
+                  <th class="text-center" [style]="{width: '3rem'}">Actions</th>
                 </thead>
                 <tbody>
                   <tr
@@ -125,14 +125,13 @@
                         {{ data.statut }}
                       </span>
                     </td>
-                    <td class="text-center">
-                      <div ngbDropdown>
-                        <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Actions</button>
-                        <div ngbDropdownMenu>
-                          <button ngbDropdownItem (click)="showJournal(data)">Voir le journal</button>
-                          <button ngbDropdownItem>Télécharger le rapport</button>
-                        </div>
-                      </div>
+                    <td class="td-actions">
+                      <button pButton icon="pi pi-eye" pTooltip="Historique" tooltipPosition="top"
+                        (click)="onHistorique(data)" class="p-button-dark"></button>
+                      <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top"
+                        (click)="showJournal(data)" class="p-button-success"></button>
+                      <button pButton icon="pi pi-download" pTooltip="Rapport" tooltipPosition="top"
+                        (click)="showJournal(data)" class="p-button-helf"></button>
                     </td>
                   </tr>
                 </tbody>
@@ -149,13 +148,4 @@
       </div>
     </div>
   </div>
-
-  <!-----------Journal----------------Component------------------>
-  <ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Journale</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
-    </div>
-    <div class="modal-body">
-    </div>
-  </ng-template>
+</div>

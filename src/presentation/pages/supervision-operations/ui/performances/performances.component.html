@@ -5,31 +5,69 @@
       <div class="row filter_wrapper">
         <div class="col-md-2">
           <div class="form-group">
-            <div class="form-group">
-              <label><b>Type opération <span class="text-danger">*</span></b></label>
-              <p-dropdown [options]="" optionLabel="libele" [filter]="true" filterBy="nom,code" [showClear]="true"
-                placeholder="Selectionner Opération">
-                <ng-template let-data pTemplate="item">
-                  <div class="country-item">
-                    <div>{{ data }}</div>
-                  </div>
-                </ng-template>
-              </p-dropdown>
-            </div>
+            <label><b>Type opération</b></label>
+            <p-dropdown [options]="listOperations" [showClear]="true" [(ngModel)]="selectedTypeOperation"
+              placeholder="Opération">
+              <ng-template let-data pTemplate="item">
+                <div class="country-item">
+                  <div>{{ data | titlecase }}</div>
+                </div>
+              </ng-template>
+            </p-dropdown>
           </div>
         </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>
+              <b>{{firstLevelLibelle}}</b>
+            </label>
+            <p-dropdown [options]="listFirstLevel" optionLabel="fullName" (onChange)="onChangeItem($event)"
+              [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle">
+              <ng-template let-data pTemplate="item">
+                <div class="country-item">
+                  <div>
+                    {{data.fullName}}
+                  </div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>
+              <b>{{secondLevelLibelle}}</b>
+            </label>
+            <p-dropdown [options]="listSecondLevel" optionLabel="fullName" optionLabel="nom" [filter]="true"
+              [(ngModel)]="selectedSecondLevel" [showClear]="true" [placeholder]="secondLevelLibelle">
+              <ng-template let-data pTemplate="item">
+                <div class="country-item">
+                  <div>
+                    {{data.fullName}}
+                  </div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label><b>N°Transaction</b> </label>
+            <input type="text" pInputText [(ngModel)]="selectedTransaction" />
+          </div>
+        </div>
+        <div class="p-0" [ngStyle]="{width: '4rem'}">
+          <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+          <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+            [disabled]="isFilter()"></p-button>
+        </div>
+      </div>
+      <div class="mt-4">
         <p-table #dt [value]="" [rows]="10" [paginator]="true" [globalFilterFields]="[
-                'id',
-                'date',
-                'num_transaction',
-                'dr',
-                'exploitation',
-                'operation',
-                'code_erreur',
-                'message',
-                'affectation',
-                'intervenant',
-            ]" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
+      'id',
+      'operation',
+      'transaction'
+      ]" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
           currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données"
           [showCurrentPageReport]="true">
           <ng-template pTemplate="caption">
@@ -85,3 +123,4 @@
       </div>
     </div>
   </div>
+</div>

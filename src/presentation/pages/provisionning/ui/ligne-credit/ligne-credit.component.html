@@ -102,9 +102,9 @@
                   <th class="text-center">Transaction</th>
                   <th class="text-center">Réference</th>
                   <th class="text-center">Montant</th>
-                  <th class="text-center" [style]="{width: '5rem'}">Pièce</th>
+                  <th class="text-center" [style]="{width: '5rem'}">Justificatif</th>
                   <th [ngStyle]="{width: '4rem'}">Statut</th>
-                  <th class="text-center" [ngStyle]="{width: '8rem'}">Actions</th>
+                  <th class="text-center" [ngStyle]="{width: '3rem'}">Actions</th>
                 </thead>
                 <tbody>
                   <tr
@@ -115,9 +115,8 @@
                     <td (click)="copyData(data.reference)" style="cursor: pointer">{{data?.reference}}</td>
                     <td>{{pipeValue(data?.montant)}}</td>
                     <td>
-                      <button pButton pRipple pTooltip="Télecharger" icon="pi pi-download"
-                        (click)="showImage(data.justificatif)" tooltipPosition="top" label="Télecharger"
-                        class="p-button"></button>
+                      <button pButton pRipple pTooltip="Télecharger" icon="pi pi-download" (click)="downloadFile(data)"
+                        tooltipPosition="top" label="Télecharger" class="p-button"></button>
                     </td>
                     <td>
                       <span [ngStyle]="{'font-size': '16px' }" class="badge"
@@ -129,14 +128,6 @@
                     <td class="td-actions">
                       <p-button icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" styleClass="p-button-dark"
                         (click)="onShowForm(data)"></p-button>
-                      <button [disabled]="data?.statut !== 'en-cours'" [ngClass]="'p-button-secondary'" pButton pRipple
-                        icon="pi pi-pencil
-                        " [pTooltip]="'Editer'" [disabled]="true" (click)="onEditForm(data)" tooltipPosition="top">
-                      </button>
-                      <button [disabled]="data?.statut !== 'en-cours'" [ngClass]="'p-button-danger'" pButton pRipple
-                        icon="pi pi-times
-                        " [pTooltip]="'Annuler'" (click)="OnCancelCredit(data)" tooltipPosition="top">
-                      </button>
                     </td>
                   </tr>
                 </tbody>

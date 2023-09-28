@@ -1,3 +1,4 @@
+import { Justificatif } from './../../../../../shared/enum/Justificatif.enum';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProvisionningService } from '../../data-access/provisionning.service';
 import { ToastrService } from 'ngx-toastr';
@@ -28,7 +29,7 @@ export class CreditFormComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
-  public filUrl: string;
+  public fileUrl: string;
   creditForm: FormGroup;
 
 
@@ -38,11 +39,13 @@ export class CreditFormComponent implements OnInit {
     private fb: FormBuilder
 
   ) {
-    this.listTypeJustificatif = ['email', 'bon commande', 'courier', 'autre']
+    Object.values(Justificatif).forEach(item => {
+      this.listTypeJustificatif.push(item);
+    });
   }
 
   ngOnInit() {
-    this.filUrl = appConfig.filUrl
+    this.fileUrl = appConfig.fileUrl
     this.isFilter();
     this.initForm();
     if (this.currentObject !== undefined) {

@@ -28,6 +28,10 @@ export class SettingService {
     const url: string = (<string>EndPointUrl.GET_ALL_HISTORIQUE);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
+  getAllJournal(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_JOURNAL);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
   getAllYears(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_YEAR);
     return this.http.post(`${this.BASE_URL}${url}`, data);

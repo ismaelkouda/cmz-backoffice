@@ -14,17 +14,20 @@ export class MappingService {
   tenant: any;
   grafanaLink: string;
   typeNiveau: string;
+  public fileUrl: string = appConfig.fileUrl;
 
   constructor(
-    private storage: EncodingDataService
+    private storage: EncodingDataService,
   ) {
+
     const data = JSON.parse(storage.getData('user'));
     this.tenant = data?.tenant;
     this.structureGlobale = data?.structure_organisationnelle;
-    this.logoTenant = `${appConfig.fileUrl}${data?.env?.logo_tenant}`;
-    this.grafanaLink = data?.env?.lien_dashboard_grafana;
+    this.logoTenant = `${this.fileUrl}${this.tenant?.logo_tenant}`;
+    this.grafanaLink = this.tenant?.lien_dashboard_grafana;
     const newDatatEnv = { ...data?.env, typeNiveau: 'Type Emplacement' };
-    this.typeNiveau = newDatatEnv?.typeNiveau
+    this.typeNiveau = newDatatEnv?.typeNiveau;
+
   }
 
 }

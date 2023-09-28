@@ -22,7 +22,6 @@ export class ProvisionningService {
     const url: string = (<string>EndPointUrl.GET_ALL_COMMANDES_SIM);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
-
   // Ligne Credits
   GetAllLigneCredits(data, page): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_LIGNE_CREDIT).replace('{page}', page);
@@ -51,11 +50,11 @@ export class ProvisionningService {
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
   GenerateNumeroCommande(): Observable<any> {
-    const url: string = (<string>EndPointUrl.GENERATE_NUMERO_COMMANDE);
+    const url: string = ('');
     return this.http.get(`${this.BASE_URL}${url}`);
   }
-  CreateProformatCommande(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.CREATE_COMMANDE_PROFORMAT);
+  OnSaveCommande(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.SAVE_COMMANDE);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
   OnValidate(data): Observable<any> {

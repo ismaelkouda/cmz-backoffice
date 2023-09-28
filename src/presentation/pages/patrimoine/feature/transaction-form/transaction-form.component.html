@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="!currentObject">
   <div class="forms-feature-header">
     <div>
       <h3>
@@ -359,7 +359,7 @@
               <label>
                 <b>Voume (Go) <span class="text-danger">*</span></b>
               </label>
-              <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedVolume" pInputText />
+              <input type="number" [disabled]="isVerify()" [(ngModel)]="selectedVolume" pInputText />
             </div>
           </div>
           <div class="col-md-9">
@@ -367,7 +367,7 @@
               <label>
                 <b>Description</b>
               </label>
-              <input type="text" [disabled]="true" [(ngModel)]="selectedDescription" pInputText />
+              <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
             </div>
           </div>
         </div>
@@ -387,4 +387,25 @@
     </div>
   </div>
 
+</div>
+<div *ngIf="currentObject">
+  <div class="forms-feature-header">
+    <div>
+      <h4>
+        <b>
+          <span>Visualisation de la Transaction</span>
+          <span class="current_values">[{{currentObject?.transaction}} | {{currentObject?.operation |
+            titlecase}}]</span>
+        </b>
+      </h4>
+    </div>
+    <div class="forms-feature-header__button">
+      <div>
+        <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <app-historique [module]="''" [sous_module]="''" [modele]="currentObject?.operation" [modele_id]="currentObject?.id">
+  </app-historique>
 </div>

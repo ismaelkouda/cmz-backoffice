@@ -40,7 +40,7 @@
                   </p-dropdown>
                 </div>
               </div>
-              <div style="width: 13rem;">
+              <div style="width: 14.5rem;">
                 <div class="form-group">
                   <label>
                     <b>{{thirdLevelLibelle}}</b>
@@ -97,7 +97,7 @@
             </div>
             <hr>
             <div class="table_actions_wrapper">
-              <button pButton pRipple label="Rafraichir" (click)="GetAllPatrimoines()" icon="pi pi-refresh"
+              <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
                 class="p-button-secondary"></button>
               <button pButton pRipple label="Exporter" icon="pi pi-download" [disabled]="disableAction()"
                 class="p-button-helf"></button>
@@ -121,7 +121,7 @@
                   <th class="text-center">{{thirdLevelLibelle}}</th>
                   <th class="text-center">Emplacement</th>
                   <th>Statut</th>
-                  <th class="text-center">Actions</th>
+                  <th class="text-center" [style]="{width: '3rem'}">Actions</th>
                 </thead>
                 <tbody>
                   <tr

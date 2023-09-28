@@ -20,6 +20,10 @@ export class HistoriqueComponent implements OnInit {
   public listUsers: Array<any> = [];
   public exportList: Array<any> = [];
   public listHistoriques: Array<any> = [];
+  public currentEventParseBeforeKeys: Array<any> = [];
+  public currentEventParseBeforeValues: Array<any> = [];
+  public currentEventParseAfterValues: Array<any> = [];
+  public currentEventParseAfter: Array<any> = [];
   public filterDateStart: Date;
   public filterDateEnd: Date;
   public selectDateStart: any;
@@ -40,8 +44,8 @@ export class HistoriqueComponent implements OnInit {
   ) {
     this.filterDateStart = new Date();
     this.filterDateEnd = new Date();
-    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
-    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+    //this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    //this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
   }
 
   ngOnInit(): void {
@@ -51,16 +55,23 @@ export class HistoriqueComponent implements OnInit {
   }
 
   showHistorique(data: any) {
+    console.log("data", data.data);
+
+    this.currentEventParse = JSON.parse(data.data);
+    Object.values(this.currentEventParse?.before).map((value, i) => {
+      this.currentEventParseBeforeValues.push(value);
+      this.currentEventParseBeforeKeys.push(Object.keys(this.currentEventParse?.before)[i]);
+      this.currentEventParseAfter.push(Object.values(this.currentEventParse?.after)[i]);
+      this.currentEventParseAfterValues = this.currentEventParseAfter.map((item, index) => {
+        if (item === this.currentEventParseBeforeValues[index]) {
+          return { item, isIdentique: true }
+        } else {
+          return { item, isIdentique: false }
+        }
+      });
+    });
     this.display = true;
     this.currentEvent = data;
-    this.currentEventParse = JSON.parse(data.data);
-
-    // for (const value of Object.entries(this.currentEventParse)) {
-    //    const d = value;
-
-    // }
-    //console.log("this.currentEventParse", this.currentEventParse);
-
   }
   getAllUsers() {
     this.loadingBar.start();
@@ -98,13 +109,7 @@ export class HistoriqueComponent implements OnInit {
           this.listHistoriques = response['data'];
           this.exportList = this.listHistoriques.map((el) => {
             const data = {
-              SourceUtilisteur:
-                el.ip +
-                '[' +
-                el.nom +
-                ' ' +
-                el.prenoms +
-                ']',
+              SourceUtilisteur: el.ip + '[' + el.nom + ' ' + el.prenoms + ']',
               Module: el.module,
               sousModule: el.sous_module,
               action: el.action,

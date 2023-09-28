@@ -264,6 +264,7 @@ export class TransactionFormComponent implements OnInit {
       data = {
         operation: this.selectedActionValue,
         imsi: this.currentPatrimoine.imsi,
+        description: this.selectedDescription,
         bac_a_pioche: this.sourceValue,
         volume: this.selectedVolume,
       }

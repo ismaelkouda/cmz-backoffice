@@ -25,8 +25,6 @@ export class SuivieTraitementComponent implements OnInit {
   public listStatutTransactions: Array<any> = [];
   public listTraitementTransactions: Array<any> = [];
   public listIntervenants: Array<any> = [];
-  public listAffectes: Array<any> = [];
-  public listCodeRapports: Array<any> = [];
   public listTraitements: Array<any> = [];
   public listTenants: Array<any> = [];
   public listFirstLevel: Array<any> = [];
@@ -64,9 +62,6 @@ export class SuivieTraitementComponent implements OnInit {
     private mappingService: MappingService
 
   ) {
-    this.listAffectes = LIST_AFFECTE;
-    this.listCodeRapports = LIST_CODE_RAPPORT;
-    this.listTraitements = LIST_TRAITEMENTS;
     Object.values(OperationTransaction).forEach(item => {
       this.listOperations.push(item);
     });
@@ -110,6 +105,8 @@ export class SuivieTraitementComponent implements OnInit {
       transaction: this.selectedTransaction,
       statut: this.selectedStatut,
       traitement: this.selectedTraitement,
+      niveau_un: this.selectedFirstLevel?.id,
+      niveau_deux: this.selectedSecondLevel?.id,
     };
     this.supervisionOperationService
       .GetAllTransactions(data, this.p)
@@ -250,8 +247,13 @@ export class SuivieTraitementComponent implements OnInit {
   }
 
   public isFilter(): boolean {
-    //return (!this.sel) ? true : false
-    return null;
+    return (!this.selectedTypeOperation &&
+      !this.selectedFirstLevel &&
+      !this.selectedSecondLevel &&
+      !this.selectedTransaction &&
+      !this.selectedStatut &&
+      !this.selectedTraitement
+    ) ? true : false
   }
 }
 

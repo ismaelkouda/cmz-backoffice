@@ -1,12 +1,12 @@
 import { ServiceEnum } from './../../../../../shared/enum/Service.enum';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
-import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { ProvisionningService } from '../../data-access/provisionning.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment.prod';
-import { LoadingBarService } from '@ngx-loading-bar/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+declare var require;
+const Swal = require("sweetalert2");
 
 @Component({
   selector: 'app-commande-form',
@@ -75,48 +75,9 @@ export class CommandeFormComponent implements OnInit {
   constructor(
     private provisionningService: ProvisionningService,
     private toastService: ToastrService,
-    private loadingBar: LoadingBarService,
+    private toastrService: ToastrService,
     private modalService: NgbModal
-
-
   ) {
-    this.listProducts = [
-      {
-        id: 1,
-        nom: 'product A',
-        prix: 1000,
-        code: 'IMA-05A',
-        qty: 1
-      },
-      {
-        id: 2,
-        nom: 'product B',
-        prix: 20000,
-        code: 'IMA-05B',
-        qty: 1
-      },
-      {
-        id: 3,
-        nom: 'product C',
-        prix: 5000,
-        code: 'IMA-05C',
-        qty: 1
-      },
-      {
-        id: 4,
-        nom: 'product D',
-        prix: 5000,
-        code: 'IMA-05D',
-        qty: 1
-      },
-      {
-        id: 5,
-        nom: 'product E',
-        prix: 5000,
-        code: 'IMA-05E',
-        qty: 1
-      }
-    ]
   }
 
   ngOnInit() {
@@ -137,10 +98,7 @@ export class CommandeFormComponent implements OnInit {
       .GetAllServices({})
       .subscribe({
         next: (response) => {
-          // this.listProducts = response['data']
-          this.fiedlistA = response['data'][0]; //Blanche
-          this.fiedlistB = response['data'][1]; //MSISNDN
-          this.fiedlistC = response['data'][2]; // Vol
+          this.listProducts = response['data'];
         },
         error: (error) => {
           this.toastService.error(error.error.message);
@@ -148,6 +106,19 @@ export class CommandeFormComponent implements OnInit {
       })
   }
 
+  public GetAllAchats() {
+    this.provisionningService
+      .GetAllAchats({}, 1)
+      .subscribe({
+        next: (response) => {
+          this.listCommandes.emit(response['data']);
+          this.close();
+        },
+        error: (error) => {
+          this.toastService.error(error.error.message);
+        }
+      })
+  }
   OnModal(item: any, content: any) {
     this.modalService.open(content);
     const panierIdList = [];
@@ -155,11 +126,8 @@ export class CommandeFormComponent implements OnInit {
       panierIdList.push(element?.id)
     });
     if (!panierIdList.includes(item?.id)) {
-      console.log("111111111111111111111");
-      this.currentItem = { ...item, qty: 1 };
+      this.currentItem = { ...item, qte: 1 };
     } else {
-      console.log("222222222222222222222");
-
       this.currentItem = item;
     }
   }
@@ -167,28 +135,28 @@ export class CommandeFormComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  addToPanier(data: any) {
+  OnAddToPanier(data: any) {
     let findProduct = this.panierList.find((it) => it.id === data.id);
     if (findProduct === undefined) {
       this.panierList.push(data);
     } else {
-      findProduct.qty = this.currentItem?.qty;
+      findProduct.qte = this.currentItem?.qte;
     }
     this.hideModal()
   }
-  incrementButton(data: any) {
+  OnIncrementButton(data: any) {
     let findProduct = this.panierList.find((it) => it.id === data.id);
     if (findProduct === undefined) {
       this.panierList.push(data);
     } else {
-      findProduct.qty += 1;
+      findProduct.qte += 1;
     }
   }
-  decrementButton(data: any) {
-    if (data.qty <= 1) {
+  OnIecrementButton(data: any) {
+    if (data.qte <= 1) {
       return;
     } else {
-      data.qty -= 1;
+      data.qte -= 1;
     }
   }
   RemoveFromPanier(data: any) {
@@ -202,11 +170,10 @@ export class CommandeFormComponent implements OnInit {
       }
     });
   }
-
   totalProduct() {
     var totale = 0;
     this.panierList.forEach((item: any) => {
-      totale += item.qty;
+      totale += item.qte;
     });
     return totale;
   }
@@ -214,7 +181,7 @@ export class CommandeFormComponent implements OnInit {
   totalPrice() {
     var total = 0;
     this.panierList.forEach((item: any) => {
-      total += item.prix * item.qty;
+      total += item.prix_unitaire * item.qte;
     });
     return total;
   }
@@ -229,54 +196,23 @@ export class CommandeFormComponent implements OnInit {
     return valueTotalPrice + valueTotalRemise;
   }
 
+  public OnSaveCommande(): void {
+    this.provisionningService
+      .OnSaveCommande({
+        operation: OperationTransaction.ACHAT_SERVICE,
+        detail_commande: this.panierList,
+      }).subscribe({
+        next: (response) => {
+          this.toastrService.success(response.message);
+          this.GetAllAchats();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
   public CreateProformatCommande() {
-    this.showFacture();
   }
-
-  showFacture() {
-    this.loadingBar.start();
-    const data = [
-      //SIMA
-      {
-        id: this.fiedlistA?.id,
-        code_produit: this.fiedlistA?.code_produit,
-        libelle_produit: this.fiedlistA?.libelle_produit,
-        prix_unitaire: this.fiedlistA?.prix_unitaire,
-        qte: this.selectedQtyBlanche,
-        description: this.selectedDescBlanche
-      },
-
-      //SIMB
-      {
-        id: this.fiedlistB?.id,
-        code_produit: this.fiedlistB?.code_produit,
-        libelle_produit: this.fiedlistB?.libelle_produit,
-        prix_unitaire: this.fiedlistB?.prix_unitaire,
-        qte: this.selectedQtyMsimsdn,
-        description: this.selectedDescSimMsisdn
-      },
-      //SIMC
-
-      {
-        id: this.fiedlistC?.id,
-        code_produit: this.fiedlistC?.code_produit,
-        libelle_produit: this.fiedlistC?.libelle_produit,
-        prix_unitaire: this.fiedlistC?.prix_unitaire,
-        qte: this.selectedvp,
-        description: this.selectedDescVp
-      },
-    ];
-    this.initialView = false;
-    this.factureView = true;
-    this.currentObjectTwo = data;
-
-    console.log("data", data);
-
-    setTimeout(() => {
-      this.loadingBar.stop();
-    }, 500);
-  }
-
   public hideFacture(data) {
     this.display = false;
   }

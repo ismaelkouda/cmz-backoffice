@@ -57,6 +57,7 @@
                     <th>Date de modification</th>
                     <th># SIM Affectés</th>
                     <th>Statut</th>
+                    <th>Deploy</th>
                     <th class="text-center">Actions</th>
                   </tr>
                 </ng-template>
@@ -77,6 +78,12 @@
                         [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
                         {{ data.statut }}
                       </span>
+                    </td>
+                    <td class="text-center">
+                      <button pButton pRipple [pTooltip]="data?.deploy === true ? 'Deployer': ''" icon="pi pi-bolt"
+                        tooltipPosition="top" label="Deplyer"
+                        [class]="data?.deploy === false ? 'p-button-outlined': ''+ 'p-button-help'"
+                        (click)="OnDeploy(data)" [disabled]="data?.deploy === false"></button>
                     </td>
                     <td class="td-actions">
                       <p-button icon="pi pi-eye" styleClass="p-button-dark" pTooltip="Voir" tooltipPosition="top"

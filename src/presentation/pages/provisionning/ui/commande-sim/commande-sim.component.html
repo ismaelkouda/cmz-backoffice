@@ -81,7 +81,7 @@
             </div>
             <hr>
             <div class="table_actions_wrapper">
-              <button pButton pRipple label="Nouveau Achat" (click)="onInitForm()" icon="pi pi-plus"
+              <button pButton pRipple label="Nouvel Achat" (click)="onInitForm()" icon="pi pi-plus"
                 class="p-button-success"></button>
               <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="GetAllAchats()"
                 class="p-button-secondary"></button>
@@ -111,7 +111,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let data of listAchats | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                    *ngFor="let data of listCommandes | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                     <td>{{ (this.offset + i)}}</td>
                     <td>{{data?.created_at}}</td>
                     <td (click)="copyData(data.transaction)" style="cursor: pointer">{{data?.transaction}}</td>
@@ -121,22 +121,24 @@
                     <td>{{pipeValue(data?.volume_data)}}</td>
                     <td>{{data.initiateur?.nom}} {{data.initiateur?.prenoms}}</td>
                     <td>
-                      <span [ngStyle]="{'font-size': '16px' }" class="badge"
-                        [class.badge-warning]="data.statut === 'en-attente'"
-                        [class.badge-danger]="data.statut !== 'en-attente'">
+                      <span [ngStyle]="{'font-size':'16px'}" class="badge"
+                        [class.badge-dark]="(data?.statut === treatmenEntente || data?.statut === treatmenAcquiter)"
+                        [class.badge-danger]="data?.statut === treatmenRejeter"
+                        [class.badge-warning]="data?.statut === treatmenCancel"
+                        [class.badge-info]="data?.statut === treatmenAccepter"
+                        [class.badge-success]="(data?.statut === stateCloture && data?.statut === treatmenAccepter)">
                         {{ data.statut }}
                       </span>
                     </td>
                     <td class="td-actions">
-                      <p-button icon="pi pi-eye" pTooltip="Facture" tooltipPosition="top"
-                        styleClass="p-button-outlined p-button-secondary"></p-button>
-                      <button [ngClass]="'p-button-danger'" pButton pRipple icon="pi pi-times" [pTooltip]="'Annuler'"
-                        (click)="handleCancel(data)" tooltipPosition="top">
+                      <!-- <p-button icon="pi pi-eye" pTooltip="Facture" tooltipPosition="top"
+                        styleClass="p-button-outlined p-button-secondary"></p-button> -->
+                      <button [ngClass]="'p-button-danger'" pButton pRipple icon="pi pi-times"
+                        [pTooltip]="(data?.statut === treatmenRejeter || data?.statut === treatmenAccepter) ?'': 'Annuler'"
+                        (click)="handleCancel(data)"
+                        [disabled]="data?.statut === treatmenRejeter || data?.statut === treatmenAccepter"
+                        tooltipPosition="top">
                       </button>
-                      <!-- <p-button icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" styleClass="p-button-dark"
-                        (click)="onShowForm(data)"></p-button> -->
-                      <p-button icon="pi pi-pencil" (click)="onEditCoomande(data)" pTooltip="Editer"
-                        tooltipPosition="top" styleClass="p-button-secondary"></p-button>
                       <p-button icon="pi pi-dollar" pTooltip="Solder" tooltipPosition="top"
                         styleClass="p-button-success" (click)="handleSolder(data)"></p-button>
                     </td>
@@ -150,7 +152,7 @@
             </div>
           </div>
           <app-commande-form [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
-            (listPatrimoines)="pushListPatrimoines($event)"></app-commande-form>
+            (listCommandes)="pushListDatas($event)"></app-commande-form>
         </div>
       </div>
     </div>

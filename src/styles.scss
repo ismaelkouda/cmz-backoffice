@@ -100,6 +100,12 @@
     width: max-content !important;
 }
 
+.pagination-controls {
+    nav {
+        margin-top: 0.5rem !important;
+    }
+}
+
 @font-face {
     font-family: FUTURA;
     src: url("./assets/fonts/FUTURA.otf");

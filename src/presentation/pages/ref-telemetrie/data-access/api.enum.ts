@@ -12,6 +12,6 @@ export const enum EndPointUrl {
     UPDATE_PROFIL_SUPERVISION = 'profil-supervision/profils/update',
     SAVE_AFFECTATION = 'profil-supervision/sims/affectation',
     SAVE_REAFFECTATION = 'profil-supervision/sims/reaffectation',
-    RETRAIT_SIM = 'profil-supervision/sims/retrait'
-
+    RETRAIT_SIM = 'profil-supervision/sims/retrait',
+    DEPLOYER = 'profil-supervision/referentiel-telemetriques/deploy'
 }

@@ -3,11 +3,10 @@
     <div>
       <h3>
         <b>
-          <span>Nouveau Achat</span>
+          <span>Nouvel Achat</span>
         </b>
       </h3>
     </div>
-    <div></div>
     <div class="forms-feature-header__button" style="display: flex;gap: 1.5rem;">
       <div>
         <p-button label="Panier Produits" icon="pi pi-shopping-cart" [badge]="totalProduct() || '0'"
@@ -20,22 +19,21 @@
   </div>
   <hr>
   <div class="product-container">
-
     <div *ngFor="let prod of listProducts" class="card_component" (click)="OnModal(prod,content)"
       [style]="{marginBottom: '10px',cursor: 'pointer'}">
-      <div class="card-body">
+      <div class="card-body" style="padding: 15px !important;">
         <div>
-          <div class="card_component__code">{{prod.code}}</div>
+          <div class="card_component__code">{{prod.code_produit}}</div>
         </div>
         <div class="card_component__picture">
           <span><img src="assets/images/unboxing.png" alt=""></span>
         </div>
         <div class="card_component__namePrice">
           <div>
-            <div class="card_component__namePrice--name">{{prod.nom}}</div>
+            <div class="card_component__namePrice--name">{{prod.libelle_produit}}</div>
           </div>
           <div>
-            <div class="card_component__namePrice--price">{{pipeValue(prod.prix)}} F</div>
+            <div class="card_component__namePrice--price">{{pipeValue(prod.prix_unitaire)}} F</div>
           </div>
         </div>
       </div>
@@ -60,7 +58,7 @@
   <div class="modal-body">
     <div class="form-group">
       <label><b>Quantité<span class="text-danger">*</span></b></label>
-      <input [(ngModel)]="currentItem.qty" type="number" pInputText />
+      <input [(ngModel)]="currentItem.qte" type="number" pInputText />
     </div>
   </div>
   <div class="modal-footer">
@@ -68,7 +66,7 @@
       <button type="button" class="btn btn-hide" (click)="hideModal()">Fermer</button>
     </div>
     <div>
-      <button type="button" class="btn btn-save" (click)="addToPanier(currentItem)">Valider</button>
+      <button type="button" class="btn btn-save" (click)="OnAddToPanier(currentItem)">Valider</button>
     </div>
   </div>
 </ng-template>
@@ -97,13 +95,13 @@
             <div class="panier-card__infos--nom">{{prod.nom}}</div>
           </div>
           <div class="panier-card__quantity">
-            <button [ngClass]="['decrement']" (click)="decrementButton(prod)" decrementButtonIcon="pi pi-minus"><i
+            <button [ngClass]="['decrement']" (click)="OnIecrementButton(prod)" decrementButtonIcon="pi pi-minus"><i
                 class="pi pi-minus"></i></button>
-            <span>{{prod.qty}}</span>
-            <button [ngClass]="['increment']" (click)="incrementButton(prod)"><i class="pi pi-plus"
+            <span>{{prod.qte}}</span>
+            <button [ngClass]="['increment']" (click)="OnIncrementButton(prod)"><i class="pi pi-plus"
                 incrementButtonClass="p-button-success"></i></button>
           </div>
-          <div class="panier-card__price">{{ pipeValue((prod.prix)*(prod.qty))}} F</div>
+          <div class="panier-card__price">{{ pipeValue((prod.prix_unitaire)*(prod.qte))}} F</div>
           <div class="panier-card__actions">
             <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Retirer" tooltipPosition="top"
               (click)="RemoveFromPanier(prod)"></p-button>
@@ -125,7 +123,8 @@
           </div>
         </div>
         <div class="actions">
-          <button pButton pRipple label="Valider la commande" icon="pi pi-shopping-cart" class="p-button-success">
+          <button pButton pRipple label="Valider la commande" icon="pi pi-shopping-cart" (click)="OnSaveCommande()"
+            class="p-button-success">
           </button>
         </div>
       </div>

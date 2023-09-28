@@ -1,3 +1,4 @@
+import { JournalComponent } from './components/journal/journal.component';
 import { SafePipe } from './pipes/safe.pipe';
 import { HistoriqueComponent } from './components/historique/historique.component';
 import { CommonModule } from "@angular/common";
@@ -9,6 +10,8 @@ import {
 } from '@angular/core'; import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
+import { NgxPaginationModule } from "ngx-pagination";
+
 // Components
 import { BreadcrumbComponent } from "./components/breadcrumb/breadcrumb.component";
 import { FooterComponent } from "./components/footer/footer.component";
@@ -53,6 +56,7 @@ import { DialogModule } from 'primeng/dialog';
     MyAccountComponent,
     SvgIconComponent,
     HistoriqueComponent,
+    JournalComponent,
     SafePipe,
     TableFilterPipe,
     TableFilterPipe
@@ -72,7 +76,8 @@ import { DialogModule } from 'primeng/dialog';
     DropdownModule,
     CalendarModule,
     TooltipModule,
-    DialogModule
+    DialogModule,
+    NgxPaginationModule
   ],
   providers: [NavService, LayoutService, DecimalPipe],
   exports: [
@@ -83,6 +88,7 @@ import { DialogModule } from 'primeng/dialog';
     LoaderComponent,
     BreadcrumbComponent,
     HistoriqueComponent,
+    JournalComponent,
     TapToTopComponent,
     SvgIconComponent,
     SwiperModule,

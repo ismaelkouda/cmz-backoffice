@@ -114,7 +114,7 @@ export class ProfilSupervisionComponent implements OnInit {
   public handleDisableProfil(data: any): void {
     Swal.fire({
       title: 'En êtes vous sûr ?',
-      html: `Voulez-vous Désactiver le profil <br> ${data.libelle} ?`,
+      html: `Voulez-vous Désactiver le profil <br> ${data.nom} ?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#569C5B',
@@ -152,6 +152,34 @@ export class ProfilSupervisionComponent implements OnInit {
       })
   }
 
+  public OnDeploy(data: any): void {
+    Swal.fire({
+      title: 'En êtes vous sûr ?',
+      html: `Voulez-vous Deployer le profil <br> ${data.nom} ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#569C5B',
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Oui',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.telemetrieService
+          .OnDeploy({
+            profil_supervision_id: data?.id
+          })
+          .subscribe({
+            next: (response) => {
+              this.toastrService.success(response.message);
+              this.GetAllProfilSupervision();
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
+      }
+    });
+  }
   public disableAction(): boolean {
     return this.listProfils?.length === 0 ? true : false
   }

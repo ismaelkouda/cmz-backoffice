@@ -70,4 +70,8 @@ export class TelemetrieService {
     const url: string = (<string>EndPointUrl.RETRAIT_SIM);
     return this.http.post(`${this.BASE_URL}${url}`, data);
   }
+  OnDeploy(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.DEPLOYER);
+    return this.http.post(`${this.BASE_URL}${url}`, data);
+  }
 }

@@ -13,6 +13,8 @@ import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
 
 // @ts-ignore
 import appConfig from '../../../../../assets/config/app-config.json';
+import { ClipboardService } from 'ngx-clipboard';
+import { Justificatif } from 'src/shared/enum/Justificatif.enum';
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -27,7 +29,7 @@ export class TraitementShowComponent implements OnInit {
   @Input() transaction;
   @Output() resultTraitement = new EventEmitter();
   public detailTransaction: any;
-  public fileUrl: string = appConfig.filUrl;
+  public fileUrl: string = appConfig.fileUrl;
   public filterTab: string;
   public operationLigneCredit: string = OperationTransaction.PROVISIONNING;
   public operationActivation: string = OperationTransaction.ACTIVATION
@@ -70,10 +72,13 @@ export class TraitementShowComponent implements OnInit {
     private supervisionOperationService: SupervisionOperationService,
     private settingService: SettingService,
     private patrimoineService: PatrimoineService,
+    private clipboardApi: ClipboardService
 
 
   ) {
-    this.listTypeJustificatif = ['cni', 'document', 'email', 'courier', 'autre'];
+    Object.values(Justificatif).forEach(item => {
+      this.listTypeJustificatif.push(item);
+    });
     this.listProducts = [
       {
         id: 1,
@@ -109,12 +114,14 @@ export class TraitementShowComponent implements OnInit {
     this.OnInitResiliationForm();
     this.OnInitSuspensionForm();
     this.OnInitActivationForm();
+    this.OnInitAchatForm();
     this.isAccepteForms();
     this.IsCancel();
     this.IsUpdate();
     this.IsCloture();
     this.IsReject();
     this.IsShow();
+    this.IsEmptyPanier()
     this.IsVerify();
   }
 
@@ -402,21 +409,52 @@ export class TraitementShowComponent implements OnInit {
   }
 
   /*@@@@@@@@@@@@@@@@@@@ Achat Form Controls @@@@@@@@@@@@@@@@@*/
-  OnInitLAchatForm() {
+  OnInitAchatForm() {
     this.achatForm = this.fb.group({
-      produits: [''],
-      statut: [''],
-      commentaire: ['']
+      detail_commande: [''],
+      commmande_produit_accepte: [''],
+      commmande_produit_accepte_comment: ['']
     })
   }
   OnShowAchatForm() {
-    this.achatForm.get('produits').patchValue([]);
-    this.achatForm.get('statut').patchValue('non');
-    this.achatForm.get('commentaire').patchValue('Mon commentaire');
-    this.achatForm.disable();
-    this.achatForm.get('commentaire').enable();
-    this.achatForm.get('statut').enable();
+    this.achatForm.get('commmande_produit_accepte').patchValue(this.detailTransaction?.commmande_produit_accepte);
+    this.achatForm.get('commmande_produit_accepte_comment').patchValue(this.detailTransaction?.commmande_produit_accepte_comment);
   }
+
+  IsEmptyPanier(): any {
+    console.log("this.detailTransaction?.detail_commande?.length", this.detailTransaction?.detail_commande?.length);
+
+    if (this.detailTransaction?.detail_commande?.length === 0) {
+      return this.GetAllTransactions()
+    }
+  }
+  OnIncrementButton(data: any) {
+    let findProduct = this.detailTransaction?.detail_commande.find((it) => it.id === data.id);
+    if (findProduct === undefined) {
+      this.detailTransaction?.detail_commande.push(data);
+    } else {
+      findProduct.quantite += 1;
+    }
+  }
+  OnDecrementButton(data: any) {
+    if (data.quantite <= 1) {
+      return;
+    } else {
+      data.quantite -= 1;
+    }
+  }
+  RemoveFromPanier(data: any) {
+    this.detailTransaction?.detail_commande.forEach((value, index) => {
+      if (value == data) {
+        this.detailTransaction?.detail_commande.splice(index, 1);
+      }
+      const sliceProduct = this.listProducts[index];
+      if (this.detailTransaction?.detail_commande?.length === 0) {
+        this.OnCancelTransaction();
+      }
+    });
+  }
+
   public GetFirstLevel() {
     this.settingService
       .getAllDirectionRegionales({})
@@ -503,10 +541,10 @@ export class TraitementShowComponent implements OnInit {
     ) ? false : true
   }
   public IsCancel(): boolean {
-    return ((this.transaction?.statut === StatutTransaction.SOUMIS && this.transaction?.traitement === TraitementTransaction.EN_ENTENTE)) ? true : false
+    return ((this.transaction?.statut === StatutTransaction.SOUMIS && (this.transaction?.traitement === TraitementTransaction.EN_ENTENTE || this.transaction?.traitement === TraitementTransaction.ACQUITER))) ? true : false
   }
   public IsUpdate(): boolean {
-    return ((this.transaction?.statut === StatutTransaction.SOUMIS && this.transaction?.traitement === TraitementTransaction.EN_ENTENTE)
+    return ((this.transaction?.statut === StatutTransaction.SOUMIS && (this.transaction?.traitement === TraitementTransaction.EN_ENTENTE || this.transaction?.traitement === TraitementTransaction.ACQUITER))
       || (this.transaction?.statut === StatutTransaction.TARITER && this.transaction?.traitement === TraitementTransaction.REJETER)
     ) ? true : false
   }
@@ -584,22 +622,28 @@ export class TraitementShowComponent implements OnInit {
           this.ligneForm.patchValue({
             justificatif: this.currentFile,
           })
+        } else if (this.transaction?.operation === OperationTransaction.ACHAT_SERVICE) {
+          this.achatForm.patchValue({
+            detail_commande: this.detailTransaction?.detail_commande
+          })
         }
         const data = {
           ...(
             this.transaction?.operation === OperationTransaction.PROVISIONNING
               ? this.ligneForm.value :
-              this.transaction?.operation === OperationTransaction.VOLUME_DATA
-                ? this.volumeForm.value :
-                this.transaction?.operation === OperationTransaction.SWAP
-                  ? this.swapForm.value :
-                  this.transaction?.operation === OperationTransaction.RESILIATION
-                    ? this.resiliationForm.value :
-                    this.transaction?.operation === OperationTransaction.SUSPENSION
-                      ? this.suspensionForm.value :
-                      this.transaction?.operation === OperationTransaction.ACTIVATION
-                        ? this.activationForm.value :
-                        this.achatForm.value
+              this.transaction?.operation === OperationTransaction.ACHAT_SERVICE
+                ? this.achatForm.value :
+                this.transaction?.operation === OperationTransaction.VOLUME_DATA
+                  ? this.volumeForm.value :
+                  this.transaction?.operation === OperationTransaction.SWAP
+                    ? this.swapForm.value :
+                    this.transaction?.operation === OperationTransaction.RESILIATION
+                      ? this.resiliationForm.value :
+                      this.transaction?.operation === OperationTransaction.SUSPENSION
+                        ? this.suspensionForm.value :
+                        this.transaction?.operation === OperationTransaction.ACTIVATION
+                          ? this.activationForm.value :
+                          this.achatForm.value
           ),
           transaction: this.transaction?.transaction,
           operation: this.transaction.operation,
@@ -682,7 +726,10 @@ export class TraitementShowComponent implements OnInit {
       }
     });
   }
-
+  public copyTransaction(data: any): void {
+    this.toastrService.success('Copié dans le presse papier');
+    this.clipboardApi.copyFromContent(data);
+  }
   public handleCloseModal(): void {
     this.GetAllTransactions()
   }

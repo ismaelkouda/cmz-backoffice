@@ -6,6 +6,8 @@ import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum'
 import { ClipboardService } from 'ngx-clipboard';
 import { ActivatedRoute } from '@angular/router';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { JournalComponent } from 'src/shared/components/journal/journal.component';
 
 @Component({
   selector: 'app-transaction-sim',
@@ -42,6 +44,7 @@ export class TransactionSimComponent implements OnInit {
     public patrimoineService: PatrimoineService,
     public toastrService: ToastrService,
     private clipboardApi: ClipboardService,
+    private modalService: NgbModal,
     private route: ActivatedRoute
 
   ) {
@@ -107,8 +110,15 @@ export class TransactionSimComponent implements OnInit {
         }
       })
   }
-  showJournal(content, data: any) {
-    // this.modalService.open(content);
+  showJournal(data: Object): void {
+    const modalRef = this.modalService.open(JournalComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });
+    modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.type = data['ouvrage'];
   }
 
   copyData(data: any): void {
@@ -126,6 +136,11 @@ export class TransactionSimComponent implements OnInit {
     this.initialView = false;
     this.formsView = true;
     this.currentObject = undefined;
+  }
+  public onHistorique(data): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = data;
   }
   public pushStatutView(event: boolean): void {
     this.formsView = event;

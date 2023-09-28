@@ -1,7 +1,8 @@
 <div class="modal-content">
   <div class="modal-header" style="background-color:#569c5b;color:#fff;cursor: all-scroll;padding: 0.2rem 1rem;">
     <h4 class="modal-title pl-3">
-      Détails <strong>[{{transaction?.transaction}}]</strong>
+      Détails <strong class="cursor-pointer text-center"
+        (click)="copyTransaction(transaction.transaction)">[{{transaction?.transaction}}]</strong>
     </h4>
     <button type="button" class="close" (click)="handleCloseModal()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -22,7 +23,7 @@
           <li style="cursor: pointer;font-size:15px;"
             [ngClass]="filterTab === 'first-item' ? 'active' : 'bg_light_green'" (click)="filterItem('first-item')"
             class="list-group-item cursor-pointer">
-            Information de Transaction
+            Information de soumission
           </li>
         </ul>
         <ul class="list-group pl-3" *ngIf="transaction?.rapport?.ouvrage === operationActivation">
@@ -51,7 +52,7 @@
               <strong>Tenant</strong>
             </legend>
             <span class="mb-0 fs__15"><strong> Code
-                equipe&nbsp;:&nbsp;</strong></span><span class="card-value">{{transaction?.agent?.equipe.code ??
+                utilisateur&nbsp;:&nbsp;</strong></span><span class="card-value">{{transaction?.agent?.equipe.code ??
               "N/A"}}</span><br><br>
             <span class="mb-0 fs__15"><strong> Equipe&nbsp;:&nbsp;
               </strong></span><span class="card-value">{{transaction?.agent?.equipe.nom ?? "N/A"}}</span><br><br>
@@ -178,40 +179,6 @@
                 </div>
               </div>
             </fieldset>
-            <!----
-            <br>
-            <fieldset *ngIf="!IsCloture()">
-              <legend>
-                <strong>Acceptation</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input formControlName="provisionning_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input formControlName="provisionning_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="provisionning_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                            </textarea>
-                </div>
-              </div>
-            </fieldset>
-            -->
           </div>
         </div>
         <!--------------DEPOT----------VOLUME------------FORMS----------------->
@@ -305,39 +272,6 @@
                 </div>
               </div>
             </fieldset>
-            <!---
-            <fieldset *ngIf="!IsCloture()">
-              <legend>
-                <strong>Acceptation</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input formControlName="volume_data_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input formControlName="volume_data_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="volume_data_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                          </textarea>
-                </div>
-              </div>
-            </fieldset>
-          -->
           </div>
         </div>
         <!--------------CHANGEMENT------------FORMS----------------->
@@ -419,39 +353,6 @@
                 </div>
               </div>
             </fieldset>
-            <!--
-            <fieldset *ngIf="!IsCloture()">
-              <legend>
-                <strong>Acceptation</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input formControlName="swap_accepte" class="form-check-input" type="radio" name="infosLigne"
-                          value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input formControlName="swap_accepte" class="form-check-input" type="radio" name="infosLigne"
-                          value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="swap_accepte_comment" class="form-control" rows="2"
-                    style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                                  </textarea>
-                </div>
-              </div>
-            </fieldset>
-          -->
           </div>
         </div>
         <!--------------RESILIATION------------FORMS----------------->
@@ -524,39 +425,6 @@
                 </div>
               </div>
             </fieldset>
-            <!---
-            <fieldset *ngIf="!IsCloture()">
-              <legend>
-                <strong>Acceptation</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input formControlName="resiliation_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input formControlName="resiliation_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="resiliation_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
-                </div>
-              </div>
-            </fieldset>
-          -->
           </div>
         </div>
         <!--------------SUSPENSION------------FORMS----------------->
@@ -629,39 +497,6 @@
                 </div>
               </div>
             </fieldset>
-            <!--
-            <fieldset *ngIf="!IsCloture()">
-              <legend>
-                <strong>Acceptation</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input formControlName="suspension_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input formControlName="suspension_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="suspension_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
-                </div>
-              </div>
-            </fieldset>
-          -->
           </div>
         </div>
         <!-------------ACTIVATION--------------FORMS--------------------------->
@@ -808,123 +643,39 @@
                 </div>
               </div>
             </fieldset>
-            <!--
-            <fieldset *ngIf="!IsCloture()">
-              <legend>
-                <strong>Acceptation</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input formControlName="activation_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input formControlName="activation_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="activation_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
-                </div>
-              </div>
-            </fieldset>
-          -->
           </div>
         </div>
-        <div *ngIf="transaction?.rapport?.ouvrage === OperationAchat">
+        <div *ngIf="transaction?.operation === OperationAchat">
           <div [hidden]="filterTab !== 'first-item'">
             <fieldset>
               <legend>
                 <strong>Information de Transaction</strong>
               </legend>
-              <div class="row" *ngFor="let item of listProducts">
-                <div class="col-md-1 mt-4">
-                  <div class="form-group">
-                    <span><img src="assets/images/unboxing.png" style="height: 50px;width: 100px;" alt=""></span>
-                  </div>
+              <div class="panier-card" *ngFor="let prod of detailTransaction?.detail_commande">
+                <div class="panier-card__file">
+                  <img src="assets/images/unboxing.png" alt="">
                 </div>
-                <div style="width: 22rem;">
-                  <div class="form-group">
-                    <label>
-                      <b>Nom Produit</b>
-                    </label>
-                    <input type="text" [(ngModel)]="item.nom" [disabled]="true" placeholder="montant" pInputText />
-                  </div>
+                <div class="panier-card__infos">
+                  <div class="panier-card__infos--code">{{prod.code_produit}}</div>
+                  <div class="panier-card__infos--nom">{{prod.nom_produit}}</div>
                 </div>
-                <div style="width: 22rem;">
-                  <div class="form-group">
-                    <label>
-                      <b>Prix Unitaire</b>
-                    </label>
-                    <input type="number" [(ngModel)]="item.prix" [disabled]="true" placeholder="montant" pInputText />
-                  </div>
+                <div class="panier-card__quantity">
+                  <button [ngClass]="['decrement']" [disabled]="this.IsShow() || this.IsCloture()"
+                    (click)="OnDecrementButton(prod)" decrementButtonIcon="pi pi-minus"><i
+                      class="pi pi-minus"></i></button>
+                  <span>{{prod.quantite}}</span>
+                  <button [ngClass]="['increment']" [disabled]="this.IsShow() || this.IsCloture()"
+                    (click)="OnIncrementButton(prod)"><i class="pi pi-plus"
+                      incrementButtonClass="p-button-success"></i></button>
                 </div>
-                <div style="width: 22rem;">
-                  <div class="form-group">
-                    <label>
-                      <b>Quantité</b>
-                    </label>
-                    <input type="number" [(ngModel)]="item.qty" [disabled]="true" placeholder="montant" pInputText />
-                  </div>
-                </div>
-                <div style="width: 22rem;">
-                  <div class="form-group">
-                    <label>
-                      <b>Prix Total</b>
-                    </label>
-                    <input type="number" [(ngModel)]="item.prix*item.qty" [disabled]="true" placeholder="montant"
-                      pInputText>
-                  </div>
+                <div class="panier-card__price">{{ pipeValue((prod.montant_ht)*(prod.quantite))}} F</div>
+                <div class="panier-card__actions">
+                  <button pButton pRipple icon="pi pi-trash" [disabled]="this.IsShow() || this.IsCloture()"
+                    class="p-button-danger" pTooltip="Retirer" tooltipPosition="top"
+                    (click)="RemoveFromPanier(prod)"></button>
                 </div>
               </div>
             </fieldset>
-            <!--
-            <fieldset>
-              <legend>
-                <strong>Acceptation</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Clôturé ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input [checked]="transaction.rapport?.statut === 'oui'"
-                          (change)="isAccepteForms($event, 'statut')" class="form-check-input" type="radio"
-                          name="infosLigne" value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input [checked]="transaction.rapport?.statut === 'non'"
-                          (change)="isAccepteForms($event, 'statut')" class="form-check-input" type="radio"
-                          name="infosLigne" value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" class="form-control" rows="2" style="width:100%;margin-top:0%;"
-                    placeholder="Entrer un commentaire">
-                            </textarea>
-                </div>
-              </div>
-            </fieldset>
-          -->
           </div>
         </div>
         <div *ngIf="IsCloture()">

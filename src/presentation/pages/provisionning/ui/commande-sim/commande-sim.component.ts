@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
+import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 const Swal = require('sweetalert2');
 
@@ -18,7 +19,7 @@ export class CommandeSimComponent implements OnInit {
   public formsView: boolean = false;
   public currentObject: any;
   public listTypeSims: Array<any> = [];
-  public listAchats: any;
+  public listCommandes: Array<any> = [];
   public selectedTranaction: string;
   public selectedReference: string;
   public selectedImsi: string;
@@ -32,6 +33,11 @@ export class CommandeSimComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
+  public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
+  public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
+  public treatmenRejeter: string = TraitementTransaction.REJETER;
+  public treatmenCancel: string = TraitementTransaction.ABANDONNER;
 
   public creditDisponible: number = 0;
   public achatByyear: number = 0;
@@ -67,7 +73,7 @@ export class CommandeSimComponent implements OnInit {
       .GetAllAchats({}, this.p)
       .subscribe({
         next: (response) => {
-          this.listAchats = response.data;
+          this.listCommandes = response['data'];
           this.totalPage = response.last_page;
           this.totalRecords = response.total;
           this.recordsPerPage = response.per_page;
@@ -95,7 +101,7 @@ export class CommandeSimComponent implements OnInit {
       }, this.p)
       .subscribe({
         next: (response) => {
-          this.listAchats = response.data;
+          this.listCommandes = response['data'];
           this.totalPage = response.last_page;
           this.totalRecords = response.total;
           this.recordsPerPage = response.per_page;
@@ -106,7 +112,6 @@ export class CommandeSimComponent implements OnInit {
         }
       })
   }
-
 
   public OnStatAchat() {
     this.provisionningService
@@ -129,19 +134,6 @@ export class CommandeSimComponent implements OnInit {
     this.toastService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
-  public GenerateNumeroCommande() {
-    this.provisionningService
-      .GenerateNumeroCommande()
-      .subscribe({
-        next: (response) => {
-          this.storage.saveData('numero_commande', response['data']);
-          this.onInitForm();
-        },
-        error: (error) => {
-          this.toastService.error(error.error.message);
-        }
-      })
-  }
   public onPageChange(event) {
     this.p = event;
     if (this.isFilter()) {
@@ -151,15 +143,14 @@ export class CommandeSimComponent implements OnInit {
     }
   }
 
+  public handleCancel() {
+
+  }
+
   public onInitForm(): void {
     this.initialView = false;
     this.formsView = true;
     this.currentObject = undefined;
-  }
-  public onEditCoomande(data) {
-    // this.initialView = false;
-    // this.formsView = true;
-    // this.currentObject = data;
   }
   public onShowForm(data: any): void {
     this.initialView = false;
@@ -169,36 +160,9 @@ export class CommandeSimComponent implements OnInit {
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;
-    if (this.initialView === true) {
-      this.GetAllAchats()
-    }
   }
-
-  public handleCancel(data: any): void {
-    Swal.fire({
-      title: 'En êtes vous sûr ?',
-      html: `Voulez-vous Annuler le produit <br> ${data.transaction} ?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#569C5B',
-      cancelButtonColor: '#dc3545',
-      cancelButtonText: 'Annuler',
-      confirmButtonText: 'Oui',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // this.telemetrieService
-        //   .handleActivateProfil(data.id)
-        //   .subscribe({
-        //     next: (response) => {
-        //       this.toastrService.success(response.message);
-        //       this.GetAllProfilSupervision();
-        //     },
-        //     error: (error) => {
-        //       this.toastrService.error(error.error.message);
-        //     }
-        //   })
-      }
-    });
+  public pushListDatas(event: any): void {
+    this.listCommandes = event;
   }
   public handleSolder(data: any): void {
     Swal.fire({
