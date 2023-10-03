@@ -55,9 +55,7 @@ export class HistoriqueComponent implements OnInit {
   }
 
   showHistorique(data: any) {
-    console.log("data", data.data);
-
-    this.currentEventParse = JSON.parse(data.data);
+    this.currentEventParse = JSON.parse(data?.data);    
     Object.values(this.currentEventParse?.before).map((value, i) => {
       this.currentEventParseBeforeValues.push(value);
       this.currentEventParseBeforeKeys.push(Object.keys(this.currentEventParse?.before)[i]);
@@ -125,11 +123,6 @@ export class HistoriqueComponent implements OnInit {
       );
   }
 
-  showMap(data) {
-    this.currentEvent = data;
-    this.display = true;
-    this.onDialogMaximized(true);
-  }
 
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);

@@ -133,14 +133,14 @@
                     <td class="td-actions">
                       <!-- <p-button icon="pi pi-eye" pTooltip="Facture" tooltipPosition="top"
                         styleClass="p-button-outlined p-button-secondary"></p-button> -->
-                      <button [ngClass]="'p-button-danger'" pButton pRipple icon="pi pi-times"
+                      <!-- <button [ngClass]="'p-button-danger'" pButton pRipple icon="pi pi-times"
                         [pTooltip]="(data?.statut === treatmenRejeter || data?.statut === treatmenAccepter) ?'': 'Annuler'"
                         (click)="handleCancel(data)"
                         [disabled]="data?.statut === treatmenRejeter || data?.statut === treatmenAccepter"
                         tooltipPosition="top">
-                      </button>
-                      <p-button icon="pi pi-dollar" pTooltip="Solder" tooltipPosition="top"
-                        styleClass="p-button-success" (click)="handleSolder(data)"></p-button>
+                      </button> -->
+                      <button pButton pRipple label="Payer"  pTooltip="Solder" tooltipPosition="top"
+                        class="p-button-success" (click)="handleSolder(data)"></button>
                     </td>
                   </tr>
                 </tbody>

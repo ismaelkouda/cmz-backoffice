@@ -126,7 +126,7 @@ export class CommandeFormComponent implements OnInit {
       panierIdList.push(element?.id)
     });
     if (!panierIdList.includes(item?.id)) {
-      this.currentItem = { ...item, qte: 1 };
+      this.currentItem = { ...item, quantite: 1 };
     } else {
       this.currentItem = item;
     }
@@ -140,7 +140,7 @@ export class CommandeFormComponent implements OnInit {
     if (findProduct === undefined) {
       this.panierList.push(data);
     } else {
-      findProduct.qte = this.currentItem?.qte;
+      findProduct.quantite = this.currentItem?.quantite;
     }
     this.hideModal()
   }
@@ -149,14 +149,14 @@ export class CommandeFormComponent implements OnInit {
     if (findProduct === undefined) {
       this.panierList.push(data);
     } else {
-      findProduct.qte += 1;
+      findProduct.quantite += 1;
     }
   }
   OnIecrementButton(data: any) {
-    if (data.qte <= 1) {
+    if (data.quantite <= 1) {
       return;
     } else {
-      data.qte -= 1;
+      data.quantite -= 1;
     }
   }
   RemoveFromPanier(data: any) {
@@ -173,7 +173,7 @@ export class CommandeFormComponent implements OnInit {
   totalProduct() {
     var totale = 0;
     this.panierList.forEach((item: any) => {
-      totale += item.qte;
+      totale += item.quantite;
     });
     return totale;
   }
@@ -181,7 +181,7 @@ export class CommandeFormComponent implements OnInit {
   totalPrice() {
     var total = 0;
     this.panierList.forEach((item: any) => {
-      total += item.prix_unitaire * item.qte;
+      total += item.prix_unitaire * item.quantite;
     });
     return total;
   }

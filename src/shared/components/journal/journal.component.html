@@ -12,9 +12,9 @@
           <thead>
             <th>#</th>
             <th>Date/Heure</th>
-            <th>Type opération</th>
+            <th>Opération</th>
             <th>Description</th>
-            <th>#Elements concernés</th>
+            <th><span>#Elements</span><span>concernés</span></th>
           </thead>
           <tbody>
             <tr *ngFor="let journal of listJournal | paginate: { itemsPerPage: 8, currentPage: p }; let i = index;">

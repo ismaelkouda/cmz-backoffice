@@ -19,6 +19,8 @@ export class JournalComponent implements OnInit {
   public totalRecords: 0;
   public recordsPerPage: 0;
   public offset: any;
+
+
   public p: number = 1;
 
   constructor(

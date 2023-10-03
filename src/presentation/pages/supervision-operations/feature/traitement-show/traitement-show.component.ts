@@ -79,29 +79,6 @@ export class TraitementShowComponent implements OnInit {
     Object.values(Justificatif).forEach(item => {
       this.listTypeJustificatif.push(item);
     });
-    this.listProducts = [
-      {
-        id: 1,
-        nom: 'product A',
-        prix: 1000,
-        code: 'IMA-05A',
-        qty: 30
-      },
-      {
-        id: 2,
-        nom: 'product B',
-        prix: 20000,
-        code: 'IMA-05B',
-        qty: 50
-      },
-      {
-        id: 3,
-        nom: 'product C',
-        prix: 5000,
-        code: 'IMA-05C',
-        qty: 40
-      },
-    ]
   }
 
   ngOnInit() {
@@ -187,8 +164,8 @@ export class TraitementShowComponent implements OnInit {
       case OperationTransaction.VOLUME_DATA: {
         return this.volumeForm.get('volume_data_accepte_comment').value;
       }
-      case OperationTransaction.ACHAT_SERVICE: {
-        return this.ligneForm.get('provisionning_accepte_comment').value;
+      case OperationTransaction.ACHAT_SERVICE: {        
+        return this.achatForm.get('commmande_produit_accepte_comment').value;
       }
       case OperationTransaction.PROVISIONNING: {
         return this.ligneForm.get('provisionning_accepte_comment').value;
@@ -417,8 +394,8 @@ export class TraitementShowComponent implements OnInit {
     })
   }
   OnShowAchatForm() {
-    this.achatForm.get('commmande_produit_accepte').patchValue(this.detailTransaction?.commmande_produit_accepte);
-    this.achatForm.get('commmande_produit_accepte_comment').patchValue(this.detailTransaction?.commmande_produit_accepte_comment);
+    this.achatForm.get('commmande_produit_accepte').patchValue(this.detailTransaction?.rapport?.commmande_produit_accepte);
+    this.achatForm.get('commmande_produit_accepte_comment').patchValue(this.detailTransaction?.rapport?.commmande_produit_accepte_comment);
   }
 
   IsEmptyPanier(): any {

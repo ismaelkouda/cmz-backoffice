@@ -146,11 +146,9 @@ export class TransactionSimComponent implements OnInit {
     this.formsView = event;
     this.initialView = !event;
   }
-
   public pushListTransactions(event: any): void {
     this.listTransactions = event;
   }
-
   disableAction(): boolean {
     return null;
   }

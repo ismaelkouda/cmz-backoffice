@@ -1,7 +1,7 @@
 export const enum EndPointUrl {
     GET_ALL_USERS = 'users/all',
     GET_ALL_HISTORIQUE = 'historiques',
-    GET_ALL_JOURNAL = 'journaux',
+    GET_ALL_JOURNAL = 'gestion-transactions/journal-evenements',
     GET_ALL_YEAR = 'gestion-campagnes/annees/all',
 
     //First Level EndPoints

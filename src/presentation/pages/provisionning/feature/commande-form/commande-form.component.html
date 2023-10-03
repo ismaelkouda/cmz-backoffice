@@ -58,7 +58,7 @@
   <div class="modal-body">
     <div class="form-group">
       <label><b>Quantité<span class="text-danger">*</span></b></label>
-      <input [(ngModel)]="currentItem.qte" type="number" pInputText />
+      <input [(ngModel)]="currentItem.quantite" type="number" pInputText />
     </div>
   </div>
   <div class="modal-footer">
@@ -97,11 +97,11 @@
           <div class="panier-card__quantity">
             <button [ngClass]="['decrement']" (click)="OnIecrementButton(prod)" decrementButtonIcon="pi pi-minus"><i
                 class="pi pi-minus"></i></button>
-            <span>{{prod.qte}}</span>
+            <span>{{prod.quantite}}</span>
             <button [ngClass]="['increment']" (click)="OnIncrementButton(prod)"><i class="pi pi-plus"
                 incrementButtonClass="p-button-success"></i></button>
           </div>
-          <div class="panier-card__price">{{ pipeValue((prod.prix_unitaire)*(prod.qte))}} F</div>
+          <div class="panier-card__price">{{ pipeValue((prod.prix_unitaire)*(prod.quantite))}} F</div>
           <div class="panier-card__actions">
             <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Retirer" tooltipPosition="top"
               (click)="RemoveFromPanier(prod)"></p-button>

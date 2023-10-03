@@ -93,10 +93,6 @@
         :(!detailTransaction?.rapport?.code.includes('100') || !detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapportDifferentTo100' : '']"
           role="alert">
           <strong [innerHTML]="detailTransaction?.rapport?.message"></strong>
-          <!-- <span class="ms-2"
-            *ngIf="this.transaction?.statut === 'cloturé' && this.transaction?.traitement === 'accepté'">
-            <img [src]="mappingNotation(detailTransaction?.rapport?.notation_cloture)" width="22" alt="">
-          </span> -->
         </div>
         <div *ngIf="this.transaction.traitement !== 'abandonné'">
           <div *ngIf="
