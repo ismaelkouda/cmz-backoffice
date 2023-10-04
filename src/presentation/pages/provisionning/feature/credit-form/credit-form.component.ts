@@ -86,11 +86,6 @@ export class CreditFormComponent implements OnInit {
       justificatif: this.selectedJustificatif
     })
     const formdata = formDataBuilder(this.creditForm.value);
-
-    console.log("this.creditForm.value", this.creditForm.value);
-    console.log("formdata", formdata);
-
-
     this.provisionningService.
       OnSaveCredit(formdata)
       .subscribe({

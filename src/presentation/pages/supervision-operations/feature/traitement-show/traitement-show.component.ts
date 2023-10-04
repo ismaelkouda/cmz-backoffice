@@ -100,6 +100,9 @@ export class TraitementShowComponent implements OnInit {
     this.IsShow();
     this.IsEmptyPanier()
     this.IsVerify();
+    this.IsContentSim()
+    this.IsProvisionningTransaction()
+    this.IsAchatTransaction()    
   }
 
   public GetDetailTransaction() {
@@ -505,8 +508,23 @@ export class TraitementShowComponent implements OnInit {
       }
     }
   }
-
-
+  public IsContentSim(): boolean {
+    return (
+      this.transaction?.operation === OperationTransaction.ACTIVATION  ||
+      this.transaction?.operation === OperationTransaction.RESILIATION ||
+      this.transaction?.operation === OperationTransaction.SUSPENSION ||
+      this.transaction?.operation === OperationTransaction.SWAP ||
+      this.transaction?.operation === OperationTransaction.VOLUME_DATA 
+    ) ? true : false
+  }
+  public IsProvisionningTransaction(): boolean {
+    return (
+      this.transaction?.operation === OperationTransaction.PROVISIONNING) ? true : false
+  }
+  public IsAchatTransaction(): boolean {
+    return (
+      this.transaction?.operation === OperationTransaction.ACHAT_SERVICE) ? true : false
+  }
   public isAccepteForms(): boolean {
     return (
       this.detailTransaction?.rapport?.provisionning_accepte === 'oui' ||

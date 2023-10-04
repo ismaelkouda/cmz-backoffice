@@ -78,7 +78,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    *ngFor="let data of listGroupes | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                    *ngFor="let data of listDotations | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                     <td>{{ (this.offset + i)}}</td>
                     <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
                     <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data.msisdn}}</td>

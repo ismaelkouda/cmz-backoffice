@@ -55,6 +55,7 @@ export class HistoriqueComponent implements OnInit {
   }
 
   showHistorique(data: any) {
+    console.log("data",data);
     this.currentEventParse = JSON.parse(data?.data);    
     Object.values(this.currentEventParse?.before).map((value, i) => {
       this.currentEventParseBeforeValues.push(value);
@@ -89,6 +90,7 @@ export class HistoriqueComponent implements OnInit {
           this.toastService.error(error.message);
         }
       );
+
   }
   getAllHistoriques() {
     const data = {
