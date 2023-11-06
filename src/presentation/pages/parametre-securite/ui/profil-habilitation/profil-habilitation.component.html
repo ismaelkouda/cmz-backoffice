@@ -11,7 +11,7 @@
                   <label>
                     <b>Profil</b>
                   </label>
-                  <input placeholder="Saisir le profil" [(ngModel)]="selectedProfil" type="text" pInputText />
+                  <input placeholder="nom profil" [(ngModel)]="selectedProfil" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-1">
@@ -23,7 +23,7 @@
             <div class="table_actions_wrapper">
               <button pButton pRipple label="Ajout de profil" icon="pi pi-plus" (click)="onInitForm()"
                 class="p-button-success"></button>
-              <button pButton pRipple label="Rafraichir" (click)="GetAllProfilHabilitations()" icon="pi pi-refresh"
+              <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
                 class="p-button-secondary"></button>
             </div>
             <div class="table_content_wrapper">
@@ -61,14 +61,14 @@
                 <ng-template let-i="rowIndex" pTemplate="body" let-data>
                   <tr>
                     <td class="text-center">{{ i + 1 }}</td>
-                    <td>{{data?.nom}}</td>
+                    <td (click)="copyData(data.nom)" style="cursor: pointer">{{data?.nom}}</td>
                     <td>{{data?.description}}</td>
                     <td>{{data?.created_at}}</td>
                     <td>{{data?.updated_at}}</td>
                     <td class="text-center">
                       <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
                         label="Visualiser ({{data.users_count}})" class="p-button" (click)="onViewVisualisation(data)"
-                        [disabled]="data.users_count === 0"></button>
+                        [disabled]="data.users_count === 0 || data.statut === 'inactif'"></button>
                     </td>
                     <td class="text-center">
                       <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
@@ -77,19 +77,19 @@
                       </span>
                     </td>
                     <td class="td-actions">
-                      <p-button icon="pi pi-pencil" styleClass="p-button-secondary" pTooltip="Editer"
-                        tooltipPosition="top" (click)="onEditForm(data)"></p-button>
-                      <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
-                              " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
-                              ? 'Désactiver'
-                              : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
-                              ? handleDisableProfil(data)
-                              : handleActivateProfil(data)">
+                      <button pButton pRipple icon="pi pi-pencil" [disabled]="data.statut === 'inactif'" class="p-button-secondary" pTooltip="Editer"
+                        tooltipPosition="top" (click)="onEditForm(data)"></button>
+                        <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
+                        " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
+                        ? 'Désactiver'
+                        : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
+                        ? handleDisableProfil(data)
+                        : handleActivateProfil(data)">
                       </button>
-                      <p-button icon="pi pi-arrow-right" (click)="onViewAffection(data)" styleClass="p-button-dark"
-                        pTooltip="Affecter" tooltipPosition="top"></p-button>
-                      <p-button icon="pi pi-trash" (click)="handleleteProfilHabilitation(data)"
-                        styleClass="p-button-danger" pTooltip="Supprimer" tooltipPosition="top"></p-button>
+                      <button pButton pRipple icon="pi pi-arrow-right" [disabled]="data.statut === 'inactif'" (click)="onViewAffection(data)" class="p-button-dark"
+                        pTooltip="Affecter" tooltipPosition="top"></button>
+                      <button pButton pRipple icon="pi pi-trash" [disabled]="data.statut === 'inactif'" (click)="handleleteProfilHabilitation(data)"
+                        class="p-button-danger" pTooltip="Supprimer" tooltipPosition="top"></button>
                     </td>
                   </tr>
                 </ng-template>

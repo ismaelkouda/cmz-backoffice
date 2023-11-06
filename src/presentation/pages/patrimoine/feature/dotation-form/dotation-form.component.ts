@@ -3,6 +3,8 @@ import { environment } from 'src/environments/environment.prod';
 import { ServiceEnum } from 'src/shared/enum/Service.enum';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { ToastrService } from 'ngx-toastr';
+import { MappingService } from 'src/shared/services/mapping.service';
+import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
 
 @Component({
   selector: 'app-dotation-form',
@@ -12,29 +14,40 @@ import { ToastrService } from 'ngx-toastr';
 export class DotationFormComponent implements OnInit {
 
   @Input() currentObject;
-  @Output() listPatrimoines = new EventEmitter();
+  @Output() listDotations = new EventEmitter();
   @Output() formsView = new EventEmitter();
-  public listGroupes: Array<any> = []
+
+  public listGroupes:  Array<any> = []
+  public soldeGlobal: string;
   public radioValue: string = 'IMSI';
   public selectedValue: any;
   public currentPatrimoine: any = {};
-  public selectedService: string = ServiceEnum.AIRTIME;
+  public selectedService: string = ServiceEnum.DATA;
   public airtimeService: string = ServiceEnum.AIRTIME;
   public dataService: string = ServiceEnum.DATA;
   public selectedDescription: string;
+  public selectedVolume: number
+  public currentGroupe: any = {};
+  public simArray: Array<any> = []
+  public selectedGroupe: any;
   public siteKey: string;
   public currentRecaptcha: string;
 
   constructor(
     private patrimoineService: PatrimoineService,
-    private toastrService: ToastrService
-
-  ) { }
+    private toastrService: ToastrService,
+    private mappingService: MappingService,
+    private provisionningService: ProvisionningService
+  ) {
+   }
 
   ngOnInit() {
     this.siteKey = environment.recaptcha.siteKey;
     this.GetAllGroupes()
-
+    this.isFilter()    
+    this.IsValidate()
+    this.OnRefreshValues()
+    
   }
   public GetAllGroupes(): void {
     this.patrimoineService
@@ -48,23 +61,110 @@ export class DotationFormComponent implements OnInit {
         }
       })
   }
+
   public close(): void {
     this.formsView.emit(false);
   }
+  public GetAllDotations() {
+    this.patrimoineService
+      .GetAllDotations({},1)
+      .subscribe({
+        next: (response) => {
+          this.listDotations.emit(response['data']['data']);
+          this.close();
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+
+  OnRefreshValues(){
+    this.mappingService.volumeDataGlobal$.subscribe((res: any) => {
+      this.soldeGlobal = res
+    });
+  }
+
+  public onVerifyImsi() {
+    this.patrimoineService
+      .OnVerify({
+        imsi: this.selectedValue
+      }).subscribe({
+        next: (response: any) => {
+         this.currentPatrimoine = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+          //this.currentPatrimoine = {}
+        }
+      })
+  }
+  public onVerifyGroupe() {
+    this.patrimoineService
+      .OnVerifyGroupe({
+        groupe_id: this.selectedGroupe?.id
+       }).subscribe({
+        next: (response: any) => {
+          this.currentGroupe = response['data'];
+          if (this.currentGroupe?.sims.length > 0) {
+            this.currentGroupe?.sims.map(item => {
+              this.simArray.push(item.imsi)
+            });
+          }
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public OnVerify(){
+    if (this.radioValue === 'IMSI') {      
+      this.onVerifyImsi()
+    }else{
+      this.onVerifyGroupe()
+    }
+  }
 
   public changeItem(event: any) {
+    this.currentPatrimoine = {}
+    this.currentGroupe = {}
     this.selectedValue = null
-  }
-
-  public onVerify() {
-
-  }
-
-  HandleSaveDotation() {
+    this.selectedGroupe = null
+    this.selectedVolume = null
+    this.selectedDescription = null
 
   }
 
-  public isFilter() {
+  handleSaveDotation() {
+    this.patrimoineService
+      .handleSaveDotation({
+        service: this.selectedService,
+        description: this.selectedDescription,
+        ...(this.radioValue === 'IMSI' ? { sims: [this.currentPatrimoine.imsi] } : { sims: this.simArray }),
+        valeur: this.selectedVolume
+       }).subscribe({
+        next: (response: any) => {
+          this.GetAllDotations()
+          this.mappingService.GetAllPortefeuille()
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
 
+  public isFilter(): boolean {
+    return (!this.selectedValue && !this.selectedGroupe) ? true : false
+  }
+  public IsValidate(): boolean {
+    return (
+      !this.currentPatrimoine ||
+      !this.currentGroupe ||
+      !this.selectedVolume ||
+      !this.selectedDescription
+      ) ? true : false
+  }
+  pipeValue(number: any) {
+    return new Intl.NumberFormat('fr-FR').format(number);
   }
 }

@@ -9,25 +9,21 @@
             <div class="statistique-block">
               <div>
                 <app-card-stock [cardBgColor]="'#FFFFFF'" [ngClass]="['ligne-card']" [cardBorderColor]="'#DF7401'"
-                  [legend]="'Crédits disponible'" [count]="creditDisponible || '0'" [legendColor]="'#DF7401'"
+                  [legend]="'Crédit disponible (FCFA)'" [count]="creditDisponible || '0'" [legendColor]="'#DF7401'"
                   [countColor]="'#000000'"></app-card-stock>
               </div>
               <div>
                 <app-card-stock [cardBgColor]="'#FFFFFF'" [ngClass]="['ligne-card']" [cardBorderColor]="'#DF7401'"
-                  [legend]="'Achats/Année'" [count]="achatByyear || '0'" [legendColor]="'#DF7401'"
+                  [legend]="'Solde Global DATA (Go)'" [count]="soldeData || '0'" [legendColor]="'#DF7401'"
                   [countColor]="'#000000'"></app-card-stock>
               </div>
               <div>
-                <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'Achats/Mois'"
-                  [count]="achatByMounth || '0'" [legendColor]="'#DF7401'" [countColor]="'#000000'"></app-card-stock>
+                <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'Nombre SIM MSISDN'"
+                  [count]="soldeSimA || '0'" [legendColor]="'#DF7401'" [countColor]="'#000000'"></app-card-stock>
               </div>
               <div>
-                <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'Achats/Semaine'"
-                  [count]="achatByWeek || '0'" [legendColor]="'#DF7401'" [countColor]="'#000000'"></app-card-stock>
-              </div>
-              <div>
-                <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'Achats/Jour'"
-                  [count]="achatByDay || '0'" [legendColor]="'#DF7401'" [countColor]="'#000000'"></app-card-stock>
+                <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'Nombre SIM Blanches'"
+                  [count]="soldeSimB || '0'" [legendColor]="'#DF7401'" [countColor]="'#000000'"></app-card-stock>
               </div>
             </div>
             <hr style="margin-top: -0.4rem;">
@@ -51,27 +47,28 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>IMSI</b>
+                    <b>Statut</b>
                   </label>
-                  <input placeholder="IMSI" [(ngModel)]="selectedImsi" type="text" pInputText />
+                  <p-dropdown [options]="listStatuts" [(ngModel)]="selectedStatut" [showClear]="true"
+                    placeholder="Statut">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
                 </div>
               </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>
-                    <b>MSISDN</b>
-                  </label>
-                  <input placeholder="MSISDN" [(ngModel)]="selectedMsisdn" type="text" pInputText />
-                </div>
-              </div>
-              <div style="width: 12rem;">
-                <label class="block"><b>Date début<span class="text-danger">*</span></b></label>
-                <p-calendar [ngStyle]="{width: '15rem'}" [(ngModel)]="filterDateStart" [showIcon]="true"
+              <div [style]="{width: '13rem'}">
+                <label class="block"><b>Date début</b></label>
+                <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
                   (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy"></p-calendar>
               </div>
-              <div style="width: 12rem;">
-                <label class="block"><b>Date fin <span class="text-danger">*</span></b></label>
-                <p-calendar [ngStyle]="{width: '15rem'}" [(ngModel)]="filterDateEnd" [showIcon]="true"
+              <div [style]="{width: '13rem'}">
+                <label class="block"><b>Date fin </b></label>
+                <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true"
                   (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy"></p-calendar>
               </div>
               <div style="width: 4rem;">
@@ -83,14 +80,14 @@
             <div class="table_actions_wrapper">
               <button pButton pRipple label="Nouvel Achat" (click)="onInitForm()" icon="pi pi-plus"
                 class="p-button-success"></button>
-              <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="GetAllAchats()"
+              <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="OnRefresh()"
                 class="p-button-secondary"></button>
               <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button>
             </div>
             <div class="table_content_wrapper">
-              <div class="table_header mt-2">
+              <div class="table_header">
                 <div class="table_header__legende">
-                  <h4 class="pt-2">
+                  <h4>
                     <b>Liste des 50 derniers Achats</b>
                   </h4>
                 </div>
@@ -116,31 +113,25 @@
                     <td>{{data?.created_at}}</td>
                     <td (click)="copyData(data.transaction)" style="cursor: pointer">{{data?.transaction}}</td>
                     <td (click)="copyData(data.numero_commande)" style="cursor: pointer">{{data?.numero_commande}}</td>
-                    <td>{{pipeValue(data?.qte_sim_msisdn)}}</td>
-                    <td>{{pipeValue(data?.qte_sim_blanche)}}</td>
-                    <td>{{pipeValue(data?.volume_data)}}</td>
+                    <td>{{pipeValue(data?.qte_sim_msisdn || 'N/A')}}</td>
+                    <td>{{pipeValue(data?.qte_sim_blanche || 'N/A')}}</td>
+                    <td>{{pipeValue(data?.volume_data || 'N/A')}}</td>
                     <td>{{data.initiateur?.nom}} {{data.initiateur?.prenoms}}</td>
-                    <td>
+                    <td class="text-center">
                       <span [ngStyle]="{'font-size':'16px'}" class="badge"
-                        [class.badge-dark]="(data?.statut === treatmenEntente || data?.statut === treatmenAcquiter)"
+                        [class.badge-dark]="data?.statut === treatmenEntente || data?.statut === treatmenAcquiter"
                         [class.badge-danger]="data?.statut === treatmenRejeter"
                         [class.badge-warning]="data?.statut === treatmenCancel"
                         [class.badge-info]="data?.statut === treatmenAccepter"
-                        [class.badge-success]="(data?.statut === stateCloture && data?.statut === treatmenAccepter)">
+                        [class.badge-success]="(data?.statut === stateCloture)">
                         {{ data.statut }}
                       </span>
                     </td>
                     <td class="td-actions">
-                      <!-- <p-button icon="pi pi-eye" pTooltip="Facture" tooltipPosition="top"
-                        styleClass="p-button-outlined p-button-secondary"></p-button> -->
-                      <!-- <button [ngClass]="'p-button-danger'" pButton pRipple icon="pi pi-times"
-                        [pTooltip]="(data?.statut === treatmenRejeter || data?.statut === treatmenAccepter) ?'': 'Annuler'"
-                        (click)="handleCancel(data)"
-                        [disabled]="data?.statut === treatmenRejeter || data?.statut === treatmenAccepter"
-                        tooltipPosition="top">
-                      </button> -->
-                      <button pButton pRipple label="Payer"  pTooltip="Solder" tooltipPosition="top"
-                        class="p-button-success" (click)="handleSolder(data)"></button>
+                      <!-- <button pButton pRipple label="Payer" [disabled]="true"  pTooltip="Solder" tooltipPosition="top"
+                        class="p-button-success" (click)="handleSolder(data)"></button> -->
+                        <p-button icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" styleClass="p-button-dark"
+                        (click)="onShowForm(data)"></p-button>
                     </td>
                   </tr>
                 </tbody>

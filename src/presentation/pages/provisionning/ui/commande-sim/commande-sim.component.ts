@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
+import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
-import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 const Swal = require('sweetalert2');
 
 
@@ -20,10 +20,12 @@ export class CommandeSimComponent implements OnInit {
   public currentObject: any;
   public listTypeSims: Array<any> = [];
   public listCommandes: Array<any> = [];
+  public listStatuts: Array<any> = [];
   public selectedTranaction: string;
   public selectedReference: string;
   public selectedImsi: string;
   public selectedMsisdn: string;
+  public selectedStatut: string;
   public filterDateStart: Date;
   public filterDateEnd: Date;
   public selectDateStart: any;
@@ -33,37 +35,33 @@ export class CommandeSimComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public stateSoumis: string = StatutTransaction.SOUMIS;
+  public stateTraite: string = StatutTransaction.TARITER;
+  public stateCloture: string = StatutTransaction.CLOTURER;
   public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
   public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
   public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
   public treatmenRejeter: string = TraitementTransaction.REJETER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
-
   public creditDisponible: number = 0;
-  public achatByyear: number = 0;
-  public achatByWeek: number = 0;
-  public achatByDay: number = 0;
-  public achatByMounth: number = 0;
-
-
+  public soldeData: number = 0;
+  public soldeSimA: number = 0;
+  public soldeSimB: number = 0;
 
   constructor(
     private provisionningService: ProvisionningService,
     private toastService: ToastrService,
-    private storage: EncodingDataService,
     private clipboardApi: ClipboardService,
 
   ) {
     this.listTypeSims = ['SIM Blanche', 'SIM MSISDN'];
-    this.filterDateStart = new Date();
-    this.filterDateEnd = new Date();
-    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
-    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+    Object.values(TraitementTransaction).forEach(item => {
+      this.listStatuts.push(item);
+    });
   }
 
   ngOnInit() {
     this.GetAllAchats();
-    this.OnStatAchat();
     this.isFilter();
 
   }
@@ -78,6 +76,7 @@ export class CommandeSimComponent implements OnInit {
           this.totalRecords = response.total;
           this.recordsPerPage = response.per_page;
           this.offset = (response.current_page - 1) * this.recordsPerPage + 1;
+          this.OnStatAchat()
         },
         error: (error) => {
           this.toastService.error(error.message);
@@ -94,8 +93,7 @@ export class CommandeSimComponent implements OnInit {
       .GetAllAchats({
         transaction: this.selectedTranaction,
         reference: this.selectedReference,
-        imsi: this.selectedImsi,
-        msisdn: this.selectedMsisdn,
+        statut: this.selectedStatut,
         date_debut: this.selectDateStart,
         date_fin: this.selectDateEnd,
       }, this.p)
@@ -112,18 +110,26 @@ export class CommandeSimComponent implements OnInit {
         }
       })
   }
+  public OnRefresh(){
+    this.GetAllAchats();
+    this.selectedTranaction = null
+    this.selectedReference = null
+    this.selectedStatut = null
+    this.selectDateStart = null
+    this.selectDateEnd = null
+    this.filterDateStart = null
+    this.filterDateEnd = null
+  }
 
   public OnStatAchat() {
     this.provisionningService
       .OnStatAchat({})
       .subscribe({
         next: (response) => {
-          const data = response;
-          this.creditDisponible = data?.achat_annuel;
-          this.achatByDay = data?.achat_journalier;
-          this.achatByWeek = data?.achat_hebdomadaire;
-          this.achatByMounth = data?.achat_mensuel
-          this.achatByyear = data?.achat_annuel;
+          this.creditDisponible = response['data']?.credit_disponible;
+          this.soldeData = response['data']?.solde_data;
+          this.soldeSimA = response['data']?.solde_sim_a;
+          this.soldeSimB = response['data']?.solde_sim_b
         },
         error: (error) => {
           this.toastService.error(error.error.message);
@@ -202,6 +208,6 @@ export class CommandeSimComponent implements OnInit {
   }
 
   public isFilter(): boolean {
-    return (!this.selectedTranaction && !this.selectedReference && !this.selectedImsi && !this.selectedMsisdn && !this.selectDateStart && !this.selectDateEnd) ? true : false
+    return (!this.selectedTranaction && !this.selectedReference && !this.selectedStatut && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
 }

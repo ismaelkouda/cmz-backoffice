@@ -21,9 +21,9 @@
             </div>
             <hr>
             <div class="table_actions_wrapper">
-              <button pButton pRipple label="Ajout de profil" icon="pi pi-plus" (click)="onInitForm()"
-                class="p-button-success"></button>
-              <button pButton pRipple label="Rafraichir" (click)="GetAllProfilSupervision()" icon="pi pi-refresh"
+              <!-- <button pButton pRipple label="Ajout de profil" icon="pi pi-plus" (click)="onInitForm()"
+                class="p-button-success" *ngIf="listProfils?.length < 2"></button> -->
+              <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
                 class="p-button-secondary"></button>
               <button pButton pRipple label="Exporter" [disabled]="disableAction()" icon="pi pi-download"
                 class="p-button-helf"></button>
@@ -70,8 +70,8 @@
                     <td>{{data?.updated_at}}</td>
                     <td class="text-center">
                       <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
-                        label="Visualiser ({{data.sims_count}})" class="p-button" (click)="onViewVisualisation(data)"
-                        [disabled]="data.sims_count === 0"></button>
+                        label="Visualiser ({{data?.sims_count}})" class="p-button" (click)="onViewVisualisation(data)"
+                        [disabled]="data?.sims_count === 0"></button>
                     </td>
                     <td class="text-center">
                       <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
@@ -88,10 +88,10 @@
                     <td class="td-actions">
                       <p-button icon="pi pi-eye" styleClass="p-button-dark" pTooltip="Voir" tooltipPosition="top"
                         (click)="onShowForm(data)"></p-button>
-                      <p-button icon="pi pi-pencil" styleClass="p-button-secondary" pTooltip="Editer"
-                        tooltipPosition="top" (click)="onEditForm(data)"></p-button>
-                      <p-button icon="pi pi-arrow-right" (click)="onViewAffection(data)" styleClass="p-button-dark"
-                        pTooltip="Affecter" tooltipPosition="top"></p-button>
+                      <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary" pTooltip="Editer"
+                        tooltipPosition="top" (click)="onEditForm(data)" [disabled]="data?.statut === 'inactif'"></button>
+                      <button pButton pRipple icon="pi pi-arrow-right" (click)="onViewAffection(data)" class="p-button-dark"
+                        pTooltip="Affecter" tooltipPosition="top" [disabled]="data?.statut === 'inactif'"></button>
                       <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
                         " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
                         ? 'Désactiver'
@@ -99,8 +99,8 @@
                         ? handleDisableProfil(data)
                         : handleActivateProfil(data)">
                       </button>
-                      <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Supprimer"
-                        tooltipPosition="top"></p-button>
+                      <!-- <button pButton pRipple icon="pi pi-trash" [disabled]="data?.statut === 'inactif'" class="p-button-danger" pTooltip="Supprimer"
+                        tooltipPosition="top"></button> -->
                     </td>
                   </tr>
                 </ng-template>

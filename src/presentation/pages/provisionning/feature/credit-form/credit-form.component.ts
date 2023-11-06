@@ -4,11 +4,7 @@ import { ProvisionningService } from '../../data-access/provisionning.service';
 import { ToastrService } from 'ngx-toastr';
 import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-// @ts-ignore
-import appConfig from '../../../../../assets/config/app-config.json';
-
-
+import { MappingService } from 'src/shared/services/mapping.service';
 @Component({
   selector: 'app-credit-form',
   templateUrl: './credit-form.component.html',
@@ -19,6 +15,7 @@ export class CreditFormComponent implements OnInit {
   @Output() formsView = new EventEmitter();
   @Input() currentObject;
   @Output() listCredits = new EventEmitter();
+  @Output() ligneCreditStat = new EventEmitter();
   public listTypeJustificatif: Array<any> = [];
   public selectedType: string;
   public selectedJustificatif: any = undefined;
@@ -36,7 +33,8 @@ export class CreditFormComponent implements OnInit {
   constructor(
     private provisionningService: ProvisionningService,
     private toastrService: ToastrService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private mappingService: MappingService
 
   ) {
     Object.values(Justificatif).forEach(item => {
@@ -45,7 +43,7 @@ export class CreditFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fileUrl = appConfig.fileUrl
+    this.fileUrl = this.mappingService.fileUrl
     this.isFilter();
     this.initForm();
     if (this.currentObject !== undefined) {
@@ -59,11 +57,20 @@ export class CreditFormComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.listCredits.emit(res.data.data);
-          this.close();
-          this.totalPage = res.data.last_page;
-          this.totalRecords = res.data.total;
-          this.recordsPerPage = res.data.per_page;
-          this.offset = (res.data.current_page - 1) * this.recordsPerPage + 1;
+          this.OnStatCredit()
+        },
+        error: (err) => {
+          this.toastrService.error(err.message);
+        }
+      })
+  }
+  public OnStatCredit() {
+    this.provisionningService
+      .OnStatCredit({})
+      .subscribe({
+        next: (res) => {
+          this.ligneCreditStat.emit(res['data']);   
+          this.close();          
         },
         error: (err) => {
           this.toastrService.error(err.message);

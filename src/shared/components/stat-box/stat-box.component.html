@@ -1,0 +1,14 @@
+<div class="card" [ngStyle]="{backgroundColor: cardBgColor,border: '1px solid'+ cardBorderColor}">
+  <div class="content">
+      <div class="content__legend">
+          <b>
+              <span [ngStyle]="{color: legendColor}">{{legend}}</span>
+          </b>
+      </div>
+      <div class="content__value">
+          <b>
+              <span [ngStyle]="{color:countColor}">{{ pipeValue(count)}}</span>
+          </b>
+      </div>
+  </div>
+</div>

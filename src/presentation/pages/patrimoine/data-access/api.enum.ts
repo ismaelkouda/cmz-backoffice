@@ -15,7 +15,7 @@ export const enum EndPointUrl {
     GET_ALL_COMMUNE = 'analyse-alerte/communes/all',
 
     //GROUPE
-    GET_ALL_GROUPE = 'patrimoine-sim/groupe-sims/all?page={page}',
+    GET_ALL_GROUPE = 'patrimoine-sim/groupe-sims/all',
     SAVE_GROUPE = 'patrimoine-sim/groupe-sims/store',
     UPDATE_GROUPE = 'patrimoine-sim/groupe-sims/update',
     GET_ALL_SIM_NO_GROUPE = 'patrimoine-sim/groupe-sims/sims?page={page}',
@@ -25,4 +25,9 @@ export const enum EndPointUrl {
     RETRAIT_SIM = 'patrimoine-sim/groupe-sims/retrait',
     ACTIVATE_GROUPE = 'patrimoine-sim/groupe-sims/{id}/activer',
     DISABLE_GROUPE = 'patrimoine-sim/groupe-sims/{id}/desactiver',
+    VERIFY_GROUPE = 'patrimoine-sim/groupe-sims/verifier-groupe',
+
+   //DOTATION
+   GET_ALL_DOTATION = 'patrimoine-sim/dotations-services/all?page={page}',
+   SAVE_DOATATION = 'patrimoine-sim/dotations-services/store',
 }

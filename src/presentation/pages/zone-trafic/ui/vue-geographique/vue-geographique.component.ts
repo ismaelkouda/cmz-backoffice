@@ -17,7 +17,7 @@ export class VueGeographiqueComponent implements OnInit {
 
   public datas: any;
   public currentZone: any;
-  public display: boolean = false;
+  public displayValue: boolean = false;
   public isMaximized: boolean = false;
   public maxi: boolean;
   public totalPage: 0;
@@ -30,7 +30,7 @@ export class VueGeographiqueComponent implements OnInit {
   public listCommunes: Array<any> = [];
   public selectedDepartement: any;
   public selectedCommune: any;
-  public selectedZone: any;
+  public selectedZone: string = 'ELOKATE';
   public currentObject: any;
   public initialView: boolean = true;
   public formsView: boolean = false;
@@ -145,13 +145,20 @@ export class VueGeographiqueComponent implements OnInit {
         }
       })
   }
+  public OnRefresh(){
+    this.selectedDepartement = null
+    this.selectedCommune = null
+    this.selectedZone = null
+    this.listCommunes = []
+    this.GetAllZOneTrafic()
+  }
   GetPositionSimGeojson(id: number) {
     this.zoneTraficService
       .GetPositionSimGeojson(id).subscribe({
         next: (response) => {
           this.datas = response['data'];
-          this.onDialogMaximized(true);
-          this.display = true;
+         this.onDialogMaximized(true);
+         this.displayValue = true;
         },
         error: (error) => {
           this.toastrService.error(error.message);
@@ -168,8 +175,8 @@ export class VueGeographiqueComponent implements OnInit {
     }
   }
 
-  hideDialog() {
-    this.display = false;
+  handleClose() {
+    this.displayValue = false;    
   }
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);

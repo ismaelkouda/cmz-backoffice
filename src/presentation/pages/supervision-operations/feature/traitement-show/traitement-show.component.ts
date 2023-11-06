@@ -5,16 +5,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
-
 import { SettingService } from 'src/shared/services/setting.service';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
-import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
-
-// @ts-ignore
-import appConfig from '../../../../../assets/config/app-config.json';
 import { ClipboardService } from 'ngx-clipboard';
 import { Justificatif } from 'src/shared/enum/Justificatif.enum';
+import { MappingService } from 'src/shared/services/mapping.service';
+import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -29,7 +26,7 @@ export class TraitementShowComponent implements OnInit {
   @Input() transaction;
   @Output() resultTraitement = new EventEmitter();
   public detailTransaction: any;
-  public fileUrl: string = appConfig.fileUrl;
+  public fileUrl: string;
   public filterTab: string;
   public operationLigneCredit: string = OperationTransaction.PROVISIONNING;
   public operationActivation: string = OperationTransaction.ACTIVATION
@@ -72,13 +69,14 @@ export class TraitementShowComponent implements OnInit {
     private supervisionOperationService: SupervisionOperationService,
     private settingService: SettingService,
     private patrimoineService: PatrimoineService,
-    private clipboardApi: ClipboardService
-
-
+    private clipboardApi: ClipboardService,
+    private mappingService: MappingService
   ) {
     Object.values(Justificatif).forEach(item => {
       this.listTypeJustificatif.push(item);
     });
+    this.fileUrl = this.mappingService.fileUrl;
+
   }
 
   ngOnInit() {
@@ -103,6 +101,7 @@ export class TraitementShowComponent implements OnInit {
     this.IsContentSim()
     this.IsProvisionningTransaction()
     this.IsAchatTransaction()    
+    this.IscurrentDate()
   }
 
   public GetDetailTransaction() {
@@ -240,7 +239,7 @@ export class TraitementShowComponent implements OnInit {
       imsi: [''],
       msisdn: [''],
       statut: [''],
-      beneficiaire: [''],
+      point_emplacement: [''],
       bac_a_pioche: [''],
       description: [''],
       volume: [''],
@@ -252,7 +251,7 @@ export class TraitementShowComponent implements OnInit {
     this.volumeForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.volumeForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
     this.volumeForm.get('statut').patchValue(this.detailTransaction?.statut);
-    this.volumeForm.get('beneficiaire').patchValue(this.detailTransaction?.beneficiaire);
+    this.volumeForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.volumeForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
     this.volumeForm.get('volume').patchValue(this.detailTransaction?.volume);
     this.volumeForm.get('description').patchValue(this.detailTransaction?.description);
@@ -272,7 +271,7 @@ export class TraitementShowComponent implements OnInit {
       imsi: [''],
       msisdn: [''],
       statut: [''],
-      beneficiaire: [''],
+      point_emplacement: [''],
       bac_a_pioche: [''],
       description: [''],
       swap_accepte: [''],
@@ -283,20 +282,18 @@ export class TraitementShowComponent implements OnInit {
     this.swapForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.swapForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
     this.swapForm.get('statut').patchValue(this.detailTransaction?.statut);
-    this.swapForm.get('beneficiaire').patchValue(this.detailTransaction?.beneficiaire);
+    this.swapForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.swapForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
     this.swapForm.get('description').patchValue(this.detailTransaction?.description);
     this.swapForm.get('swap_accepte').patchValue(this.detailTransaction?.rapport?.swap_accepte);
     this.swapForm.get('swap_accepte_comment').patchValue(this.detailTransaction?.rapport?.swap_accepte_comment);
     this.swapForm.get('msisdn').disable();
     this.swapForm.get('statut').disable();
-    this.swapForm.get('beneficiaire').disable();
+    this.swapForm.get('point_emplacement').disable();
   }
   get sourceStockSwap() {
     return this.swapForm.get('bac_a_pioche').value;
   }
-
-
 
   /*@@@@@@@@@@@@@@@@@@@@@@Resiliation Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitResiliationForm() {
@@ -305,7 +302,7 @@ export class TraitementShowComponent implements OnInit {
       msisdn: [''],
       statut: [''],
       justificatif: [''],
-      beneficiaire: [''],
+      point_emplacement: [''],
       description: [''],
       resiliation_accepte: [''],
       resiliation_accepte_comment: ['']
@@ -315,13 +312,13 @@ export class TraitementShowComponent implements OnInit {
     this.resiliationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.resiliationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
     this.resiliationForm.get('statut').patchValue(this.detailTransaction?.statut);
-    this.resiliationForm.get('beneficiaire').patchValue(this.detailTransaction?.beneficiaire);
+    this.resiliationForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.resiliationForm.get('description').patchValue(this.detailTransaction?.description);
     this.resiliationForm.get('resiliation_accepte').patchValue(this.detailTransaction?.rapport?.resiliation_accepte);
     this.resiliationForm.get('resiliation_accepte_comment').patchValue(this.detailTransaction?.rapport?.resiliation_accepte_comment);
     this.resiliationForm.get('msisdn').disable();
     this.resiliationForm.get('statut').disable();
-    this.resiliationForm.get('beneficiaire').disable();
+    this.resiliationForm.get('point_emplacement').disable();
   }
   public onChangeFile(file: FileList) {
     this.currentFile = file.item(0);
@@ -333,7 +330,7 @@ export class TraitementShowComponent implements OnInit {
       msisdn: [''],
       statut: [''],
       justificatif: [''],
-      beneficiaire: [''],
+      point_emplacement: [''],
       description: [''],
       suspension_accepte: [''],
       suspension_accepte_comment: ['']
@@ -343,13 +340,13 @@ export class TraitementShowComponent implements OnInit {
     this.suspensionForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.suspensionForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
     this.suspensionForm.get('statut').patchValue(this.detailTransaction?.statut);
-    this.suspensionForm.get('beneficiaire').patchValue(this.detailTransaction?.beneficiaire);
+    this.suspensionForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.suspensionForm.get('description').patchValue(this.detailTransaction?.description);
     this.suspensionForm.get('suspension_accepte').patchValue(this.detailTransaction?.rapport?.suspension_accepte);
     this.suspensionForm.get('suspension_accepte_comment').patchValue(this.detailTransaction?.rapport?.suspension_accepte_comment);
     this.suspensionForm.get('msisdn').disable();
     this.suspensionForm.get('statut').disable();
-    this.suspensionForm.get('beneficiaire').disable();
+    this.suspensionForm.get('point_emplacement').disable();
   }
 
   /*@@@@@@@@@@@@@@@@@@@ Activation Form Controls @@@@@@@@@@@@@@@@@*/
@@ -360,7 +357,7 @@ export class TraitementShowComponent implements OnInit {
       niveau_deux_id: [''],
       niveau_trois_id: [''],
       usage_id: [''],
-      beneficiaire: [''],
+      point_emplacement: [''],
       adresse_email: [''],
       adresse_geographique: [''],
       latitude: [''],
@@ -375,7 +372,7 @@ export class TraitementShowComponent implements OnInit {
     this.activationForm.get('niveau_deux_id').patchValue(this.detailTransaction?.niveau_deux_id);
     this.activationForm.get('niveau_trois_id').patchValue(this.detailTransaction?.niveau_trois_id);
     this.activationForm.get('usage_id').patchValue(this.detailTransaction?.usage_id);
-    this.activationForm.get('beneficiaire').patchValue(this.detailTransaction?.beneficiaire);
+    this.activationForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.activationForm.get('adresse_email').patchValue(this.detailTransaction?.adresse_email);
     this.activationForm.get('adresse_geographique').patchValue(this.detailTransaction?.adresse_geographique);
     this.activationForm.get('latitude').patchValue(this.detailTransaction?.latitude);
@@ -427,10 +424,6 @@ export class TraitementShowComponent implements OnInit {
     this.detailTransaction?.detail_commande.forEach((value, index) => {
       if (value == data) {
         this.detailTransaction?.detail_commande.splice(index, 1);
-      }
-      const sliceProduct = this.listProducts[index];
-      if (this.detailTransaction?.detail_commande?.length === 0) {
-        this.OnCancelTransaction();
       }
     });
   }
@@ -560,7 +553,15 @@ export class TraitementShowComponent implements OnInit {
       this.transaction?.operation === OperationTransaction.VOLUME_DATA
     ) ? true : false
   }
-
+  public IscurrentDate(): string {
+    if (this.transaction?.statut === StatutTransaction.TARITER) {
+      return this.detailTransaction?.rapport?.date_traitement
+    }else if (this.transaction?.statut === StatutTransaction.CLOTURER) {
+      return this.detailTransaction?.rapport?.date_cloture
+    }else if ((this.transaction?.traitement === StatutTransaction.SOUMIS) && (this.transaction?.traitement === TraitementTransaction.ACQUITER)) {
+      return this.detailTransaction?.rapport?.date_acquittement
+    }    
+  }
   OnVerify() {
     Swal.fire({
       title: "En êtes vous sûr ?",
@@ -579,10 +580,10 @@ export class TraitementShowComponent implements OnInit {
           })
           .subscribe({
             next: (response) => {
-              const data = response['data'][0]
-              this.swapForm.get('msisdn').patchValue(data.msisdn);
-              this.swapForm.get('statut').patchValue(data.statut);
-              this.swapForm.get('beneficiaire').patchValue(data.beneficiaire);
+              const data = response['data']              
+              this.swapForm.get('msisdn').patchValue(data?.msisdn);
+              this.swapForm.get('statut').patchValue(data?.statut);
+              this.swapForm.get('point_emplacement').patchValue(data?.point_emplacement);
               this.toastrService.success(response.message);
               this.OnUpdateTransaction();
             },
@@ -721,6 +722,7 @@ export class TraitementShowComponent implements OnInit {
       }
     });
   }
+
   public copyTransaction(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);

@@ -100,4 +100,5 @@ export const content: Routes = [
       module: 'Structure Organisationnelle',
     }
   }
+
 ];

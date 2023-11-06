@@ -7,6 +7,7 @@ import { TelemetrieService } from 'src/presentation/pages/ref-telemetrie/data-ac
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -30,8 +31,8 @@ export class GroupeFormComponent implements OnInit {
   public listExploitations: Array<any> = [];
   public selectedDirection: any;
   public selectedExploitation: any;
-  public selectedSim: any;
-  public selectedimsi: any;
+  public selectedMsisdn: string;
+  public selectedImsi: string;
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
@@ -39,14 +40,13 @@ export class GroupeFormComponent implements OnInit {
   public p: number = 1;
   public adminForm: FormGroup;
   public selectedGroupe: string;
-
-  firstLevelLibelle: string;
-  secondLevelLibelle: string;
-  thirdLevelLibelle: string;
+  public firstLevelLibelle: string;
+  public secondLevelLibelle: string;
+  public thirdLevelLibelle: string;
+  public currentObservable : Observable<any>;
 
   constructor(
     private toastrService: ToastrService,
-    private telemetrieService: TelemetrieService,
     private patrimoineService: PatrimoineService,
     private settingService: SettingService,
     private mappingService: MappingService,
@@ -60,20 +60,19 @@ export class GroupeFormComponent implements OnInit {
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
   }
   ngOnInit() {
-    if (this.currentObject?.type === 'affectation') {
-      this.GetAllSimNoGroupe();
-    } else if (this.currentObject?.type === 'visualiser') {
-      this.GetAllsimAtGroupe();
-    } else if (this.currentObject?.type === 'edit' || this.currentObject?.type === 'show') {
-      this.GetAllSimNoGroupe();
-    } else if (!this.currentObject) {
+    if (!this.currentObject) {
       this.GetAllPatrimoines();
-    }
+    }else if (this.currentObject?.type === 'affectation') {
+      this.GetAllSimNoGroupe();
+    } else if (this.currentObject?.type === 'visualiser' || this.currentObject?.type === 'show') {
+      this.GetAllsimAtGroupe();
+    } else if (this.currentObject?.type === 'edit') {
+      this.GetAllSimNoGroupe();
+    } 
     this.GetFirstLevelDatas();
     this.isFilter();
     this.initForm();
     this.onFormPachValues()
-    this.IsForm()
   }
   public GetAllGroupes(): void {
     this.patrimoineService
@@ -156,6 +155,71 @@ export class GroupeFormComponent implements OnInit {
         }
       })
   }
+  public OnRefresh(){
+    if (!this.currentObject) {
+      this.GetAllPatrimoines();
+    }else if (this.currentObject?.type === 'affectation') {
+      this.GetAllSimNoGroupe();
+    } else if (this.currentObject?.type === 'visualiser' || this.currentObject?.type === 'show') {
+      this.GetAllsimAtGroupe();
+    } else if (this.currentObject?.type === 'edit') {
+      this.GetAllSimNoGroupe();
+    } 
+    this.selectedDirection = null
+    this.selectedExploitation = null
+    this.selectedImsi = null
+    this.selectedMsisdn = null
+  }
+
+ 
+  public OnFilterALl() { 
+    
+    if (!this.currentObject) {
+      this.currentObservable = this.patrimoineService.GetAllPatrimoines({
+        niveau_un_id: this.selectedDirection?.id,
+        niveau_deux_id: this.selectedExploitation?.id,
+        imsi: this.selectedImsi,
+        msisdn: this.selectedMsisdn
+      }, this.p);
+    }else if (this.currentObject?.type === 'affectation') {
+        this.currentObservable = this.patrimoineService.GetAllsimAtGroupe({
+          groupe_id: this.currentObject?.id,
+          niveau_un_id: this.selectedDirection?.id,
+          niveau_deux_id: this.selectedExploitation?.id,
+          imsi: this.selectedImsi,
+          msisdn: this.selectedMsisdn
+        }, this.p);
+      } else if (this.currentObject?.type === 'visualiser' || this.currentObject?.type === 'show') {        
+        this.currentObservable = this.patrimoineService.GetAllsimAtGroupe({
+          groupe_id: this.currentObject?.id,
+          niveau_un_id: this.selectedDirection?.id,
+          niveau_deux_id: this.selectedExploitation?.id,
+          imsi: this.selectedImsi,
+          msisdn: this.selectedMsisdn
+        }, this.p);
+      } else if (this.currentObject?.type === 'edit') {
+        this.currentObservable = this.patrimoineService.GetAllSimNoGroupe({
+          groupe_id: this.currentObject?.id,
+          niveau_un_id: this.selectedDirection?.id,
+          niveau_deux_id: this.selectedExploitation?.id,
+          imsi: this.selectedImsi,
+          msisdn: this.selectedMsisdn
+        }, this.p);
+      }
+      this.currentObservable.subscribe({
+        next: (response) => {
+          this.listAffectations = response.data.data;
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+  
 
   public onPageChange(event) {
     this.p = event;
@@ -343,32 +407,12 @@ export class GroupeFormComponent implements OnInit {
     this.clipboardApi.copyFromContent(data);
   }
 
-  public onFilter() {
-    this.telemetrieService
-      .GetAllListAffectationBySim({
-        profil_id: this.currentObject?.id,
-        niveau_un_id: this.selectedDirection?.id,
-        niveau_deux_id: this.selectedExploitation?.id,
-        imsi: this.selectedimsi
-      }, this.p)
-      .subscribe({
-        next: (response) => {
-          this.listAffectations = response.data.data;
-          this.totalPage = response.data.last_page;
-          this.totalRecords = response.data.total;
-          this.recordsPerPage = response.data.per_page;
-          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
-        }
-      })
-  }
+  // public isFilter(): boolean {
+  //   return (!this.selectedImsi && !this.selectedMsisdn) ? true : false
+  // }
   public isFilter(): boolean {
-    return (!this.selectedDirection && !this.selectedExploitation && !this.selectedimsi) ? true : false
+    return (!this.selectedDirection && !this.selectedExploitation && !this.selectedImsi && !this.selectedMsisdn) ? true : false
   }
-  public IsForm(): any {
-    // return (!this.currentObject && this.currentObject?.type !== 'edit') ? true : false
-  }
+
 }
 

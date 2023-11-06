@@ -11,6 +11,14 @@
         background-color: black !important;
     }
 }
+.close {
+    background-color: transparent;
+    border-color: transparent !important;
+    span {
+        color: #fff;
+        font-size: 25px;
+    }
+}
 
 .modal-backdrop {
     z-index: 1200 !important;

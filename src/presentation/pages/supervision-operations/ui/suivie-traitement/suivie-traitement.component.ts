@@ -1,4 +1,3 @@
-import { LIST_AFFECTE, LIST_CODE_RAPPORT, LIST_TRAITEMENTS } from './../../../../../shared/constants/operations.constants';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
@@ -10,7 +9,7 @@ import { StatutTransaction } from './../../../../../shared/enum/StatutTransactio
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
-
+import * as moment from 'moment';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -44,6 +43,11 @@ export class SuivieTraitementComponent implements OnInit {
   public firstLevelLibelle: string;
   public secondLevelLibelle: string;
   public thirdLevelLibelle: string;
+  public filterDateStart: Date;
+  public filterDateEnd: Date;
+  public selectDateStart: any;
+  public selectDateEnd: any;
+  public activationTransaction: string = OperationTransaction.ACTIVATION
   public stateSoumis: string = StatutTransaction.SOUMIS;
   public stateTraite: string = StatutTransaction.TARITER;
   public stateCloture: string = StatutTransaction.CLOTURER;
@@ -102,11 +106,14 @@ export class SuivieTraitementComponent implements OnInit {
   }
   public onFilter(): void {
     const data = {
+      operation: this.selectedTypeOperation,
       transaction: this.selectedTransaction,
       statut: this.selectedStatut,
       traitement: this.selectedTraitement,
-      niveau_un: this.selectedFirstLevel?.id,
-      niveau_deux: this.selectedSecondLevel?.id,
+      niveau_un_id: this.selectedFirstLevel?.id,
+      niveau_deux_id: this.selectedSecondLevel?.id,
+      date_debut: this.selectDateStart,
+      date_fin: this.selectDateEnd,
     };
     this.supervisionOperationService
       .GetAllTransactions(data, this.p)
@@ -130,18 +137,24 @@ export class SuivieTraitementComponent implements OnInit {
     console.log("event", event);
     this.p = event.pageCount;
     if (this.isFilter()) {
-      this.GetAllTransactions()
+     // this.GetAllTransactions()
     } else {
       this.onFilter()
     }
   }
   OnRefresh() {
     this.GetAllTransactions();
+    this.selectedFirstLevel = null
+    this.selectedTypeOperation = null
+    this.selectedSecondLevel = null
     this.selectedTransaction = null;
     this.selectedStatut = null;
     this.selectedTraitement = null;
+    this.selectDateStart = null;
+    this.selectDateEnd = null;
+    this.filterDateStart = null;
+    this.filterDateEnd = null;
   }
-
   public GetFirstLevel() {
     this.settingService
       .getAllDirectionRegionales({})
@@ -252,8 +265,16 @@ export class SuivieTraitementComponent implements OnInit {
       !this.selectedSecondLevel &&
       !this.selectedTransaction &&
       !this.selectedStatut &&
-      !this.selectedTraitement
+      !this.selectedTraitement &&
+      !this.filterDateStart && 
+      !this.filterDateStart
     ) ? true : false
+  }
+  changeDateStart(e) {
+    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+  }
+  changeDateEnd(e) {
+    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
   }
 }
 

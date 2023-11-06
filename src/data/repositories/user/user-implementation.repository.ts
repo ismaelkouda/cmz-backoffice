@@ -23,7 +23,7 @@ export class UserImplementationRepository extends UserRepository {
 
     login(params: { email: string, password: string }): Observable<UserModel> {
         return this.http
-            .post<UserEntity>(`${this.baseUrl}login`, params)
+            .post<UserEntity>(`${this.baseUrl}tenants/login`, params)
             .pipe(map(this.userMapper.mapFrom));
     }
 

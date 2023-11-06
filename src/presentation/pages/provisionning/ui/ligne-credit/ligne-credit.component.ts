@@ -3,9 +3,9 @@ import * as moment from 'moment';
 import { ProvisionningService } from '../../data-access/provisionning.service';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
+import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
+import { MappingService } from 'src/shared/services/mapping.service';
 const Swal = require('sweetalert2');
-// @ts-ignore
-import appConfig from '../../../../../assets/config/app-config.json';
 
 @Component({
   selector: 'app-ligne-credit',
@@ -14,7 +14,7 @@ import appConfig from '../../../../../assets/config/app-config.json';
 })
 export class LigneCreditComponent implements OnInit {
 
-  public fileUrl: string = appConfig.filUrl;
+  public fileUrl: string;
   public initialView: boolean = true;
   public formsView: boolean = false;
   public currentObject: any;
@@ -34,29 +34,33 @@ export class LigneCreditComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
-  public creditDisponible: number;
-  public creditAttente: number;
-  public provisioncurrentMount: number;
-  public provisionLastMount: number;
-
-
+  public ligneCreditStat: any;
+  public stateSoumis: string = StatutTransaction.SOUMIS;
+  public stateTraite: string = StatutTransaction.TARITER;
+  public stateCloture: string = StatutTransaction.CLOTURER;
+  public fr: any
   constructor(
     private provisionningService: ProvisionningService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
-
+    private mappingService: MappingService
   ) {
-    this.filterDateStart = new Date();
-    this.filterDateEnd = new Date();
-    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
-    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
-    this.listStatuts = ['en-cours', 'annulé'];
+    Object.values(StatutTransaction).forEach(item => {
+      this.listStatuts.push(item);
+    });
+    this.fileUrl = this.mappingService.fileUrl
   }
 
   ngOnInit() {
     this.GetAllLigneCredits();
-    if (this.initialView = true) {
-      this.OnStatCredit();
+    this.fr = {
+      dayNames: ["Dimanche", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      dayNamesShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+      dayNamesMin: ["Di","Lu","Ma","Me","Je","Ve","Sa"],
+      monthNames: ["janvier","February","March","April","May","June","July","August","September","Octobre","Novembre","December"],
+      monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      today: "AUjourd'hui",
+      weekHeader: "Wk"
     }
   }
 
@@ -70,6 +74,7 @@ export class LigneCreditComponent implements OnInit {
           this.totalRecords = res.data.total;
           this.recordsPerPage = res.data.per_page;
           this.offset = (res.data.current_page - 1) * this.recordsPerPage + 1;
+          this.OnStatCredit()
         },
         error: (err) => {
           this.toastrService.error(err.message);
@@ -82,11 +87,7 @@ export class LigneCreditComponent implements OnInit {
       .OnStatCredit({})
       .subscribe({
         next: (res) => {
-          const data = res['data'];
-          this.creditDisponible = data?.credit_disponible;
-          this.creditAttente = data?.credit_en_attente;
-          this.provisioncurrentMount = data?.provision_mois;
-          this.provisionLastMount = data?.provision_mois_m_1;
+          this.ligneCreditStat = res['data'];          
         },
         error: (err) => {
           this.toastrService.error(err.message);
@@ -128,6 +129,20 @@ export class LigneCreditComponent implements OnInit {
         }
       })
   }
+  public OnRefresh(){
+    this.GetAllLigneCredits();
+    this.selectedTransaction = null
+    this.selectedReference = null
+    this.selectedStatut = null
+    this.selectDateStart = null
+    this.selectDateEnd = null
+    this.filterDateStart = null
+    this.filterDateEnd = null
+  }
+
+    downloadFile(data) {
+    window.open(this.fileUrl + data?.justificatif)
+  }
 
   public OnCancelCredit(data: any): void {
     Swal.fire({
@@ -162,9 +177,7 @@ export class LigneCreditComponent implements OnInit {
   pipeValue(number: any) {
     return new Intl.NumberFormat('fr-FR').format(number);
   }
-  downloadFile(data) {
-    window.open(this.fileUrl + data?.justificatif)
-  }
+
   public copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
@@ -189,6 +202,11 @@ export class LigneCreditComponent implements OnInit {
 
   public pushListCredits(event: any): void {
     this.listCredits = event;
+  }
+  public pushLigneCreditStat(event: any): void {
+    console.log("event",event);
+    
+    this.ligneCreditStat = event;
   }
   public pushStatutView(event: boolean): void {
     this.formsView = event;

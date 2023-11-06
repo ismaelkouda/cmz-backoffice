@@ -4,11 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { COURBE_MESSAGE, ETAT_LIAISON, PERFORMANCE_COLLECTE } from '../../analyse-alerte-routing.module';
-
-// @ts-ignore
-import appConfig from '../../../../../assets/config/app-config.json';
 import { EndPointUrl } from '../../data-access/api.enum';
 import { SUPERVISION_SIM } from 'src/shared/routes/routes';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
   selector: 'app-collecte',
@@ -17,7 +15,7 @@ import { SUPERVISION_SIM } from 'src/shared/routes/routes';
 })
 export class CollecteComponent implements OnInit {
 
-  public BASE_URL: any = appConfig.serverUrl;
+  public baseUrl: string;
   public listFluxCollecte: any[] = [];
   public listDirectionRegionales: Array<any> = [];
   public listExploitations: Array<any> = [];
@@ -45,8 +43,10 @@ export class CollecteComponent implements OnInit {
     private http: HttpClient,
     private toastrService: ToastrService,
     private router: Router,
-    private settingService: SettingService
+    private settingService: SettingService,
+    private mappingService: MappingService
   ) {
+    this.baseUrl = mappingService.baseUrl
   }
 
   ngOnInit() {
@@ -61,11 +61,11 @@ export class CollecteComponent implements OnInit {
   public onGetAllFluxCollecte() {
     let baseUrl;
     if (this.router.url === `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`) {
-      baseUrl = `${this.BASE_URL}${EndPointUrl.PERFORMANCES_COLLECTE}`
+      baseUrl = `${this.baseUrl}${EndPointUrl.PERFORMANCES_COLLECTE}`
     } else if (this.router.url === `/${SUPERVISION_SIM}/${COURBE_MESSAGE}`) {
-      baseUrl = `${this.BASE_URL}${EndPointUrl.PERFORMANCES_COLLECTE}`
+      baseUrl = `${this.baseUrl}${EndPointUrl.PERFORMANCES_COLLECTE}`
     } else if (this.router.url === `/${SUPERVISION_SIM}/${ETAT_LIAISON}`) {
-      baseUrl = `${this.BASE_URL}${EndPointUrl.ANALYSE_ALERTES}`
+      baseUrl = `${this.baseUrl}${EndPointUrl.ANALYSE_ALERTES}`
     }
     this.http.post(`${baseUrl}?page=${this.p}`, {})
       .subscribe({
@@ -89,11 +89,11 @@ export class CollecteComponent implements OnInit {
   public onFilter() {
     let baseUrl;
     if (this.router.url === `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`) {
-      baseUrl = `${this.BASE_URL}${EndPointUrl.PERFORMANCES_COLLECTE}`
+      baseUrl = `${this.baseUrl}${EndPointUrl.PERFORMANCES_COLLECTE}`
     } else if (this.router.url === `/${SUPERVISION_SIM}/${COURBE_MESSAGE}`) {
-      baseUrl = `${this.BASE_URL}${EndPointUrl.PERFORMANCES_COLLECTE}`
+      baseUrl = `${this.baseUrl}${EndPointUrl.PERFORMANCES_COLLECTE}`
     } else if (this.router.url === `/${SUPERVISION_SIM}/${ETAT_LIAISON}`) {
-      baseUrl = `${this.BASE_URL}${EndPointUrl.ANALYSE_ALERTES}`
+      baseUrl = `${this.baseUrl}${EndPointUrl.ANALYSE_ALERTES}`
     }
     this.http.post(`${baseUrl}?page=1`, {
       niveau_un_id: this.selectedDirection?.id,

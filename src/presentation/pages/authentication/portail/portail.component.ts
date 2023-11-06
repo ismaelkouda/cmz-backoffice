@@ -6,6 +6,7 @@ const Swal = require('sweetalert2');
 
 // @ts-ignore
 import { menuJson } from 'src/assets/menu';
+import { ProvisionningService } from '../../provisionning/data-access/provisionning.service';
 
 
 
@@ -60,18 +61,6 @@ export class PortailComponent implements OnInit, AfterViewInit {
       }
     })
     this.portailJson = this.permissionsJson;
-
-    // this.permissionsJson.map((item) => {
-    //   item?.children.map((value, index) => {
-    //     if (!this.profil?.permissions_sous_modules.includes(value?.data)) {
-    //       //item?.children.splice(index, 1);
-    //     }
-
-    //   });
-    // });
-
-    console.log("this.portailJson", this.portailJson);
-
     this.storage.saveData("current_menu", JSON.stringify(this.permissionsJson))
   }
 

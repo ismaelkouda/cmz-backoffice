@@ -38,7 +38,7 @@ export class PatrimoineFormsComponent implements OnInit {
   public listCommunes: Array<any> = [];
   public selectedDepartement: any;
   public selectedCommune: any;
-
+  public soldeGlobal: string
   //Mapping
   firstLevelLibelle: string;
   secondLevelLibelle: string;
@@ -65,8 +65,7 @@ export class PatrimoineFormsComponent implements OnInit {
     this.GetAllUsages();
     this.getAllZones();
     this.onFormPachValues();
-
-    console.log("logdata", this.currentObject);
+    this.OnRefreshValues()    
 
   }
 
@@ -192,6 +191,12 @@ export class PatrimoineFormsComponent implements OnInit {
     });
   }
 
+  OnRefreshValues(){
+    this.mappingService.volumeDataGlobal$.subscribe((res: any) => {
+      this.soldeGlobal = res
+    });
+  }
+
   public onFormPachValues(): void {
 
     //Identification Controls
@@ -252,6 +257,9 @@ export class PatrimoineFormsComponent implements OnInit {
           this.toastrService.error(error.error.message);
         }
       })
+  }
+  pipeValue(number: any) {
+    return new Intl.NumberFormat('fr-FR').format(number);
   }
 
 }      

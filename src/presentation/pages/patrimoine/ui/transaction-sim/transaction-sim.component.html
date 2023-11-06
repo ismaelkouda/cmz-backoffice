@@ -28,7 +28,7 @@
                   <label>
                     <b>Transaction</b>
                   </label>
-                  <input placeholder="Transaction" [(ngModel)]="selectedSim" type="text" pInputText />
+                  <input placeholder="Transaction" [(ngModel)]="selectedTransaction" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-2">
@@ -79,7 +79,7 @@
                 <button pButton pRipple label="Transaction en masse" icon="pi pi-plus" class="p-button btn-dark"
                   (click)="onInitForm()" [disabled]="true">
                 </button>
-                <button pButton pRipple label="Rafraichir" (click)="GetAllTransactions()" icon="pi pi-refresh"
+                <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
                   class="p-button-secondary">
                 </button>
               </div>
@@ -107,21 +107,23 @@
                     *ngFor="let data of listTransactions | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                     <td>{{ (this.offset + i)}}</td>
                     <td style="text-align: left;">{{data?.updated_at}}</td>
-                    <td>{{data?.transaction}} </td>
+                    <td (click)="copyData(data.transaction)" style="cursor: pointer">{{data?.transaction}}</td>
                     <td>{{data?.operation | uppercase}}</td>
                     <td>
-                      <span *ngIf="data?.imsi" (click)="copyData(data.imsi)"
-                        style="cursor: pointer">{{data?.imsi}}</span>
+                      <span (click)=" data?.imsi ?copyData(data.imsi): null"
+                        style="cursor: pointer">{{data?.imsi ?? 'N/A'}}</span>
                     </td>
                     <td>
-                      <span *ngIf="data?.msisdn" (click)="copyData(data.msisdn)"
-                        style="cursor: pointer">{{data?.msisdn}}</span>
+                      <span (click)=" data?.msisdn ?copyData(data.msisdn): null"
+                        style="cursor: pointer">{{data?.msisdn ?? 'N/A'}}</span>
                     </td>
                     <td class="text-center">
                       <span [ngStyle]="{'font-size':'16px'}" class="badge"
-                        [class.badge-dark]="data?.statut === stateSoumis"
-                        [class.badge-Infos]="data?.statut === stateTraite"
-                        [class.badge-success]="data?.statut === stateCloture">
+                        [class.badge-dark]="data?.statut === treatmenEntente || data?.statut === treatmenAcquiter"
+                        [class.badge-danger]="data?.statut === treatmenRejeter"
+                        [class.badge-warning]="data?.statut === treatmenCancel"
+                        [class.badge-info]="data?.statut === treatmenAccepter"
+                        [class.badge-success]="(data?.statut === stateCloture)">
                         {{ data.statut }}
                       </span>
                     </td>

@@ -7,17 +7,16 @@
         <div class="card-body">
           <div class="row statistique">
             <div class="col-md-4">
-              <app-card-stock [cardBgColor]="'#DF7401'" [legend]="'SIM MSISDN'" [count]="500500"
+              <app-card-stock [cardBgColor]="'#DF7401'" [legend]="'SIM MSISDN'" [count]="soldeSimA || '0'"
                 [legendColor]="'#FFFFFF'" [countColor]="'#FFFFFF'"></app-card-stock>
             </div>
             <div class="col-md-4">
-              <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'SIM Blanches
-              '" [count]="500500" [legendColor]="'#DF7401'" [countColor]="'#DF7401'"></app-card-stock>
+              <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'SIM Blanches'" [count]="soldeSimB || '0'" [legendColor]="'#DF7401'" [countColor]="'#DF7401'"></app-card-stock>
             </div>
 
             <div class="col-md-4">
               <app-card-stock [cardBgColor]="'#424242'" [cardBorderColor]="'#DF7401'"
-                [legend]="'Volume Data Partagé (Go)'" [count]="500500" [legendColor]="'#FFFFFF'"
+                [legend]="'Volume Data Partagé (Go)'" [count]="soldeData || '0'"[legendColor]="'#FFFFFF'"
                 [countColor]="'#FFFFFF'"></app-card-stock>
             </div>
           </div>
@@ -26,25 +25,17 @@
             <div class="col-md-2">
               <div class="form-group">
                 <label>
-                  <b>Type</b>
+                  <b>Transaction</b>
                 </label>
-                <p-dropdown [options]="listTypes" [(ngModel)]="selectedType" [showClear]="true" placeholder="Type">
-                  <ng-template let-data pTemplate="item">
-                    <div class="country-item">
-                      <div>
-                        {{data}}
-                      </div>
-                    </div>
-                  </ng-template>
-                </p-dropdown>
+                <input placeholder="Transaction" [(ngModel)]="selectedTransaction" type="text" pInputText />
               </div>
             </div>
             <div class="col-md-2">
               <div class="form-group">
                 <label>
-                  <b>Transaction</b>
+                  <b>Reference</b>
                 </label>
-                <input placeholder="Transaction" [(ngModel)]="selectedTransaction" type="text" pInputText />
+                <input placeholder="Reference" [(ngModel)]="selectedReference" type="text" pInputText />
               </div>
             </div>
             <div class="col-md-2">
@@ -79,10 +70,15 @@
             </div>
           </div>
           <hr>
+          <div class="table_actions_wrapper">
+            <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="OnRefresh()"
+              class="p-button-secondary"></button>
+            <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button>
+          </div>
           <div class="table_content_wrapper">
-            <div class="table_header mt-2">
+            <div class="table_header">
               <div class="table_header__legende">
-                <h4 class="pt-2">
+                <h4>
                   <b>Liste des 50 derniers mouvements</b>
                 </h4>
               </div>
@@ -91,28 +87,32 @@
             <table [ngClass]="['native_table table']">
               <thead>
                 <th class="text-center">#</th>
-                <th class="text-center">Date Transaction</th>
+                <th class="text-center">Date création</th>
                 <th class="text-center">Transaction</th>
+                <th class="text-center">Reference</th>
                 <th class="text-center">Type Transaction</th>
                 <th class="text-center">Initiateur</th>
                 <th class="text-center">Produit</th>
-                <th class="text-center">Quantité</th>
-                <th class="text-center" [ngStyle]="{width: '3rem'}">Actions</th>
+                <th class="text-center">Qté Avant</th>
+                <th class="text-center">Qté Après</th>
               </thead>
               <tbody>
                 <tr
                   *ngFor="let data of listStocks | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                   <td>{{ (this.offset + i)}}</td>
-                  <td></td>
-                  <td class="td-actions">
-                    <p-button icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
-                      styleClass="p-button-dark"></p-button>
-                  </td>
+                  <td>{{data?.created_at}}</td>
+                  <td (click)="copyData(data?.numero_transaction)" style="cursor: pointer">{{data?.numero_transaction}}</td>
+                  <td (click)="copyData(data?.numero_commande)" style="cursor: pointer">{{data?.numero_commande}}</td>
+                  <td>{{data?.transaction?.operation}}</td>
+                  <td>{{data?.transaction?.initiateur?.nom}} {{data?.transaction?.initiateur?.prenoms}}</td>
+                  <td>{{data?.code_produit}}</td>
+                  <td>{{data?.qte_avant}}</td>
+                  <td>{{data?.qte_apres}}</td>
                 </tr>
               </tbody>
             </table>
             <div [ngClass]="['pagination-controls']">
-              <pagination-controls previousLabel="" nextLabel="">
+              <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
               </pagination-controls>
             </div>
           </div>

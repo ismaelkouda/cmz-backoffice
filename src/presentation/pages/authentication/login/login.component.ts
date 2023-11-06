@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   public show: boolean = false
   public siteKey: string;
   public currentRecaptcha: string;
+  
   constructor(
     private fb: FormBuilder,
     private readonly userLoginUseCase: UserLoginUseCase,
@@ -39,10 +40,6 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    // if (!this.currentRecaptcha) {
-    //   this.toastService.warning('Etes vous un robot ?');
-    //   return;
-    // }
     this.userLoginUseCase.execute(this.loginForm.value).subscribe({
       next: (response) => {
         this.storage.saveData('user', JSON.stringify(response.data));

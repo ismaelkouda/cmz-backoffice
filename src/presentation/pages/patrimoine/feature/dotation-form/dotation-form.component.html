@@ -1,11 +1,17 @@
 <div>
   <div class="forms-feature-header">
-    <div>
-      <h4>
-        <b>
-          <span>Nouvelle Dotation</span>
-        </b>
-      </h4>
+    <div style="width: 80%;display: flex;gap: 1rem;">
+        <div>
+          <h4><b><span>Nouvelle Dotation</span></b></h4>
+        </div>
+        <div style="display: flex;gap: 1rem">
+          <div>
+            <h4><b><span>Solde Global :</span></b></h4>
+          </div>
+          <div class="form-group" style="position: relative;top: -0.7rem;width: 15rem;">
+            <app-count-box label="Solde Dotation (Go):" [value]="pipeValue(soldeGlobal || '0')"></app-count-box>
+          </div>
+      </div>
     </div>
     <div class="forms-feature-header__button">
       <div>
@@ -43,7 +49,7 @@
                 <input placeholder="Saisir le numéro" [(ngModel)]="selectedValue" type="text" pInputText />
               </div>
               <div [ngStyle]="{width: '15rem'}" *ngIf="radioValue === 'GROUPE'">
-                <p-dropdown [options]="listGroupes" optionLabel="nom" placeholder="Nom Groupe" optionValue="id">
+                <p-dropdown [options]="listGroupes" optionLabel="nom" [(ngModel)]="selectedGroupe" placeholder="Nom Groupe">
                   <ng-template let-data pTemplate="item">
                     <div class="country-item">
                       <div>
@@ -55,7 +61,7 @@
               </div>
             </div>
             <div>
-              <button pButton pRipple label="Verifier" (click)="onVerify()" [disabled]="isFilter()" icon="pi pi-sync"
+              <button pButton pRipple label="Verifier" (click)="OnVerify()" [disabled]="isFilter()" icon="pi pi-sync"
                 class="p-button-success"></button>
             </div>
           </div>
@@ -90,9 +96,9 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label>
-                  <b>Bénéficiaire</b>
+                  <b>Nom Emplacement</b>
                 </label>
-                <input type="text" [(ngModel)]="currentPatrimoine.beneficiaire" [disabled]="true" pInputText />
+                <input type="text" [(ngModel)]="currentPatrimoine.point_emplacement" [disabled]="true" pInputText />
               </div>
             </div>
           </div>
@@ -104,7 +110,7 @@
                 <label>
                   <b>Nom Groupe</b>
                 </label>
-                <input type="text" [(ngModel)]="currentPatrimoine.msisdn" [disabled]="true" pInputText />
+                <input type="text" [(ngModel)]="currentGroupe.nom" [disabled]="true" pInputText />
               </div>
             </div>
             <div class="col-md-4">
@@ -112,7 +118,7 @@
                 <label>
                   <b>SIM affectées</b>
                 </label>
-                <input type="text" [(ngModel)]="currentPatrimoine.imsi" [disabled]="true" pInputText />
+                <input type="text" [(ngModel)]="currentGroupe.sims_count" [disabled]="true" pInputText />
               </div>
             </div>
             <div class="col-md-4">
@@ -120,7 +126,7 @@
                 <label>
                   <b>Statut</b>
                 </label>
-                <input type="text" [(ngModel)]="currentPatrimoine.statut" style="text-transform: uppercase;"
+                <input type="text" [(ngModel)]="currentGroupe.statut" style="text-transform: uppercase;"
                   [disabled]="true" pInputText />
               </div>
             </div>
@@ -137,11 +143,11 @@
               <b>Services</b>
             </legend>
             <div class="d-flex gap-5" style="padding-top: 1.3rem;">
-              <div class="d-flex gap-2">
+              <!-- <div class="d-flex gap-2">
                 <p-radioButton name="valeur" [value]="airtimeService" [(ngModel)]="selectedService" inputId="imsi"
                   class="mt-2"></p-radioButton>
                 <label for="imsi" style="margin-top: 1.6rem">Airtime</label>
-              </div>
+              </div> -->
               <div class="d-flex gap-2">
                 <p-radioButton name="valeur" [value]="dataService" [(ngModel)]="selectedService" inputId="msisdn"
                   class="mt-2"></p-radioButton>
@@ -156,11 +162,11 @@
               <b>{{selectedService === airtimeService ? 'Montant (FCFA)' : 'Volume (Go)'}}</b>
             </legend>
             <div class="row">
-              <div class="form-group" *ngIf="selectedService ===airtimeService">
+              <!-- <div class="form-group" *ngIf="selectedService ===airtimeService">
                 <input type="text" placeholder="10 000" pInputText />
-              </div>
+              </div> -->
               <div class="form-group" *ngIf="selectedService ===dataService">
-                <input type="text" placeholder="volume" pInputText />
+                <input type="number" [(ngModel)]="selectedVolume" placeholder="volume" pInputText />
               </div>
             </div>
           </fieldset>
@@ -186,8 +192,8 @@
     <div>
       <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha">
       </ngx-recaptcha2>
-      <button pButton label="Soumettre" class="p-button-success" [disabled]="true"
-        (click)="HandleSaveDotation()"></button>
+      <button pButton label="Soumettre" [disabled]="IsValidate()" class="p-button-success"
+        (click)="handleSaveDotation()"></button>
     </div>
   </div>
 </div>

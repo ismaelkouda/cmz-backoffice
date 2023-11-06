@@ -2,67 +2,78 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EndPointUrl } from './api.enum';
 import { Observable } from 'rxjs';
-
-// @ts-ignore
-import appConfig from '../../../../assets/config/app-config.json';
+import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProvisionningService {
 
-  public BASE_URL: any = appConfig.serverUrl;
-
+  public baseUrl: string;
 
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    private storage: EncodingDataService,
+  ) {
+    const data = JSON.parse(this.storage.getData('user'))
+    this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
+  }
 
   GetAllCommandes(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_COMMANDES_SIM);
-    return this.http.post(`${this.BASE_URL}${url}`, data);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+  GetAllPortefeuille(): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_PORTEFEUILLE);
+    return this.http.get(`${this.baseUrl}${url}`);
   }
   // Ligne Credits
   GetAllLigneCredits(data, page): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_LIGNE_CREDIT).replace('{page}', page);
-    return this.http.post(`${this.BASE_URL}${url}`, data);
+    return this.http.post(`${this.baseUrl}${url}`, data);
   }
   OnSaveCredit(data): Observable<any> {
     const url: string = (<string>EndPointUrl.SAVE_PROVISION_CREDIT);
-    return this.http.post(`${this.BASE_URL}${url}`, data);
+    return this.http.post(`${this.baseUrl}${url}`, data);
   }
   OnCancelCredit(data): Observable<any> {
     const url: string = (<string>EndPointUrl.CANCEL_CREDIT);
-    return this.http.put(`${this.BASE_URL}${url}`, data);
+    return this.http.put(`${this.baseUrl}${url}`, data);
   }
   OnStatCredit(data): Observable<any> {
     const url: string = (<string>EndPointUrl.STAT_CREDIT);
-    return this.http.post(`${this.BASE_URL}${url}`, data);
+    return this.http.post(`${this.baseUrl}${url}`, data);
   }
   //Achats Produits & Services
 
   GetAllAchats(data, page): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_ACHATS).replace('{page}', page);
-    return this.http.post(`${this.BASE_URL}${url}`, data);
+    return this.http.post(`${this.baseUrl}${url}`, data);
   }
   GetAllServices(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_SERVICES);
-    return this.http.post(`${this.BASE_URL}${url}`, data);
+    return this.http.post(`${this.baseUrl}${url}`, data);
   }
   GenerateNumeroCommande(): Observable<any> {
     const url: string = ('');
-    return this.http.get(`${this.BASE_URL}${url}`);
+    return this.http.get(`${this.baseUrl}${url}`);
   }
   OnSaveCommande(data): Observable<any> {
     const url: string = (<string>EndPointUrl.SAVE_COMMANDE);
-    return this.http.post(`${this.BASE_URL}${url}`, data);
+    return this.http.post(`${this.baseUrl}${url}`, data);
   }
   OnValidate(data): Observable<any> {
     const url: string = (<string>EndPointUrl.VALIDATE_COMMANDE_PROFORMAT);
-    return this.http.post(`${this.BASE_URL}${url}`, data);
+    return this.http.post(`${this.baseUrl}${url}`, data);
   }
   OnStatAchat(data): Observable<any> {
     const url: string = (<string>EndPointUrl.STAT_ACHAT);
-    return this.http.post(`${this.BASE_URL}${url}`, data);
+    return this.http.post(`${this.baseUrl}${url}`, data);
   }
+
+    //Stocks Produits & Services
+    GetAllStocks(data, page): Observable<any> {
+      const url: string = (<string>EndPointUrl.GET_ALL_STOCKS).replace('{page}', page);
+      return this.http.post(`${this.baseUrl}${url}`, data);
+    }
 }

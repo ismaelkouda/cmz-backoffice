@@ -99,11 +99,13 @@
         </div>
         <div class="col-md-2">
           <label class="block"><b>Date début</b></label>
-          <p-calendar [showIcon]="true" dateFormat="dd-mm-yy"></p-calendar>
+          <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
+            (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy"></p-calendar>
         </div>
         <div class="col-md-2">
-          <label class="block"><b>Date fin</b></label>
-          <p-calendar [showIcon]="true" dateFormat="dd-mm-yy"></p-calendar>
+          <label class="block"><b>Date fin </b></label>
+          <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+            (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy"></p-calendar>
         </div>
         <div class="p-0" [ngStyle]="{width: '4rem'}">
           <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
@@ -162,8 +164,8 @@
               <td class="cursor-pointer text-center" (click)="copyTransaction(transaction.transaction)">
                 {{ transaction.transaction }}
               </td>
-              <td class="text-center">{{transaction?.niveau_1?.nom}}</td>
-              <td class="text-center">{{transaction?.niveau_2?.nom}}</td>
+              <td class="text-center">{{transaction?.operation === activationTransaction ? transaction?.niveau_1?.nom : '-'}}</td>
+              <td class="text-center">{{transaction?.operation === activationTransaction ? transaction?.niveau_2?.nom : '-'}}</td>
               <td class="text-center">
                 {{ formatTitle(transaction?.operation ?? 'N/A') }}
               </td>
@@ -199,9 +201,11 @@
                   {{ transaction.traitement }}
                 </span>
               </td>
-              <td [style]="{width: '10rem'}">
-                {{ transaction?.statut === stateTraite ? transaction?.date_traitement: 'N/A' }}
-              </td>
+             <td>
+              <span>
+                {{ transaction?.date_traitement ?? 'N/A' }}
+              </span>
+             </td>
               <td class="text-center">
                 <span>
                   {{ transaction?.intervenant_nom }} {{ transaction?.intervenant_prenoms }}

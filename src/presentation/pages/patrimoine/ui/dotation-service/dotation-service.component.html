@@ -9,6 +9,14 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
+                    <b>Numero Dotation</b>
+                  </label>
+                  <input placeholder="Numero" [(ngModel)]="selectedNumero" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
                     <b>IMSI</b>
                   </label>
                   <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
@@ -27,16 +35,7 @@
                   <label>
                     <b>Emplacement</b>
                   </label>
-                  <p-dropdown [options]="listGroupes" [showClear]="true" [(ngModel)]="selectedGroupe"
-                    placeholder="Emplacement">
-                    <ng-template let-data pTemplate="item">
-                      <div class="country-item">
-                        <div>
-                          {{data | titlecase}}
-                        </div>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
+                  <input placeholder="Emplacement" [(ngModel)]="selectedEmplacement" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-1">
@@ -47,17 +46,29 @@
             <hr>
             <div class="table_content_wrapper">
               <div class="table_actions_wrapper pt-2">
-                <button pButton pRipple label="Nouvelle Dotation" icon="pi pi-plus" class="p-button-success"
-                  (click)="onInitForm()">
-                </button>
-                <button pButton pRipple label="Rafraichir" (click)="GetAllDotations()" icon="pi pi-refresh"
-                  class="p-button-secondary">
-                </button>
+                <div>
+                    <button pButton pRipple label="Nouvelle Dotation" icon="pi pi-plus" class="p-button-success"
+                    (click)="onInitForm()" >
+                  </button>
+                </div>
+                <div>
+                    <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
+                    class="p-button-secondary">
+                  </button>
+                </div>
+                <div style="display: flex;gap: 1rem;margin-top: 1rem;">
+                    <div>
+                      <b>Solde global (Go) :</b>
+                    </div>
+                    <div class="form-group" style="position: relative;top: -1rem;width: 15rem;">
+                      <app-count-box label="Solde Dotation (Go):" [value]="pipeValue(soldeGlobal || '0')"></app-count-box>
+                    </div>
+                </div>
               </div>
               <div class="d-flex gap-3 mt-2">
                 <div class="table_header__legende">
                   <h4 class="pt-2">
-                    <b>Liste des dotations mensuelles de services</b>
+                    <b>Liste des dotations de services</b>
                   </h4>
                 </div>
                 <div class="table_header__input"></div>
@@ -65,41 +76,38 @@
               <table [ngClass]="['native_table table']">
                 <thead>
                   <th class="text-center">#</th>
+                  <th class="text-center">Numero demande</th>
                   <th class="text-center">IMSI</th>
                   <th class="text-center">MSISDN</th>
                   <th>Emplacement</th>
-                  <th>Fixe</th>
-                  <th>Data (Go)</th>
-                  <th>Airtime (FCFA)</th>
-                  <th># SMS</th>
-                  <th>Date Création</th>
-                  <th>Date MAJ</th>
-                  <th class="text-center">Actions</th>
+                  <th>Desc</th>
+                  <th><span>Data</span><span>(Go)</span></th>
+                  <th>Initiateur</th>
+                  <th><span>Avant</span><span>(Kb)</span></th>
+                  <th><span>Après</span><span>(Kb)</span></th>
+                  <th>Date</th>
                 </thead>
                 <tbody>
                   <tr
                     *ngFor="let data of listDotations | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
-                    <td>{{ (this.offset + i)}}</td>
-                    <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
-                    <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data.msisdn}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>{{data?.updated_at}}</td>
-                    <td>{{data?.created_at}}</td>
-                    <td>
-                      <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
-                        [class.badge-success]="data.statut === 'cloture'"
-                        [class.badge-warning]="data.statut === 'en-cours'">
-                        {{ data.statut }}
-                      </span>
+                    <td class="text-center">{{ i+1}}</td>
+                    <td (click)="copyData(data?.numero_dotation)" style="cursor: pointer">{{data?.numero_dotation}}</td>
+                    <td  (click)="copyData(data?.sim.imsi)" style="width: 5rem; cursor: pointer">
+                      {{ data?.sim.imsi }}
                     </td>
-                    <td class="text-center">
-                      <p-button icon="pi pi-pencil" styleClass="p-button-secondary" pTooltip="Editer"
-                        tooltipPosition="top"></p-button>
+                    <td (click)="copyData(data?.sim.msisdn)" style="width: 4rem;cursor: pointer">
+                             {{ data?.sim.imsi }}
                     </td>
+                    <td (click)="copyData(data?.point_emplacement)" style="cursor: pointer">{{data?.point_emplacement}}</td>
+                    <td class="text-start">
+                      <button pButton pRipple label="voir" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"
+                      (click)="showDialog(data)"></button>
+                    </td>
+                    <td>{{data.valeur}}</td>
+                    <td class="text-start">{{data?.initiateur?.nom}} {{data?.initiateur?.prenoms}}</td>
+                    <td>{{data?.solde_avant}}</td>
+                    <td>{{data?.solde_apres}}</td>
+                    <td class="text-start">{{data?.updated_at}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -110,7 +118,7 @@
             </div>
           </div>
           <app-dotation-form [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
-            (listTransactions)="pushListTransactions($event)"></app-dotation-form>
+            (listDotations)="pushlistDotations($event)"></app-dotation-form>
         </div>
       </div>
     </div>

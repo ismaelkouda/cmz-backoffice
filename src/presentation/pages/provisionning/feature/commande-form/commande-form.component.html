@@ -1,4 +1,6 @@
-<div *ngIf="initialView">
+
+
+<div *ngIf="!currentObject?.show">
   <div class="forms-feature-header">
     <div>
       <h3>
@@ -46,10 +48,10 @@
   </div>
   <!--[disabled]="!currentRecaptcha"-->
 </div>
-<div>
+<!-- <div>
   <app-facture [currentObjectTwo]="currentObjectTwo" *ngIf="factureView" (factureView)="pushStatutView($event,'data')"
     [currentId]="currentId"></app-facture>
-</div>
+</div> -->
 <ng-template #content let-modal style="width: 70rem;">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">{{currentItem?.nom}}</h4>
@@ -80,7 +82,7 @@
     </h3>
   </ng-template>
   <ng-template pTemplate="content">
-    <div style="    position: fixed;
+    <div style="
     display: flex;
     gap: 1rem;
     width: 100%;padding-right: 1.8rem;">
@@ -131,3 +133,27 @@
     </div>
   </ng-template>
 </p-dialog>
+
+<div *ngIf="currentObject?.show">
+  <div class="forms-feature-header">
+    <div>
+      <h3>
+        <b>
+          <span>Visualisation de la Commande</span>
+          <span class="current_values">[{{currentObject?.transaction}}]</span>        </b>
+      </h3>
+    </div>
+    <div class="forms-feature-header__button" style="display: flex;gap: 1.5rem;">
+      <div>
+        <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <p-tabView>
+    <p-tabPanel header="HISTORIQUE">
+      <app-historique [module]="''" [sous_module]="''" [modele]="'achat_service'" [modele_id]="currentObject.id">
+      </app-historique>
+    </p-tabPanel>
+  </p-tabView>
+</div>

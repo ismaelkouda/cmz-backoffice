@@ -5,7 +5,6 @@ import Pusher from "pusher-js";
     providedIn: 'root',
 }) export class PusherWebsocketService {
 
-
     pusher: any = "";
     channel: any;
 
@@ -19,16 +18,4 @@ import Pusher from "pusher-js";
 
         this.channel = this.pusher.subscribe('chan-alarme-status');
     }
-
-
-    /*
-            this.pusher = new Pusher("823d0d42b48a3009275a",
-            {
-                cluster: "eu",
-                wsPort: 6001,
-                wsHost: "http://10.10.0.200",
-            });
-        this.channel = this.pusher.subscribe('chan-alarme-status');
-    */
-
 }

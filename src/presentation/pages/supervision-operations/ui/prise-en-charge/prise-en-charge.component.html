@@ -85,12 +85,14 @@
       <!--------------------Second-------------Filter--------->
       <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
         <div class="col-md-2">
-          <label class="block"><b>Date début <span class="text-danger">*</span></b></label>
-          <p-calendar [showIcon]="true" dateFormat="dd-mm-yy"></p-calendar>
+          <label class="block"><b>Date début</b></label>
+          <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
+            (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy"></p-calendar>
         </div>
         <div class="col-md-2">
-          <label class="block"><b>Date fin <span class="text-danger">*</span></b></label>
-          <p-calendar [showIcon]="true" dateFormat="dd-mm-yy"></p-calendar>
+          <label class="block"><b>Date fin </b></label>
+          <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+            (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy"></p-calendar>
         </div>
         <div class="p-0" [ngStyle]="{width: '4rem'}">
           <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
@@ -116,7 +118,7 @@
           <ng-template pTemplate="caption">
             <div class="seach_and_btns p-0">
               <div>
-                <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"></button>
+                <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary" (click)="OnRefresh()"></button>
                 <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf ms-3"></button>
               </div>
               <div>

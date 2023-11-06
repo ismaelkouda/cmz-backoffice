@@ -4,11 +4,11 @@ import { ToastrService } from 'ngx-toastr';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
-import { LocalStorageService } from 'ngx-webstorage';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
+import * as moment from 'moment';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -38,7 +38,10 @@ export class PriseEnChargeComponent implements OnInit {
   public firstLevelLibelle: string;
   public secondLevelLibelle: string;
   public thirdLevelLibelle: string;
-  public selectedOperationSYN: boolean = false
+  public filterDateStart: Date;
+  public filterDateEnd: Date;
+  public selectDateStart: any;
+  public selectDateEnd: any;
   public secondFilter: boolean = false;
   public totalPage: 0;
   public totalRecords: 0;
@@ -68,15 +71,16 @@ export class PriseEnChargeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.GetAllPriseEnCharge()
     this.GetFirstLevel();
     this.getAllUsers();
     this.isFilter();
     localStorage.setItem('layout', 'Barcelona');
   }
 
-  public GetAllTransactions() {
+  public GetAllPriseEnCharge() {
     this.supervisionOperationService
-      .GetAllTransactions({}, this.p)
+      .GetAllPriseEnCharge({}, this.p)
       .subscribe({
         next: (response) => {
           this.listTraitemants = response.data.data;
@@ -92,14 +96,16 @@ export class PriseEnChargeComponent implements OnInit {
   }
   public onFilter(): void {
     const data = {
+      operation: this.selectedTypeOperation,
       transaction: this.selectedTransaction,
       statut: this.selectedStatut,
-      traitement: this.selectedTraitement,
       niveau_un: this.selectedFirstLevel?.id,
       niveau_deux: this.selectedSecondLevel?.id,
+      date_debut: this.selectDateStart,
+      date_fin: this.selectDateEnd,
     };
     this.supervisionOperationService
-      .GetAllTransactions(data, this.p)
+      .GetAllPriseEnCharge(data, this.p)
       .subscribe({
         next: (response) => {
           this.listTraitemants = response['data']['data'];
@@ -117,10 +123,14 @@ export class PriseEnChargeComponent implements OnInit {
       });
   }
   OnRefresh() {
-    this.GetAllTransactions();
+    this.GetAllPriseEnCharge();
+    this.selectedTypeOperation = null
     this.selectedTransaction = null;
     this.selectedStatut = null;
-    this.selectedTraitement = null;
+    this.selectedFirstLevel = null;
+    this.selectedSecondLevel = null
+    this.selectDateStart = null;
+    this.selectDateEnd = null;  
   }
   public GetFirstLevel() {
     this.settingService
@@ -177,12 +187,20 @@ export class PriseEnChargeComponent implements OnInit {
     this.secondFilter = !this.secondFilter;
   }
   public isFilter(): boolean {
-    return (!this.selectedTypeOperation &&
+    return (
+      !this.selectedTypeOperation &&
       !this.selectedFirstLevel &&
       !this.selectedSecondLevel &&
       !this.selectedTransaction &&
-      !this.selectedStatut &&
-      !this.selectedTraitement
+      !this.selectedStatut  &&
+      !this.filterDateStart &&
+      !this.filterDateStart 
     ) ? true : false
+  }
+  changeDateStart(e) {
+    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+  }
+  changeDateEnd(e) {
+    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
   }
 }

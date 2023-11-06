@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
+import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 
 @Component({
   selector: 'app-transaction-sim',
@@ -27,6 +28,7 @@ export class TransactionSimComponent implements OnInit {
   public selectedSim: string;
   public selectedimsi: string;
   public selectedOperation: string;
+  public selectedTransaction: string;
   public selectedStatut: string;
   public totalPage: 0;
   public totalRecords: 0;
@@ -38,6 +40,11 @@ export class TransactionSimComponent implements OnInit {
   public stateSoumis: string = StatutTransaction.SOUMIS;
   public stateTraite: string = StatutTransaction.TARITER;
   public stateCloture: string = StatutTransaction.CLOTURER;
+  public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
+  public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
+  public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
+  public treatmenRejeter: string = TraitementTransaction.REJETER;
+  public treatmenCancel: string = TraitementTransaction.ABANDONNER;
 
   constructor(
     public settingService: SettingService,
@@ -55,7 +62,9 @@ export class TransactionSimComponent implements OnInit {
       OperationTransaction.SWAP,
       OperationTransaction.VOLUME_DATA
     ],
-      this.listStatuts = ['en-cours', 'cloturé']
+      Object.values(TraitementTransaction).forEach(item => {
+        this.listStatuts.push(item);
+      });
   }
 
   ngOnInit() {
@@ -92,10 +101,11 @@ export class TransactionSimComponent implements OnInit {
   public onFilter() {
     this.patrimoineService
       .GetAllTransactions({
+        operation: this.selectedOperation,
+        transaction: this.selectedTransaction,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
         statut: this.selectedStatut,
-        operation: this.selectedOperation
       }, this.p)
       .subscribe({
         next: (response) => {
@@ -109,6 +119,15 @@ export class TransactionSimComponent implements OnInit {
           this.toastrService.error(error.message);
         }
       })
+  }
+  public OnRefresh(){
+    this.GetAllTransactions()
+    this.selectedOperation =null
+    this.selectedTransaction = null
+    this.selectedSim = null
+    this.selectedimsi = null
+    this.selectedStatut = null
+    
   }
   showJournal(data: Object): void {
     const modalRef = this.modalService.open(JournalComponent, {
@@ -153,7 +172,7 @@ export class TransactionSimComponent implements OnInit {
     return null;
   }
   public isFilter(): boolean {
-    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut) ? true : false
+    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction) ? true : false
   }
 
 }

@@ -119,6 +119,7 @@ export class CommandeFormComponent implements OnInit {
         }
       })
   }
+
   OnModal(item: any, content: any) {
     this.modalService.open(content);
     const panierIdList = [];
@@ -202,11 +203,12 @@ export class CommandeFormComponent implements OnInit {
         operation: OperationTransaction.ACHAT_SERVICE,
         detail_commande: this.panierList,
       }).subscribe({
-        next: (response) => {
+        next: (response) => {          
           this.toastrService.success(response.message);
           this.GetAllAchats();
         },
-        error: (error) => {
+        error: (error) => {          
+          this.displays = false
           this.toastrService.error(error.error.message);
         }
       })

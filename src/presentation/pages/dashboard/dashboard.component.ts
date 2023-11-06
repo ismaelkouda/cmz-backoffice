@@ -2,10 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 
-
-// @ts-ignore
-import appConfig from '../../../assets/config/app-config.json';
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -24,19 +20,20 @@ export class DashboardComponent implements OnInit {
     value: "100",
   };
 
-  public BASE_URL: any = appConfig.serverUrl;
-
-
-  dataResponse: any;
-  countSimActive: number = 0;
-  countSimInactive: number = 0;
-  countVolumeData: number = 0;
-  countLigneCredit: number = 0;
+  public dataResponse: any;
+  public countSimActive: number = 0;
+  public countSimInactive: number = 0;
+  public countVolumeData: number = 0;
+  public countLigneCredit: number = 0;
+  public baseUrl: string
 
   constructor(
     private storage: EncodingDataService,
     private htpp: HttpClient
-  ) { }
+  ) {
+    const data = JSON.parse(this.storage.getData('user'))
+    this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
+  }
 
   ngOnInit() {
     localStorage.setItem('layout', 'Paris');
@@ -44,7 +41,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onDashboard() {
-    this.htpp.get(`${this.BASE_URL}dashboard/statistiques`)
+    this.htpp.get(`${this.baseUrl}dashboard/statistiques`)
       .subscribe({
         next: (res) => {
           // console.log("resresres", res);

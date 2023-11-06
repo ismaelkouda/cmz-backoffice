@@ -1,5 +1,5 @@
 <div class="container-fluid" [ngStyle]="{ 'margin-top': '1%' }" xmlns="http://www.w3.org/1999/html">
-  <app-breadcrumb [title]="'Suivi des opérations'" [active_item]="'Statuts'"></app-breadcrumb>
+  <app-breadcrumb [title]="'Suivi des opérations'" [active_item]="'Demandes'"></app-breadcrumb>
   <div class="row">
     <div class="col-lg-3 col-xl-3" [ngStyle]="{ 'max-width': '17%' }">
       <div class="card" [ngStyle]="{ width: '300px' }">
@@ -92,7 +92,7 @@
                 <td style="text-align: center">{{operation.erreurs_count || 'N/A'}}</td>
                 <td style="text-align: center">
                   <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir"
-                    tooltipPosition="top"></button>
+                    tooltipPosition="top" (click)="OnShowDemande(operation)"></button>
                 </td>
               </tr>
             </ng-template>

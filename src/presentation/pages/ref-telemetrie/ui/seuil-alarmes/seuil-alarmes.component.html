@@ -13,10 +13,10 @@
                   <button pButton pRipple label="Enregistrer" (click)="handleUpdateReferentielTelemetrie()"
                     [disabled]="isValidate()" icon="pi pi-save" class="p-button-success ms-3"></button>
                 </div>
-                <div>
+                <!-- <div>
                   <p-button label="Deployer" styleClass="p-button-secondary" badge="ok"
                     badgeClass="p-badge-success"></p-button>
-                </div>
+                </div> -->
               </div>
               <div class="table_content_wrapper">
                 <p-table #dt [value]="listTelemetries" [rows]="10" [paginator]="true" responsiveLayout="scroll"
@@ -55,7 +55,7 @@
                       <td class="text-center">{{data?.classification}}</td>
                       <td>{{data?.description}}</td>
                       <td class="text-center">{{data?.type_mesure}}</td>
-                      <td style="width: 5rem !important;">
+                      <td style="width: 5rem !important;text-align: center;">
                         <p-cellEditor>
                           <ng-template pTemplate="input">
                             <input *ngIf="data?.classification !== 'data'" class="text-center" pInputText

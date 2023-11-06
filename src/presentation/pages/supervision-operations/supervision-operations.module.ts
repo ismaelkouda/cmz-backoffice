@@ -1,3 +1,4 @@
+import { DemandeShowComponent } from './feature/demande-show/demande-show.component';
 import { TraitementShowComponent } from './feature/traitement-show/traitement-show.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -32,7 +33,6 @@ import { PaginatorModule } from 'primeng/paginator';
 
 
 //Components
-import { TransactionsComponent } from './ui/transactions/transactions.component';
 import { PriseEnChargeComponent } from './ui/prise-en-charge/prise-en-charge.component';
 import { AlarmesComponent } from './ui/alarmes/alarmes.component';
 import { SuivieTraitementComponent } from './ui/suivie-traitement/suivie-traitement.component';
@@ -40,12 +40,12 @@ import { PerformancesComponent } from './ui/performances/performances.component'
 
 @NgModule({
     declarations: [
-        TransactionsComponent,
         SuivieTraitementComponent,
         AlarmesComponent,
         PriseEnChargeComponent,
         PerformancesComponent,
-        TraitementShowComponent
+        TraitementShowComponent,
+        DemandeShowComponent
     ],
     imports: [
         CommonModule,

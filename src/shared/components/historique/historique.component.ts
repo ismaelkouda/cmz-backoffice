@@ -56,19 +56,21 @@ export class HistoriqueComponent implements OnInit {
 
   showHistorique(data: any) {
     console.log("data",data);
-    this.currentEventParse = JSON.parse(data?.data);    
-    Object.values(this.currentEventParse?.before).map((value, i) => {
-      this.currentEventParseBeforeValues.push(value);
-      this.currentEventParseBeforeKeys.push(Object.keys(this.currentEventParse?.before)[i]);
-      this.currentEventParseAfter.push(Object.values(this.currentEventParse?.after)[i]);
-      this.currentEventParseAfterValues = this.currentEventParseAfter.map((item, index) => {
-        if (item === this.currentEventParseBeforeValues[index]) {
-          return { item, isIdentique: true }
-        } else {
-          return { item, isIdentique: false }
-        }
+    if (data?.event !== 'Création') {
+      this.currentEventParse = JSON.parse(data?.data);    
+      Object.values(this.currentEventParse?.before).map((value, i) => {
+        this.currentEventParseBeforeValues.push(value);
+        this.currentEventParseBeforeKeys.push(Object.keys(this.currentEventParse?.before)[i]);
+        this.currentEventParseAfter.push(Object.values(this.currentEventParse?.after)[i]);
+        this.currentEventParseAfterValues = this.currentEventParseAfter.map((item, index) => {
+          if (item === this.currentEventParseBeforeValues[index]) {
+            return { item, isIdentique: true }
+          } else {
+            return { item, isIdentique: false }
+          }
+        });
       });
-    });
+    }
     this.display = true;
     this.currentEvent = data;
   }

@@ -1,0 +1,45 @@
+.modal-content {
+}
+
+.modal-backdrop {
+  z-index: 1200 !important;
+}
+
+.preloader-scan .laser {
+  width: 80%;
+  margin-left: -80%;
+  background-color: tomato;
+  height: 4px;
+  position: absolute;
+  top: 40%;
+  z-index: 2;
+  box-shadow: 0 0 4px red;
+  -webkit-animation: scanning 2s infinite;
+  animation: scanning 2s infinite;
+}
+.preloader-scan .diode {
+  -webkit-animation: beam 0.01s infinite;
+  animation: beam 0.01s infinite;
+}
+
+@-webkit-keyframes beam {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes beam {
+  50% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes scanning {
+  50% {
+    transform: translateY(125px);
+  }
+}
+@keyframes scanning {
+  50% {
+    transform: translateY(125px);
+  }
+}

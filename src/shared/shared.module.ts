@@ -1,3 +1,6 @@
+import { QrModalComponent } from './components/qr-modal/qr-modal.component';
+import { CountBoxComponent } from './components/count-box/count-box.component';
+import { StatBoxComponent } from './components/stat-box/stat-box.component';
 import { JournalComponent } from './components/journal/journal.component';
 import { SafePipe } from './pipes/safe.pipe';
 import { HistoriqueComponent } from './components/historique/historique.component';
@@ -52,11 +55,14 @@ import { DialogModule } from 'primeng/dialog';
     BreadcrumbComponent,
     FullComponent,
     LoaderComponent,
+    StatBoxComponent,
+    CountBoxComponent,
     TapToTopComponent,
     MyAccountComponent,
     SvgIconComponent,
     HistoriqueComponent,
     JournalComponent,
+    QrModalComponent,
     SafePipe,
     TableFilterPipe,
     TableFilterPipe
@@ -86,9 +92,12 @@ import { DialogModule } from 'primeng/dialog';
     ReactiveFormsModule,
     TranslateModule,
     LoaderComponent,
+    StatBoxComponent,
+    CountBoxComponent,
     BreadcrumbComponent,
     HistoriqueComponent,
     JournalComponent,
+    QrModalComponent,
     TapToTopComponent,
     SvgIconComponent,
     SwiperModule,

@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TelemetrieService } from 'src/presentation/pages/ref-telemetrie/data-access/telemetrie.service';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
+import { ClipboardService } from 'ngx-clipboard';
 const Swal = require('sweetalert2');
+
 @Component({
   selector: 'app-groupe-sim',
   templateUrl: './groupe-sim.component.html',
@@ -20,17 +22,22 @@ export class GroupeSimComponent implements OnInit {
   public currentObject: any;
   public listProfils: any[] = [];
   public selectedNom: string;
+  public selectedImsi: string;
+  public selectedMsisdn: string;
+
 
   constructor(
     private telemetrieService: TelemetrieService,
     private patrimoineService: PatrimoineService,
     private toastrService: ToastrService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private clipboardApi: ClipboardService,
+
   ) { }
 
   ngOnInit() {
     this.GetAllGroupes();
-    this.disableAction();
+    this.isFilter();
     this.route.data.subscribe((data) => {
       this.module = data.module;
       this.subModule = data.subModule[1];
@@ -50,10 +57,22 @@ export class GroupeSimComponent implements OnInit {
       })
   }
 
+  public OnRefresh(){
+    this.GetAllGroupes();
+    this.selectedNom = null
+    this.selectedImsi = null
+    this.selectedMsisdn = null
+
+  }
+
   public onInitForm(): void {
     this.initialView = false;
     this.formsView = true;
     this.currentObject = undefined;
+  }
+  public copyData(data: any): void {
+    this.toastrService.success('Copié dans le presse papier');
+    this.clipboardApi.copyFromContent(data);
   }
   public onEditForm(data: any): void {
     this.initialView = false;
@@ -111,7 +130,7 @@ export class GroupeSimComponent implements OnInit {
   public handleDisableProfil(data: any): void {
     Swal.fire({
       title: 'En êtes vous sûr ?',
-      html: `Voulez-vous Désactiver le profil <br> ${data.libelle} ?`,
+      html: `Voulez-vous Désactiver le profil <br> ${data.nom} ?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#569C5B',
@@ -136,9 +155,11 @@ export class GroupeSimComponent implements OnInit {
   }
 
   onFilter() {
-    this.telemetrieService
-      .GetAllProfilSupervision({
-        nom: this.selectedNom
+    this.patrimoineService
+      .GetAllGroupes({
+        nom: this.selectedNom,
+        imsi: this.selectedImsi,
+        msisdn: this.selectedMsisdn
       })
       .subscribe({
         next: (response) => {
@@ -149,8 +170,7 @@ export class GroupeSimComponent implements OnInit {
         }
       })
   }
-
-  public disableAction(): boolean {
-    return this.listProfils?.length === 0 ? true : false
+  public isFilter(): boolean {
+    return (!this.selectedNom && !this.selectedImsi && !this.selectedMsisdn) ? true : false
   }
 }

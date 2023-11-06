@@ -1,7 +1,8 @@
 import { ToastrService } from 'ngx-toastr';
 import { SupervisionOperationService } from './../../data-access/supervision-operation.service';
 import { Component, OnInit } from '@angular/core';
-import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DemandeShowComponent } from '../../feature/demande-show/demande-show.component';
 
 
 @Component({
@@ -28,6 +29,8 @@ export class AlarmesComponent implements OnInit {
   constructor(
     private supervisionOperationService: SupervisionOperationService,
     private toastrService: ToastrService,
+    private modalService: NgbModal,
+
   ) {
     this.filterStatus = this.typeAchat;
 
@@ -88,6 +91,18 @@ export class AlarmesComponent implements OnInit {
       default:
         return 'N/A'
     }
+  }
+  OnShowDemande(data: Object): void {
+    const modalRef = this.modalService.open(DemandeShowComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });    
+    modalRef.componentInstance.transaction = data;
+    // modalRef.componentInstance.resultTraitement.subscribe((res) => {
+    //   this.listDemandes = res['data']
+    // })
   }
 }
 

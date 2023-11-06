@@ -3,6 +3,8 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { map, delay, withLatestFrom, filter } from 'rxjs/operators';
+import { PrimeNGConfig } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +25,10 @@ export class AppComponent {
     private titleService: Title,
     private route: ActivatedRoute,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private loader: LoadingBarService) {
+    private loader: LoadingBarService,
+    private config: PrimeNGConfig, 
+    private translateService: TranslateService
+    ) {
       console.info(this.platformId)
   }
 
@@ -50,5 +55,10 @@ export class AppComponent {
         }
       });
   }
+
+  translate(lang: string) {
+    this.translateService.use(lang);
+    this.translateService.get('primeng').subscribe(res => this.config.setTranslation(res));
+}
 
 }

@@ -1,19 +1,30 @@
 <div>
-  <div class="forms-feature-header">
-    <div>
-      <h4>
-        <b *ngIf="currentObject === undefined">
-          <span>Formulaire d'ajout simple de Carte SIM</span>
-        </b>
-        <b *ngIf="currentObject !== undefined && !currentObject?.show">
-          <span>Modification de SIM</span>
-          <span class="current_values">[{{currentObject?.msisdn}}]</span>
-        </b>
-        <b *ngIf="currentObject?.show">
-          <span>Visualisation de SIM</span>
-          <span class="current_values">[{{currentObject?.msisdn}}]</span>
-        </b>
-      </h4>
+  <div class="forms-feature-header mb-4">
+    <div class="row" style="width: 80%;margin-top: -1rem">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>
+              <b>MSISDN</b>
+            </label>
+            <app-count-box  [value]="currentObject?.msisdn"></app-count-box>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>
+              <b>Solde Data (Kb)</b>
+            </label>
+            <app-count-box label="Solde Data (Kb):" [value]="pipeValue(currentObject?.solde_actuel_kb || '0')"></app-count-box>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>
+              <b>Solde Dotation (Go)</b>
+            </label>
+            <app-count-box label="Solde Dotation (Go):" [value]="pipeValue(currentObject?.solde_dotation || '0')"></app-count-box>
+          </div>
+        </div>
     </div>
     <div class="forms-feature-header__button" [ngStyle]="{display: 'flex',gap: '1rem'}">
       <div *ngIf="!currentObject?.show">
@@ -449,7 +460,7 @@
         </div>
       </p-tabPanel>
       <p-tabPanel header="HISTORIQUE">
-        <app-historique [module]="''" [sous_module]="''" [modele]="'sims'" [modele_id]="currentObject.id">
+        <app-historique [modele]="'sims'" [modele_id]="currentObject.id">
         </app-historique>
       </p-tabPanel>
     </p-tabView>

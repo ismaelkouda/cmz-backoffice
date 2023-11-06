@@ -152,6 +152,11 @@ export class ProfilSupervisionComponent implements OnInit {
       })
   }
 
+  public OnRefresh(){
+     this.selectedNom = null;
+     this.GetAllProfilSupervision()
+  }
+
   public OnDeploy(data: any): void {
     Swal.fire({
       title: 'En êtes vous sûr ?',

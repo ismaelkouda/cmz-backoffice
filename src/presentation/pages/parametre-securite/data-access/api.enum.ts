@@ -7,5 +7,7 @@ export const enum EndPointUrl {
     UPDATE_PROFIL = 'user-profiles/{id}/update',
     SAVE_AFFECTATION = 'user-profiles/affectation',
     SAVE_REAFFECTATION = 'user-profiles/reaffectation',
-    SAVE_RETRAIT = 'user-profiles/retrait'
+    SAVE_RETRAIT = 'user-profiles/retrait',
+    ACTIVATE_PROFIL = 'user-profiles/{id}/activer',
+    DISABLE_PROFIL = 'user-profiles/{id}/desactiver',
 }

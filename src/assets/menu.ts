@@ -1,6 +1,5 @@
-import { ADMIN_ACHAT } from './../presentation/pages/administration/administration-routing.module';
 import { PERFORMANCE_SLA } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
-import { COURBE_MESSAGE, PERFORMANCE_COLLECTE, SOLDES_SIM } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
+import { COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
 import { CARTES_SIM, DOTATION_SERVICES, GROUPE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
@@ -139,13 +138,13 @@ export var menuJson = [
                 data: "4-1-0-statuts",
                 type: "link"
             },
-            {
-                path: `/${SUPERVISION_OPERATIONS}/${SUPERSION_PRISE_EN_CHARGE}`,
-                title: "Prise en charge",
-                label: "Prise en charge",
-                data: "4-2-0-prise-en-charge",
-                type: "link"
-            },
+            // {
+            //     path: `/${SUPERVISION_OPERATIONS}/${SUPERSION_PRISE_EN_CHARGE}`,
+            //     title: "Prise en charge",
+            //     label: "Prise en charge",
+            //     data: "4-2-0-prise-en-charge",
+            //     type: "link"
+            // },
             {
                 path: `/${SUPERVISION_OPERATIONS}/${SUPERVISION_SUIVIE_TRAITEMENT}`,
                 title: "Suivi et traitement",
@@ -187,17 +186,17 @@ export var menuJson = [
                 data: "5-2-0-analyse-alarmes",
                 type: "link"
             },
-            {
-                path: `/${SUPERVISION_SIM}/${SOLDES_SIM}`,
-                title: "Soldes par SIM",
-                label: "Soldes par SIM",
-                data: "5-1-0-analyse-trafic",
-                type: "link"
-            },
+            // {
+            //     path: `/${SUPERVISION_SIM}/${SOLDES_SIM}`,
+            //     title: "Soldes par SIM",
+            //     label: "Soldes par SIM",
+            //     data: "5-1-0-analyse-trafic",
+            //     type: "link"
+            // },
             {
                 path: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
-                title: "Approvisionnements",
-                label: "Approvisionnements",
+                title: "Approvisionnements Data",
+                label: "Approvisionnements Data",
                 data: "5-1-0-analyse-trafic",
                 type: "link"
             }

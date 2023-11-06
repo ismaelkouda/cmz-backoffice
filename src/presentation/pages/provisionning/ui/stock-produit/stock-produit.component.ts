@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
+import { ProvisionningService } from '../../data-access/provisionning.service';
+import { ClipboardService } from 'ngx-clipboard';
 
 
 @Component({
@@ -10,47 +12,117 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class StockProduitComponent implements OnInit {
 
-  listStocks: any;
-
+  public listStocks: Array<any> = [];
   public filterDateStart: Date;
   public filterDateEnd: Date;
   public selectDateStart: any;
   public selectDateEnd: any;
   public selectedTransaction: string;
-  public selectedType: string;
+  public selectedReference: string;
   public selectedImsi: string;
   public selectedMsisdn: string;
-
-  public listTypes: Array<any> = [];
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public soldeData: number = 0;
+  public soldeSimA: number = 0;
+  public soldeSimB: number = 0;
 
   constructor(
-    private toastService: ToastrService
-  ) {
-    this.filterDateStart = new Date();
-    this.filterDateEnd = new Date();
-    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
-    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
-    this.listTypes = ['enlevement', 'provisionnement']
-  }
+    private toastService: ToastrService,
+    private provisionningService: ProvisionningService,
+    private clipboardApi: ClipboardService,
+  ) {}
 
   ngOnInit() {
+    this.GetAllStocks()
+    this.isFilter()
   }
 
-
+  public GetAllStocks() {
+    this.provisionningService
+      .GetAllStocks({}, this.p)
+      .subscribe({
+        next: (response) => {
+          this.listStocks = response['data']['data'];
+          this.totalPage = response['data'].last_page;
+          this.totalRecords = response['data'].total;
+          this.recordsPerPage = response['data'].per_page;
+          this.offset = (response['data'].current_page - 1) * this.recordsPerPage + 1;
+          this.OnStatAchat()
+        },
+        error: (error) => {
+          this.toastService.error(error.message);
+        }
+      })
+  }
+ 
   public onFilter() {
-
     if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
       this.toastService.error('Plage de date invalide');
       return;
     }
-
+    this.provisionningService
+      .GetAllStocks({
+        transaction: this.selectedTransaction,
+        numero_commande: this.selectedReference,
+        imsi: this.selectedImsi,
+        msisdn: this.selectedMsisdn,
+        date_debut: this.selectDateStart,
+        date_fin: this.selectDateEnd,
+      }, this.p)
+      .subscribe({
+        next: (response) => {
+          this.listStocks = response['data']['data'];
+          this.totalPage = response['data'].last_page;
+          this.totalRecords = response['data'].total;
+          this.recordsPerPage = response['data'].per_page;
+          this.offset = (response['data'].current_page - 1) * this.recordsPerPage + 1;
+        },
+        error: (error) => {
+          this.toastService.error(error.message);
+        }
+      })
   }
-
+  public OnRefresh(){
+    this.GetAllStocks();
+    this.selectedTransaction = null
+    this.selectedReference = null
+    this.selectedImsi = null
+    this.selectedMsisdn = null
+    this.selectDateStart = null
+    this.selectDateEnd = null
+    this.filterDateStart = null
+    this.filterDateEnd = null
+  }
+  public OnStatAchat() {
+    this.provisionningService
+      .OnStatAchat({})
+      .subscribe({
+        next: (response) => {
+          this.soldeData = response['data']?.solde_data;
+          this.soldeSimA = response['data']?.solde_sim_a;
+          this.soldeSimB = response['data']?.solde_sim_b
+        },
+        error: (error) => {
+          this.toastService.error(error.error.message);
+        }
+      })
+  }
+  copyData(data: any): void {
+    this.toastService.success('Copié dans le presse papier');
+    this.clipboardApi.copyFromContent(data);
+  }
+  public onPageChange(event) {
+    this.p = event;
+    if (this.isFilter()) {
+      this.GetAllStocks()
+    } else {
+      this.onFilter()
+    }
+  }
   changeDateStart(e) {
     this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
   }
@@ -59,6 +131,6 @@ export class StockProduitComponent implements OnInit {
   }
 
   public isFilter(): boolean {
-    return true;
+    return (!this.selectedTransaction && !this.selectedReference && !this.selectedImsi && !this.selectedMsisdn && !this.selectDateStart  && !this.selectDateEnd) ? true : false
   }
 }

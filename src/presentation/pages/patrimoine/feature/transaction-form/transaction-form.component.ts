@@ -7,11 +7,10 @@ import { SimStatut } from 'src/shared/enum/SimStatut.enum';
 import { HttpClient } from '@angular/common/http';
 import { EndPointUrl } from '../../data-access/api.enum';
 
-//@ts-ignore
-import appConfig from '../../../../../assets/config/app-config.json';
 import { environment } from 'src/environments/environment.prod';
 import { SettingService } from 'src/shared/services/setting.service';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 
 @Component({
   selector: 'app-transaction-form',
@@ -21,7 +20,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 export class TransactionFormComponent implements OnInit {
 
 
-  public BASE_URL: any = appConfig.serverUrl;
+  public baseUrl: string;
 
   @Output() listSuspensions = new EventEmitter();
   @Input() currentObject;
@@ -102,8 +101,12 @@ export class TransactionFormComponent implements OnInit {
     private settingService: SettingService,
     private toastrService: ToastrService,
     private httpClient: HttpClient,
-    private mappingService: MappingService
+    private mappingService: MappingService,
+    private storage: EncodingDataService,
   ) {
+    const data = JSON.parse(this.storage.getData('user'))
+    this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
+
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
@@ -218,8 +221,7 @@ export class TransactionFormComponent implements OnInit {
         ...(this.radioValue === 'IMSI' ? { imsi: this.selectedValue } : { msisdn: this.selectedValue })
       }).subscribe({
         next: (response: any) => {
-          this.listPatrimoine = response['data'];
-          this.currentPatrimoine = this.listPatrimoine[0];
+          this.currentPatrimoine = response['data'];
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -228,7 +230,10 @@ export class TransactionFormComponent implements OnInit {
       })
   }
   public changeItem(event: any) {
+    this.currentPatrimoine = {}
     this.selectedValue = null
+    this.selectedVolume = null
+    this.selectedDescription = null
   }
   public onChangeFile(file: FileList) {
     this.selectedPiece = file.item(0);
@@ -238,12 +243,12 @@ export class TransactionFormComponent implements OnInit {
     let data;
     if (this.selectedActionValue === OperationTransaction.SWAP) {
       data = {
+        ...this.currentPatrimoine,
         operation: this.selectedActionValue,
-        imsi: this.currentPatrimoine.imsi,
         bac_a_pioche: this.sourceValue,
         description: this.selectedDescription,
       }
-      baseUrl = `${this.BASE_URL}${EndPointUrl.SWAPER_SIM}`
+      baseUrl = `${this.baseUrl}${EndPointUrl.SWAPER_SIM}`
     } else if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
       data = {
         operation: this.selectedActionValue,
@@ -258,27 +263,27 @@ export class TransactionFormComponent implements OnInit {
         longitude: this.selectedLongitude,
         latitude: this.selectedLatitude,
       }
-      baseUrl = `${this.BASE_URL}${EndPointUrl.ACTIVATION_SIM}`
+      baseUrl = `${this.baseUrl}${EndPointUrl.ACTIVATION_SIM}`
 
     } else if (this.selectedActionValue === OperationTransaction.VOLUME_DATA) {
       data = {
+        ...this.currentPatrimoine,
         operation: this.selectedActionValue,
-        imsi: this.currentPatrimoine.imsi,
         description: this.selectedDescription,
         bac_a_pioche: this.sourceValue,
         volume: this.selectedVolume,
       }
-      baseUrl = `${this.BASE_URL}${EndPointUrl.VOLUME_DATA}`
+      baseUrl = `${this.baseUrl}${EndPointUrl.VOLUME_DATA}`
 
     }
     else {
       data = formDataBuilder({
+        ...this.currentPatrimoine,
         operation: this.selectedActionValue,
-        imsi: this.currentPatrimoine.imsi,
         description: this.selectedDescription,
         justificatif: this.selectedPiece,
       })
-      baseUrl = `${this.BASE_URL}${EndPointUrl.CHANGE_STATUT}`
+      baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`
     }
     this.httpClient.post(`${baseUrl}`, data)
       .subscribe({
@@ -353,6 +358,9 @@ export class TransactionFormComponent implements OnInit {
       !this.selectedLongitude ||
       !this.selectedLatitude
     ) ? true : false
+  }
+  pipeValue(number: any) {
+    return new Intl.NumberFormat('fr-FR').format(number);
   }
 
 }

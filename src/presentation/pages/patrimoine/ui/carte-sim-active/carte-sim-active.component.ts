@@ -10,6 +10,7 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
+import { QrModalComponent } from 'src/shared/components/qr-modal/qr-modal.component';
 const Swal = require('sweetalert2');
 
 
@@ -44,6 +45,7 @@ export class CarteSimActiveComponent implements OnInit {
   public selectedimsi: string;
   public selectedStatut: string;
   public selectedUsage: string;
+  public selectedZone: string;
   public currentData: any;
   public listStatus: Array<any> = [];
   public selectedDescription: string;
@@ -61,25 +63,19 @@ export class CarteSimActiveComponent implements OnInit {
     attribution: 'PATRIMOINE SIM-MAP',
     detectRetina: false,
     maxNativeZoom: 19,
-    maxZoom: 19,
+    maxZoom: 23,
     minZoom: 12,
     noWrap: false,
     opacity: 1,
     subdomains: 'abc',
     tms: false,
   })
-  satelite = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  satelite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+    maxZoom: 23,
+    minZoom: 10,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
     attribution: 'PATRIMOINE SIM-MAP',
-    detectRetina: false,
-    maxNativeZoom: 19,
-    maxZoom: 19,
-    minZoom: 12,
-    noWrap: false,
-    opacity: 1,
-    subdomains: 'abc',
-    tms: false,
   })
-
 
   //Mapping
   firstLevelLibelle: string;
@@ -95,7 +91,7 @@ export class CarteSimActiveComponent implements OnInit {
     private route: ActivatedRoute,
     private mappingService: MappingService
   ) {
-    this.listStatus = [SimStatut.ACTIF, SimStatut.SUSPENDU, SimStatut.RESILIE]
+    this.listStatus = [SimStatut.ACTIF, SimStatut.SUSPENDU, SimStatut.RESILIE]    
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
@@ -144,6 +140,7 @@ export class CarteSimActiveComponent implements OnInit {
         niveau_trois_id: this.selectedUsage,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
+        zone_trafic: this.selectedZone,
         statut: this.selectedStatut,
       }, this.p)
       .subscribe({
@@ -159,6 +156,7 @@ export class CarteSimActiveComponent implements OnInit {
         }
       })
   }
+
   OnRefresh() {
     this.GetAllPatrimoines();
     this.selectedDirection = null;
@@ -166,8 +164,8 @@ export class CarteSimActiveComponent implements OnInit {
     this.selectedUsage = null;
     this.selectedSim = null;
     this.selectedimsi = null;
+    this.selectedZone = null;
     this.selectedStatut = null;
-
   }
   public getAllDirectionRegionales() {
     this.settingService
@@ -286,8 +284,7 @@ export class CarteSimActiveComponent implements OnInit {
       iconSize: [45, 45],
       iconAnchor: [17, 17],
     });
-    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      osmLayer = new L.TileLayer(osmUrl, { attribution: 'VUE GEOGRAPHIQUE', detectRetina: false, maxNativeZoom: 19, maxZoom: 19, minZoom: 12, noWrap: false, opacity: 1, subdomains: 'abc', tms: false });
+    var  osmLayer = this.OpenStreetMap
     this.map = new L.Map('map');
     this.map.setView(new L.LatLng(this.currentComposant?.longitude, this.currentComposant?.latitude), 18);
     this.map.options.minZoom = 12;
@@ -306,7 +303,7 @@ export class CarteSimActiveComponent implements OnInit {
     marker.addTo(this.map);
     this.map.addLayer(osmLayer);
     var baseMaps = {
-      'OpenStreetMap': this.OpenStreetMap,
+      'OpenStreetMap': this.OpenStreetMap.addTo(this.map),
       'Satellite': this.satelite
     }
     L.control.layers(baseMaps, {}, { collapsed: false }).addTo(this.map);
@@ -333,6 +330,18 @@ export class CarteSimActiveComponent implements OnInit {
       }
     }
   }
+  public OnShowQr(data) {
+    if (data.qrcode) {
+      const modalRef = this.modalService.open(QrModalComponent, {
+        ariaLabelledBy: "modal-basic-title",
+        keyboard: false,
+        centered: true,
+      });
+      modalRef.componentInstance.qr = data;
+    } else {
+      Swal.fire("PATRIMOINE SIM", "Aucun QRCode enregistré", "info");
+    }
+  }
   public fileChangeEvent(event: any) {
 
   }
@@ -344,7 +353,7 @@ export class CarteSimActiveComponent implements OnInit {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
   public isFilter(): boolean {
-    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi && !this.selectedStatut && !this.selectedUsage) ? true : false
+    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi && !this.selectedStatut && !this.selectedUsage && !this.selectedZone) ? true : false
   }
   public disableAction(): boolean {
     return (this.listPatrimoines === undefined || this.listPatrimoines?.length === 0) ? true : false

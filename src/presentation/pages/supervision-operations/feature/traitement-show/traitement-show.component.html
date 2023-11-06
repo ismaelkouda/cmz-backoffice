@@ -107,9 +107,9 @@
             <strong>{{ formatTitleOuvrage(detailTransaction?.operation) }}
               <span style="color:#549B3D;font-weight: bold;">
                 <span *ngIf="IsContentSim()"> 
-                  [{{detailTransaction?.niveau_uns_nom}}[{{detailTransaction.niveau_uns_code}}] |
-                  {{detailTransaction?.niveau_deux_nom}} [{{detailTransaction.niveau_deux_code}}] -
-                  {{detailTransaction?.msisdn}}]
+                  {{detailTransaction?.niveau_uns_code}} |
+                  {{detailTransaction?.niveau_deux_nom}} [{{detailTransaction?.niveau_deux_code}}] -
+                  [{{detailTransaction?.msisdn}}]
                 </span>&nbsp;
                 <span *ngIf="IsProvisionningTransaction()"> 
                   {{detailTransaction?.reference}} [{{detailTransaction?.rapport?.code}}]
@@ -123,7 +123,7 @@
             </strong>
           </h4>
           <div class="col-md-5" style="display: flex; justify-content: end; font-size: 20px;">Date de
-            traitement:&nbsp;<b><span>{{transaction?.date_traitement ?? 'N/A'}}</span></b></div>
+            traitement:&nbsp;<b><span>{{IscurrentDate() ?? 'N/A'}}</span></b></div>
         </div>
         <hr style="position: relative;top: -0.2rem;margin-top: -0.4rem;">
         <!--------------LIGNE----------CREDIT------------FORMS----------------->
@@ -171,8 +171,8 @@
               <div style="display: flex;justify-content: center;gap: 2rem;">
                 <div>
                   <div style="display: flex;justify-content: center;">
-                    <button pButton pRipple label="Télécharger le justificatif initial" icon="pi pi-download"
-                      class="p-button-success" (click)="downloadFile()"></button>
+                    <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
                   </div>
                 </div>
                 <div *ngIf="IsUpdate()">
@@ -220,9 +220,9 @@
                 <div class="col-md-3">
                   <div class="form-group">
                     <label>
-                      <b>Bénéficiaire</b>
+                      <b>Emplacement</b>
                     </label>
-                    <input type="text" formControlName="beneficiaire" pInputText />
+                    <input type="text" formControlName="point_emplacement" pInputText />
                   </div>
                 </div>
               </div>
@@ -237,12 +237,7 @@
                     <div class="d-flex gap-2">
                       <p-radioButton name="bac_a_pioche" value="stock" formControlName="bac_a_pioche"
                         inputId="b_1"></p-radioButton>
-                      <label style="margin-top: 0.9rem">Stock/Tenant</label>
-                    </div>
-                    <div class="d-flex gap-2">
-                      <p-radioButton name="bac_a_pioche" value="orangeci" formControlName="bac_a_pioche"
-                        inputId="b_2"></p-radioButton>
-                      <label style="margin-top: 0.9rem">Orange CI</label>
+                      <label style="margin-top: 0.9rem">Dotation Point Emplacement</label>
                     </div>
                   </div>
                 </div>
@@ -252,7 +247,7 @@
                       <b> <span class="text-danger">*</span></b>
                     </label>
                     <input [disabled]="true" class="infos_text"
-                      [value]="sourceStock === 'stock' ? 'Le système débitera le volume duc stock disponible': TextInfosVolume "
+                      [value]="sourceStock === 'stock' ? 'Le solde de la dotation sera debité du volume demandé': TextInfosVolume "
                       type="text" pInputText />
                   </div>
                 </div>
@@ -313,9 +308,9 @@
                 <div class="col-md-3">
                   <div class="form-group">
                     <label>
-                      <b>Bénéficiaire</b>
+                      <b>Emplacement</b>
                     </label>
-                    <input type="text" formControlName="beneficiaire" pInputText />
+                    <input type="text" formControlName="point_emplacement" pInputText />
                   </div>
                 </div>
               </div>
@@ -330,11 +325,11 @@
                     inputId="b_1"></p-radioButton>
                   <label style="margin-top: 0.9rem">Stock/Tenant</label>
                 </div>
-                <div class="d-flex gap-2">
+                <!-- <div class="d-flex gap-2">
                   <p-radioButton name="bac_a_pioche" value="orangeci" formControlName="bac_a_pioche"
                     inputId="b_2"></p-radioButton>
                   <label style="margin-top: 0.9rem">Orange CI</label>
-                </div>
+                </div> -->
               </div>
               <div class="row">
                 <div class="col-md-3">
@@ -394,9 +389,9 @@
                 <div class="col-md-3">
                   <div class="form-group">
                     <label>
-                      <b>Bénéficiaire</b>
+                      <b>Emplacement</b>
                     </label>
-                    <input type="text" formControlName="beneficiaire" pInputText />
+                    <input type="text" formControlName="point_emplacement" pInputText />
                   </div>
                 </div>
               </div>
@@ -466,9 +461,9 @@
                 <div class="col-md-3">
                   <div class="form-group">
                     <label>
-                      <b>Bénéficiaire</b>
+                      <b>Emplacement</b>
                     </label>
-                    <input type="text" formControlName="beneficiaire" pInputText />
+                    <input type="text" formControlName="point_emplacement" pInputText />
                   </div>
                 </div>
               </div>
@@ -514,11 +509,6 @@
                 <div class="d-flex gap-2">
                   <p-radioButton name="bac_a_pioche" [value]="'stock'" formControlName="bac_a_pioche"></p-radioButton>
                   <label style="margin-top: 0.9rem">Stock/Tenant</label>
-                </div>
-                <div class="d-flex gap-2">
-                  <p-radioButton name="bac_a_pioche" [value]="'orangeci'"
-                    formControlName="bac_a_pioche"></p-radioButton>
-                  <label style="margin-top: 0.9rem">Orange CI</label>
                 </div>
               </div>
               <div class="text-wrapper">
@@ -608,7 +598,7 @@
                     <label>
                       <b>Emplacement</b>
                     </label>
-                    <input type="text" formControlName="beneficiaire" placeholder="Bénéficiaire" pInputText />
+                    <input type="text" formControlName="point_emplacement" placeholder="Emplacement" pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -694,12 +684,12 @@
                     <div style="display: flex;flex-direction: column">
                       <div>
                         <label for="infosLigne" style="margin-left: 0 !important;">
-                          <img src="assets/images/icones/sad.png" width="22" alt="">
+                          <img src="assets/images/icones/smile.png" width="22" alt="">
                         </label>
                       </div>
                       <div>
                         <input class="form-check-input" [(ngModel)]="selectedNotation" type="radio" name="infosLigne"
-                          value="mécontent" id="infosLigne">
+                          value="content" id="infosLigne">
                       </div>
                     </div>
                     <div style="display: flex;flex-direction: column">
@@ -716,12 +706,12 @@
                     <div style="display: flex;flex-direction: column">
                       <div>
                         <label for="infosLigne" style="margin-left: 0 !important;">
-                          <img src="assets/images/icones/smile.png" width="22" alt="">
+                          <img src="assets/images/icones/sad.png" width="22" alt="">
                         </label>
                       </div>
                       <div>
                         <input class="form-check-input" type="radio" name="infosLigne" [(ngModel)]="selectedNotation"
-                          value="content" id="infosLigne">
+                          value="mécontent" id="infosLigne">
                       </div>
                     </div>
                   </div>

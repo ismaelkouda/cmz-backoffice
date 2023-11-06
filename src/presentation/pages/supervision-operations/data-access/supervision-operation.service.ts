@@ -1,28 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-
-// @ts-ignore
-import appConfig from '../../../../assets/config/app-config.json';
 import { Observable } from 'rxjs';
 import { EndPointUrl } from './api.enum';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SupervisionOperationService {
 
-  public baseUrl: any = appConfig.serverUrl;
+  public baseUrl: string;
 
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    private storage: EncodingDataService,
+  ) {
+    const data = JSON.parse(this.storage.getData('user'))
+    this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
+  }
 
   GetAllTransactions(data, page): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_TRANSACTIONS).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  GetAllPriseEnCharge(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_PRISE_EN_CHARGE).replace('{page}', page);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+
   GetDetailTransaction(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_DETAIL_TRANSACTION);
     return this.http.post(`${this.baseUrl}${url}`, data);
@@ -30,11 +36,7 @@ export class SupervisionOperationService {
   GetAllDemandes(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_DEMANDES);
     return this.http.post(`${this.baseUrl}${url}`, data);
-  }
-  GetAllPriseEnCharge(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.GET_ALL_PRISE_EN_CHARGE);
-    return this.http.post(`${this.baseUrl}${url}`, data);
-  }
+  } 
   OnUpdateTransaction(data): Observable<any> {
     const url: string = (<string>EndPointUrl.UPDATE_TRANSACTION);
     return this.http.post(`${this.baseUrl}${url}`, data);

@@ -20,7 +20,7 @@
             <input placeholder="Nom du groupe" formControlName="nom" type="text" pInputText />
           </div>
         </div>
-        <div style="width: 15rem;">
+        <div style="width: 20rem;">
           <div class="form-group">
             <label>
               <b>Description<span class="text-danger">*</span></b>
@@ -30,12 +30,12 @@
         </div>
       </div>
       <div class="mt-0">
-        <button pButton pRipple label="Soumettre" [disabled]="!adminForm.valid"
+        <button pButton pRipple label="Enregistrer" [disabled]="!adminForm.valid"
           *ngIf="!currentObject || currentObject?.type === 'edit'" icon="pi pi-save" class="p-button-success" (click)="!currentObject
                         ? HandleSaveGroupe()
                         : HandleUpdateGroupe()" style="margin-left: 1rem;"></button>
         <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
-          style="margin-left: 1rem;"></button>
+          style="margin-left: 1rem;" (click)="OnRefresh()"></button>
         <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"
           style="margin-left: 1rem;"></button>
         <button pButton pRipple label="Fermer" class="p-button-danger" style="margin-left: 1rem;"
@@ -78,17 +78,25 @@
             </p-dropdown>
           </div>
         </div>
-        <div style="width: 13rem;">
+        <div class="col-md-2">
           <div class="form-group">
             <label>
               <b>IMSI</b>
             </label>
-            <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
+            <input placeholder="Imsi" [(ngModel)]="selectedImsi" type="text" pInputText />
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>
+              <b>MSISDN</b>
+            </label>
+            <input placeholder="Msisdn" [(ngModel)]="selectedMsisdn" type="text" pInputText />
           </div>
         </div>
         <div class="col-md-1">
-          <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
-            [disabled]="isFilter()"></p-button>
+          <p-button styleClass="p-button-success filter-button" (click)="OnFilterALl()" icon="pi pi-filter"
+            [disabled]="isFilter()" ></p-button>
         </div>
       </div>
       <div class="table_actions_wrapper mt-3" style="height: fit-content;">
@@ -102,7 +110,7 @@
       </div>
     </div>
     <hr>
-    <div class="table_content_wrapper">
+    <div class="table_content_wrapper" *ngIf="currentObject?.type !== 'show'">
       <div class="table_header mt-2">
         <div class="table_header__legende">
           <h4 class="pt-2">
@@ -117,10 +125,10 @@
           <th class="text-center" [ngStyle]="{width: '3rem'}">#</th>
           <th>{{firstLevelLibelle}}</th>
           <th>{{secondLevelLibelle}}</th>
-          <th class="text-center">MSISDN</th>
           <th class="text-center">IMSI</th>
+          <th class="text-center">MSISDN</th>
           <th class="text-center">Statut</th>
-          <th class="text-center" *ngIf="currentObject?.type !== 'show'">
+          <th class="text-center" [ngStyle]="{width: '1rem'}" *ngIf="currentObject?.type !== 'show'">
             <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
           </th>
         </thead>
@@ -128,10 +136,16 @@
           <tr
             *ngFor="let data of listAffectations | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
             <td>{{ (this.offset + i)}}</td>
-            <td>{{data.niveau_un}}</td>
-            <td>{{data.niveau_deux}}</td>
-            <td>{{data.msisdn}}</td>
+            <td>
+              <span *ngIf="!currentObject">{{data?.direction_regionale?.nom}} [{{data?.direction_regionale?.code}}]</span>
+              <span *ngIf="currentObject">{{data?.niveau_un}}</span>
+            </td>
+            <td>
+              <span *ngIf="!currentObject">{{data?.exploitation?.nom}} [{{data.exploitation?.code}}]</span>
+              <span *ngIf="currentObject">{{data?.niveau_deux}}</span>
+            </td>
             <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
+            <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data?.msisdn}}</td>
             <td>
               <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'actif'"
                 [class.badge-danger]="data.statut !== 'actif'">
@@ -149,6 +163,66 @@
         <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
         </pagination-controls>
       </div>
+    </div>
+    <div *ngIf="currentObject?.type === 'show'">
+      <p-tabView *ngIf="currentObject !== undefined">
+        <p-tabPanel header="LISTE DES SIMS">
+          <div class="table_header">
+            <div class="table_header__legende">
+              <h4>
+                <b>Liste des SIMS affectées</b>
+              </h4>
+            </div>
+            <div class="table_header__input"></div>
+          </div>
+          <table [ngClass]="['native_table table']" style="margin-top: -0.2rem">
+            <thead>
+              <th class="text-center" [ngStyle]="{width: '3rem'}">#</th>
+              <th>{{firstLevelLibelle}}</th>
+              <th>{{secondLevelLibelle}}</th>
+              <th class="text-center">IMSI</th>
+              <th class="text-center">MSISDN</th>
+              <th class="text-center">Statut</th>
+              <th class="text-center">Date</th>
+              <th class="text-center" [ngStyle]="{width: '1rem'}" *ngIf="currentObject?.type !== 'show'">
+                <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
+              </th>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let data of listAffectations | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                <td>{{ (this.offset + i)}}</td>
+                <td>
+                  <span>{{data?.niveau_un}}</span>
+                </td>
+                <td>
+                  <span>{{data?.niveau_deux}}</span>
+                </td>
+                <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
+                <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data?.msisdn}}</td>
+                <td>
+                  <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'actif'"
+                    [class.badge-danger]="data.statut !== 'actif'">
+                    {{ data.statut }}
+                  </span>
+                </td>
+                <td>{{data?.created_at}}</td>
+                <td *ngIf="currentObject?.type !== 'show'">
+                  <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
+                    ></p-checkbox>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div [ngClass]="['pagination-controls']">
+            <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+            </pagination-controls>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="HISTORIQUE">
+          <app-historique [module]="'PATRIMOINE SIM'" [modele]="'groupe_sims'" [modele_id]="currentObject?.id"></app-historique>
+        </p-tabPanel>
+      </p-tabView>
     </div>
   </div>
 </div>
