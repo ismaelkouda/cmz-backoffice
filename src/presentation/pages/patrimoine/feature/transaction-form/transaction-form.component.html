@@ -4,6 +4,7 @@
       <h3>
         <b>
           <span>Transaction sur SIM</span>
+          <!-- <span class="current_values">[{{operationValue}}]</span> -->
         </b>
       </h3>
     </div>
@@ -21,28 +22,28 @@
     </legend>
     <div style="display: flex;gap: 2rem;">
       <div class="d-flex gap-2">
-        <p-radioButton name="valeur" [value]="activation" [(ngModel)]="operationValue"
-          (onClick)="selectedAction(activation)" [inputId]="activation"></p-radioButton>
+        <p-radioButton name="valeur" [value]="activation" [disabled]="this.historie" [(ngModel)]="operationValue"
+          (onClick)="selectedAction(activation)" [inputId]="activation" [style]="{cursor: 'auto'}"></p-radioButton>
         <label [for]="activation" style="margin-top: 0.9rem">Activation</label>
       </div>
       <div class="d-flex gap-2">
-        <p-radioButton name="valeur" [value]="swap" [(ngModel)]="operationValue" (onClick)="selectedAction(swap)"
-          [inputId]="swap"></p-radioButton>
+        <p-radioButton name="valeur" [value]="swap" [disabled]="this.historie" [(ngModel)]="operationValue" (onClick)="selectedAction(swap)"
+          [inputId]="swap" [style]="{cursor: 'auto'}"></p-radioButton>
         <label [for]="swap" style="margin-top: 0.9rem">Changement (SIM SWAP)</label>
       </div>
       <div class="d-flex gap-2">
-        <p-radioButton name="valeur" [value]="resiliation" [(ngModel)]="operationValue"
-          (onClick)="selectedAction(resiliation)" [inputId]="resiliation"></p-radioButton>
+        <p-radioButton name="valeur" [value]="resiliation" [disabled]="this.historie" [(ngModel)]="operationValue"
+          (onClick)="selectedAction(resiliation)" [inputId]="resiliation" [style]="{cursor: 'auto'}"></p-radioButton>
         <label [for]="resiliation" style="margin-top: 0.9rem">Résiliation</label>
       </div>
       <div class="d-flex gap-2">
-        <p-radioButton name="valeur" [value]="suspension" [(ngModel)]="operationValue"
-          (onClick)="selectedAction(suspension)" [inputId]="suspension"></p-radioButton>
+        <p-radioButton name="valeur" [value]="suspension" [disabled]="this.historie" [(ngModel)]="operationValue"
+          (onClick)="selectedAction(suspension)" [inputId]="suspension" [style]="{cursor: 'auto'}"></p-radioButton>
         <label [for]="suspension" style="margin-top: 0.9rem">Suspension</label>
       </div>
       <div class="d-flex gap-2">
-        <p-radioButton name="valeur" [value]="volume" [(ngModel)]="operationValue" (onClick)="selectedAction(volume)"
-          [inputId]="volume"></p-radioButton>
+        <p-radioButton name="valeur" [value]="volume" [disabled]="this.historie"  [(ngModel)]="operationValue" (onClick)="selectedAction(volume)"
+          [inputId]="volume" [style]="{cursor: 'auto'}"></p-radioButton>
         <label [for]="volume" style="margin-top: 0.9rem">Volume (Go)</label>
       </div>
     </div>
@@ -59,11 +60,6 @@
             (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
           <label [for]="sourceStock" style="margin-top: 0.9rem">Stock/Tenant</label>
         </div>
-        <!-- <div class="d-flex gap-2">
-          <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
-            (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
-          <label [for]="sourceOrange" style="margin-top: 0.9rem">Orange CI</label>
-        </div> -->
       </div>
       <div class="text-wrapper">
         <input [disabled]="true" [value]="sourceValue === 'stock' ? systemText: orangeText" type="text" pInputText
@@ -194,218 +190,195 @@
     </div>
   </div>
   <div
-    *ngIf="selectedActionValue === swap || selectedActionValue === resiliation || selectedActionValue === suspension || selectedActionValue === volume">
+  *ngIf="selectedActionValue === swap || selectedActionValue === resiliation || selectedActionValue === suspension || selectedActionValue === volume">
 
-    <fieldset style="margin-top: 2.5rem;">
-      <legend [ngStyle]="{width: '100%'}">
-        <b>Informations de Transaction</b>
-      </legend>
-      <div>
-        <div class="row" style="padding-top: 1.3rem;">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>
-                <div class="d-flex gap-5">
-                  <div class="d-flex gap-2">
-                    <p-radioButton name="valeur" value="IMSI" [(ngModel)]="radioValue" (onClick)="changeItem($event)"
-                      inputId="imsi"></p-radioButton>
-                    <label for="imsi" style="margin-top: 0.8rem;font-size: 0.8rem;">IMSI</label>
-                  </div>
-                  <div class="d-flex gap-2">
-                    <p-radioButton name="valeur" value="MSISDN" [(ngModel)]="radioValue" (onClick)="changeItem($event)"
-                      inputId="msisdn"></p-radioButton>
-                    <label for="msisdn" style="margin-top: 0.8rem;font-size: 0.8rem;">MSISDN</label>
-                  </div>
+  <fieldset style="margin-top: 2.5rem;">
+    <legend [ngStyle]="{width: '100%'}">
+      <b>Informations de Transaction</b>
+    </legend>
+    <div>
+      <div class="row" style="padding-top: 1.3rem;">
+        <div class="col-md-4" *ngIf="!historie">
+          <div class="form-group">
+            <label>
+              <div class="d-flex gap-5">
+                <div class="d-flex gap-2">
+                  <p-radioButton name="valeur" value="IMSI" [(ngModel)]="radioValue" (onClick)="changeItem($event)"
+                    inputId="imsi"></p-radioButton>
+                  <label for="imsi" style="margin-top: 0.8rem;font-size: 0.8rem;">IMSI</label>
                 </div>
-              </label>
-              <div class="d-flex gap-2">
-                <input placeholder="Saisir le numéro" [(ngModel)]="selectedValue" type="text" pInputText />
-                <button pButton pRipple label="Verifier" (click)="onVerify()" [disabled]="isFilter()" style="padding:0 2rem 0 1rem" icon="pi pi-sync"
-                class="p-button-success"></button>
-              </div>            
-            </div>
-
-            <!-- <div class="col-md-4">
+                <div class="d-flex gap-2">
+                  <p-radioButton name="valeur" value="MSISDN" [(ngModel)]="radioValue" (onClick)="changeItem($event)"
+                    inputId="msisdn"></p-radioButton>
+                  <label for="msisdn" style="margin-top: 0.8rem;font-size: 0.8rem;">MSISDN</label>
+                </div>
+              </div>
+            </label>
+            <div class="d-flex gap-2">
+              <input placeholder="Saisir le numéro" [(ngModel)]="selectedValue" type="text" pInputText />
+              <button pButton pRipple label="Verifier" (click)="onVerify()" [disabled]="isFilter()" style="padding:0 2rem 0 1rem" icon="pi pi-sync"
+              class="p-button-success"></button>
+            </div>            
+          </div>
+        </div>
+        <div class="col-md-8">
+          <div class="row" *ngIf="selectedActionValue === volume">
+            <div class="col-md-6">
               <div class="form-group">
                 <label>
-                  <b>{{radioValue}}<span class="text-danger">*</span></b>
+                  <b>Dotation Data (Kb)</b>
                 </label>
-                <div class="d-flex gap-2">
-                  <input placeholder="Saisir le numéro" [(ngModel)]="selectedValue" type="text" pInputText />
-                  <button pButton pRipple label="Verifier" (click)="onVerify()" [disabled]="isFilter()" icon="pi pi-sync"
-                  class="p-button-success"></button>
-                </div>
+                <app-count-box label="Dotation Data (Go):" [value]="pipeValue(currentPatrimoine?.solde_dotation || '0')"></app-count-box>
               </div>
-            </div> -->
-          </div>
-          <div class="col-md-8">
-            <div class="row" *ngIf="selectedActionValue === volume">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>
-                    <b>Dotation Data (Go)</b>
-                  </label>
-                  <app-count-box label="Dotation Data (Go):" [value]="pipeValue(currentPatrimoine?.solde_dotation || '0')"></app-count-box>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label>
-                    <b>Solde Data (Kb)</b>
-                  </label>
-                  <app-count-box label="Solde Data (Kb):" [value]="pipeValue(currentPatrimoine?.solde_actuel_kb || '0')"></app-count-box>
-                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>
+                  <b>Solde Data (Kb)</b>
+                </label>
+                <app-count-box label="Solde Data (Kb):" [value]="pipeValue(currentPatrimoine?.solde_actuel_kb || '0')"></app-count-box>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div style="margin-top: 0.5rem;">
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>
-                <b>MSIDN</b>
-              </label>
-              <input type="text" [(ngModel)]="currentPatrimoine.msisdn" [disabled]="true" pInputText />
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>
-                <b>IMSI</b>
-              </label>
-              <input type="text" [(ngModel)]="currentPatrimoine.imsi" [disabled]="true" pInputText />
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>
-                <b>Statut Contrat</b>
-              </label>
-              <input type="text" [(ngModel)]="currentPatrimoine.statut" style="text-transform: uppercase;"
-                [disabled]="true" pInputText />
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>
-                <b>Nom Emplacement</b>
-              </label>
-              <input type="text" [(ngModel)]="currentPatrimoine.point_emplacement" [disabled]="true" pInputText />
-            </div>
-          </div>
-        </div>
-      </div>
-    </fieldset>
-    <fieldset style="margin-top: 2.5rem;">
-      <legend [ngStyle]="{width: '100%'}">
-        <b>Détails de la Transaction</b>
-      </legend>
-      <!----------------------------RESILIER----SUSPENSION----FORMS-------------------------------->
-      <div class="row" *ngIf="selectedActionValue === resiliation || selectedActionValue === suspension">
-        <div class="col-md-4">
+    </div>
+    <div style="margin-top: 0.5rem;">
+      <div class="row">
+        <div class="col-md-3">
           <div class="form-group">
             <label>
-              <b>Description <span class="text-danger">*</span></b>
+              <b>MSIDN</b>
+            </label>
+            <input type="text" [(ngModel)]="currentPatrimoine.msisdn" [disabled]="true" pInputText />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>
+              <b>IMSI</b>
+            </label>
+            <input type="text" [(ngModel)]="currentPatrimoine.imsi" [disabled]="true" pInputText />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>
+              <b>Statut Contrat</b>
+            </label>
+            <input type="text" [(ngModel)]="currentPatrimoine.statut" style="text-transform: uppercase;"
+              [disabled]="true" pInputText />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>
+              <b>Nom Emplacement</b>
+            </label>
+            <input type="text" [(ngModel)]="currentPatrimoine.point_emplacement" [disabled]="true" pInputText />
+          </div>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset style="margin-top: 2.5rem;">
+    <legend [ngStyle]="{width: '100%'}">
+      <b>Détails de la Transaction</b>
+    </legend>
+    <!----------------------------RESILIER----SUSPENSION----FORMS-------------------------------->
+    <div class="row" *ngIf="selectedActionValue === resiliation || selectedActionValue === suspension">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>
+            <b>Description <span class="text-danger">*</span></b>
+          </label>
+          <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>
+            <b>Justificatif</b>
+          </label>
+          <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+            (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+        </div>
+      </div>
+    </div>
+    <!------------------------------CHANGEMENT--------FORMS-------------------------------->
+    <div *ngIf="selectedActionValue === swap">
+      <div class="row">
+        <div class="col-md-3">
+          <div style="display: flex;gap: 2rem;">
+            <div class="d-flex gap-2">
+              <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
+                (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
+              <label [for]="sourceStock" style="margin-top: 0.9rem">Stock/Tenant</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9" style="margin-top: -1.8rem;">
+          <div class="form-group">
+            <label style="opacity: 0;">
+              <b> <span class="text-danger">*</span></b>
+            </label>
+            <input [disabled]="true" [value]="sourceValue === 'stock' ? systemText: orangeText" type="text" pInputText
+              style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group">
+          <label>
+            <b>Description <span class="text-danger">*</span></b>
+          </label>
+          <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
+        </div>
+      </div>
+    </div>
+    <!--------------------------------VOLUME------------DATA-------------------------->
+    <div *ngIf="selectedActionValue === volume">
+      <div class="row">
+        <div class="col-md-3">
+          <div style="display: flex;gap: 2rem;">
+            <div class="d-flex gap-2">
+              <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
+                (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
+              <label [for]="sourceStock" style="margin-top: 0.9rem">Dotation Point Emplacement</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9" style="margin-top: -1.8rem;">
+          <div class="form-group">
+            <label style="opacity: 0;">
+              <b> <span class="text-danger">*</span></b>
+            </label>
+            <input [disabled]="true" [value]="sourceValue === 'stock' ? 'Le solde de la dotation sera debité du volume demandé': orangeText" type="text" pInputText
+              style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>
+              <b>Volume (Go) <span class="text-danger">*</span></b>
+            </label>
+            <input type="number" [disabled]="isVerify()" [(ngModel)]="selectedVolume" pInputText />
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="form-group">
+            <label>
+              <b>Description</b>
             </label>
             <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label>
-              <b>Justificatif</b>
-            </label>
-            <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-              (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-          </div>
-        </div>
       </div>
-      <!------------------------------CHANGEMENT--------FORMS-------------------------------->
-      <div *ngIf="selectedActionValue === swap">
-        <div class="row">
-          <div class="col-md-3">
-            <div style="display: flex;gap: 2rem;">
-              <div class="d-flex gap-2">
-                <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
-                  (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
-                <label [for]="sourceStock" style="margin-top: 0.9rem">Stock/Tenant</label>
-              </div>
-              <!-- <div class="d-flex gap-2">
-                <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
-                  (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
-                <label [for]="sourceOrange" style="margin-top: 0.9rem">Orange CI</label>
-              </div> -->
-            </div>
-          </div>
-          <div class="col-md-9" style="margin-top: -1.8rem;">
-            <div class="form-group">
-              <label style="opacity: 0;">
-                <b> <span class="text-danger">*</span></b>
-              </label>
-              <input [disabled]="true" [value]="sourceValue === 'stock' ? systemText: orangeText" type="text" pInputText
-                style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group">
-            <label>
-              <b>Description <span class="text-danger">*</span></b>
-            </label>
-            <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
-          </div>
-        </div>
-      </div>
-      <!--------------------------------VOLUME------------DATA-------------------------->
-      <div *ngIf="selectedActionValue === volume">
-        <div class="row">
-          <div class="col-md-3">
-            <div style="display: flex;gap: 2rem;">
-              <div class="d-flex gap-2">
-                <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
-                  (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
-                <label [for]="sourceStock" style="margin-top: 0.9rem">Dotation Point Emplacement</label>
-              </div>
-              <!-- <div class="d-flex gap-2">
-                <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
-                  (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
-                <label [for]="sourceOrange" style="margin-top: 0.9rem">Orange CI</label>
-              </div> -->
-            </div>
-          </div>
-          <div class="col-md-9" style="margin-top: -1.8rem;">
-            <div class="form-group">
-              <label style="opacity: 0;">
-                <b> <span class="text-danger">*</span></b>
-              </label>
-              <input [disabled]="true" [value]="sourceValue === 'stock' ? 'Le solde de la dotation sera debité du volume demandé': orangeText" type="text" pInputText
-                style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-3">
-            <div class="form-group">
-              <label>
-                <b>Volume (Go) <span class="text-danger">*</span></b>
-              </label>
-              <input type="number" [disabled]="isVerify()" [(ngModel)]="selectedVolume" pInputText />
-            </div>
-          </div>
-          <div class="col-md-9">
-            <div class="form-group">
-              <label>
-                <b>Description</b>
-              </label>
-              <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
-            </div>
-          </div>
-        </div>
-      </div>
-    </fieldset>
-  </div>
+    </div>
+  </fieldset>
+</div>
   <div class="submit-form" *ngIf="selectedActionValue">
     <div>
       <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha">

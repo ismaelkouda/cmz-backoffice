@@ -42,7 +42,7 @@
           (click)="close()"></button>
       </div>
     </div>
-    <div class="container_flex_space_between">
+    <div class="container_flex_space_between" *ngIf="currentObject?.type !== 'edit'">
       <div class="row filter_wrapper" [ngStyle]="{width: '100%'}">
         <div class="col-md-3">
           <div class="form-group">
@@ -110,7 +110,7 @@
       </div>
     </div>
     <hr>
-    <div class="table_content_wrapper" *ngIf="currentObject?.type !== 'show'">
+    <div class="table_content_wrapper" *ngIf="currentObject?.type !== 'show' && currentObject?.type !== 'edit'">
       <div class="table_header mt-2">
         <div class="table_header__legende">
           <h4 class="pt-2">

@@ -81,23 +81,6 @@
                   <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
                 </div>
               </div>
-              <!-- <div [style]="{width: '13rem'}">
-                <div class="form-group">
-                  <label>
-                    <b>Statut</b>
-                  </label>
-                  <p-dropdown [options]="listStatus" [(ngModel)]="selectedStatut" [showClear]="true"
-                    placeholder="Statut">>
-                    <ng-template let-data pTemplate="item">
-                      <div class="country-item">
-                        <div>
-                          {{data}}
-                        </div>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
-                </div>
-              </div> -->
               <div style="width: 4rem;">
                 <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
                   [disabled]="isFilter()"></p-button>
@@ -124,11 +107,11 @@
                   <th class="text-center">#</th>
                   <th>{{firstLevelLibelle}}</th>
                   <th>{{secondLevelLibelle}}</th>
+                  <th class="text-center">Zone Trafic</th>
+                  <th class="text-center">{{thirdLevelLibelle}}</th>
                   <th class="text-center">MSISDN</th>
                   <th class="text-center">IMSI</th>
-                  <th class="text-center">{{thirdLevelLibelle}}</th>
                   <th class="text-center">Emplacement</th>
-                  <th class="text-center">Zone Trafic</th>
                   <th>Statut</th>
                   <th class="text-center" [style]="{width: '3rem'}">Actions</th>
                 </thead>
@@ -138,11 +121,11 @@
                     <td>{{ (this.offset + i)}}</td>
                     <td>{{data.direction_regionale?.nom}} [{{data.direction_regionale?.code}}]</td>
                     <td>{{data.exploitation?.nom}} [{{data.exploitation?.code}}]</td>
+                    <td (click)="copyData(data.adresse_geographique)" style="cursor: pointer">{{data?.adresse_geographique}}</td>
+                    <td>{{data?.zone?.nom}}</td>
                     <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data.msisdn}}</td>
                     <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi ? data?.imsi : 'N/A' }}</td>
-                    <td>{{data?.zone?.nom}}</td>
                     <td>{{data?.nom_prenoms}}</td>
-                    <td (click)="copyData(data.adresse_geographique)" style="cursor: pointer">{{data?.adresse_geographique}}</td>
                     <td>
                       <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
                         [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
@@ -156,23 +139,19 @@
                       
                         <button pButton icon="pi pi-qrcode" [pTooltip]="data.qrcode ? 'Scaner' : ''" tooltipPosition="top" (click)="OnShowQr(data)"
                         [class]="data.qrcode?'p-button-help': 'p-button-help p-button-outlined'"></button>
-                        
-                      <!-- <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" (click)="onShowForm(data)"
-                        class="p-button-dark"></button>
-                      <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
-                        (click)="onEditForm(data)" class="p-button-secondary"></button> -->
+                        <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"
+                        (click)="onShowForm(data)"></button>
                         <div ngbDropdown>
                           <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Choisir</button>
                           <div ngbDropdownMenu>
-                            <button ngbDropdownItem (click)="onShowForm(data)">Voir</button>
-                            <button ngbDropdownItem  (click)="onEditForm(data)">Editer</button>
-                            <button ngbDropdownItem (click)="showJournal(data)">Swaper</button>
-                            <button ngbDropdownItem (click)="showJournal(data)">Resilier</button>
-                            <button ngbDropdownItem (click)="showJournal(data)">Suspendre</button>
-                            <button ngbDropdownItem (click)="showJournal(data)">Volume Data</button>
+                            <button ngbDropdownItem  (click)="onEditForm(data)">Edition</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,swap)">SIM Swap</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,resiliation)">Resiliation</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,suspension)">Suspension</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,volume)">Volume Data</button>
+                            <button ngbDropdownItem (click)="onDotationForm(data)">Dotation</button>
                           </div>
                         </div>
-
                     </td>
                   </tr>
                 </tbody>
@@ -229,3 +208,4 @@
       </div>
     </div>
   </ng-template>
+</div>

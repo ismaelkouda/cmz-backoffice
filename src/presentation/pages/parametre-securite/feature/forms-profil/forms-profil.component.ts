@@ -5,6 +5,9 @@ import { TreeNode } from 'primeng/api';
 import { menuJson } from 'src/assets/menu';
 import { Router } from '@angular/router';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
+import { SettingService } from 'src/shared/services/setting.service';
+import { MappingService } from 'src/shared/services/mapping.service';
+const Swal = require('sweetalert2');
 
 
 @Component({
@@ -19,8 +22,10 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
   @Output() listProfils = new EventEmitter();
   public listProfilHabilitations: Array<any> = [];
   public selectedItemsDataSource: Array<any> = [];
+  public selectedItemsHabilitationSource: Array<any> = [];
   public permissionExploitations: Array<any> = [];
   public dataSourceFiles: Array<any> = [];
+  public habilitationSourceFiles: Array<any> = [];
   public selectedItemsDataDirectReg: any;
   public permissions: Array<any> = [];
   public newPermissions: any;
@@ -28,18 +33,33 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
   public selectedNom: string;
   public selectedDescription: string;
   public currentACtion: any;
+  public firstLevelMapping: any;
+  public thirdLevelDataMapping: any;
+  public LevelDataSources: Array<any> = [];
+  public  firstLevelLibelle: string;
+  public secondLevelLibelle: string;
+  public thirdLevelLibelle: string;
+
   constructor(
     private parametreSecuriteService: ParametreSecuriteService,
+    private settingService: SettingService,
     private toastrService: ToastrService,
     private router: Router,
+    private mappingService: MappingService,
     private storage: EncodingDataService
   ) {
     this.newPermissions = menuJson;
     this.newPermissions.slice(1)
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
   }
 
   ngOnInit() {
     this.isDisabled();
+    if (!this.currentObject?.show) {
+      this.GetAllThirdLevelHabilitation();
+      this.GetAllFirstLevelHabilitation();
+    }
     this.newPermissionSlice = this.newPermissions;
     this.newPermissionSlice.map(module => {
       if (module.children) {
@@ -66,7 +86,27 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
           }
         })
       })
-    }
+      // Get Current Habilitation Node
+
+      setTimeout(() => {
+        this.habilitationSourceFiles.map(parentHabilitation => {
+          if (parentHabilitation?.label === this.firstLevelLibelle) {
+            parentHabilitation?.children.map((niveau) => {            
+              if (this.currentObject.habilitationsNiveauUn.includes(niveau.id)) {
+                this.selectedItemsHabilitationSource.push(niveau)
+              }
+            })
+          }else if (parentHabilitation?.label === this.thirdLevelLibelle) {
+            parentHabilitation?.children.map((niveau) => {            
+              if (this.currentObject.habilitationsNiveauTrois.includes(niveau.id)) {
+                this.selectedItemsHabilitationSource.push(niveau)
+              }
+              
+            })
+          }
+        }) 
+      }, 2000);
+    }    
   }
 
   public GetAllProfilHabilitations() {
@@ -94,34 +134,56 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
       })
     }
   }
-  public expandAllHabilitations() {
+  public expandAllPermission() {
     this.dataSourceFiles.forEach(node => {
       this.expandRecursive(node, true);
     });
   }
-
-  public collapseAllHabilitations() {
+  public collapseAllPermission() {
     this.dataSourceFiles.forEach(node => {
       this.expandRecursive(node, false);
     });
   }
-  collapseAllPermissions() { }
-  expandAllPermissions() { }
-
+  // Security
+  public expandAllHabilitations() {
+    this.LevelDataSources.forEach(node => {
+      this.expandRecursive(node, true);
+    });
+  }
+  public collapseAllHabilitations() {
+    this.LevelDataSources.forEach(node => {
+      this.expandRecursive(node, false);
+    });
+  }
   handleSaveProfilHabilitation() {
-    const selectedItemsDataSource = this.selectedItemsDataSource.map((element) => {
-      element.data
+    const selectedItemsDataSource = this.selectedItemsDataSource.map((element) => {      
+      return element.data
+    });
+    const firstArray = [];
+    const secondArray = []
+    this.selectedItemsHabilitationSource.map((element) => {
+      if (element?.parent?.label === this.firstLevelLibelle) {
+        firstArray.push(element.id)
+      }else if(element?.parent?.label === this.thirdLevelLibelle){
+        secondArray.push(element.id)
+      }
     });
     const data = {
       nom: this.selectedNom,
       description: this.selectedDescription,
-      permissions: selectedItemsDataSource
+      permissions: selectedItemsDataSource,
+      niveau_uns: firstArray,
+      niveau_trois: secondArray
     }
+
+    console.log("data",data);
     this.parametreSecuriteService
       .handleSaveProfilHabilitation({
         nom: this.selectedNom,
         description: this.selectedDescription,
-        permissions: selectedItemsDataSource
+        permissions: selectedItemsDataSource,
+        niveau_uns: firstArray,
+        niveau_trois: secondArray
       }).subscribe({
         next: (response) => {
           this.GetAllProfilHabilitations();
@@ -133,14 +195,23 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
       })
   }
   handleUpdateProfilHabilitation() {
-
+    const firstArray = [];
+    const secondArray = [];
+    this.selectedItemsHabilitationSource.map((element) => {
+      if (element?.parent?.label === this.firstLevelLibelle) {
+        firstArray.push(element.id)
+      }else if(element?.parent?.label === this.thirdLevelLibelle){
+        secondArray.push(element.id)
+      }
+    });
     const selectedItemsDataSource = this.selectedItemsDataSource.map(element => element.data);
-
     this.parametreSecuriteService
       .handleUpdateProfilHabilitation({
         nom: this.selectedNom,
         description: this.selectedDescription,
-        permissions: selectedItemsDataSource
+        permissions: selectedItemsDataSource,
+        niveau_uns: firstArray,
+        niveau_trois: secondArray
       }, this.currentObject.id).subscribe({
         next: (response) => {
           this.GetAllProfilHabilitations();
@@ -149,6 +220,65 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
           this.storage.removeData('current_menu');
           this.router.navigateByUrl('auth/login')
             .then(() => window.location.reload());
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllFirstLevelHabilitation() {
+    this.settingService
+      .GetAllFirstLevelHabilitation({})
+      .subscribe({
+        next: (response) => {
+          const habilitations = [];          
+          const resValues = response['data'].map((item) => {
+            return {...item,label: item?.nom,data: item?.code };
+          });
+          this.firstLevelMapping= { label: this.firstLevelLibelle,expanded: true, children: resValues}
+          this.LevelDataSources.push(this.firstLevelMapping)
+          this.LevelDataSources.map(module => {
+            if (module.children) {
+              module.children = module.children.map(sous_module => {
+                return {
+                  ...sous_module,
+                  children: sous_module.actions ?? [],
+                }
+              })
+            }
+            habilitations.push(module)
+            this.habilitationSourceFiles = <TreeNode[]>habilitations
+          })
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllThirdLevelHabilitation() {
+    this.settingService
+      .GetAllThirdLevelHabilitation({})
+      .subscribe({
+        next: (response) => {                    
+          const habilitations = [];          
+          const resValues = response['data'].map((item) => {
+            return {...item,label: item?.nom,data: item?.code };
+          });
+          this.thirdLevelDataMapping= { label: this.thirdLevelLibelle,expanded: true, children: resValues}
+          this.LevelDataSources.push(this.thirdLevelDataMapping)
+          this.LevelDataSources.map(module => {
+            if (module.children) {
+              module.children = module.children.map(sous_module => {
+                return {
+                  ...sous_module,
+                  children: sous_module.actions ?? [],
+                }
+              })
+            }
+            habilitations.push(module)
+            this.habilitationSourceFiles = <TreeNode[]>habilitations
+          })
+          
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

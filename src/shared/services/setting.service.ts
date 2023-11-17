@@ -27,6 +27,10 @@ export class SettingService {
     const url: string = (<string>EndPointUrl.GET_ALL_USERS);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  OnUpdateUser(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.UPDATE_USER);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   getHistoriques(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_HISTORIQUE);
     return this.http.post(`${this.baseUrl}${url}`, data);
@@ -42,7 +46,11 @@ export class SettingService {
 
   //First Level
   getAllDirectionRegionales(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.GET_ALL_DIRECTION_REGIONALE);
+    const url: string = (<string>EndPointUrl.GET_ALL_FIRSTLEVEL);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+  GetAllFirstLevelHabilitation(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_FIRSTLEVEL_HABILITATION);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
   OnSaveDirectionRegionale(data): Observable<any> {
@@ -73,6 +81,10 @@ export class SettingService {
     const url: string = (<string>EndPointUrl.GET_ALL_NIVEAUX_3);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  GetAllThirdLevelHabilitation(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_NIVEAUX_3_HABILITATION)
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   OnSaveZone(data): Observable<any> {
     const url: string = (<string>EndPointUrl.SAVE_NIVEAUX_3);
     return this.http.post(`${this.baseUrl}${url}`, data);
@@ -81,5 +93,12 @@ export class SettingService {
     const url: string = (<string>EndPointUrl.UPDATE_NIVEAUX_3);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+
+  // Security
+  HandleUpdatePassword(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.HANDLE_UPDATE_PASSWORD);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+
 
 }

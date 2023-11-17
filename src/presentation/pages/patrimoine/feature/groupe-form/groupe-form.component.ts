@@ -3,7 +3,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { TelemetrieService } from 'src/presentation/pages/ref-telemetrie/data-access/telemetrie.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -113,7 +112,7 @@ export class GroupeFormComponent implements OnInit {
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -132,7 +131,7 @@ export class GroupeFormComponent implements OnInit {
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -151,7 +150,7 @@ export class GroupeFormComponent implements OnInit {
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -182,7 +181,7 @@ export class GroupeFormComponent implements OnInit {
         msisdn: this.selectedMsisdn
       }, this.p);
     }else if (this.currentObject?.type === 'affectation') {
-        this.currentObservable = this.patrimoineService.GetAllsimAtGroupe({
+        this.currentObservable = this.patrimoineService.GetAllSimNoGroupe({
           groupe_id: this.currentObject?.id,
           niveau_un_id: this.selectedDirection?.id,
           niveau_deux_id: this.selectedExploitation?.id,
@@ -215,7 +214,7 @@ export class GroupeFormComponent implements OnInit {
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -390,7 +389,7 @@ export class GroupeFormComponent implements OnInit {
           });
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -406,10 +405,7 @@ export class GroupeFormComponent implements OnInit {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
-
-  // public isFilter(): boolean {
-  //   return (!this.selectedImsi && !this.selectedMsisdn) ? true : false
-  // }
+  
   public isFilter(): boolean {
     return (!this.selectedDirection && !this.selectedExploitation && !this.selectedImsi && !this.selectedMsisdn) ? true : false
   }

@@ -51,7 +51,7 @@ export class AlarmesComponent implements OnInit {
         next: (res) => {
           this.listDemandes = res['data'];
         }, error: (error) => {
-          this.toastrService.error(error.message)
+          this.toastrService.error(error.error.message);
         }
       })
   }

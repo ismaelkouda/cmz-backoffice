@@ -6,6 +6,7 @@ import { ClipboardService } from 'ngx-clipboard';
 import { ActivatedRoute } from '@angular/router';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
+import * as moment from 'moment';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -38,6 +39,10 @@ export class DotationServiceComponent implements OnInit {
   public display: boolean = false;
   public isMaximized: boolean = false;
   public soldeGlobal: string  ;
+  public filterDateStart: Date;
+  public filterDateEnd: Date;
+  public selectDateStart: any;
+  public selectDateEnd: any;
 
   constructor(
     public settingService: SettingService,
@@ -56,6 +61,9 @@ export class DotationServiceComponent implements OnInit {
       this.module = data.module;
       this.subModule = data.subModule[2];
     });
+    if (history.state.patrimoine) {
+      this.onInitForm()
+    }
     this.mappingService.GetAllPortefeuille()
     this.OnRefreshValues()
   }
@@ -72,32 +80,44 @@ export class DotationServiceComponent implements OnInit {
           this.offset = (response['data'].current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
   public onFilter() {
+    if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
+      this.toastrService.error('Plage de date invalide');
+      return;
+    }
     this.patrimoineService
       .GetAllDotations({
         numero_dotation: this.selectedNumero,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
-        emplacement: this.selectedEmplacement,
+        point_emplacement: this.selectedEmplacement,
+        date_debut: this.selectDateStart,
+        date_fin: this.selectDateEnd,
       },this.p)
       .subscribe({
         next: (response) => {
           this.listDotations = response['data']['data'];
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
 
   OnRefresh() {
     this.GetAllDotations();
+    this.selectedNumero = null;
     this.selectedSim = null;
     this.selectedimsi = null;
+    this.selectedEmplacement = null;
+    this.selectDateStart = null
+    this.selectDateEnd = null
+    this.filterDateStart = null
+    this.filterDateEnd = null
   }
   OnRefreshValues(){        
     this.mappingService.volumeDataGlobal$.subscribe((res: any) => {
@@ -152,12 +172,17 @@ export class DotationServiceComponent implements OnInit {
     this.listDotations = event;
   }
 
-
-  disableAction(): boolean {
+  public changeDateStart(e) {
+    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+  }
+ public  changeDateEnd(e) {
+    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+  }
+  public disableAction(): boolean {
     return null;
   }
   public isFilter(): boolean {
-    return (!this.selectedNumero && !this.selectedSim && !this.selectedimsi && !this.selectedEmplacement) ? true : false
+    return (!this.selectedNumero && !this.selectedSim && !this.selectedimsi && !this.selectedEmplacement && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
   pipeValue(number: any) {
     return new Intl.NumberFormat('fr-FR').format(number);

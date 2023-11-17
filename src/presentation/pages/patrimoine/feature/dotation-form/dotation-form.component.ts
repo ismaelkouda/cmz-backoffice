@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import { ServiceEnum } from 'src/shared/enum/Service.enum';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
@@ -11,7 +11,7 @@ import { ProvisionningService } from 'src/presentation/pages/provisionning/data-
   templateUrl: './dotation-form.component.html',
   styleUrls: ['./dotation-form.component.scss']
 })
-export class DotationFormComponent implements OnInit {
+export class DotationFormComponent implements OnInit, OnDestroy {
 
   @Input() currentObject;
   @Output() listDotations = new EventEmitter();
@@ -19,7 +19,7 @@ export class DotationFormComponent implements OnInit {
 
   public listGroupes:  Array<any> = []
   public soldeGlobal: string;
-  public radioValue: string = 'IMSI';
+  public radioValue: string = 'MSISDN';
   public selectedValue: any;
   public currentPatrimoine: any = {};
   public selectedService: string = ServiceEnum.DATA;
@@ -32,12 +32,12 @@ export class DotationFormComponent implements OnInit {
   public selectedGroupe: any;
   public siteKey: string;
   public currentRecaptcha: string;
+  public historie: any;
 
   constructor(
     private patrimoineService: PatrimoineService,
     private toastrService: ToastrService,
     private mappingService: MappingService,
-    private provisionningService: ProvisionningService
   ) {
    }
 
@@ -46,8 +46,11 @@ export class DotationFormComponent implements OnInit {
     this.GetAllGroupes()
     this.isFilter()    
     this.IsValidate()
-    this.OnRefreshValues()
-    
+    this.OnRefreshValues();
+    this.historie = history.state.patrimoine
+    if (this.historie) {
+      this.currentPatrimoine = history.state.patrimoine      
+    }    
   }
   public GetAllGroupes(): void {
     this.patrimoineService
@@ -74,7 +77,7 @@ export class DotationFormComponent implements OnInit {
           this.close();
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -88,7 +91,7 @@ export class DotationFormComponent implements OnInit {
   public onVerifyImsi() {
     this.patrimoineService
       .OnVerify({
-        imsi: this.selectedValue
+        msisdn: this.selectedValue
       }).subscribe({
         next: (response: any) => {
          this.currentPatrimoine = response['data'];
@@ -118,7 +121,7 @@ export class DotationFormComponent implements OnInit {
       })
   }
   public OnVerify(){
-    if (this.radioValue === 'IMSI') {      
+    if (this.radioValue === 'MSISDN') {      
       this.onVerifyImsi()
     }else{
       this.onVerifyGroupe()
@@ -140,7 +143,7 @@ export class DotationFormComponent implements OnInit {
       .handleSaveDotation({
         service: this.selectedService,
         description: this.selectedDescription,
-        ...(this.radioValue === 'IMSI' ? { sims: [this.currentPatrimoine.imsi] } : { sims: this.simArray }),
+        ...(this.radioValue === 'MSISDN' ? { sims: [this.currentPatrimoine.msisdn] } : { sims: this.simArray }),
         valeur: this.selectedVolume
        }).subscribe({
         next: (response: any) => {
@@ -166,5 +169,8 @@ export class DotationFormComponent implements OnInit {
   }
   pipeValue(number: any) {
     return new Intl.NumberFormat('fr-FR').format(number);
+  }
+  ngOnDestroy(): void {
+     history.state.patrimoine = null
   }
 }

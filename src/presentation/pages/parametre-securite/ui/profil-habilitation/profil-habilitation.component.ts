@@ -69,6 +69,8 @@ export class ProfilHabilitationComponent implements OnInit {
   onInitForm() {
     this.initialView = false;
     this.formsView = true;
+    this.currentObject = undefined;
+
   }
   public onViewAffection(data: any): void {
     this.initialView = false;
@@ -84,6 +86,11 @@ export class ProfilHabilitationComponent implements OnInit {
     this.initialView = false;
     this.visualisationView = true;
     this.currentObject = data;
+  }
+  public onShowForm(data: any): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, show: true };
   }
   public pushStatutView(event: boolean): void {
     this.formsView = event;

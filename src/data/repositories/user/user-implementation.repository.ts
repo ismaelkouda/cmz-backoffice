@@ -8,7 +8,6 @@ import { UserRepository } from 'src/domain/repositories/user.repository';
 import { UserModel } from 'src/domain/models/user.model';
 // @ts-ignore
 import appConfig from '../../../assets/config/app-config.json';
-
 @Injectable({
     providedIn: 'root',
 })

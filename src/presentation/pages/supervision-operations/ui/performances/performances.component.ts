@@ -58,7 +58,7 @@ export class PerformancesComponent implements OnInit {
           });
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }

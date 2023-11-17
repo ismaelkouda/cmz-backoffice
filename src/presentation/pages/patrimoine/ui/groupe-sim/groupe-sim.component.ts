@@ -154,6 +154,33 @@ export class GroupeSimComponent implements OnInit {
     });
   }
 
+  public HandleDeleteGroupe(data: any): void {
+    Swal.fire({
+      title: 'En êtes vous sûr ?',
+      html: `Voulez-vous Supprimer le groupe <br> ${data.nom} ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#569C5B',
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Oui',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.patrimoineService
+          .HandleDeleteGroupe(data.id)
+          .subscribe({
+            next: (response) => {
+              this.toastrService.success(response.message);
+              this.GetAllGroupes();
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
+      }
+    });
+  }
+
   onFilter() {
     this.patrimoineService
       .GetAllGroupes({

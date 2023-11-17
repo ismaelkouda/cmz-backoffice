@@ -1,26 +1,26 @@
 <app-breadcrumb [title]="'Vue génerale - Plateforme CDC'" [items]="['Tableau de bord']"
-    [active_item]="'Statistiques'"></app-breadcrumb>
+    [active_item]="'Tableau de board'"></app-breadcrumb>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
-            <app-statistics-box [cardBgColor]="'#FFFFFF'" [ngClass]="['ligne-card']" [cardBorderColor]="'#DF7401'"
+            <app-stat-box [cardBgColor]="'#FFFFFF'"  [cardBorderColor]="'#DF7401'"
                 [legend]="'SIM Actives'" [count]="countSimActive || '0'" [legendColor]="'#DF7401'"
-                [countColor]="'#000000'"></app-statistics-box>
+                [countColor]="'#000000'"></app-stat-box>
         </div>
         <div class="col-md-3">
-            <app-statistics-box [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'SIM Inactives'"
+            <app-stat-box [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'SIM Inactives'"
                 [count]="countSimInactive || '0'" [legendColor]="'#DF7401'"
-                [countColor]="'#000000'"></app-statistics-box>
+                [countColor]="'#000000'"></app-stat-box>
         </div>
         <div class="col-md-3">
-            <app-statistics-box [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'"
+            <app-stat-box [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'"
                 [legend]="'Volume Data Dispo. (Go)'" [count]="countVolumeData || '0'" [legendColor]="'#DF7401'"
-                [countColor]="'#000000'"></app-statistics-box>
+                [countColor]="'#000000'"></app-stat-box>
         </div>
         <div class="col-md-3">
-            <app-statistics-box [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'"
+            <app-stat-box [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'"
                 [legend]="'Ligne Crédit Dispo. (FCFA)'" [count]="countLigneCredit || '0'" [legendColor]="'#DF7401'"
-                [countColor]="'#000000'"></app-statistics-box>
+                [countColor]="'#000000'"></app-stat-box>
         </div>
     </div>
 </div>

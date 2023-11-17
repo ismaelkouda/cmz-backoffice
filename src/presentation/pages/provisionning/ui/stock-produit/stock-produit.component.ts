@@ -31,7 +31,8 @@ export class StockProduitComponent implements OnInit {
   public soldeSimB: number = 0;
 
   constructor(
-    private toastService: ToastrService,
+    
+    private toastrService: ToastrService,
     private provisionningService: ProvisionningService,
     private clipboardApi: ClipboardService,
   ) {}
@@ -54,14 +55,14 @@ export class StockProduitComponent implements OnInit {
           this.OnStatAchat()
         },
         error: (error) => {
-          this.toastService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
  
   public onFilter() {
     if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
-      this.toastService.error('Plage de date invalide');
+      this.toastrService.error('Plage de date invalide');
       return;
     }
     this.provisionningService
@@ -82,7 +83,7 @@ export class StockProduitComponent implements OnInit {
           this.offset = (response['data'].current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -107,12 +108,12 @@ export class StockProduitComponent implements OnInit {
           this.soldeSimB = response['data']?.solde_sim_b
         },
         error: (error) => {
-          this.toastService.error(error.error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
   copyData(data: any): void {
-    this.toastService.success('Copié dans le presse papier');
+    this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
   public onPageChange(event) {

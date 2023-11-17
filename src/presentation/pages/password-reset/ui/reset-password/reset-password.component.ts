@@ -2,18 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-confirm-password',
-  templateUrl: './confirm-password.component.html',
-  styleUrls: ['./confirm-password.component.scss']
+  selector: 'app-reset-password',
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.scss']
 })
-export class ConfirmPasswordComponent implements OnInit {
+export class ResetPasswordComponent implements OnInit {
 
   constructor(
     private router: Router
   ) { }
 
   ngOnInit() {
-
   }
 
   onCancel() {
@@ -21,5 +20,4 @@ export class ConfirmPasswordComponent implements OnInit {
   }
 
   handleConfirm() { }
-
 }

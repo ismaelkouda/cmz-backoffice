@@ -31,8 +31,8 @@ import { DotationServiceComponent } from './ui/dotation-service/dotation-service
 import { GroupeSimComponent } from './ui/groupe-sim/groupe-sim.component';
 import { PatrimoineFormsComponent } from './feature/patrimoine-forms/patrimoine-forms.component';
 import { DotationFormComponent } from './feature/dotation-form/dotation-form.component';
-import { HistoriqueLifecycleComponent } from './feature/historique-lifecycle/historique-lifecycle.component';
 import { GroupeFormComponent } from './feature/groupe-form/groupe-form.component';
+import { CarteMapComponent } from './feature/carte-map/carte-map.component';
 
 
 @NgModule({
@@ -68,7 +68,7 @@ import { GroupeFormComponent } from './feature/groupe-form/groupe-form.component
         TransactionFormComponent,
         DotationFormComponent,
         GroupeFormComponent,
-        HistoriqueLifecycleComponent
+        CarteMapComponent
     ],
 })
 export class PatrimoineModule { }

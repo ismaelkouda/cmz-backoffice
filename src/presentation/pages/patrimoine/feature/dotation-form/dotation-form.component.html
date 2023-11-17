@@ -1,6 +1,6 @@
 <div>
   <div class="forms-feature-header">
-    <div style="width: 80%;display: flex;gap: 1rem;">
+    <div style="width: 80%;display: flex;justify-content: space-between;">
         <div>
           <h4><b><span>Nouvelle Dotation</span></b></h4>
         </div>
@@ -13,7 +13,7 @@
           </div>
       </div>
     </div>
-    <div class="forms-feature-header__button">
+    <div class="forms-feature-header__button" style="position: relative;top: -0.7rem;">
       <div>
         <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
       </div>
@@ -27,10 +27,10 @@
         <legend [ngStyle]="{width: '100%'}">
           <b>Informations de Dotation</b>
         </legend>
-        <div style="display: flex;gap: 7rem;">
+        <div style="display: flex;gap: 7rem;" *ngIf="!this.historie">
           <div class="d-flex gap-5">
             <div class="d-flex gap-2">
-              <p-radioButton name="valeur" value="IMSI" [(ngModel)]="radioValue" (onClick)="changeItem($event)"
+              <p-radioButton name="valeur" value="MSISDN" [(ngModel)]="radioValue" (onClick)="changeItem($event)"
                 inputId="imsi" class="mt-2"></p-radioButton>
               <label for="imsi" style="margin-top: 1.6rem">Simple</label>
             </div>
@@ -45,7 +45,7 @@
               <div class="pt-3">
                 <b>{{radioValue}}<span class="text-danger ms-1">*</span></b>
               </div>
-              <div *ngIf="radioValue === 'IMSI'">
+              <div *ngIf="radioValue === 'MSISDN'">
                 <input placeholder="Saisir le numéro" [(ngModel)]="selectedValue" type="text" pInputText />
               </div>
               <div [ngStyle]="{width: '15rem'}" *ngIf="radioValue === 'GROUPE'">
@@ -66,7 +66,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="radioValue === 'IMSI'">
+        <div *ngIf="radioValue === 'MSISDN'">
           <div class="row">
             <div class="col-md-3">
               <div class="form-group">
@@ -103,7 +103,7 @@
             </div>
           </div>
         </div>
-        <div *ngIf="radioValue !== 'IMSI'">
+        <div *ngIf="radioValue !== 'MSISDN'">
           <div class="row">
             <div class="col-md-4">
               <div class="form-group">
@@ -137,12 +137,12 @@
     <!------------------------SERVICES----------------------MONTANT------------------>
     <div>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
           <fieldset>
             <legend [ngStyle]="{width: '100%'}">
               <b>Services</b>
             </legend>
-            <div class="d-flex gap-5" style="padding-top: 1.3rem;">
+            <div class="d-flex gap-5" style="padding-top: 1rem;">
               <!-- <div class="d-flex gap-2">
                 <p-radioButton name="valeur" [value]="airtimeService" [(ngModel)]="selectedService" inputId="imsi"
                   class="mt-2"></p-radioButton>
@@ -156,7 +156,7 @@
             </div>
           </fieldset>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
           <fieldset>
             <legend [ngStyle]="{width: '100%'}">
               <b>{{selectedService === airtimeService ? 'Montant (FCFA)' : 'Volume (Go)'}}</b>
@@ -171,21 +171,21 @@
             </div>
           </fieldset>
         </div>
-      </div>
-    </div>
+        <div class="col-md-4">
     <!------------------------DESCRIPTION------------------>
-    <div>
-      <fieldset>
-        <legend [ngStyle]="{width: '100%'}">
-          <b>Description</b>
-        </legend>
-        <div class="row">
-          <div class="form-group">
-            <textarea class="" type="text" [(ngModel)]="selectedDescription" pInputText placeholder="Description"
-              [ngStyle]="{width: '100%'}" rows="1"></textarea>
-          </div>
+    <fieldset>
+      <legend [ngStyle]="{width: '100%'}">
+        <b>Description</b>
+      </legend>
+      <div class="row">
+        <div class="form-group">
+          <textarea class="" type="text" [(ngModel)]="selectedDescription" pInputText placeholder="Description"
+            [ngStyle]="{width: '100%'}" rows="1"></textarea>
         </div>
-      </fieldset>
+      </div>
+    </fieldset>
+        </div>
+      </div>
     </div>
   </div>
   <div class="submit-form">

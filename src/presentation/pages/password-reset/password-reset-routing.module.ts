@@ -1,10 +1,10 @@
+import { ForgotPasswordComponent } from './ui/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './ui/reset-password/reset-password.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { RequetePasswordComponent } from './ui/requete-password/requete-password.component';
-import { ConfirmPasswordComponent } from './ui/confirm-password/confirm-password.component';
 
-export const REQUEST_PASSWORD = 'demande'
-export const CONFIRM_RESET_PASSWORD = 'confirmation';
+export const FORGOT_PASSWORD = 'forgot-password'
+export const RESET_PASSWORD = 'reset-password'
 
 
 const routes: Routes = [
@@ -12,12 +12,12 @@ const routes: Routes = [
         path: '',
         children: [
             {
-                path: REQUEST_PASSWORD,
-                component: RequetePasswordComponent
+                path: FORGOT_PASSWORD,
+                component: ForgotPasswordComponent
             },
             {
-                path: CONFIRM_RESET_PASSWORD,
-                component: ConfirmPasswordComponent
+                path: RESET_PASSWORD,
+                component: ResetPasswordComponent
             }
         ]
     },

@@ -83,6 +83,11 @@ export class PatrimoineService {
     const url: string = (<string>EndPointUrl.UPDATE_GROUPE);
     return this.http.put(`${this.baseUrl}${url}`, data);
   }
+
+  HandleDeleteGroupe(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.DELETE_GROUPE).replace('{id}', data)
+    return this.http.delete(`${this.baseUrl}${url}`);
+  }
   HandleSaveGroupe(data): Observable<any> {
     const url: string = (<string>EndPointUrl.SAVE_GROUPE);
     return this.http.post(`${this.baseUrl}${url}`, data);

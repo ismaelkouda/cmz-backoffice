@@ -9,8 +9,11 @@ import { ToastrService } from 'ngx-toastr';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { QrModalComponent } from 'src/shared/components/qr-modal/qr-modal.component';
+import { PATRIMOINE } from 'src/shared/routes/routes';
+import { DOTATION_SERVICES, TRANSACTION_SIM } from '../../patrimoine-routing.module';
+import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 const Swal = require('sweetalert2');
 
 
@@ -77,10 +80,13 @@ export class CarteSimActiveComponent implements OnInit {
     attribution: 'PATRIMOINE SIM-MAP',
   })
 
-  //Mapping
-  firstLevelLibelle: string;
-  secondLevelLibelle: string;
-  thirdLevelLibelle: string;
+ public firstLevelLibelle: string;
+ public secondLevelLibelle: string;
+ public thirdLevelLibelle: string;
+ public swap: string = OperationTransaction.SWAP;
+ public suspension: string = OperationTransaction.SUSPENSION;
+ public resiliation: string = OperationTransaction.RESILIATION;
+ public volume: string = OperationTransaction.VOLUME_DATA;
 
   constructor(
     public toastrService: ToastrService,
@@ -89,7 +95,10 @@ export class CarteSimActiveComponent implements OnInit {
     private clipboardApi: ClipboardService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private mappingService: MappingService
+    private mappingService: MappingService,
+    private router: Router,
+
+
   ) {
     this.listStatus = [SimStatut.ACTIF, SimStatut.SUSPENDU, SimStatut.RESILIE]    
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
@@ -120,7 +129,7 @@ export class CarteSimActiveComponent implements OnInit {
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -152,7 +161,7 @@ export class CarteSimActiveComponent implements OnInit {
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -177,7 +186,7 @@ export class CarteSimActiveComponent implements OnInit {
           });
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -189,7 +198,7 @@ export class CarteSimActiveComponent implements OnInit {
           this.listDepartements = response['data'];
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -202,7 +211,7 @@ export class CarteSimActiveComponent implements OnInit {
           this.listActivites = response['data'];
         },
         error: (error) => {
-          this.toastrService.error(error.message)
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -215,7 +224,7 @@ export class CarteSimActiveComponent implements OnInit {
           this.listUsages = response['data']
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -244,7 +253,7 @@ export class CarteSimActiveComponent implements OnInit {
           this.selectedDescription = null;
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -269,6 +278,21 @@ export class CarteSimActiveComponent implements OnInit {
     this.formsView = true;
     this.currentObject = { ...data, show: true };
   }
+  public onTransactionForm(data: any,operation: string): void {
+    this.initialView = false;
+    this.router.navigateByUrl(
+      `${PATRIMOINE}/${TRANSACTION_SIM}`,
+      { state: {patrimoine: data,operation: operation} }
+    );
+  }
+  public onDotationForm(data: any): void {
+    this.initialView = false;
+    this.router.navigateByUrl(
+      `${PATRIMOINE}/${DOTATION_SERVICES}`,
+      { state: {patrimoine: data} }
+    );
+  }
+
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;

@@ -27,9 +27,7 @@ export class VisualisationComponent implements OnInit {
   constructor(
     private parametreSecuriteService: ParametreSecuriteService,
     private toastrService: ToastrService,
-    private modalService: NgbModal,
-    private settingService: SettingService
-
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {

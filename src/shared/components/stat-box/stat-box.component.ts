@@ -2,7 +2,7 @@
 import { Component, Input } from "@angular/core";
 
 @Component({
-  selector: "app-statistics-box",
+  selector: "app-stat-box",
   templateUrl: "./stat-box.component.html",
   styleUrls: ["./stat-box.component.scss"],
 })

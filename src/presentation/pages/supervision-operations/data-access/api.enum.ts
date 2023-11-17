@@ -7,4 +7,3 @@ export const enum EndPointUrl {
     CANCEL_TRANSACTION = 'supervision-operations/traitements-suivis/abandonner-transaction',
     CLOSE_TRANSACTION = 'supervision-operations/traitements-suivis/cloturer-transaction'
 }
-

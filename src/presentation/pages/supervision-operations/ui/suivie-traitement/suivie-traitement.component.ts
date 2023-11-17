@@ -93,14 +93,24 @@ export class SuivieTraitementComponent implements OnInit {
       .GetAllTransactions({}, this.p)
       .subscribe({
         next: (response) => {
-          this.listTraitemants = response.data.data;
+          this.listTraitemants =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            } else{
+              return {...data,current_date: 'N/A'}
+            }
+          });
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -165,7 +175,7 @@ export class SuivieTraitementComponent implements OnInit {
           });
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -252,7 +262,7 @@ export class SuivieTraitementComponent implements OnInit {
     });
     modalRef.componentInstance.transaction = data;
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
-      this.listTraitemants = res['data']
+      this.listTraitemants = res
     })
   }
   public showSecondFilter() {

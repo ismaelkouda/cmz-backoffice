@@ -24,8 +24,6 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
     this.GetAllUsers()
   }
-
-
   public GetAllUsers() {
     this.settingService.getAllUsers({})
       .subscribe({
@@ -36,7 +34,6 @@ export class UsersComponent implements OnInit {
           this.toastrService.error(error.error.message);
         }
       })
-
   }
 
   public onInitForm(): void {

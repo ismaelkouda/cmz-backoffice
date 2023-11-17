@@ -5,6 +5,8 @@ import { RouterModule, Routes } from "@angular/router";
 import { ContentComponent } from "src/shared/components/layout/content/content.component";
 import { FullComponent } from 'src/shared/components/layout/full/full.component';
 
+export const REINITIALISATION = 'reinitialisation'
+
 const routes: Routes = [
   {
     path: '',
@@ -12,7 +14,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'réinitialisation',
+    path: REINITIALISATION,
     loadChildren: () => import("../presentation/pages/password-reset/password-reset.module").then((m) => m.PasswordResetModule),
   },
   {

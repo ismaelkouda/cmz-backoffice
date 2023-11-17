@@ -74,6 +74,9 @@ export class TransactionSimComponent implements OnInit {
       this.module = data.module;
       this.subModule = data.subModule[3];
     });
+    if (history.state.patrimoine) {
+      this.onInitForm()
+    }
   }
 
   public GetAllTransactions() {
@@ -88,7 +91,7 @@ export class TransactionSimComponent implements OnInit {
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -116,7 +119,7 @@ export class TransactionSimComponent implements OnInit {
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }

@@ -64,4 +64,5 @@ export class ParametreSecuriteService {
     return this.http.put(`${this.baseUrl}${url}`, {});
   }
 
+
 }

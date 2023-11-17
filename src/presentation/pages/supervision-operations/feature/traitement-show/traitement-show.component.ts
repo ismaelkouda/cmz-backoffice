@@ -28,6 +28,7 @@ export class TraitementShowComponent implements OnInit {
   public detailTransaction: any;
   public fileUrl: string;
   public filterTab: string;
+  public listTraitemants: Array<any> = [];
   public operationLigneCredit: string = OperationTransaction.PROVISIONNING;
   public operationActivation: string = OperationTransaction.ACTIVATION
   public operationSwap: string = OperationTransaction.SWAP
@@ -76,7 +77,6 @@ export class TraitementShowComponent implements OnInit {
       this.listTypeJustificatif.push(item);
     });
     this.fileUrl = this.mappingService.fileUrl;
-
   }
 
   ngOnInit() {
@@ -145,7 +145,7 @@ export class TraitementShowComponent implements OnInit {
         },
         error: (error) => {
           this.GetAllTransactions();
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -196,11 +196,22 @@ export class TraitementShowComponent implements OnInit {
       .GetAllTransactions({}, 1)
       .subscribe({
         next: (response) => {
-          this.resultTraitement.emit(response['data']);
+          this.listTraitemants =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            }else{
+              return {...data,current_date: 'N/A'}
+            } 
+          });          
+          this.resultTraitement.emit(this.listTraitemants);
           this.activeModal.close();
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -230,7 +241,11 @@ export class TraitementShowComponent implements OnInit {
     this.ligneForm.get('provisionning_accepte_comment').patchValue(this.detailTransaction?.rapport?.provisionning_accepte_comment);
   }
   downloadFile() {
-    window.open(this.fileUrl + this.detailTransaction?.justificatif)
+    if (!this.detailTransaction?.justificatif) {
+      this.toastrService.warning('Pas de justificatif pour cette operation')
+    }else{
+          window.open(this.fileUrl + this.detailTransaction?.justificatif)
+    }
   }
 
   /*@@@@@@@@@@@@@@@@@@@@@@Volume Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
@@ -436,7 +451,7 @@ export class TraitementShowComponent implements OnInit {
           this.listFirstLevel = response['data']
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -448,7 +463,7 @@ export class TraitementShowComponent implements OnInit {
           this.listSecondLevel = response['data']
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -460,7 +475,7 @@ export class TraitementShowComponent implements OnInit {
           this.listThirdLevel = response['data'];
         },
         error: (error) => {
-          this.toastrService.error(error.message)
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -472,7 +487,7 @@ export class TraitementShowComponent implements OnInit {
           this.listUsages = response['data'];
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }

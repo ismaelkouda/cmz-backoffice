@@ -57,7 +57,7 @@ export class JournalComponent implements OnInit {
           this.listJournal = response['data'];          
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }

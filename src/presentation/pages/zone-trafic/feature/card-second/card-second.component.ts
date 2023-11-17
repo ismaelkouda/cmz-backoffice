@@ -366,7 +366,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           }).addTo(this.map);
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }

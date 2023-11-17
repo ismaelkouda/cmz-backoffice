@@ -142,7 +142,7 @@ export class DemandeShowComponent implements OnInit {
         error: (error) => {
           this.GetAllTransactions();
           this.isError = true;
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -155,7 +155,7 @@ export class DemandeShowComponent implements OnInit {
           this.activeModal.close();
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -203,7 +203,11 @@ export class DemandeShowComponent implements OnInit {
     }
   }
   downloadFile() {
-    window.open(this.fileUrl + this.detailTransaction?.justificatif)
+    if (!this.detailTransaction?.justificatif) {
+      this.toastrService.warning('Pas de justificatif pour cette operation')
+    }else{
+          window.open(this.fileUrl + this.detailTransaction?.justificatif)
+    }
   }
   downloadModal() {
     window.open('../../../../../assets/data/format_cmd.xlsx')
@@ -455,5 +459,7 @@ export class DemandeShowComponent implements OnInit {
   downloadModelXls() {
     window.open(this.fileModel, "_blank");
   }
+
+  
 
 }

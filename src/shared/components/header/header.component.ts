@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
   public headerTitle: string;
   public profil: any;
   public logoTenant: string;
+  public minioUrl: string;
 
   constructor(
     public layout: LayoutService,
@@ -29,16 +30,16 @@ export class HeaderComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     private storage: EncodingDataService,
     private mappingService: MappingService
-
   ) {
     this.statutLayout();
-    this.headerTitle = appConfig?.titlePage
+    this.headerTitle = appConfig?.titlePage;
+    this.minioUrl = this.mappingService.minioUrl;    
   }
 
   ngOnInit() {
     this.elem = document.documentElement;
     this.profil = JSON.parse(this.storage.getData('user'));
-    this.logoTenant = this.mappingService?.logoTenant;
+    this.logoTenant = `${this.minioUrl}${this.profil?.tenant?.logo_tenant}`;
   }
 
   statutLayout(): boolean {

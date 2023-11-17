@@ -20,8 +20,8 @@ import { PasswordModule } from 'primeng/password';
 import { PasswordResetRoutingModule } from './password-reset-routing.module';
 
 //Components
-import { ConfirmPasswordComponent } from './ui/confirm-password/confirm-password.component';
-import { RequetePasswordComponent } from './ui/requete-password/requete-password.component';
+import { ResetPasswordComponent } from './ui/reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './ui/forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -45,8 +45,8 @@ import { RequetePasswordComponent } from './ui/requete-password/requete-password
     PasswordModule
   ],
   declarations: [
-    RequetePasswordComponent,
-    ConfirmPasswordComponent
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
 })
 export class PasswordResetModule { }

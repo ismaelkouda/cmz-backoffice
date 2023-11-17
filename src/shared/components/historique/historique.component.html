@@ -46,22 +46,20 @@
     <ng-template pTemplate="header">
         <tr>
             <th>#</th>
+            <th>Date</th>
+            <th>Operation</th>
+            <th>Détails Operation</th>
             <th>Source [Utilisateur]</th>
-            <th>Module</th>
-            <th>Sous Module</th>
-            <th>Action</th>
-            <th class="text-center">Date</th>
             <th class="text-center">Action</th>
         </tr>
     </ng-template>
     <ng-template let-i="rowIndex" pTemplate="body" let-historique>
         <tr>
             <td class="text-center">{{ i + 1 }}</td>
-            <td>{{ historique.ip }} [{{historique?.user.nom +' ' +historique?.user.prenoms}}]</td>
-            <td>{{historique.module === null? 'N/A': historique?.module}}</td>
+            <td class="text-center">{{historique.created_at === null? 'N/A': historique.created_at}}</td>
             <td class="text-center">{{historique?.sous_module === null? 'N/A': historique?.sous_module}}</td>
             <td>{{historique.action === null? 'N/A': historique.action}}</td>
-            <td class="text-center">{{historique.created_at === null? 'N/A': historique.created_at}}</td>
+            <td>{{ historique.ip }} [{{historique?.user.nom +' ' +historique?.user.prenoms}}]</td>
             <td class="text-center">
                 <button pButton pRipple label="Voir" class="p-button-dark"
                     (click)="showHistorique(historique)"></button>

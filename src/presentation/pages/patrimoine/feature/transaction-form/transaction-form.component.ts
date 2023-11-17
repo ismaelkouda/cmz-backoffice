@@ -1,7 +1,7 @@
 import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
 import { formDataBuilder } from '../../../../../shared/constants/formDataBuilder.constant';
 import { ToastrService } from 'ngx-toastr';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { SimStatut } from 'src/shared/enum/SimStatut.enum';
 import { HttpClient } from '@angular/common/http';
@@ -17,7 +17,7 @@ import { EncodingDataService } from 'src/shared/services/encoding-data.service';
   templateUrl: './transaction-form.component.html',
   styleUrls: ['./transaction-form.component.scss']
 })
-export class TransactionFormComponent implements OnInit {
+export class TransactionFormComponent implements OnInit, OnDestroy {
 
 
   public baseUrl: string;
@@ -81,7 +81,7 @@ export class TransactionFormComponent implements OnInit {
   public selectedAdresseGeo: string;
   public selectedLongitude: string;
   public selectedLatitude: string;
-
+  public historie: any;
   //Type Source
   public sourceStock: string = 'stock';
   public sourceOrange: string = 'orangeci';
@@ -106,7 +106,6 @@ export class TransactionFormComponent implements OnInit {
   ) {
     const data = JSON.parse(this.storage.getData('user'))
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
-
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
@@ -120,8 +119,15 @@ export class TransactionFormComponent implements OnInit {
     this.isFilter();
     this.isValidateActivation();
     this.isVerify();
+    this.historie = history.state.patrimoine 
+    if (this.historie) {
+      this.selectedActionValue = history.state.operation;
+      this.operationValue = this.selectedActionValue
+      this.currentPatrimoine = history.state.patrimoine     
+    } 
   }
   close() {
+    history.state.operation = null
     this.formsView.emit(false);
   }
 
@@ -138,7 +144,7 @@ export class TransactionFormComponent implements OnInit {
           this.close();
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -157,7 +163,7 @@ export class TransactionFormComponent implements OnInit {
           }
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -169,7 +175,7 @@ export class TransactionFormComponent implements OnInit {
           this.listDirections = response.data
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -181,7 +187,7 @@ export class TransactionFormComponent implements OnInit {
           this.listExploitations = response.data
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -193,7 +199,7 @@ export class TransactionFormComponent implements OnInit {
           this.listUsages = response['data'];
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -205,7 +211,7 @@ export class TransactionFormComponent implements OnInit {
           this.listActivites = response['data'];
         },
         error: (error) => {
-          this.toastrService.error(error.message)
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -292,7 +298,7 @@ export class TransactionFormComponent implements OnInit {
           this.toastrService.success(res.message);
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -326,7 +332,7 @@ export class TransactionFormComponent implements OnInit {
           this.currentListSimsPage = response.data['current_page'];
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -362,5 +368,8 @@ export class TransactionFormComponent implements OnInit {
   pipeValue(number: any) {
     return new Intl.NumberFormat('fr-FR').format(number);
   }
-
+  ngOnDestroy(): void {
+    history.state.patrimoine = null
+    history.state.operation = null
+ }
 }

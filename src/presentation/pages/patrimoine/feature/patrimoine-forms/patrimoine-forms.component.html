@@ -17,13 +17,16 @@
             <app-count-box label="Solde Data (Kb):" [value]="pipeValue(currentObject?.solde_actuel_kb || '0')"></app-count-box>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="form-group">
             <label>
-              <b>Solde Dotation (Go)</b>
+              <b>Solde Dotation (Kb)</b>
             </label>
             <app-count-box label="Solde Dotation (Go):" [value]="pipeValue(currentObject?.solde_dotation || '0')"></app-count-box>
           </div>
+        </div>
+        <div class="col-md-1" *ngIf="currentObject?.show">
+          <img width="150" style="max-width: fit-content;" [src]="minioUrl+currentObject.qrcode" alt="QR Illustration">
         </div>
     </div>
     <div class="forms-feature-header__button" [ngStyle]="{display: 'flex',gap: '1rem'}">
@@ -33,7 +36,6 @@
       </div>
       <div>
         <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
-
       </div>
     </div>
   </div>
@@ -82,7 +84,7 @@
       </fieldset>
       <fieldset>
         <legend [ngStyle]="{width: '18rem'}">
-          <b>Informations d'indentifications</b>
+          <b>Informations d'identification</b>
         </legend>
         <div class="row">
           <div class="col-md-4">
@@ -457,6 +459,30 @@
               </div>
             </div>
           </fieldset>
+        </div>
+      </p-tabPanel>
+     <p-tabPanel header="VUE GEOGRAPHIQUE">
+        <div class="pull-right">
+          <button pButton pRipple icon="pi pi-desktop" class="p-button-dark"  tooltipPosition="top"
+          (click)="onDialogMaximized(true)"></button>
+        </div>
+        <!-- <p-dialog [(visible)]="display" position="bottom-right" (onHide)="hideDialog('map')"
+        [style]="{ width: '100%' }" (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true"
+        [maximizable]="true" [draggable]="false" [resizable]="false">
+        <ng-template pTemplate="header">
+          <h3>
+            <b [style]="{ color: '#FFFFFF' }">MSISDN: <u class="current_values">[{{currentObject?.msisdn}}]</u></b>
+          </h3>
+        </ng-template>
+        <ng-template pTemplate="content" class="mt-4">
+          <div class="mt-4">
+            <div #parcelleMap></div>
+            <app-carte-map [patrimoine]="currentObject"></app-carte-map>
+          </div>
+        </ng-template>
+      </p-dialog> -->
+        <div [style]="{width: '100%'}">
+          <app-carte-map [style]="{width: '100%'}" [patrimoine]="currentObject"></app-carte-map>
         </div>
       </p-tabPanel>
       <p-tabPanel header="HISTORIQUE">

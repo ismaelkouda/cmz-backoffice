@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ToastrService } from 'ngx-toastr';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
-import { Activity } from 'src/shared/enum/Activity.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
@@ -31,8 +30,9 @@ export class PatrimoineFormsComponent implements OnInit {
   public offset: any;
   public p: number = 1;
   public currentDhcpValue: string;
-  adminForm: FormGroup;
-
+  public display: boolean = true;
+  public isMaximized: boolean = false;
+  public adminForm: FormGroup;
   public listActivites: Array<any> = [];
   public listDepartements: Array<any> = [];
   public listCommunes: Array<any> = [];
@@ -40,9 +40,10 @@ export class PatrimoineFormsComponent implements OnInit {
   public selectedCommune: any;
   public soldeGlobal: string
   //Mapping
-  firstLevelLibelle: string;
-  secondLevelLibelle: string;
-  thirdLevelLibelle: string;
+  public firstLevelLibelle: string;
+  public secondLevelLibelle: string;
+  public thirdLevelLibelle: string;
+  public minioUrl: string;
 
   constructor(
     private fb: FormBuilder,
@@ -52,10 +53,10 @@ export class PatrimoineFormsComponent implements OnInit {
     private mappingService: MappingService
   ) {
     this.listDHCP = ['OUI', 'NON'];
-
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+    this.minioUrl = this.mappingService.minioUrl
   }
 
   ngOnInit() {
@@ -112,7 +113,7 @@ export class PatrimoineFormsComponent implements OnInit {
           this.listDirectionRegionales = response['data'];
         },
         error: (error) => {
-          this.toastrService.error(error.message)
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -124,7 +125,7 @@ export class PatrimoineFormsComponent implements OnInit {
           this.listActivites = response['data'];
         },
         error: (error) => {
-          this.toastrService.error(error.message)
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -136,7 +137,7 @@ export class PatrimoineFormsComponent implements OnInit {
           this.listUsage = response['data']
         },
         error: (error) => {
-          this.toastrService.error(error.message)
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -148,7 +149,7 @@ export class PatrimoineFormsComponent implements OnInit {
           this.listDepartements = response['data'];
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -165,7 +166,7 @@ export class PatrimoineFormsComponent implements OnInit {
           this.close();
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -177,10 +178,9 @@ export class PatrimoineFormsComponent implements OnInit {
       .subscribe(
         (response: any) => {
           this.listExploitations = response['data'];
-          // this.listExploitations.forEach((element) => (element.all_exp = element.nom + ' ' + '[' + element.code + ']'));
         },
         (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       )
   }
@@ -257,6 +257,10 @@ export class PatrimoineFormsComponent implements OnInit {
           this.toastrService.error(error.error.message);
         }
       })
+  }
+  public onDialogMaximized(event) {
+    this.display = true
+    event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
   pipeValue(number: any) {
     return new Intl.NumberFormat('fr-FR').format(number);

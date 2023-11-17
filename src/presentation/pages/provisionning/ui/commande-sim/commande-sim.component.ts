@@ -7,7 +7,6 @@ import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 const Swal = require('sweetalert2');
 
-
 @Component({
   selector: 'app-commande-sim',
   templateUrl: './commande-sim.component.html',
@@ -79,7 +78,7 @@ export class CommandeSimComponent implements OnInit {
           this.OnStatAchat()
         },
         error: (error) => {
-          this.toastService.error(error.message);
+          this.toastService.error(error.error.message);
         }
       })
   }
@@ -106,7 +105,7 @@ export class CommandeSimComponent implements OnInit {
           this.offset = (response.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
-          this.toastService.error(error.message);
+          this.toastService.error(error.error.message);
         }
       })
   }

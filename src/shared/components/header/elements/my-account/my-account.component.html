@@ -5,8 +5,11 @@
     </div>
 </div>
 <ul class="profile-dropdown onhover-show-div">
-    <li>
-        <i [attr.data-feather]="'user'"></i><span>Mon compte </span>
+    <li (click)="openFormAccount(accountV,currentUser)">
+        <i [attr.data-feather]="'user'"></i><span>Mon compte</span>
+    </li>
+    <li (click)="openFormPassword(passwordV)">
+        <i [attr.data-feather]="'lock'"></i><span>Mot de passe</span>
     </li>
     <li>
         <i [attr.data-feather]="'monitor'"></i><span>Espace digital</span>
@@ -15,3 +18,89 @@
         <i [attr.data-feather]="'log-in'"></i><span>Déconnexion</span>
     </li>
 </ul>
+<!---------------------PASSWORD FORM----------------------------->
+<ng-template #passwordV let-modal [formGroup]="passwordForm">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modification Mot de passe</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
+    </div>
+    <div class="modal-body" novalidate>
+        <div class="form-group mb-4">
+            <label>
+              <b>Ancien Mot de passe</b>
+            </label>
+            <p-password formControlName="actuel_password" [feedback]="false"  [toggleMask]="true" styleClass="p-password p-component p-inputwrapper p-input-icon-right"></p-password>
+        </div>
+        <div class="form-group mb-4">
+            <label>
+              <b>Nouveau Mot de passe</b>
+            </label>
+            <p-password formControlName="nouveau_password" [feedback]="false" [toggleMask]="true" styleClass="p-password p-component p-inputwrapper p-input-icon-right"></p-password>
+        </div>
+        <div class="form-group mb-3">
+            <label>
+              <b>Confirmer nouveau mot de passe</b>
+            </label>
+            <p-password formControlName="confirm_password" [feedback]="false" [toggleMask]="true" styleClass="p-password p-component p-inputwrapper p-input-icon-right"></p-password>
+        </div>
+        <span class="error" *ngIf="newPasswordValue !== confirmPasswordValue">Les deux mot de passe doivent être identiques</span>
+    </div>
+
+    <div class="modal-footer">
+      <div>
+        <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-save" (click)="handleUpdatePassword()"
+            [disabled]="!passwordForm.valid || (newPasswordValue !== confirmPasswordValue)">Valider</button>
+      </div>
+    </div>
+</ng-template>
+<!---------------------ACCOUNT FORM----------------------------->
+<ng-template #accountV let-modal [formGroup]="accountForm">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Mon Compte</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="hideFormAccount()"></button>
+    </div>
+    <div class="modal-body" novalidate>
+        <div class="form-group mb-3">
+            <label>
+              <b>Nom<span class="text-danger">*</span></b>
+            </label>
+            <input type="text" formControlName="nom" pInputText />
+        </div>
+        <div class="form-group mb-3">
+            <label>
+              <b>Prénoms<span class="text-danger">*</span></b>
+            </label>
+            <input type="text" formControlName="prenoms" pInputText />
+        </div>
+        <div class="form-group mb-3">
+            <label>
+              <b>Adresse email<span class="text-danger">*</span></b>
+            </label>
+            <input type="text" formControlName="email" pInputText />
+        </div>
+        <div class="form-group mb-3">
+            <label>
+              <b>Contact<span class="text-danger">*</span></b>
+            </label>
+            <input type="text" formControlName="contacts" pInputText />
+        </div>
+        <div class="form-group mb-3">
+            <label>
+              <b>Adresse<span class="text-danger">*</span></b>
+            </label>
+            <input type="text" formControlName="adresse" pInputText />
+        </div>
+    </div>
+    <div class="modal-footer">
+      <div>
+        <button type="button" class="btn btn-hide" (click)="hideFormAccount()">Fermer</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-save" (click)="handleUpdateAdmin()"
+            [disabled]="!accountForm.valid">Valider</button>
+      </div>
+    </div>
+</ng-template>

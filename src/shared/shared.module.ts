@@ -24,7 +24,6 @@ import { FullComponent } from "./components/layout/full/full.component";
 import { LoaderComponent } from "./components/loader/loader.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { TapToTopComponent } from "./components/tap-to-top/tap-to-top.component";
-// Header Elements Components
 import { MyAccountComponent } from "./components/header/elements/my-account/my-account.component";
 
 // Services
@@ -44,6 +43,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { TableFilterPipe } from './pipes/table-filter.pipe';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
+import { PasswordModule } from 'primeng/password';
 
 
 @NgModule({
@@ -83,7 +83,8 @@ import { DialogModule } from 'primeng/dialog';
     CalendarModule,
     TooltipModule,
     DialogModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    PasswordModule
   ],
   providers: [NavService, LayoutService, DecimalPipe],
   exports: [

@@ -86,7 +86,7 @@
                     <td class="text-center">
                       <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
                         label="Visualiser ({{data.sims_count}})" class="p-button" (click)="OnVisualisation(data)"
-                        [disabled]="data.sims_count === 0 || data.statut === 'inactif'"></button>
+                        [disabled]="data.sims_count === 0"></button>
                     </td>
                     <td class="text-center">
                       <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
@@ -108,8 +108,8 @@
                         ? handleDisableProfil(data)
                         : handleActivateProfil(data)">
                       </button>
-                      <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Supprimer"
-                        tooltipPosition="top"></p-button>
+                      <button pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="HandleDeleteGroupe(data)"  pTooltip="Supprimer"
+                        tooltipPosition="top"></button>
                     </td>
                   </tr>
                 </ng-template>

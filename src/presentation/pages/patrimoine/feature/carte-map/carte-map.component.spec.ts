@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { RequetePasswordComponent } from './requete-password.component';
+import { CarteMapComponent } from './carte-map.component';
 
-describe('RequetePasswordComponent', () => {
-  let component: RequetePasswordComponent;
-  let fixture: ComponentFixture<RequetePasswordComponent>;
+describe('CarteMapComponent', () => {
+  let component: CarteMapComponent;
+  let fixture: ComponentFixture<CarteMapComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RequetePasswordComponent ]
+      declarations: [ CarteMapComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RequetePasswordComponent);
+    fixture = TestBed.createComponent(CarteMapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

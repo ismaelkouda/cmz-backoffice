@@ -1,7 +1,7 @@
 {
     "version": "1.1.0",
-    "serverUrl": "http://10.10.0.200:28012/api/v1/",
-    "fileUrl": "http://10.10.0.200:28012/",
+    "serverUrl": "http://10.10.0.15:8004/api/v1/",
+    "fileUrl": "http://10.10.0.15:8004/",
     "titlePage": "SIM Asset Management",
     "siteKey": "6LePy9giAAAAAFbVsCQO0HrmV9Ew2KPi42b31_2s"
 }

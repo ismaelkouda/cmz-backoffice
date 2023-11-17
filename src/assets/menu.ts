@@ -138,13 +138,6 @@ export var menuJson = [
                 data: "4-1-0-statuts",
                 type: "link"
             },
-            // {
-            //     path: `/${SUPERVISION_OPERATIONS}/${SUPERSION_PRISE_EN_CHARGE}`,
-            //     title: "Prise en charge",
-            //     label: "Prise en charge",
-            //     data: "4-2-0-prise-en-charge",
-            //     type: "link"
-            // },
             {
                 path: `/${SUPERVISION_OPERATIONS}/${SUPERVISION_SUIVIE_TRAITEMENT}`,
                 title: "Suivi et traitement",
@@ -186,13 +179,6 @@ export var menuJson = [
                 data: "5-2-0-analyse-alarmes",
                 type: "link"
             },
-            // {
-            //     path: `/${SUPERVISION_SIM}/${SOLDES_SIM}`,
-            //     title: "Soldes par SIM",
-            //     label: "Soldes par SIM",
-            //     data: "5-1-0-analyse-trafic",
-            //     type: "link"
-            // },
             {
                 path: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
                 title: "Approvisionnements Data",

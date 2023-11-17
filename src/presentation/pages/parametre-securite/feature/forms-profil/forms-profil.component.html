@@ -6,7 +6,7 @@
           <label>
             <b>Nom du profil<span class="text-danger">*</span></b>
           </label>
-          <input placeholder="Nom du Profil" [(ngModel)]="selectedNom" type="text" pInputText />
+          <input placeholder="Nom du Profil" [disabled]="currentObject?.show" [(ngModel)]="selectedNom" type="text" pInputText />
         </div>
       </div>
       <div class="col-md-4">
@@ -14,13 +14,13 @@
           <label>
             <b>Description</b>
           </label>
-          <input placeholder="Description du Profil" [(ngModel)]="selectedDescription" type="text" pInputText />
+          <input placeholder="Description du Profil" [disabled]="currentObject?.show"  [(ngModel)]="selectedDescription" type="text" pInputText />
         </div>
       </div>
     </div>
     <div>
       <div class="table_actions_wrapper pt-3">
-        <button class="p-button-success" pButton pRipple icon="pi pi-save" label="Sauvegarder" (click)="!currentObject ? handleSaveProfilHabilitation()
+        <button class="p-button-success" *ngIf="!currentObject?.show" pButton pRipple icon="pi pi-save" label="Sauvegarder" (click)="!currentObject ? handleSaveProfilHabilitation()
         : handleUpdateProfilHabilitation()">
         </button>
         <button pButton pRipple label="Fermer" (click)="close()" class="p-button-danger"></button>
@@ -29,10 +29,23 @@
   </div>
   <hr>
   <p-tabView>
-    <p-tabPanel header="Permissions">
+    <p-tabPanel header="Permissions" *ngIf="!currentObject?.show">
       <div class="d-flex justify-content-between">
         <div>
           <p-tree selectionMode="checkbox" [value]="dataSourceFiles" [(selection)]="selectedItemsDataSource"></p-tree>
+        </div>
+        <div>
+          <button pButton type="button" label="Dérouler Tout" (click)="expandAllPermission()"
+            style="margin-right: 0.5rem" class="p-button-secondary"></button>
+          <button pButton type="button" label="Fermer Tout" (click)="collapseAllPermission()"
+            class="p-button-dark"></button>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Habilitations" *ngIf="!currentObject?.show">
+      <div class="d-flex justify-content-between">
+        <div>
+          <p-tree selectionMode="checkbox" [value]="habilitationSourceFiles" [(selection)]="selectedItemsHabilitationSource"></p-tree>
         </div>
         <div>
           <button pButton type="button" label="Dérouler Tout" (click)="expandAllHabilitations()"
@@ -42,19 +55,9 @@
         </div>
       </div>
     </p-tabPanel>
-    <!-- <p-tabPanel header="Habilitations">
-      <div class="d-flex justify-content-between">
-        <div>
-          <p-tree selectionMode="checkbox" [value]="permissionExploitations"
-            [(selection)]="selectedItemsDataDirectReg"></p-tree>
-        </div>
-        <div>
-          <button pButton type="button" label="Dérouler Tout" (click)="expandAllPermissions()"
-            style="margin-right: 0.5rem" class="p-button-secondary"></button>
-          <button pButton type="button" label="Fermer Tout" (click)="collapseAllPermissions()"
-            class="p-button-dark"></button>
-        </div>
-      </div>
-    </p-tabPanel> -->
+    <p-tabPanel header="HISTORIQUE" *ngIf="currentObject?.show">
+      <app-historique [module]="'PARAMETRES SECURITE'" [sous_module]="'PROFIL USERS'" [modele_id]="currentObject.id">
+      </app-historique>
+    </p-tabPanel>
   </p-tabView>
 </div>

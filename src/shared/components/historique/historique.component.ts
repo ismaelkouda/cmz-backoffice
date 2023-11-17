@@ -55,8 +55,7 @@ export class HistoriqueComponent implements OnInit {
   }
 
   showHistorique(data: any) {
-    console.log("data",data);
-    if (data?.event !== 'Création') {
+    if (data?.event === 'Mise à jour') {
       this.currentEventParse = JSON.parse(data?.data);    
       Object.values(this.currentEventParse?.before).map((value, i) => {
         this.currentEventParseBeforeValues.push(value);
@@ -89,7 +88,7 @@ export class HistoriqueComponent implements OnInit {
         },
         (error) => {
           this.loadingBar.stop();
-          this.toastService.error(error.message);
+          this.toastService.error(error.error.message);
         }
       );
 
@@ -122,7 +121,7 @@ export class HistoriqueComponent implements OnInit {
           //response.data.length === 0 ? this.toastrService.info('Historique vide !') : this.toastrService.success(response.message);
         },
         (error) => {
-          this.toastService.error(error.message);
+          this.toastService.error(error.error.message);
         }
       );
   }
