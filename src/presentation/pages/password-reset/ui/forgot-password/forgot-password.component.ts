@@ -14,32 +14,26 @@ import { ToastrService } from 'ngx-toastr';
 export class ForgotPasswordComponent implements OnInit {
 
   isModal: boolean = false;
-
+  selectedEmail: string
   constructor(
     private location: Location,
-    private router: Router,
     private authenticationService: AuthenticationService,
     private toastService: ToastrService,
-
-
   ) { }
 
-  ngOnInit() {
-    // this.route.queryParams.subscribe((params) => {
-    //    console.log("params",params);
-    // });
-  }
+  ngOnInit() {}
 
   public HandleForgotPassword() {
-    this.isModal = true          
     this.authenticationService
-      .HandleForgotPassword({})
+      .HandleForgotPassword({
+        email: this.selectedEmail
+      })
       .subscribe({
         next: (response) => {  
-          this.isModal = true          
+          this.isModal = true 
+          this.toastService.success(response.message);         
         },
         error: (error) => {
-          this.isModal = true          
           this.toastService.error(error.error.message);
         }
       })

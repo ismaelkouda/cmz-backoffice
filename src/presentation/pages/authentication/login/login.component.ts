@@ -25,8 +25,7 @@ export class LoginComponent implements OnInit {
   public permissionsJson: any = [];
   readonly REINITIALISATION = REINITIALISATION;
   readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
-
-
+  
   constructor(
     private fb: FormBuilder,
     private readonly userLoginUseCase: UserLoginUseCase,

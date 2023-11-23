@@ -47,7 +47,6 @@ export class MyAccountComponent implements OnInit {
       actuel_password: ['',[Validators.required]],
       nouveau_password: ['',[Validators.required]],
       confirm_password: ['',[Validators.required]],
-
     });
   }
   public openFormPassword(content) {

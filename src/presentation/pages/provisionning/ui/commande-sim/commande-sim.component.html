@@ -113,9 +113,9 @@
                     <td>{{data?.created_at}}</td>
                     <td (click)="copyData(data.transaction)" style="cursor: pointer">{{data?.transaction}}</td>
                     <td (click)="copyData(data.numero_commande)" style="cursor: pointer">{{data?.numero_commande}}</td>
-                    <td>{{pipeValue(data?.qte_sim_msisdn || 'N/A')}}</td>
-                    <td>{{pipeValue(data?.qte_sim_blanche || 'N/A')}}</td>
-                    <td>{{pipeValue(data?.volume_data || 'N/A')}}</td>
+                    <td>{{pipeValue(data?.nb_sim_a || '0')}}</td>
+                    <td>{{pipeValue(data?.nb_sim_b || '0')}}</td>
+                    <td>{{pipeValue(data?.nb_vol_p || '0')}}</td>
                     <td>{{data.initiateur?.nom}} {{data.initiateur?.prenoms}}</td>
                     <td class="text-center">
                       <span [ngStyle]="{'font-size':'16px'}" class="badge"

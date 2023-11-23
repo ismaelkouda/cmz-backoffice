@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
 import * as moment from 'moment';
+import { ExcelService } from 'src/shared/services/excel.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -51,12 +52,14 @@ export class DotationServiceComponent implements OnInit {
     private mappingService: MappingService,
     public toastrService: ToastrService,
     private clipboardApi: ClipboardService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit() {
-    this.isFilter();
     this.GetAllDotations();
+    this.isFilter();
+    this.disableAction()
     this.route.data.subscribe((data) => {
       this.module = data.module;
       this.subModule = data.subModule[2];
@@ -172,14 +175,22 @@ export class DotationServiceComponent implements OnInit {
     this.listDotations = event;
   }
 
-  public changeDateStart(e) {
-    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+  changeDateStart(e) {
+    if ( moment(this.filterDateStart).isValid()) {
+      this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    }else{
+      this.selectDateStart = null
+    }
   }
- public  changeDateEnd(e) {
-    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+  changeDateEnd(e) { 
+    if ( moment(this.filterDateEnd).isValid()) {
+      this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+    }else{
+      this.selectDateEnd = null
+    }
   }
   public disableAction(): boolean {
-    return null;
+    return (this.listDotations === undefined || this.listDotations?.length === 0) ? true : false
   }
   public isFilter(): boolean {
     return (!this.selectedNumero && !this.selectedSim && !this.selectedimsi && !this.selectedEmplacement && !this.selectDateStart && !this.selectDateEnd) ? true : false
@@ -187,4 +198,21 @@ export class DotationServiceComponent implements OnInit {
   pipeValue(number: any) {
     return new Intl.NumberFormat('fr-FR').format(number);
   }
+  public OnExportExcel(): void {
+    const data = this.listDotations.map((item: any) => ({
+      'Numero demande': item?.numero_dotation,
+      'IMSI': item?.imsi,
+      'MSISDN': item?.msisdn,
+      'Emplacement': item?.point_emplacement,
+      'Description': item?.description,
+      'Data(Go)': item?.valeur,
+      'Initiateur': item?.initiateur?.nom +' '+ item?.initiateur?.prenoms,
+      'Avant(Kb)': item?.solde_avant,
+      'Après(Kb)': item?.solde_apres,
+      'Date création': item?.created_at,
+      'Date MAJ': item?.updated_at,
+
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des dotations');
+  }
 }

@@ -43,7 +43,7 @@
             </label>
             <p-password formControlName="confirm_password" [feedback]="false" [toggleMask]="true" styleClass="p-password p-component p-inputwrapper p-input-icon-right"></p-password>
         </div>
-        <span class="error" *ngIf="newPasswordValue !== confirmPasswordValue">Les deux mot de passe doivent être identiques</span>
+        <span class="form-error" *ngIf="newPasswordValue !== confirmPasswordValue">Les deux mot de passe doivent être identiques</span>
     </div>
 
     <div class="modal-footer">

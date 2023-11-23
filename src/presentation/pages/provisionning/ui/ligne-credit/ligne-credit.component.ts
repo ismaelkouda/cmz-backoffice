@@ -204,20 +204,27 @@ export class LigneCreditComponent implements OnInit {
   public pushListCredits(event: any): void {
     this.listCredits = event;
   }
-  public pushLigneCreditStat(event: any): void {
-    console.log("event",event);
-    
+  public pushLigneCreditStat(event: any): void {    
     this.ligneCreditStat = event;
   }
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;
   }
+
   changeDateStart(e) {
-    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    if ( moment(this.filterDateStart).isValid()) {
+      this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    }else{
+      this.selectDateStart = null
+    }
   }
-  changeDateEnd(e) {
-    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+  changeDateEnd(e) { 
+    if ( moment(this.filterDateEnd).isValid()) {
+      this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+    }else{
+      this.selectDateEnd = null
+    }
   }
   public isFilter(): boolean {
     return (!this.selectedTransaction && !this.selectedReference && !this.selectedStatut && !this.selectDateStart && !this.selectDateEnd) ? true : false

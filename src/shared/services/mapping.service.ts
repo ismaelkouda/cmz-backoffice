@@ -30,7 +30,7 @@ export class MappingService {
     this.GetAllPortefeuille();
     const data = JSON.parse(this.storage.getData('user'));
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
-    this.fileUrl = `${data?.tenant?.url_backend}/`
+    this.fileUrl = `${data?.tenant?.url_minio}/`
     this.minioUrl = `${data?.tenant?.url_minio}/`
     this.tenant = data?.tenant;
     this.structureGlobale = data?.structure_organisationnelle;

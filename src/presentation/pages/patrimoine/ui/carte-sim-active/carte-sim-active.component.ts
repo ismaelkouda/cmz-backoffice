@@ -1,3 +1,4 @@
+import { ExcelService } from './../../../../../shared/services/excel.service';
 import { MappingService } from './../../../../../shared/services/mapping.service';
 import { SimStatut } from './../../../../../shared/enum/SimStatut.enum';
 import { Activity } from './../../../../../shared/enum/Activity.enum';
@@ -97,8 +98,7 @@ export class CarteSimActiveComponent implements OnInit {
     private route: ActivatedRoute,
     private mappingService: MappingService,
     private router: Router,
-
-
+    private excelService: ExcelService
   ) {
     this.listStatus = [SimStatut.ACTIF, SimStatut.SUSPENDU, SimStatut.RESILIE]    
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
@@ -382,4 +382,18 @@ export class CarteSimActiveComponent implements OnInit {
   public disableAction(): boolean {
     return (this.listPatrimoines === undefined || this.listPatrimoines?.length === 0) ? true : false
   }
+
+  public OnExportExcel(): void {
+    const data = this.listPatrimoines.map((item: any) => ({
+      [this.firstLevelLibelle]: item?.direction_regionale?.nom,
+      [this.secondLevelLibelle]: item?.exploitation?.nom,
+       'Zone Trafic': item?.adresse_geographique,
+       [this.thirdLevelLibelle]: item?.zone?.nom,
+      'MSISDN': item?.msisdn,
+      'IMSI': item?.imsi,
+      'Emplacement': item?.nom_prenoms,
+       'Statut': item?.statut,
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des cartes SIM');
+  }
 }

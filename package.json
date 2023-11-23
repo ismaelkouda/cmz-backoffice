@@ -57,6 +57,7 @@
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-prettier": "^4.2.1",
         "feather-icons": "^4.29.0",
+        "file-saver": "^2.0.5",
         "font-awesome": "^4.7.0",
         "hammerjs": "^2.0.8",
         "i": "^0.3.7",
@@ -90,6 +91,7 @@
         "sweetalert2": "^11.4.29",
         "typescipt": "^1.0.0",
         "write-json-file": "^5.0.0",
+        "xlsx": "^0.18.5",
         "zone.js": "~0.11.8"
     },
     "devDependencies": {

@@ -169,37 +169,19 @@ export class CommandeSimComponent implements OnInit {
   public pushListDatas(event: any): void {
     this.listCommandes = event;
   }
-  public handleSolder(data: any): void {
-    Swal.fire({
-      title: 'En êtes vous sûr ?',
-      html: `Voulez-vous solder l'achat de Transaction <br> ${data.transaction} ?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#569C5B',
-      cancelButtonColor: '#dc3545',
-      cancelButtonText: 'Annuler',
-      confirmButtonText: 'Oui',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // this.telemetrieService
-        //   .handleActivateProfil(data.id)
-        //   .subscribe({
-        //     next: (response) => {
-        //       this.toastrService.success(response.message);
-        //       this.GetAllProfilSupervision();
-        //     },
-        //     error: (error) => {
-        //       this.toastrService.error(error.error.message);
-        //     }
-        //   })
-      }
-    });
-  }
   changeDateStart(e) {
-    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    if ( moment(this.filterDateStart).isValid()) {
+      this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    }else{
+      this.selectDateStart = null
+    }
   }
-  changeDateEnd(e) {
-    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+  changeDateEnd(e) { 
+    if ( moment(this.filterDateEnd).isValid()) {
+      this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+    }else{
+      this.selectDateEnd = null
+    }
   }
 
   pipeValue(number: any) {

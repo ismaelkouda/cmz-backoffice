@@ -66,6 +66,10 @@
                     class="p-button-secondary">
                   </button>
                 </div>
+                <div>
+                  <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download" [disabled]="disableAction()"
+                class="p-button-helf"></button>
+                </div>
                 <div style="display: flex;gap: 1rem;margin-top: 1rem;">
                     <div>
                       <b>Solde global (Go) :</b>
@@ -115,8 +119,8 @@
                     </td>
                     <td>{{data.valeur}}</td>
                     <td class="text-start">{{data?.initiateur?.nom}} {{data?.initiateur?.prenoms}}</td>
-                    <td>{{data?.solde_avant}}</td>
-                    <td>{{data?.solde_apres}}</td>
+                    <td>{{data?.solde_avant ?? 'N/A'}}</td>
+                    <td>{{data?.solde_apres ?? 'N/A'}}</td>
                     <td class="text-start">{{data?.updated_at}}</td>
                   </tr>
                 </tbody>

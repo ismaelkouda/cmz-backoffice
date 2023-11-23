@@ -115,6 +115,10 @@ export class SuivieTraitementComponent implements OnInit {
       })
   }
   public onFilter(): void {
+    if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
+      this.toastrService.error('Plage de date invalide');
+      return;
+    }
     const data = {
       operation: this.selectedTypeOperation,
       transaction: this.selectedTransaction,
@@ -280,11 +284,20 @@ export class SuivieTraitementComponent implements OnInit {
       !this.filterDateStart
     ) ? true : false
   }
+  
   changeDateStart(e) {
-    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    if ( moment(this.filterDateStart).isValid()) {
+      this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    }else{
+      this.selectDateStart = null
+    }
   }
-  changeDateEnd(e) {
-    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+  changeDateEnd(e) { 
+    if ( moment(this.filterDateEnd).isValid()) {
+      this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+    }else{
+      this.selectDateEnd = null
+    }
   }
 }
 

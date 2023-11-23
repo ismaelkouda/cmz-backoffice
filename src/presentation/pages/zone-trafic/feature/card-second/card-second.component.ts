@@ -132,23 +132,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
       }
     }).addTo(this.map);
 
-    // this.map.on('zoomend',
-    //   function () {
-    //     if (this.map.hasLayer(geoJsonSite)) {
-    //       geoJsonSite.eachLayer(function (layer) {
-    //         if (this.map.getZoom()) {
-    //         console.log('remove tooltip');
-    //           this.map.removeLayer(geoJsonSite);
-    //           layer.unbindTooltip();
-
-    //         }
-    //       });
-    //     }
-
-    //   }
-    // );
-
-    //@@@@@@@@@@@@@@@@@@@@@@GEOJSON SIM@@@@@@@@@@@@@@@@@@@@@
+  //@@@@@@@@@@@@@@@@@@@@@@GEOJSON SIM@@@@@@@@@@@@@@@@@@@@@
     
     const geoJsonSim = L.geoJSON(this.datas.sim, {
       pointToLayer: function (feature, latlng) {
@@ -170,13 +154,16 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
       }
     }).addTo(this.map)
 
-    let GeoJsonNormal
+   var normalLayer;
+   var mineurLayer;
+   var majeurLayer;
+   var critiqueLayer;
 
    this.handleIntervalle = setInterval(() => {
       this.GetPositionSimTracking(this.markerAlarmeNormal,this.markerAlarmeMineure,this.markerAlarmeMajeure,this.markerAlarmeCritique)
       //Normale
-       GeoJsonNormal = L.geoJSON(this.markerAlarmeNormal, {
-        pointToLayer: function (feature, latlng) {          
+      normalLayer = L.geoJSON(this.markerAlarmeNormal, {
+        pointToLayer: function (feature, latlng) {    
           return L.marker(latlng, {
             icon: L.icon({
               iconUrl: '../../../../../assets/svg/sim_loc_vert.svg',
@@ -195,7 +182,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
       }).addTo(this.map)
 
       // Alarme Mineure
-      L.geoJSON(this.markerAlarmeMineure, {
+      mineurLayer = L.geoJSON(this.markerAlarmeMineure, {
         pointToLayer: function (feature, latlng) {
           return L.marker(latlng, {
             icon: L.icon({
@@ -215,7 +202,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
       }).addTo(this.map);
 
       //Alarme Majeure
-        L.geoJSON(this.markerAlarmeMajeure, {
+       majeurLayer =  L.geoJSON(this.markerAlarmeMajeure, {
           pointToLayer: function (feature, latlng) {
             return L.marker(latlng, {
               icon: L.icon({
@@ -234,7 +221,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           },
       }).addTo(this.map);
      //Alarme Critique
-     L.geoJSON(this.markerAlarmeCritique, {
+     critiqueLayer = L.geoJSON(this.markerAlarmeCritique, {
       pointToLayer: function (feature, latlng) {
         return L.marker(latlng, {
           icon: L.icon({
@@ -252,8 +239,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
         ).openPopup();;
       },
       }).addTo(this.map);
-    }, 5000);
-
+    }, 5000);    
 
     //@@@@@@@@@@@@@@@@@@@GEOJSON RESSORT@@@@@@@@@@@@@@@@@@
     const geojsonRessort = L.geoJSON(this.datas.ressort, {
@@ -276,64 +262,25 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
         layer.bindTooltip(feature.properties.RESSORT, { permanent: true, direction: 'center', className: 'leaflet-tooltip-ressort' });
       },
     }).addTo(this.map)
-
-    // const geojsonTrafic = L.geoJSON(this.currentTraficLayer, {
-    //   pointToLayer: function (feature, latlng) {        
-    //     if (feature?.properties?.Alarme === TypeAlarme.NORMAL) {
-    //       this.markerAlarmeNormal.push(feature);
-    //     } else if (feature?.properties?.Alarme === TypeAlarme.MINEUR) {
-    //       this.markerAlarmeMineure.push(feature);
-    //     } else if (feature?.properties?.Alarme === TypeAlarme.MAJEUR) {
-    //       this.markerAlarmeMajeure.push(feature);
-    //     } else if (feature?.properties.Alarme === TypeAlarme.CRITIQUE) {
-    //       this.markerAlarmeCritique.push(feature);
-    //       return null
-    //     }
-    //   }
-    // }).addTo(this.map);
-    // this.pusherWebsocketService.channel.bind("event-zone-1559", (data) => {
-    //   console.log("list-data");
-    //   this.listEvents.push(data);
-    //   console.log("list",this.listEvents);
-    //   this.lastTraficEvent = this.listEvents[this.listEvents.length - 1];
-    //   console.log("lastTraficEvent", this.lastTraficEvent);
-    //   if (this.listEvents.length !== 0) {
-    //     this.map.removeLayer(geojsonTrafic);
-    //     L.geoJSON(this.lastTraficEvent?.data?.trafic, {
-    //       pointToLayer: function (feature, latlng) {
-    //         if (feature?.properties?.Alarme === TypeAlarme.NORMAL) {
-    //           this.markerAlarmeNormal.push(feature);
-    //         } else if (feature?.properties?.Alarme === TypeAlarme.MINEUR) {
-    //           this.markerAlarmeMineure.push(feature);
-    //         } else if (feature?.properties?.Alarme === TypeAlarme.MAJEUR) {
-    //           this.markerAlarmeMajeure.push(feature);
-    //         } else if (feature?.properties.Alarme === TypeAlarme.CRITIQUE) {
-    //           this.markerAlarmeCritique.push(feature);
-    //           return null
-    //         }
-    //       }
-    //     })
-    //   }
-    // });
-
-    var baseMaps = {
-      'OpenStreetMap': this.OpenStreetMap.addTo(this.map),
-      'Satellite': this.satelite
-    }
-    var layerGeoJson = {
-      "<span style='font-weight:bold'>SITE - OCI</span>": geoJsonSite,
-      "<span style='font-weight:bold'>EMPLACEMENT</span>": geoJsonSim,
-      "<span style='font-weight:bold'>RESSORT</span>": geojsonRessort,
-      // "<span style='font-weight:bold;' ><b>Alarme Normale</b></span><span><img src='assets/svg/sim_loc_vert.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": null,
-      // "<span style='font-weight:bold;' ><b>Alarme Mineure</b></span><span><img src='assets/svg/sim_loc_jaune.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": null,
-      // "<span style='font-weight:bold;' ><b>Alarme Majeure</b></span><span><img src='assets/svg/sim_loc_orange.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": null,
-      // "<span style='font-weight:bold;' ><b>Alarme Critique</b></span><span><img src='assets/svg/sim_loc_rouge.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": null
-    }
-
-    L.control.layers(baseMaps, layerGeoJson, {
-      collapsed: false,
-    }).addTo(this.map);
-    //L.control.scale().addTo(this.map);
+    
+    setTimeout(() => {
+      var baseMaps = {
+        'OpenStreetMap': this.OpenStreetMap.addTo(this.map),
+        'Satellite': this.satelite
+      }
+      var layerGeoJson = {
+        "<span style='font-weight:bold'>SITE - OCI</span>": geoJsonSite,
+        "<span style='font-weight:bold'>EMPLACEMENT</span>": geoJsonSim,
+        "<span style='font-weight:bold'>RESSORT</span>": geojsonRessort,
+        "<span style='font-weight:bold;' ><b>Alarme Normale</b></span><span><img src='assets/svg/sim_loc_vert.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": normalLayer,
+        "<span style='font-weight:bold;' ><b>Alarme Mineure</b></span><span><img src='assets/svg/sim_loc_jaune.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": mineurLayer,
+        "<span style='font-weight:bold;' ><b>Alarme Majeure</b></span><span><img src='assets/svg/sim_loc_orange.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": majeurLayer,
+        "<span style='font-weight:bold;' ><b>Alarme Critique</b></span><span><img src='assets/svg/sim_loc_rouge.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": critiqueLayer
+      }
+      L.control.layers(baseMaps, layerGeoJson, {
+        collapsed: false,
+      }).addTo(this.map);
+    }, 5000);
 
   }
    GetPositionSimTracking(normalLayer: any = [],mineurLayer: any = [],majeurLayer: any = [],critiqueLayer: any = []) {
@@ -341,11 +288,6 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
       .GetPositionSimTracking(656).subscribe({
         next: (response) => {
           this.currentTraficLayer = response['data']['trafic']; 
-          // this.map.removeLayer(lastLayer)
-          // this.map.removeLayer(normalLayer)
-          // this.map.removeLayer(mineurLayer)
-          // this.map.removeLayer(majeurLayer)
-          // this.map.removeLayer(critiqueLayer)
           normalLayer.splice(0,normalLayer.length);
           mineurLayer.splice(0,mineurLayer.length);
           majeurLayer.splice(0,majeurLayer.length);

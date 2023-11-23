@@ -90,7 +90,7 @@
             <div class="table_actions_wrapper">
               <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
                 class="p-button-secondary"></button>
-              <button pButton pRipple label="Exporter" icon="pi pi-download" [disabled]="disableAction()"
+              <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download" [disabled]="disableAction()"
                 class="p-button-helf"></button>
             </div>
             <div class="table_content_wrapper">
@@ -123,8 +123,8 @@
                     <td>{{data.exploitation?.nom}} [{{data.exploitation?.code}}]</td>
                     <td (click)="copyData(data.adresse_geographique)" style="cursor: pointer">{{data?.adresse_geographique}}</td>
                     <td>{{data?.zone?.nom}}</td>
-                    <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data.msisdn}}</td>
-                    <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi ? data?.imsi : 'N/A' }}</td>
+                    <td (click)="copyData(data.msisdn)" style="cursor: pointer" class="px-2">{{data.msisdn}}</td>
+                    <td (click)="copyData(data.imsi)" style="cursor: pointer" class="px-2">{{data?.imsi ? data?.imsi : 'N/A' }}</td>
                     <td>{{data?.nom_prenoms}}</td>
                     <td>
                       <span [ngStyle]="{ 'font-size': '16px' }" class="badge"

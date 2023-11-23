@@ -125,10 +125,18 @@ export class StockProduitComponent implements OnInit {
     }
   }
   changeDateStart(e) {
-    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    if ( moment(this.filterDateStart).isValid()) {
+      this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    }else{
+      this.selectDateStart = null
+    }
   }
-  changeDateEnd(e) {
-    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+  changeDateEnd(e) { 
+    if ( moment(this.filterDateEnd).isValid()) {
+      this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+    }else{
+      this.selectDateEnd = null
+    }
   }
 
   public isFilter(): boolean {

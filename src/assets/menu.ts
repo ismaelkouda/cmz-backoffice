@@ -1,12 +1,14 @@
+import { REPORTING_ALARME, REPORTING_SLA } from './../presentation/pages/reporting/reporting-routing.module';
 import { PERFORMANCE_SLA } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
 import { CARTES_SIM, DOTATION_SERVICES, GROUPE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
-import { SUPERSION_PRISE_EN_CHARGE, SUPERSION_STATUTS, SUPERVISION_SUIVIE_TRAITEMENT } from 'src/presentation/pages/supervision-operations/supervision-operations-routing.module';
-import { OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
+import { SUPERSION_STATUTS, SUPERVISION_SUIVIE_TRAITEMENT } from 'src/presentation/pages/supervision-operations/supervision-operations-routing.module';
+import { OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, REPORTING, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
 import { VUE_GEOGRAPHIQUE } from 'src/presentation/pages/zone-trafic/zone-trafic-routing.module';
 import { PROFILS_HABILITATIONS, UTILISATEURS } from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
+import { REPORTING_SOLDE } from 'src/presentation/pages/reporting/reporting-routing.module';
 
 export var menuJson = [
     {
@@ -154,6 +156,7 @@ export var menuJson = [
             }
         ]
     },
+    /*
     {
         title: "Supervision des SIM",
         label: "Supervision des SIM",
@@ -183,6 +186,41 @@ export var menuJson = [
                 path: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
                 title: "Approvisionnements Data",
                 label: "Approvisionnements Data",
+                data: "5-1-0-analyse-trafic",
+                type: "link"
+            }
+        ]
+    },
+    */
+    {
+        title: "Reporting",
+        label: "Reporting",
+        data: "5-0-0-supervision-sim",
+        statut: false,
+        icon: "activity",
+        url: "assets/images/portail/graph.png",
+        type: "sub",
+        path: `/${REPORTING}/${REPORTING_SOLDE}`,
+        routerLink: `/${REPORTING}/${REPORTING_SOLDE}`,
+        children: [
+            {
+                path: `/${REPORTING}/${REPORTING_SOLDE}`,
+                title: "Solde",
+                label: "Solde",
+                data: "5-2-0-zone-trafic",
+                type: "link"
+            },
+            {
+                path: `/${REPORTING}/${REPORTING_ALARME}`,
+                title: "Alarme",
+                label: "Alarme",
+                data: "5-2-0-analyse-alarmes",
+                type: "link"
+            },
+            {
+                path: `/${REPORTING}/${REPORTING_SLA}`,
+                title: "SLA",
+                label: "SLA",
                 data: "5-1-0-analyse-trafic",
                 type: "link"
             }
@@ -223,16 +261,3 @@ export var menuJson = [
         ]
     },
 ]
-/*
-Lien BackEnd : http://144.91.103.143:12100/
-Email : admin@africaconnect.digital
-
-Lien BackEnd : http://144.91.103.143:12200/
-Email : admin@semlex.digital
-
-Lien BackEnd : http://144.91.103.143:12300/
-Email : admin@gs2e.digital
-Password : gs2e1234
-*/
-//10.10.0.200:12300
-//https://documenter.getpostman.com/view/21243117/2s93m4Xhtd

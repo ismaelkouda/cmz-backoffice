@@ -16,7 +16,7 @@ export class AuthenticationService {
   constructor(
     private http: HttpClient
       ) {
-    this.baseUrl = appConfig.serverUrl
+    this.baseUrl = `${appConfig.serverUrl}tenants/`
   }
 
   HandleForgotPassword(data): Observable<any> {

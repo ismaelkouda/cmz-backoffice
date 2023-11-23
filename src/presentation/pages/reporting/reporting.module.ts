@@ -1,15 +1,9 @@
-import { CardStockComponent } from './feature/card-stock/card-stock.component';
-import { StockProduitComponent } from './ui/stock-produit/stock-produit.component';
-import { CreditFormComponent } from './feature/credit-form/credit-form.component';
-import { FactureComponent } from './feature/facture/facture.component';
-import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { ProvisionningRoutingModule } from './provisionning-routing.module';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { BadgeModule } from 'primeng/badge';
+
 
 //Modules Primeng
 import { TableModule } from 'primeng/table';
@@ -25,11 +19,12 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { PasswordModule } from 'primeng/password';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ReportingRoutingModule } from './reporting-routing.module';
+import { SharedModule } from 'primeng/api';
 
 //Components
-import { CommandeFormComponent } from './feature/commande-form/commande-form.component';
-import { CommandeSimComponent } from './ui/commande-sim/commande-sim.component';
-import { LigneCreditComponent } from './ui/ligne-credit/ligne-credit.component';
+
 
 
 @NgModule({
@@ -38,7 +33,7 @@ import { LigneCreditComponent } from './ui/ligne-credit/ligne-credit.component';
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
-        ProvisionningRoutingModule,
+        ReportingRoutingModule,
         DropdownModule,
         ButtonModule,
         TableModule,
@@ -52,18 +47,12 @@ import { LigneCreditComponent } from './ui/ligne-credit/ligne-credit.component';
         InputMaskModule,
         PasswordModule,
         RadioButtonModule,
-        CalendarModule,
         NgxCaptchaModule,
-        BadgeModule
+        CalendarModule,
+        CheckboxModule
     ],
     declarations: [
-        CommandeSimComponent,
-        LigneCreditComponent,
-        StockProduitComponent,
-        CommandeFormComponent,
-        FactureComponent,
-        CreditFormComponent,
-        CardStockComponent
+        
     ],
 })
-export class ProvisionningModule { }
+export class ReportingModule { }

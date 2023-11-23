@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TelemetrieService } from 'src/presentation/pages/ref-telemetrie/data-access/telemetrie.service';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { ClipboardService } from 'ngx-clipboard';
+import { ExcelService } from 'src/shared/services/excel.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -27,17 +28,17 @@ export class GroupeSimComponent implements OnInit {
 
 
   constructor(
-    private telemetrieService: TelemetrieService,
     private patrimoineService: PatrimoineService,
     private toastrService: ToastrService,
     private route: ActivatedRoute,
     private clipboardApi: ClipboardService,
-
+    private excelService: ExcelService
   ) { }
 
   ngOnInit() {
     this.GetAllGroupes();
     this.isFilter();
+    this.disableAction()
     this.route.data.subscribe((data) => {
       this.module = data.module;
       this.subModule = data.subModule[1];
@@ -197,7 +198,22 @@ export class GroupeSimComponent implements OnInit {
         }
       })
   }
+  public disableAction(): boolean {
+    return (this.listProfils === undefined || this.listProfils?.length === 0) ? true : false
+  }
   public isFilter(): boolean {
     return (!this.selectedNom && !this.selectedImsi && !this.selectedMsisdn) ? true : false
   }
+  public OnExportExcel(): void {
+    const data = this.listProfils.map((item: any) => ({
+      'Nom': item?.nom,
+      'Description': item?.description,
+      'SIM Affectés': item?.sims_count,
+      'Statut': item?.statut,
+      'Date création': item?.created_at,
+      'Date MAJ	': item?.updated_at,
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des groupes de SIM');
+  }
+
 }

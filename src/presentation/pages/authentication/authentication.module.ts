@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PortailComponent } from './portail/portail.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { PasswordModule } from 'primeng/password';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     ReactiveFormsModule,
     FormsModule,
     AuthenticationRoutingModule,
-    NgxCaptchaModule
+    NgxCaptchaModule,
+    PasswordModule
   ],
   declarations: [
     LoginComponent,

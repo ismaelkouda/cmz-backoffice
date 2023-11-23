@@ -1,4 +1,6 @@
 import { Routes } from "@angular/router";
+
+
 export const DASHBOARD = 'dashboard';
 export const PATRIMOINE = 'patrimoine';
 export const REFERENTIEL_TELEMETRIE = 'ref-supervision';
@@ -6,6 +8,7 @@ export const SUPERVISION_SIM = 'supervision-sim';
 export const SUPERVISION_OPERATIONS = 'operations';
 export const OPERATION_PROVISIONNING = 'provisionning';
 export const ZONE_TRAFIC = 'zone-trafic';
+export const REPORTING = 'reporting';
 export const INTERCONNEXION_ECHANGE = 'interconnexion';
 export const SUPERVISION_SYSTEME = 'supervision-systeme';
 export const PARAMETRE_SECURITE = 'parametre-securite'
@@ -29,7 +32,7 @@ export const content: Routes = [
         'Cartes SIM',
         'Groupe de SIM',
         'Dotation de Services',
-        'Transaction sur SIM'
+        'Transactions sur SIM'
       ]
     }
   },
@@ -50,6 +53,11 @@ export const content: Routes = [
   {
     path: ZONE_TRAFIC,
     loadChildren: () => import("../../presentation/pages/zone-trafic/zone-trafic.module").then((m) => m.ZoneTraficModule),
+    data: { title: ZONE_TRAFIC }
+  },
+  {
+    path: REPORTING,
+    loadChildren: () => import("../../presentation/pages/reporting/reporting.module").then((m) => m.ReportingModule),
     data: { title: ZONE_TRAFIC }
   },
   {
