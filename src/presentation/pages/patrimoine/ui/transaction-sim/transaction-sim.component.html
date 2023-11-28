@@ -82,6 +82,8 @@
                 <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
                   class="p-button-secondary">
                 </button>
+                <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download" [disabled]="disableAction()"
+                class="p-button-helf"></button>
               </div>
               <div class="d-flex gap-3 mt-2">
                 <div class="table_header__legende">

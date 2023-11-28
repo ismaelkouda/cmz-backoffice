@@ -9,14 +9,12 @@
               <div class="table_actions_wrapper" style="display: flex;justify-content: space-between;">
                 <div>
                   <button pButton pRipple label="Exporter" [disabled]="disableAction()" icon="pi pi-download"
-                    class="p-button-helf"></button>
+                    class="p-button-helf" (click)="OnExportExcel()"></button>
                   <button pButton pRipple label="Enregistrer" (click)="handleUpdateReferentielTelemetrie()"
                     [disabled]="globalMetriquesEditRow.length === 0" icon="pi pi-save"
                     class="p-button-success ms-3"></button>
                 </div>
                 <div>
-                  <!-- <p-button label="Deployer" styleClass="p-button-secondary" badge="ok"
-                    badgeClass="p-badge-success"></p-button> -->
                 </div>
               </div>
               <div class="table_content_wrapper">

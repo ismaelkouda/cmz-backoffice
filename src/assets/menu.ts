@@ -156,7 +156,6 @@ export var menuJson = [
             }
         ]
     },
-    /*
     {
         title: "Supervision des SIM",
         label: "Supervision des SIM",
@@ -191,7 +190,7 @@ export var menuJson = [
             }
         ]
     },
-    */
+   /*
     {
         title: "Reporting",
         label: "Reporting",
@@ -226,6 +225,7 @@ export var menuJson = [
             }
         ]
     },
+    */
     {
         title: "Paramètres & Sécurité",
         label: "Paramètres & Sécurité",

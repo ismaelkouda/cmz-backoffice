@@ -1,3 +1,4 @@
+import { ExcelService } from './../../../../../shared/services/excel.service';
 import { ToastrService } from 'ngx-toastr';
 import { TelemetrieService } from './../../data-access/telemetrie.service';
 import { Component, OnInit } from '@angular/core';
@@ -18,7 +19,9 @@ export class ObjectifSlaComponent implements OnInit {
   constructor(
     private telemetrieService: TelemetrieService,
     private toastrService: ToastrService,
-    private settingService: SettingService
+    private settingService: SettingService,
+    private excelService: ExcelService
+
   ) {
     this.listObjectifs = [
       {
@@ -156,5 +159,18 @@ export class ObjectifSlaComponent implements OnInit {
   public disableAction(): boolean {
     return this.listObjectifs?.length === 0 ? true : false
   }
+
+  public OnExportExcel(): void {
+    const data = this.listObjectifs.map((item: any) => ({
+      'Nom Service': item?.nom_service,
+      'Description': item?.description_service,
+      'ACK (h)': item?.delai_akc,
+      'Traitement (h)': item?.delai_traitement,
+      'Clôture(h)': item?.delai_cloture,
+      'Statut': item?.statut,
+      'Date création': item?.created_at
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des Objectifs SLA');
+  }
 }
 

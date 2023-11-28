@@ -461,30 +461,6 @@
           </fieldset>
         </div>
       </p-tabPanel>
-     <p-tabPanel header="VUE GEOGRAPHIQUE">
-        <div class="pull-right">
-          <button pButton pRipple icon="pi pi-desktop" class="p-button-dark"  tooltipPosition="top"
-          (click)="onDialogMaximized(true)"></button>
-        </div>
-        <!-- <p-dialog [(visible)]="display" position="bottom-right" (onHide)="hideDialog('map')"
-        [style]="{ width: '100%' }" (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true"
-        [maximizable]="true" [draggable]="false" [resizable]="false">
-        <ng-template pTemplate="header">
-          <h3>
-            <b [style]="{ color: '#FFFFFF' }">MSISDN: <u class="current_values">[{{currentObject?.msisdn}}]</u></b>
-          </h3>
-        </ng-template>
-        <ng-template pTemplate="content" class="mt-4">
-          <div class="mt-4">
-            <div #parcelleMap></div>
-            <app-carte-map [patrimoine]="currentObject"></app-carte-map>
-          </div>
-        </ng-template>
-      </p-dialog> -->
-        <div [style]="{width: '100%'}">
-          <app-carte-map [style]="{width: '100%'}" [patrimoine]="currentObject"></app-carte-map>
-        </div>
-      </p-tabPanel>
       <p-tabPanel header="HISTORIQUE">
         <app-historique [modele]="'sims'" [modele_id]="currentObject.id">
         </app-historique>

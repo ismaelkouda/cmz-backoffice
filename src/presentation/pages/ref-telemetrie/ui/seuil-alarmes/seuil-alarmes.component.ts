@@ -2,6 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TelemetrieService } from './../../data-access/telemetrie.service';
 import { Component, OnInit } from '@angular/core';
 import { SettingService } from 'src/shared/services/setting.service';
+import { ExcelService } from 'src/shared/services/excel.service';
 
 @Component({
   selector: 'app-seuil-alarmes',
@@ -19,7 +20,9 @@ export class SeuilAlarmesComponent implements OnInit {
   constructor(
     private telemetrieService: TelemetrieService,
     private toastrService: ToastrService,
-    private settingService: SettingService
+    private settingService: SettingService,
+    private excelService: ExcelService
+
   ) { }
 
   ngOnInit() {
@@ -102,8 +105,17 @@ export class SeuilAlarmesComponent implements OnInit {
   }
 
   public disableAction(): boolean {
-    return this.listTelemetries?.length === 0 ? true : false
+    return (this.listTelemetries === undefined || this.listTelemetries?.length === 0) ? true : false
   }
+  public OnExportExcel(): void {
+    const data = this.listTelemetries.map((item: any) => ({
+      'Services': item?.classification,
+      'Description': item?.description,
+      'Type Mesure': item?.type_mesure,
+      'Unité': item?.unite
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des Métriques et Alarmes');
+  }
   isValidate(): boolean {
     return (this.globalMetriquesEditRow.length === 0) ? true : false
   }

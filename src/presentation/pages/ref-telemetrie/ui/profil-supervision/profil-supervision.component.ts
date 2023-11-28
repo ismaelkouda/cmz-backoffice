@@ -1,3 +1,4 @@
+import { ExcelService } from './../../../../../shared/services/excel.service';
 import { Component, OnInit } from '@angular/core';
 import { TelemetrieService } from '../../data-access/telemetrie.service';
 import { ToastrService } from 'ngx-toastr';
@@ -20,7 +21,8 @@ export class ProfilSupervisionComponent implements OnInit {
 
   constructor(
     private telemetrieService: TelemetrieService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit() {
@@ -186,6 +188,17 @@ export class ProfilSupervisionComponent implements OnInit {
     });
   }
   public disableAction(): boolean {
-    return this.listProfils?.length === 0 ? true : false
+    return (this.listProfils === undefined || this.listProfils?.length === 0) ? true : false
   }
+  public OnExportExcel(): void {
+    const data = this.listProfils.map((item: any) => ({
+      'Nom': item?.nom,
+      'Description': item?.description,
+      'Date de création': item?.created_at,
+      'Date de modification': item?.updated_at,
+      'SIM affectés': item?.sims_count,
+      'Statut': item?.statut
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des Profils de supervisions');
+  }
 }

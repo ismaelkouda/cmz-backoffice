@@ -40,12 +40,13 @@ export class LoginComponent implements OnInit {
     this.siteKey = environment.recaptcha.siteKey;
     this.loginForm = this.fb.group({
       email: ['', [Validators.required]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      port: ['']
     });
-
   }
 
   onLogin() {
+    this.loginForm.patchValue({port: window.location.port})
     this.userLoginUseCase.execute(this.loginForm.value).subscribe({
       next: (response) => {        
         this.storage.saveData('user', JSON.stringify(response.data));
@@ -87,7 +88,6 @@ export class LoginComponent implements OnInit {
   }
 
   handleExpire() {
-  //Sanogo1_admin
   }
 
 }

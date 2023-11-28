@@ -211,7 +211,6 @@ export class DotationServiceComponent implements OnInit {
       'Après(Kb)': item?.solde_apres,
       'Date création': item?.created_at,
       'Date MAJ': item?.updated_at,
-
     }));
     this.excelService.exportAsExcelFile(data, 'Liste des dotations');
   }

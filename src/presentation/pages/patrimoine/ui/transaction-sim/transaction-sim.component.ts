@@ -9,6 +9,7 @@ import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
+import { ExcelService } from 'src/shared/services/excel.service';
 
 @Component({
   selector: 'app-transaction-sim',
@@ -52,7 +53,8 @@ export class TransactionSimComponent implements OnInit {
     public toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private modalService: NgbModal,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private excelService: ExcelService
 
   ) {
     this.listTypeOperations = [
@@ -68,8 +70,9 @@ export class TransactionSimComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isFilter();
     this.GetAllTransactions();
+    this.isFilter();
+    this.disableAction()
     this.route.data.subscribe((data) => {
       this.module = data.module;
       this.subModule = data.subModule[3];
@@ -171,11 +174,22 @@ export class TransactionSimComponent implements OnInit {
   public pushListTransactions(event: any): void {
     this.listTransactions = event;
   }
-  disableAction(): boolean {
-    return null;
+  public disableAction(): boolean {
+    return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
   public isFilter(): boolean {
     return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction) ? true : false
   }
+  public OnExportExcel(): void {
+    const data = this.listTransactions.map((item: any) => ({
+      'Numero transaction': item?.transaction,
+      'Type Transaction': item?.operation,
+      'IMSI': item?.imsi,
+      'MSISDN': item?.msisdn,
+      'Statut': item?.statut,
+      'Date création': item?.created_at
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des transactions');
+  }
 
 }
