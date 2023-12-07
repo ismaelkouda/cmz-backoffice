@@ -128,10 +128,12 @@
                       </span>
                     </td>
                     <td class="td-actions">
-                      <!-- <button pButton pRipple label="Payer" [disabled]="true"  pTooltip="Solder" tooltipPosition="top"
-                        class="p-button-success" (click)="handleSolder(data)"></button> -->
-                        <p-button icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" styleClass="p-button-dark"
-                        (click)="onShowForm(data)"></p-button>
+                      <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
+                      (click)="OnShowTraitement(data)" class="p-button-dark"></button>
+                      <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top"
+                        (click)="showJournal(data)" class="p-button-success"></button>
+                        <button pButton icon="pi pi-history" pTooltip="Historique" tooltipPosition="top"
+                        (click)="onShowForm(data)" class="p-button-warning"></button>
                     </td>
                   </tr>
                 </tbody>

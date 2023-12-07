@@ -108,7 +108,7 @@
                   <tr
                     *ngFor="let data of listTransactions | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                     <td>{{ (this.offset + i)}}</td>
-                    <td style="text-align: left;">{{data?.updated_at}}</td>
+                    <td style="text-align: left;">{{data?.created_at}}</td>
                     <td (click)="copyData(data.transaction)" style="cursor: pointer">{{data?.transaction}}</td>
                     <td>{{data?.operation | uppercase}}</td>
                     <td>
@@ -130,12 +130,12 @@
                       </span>
                     </td>
                     <td class="td-actions">
-                      <button pButton icon="pi pi-eye" pTooltip="Historique" tooltipPosition="top"
-                        (click)="onHistorique(data)" class="p-button-dark"></button>
+                      <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
+                      (click)="OnShowTraitement(data)" class="p-button-dark"></button>
                       <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top"
                         (click)="showJournal(data)" class="p-button-success"></button>
-                      <button pButton icon="pi pi-download" pTooltip="Rapport" tooltipPosition="top"
-                      class="p-button-helf"></button>
+                        <button pButton icon="pi pi-history" pTooltip="Historique" tooltipPosition="top"
+                        (click)="onHistorique(data)" class="p-button-warning"></button>
                     </td>
                   </tr>
                 </tbody>

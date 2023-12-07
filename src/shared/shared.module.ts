@@ -1,3 +1,4 @@
+import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
 import { CountBoxComponent } from './components/count-box/count-box.component';
 import { StatBoxComponent } from './components/stat-box/stat-box.component';
@@ -44,6 +45,7 @@ import { TableFilterPipe } from './pipes/table-filter.pipe';
 import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
 import { PasswordModule } from 'primeng/password';
+import { TraitementShowComponent } from './components/traitement-show/traitement-show.component';
 
 
 @NgModule({
@@ -53,6 +55,8 @@ import { PasswordModule } from 'primeng/password';
     SidebarComponent,
     ContentComponent,
     BreadcrumbComponent,
+    TraitementShowComponent,
+    TransactionShowComponent,
     FullComponent,
     LoaderComponent,
     StatBoxComponent,
@@ -96,6 +100,8 @@ import { PasswordModule } from 'primeng/password';
     StatBoxComponent,
     CountBoxComponent,
     BreadcrumbComponent,
+    TraitementShowComponent,
+    TransactionShowComponent,
     HistoriqueComponent,
     JournalComponent,
     QrModalComponent,

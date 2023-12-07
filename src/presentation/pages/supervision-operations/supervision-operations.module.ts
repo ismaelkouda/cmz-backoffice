@@ -1,5 +1,5 @@
+import { ContencieuxComponent } from './ui/contencieux/contencieux.component';
 import { DemandeShowComponent } from './feature/demande-show/demande-show.component';
-import { TraitementShowComponent } from './feature/traitement-show/traitement-show.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SplitButtonModule } from 'primeng/splitbutton';
@@ -39,14 +39,6 @@ import { SuivieTraitementComponent } from './ui/suivie-traitement/suivie-traitem
 import { PerformancesComponent } from './ui/performances/performances.component';
 
 @NgModule({
-    declarations: [
-        SuivieTraitementComponent,
-        AlarmesComponent,
-        PriseEnChargeComponent,
-        PerformancesComponent,
-        TraitementShowComponent,
-        DemandeShowComponent
-    ],
     imports: [
         CommonModule,
         SupervisionOperationsRoutingModule,
@@ -78,6 +70,14 @@ import { PerformancesComponent } from './ui/performances/performances.component'
         RadioButtonModule,
         DynamicDialogModule,
         PaginatorModule
+    ],
+    declarations: [
+        SuivieTraitementComponent,
+        AlarmesComponent,
+        PriseEnChargeComponent,
+        PerformancesComponent,
+        ContencieuxComponent,
+        DemandeShowComponent
     ],
     providers: [EditableRow, SupervisionOperationService]
 })

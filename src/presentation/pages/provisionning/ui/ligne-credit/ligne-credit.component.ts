@@ -5,6 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { JournalComponent } from 'src/shared/components/journal/journal.component';
+import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -43,7 +46,8 @@ export class LigneCreditComponent implements OnInit {
     private provisionningService: ProvisionningService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
-    private mappingService: MappingService
+    private mappingService: MappingService,
+    private modalService: NgbModal,
   ) {
     Object.values(StatutTransaction).forEach(item => {
       this.listStatuts.push(item);
@@ -225,6 +229,28 @@ export class LigneCreditComponent implements OnInit {
     }else{
       this.selectDateEnd = null
     }
+  }
+  OnShowTraitement(data: Object): void {
+    const modalRef = this.modalService.open(TransactionShowComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });    
+    modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.resultTraitement.subscribe((res) => {
+      this.listCredits = res
+    })
+  }
+  showJournal(data: Object): void {    
+    const modalRef = this.modalService.open(JournalComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });
+    modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.type = data['ouvrage'];
   }
   public isFilter(): boolean {
     return (!this.selectedTransaction && !this.selectedReference && !this.selectedStatut && !this.selectDateStart && !this.selectDateEnd) ? true : false

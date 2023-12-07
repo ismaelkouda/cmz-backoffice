@@ -16,6 +16,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 export class VueGeographiqueComponent implements OnInit {
 
   public datas: any;
+  public zoneId:number;
   public currentZone: any;
   public displayValue: boolean = false;
   public isMaximized: boolean = false;
@@ -30,7 +31,7 @@ export class VueGeographiqueComponent implements OnInit {
   public listCommunes: Array<any> = [];
   public selectedDepartement: any;
   public selectedCommune: any;
-  public selectedZone: string = 'ELOKATE';
+  public selectedZone: string;
   public currentObject: any;
   public initialView: boolean = true;
   public formsView: boolean = false;
@@ -156,6 +157,7 @@ export class VueGeographiqueComponent implements OnInit {
     this.zoneTraficService
       .GetPositionSimGeojson(id).subscribe({
         next: (response) => {
+          this.zoneId = id;
           this.datas = response['data'];
          this.onDialogMaximized(true);
          this.displayValue = true;

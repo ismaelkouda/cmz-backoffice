@@ -41,60 +41,75 @@
           <button *ngIf="IsUpdate()" (click)="IsVerify() ? OnVerify(): OnUpdateTransaction()" pButton pRipple
             label="Enregistrer" class="p-button-success w-100">
           </button>
-          <button *ngIf="IsCloture()" (click)="OnCloseTransaction()" [disabled]="!selectedNotation" pButton pRipple
-            label="Clôturer" class="p-button-success w-100">
+          <button *ngIf="IsCloture()" (click)="OnCloseTransaction()" [disabled]="!selectedNotation || !selectedIsCloture" pButton pRipple
+            label="Enregistrer" class="p-button-success w-100">
           </button>
         </div>
         <br>
-        <div>
-          <fieldset>
-            <legend>
-              <strong>Tenant</strong>
-            </legend>
-            <span class="mb-0 fs__15"><strong> Nom complet&nbsp;:&nbsp;
-              </strong></span><span class="card-value">{{transaction?.agent_nom ?? "N/A"}} {{transaction?.agent_prenoms ?? "N/A"}}</span><br><br>
-            <span class="mb-0 fs__15"><strong> Matricule&nbsp;:&nbsp;
-              </strong></span><span class="card-value">{{transaction?.agent_matricule ?? "N/A"}}</span><br><br>
-            <span class="mb-0 fs__15"><strong> contact&nbsp;:&nbsp;
-              </strong></span><span class="card-value">{{transaction?.agent_contacts ?? "N/A"}}</span><br><br>
-            <span class="mb-0 fs__15"><strong> Email&nbsp;:&nbsp;
-              </strong></span><span class="card-value">{{transaction?.agent_email ?? "N/A"}}</span><br><br>
-            <span *ngIf="transaction?.date_sauvegarde"><span class="mb-0 fs__1"><strong> Date&nbsp;:&nbsp;
-                </strong></span><span class="card-value">{{transaction?.date_sauvegarde ??
-                "N/A"}}</span></span><br><br>
-          </fieldset>
-        </div>
+          <div>
+            <fieldset>
+                <legend>
+                    <strong>Emission</strong>
+                </legend>
+                <div class="d-flex flex-column gap-2">
+                    <div>
+                      <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>{{transaction?.agent_nom ??"N/A"}}</span>
+                    </div>
+                    <div>
+                      <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{transaction?.agent_matricule ??"N/A"}}</span>
+                    </div>
+                    <div>
+                      <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{transaction?.agent_contacts ??"N/A"}}</span>
+                    </div>
+                    <div>
+                      <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{transaction?.agent_email ??"N/A"}}</span>
+                    </div>
+                    <div>
+                      <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.created_at ??"N/A"}}</span>
+                    </div>
+                </div>
+            </fieldset>
+          </div>
         <br>
         <div>
           <fieldset>
-            <legend>
-              <strong>Traitement</strong>
-            </legend>
-            <span class="mb-0 fs__15"><strong> Matricule&nbsp;:&nbsp;
-              </strong></span><span class="card-value">{{transaction?.intervenant_matricule ?? "N/A"}}</span><br><br>
-            <span class="mb-0 fs__15"><strong> Nom&nbsp;:&nbsp;
-              </strong></span><span class="card-value">{{transaction?.intervenant_nom ?? "N/A"}}</span><br><br>
-            <span class="mb-0 fs__15"><strong> Prénom&nbsp;:&nbsp;
-              </strong></span><span class="card-value">{{transaction?.intervenant_prenoms ?? "N/A"}}</span><br><br>
-            <span class="mb-0 fs__15"><strong> Contact&nbsp;:&nbsp;
-              </strong></span><span class="card-value">{{transaction?.intervenant_contacts ?? "N/A"}}</span><br><br>
+              <legend>
+                  <strong>Homologation</strong>
+              </legend>
+              <div class="d-flex flex-column gap-2">
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{transaction?.intervenant_matricule ??"N/A"}}</span>
+                  </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Nom&nbsp;:&nbsp;</strong>{{transaction?.intervenant_nom ??"N/A"}}</span>
+                  </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Prénoms&nbsp;:&nbsp;</strong>{{transaction?.intervenant_prenoms ??"N/A"}}</span>
+                  </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{transaction?.agent_email ??"N/A"}}</span>
+                  </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.intervenant_contacts ??"N/A"}}</span>
+                  </div>
+              </div>
           </fieldset>
-        </div>
+          </div>
       </div>
       <!--------------------MODAL----------BODY---------->
       <div class="col-lg-10">
         <div
           [ngClass]="[(detailTransaction?.rapport?.code.includes('100') || detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapport100102' 
         :(!detailTransaction?.rapport?.code.includes('100') || !detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapportDifferentTo100' : '']"
-          role="alert">
-          <strong [innerHTML]="'Statut :  '  +detailTransaction?.rapport?.message"></strong>
-        </div>
-        <div *ngIf="this.transaction.traitement !== 'abandonné'">
-          <div *ngIf="
-          this.transaction?.statut === 'traité' || 
-          this.transaction?.statut === 'cloturé' || 
-          this.transaction?.traitement === 'rejeté'" class="style-infos-traitement" role="alert">
-            <strong>Message Traitement : {{GetCurrentMessage(this.transaction.operation)}}</strong>
+          role="alert" style="display: flex;justify-content: space-between;">
+          <div>
+            <strong class="wrapper-header">Acquittement : {{detailTransaction.rapport.statut_acquittement ?? 'N/A'}} [{{detailTransaction?.rapport?.date_acquittement ?? '-- : --'}}]</strong>
+          </div>
+          <div>
+            <strong class="wrapper-header">Traitement : {{detailTransaction.rapport.statut_traitement ?? 'N/A'}} [{{detailTransaction?.rapport?.date_traitement ?? '-- : --'}}]</strong>
+          </div>
+          <div>
+            <strong class="wrapper-header">Clôture : {{detailTransaction.rapport.statut_cloture ?? 'N/A'}}  [{{detailTransaction?.rapport?.date_cloture ?? '-- : --'}}]</strong>
           </div>
         </div>
         <div class="row">
@@ -117,8 +132,8 @@
               </span>
             </strong>
           </h4>
-          <div class="col-md-5" style="display: flex; justify-content: end; font-size: 20px;">Date de
-            traitement:&nbsp;<b><span>{{IscurrentDate() ?? 'N/A'}}</span></b></div>
+          <div class="col-md-5 wrapper-header" style="display: flex; justify-content: end; font-size: 20px;">Date de
+            traitement :&nbsp;<b><span>{{IscurrentDate() ?? 'N/A'}}</span></b></div>
         </div>
         <hr style="position: relative;top: -0.2rem;margin-top: -0.4rem;">
         <!--------------LIGNE----------CREDIT------------FORMS----------------->
@@ -297,7 +312,7 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <input type="text" formControlName="statut" pInputText />
+                    <input type="text" formControlName="statut_contrat" pInputText />
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -378,7 +393,7 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <input type="text" formControlName="statut" pInputText />
+                    <input type="text" formControlName="statut_contrat" pInputText />
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -450,7 +465,7 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <input type="text" formControlName="statut" pInputText />
+                    <input type="text" formControlName="statut_contrat" pInputText />
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -658,11 +673,6 @@
                       incrementButtonClass="p-button-success"></i></button>
                 </div>
                 <div class="panier-card__price">{{ pipeValue((prod.montant_ht)*(prod.quantite))}} F</div>
-                <!-- <div class="panier-card__actions">
-                  <button pButton pRipple icon="pi pi-trash" [disabled]="this.IsShow() || this.IsCloture()"
-                    class="p-button-danger" pTooltip="Retirer" tooltipPosition="top"
-                    (click)="RemoveFromPanier(prod)"></button>
-                </div> -->
               </div>
             </fieldset>
           </div>
@@ -673,6 +683,24 @@
               <strong>Message Clôture</strong>
             </legend>
             <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+              <div class="block-checked">
+                <div style="margin-left: 6%;">
+                  <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Cloturer ?
+                  </span>
+                  <div class="wrapper-check">
+                    <div class="form-check form-check-inline">
+                      <input [(ngModel)]="selectedIsCloture" class="form-check-input" type="radio"
+                        name="infosCloture" value="oui" (change)="handleChangeEvent($event)" id="infosCloture">
+                      <label class="form-check-label"  for="infosCloture" style="width: auto !important;">Oui</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input [(ngModel)]="selectedIsCloture" class="form-check-input" type="radio"
+                        name="infosCloture" value="non" (change)="handleChangeEvent($event)" id="infosCloture">
+                      <label class="form-check-label" for="infosCloture"  style="width: auto !important;">Non</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="block-checked" style="width: 15rem;padding: 0 0.5rem 0.5rem 0.5rem;">
                 <div class="ml-3">
                   <div class="wrapper-check">
@@ -683,7 +711,7 @@
                         </label>
                       </div>
                       <div>
-                        <input class="form-check-input" [(ngModel)]="selectedNotation" type="radio" name="infosLigne"
+                        <input class="form-check-input" [disabled]="!selectedIsCloture || selectedIsCloture === 'non'" [(ngModel)]="selectedNotation" type="radio" name="infosLigne"
                           value="content" id="infosLigne">
                       </div>
                     </div>
@@ -694,7 +722,7 @@
                         </label>
                       </div>
                       <div>
-                        <input class="form-check-input" type="radio" [(ngModel)]="selectedNotation" name="infosLigne"
+                        <input class="form-check-input" type="radio" [disabled]="!selectedIsCloture || selectedIsCloture === 'non'" [(ngModel)]="selectedNotation" name="infosLigne"
                           value="neutre" id="infosLigne">
                       </div>
                     </div>
@@ -705,7 +733,7 @@
                         </label>
                       </div>
                       <div>
-                        <input class="form-check-input" type="radio" name="infosLigne" [(ngModel)]="selectedNotation"
+                        <input class="form-check-input" [disabled]="!selectedIsCloture" type="radio" name="infosLigne" [(ngModel)]="selectedNotation"
                           value="mécontent" id="infosLigne">
                       </div>
                     </div>
@@ -721,7 +749,34 @@
             </div>
           </fieldset>
         </div>
+                <!-----------------------COMMENTAIRE----------TENANT--------------------------------->
+                <div>
+                  <fieldset>
+                    <legend>
+                      <strong>Commentaire Homologation</strong>
+                    </legend>
+                    <div class="row">
+                        <div class="form-group">
+                          <input type="text" [disabled]="true" [value]="detailTransaction?.rapport?.notation_description" pInputText />
+                        </div>
+                    </div>
+                  </fieldset>
+                </div> 
+        <!-----------------------COMMENTAIRE----------ORANGE--------------------------------->
+        <div>
+          <fieldset>
+            <legend>
+              <strong>Commentaire Emission</strong>
+            </legend>
+            <div class="row">
+                <div class="form-group">
+                  <input type="text" [disabled]="true" [value]="this.GetCurrentMessage(this.transaction.operation)" pInputText />
+                </div>
+            </div>
+          </fieldset>
+        </div>
       </div>
     </div>
   </div>
 </div>
+

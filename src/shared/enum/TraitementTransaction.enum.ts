@@ -3,5 +3,6 @@ export enum TraitementTransaction {
     ACQUITER = 'acquitté',
     ACCEPTER = 'accepté',
     REJETER = 'rejeté',
+    REFUSER = 'refusé',
     ABANDONNER = 'abandonné',
 }   

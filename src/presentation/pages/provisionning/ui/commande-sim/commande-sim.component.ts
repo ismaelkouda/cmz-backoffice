@@ -1,3 +1,4 @@
+import { JournalComponent } from 'src/shared/components/journal/journal.component';
 import { ProvisionningService } from './../../data-access/provisionning.service';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
@@ -5,6 +6,8 @@ import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -51,6 +54,7 @@ export class CommandeSimComponent implements OnInit {
     private provisionningService: ProvisionningService,
     private toastService: ToastrService,
     private clipboardApi: ClipboardService,
+    private modalService: NgbModal,
 
   ) {
     this.listTypeSims = ['SIM Blanche', 'SIM MSISDN'];
@@ -188,6 +192,28 @@ export class CommandeSimComponent implements OnInit {
     return new Intl.NumberFormat('fr-FR').format(number);
   }
 
+  OnShowTraitement(data: Object): void {
+    const modalRef = this.modalService.open(TransactionShowComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });    
+    modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.resultTraitement.subscribe((res) => {
+      this.listCommandes = res
+    })
+  }
+  showJournal(data: Object): void {    
+    const modalRef = this.modalService.open(JournalComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });
+    modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.type = data['ouvrage'];
+  }
   public isFilter(): boolean {
     return (!this.selectedTranaction && !this.selectedReference && !this.selectedStatut && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }

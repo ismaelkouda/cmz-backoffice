@@ -1,44 +1,47 @@
 <div class="modal-content">
   <div class="modal-header" style="background-color:#569c5b;color:#fff;cursor: all-scroll;padding: 0.2rem 1rem;">
     <h4 class="modal-title pl-3">
-      Détails <strong>[{{transaction?.transaction}}]</strong>
+      Détails <strong class="cursor-pointer text-center"
+        (click)="copyTransaction(transaction.transaction)">[{{transaction?.transaction}}]</strong>
     </h4>
-    <button type="button" class="close" aria-label="Close" (click)="handleCloseModal()">
+    <button type="button" class="close" (click)="handleCloseModal()" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <div class="row">
       <div>
         <div class="d-flex justify-content-between">
-          <div>
-           <h4 *ngIf="detailTransaction?.rapport" class="wrapper-header">
-             <strong>{{ formatTitleOuvrage(detailTransaction?.operation) }}
-               <span style="color:#549B3D;font-weight: bold;">
-                 <span *ngIf="IsContentSim()"> 
-                   {{detailTransaction?.niveau_uns_code}} |
-                   {{detailTransaction?.niveau_deux_nom}} [{{detailTransaction?.niveau_deux_code}}] -
-                   [{{detailTransaction?.msisdn}}]
-                 </span>&nbsp;
-                 <span *ngIf="IsProvisionningTransaction()"> 
-                   {{detailTransaction?.reference}} [{{detailTransaction?.rapport?.code}}]
-                 </span>&nbsp;
-                 <span *ngIf="IsAchatTransaction()"> 
-                   {{detailTransaction?.numero_commande}} [{{detailTransaction?.rapport?.code}}]
-                 </span>&nbsp;
-                 <span
-                   *ngIf="detailTransaction?.rapport?.identifiant">[{{detailTransaction?.rapport?.identifiant}}]</span>
-               </span>
-             </strong>
-           </h4>
+         <div>
+          <h4 *ngIf="detailTransaction?.rapport" class="wrapper-header">
+            <strong>{{ formatTitleOuvrage(detailTransaction?.operation) }}
+              <span style="color:#549B3D;font-weight: bold;">
+                <span *ngIf="IsContentSim()"> 
+                  {{detailTransaction?.niveau_uns_code}} |
+                  {{detailTransaction?.niveau_deux_nom}} [{{detailTransaction?.niveau_deux_code}}] -
+                  [{{detailTransaction?.msisdn}}]
+                </span>&nbsp;
+                <span *ngIf="IsProvisionningTransaction()"> 
+                  {{detailTransaction?.reference}} [{{detailTransaction?.rapport?.code}}]
+                </span>&nbsp;
+                <span *ngIf="IsAchatTransaction()"> 
+                  {{detailTransaction?.numero_commande}} [{{detailTransaction?.rapport?.code}}]
+                </span>&nbsp;
+                <span
+                  *ngIf="detailTransaction?.rapport?.identifiant">[{{detailTransaction?.rapport?.identifiant}}]</span>
+              </span>
+            </strong>
+          </h4>
+         </div>
+         <div class="wrapper-header"  style="font-size: 20px;">
+          Statut :&nbsp;<b><span>{{detailTransaction?.statut}}</span></b>
+        </div>
+          <div class="wrapper-header"  style="font-size: 20px;">
+            Date de création :&nbsp;<b><span>{{detailTransaction?.date_debut}}</span></b>
           </div>
           <div class="wrapper-header"  style="font-size: 20px;">
-           Statut :&nbsp;<b><span>{{detailTransaction?.statut}}</span></b>
-         </div>
-           <div class="wrapper-header"  style="font-size: 20px;">
-             Date de création :&nbsp;<b><span>{{detailTransaction?.date_debut}}</span></b>
-           </div>
-         </div>
+            Date de traitement :&nbsp;<b><span>{{IscurrentDate() ?? 'N/A'}}</span></b>
+          </div>
+        </div>
         <hr style="position: relative;top: -0.2rem;margin-top: -0.4rem;">
         <!--------------LIGNE----------CREDIT------------FORMS----------------->
         <div *ngIf="transaction?.operation === operationLigneCredit">
@@ -61,7 +64,7 @@
                     <label>
                       <b>Type Justificatif</b>
                     </label>
-                    <p-dropdown [options]="listTypeJustificatif" formControlName="justificatif" placeholder="Type">
+                    <p-dropdown [options]="listTypeJustificatif" formControlName="type_justificatif" placeholder="Type">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -82,9 +85,13 @@
                 </div>
               </div>
               <br>
-              <div style="display: flex;justify-content: center;">
-                <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                  class="p-button-success" (click)="downloadFile()"></button>
+              <div style="display: flex;justify-content: center;gap: 2rem;">
+                <div>
+                  <div style="display: flex;justify-content: center;">
+                    <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
+                  </div>
+                </div>
               </div>
             </fieldset>
           </div>
@@ -137,21 +144,40 @@
               </legend>
               <div class="row">
                 <div class="col-md-3">
+                  <div style="display: flex;gap: 2rem;">
+                    <div class="d-flex gap-2">
+                      <p-radioButton name="bac_a_pioche" value="stock" formControlName="bac_a_pioche"
+                        inputId="b_1"></p-radioButton>
+                      <label style="margin-top: 0.9rem">Dotation Point Emplacement</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-9" style="margin-top: -1.8rem">
+                  <div class="form-group">
+                    <label style="opacity: 0;">
+                      <b> <span class="text-danger">*</span></b>
+                    </label>
+                    <input [disabled]="true" class="infos_text"
+                      [value]="sourceStock === 'stock' ? 'Le solde de la dotation sera debité du volume demandé': TextInfosVolume "
+                      type="text" pInputText />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label>
-                      <b>Voume (Go) <span class="text-danger">*</span></b>
+                      <b>Voume (Go)<span class="text-danger">*</span></b>
                     </label>
                     <input type="number" formControlName="volume" pInputText />
                   </div>
                 </div>
                 <div class="col-md-9">
                   <div class="form-group">
-                    <label style="opacity: 0;">
-                      <b> <span class="text-danger">*</span></b>
+                    <label>
+                      <b>Description<span class="text-danger">*</span></b>
                     </label>
-                    <input [disabled]="true" class="infos_text"
-                      [value]="sourceStock === 'stock' ? 'Le système débitera le volume duc stock disponible': TextInfosVolume "
-                      type="text" pInputText />
+                    <input type="text" formControlName="description" pInputText />
                   </div>
                 </div>
               </div>
@@ -204,6 +230,18 @@
               <legend [ngStyle]="{width: '100%'}">
                 <b>Détails de la Transaction</b>
               </legend>
+              <div style="display: flex;gap: 2rem;">
+                <div class="d-flex gap-2">
+                  <p-radioButton name="bac_a_pioche" value="stock" formControlName="bac_a_pioche"
+                    inputId="b_1"></p-radioButton>
+                  <label style="margin-top: 0.9rem">Stock/Tenant</label>
+                </div>
+                <!-- <div class="d-flex gap-2">
+                  <p-radioButton name="bac_a_pioche" value="orangeci" formControlName="bac_a_pioche"
+                    inputId="b_2"></p-radioButton>
+                  <label style="margin-top: 0.9rem">Orange CI</label>
+                </div> -->
+              </div>
               <div class="row">
                 <div class="col-md-3">
                   <div class="form-group">
@@ -219,7 +257,7 @@
                       <b> <span class="text-danger">*</span></b>
                     </label>
                     <input [disabled]="true" class="infos_text"
-                      [value]="bacPiocheActivation === 'stock' ? 'Le système utilisera une SIM dans le stock': TextInfosSim"
+                      [value]="sourceStockSwap === 'stock' ? 'Le système utilisera une SIM dans le stock': TextInfosSim"
                       type="text" pInputText />
                   </div>
                 </div>
@@ -282,10 +320,18 @@
                 </div>
               </div>
               <br>
-              <div>
-                <div style="display: flex;justify-content: center;">
-                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                    class="p-button-success" (click)="downloadFile()"></button>
+              <div style="display: flex;justify-content: center;gap: 2rem;">
+                <div>
+                  <div style="display: flex;justify-content: center;">
+                    <button pButton pRipple label="Télécharger le justificatif initial" icon="pi pi-download"
+                      class="p-button-success" (click)="downloadFile()"></button>
+                  </div>
+                </div>
+                <div *ngIf="IsUpdate()">
+                  <div style="display: flex;justify-content: center;">
+                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                  </div>
                 </div>
               </div>
             </fieldset>
@@ -346,10 +392,18 @@
                 </div>
               </div>
               <br>
-              <div>
-                <div style="display: flex;justify-content: center;">
-                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                    class="p-button-success" (click)="downloadFile()"></button>
+              <div style="display: flex;justify-content: center;gap: 2rem;">
+                <div>
+                  <div style="display: flex;justify-content: center;">
+                    <button pButton pRipple label="Télécharger le justificatif initial" icon="pi pi-download"
+                      class="p-button-success" (click)="downloadFile()"></button>
+                  </div>
+                </div>
+                <div *ngIf="IsUpdate()">
+                  <div style="display: flex;justify-content: center;">
+                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                  </div>
                 </div>
               </div>
             </fieldset>
@@ -362,9 +416,15 @@
               <legend [ngStyle]="{width: '100%'}">
                 <b>Information / Identifications</b>
               </legend>
+              <div style="display: flex;gap: 2rem;">
+                <div class="d-flex gap-2">
+                  <p-radioButton name="bac_a_pioche" [value]="'stock'" formControlName="bac_a_pioche"></p-radioButton>
+                  <label style="margin-top: 0.9rem">Stock/Tenant</label>
+                </div>
+              </div>
               <div class="text-wrapper">
-                <input [disabled]="true"
-                  [value]="bacPiocheActivation === 'stock' ? 'Le système utilisera une SIM dans le stock': 'Orange fournira la SIM. A l\'\issue de l\'operation, la SIM sera livrée au point de contact accompagnée d\'\'une  facture' "
+                <input [disabled]="true" class="infos_text"
+                  [value]="bacPiocheActivation === 'stock' ? 'Le système utilisera une SIM dans le stock': TextInfosSim"
                   type="text" pInputText
                   style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 20px;" />
               </div>
@@ -377,25 +437,52 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>{{firstLevelLibelle}}</b>
+                      <b>Niveau 1</b>
                     </label>
-                    <input type="text" formControlName="niveau_1" placeholder="niveau_1" pInputText />
+                    <p-dropdown [options]="listFirstLevel" formControlName="niveau_un_id" optionLabel="nom"
+                      optionValue="id" [filter]="true" filterBy="nom">
+                      <ng-template let-data pTemplate="item">
+                        <div class="country-item">
+                          <div>
+                            {{data.nom}} [{{data.code}}]
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>{{secondLevelLibelle}}</b>
+                      <b>Niveau 2</b>
                     </label>
-                    <input type="text" formControlName="niveau_2"  pInputText />
+                    <p-dropdown [options]="listSecondLevel" formControlName="niveau_deux_id" optionLabel="nom"
+                      optionValue="id" [filter]="true" filterBy="nom">
+                      <ng-template let-data pTemplate="item">
+                        <div class="country-item">
+                          <div>
+                            {{data.nom}}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>{{thirdLevelLibelle}}</b>
+                      <b>Niveau 3</b>
                     </label>
-                    <input type="text" formControlName="niveau_3" pInputText />
+                    <p-dropdown [options]="listThirdLevel" formControlName="niveau_trois_id" optionLabel="nom"
+                      optionValue="id">
+                      <ng-template let-data pTemplate="item">
+                        <div class="country-item">
+                          <div>
+                            {{data.nom}}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
                   </div>
                 </div>
               </div>
@@ -405,7 +492,16 @@
                     <label>
                       <b>Usage</b>
                     </label>
-                    <input type="text" formControlName="usage" pInputText />
+                    <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage"
+                      placeholder="Usage" optionValue="id" placeholder="Usage">
+                      <ng-template let-data pTemplate="item">
+                        <div class="country-item">
+                          <div>
+                            {{data.nom_usage}}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -413,7 +509,7 @@
                     <label>
                       <b>Emplacement</b>
                     </label>
-                    <input type="text" formControlName="point_emplacement" pInputText />
+                    <input type="text" formControlName="point_emplacement" placeholder="Emplacement" pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -421,7 +517,7 @@
                     <label>
                       <b>Adresse mail</b>
                     </label>
-                    <input type="text" formControlName="email" placeholder="Adresse Email" pInputText />
+                    <input type="text" formControlName="adresse_email" placeholder="Adresse Email" pInputText />
                   </div>
                 </div>
               </div>
@@ -454,91 +550,27 @@
             </fieldset>
           </div>
         </div>
-        <!-------------COMMANDE--------------FORMS--------------------------->
         <div *ngIf="transaction?.operation === OperationAchat">
           <div [hidden]="filterTab !== 'first-item'">
             <fieldset>
               <legend>
                 <strong>Information de Transaction</strong>
               </legend>
-              <div>
-                <table [ngClass]="'table-natif'">
-                  <thead>
-                    <th>Code Produit</th>
-                    <th>Description</th>
-                    <th>Prix Unitaire (Fcfa)</th>
-                    <th>Quantité</th>
-                    <th>Montant (Fcfa)</th>
-                  </thead>
-                  <tr *ngFor="let prod of detailTransaction?.detail_commande;let i = index">
-                    <td>
-                      <div class="produit-picture">
-                        <img src="assets/images/unboxing.png" style="height: 1.8rem" alt="">
-                      </div>
-                      <div class="produit-code">{{prod.code_produit}}</div>
-                    </td>
-                    <td>
-                      <span class="produit-code">{{prod.nom_produit}}</span>
-                    </td>
-                    <td>
-                      <div class="produit-prix">{{pipeValue(prod.montant_ht)}}</div>
-                    </td>
-                    <td>
-                      <div class="produit-prix">{{prod.quantite}}</div>
-                    </td>
-                    <td>
-                      <div class="produit-prix">{{pipeValue(prod.montant_ht*prod.quantite)}}</div>
-                    </td>
-                  </tr>
-                </table>
+              <div class="panier-card" *ngFor="let prod of detailTransaction?.detail_commande">
+                <div class="panier-card__file">
+                  <img src="assets/images/unboxing.png" alt="">
+                </div>
+                <div class="panier-card__infos">
+                  <div class="panier-card__infos--code">{{prod.code_produit}}</div>
+                  <div class="panier-card__infos--nom">{{prod.nom_produit}}</div>
+                </div>
+                <div class="panier-card__quantity">    
+                  <span>{{prod.quantite}}</span>
+                </div>
+                <div class="panier-card__price">{{ pipeValue((prod.montant_ht)*(prod.quantite))}} F</div>
               </div>
             </fieldset>
-            <!-- <br>
-            <fieldset [formGroup]="achatForm">
-              <legend>
-                <strong>Acceptation</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input formControlName="commmande_produit_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input formControlName="commmande_produit_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="commmande_produit_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
-                </div>
-              </div>
-            </fieldset> -->
           </div>
-        </div>
-        <!-----------------------COMMENTAIRE----------TENANT--------------------------------->
-        <div>
-          <fieldset>
-            <legend>
-              <strong>Commentaire Homologation</strong>
-            </legend>
-            <div class="row">
-                <div class="form-group">
-                  <input type="text" [disabled]="true" [value]="detailTransaction?.rapport?.notation_description" pInputText />
-                </div>
-            </div>
-          </fieldset>
         </div>
         <!-----------------------COMMENTAIRE----------ORANGE--------------------------------->
         <div>
@@ -552,8 +584,21 @@
                 </div>
             </div>
           </fieldset>
+        </div>
+        <!-----------------------COMMENTAIRE----------TENANT--------------------------------->
+        <div>
+          <fieldset>
+            <legend>
+              <strong>Commentaire Homologation</strong>
+            </legend>
+            <div class="row">
+                <div class="form-group">
+                  <input type="text" [disabled]="true" [value]="detailTransaction?.rapport?.notation_description" pInputText />
+                </div>
+            </div>
+          </fieldset>
         </div> 
       </div>
-    </div>
   </div>
 </div>
+

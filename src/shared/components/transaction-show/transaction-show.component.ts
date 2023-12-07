@@ -1,10 +1,10 @@
-import { TraitementTransaction } from './../../../../../shared/enum/TraitementTransaction.enum';
+import { TraitementTransaction } from '../../enum/TraitementTransaction.enum';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
-import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
+import { SupervisionOperationService } from '../../../presentation/pages/supervision-operations/data-access/supervision-operation.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
@@ -12,16 +12,22 @@ import { ClipboardService } from 'ngx-clipboard';
 import { Justificatif } from 'src/shared/enum/Justificatif.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { OPERATION_PROVISIONNING, PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
+import { CONTENCIEUX, SUPERVISION_SUIVIE_TRAITEMENT } from 'src/presentation/pages/supervision-operations/supervision-operations-routing.module';
+import { TRANSACTION_SIM } from 'src/presentation/pages/patrimoine/patrimoine-routing.module';
+import { COMMANDE_SIM, LIGNE_CREDIT } from 'src/presentation/pages/provisionning/provisionning-routing.module';
+import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
 declare var require;
 const Swal = require("sweetalert2");
 
 @Component({
-  selector: 'app-traitement-show',
-  templateUrl: './traitement-show.component.html',
-  styleUrls: ['./traitement-show.component.scss']
+  selector: 'app-transaction-show',
+  templateUrl: './transaction-show.component.html',
+  styleUrls: ['./transaction-show.component.scss']
 })
-export class TraitementShowComponent implements OnInit {
-
+export class TransactionShowComponent implements OnInit {
 
   @Input() transaction;
   @Output() resultTraitement = new EventEmitter();
@@ -61,6 +67,7 @@ export class TraitementShowComponent implements OnInit {
   public TextInfosSim: string = "Orange fournira la SIM. A l' issue de l' operation, la SIM sera livrée au point de contact accompagnée d'une facture";
   public TextInfosVolume: string = "Orange CI fournira le volume, à l'issue de l'operation une facture instantannée sera produite";
   public selectedNotation: string;
+  public selectedIsCloture: string;
   public selectedDescriptionNotation: string;
 
   constructor(
@@ -71,12 +78,15 @@ export class TraitementShowComponent implements OnInit {
     private settingService: SettingService,
     private patrimoineService: PatrimoineService,
     private clipboardApi: ClipboardService,
-    private mappingService: MappingService
+    private mappingService: MappingService,
+    private provisionningService: ProvisionningService,
+    private router: Router
   ) {
     Object.values(Justificatif).forEach(item => {
       this.listTypeJustificatif.push(item);
     });
-    this.fileUrl = this.mappingService.fileUrl;
+    this.fileUrl = this.mappingService.fileUrl;  
+      
   }
 
   ngOnInit() {
@@ -109,7 +119,7 @@ export class TraitementShowComponent implements OnInit {
       .GetDetailTransaction({
         transaction: this.transaction?.transaction,
         operation: this.transaction?.operation,
-        model_id: this.transaction?.model_id,
+        model_id: this.transaction?.model_id,        
         tenant_id: this.transaction?.tenant_id
       })
       .subscribe({
@@ -126,7 +136,7 @@ export class TraitementShowComponent implements OnInit {
           } else if (this.detailTransaction?.operation === OperationTransaction.SUSPENSION) {
             this.OnShowSuspensionForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION) {
-            this.GetFirstLevel();
+            this.GetFirstLevel();   
             this.GetSecondLevel();
             this.GetThirdLevel();
             this.GetAllUsages();
@@ -134,17 +144,15 @@ export class TraitementShowComponent implements OnInit {
           } else if (this.detailTransaction?.operation === OperationTransaction.ACHAT_SERVICE) {
             this.OnShowAchatForm();
           }
-          if (this.IsShow() || this.IsCloture()) {
-            this.activationForm.disable();
-            this.ligneForm.disable();
-            this.volumeForm.disable();
-            this.swapForm.disable();
-            this.resiliationForm.disable();
-            this.suspensionForm.disable();
-          }
+          this.activationForm.disable();
+          this.ligneForm.disable();
+          this.volumeForm.disable();
+          this.swapForm.disable();
+          this.resiliationForm.disable();
+          this.suspensionForm.disable();
         },
         error: (error) => {
-          this.GetAllTransactions();
+          this.OnFeebackTransaction();
           this.toastrService.error(error.error.message);
         }
       })
@@ -191,7 +199,21 @@ export class TraitementShowComponent implements OnInit {
       }
     }
   }
-  public GetAllTransactions() {
+
+  OnFeebackTransaction(){
+     if (this.router.url === `/${SUPERVISION_OPERATIONS}/${SUPERVISION_SUIVIE_TRAITEMENT}`) {
+        return this.GetAllTraitement()
+     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX}`){
+      return this.GetAllContencieux()
+     }else if(this.router.url === `/${PATRIMOINE}/${TRANSACTION_SIM}`){
+      return this.GetAllTransactions()
+     }else if(this.router.url === `/${OPERATION_PROVISIONNING}/${COMMANDE_SIM}`){
+      return this.GetAllAchats()
+     }else if(this.router.url === `/${OPERATION_PROVISIONNING}/${LIGNE_CREDIT}`){
+      return this.GetAllLigneCredits()
+     }
+  }
+  public GetAllTraitement() {
     this.supervisionOperationService
       .GetAllTransactions({}, 1)
       .subscribe({
@@ -208,6 +230,82 @@ export class TraitementShowComponent implements OnInit {
             } 
           });          
           this.resultTraitement.emit(this.listTraitemants);
+          this.activeModal.close();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllTransactions() {
+    this.patrimoineService
+      .GetAllTransactions({}, 1)
+      .subscribe({
+        next: (response) => {
+          this.listTraitemants =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            }else{
+              return {...data,current_date: 'N/A'}
+            } 
+          });          
+          this.resultTraitement.emit(this.listTraitemants);
+          this.activeModal.close();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllContencieux() {
+    this.supervisionOperationService
+      .GetAllContencieux({})
+      .subscribe({
+        next: (response) => {
+          this.listTraitemants =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            }else{
+              return {...data,current_date: 'N/A'}
+            } 
+          });          
+          this.resultTraitement.emit(this.listTraitemants);
+          this.activeModal.close();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+
+
+  public GetAllAchats() {
+    this.provisionningService
+      .GetAllAchats({}, 1)
+      .subscribe({
+        next: (response) => {
+          this.resultTraitement.emit(response['data']);
+          this.activeModal.close();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllLigneCredits() {
+    this.provisionningService
+      .GetAllLigneCredits({},1)
+      .subscribe({
+        next: (response) => {
+          this.resultTraitement.emit(response['data']['data']);
           this.activeModal.close();
         },
         error: (error) => {
@@ -253,7 +351,7 @@ export class TraitementShowComponent implements OnInit {
     this.volumeForm = this.fb.group({
       imsi: [''],
       msisdn: [''],
-      statut: [''],
+      statut_contrat: [''],
       point_emplacement: [''],
       bac_a_pioche: [''],
       description: [''],
@@ -265,7 +363,7 @@ export class TraitementShowComponent implements OnInit {
   OnShowVolumeForm() {
     this.volumeForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.volumeForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
-    this.volumeForm.get('statut').patchValue(this.detailTransaction?.statut);
+    this.volumeForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
     this.volumeForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.volumeForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
     this.volumeForm.get('volume').patchValue(this.detailTransaction?.volume);
@@ -273,7 +371,7 @@ export class TraitementShowComponent implements OnInit {
     this.volumeForm.get('volume_data_accepte').patchValue(this.detailTransaction?.rapport?.volume_data_accepte);
     this.volumeForm.get('volume_data_accepte_comment').patchValue(this.detailTransaction?.rapport?.volume_data_accepte_comment);
     this.volumeForm.get('msisdn').disable();
-    this.volumeForm.get('statut').disable();
+    this.volumeForm.get('statut_contrat').disable();
     this.volumeForm.get('beneficiaire').disable();
   }
   get sourceStock() {
@@ -285,7 +383,7 @@ export class TraitementShowComponent implements OnInit {
     this.swapForm = this.fb.group({
       imsi: [''],
       msisdn: [''],
-      statut: [''],
+      statut_contrat: [''],
       point_emplacement: [''],
       bac_a_pioche: [''],
       description: [''],
@@ -296,15 +394,12 @@ export class TraitementShowComponent implements OnInit {
   OnShowSwapForm() {
     this.swapForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.swapForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
-    this.swapForm.get('statut').patchValue(this.detailTransaction?.statut);
+    this.swapForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
     this.swapForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.swapForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
     this.swapForm.get('description').patchValue(this.detailTransaction?.description);
     this.swapForm.get('swap_accepte').patchValue(this.detailTransaction?.rapport?.swap_accepte);
     this.swapForm.get('swap_accepte_comment').patchValue(this.detailTransaction?.rapport?.swap_accepte_comment);
-    this.swapForm.get('msisdn').disable();
-    this.swapForm.get('statut').disable();
-    this.swapForm.get('point_emplacement').disable();
   }
   get sourceStockSwap() {
     return this.swapForm.get('bac_a_pioche').value;
@@ -315,7 +410,7 @@ export class TraitementShowComponent implements OnInit {
     this.resiliationForm = this.fb.group({
       imsi: [''],
       msisdn: [''],
-      statut: [''],
+      statut_contrat: [''],
       justificatif: [''],
       point_emplacement: [''],
       description: [''],
@@ -326,13 +421,13 @@ export class TraitementShowComponent implements OnInit {
   OnShowResiliationForm() {
     this.resiliationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.resiliationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
-    this.resiliationForm.get('statut').patchValue(this.detailTransaction?.statut);
+    this.resiliationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
     this.resiliationForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.resiliationForm.get('description').patchValue(this.detailTransaction?.description);
     this.resiliationForm.get('resiliation_accepte').patchValue(this.detailTransaction?.rapport?.resiliation_accepte);
     this.resiliationForm.get('resiliation_accepte_comment').patchValue(this.detailTransaction?.rapport?.resiliation_accepte_comment);
     this.resiliationForm.get('msisdn').disable();
-    this.resiliationForm.get('statut').disable();
+    this.resiliationForm.get('statut_contrat').disable();
     this.resiliationForm.get('point_emplacement').disable();
   }
   public onChangeFile(file: FileList) {
@@ -343,7 +438,7 @@ export class TraitementShowComponent implements OnInit {
     this.suspensionForm = this.fb.group({
       imsi: [''],
       msisdn: [''],
-      statut: [''],
+      statut_contrat: [''],
       justificatif: [''],
       point_emplacement: [''],
       description: [''],
@@ -354,13 +449,13 @@ export class TraitementShowComponent implements OnInit {
   OnShowSuspensionForm() {
     this.suspensionForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.suspensionForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
-    this.suspensionForm.get('statut').patchValue(this.detailTransaction?.statut);
+    this.suspensionForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
     this.suspensionForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.suspensionForm.get('description').patchValue(this.detailTransaction?.description);
     this.suspensionForm.get('suspension_accepte').patchValue(this.detailTransaction?.rapport?.suspension_accepte);
     this.suspensionForm.get('suspension_accepte_comment').patchValue(this.detailTransaction?.rapport?.suspension_accepte_comment);
     this.suspensionForm.get('msisdn').disable();
-    this.suspensionForm.get('statut').disable();
+    this.suspensionForm.get('statut_contrat').disable();
     this.suspensionForm.get('point_emplacement').disable();
   }
 
@@ -414,10 +509,8 @@ export class TraitementShowComponent implements OnInit {
   }
 
   IsEmptyPanier(): any {
-    console.log("this.detailTransaction?.detail_commande?.length", this.detailTransaction?.detail_commande?.length);
-
     if (this.detailTransaction?.detail_commande?.length === 0) {
-      return this.GetAllTransactions()
+      return this.OnFeebackTransaction()
     }
   }
   OnIncrementButton(data: any) {
@@ -577,172 +670,12 @@ export class TraitementShowComponent implements OnInit {
       return this.detailTransaction?.rapport?.date_acquittement
     }    
   }
-  OnVerify() {
-    Swal.fire({
-      title: "En êtes vous sûr ?",
-      html: `Veuillez proceder à la verification<strong><u>L'imsi</u></strong>`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: '#569C5B',
-      cancelButtonColor: '#dc3545',
-      confirmButtonText: 'Oui',
-      cancelButtonText: 'Annuler',
-    }).then((result) => {
-      if (result.value) {
-        this.patrimoineService
-          .OnVerify({
-            imsi: this.swapForm.get('imsi').value,
-          })
-          .subscribe({
-            next: (response) => {
-              const data = response['data']              
-              this.swapForm.get('msisdn').patchValue(data?.msisdn);
-              this.swapForm.get('statut').patchValue(data?.statut);
-              this.swapForm.get('point_emplacement').patchValue(data?.point_emplacement);
-              this.toastrService.success(response.message);
-              this.OnUpdateTransaction();
-            },
-            error: (error) => {
-              this.toastrService.error(error.error.message);
-            }
-          })
-      }
-    });
-  }
-  public OnUpdateTransaction(): void {
-    Swal.fire({
-      title: "En êtes vous sûr ?",
-      html: `Les informations de mise à jour de la transaction <strong><u>${this.detailTransaction.rapport.transaction}</u></strong> seront enregistrées.`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: '#569C5B',
-      cancelButtonColor: '#dc3545',
-      confirmButtonText: 'Oui',
-      cancelButtonText: 'Annuler',
-    }).then((result) => {
-      if (result.value) {
-        if (this.transaction?.operation === OperationTransaction.RESILIATION) {
-          this.resiliationForm.patchValue({
-            justificatif: this.currentFile,
-          })
-        } else if (this.transaction?.operation === OperationTransaction.SUSPENSION) {
-          this.suspensionForm.patchValue({
-            justificatif: this.currentFile,
-          })
-        } else if (this.transaction?.operation === OperationTransaction.PROVISIONNING) {
-          this.ligneForm.patchValue({
-            justificatif: this.currentFile,
-          })
-        } else if (this.transaction?.operation === OperationTransaction.ACHAT_SERVICE) {
-          this.achatForm.patchValue({
-            detail_commande: this.detailTransaction?.detail_commande
-          })
-        }
-        const data = {
-          ...(
-            this.transaction?.operation === OperationTransaction.PROVISIONNING
-              ? this.ligneForm.value :
-              this.transaction?.operation === OperationTransaction.ACHAT_SERVICE
-                ? this.achatForm.value :
-                this.transaction?.operation === OperationTransaction.VOLUME_DATA
-                  ? this.volumeForm.value :
-                  this.transaction?.operation === OperationTransaction.SWAP
-                    ? this.swapForm.value :
-                    this.transaction?.operation === OperationTransaction.RESILIATION
-                      ? this.resiliationForm.value :
-                      this.transaction?.operation === OperationTransaction.SUSPENSION
-                        ? this.suspensionForm.value :
-                        this.transaction?.operation === OperationTransaction.ACTIVATION
-                          ? this.activationForm.value :
-                          this.achatForm.value
-          ),
-          transaction: this.transaction?.transaction,
-          operation: this.transaction.operation,
-          model_id: this.transaction.model_id
-        }
-        this.supervisionOperationService
-          .OnUpdateTransaction((this.transaction?.operation === OperationTransaction.RESILIATION || this.transaction?.operation === OperationTransaction.SUSPENSION || this.transaction?.operation === OperationTransaction.PROVISIONNING) ? formDataBuilder(data) : data)
-          .subscribe({
-            next: (response) => {
-              this.toastrService.success(response.message);
-              this.GetAllTransactions();
-            },
-            error: (error) => {
-              this.toastrService.error(error.error.message);
-            }
-          })
-      }
-    });
-
-  }
-  public OnCancelTransaction(): void {
-    Swal.fire({
-      title: "En êtes vous sûr ?",
-      html: `Voulez-vous Abandonner la transaction <strong><u>${this.detailTransaction.rapport.transaction}</u></strong>`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: '#569C5B',
-      cancelButtonColor: '#dc3545',
-      confirmButtonText: 'Oui',
-      cancelButtonText: 'Annuler',
-    }).then((result) => {
-      if (result.value) {
-        this.supervisionOperationService
-          .OnCancelTransaction({
-            transaction: this.transaction?.transaction,
-            operation: this.transaction.operation,
-            model_id: this.transaction.model_id,
-          })
-          .subscribe({
-            next: (response) => {
-              this.toastrService.success(response.message);
-              this.GetAllTransactions();
-            },
-            error: (error) => {
-              this.toastrService.error(error.error.message);
-            }
-          })
-      }
-    });
-  }
-  public OnCloseTransaction(): void {
-    Swal.fire({
-      title: "En êtes vous sûr ?",
-      html: `Voulez-vous Clôturer la transaction <strong><u>${this.detailTransaction.rapport.transaction}</u></strong>`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: '#569C5B',
-      cancelButtonColor: '#dc3545',
-      confirmButtonText: 'Oui',
-      cancelButtonText: 'Annuler',
-    }).then((result) => {
-      if (result.value) {
-        this.supervisionOperationService
-          .OnCloseTransaction({
-            transaction: this.transaction?.transaction,
-            operation: this.transaction.operation,
-            model_id: this.transaction.model_id,
-            notation_cloture: this.selectedNotation,
-            notation_description: this.selectedDescriptionNotation
-          })
-          .subscribe({
-            next: (response) => {
-              this.toastrService.success(response.message);
-              this.GetAllTransactions();
-            },
-            error: (error) => {
-              this.toastrService.error(error.error.message);
-            }
-          })
-      }
-    });
-  }
 
   public copyTransaction(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
   public handleCloseModal(): void {
-    this.GetAllTransactions()
+    this.OnFeebackTransaction()
   }
 }

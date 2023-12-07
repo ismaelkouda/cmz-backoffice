@@ -38,14 +38,10 @@ export class HistoriqueComponent implements OnInit {
   constructor(
     private loadingBar: LoadingBarService,
     private toastService: ToastrService,
-    private settingService: SettingService,
-    private modalService: NgbModal,
-
+    private settingService: SettingService
   ) {
     this.filterDateStart = new Date();
     this.filterDateEnd = new Date();
-    //this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
-    //this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
   }
 
   ngOnInit(): void {

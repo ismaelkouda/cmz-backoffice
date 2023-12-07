@@ -13,11 +13,11 @@ import * as moment from 'moment';
 const Swal = require('sweetalert2');
 
 @Component({
-  selector: 'app-suivie-traitement',
-  templateUrl: './suivie-traitement.component.html',
-  styleUrls: ['./suivie-traitement.component.scss']
+  selector: 'app-contencieux',
+  templateUrl: './contencieux.component.html',
+  styleUrls: ['./contencieux.component.scss']
 })
-export class SuivieTraitementComponent implements OnInit {
+export class ContencieuxComponent implements OnInit {
 
   public listTraitemants: Array<any> = [];
   public listOperations: Array<any> = [];
@@ -55,8 +55,8 @@ export class SuivieTraitementComponent implements OnInit {
   public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
   public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
   public treatmenRejeter: string = TraitementTransaction.REJETER;
-  public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
+  public treatmenRefuser: string = TraitementTransaction.REFUSER;
 
   constructor(
     private supervisionOperationService: SupervisionOperationService,
@@ -83,15 +83,15 @@ export class SuivieTraitementComponent implements OnInit {
 
   ngOnInit() {
     this.isFilter();
-    this.GetAllTransactions();
+    this.GetAllContencieux();
     this.GetFirstLevel()
     localStorage.setItem('layout', 'Barcelona');
   }
 
 
-  public GetAllTransactions() {
+  public GetAllContencieux() {
     this.supervisionOperationService
-      .GetAllTransactions({}, this.p)
+      .GetAllContencieux({})
       .subscribe({
         next: (response) => {
           this.listTraitemants =  response['data']['data'].map((data) => {
@@ -131,7 +131,7 @@ export class SuivieTraitementComponent implements OnInit {
       date_fin: this.selectDateEnd,
     };
     this.supervisionOperationService
-      .GetAllTransactions(data, this.p)
+      .GetAllContencieux(data)
       .subscribe({
         next: (response) => {
           this.listTraitemants = response['data']['data'];
@@ -158,7 +158,7 @@ export class SuivieTraitementComponent implements OnInit {
     }
   }
   OnRefresh() {
-    this.GetAllTransactions();
+    this.GetAllContencieux();
     this.selectedFirstLevel = null
     this.selectedTypeOperation = null
     this.selectedSecondLevel = null

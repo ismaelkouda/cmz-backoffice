@@ -6,12 +6,15 @@ import { SuivieTraitementComponent } from './ui/suivie-traitement/suivie-traitem
 import { AlarmesComponent } from './ui/alarmes/alarmes.component';
 import { PerformancesComponent } from './ui/performances/performances.component';
 import { PriseEnChargeComponent } from './ui/prise-en-charge/prise-en-charge.component';
+import { ContencieuxComponent } from './ui/contencieux/contencieux.component';
 
 
-export const SUPERSION_STATUTS = 'demandes';
-export const SUPERSION_PRISE_EN_CHARGE = 'prise-en-charge';
-export const SUPERVISION_SUIVIE_TRAITEMENT = 'suivie-et-traitements';
-export const PERFORMANCE_SLA = 'performances-sla';
+export const SUPERSION_STATUTS = 'demandes'
+export const SUPERSION_PRISE_EN_CHARGE = 'prise-en-charge'
+export const SUPERVISION_SUIVIE_TRAITEMENT = 'suivie-et-traitements'
+export const PERFORMANCE_SLA = 'performances-sla'
+export const CONTENCIEUX = 'contencieux'
+
 
 const routes: Routes = [
     {
@@ -32,6 +35,10 @@ const routes: Routes = [
             {
                 path: PERFORMANCE_SLA,
                 component: PerformancesComponent,
+            },
+            {
+                path: CONTENCIEUX,
+                component: ContencieuxComponent,
             },
         ],
     },

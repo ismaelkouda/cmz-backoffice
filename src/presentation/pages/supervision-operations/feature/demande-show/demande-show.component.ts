@@ -217,7 +217,7 @@ export class DemandeShowComponent implements OnInit {
     this.volumeForm = this.fb.group({
       imsi: [''],
       msisdn: [''],
-      statut: [''],
+      statut_contrat: [''],
       point_emplacement: [],
       bac_a_pioche: [''],
       volume: [''],
@@ -228,7 +228,7 @@ export class DemandeShowComponent implements OnInit {
   OnShowVolumeForm() {
     this.volumeForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.volumeForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
-    this.volumeForm.get('statut').patchValue(this.detailTransaction?.statut);
+    this.volumeForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
     this.volumeForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.volumeForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
     this.volumeForm.get('volume').patchValue(this.detailTransaction?.volume);
@@ -249,7 +249,7 @@ export class DemandeShowComponent implements OnInit {
     this.swapForm = this.fb.group({
       imsi: [''],
       msisdn: [''],
-      statut: [''],
+      statut_contrat: [''],
       point_emplacement: [''],
       bac_a_pioche: [''],
       description: [''],
@@ -260,7 +260,7 @@ export class DemandeShowComponent implements OnInit {
   OnShowSwapForm() {
     this.swapForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.swapForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
-    this.swapForm.get('statut').patchValue(this.detailTransaction?.statut);
+    this.swapForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
     this.swapForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.swapForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
     this.swapForm.get('description').patchValue(this.detailTransaction?.description);
@@ -281,7 +281,7 @@ export class DemandeShowComponent implements OnInit {
     this.resiliationForm = this.fb.group({
       imsi: [''],
       msisdn: [''],
-      statut: [''],
+      statut_contrat: [''],
       point_emplacement: [],
       description: [''],
       resiliation_accepte: [''],
@@ -291,7 +291,7 @@ export class DemandeShowComponent implements OnInit {
   OnShowResiliationForm() {
     this.resiliationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.resiliationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
-    this.resiliationForm.get('statut').patchValue(this.detailTransaction?.statut);
+    this.resiliationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
     this.resiliationForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.resiliationForm.get('description').patchValue(this.detailTransaction?.description);
     this.resiliationForm.get('resiliation_accepte').patchValue(this.detailTransaction?.rapport?.resiliation_accepte);
@@ -307,7 +307,7 @@ export class DemandeShowComponent implements OnInit {
     this.suspensionForm = this.fb.group({
       imsi: [''],
       msisdn: [''],
-      statut: [''],
+      statut_contrat: [''],
       point_emplacement: [''],
       description: [''],
       suspension_accepte: [''],
@@ -317,7 +317,7 @@ export class DemandeShowComponent implements OnInit {
   OnShowSuspensionForm() {
     this.suspensionForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.suspensionForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
-    this.suspensionForm.get('statut').patchValue(this.detailTransaction?.statut);
+    this.suspensionForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
     this.suspensionForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.suspensionForm.get('description').patchValue(this.detailTransaction?.description);
     this.suspensionForm.get('suspension_accepte').patchValue(this.detailTransaction?.rapport?.suspension_accepte);
@@ -414,6 +414,34 @@ export class DemandeShowComponent implements OnInit {
       case OperationTransaction.PROVISIONNING: {
         return 'Ligne de Credit';
       }
+    }
+  }
+  public GetCurrentMessage(operation): string {
+    switch (operation) {
+      case OperationTransaction.ACTIVATION: {
+        return this.activationForm.get('activation_accepte_comment').value;
+      }
+      case OperationTransaction.SWAP: {
+        return this.swapForm.get('swap_accepte_comment').value;
+      }
+      case OperationTransaction.RESILIATION: {
+        return this.resiliationForm.get('resiliation_accepte_comment').value;
+      }
+      case OperationTransaction.SUSPENSION: {
+        return this.suspensionForm.get('suspension_accepte_comment').value;
+      }
+      case OperationTransaction.VOLUME_DATA: {
+        return this.volumeForm.get('volume_data_accepte_comment').value;
+      }
+      case OperationTransaction.ACHAT_SERVICE: {        
+        return this.achatForm.get('commmande_produit_accepte_comment').value;
+      }
+      case OperationTransaction.PROVISIONNING: {
+        return this.ligneForm.get('provisionning_accepte_comment').value;
+        ;
+      }
+      default:
+        return 'Aucun Message Pour cette Transaction !'
     }
   }
   public IsContentSim(): boolean {

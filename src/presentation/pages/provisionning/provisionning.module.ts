@@ -1,3 +1,5 @@
+import { LigneShowComponent } from './feature/ligne-show/ligne-show.component';
+import { CommandeShowComponent } from './feature/commande-show/commande-show.component';
 import { CardStockComponent } from './feature/card-stock/card-stock.component';
 import { StockProduitComponent } from './ui/stock-produit/stock-produit.component';
 import { CreditFormComponent } from './feature/credit-form/credit-form.component';
@@ -61,9 +63,11 @@ import { LigneCreditComponent } from './ui/ligne-credit/ligne-credit.component';
         LigneCreditComponent,
         StockProduitComponent,
         CommandeFormComponent,
+        CommandeShowComponent,
+        LigneShowComponent,
         FactureComponent,
         CreditFormComponent,
-        CardStockComponent
+        CardStockComponent,
     ],
 })
 export class ProvisionningModule { }

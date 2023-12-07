@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
   public permissionsJson: any = [];
   readonly REINITIALISATION = REINITIALISATION;
   readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
-  
+
+
   constructor(
     private fb: FormBuilder,
     private readonly userLoginUseCase: UserLoginUseCase,
@@ -43,10 +44,12 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required],
       port: ['']
     });
+
   }
 
   onLogin() {
-    this.loginForm.patchValue({port: window.location.port})
+    //{port: window.location.port}
+    this.loginForm.patchValue({port: '11300'})
     this.userLoginUseCase.execute(this.loginForm.value).subscribe({
       next: (response) => {        
         this.storage.saveData('user', JSON.stringify(response.data));
@@ -88,6 +91,7 @@ export class LoginComponent implements OnInit {
   }
 
   handleExpire() {
+  //Sanogo1_admin
   }
 
 }

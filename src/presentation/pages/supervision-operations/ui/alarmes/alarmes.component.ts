@@ -100,9 +100,6 @@ export class AlarmesComponent implements OnInit {
       centered: true,
     });    
     modalRef.componentInstance.transaction = data;
-    // modalRef.componentInstance.resultTraitement.subscribe((res) => {
-    //   this.listDemandes = res['data']
-    // })
   }
 }
 

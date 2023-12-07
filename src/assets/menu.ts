@@ -1,5 +1,5 @@
 import { REPORTING_ALARME, REPORTING_SLA } from './../presentation/pages/reporting/reporting-routing.module';
-import { PERFORMANCE_SLA } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
+import { CONTENCIEUX, PERFORMANCE_SLA } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
 import { CARTES_SIM, DOTATION_SERVICES, GROUPE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
@@ -151,6 +151,13 @@ export var menuJson = [
                 path: `/${SUPERVISION_OPERATIONS}/${PERFORMANCE_SLA}`,
                 title: "Performance SLA",
                 label: "Performance SLA",
+                data: "4-4-0-performance-sla",
+                type: "link"
+            },
+            {
+                path: `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX}`,
+                title: "Contentieux",
+                label: "Contentieux",
                 data: "4-4-0-performance-sla",
                 type: "link"
             }

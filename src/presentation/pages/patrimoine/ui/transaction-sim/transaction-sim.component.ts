@@ -10,6 +10,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { ExcelService } from 'src/shared/services/excel.service';
+import { TraitementShowComponent } from 'src/shared/components/traitement-show/traitement-show.component';
+import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 
 @Component({
   selector: 'app-transaction-sim',
@@ -176,6 +178,18 @@ export class TransactionSimComponent implements OnInit {
   }
   public disableAction(): boolean {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
+  }
+  OnShowTraitement(data: Object): void {
+    const modalRef = this.modalService.open(TransactionShowComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });
+    modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.resultTraitement.subscribe((res) => {
+      this.listTransactions = res
+    })
   }
   public isFilter(): boolean {
     return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction) ? true : false

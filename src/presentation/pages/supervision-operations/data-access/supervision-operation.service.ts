@@ -37,6 +37,11 @@ export class SupervisionOperationService {
     const url: string = (<string>EndPointUrl.GET_ALL_DEMANDES);
     return this.http.post(`${this.baseUrl}${url}`, data);
   } 
+
+  GetAllContencieux(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_CONTENCIEUX);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   OnUpdateTransaction(data): Observable<any> {
     const url: string = (<string>EndPointUrl.UPDATE_TRANSACTION);
     return this.http.post(`${this.baseUrl}${url}`, data);

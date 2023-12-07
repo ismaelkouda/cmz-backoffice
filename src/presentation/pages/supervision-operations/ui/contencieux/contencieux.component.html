@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <app-breadcrumb [title]="'Suivi des opérations'" [active_item]="'Suivie & Traitement'"></app-breadcrumb>
+  <app-breadcrumb [title]="'Suivi des opérations'" [active_item]="'Contentieux'"></app-breadcrumb>
   <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
     <div class="card-body">
       <div class="row filter_wrapper">
@@ -193,13 +193,13 @@
               </td>
               <td class="text-center">
                 <span [ngStyle]="{'font-size':'16px'}" class="badge"
-                  [class.badge-dark]="transaction?.traitement === treatmenEntente || transaction?.traitement === treatmenAcquiter"
-                  [class.badge-danger]="transaction?.traitement === treatmenRejeter || transaction?.traitement === treatmenRefuser"
-                  [class.badge-warning]="transaction?.traitement === treatmenCancel"
-                  [class.badge-info]="transaction?.traitement === treatmenAccepter"
-                  [class.badge-success]="(transaction?.statut === stateCloture && transaction?.traitement === treatmenAccepter)">
-                  {{ transaction.traitement }}
-                </span>
+                [class.badge-dark]="transaction?.traitement === treatmenEntente || transaction?.traitement === treatmenAcquiter"
+                [class.badge-danger]="transaction?.traitement === treatmenRejeter || transaction?.traitement === treatmenRefuser"
+                [class.badge-warning]="transaction?.traitement === treatmenCancel"
+                [class.badge-info]="transaction?.traitement === treatmenAccepter"
+                [class.badge-success]="(transaction?.statut === stateCloture && transaction?.traitement === treatmenAccepter)">
+                {{ transaction.traitement }}
+              </span>
               </td>
              <td>
               <span>
