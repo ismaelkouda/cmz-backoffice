@@ -1,11 +1,11 @@
 <div class="container-fluid">
   <div class="col-sm-12">
-    <app-breadcrumb [title]="'Refrentiel Supervision'" [active_item]="'Métriques & Alarmes'"></app-breadcrumb>
+    <app-breadcrumb [title]="'Refrentiel Supervision'" [active_item]="'Indicateurs & Alarmes'"></app-breadcrumb>
     <div class="card">
       <div class="card-body">
         <div>
           <p-tabView (onChange)="handleChangeTabviewIndex($event)">
-            <p-tabPanel header="METRIQUE & ALARME">
+            <p-tabPanel header="INDICATEURS & ALARMES">
               <div class="table_actions_wrapper" style="display: flex;justify-content: space-between;">
                 <div>
                   <button pButton pRipple label="Exporter" (click)="OnExportExcel()" [disabled]="disableAction()" icon="pi pi-download"
@@ -23,7 +23,7 @@
                     <div class="table_header">
                       <div class="table_header__legende" style="position: relative;left: -1rem;">
                         <h4>
-                          <b>Liste des Métriques et Alarmes</b>
+                          <b>Liste des Indicateurs et Alarmes</b>
                         </h4>
                       </div>
                       <div class="table_header__input" style="position: relative;left: 1rem;">

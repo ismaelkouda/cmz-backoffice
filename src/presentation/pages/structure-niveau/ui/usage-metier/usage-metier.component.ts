@@ -6,11 +6,11 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 const Swal = require('sweetalert2');
 
 @Component({
-  selector: 'app-third-level',
-  templateUrl: './third-level.component.html',
-  styleUrls: ['./third-level.component.scss']
+  selector: 'app-usage-metier',
+  templateUrl: './usage-metier.component.html',
+  styleUrls: ['./usage-metier.component.scss']
 })
-export class ThirdLevelComponent implements OnInit {
+export class UsageMetierComponent implements OnInit {
 
   public module: string;
   public subModule: string;
@@ -28,7 +28,6 @@ export class ThirdLevelComponent implements OnInit {
   public selectedTenant: any
 
   constructor(
-    //private portefeuilleTenantService: PortefeuilleTenantService,
     private toastrService: ToastrService,
     private activatedRoute: ActivatedRoute,
     private clipboardApi: ClipboardService,
@@ -46,15 +45,45 @@ export class ThirdLevelComponent implements OnInit {
   }
 
   public GetAllUsageMetier() {
-
+    // this.portefeuilleTenantService
+    //   .GetAllUsageMetier({}, this.p)
+    //   .subscribe({
+    //     next: (response) => {
+    //       this.listUsages = response.data.data;
+    //       this.totalPage = response.data.last_page;
+    //       this.totalRecords = response.data.total;
+    //       this.recordsPerPage = response.data.per_page;
+    //       this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
+    //     },
+    //     error: (error) => {
+    //       this.toastrService.error(error.message);
+    //     }
+    //   })
   }
   public onFilter(): void {
     const data = {
       nom_usage: this.selectedUsage,
       tenant_code: this.selectedTenant?.code
     };
-
+    // this.portefeuilleTenantService
+    //   .GetAllUsageMetier(data, this.p)
+    //   .subscribe({
+    //     next: (response) => {
+    //       this.listUsages = response['data']['data'];
+    //       this.totalPage = response['data'].last_page;
+    //       this.totalRecords = response['data'].total;
+    //       this.recordsPerPage = response['data'].per_page;
+    //       this.offset = (response['data'].current_page - 1) * this.recordsPerPage + 1;
+    //       this.listUsages.length === 0 ?
+    //         Swal.fire('P;ATRIMOINE SIM', 'Aucune donnée pour cet Tenant', 'error')
+    //         : ''
+    //     },
+    //     error: (error) => {
+    //       this.toastrService.error(error.error.message);
+    //     }
+    //   });
   }
+
 
   OnRefresh() {
     this.selectedTenant = null

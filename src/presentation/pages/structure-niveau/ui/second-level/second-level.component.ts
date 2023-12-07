@@ -24,6 +24,7 @@ export class SecondLevelComponent implements OnInit {
   public listFirstLevelDatas: Array<any> = [];
   public selectedNom: string;
   public selectedCode: string;
+  public selectedCodes: string;
   public currentLevelLibelle: string;
   public currentLevelLibelleSplit: string;
   public childLevelLibelle: string;
@@ -42,10 +43,6 @@ export class SecondLevelComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.currentLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
-    // const keyWord = this.currentLevelLibelle.split(" ").map(item => {
-    //   return `${item}`
-    // });
-    // this.currentLevelLibelleSplit = keyWord.join(" ");
     this.childLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.parentLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
   }
@@ -74,7 +71,8 @@ export class SecondLevelComponent implements OnInit {
   public onFilter() {
     this.settingService
       .getAllExploiatations({
-        nom: this.selectedNom
+        nom: this.selectedNom,
+        code: this.selectedCodes
       })
       .subscribe({
         next: (response) => {
@@ -187,6 +185,6 @@ export class SecondLevelComponent implements OnInit {
     return this.listCurrentLevelDatas?.length === 0 ? true : false
   }
   public isFilter(): boolean {
-    return (!this.selectedNom) ? true : false
+    return (!this.selectedNom && !this.selectedCodes) ? true : false
   }
 }

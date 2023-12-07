@@ -67,8 +67,8 @@ export var menuJson = [
         children: [
             {
                 path: `/${REFERENTIEL_TELEMETRIE}/${SEUIL_ALARMES}`,
-                title: "Métriques & Alarmes",
-                label: "Métriques & Alarmes",
+                title: "Indicateurs & Alarmes",
+                label: "Indicateurs & Alarmes",
                 data: "2-1-0-seuil-alarmes",
                 type: "link"
             },

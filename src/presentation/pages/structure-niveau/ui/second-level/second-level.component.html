@@ -14,6 +14,14 @@
                   <input placeholder="Saisir le nom" [(ngModel)]="selectedNom" type="text" pInputText />
                 </div>
               </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Code<span class="text-danger">*</span></b>
+                  </label>
+                  <input placeholder="Saisir le code" [(ngModel)]="selectedCodes" type="text" pInputText />
+                </div>
+              </div>
               <div class="col-md-1">
                 <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="isFilter()"
                   (click)="onFilter()"></p-button>
@@ -52,6 +60,7 @@
                   <tr>
                     <th class="text-center" [style]="{width: '1.5rem'}">#</th>
                     <th>{{currentLevelLibelle}}</th>
+                    <th>Code</th>
                     <th>{{parentLevelLibelle}}</th>
                     <th [style]="{width: '14rem'}"># SIM Affectées</th>
                     <th class="text-center" [style]="{width: '7rem'}">Actions</th>
@@ -61,6 +70,7 @@
                   <tr>
                     <td class="text-center">{{ i + 1 }}</td>
                     <td (click)="copyData(data?.nom)" style="cursor: pointer">{{data?.nom}}</td>
+                    <td (click)="copyData(data?.code)" style="cursor: pointer" class="text-center">{{data?.code}}</td>
                     <td class="text-center">{{data?.niveau_un?.nom}} [{{data?.niveau_un?.code}}]</td>
                     <td class="text-center">
                       <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"

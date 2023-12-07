@@ -1,0 +1,107 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+        <div class="card">
+          <div class="card-body">
+            <div [hidden]="!initialView">
+              <div class="row filter_wrapper">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label><b>Nom usage</b> </label>
+                    <input type="text" placeholder="Usage" pInputText [(ngModel)]="selectedUsage" />
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label><b>Tenant</b></label>
+                    <p-dropdown [options]="listTenants" optionLabel="nom_tenant" [filter]="true" filterBy="nom_tenant"
+                      [showClear]="true" placeholder="Tenant" [(ngModel)]="selectedTenant"
+                      name="nom_tenant">
+                      <ng-template let-data pTemplate="item">
+                        <div class="country-item">
+                          <div>{{ data.nom_tenant }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div style="width: 4rem;">
+                  <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
+                    [disabled]="isFilter()"></p-button>
+                </div>
+              </div>
+              <hr>
+              <div class="table_actions_wrapper">
+                <button pButton pRipple label="Usage" icon="pi pi-plus" class="p-button-success"
+                  (click)="onInitForm()">
+                </button>
+                <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
+                
+                  (click)="OnRefresh()"></button>
+                <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"
+                
+                ></button>
+              </div>
+              <div class="table_content_wrapper">
+                <div class="table_header mt-2">
+                  <div class="table_header__legende">
+                    <h4 class="pt-2">
+                      <b>Liste Usages Metier</b>
+                    </h4>
+                  </div>
+                  <div class="table_header__input"></div>
+                </div>
+                <table [ngClass]="['native_table table']">
+                  <thead>
+                    <th class="text-center" [ngStyle]="{width: '3rem'}">#</th>
+                    <th>Nom Usage</th>
+                    <th>Description</th>
+                    <th class="text-center">Tenant</th>
+                    <th class="text-center" [ngStyle]="{ 'width': '6rem' }">Statut</th>
+                    <th class="text-center" [ngStyle]="{ 'width': '11rem' }">Actions</th>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="let data of listUsages | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                      <td class="text-center">{{ (this.offset + i)}}</td>
+                      <td class="text-start" (click)="copyData(data?.nom_usage)" style="cursor: pointer"> {{ data?.nom_usage }}</td>
+                      <td class="text-start">{{ data?.description }}</td>
+                      <td class="text-center">{{ data?.tenant?.nom_tenant }} [{{ data?.tenant?.code }}]</td>
+                      <td class="text-center">
+                        <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+                          [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
+                          {{ data.statut }}
+                        </span>
+                      </td>
+                      <td class="td-actions">
+                        <p-button icon="pi pi-eye" styleClass="p-button-dark" pTooltip="Voir" tooltipPosition="top"
+                        (click)="onShowForm(data)"></p-button>
+                        <p-button icon="pi pi-pencil" styleClass="p-button-secondary" pTooltip="Editer"
+                          tooltipPosition="top" (click)="onEditForm(data)"></p-button>
+                        <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
+                            " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
+                            ? 'Désactiver'
+                            : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
+                            ? handleDisable(data)
+                            : handleActivate(data)">
+                        </button>
+                        <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Supprimer"
+                          tooltipPosition="top"></p-button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div [ngClass]="['pagination-controls']">
+                  <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                  </pagination-controls>
+                </div>
+              </div>
+            </div>
+            <app-form-usage [currentObject]="currentObject" *ngIf="formsView"
+            (formsView)="pushStatutView($event)" (listUsages)="pushListDatas($event)"></app-form-usage>
+          </div>
+        </div>
+      </div>
+    </div>
+  

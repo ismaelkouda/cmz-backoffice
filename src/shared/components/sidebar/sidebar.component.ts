@@ -7,7 +7,7 @@ import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { ADMIN_USER, DASHBOARD, STRUCTURE_ORGANISATIONNELLE } from 'src/shared/routes/routes';
 import { ADMIN_ACHAT, ADMIN_ACTIVATION_HISTORIE, ADMIN_CLIENT, ADMIN_GROUPE, ADMIN_POINT_VENTE, ADMIN_PRODUCT, ADMIN_STOCK, ADMIN_VENTE } from 'src/presentation/pages/administration/administration-routing.module';
 import { MappingService } from 'src/shared/services/mapping.service';
-import { FIRST_LEVEL_ROUTE, SECOND_LEVEL_ROUTE, THRID_LEVEL_ROUTE } from 'src/presentation/pages/structure-niveau/structure-niveau-routing.module';
+import { FIRST_LEVEL_ROUTE, SECOND_LEVEL_ROUTE, THRID_LEVEL_ROUTE, USAGE_METIER } from 'src/presentation/pages/structure-niveau/structure-niveau-routing.module';
 
 @Component({
   selector: 'app-sidebar',
@@ -170,6 +170,13 @@ export class SidebarComponent {
             path: `/${STRUCTURE_ORGANISATIONNELLE}/${THRID_LEVEL_ROUTE}`,
             title: `${mappingService.structureGlobale?.niveau_3}`,
             label: `${mappingService.structureGlobale?.niveau_3}`,
+            data: "6-3-0-activation-collecte",
+            type: "link"
+          },
+          {
+            path: `/${STRUCTURE_ORGANISATIONNELLE}/${USAGE_METIER}`,
+            title: `Usage Métier`,
+            label: `Usage Métier`,
             data: "6-3-0-activation-collecte",
             type: "link"
           }

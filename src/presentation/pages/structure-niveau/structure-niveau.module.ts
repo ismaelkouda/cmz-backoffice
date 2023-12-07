@@ -1,3 +1,5 @@
+import { FormUsageComponent } from './feature/form-usage/form-usage.component';
+import { UsageMetierComponent } from './ui/usage-metier/usage-metier.component';
 import { StructureNiveauRoutingModule } from './structure-niveau-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -58,7 +60,9 @@ import { SharedModule } from 'src/shared/shared.module';
     declarations: [
         FirstLevelComponent,
         SecondLevelComponent,
-        ThirdLevelComponent
+        ThirdLevelComponent,
+        UsageMetierComponent,
+        FormUsageComponent
     ],
 })
 export class StructureNiveauModule { }
