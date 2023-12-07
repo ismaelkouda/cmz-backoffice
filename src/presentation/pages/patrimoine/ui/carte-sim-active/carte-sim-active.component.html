@@ -125,7 +125,7 @@
                     <td>{{data?.zone?.nom}}</td>
                     <td (click)="copyData(data.msisdn)" style="cursor: pointer" class="px-2">{{data.msisdn}}</td>
                     <td (click)="copyData(data.imsi)" style="cursor: pointer" class="px-2">{{data?.imsi ? data?.imsi : 'N/A' }}</td>
-                    <td>{{data?.nom_prenoms}}</td>
+                    <td>{{data?.point_emplacement}}</td>
                     <td>
                       <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
                         [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">

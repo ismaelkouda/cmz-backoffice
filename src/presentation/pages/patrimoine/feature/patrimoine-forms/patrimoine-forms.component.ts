@@ -76,6 +76,13 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.reset();
   }
 
+  getFormattedMsisdn(value): string {
+    const msisdn = value || ""; // Assurez-vous que msisdn est défini
+    const formattedMsisdn = msisdn.replace(/(\d{2})(?=\d)/g, "$1 "); // Ajoute le séparateur
+
+    return formattedMsisdn;
+  }
+
   public initForm(): void {
     this.adminForm = this.fb.group({
 
