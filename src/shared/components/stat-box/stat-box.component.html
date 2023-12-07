@@ -1,14 +1,8 @@
-<div class="card" [ngStyle]="{backgroundColor: cardBgColor,border: '1px solid'+ cardBorderColor}">
-  <div class="content">
-      <div class="content__legend">
-          <b>
-              <span [ngStyle]="{color: legendColor}">{{legend}}</span>
-          </b>
-      </div>
-      <div class="content__value">
-          <b>
-              <span [ngStyle]="{color:countColor}">{{ pipeValue(count)}}</span>
-          </b>
-      </div>
-  </div>
+<div class="card" [ngStyle]="{backgroundColor: cardBgColor}">
+    <div class="card-body single-stats-box patrimoine-sim-card mb-25">
+        <div class="d-flex align-items-center justify-content-space-between">
+            <h3 [ngStyle]="{color:countColor}"> {{ pipeValue(count)}} </h3>
+        </div>
+        <h4 class="fw-semibold" [ngStyle]="{color: legendColor}">{{legend}}</h4>
+    </div>
 </div>
