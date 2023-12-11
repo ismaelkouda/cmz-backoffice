@@ -123,7 +123,10 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     if (this.historie) {
       this.selectedActionValue = history.state.operation;
       this.operationValue = this.selectedActionValue
-      this.currentPatrimoine = history.state.patrimoine     
+      this.currentPatrimoine = history.state.patrimoine 
+      
+      console.log("this.currentPatrimoine",this.currentPatrimoine);
+      
     } 
   }
   close() {

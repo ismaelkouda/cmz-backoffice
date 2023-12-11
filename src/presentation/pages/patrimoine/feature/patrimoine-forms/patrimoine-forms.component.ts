@@ -21,7 +21,6 @@ export class PatrimoineFormsComponent implements OnInit {
   public idDirectionRegionale: any;
   public listTypePersonne: Array<any> = [];
   public listUsage: Array<any> = [];
-  public listDHCP: Array<any> = [];
   public listServices: Array<any> = [];
   public listProfils: Array<any> = [];
   public totalPage: 0;
@@ -52,7 +51,6 @@ export class PatrimoineFormsComponent implements OnInit {
     private patrimoineService: PatrimoineService,
     private mappingService: MappingService
   ) {
-    this.listDHCP = ['OUI', 'NON'];
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
@@ -91,7 +89,7 @@ export class PatrimoineFormsComponent implements OnInit {
       exploitation: [''],
       zone: ['', [Validators.required]],
       usage: ['', [Validators.required]],
-      nom_prenoms: [''],
+      point_emplacement: [''],
       adresse_geographique: [''],
       longitude: ['', [Validators.required]],
       latitude: ['', [Validators.required]],
@@ -106,7 +104,7 @@ export class PatrimoineFormsComponent implements OnInit {
       code_pin: [''],
       apni: [''],
       username: [''],
-      dhcp: [''],
+      site: [''],
       adresse_ip: [''],
       proxy: ['']
     });
@@ -216,7 +214,7 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.get('usage').patchValue(this.currentObject?.usage.id);
     this.adminForm.get('code_pin').patchValue(this.currentObject?.code_pin);
     this.adminForm.get('adresse_geographique').patchValue(this.currentObject?.adresse_geographique);
-    this.adminForm.get('nom_prenoms').patchValue(this.currentObject?.nom_prenoms);
+    this.adminForm.get('point_emplacement').patchValue(this.currentObject?.point_emplacement);
     this.adminForm.get('adresse_email').patchValue(this.currentObject?.adresse_email);
     this.adminForm.get('longitude').patchValue(this.currentObject?.longitude);
     this.adminForm.get('latitude').patchValue(this.currentObject?.latitude);
@@ -224,7 +222,7 @@ export class PatrimoineFormsComponent implements OnInit {
     //Trafic Controls
     this.adminForm.get('apni').patchValue(this.currentObject?.apni);
     this.adminForm.get('username').patchValue(this.currentObject?.username);
-    this.adminForm.get('dhcp').patchValue(this.currentObject?.dhcp);
+    this.adminForm.get('site').patchValue(this.currentObject?.site);
     this.adminForm.get('adresse_ip').patchValue(this.currentObject?.adresse_ip);
     this.adminForm.get('proxy').patchValue(this.currentObject?.proxy);
 
@@ -235,7 +233,7 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.get('msisdn').disable();
     this.adminForm.get('code_pin').disable();
     this.adminForm.get('apni').disable();
-    this.adminForm.get('dhcp').disable();
+    this.adminForm.get('site').disable();
     this.adminForm.get('proxy').disable();
     this.adminForm.get('username').disable();
     this.adminForm.get('adresse_ip').disable();

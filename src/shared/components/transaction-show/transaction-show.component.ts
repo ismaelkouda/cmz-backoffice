@@ -372,7 +372,6 @@ export class TransactionShowComponent implements OnInit {
     this.volumeForm.get('volume_data_accepte_comment').patchValue(this.detailTransaction?.rapport?.volume_data_accepte_comment);
     this.volumeForm.get('msisdn').disable();
     this.volumeForm.get('statut_contrat').disable();
-    this.volumeForm.get('beneficiaire').disable();
   }
   get sourceStock() {
     return this.volumeForm.get('bac_a_pioche').value;

@@ -23,10 +23,11 @@ export const enum EndPointUrl {
 
     SAVE_NIVEAUX_3 = 'parametres-securite/niveau_trois/store',
     UPDATE_NIVEAUX_3 = 'parametres-securite/niveau_trois/update',
-
     GET_ALL_ZONES = 'parametres-securite/zones/all',
-
+    UPDATE_STATUT_USAGE = 'usages/mise-a-jour-statut',
     // SECURITY
     HANDLE_UPDATE_PASSWORD = 'users/update-password',
+    GET_ALL_SITES = 'sites/all',
+
 
 }

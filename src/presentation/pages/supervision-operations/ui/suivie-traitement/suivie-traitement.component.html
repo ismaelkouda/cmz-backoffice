@@ -16,7 +16,7 @@
             </p-dropdown>
           </div>
         </div>
-        <div class="col-md-2">
+        <!-- <div class="col-md-2">
           <div class="form-group">
             <label>
               <b>{{firstLevelLibelle}}</b>
@@ -55,11 +55,11 @@
             <label><b>N°Transaction</b> </label>
             <input type="text" pInputText [(ngModel)]="selectedTransaction" />
           </div>
-        </div>
+        </div> -->
         <div class="col-md-2">
           <div class="form-group">
             <label><b>Statut</b> </label>
-            <p-dropdown [options]="listStatutTransactions" [showClear]="true" [(ngModel)]="selectedStatut"
+            <p-dropdown [options]="listStatutTransactions" (onChange)="OnChangeStatut($event)" [showClear]="true" [(ngModel)]="selectedStatut"
               placeholder="Statut">
               <ng-template let-data pTemplate="item">
                 <div class="country-item">
@@ -69,21 +69,6 @@
             </p-dropdown>
           </div>
         </div>
-        <div class="p-0" [ngStyle]="{width: '4rem'}" *ngIf="!secondFilter">
-          <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
-          <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
-            [disabled]="isFilter()"></p-button>
-        </div>
-        <div class="p-0" [ngStyle]="{width: '4rem'}">
-          <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
-          <p-button *ngIf="!secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
-            icon="pi pi-plus"></p-button>
-          <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
-            icon="pi pi-minus"></p-button>
-        </div>
-      </div>
-      <!--------------------Second-------------Filter--------->
-      <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
         <div class="col-md-2">
           <div class="form-group">
             <label><b>Traitement</b> </label>
@@ -143,15 +128,15 @@
               <th class="text-center" [style]="{width: '1.5rem'}">#</th>
               <th class="text-center">Date / Heure</th>
               <th class="text-center" [ngStyle]="{'width':'200px'}">N° Transaction</th>
-              <th class="text-center">{{firstLevelLibelle}}</th>
-              <th class="text-center">{{secondLevelLibelle}}</th>
+              <!-- <th class="text-center">{{firstLevelLibelle}}</th>
+              <th class="text-center">{{secondLevelLibelle}}</th> -->
               <th class="text-center">Service</th>
-              <th class="text-center">Code R.</th>
-              <th pTooltip="Details de rapport" tooltipPosition="top">Détails R.</th>
+              <th class="text-center">Rapport</th>
+              <th pTooltip="Details de rapport" tooltipPosition="top">Détails Rapport</th>
               <th class="text-center">Statut</th>
               <th class="text-center">Traitement</th>
               <th class="text-center" [ngStyle]="{'width':'150px'}" pTooltip="Date de traitement" tooltipPosition="top">
-                Date T.</th>
+                Date Traitement</th>
               <th pTooltip="Date de traitement" tooltipPosition="top">Intervenant</th>
               <th class="text-center" [style]="{width: '3rem'}">Actions</th>
             </tr>
@@ -164,8 +149,8 @@
               <td class="cursor-pointer text-center" (click)="copyTransaction(transaction.transaction)">
                 {{ transaction.transaction }}
               </td>
-              <td class="text-center">{{transaction?.operation === activationTransaction ? transaction?.niveau_1?.nom : '-'}}</td>
-              <td class="text-center">{{transaction?.operation === activationTransaction ? transaction?.niveau_2?.nom : '-'}}</td>
+              <!-- <td class="text-center">{{transaction?.operation === activationTransaction ? transaction?.niveau_1?.nom : '-'}}</td>
+              <td class="text-center">{{transaction?.operation === activationTransaction ? transaction?.niveau_2?.nom : '-'}}</td> -->
               <td class="text-center">
                 {{ formatTitle(transaction?.operation ?? 'N/A') }}
               </td>

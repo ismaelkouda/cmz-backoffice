@@ -116,7 +116,7 @@
                 <label>
                   <b>Nom Emplacement</b>
                 </label>
-                <input type="text" formControlName="nom_prenoms" pInputText />
+                <input type="text" formControlName="point_emplacement" pInputText />
               </div>
             </div>
             <div class="col-md-4">
@@ -195,36 +195,22 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label>
-                  <b>DHCP</b>
-                </label>
-                <p-dropdown [options]="listDHCP" placeholder="selectionner l'etat" formControlName="dhcp">
-                  <ng-template let-data pTemplate="item">
-                    <div class="country-item">
-                      <div>
-                        {{data}}
-                      </div>
-                    </div>
-                  </ng-template>
-                </p-dropdown>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label>
                   <b>Adresse IP<span class="text-danger">*</span></b>
                 </label>
                 <p-inputMask mask="999.999.999" formControlName="adresse_ip" placeholder="000.000.000"></p-inputMask>
               </div>
             </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>
+                  <b>Site</b>
+                </label>
+                <input type="text" formControlName="site" pInputText />
+              </div>
+            </div>
           </div>
         </fieldset>
       </div>
-      <!--
-      <div class="forms-feature-footer">
-        <p-button label="Enregistrer" [label]="currentObject === undefined ? 'Enregistrer': 'Modifier'"
-                  [disabled]="!adminForm.valid" styleClass="p-button-success" (click)="handleUpdateCampagne()"></p-button>
-      </div>
-      -->
     </div>
     <div *ngIf="currentObject?.show">
       <p-tabView>
@@ -331,7 +317,7 @@
                     <label>
                       <b>Nom Emplacement</b>
                     </label>
-                    <input type="text" formControlName="nom_prenoms" pInputText />
+                    <input type="text" formControlName="point_emplacement" pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -410,25 +396,17 @@
                 <div class="col-md-3">
                   <div class="form-group">
                     <label>
-                      <b>DHCP</b>
+                      <b>Adresse IP<span class="text-danger">*</span></b>
                     </label>
-                    <p-dropdown [options]="listDHCP" placeholder="selectionner l'etat" formControlName="dhcp">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data}}
-                          </div>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
+                    <p-inputMask mask="999.999.999" formControlName="adresse_ip" placeholder="000.000.000"></p-inputMask>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
                     <label>
-                      <b>Adresse IP<span class="text-danger">*</span></b>
+                      <b>Site</b>
                     </label>
-                    <p-inputMask mask="999.999.999" formControlName="adresse_ip" placeholder="000.000.000"></p-inputMask>
+                    <input type="text" formControlName="site" pInputText />
                   </div>
                 </div>
               </div>
@@ -442,7 +420,6 @@
       </p-tabView>
     </div>
   </div>
-
   <div class="col-md-3" style="margin-top: 6.4rem">
     <div class="col-md-12">
       <div class="form-group">

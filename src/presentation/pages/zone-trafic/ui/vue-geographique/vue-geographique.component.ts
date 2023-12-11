@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { SettingService } from 'src/shared/services/setting.service';
 
 @Component({
   selector: 'app-vue-geographique',
@@ -29,9 +30,12 @@ export class VueGeographiqueComponent implements OnInit {
   public listZonesTrafics: any;
   public listDepartements: Array<any> = [];
   public listCommunes: Array<any> = [];
+  public listSites: Array<any> = [];
   public selectedDepartement: any;
   public selectedCommune: any;
-  public selectedZone: string;
+  public selectedSite: any;
+  public selectedSim: any
+  public selectedZone: string = 'ELOKATE';
   public currentObject: any;
   public initialView: boolean = true;
   public formsView: boolean = false;
@@ -48,6 +52,7 @@ export class VueGeographiqueComponent implements OnInit {
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private mappingService: MappingService,
+    private settingService: SettingService,
     // private rxWebsocketService: RxWebsocketService,
     private websocketService: WebsocketService,
     private pusherWebsocketService: PusherWebsocketService
@@ -60,6 +65,7 @@ export class VueGeographiqueComponent implements OnInit {
   ngOnInit() {
     this.GetAllZOneTrafic();
     this.GetAllDepartements();
+    this.GetAllSites()
     this.isFilter();
     // this.pusherWebsocketService.channel.bind("event-zone-100", (data) => {
     //   this.listMesssages.push(data);
@@ -113,6 +119,18 @@ export class VueGeographiqueComponent implements OnInit {
       })
   }
 
+  public GetAllSites() {
+    this.settingService
+      .getAllSites({})
+      .subscribe({
+        next: (response) => {
+          this.listSites = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
   onChangeItem(event: any) {
     this.selectedDepartement = event.value;
     this.listCommunes = this.selectedDepartement?.communes;
@@ -124,15 +142,14 @@ export class VueGeographiqueComponent implements OnInit {
     this.clipboardApi.copyFromContent(data);
     this.toastrService.success('Copié dans le presse papier');
   }
-  public isFilter(): boolean {
-    return (!this.selectedDepartement && !this.selectedCommune && !this.selectedZone) ? true : false
-  }
   public onFilter() {
     this.zoneTraficService
       .GetAllZOneTrafic({
         departement_id: this.selectedDepartement?.id,
         commune_id: this.selectedCommune,
         zone_trafic: this.selectedZone,
+        msisdn: this.selectedSim,
+        site_id: this.selectedSite
       }, this.p).subscribe({
         next: (response) => {
           this.listZonesTrafics = response.data.data;
@@ -182,6 +199,9 @@ export class VueGeographiqueComponent implements OnInit {
   }
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
+  }
+  public isFilter(): boolean {
+    return (!this.selectedDepartement && !this.selectedCommune && !this.selectedZone && !this.selectedSite && !this.selectedSim) ? true : false
   }
   public disableAction(): boolean {
     return true

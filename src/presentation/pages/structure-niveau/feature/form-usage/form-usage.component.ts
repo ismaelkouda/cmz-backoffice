@@ -1,7 +1,8 @@
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { MappingService } from 'src/shared/services/mapping.service';
+import { SettingService } from 'src/shared/services/setting.service';
 
 @Component({
   selector: 'app-form-usage',
@@ -15,12 +16,17 @@ export class FormUsageComponent implements OnInit {
   @Output() formsView = new EventEmitter();
   adminForm: FormGroup;
   public listTenants: Array<any> = []
+  public currentLevelLibelle: string
 
   constructor(
     private fb: FormBuilder,
     public toastrService: ToastrService,
+    private settingService: SettingService,
+    private mappingService: MappingService
+  ) {
+    this.currentLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
 
-  ) { }
+  }
 
   ngOnInit(): void {
     this.OnInitForm();
@@ -29,18 +35,18 @@ export class FormUsageComponent implements OnInit {
     }
   }
 
-  public GetAllUsageMetier() {
-    // this.portefeuilleTenantService
-    //   .GetAllUsageMetier({}, 1)
-    //   .subscribe({
-    //     next: (response) => {
-    //       this.listUsages.emit(response['data']['data']);
-    //       this.close();
-    //     },
-    //     error: (error) => {
-    //       this.toastrService.error(error.message);
-    //     }
-    //   })
+  public GellCurrentLevel() {
+    this.settingService
+      .getAllZones({})
+      .subscribe({
+        next: (response) => {
+          this.listUsages.emit(response['data']);
+          this.close()
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
   }
   public OnInitForm() {
     this.adminForm = this.fb.group({
@@ -53,37 +59,36 @@ export class FormUsageComponent implements OnInit {
   }
 
   public handleSave() {
-    // this.portefeuilleTenantService
-    //   .HandleSaveUsage(this.adminForm.value).subscribe({
-    //     next: (response) => {
-    //       this.GetAllUsageMetier();
-    //       this.toastrService.success(response.message);
-    //     },
-    //     error: (error) => {
-    //       this.toastrService.error(error.error.message);
-    //     }
-    //   })
+    this.settingService
+      .OnSaveZone(this.adminForm.value).subscribe({
+        next: (response) => {
+          this.GellCurrentLevel();
+          this.toastrService.success(response.message);
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
   }
 
   handleUpdate() {
-    // this.portefeuilleTenantService
-    //   .HandleUpdateUsage({
-    //     usage_id: this.currentObject?.id,
-    //     ...this.adminForm.value
-    //   }).subscribe({
-    //     next: (response) => {
-    //       this.GetAllUsageMetier();
-    //       this.toastrService.success(response.message);
-    //     },
-    //     error: (error) => {
-    //       this.toastrService.error(error.error.message);
-    //     }
-    //   })
+    this.settingService
+      .OnUpdateZone({
+        usage_id: this.currentObject?.id,
+        ...this.adminForm.value
+      }).subscribe({
+        next: (response) => {
+          this.GellCurrentLevel();
+          this.toastrService.success(response.message);
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
   }
 
   public onFormPachValues(): void {
     this.adminForm.get('nom_usage').patchValue(this.currentObject.nom_usage);
-    this.adminForm.get('tenant_id').patchValue(this.currentObject.tenant_id);
     this.adminForm.get('description').patchValue(this.currentObject?.description)
     if (this.currentObject.show) {
       this.adminForm.disable()

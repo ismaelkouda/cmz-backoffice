@@ -1,107 +1,119 @@
 <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12">
-        <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
-        <div class="card">
-          <div class="card-body">
-            <div [hidden]="!initialView">
-              <div class="row filter_wrapper">
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label><b>Nom usage</b> </label>
-                    <input type="text" placeholder="Usage" pInputText [(ngModel)]="selectedUsage" />
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label><b>Tenant</b></label>
-                    <p-dropdown [options]="listTenants" optionLabel="nom_tenant" [filter]="true" filterBy="nom_tenant"
-                      [showClear]="true" placeholder="Tenant" [(ngModel)]="selectedTenant"
-                      name="nom_tenant">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>{{ data.nom_tenant }}</div>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
-                  </div>
-                </div>
-                <div style="width: 4rem;">
-                  <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
-                    [disabled]="isFilter()"></p-button>
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="'Structure Organisationnelle'" [active_item]="currentLevelLibelle"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div [hidden]="!initialView">
+            <div class="row filter_wrapper">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Nom {{currentLevelLibelle}}<span class="text-danger">*</span></b>
+                  </label>
+                  <input placeholder="Saisir le nom" [(ngModel)]="selectedNom" type="text" pInputText />
                 </div>
               </div>
-              <hr>
-              <div class="table_actions_wrapper">
-                <button pButton pRipple label="Usage" icon="pi pi-plus" class="p-button-success"
-                  (click)="onInitForm()">
-                </button>
-                <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
-                
-                  (click)="OnRefresh()"></button>
-                <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"
-                
-                ></button>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Code<span class="text-danger">*</span></b>
+                  </label>
+                  <input placeholder="Saisir le code" [(ngModel)]="selectedCodes" type="text" pInputText />
+                </div>
               </div>
-              <div class="table_content_wrapper">
-                <div class="table_header mt-2">
-                  <div class="table_header__legende">
-                    <h4 class="pt-2">
-                      <b>Liste Usages Metier</b>
-                    </h4>
-                  </div>
-                  <div class="table_header__input"></div>
-                </div>
-                <table [ngClass]="['native_table table']">
-                  <thead>
-                    <th class="text-center" [ngStyle]="{width: '3rem'}">#</th>
-                    <th>Nom Usage</th>
-                    <th>Description</th>
-                    <th class="text-center">Tenant</th>
-                    <th class="text-center" [ngStyle]="{ 'width': '6rem' }">Statut</th>
-                    <th class="text-center" [ngStyle]="{ 'width': '11rem' }">Actions</th>
-                  </thead>
-                  <tbody>
-                    <tr
-                      *ngFor="let data of listUsages | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
-                      <td class="text-center">{{ (this.offset + i)}}</td>
-                      <td class="text-start" (click)="copyData(data?.nom_usage)" style="cursor: pointer"> {{ data?.nom_usage }}</td>
-                      <td class="text-start">{{ data?.description }}</td>
-                      <td class="text-center">{{ data?.tenant?.nom_tenant }} [{{ data?.tenant?.code }}]</td>
-                      <td class="text-center">
-                        <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
-                          [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
-                          {{ data.statut }}
-                        </span>
-                      </td>
-                      <td class="td-actions">
-                        <p-button icon="pi pi-eye" styleClass="p-button-dark" pTooltip="Voir" tooltipPosition="top"
-                        (click)="onShowForm(data)"></p-button>
-                        <p-button icon="pi pi-pencil" styleClass="p-button-secondary" pTooltip="Editer"
-                          tooltipPosition="top" (click)="onEditForm(data)"></p-button>
-                        <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
-                            " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
-                            ? 'Désactiver'
-                            : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
-                            ? handleDisable(data)
-                            : handleActivate(data)">
-                        </button>
-                        <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Supprimer"
-                          tooltipPosition="top"></p-button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div [ngClass]="['pagination-controls']">
-                  <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
-                  </pagination-controls>
-                </div>
+              <div class="col-md-1">
+                <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="isFilter()"
+                  (click)="onFilter()"></p-button>
               </div>
             </div>
-            <app-form-usage [currentObject]="currentObject" *ngIf="formsView"
-            (formsView)="pushStatutView($event)" (listUsages)="pushListDatas($event)"></app-form-usage>
+            <hr>
+            <div class="table_actions_wrapper">
+              <button pButton pRipple [label]="'Ajout Simple'" icon="pi pi-plus" (click)="openForm(content)"
+                class="p-button-success"></button>
+              <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
+                (click)="GellCurrentLevel()"></button>
+              <button pButton pRipple label="Exporter" [disabled]="disableAction()" icon="pi pi-download"
+                class="p-button-helf"></button>
+            </div>
+            <div class="table_content_wrapper">
+              <p-table #dt [value]="listCurrentLevelDatas" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+                [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+                      données" [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+                  <div class="table_header">
+                    <div class="table_header__legende">
+                      <h4>
+                        <b>Liste des {{currentLevelLibelle | titlecase}}</b>
+                      </h4>
+                    </div>
+                    <div class="table_header__input">
+                      <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Recherche" />
+                      </span>
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="text-center" [style]="{width: '1.5rem'}">#</th>
+                    <th>{{currentLevelLibelle}}</th>
+                    <th>Code</th>
+                    <th class="text-center" [style]="{width: '7rem'}">Actions</th>
+                  </tr>
+                </ng-template>
+                <ng-template let-i="rowIndex" pTemplate="body" let-data>
+                  <tr>
+                    <td class="text-center">{{ i + 1 }}</td>
+                    <td (click)="copyData(data?.nom)" style="cursor: pointer">{{data?.nom}}</td>
+                    <td (click)="copyData(data?.code)" style="cursor: pointer" class="text-center">{{data?.code}}</td>
+                    <td class=" td-actions">
+                      <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
+                        (click)="onShowForm(data,content)" class="p-button-dark"></button>
+                      <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+                        (click)="onEditForm(data,content)" class="p-button-secondary"></button>
+                      <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Supprimer"
+                        tooltipPosition="top"></p-button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  
+  </div>
+</div>
+
+<!-------------------FORMULAIRE---------FIRSTLEVEL----------WRAPPER------------->
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{currentLevelLibelle}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
+  </div>
+  <div class="modal-body" [formGroup]="adminForm" novalidate>
+    <div class="form-group">
+      <label><b>Nom<span class="text-danger">*</span></b></label>
+      <input type="text" formControlName="nom" pInputText />
+    </div>
+    <div class="form-group mt-3">
+      <label><b>Code<span class="text-danger">*</span></b></label>
+      <input type="text" formControlName="code" pInputText />
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div>
+      <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
+    </div>
+    <div *ngIf="!isShow">
+      <button type="button" class="btn btn-save" (click)="!isEdit
+              ? OnSaveThirdLevel()
+              : OnUpdateThirdLevel()" [disabled]="!adminForm.valid">{{!isEdit ? 'Valider':
+        'Modifiier'}}</button>
+    </div>
+  </div>
+</ng-template>

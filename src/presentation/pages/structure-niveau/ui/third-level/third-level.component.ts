@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardService } from 'ngx-clipboard';
-import { LoadingBarService } from '@ngx-loading-bar/core';
+import { ToastrService } from 'ngx-toastr';
+import { MappingService } from 'src/shared/services/mapping.service';
+import { SettingService } from 'src/shared/services/setting.service';
+import { FormValidator } from 'src/shared/utils/spacer.validator';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -12,146 +15,170 @@ const Swal = require('sweetalert2');
 })
 export class ThirdLevelComponent implements OnInit {
 
-  public module: string;
-  public subModule: string;
   public initialView: boolean = true;
   public formsView: boolean = false;
+  public affectationView: boolean = false;
+  public visualisationView: boolean = false;
   public currentObject: any;
-  public listUsages: Array<any> = [];
-  public listTenants: Array<any> = [];
-  public totalPage: 0;
-  public totalRecords: 0;
-  public recordsPerPage: 0;
-  public offset: any;
-  public p: number = 1;
-  public selectedUsage: string;
-  public selectedTenant: any
+  public listCurrentLevelDatas: Array<any> = [];
+  public listSecondLevelDatas: Array<any> = [];
+  public selectedNom: string;
+  public selectedCode: string;
+  public selectedCodes: string;
+  public currentLevelLibelle: string;
+  public currentLevelLibelleSplit: string;
+  public childLevelLibelle: string;
+ // public parentLevelLibelle: string;
+  public currentLevel: any;
+  public isEdit: boolean = false;
+  public isShow: boolean = false;
+  public adminForm: FormGroup;
 
   constructor(
-    //private portefeuilleTenantService: PortefeuilleTenantService,
+    private settingService: SettingService,
     private toastrService: ToastrService,
-    private activatedRoute: ActivatedRoute,
+    private mappingService: MappingService,
+    private modalService: NgbModal,
     private clipboardApi: ClipboardService,
-    private loadingBar: LoadingBarService,
-
-  ) { }
-
-  ngOnInit(): void {
-    this.activatedRoute.data.subscribe((data) => {
-      this.module = data.module;
-      this.subModule = data.subModule[2];
-    });
-    this.GetAllUsageMetier()
-    this.isFilter()
+    private fb: FormBuilder
+  ) {
+    this.currentLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+    //this.parentLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
   }
 
-  public GetAllUsageMetier() {
-
-  }
-  public onFilter(): void {
-    const data = {
-      nom_usage: this.selectedUsage,
-      tenant_code: this.selectedTenant?.code
-    };
-
+  ngOnInit() {
+    this.disableAction();
+    this.GellCurrentLevel();
+    this.GellAllSecondLevel();
+    this.onInitForm();
+    this.isFilter();
   }
 
-  OnRefresh() {
-    this.selectedTenant = null
-    this.selectedUsage = null
+  public GellCurrentLevel() {
+    this.settingService
+      .getAllZones({})
+      .subscribe({
+        next: (response) => {
+          this.listCurrentLevelDatas = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
   }
-  onPageChange(event) {
 
+  public onFilter() {
+    this.settingService
+      .getAllZones({
+        nom: this.selectedNom,
+        code: this.selectedCodes
+      })
+      .subscribe({
+        next: (response) => {
+          this.listCurrentLevelDatas = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
   }
 
-  public copyData(data: any): void {
+  copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
 
-  public onInitForm(): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = undefined;
-  }
-  public onEditForm(data: any): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = data;
-  }
-  public onShowForm(data: any): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = { ...data, show: true };
-  }
-  public pushStatutView(event: boolean): void {
-    this.formsView = event;
-    this.initialView = !event;
-  }
-  public pushListDatas(event: any): void {
-    this.listUsages = event;
-  }
-  public handleActivate(data: any): void {
-    Swal.fire({
-      title: 'En êtes vous sûr ?',
-      html: `Voulez-vous Activer l'usage <br> ${data.nom_tenant} ?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#569C5B',
-      cancelButtonColor: '#dc3545',
-      cancelButtonText: 'Annuler',
-      confirmButtonText: 'Oui',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // this.portefeuilleTenantService
-        //   .OnChangeStatutUsage({
-        //     usage_id: data.id,
-        //     statut: 'actif'
-        //   })
-        //   .subscribe({
-        //     next: (response) => {
-        //       this.GetAllUsageMetier();
-        //       this.toastrService.success(response.message);
-        //     },
-        //     error: (error) => {
-        //       this.toastrService.error(error.error.message);
-        //     }
-        //   })
-      }
-    });
-  }
-  public handleDisable(data: any): void {
-    Swal.fire({
-      title: 'En êtes vous sûr ?',
-      html: `Voulez-vous Désactiver l'usage <br> ${data.nom_tenant} ?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#569C5B',
-      cancelButtonColor: '#dc3545',
-      cancelButtonText: 'Annuler',
-      confirmButtonText: 'Oui',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // this.portefeuilleTenantService
-        //   .OnChangeStatutUsage({
-        //     usage_id: data.id,
-        //     statut: 'inactif'
-        //   }).subscribe({
-        //     next: (response) => {
-        //       this.GetAllUsageMetier();
-        //       this.toastrService.success(response.message);
-        //     },
-        //     error: (error) => {
-        //       this.toastrService.error(error.error.message);
-        //     }
-        //   })
-      }
-    });
+  public GellAllSecondLevel() {
+    this.settingService
+      .getAllExploiatations({})
+      .subscribe({
+        next: (response) => {
+          this.listSecondLevelDatas = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
   }
 
+  onInitForm() {
+    this.adminForm = this.fb.group({
+      nom: ['', [
+        Validators.required,
+        FormValidator.cannotContainSpace
+      ]],
+      code: ['', [
+        Validators.required,
+        FormValidator.cannotContainSpace,
+        FormValidator.symbolsOnly,
+      ]]   })
+  }
+  openForm(content) {
+    this.modalService.open(content);
+    this.isShow = false;
+    this.isEdit = false;
+    this.adminForm.reset();
+    this.adminForm.enable();
+  }
+  onEditForm(item: any, content: any) {
+    this.currentLevel = item;
+    this.isEdit = true;
+    this.isShow = false;
+    this.modalService.open(content);
+    this.adminForm.get('nom').patchValue(item?.nom);
+    this.adminForm.get('code').patchValue(item?.code);
+    this.adminForm.enable();
+  }
+  onShowForm(item: any, content: any) {
+    this.isShow = true;
+    this.isEdit = false;
+    this.modalService.open(content);
+    this.adminForm.get('nom').patchValue(item?.nom);
+    this.adminForm.get('code').patchValue(item?.code);
+    this.adminForm.disable();
+  }
+  hideForm() {
+    this.modalService.dismissAll();
+    this.adminForm.reset();
+  }
+  OnSaveThirdLevel() {
+    this.settingService
+      .OnSaveZone(this.adminForm.value)
+      .subscribe({
+        next: (response) => {
+          this.GellCurrentLevel();
+          this.adminForm.reset();
+          this.hideForm();
+          this.toastrService.success(response.message);
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+  OnUpdateThirdLevel() {
+    this.settingService
+      .OnUpdateZone({
+        niveau_trois_id: this.currentLevel?.id,
+        ...this.adminForm.value
+      })
+      .subscribe({
+        next: (response) => {
+          this.GellCurrentLevel();
+          this.adminForm.reset();
+          this.hideForm();
+          this.toastrService.success(response.message);
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
+  }
+
+  public disableAction(): boolean {
+    return this.listCurrentLevelDatas?.length === 0 ? true : false
+  }
   public isFilter(): boolean {
-    return (!this.selectedTenant && !this.selectedUsage) ? true : false
+    return (!this.selectedNom && !this.selectedCodes) ? true : false
   }
-
 }
-

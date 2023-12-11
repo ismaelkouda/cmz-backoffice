@@ -9,6 +9,59 @@
     </button>
   </div>
   <div class="modal-body">
+  <div class="row">
+    <div class="col-lg-2"  style="border-right: 1px solid #D8D8D8;">
+      <div>
+        <fieldset>
+            <legend>
+                <strong>Emission</strong>
+            </legend>
+            <div class="d-flex flex-column gap-2">
+                <div>
+                  <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>{{transaction?.agent_nom ??"N/A"}}</span>
+                </div>
+                <div>
+                  <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{transaction?.agent_matricule ??"N/A"}}</span>
+                </div>
+                <div>
+                  <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{transaction?.agent_contacts ??"N/A"}}</span>
+                </div>
+                <div>
+                  <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{transaction?.agent_email ??"N/A"}}</span>
+                </div>
+                <div>
+                  <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.created_at ??"N/A"}}</span>
+                </div>
+            </div>
+        </fieldset>
+          </div>
+    <br>
+    <div>
+      <fieldset>
+          <legend>
+              <strong>Homologation</strong>
+          </legend>
+          <div class="d-flex flex-column gap-2">
+              <div>
+                <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{transaction?.intervenant_matricule ??"N/A"}}</span>
+              </div>
+              <div>
+                <span class="mb-0 fs__30"><strong>Nom&nbsp;:&nbsp;</strong>{{transaction?.intervenant_nom ??"N/A"}}</span>
+              </div>
+              <div>
+                <span class="mb-0 fs__30"><strong>Prénoms&nbsp;:&nbsp;</strong>{{transaction?.intervenant_prenoms ??"N/A"}}</span>
+              </div>
+              <div>
+                <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{transaction?.agent_email ??"N/A"}}</span>
+              </div>
+              <div>
+                <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.intervenant_contacts ??"N/A"}}</span>
+              </div>
+          </div>
+      </fieldset>
+          </div>
+    </div>
+    <div class="col-lg-10">
       <div>
         <div class="d-flex justify-content-between">
          <div>
@@ -125,7 +178,7 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <input type="text" formControlName="statut" pInputText />
+                    <input type="text" formControlName="statut_contrat" pInputText />
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -573,10 +626,10 @@
           </div>
         </div>
         <!-----------------------COMMENTAIRE----------ORANGE--------------------------------->
-        <div>
+        <div *ngIf="detailTransaction?.rapport?.statut_traitement">
           <fieldset>
             <legend>
-              <strong>Commentaire Emission</strong>
+              <strong>Commentaire Homologation</strong>
             </legend>
             <div class="row">
                 <div class="form-group">
@@ -585,20 +638,22 @@
             </div>
           </fieldset>
         </div>
-        <!-----------------------COMMENTAIRE----------TENANT--------------------------------->
-        <div>
-          <fieldset>
-            <legend>
-              <strong>Commentaire Homologation</strong>
-            </legend>
-            <div class="row">
-                <div class="form-group">
-                  <input type="text" [disabled]="true" [value]="detailTransaction?.rapport?.notation_description" pInputText />
-                </div>
-            </div>
-          </fieldset>
-        </div> 
+          <!-----------------------COMMENTAIRE----------GS2E--------------------------------->
+          <div *ngIf="detailTransaction?.rapport?.statut_traitement && detailTransaction?.rapport?.statut_cloture">
+            <fieldset>
+              <legend>
+                <strong>Commentaire Cloture</strong>
+              </legend>
+              <div class="row">
+                  <div class="form-group">
+                    <input type="text" [disabled]="true" [value]="detailTransaction?.rapport?.notation_description" pInputText />
+                  </div>
+              </div>
+            </fieldset>
+          </div> 
       </div>
+    </div>
+  </div>
   </div>
 </div>
 

@@ -15,8 +15,21 @@ input[type="text"]:disabled, input[type="email"]:disabled, input[type="tel"]:dis
     background: #fafafa !important;
     opacity: 1!important;
     color: #000 !important;
+    font-weight: 800;
     border: 2px solid #ccc !important;
 }
+p-dropdown .p-disabled,
+p-password .p-disabled {
+    background: #fafafa !important;
+    opacity: 1 !important;
+    color: #000 !important;
+    font-weight: 800;
+    border: 2px solid #ccc !important;
+     .p-dropdown-trigger {
+        opacity: 0 !important;
+    }
+}
+
 
 :host {
     display: block;
@@ -134,13 +147,6 @@ input[type="text"]:disabled, input[type="email"]:disabled, input[type="tel"]:dis
     font-family: "FUTURA";
 }
 
-p-dropdown .p-disabled,
-p-password .p-disabled {
-    background: #ccc !important;
-    font-weight: 800;
-    color: #000 !important;
-
-}
 
 .p-calendar-w-btn .p-datepicker-trigger {
     background-color: #000 !important;

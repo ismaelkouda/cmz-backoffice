@@ -132,8 +132,7 @@
               </span>
             </strong>
           </h4>
-          <div class="col-md-5 wrapper-header" style="display: flex; justify-content: end; font-size: 20px;">Date de
-            traitement :&nbsp;<b><span>{{IscurrentDate() ?? 'N/A'}}</span></b></div>
+          <div class="col-md-5 wrapper-header" style="display: flex; justify-content: end; font-size: 20px;">Date mise à jour :&nbsp;<b><span>{{IscurrentDate() ?? 'N/A'}}</span></b></div>
         </div>
         <hr style="position: relative;top: -0.2rem;margin-top: -0.4rem;">
         <!--------------LIGNE----------CREDIT------------FORMS----------------->
@@ -224,7 +223,7 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <input type="text" formControlName="statut" pInputText />
+                    <input type="text" formControlName="statut_contrat" pInputText />
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -749,24 +748,11 @@
             </div>
           </fieldset>
         </div>
-                <!-----------------------COMMENTAIRE----------TENANT--------------------------------->
-                <div>
-                  <fieldset>
-                    <legend>
-                      <strong>Commentaire Homologation</strong>
-                    </legend>
-                    <div class="row">
-                        <div class="form-group">
-                          <input type="text" [disabled]="true" [value]="detailTransaction?.rapport?.notation_description" pInputText />
-                        </div>
-                    </div>
-                  </fieldset>
-                </div> 
         <!-----------------------COMMENTAIRE----------ORANGE--------------------------------->
-        <div>
+        <div *ngIf="detailTransaction?.rapport?.statut_traitement">
           <fieldset>
             <legend>
-              <strong>Commentaire Emission</strong>
+              <strong>Commentaire Homologation</strong>
             </legend>
             <div class="row">
                 <div class="form-group">
@@ -775,6 +761,19 @@
             </div>
           </fieldset>
         </div>
+          <!-----------------------COMMENTAIRE----------GS2E--------------------------------->
+          <div *ngIf="detailTransaction?.rapport?.statut_traitement && detailTransaction?.rapport?.statut_cloture">
+            <fieldset>
+              <legend>
+                <strong>Commentaire Cloture</strong>
+              </legend>
+              <div class="row">
+                  <div class="form-group">
+                    <input type="text" [disabled]="true" [value]="detailTransaction?.rapport?.notation_description" pInputText />
+                  </div>
+              </div>
+            </fieldset>
+          </div> 
       </div>
     </div>
   </div>

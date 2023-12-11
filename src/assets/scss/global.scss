@@ -227,29 +227,7 @@ fieldset {
     margin-right: 0.5rem;
 }
 
-input[type="text"]:disabled {
-    background: #ccc !important;
-    font-weight: 800;
-    color: #000 !important;
-}
 
-input[type="number"]:disabled {
-    background: #ccc !important;
-    font-weight: 800;
-    color: #000 !important;
-}
-
-input[type="inputmask"]:disabled {
-    background: #ccc !important;
-    font-weight: 800;
-    color: #000 !important;
-}
-
-textarea[type="text"]:disabled {
-    background: #ccc !important;
-    font-weight: 800;
-    color: #000 !important;
-}
 
 .p-radiobutton-disabled {
     .p-radiobutton .p-radiobutton-box {

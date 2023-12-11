@@ -54,6 +54,31 @@
                   <input placeholder="Zone trafic" [(ngModel)]="selectedZone" type="text" pInputText />
                 </div>
               </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Site</b>
+                  </label>
+                  <p-dropdown [options]="listSites" optionLabel="libelle" [filter]="true" filterBy="libelle"
+                    [(ngModel)]="selectedSite" placeholder="site" optionValue="id">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.libelle}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>MSISDN</b>
+                  </label>
+                  <input [(ngModel)]="selectedSim" type="text" pInputText />
+                </div>
+              </div>
               <div class="col-md-1">
                 <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
                   [disabled]="isFilter()"></p-button>

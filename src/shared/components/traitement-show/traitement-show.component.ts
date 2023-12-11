@@ -316,8 +316,7 @@ export class TraitementShowComponent implements OnInit {
     this.volumeForm.get('volume_data_accepte').patchValue(this.detailTransaction?.rapport?.volume_data_accepte);
     this.volumeForm.get('volume_data_accepte_comment').patchValue(this.detailTransaction?.rapport?.volume_data_accepte_comment);
     this.volumeForm.get('msisdn').disable();
-    this.volumeForm.get('statut').disable();
-    this.volumeForm.get('beneficiaire').disable();
+    this.volumeForm.get('statut_contrat').disable();
   }
   get sourceStock() {
     return this.volumeForm.get('bac_a_pioche').value;
@@ -638,7 +637,7 @@ export class TraitementShowComponent implements OnInit {
             next: (response) => {
               const data = response['data']              
               this.swapForm.get('msisdn').patchValue(data?.msisdn);
-              this.swapForm.get('statut').patchValue(data?.statut);
+              this.swapForm.get('statut_contrat').patchValue(data?.statut_contrat);
               this.swapForm.get('point_emplacement').patchValue(data?.point_emplacement);
               this.toastrService.success(response.message);
               this.OnUpdateTransaction();

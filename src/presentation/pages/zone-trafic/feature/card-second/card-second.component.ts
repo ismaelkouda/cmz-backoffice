@@ -277,7 +277,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
      const mineureControl = mineurLayerGroup.addLayer(mineurLayer);
      const majeureControl = majeurLayerGroup.addLayer(majeurLayer);
      const critiqueControl = critiqueLayerGroup.addLayer(critiqueLayer);
-
+     
       var baseMaps = {
         'OpenStreetMap': this.OpenStreetMap.addTo(this.map),
         'Satellite': this.satelite

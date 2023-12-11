@@ -170,6 +170,33 @@ export class SuivieTraitementComponent implements OnInit {
     this.filterDateStart = null;
     this.filterDateEnd = null;
   }
+
+  public OnChangeStatut(event){
+    const currentStatut = event.value
+    if (currentStatut === StatutTransaction.SOUMIS) {
+      this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
+      this.listTraitementTransactions = [
+        TraitementTransaction.EN_ENTENTE,
+        TraitementTransaction.ACQUITER
+      ]
+    }else if (currentStatut === StatutTransaction.TARITER) {
+      this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
+      this.listTraitementTransactions = [
+        TraitementTransaction.ACCEPTER,
+        TraitementTransaction.REJETER
+      ]
+    }else if (currentStatut === StatutTransaction.CLOTURER) {
+      this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
+      this.listTraitementTransactions = [
+        TraitementTransaction.REFUSER,
+        TraitementTransaction.ACCEPTER
+      ]
+    }else{
+      Object.values(TraitementTransaction).forEach(item => {
+        this.listTraitementTransactions.push(item);
+      });
+    }
+  }
   public GetFirstLevel() {
     this.settingService
       .getAllDirectionRegionales({})
