@@ -79,7 +79,7 @@
                     </td>
                     <td class="text-center">
                       <button pButton pRipple [pTooltip]="data?.deploy === true ? 'Deployer': ''" icon="pi pi-bolt"
-                        tooltipPosition="top" label="Deplyer"
+                        tooltipPosition="top" label="Deployer"
                         [class]="data?.deploy === false ? 'p-button-outlined': ''+ 'p-button-help'"
                         (click)="OnDeploy(data)" [disabled]="data?.deploy === false"></button>
                     </td>
