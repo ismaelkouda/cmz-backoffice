@@ -68,19 +68,17 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
   public firstLevelLibelle: string;
   public secondLevelLibelle: string;
   public thirdLevelLibelle: string;
-   GeoJsonNormale: any;
-  public GeoJsonMineure: any;
-  public GeoJsonMajeure: any;
-  public GeoJsonCritique: any;
-  public markerAlarmeMineure: any = [];
-  public markerAlarmeMajeure: any = [];
-  public markerAlarmeCritique: any = [];
   traficLayer: any;
   listEvents = [];
   lastTraficEvent: any;
   currentTraficLayer: any
   public handleIntervalle: any;
-  public isAlarmeNormal: boolean = true;
+
+
+   isNormalLayer: boolean = true;
+   isMineureLayer: boolean = true;
+   isMajeureLayer: boolean = true;
+   isCritiqueLayer: boolean = true;
 
   constructor(
     config: NgbAccordionConfig,
@@ -187,31 +185,44 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
    var critiqueLayer;
    var markerAlarmeNormal = []
    var markerAlarmeMineure = []
+   var markerAlarmeMajeure = []
+   var markerAlarmeCritique = []
+
    var layerControl = null;
+
+   myLayerGroup.addLayer(geoJsonSim)
+   myLayerGroup.addLayer(geoJsonSite)
+   myLayerGroup.addLayer(geojsonRessort)
     
    this.handleIntervalle = setInterval(() => {
-    this.GetPositionSimTracking(markerAlarmeNormal, markerAlarmeMineure,this.markerAlarmeMajeure,this.markerAlarmeCritique);      
-        normalLayer = L.geoJSON(markerAlarmeNormal, {
-          pointToLayer: function (feature, latlng) {    
-            return L.marker(latlng, {
-              icon: L.icon({
-                iconUrl: '../../../../../assets/svg/sim_loc_vert.svg',
-                iconSize: [50, 50],
-              })
-            }).bindPopup(
-              "<div>" + "" +
-              "<strong>Numero SIM :</strong>" + "<span>" + feature.properties.msisdn + "</span>" + "<br>" +
-              "<strong>" + firstLevelLibelle + " :</strong>" + "<span>" + feature.properties?.direction_regionale?.nom + "</span>" + "<br>" +
-              "<strong>" + secondLevelLibelle + " :</strong>" + "<span>" + feature.properties?.exploitation?.nom + "</span>" + "<br>" +
-              "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.zone?.nom + "</span>" + "<br>" +
-              "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + feature.properties?.nom_prenoms + "</span>" + "<br>" +
-              "</div>",
-            ).openPopup();
-          },
-        })
+    this.GetPositionSimTracking(markerAlarmeNormal, markerAlarmeMineure,markerAlarmeMajeure,markerAlarmeCritique);  
+    
+    // Alarme Normal
+    normalLayer =  L.geoJSON(markerAlarmeNormal, {
+      pointToLayer: function (feature, latlng) {    
+        return L.marker(latlng, {
+          icon: L.icon({
+            iconUrl: '../../../../../assets/svg/sim_loc_vert.svg',
+            iconSize: [50, 50],
+          })
+        }).bindPopup(
+          "<div>" + "" +
+          "<strong>Numero SIM :</strong>" + "<span>" + feature.properties?.msisdn + "</span>" + "<br>" +
+          "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_un?.nom + "</span>" + "<br>" +
+          "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_deux?.nom + "</span>" + "<br>" +
+          "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.sim?.niveau_trois?.nom + "</span>" + "<br>" +
+          "<strong>" + "Statut :" + "</strong>" + "<span>" + feature.properties?.sim?.statut + "</span>" + "<br>" +
+          "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature.properties?.sim?.point_emplacement + "</span>" + "<br>" +
+          "<strong>" + "Site :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
+          "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
+          "<strong>" + "Solde Data (Kb) :" + "</strong>" + "<span>" +feature.properties?.long_site+ ", "+ feature.properties?.lat_site+"</span>" + "<br>" +
+          "</div>",
+        ).openPopup();
+      },
+    })
       
-      // Alarme Mineure
-      mineurLayer = L.geoJSON(this.markerAlarmeMineure, {
+    //Alarme Mineure
+      mineurLayer = L.geoJSON(markerAlarmeMineure, {
         pointToLayer: function (feature, latlng) {
           return L.marker(latlng, {
             icon: L.icon({
@@ -220,18 +231,22 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
             })
           }).bindPopup(
             "<div>" + "" +
-            "<strong>Numero SIM :</strong>" + "<span>" + feature.properties.msisdn + "</span>" + "<br>" +
-            "<strong>" + firstLevelLibelle + " :</strong>" + "<span>" + feature.properties?.direction_regionale?.nom + "</span>" + "<br>" +
-            "<strong>" + secondLevelLibelle + " :</strong>" + "<span>" + feature.properties?.exploitation?.nom + "</span>" + "<br>" +
-            "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.zone?.nom + "</span>" + "<br>" +
-            "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + feature.properties?.nom_prenoms + "</span>" + "<br>" +
+            "<strong>Numero SIM :</strong>" + "<span>" + feature.properties?.msisdn + "</span>" + "<br>" +
+            "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_un?.nom + "</span>" + "<br>" +
+            "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_deux?.nom + "</span>" + "<br>" +
+            "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.sim?.niveau_trois?.nom + "</span>" + "<br>" +
+            "<strong>" + "Statut :" + "</strong>" + "<span>" + feature.properties?.sim?.statut + "</span>" + "<br>" +
+            "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature.properties?.sim?.point_emplacement + "</span>" + "<br>" +
+            "<strong>" + "Site :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
+            "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
+            "<strong>" + "Solde Data (Kb) :" + "</strong>" + "<span>" +feature.properties?.long_site+ ", "+ feature.properties?.lat_site+"</span>" + "<br>" +
             "</div>",
-          ).openPopup();;
+          ).openPopup();
         },
       });
 
-      //Alarme Majeure
-       majeurLayer =  L.geoJSON(this.markerAlarmeMajeure, {
+    //Alarme Majeure
+       majeurLayer =  L.geoJSON(markerAlarmeMajeure, {
           pointToLayer: function (feature, latlng) {
             return L.marker(latlng, {
               icon: L.icon({
@@ -240,17 +255,22 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
               })
             }).bindPopup(
               "<div>" + "" +
-              "<strong>Numero SIM :</strong>" + "<span>" + feature.properties.msisdn + "</span>" + "<br>" +
-              "<strong>" + firstLevelLibelle + " :</strong>" + "<span>" + feature.properties?.direction_regionale?.nom + "</span>" + "<br>" +
-              "<strong>" + secondLevelLibelle + " :</strong>" + "<span>" + feature.properties?.exploitation?.nom + "</span>" + "<br>" +
-              "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.zone?.nom + "</span>" + "<br>" +
-              "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + feature.properties?.nom_prenoms + "</span>" + "<br>" +
+              "<strong>Numero SIM :</strong>" + "<span>" + feature.properties?.msisdn + "</span>" + "<br>" +
+              "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_un?.nom + "</span>" + "<br>" +
+              "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_deux?.nom + "</span>" + "<br>" +
+              "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.sim?.niveau_trois?.nom + "</span>" + "<br>" +
+              "<strong>" + "Statut :" + "</strong>" + "<span>" + feature.properties?.sim?.statut + "</span>" + "<br>" +
+              "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature.properties?.sim?.point_emplacement + "</span>" + "<br>" +
+              "<strong>" + "Site :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
+              "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
+              "<strong>" + "Solde Data (Kb) :" + "</strong>" + "<span>" +feature.properties?.long_site+ ", "+ feature.properties?.lat_site+"</span>" + "<br>" +
               "</div>",
-            ).openPopup();;
+            ).openPopup();
           },
       });
+      
      //Alarme Critique
-     critiqueLayer = L.geoJSON(this.markerAlarmeCritique, {
+     critiqueLayer = L.geoJSON(markerAlarmeCritique, {
       pointToLayer: function (feature, latlng) {
         return L.marker(latlng, {
           icon: L.icon({
@@ -259,29 +279,30 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           })
         }).bindPopup(
           "<div>" + "" +
-          "<strong>Numero SIM :</strong>" + "<span>" + feature.properties.msisdn + "</span>" + "<br>" +
-          "<strong>" + firstLevelLibelle + " :</strong>" + "<span>" + feature.properties?.direction_regionale?.nom + "</span>" + "<br>" +
-          "<strong>" + secondLevelLibelle + " :</strong>" + "<span>" + feature.properties?.exploitation?.nom + "</span>" + "<br>" +
-          "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.zone?.nom + "</span>" + "<br>" +
-          "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + feature.properties?.nom_prenoms + "</span>" + "<br>" +
+          "<strong>Numero SIM :</strong>" + "<span>" + feature.properties?.msisdn + "</span>" + "<br>" +
+          "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_un?.nom + "</span>" + "<br>" +
+          "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_deux?.nom + "</span>" + "<br>" +
+          "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.sim?.niveau_trois?.nom + "</span>" + "<br>" +
+          "<strong>" + "Statut :" + "</strong>" + "<span>" + feature.properties?.sim?.statut + "</span>" + "<br>" +
+          "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature.properties?.sim?.point_emplacement + "</span>" + "<br>" +
+          "<strong>" + "Site :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
+          "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
+          "<strong>" + "Solde Data (Kb) :" + "</strong>" + "<span>" +feature.properties?.long_site+ ", "+ feature.properties?.lat_site+"</span>" + "<br>" +
           "</div>",
         ).openPopup();;
       },
       });
 
-     myLayerGroup.addLayer(geoJsonSim)
-     myLayerGroup.addLayer(geoJsonSite)
-     myLayerGroup.addLayer(geojsonRessort)
-
      const normalControl = normalLayerGroup.addLayer(normalLayer);
      const mineureControl = mineurLayerGroup.addLayer(mineurLayer);
      const majeureControl = majeurLayerGroup.addLayer(majeurLayer);
      const critiqueControl = critiqueLayerGroup.addLayer(critiqueLayer);
-     
+
       var baseMaps = {
         'OpenStreetMap': this.OpenStreetMap.addTo(this.map),
         'Satellite': this.satelite
       }
+      
       var layerGeoJson = {
          "<span style='font-weight:bold'>SITE - OCI</span>": geoJsonSite,
          "<span style='font-weight:bold'>EMPLACEMENT</span>": geoJsonSim,
@@ -294,18 +315,43 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
       if (layerControl !== null) {
          layerControl.remove()
       }
+
       layerControl =  L.control.layers(baseMaps, layerGeoJson, {
         collapsed: false,
       }).addTo(this.map);
+      
+      // Add the layers control to the map
+      layerControl.addTo(this.map);
       myLayerGroup.addTo(this.map)
-      normalLayerGroup.addTo(this.map)
-      mineurLayerGroup.addTo(this.map)
-      majeurLayerGroup.addTo(this.map)
-      critiqueLayerGroup.addTo(this.map)
+      // normalLayerGroup.addTo(this.map)
+      if (this.isNormalLayer) {
+         normalLayerGroup.addTo(this.map)
+      }
+      if (this.isMineureLayer) {
+        mineurLayerGroup.addTo(this.map)
+      }
+      if (this.isMajeureLayer) {
+        majeurLayerGroup.addTo(this.map)
+      }
+      if (this.isMajeureLayer) {
+        critiqueLayerGroup.addTo(this.map)
+      }
+      this.map.on('overlayremove', (eventLayer) => {
+        if (eventLayer.name === "<span style='font-weight:bold;' ><b>Alarme Normale</b></span><span><img src='assets/svg/sim_loc_vert.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>") {
+           this.isNormalLayer = false;           
+        }
+        if (eventLayer.name === "<span style='font-weight:bold;' ><b>Alarme Mineure</b></span><span><img src='assets/svg/sim_loc_jaune.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>") {
+          this.isMineureLayer = false;           
+        }
+        if (eventLayer.name === "<span style='font-weight:bold;' ><b>Alarme Majeure</b></span><span><img src='assets/svg/sim_loc_orange.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>") {
+          this.isMajeureLayer = false;           
+        }
+        if (eventLayer.name === "<span style='font-weight:bold;' ><b>Alarme Critique</b></span><span><img src='assets/svg/sim_loc_rouge.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>") {
+          this.isCritiqueLayer = false;           
+        }
 
+      });
     }, 5000);    
-
-    
   }
    GetPositionSimTracking(normalLayer: any = [],mineurLayer: any = [],majeurLayer: any = [],critiqueLayer: any = []) {
     this.zoneTraficService
@@ -329,7 +375,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
                 return null
               }
             }
-          }).addTo(this.map);
+          });
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -341,9 +387,6 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
       clearInterval(this.handleIntervalle)
   }
 
-  setAlarmeNormal(){
-    return !this.isAlarmeNormal
-  }
 
 
 }
