@@ -23,17 +23,20 @@ export class HeaderComponent implements OnInit {
   public profil: any;
   public logoTenant: string;
   public minioUrl: string;
-
+  public appName: string;
+  
   constructor(
     public layout: LayoutService,
     public navServices: NavService,
     @Inject(DOCUMENT) private document: any,
     private storage: EncodingDataService,
-    private mappingService: MappingService
+    private mappingService: MappingService,
+    
   ) {
     this.statutLayout();
     this.headerTitle = appConfig?.titlePage;
-    this.minioUrl = this.mappingService.minioUrl;    
+    this.minioUrl = this.mappingService.minioUrl;  
+    this.appName = this.mappingService.appName;  
   }
 
   ngOnInit() {

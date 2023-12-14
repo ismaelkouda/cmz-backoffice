@@ -1,3 +1,4 @@
+import { ApplicationType } from './../../../../../shared/enum/ApplicationType.enum';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SettingService } from 'src/shared/services/setting.service';
@@ -43,6 +44,8 @@ export class PatrimoineFormsComponent implements OnInit {
   public secondLevelLibelle: string;
   public thirdLevelLibelle: string;
   public minioUrl: string;
+  public applicationType: string;
+  public patrimoineType: string;
 
   constructor(
     private fb: FormBuilder,
@@ -54,7 +57,9 @@ export class PatrimoineFormsComponent implements OnInit {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
-    this.minioUrl = this.mappingService.minioUrl
+    this.minioUrl = this.mappingService.minioUrl;
+    this.applicationType = this.mappingService.applicationType;
+    this.patrimoineType = ApplicationType.PATRIMOINESIM;
   }
 
   ngOnInit() {

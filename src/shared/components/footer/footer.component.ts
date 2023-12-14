@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
   selector: 'app-footer',
@@ -8,8 +9,14 @@ import { Component, OnInit } from '@angular/core';
 export class FooterComponent implements OnInit {
   
   public today: number = Date.now();
+  public appName: string;
 
-  constructor() { }
+  constructor(
+    private mappingService: MappingService
+  ) {
+
+    this.appName = this.mappingService.appName;
+  }
 
   ngOnInit(): void {
   }

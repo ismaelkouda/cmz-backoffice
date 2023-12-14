@@ -39,7 +39,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
   parcelleData: any;
   map: any;
   OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'PATRIMOINE SIM-MAP',
+    attribution: 'SIM MONITORING-MAP',
     detectRetina: false,
     maxNativeZoom: 19,
     maxZoom: 23,
@@ -53,7 +53,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
     maxZoom: 23,
     minZoom: 10,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-    attribution: 'PATRIMOINE SIM-MAP',
+    attribution: 'SIM MONITORING-MAP',
   })
   layerParcelleRessort: any;
   layer: any;
@@ -147,11 +147,15 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
       onEachFeature: function (feature, layer) {
         layer.bindPopup(
           "<div>" + "" +
-          "<strong>Numero SIM :</strong>" + "<span>" + feature.properties?.msisdn + "</span>" + "<br>" +
-          "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature.properties?.Niveau_1 + "</span>" + "<br>" +
-          "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature.properties?.Niveau_2 + "</span>" + "<br>" +
-          "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.zone?.nom + "</span>" + "<br>" +
-          "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + feature.properties?.nom_prenoms + "</span>" + "<br>" +
+          "<strong>Numero SIM :</strong>" + "<span>" + feature?.properties?.msisdn + "</span>" + "<br>" +
+          "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature?.properties?.niveau_un?.nom + "</span>" + "<br>" +
+          "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature?.properties?.niveau_deux?.nom + "</span>" + "<br>" +
+          "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature?.properties?.niveau_trois?.nom + "</span>" + "<br>" +
+          "<strong>" + "Statut :" + "</strong>" + "<span>" + feature?.properties?.statut + "</span>" + "<br>" +
+          "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.point_emplacement + "</span>" + "<br>" +
+          "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
+          "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.longitude+ ", "+ feature?.properties?.latitude+"</span>" + "<br>" +
+          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + feature?.properties?.solde_actuel_go + "</span>"+
           "</div>",
         ).openPopup();
       }
@@ -207,15 +211,15 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           })
         }).bindPopup(
           "<div>" + "" +
-          "<strong>Numero SIM :</strong>" + "<span>" + feature.properties?.msisdn + "</span>" + "<br>" +
-          "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_un?.nom + "</span>" + "<br>" +
-          "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_deux?.nom + "</span>" + "<br>" +
-          "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.sim?.niveau_trois?.nom + "</span>" + "<br>" +
-          "<strong>" + "Statut :" + "</strong>" + "<span>" + feature.properties?.sim?.statut + "</span>" + "<br>" +
-          "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature.properties?.sim?.point_emplacement + "</span>" + "<br>" +
-          "<strong>" + "Site :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
-          "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
-          "<strong>" + "Solde Data (Kb) :" + "</strong>" + "<span>" +feature.properties?.long_site+ ", "+ feature.properties?.lat_site+"</span>" + "<br>" +
+          "<strong>Numero SIM :</strong>" + "<span>" + feature?.properties?.msisdn + "</span>" + "<br>" +
+          "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature?.properties?.sim?.niveau_un?.nom + "</span>" + "<br>" +
+          "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature?.properties?.sim?.niveau_deux?.nom + "</span>" + "<br>" +
+          "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature?.properties?.sim?.niveau_trois?.nom + "</span>" + "<br>" +
+          "<strong>" + "Statut :" + "</strong>" + "<span>" + feature?.properties?.sim?.statut + "</span>" + "<br>" +
+          "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.sim?.point_emplacement + "</span>" + "<br>" +
+          "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
+          "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.long_site+ ", "+ feature?.properties?.lat_site+"</span>" + "<br>" +
+          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + feature?.properties?.solde_actuel_go + "</span>"+
           "</div>",
         ).openPopup();
       },
@@ -231,15 +235,15 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
             })
           }).bindPopup(
             "<div>" + "" +
-            "<strong>Numero SIM :</strong>" + "<span>" + feature.properties?.msisdn + "</span>" + "<br>" +
-            "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_un?.nom + "</span>" + "<br>" +
-            "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_deux?.nom + "</span>" + "<br>" +
-            "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.sim?.niveau_trois?.nom + "</span>" + "<br>" +
-            "<strong>" + "Statut :" + "</strong>" + "<span>" + feature.properties?.sim?.statut + "</span>" + "<br>" +
-            "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature.properties?.sim?.point_emplacement + "</span>" + "<br>" +
-            "<strong>" + "Site :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
-            "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
-            "<strong>" + "Solde Data (Kb) :" + "</strong>" + "<span>" +feature.properties?.long_site+ ", "+ feature.properties?.lat_site+"</span>" + "<br>" +
+            "<strong>Numero SIM :</strong>" + "<span>" + feature?.properties?.msisdn + "</span>" + "<br>" +
+            "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature?.properties?.sim?.niveau_un?.nom + "</span>" + "<br>" +
+            "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature?.properties?.sim?.niveau_deux?.nom + "</span>" + "<br>" +
+            "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature?.properties?.sim?.niveau_trois?.nom + "</span>" + "<br>" +
+            "<strong>" + "Statut :" + "</strong>" + "<span>" + feature?.properties?.sim?.statut + "</span>" + "<br>" +
+            "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.sim?.point_emplacement + "</span>" + "<br>" +
+            "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
+            "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.long_site+ ", "+ feature?.properties?.lat_site+"</span>" + "<br>" +
+            "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + feature?.properties?.solde_actuel_go + "</span>"+
             "</div>",
           ).openPopup();
         },
@@ -255,15 +259,15 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
               })
             }).bindPopup(
               "<div>" + "" +
-              "<strong>Numero SIM :</strong>" + "<span>" + feature.properties?.msisdn + "</span>" + "<br>" +
-              "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_un?.nom + "</span>" + "<br>" +
-              "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_deux?.nom + "</span>" + "<br>" +
-              "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.sim?.niveau_trois?.nom + "</span>" + "<br>" +
-              "<strong>" + "Statut :" + "</strong>" + "<span>" + feature.properties?.sim?.statut + "</span>" + "<br>" +
-              "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature.properties?.sim?.point_emplacement + "</span>" + "<br>" +
-              "<strong>" + "Site :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
-              "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
-              "<strong>" + "Solde Data (Kb) :" + "</strong>" + "<span>" +feature.properties?.long_site+ ", "+ feature.properties?.lat_site+"</span>" + "<br>" +
+              "<strong>Numero SIM :</strong>" + "<span>" + feature?.properties?.msisdn + "</span>" + "<br>" +
+              "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature?.properties?.sim?.niveau_un?.nom + "</span>" + "<br>" +
+              "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature?.properties?.sim?.niveau_deux?.nom + "</span>" + "<br>" +
+              "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature?.properties?.sim?.niveau_trois?.nom + "</span>" + "<br>" +
+              "<strong>" + "Statut :" + "</strong>" + "<span>" + feature?.properties?.sim?.statut + "</span>" + "<br>" +
+              "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.sim?.point_emplacement + "</span>" + "<br>" +
+              "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
+              "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.long_site+ ", "+ feature?.properties?.lat_site+"</span>" + "<br>" +
+              "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + feature?.properties?.solde_actuel_go + "</span>"+
               "</div>",
             ).openPopup();
           },
@@ -279,15 +283,15 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           })
         }).bindPopup(
           "<div>" + "" +
-          "<strong>Numero SIM :</strong>" + "<span>" + feature.properties?.msisdn + "</span>" + "<br>" +
-          "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_un?.nom + "</span>" + "<br>" +
-          "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature.properties?.sim?.niveau_deux?.nom + "</span>" + "<br>" +
-          "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature.properties?.sim?.niveau_trois?.nom + "</span>" + "<br>" +
-          "<strong>" + "Statut :" + "</strong>" + "<span>" + feature.properties?.sim?.statut + "</span>" + "<br>" +
-          "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature.properties?.sim?.point_emplacement + "</span>" + "<br>" +
-          "<strong>" + "Site :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
-          "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" + feature.properties?.site + "</span>" + "<br>" +
-          "<strong>" + "Solde Data (Kb) :" + "</strong>" + "<span>" +feature.properties?.long_site+ ", "+ feature.properties?.lat_site+"</span>" + "<br>" +
+          "<strong>Numero SIM :</strong>" + "<span>" + feature?.properties?.msisdn + "</span>" + "<br>" +
+          "<strong>" + firstLevelLibelle + ":</strong>" + "<span>" + feature?.properties?.sim?.niveau_un?.nom + "</span>" + "<br>" +
+          "<strong>" + secondLevelLibelle + ":</strong>" + "<span>" + feature?.properties?.sim?.niveau_deux?.nom + "</span>" + "<br>" +
+          "<strong>" + thirdLevelLibelle + " :</strong>" + "<span>" + feature?.properties?.sim?.niveau_trois?.nom + "</span>" + "<br>" +
+          "<strong>" + "Statut :" + "</strong>" + "<span>" + feature?.properties?.sim?.statut + "</span>" + "<br>" +
+          "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.sim?.point_emplacement + "</span>" + "<br>" +
+          "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
+          "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.long_site+ ", "+ feature?.properties?.lat_site+"</span>" + "<br>" +
+          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + feature?.properties?.solde_actuel_go + "</span>"+
           "</div>",
         ).openPopup();;
       },
@@ -298,60 +302,62 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
      const majeureControl = majeurLayerGroup.addLayer(majeurLayer);
      const critiqueControl = critiqueLayerGroup.addLayer(critiqueLayer);
 
-      var baseMaps = {
-        'OpenStreetMap': this.OpenStreetMap.addTo(this.map),
-        'Satellite': this.satelite
-      }
-      
-      var layerGeoJson = {
-         "<span style='font-weight:bold'>SITE - OCI</span>": geoJsonSite,
-         "<span style='font-weight:bold'>EMPLACEMENT</span>": geoJsonSim,
-         "<span style='font-weight:bold'>RESSORT</span>": geojsonRessort,
-         "<span style='font-weight:bold;' ><b>Alarme Normale</b></span><span><img src='assets/svg/sim_loc_vert.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": normalControl,
-         "<span style='font-weight:bold;' ><b>Alarme Mineure</b></span><span><img src='assets/svg/sim_loc_jaune.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": mineureControl,
-        "<span style='font-weight:bold;' ><b>Alarme Majeure</b></span><span><img src='assets/svg/sim_loc_orange.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": majeureControl,
-        "<span style='font-weight:bold;' ><b>Alarme Critique</b></span><span><img src='assets/svg/sim_loc_rouge.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": critiqueControl
-      }
-      if (layerControl !== null) {
-         layerControl.remove()
-      }
 
-      layerControl =  L.control.layers(baseMaps, layerGeoJson, {
-        collapsed: false,
-      }).addTo(this.map);
-      
-      // Add the layers control to the map
-      layerControl.addTo(this.map);
-      myLayerGroup.addTo(this.map)
-      // normalLayerGroup.addTo(this.map)
-      if (this.isNormalLayer) {
-         normalLayerGroup.addTo(this.map)
-      }
-      if (this.isMineureLayer) {
-        mineurLayerGroup.addTo(this.map)
-      }
-      if (this.isMajeureLayer) {
-        majeurLayerGroup.addTo(this.map)
-      }
-      if (this.isMajeureLayer) {
-        critiqueLayerGroup.addTo(this.map)
-      }
-      this.map.on('overlayremove', (eventLayer) => {
-        if (eventLayer.name === "<span style='font-weight:bold;' ><b>Alarme Normale</b></span><span><img src='assets/svg/sim_loc_vert.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>") {
-           this.isNormalLayer = false;           
-        }
-        if (eventLayer.name === "<span style='font-weight:bold;' ><b>Alarme Mineure</b></span><span><img src='assets/svg/sim_loc_jaune.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>") {
-          this.isMineureLayer = false;           
-        }
-        if (eventLayer.name === "<span style='font-weight:bold;' ><b>Alarme Majeure</b></span><span><img src='assets/svg/sim_loc_orange.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>") {
-          this.isMajeureLayer = false;           
-        }
-        if (eventLayer.name === "<span style='font-weight:bold;' ><b>Alarme Critique</b></span><span><img src='assets/svg/sim_loc_rouge.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>") {
-          this.isCritiqueLayer = false;           
-        }
-
-      });
     }, 5000);    
+    
+    var baseMaps = {
+      'OpenStreetMap': this.OpenStreetMap.addTo(this.map),
+      'Satellite': this.satelite
+    }
+    
+    var layerGeoJson = {
+       "<span style='font-weight:bold'>SITES - OCI</span>": geoJsonSite,
+       "<span style='font-weight:bold'>EMPLACEMENTS</span>": geoJsonSim,
+       "<span style='font-weight:bold'>RESSORTS</span>": geojsonRessort,
+       "<span style='font-weight:bold;' ><b>SIM état Normale</b></span><span><img src='assets/svg/sim_loc_vert.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": normalLayerGroup,
+       "<span style='font-weight:bold;' ><b>Alarmes Mineures</b></span><span><img src='assets/svg/sim_loc_jaune.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": mineurLayerGroup,
+      "<span style='font-weight:bold;' ><b>Alarmes Majeures</b></span><span><img src='assets/svg/sim_loc_orange.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": majeurLayerGroup,
+      "<span style='font-weight:bold;' ><b>Alarmes Critiques</b></span><span><img src='assets/svg/sim_loc_rouge.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": critiqueLayerGroup
+    }
+
+    if (layerControl !== null) {
+      layerControl.remove()
+   }
+    layerControl =  L.control.layers(baseMaps, layerGeoJson, {
+      collapsed: false,
+    }).addTo(this.map);
+    
+    // Add the layers control to the map
+    layerControl.addTo(this.map);
+    myLayerGroup.addTo(this.map)
+    // normalLayerGroup.addTo(this.map)
+    if (this.isNormalLayer) {
+       normalLayerGroup.addTo(this.map)
+    }
+    if (this.isMineureLayer) {
+      mineurLayerGroup.addTo(this.map)
+    }
+    if (this.isMajeureLayer) {
+      majeurLayerGroup.addTo(this.map)
+    }
+    if (this.isCritiqueLayer) {
+      critiqueLayerGroup.addTo(this.map)
+    }
+    this.map.on('overlayremove', (eventLayer) => {
+      if (eventLayer.name === "<span style='font-weight:bold;' ><b>SIM état Normale</b></span><span><img src='assets/svg/sim_loc_vert.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>") {
+         this.isNormalLayer = false;           
+      }
+      else if (eventLayer.name === "<span style='font-weight:bold;' ><b>Alarmes Mineures</b></span><span><img src='assets/svg/sim_loc_jaune.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>") {
+        this.isMineureLayer = false;           
+      }
+      else if (eventLayer.name === "<span style='font-weight:bold;' ><b>Alarmes Majeures</b></span><span><img src='assets/svg/sim_loc_orange.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>") {
+        this.isMajeureLayer = false;           
+      }
+      else if (eventLayer.name === "<span style='font-weight:bold;' ><b>Alarmes Critiques</b></span><span><img src='assets/svg/sim_loc_rouge.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>") {
+        this.isCritiqueLayer = false;           
+      }
+
+    });
   }
    GetPositionSimTracking(normalLayer: any = [],mineurLayer: any = [],majeurLayer: any = [],critiqueLayer: any = []) {
     this.zoneTraficService

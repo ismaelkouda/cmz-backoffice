@@ -99,8 +99,8 @@
           <tr
             *ngFor="let data of listAffectations | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
             <td>{{ (this.offset + i)}}</td>
-            <td>{{data.direction_regionale}}</td>
-            <td>{{data.exploitation}}</td>
+            <td>{{data.niveau_un}}</td>
+            <td>{{data.niveau_deux}}</td>
             <td>{{data.msisdn}}</td>
             <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
             <td>

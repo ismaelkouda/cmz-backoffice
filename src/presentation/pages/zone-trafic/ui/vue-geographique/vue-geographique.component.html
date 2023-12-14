@@ -15,14 +15,14 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Département</b>
+                    <b>{{firstLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listDepartements" optionLabel="libelle" [filter]="true" filterBy="libelle"
-                    (onChange)="onChangeItem($event)" [(ngModel)]="selectedDepartement" [showClear]="true" placeholder="Département">
+                  <p-dropdown [options]="listDepartements" optionLabel="fullName" [filter]="true" filterBy="fullName"
+                    (onChange)="onChangeFirstLvel($event)" [(ngModel)]="selectedDepartement" [showClear]="true" placeholder="Département">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
-                          {{data.libelle}}
+                          {{data.fullName}}
                         </div>
                       </div>
                     </ng-template>
@@ -32,14 +32,31 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Commune</b>
+                    <b>{{secondLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listCommunes" optionLabel="libelle" [filter]="true" filterBy="libelle"
-                    [(ngModel)]="selectedCommune" optionValue="id">
+                  <p-dropdown [options]="listCommunes" optionLabel="fullName" [filter]="true" filterBy="fullName" (onChange)="onChangeSecondLevel($event)"
+                    [(ngModel)]="selectedCommune">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
-                          {{data.libelle}}
+                          {{data.fullName}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Site</b>
+                  </label>
+                  <p-dropdown [options]="listSites" optionLabel="fullName" [filter]="true" filterBy="fullName"
+                    [(ngModel)]="selectedSite" optionValue="id">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.fullName}}
                         </div>
                       </div>
                     </ng-template>
@@ -52,23 +69,6 @@
                     <b>Zone de trafic</b>
                   </label>
                   <input placeholder="Zone trafic" [(ngModel)]="selectedZone" type="text" pInputText />
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>
-                    <b>Site</b>
-                  </label>
-                  <p-dropdown [options]="listSites" optionLabel="libelle" [filter]="true" filterBy="libelle"
-                    [(ngModel)]="selectedSite" placeholder="site" optionValue="id">
-                    <ng-template let-data pTemplate="item">
-                      <div class="country-item">
-                        <div>
-                          {{data.libelle}}
-                        </div>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
                 </div>
               </div>
               <div class="col-md-2">

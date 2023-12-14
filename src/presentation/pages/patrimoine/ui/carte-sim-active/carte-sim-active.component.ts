@@ -15,6 +15,7 @@ import { QrModalComponent } from 'src/shared/components/qr-modal/qr-modal.compon
 import { PATRIMOINE } from 'src/shared/routes/routes';
 import { DOTATION_SERVICES, TRANSACTION_SIM } from '../../patrimoine-routing.module';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 const Swal = require('sweetalert2');
 
 
@@ -40,8 +41,9 @@ export class CarteSimActiveComponent implements OnInit {
   public p: number = 1;
   public isMaximized: boolean = false;
   public currentComposant: any;
-  public listDirections: Array<any> = [];
-  public listExploitations: Array<any> = [];
+  public listFirstLeveDatas: Array<any> = [];
+  public listSecondLevelDatas: Array<any> = [];
+  public listThirdLevelDatas: Array<any> = [];
   public listUsages: Array<any> = [];
   public selectedDirection: any;
   public selectedExploitation: any;
@@ -53,13 +55,6 @@ export class CarteSimActiveComponent implements OnInit {
   public currentData: any;
   public listStatus: Array<any> = [];
   public selectedDescription: string;
-
-  //SEMLEX
-  public listActivites: Array<any> = [];
-  public listDepartements: Array<any> = [];
-  public listCommunes: Array<any> = [];
-  public selectedDepartement: any;
-  public selectedCommune: any;
 
   @ViewChild('parcelleMap') parcelleMap: ElementRef;
 
@@ -84,6 +79,8 @@ export class CarteSimActiveComponent implements OnInit {
  public firstLevelLibelle: string;
  public secondLevelLibelle: string;
  public thirdLevelLibelle: string;
+ public applicationType: string;
+ public patrimoineType: string;
  public swap: string = OperationTransaction.SWAP;
  public suspension: string = OperationTransaction.SUSPENSION;
  public resiliation: string = OperationTransaction.RESILIATION;
@@ -104,12 +101,14 @@ export class CarteSimActiveComponent implements OnInit {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+    this.applicationType = this.mappingService.applicationType;
+    this.patrimoineType = ApplicationType.PATRIMOINESIM;
   }
 
   ngOnInit() {
     this.GetAllPatrimoines();
-    this.getAllDirectionRegionales();
-    this.getAllZones();
+    this.GetAllFirstLevel();
+    this.GetAllThirdLevel();
     this.isFilter();
     this.disableAction();
     this.route.data.subscribe((data) => {
@@ -176,12 +175,13 @@ export class CarteSimActiveComponent implements OnInit {
     this.selectedZone = null;
     this.selectedStatut = null;
   }
-  public getAllDirectionRegionales() {
+
+  public GetAllFirstLevel() {
     this.settingService
       .getAllDirectionRegionales({})
       .subscribe({
         next: (response) => {
-          this.listDirections = response['data'].map(element => {
+          this.listFirstLeveDatas = response['data'].map(element => {
             return { ...element, fullName: `${element.nom} [${element.code}]` }
           });
         },
@@ -190,38 +190,19 @@ export class CarteSimActiveComponent implements OnInit {
         }
       })
   }
-  public GetAllDepartements() {
-    this.patrimoineService
-      .GetAllDepartements({})
-      .subscribe({
-        next: (response) => {
-          this.listDepartements = response['data'];
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
 
-  public getAllZones(): void {
+  onChangeFirstLvel(event: any) {
+    this.selectedDirection = event.value;
+    this.listSecondLevelDatas = this.selectedDirection?.niveaux_deux.map(element => {
+      return { ...element, fullName: `${element.nom} [${element.code}]` }
+    });
+  }
+  public GetAllThirdLevel() {
     this.settingService
       .getAllZones({})
       .subscribe({
         next: (response) => {
-          this.listActivites = response['data'];
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
-
-  public GetAllUsages() {
-    this.patrimoineService
-      .GetAllUsages({})
-      .subscribe({
-        next: (response) => {
-          this.listUsages = response['data']
+          this.listThirdLevelDatas = response['data']
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -256,12 +237,6 @@ export class CarteSimActiveComponent implements OnInit {
           this.toastrService.error(error.error.message);
         }
       })
-  }
-  public onChangeItem(event: any) {
-    this.selectedDirection = event.value;
-    this.listExploitations = this.selectedDirection?.niveaux_deux.map(element => {
-      return { ...element, fullName: `${element.nom} [${element.code}]` }
-    });
   }
   public onInitForm(): void {
     this.initialView = false;
@@ -320,9 +295,10 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>" + this.firstLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.direction_regionale?.nom + "</span>" + "<br>" +
         "<strong>" + this.secondLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.exploitation?.nom + "</span>" + "<br>" +
         "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.zone?.nom + "</span>" + "<br>" +
-        "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.nom_prenoms + "</span>" + "<br>" +
+        "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.point_emplacement + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
         "</div>",
+
       ).openPopup();
     marker.addTo(this.map);
     this.map.addLayer(osmLayer);

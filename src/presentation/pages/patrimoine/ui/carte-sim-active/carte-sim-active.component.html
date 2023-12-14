@@ -11,7 +11,7 @@
                   <label>
                     <b>{{firstLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listDirections" optionLabel="fullName" (onChange)="onChangeItem($event)"
+                  <p-dropdown [options]="listFirstLeveDatas" optionLabel="fullName" (onChange)="onChangeFirstLvel($event)"
                     [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
@@ -28,8 +28,8 @@
                   <label>
                     <b>{{secondLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listExploitations" optionLabel="fullName" optionLabel="nom" [filter]="true"
-                    [(ngModel)]="selectedExploitation" [showClear]="true" [placeholder]="secondLevelLibelle">
+                  <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" optionLabel="fullName" [filter]="true"
+                    [(ngModel)]="selectedExploitation">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -53,7 +53,7 @@
                   <label>
                     <b>{{thirdLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listActivites" [(ngModel)]="selectedUsage" optionLabel="nom" [showClear]="true"
+                  <p-dropdown [options]="listThirdLevelDatas" [(ngModel)]="selectedUsage" optionLabel="nom" [showClear]="true"
                     [placeholder]="thirdLevelLibelle" optionValue="id">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
@@ -141,7 +141,7 @@
                         [class]="data.qrcode?'p-button-help': 'p-button-help p-button-outlined'"></button>
                         <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"
                         (click)="onShowForm(data)"></button>
-                        <div ngbDropdown>
+                        <div ngbDropdown *ngIf="applicationType === patrimoineType">
                           <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Choisir</button>
                           <div ngbDropdownMenu>
                             <button ngbDropdownItem  (click)="onEditForm(data)">Edition</button>
@@ -152,6 +152,8 @@
                             <button ngbDropdownItem (click)="onDotationForm(data)">Dotation</button>
                           </div>
                         </div>
+                        <button pButton pRipple *ngIf="applicationType !== patrimoineType" icon="pi pi-pencil" class="p-button-secondary" pTooltip="Editer" tooltipPosition="top"
+                        (click)="onEditForm(data)"></button>
                     </td>
                   </tr>
                 </tbody>

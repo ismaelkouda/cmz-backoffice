@@ -1,4 +1,3 @@
-
 import { Component, Input } from "@angular/core";
 
 @Component({
@@ -14,6 +13,8 @@ export class StatBoxComponent {
   @Input() countColor: any;
   @Input() legend: string;
   @Input() count: any;
+  @Input() icon: any;
+
 
   constructor() { }
 

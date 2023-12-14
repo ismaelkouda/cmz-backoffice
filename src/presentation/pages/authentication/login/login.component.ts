@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
         this.storage.saveData('user', JSON.stringify(response.data));
         this.permissionsJson.map(module => {
           if (module?.children) {
-            module?.children.map(sous_module => {
+            module?.children.map((sous_module,index) => {
               if (module.data === "1-0-0-patrimoine" && response['data']['permissions'].includes(sous_module.data)) {
                 this.permissionsJson[0] = { ...module, statut: true }
               }

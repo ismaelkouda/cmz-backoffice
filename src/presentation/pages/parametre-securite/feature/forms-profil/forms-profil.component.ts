@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 const Swal = require('sweetalert2');
 
 
@@ -29,7 +30,7 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
   public selectedItemsDataDirectReg: any;
   public permissions: Array<any> = [];
   public newPermissions: any;
-  public newPermissionSlice: any;
+  public newPermissionSlice: any[] = [];
   public selectedNom: string;
   public selectedDescription: string;
   public currentACtion: any;
@@ -39,6 +40,7 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
   public  firstLevelLibelle: string;
   public secondLevelLibelle: string;
   public thirdLevelLibelle: string;
+  public applicationType: string;
 
   constructor(
     private parametreSecuriteService: ParametreSecuriteService,
@@ -52,6 +54,7 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
     this.newPermissions.slice(1)
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+    this.applicationType = this.mappingService.applicationType;
   }
 
   ngOnInit() {
@@ -59,8 +62,19 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
     if (!this.currentObject?.show) {
       this.GetAllThirdLevelHabilitation();
       this.GetAllFirstLevelHabilitation();
+    }    
+    if (this.applicationType === ApplicationType.PATRIMOINESIM) {      
+      this.newPermissionSlice = this.newPermissions;
+    }else if(this.applicationType === ApplicationType.MONITORING){
+     
+      this.newPermissions = this.newPermissions.filter(objet => objet.hasOwnProperty('pack'));
+      this.newPermissions.forEach(item => {
+        if (item?.children) {
+          item.children = item.children.filter(objet => objet.hasOwnProperty('pack'));
+        }
+      });
+     this.newPermissionSlice = this.newPermissions;
     }
-    this.newPermissionSlice = this.newPermissions;
     this.newPermissionSlice.map(module => {
       if (module.children) {
         module.children = module.children.map(sous_module => {

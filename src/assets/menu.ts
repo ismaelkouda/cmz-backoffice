@@ -8,7 +8,7 @@ import { SUPERSION_STATUTS, SUPERVISION_SUIVIE_TRAITEMENT } from 'src/presentati
 import { OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, REPORTING, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
 import { VUE_GEOGRAPHIQUE } from 'src/presentation/pages/zone-trafic/zone-trafic-routing.module';
 import { PROFILS_HABILITATIONS, UTILISATEURS } from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
-import { REPORTING_SOLDE } from 'src/presentation/pages/reporting/reporting-routing.module';
+import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 
 export var menuJson = [
     {
@@ -22,12 +22,14 @@ export var menuJson = [
         path: `/${PATRIMOINE}/${CARTES_SIM}`,
         routerLink: `/${PATRIMOINE}/${CARTES_SIM}`,
         type: "sub",
+        pack: ApplicationType.MONITORING,
         children: [
             {
                 path: `/${PATRIMOINE}/${CARTES_SIM}`,
                 title: "Cartes SIM",
                 label: "Cartes SIM",
                 data: "1-1-0-cartes-sim",
+                pack: ApplicationType.MONITORING,
                 type: "link"
             },
             {
@@ -35,6 +37,7 @@ export var menuJson = [
                 title: "Groupes de SIM",
                 label: "Groupes de SIM",
                 data: "1-2-0-groupe-sim",
+                pack: ApplicationType.MONITORING,
                 type: "link"
             },
             {
@@ -42,14 +45,14 @@ export var menuJson = [
                 title: "Dotations de Services",
                 label: "Dotations de Services",
                 data: "1-3-0-dotation-service",
-                type: "link"
+                type: "link",
             },
             {
                 path: `/${PATRIMOINE}/${TRANSACTION_SIM}`,
                 title: "Transactions sur SIM",
                 label: "Transactions sur SIM",
                 data: "1-4-0-transaction-sur-sim",
-                type: "link"
+                type: "link",
             }
         ]
     },
@@ -64,27 +67,31 @@ export var menuJson = [
         path: `/${REFERENTIEL_TELEMETRIE}/${SEUIL_ALARMES}`,
         routerLink: `/${REFERENTIEL_TELEMETRIE}/${SEUIL_ALARMES}`,
         type: "sub",
+        pack: ApplicationType.MONITORING,
         children: [
             {
                 path: `/${REFERENTIEL_TELEMETRIE}/${SEUIL_ALARMES}`,
                 title: "Indicateurs & Alarmes",
                 label: "Indicateurs & Alarmes",
                 data: "2-1-0-seuil-alarmes",
-                type: "link"
+                type: "link",
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${REFERENTIEL_TELEMETRIE}/${PROFIL_SUPERVISION}`,
                 title: "Profils de supervision",
                 label: "Profils de supervision",
                 data: "2-2-0-profil-supervision",
-                type: "link"
+                type: "link",
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${REFERENTIEL_TELEMETRIE}/${OBJECTIFS_SLA}`,
                 title: "Objectifs SLA",
                 label: "Objectifs SLA",
                 data: "2-2-0-profil-supervision",
-                type: "link"
+                type: "link",
+                pack: ApplicationType.MONITORING,
             },
         ]
     },
@@ -171,6 +178,7 @@ export var menuJson = [
         icon: "activity",
         url: "assets/images/portail/graph.png",
         type: "sub",
+        pack: ApplicationType.MONITORING,
         path: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
         routerLink: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
         children: [
@@ -179,60 +187,27 @@ export var menuJson = [
                 title: "Zones de Trafic",
                 label: "Zones- de Trafic",
                 data: "5-2-0-zone-trafic",
-                type: "link"
+                type: "link",
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${SUPERVISION_SIM}/${COURBE_MESSAGE}`,
                 title: "Analyse des Alarmes",
                 label: "Analyse des Alarmes",
                 data: "5-2-0-analyse-alarmes",
-                type: "link"
+                type: "link",
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
                 title: "Approvisionnements Data",
                 label: "Approvisionnements Data",
                 data: "5-1-0-analyse-trafic",
-                type: "link"
+                type: "link",
+                pack: ApplicationType.MONITORING
             }
         ]
     },
-   /*
-    {
-        title: "Reporting",
-        label: "Reporting",
-        data: "5-0-0-supervision-sim",
-        statut: false,
-        icon: "activity",
-        url: "assets/images/portail/graph.png",
-        type: "sub",
-        path: `/${REPORTING}/${REPORTING_SOLDE}`,
-        routerLink: `/${REPORTING}/${REPORTING_SOLDE}`,
-        children: [
-            {
-                path: `/${REPORTING}/${REPORTING_SOLDE}`,
-                title: "Solde",
-                label: "Solde",
-                data: "5-2-0-zone-trafic",
-                type: "link"
-            },
-            {
-                path: `/${REPORTING}/${REPORTING_ALARME}`,
-                title: "Alarme",
-                label: "Alarme",
-                data: "5-2-0-analyse-alarmes",
-                type: "link"
-            },
-            {
-                path: `/${REPORTING}/${REPORTING_SLA}`,
-                title: "SLA",
-                label: "SLA",
-                data: "5-1-0-analyse-trafic",
-                type: "link"
-            }
-        ]
-    },
-    */
     {
         title: "Paramètres & Sécurité",
         label: "Paramètres & Sécurité",
@@ -243,27 +218,31 @@ export var menuJson = [
         path: `/${PARAMETRE_SECURITE}/${PROFILS_HABILITATIONS}`,
         routerLink: `/${PARAMETRE_SECURITE}/${PROFILS_HABILITATIONS}`,
         type: "sub",
+        pack: ApplicationType.MONITORING,
         children: [
             {
                 path: `/${PARAMETRE_SECURITE}/${PROFILS_HABILITATIONS}`,
                 title: "Profils Habilitations",
                 label: "Profils Habilitations",
                 data: "6-1-0-profils-habilitations",
-                type: "link"
+                type: "link",
+                pack: ApplicationType.MONITORING
             },
             {
                 path: `/${PARAMETRE_SECURITE}/${UTILISATEURS}`,
                 title: "Utilisateurs",
                 label: "Utilisateurs",
                 data: "6-2-0-utilisateurs",
-                type: "link"
+                type: "link",
+                pack: ApplicationType.MONITORING
             },
             {
                 path: "/parametre-securite/activation-collecte",
                 title: "Activation de collecte",
                 label: "Activation de collecte",
                 data: "6-3-0-activation-collecte",
-                type: "link"
+                type: "link",
+                pack: ApplicationType.MONITORING
             }
         ]
     },

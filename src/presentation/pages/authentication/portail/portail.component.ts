@@ -7,6 +7,7 @@ const Swal = require('sweetalert2');
 // @ts-ignore
 import { menuJson } from 'src/assets/menu';
 import { ProvisionningService } from '../../provisionning/data-access/provisionning.service';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 
 
@@ -23,12 +24,15 @@ export class PortailComponent implements OnInit, AfterViewInit {
   public permissionsJson: any = [];
   public portailJson: any = [];
   public listPermissionMapper: any;
-
+  public appName: string;
+  
   constructor(
     public router: Router,
     private storage: EncodingDataService,
+    private mappingService: MappingService
   ) {
     this.permissionsJson = menuJson;
+    this.appName = this.mappingService.appName;
   }
 
   ngOnInit() {

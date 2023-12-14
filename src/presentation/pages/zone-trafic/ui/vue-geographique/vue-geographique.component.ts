@@ -53,24 +53,15 @@ export class VueGeographiqueComponent implements OnInit {
     private clipboardApi: ClipboardService,
     private mappingService: MappingService,
     private settingService: SettingService,
-    // private rxWebsocketService: RxWebsocketService,
-    private websocketService: WebsocketService,
-    private pusherWebsocketService: PusherWebsocketService
   ) {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
-
   }
 
   ngOnInit() {
     this.GetAllZOneTrafic();
-    this.GetAllDepartements();
-    this.GetAllSites()
+    this.getAllFirstLevel();
     this.isFilter();
-    // this.pusherWebsocketService.channel.bind("event-zone-100", (data) => {
-    //   this.listMesssages.push(data);
-    // });
-    // console.log("listEvents", this.listMesssages);
   }
   public GetAllZOneTrafic() {
     this.zoneTraficService
@@ -106,12 +97,15 @@ export class VueGeographiqueComponent implements OnInit {
     this.formsView = event;
     this.initialView = !event;
   }
-  public GetAllDepartements() {
-    this.zoneTraficService
-      .GetAllDepartements({})
+
+  public getAllFirstLevel() {
+    this.settingService
+      .getAllDirectionRegionales({})
       .subscribe({
         next: (response) => {
-          this.listDepartements = response['data'];
+          this.listDepartements = response['data'].map(element => {
+            return { ...element, fullName: `${element.nom} [${element.code}]` }
+          });
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -119,21 +113,20 @@ export class VueGeographiqueComponent implements OnInit {
       })
   }
 
-  public GetAllSites() {
-    this.settingService
-      .getAllSites({})
-      .subscribe({
-        next: (response) => {
-          this.listSites = response['data'];
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
-  onChangeItem(event: any) {
+  onChangeFirstLvel(event: any) {
     this.selectedDepartement = event.value;
-    this.listCommunes = this.selectedDepartement?.communes;
+    this.listCommunes = this.selectedDepartement?.niveaux_deux.map(element => {
+      return { ...element, fullName: `${element.nom} [${element.code}]` }
+    });
+    this.listSites = this.listCommunes[0].map(element => {
+      return { ...element, fullName: `${element.libelle} [${element.code}]` }
+    });
+  }
+  onChangeSecondLevel(event: any) {
+    this.selectedCommune = event.value;    
+    this.listSites = this.selectedCommune?.sites.map(element => {
+      return { ...element, fullName: `${element.libelle} [${element.code}]` }
+    });
   }
   onMaximized(e) {
     this.maxi = e.maximized;
@@ -146,7 +139,7 @@ export class VueGeographiqueComponent implements OnInit {
     this.zoneTraficService
       .GetAllZOneTrafic({
         departement_id: this.selectedDepartement?.id,
-        commune_id: this.selectedCommune,
+        commune_id: this.selectedCommune?.id,
         zone_trafic: this.selectedZone,
         msisdn: this.selectedSim,
         site_id: this.selectedSite
@@ -167,6 +160,7 @@ export class VueGeographiqueComponent implements OnInit {
     this.selectedDepartement = null
     this.selectedCommune = null
     this.selectedZone = null
+    this.selectedSite = null
     this.listCommunes = []
     this.GetAllZOneTrafic()
   }
