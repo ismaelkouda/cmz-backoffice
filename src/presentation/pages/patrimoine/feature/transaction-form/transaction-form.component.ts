@@ -1,7 +1,7 @@
 import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
 import { formDataBuilder } from '../../../../../shared/constants/formDataBuilder.constant';
 import { ToastrService } from 'ngx-toastr';
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { SimStatut } from 'src/shared/enum/SimStatut.enum';
 import { HttpClient } from '@angular/common/http';
@@ -82,6 +82,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public selectedLongitude: string;
   public selectedLatitude: string;
   public historie: any;
+  @ViewChild('captchaElem', { static: false }) captchaElem: any;
+
   //Type Source
   public sourceStock: string = 'stock';
   public sourceOrange: string = 'orangeci';
@@ -109,6 +111,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+
   }
 
   ngOnInit() {
@@ -124,9 +127,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       this.selectedActionValue = history.state.operation;
       this.operationValue = this.selectedActionValue
       this.currentPatrimoine = history.state.patrimoine 
-      
-      console.log("this.currentPatrimoine",this.currentPatrimoine);
-      
+            
     } 
   }
   close() {
@@ -308,6 +309,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
 
   public selectedAction(value: string) {
     this.selectedActionValue = value;
+    this.captchaElem?.ReCaptcha2Component.reset();
+    this.currentRecaptcha = null
     this.selectedImsi = null;
     this.selectedDescription = null;
     this.selectedMsisdn = null;
@@ -316,6 +319,17 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.sourceValue = 'stock'
     this.currentPatrimoine = {};
   }
+  
+  onExpired() {
+    this.currentRecaptcha = null
+  }
+
+  handleSuccess(event){
+    console.log("captchaElem",this.captchaElem);
+    
+    console.log("event",event);
+  }
+  
   public selectedSource(value: string) {
     this.sourceValue = value;
   }

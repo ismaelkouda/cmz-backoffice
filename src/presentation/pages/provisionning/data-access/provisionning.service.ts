@@ -15,7 +15,7 @@ export class ProvisionningService {
     private http: HttpClient,
     private storage: EncodingDataService,
   ) {
-    const data = JSON.parse(this.storage.getData('user'))
+    const data = JSON?.parse(this.storage.getData('user') || null)
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
   }
 

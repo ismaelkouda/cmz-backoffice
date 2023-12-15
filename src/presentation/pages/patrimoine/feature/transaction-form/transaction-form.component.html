@@ -381,17 +381,16 @@
 </div>
   <div class="submit-form" *ngIf="selectedActionValue">
     <div>
-      <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha">
+      <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha" (success)="handleSuccess($event)">
       </ngx-recaptcha2>
       <button pButton *ngIf="selectedActionValue !== activation" style="float: right;margin-top: 1rem;"
-        label="Soumettre" class="p-button-success" [disabled]="!selectedDescription && !selectedVolume"
+        label="Soumettre" class="p-button-success" [disabled]="!selectedDescription && !selectedVolume || !currentRecaptcha"
         (click)="handleSaveNewTransaction()"></button>
       <button pButton *ngIf="selectedActionValue === activation" style="float: right;margin-top: 1rem;"
-        label="Soumettre" class="p-button-success" [disabled]="isValidateActivation()"
+        label="Soumettre" class="p-button-success" [disabled]="isValidateActivation() || !currentRecaptcha"
         (click)="handleSaveNewTransaction()"></button>
     </div>
   </div>
-
 </div>
 <div *ngIf="currentObject">
   <div class="forms-feature-header">

@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     //{port: window.location.port}
-    this.loginForm.patchValue({port: '11300'})
+    this.loginForm.patchValue({port: window.location.port})
     this.userLoginUseCase.execute(this.loginForm.value).subscribe({
       next: (response) => {        
         this.storage.saveData('user', JSON.stringify(response.data));
@@ -90,8 +90,8 @@ export class LoginComponent implements OnInit {
     this.show = !this.show
   }
 
-  handleExpire() {
-  //Sanogo1_admin
+  handleSuccess(event){
+    console.log("event",event);
   }
 
 }

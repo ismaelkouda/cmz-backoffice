@@ -125,9 +125,12 @@
           </div>
         </div>
         <div class="actions">
-          <button pButton pRipple label="Valider la commande" icon="pi pi-shopping-cart" (click)="OnSaveCommande()"
-            class="p-button-success">
-          </button>
+          <div class="d-flex justify-content-end">
+            <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha" (success)="handleSuccess($event)">
+            </ngx-recaptcha2 >
+          </div>
+            <button pButton pRipple label="Valider la commande" icon="pi pi-shopping-cart" (click)="OnSaveCommande()"
+            class="p-button-success mt-2" [disabled]="!currentRecaptcha"></button>
         </div>
       </div>
     </div>

@@ -30,7 +30,7 @@ export class MappingService {
     private provisionningService: ProvisionningService
   ) {
     this.GetAllPortefeuille();
-    const data = JSON.parse(this.storage.getData('user'));
+    const data = JSON.parse(this.storage.getData('user') || null);
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
     this.fileUrl = `${data?.tenant?.url_minio}/`
     this.minioUrl = `${data?.tenant?.url_minio}/`

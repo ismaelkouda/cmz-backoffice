@@ -24,12 +24,16 @@ export class DashboardComponent implements OnInit {
   public baseUrl: string
   public applicationType: string;
   public patrimoineType: string;
+  public appName: string;
+
 
   simIcon = '../../../assets/svg/sim_loc_noir_white.png';
   simNormale = '../../../assets/svg/normal_white.png';
   simMineure = '../../../assets/svg/mineure.png';
   simMajeure = '../../../assets/svg/majeure_white.png';
   simCrique = '../../../assets/svg/critique_white.png';
+  dataIcon = '../../../assets/svg/data.png';
+  creditIcon = '../../../assets/svg/credit.png';
 
 
   constructor(
@@ -40,6 +44,7 @@ export class DashboardComponent implements OnInit {
     const data = JSON.parse(this.storage.getData('user'))
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
     this.applicationType = this.mappingService.applicationType;
+    this.appName = this.mappingService.appName
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
   }
 

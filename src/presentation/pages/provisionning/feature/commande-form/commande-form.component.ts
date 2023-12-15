@@ -27,7 +27,7 @@ export class CommandeFormComponent implements OnInit {
   public selectedDescription: string;
   public selectedCountSim: string;
   public currentRecaptcha: string;
-
+  public siteKey: string;
 
   //Operations Transaction
   public operationValue: string = OperationTransaction.ACTIVATION;
@@ -51,9 +51,6 @@ export class CommandeFormComponent implements OnInit {
   public selectedCodeb: string;
   public selectedCodea: string;
   public selectedVol: string;
-
-  public siteKey: string;
-
 
   fiedlistA: any = {};
   fiedlistB: any = {};

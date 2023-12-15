@@ -2,7 +2,7 @@
 <div class="container-fluid">
     <div class="d-flex justify-content-between">
         <div class="mt-15">
-            <h2>{{ 'Vue génerale - Plateforme SIM MONITORING' }}</h2>
+            <h2>{{ 'Vue génerale - Plateforme  '+ appName }}</h2>
         </div>
         <div class="mt-15 d-flex gap-4">
             <div class="d-flex gap-2">
@@ -30,12 +30,12 @@
         <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-4'" *ngIf="applicationType === patrimoineType">
             <app-stat-box [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'"
                 [legend]="'Volume Data Dispo. (Go)'" [count]="countVolumeData || '0'" [legendColor]="'#130f40'"
-                [countColor]="'#ff7f50'"></app-stat-box>
+                [countColor]="'#ff7f50'" [icon]="dataIcon"></app-stat-box>
         </div>
         <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-4'" *ngIf="applicationType === patrimoineType">
             <app-stat-box [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'"
                 [legend]="'Ligne Crédit Dispo. (FCFA)'" [count]="countLigneCredit || '0'" [legendColor]="'#130f40'"
-                [countColor]="'#fa8231'"></app-stat-box>
+                [countColor]="'#fa8231'" [icon]="creditIcon"></app-stat-box>
         </div>
         <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-4'">
             <app-stat-box [cardBgColor]="'#58FAAC'" [cardBorderColor]="'#DF7401'"

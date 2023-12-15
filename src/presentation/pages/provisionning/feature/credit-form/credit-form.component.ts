@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { environment } from 'src/environments/environment.prod';
 @Component({
   selector: 'app-credit-form',
   templateUrl: './credit-form.component.html',
@@ -27,6 +28,8 @@ export class CreditFormComponent implements OnInit {
   public offset: any;
   public p: number = 1;
   public fileUrl: string;
+  public currentRecaptcha: string;
+  public siteKey: string;
   creditForm: FormGroup;
 
 
@@ -43,6 +46,7 @@ export class CreditFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.siteKey = environment.recaptcha.siteKey;
     this.fileUrl = this.mappingService.fileUrl
     this.isFilter();
     this.initForm();
