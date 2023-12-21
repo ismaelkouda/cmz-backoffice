@@ -11,17 +11,13 @@ import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access
 import { ClipboardService } from 'ngx-clipboard';
 import { Justificatif } from 'src/shared/enum/Justificatif.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
-import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import {  Router } from '@angular/router';
 import { OPERATION_PROVISIONNING, PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
 import { CONTENCIEUX, SUPERVISION_SUIVIE_TRAITEMENT } from 'src/presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { TRANSACTION_SIM } from 'src/presentation/pages/patrimoine/patrimoine-routing.module';
 import { COMMANDE_SIM, LIGNE_CREDIT } from 'src/presentation/pages/provisionning/provisionning-routing.module';
 import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
 declare var require;
-const Swal = require("sweetalert2");
-
 @Component({
   selector: 'app-transaction-show',
   templateUrl: './transaction-show.component.html',
@@ -39,6 +35,7 @@ export class TransactionShowComponent implements OnInit {
   public operationActivation: string = OperationTransaction.ACTIVATION
   public operationSwap: string = OperationTransaction.SWAP
   public OperationResiliation: string = OperationTransaction.RESILIATION
+  public OperationReactivation: string = OperationTransaction.RE_ACTIVATION
   public OperationSuspension: string = OperationTransaction.SUSPENSION
   public OperationVolumeData: string = OperationTransaction.VOLUME_DATA
   public OperationAchat: string = OperationTransaction.ACHAT_SERVICE
@@ -59,6 +56,7 @@ export class TransactionShowComponent implements OnInit {
   public volumeForm: FormGroup;
   public swapForm: FormGroup;
   public resiliationForm: FormGroup;
+  public reactivationForm: FormGroup;
   public suspensionForm: FormGroup;
   public activationForm: FormGroup;
   public adminForm: FormGroup;
@@ -97,6 +95,7 @@ export class TransactionShowComponent implements OnInit {
     this.OnInitVolumeForm();
     this.OnInitSwapForm();
     this.OnInitResiliationForm();
+    this.OnInitReactivationForm();
     this.OnInitSuspensionForm();
     this.OnInitActivationForm();
     this.OnInitAchatForm();
@@ -133,6 +132,8 @@ export class TransactionShowComponent implements OnInit {
             this.OnShowSwapForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.RESILIATION) {
             this.OnShowResiliationForm();
+          }else if (this.detailTransaction?.operation === OperationTransaction.RE_ACTIVATION) {
+            this.OnShowReactivationForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.SUSPENSION) {
             this.OnShowSuspensionForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION) {
@@ -149,6 +150,7 @@ export class TransactionShowComponent implements OnInit {
           this.volumeForm.disable();
           this.swapForm.disable();
           this.resiliationForm.disable();
+          this.reactivationForm.disable();
           this.suspensionForm.disable();
         },
         error: (error) => {
@@ -167,6 +169,9 @@ export class TransactionShowComponent implements OnInit {
       }
       case OperationTransaction.RESILIATION: {
         return this.resiliationForm.get('resiliation_accepte_comment').value;
+      }
+      case OperationTransaction.RE_ACTIVATION: {
+        return this.reactivationForm.get('reactivation_accepte_comment').value;
       }
       case OperationTransaction.SUSPENSION: {
         return this.suspensionForm.get('suspension_accepte_comment').value;
@@ -429,6 +434,32 @@ export class TransactionShowComponent implements OnInit {
     this.resiliationForm.get('statut_contrat').disable();
     this.resiliationForm.get('point_emplacement').disable();
   }
+
+  /*@@@@@@@@@@@@@@@@@@@@@@REACTIVATION Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
+    OnInitReactivationForm() {
+      this.reactivationForm = this.fb.group({
+        imsi: [''],
+        msisdn: [''],
+        statut_contrat: [''],
+        justificatif: [''],
+        point_emplacement: [''],
+        description: [''],
+        reactivation_accepte: [''],
+        reactivation_accepte_comment: ['']
+      })
+    }
+    OnShowReactivationForm() {
+      this.reactivationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
+      this.reactivationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+      this.reactivationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
+      this.reactivationForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
+      this.reactivationForm.get('description').patchValue(this.detailTransaction?.description);
+      this.reactivationForm.get('reactivation_accepte').patchValue(this.detailTransaction?.rapport?.reactivation_accepte);
+      this.reactivationForm.get('reactivation_accepte_comment').patchValue(this.detailTransaction?.rapport?.reactivation_accepte_comment);
+      this.reactivationForm.get('msisdn').disable();
+      this.reactivationForm.get('statut_contrat').disable();
+      this.reactivationForm.get('point_emplacement').disable();
+    }
   public onChangeFile(file: FileList) {
     this.currentFile = file.item(0);
   }
@@ -594,6 +625,9 @@ export class TransactionShowComponent implements OnInit {
       case OperationTransaction.RESILIATION: {
         return "Résiliation de SIM";
       }
+      case OperationTransaction.RE_ACTIVATION: {
+        return "Réactivation de SIM";
+      }
       case OperationTransaction.SUSPENSION: {
         return "Suspension de SIM";
       }
@@ -612,18 +646,11 @@ export class TransactionShowComponent implements OnInit {
     return (
       this.transaction?.operation === OperationTransaction.ACTIVATION  ||
       this.transaction?.operation === OperationTransaction.RESILIATION ||
+      this.transaction?.operation === OperationTransaction.RE_ACTIVATION ||
       this.transaction?.operation === OperationTransaction.SUSPENSION ||
       this.transaction?.operation === OperationTransaction.SWAP ||
       this.transaction?.operation === OperationTransaction.VOLUME_DATA 
     ) ? true : false
-  }
-  public IsProvisionningTransaction(): boolean {
-    return (
-      this.transaction?.operation === OperationTransaction.PROVISIONNING) ? true : false
-  }
-  public IsAchatTransaction(): boolean {
-    return (
-      this.transaction?.operation === OperationTransaction.ACHAT_SERVICE) ? true : false
   }
   public isAccepteForms(): boolean {
     return (
@@ -632,8 +659,17 @@ export class TransactionShowComponent implements OnInit {
       this.detailTransaction?.rapport?.swap_accepte === 'oui' ||
       this.detailTransaction?.rapport?.suspension_accepte === 'oui' ||
       this.detailTransaction?.rapport?.resiliation_accepte === 'oui' ||
+      this.detailTransaction?.rapport?.reactivation_accepte === 'oui' ||
       this.detailTransaction?.rapport?.activation_accepte === 'oui'
     ) ? false : true
+  }
+  public IsProvisionningTransaction(): boolean {
+    return (
+      this.transaction?.operation === OperationTransaction.PROVISIONNING) ? true : false
+  }
+  public IsAchatTransaction(): boolean {
+    return (
+      this.transaction?.operation === OperationTransaction.ACHAT_SERVICE) ? true : false
   }
   public IsCancel(): boolean {
     return ((this.transaction?.statut === StatutTransaction.SOUMIS && (this.transaction?.traitement === TraitementTransaction.EN_ENTENTE || this.transaction?.traitement === TraitementTransaction.ACQUITER))) ? true : false

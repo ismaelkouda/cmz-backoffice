@@ -7,6 +7,7 @@ import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import appConfig from '../../../assets/config/app-config.json';
 import { EncodingDataService } from "src/shared/services/encoding-data.service";
 import { MappingService } from "src/shared/services/mapping.service";
+import { ApplicationType } from "src/shared/enum/ApplicationType.enum";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -24,6 +25,11 @@ export class HeaderComponent implements OnInit {
   public logoTenant: string;
   public minioUrl: string;
   public appName: string;
+  public applicationType: string;
+  public patrimoineType: string;
+  public soldeGlobal: string;
+  public ligneCreditGlobal: string;
+
   
   constructor(
     public layout: LayoutService,
@@ -37,12 +43,24 @@ export class HeaderComponent implements OnInit {
     this.headerTitle = appConfig?.titlePage;
     this.minioUrl = this.mappingService.minioUrl;  
     this.appName = this.mappingService.appName;  
+    this.applicationType = this.mappingService.applicationType;
+    this.patrimoineType = ApplicationType.PATRIMOINESIM;
   }
 
   ngOnInit() {
     this.elem = document.documentElement;
     this.profil = JSON.parse(this.storage.getData('user'));
     this.logoTenant = `${this.minioUrl}${this.profil?.tenant?.logo_tenant}`;
+    this.mappingService.volumeDataGlobal$.subscribe((res: any) => {
+      this.soldeGlobal = res
+    });
+    this.mappingService.ligneCreditGlobal$.subscribe((res: any) => {      
+      this.ligneCreditGlobal = res
+    });
+  }
+
+  public pipeValue(number: any) {
+    return new Intl.NumberFormat('fr-FR').format(number);
   }
 
   statutLayout(): boolean {

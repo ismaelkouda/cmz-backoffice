@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment.prod';
 import { SettingService } from 'src/shared/services/setting.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
+import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 
 @Component({
   selector: 'app-transaction-form',
@@ -21,7 +22,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
 
 
   public baseUrl: string;
-
   @Output() listSuspensions = new EventEmitter();
   @Input() currentObject;
   @Output() formsView = new EventEmitter();
@@ -60,7 +60,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public resiliation: string = OperationTransaction.RESILIATION;
   public swap: string = OperationTransaction.SWAP;
   public volume: string = OperationTransaction.VOLUME_DATA;
-
+  public reactivation: string = OperationTransaction.RE_ACTIVATION
 
   //FormsControl
   public listDirections: Array<any> = [];
@@ -81,6 +81,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public selectedAdresseGeo: string;
   public selectedLongitude: string;
   public selectedLatitude: string;
+  public patrimoineType: string;
+
   public historie: any;
   @ViewChild('captchaElem', { static: false }) captchaElem: any;
 
@@ -111,7 +113,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
-
+    this.patrimoineType = ApplicationType.PATRIMOINESIM;
   }
 
   ngOnInit() {
@@ -324,9 +326,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.currentRecaptcha = null
   }
 
-  handleSuccess(event){
-    console.log("captchaElem",this.captchaElem);
-    
+  handleSuccess(event){    
     console.log("event",event);
   }
   
@@ -381,6 +381,11 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       !this.selectedLongitude ||
       !this.selectedLatitude
     ) ? true : false
+  }
+  getFormattedMsisdn(value): string {
+    const msisdn = value || ""; // Assurez-vous que msisdn est défini
+    const formattedMsisdn = msisdn.replace(/(\d{2})(?=\d)/g, "$1 "); // Ajoute le séparateur
+    return formattedMsisdn;
   }
   pipeValue(number: any) {
     return new Intl.NumberFormat('fr-FR').format(number);

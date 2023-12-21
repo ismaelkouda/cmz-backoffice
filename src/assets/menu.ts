@@ -1,8 +1,7 @@
-import { REPORTING_ALARME, REPORTING_SLA } from './../presentation/pages/reporting/reporting-routing.module';
 import { CONTENCIEUX, PERFORMANCE_SLA } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
-import { COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
+import { ANALAYSE_REJET, COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
-import { CARTES_SIM, DOTATION_SERVICES, GROUPE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
+import { CARTES_SIM, DOTATION_SERVICES, ETAT_SOLDE, GROUPE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
 import { SUPERSION_STATUTS, SUPERVISION_SUIVIE_TRAITEMENT } from 'src/presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, REPORTING, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
@@ -33,26 +32,34 @@ export var menuJson = [
                 type: "link"
             },
             {
+                path: `/${PATRIMOINE}/${ETAT_SOLDE}`,
+                title: "Etat des Soldes",
+                label: "Etat des Soldes",
+                data: "1-2-0-etat-solde",
+                pack: ApplicationType.MONITORING,
+                type: "link"
+            },
+            {
                 path: `/${PATRIMOINE}/${GROUPE_SIM}`,
                 title: "Groupes de SIM",
                 label: "Groupes de SIM",
-                data: "1-2-0-groupe-sim",
-                pack: ApplicationType.MONITORING,
+                data: "1-3-0-groupe-sim",
                 type: "link"
             },
             {
                 path: `/${PATRIMOINE}/${DOTATION_SERVICES}`,
                 title: "Dotations de Services",
                 label: "Dotations de Services",
-                data: "1-3-0-dotation-service",
+                data: "1-4-0-dotation-service",
                 type: "link",
             },
             {
                 path: `/${PATRIMOINE}/${TRANSACTION_SIM}`,
                 title: "Transactions sur SIM",
                 label: "Transactions sur SIM",
-                data: "1-4-0-transaction-sur-sim",
+                data: "1-5-0-transaction-sur-sim",
                 type: "link",
+                pack: ApplicationType.MONITORING
             }
         ]
     },
@@ -75,7 +82,7 @@ export var menuJson = [
                 label: "Indicateurs & Alarmes",
                 data: "2-1-0-seuil-alarmes",
                 type: "link",
-                pack: ApplicationType.MONITORING,
+                pack: ApplicationType.MONITORING
             },
             {
                 path: `/${REFERENTIEL_TELEMETRIE}/${PROFIL_SUPERVISION}`,
@@ -83,15 +90,15 @@ export var menuJson = [
                 label: "Profils de supervision",
                 data: "2-2-0-profil-supervision",
                 type: "link",
-                pack: ApplicationType.MONITORING,
+                pack: ApplicationType.MONITORING
             },
             {
                 path: `/${REFERENTIEL_TELEMETRIE}/${OBJECTIFS_SLA}`,
                 title: "Objectifs SLA",
                 label: "Objectifs SLA",
-                data: "2-2-0-profil-supervision",
+                data: "2-3-0-objectif-sla",
                 type: "link",
-                pack: ApplicationType.MONITORING,
+                pack: ApplicationType.MONITORING
             },
         ]
     },
@@ -139,35 +146,40 @@ export var menuJson = [
         path: `/${SUPERVISION_OPERATIONS}/${SUPERSION_STATUTS}`,
         routerLink: `/${SUPERVISION_OPERATIONS}/${SUPERSION_STATUTS}`,
         type: "sub",
+        pack: ApplicationType.MONITORING,
         children: [
             {
                 path: `/${SUPERVISION_OPERATIONS}/${SUPERSION_STATUTS}`,
                 title: "File d'attente",
                 label: "File d'attente",
-                data: "4-1-0-statuts",
-                type: "link"
+                data: "4-1-0-fil-attente",
+                type: "link",
+                pack: ApplicationType.MONITORING
             },
             {
                 path: `/${SUPERVISION_OPERATIONS}/${SUPERVISION_SUIVIE_TRAITEMENT}`,
                 title: "Suivi et traitement",
                 label: "Suivi et traitement",
-                data: "4-3-0-suivi-traitement",
-                type: "link"
+                data: "4-2-0-suivi-traitement",
+                type: "link",
+                pack: ApplicationType.MONITORING
             },
             {
                 path: `/${SUPERVISION_OPERATIONS}/${PERFORMANCE_SLA}`,
                 title: "Performance SLA",
                 label: "Performance SLA",
-                data: "4-4-0-performance-sla",
-                type: "link"
+                data: "4-3-0-performance-sla",
+                type: "link",
+                pack: ApplicationType.MONITORING
             },
             {
                 path: `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX}`,
                 title: "Contentieux",
                 label: "Contentieux",
-                data: "4-4-0-performance-sla",
-                type: "link"
-            }
+                data: "4-4-0-contentieux",
+                type: "link",
+                pack: ApplicationType.MONITORING
+            },
         ]
     },
     {
@@ -186,7 +198,7 @@ export var menuJson = [
                 path: `/zone-trafic/${VUE_GEOGRAPHIQUE}`,
                 title: "Zones de Trafic",
                 label: "Zones- de Trafic",
-                data: "5-2-0-zone-trafic",
+                data: "5-1-0-zone-trafic",
                 type: "link",
                 pack: ApplicationType.MONITORING,
             },
@@ -199,10 +211,18 @@ export var menuJson = [
                 pack: ApplicationType.MONITORING,
             },
             {
+                path: `/${SUPERVISION_SIM}/${ANALAYSE_REJET}`,
+                title: "Analyse des Rejets",
+                label: "Analyse des Rejets",
+                data: "5-3-0-analyse-rejets",
+                type: "link",
+                pack: ApplicationType.MONITORING,
+            },
+            {
                 path: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
                 title: "Approvisionnements Data",
                 label: "Approvisionnements Data",
-                data: "5-1-0-analyse-trafic",
+                data: "5-4-0-analyse-appro",
                 type: "link",
                 pack: ApplicationType.MONITORING
             }
@@ -233,14 +253,6 @@ export var menuJson = [
                 title: "Utilisateurs",
                 label: "Utilisateurs",
                 data: "6-2-0-utilisateurs",
-                type: "link",
-                pack: ApplicationType.MONITORING
-            },
-            {
-                path: "/parametre-securite/activation-collecte",
-                title: "Activation de collecte",
-                label: "Activation de collecte",
-                data: "6-3-0-activation-collecte",
                 type: "link",
                 pack: ApplicationType.MONITORING
             }

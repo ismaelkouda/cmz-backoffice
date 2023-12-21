@@ -5,6 +5,16 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { ToastrService } from 'ngx-toastr';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PATRIMOINE } from 'src/shared/routes/routes';
+import { TRANSACTION_SIM } from '../../patrimoine-routing.module';
+import { Router } from '@angular/router';
+import { EncodingDataService } from 'src/shared/services/encoding-data.service';
+import { EndPointUrl } from '../../data-access/api.enum';
+import { HttpClient } from '@angular/common/http';
+import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
+import { ReactivationFormComponent } from '../reactivation-form/reactivation-form.component';
 
 @Component({
   selector: 'app-patrimoine-forms',
@@ -38,6 +48,7 @@ export class PatrimoineFormsComponent implements OnInit {
   public listCommunes: Array<any> = [];
   public selectedDepartement: any;
   public selectedCommune: any;
+  public reactivationComment: string;
   public soldeGlobal: string
   //Mapping
   public firstLevelLibelle: string;
@@ -46,18 +57,25 @@ export class PatrimoineFormsComponent implements OnInit {
   public minioUrl: string;
   public applicationType: string;
   public patrimoineType: string;
+  public baseUrl: string;
 
   constructor(
     private fb: FormBuilder,
     private settingService: SettingService,
     private toastrService: ToastrService,
     private patrimoineService: PatrimoineService,
-    private mappingService: MappingService
+    private modalService: NgbModal,
+    private mappingService: MappingService,
+    private storage: EncodingDataService,
+    private httpClient: HttpClient,
+    private router: Router
   ) {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.minioUrl = this.mappingService.minioUrl;
+    const data = JSON.parse(this.storage.getData('user'))
+    this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
     this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
   }
@@ -70,9 +88,7 @@ export class PatrimoineFormsComponent implements OnInit {
     this.getAllZones();
     this.onFormPachValues();
     this.OnRefreshValues()    
-
   }
-
 
   public close(): void {
     this.formsView.emit(false);
@@ -82,7 +98,6 @@ export class PatrimoineFormsComponent implements OnInit {
   getFormattedMsisdn(value): string {
     const msisdn = value || ""; // Assurez-vous que msisdn est défini
     const formattedMsisdn = msisdn.replace(/(\d{2})(?=\d)/g, "$1 "); // Ajoute le séparateur
-
     return formattedMsisdn;
   }
 
@@ -271,6 +286,44 @@ export class PatrimoineFormsComponent implements OnInit {
   public onDialogMaximized(event) {
     this.display = true
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
+  }
+
+  openForm(content) {
+    this.modalService.open(content);
+  }
+  hideForm() {
+    this.modalService.dismissAll();
+    this.reactivationComment = undefined;
+  }
+  public handleReactivation() {
+    let baseUrl;
+    baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`
+    this.httpClient.post(`${baseUrl}`, formDataBuilder({
+      ...this.currentObject,
+      operation: OperationTransaction.RE_ACTIVATION,
+      description: this.selectedCommune,
+    })).subscribe({
+        next: (response: any) => {
+          this.hideForm();
+          this.router.navigateByUrl(`${PATRIMOINE}/${TRANSACTION_SIM}` );
+          this.toastrService.success(response.message);
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  OnReactivation(data: Object): void {
+    const modalRef = this.modalService.open(ReactivationFormComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });
+    modalRef.componentInstance.patrimoine = data;
+    // modalRef.componentInstance.resultTraitement.subscribe((res) => {
+    //   this.listTraitemants = res
+    // })
   }
   pipeValue(number: any) {
     return new Intl.NumberFormat('fr-FR').format(number);

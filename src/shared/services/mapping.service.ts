@@ -14,6 +14,8 @@ export class MappingService {
   public logoTenant: any;
   public tenant: any;
   public grafanaLink: string;
+  public rejetLink: string;
+  public approLink: string;
   public typeNiveau: string;
   public baseUrl: string;
   public fileUrl: string;
@@ -21,9 +23,11 @@ export class MappingService {
   public localCalendar: any;
   public applicationType: string;
   public appName: string;
-  _volumeDataGlobalSource: BehaviorSubject<string> = new BehaviorSubject('');
-  volumeDataGlobal$ = this._volumeDataGlobalSource.asObservable();
+  public  _volumeDataGlobalSource: BehaviorSubject<string> = new BehaviorSubject('');
+  public volumeDataGlobal$ = this._volumeDataGlobalSource.asObservable();
 
+  public  _ligneCreditSource: BehaviorSubject<string> = new BehaviorSubject('');
+  public ligneCreditGlobal$ = this._ligneCreditSource.asObservable();
 
   constructor(
     private storage: EncodingDataService,
@@ -38,10 +42,12 @@ export class MappingService {
     this.structureGlobale = data?.structure_organisationnelle;
     this.logoTenant = `${this.fileUrl}${this.tenant?.logo_tenant}`;
     this.grafanaLink = this.tenant?.lien_dashboard_grafana;
+    this.approLink = this.tenant?.lien_dashboard_appro;
+    this.rejetLink = this.tenant?.lien_dashboard_rejets;
     const newDatatEnv = { ...data?.env, typeNiveau: 'Type Emplacement' };
     this.typeNiveau = newDatatEnv?.typeNiveau;
     this.applicationType = this.tenant?.application;
-
+    
     if (this.applicationType === ApplicationType.PATRIMOINESIM) {
        this.appName = 'PATRIMOINE SIM'
     }else{
@@ -49,16 +55,17 @@ export class MappingService {
     }
   }
 
-    public GetAllPortefeuille(){
-    this.provisionningService
-    .GetAllPortefeuille()
-     .subscribe({
-       next: (res)=>{
-        this._volumeDataGlobalSource.next(res['data']?.filter((item:any)=>{ return item.type === 'volume-data'})[0].solde);          
-       },
-       error: (err)=>{
-     }
-     })
+  public GetAllPortefeuille(){
+  this.provisionningService
+  .GetAllPortefeuille()
+    .subscribe({
+      next: (res)=>{
+      this._volumeDataGlobalSource.next(res['data']?.filter((item:any)=>{ return item.type === 'volume-data'})[0].solde);  
+      this._ligneCreditSource.next(res['data']?.filter((item:any)=>{ return item.type === 'ligne-credit'})[0].solde);                  
+      },
+      error: (err)=>{
+    }
+    })
  }
 
 

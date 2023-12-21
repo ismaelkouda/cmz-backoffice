@@ -37,7 +37,7 @@ export class FormUsageComponent implements OnInit {
 
   public GellCurrentLevel() {
     this.settingService
-      .getAllZones({})
+      .getAllUsages({})
       .subscribe({
         next: (response) => {
           this.listUsages.emit(response['data']);
@@ -60,7 +60,7 @@ export class FormUsageComponent implements OnInit {
 
   public handleSave() {
     this.settingService
-      .OnSaveZone(this.adminForm.value).subscribe({
+      .OnSaveUsage(this.adminForm.value).subscribe({
         next: (response) => {
           this.GellCurrentLevel();
           this.toastrService.success(response.message);
@@ -73,7 +73,7 @@ export class FormUsageComponent implements OnInit {
 
   handleUpdate() {
     this.settingService
-      .OnUpdateZone({
+      .OnUpdateUsage({
         usage_id: this.currentObject?.id,
         ...this.adminForm.value
       }).subscribe({

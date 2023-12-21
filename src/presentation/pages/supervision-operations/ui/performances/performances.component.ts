@@ -41,7 +41,7 @@ export class PerformancesComponent implements OnInit {
   ngOnInit() {
     this.GetFirstLevel()
     this.isFilter()
-    localStorage.setItem('layout', 'Barcelona');
+    //localStorage.setItem('layout', 'Barcelona');
   }
 
 

@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { SettingService } from 'src/shared/services/setting.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -19,46 +20,31 @@ export class UsageMetierComponent implements OnInit {
   public currentObject: any;
   public listUsages: Array<any> = [];
   public listTenants: Array<any> = [];
-  public totalPage: 0;
-  public totalRecords: 0;
-  public recordsPerPage: 0;
-  public offset: any;
-  public p: number = 1;
   public selectedUsage: string;
   public selectedTenant: any
 
   constructor(
     private toastrService: ToastrService,
-    private activatedRoute: ActivatedRoute,
     private clipboardApi: ClipboardService,
-    private loadingBar: LoadingBarService,
-
+    private settingService: SettingService,
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe((data) => {
-      this.module = data.module;
-      this.subModule = data.subModule[2];
-    });
     this.GetAllUsageMetier()
     this.isFilter()
   }
 
   public GetAllUsageMetier() {
-    // this.portefeuilleTenantService
-    //   .GetAllUsageMetier({}, this.p)
-    //   .subscribe({
-    //     next: (response) => {
-    //       this.listUsages = response.data.data;
-    //       this.totalPage = response.data.last_page;
-    //       this.totalRecords = response.data.total;
-    //       this.recordsPerPage = response.data.per_page;
-    //       this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
-    //     },
-    //     error: (error) => {
-    //       this.toastrService.error(error.message);
-    //     }
-    //   })
+    this.settingService
+      .getAllUsages({})
+      .subscribe({
+        next: (response) => {
+          this.listUsages = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.message);
+        }
+      })
   }
   public onFilter(): void {
     const data = {
@@ -89,10 +75,6 @@ export class UsageMetierComponent implements OnInit {
     this.selectedTenant = null
     this.selectedUsage = null
   }
-  onPageChange(event) {
-
-  }
-
   public copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
@@ -132,20 +114,17 @@ export class UsageMetierComponent implements OnInit {
       confirmButtonText: 'Oui',
     }).then((result) => {
       if (result.isConfirmed) {
-        // this.portefeuilleTenantService
-        //   .OnChangeStatutUsage({
-        //     usage_id: data.id,
-        //     statut: 'actif'
-        //   })
-        //   .subscribe({
-        //     next: (response) => {
-        //       this.GetAllUsageMetier();
-        //       this.toastrService.success(response.message);
-        //     },
-        //     error: (error) => {
-        //       this.toastrService.error(error.error.message);
-        //     }
-        //   })
+        this.settingService
+          .HandleActiveUsage(data.id)
+          .subscribe({
+            next: (response) => {
+              this.GetAllUsageMetier();
+              this.toastrService.success(response.message);
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
       }
     });
   }
@@ -161,19 +140,42 @@ export class UsageMetierComponent implements OnInit {
       confirmButtonText: 'Oui',
     }).then((result) => {
       if (result.isConfirmed) {
-        // this.portefeuilleTenantService
-        //   .OnChangeStatutUsage({
-        //     usage_id: data.id,
-        //     statut: 'inactif'
-        //   }).subscribe({
-        //     next: (response) => {
-        //       this.GetAllUsageMetier();
-        //       this.toastrService.success(response.message);
-        //     },
-        //     error: (error) => {
-        //       this.toastrService.error(error.error.message);
-        //     }
-        //   })
+        this.settingService
+        .HandleDisableUsage(data.id)
+        .subscribe({
+            next: (response) => {
+              this.GetAllUsageMetier();
+              this.toastrService.success(response.message);
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
+      }
+    });
+  }
+  public handleDelete(data: any): void {
+    Swal.fire({
+      title: 'En êtes vous sûr ?',
+      html: `Voulez-vous Supprimer l'usage <br> ${data.nom_usage} ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#569C5B',
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Oui',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.settingService
+          .OnDeleteUsage(data.id).subscribe({
+            next: (response) => {
+              this.GetAllUsageMetier();
+              this.toastrService.success(response.message);
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
       }
     });
   }
@@ -183,4 +185,3 @@ export class UsageMetierComponent implements OnInit {
   }
 
 }
-

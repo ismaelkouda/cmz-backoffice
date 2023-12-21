@@ -144,7 +144,7 @@ export class SidebarComponent {
       this.data?.push({
         title: `Structure Organisationnelle`,
         label: `Structure Organisationnelle`,
-        data: "7-0-0-parametres-securite",
+        data: "7-0-0-structure-orga",
         statut: true,
         icon: "bar-chart-2",
         url: "assets/images/portail/icone_settings.webp",
@@ -156,28 +156,28 @@ export class SidebarComponent {
             path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
             title: `${mappingService.structureGlobale?.niveau_1}`,
             label: `${mappingService.structureGlobale?.niveau_1}`,
-            data: "6-1-0-profils-habilitations",
+            data: "7-1-0-structure-orga-niveau-1",
             type: "link"
           },
           {
             path: `/${STRUCTURE_ORGANISATIONNELLE}/${SECOND_LEVEL_ROUTE}`,
             title: `${mappingService.structureGlobale?.niveau_2}`,
             label: `${mappingService.structureGlobale?.niveau_2}`,
-            data: "6-2-0-utilisateurs",
+            data: "7-2-0-structure-orga-niveau-2",
             type: "link"
           },
           {
             path: `/${STRUCTURE_ORGANISATIONNELLE}/${THRID_LEVEL_ROUTE}`,
             title: `${mappingService.structureGlobale?.niveau_3}`,
             label: `${mappingService.structureGlobale?.niveau_3}`,
-            data: "6-3-0-activation-collecte",
+            data: "7-3-0-structure-orga-niveau-3",
             type: "link"
           },
           {
             path: `/${STRUCTURE_ORGANISATIONNELLE}/${USAGE_METIER}`,
             title: `Usage Métier`,
             label: `Usage Métier`,
-            data: "6-3-0-activation-collecte",
+            data: "7-4-0-structure-orga-usage",
             type: "link"
           }
         ]

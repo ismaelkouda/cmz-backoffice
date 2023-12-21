@@ -1,3 +1,4 @@
+import { FormatNumberPipe } from './pipes/formatNumber.pipe';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
 import { CountBoxComponent } from './components/count-box/count-box.component';
@@ -68,6 +69,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     JournalComponent,
     QrModalComponent,
     SafePipe,
+    FormatNumberPipe,
     TableFilterPipe,
     TableFilterPipe
   ],
@@ -109,6 +111,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     SvgIconComponent,
     SwiperModule,
     SafePipe,
+    FormatNumberPipe,
     TableFilterPipe
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

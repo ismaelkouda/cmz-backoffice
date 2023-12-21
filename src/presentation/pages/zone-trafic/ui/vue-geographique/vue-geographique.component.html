@@ -18,7 +18,7 @@
                     <b>{{firstLevelLibelle}}</b>
                   </label>
                   <p-dropdown [options]="listDepartements" optionLabel="fullName" [filter]="true" filterBy="fullName"
-                    (onChange)="onChangeFirstLvel($event)" [(ngModel)]="selectedDepartement" [showClear]="true" placeholder="Département">
+                    (onChange)="onChangeFirstLvel($event)" [(ngModel)]="selectedDepartement" [showClear]="true" placeholder={{firstLevelLibelle}}>
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -35,7 +35,7 @@
                     <b>{{secondLevelLibelle}}</b>
                   </label>
                   <p-dropdown [options]="listCommunes" optionLabel="fullName" [filter]="true" filterBy="fullName" (onChange)="onChangeSecondLevel($event)"
-                    [(ngModel)]="selectedCommune">
+                    [(ngModel)]="selectedCommune" [showClear]="true" placeholder={{secondLevelLibelle}}>
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -52,7 +52,7 @@
                     <b>Site</b>
                   </label>
                   <p-dropdown [options]="listSites" optionLabel="fullName" [filter]="true" filterBy="fullName"
-                    [(ngModel)]="selectedSite" optionValue="id">
+                    [(ngModel)]="selectedSite" optionValue="id" [showClear]="true" placeholder="sites">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>

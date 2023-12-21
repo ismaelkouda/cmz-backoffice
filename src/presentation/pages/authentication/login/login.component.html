@@ -26,15 +26,15 @@
                                     <p-password formControlName="password" [feedback]="false"  [toggleMask]="true" styleClass="p-password p-component p-inputwrapper p-input-icon-right"></p-password>
                                 </div>
                             </div>
-                        <div class="recaptcha-wrapper"
+                        <!-- <div class="recaptcha-wrapper"
                             style="padding: 0 0 0 30px;margin-top: 1.2rem;margin-bottom: 2rem;">
                             <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'"
                                 [(ngModel)]="currentRecaptcha" (success)="handleSuccess($event)"
                                 >
                             </ngx-recaptcha2>
-                        </div>
-                        <div class="form-group mb-0">
-                            <button (click)="onLogin()" [disabled]="!loginForm.valid || !currentRecaptcha" class="btn btn-primary d-block w-100">
+                        </div> -->
+                        <div class="form-group mb-0 mt-4">
+                            <button (click)="onLogin()" [disabled]="!loginForm.valid" class="btn btn-primary d-block w-100">
                                 Connexion
                             </button>
                         </div>

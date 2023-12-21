@@ -1,3 +1,4 @@
+import { ReactivationFormComponent } from './feature/reactivation-form/reactivation-form.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,6 +30,7 @@ import { TransactionSimComponent } from './ui/transaction-sim/transaction-sim.co
 import { TransactionFormComponent } from './feature/transaction-form/transaction-form.component';
 import { DotationServiceComponent } from './ui/dotation-service/dotation-service.component';
 import { GroupeSimComponent } from './ui/groupe-sim/groupe-sim.component';
+import { EtatSoldeComponent } from './ui/etat-solde/etat-solde.component';
 import { PatrimoineFormsComponent } from './feature/patrimoine-forms/patrimoine-forms.component';
 import { DotationFormComponent } from './feature/dotation-form/dotation-form.component';
 import { GroupeFormComponent } from './feature/groupe-form/groupe-form.component';
@@ -65,9 +67,11 @@ import { CarteMapComponent } from './feature/carte-map/carte-map.component';
         DotationServiceComponent,
         PatrimoineFormsComponent,
         TransactionSimComponent,
+        EtatSoldeComponent,
         TransactionFormComponent,
         DotationFormComponent,
         GroupeFormComponent,
+        ReactivationFormComponent,
         CarteMapComponent
     ],
 })

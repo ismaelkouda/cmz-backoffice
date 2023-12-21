@@ -47,7 +47,7 @@ export class CarteSimActiveComponent implements OnInit {
   public listUsages: Array<any> = [];
   public selectedDirection: any;
   public selectedExploitation: any;
-  public selectedSim: string;
+  public selectedSim: string = '0757430973';
   public selectedimsi: string;
   public selectedStatut: string;
   public selectedUsage: string;

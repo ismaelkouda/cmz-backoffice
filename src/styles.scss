@@ -2,6 +2,21 @@
 
 @import "./assets/scss/app.scss";
 
+
+.p-button.p-button-success, .p-buttonset.p-button-success>.p-button, .p-splitbutton.p-button-success>.p-button {
+    color: #fff;
+    background: #569c5b!important;
+    border: 1px solid #569c5b!important;
+}
+.p-button.p-button-success:enabled:hover, .p-buttonset.p-button-success>.p-button:enabled:hover, .p-splitbutton.p-button-success>.p-button:enabled:hover {
+    background: #569c5b!important;
+    border: 1px solid #569c5b!important;
+}
+
+.pi-filter {
+    font-size: 1.7rem !important;
+}
+
 .router-wrapper {
     position: relative;
     overflow: hidden;

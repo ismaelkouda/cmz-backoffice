@@ -21,6 +21,7 @@ export class AlarmesComponent implements OnInit {
   public typeChangement: string = 'swap';
   public typeSuspension: string = 'suspension';
   public typeResiliation: string = 'resiliation';
+  public typeReactivation: string = 'reactivation'
   public typeProvisionning: string = 'provisionning';
   public typeVolume: string = 'volume_data';
   public currentKey: string;
@@ -33,14 +34,11 @@ export class AlarmesComponent implements OnInit {
 
   ) {
     this.filterStatus = this.typeAchat;
-
-    console.log("filter", this.filterStatus);
-
   }
 
   ngOnInit() {
     this.GetAllDemandes();
-    localStorage.setItem('layout', 'Barcelona');
+    //localStorage.setItem('layout', 'Barcelona');
 
   }
 
@@ -81,6 +79,9 @@ export class AlarmesComponent implements OnInit {
       }
       case this.typeResiliation: {
         return "Résiliation de SIM";
+      }
+      case this.typeReactivation: {
+        return 'Réactivation de SIM';
       }
       case this.typeVolume: {
         return "Depot de volume	";

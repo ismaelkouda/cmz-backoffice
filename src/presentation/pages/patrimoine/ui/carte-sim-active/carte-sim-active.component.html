@@ -28,8 +28,8 @@
                   <label>
                     <b>{{secondLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" optionLabel="fullName" [filter]="true"
-                    [(ngModel)]="selectedExploitation">
+                  <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" optionLabel="fullName" [filter]="true" [showClear]="true"
+                    [(ngModel)]="selectedExploitation" [placeholder]="firstLevelLibelle">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -133,27 +133,25 @@
                       </span>
                     </td>
                     <td class="td-actions">
-                      <button pButton icon="pi pi-map-marker" [disabled]="data.statut ==='inactif'"
+                      <button *ngIf="data.statut !== 'suspendu'" pButton icon="pi pi-map-marker" [disabled]="data.statut ==='inactif'"
                         pTooltip="Localisation" tooltipPosition="top" (click)="showDialog('map',data)"
-                        class="p-button-success p-button-outlined"></button>
+                        class="p-button-success"></button>
                       
                         <button pButton icon="pi pi-qrcode" [pTooltip]="data.qrcode ? 'Scaner' : ''" tooltipPosition="top" (click)="OnShowQr(data)"
                         [class]="data.qrcode?'p-button-help': 'p-button-help p-button-outlined'"></button>
                         <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"
                         (click)="onShowForm(data)"></button>
-                        <div ngbDropdown *ngIf="applicationType === patrimoineType">
+                        <div ngbDropdown>
                           <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Choisir</button>
                           <div ngbDropdownMenu>
-                            <button ngbDropdownItem  (click)="onEditForm(data)">Edition</button>
-                            <button ngbDropdownItem (click)="onTransactionForm(data,swap)">SIM Swap</button>
-                            <button ngbDropdownItem (click)="onTransactionForm(data,resiliation)">Resiliation</button>
-                            <button ngbDropdownItem (click)="onTransactionForm(data,suspension)">Suspension</button>
-                            <button ngbDropdownItem (click)="onTransactionForm(data,volume)">Volume Data</button>
-                            <button ngbDropdownItem (click)="onDotationForm(data)">Dotation</button>
+                            <button ngbDropdownItem  (click)="onEditForm(data)">Editer</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,swap)" *ngIf="applicationType === patrimoineType">SIM Swap</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,resiliation)">Résilier</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,suspension)">Suspendre</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,volume)" *ngIf="applicationType === patrimoineType">Volume Data</button>
+                            <button ngbDropdownItem (click)="onDotationForm(data)" *ngIf="applicationType === patrimoineType">Dotation</button>
                           </div>
                         </div>
-                        <button pButton pRipple *ngIf="applicationType !== patrimoineType" icon="pi pi-pencil" class="p-button-secondary" pTooltip="Editer" tooltipPosition="top"
-                        (click)="onEditForm(data)"></button>
                     </td>
                   </tr>
                 </tbody>

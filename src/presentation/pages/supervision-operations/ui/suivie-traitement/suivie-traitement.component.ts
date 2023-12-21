@@ -85,7 +85,7 @@ export class SuivieTraitementComponent implements OnInit {
     this.isFilter();
     this.GetAllTransactions();
     this.GetFirstLevel()
-    localStorage.setItem('layout', 'Barcelona');
+    //localStorage.setItem('layout', 'Barcelona');
   }
 
 

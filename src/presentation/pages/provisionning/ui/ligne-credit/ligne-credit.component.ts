@@ -179,7 +179,7 @@ export class LigneCreditComponent implements OnInit {
     });
   }
 
-  pipeValue(number: any) {
+  public pipeValue(number: any) {
     return new Intl.NumberFormat('fr-FR').format(number);
   }
 

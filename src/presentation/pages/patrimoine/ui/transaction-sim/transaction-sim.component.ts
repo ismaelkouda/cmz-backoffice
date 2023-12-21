@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment';
 import { SettingService } from 'src/shared/services/setting.service';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
@@ -10,7 +11,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { ExcelService } from 'src/shared/services/excel.service';
-import { TraitementShowComponent } from 'src/shared/components/traitement-show/traitement-show.component';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 
 @Component({
@@ -40,6 +40,11 @@ export class TransactionSimComponent implements OnInit {
   public p: number = 1;
   public display: boolean = false;
   public isMaximized: boolean = false;
+  public secondFilter: boolean = false;
+  public filterDateStart: Date;
+  public filterDateEnd: Date;
+  public selectDateStart: any;
+  public selectDateEnd: any;
   public stateSoumis: string = StatutTransaction.SOUMIS;
   public stateTraite: string = StatutTransaction.TARITER;
   public stateCloture: string = StatutTransaction.CLOTURER;
@@ -64,7 +69,8 @@ export class TransactionSimComponent implements OnInit {
       OperationTransaction.RESILIATION,
       OperationTransaction.SUSPENSION,
       OperationTransaction.SWAP,
-      OperationTransaction.VOLUME_DATA
+      OperationTransaction.VOLUME_DATA,
+      OperationTransaction.RE_ACTIVATION
     ],
       Object.values(TraitementTransaction).forEach(item => {
         this.listStatuts.push(item);
@@ -107,6 +113,10 @@ export class TransactionSimComponent implements OnInit {
   }
 
   public onFilter() {
+    if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
+      this.toastrService.error('Plage de date invalide');
+      return;
+    }
     this.patrimoineService
       .GetAllTransactions({
         operation: this.selectedOperation,
@@ -114,6 +124,8 @@ export class TransactionSimComponent implements OnInit {
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
         statut: this.selectedStatut,
+        date_debut: this.selectDateStart,
+        date_fin: this.selectDateEnd,
       }, this.p)
       .subscribe({
         next: (response) => {
@@ -135,6 +147,10 @@ export class TransactionSimComponent implements OnInit {
     this.selectedSim = null
     this.selectedimsi = null
     this.selectedStatut = null
+    this.selectDateStart = null
+    this.selectDateEnd = null
+    this.filterDateStart = null
+    this.filterDateEnd = null
     
   }
   showJournal(data: Object): void {
@@ -164,6 +180,10 @@ export class TransactionSimComponent implements OnInit {
     this.formsView = true;
     this.currentObject = undefined;
   }
+
+  public showSecondFilter() {
+    this.secondFilter = !this.secondFilter;
+  }
   public onHistorique(data): void {
     this.initialView = false;
     this.formsView = true;
@@ -190,6 +210,20 @@ export class TransactionSimComponent implements OnInit {
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
       this.listTransactions = res
     })
+  }
+  changeDateStart(e) {
+    if ( moment(this.filterDateStart).isValid()) {
+      this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    }else{
+      this.selectDateStart = null
+    }
+  }
+  changeDateEnd(e) { 
+    if ( moment(this.filterDateEnd).isValid()) {
+      this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+    }else{
+      this.selectDateEnd = null
+    }
   }
   public isFilter(): boolean {
     return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction) ? true : false

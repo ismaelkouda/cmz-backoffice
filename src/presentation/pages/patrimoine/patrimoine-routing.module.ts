@@ -4,8 +4,10 @@ import { CarteSimActiveComponent } from './ui/carte-sim-active/carte-sim-active.
 import { TransactionSimComponent } from './ui/transaction-sim/transaction-sim.component';
 import { GroupeSimComponent } from './ui/groupe-sim/groupe-sim.component';
 import { DotationServiceComponent } from './ui/dotation-service/dotation-service.component';
+import { EtatSoldeComponent } from './ui/etat-solde/etat-solde.component';
 
 export const CARTES_SIM = 'cartes-sim';
+export const ETAT_SOLDE = 'etat-solde';
 export const LIFECYCLE_SIM = 'cycle-de-vie-sim';
 export const GROUPE_SIM = 'groupe-sim';
 export const DOTATION_SERVICES = 'dotation-services';
@@ -17,6 +19,10 @@ const routes: Routes = [{
         {
             path: CARTES_SIM,
             component: CarteSimActiveComponent
+        },
+        {
+            path: ETAT_SOLDE,
+            component: EtatSoldeComponent
         },
         {
             path: GROUPE_SIM,

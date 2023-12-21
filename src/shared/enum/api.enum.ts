@@ -20,11 +20,19 @@ export const enum EndPointUrl {
     //Third Level EndPoints
     GET_ALL_NIVEAUX_3 = 'parametres-securite/niveau_trois/all',
     GET_ALL_NIVEAUX_3_HABILITATION = 'parametres-securite/niveau_trois/all-for-habilitation',
-
     SAVE_NIVEAUX_3 = 'parametres-securite/niveau_trois/store',
     UPDATE_NIVEAUX_3 = 'parametres-securite/niveau_trois/update',
     GET_ALL_ZONES = 'parametres-securite/zones/all',
     UPDATE_STATUT_USAGE = 'usages/mise-a-jour-statut',
+
+
+    //Third Level EndPoints
+    GET_ALL_USAGES = 'parametres-securite/usages/all',    
+    SAVE_USAGE = 'parametres-securite/usages/store',
+    UPDATE_USAGE = 'parametres-securite/usages/update',
+    ACTIVATE_USAGE = 'parametres-securite/usages/{id}/activer',
+    DISABLE_USAGE = 'parametres-securite/usages/{id}/desactiver',
+    DELETE_USAGE = 'parametres-securite/usages/{id}/delete',
     // SECURITY
     HANDLE_UPDATE_PASSWORD = 'users/update-password',
     GET_ALL_SITES = 'sites/all',

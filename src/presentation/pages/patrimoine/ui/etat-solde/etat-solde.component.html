@@ -1,0 +1,153 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div [hidden]="!initialView">
+            <div class="row filter_wrapper">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Statut Alarme<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listAlarmes"[showClear]="true" [(ngModel)]="selectedAlarme" [filter]="true" [placeholder]="'alarme'">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listFirstLeveDatas" optionLabel="fullName" (onChange)="onChangeFirstLvel($event)"
+                    [showClear]="true" [filter]="true" filterBy="fullName" [(ngModel)]="selectedDirection" [placeholder]="firstLevelLibelle">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.fullName}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" optionLabel="fullName" [filter]="true" [showClear]="true"
+                    [(ngModel)]="selectedExploitation" [placeholder]="firstLevelLibelle">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.fullName}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>{{thirdLevelLibelle}}</b>
+                  </label>
+                  <p-dropdown [options]="listThirdLevelDatas" [(ngModel)]="selectedUsage" optionLabel="nom" [showClear]="true"
+                    [placeholder]="thirdLevelLibelle" optionValue="id">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.nom}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div [style]="{width: '12rem'}">
+                <div class="form-group">
+                  <label>
+                    <b>Zone Trafic</b>
+                  </label>
+                  <input placeholder="Zone trafic" [(ngModel)]="selectedZone" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>MSISDN</b>
+                  </label>
+                  <input placeholder="Numéro" [(ngModel)]="selectedMsisdn" type="text" pInputText />
+                </div>
+              </div>
+              <div [style]="{width: '3rem'}">
+                <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="isFilter()"
+                  (click)="onFilter()"></p-button>
+              </div>
+            </div>
+            <hr>
+            <div class="table_actions_wrapper">
+              <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
+                class="p-button-secondary"></button>
+              <button pButton pRipple label="Exporter" (click)="OnExportExcel()" [disabled]="disableAction()" icon="pi pi-download"
+                class="p-button-helf"></button>
+            </div>
+            <div class="table_content_wrapper">
+              <p-table #dt [value]="listEtats" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+                [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+                      données" [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+                  <div class="table_header">
+                    <div class="table_header__legende">
+                      <h4 >
+                        <b *ngIf="listEtats?.length">Liste des {{listEtats?.length}} Etats de soldes</b>
+                        <b *ngIf="!listEtats?.length">Aucune donnée d'Etats de solde</b>
+                      </h4>
+                    </div>
+                    <div class="table_header__input">
+                      <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                          placeholder="Recherche" />
+                      </span>
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">MSISDN</th>
+                    <th class="text-center">IMSI</th>
+                    <th class="text-center">Solde (Go)</th>
+                    <th class="text-center">Alarme</th>
+                  </tr>
+                </ng-template>
+                <ng-template let-i="rowIndex" pTemplate="body" let-data>
+                  <tr>
+                    <td class="text-center">{{ i + 1 }}</td>
+                    <td (click)="copyData(data?.msisdn)" style="cursor: pointer" class="text-center">{{data?.msisdn}}</td>
+                    <td class="text-center">{{data?.imsi}}</td>
+                    <td class="text-center">{{data?.solde_actuel_go | formatNumber:2}}</td>
+                    <td class="text-center">{{data?.alarme}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+          <app-groupe-form [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
+            (listProfils)="pushListProfils($event)">
+          </app-groupe-form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,12 +1,12 @@
-import { SoldesSimComponent } from './ui/soldes-sim/soldes-sim.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PerformanceCollecteComponent } from './ui/performance-collecte/performance-collecte.component';
 import { CourbeMessageComponent } from './ui/courbe-message/courbe-message.component';
+import { AnalyseRejetComponent } from './ui/analyse-rejet/analyse-rejet.component';
 
 export const COURBE_MESSAGE = 'analyse-alarmes';
+export const ANALAYSE_REJET = 'analyse-rejet';
 export const PERFORMANCE_COLLECTE = 'approvisionnement';
-export const SOLDES_SIM = 'soldes-sim';
 export const ETAT_LIAISON = 'etat-des-liaisons';
 
 
@@ -22,8 +22,8 @@ const routes: Routes = [{
             component: CourbeMessageComponent
         },
         {
-            path: SOLDES_SIM,
-            component: SoldesSimComponent
+            path: ANALAYSE_REJET,
+            component: AnalyseRejetComponent
         }
     ]
 }];

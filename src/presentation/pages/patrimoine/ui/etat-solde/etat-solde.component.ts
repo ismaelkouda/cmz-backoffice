@@ -1,0 +1,193 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { PatrimoineService } from '../../data-access/patrimoine.service';
+import { ClipboardService } from 'ngx-clipboard';
+import { ExcelService } from 'src/shared/services/excel.service';
+import { TypeAlarme } from 'src/shared/enum/TypeAlarme.enum';
+import { MappingService } from 'src/shared/services/mapping.service';
+import { SettingService } from 'src/shared/services/setting.service';
+const Swal = require('sweetalert2');
+
+@Component({
+  selector: 'app-etat-solde',
+  templateUrl: './etat-solde.component.html',
+  styleUrls: ['./etat-solde.component.scss']
+})
+export class EtatSoldeComponent implements OnInit {
+
+  public module: string;
+  public subModule: string;
+  public initialView: boolean = true;
+  public formsView: boolean = false;
+  public affectationView: boolean = false;
+  public visualisationView: boolean = false;
+  public currentObject: any;
+  public listAlarmes: any[] = [];
+  public listEtats: any[] = [];
+  public listFirstLeveDatas: Array<any> = [];
+  public listSecondLevelDatas: Array<any> = [];
+  public listThirdLevelDatas: Array<any> = [];
+  public selectedAlarme: string;
+  public selectedMsisdn: string;
+  public selectedDirection: any;
+  public selectedExploitation: any;
+  public selectedUsage: string;
+  public selectedZone: string;
+  public firstLevelLibelle: string;
+  public secondLevelLibelle: string;
+  public thirdLevelLibelle: string;
+
+  constructor(
+    private patrimoineService: PatrimoineService,
+    private toastrService: ToastrService,
+    private route: ActivatedRoute,
+    private mappingService: MappingService,
+    private settingService: SettingService,
+    private clipboardApi: ClipboardService,
+    private excelService: ExcelService
+  ) { 
+    Object.values(TypeAlarme).forEach(item => {
+      this.listAlarmes.push(item);
+    });
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+  }
+
+  ngOnInit() {
+    this.GetAllFirstLevel();
+    this.GetAllThirdLevel();
+    this.isFilter();
+    this.disableAction()
+    this.route.data.subscribe((data) => {
+      this.module = data.module;
+      this.subModule = data.subModule[4];
+    });
+  }
+
+  public GetAllEtats(): void {
+    this.patrimoineService
+      .GetAllEtats({})
+      .subscribe({
+        next: (response) => {
+          this.listEtats = response['data']['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public OnRefresh(){
+    this.listEtats = [];
+    this.selectedAlarme = null
+    this.selectedDirection = null
+    this.selectedExploitation = null
+    this.selectedUsage = null
+    this.selectedMsisdn = null
+    this.selectedZone = null
+  }
+
+  public GetAllFirstLevel() {
+    this.settingService
+      .getAllDirectionRegionales({})
+      .subscribe({
+        next: (response) => {
+          this.listFirstLeveDatas = response['data'].map(element => {
+            return { ...element, fullName: `${element.nom} [${element.code}]` }
+          });
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+
+  onChangeFirstLvel(event: any) {
+    this.selectedDirection = event.value;
+    this.listSecondLevelDatas = this.selectedDirection?.niveaux_deux.map(element => {
+      return { ...element, fullName: `${element.nom} [${element.code}]` }
+    });
+  }
+  public GetAllThirdLevel() {
+    this.settingService
+      .getAllZones({})
+      .subscribe({
+        next: (response) => {
+          this.listThirdLevelDatas = response['data']
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public copyData(data: any): void {
+    this.toastrService.success('Copié dans le presse papier');
+    this.clipboardApi.copyFromContent(data);
+  }
+  public onEditForm(data: any): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, type: 'edit' };
+  }
+  public onShowForm(data: any): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, type: 'show' };
+  }
+  OnAffectaion(data) {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, type: 'affectation' };
+  }
+  OnVisualisation(data) {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, type: 'visualiser' };
+  }
+  public pushStatutView(event: boolean): void {
+    this.formsView = event;
+    this.initialView = !event;
+  }
+  public pushListProfils(event: any): void {
+    this.listEtats = event;
+  }
+  onFilter() {
+    this.patrimoineService
+      .GetAllEtats({
+        alarme: this.selectedAlarme,
+        niveau_un_id: this.selectedDirection?.id,
+        niveau_deux_id: this.selectedExploitation?.id,
+        niveau_trois_id: this.selectedUsage,
+        zone_trafic: this.selectedZone,
+        msisdn: this.selectedMsisdn,
+      })
+      .subscribe({
+        next: (response) => {
+          this.listEtats = response['data']['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public disableAction(): boolean {
+    return (this.listEtats === undefined || this.listEtats?.length === 0) ? true : false
+  }
+  public isFilter(): boolean {
+    return (!this.selectedAlarme || !this.selectedDirection || !this.selectedExploitation) ? true : false
+  }
+
+  public OnExportExcel(): void {
+    const data = this.listEtats.map((item: any) => ({
+      'Nom': item?.nom,
+      'Description': item?.description,
+      'SIM Affectés': item?.sims_count,
+      'Statut': item?.statut,
+      'Date création': item?.created_at,
+      'Date MAJ	': item?.updated_at,
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des groupes de SIM');
+  }
+
+}

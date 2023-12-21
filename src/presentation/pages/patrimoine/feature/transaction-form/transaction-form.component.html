@@ -3,8 +3,8 @@
     <div>
       <h3>
         <b>
-          <span>Transaction sur SIM</span>
-          <!-- <span class="current_values">[{{operationValue}}]</span> -->
+          <span>Transaction</span><span *ngIf="selectedActionValue" class="mx-2">|</span><span *ngIf="selectedActionValue">{{selectedActionValue | titlecase}}</span>
+          <span class="current_values"*ngIf="selectedActionValue !== activation && selectedActionValue">[{{getFormattedMsisdn(currentPatrimoine?.msisdn ?? '0000000000')}}]</span>
         </b>
       </h3>
     </div>
@@ -26,7 +26,7 @@
           (onClick)="selectedAction(activation)" [inputId]="activation" [style]="{cursor: 'auto'}"></p-radioButton>
         <label [for]="activation" style="margin-top: 0.9rem">Activation</label>
       </div>
-      <div class="d-flex gap-2">
+      <div class="d-flex gap-2" *ngIf="applicationType === patrimoineType">
         <p-radioButton name="valeur" [value]="swap" [disabled]="this.historie" [(ngModel)]="operationValue" (onClick)="selectedAction(swap)"
           [inputId]="swap" [style]="{cursor: 'auto'}"></p-radioButton>
         <label [for]="swap" style="margin-top: 0.9rem">Changement (SIM SWAP)</label>
@@ -41,10 +41,15 @@
           (onClick)="selectedAction(suspension)" [inputId]="suspension" [style]="{cursor: 'auto'}"></p-radioButton>
         <label [for]="suspension" style="margin-top: 0.9rem">Suspension</label>
       </div>
-      <div class="d-flex gap-2">
+      <div class="d-flex gap-2" *ngIf="applicationType === patrimoineType">
         <p-radioButton name="valeur" [value]="volume" [disabled]="this.historie"  [(ngModel)]="operationValue" (onClick)="selectedAction(volume)"
           [inputId]="volume" [style]="{cursor: 'auto'}"></p-radioButton>
         <label [for]="volume" style="margin-top: 0.9rem">Volume (Go)</label>
+      </div>
+      <div class="d-flex gap-2">
+        <p-radioButton name="valeur" [value]="reactivation" [disabled]="this.historie"  [(ngModel)]="operationValue" (onClick)="selectedAction(reactivation)"
+          [inputId]="reactivation" [style]="{cursor: 'auto'}"></p-radioButton>
+        <label [for]="reactivation" style="margin-top: 0.9rem">Reactivation</label>
       </div>
     </div>
   </fieldset>
@@ -52,7 +57,7 @@
   <div class="activation-forms" *ngIf="selectedActionValue === activation">
     <fieldset style="margin-top: 2.5rem;" *ngIf="currentPatrimoine">
       <legend [ngStyle]="{width: '100%'}">
-        <b>Information de transaction</b>
+        <b>Information Transaction</b>
       </legend>
       <div style="display: flex;gap: 2rem;">
         <div class="d-flex gap-2">
@@ -190,11 +195,11 @@
     </div>
   </div>
   <div
-  *ngIf="selectedActionValue === swap || selectedActionValue === resiliation || selectedActionValue === suspension || selectedActionValue === volume">
+  *ngIf="selectedActionValue === swap || selectedActionValue === resiliation || selectedActionValue === suspension || selectedActionValue === volume || selectedActionValue === reactivation">
 
   <fieldset style="margin-top: 2.5rem;">
     <legend [ngStyle]="{width: '100%'}">
-      <b>Informations de Transaction</b>
+      <b>Informations de la SIM</b>
     </legend>
     <div>
       <div class="row" style="padding-top: 1.3rem;">
@@ -286,7 +291,7 @@
       <b>Détails de la Transaction</b>
     </legend>
     <!----------------------------RESILIER----SUSPENSION----FORMS-------------------------------->
-    <div class="row" *ngIf="selectedActionValue === resiliation || selectedActionValue === suspension">
+    <div class="row" *ngIf="selectedActionValue === resiliation || selectedActionValue === suspension || selectedActionValue === reactivation">
       <div class="col-md-4">
         <div class="form-group">
           <label>
@@ -381,13 +386,13 @@
 </div>
   <div class="submit-form" *ngIf="selectedActionValue">
     <div>
-      <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha" (success)="handleSuccess($event)">
-      </ngx-recaptcha2>
+      <!-- <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha" (success)="handleSuccess($event)">
+      </ngx-recaptcha2> -->
       <button pButton *ngIf="selectedActionValue !== activation" style="float: right;margin-top: 1rem;"
-        label="Soumettre" class="p-button-success" [disabled]="!selectedDescription && !selectedVolume || !currentRecaptcha"
+        label="Soumettre" class="p-button-success" [disabled]="!selectedDescription && !selectedVolume"
         (click)="handleSaveNewTransaction()"></button>
       <button pButton *ngIf="selectedActionValue === activation" style="float: right;margin-top: 1rem;"
-        label="Soumettre" class="p-button-success" [disabled]="isValidateActivation() || !currentRecaptcha"
+        label="Soumettre" class="p-button-success" [disabled]="isValidateActivation()"
         (click)="handleSaveNewTransaction()"></button>
     </div>
   </div>

@@ -12,8 +12,11 @@ import { MappingService } from 'src/shared/services/mapping.service';
 export class DashboardComponent implements OnInit {
 
   public dataResponse: any;
+  public countTotalSim: number = 0;
   public countSimActive: number = 0;
-  public countSimInactive: number = 0;
+  public countSimSuspendu: number = 0;
+  public   countSimResilie
+  : number = 0;
   public countVolumeData: number = 0;
   public countLigneCredit: number = 0;
   public countAlarmeNormal: number = 0;
@@ -28,7 +31,8 @@ export class DashboardComponent implements OnInit {
 
 
   simIcon = '../../../assets/svg/sim_loc_noir_white.png';
-  simNormale = '../../../assets/svg/normal_white.png';
+  totalSimIcon = '../../../assets/svg/sim_loc_noir.svg';
+  simNormale = '../../../assets/svg/normal_dark.png';
   simMineure = '../../../assets/svg/mineure.png';
   simMajeure = '../../../assets/svg/majeure_white.png';
   simCrique = '../../../assets/svg/critique_white.png';
@@ -57,18 +61,16 @@ export class DashboardComponent implements OnInit {
     this.htpp.get(`${this.baseUrl}dashboard/statistiques`)
       .subscribe({
         next: (res) => {
-          // console.log("resresres", res);
           this.dataResponse = res['data'];
+          this.countTotalSim = this.dataResponse?.total;
           this.countSimActive = res['data'].actif;
-          this.countSimInactive = this.dataResponse?.inactif;
+          this.countSimSuspendu = this.dataResponse?.suspendu;
+          this.countSimResilie = this.dataResponse?.resilie;
           this.countAlarmeNormal = this.dataResponse?.['alarme_normal'];
           this.countAlarmeMineure = this.dataResponse?.['alarme_mineur'];
           this.countAlarmeMajeure = this.dataResponse?.['alarme_majeur'];
           this.countAlarmeCritique = this.dataResponse?.['alarme_critique'];
           this.currrentDate = this.dataResponse?.['date_derniere_maj'];
-
-          this.countVolumeData = this.dataResponse?.['volume_data'];
-          this.countLigneCredit = this.dataResponse?.['ligne_credit'];
         },
         error: (error) => {
 

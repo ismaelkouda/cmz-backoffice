@@ -390,6 +390,78 @@
             </fieldset>
           </div>
         </div>
+        <!--------------REACTIVATION------------FORMS----------------->
+        <div *ngIf="transaction?.operation === OperationReactivation">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="reactivationForm">
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Informations sur la SIM</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>MSIDN</b>
+                    </label>
+                    <input type="text" formControlName="msisdn" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>IMSI</b>
+                    </label>
+                    <input type="text" formControlName="imsi" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Statut Contrat</b>
+                    </label>
+                    <input type="text" formControlName="statut_contrat" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Emplacement</b>
+                    </label>
+                    <input type="text" formControlName="point_emplacement" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Détails de la Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="form-group">
+                  <label>
+                    <b>Description<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="description" pInputText />
+                </div>
+              </div>
+              <br>
+              <div style="display: flex;justify-content: center;gap: 2rem;">
+                <div>
+                  <div style="display: flex;justify-content: center;">
+                    <button pButton pRipple label="Télécharger le justificatif initial" icon="pi pi-download"
+                      class="p-button-success" (click)="downloadFile()"></button>
+                  </div>
+                </div>
+                <div *ngIf="IsUpdate()">
+                  <div style="display: flex;justify-content: center;">
+                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
         <!--------------SUSPENSION------------FORMS----------------->
         <div *ngIf="transaction?.operation === OperationSuspension">
           <div [hidden]="filterTab !== 'first-item'" [formGroup]="suspensionForm">

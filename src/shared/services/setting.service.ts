@@ -103,11 +103,35 @@ export class SettingService {
     const url: string = (<string>EndPointUrl.HANDLE_UPDATE_PASSWORD);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
-
   getAllSites(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_SITES);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
 
+    // USAGES
+    getAllUsages(data): Observable<any> {
+      const url: string = (<string>EndPointUrl  .GET_ALL_USAGES);
+      return this.http.post(`${this.baseUrl}${url}`, data);
+    }
+    OnSaveUsage(data): Observable<any> {
+      const url: string = (<string>EndPointUrl.SAVE_USAGE);
+      return this.http.post(`${this.baseUrl}${url}`, data);
+    }
+    OnUpdateUsage(data): Observable<any> {
+      const url: string = (<string>EndPointUrl.UPDATE_USAGE);
+      return this.http.post(`${this.baseUrl}${url}`, data);
+    }
+    OnDeleteUsage(id): Observable<any> {
+      const url: string = (<string>EndPointUrl.DELETE_USAGE).replace('{id}', id);
+      return this.http.delete(`${this.baseUrl}${url}`);
+    }
+    HandleActiveUsage(id): Observable<any> {
+      const url: string = (<string>EndPointUrl.ACTIVATE_USAGE).replace('{id}', id);
+      return this.http.put(`${this.baseUrl}${url}`,{});
+    }
+    HandleDisableUsage(id): Observable<any> {
+      const url: string = (<string>EndPointUrl.DISABLE_USAGE).replace('{id}', id);
+      return this.http.put(`${this.baseUrl}${url}`,{});
+    }
 
 }

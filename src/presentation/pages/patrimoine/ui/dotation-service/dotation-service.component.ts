@@ -39,7 +39,7 @@ export class DotationServiceComponent implements OnInit {
   public selectedThirdLevel: any;
   public display: boolean = false;
   public isMaximized: boolean = false;
-  public soldeGlobal: string  ;
+  public soldeGlobal: string;
   public filterDateStart: Date;
   public filterDateEnd: Date;
   public selectDateStart: any;

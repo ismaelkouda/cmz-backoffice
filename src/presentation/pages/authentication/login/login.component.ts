@@ -48,8 +48,8 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    //{port: window.location.port}
-    this.loginForm.patchValue({port: window.location.port})
+    this.loginForm.patchValue({port: '11200'})
+    //this.loginForm.patchValue({port: window.location.port})
     this.userLoginUseCase.execute(this.loginForm.value).subscribe({
       next: (response) => {        
         this.storage.saveData('user', JSON.stringify(response.data));
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
           }
         })
         this.storage.saveData("current_menu", JSON.stringify(this.permissionsJson))
-        this.router.navigateByUrl(`/dashboard`)
+        this.router.navigateByUrl(`/dashboard`).then(()=>{window.location.reload()})
         this.toastService.success(`Bienvenue ${response.data.nom} ${response.data.prenoms}`); 
       },
       error: (error) => {        

@@ -31,6 +31,10 @@ export class PatrimoineService {
     const url: string = (<string>EndPointUrl.GET_ALL_USAGES);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  GetAllEtats(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_ETAT_SOLDE);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   GetAllTransactions(data, page): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_TRANSACTIONS).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);

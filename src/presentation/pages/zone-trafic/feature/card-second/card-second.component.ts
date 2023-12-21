@@ -155,7 +155,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.point_emplacement + "</span>" + "<br>" +
           "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
           "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.longitude+ ", "+ feature?.properties?.latitude+"</span>" + "<br>" +
-          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + feature?.properties?.solde_actuel_go + "</span>"+
+          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+
           "</div>",
         ).openPopup();
       }
@@ -219,7 +219,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.sim?.point_emplacement + "</span>" + "<br>" +
           "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
           "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.long_site+ ", "+ feature?.properties?.lat_site+"</span>" + "<br>" +
-          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + feature?.properties?.solde_actuel_go + "</span>"+
+          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span style='color: #FFFFFF;font-weight: bold;background-color: #27ae60; padding: 2px 10px; border-radius: 2px'>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+
           "</div>",
         ).openPopup();
       },
@@ -243,7 +243,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
             "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.sim?.point_emplacement + "</span>" + "<br>" +
             "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
             "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.long_site+ ", "+ feature?.properties?.lat_site+"</span>" + "<br>" +
-            "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + feature?.properties?.solde_actuel_go + "</span>"+
+            "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span style='color: #000000;font-weight: bold;background-color: #FFFF00; padding: 2px 10px; border-radius: 2px'>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+
             "</div>",
           ).openPopup();
         },
@@ -267,7 +267,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
               "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.sim?.point_emplacement + "</span>" + "<br>" +
               "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
               "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.long_site+ ", "+ feature?.properties?.lat_site+"</span>" + "<br>" +
-              "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + feature?.properties?.solde_actuel_go + "</span>"+
+              "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span style='color: #FFFFFF;font-weight: bold;background-color: #FE9A2E; padding: 2px 10px; border-radius: 2px'>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+
               "</div>",
             ).openPopup();
           },
@@ -291,7 +291,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.sim?.point_emplacement + "</span>" + "<br>" +
           "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
           "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.long_site+ ", "+ feature?.properties?.lat_site+"</span>" + "<br>" +
-          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + feature?.properties?.solde_actuel_go + "</span>"+
+          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span style='color: #FFFFFF;font-weight: bold;background-color: #e74c3c; padding: 2px 10px; border-radius: 2px'>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+
           "</div>",
         ).openPopup();;
       },
@@ -371,13 +371,17 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           L.geoJSON(this.currentTraficLayer, {
             pointToLayer: function (feature, latlng) {
               if (feature?.properties?.Alarme === TypeAlarme.NORMAL) {
-                normalLayer.push(feature)                                
+                normalLayer.push(feature)    
+                              
               } else if (feature?.properties?.Alarme === TypeAlarme.MINEUR) {
-                mineurLayer.push(feature)                                
+                mineurLayer.push(feature)    
+                            
               } else if (feature?.properties?.Alarme === TypeAlarme.MAJEUR) {
-                majeurLayer.push(feature)                                
+                majeurLayer.push(feature)    
+                            
               } else if (feature?.properties.Alarme === TypeAlarme.CRITIQUE) {
-                critiqueLayer.push(feature)                                
+                critiqueLayer.push(feature)  
+                              
                 return null
               }
             }
@@ -396,3 +400,15 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

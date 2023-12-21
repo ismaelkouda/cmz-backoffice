@@ -75,7 +75,7 @@ export class PriseEnChargeComponent implements OnInit {
     this.GetFirstLevel();
     this.getAllUsers();
     this.isFilter();
-    localStorage.setItem('layout', 'Barcelona');
+    //localStorage.setItem('layout', 'Barcelona');
   }
 
   public GetAllPriseEnCharge() {

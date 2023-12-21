@@ -1,3 +1,4 @@
+import { AnalyseRejetComponent } from './ui/analyse-rejet/analyse-rejet.component';
 import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -43,6 +44,7 @@ import { SoldesSimComponent } from './ui/soldes-sim/soldes-sim.component';
   ],
   declarations: [
     CourbeMessageComponent,
+    AnalyseRejetComponent,
     PerformanceCollecteComponent,
     SoldesSimComponent,
     CollecteComponent

@@ -39,7 +39,8 @@
             <div class="table_content_wrapper">
               <p-table #dt [value]="listFirstLevelDatas" [rows]="10" [paginator]="true" responsiveLayout="scroll"
                 [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                      données" [showCurrentPageReport]="true">
+                données" [showCurrentPageReport]="true" 
+                [globalFilterFields]="['nom', 'code']">
                 <ng-template pTemplate="caption">
                   <div class="table_header">
                     <div class="table_header__legende">
@@ -60,9 +61,9 @@
                   <tr>
                     <th class="text-center" [style]="{width: '1.5rem'}">#</th>
                     <th>{{firstLevelLibelle}}</th>
-                    <th [style]="{width: '4rem'}">Code</th>
-                    <th [style]="{width: '12rem'}"># {{secondLevelLibelle}} Affectés</th>
-                    <th class="text-center" [style]="{width: '7rem'}">Actions</th>
+                    <th >Code</th>
+                    <th># {{secondLevelLibelle}} Affectés</th>
+                    <th class="text-center">Actions</th>
                   </tr>
                 </ng-template>
                 <ng-template let-i="rowIndex" pTemplate="body" let-data>
@@ -72,8 +73,8 @@
                     <td class="text-center" (click)="copyData(data?.code)" style="cursor: pointer">{{data?.code}}</td>
                     <td class="text-center">
                       <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
-                        label="Visualiser ({{data.niveaux_deux_count}})" class="p-button"
-                        (click)="onViewVisualisation(data)" [disabled]="data?.niveaux_deux_count === 0"></button>
+                        label="Communes / SP [{{data.niveaux_deux_count}}]" class="p-button"
+                        (click)="onViewVisualisation(data)" [disabled]="true"></button>
                     </td>
                     <td class=" td-actions">
                       <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"

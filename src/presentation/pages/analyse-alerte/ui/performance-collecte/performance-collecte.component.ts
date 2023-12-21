@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
   selector: 'app-performance-collecte',
@@ -13,20 +14,20 @@ export class PerformanceCollecteComponent implements OnInit {
   public visualUrl: string;
 
   constructor(
-    private router: Router
-  ) { }
+    private router: Router,
+    private mappingService: MappingService
+  ) {
+    this.visualUrl = this.mappingService.approLink;
+  }
 
   ngOnInit() {
-
     this.onVisualiserTrafic();
-
   }
 
 
   public onVisualiserTrafic() {
     this.showIframe = true;
     this.onDialogMaximized(true);
-    this.visualUrl = "http://160.120.143.6:50300/d/XLhNXou4z/tb-approvisionnement?orgId=1"
   }
   public hideDialog() {
     this.router.navigateByUrl('/zone-trafic/zone-exploitation')

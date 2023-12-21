@@ -35,7 +35,7 @@ export class VueGeographiqueComponent implements OnInit {
   public selectedCommune: any;
   public selectedSite: any;
   public selectedSim: any
-  public selectedZone: string = 'ELOKATE';
+  public selectedZone: string;
   public currentObject: any;
   public initialView: boolean = true;
   public formsView: boolean = false;

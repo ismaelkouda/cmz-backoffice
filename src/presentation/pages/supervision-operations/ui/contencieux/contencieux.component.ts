@@ -85,7 +85,7 @@ export class ContencieuxComponent implements OnInit {
     this.isFilter();
     this.GetAllContencieux();
     this.GetFirstLevel()
-    localStorage.setItem('layout', 'Barcelona');
+    //localStorage.setItem('layout', 'Barcelona');
   }
 
 

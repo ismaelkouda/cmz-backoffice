@@ -17,7 +17,9 @@ export class CourbeMessageComponent implements OnInit {
   constructor(
     private router: Router,
     private mappingService: MappingService
-  ) { }
+  ) {
+    this.visualUrl = this.mappingService.grafanaLink;
+  }
 
   ngOnInit() {
     this.onVisualiserAlarme();
@@ -26,7 +28,6 @@ export class CourbeMessageComponent implements OnInit {
   public onVisualiserAlarme() {
     this.showIframe = true;
     this.onDialogMaximized(true);
-    this.visualUrl = `${this.mappingService.grafanaLink}`
   }
 
   public hideDialog() {

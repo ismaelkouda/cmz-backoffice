@@ -3,6 +3,8 @@ import { ToastrService } from 'ngx-toastr';
 import { TelemetrieService } from './../../data-access/telemetrie.service';
 import { Component, OnInit } from '@angular/core';
 import { SettingService } from 'src/shared/services/setting.service';
+import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
+import { MappingService } from 'src/shared/services/mapping.service';
 @Component({
   selector: 'app-objectif-sla',
   templateUrl: './objectif-sla.component.html',
@@ -15,15 +17,19 @@ export class ObjectifSlaComponent implements OnInit {
   public currentMetrique: any;
   public globalMetriquesEditRow: Array<any> = [];
   public currentTabsIndex: number;
+  public applicationType: string;
 
   constructor(
     private telemetrieService: TelemetrieService,
     private toastrService: ToastrService,
     private settingService: SettingService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private mappingService: MappingService,
 
   ) {
-    this.listObjectifs = [
+    this.applicationType = this.mappingService.applicationType;
+
+    const objectifs = [
       {
         id: 1,
         nom_service: 'Achat de Services',
@@ -40,7 +46,8 @@ export class ObjectifSlaComponent implements OnInit {
         delai_akc: 4,
         delai_traitement: 8,
         delai_cloture: 16,
-        statut: "actif"
+        statut: "actif",
+        pack: ApplicationType.MONITORING,
       },
       {
         id: 3,
@@ -58,7 +65,8 @@ export class ObjectifSlaComponent implements OnInit {
         delai_akc: 4,
         delai_traitement: 8,
         delai_cloture: 16,
-        statut: "actif"
+        statut: "actif",
+        pack: ApplicationType.MONITORING
       },
       {
         id: 5,
@@ -67,7 +75,8 @@ export class ObjectifSlaComponent implements OnInit {
         delai_akc: 8,
         delai_traitement: 16,
         delai_cloture: 24,
-        statut: "inactif"
+        statut: "inactif",
+        pack: ApplicationType.MONITORING
       },
       {
         id: 7,
@@ -88,10 +97,16 @@ export class ObjectifSlaComponent implements OnInit {
         statut: "actif"
       }
     ]
+
+    if (this.applicationType === ApplicationType.PATRIMOINESIM) {      
+      this.listObjectifs = objectifs;
+    }else if(this.applicationType === ApplicationType.MONITORING){
+      this.listObjectifs = objectifs.filter(objet => objet.hasOwnProperty('pack'));
+       //console.log("objectifsobjectifs",datas);
+    }
   }
 
   ngOnInit() {
-    //this.GetAllReferentielTelemetrie();
     this.disableAction()
   }
 

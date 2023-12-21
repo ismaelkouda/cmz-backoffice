@@ -197,7 +197,7 @@
                 <label>
                   <b>Adresse IP<span class="text-danger">*</span></b>
                 </label>
-                <p-inputMask mask="999.999.999" formControlName="adresse_ip" placeholder="000.000.000"></p-inputMask>
+                <input type="text" formControlName="adresse_ip" pInputText />
               </div>
             </div>
             <div class="col-md-3">
@@ -398,13 +398,14 @@
                     <label>
                       <b>Adresse IP<span class="text-danger">*</span></b>
                     </label>
-                    <p-inputMask mask="999.999.999" formControlName="adresse_ip" placeholder="000.000.000"></p-inputMask>
+                    <input type="text" formControlName="adresse_ip" pInputText />
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
                     <label>
                       <b>Site Trafic</b>
+                      
                     </label>
                     <input type="text" formControlName="site" pInputText />
                   </div>
@@ -441,7 +442,7 @@
         </label>
         <div class="box-card">
           <span class="valeur">
-            <span>{{ pipeValue(currentObject?.solde_actuel_go || '0') }}</span>
+            <span>{{ currentObject?.solde_actuel_go | formatNumber:2 }}</span>
           </span>
         </div>
       </div>
@@ -453,14 +454,39 @@
         </label>
         <div class="box-card">
           <span class="valeur">
-            <span>{{ pipeValue(currentObject?.solde_dotation || '0') }}</span>
+            <span>{{ currentObject?.solde_dotation | formatNumber:2 }}</span>
           </span>
         </div>
       </div>
     </div>
-    <br>
-    <div class="col-md-12" *ngIf="currentObject?.show">
+    <div class="col-md-12 mt-3" *ngIf="currentObject?.show && currentObject?.statut === 'suspendu'">
+      <button pButton pRipple label="Réactiver la SIM" icon="pi pi-power-off"
+      class="p-button-success" (click)="OnReactivation(currentObject)" style="width: 384px;"></button>
+    </div>
+    <div class="col-md-12 mt-3" *ngIf="currentObject?.show">
       <img width="200" style="max-width: fit-content;position: absolute;left: 26%;" [src]="minioUrl+currentObject.qrcode" alt="QR Illustration">
     </div>
   </div>
 </div>
+<!--------------------REACTIVATION---------------------------------->
+<!-- <ng-template #content let-modal [ngStyle]="{width: 'auto'}">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Reactivation du SIM [{{currentObject?.msisdn}}]</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body" novalidate [style]="{width: '800px'}">
+    <div class="form-group">
+      <label><b>Commentaire<span class="text-danger">*</span></b></label>
+      <textarea rows="3"  pInputTextarea [(ngModel)]="reactivationComment"></textarea>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div>
+      <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
+    </div>
+    <div>
+      <button type="button" class="btn btn-save" (click)="handleReactivation()"
+        [disabled]="!reactivationComment">Valider</button>
+    </div>
+  </div>
+</ng-template> -->

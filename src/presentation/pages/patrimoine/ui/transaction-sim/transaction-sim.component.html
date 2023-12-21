@@ -65,8 +65,34 @@
                   </p-dropdown>
                 </div>
               </div>
-              <div class="col-md-1">
-                <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
+              <div class="p-0" [ngStyle]="{width: '4rem'}" *ngIf="!secondFilter">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                  [disabled]="isFilter()"></p-button>
+              </div>
+              <div class="p-0" [ngStyle]="{width: '4rem'}">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button *ngIf="!secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+                  icon="pi pi-plus"></p-button>
+                <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+                  icon="pi pi-minus"></p-button>
+              </div>
+            </div>
+            <!--------------------Second-------------Filter--------->
+            <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
+              <div class="col-md-2">
+                <label class="block"><b>Date début</b></label>
+                <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
+                  (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
+              </div>
+              <div class="col-md-2">
+                <label class="block"><b>Date fin </b></label>
+                <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+                  (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
+              </div>
+              <div class="p-0" [ngStyle]="{width: '4rem'}">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
                   [disabled]="isFilter()"></p-button>
               </div>
             </div>
@@ -76,9 +102,9 @@
                 <button pButton pRipple label="Transaction simple" icon="pi pi-plus" class="p-button-success"
                   (click)="onInitForm()">
                 </button>
-                <button pButton pRipple label="Transaction en masse" icon="pi pi-plus" class="p-button btn-dark"
+                <!-- <button pButton pRipple label="Transaction en masse" icon="pi pi-plus" class="p-button btn-dark"
                   (click)="onInitForm()" [disabled]="true">
-                </button>
+                </button> -->
                 <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
                   class="p-button-secondary">
                 </button>
@@ -147,9 +173,8 @@
             </div>
           </div>
           <app-transaction-form [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
-            (listTransactions)="pushListTransactions($event)"></app-transaction-form>
+          (listTransactions)="pushListTransactions($event)"></app-transaction-form>
+        </div>
         </div>
       </div>
     </div>
-  </div>
-</div>

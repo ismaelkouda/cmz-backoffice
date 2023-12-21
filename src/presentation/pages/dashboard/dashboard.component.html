@@ -17,46 +17,45 @@
     </div>
 
     <div class="row">
-        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-4'">
+        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
+            <app-stat-box [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#FE9A2E'"
+                [legend]="'Total SIM'" [count]="countTotalSim || '0'" [legendColor]="'#ff7f50'"
+                [countColor]="'#ff7f50'" [icon]="totalSimIcon"></app-stat-box>
+        </div>
+        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
             <app-stat-box [cardBgColor]="'#27ae60'"  [cardBorderColor]="'#FFF'"
                 [legend]="'SIM Actives'" [count]="countSimActive || '0'" [legendColor]="'#FFF'"
                 [countColor]="'#FFF'" [icon]="simIcon"></app-stat-box>
         </div>
-        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-4'">
-            <app-stat-box [cardBgColor]="'#e74c3c'" [cardBorderColor]="'#FFF'" [legend]="'SIM Inactives'"
-                [count]="countSimInactive || '0'" [legendColor]="'#FFF'"
+        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
+            <app-stat-box [cardBgColor]="'#000000'" [cardBorderColor]="'#000000'" [legend]="'SIM Suspendues'"
+                [count]="countSimSuspendu || '0'" [legendColor]="'#ff7f50'"
+                [countColor]="'#ff7f50'" [icon]="simIcon"></app-stat-box>
+        </div>
+        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
+            <app-stat-box [cardBgColor]="'#e74c3c'" [cardBorderColor]="'#FFF'" [legend]="'SIM Resiliées'"
+                [count]="countSimResilie || '0'" [legendColor]="'#FFF'"
                 [countColor]="'#FFF'" [icon]="simIcon"></app-stat-box>
         </div>
-        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-4'" *ngIf="applicationType === patrimoineType">
-            <app-stat-box [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'"
-                [legend]="'Volume Data Dispo. (Go)'" [count]="countVolumeData || '0'" [legendColor]="'#130f40'"
-                [countColor]="'#ff7f50'" [icon]="dataIcon"></app-stat-box>
-        </div>
-        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-4'" *ngIf="applicationType === patrimoineType">
-            <app-stat-box [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'"
-                [legend]="'Ligne Crédit Dispo. (FCFA)'" [count]="countLigneCredit || '0'" [legendColor]="'#130f40'"
-                [countColor]="'#fa8231'" [icon]="creditIcon"></app-stat-box>
-        </div>
-        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-4'">
-            <app-stat-box [cardBgColor]="'#58FAAC'" [cardBorderColor]="'#DF7401'"
-            [legend]="'SIM Alarmes Normales'" [count]="countAlarmeNormal || '0'" [legendColor]="'#FFF'"
-            [countColor]="'#FFF'" [icon]="simNormale"></app-stat-box>
-        </div>
-        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-4'">
-            <app-stat-box [cardBgColor]="'#FFFF00'" [cardBorderColor]="'#DF7401'"
-            [legend]="'SIM Alarmes Mineures'" [count]="countAlarmeMineure || '0'" [legendColor]="'#130f40'"
-            [countColor]="'#130f40'" [icon]="simMineure"></app-stat-box>
-        </div>
-        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-4'">
-            <app-stat-box [cardBgColor]="'#FE9A2E'" [cardBorderColor]="'#DF7401'"
-            [legend]="'SIM Alarmes Majeures'" [count]="countAlarmeMajeure || '0'" [legendColor]="'#FFF'"
-            [countColor]="'#FFF'" [icon]="simMajeure"></app-stat-box>
-        </div>
-        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-4'">
-            <app-stat-box [cardBgColor]="'#e74c3c'" [cardBorderColor]="'#DF7401'"
+        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
+            <app-stat-box [cardBgColor]="'#e74c3c'" [cardBorderColor]="'#FFF'"
             [legend]="'SIM Alarmes Critiques'" [count]="countAlarmeCritique || '0'" [legendColor]="'#FFF'"
             [countColor]="'#FFF'" [icon]="simCrique"></app-stat-box>
         </div>
-
+        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
+            <app-stat-box [cardBgColor]="'#FE9A2E'" [cardBorderColor]="'#FFF'"
+            [legend]="'SIM Alarmes Majeures'" [count]="countAlarmeMajeure || '0'" [legendColor]="'#FFF'"
+            [countColor]="'#FFF'" [icon]="simMajeure"></app-stat-box>
+        </div>
+        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
+            <app-stat-box [cardBgColor]="'#FFFF00'" [cardBorderColor]="'#FFF'"
+            [legend]="'SIM Alarmes Mineures'" [count]="countAlarmeMineure || '0'" [legendColor]="'#130f40'"
+            [countColor]="'#130f40'" [icon]="simMineure"></app-stat-box>
+        </div>
+        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
+            <app-stat-box [cardBgColor]="'#58FAAC'" [cardBorderColor]="'#FFF'"
+            [legend]="'SIM Alarmes Normales'" [count]="countAlarmeNormal || '0'" [legendColor]="'#000000'"
+            [countColor]="'#000000'" [icon]="simNormale"></app-stat-box>
+        </div>
     </div>
 </div>

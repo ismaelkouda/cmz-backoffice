@@ -189,8 +189,6 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
       niveau_uns: firstArray,
       niveau_trois: secondArray
     }
-
-    console.log("data",data);
     this.parametreSecuriteService
       .handleSaveProfilHabilitation({
         nom: this.selectedNom,

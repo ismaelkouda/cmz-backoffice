@@ -111,7 +111,8 @@ export class ThirdLevelComponent implements OnInit {
         Validators.required,
         FormValidator.cannotContainSpace,
         FormValidator.symbolsOnly,
-      ]]   })
+      ]]   
+    })
   }
   openForm(content) {
     this.modalService.open(content);

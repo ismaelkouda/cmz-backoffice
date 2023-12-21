@@ -30,7 +30,7 @@
             <hr>
             <div class="table_actions_wrapper">
               <button pButton pRipple [label]="'Ajout Simple'" icon="pi pi-plus" (click)="openForm(content)"
-                class="p-button-success"></button>
+                class="p-button-success" [disabled]="true"></button>
               <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
                 (click)="GellCurrentLevel()"></button>
               <button pButton pRipple label="Exporter" [disabled]="disableAction()" icon="pi pi-download"
@@ -73,7 +73,7 @@
                       <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
                         (click)="onShowForm(data,content)" class="p-button-dark"></button>
                       <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
-                        (click)="onEditForm(data,content)" class="p-button-secondary"></button>
+                        (click)="onEditForm(data,content)" class="p-button-secondary" [disabled]="true"></button>
                       <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Supprimer"
                         tooltipPosition="top"></p-button>
                     </td>
