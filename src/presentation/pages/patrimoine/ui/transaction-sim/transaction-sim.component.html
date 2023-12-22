@@ -148,7 +148,7 @@
                     <td class="text-center">
                       <span [ngStyle]="{'font-size':'16px'}" class="badge"
                         [class.badge-dark]="data?.statut === treatmenEntente || data?.statut === treatmenAcquiter"
-                        [class.badge-danger]="data?.statut === treatmenRejeter"
+                        [class.badge-danger]="data?.statut === treatmenRejeter || data?.statut === treatmenRefuser"
                         [class.badge-warning]="data?.statut === treatmenCancel"
                         [class.badge-info]="data?.statut === treatmenAccepter"
                         [class.badge-success]="(data?.statut === stateCloture)">

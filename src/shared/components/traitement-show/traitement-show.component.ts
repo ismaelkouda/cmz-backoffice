@@ -36,7 +36,6 @@ export class TraitementShowComponent implements OnInit {
   public operationActivation: string = OperationTransaction.ACTIVATION
   public operationSwap: string = OperationTransaction.SWAP
   public OperationResiliation: string = OperationTransaction.RESILIATION
-  public OperationReactivation: string = OperationTransaction.RE_ACTIVATION
   public OperationSuspension: string = OperationTransaction.SUSPENSION
   public OperationVolumeData: string = OperationTransaction.VOLUME_DATA
   public OperationAchat: string = OperationTransaction.ACHAT_SERVICE
@@ -63,12 +62,16 @@ export class TraitementShowComponent implements OnInit {
   public adminForm: FormGroup;
   public achatForm: FormGroup;
   public currentFile: any;
-  public TextInfosSim: string = "Orange fournira la SIM. A l' issue de l' operation, la SIM sera livrée au point de contact accompagnée d'une facture";
   public TextInfosVolume: string = "Orange CI fournira le volume, à l'issue de l'operation une facture instantannée sera produite";
   public selectedNotation: string;
   public selectedIsCloture: string;
   public selectedDescriptionNotation: string;
-
+  public firstLevelLibelle: string;
+  public secondLevelLibelle: string;
+  public thirdLevelLibelle: string;
+  public sourceStockTenantSim: string;
+  public sourceStockOrangeSim: string;
+  
   constructor(
     private fb: FormBuilder,
     private activeModal: NgbActiveModal,
@@ -84,6 +87,11 @@ export class TraitementShowComponent implements OnInit {
       this.listTypeJustificatif.push(item);
     });
     this.fileUrl = this.mappingService.fileUrl;  
+    this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
+    this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim,
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
       
   }
 
@@ -95,7 +103,6 @@ export class TraitementShowComponent implements OnInit {
     this.OnInitVolumeForm();
     this.OnInitSwapForm();
     this.OnInitResiliationForm();
-    this.OnInitReactivationForm();
     this.OnInitSuspensionForm();
     this.OnInitActivationForm();
     this.OnInitAchatForm();
@@ -132,10 +139,7 @@ export class TraitementShowComponent implements OnInit {
             this.OnShowSwapForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.RESILIATION) {
             this.OnShowResiliationForm();
-          }else if (this.detailTransaction?.operation === OperationTransaction.RE_ACTIVATION) {
-            this.OnShowReactivationForm();
-          } 
-          else if (this.detailTransaction?.operation === OperationTransaction.SUSPENSION) {
+          }else if (this.detailTransaction?.operation === OperationTransaction.SUSPENSION) {
             this.OnShowSuspensionForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION) {
             this.GetFirstLevel();
@@ -171,9 +175,6 @@ export class TraitementShowComponent implements OnInit {
       }
       case OperationTransaction.RESILIATION: {
         return this.resiliationForm.get('resiliation_accepte_comment').value;
-      }
-      case OperationTransaction.RE_ACTIVATION: {
-        return this.reactivationForm.get('reactivation_accepte_comment').value;
       }
       case OperationTransaction.SUSPENSION: {
         return this.suspensionForm.get('suspension_accepte_comment').value;
@@ -386,32 +387,6 @@ export class TraitementShowComponent implements OnInit {
     this.resiliationForm.get('point_emplacement').disable();
   }
 
-    /*@@@@@@@@@@@@@@@@@@@@@@REACTIVATION Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
-    OnInitReactivationForm() {
-      this.reactivationForm = this.fb.group({
-        imsi: [''],
-        msisdn: [''],
-        statut_contrat: [''],
-        justificatif: [''],
-        point_emplacement: [''],
-        description: [''],
-        reactivation_accepte: [''],
-        reactivation_accepte_comment: ['']
-      })
-    }
-    OnShowReactivationForm() {
-      this.reactivationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
-      this.reactivationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
-      this.reactivationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
-      this.reactivationForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
-      this.reactivationForm.get('description').patchValue(this.detailTransaction?.description);
-      this.reactivationForm.get('reactivation_accepte').patchValue(this.detailTransaction?.rapport?.reactivation_accepte);
-      this.reactivationForm.get('reactivation_accepte_comment').patchValue(this.detailTransaction?.rapport?.reactivation_accepte_comment);
-      this.reactivationForm.get('msisdn').disable();
-      this.reactivationForm.get('imsi').disable();
-      this.reactivationForm.get('statut_contrat').disable();
-      this.reactivationForm.get('point_emplacement').disable();
-    }
   public onChangeFile(file: FileList) {
     this.currentFile = file.item(0);
   }
@@ -455,8 +430,18 @@ export class TraitementShowComponent implements OnInit {
       adresse_geographique: [''],
       latitude: [''],
       longitude: [''],
+      niveau_1: [''],
+      niveau_2: [''],
+      niveau_3: [''],
+      usage: [''],
+      imsi: [''],
+      msisdn: [''],
+      statut_contrat: [''],
+      code_pin: [''],
+      email: [''],
+      description: [''],
       activation_accepte: [''],
-      activation_accepte_comment: ['']
+      activation_accepte_comment: [''],
     })
   }
   OnShowActivationForm() {
@@ -464,14 +449,25 @@ export class TraitementShowComponent implements OnInit {
     this.activationForm.get('niveau_un_id').patchValue(this.detailTransaction?.niveau_un_id);
     this.activationForm.get('niveau_deux_id').patchValue(this.detailTransaction?.niveau_deux_id);
     this.activationForm.get('niveau_trois_id').patchValue(this.detailTransaction?.niveau_trois_id);
+    this.activationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
+    this.activationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+    this.activationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
+    this.activationForm.get('code_pin').patchValue(this.detailTransaction?.code_pin);
     this.activationForm.get('usage_id').patchValue(this.detailTransaction?.usage_id);
     this.activationForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.activationForm.get('adresse_email').patchValue(this.detailTransaction?.adresse_email);
     this.activationForm.get('adresse_geographique').patchValue(this.detailTransaction?.adresse_geographique);
     this.activationForm.get('latitude').patchValue(this.detailTransaction?.latitude);
     this.activationForm.get('longitude').patchValue(this.detailTransaction?.longitude);
+    this.activationForm.get('description').patchValue(this.detailTransaction?.description);
     this.activationForm.get('activation_accepte').patchValue(this.detailTransaction?.rapport?.activation_accepte);
     this.activationForm.get('activation_accepte_comment').patchValue(this.detailTransaction?.rapport?.activation_accepte_comment);
+
+    this.activationForm.get('bac_a_pioche').disable();
+    this.activationForm.get('msisdn').disable();
+    this.activationForm.get('imsi').disable();
+    this.activationForm.get('statut_contrat').disable();
+    this.activationForm.get('code_pin').disable();
   }
 
   get bacPiocheActivation() {
@@ -577,11 +573,7 @@ export class TraitementShowComponent implements OnInit {
       }
       case OperationTransaction.RESILIATION: {
         return "Résiliation de SIM";
-      }
-      case OperationTransaction.RE_ACTIVATION: {
-        return "Réactivation de SIM";
-      }
-      case OperationTransaction.SUSPENSION: {
+      }case OperationTransaction.SUSPENSION: {
         return "Suspension de SIM";
       }
       case OperationTransaction.VOLUME_DATA: {
@@ -599,7 +591,6 @@ export class TraitementShowComponent implements OnInit {
     return (
       this.transaction?.operation === OperationTransaction.ACTIVATION  ||
       this.transaction?.operation === OperationTransaction.RESILIATION ||
-      this.transaction?.operation === OperationTransaction.RE_ACTIVATION ||
       this.transaction?.operation === OperationTransaction.SUSPENSION ||
       this.transaction?.operation === OperationTransaction.SWAP ||
       this.transaction?.operation === OperationTransaction.VOLUME_DATA 
@@ -612,7 +603,6 @@ export class TraitementShowComponent implements OnInit {
       this.detailTransaction?.rapport?.swap_accepte === 'oui' ||
       this.detailTransaction?.rapport?.suspension_accepte === 'oui' ||
       this.detailTransaction?.rapport?.resiliation_accepte === 'oui' ||
-      this.detailTransaction?.rapport?.reactivation_accepte === 'oui' ||
       this.detailTransaction?.rapport?.activation_accepte === 'oui'
     ) ? false : true
   }
@@ -658,38 +648,6 @@ export class TraitementShowComponent implements OnInit {
       return this.detailTransaction?.rapport?.date_acquittement
     }    
   }
-  // OnVerify() {
-  //   Swal.fire({
-  //     title: "En êtes vous sûr ?",
-  //     html: `Veuillez proceder à la verification<strong><u>L'imsi</u></strong>`,
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#569C5B',
-  //     cancelButtonColor: '#dc3545',
-  //     confirmButtonText: 'Oui',
-  //     cancelButtonText: 'Annuler',
-  //   }).then((result) => {
-  //     if (result.value) {
-  //       this.patrimoineService
-  //         .OnVerify({
-  //           imsi: this.swapForm.get('imsi').value,
-  //         })
-  //         .subscribe({
-  //           next: (response) => {
-  //             const data = response['data']              
-  //             this.swapForm.get('msisdn').patchValue(data?.msisdn);
-  //             this.swapForm.get('statut_contrat').patchValue(data?.statut_contrat);
-  //             this.swapForm.get('point_emplacement').patchValue(data?.point_emplacement);
-  //             this.toastrService.success(response.message);
-  //             this.OnUpdateTransaction();
-  //           },
-  //           error: (error) => {
-  //             this.toastrService.error(error.error.message);
-  //           }
-  //         })
-  //     }
-  //   });
-  // }
   public OnUpdateTransaction(): void {
     Swal.fire({
       title: "En êtes vous sûr ?",
@@ -706,7 +664,7 @@ export class TraitementShowComponent implements OnInit {
           this.resiliationForm.patchValue({
             justificatif: this.currentFile,
           })
-        }else if (this.transaction?.operation === OperationTransaction.RE_ACTIVATION) {
+        }else if (this.transaction?.operation === OperationTransaction.ACTIVATION) {
           this.activationForm.patchValue({
             justificatif: this.currentFile,
           })
@@ -735,8 +693,6 @@ export class TraitementShowComponent implements OnInit {
                     ? this.swapForm.value :
                     this.transaction?.operation === OperationTransaction.RESILIATION
                       ? this.resiliationForm.value :
-                      this.transaction?.operation === OperationTransaction.RE_ACTIVATION
-                      ? this.reactivationForm.value :
                       this.transaction?.operation === OperationTransaction.SUSPENSION
                         ? this.suspensionForm.value :
                         this.transaction?.operation === OperationTransaction.ACTIVATION
@@ -748,7 +704,7 @@ export class TraitementShowComponent implements OnInit {
           model_id: this.transaction.model_id
         }
         this.supervisionOperationService
-          .OnUpdateTransaction((this.transaction?.operation === OperationTransaction.RESILIATION || this.transaction?.operation === OperationTransaction.RE_ACTIVATION || this.transaction?.operation === OperationTransaction.SUSPENSION || this.transaction?.operation === OperationTransaction.PROVISIONNING) ? formDataBuilder(data) : data)
+          .OnUpdateTransaction((this.transaction?.operation === OperationTransaction.RESILIATION || this.transaction?.operation === OperationTransaction.SUSPENSION || this.transaction?.operation === OperationTransaction.PROVISIONNING || this.transaction?.operation === OperationTransaction.ACTIVATION) ? formDataBuilder(data) : data)
           .subscribe({
             next: (response) => {
               this.toastrService.success(response.message);
@@ -818,7 +774,6 @@ export class TraitementShowComponent implements OnInit {
               this.transaction?.operation === OperationTransaction.VOLUME_DATA ? {volume_data_cloture: this.selectedIsCloture} :
               this.transaction?.operation === OperationTransaction.SWAP ? {swap_cloture: this.selectedIsCloture} :
               this.transaction?.operation === OperationTransaction.RESILIATION ? {resiliation_cloture: this.selectedIsCloture} :
-              this.transaction?.operation === OperationTransaction.RE_ACTIVATION ? {reactivation_cloture: this.selectedIsCloture} :
               this.transaction?.operation === OperationTransaction.SUSPENSION ? {suspension_cloture: this.selectedIsCloture} :
               this.transaction?.operation === OperationTransaction.ACTIVATION ? {activation_cloture: this.selectedIsCloture} : null
             ),

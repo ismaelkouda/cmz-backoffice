@@ -6,15 +6,12 @@ import { ToastrService } from 'ngx-toastr';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PATRIMOINE } from 'src/shared/routes/routes';
-import { TRANSACTION_SIM } from '../../patrimoine-routing.module';
 import { Router } from '@angular/router';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-import { EndPointUrl } from '../../data-access/api.enum';
 import { HttpClient } from '@angular/common/http';
+import { PATRIMOINE } from 'src/shared/routes/routes';
+import { TRANSACTION_SIM } from '../../patrimoine-routing.module';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
-import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
-import { ReactivationFormComponent } from '../reactivation-form/reactivation-form.component';
 
 @Component({
   selector: 'app-patrimoine-forms',
@@ -58,16 +55,15 @@ export class PatrimoineFormsComponent implements OnInit {
   public applicationType: string;
   public patrimoineType: string;
   public baseUrl: string;
+  public activation: string = OperationTransaction.ACTIVATION;
 
   constructor(
     private fb: FormBuilder,
     private settingService: SettingService,
     private toastrService: ToastrService,
     private patrimoineService: PatrimoineService,
-    private modalService: NgbModal,
     private mappingService: MappingService,
     private storage: EncodingDataService,
-    private httpClient: HttpClient,
     private router: Router
   ) {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
@@ -89,7 +85,9 @@ export class PatrimoineFormsComponent implements OnInit {
     this.onFormPachValues();
     this.OnRefreshValues()    
   }
-
+  public statutContrat(){
+    this.mappingService.statutContrat(this.currentObject?.statut)
+  }
   public close(): void {
     this.formsView.emit(false);
     this.adminForm.reset();
@@ -225,13 +223,13 @@ export class PatrimoineFormsComponent implements OnInit {
   public onFormPachValues(): void {
 
     //Identification Controls
-    this.adminForm.get('direction_regionale').patchValue(this.currentObject.direction_regionale?.id);
+    this.adminForm.get('direction_regionale').patchValue(this.currentObject?.direction_regionale?.id);
     this.adminForm.get('exploitation').patchValue(this.currentObject?.exploitation?.id);
     this.adminForm.get('zone').patchValue(this.currentObject.zone?.id);
     this.adminForm.get('imsi').patchValue(this.currentObject?.imsi);
     this.adminForm.get('msisdn').patchValue(this.currentObject?.msisdn);
     this.adminForm.get('statut').patchValue(this.currentObject?.statut);
-    this.adminForm.get('usage').patchValue(this.currentObject?.usage.id);
+    this.adminForm.get('usage').patchValue(this.currentObject?.usage?.id);
     this.adminForm.get('code_pin').patchValue(this.currentObject?.code_pin);
     this.adminForm.get('adresse_geographique').patchValue(this.currentObject?.adresse_geographique);
     this.adminForm.get('point_emplacement').patchValue(this.currentObject?.point_emplacement);
@@ -260,6 +258,7 @@ export class PatrimoineFormsComponent implements OnInit {
 
     if (this.currentObject.show) {
       this.adminForm.disable()
+      this.statutContrat()
     }
   }
   handleUpdateCampagne() {
@@ -288,45 +287,14 @@ export class PatrimoineFormsComponent implements OnInit {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
 
-  openForm(content) {
-    this.modalService.open(content);
-  }
-  hideForm() {
-    this.modalService.dismissAll();
-    this.reactivationComment = undefined;
-  }
-  public handleReactivation() {
-    let baseUrl;
-    baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`
-    this.httpClient.post(`${baseUrl}`, formDataBuilder({
-      ...this.currentObject,
-      operation: OperationTransaction.RE_ACTIVATION,
-      description: this.selectedCommune,
-    })).subscribe({
-        next: (response: any) => {
-          this.hideForm();
-          this.router.navigateByUrl(`${PATRIMOINE}/${TRANSACTION_SIM}` );
-          this.toastrService.success(response.message);
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
-  OnReactivation(data: Object): void {
-    const modalRef = this.modalService.open(ReactivationFormComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
-    modalRef.componentInstance.patrimoine = data;
-    // modalRef.componentInstance.resultTraitement.subscribe((res) => {
-    //   this.listTraitemants = res
-    // })
-  }
   pipeValue(number: any) {
     return new Intl.NumberFormat('fr-FR').format(number);
+  }
+  public onTransactionForm(data: any,operation: string): void {
+    this.router.navigateByUrl(
+      `${PATRIMOINE}/${TRANSACTION_SIM}`,
+      { state: {patrimoine: data,operation: operation} }
+    );
   }
 
 }      

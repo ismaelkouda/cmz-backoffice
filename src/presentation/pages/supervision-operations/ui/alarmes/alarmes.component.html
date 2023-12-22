@@ -25,10 +25,6 @@
               (click)="filterService(typeResiliation)" class="list-group-item cursor-pointer">
               {{HandleFormatTitle('resiliation')}} ({{mappingResponse('resiliation')?.length}})
             </li>
-            <li [ngClass]="filterStatus === typeReactivation? 'active': 'bg_light_green'"
-            (click)="filterService(typeReactivation)" class="list-group-item cursor-pointer">
-            {{HandleFormatTitle('reactivation')}} ({{mappingResponse('reactivation')?.length}})
-            </li>
             <li [ngClass]="filterStatus === typeVolume? 'active': 'bg_light_green'" (click)="filterService(typeVolume)"
               class="list-group-item cursor-pointer">
               {{HandleFormatTitle('volume-data')}} ({{mappingResponse('volume_data')?.length}})

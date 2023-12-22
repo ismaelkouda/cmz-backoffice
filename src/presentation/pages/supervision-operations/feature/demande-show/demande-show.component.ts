@@ -47,8 +47,6 @@ export class DemandeShowComponent implements OnInit {
   public adminForm: FormGroup;
   public achatForm: FormGroup;
   public isError: boolean = false;
-  public TextInfosSim: string = "Orange fournira la SIM. A l' issue de l' operation, la SIM sera livrée au point de contact accompagnée d'une facture";
-  public TextInfosVolume: string = "Orange CI fournira le volume, à l'issue de l'operation une facture instantannée sera produite";
   public currentArrayHeaders = [];
   public currentSheetForm: any;
   public currentSheetFormValidate: boolean = false;
@@ -61,10 +59,11 @@ export class DemandeShowComponent implements OnInit {
   public validateArray: any = [];
   public currentVolP: any;
   //Mapping
-  firstLevelLibelle: string;
-  secondLevelLibelle: string;
-  thirdLevelLibelle: string;
-
+  public firstLevelLibelle: string;
+  public secondLevelLibelle: string;
+  public thirdLevelLibelle: string;
+  public sourceStockTenantSim: string
+  public sourceStockOrangeSim: string
 
   constructor(
     private fb: FormBuilder,
@@ -81,6 +80,8 @@ export class DemandeShowComponent implements OnInit {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+    this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
+    this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim
   }
 
   ngOnInit() {
@@ -337,11 +338,16 @@ export class DemandeShowComponent implements OnInit {
       niveau_2: [''],
       niveau_3: [''],
       usage: [''],
+      imsi: [''],
+      msisdn: [''],
+      statut_contrat: [''],
+      code_pin: [''],
       point_emplacement: [''],
       email: [''],
       adresse_geographique: [''],
       latitude: [''],
       longitude: [''],
+      description: [''],
       activation_accepte: [''],
       activation_accepte_comment: ['']
     })
@@ -351,12 +357,17 @@ export class DemandeShowComponent implements OnInit {
     this.activationForm.get('niveau_1').patchValue(this.detailTransaction?.niveau_uns_nom);
     this.activationForm.get('niveau_2').patchValue(this.detailTransaction?.niveau_deux_nom)
     this.activationForm.get('niveau_3').patchValue(this.detailTransaction?.niveau_trois_nom);
+    this.activationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
+    this.activationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+    this.activationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
+    this.activationForm.get('code_pin').patchValue(this.detailTransaction?.code_pin);
     this.activationForm.get('usage').patchValue(this.detailTransaction?.usage_nom);
     this.activationForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
     this.activationForm.get('email').patchValue(this.detailTransaction?.adresse_email);
     this.activationForm.get('adresse_geographique').patchValue(this.detailTransaction?.adresse_geographique);
     this.activationForm.get('latitude').patchValue(this.detailTransaction?.latitude);
     this.activationForm.get('longitude').patchValue(this.detailTransaction?.longitude);
+    this.activationForm.get('description').patchValue(this.detailTransaction?.description);
     this.activationForm.get('activation_accepte').patchValue(this.detailTransaction?.rapport?.activation_accepte);
     this.activationForm.get('activation_accepte_comment').patchValue(this.detailTransaction?.rapport?.activation_accepte_comment);
     this.activationForm.disable();
@@ -389,7 +400,7 @@ export class DemandeShowComponent implements OnInit {
 
 
   public handleCloseModal(): void {
-    this.GetAllTransactions()
+    this.activeModal.close();
   }
   public formatTitleOuvrage(title: string) {
     switch (title) {

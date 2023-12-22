@@ -1,4 +1,3 @@
-import { ReactivationFormComponent } from './feature/reactivation-form/reactivation-form.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -71,7 +70,6 @@ import { CarteMapComponent } from './feature/carte-map/carte-map.component';
         TransactionFormComponent,
         DotationFormComponent,
         GroupeFormComponent,
-        ReactivationFormComponent,
         CarteMapComponent
     ],
 })

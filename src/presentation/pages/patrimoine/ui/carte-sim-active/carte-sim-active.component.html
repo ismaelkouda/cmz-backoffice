@@ -127,10 +127,15 @@
                     <td (click)="copyData(data.imsi)" style="cursor: pointer" class="px-2">{{data?.imsi ? data?.imsi : 'N/A' }}</td>
                     <td>{{data?.point_emplacement}}</td>
                     <td>
-                      <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
-                        [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
-                        {{ data.statut }}
-                      </span>
+                      <span [ngStyle]="{ 'font-size': '16px' }"
+                      class="badge"
+                      [ngClass]="{
+                        'badge-success': data.statut === 'actif',
+                        'badge-dark': data.statut === 'suspendu',
+                        'badge-danger': data.statut === 'resilié'
+                      }">
+                    {{ data.statut }}
+                </span>
                     </td>
                     <td class="td-actions">
                       <button *ngIf="data.statut !== 'suspendu'" pButton icon="pi pi-map-marker" [disabled]="data.statut ==='inactif'"

@@ -12,6 +12,7 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-transaction-form',
@@ -26,7 +27,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   @Input() currentObject;
   @Output() formsView = new EventEmitter();
   @Output() listTransactions = new EventEmitter();
-
+  public    adminForm: FormGroup;
   public selectedValue: string;
   public listPatrimoine: Array<any> = [];
   public listPatrimoineSims: Array<any> = [];
@@ -60,7 +61,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public resiliation: string = OperationTransaction.RESILIATION;
   public swap: string = OperationTransaction.SWAP;
   public volume: string = OperationTransaction.VOLUME_DATA;
-  public reactivation: string = OperationTransaction.RE_ACTIVATION
 
   //FormsControl
   public listDirections: Array<any> = [];
@@ -89,16 +89,16 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   //Type Source
   public sourceStock: string = 'stock';
   public sourceOrange: string = 'orangeci';
-  public sourceValue: string = this.sourceStock;
-  public systemText: string = 'Le système utilisera une SIM dans le stock';
-  public orangeText: string = "Orange fournira la SIM. A l'issue de l'operation,la SIM sera livrée au point de contact accompagnée d'une facture";
-
+  public sourceValue: string;
 
   //Mapping
-  firstLevelLibelle: string;
-  secondLevelLibelle: string;
-  thirdLevelLibelle: string;
-
+  public applicationType: string;
+  public firstLevelLibelle: string;
+  public secondLevelLibelle: string;
+  public thirdLevelLibelle: string;
+  public sourceStockTenantSim: string;
+  public sourceStockOrangeSim: string;
+  public sourceSoldeDotation: string;
 
   constructor(
     private patrimoineService: PatrimoineService,
@@ -107,12 +107,17 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     private httpClient: HttpClient,
     private mappingService: MappingService,
     private storage: EncodingDataService,
+    private fb: FormBuilder
   ) {
     const data = JSON.parse(this.storage.getData('user'))
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+    this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
+    this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim,
+    this.sourceSoldeDotation = this.mappingService?.sourceSoldeDotation
+    this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
   }
 
@@ -122,19 +127,62 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.getAllUsages();
     this.getAllZones();
     this.isFilter();
-    this.isValidateActivation();
+    this.initForm();
+    this.onGetDrValueChanges();
     this.isVerify();
     this.historie = history.state.patrimoine 
     if (this.historie) {
       this.selectedActionValue = history.state.operation;
       this.operationValue = this.selectedActionValue
-      this.currentPatrimoine = history.state.patrimoine 
-            
+      this.currentPatrimoine = history.state.patrimoine   
+      this.onFormPachValues()
+      this.adminForm.disable() 
+    }
+    if (this.selectedActionValue === this.swap) {
+      this.sourceValue = 'stock'
     } 
   }
+
+
   close() {
     history.state.operation = null
     this.formsView.emit(false);
+  }
+
+  public initForm(): void {
+    this.adminForm = this.fb.group({
+
+      //Identification Controls
+      direction_regionale: ['', [Validators.required]],
+      exploitation: ['',[Validators.required]],
+      zone: ['', [Validators.required]],
+      niveau_un_id: [''],
+      niveau_deux_id: [''],
+      niveau_trois_id: [''],
+      usage_id: ['', [Validators.required]],
+      point_emplacement: [''],
+      adresse_geographique: [''],
+      longitude: ['', [Validators.required]],
+      latitude: ['', [Validators.required]],
+      adresse_email: ['', [
+        Validators.email,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+      ]],
+      imsi: [''],
+      statut: [''],
+      statut_contrat: "",
+      msisdn: [''],
+      code_pin: [''],
+      username: [''],
+      site: [''],
+      adresse_ip: [''],
+      proxy: ['']
+    });
+  }
+
+
+  get statut_contrat() {
+    return this.adminForm.get('statut').value;
   }
 
   public GetAllTransactions() {
@@ -185,17 +233,25 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         }
       })
   }
-  public getAllExploiatations() {
+  public getAllExploitation(id: number) {
     this.settingService
-      .getAllExploiatations({})
-      .subscribe({
-        next: (response) => {
-          this.listExploitations = response.data
+      .getAllExploiatations({
+        niveau_un_id: id,
+      })
+      .subscribe(
+        (response: any) => {
+          this.listExploitations = response['data'];
         },
-        error: (error) => {
+        (error) => {
           this.toastrService.error(error.error.message);
         }
-      })
+      )
+  }
+
+  onGetDrValueChanges() {
+    return this.adminForm.get('direction_regionale').valueChanges.subscribe((value) => {      
+      this.getAllExploitation(value);
+    });
   }
   public getAllUsages() {
     this.patrimoineService
@@ -251,6 +307,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.selectedPiece = file.item(0);
   }
   public handleSaveNewTransaction() {
+    
     let baseUrl;
     let data;
     if (this.selectedActionValue === OperationTransaction.SWAP) {
@@ -262,19 +319,27 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       }
       baseUrl = `${this.baseUrl}${EndPointUrl.SWAPER_SIM}`
     } else if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
-      data = {
+
+      this.adminForm.patchValue({
+        niveau_un_id: this.adminForm.get('direction_regionale').value,
+        niveau_deux_id: this.adminForm.get('exploitation').value,
+        niveau_trois_id: this.adminForm.get('zone').value,
+        statut_contrat: this.adminForm.get('statut').value
+      })
+      this.adminForm.get('direction_regionale').disable()
+      this.adminForm.get('exploitation').disable()
+      this.adminForm.get('zone').disable()
+      this.adminForm.get('statut').disable()
+
+      data = formDataBuilder({
+        ...this.adminForm.value,
+        bac_a_pioche: this.sourceValue !== undefined ? this.sourceValue: 'patrimoine',
         operation: this.selectedActionValue,
-        bac_a_pioche: this.sourceValue,
-        niveau_un_id: this.selectedDirection?.id,
-        niveau_deux_id: this.selectedExploitation,
-        niveau_trois_id: this.selectedActivite,
-        beneficiaire: this.selectedBeneficaire,
-        usage_id: this.selectedUsage,
-        adresse_email: this.selectedEmail,
-        adresse_geographique: this.selectedAdresseGeo,
-        longitude: this.selectedLongitude,
-        latitude: this.selectedLatitude,
-      }
+        description: this.selectedDescription,
+        justificatif: this.selectedPiece,
+      })
+
+
       baseUrl = `${this.baseUrl}${EndPointUrl.ACTIVATION_SIM}`
 
     } else if (this.selectedActionValue === OperationTransaction.VOLUME_DATA) {
@@ -359,6 +424,25 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
+  public onFormPachValues(): void {
+
+    console.log("currentPatrimoine",this.currentPatrimoine);
+    
+    //Identification Controls
+    this.adminForm.get('direction_regionale').patchValue(this.currentPatrimoine.direction_regionale?.id);
+    this.adminForm.get('exploitation').patchValue(this.currentPatrimoine?.exploitation?.id);
+    this.adminForm.get('zone').patchValue(this.currentPatrimoine.zone?.id);
+    this.adminForm.get('imsi').patchValue(this.currentPatrimoine?.imsi);
+    this.adminForm.get('msisdn').patchValue(this.currentPatrimoine?.msisdn);
+    this.adminForm.get('statut').patchValue(this.currentPatrimoine?.statut);
+    this.adminForm.get('usage_id').patchValue(this.currentPatrimoine?.usage.id);
+    this.adminForm.get('code_pin').patchValue(this.currentPatrimoine?.code_pin);
+    this.adminForm.get('adresse_geographique').patchValue(this.currentPatrimoine?.adresse_geographique);
+    this.adminForm.get('point_emplacement').patchValue(this.currentPatrimoine?.point_emplacement);
+    this.adminForm.get('adresse_email').patchValue(this.currentPatrimoine?.adresse_email);
+    this.adminForm.get('longitude').patchValue(this.currentPatrimoine?.longitude);
+    this.adminForm.get('latitude').patchValue(this.currentPatrimoine?.latitude);
+  }
   public isVerify(): boolean {
     return (Object.keys(this.currentPatrimoine).length === 0) ? true : false
   }
@@ -367,20 +451,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   }
   public isFilter(): boolean {
     return !this.selectedValue ? true : false
-  }
-  public isValidateActivation(): boolean {
-    return (
-      // !this.currentRecaptcha ||
-      !this.selectedDirection ||
-      !this.selectedExploitation ||
-      !this.selectedActivite ||
-      !this.selectedBeneficaire ||
-      !this.selectedUsage ||
-      !this.selectedEmail ||
-      !this.selectedAdresseGeo ||
-      !this.selectedLongitude ||
-      !this.selectedLatitude
-    ) ? true : false
   }
   getFormattedMsisdn(value): string {
     const msisdn = value || ""; // Assurez-vous que msisdn est défini

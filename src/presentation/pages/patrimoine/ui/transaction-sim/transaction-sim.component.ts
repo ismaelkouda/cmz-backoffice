@@ -52,6 +52,7 @@ export class TransactionSimComponent implements OnInit {
   public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
   public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
   public treatmenRejeter: string = TraitementTransaction.REJETER;
+  public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
 
   constructor(
@@ -70,7 +71,6 @@ export class TransactionSimComponent implements OnInit {
       OperationTransaction.SUSPENSION,
       OperationTransaction.SWAP,
       OperationTransaction.VOLUME_DATA,
-      OperationTransaction.RE_ACTIVATION
     ],
       Object.values(TraitementTransaction).forEach(item => {
         this.listStatuts.push(item);
@@ -151,7 +151,6 @@ export class TransactionSimComponent implements OnInit {
     this.selectDateEnd = null
     this.filterDateStart = null
     this.filterDateEnd = null
-    
   }
   showJournal(data: Object): void {
     const modalRef = this.modalService.open(JournalComponent, {

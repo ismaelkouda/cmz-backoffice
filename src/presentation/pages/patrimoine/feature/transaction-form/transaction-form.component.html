@@ -46,35 +46,68 @@
           [inputId]="volume" [style]="{cursor: 'auto'}"></p-radioButton>
         <label [for]="volume" style="margin-top: 0.9rem">Volume (Go)</label>
       </div>
-      <div class="d-flex gap-2">
-        <p-radioButton name="valeur" [value]="reactivation" [disabled]="this.historie"  [(ngModel)]="operationValue" (onClick)="selectedAction(reactivation)"
-          [inputId]="reactivation" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="reactivation" style="margin-top: 0.9rem">Reactivation</label>
-      </div>
     </div>
   </fieldset>
   <!------------------------------ACTIVATION--------FORMS-------------------------------->
   <div class="activation-forms" *ngIf="selectedActionValue === activation">
-    <fieldset style="margin-top: 2.5rem;" *ngIf="currentPatrimoine">
-      <legend [ngStyle]="{width: '100%'}">
-        <b>Information Transaction</b>
-      </legend>
-      <div style="display: flex;gap: 2rem;">
-        <div class="d-flex gap-2">
-          <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
-            (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
-          <label [for]="sourceStock" style="margin-top: 0.9rem">Stock/Tenant</label>
+      <fieldset style="margin-top: 2.5rem;" *ngIf="!historie">
+        <legend [ngStyle]="{width: '100%'}">
+          <b>Source Stock SIM</b>
+        </legend>
+        <div style="display: flex;gap: 2rem;">
+          <div class="d-flex gap-2">
+            <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
+              (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
+            <label [for]="sourceStock" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
+          </div>
+          <div class="d-flex gap-2">
+            <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
+              (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
+            <label [for]="sourceOrange" style="margin-top: 0.9rem">Stock SIM/OCI</label>
+          </div>
         </div>
-      </div>
-      <div class="text-wrapper">
-        <input [disabled]="true" [value]="sourceValue === 'stock' ? systemText: orangeText" type="text" pInputText
-          style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 20px;" />
-      </div>
-    </fieldset>
-    <div>
+        <div class="text-wrapper">
+          <input [value]="sourceValue === 'stock' ? sourceStockTenantSim: sourceStockOrangeSim" type="text" [disabled]="true" pInputText/>
+        </div>
+      </fieldset>
+      <div [formGroup]="adminForm" novalidate>
+      <!------------------INFOS---------SIM----------------->
+      <fieldset *ngIf="this.historie">
+        <legend [ngStyle]="{width: '12rem'}">
+          <b>Informations SIM</b>
+        </legend>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>IMSI</b>
+              </label>
+              <input type="text" formControlName="imsi" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>MSISDN</b>
+              </label>
+              <input type="text" formControlName="msisdn" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Statut Contrat</b>
+              </label>
+              <input *ngIf="!historie" type="text" formControlName="statut" pInputText />
+              <app-statut-contrat *ngIf="historie" [statut]="statut_contrat"></app-statut-contrat>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <!------------------INFOS---------IDENTIFICATION----------------->
       <fieldset>
         <legend [ngStyle]="{width: '18rem'}">
-          <b>Informations d'identifications</b>
+          <b>Informations d'identification</b>
         </legend>
         <div class="row">
           <div class="col-md-4">
@@ -82,13 +115,11 @@
               <label>
                 <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="listDirections" [(ngModel)]="selectedDirection" optionLabel="nom"
-                (onChange)="onChangeItem($event)" [showClear]="true" [filter]="true" filterBy="nom"
-                [placeholder]="firstLevelLibelle">
+              <p-dropdown [options]="listDirections" formControlName="direction_regionale" optionLabel="nom" [placeholder]="firstLevelLibelle" optionValue="id">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
-                      {{data.nom}} [{{data.code}}]
+                      {{data.nom}}
                     </div>
                   </div>
                 </ng-template>
@@ -100,8 +131,7 @@
               <label>
                 <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="listExploitations" [(ngModel)]="selectedExploitation" optionLabel="nom"
-                optionValue="id" [showClear]="true" [filter]="true" filterBy="nom" [placeholder]="secondLevelLibelle">
+              <p-dropdown [options]="listExploitations" formControlName="exploitation" optionLabel="nom" [placeholder]="secondLevelLibelle" optionValue="id">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
@@ -117,8 +147,7 @@
               <label>
                 <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="listActivites" [(ngModel)]="selectedActivite" optionLabel="nom"
-                [placeholder]="thirdLevelLibelle" optionValue="id">
+              <p-dropdown [options]="listActivites" formControlName="zone" optionLabel="nom" [placeholder]="thirdLevelLibelle" optionValue="id">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
@@ -134,10 +163,17 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>
+                <b>Nom Emplacement</b>
+              </label>
+              <input type="text" formControlName="point_emplacement" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
                 <b>Usage<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="listUsages" [(ngModel)]="selectedUsage" optionLabel="nom_usage" placeholder="Usage"
-                optionValue="id">
+              <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage" placeholder="usage" optionValue="id">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
@@ -151,17 +187,9 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>
-                <b>Nom Emplacement<span class="text-danger">*</span></b>
+                <b>Adresse mail</b>
               </label>
-              <input type="text" [(ngModel)]="selectedBeneficaire" placeholder="nom emplacement" pInputText />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>
-                <b>Adresse mail<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" [(ngModel)]="selectedEmail" placeholder="Adresse Email" pInputText />
+              <input type="text" formControlName="adresse_email" pInputText />
             </div>
           </div>
         </div>
@@ -169,17 +197,17 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>
-                <b>Adresse géographique</b>
+                <b>Adresse géographique<span class="text-danger">*</span></b>
               </label>
-              <input type="text" [(ngModel)]="selectedAdresseGeo" placeholder="Adresse Geo" pInputText />
+              <input type="text" formControlName="adresse_geographique" pInputText />
             </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
               <label>
-                <b>Latitude<span class="text-danger">*</span></b>
+                <b>Latidue<span class="text-danger">*</span></b>
               </label>
-              <input type="text" [(ngModel)]="selectedLatitude" placeholder="Latitude" pInputText />
+              <input type="text" formControlName="latitude" pInputText />
             </div>
           </div>
           <div class="col-md-4">
@@ -187,15 +215,40 @@
               <label>
                 <b>Longitude<span class="text-danger">*</span></b>
               </label>
-              <input type="text" [(ngModel)]="selectedLongitude" placeholder="Longitude" pInputText />
+              <input type="text" formControlName="longitude" pInputText />
             </div>
           </div>
         </div>
       </fieldset>
-    </div>
+      </div>
+      <!------------------INFOS---------TRANSACTION----------------->
+      <fieldset style="margin-top: 2.5rem;">
+        <legend [ngStyle]="{width: '100%'}">
+          <b>Détails de la Transaction</b>
+        </legend>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>
+                  <b>Description <span class="text-danger">*</span></b>
+                </label>
+                <input type="text" [(ngModel)]="selectedDescription" pInputText />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>
+                  <b>Justificatif</b>
+                </label>
+                <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                  (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+              </div>
+            </div>
+          </div>
+      </fieldset>
   </div>
   <div
-  *ngIf="selectedActionValue === swap || selectedActionValue === resiliation || selectedActionValue === suspension || selectedActionValue === volume || selectedActionValue === reactivation">
+  *ngIf="selectedActionValue === swap || selectedActionValue === resiliation || selectedActionValue === suspension || selectedActionValue === volume">
 
   <fieldset style="margin-top: 2.5rem;">
     <legend [ngStyle]="{width: '100%'}">
@@ -271,8 +324,10 @@
             <label>
               <b>Statut Contrat</b>
             </label>
-            <input type="text" [(ngModel)]="currentPatrimoine.statut" style="text-transform: uppercase;"
-              [disabled]="true" pInputText />
+            <!-- <input type="text" [(ngModel)]="currentPatrimoine.statut" style="text-transform: uppercase;"
+              [disabled]="true" pInputText /> -->
+              <input *ngIf="!currentPatrimoine?.statut" type="text" [(ngModel)]="currentPatrimoine.statut" pInputText [disabled]="true" />
+              <app-statut-contrat *ngIf="currentPatrimoine?.statut" [statut]="currentPatrimoine?.statut"></app-statut-contrat>
           </div>
         </div>
         <div class="col-md-3">
@@ -318,7 +373,12 @@
             <div class="d-flex gap-2">
               <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
                 (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
-              <label [for]="sourceStock" style="margin-top: 0.9rem">Stock/Tenant</label>
+              <label [for]="sourceStock" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
+            </div>
+            <div class="d-flex gap-2">
+              <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
+                (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
+              <label [for]="sourceOrange" style="margin-top: 0.9rem">Stock SIM/OCI</label>
             </div>
           </div>
         </div>
@@ -327,8 +387,7 @@
             <label style="opacity: 0;">
               <b> <span class="text-danger">*</span></b>
             </label>
-            <input [disabled]="true" [value]="sourceValue === 'stock' ? systemText: orangeText" type="text" pInputText
-              style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
+            <input [value]="sourceValue === 'stock' ? sourceStockTenantSim: sourceStockOrangeSim" type="text" [disabled]="true" pInputText/>
           </div>
         </div>
       </div>
@@ -358,8 +417,7 @@
             <label style="opacity: 0;">
               <b> <span class="text-danger">*</span></b>
             </label>
-            <input [disabled]="true" [value]="sourceValue === 'stock' ? 'Le solde de la dotation sera debité du volume demandé': orangeText" type="text" pInputText
-              style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 19px;margin-top: -3px;" />
+              <input [value]="sourceSoldeDotation" type="text" [disabled]="true" pInputText/>
           </div>
         </div>
       </div>
@@ -392,29 +450,8 @@
         label="Soumettre" class="p-button-success" [disabled]="!selectedDescription && !selectedVolume"
         (click)="handleSaveNewTransaction()"></button>
       <button pButton *ngIf="selectedActionValue === activation" style="float: right;margin-top: 1rem;"
-        label="Soumettre" class="p-button-success" [disabled]="isValidateActivation()"
+        label="Soumettre" class="p-button-success" [disabled]="!adminForm || !selectedDescription || !selectedPiece"
         (click)="handleSaveNewTransaction()"></button>
     </div>
   </div>
-</div>
-<div *ngIf="currentObject">
-  <div class="forms-feature-header">
-    <div>
-      <h4>
-        <b>
-          <span>Visualisation de la Transaction</span>
-          <span class="current_values">[{{currentObject?.transaction}} | {{currentObject?.operation |
-            titlecase}}]</span>
-        </b>
-      </h4>
-    </div>
-    <div class="forms-feature-header__button">
-      <div>
-        <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
-      </div>
-    </div>
-  </div>
-  <hr>
-  <app-historique [module]="''" [sous_module]="''" [modele]="currentObject?.operation" [modele_id]="currentObject?.id">
-  </app-historique>
 </div>

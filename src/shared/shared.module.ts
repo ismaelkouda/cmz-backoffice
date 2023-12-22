@@ -1,3 +1,4 @@
+import { StatutContratComponent } from './components/statut-contrat/statut-contrat.component';
 import { FormatNumberPipe } from './pipes/formatNumber.pipe';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
@@ -39,6 +40,7 @@ import { SwiperModule } from "swiper/angular";
 //Primeng Modules
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
@@ -67,6 +69,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     SvgIconComponent,
     HistoriqueComponent,
     JournalComponent,
+    StatutContratComponent,
     QrModalComponent,
     SafePipe,
     FormatNumberPipe,
@@ -90,6 +93,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     TooltipModule,
     DialogModule,
     NgxPaginationModule,
+    RadioButtonModule,
     PasswordModule
   ],
   providers: [NavService, LayoutService, DecimalPipe],
@@ -108,6 +112,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     JournalComponent,
     QrModalComponent,
     TapToTopComponent,
+    StatutContratComponent,
     SvgIconComponent,
     SwiperModule,
     SafePipe,

@@ -88,9 +88,9 @@
          <div class="wrapper-header"  style="font-size: 20px;">
           Statut :&nbsp;<b><span>{{detailTransaction?.statut}}</span></b>
         </div>
-          <div class="wrapper-header"  style="font-size: 20px;">
+          <!-- <div class="wrapper-header"  style="font-size: 20px;">
             Date de création :&nbsp;<b><span>{{detailTransaction?.date_debut}}</span></b>
-          </div>
+          </div> -->
           <div class="wrapper-header"  style="font-size: 20px;">
             Date de traitement :&nbsp;<b><span>{{IscurrentDate() ?? 'N/A'}}</span></b>
           </div>
@@ -178,7 +178,8 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <input type="text" formControlName="statut_contrat" pInputText />
+                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
+                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -266,7 +267,8 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <input type="text" formControlName="statut_contrat" pInputText />
+                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
+                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -281,37 +283,36 @@
             </fieldset>
             <fieldset style="margin-top: 2.5rem;">
               <legend [ngStyle]="{width: '100%'}">
-                <b>Détails de la Transaction</b>
+                <b>Source Stock SIM / Détails de la Transaction</b>
               </legend>
-              <div style="display: flex;gap: 2rem;">
-                <div class="d-flex gap-2">
-                  <p-radioButton name="bac_a_pioche" value="stock" formControlName="bac_a_pioche"
-                    inputId="b_1"></p-radioButton>
-                  <label style="margin-top: 0.9rem">Stock/Tenant</label>
+              <div class="d-flex gap-4">
+                <div>
+                   <div class="d-flex gap-4">
+                       <div class="d-flex gap-2">
+                          <p-radioButton name="valeur" [value]="'stock'" formControlName="bac_a_pioche" [inputId]="'stock'"></p-radioButton>
+                          <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
+                       </div>
+                   </div>
                 </div>
-                <!-- <div class="d-flex gap-2">
-                  <p-radioButton name="bac_a_pioche" value="orangeci" formControlName="bac_a_pioche"
-                    inputId="b_2"></p-radioButton>
-                  <label style="margin-top: 0.9rem">Orange CI</label>
-                </div> -->
+                <div>
+                  <div class="d-flex gap-4">
+                    <div class="d-flex gap-2">
+                      <p-radioButton name="valeur" [value]="'orangeci'" formControlName="bac_a_pioche" [inputId]="'orangeci'"></p-radioButton>
+                      <label [for]="'orangeci'" style="margin-top: 0.9rem">Stock SIM/OCI</label>
+                    </div>
+                </div>
+                </div>
+              </div>
+              <div class="text-wrapper mt-2">
+                <input [value]="sourceStockSwap === 'stock' ? sourceStockTenantSim: sourceStockOrangeSim" type="text" [disabled]="true" pInputText/>
               </div>
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-12">
                   <div class="form-group">
                     <label>
                       <b>Description<span class="text-danger">*</span></b>
                     </label>
                     <input type="text" formControlName="description" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-9">
-                  <div class="form-group">
-                    <label style="opacity: 0;">
-                      <b> <span class="text-danger">*</span></b>
-                    </label>
-                    <input [disabled]="true" class="infos_text"
-                      [value]="sourceStockSwap === 'stock' ? 'Le système utilisera une SIM dans le stock': TextInfosSim"
-                      type="text" pInputText />
                   </div>
                 </div>
               </div>
@@ -347,79 +348,8 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <input type="text" formControlName="statut_contrat" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>Emplacement</b>
-                    </label>
-                    <input type="text" formControlName="point_emplacement" pInputText />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset style="margin-top: 2.5rem;">
-              <legend [ngStyle]="{width: '100%'}">
-                <b>Détails de la Transaction</b>
-              </legend>
-              <div class="row">
-                <div class="form-group">
-                  <label>
-                    <b>Description<span class="text-danger">*</span></b>
-                  </label>
-                  <input type="text" formControlName="description" pInputText />
-                </div>
-              </div>
-              <br>
-              <div style="display: flex;justify-content: center;gap: 2rem;">
-                <div>
-                  <div style="display: flex;justify-content: center;">
-                    <button pButton pRipple label="Télécharger le justificatif initial" icon="pi pi-download"
-                      class="p-button-success" (click)="downloadFile()"></button>
-                  </div>
-                </div>
-                <div *ngIf="IsUpdate()">
-                  <div style="display: flex;justify-content: center;">
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <!--------------REACTIVATION------------FORMS----------------->
-        <div *ngIf="transaction?.operation === OperationReactivation">
-          <div [hidden]="filterTab !== 'first-item'" [formGroup]="reactivationForm">
-            <fieldset style="margin-top: 2.5rem;">
-              <legend [ngStyle]="{width: '100%'}">
-                <b>Informations sur la SIM</b>
-              </legend>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>MSIDN</b>
-                    </label>
-                    <input type="text" formControlName="msisdn" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>IMSI</b>
-                    </label>
-                    <input type="text" formControlName="imsi" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>Statut Contrat</b>
-                    </label>
-                    <input type="text" formControlName="statut_contrat" pInputText />
+                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
+                    <app-statut-contrat [statut]="this.detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -491,7 +421,8 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <input type="text" formControlName="statut_contrat" pInputText />
+                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
+                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -537,32 +468,73 @@
         <!-------------ACTIVATION--------------FORMS--------------------------->
         <div *ngIf="transaction?.operation === operationActivation">
           <div [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
-            <fieldset style="margin-top: 2.5rem;">
+            <fieldset style="margin-top: 2.5rem;" *ngIf="bacPiocheActivation !== 'patrimoine'">
               <legend [ngStyle]="{width: '100%'}">
-                <b>Information / Identifications</b>
+                <b>Source Stock SIM</b>
               </legend>
-              <div style="display: flex;gap: 2rem;">
-                <div class="d-flex gap-2">
-                  <p-radioButton name="bac_a_pioche" [value]="'stock'" formControlName="bac_a_pioche"></p-radioButton>
-                  <label style="margin-top: 0.9rem">Stock/Tenant</label>
+              <div class="d-flex gap-4">
+                <div>
+                   <div class="d-flex gap-4">
+                       <div class="d-flex gap-2">
+                          <p-radioButton name="valeur" [value]="'stock'" formControlName="bac_a_pioche" [inputId]="'stock'"></p-radioButton>
+                          <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
+                       </div>
+                   </div>
+                </div>
+                <div>
+                  <div class="d-flex gap-4">
+                    <div class="d-flex gap-2">
+                      <p-radioButton name="valeur" [value]="'orangeci'" formControlName="bac_a_pioche" [inputId]="'orangeci'"></p-radioButton>
+                      <label [for]="'orangeci'" style="margin-top: 0.9rem">Stock SIM/OCI</label>
+                    </div>
+                </div>
                 </div>
               </div>
-              <div class="text-wrapper">
-                <input [disabled]="true" class="infos_text"
-                  [value]="bacPiocheActivation === 'stock' ? 'Le système utilisera une SIM dans le stock': TextInfosSim"
-                  type="text" pInputText
-                  style="background-color: #ccc !important;font-weight: 800;color: #000000 !important;font-size: 20px;" />
+              <div class="text-wrapper mt-2">
+                <input [value]="bacPiocheActivation === 'stock' ? sourceStockTenantSim: sourceStockOrangeSim" type="text" [disabled]="true" pInputText/>
               </div>
             </fieldset>
             <fieldset>
-              <legend [ngStyle]="{width: '18rem'}">
-                <b>Informations d'identifications</b>
+              <legend [ngStyle]="{width: '12rem'}">
+                <b>Informations SIM</b>
               </legend>
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>Niveau 1</b>
+                      <b>IMSI</b>
+                    </label>
+                    <input type="text" formControlName="imsi" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>MSISDN</b>
+                    </label>
+                    <input type="text" formControlName="msisdn" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Statut Contrat</b>
+                    </label>
+                    <input *ngIf="!detailTransaction?.statut_contrat" type="text" formControlName="statut_contrat" pInputText />
+                    <app-statut-contrat  *ngIf="detailTransaction?.statut_contrat" [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend [ngStyle]="{width: '18rem'}">
+                <b>Informations d'identification</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>{{firstLevelLibelle}}</b>
                     </label>
                     <p-dropdown [options]="listFirstLevel" formControlName="niveau_un_id" optionLabel="nom"
                       optionValue="id" [filter]="true" filterBy="nom">
@@ -579,7 +551,7 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>Niveau 2</b>
+                      <b>{{secondLevelLibelle}}</b>
                     </label>
                     <p-dropdown [options]="listSecondLevel" formControlName="niveau_deux_id" optionLabel="nom"
                       optionValue="id" [filter]="true" filterBy="nom">
@@ -596,7 +568,7 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label>
-                      <b>Niveau 3</b>
+                      <b>{{thirdLevelLibelle}}</b>
                     </label>
                     <p-dropdown [options]="listThirdLevel" formControlName="niveau_trois_id" optionLabel="nom"
                       optionValue="id">
@@ -669,6 +641,28 @@
                       <b>Longitude</b>
                     </label>
                     <input type="text" formControlName="longitude" placeholder="Longitude" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Détails de la Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="form-group">
+                  <label>
+                    <b>Description<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="description" pInputText />
+                </div>
+              </div>
+              <br>
+              <div style="display: flex;justify-content: center;gap: 2rem;">
+                <div>
+                  <div style="display: flex;justify-content: center;">
+                    <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                      class="p-button-success" (click)="downloadFile()"></button>
                   </div>
                 </div>
               </div>
