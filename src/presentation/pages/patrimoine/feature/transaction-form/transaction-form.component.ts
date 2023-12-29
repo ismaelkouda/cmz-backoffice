@@ -99,6 +99,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public sourceStockTenantSim: string;
   public sourceStockOrangeSim: string;
   public sourceSoldeDotation: string;
+  public sourceSoldeDotationOrange: string;
 
   constructor(
     private patrimoineService: PatrimoineService,
@@ -117,20 +118,24 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
     this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim,
     this.sourceSoldeDotation = this.mappingService?.sourceSoldeDotation
+    this.sourceSoldeDotationOrange = this.mappingService?.sourceSoldeDotationOrange
     this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
   }
 
   ngOnInit() {
     this.siteKey = environment.recaptcha.siteKey;
-    this.getAllDirectionRegionales();
-    this.getAllUsages();
-    this.getAllZones();
     this.isFilter();
     this.initForm();
-    this.onGetDrValueChanges();
+    this.IsFormFomSIMValidate()
     this.isVerify();
     this.historie = history.state.patrimoine 
+    if (!this.historie) {
+      this.getAllDirectionRegionales();
+      this.getAllUsages();
+      this.getAllZones();
+      this.onGetDrValueChanges();
+    }
     if (this.historie) {
       this.selectedActionValue = history.state.operation;
       this.operationValue = this.selectedActionValue
@@ -220,6 +225,34 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
           this.toastrService.error(error.error.message);
         }
       })
+  }
+
+  public formatTitle(title: string) {
+    switch (title) {
+      case OperationTransaction.ACHAT_SERVICE: {
+        return "Achat de Services";
+      }
+      case OperationTransaction.ACTIVATION: {
+        return "Activation de SIM";
+      }
+      case OperationTransaction.SWAP: {
+        return "Changement de carte SIM";
+      }
+      case OperationTransaction.SUSPENSION: {
+        return "Suspension de SIM";
+      }
+      case OperationTransaction.RESILIATION: {
+        return "Résiliation de SIM";
+      }
+      case OperationTransaction.VOLUME_DATA: {
+        return "Depot de volume	";
+      }
+      case 'provisionning': {
+        return 'Ligne de Credit';
+      }
+      default:
+        return 'N/A'
+    }
   }
   public getAllDirectionRegionales() {
     this.settingService
@@ -311,15 +344,15 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     let baseUrl;
     let data;
     if (this.selectedActionValue === OperationTransaction.SWAP) {
-      data = {
+      data = formDataBuilder({
         ...this.currentPatrimoine,
         operation: this.selectedActionValue,
         bac_a_pioche: this.sourceValue,
         description: this.selectedDescription,
-      }
+        justificatif: this.selectedPiece
+      })
       baseUrl = `${this.baseUrl}${EndPointUrl.SWAPER_SIM}`
     } else if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
-
       this.adminForm.patchValue({
         niveau_un_id: this.adminForm.get('direction_regionale').value,
         niveau_deux_id: this.adminForm.get('exploitation').value,
@@ -338,20 +371,18 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         description: this.selectedDescription,
         justificatif: this.selectedPiece,
       })
-
-
       baseUrl = `${this.baseUrl}${EndPointUrl.ACTIVATION_SIM}`
 
     } else if (this.selectedActionValue === OperationTransaction.VOLUME_DATA) {
-      data = {
+      data = formDataBuilder({
         ...this.currentPatrimoine,
         operation: this.selectedActionValue,
         description: this.selectedDescription,
-        bac_a_pioche: this.sourceValue,
+        bac_a_pioche: 'stock',
         volume: this.selectedVolume,
-      }
+        justificatif: this.selectedPiece,
+      })
       baseUrl = `${this.baseUrl}${EndPointUrl.VOLUME_DATA}`
-
     }
     else {
       data = formDataBuilder({
@@ -425,17 +456,14 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   }
 
   public onFormPachValues(): void {
-
-    console.log("currentPatrimoine",this.currentPatrimoine);
-    
-    //Identification Controls
-    this.adminForm.get('direction_regionale').patchValue(this.currentPatrimoine.direction_regionale?.id);
-    this.adminForm.get('exploitation').patchValue(this.currentPatrimoine?.exploitation?.id);
-    this.adminForm.get('zone').patchValue(this.currentPatrimoine.zone?.id);
+        //Identification Controls
+    this.adminForm.get('niveau_un_id').patchValue(this.currentPatrimoine?.direction_regionale?.nom);
+    this.adminForm.get('niveau_deux_id').patchValue(this.currentPatrimoine?.exploitation?.nom);
+    this.adminForm.get('niveau_trois_id').patchValue(this.currentPatrimoine.zone?.nom);
+    this.adminForm.get('usage_id').patchValue(this.currentPatrimoine?.usage?.nom_usage);
     this.adminForm.get('imsi').patchValue(this.currentPatrimoine?.imsi);
     this.adminForm.get('msisdn').patchValue(this.currentPatrimoine?.msisdn);
     this.adminForm.get('statut').patchValue(this.currentPatrimoine?.statut);
-    this.adminForm.get('usage_id').patchValue(this.currentPatrimoine?.usage.id);
     this.adminForm.get('code_pin').patchValue(this.currentPatrimoine?.code_pin);
     this.adminForm.get('adresse_geographique').patchValue(this.currentPatrimoine?.adresse_geographique);
     this.adminForm.get('point_emplacement').patchValue(this.currentPatrimoine?.point_emplacement);
@@ -448,6 +476,17 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   }
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
+  }
+
+  public IsFormFomSIMValidate(): boolean {
+    if (this.selectedActionValue === this.volume) {
+      return (!this.selectedDescription || !this.selectedVolume) ? true : false
+    }else{ 
+      !this.selectedDescription ? true : false
+
+      return (!this.selectedDescription) ? true : false
+
+    }
   }
   public isFilter(): boolean {
     return !this.selectedValue ? true : false

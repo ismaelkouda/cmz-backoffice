@@ -20,7 +20,7 @@
             <b>Informations SIM</b>
           </legend>
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
               <div class="form-group">
                 <label>
                   <b>IMSI</b>
@@ -28,7 +28,7 @@
                 <input type="text" formControlName="imsi" pInputText />
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <div class="form-group">
                 <label>
                   <b>MSISDN</b>
@@ -36,20 +36,12 @@
                 <input type="text" formControlName="msisdn" pInputText />
               </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
               <div class="form-group">
                 <label>
                   <b>Statut Contrat</b>
                 </label>
                 <input type="text" formControlName="statut" pInputText />
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="form-group">
-                <label>
-                  <b>Code PIN</b>
-                </label>
-                <input type="text" formControlName="code_pin" pInputText />
               </div>
             </div>
           </div>
@@ -221,7 +213,7 @@
                 <b>Informations SIM</b>
               </legend>
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label>
                       <b>IMSI</b>
@@ -229,7 +221,7 @@
                     <input type="text" formControlName="imsi" pInputText />
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label>
                       <b>MSISDN</b>
@@ -237,20 +229,12 @@
                     <input type="text" formControlName="msisdn" pInputText />
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label>
                       <b>Statut Contrat</b>
                     </label>
                     <app-statut-contrat [statut]="currentObject?.statut"></app-statut-contrat>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>Code PIN</b>
-                    </label>
-                    <input type="text" formControlName="code_pin" pInputText />
                   </div>
                 </div>
               </div>
@@ -265,16 +249,7 @@
                     <label>
                       <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
                     </label>
-                    <p-dropdown [options]="listDirectionRegionales" formControlName="direction_regionale"
-                                optionLabel="nom" optionValue="id">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data.nom}}
-                          </div>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
+                    <input type="text" formControlName="direction_regionale" pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -282,16 +257,7 @@
                     <label>
                       <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
                     </label>
-                    <p-dropdown [options]="listExploitations" formControlName="exploitation" optionLabel="nom"
-                                optionValue="id">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data.nom}}
-                          </div>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
+                    <input type="text" formControlName="exploitation" pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -299,15 +265,7 @@
                     <label>
                       <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
                     </label>
-                    <p-dropdown [options]="listActivites" formControlName="zone" optionLabel="nom" optionValue="id">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data.nom}}
-                          </div>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
+                    <input type="text" formControlName="zone" pInputText />
                   </div>
                 </div>
               </div>
@@ -325,15 +283,7 @@
                     <label>
                       <b>Usage<span class="text-danger">*</span></b>
                     </label>
-                    <p-dropdown [options]="listUsage" formControlName="usage" optionLabel="nom_usage" optionValue="id">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data.nom_usage}}
-                          </div>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
+                    <input type="text" formControlName="usage" pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -447,10 +397,11 @@
         </div>
       </div>
     </div>
-    <div class="col-md-12 mt-3"  *ngIf="applicationType === patrimoineType">
+    <div class="col-md-12 mt-4"  *ngIf="applicationType === patrimoineType">
       <div class="form-group">
-        <label class="label">
-          <b>Solde Dotation (Go)</b>
+        <label class="label" style="line-height: 1.3 !important;">
+          <b>{{currentObject?.solde_data_updated_at}}</b><br>
+          <b class="mt-1">Solde Dotation (Go)</b>
         </label>
         <div class="box-card">
           <span class="valeur">

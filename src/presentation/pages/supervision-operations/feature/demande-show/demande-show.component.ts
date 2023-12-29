@@ -64,6 +64,9 @@ export class DemandeShowComponent implements OnInit {
   public thirdLevelLibelle: string;
   public sourceStockTenantSim: string
   public sourceStockOrangeSim: string
+  public sourceSoldeDotation: string
+  public sourceSoldeDotationOrange: string
+
 
   constructor(
     private fb: FormBuilder,
@@ -81,7 +84,9 @@ export class DemandeShowComponent implements OnInit {
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
-    this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim
+    this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim,
+    this.sourceSoldeDotation = this.mappingService.sourceSoldeDotation,
+    this.sourceSoldeDotationOrange = this.mappingService.sourceSoldeDotationOrange
   }
 
   ngOnInit() {

@@ -65,7 +65,7 @@
                   </p-dropdown>
                 </div>
               </div>
-              <div [style]="{width: '14rem'}">
+              <div [style]="{width: '12rem'}">
                 <div class="form-group">
                   <label>
                     <b>MSISDN</b>
@@ -73,7 +73,7 @@
                   <input placeholder="Numéro" [(ngModel)]="selectedSim" type="text" pInputText />
                 </div>
               </div>
-              <div [style]="{width: '14rem'}">
+              <div [style]="{width: '12rem'}">
                 <div class="form-group">
                   <label>
                     <b>IMSI</b>
@@ -81,8 +81,49 @@
                   <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
                 </div>
               </div>
-              <div style="width: 4rem;">
-                <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
+              <div [ngStyle]="{width: 'auto'}" *ngIf="!secondFilter">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                  [disabled]="isFilter()"></p-button>
+              </div>
+              <div [ngStyle]="{width: 'auto'}">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button *ngIf="!secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+                  icon="pi pi-plus"></p-button>
+                <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+                  icon="pi pi-minus"></p-button>
+              </div>
+            </div>
+            <!--------------------Second-------------Filter--------->
+            <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Nom Emplacement</b>
+                  </label>
+                  <input placeholder="Emplacement" [(ngModel)]="selectedEmplacement" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Statut</b>
+                  </label>
+                  <p-dropdown [options]="listStatuts" [showClear]="true" [(ngModel)]="selectedStatut"
+                    placeholder="Statut">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data | titlecase}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="p-0" [ngStyle]="{width: '4rem'}">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
                   [disabled]="isFilter()"></p-button>
               </div>
             </div>
@@ -96,9 +137,7 @@
             <div class="table_content_wrapper">
               <div class="table_header mt-2">
                 <div class="table_header__legende">
-                  <h4 class="pt-2">
-                    <b>Liste 50 dernières SIM mises à jour</b>
-                  </h4>
+                  <app-table-header [count]="listPatrimoines" [legende]="'SIM mise à jour'"></app-table-header>
                 </div>
                 <div class="table_header__input"></div>
               </div>
@@ -150,11 +189,11 @@
                           <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Choisir</button>
                           <div ngbDropdownMenu>
                             <button ngbDropdownItem  (click)="onEditForm(data)">Editer</button>
-                            <button ngbDropdownItem (click)="onTransactionForm(data,swap)" *ngIf="applicationType === patrimoineType">SIM Swap</button>
-                            <button ngbDropdownItem (click)="onTransactionForm(data,resiliation)">Résilier</button>
-                            <button ngbDropdownItem (click)="onTransactionForm(data,suspension)">Suspendre</button>
-                            <button ngbDropdownItem (click)="onTransactionForm(data,volume)" *ngIf="applicationType === patrimoineType">Volume Data</button>
-                            <button ngbDropdownItem (click)="onDotationForm(data)" *ngIf="applicationType === patrimoineType">Dotation</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,swap)" *ngIf="applicationType === patrimoineType && data.statut === 'actif'">SIM Swap</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,resiliation)" *ngIf="data.statut === 'suspendu'">Résilier</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,suspension)" *ngIf="data.statut === 'actif'">Suspendre</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,volume)" *ngIf="applicationType === patrimoineType && data.statut === 'actif'">Volume Data</button>
+                            <button ngbDropdownItem (click)="onDotationForm(data)" *ngIf="applicationType === patrimoineType && data.statut === 'actif'">Dotation</button>
                           </div>
                         </div>
                     </td>

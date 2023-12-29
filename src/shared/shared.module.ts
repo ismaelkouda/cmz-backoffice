@@ -1,3 +1,4 @@
+import { TableHeaderComponent } from './components/table-header/table-header.component';
 import { StatutContratComponent } from './components/statut-contrat/statut-contrat.component';
 import { FormatNumberPipe } from './pipes/formatNumber.pipe';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
@@ -70,6 +71,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     HistoriqueComponent,
     JournalComponent,
     StatutContratComponent,
+    TableHeaderComponent,
     QrModalComponent,
     SafePipe,
     FormatNumberPipe,
@@ -113,6 +115,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     QrModalComponent,
     TapToTopComponent,
     StatutContratComponent,
+    TableHeaderComponent,
     SvgIconComponent,
     SwiperModule,
     SafePipe,

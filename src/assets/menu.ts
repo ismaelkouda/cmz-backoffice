@@ -33,8 +33,8 @@ export var menuJson = [
             },
             {
                 path: `/${PATRIMOINE}/${ETAT_SOLDE}`,
-                title: "Etat des Soldes",
-                label: "Etat des Soldes",
+                title: "Etat des Soldes Data",
+                label: "Etat des Soldes Data",
                 data: "1-2-0-etat-solde",
                 pack: ApplicationType.MONITORING,
                 type: "link"
@@ -48,8 +48,8 @@ export var menuJson = [
             },
             {
                 path: `/${PATRIMOINE}/${DOTATION_SERVICES}`,
-                title: "Dotations de Services",
-                label: "Dotations de Services",
+                title: "Dotations Data",
+                label: "Dotations Data",
                 data: "1-4-0-dotation-service",
                 type: "link",
             },

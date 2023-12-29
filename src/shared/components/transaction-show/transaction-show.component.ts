@@ -62,13 +62,14 @@ export class TransactionShowComponent implements OnInit {
   public currentFile: any;
   public sourceStockTenantSim: string;
   public sourceStockOrangeSim: string;
-  public TextInfosVolume: string = "Orange CI fournira le volume, à l'issue de l'operation une facture instantannée sera produite";
   public selectedNotation: string;
   public selectedIsCloture: string;
   public selectedDescriptionNotation: string;
   public firstLevelLibelle: string;
   public secondLevelLibelle: string;
   public thirdLevelLibelle: string;
+  public sourceSoldeDotation: string
+  public sourceSoldeDotationOrange: string
 
   constructor(
     private fb: FormBuilder,
@@ -86,11 +87,13 @@ export class TransactionShowComponent implements OnInit {
       this.listTypeJustificatif.push(item);
     });
     this.fileUrl = this.mappingService.fileUrl;  
-    this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
-    this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim,
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+    this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
+    this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim,
+    this.sourceSoldeDotation = this.mappingService.sourceSoldeDotation,
+    this.sourceSoldeDotationOrange = this.mappingService.sourceSoldeDotationOrange
   }
 
   ngOnInit() {

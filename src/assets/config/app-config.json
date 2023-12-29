@@ -1,7 +1,7 @@
 {
     "version": "1.1.0",
-    "serverUrl": "https://osim-monitoring.orange.ci:8010/api/v1/",
-    "fileUrl": "https://osim-monitoring.orange.ci:8010/",
+    "serverUrl": "http://10.10.0.200:28012/api/v1/",
+    "fileUrl": "http://10.10.0.200:28012/",
     "titlePage": "SIM Asset Management"
 }
 

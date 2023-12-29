@@ -72,7 +72,7 @@ export class TransactionSimComponent implements OnInit {
       OperationTransaction.SWAP,
       OperationTransaction.VOLUME_DATA,
     ],
-      Object.values(TraitementTransaction).forEach(item => {
+      Object.values(StatutTransaction).forEach(item => {
         this.listStatuts.push(item);
       });
   }

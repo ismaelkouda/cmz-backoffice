@@ -31,9 +31,9 @@ export const content: Routes = [
       subModule: [
         'Cartes SIM',
         'Groupe de SIM',
-        'Dotation de Services',
+        'Dotation Data',
         'Transactions sur SIM',
-        'Etat des Soldes'
+        'Etat des Soldes Data'
       ]
     }
   },

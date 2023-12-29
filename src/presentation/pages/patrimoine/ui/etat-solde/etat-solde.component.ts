@@ -8,6 +8,8 @@ import { TypeAlarme } from 'src/shared/enum/TypeAlarme.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 const Swal = require('sweetalert2');
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-etat-solde',
@@ -30,6 +32,7 @@ export class EtatSoldeComponent implements OnInit {
   public listThirdLevelDatas: Array<any> = [];
   public selectedAlarme: string;
   public selectedMsisdn: string;
+  public selectedImsi: string
   public selectedDirection: any;
   public selectedExploitation: any;
   public selectedUsage: string;
@@ -37,6 +40,12 @@ export class EtatSoldeComponent implements OnInit {
   public firstLevelLibelle: string;
   public secondLevelLibelle: string;
   public thirdLevelLibelle: string;
+  public secondFilter: boolean = false;
+  public filterDateStart: Date;
+  public filterDateEnd: Date;
+  public selectDateStart: any;
+  public selectDateEnd: any;
+  public selectedEmplacement: string
 
   constructor(
     private patrimoineService: PatrimoineService,
@@ -86,6 +95,12 @@ export class EtatSoldeComponent implements OnInit {
     this.selectedUsage = null
     this.selectedMsisdn = null
     this.selectedZone = null
+   this.selectedEmplacement = null
+   this.selectedImsi = null
+    this.selectDateStart = null
+    this.selectDateEnd = null
+    this.filterDateStart = null
+    this.filterDateEnd = null
   }
 
   public GetAllFirstLevel() {
@@ -152,7 +167,14 @@ export class EtatSoldeComponent implements OnInit {
   public pushListProfils(event: any): void {
     this.listEtats = event;
   }
+  public showSecondFilter() {
+    this.secondFilter = !this.secondFilter;
+  }
   onFilter() {
+    if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
+      this.toastrService.error('Plage de date invalide');
+      return;
+    }
     this.patrimoineService
       .GetAllEtats({
         alarme: this.selectedAlarme,
@@ -161,6 +183,11 @@ export class EtatSoldeComponent implements OnInit {
         niveau_trois_id: this.selectedUsage,
         zone_trafic: this.selectedZone,
         msisdn: this.selectedMsisdn,
+        imsi: this.selectedImsi,
+        point_emplacement: this.selectedEmplacement,
+        date_debut: this.selectDateStart,
+        date_fin: this.selectDateEnd,
+
       })
       .subscribe({
         next: (response) => {
@@ -178,6 +205,20 @@ export class EtatSoldeComponent implements OnInit {
     return (!this.selectedAlarme || !this.selectedDirection || !this.selectedExploitation) ? true : false
   }
 
+  changeDateStart(e) {
+    if ( moment(this.filterDateStart).isValid()) {
+      this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    }else{
+      this.selectDateStart = null
+    }
+  }
+  changeDateEnd(e) { 
+    if ( moment(this.filterDateEnd).isValid()) {
+      this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+    }else{
+      this.selectDateEnd = null
+    }
+  }
   public OnExportExcel(): void {
     const data = this.listEtats.map((item: any) => ({
       'Nom': item?.nom,

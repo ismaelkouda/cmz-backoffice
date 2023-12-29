@@ -39,6 +39,7 @@ export class CarteSimActiveComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public secondFilter: boolean = false;
   public isMaximized: boolean = false;
   public currentComposant: any;
   public listFirstLeveDatas: Array<any> = [];
@@ -47,14 +48,17 @@ export class CarteSimActiveComponent implements OnInit {
   public listUsages: Array<any> = [];
   public selectedDirection: any;
   public selectedExploitation: any;
-  public selectedSim: string = '0757430973';
+  public selectedSim: string;
   public selectedimsi: string;
   public selectedStatut: string;
   public selectedUsage: string;
   public selectedZone: string;
+  public selectedEmplacement: string
   public currentData: any;
   public listStatus: Array<any> = [];
   public selectedDescription: string;
+  public listStatuts: Array<any> = [];
+
 
   @ViewChild('parcelleMap') parcelleMap: ElementRef;
 
@@ -103,6 +107,9 @@ export class CarteSimActiveComponent implements OnInit {
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
+
+    this.listStatuts = ['actif','suspendu', 'resilié']
+    
   }
 
   ngOnInit() {
@@ -150,6 +157,7 @@ export class CarteSimActiveComponent implements OnInit {
         imsi: this.selectedimsi,
         zone_trafic: this.selectedZone,
         statut: this.selectedStatut,
+        point_emplacement: this.selectedEmplacement
       }, this.p)
       .subscribe({
         next: (response) => {
@@ -174,6 +182,7 @@ export class CarteSimActiveComponent implements OnInit {
     this.selectedimsi = null;
     this.selectedZone = null;
     this.selectedStatut = null;
+    this.selectedEmplacement = null
   }
 
   public GetAllFirstLevel() {
@@ -260,6 +269,7 @@ export class CarteSimActiveComponent implements OnInit {
       { state: {patrimoine: data,operation: operation} }
     );
   }
+  
   public onDotationForm(data: any): void {
     this.initialView = false;
     this.router.navigateByUrl(
@@ -268,6 +278,9 @@ export class CarteSimActiveComponent implements OnInit {
     );
   }
 
+  public showSecondFilter() {
+    this.secondFilter = !this.secondFilter;
+  }
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;
@@ -353,7 +366,7 @@ export class CarteSimActiveComponent implements OnInit {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
   public isFilter(): boolean {
-    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi && !this.selectedStatut && !this.selectedUsage && !this.selectedZone) ? true : false
+    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi && !this.selectedStatut && !this.selectedUsage && !this.selectedZone && !this.selectedEmplacement) ? true : false
   }
   public disableAction(): boolean {
     return (this.listPatrimoines === undefined || this.listPatrimoines?.length === 0) ? true : false

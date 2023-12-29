@@ -71,7 +71,9 @@ export class TraitementShowComponent implements OnInit {
   public thirdLevelLibelle: string;
   public sourceStockTenantSim: string;
   public sourceStockOrangeSim: string;
-  
+  public sourceSoldeDotation: string
+  public sourceSoldeDotationOrange: string
+
   constructor(
     private fb: FormBuilder,
     private activeModal: NgbActiveModal,
@@ -89,6 +91,8 @@ export class TraitementShowComponent implements OnInit {
     this.fileUrl = this.mappingService.fileUrl;  
     this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
     this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim,
+    this.sourceSoldeDotation = this.mappingService.sourceSoldeDotation,
+    this.sourceSoldeDotationOrange = this.mappingService.sourceSoldeDotationOrange
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
@@ -307,6 +311,7 @@ export class TraitementShowComponent implements OnInit {
       bac_a_pioche: [''],
       description: [''],
       volume: [''],
+      justificatif: [''],
       volume_data_accepte: [''],
       volume_data_accepte_comment: ['']
     })
@@ -323,6 +328,7 @@ export class TraitementShowComponent implements OnInit {
     this.volumeForm.get('volume_data_accepte_comment').patchValue(this.detailTransaction?.rapport?.volume_data_accepte_comment);
     this.volumeForm.get('msisdn').disable();
     this.volumeForm.get('imsi').disable();
+    this.volumeForm.get('point_emplacement').disable();
     this.volumeForm.get('statut_contrat').disable();
   }
   get sourceStock() {
@@ -338,6 +344,7 @@ export class TraitementShowComponent implements OnInit {
       point_emplacement: [''],
       bac_a_pioche: [''],
       description: [''],
+      justificatif: [''],
       swap_accepte: [''],
       swap_accepte_comment: ['']
     })
@@ -440,6 +447,7 @@ export class TraitementShowComponent implements OnInit {
       code_pin: [''],
       email: [''],
       description: [''],
+      justificatif: [''],
       activation_accepte: [''],
       activation_accepte_comment: [''],
     })
@@ -664,7 +672,12 @@ export class TraitementShowComponent implements OnInit {
           this.resiliationForm.patchValue({
             justificatif: this.currentFile,
           })
-        }else if (this.transaction?.operation === OperationTransaction.ACTIVATION) {
+        }if (this.transaction?.operation === OperationTransaction.SWAP) {
+          this.swapForm.patchValue({
+            justificatif: this.currentFile,
+          })
+        }
+        else if (this.transaction?.operation === OperationTransaction.ACTIVATION) {
           this.activationForm.patchValue({
             justificatif: this.currentFile,
           })
@@ -674,6 +687,10 @@ export class TraitementShowComponent implements OnInit {
           })
         } else if (this.transaction?.operation === OperationTransaction.PROVISIONNING) {
           this.ligneForm.patchValue({
+            justificatif: this.currentFile,
+          })
+        }else if (this.transaction?.operation === OperationTransaction.VOLUME_DATA) {
+          this.volumeForm.patchValue({
             justificatif: this.currentFile,
           })
         } else if (this.transaction?.operation === OperationTransaction.ACHAT_SERVICE) {
@@ -704,7 +721,7 @@ export class TraitementShowComponent implements OnInit {
           model_id: this.transaction.model_id
         }
         this.supervisionOperationService
-          .OnUpdateTransaction((this.transaction?.operation === OperationTransaction.RESILIATION || this.transaction?.operation === OperationTransaction.SUSPENSION || this.transaction?.operation === OperationTransaction.PROVISIONNING || this.transaction?.operation === OperationTransaction.ACTIVATION) ? formDataBuilder(data) : data)
+          .OnUpdateTransaction((this.transaction?.operation === OperationTransaction.VOLUME_DATA  || this.transaction?.operation === OperationTransaction.SWAP  || this.transaction?.operation === OperationTransaction.RESILIATION || this.transaction?.operation === OperationTransaction.SUSPENSION || this.transaction?.operation === OperationTransaction.PROVISIONNING || this.transaction?.operation === OperationTransaction.ACTIVATION) ? formDataBuilder(data) : data)
           .subscribe({
             next: (response) => {
               this.toastrService.success(response.message);

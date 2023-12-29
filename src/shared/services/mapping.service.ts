@@ -26,6 +26,7 @@ export class MappingService {
   public sourceStockTenantSim: string;
   public sourceStockOrangeSim: string;
   public sourceSoldeDotation: string;
+  public sourceSoldeDotationOrange: string;
   public _volumeDataGlobalSource: BehaviorSubject<string> = new BehaviorSubject('');
   public volumeDataGlobal$ = this._volumeDataGlobalSource.asObservable();
   public _ligneCreditSource: BehaviorSubject<string> = new BehaviorSubject('');
@@ -49,9 +50,10 @@ export class MappingService {
     const newDatatEnv = { ...data?.env, typeNiveau: 'Type Emplacement' };
     this.typeNiveau = newDatatEnv?.typeNiveau;
     this.applicationType = this.tenant?.application;
-    this.sourceStockTenantSim = 'Le système utilisera une SIM dans le stock';
-    this.sourceStockOrangeSim = "Orange fournira la SIM. A l'issue de l'operation, la SIM sera livrée au point de contact accompagnée d'une facture";
-    this.sourceSoldeDotation = 'Le solde de la dotation sera debité du volume demandé'
+    this.sourceStockTenantSim = 'Le système utilisera une SIM blanche du Stock du Tenant';
+    this.sourceStockOrangeSim = "Orange fournira la SIM. A l'issue de l'operation, elle sera livrée au point de contact accompagnée d'une facture";
+    this.sourceSoldeDotation = 'Le solde de la dotation Data sera debité du volume demandé'
+    this.sourceSoldeDotationOrange = "Orange fera le dépôt du volume demandé sur le compte Data de la SIM. A l'issue de l'operation une facture sera générée"
     if (this.applicationType === ApplicationType.PATRIMOINESIM) {
       this.appName = 'PATRIMOINE SIM'
     } else {

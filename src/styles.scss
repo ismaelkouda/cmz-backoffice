@@ -16,7 +16,9 @@
 .pi-filter {
     font-size: 1.7rem !important;
 }
-
+.pi-plus {
+    font-size: 1.7rem !important;
+}
 .router-wrapper {
     position: relative;
     overflow: hidden;
@@ -26,11 +28,12 @@
     transform-style: preserve-3d;
 }
 
-input[type="text"]:disabled, input[type="email"]:disabled, input[type="tel"]:disabled, textarea:disabled {
+input[type="text"]:disabled, input[type="email"]:disabled,input[type="number"]:disabled, textarea:disabled {
     background: #fafafa !important;
     opacity: 1!important;
     color: #000 !important;
     font-weight: 800;
+    font-size: 19.5px;
     border: 2px solid #ccc !important;
 }
 p-dropdown .p-disabled,
@@ -39,6 +42,7 @@ p-password .p-disabled {
     opacity: 1 !important;
     color: #000 !important;
     font-weight: 800;
+    font-size: 19.5px;
     border: 2px solid #ccc !important;
      .p-dropdown-trigger {
         opacity: 0 !important;
@@ -247,3 +251,5 @@ p-password .p-disabled {
     display: flex !important;
     justify-content: center !important;
 }
+
+

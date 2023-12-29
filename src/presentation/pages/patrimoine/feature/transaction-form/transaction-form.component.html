@@ -1,12 +1,28 @@
 <div *ngIf="!currentObject">
   <div class="forms-feature-header">
-    <div>
-      <h3>
-        <b>
-          <span>Transaction</span><span *ngIf="selectedActionValue" class="mx-2">|</span><span *ngIf="selectedActionValue">{{selectedActionValue | titlecase}}</span>
-          <span class="current_values"*ngIf="selectedActionValue !== activation && selectedActionValue">[{{getFormattedMsisdn(currentPatrimoine?.msisdn ?? '0000000000')}}]</span>
-        </b>
-      </h3>
+    <div class="d-flex gap-2">
+      <div>
+        <h3>
+          <b>
+            <span>Transaction</span><span *ngIf="selectedActionValue" class="mx-2">|</span><span *ngIf="selectedActionValue">{{formatTitle(selectedActionValue)}}</span>
+            <span class="current_values"*ngIf="selectedActionValue !== activation && selectedActionValue">[{{getFormattedMsisdn(currentPatrimoine?.msisdn ?? '0000000000')}}]</span>
+          </b>
+        </h3>
+      </div>
+      <div class="d-flex gap-2" style="margin-top: -0.5rem;" *ngIf="selectedActionValue === volume">
+          <div class="box-card">
+             <span  class="title">Dotation Data (Go) :</span>
+            <span class="valeur">
+              <span>{{ currentPatrimoine?.solde_dotation ?? 0 | formatNumber:2 }}</span>
+            </span>
+           </div>
+           <div class="box-card">
+            <span  class="title">Solde Data (Go) :</span>
+           <span class="valeur">
+             <span>{{ currentPatrimoine?.solde_actuel_go ?? 0 | formatNumber:2 }}</span>
+           </span>
+          </div>
+      </div>
     </div>
     <div class="forms-feature-header__button">
       <div>
@@ -105,7 +121,7 @@
         </div>
       </fieldset>
       <!------------------INFOS---------IDENTIFICATION----------------->
-      <fieldset>
+      <fieldset *ngIf="!historie">
         <legend [ngStyle]="{width: '18rem'}">
           <b>Informations d'identification</b>
         </legend>
@@ -220,6 +236,89 @@
           </div>
         </div>
       </fieldset>
+      <fieldset *ngIf="historie">
+        <legend [ngStyle]="{width: '18rem'}">
+          <b>Informations d'identification</b>
+        </legend>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="niveau_un_id" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="niveau_deux_id" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="niveau_trois_id" pInputText />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Nom Emplacement</b>
+              </label>
+              <input type="text" formControlName="point_emplacement" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Usage<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="usage_id" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Adresse mail</b>
+              </label>
+              <input type="text" formControlName="adresse_email" pInputText />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Adresse géographique<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="adresse_geographique" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Latidue<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="latitude" pInputText />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>
+                <b>Longitude<span class="text-danger">*</span></b>
+              </label>
+              <input type="text" formControlName="longitude" pInputText />
+            </div>
+          </div>
+        </div>
+      </fieldset>
       </div>
       <!------------------INFOS---------TRANSACTION----------------->
       <fieldset style="margin-top: 2.5rem;">
@@ -238,7 +337,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label>
-                  <b>Justificatif</b>
+                  <b>Justificatif <span class="text-danger">*</span></b>
                 </label>
                 <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
                   (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
@@ -255,7 +354,7 @@
       <b>Informations de la SIM</b>
     </legend>
     <div>
-      <div class="row" style="padding-top: 1.3rem;">
+      <div class="row p-0">
         <div class="col-md-4" *ngIf="!historie">
           <div class="form-group">
             <label>
@@ -280,24 +379,7 @@
           </div>
         </div>
         <div class="col-md-8">
-          <div class="row" *ngIf="selectedActionValue === volume">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>
-                  <b>Dotation Data (Go)</b>
-                </label>
-                <app-count-box label="Dotation Data (Go):" [value]="pipeValue(currentPatrimoine?.solde_dotation || '0')"></app-count-box>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>
-                  <b>Solde Data (Kb)</b>
-                </label>
-                <app-count-box label="Solde Data (Kb):" [value]="pipeValue(currentPatrimoine?.solde_actuel_kb || '0')"></app-count-box>
-              </div>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>
@@ -324,8 +406,6 @@
             <label>
               <b>Statut Contrat</b>
             </label>
-            <!-- <input type="text" [(ngModel)]="currentPatrimoine.statut" style="text-transform: uppercase;"
-              [disabled]="true" pInputText /> -->
               <input *ngIf="!currentPatrimoine?.statut" type="text" [(ngModel)]="currentPatrimoine.statut" pInputText [disabled]="true" />
               <app-statut-contrat *ngIf="currentPatrimoine?.statut" [statut]="currentPatrimoine?.statut"></app-statut-contrat>
           </div>
@@ -346,7 +426,7 @@
       <b>Détails de la Transaction</b>
     </legend>
     <!----------------------------RESILIER----SUSPENSION----FORMS-------------------------------->
-    <div class="row" *ngIf="selectedActionValue === resiliation || selectedActionValue === suspension || selectedActionValue === reactivation">
+    <div class="row p-1" *ngIf="selectedActionValue === resiliation || selectedActionValue === suspension">
       <div class="col-md-4">
         <div class="form-group">
           <label>
@@ -392,37 +472,55 @@
         </div>
       </div>
       <div class="row">
-        <div class="form-group">
-          <label>
-            <b>Description <span class="text-danger">*</span></b>
-          </label>
-          <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
+         <div class="col-md-4">
+          <div class="form-group">
+            <label>
+              <b>Description <span class="text-danger">*</span></b>
+            </label>
+            <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
+          </div>
+         </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>
+              <b>Justificatif</b>
+            </label>
+            <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+              (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+          </div>
         </div>
       </div>
     </div>
     <!--------------------------------VOLUME------------DATA-------------------------->
     <div *ngIf="selectedActionValue === volume">
-      <div class="row">
-        <div class="col-md-3">
-          <div style="display: flex;gap: 2rem;">
+      <div>
+        <!-- <div class="col-md-3">
+          <div class="d-flex gap-2">
+            <div style="display: flex;gap: 2rem;">
+              <div class="d-flex gap-2">
+                <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
+                  (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
+                <label [for]="sourceStock" style="margin-top: 0.9rem">Dotation Point Emplacement</label>
+              </div>
+            </div>
             <div class="d-flex gap-2">
-              <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
-                (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
-              <label [for]="sourceStock" style="margin-top: 0.9rem">Dotation Point Emplacement</label>
+              <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
+                (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
+              <label [for]="sourceOrange" style="margin-top: 0.9rem">Orange</label>
             </div>
           </div>
-        </div>
-        <div class="col-md-9" style="margin-top: -1.8rem;">
+        </div> -->
+        <div>
           <div class="form-group">
-            <label style="opacity: 0;">
+            <label style="opacity: 0;height: 0;">
               <b> <span class="text-danger">*</span></b>
             </label>
-              <input [value]="sourceSoldeDotation" type="text" [disabled]="true" pInputText/>
+              <input [value]="sourceValue === 'stock' ? sourceSoldeDotation: sourceSoldeDotationOrange" type="text" [disabled]="true" pInputText/>
           </div>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="form-group">
             <label>
               <b>Volume (Go) <span class="text-danger">*</span></b>
@@ -430,12 +528,21 @@
             <input type="number" [disabled]="isVerify()" [(ngModel)]="selectedVolume" pInputText />
           </div>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-5">
           <div class="form-group">
             <label>
               <b>Description</b>
             </label>
             <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label>
+              <b>Justificatif</b>
+            </label>
+            <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+              (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
           </div>
         </div>
       </div>
@@ -447,7 +554,7 @@
       <!-- <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha" (success)="handleSuccess($event)">
       </ngx-recaptcha2> -->
       <button pButton *ngIf="selectedActionValue !== activation" style="float: right;margin-top: 1rem;"
-        label="Soumettre" class="p-button-success" [disabled]="!selectedDescription && !selectedVolume"
+        label="Soumettre" class="p-button-success" [disabled]="IsFormFomSIMValidate()"
         (click)="handleSaveNewTransaction()"></button>
       <button pButton *ngIf="selectedActionValue === activation" style="float: right;margin-top: 1rem;"
         label="Soumettre" class="p-button-success" [disabled]="!adminForm || !selectedDescription || !selectedPiece"

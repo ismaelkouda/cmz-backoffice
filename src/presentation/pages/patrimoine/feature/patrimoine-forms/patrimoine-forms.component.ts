@@ -78,10 +78,12 @@ export class PatrimoineFormsComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+  if (!this.currentObject?.show) {
     this.onGetDrValueChanges();
     this.getAllDirectionRegionales();
     this.GetAllUsages();
     this.getAllZones();
+  }
     this.onFormPachValues();
     this.OnRefreshValues()    
   }
@@ -223,13 +225,20 @@ export class PatrimoineFormsComponent implements OnInit {
   public onFormPachValues(): void {
 
     //Identification Controls
-    this.adminForm.get('direction_regionale').patchValue(this.currentObject?.direction_regionale?.id);
-    this.adminForm.get('exploitation').patchValue(this.currentObject?.exploitation?.id);
-    this.adminForm.get('zone').patchValue(this.currentObject.zone?.id);
+    if (this.currentObject?.show) {      
+      this.adminForm.get('direction_regionale').patchValue(this.currentObject?.direction_regionale?.nom);
+      this.adminForm.get('exploitation').patchValue(this.currentObject?.exploitation?.nom);
+      this.adminForm.get('zone').patchValue(this.currentObject.zone?.nom);
+      this.adminForm.get('usage').patchValue(this.currentObject?.usage?.nom_usage);
+    }else{
+      this.adminForm.get('direction_regionale').patchValue(this.currentObject?.direction_regionale?.id);
+      this.adminForm.get('exploitation').patchValue(this.currentObject?.exploitation?.id);
+      this.adminForm.get('zone').patchValue(this.currentObject.zone?.id);
+      this.adminForm.get('usage').patchValue(this.currentObject?.usage?.id);
+    }
     this.adminForm.get('imsi').patchValue(this.currentObject?.imsi);
     this.adminForm.get('msisdn').patchValue(this.currentObject?.msisdn);
     this.adminForm.get('statut').patchValue(this.currentObject?.statut);
-    this.adminForm.get('usage').patchValue(this.currentObject?.usage?.id);
     this.adminForm.get('code_pin').patchValue(this.currentObject?.code_pin);
     this.adminForm.get('adresse_geographique').patchValue(this.currentObject?.adresse_geographique);
     this.adminForm.get('point_emplacement').patchValue(this.currentObject?.point_emplacement);

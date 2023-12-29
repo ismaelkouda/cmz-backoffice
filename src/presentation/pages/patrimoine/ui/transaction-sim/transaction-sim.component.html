@@ -113,9 +113,7 @@
               </div>
               <div class="d-flex gap-3 mt-2">
                 <div class="table_header__legende">
-                  <h4 class="pt-2">
-                    <b>Liste des 50 dernières transactions</b>
-                  </h4>
+                  <app-table-header [count]="listTransactions" [legende]="'dernières transactions'"></app-table-header>
                 </div>
                 <div class="table_header__input"></div>
               </div>
@@ -125,6 +123,8 @@
                   <th>Date Transaction</th>
                   <th class="text-center" [style]="{width: '10rem'}">N° Transaction</th>
                   <th class="text-center">Type Transaction</th>
+                  <th class="text-center">Traitement</th>
+                  <th class="text-center">Date MAJ</th>
                   <th class="text-center">IMSI</th>
                   <th class="text-center">MSISDN</th>
                   <th class="text-center" [style]="{width: '4rem'}">Statut</th>
@@ -138,6 +138,17 @@
                     <td (click)="copyData(data.transaction)" style="cursor: pointer">{{data?.transaction}}</td>
                     <td>{{data?.operation | uppercase}}</td>
                     <td>
+                      <span [ngStyle]="{'font-size':'16px'}" class="badge"
+                      [class.badge-dark]="data?.traitement === treatmenEntente || data?.traitement === treatmenAcquiter"
+                      [class.badge-danger]="data?.traitement === treatmenRejeter || data?.traitement === treatmenRefuser"
+                      [class.badge-warning]="data?.traitement === treatmenCancel"
+                      [class.badge-info]="data?.traitement === treatmenAccepter"
+                      [class.badge-success]="(data?.statut === stateCloture && data?.traitement === treatmenAccepter)">
+                      {{ data.traitement }}
+                    </span> 
+                    </td>
+                    <td>{{data?.updated_at}}</td>
+                    <td>
                       <span (click)=" data?.imsi ?copyData(data.imsi): null"
                         style="cursor: pointer">{{data?.imsi ?? 'N/A'}}</span>
                     </td>
@@ -147,13 +158,11 @@
                     </td>
                     <td class="text-center">
                       <span [ngStyle]="{'font-size':'16px'}" class="badge"
-                        [class.badge-dark]="data?.statut === treatmenEntente || data?.statut === treatmenAcquiter"
-                        [class.badge-danger]="data?.statut === treatmenRejeter || data?.statut === treatmenRefuser"
-                        [class.badge-warning]="data?.statut === treatmenCancel"
-                        [class.badge-info]="data?.statut === treatmenAccepter"
-                        [class.badge-success]="(data?.statut === stateCloture)">
-                        {{ data.statut }}
-                      </span>
+                      [class.badge-dark]="data?.statut === stateSoumis"
+                      [class.badge-info]="data?.statut === stateTraite"
+                      [class.badge-success]="data?.statut === stateCloture">
+                      {{ data.statut }}
+                    </span>
                     </td>
                     <td class="td-actions">
                       <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"

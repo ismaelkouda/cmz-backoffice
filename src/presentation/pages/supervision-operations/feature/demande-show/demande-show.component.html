@@ -202,8 +202,17 @@
                       <b> <span class="text-danger">*</span></b>
                     </label>
                     <input [disabled]="true" class="infos_text"
-                      [value]="sourceStock === 'stock' ? 'Le système débitera le volume duc stock disponible': TextInfosVolume "
+                      [value]="sourceStock === 'stock' ? sourceSoldeDotation: sourceSoldeDotationOrange "
                       type="text" pInputText />
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div style="display: flex;justify-content: center;gap: 2rem">
+                <div>
+                  <div style="display: flex;justify-content: center;">
+                    <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                      class="p-button-success" (click)="downloadFile()"></button>
                   </div>
                 </div>
               </div>
@@ -286,6 +295,13 @@
                     </label>
                     <input type="text" formControlName="description" pInputText />
                   </div>
+                </div>
+              </div>
+              <br>
+              <div>
+                <div style="display: flex;justify-content: center;">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
                 </div>
               </div>
             </fieldset>
