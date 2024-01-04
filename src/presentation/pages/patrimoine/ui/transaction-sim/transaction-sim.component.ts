@@ -95,7 +95,17 @@ export class TransactionSimComponent implements OnInit {
       .GetAllTransactions({}, this.p)
       .subscribe({
         next: (response) => {
-          this.listTransactions = response.data.data;
+          this.listTransactions =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            } else{
+              return {...data,current_date: 'N/A'}
+            }
+          });
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
@@ -129,7 +139,17 @@ export class TransactionSimComponent implements OnInit {
       }, this.p)
       .subscribe({
         next: (response) => {
-          this.listTransactions = response.data.data;
+          this.listTransactions =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            } else{
+              return {...data,current_date: 'N/A'}
+            }
+          });
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;

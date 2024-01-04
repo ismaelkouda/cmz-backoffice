@@ -144,42 +144,37 @@
                 class="p-button-helf"></button>
             </div>
             <div class="table_content_wrapper">
-              <p-table #dt [value]="listEtats" [rows]="10" [paginator]="true" responsiveLayout="scroll"
-                [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                      données" [showCurrentPageReport]="true">
-                <ng-template pTemplate="caption">
-                  <div class="table_header">
-                    <div class="table_header__legende">
-                      <app-table-header [count]="listEtats" [legende]="'Etats de soldes'"></app-table-header>
-                    </div>
-                    <div class="table_header__input">
-                      <span class="p-input-icon-left ml-auto">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
-                          placeholder="Recherche" />
-                      </span>
-                    </div>
-                  </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th class="text-center">#</th>
-                    <th class="text-center">MSISDN</th>
-                    <th class="text-center">IMSI</th>
-                    <th class="text-center">Solde (Go)</th>
-                    <th class="text-center">Alarme</th>
-                  </tr>
-                </ng-template>
-                <ng-template let-i="rowIndex" pTemplate="body" let-data>
-                  <tr>
+              <div class="table_header mt-2">
+                <div class="table_header__legende">
+                  <h4>
+                    <b>Liste des 50 derniers états de soldes</b>
+                  </h4>
+                </div>
+                <div class="table_header__input"></div>
+              </div>
+              <table [ngClass]="['native_table table']">
+                <thead>
+                  <th class="text-center">#</th>
+                  <th class="text-center">MSISDN</th>
+                  <th class="text-center">IMSI</th>
+                  <th class="text-center">Solde (Go)</th>
+                  <th class="text-center">Alarme</th>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let data of listEtats | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                     <td class="text-center">{{ i + 1 }}</td>
                     <td (click)="copyData(data?.msisdn)" style="cursor: pointer" class="text-center">{{data?.msisdn}}</td>
                     <td class="text-center">{{data?.imsi}}</td>
                     <td class="text-center">{{data?.solde_actuel_go | formatNumber:2}}</td>
                     <td class="text-center">{{data?.alarme}}</td>
                   </tr>
-                </ng-template>
-              </p-table>
+                </tbody>
+              </table>
+              <div [ngClass]="['pagination-controls']">
+                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                </pagination-controls>
+              </div>
             </div>
           </div>
           <app-groupe-form [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"

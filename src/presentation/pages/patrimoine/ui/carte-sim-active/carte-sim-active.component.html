@@ -177,7 +177,7 @@
                 </span>
                     </td>
                     <td class="td-actions">
-                      <button *ngIf="data.statut !== 'suspendu'" pButton icon="pi pi-map-marker" [disabled]="data.statut ==='inactif'"
+                      <button pButton icon="pi pi-map-marker" [disabled]="data.statut ==='inactif'"
                         pTooltip="Localisation" tooltipPosition="top" (click)="showDialog('map',data)"
                         class="p-button-success"></button>
                       

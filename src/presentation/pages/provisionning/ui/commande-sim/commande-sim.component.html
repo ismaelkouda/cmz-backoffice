@@ -119,13 +119,11 @@
                     <td>{{data.initiateur?.nom}} {{data.initiateur?.prenoms}}</td>
                     <td class="text-center">
                       <span [ngStyle]="{'font-size':'16px'}" class="badge"
-                        [class.badge-dark]="data?.statut === treatmenEntente || data?.statut === treatmenAcquiter"
-                        [class.badge-danger]="data?.statut === treatmenRejeter"
-                        [class.badge-warning]="data?.statut === treatmenCancel"
-                        [class.badge-info]="data?.statut === treatmenAccepter"
-                        [class.badge-success]="(data?.statut === stateCloture)">
-                        {{ data.statut }}
-                      </span>
+                      [class.badge-dark]="data?.statut === stateSoumis"
+                      [class.badge-info]="data?.statut === stateTraite"
+                      [class.badge-success]="data?.statut === stateCloture">
+                      {{ data.statut }}
+                    </span>
                     </td>
                     <td class="td-actions">
                       <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"

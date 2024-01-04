@@ -19,7 +19,7 @@ export class SettingService {
     private storage: EncodingDataService,
 
   ) {
-    const data = JSON.parse(this.storage.getData('user'))
+    const data = JSON.parse(this.storage.getData('user') || null)
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
   }
 
@@ -51,6 +51,10 @@ export class SettingService {
   }
   GetAllFirstLevelHabilitation(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_FIRSTLEVEL_HABILITATION);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+  GetAllSecondLevelHabilitation(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_SECOND_LEVEL_HABILITATION);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
   OnSaveDirectionRegionale(data): Observable<any> {

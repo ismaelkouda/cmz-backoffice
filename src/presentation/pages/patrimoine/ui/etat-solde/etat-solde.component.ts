@@ -27,6 +27,11 @@ export class EtatSoldeComponent implements OnInit {
   public currentObject: any;
   public listAlarmes: any[] = [];
   public listEtats: any[] = [];
+  public totalPage: 0;
+  public totalRecords: 0;
+  public recordsPerPage: 0;
+  public offset: any;
+  public p: number = 1;
   public listFirstLeveDatas: Array<any> = [];
   public listSecondLevelDatas: Array<any> = [];
   public listThirdLevelDatas: Array<any> = [];
@@ -77,10 +82,14 @@ export class EtatSoldeComponent implements OnInit {
 
   public GetAllEtats(): void {
     this.patrimoineService
-      .GetAllEtats({})
+      .GetAllEtats({},this.p)
       .subscribe({
         next: (response) => {
-          this.listEtats = response['data']['data'];
+          this.listEtats = response.data.data;
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -170,6 +179,16 @@ export class EtatSoldeComponent implements OnInit {
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
   }
+  public onPageChange(event) {
+    console.log("event",event);
+    
+    this.p = event;
+    if (this.isFilter()) {
+      this.GetAllEtats()
+    } else {
+      this.onFilter()
+    }
+  }
   onFilter() {
     if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
       this.toastrService.error('Plage de date invalide');
@@ -188,11 +207,14 @@ export class EtatSoldeComponent implements OnInit {
         date_debut: this.selectDateStart,
         date_fin: this.selectDateEnd,
 
-      })
+      },this.p)
       .subscribe({
         next: (response) => {
-          this.listEtats = response['data']['data'];
-        },
+          this.listEtats = response.data.data;
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;        },
         error: (error) => {
           this.toastrService.error(error.error.message);
         }

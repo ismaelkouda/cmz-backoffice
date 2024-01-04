@@ -35,6 +35,7 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
   public selectedDescription: string;
   public currentACtion: any;
   public firstLevelMapping: any;
+  public secondLevelMapping: any;
   public thirdLevelDataMapping: any;
   public LevelDataSources: Array<any> = [];
   public  firstLevelLibelle: string;
@@ -53,6 +54,7 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
     this.newPermissions = menuJson;
     this.newPermissions.slice(1)
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.applicationType = this.mappingService.applicationType;
   }
@@ -61,6 +63,7 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
     this.isDisabled();
     if (!this.currentObject?.show) {
       this.GetAllThirdLevelHabilitation();
+      this.GetAllSecondLevelHabilitation();
       this.GetAllFirstLevelHabilitation();
     }    
     if (this.applicationType === ApplicationType.PATRIMOINESIM) {      
@@ -113,6 +116,12 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
           }else if (parentHabilitation?.label === this.thirdLevelLibelle) {
             parentHabilitation?.children.map((niveau) => {            
               if (this.currentObject.habilitationsNiveauTrois.includes(niveau.id)) {
+                this.selectedItemsHabilitationSource.push(niveau)
+              }
+            })
+          }else if (parentHabilitation?.label === this.secondLevelLibelle) {
+            parentHabilitation?.children.map((niveau) => {            
+              if (this.currentObject.habilitationsNiveauDeux.includes(niveau.id)) {
                 this.selectedItemsHabilitationSource.push(niveau)
               }
               
@@ -175,27 +184,24 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
     });
     const firstArray = [];
     const secondArray = []
+    const thirdArray = []
     this.selectedItemsHabilitationSource.map((element) => {
       if (element?.parent?.label === this.firstLevelLibelle) {
         firstArray.push(element.id)
-      }else if(element?.parent?.label === this.thirdLevelLibelle){
+      }else if(element?.parent?.label === this.secondLevelLibelle){
         secondArray.push(element.id)
+      }else if(element?.parent?.label === this.thirdLevelLibelle){
+        thirdArray.push(element.id)
       }
     });
-    const data = {
-      nom: this.selectedNom,
-      description: this.selectedDescription,
-      permissions: selectedItemsDataSource,
-      niveau_uns: firstArray,
-      niveau_trois: secondArray
-    }
     this.parametreSecuriteService
       .handleSaveProfilHabilitation({
         nom: this.selectedNom,
         description: this.selectedDescription,
         permissions: selectedItemsDataSource,
         niveau_uns: firstArray,
-        niveau_trois: secondArray
+        niveau_deux: secondArray,
+        niveau_trois: thirdArray
       }).subscribe({
         next: (response) => {
           this.GetAllProfilHabilitations();
@@ -209,11 +215,14 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
   handleUpdateProfilHabilitation() {
     const firstArray = [];
     const secondArray = [];
+    const thirdArray = []
     this.selectedItemsHabilitationSource.map((element) => {
       if (element?.parent?.label === this.firstLevelLibelle) {
         firstArray.push(element.id)
-      }else if(element?.parent?.label === this.thirdLevelLibelle){
+      }else if(element?.parent?.label === this.secondLevelLibelle){
         secondArray.push(element.id)
+      }else if(element?.parent?.label === this.thirdLevelLibelle){
+        thirdArray.push(element.id)
       }
     });
     const selectedItemsDataSource = this.selectedItemsDataSource.map(element => element.data);
@@ -223,7 +232,8 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
         description: this.selectedDescription,
         permissions: selectedItemsDataSource,
         niveau_uns: firstArray,
-        niveau_trois: secondArray
+        niveau_deux: secondArray,
+        niveau_trois: thirdArray
       }, this.currentObject.id).subscribe({
         next: (response) => {
           this.GetAllProfilHabilitations();
@@ -249,6 +259,35 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
           });
           this.firstLevelMapping= { label: this.firstLevelLibelle,expanded: true, children: resValues}
           this.LevelDataSources.push(this.firstLevelMapping)
+          this.LevelDataSources.map(module => {
+            if (module.children) {
+              module.children = module.children.map(sous_module => {
+                return {
+                  ...sous_module,
+                  children: sous_module.actions ?? [],
+                }
+              })
+            }
+            habilitations.push(module)
+            this.habilitationSourceFiles = <TreeNode[]>habilitations
+          })
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllSecondLevelHabilitation() {
+    this.settingService
+      .GetAllSecondLevelHabilitation({})
+      .subscribe({
+        next: (response) => {
+          const habilitations = [];          
+          const resValues = response['data'].map((item) => {
+            return {...item,label: item?.nom,data: item?.code };
+          });
+          this.secondLevelMapping = { label: this.secondLevelLibelle,expanded: true, children: resValues}
+          this.LevelDataSources.push(this.secondLevelMapping)
           this.LevelDataSources.map(module => {
             if (module.children) {
               module.children = module.children.map(sous_module => {

@@ -4,6 +4,8 @@ import { EncodingDataService } from './encoding-data.service';
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
+import { SettingService } from './setting.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -34,9 +36,10 @@ export class MappingService {
 
   constructor(
     private storage: EncodingDataService,
-    private provisionningService: ProvisionningService
+    private provisionningService: ProvisionningService,
+    private settingService: SettingService,
+    private toastrService: ToastrService
   ) {
-    this.GetAllPortefeuille();
     const data = JSON.parse(this.storage.getData('user') || null);
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
     this.fileUrl = `${data?.tenant?.url_minio}/`
@@ -59,6 +62,7 @@ export class MappingService {
     } else {
       this.appName = 'SIM MONITORING'
     }
+    this.GetAllPortefeuille();
   }
 
   public GetAllPortefeuille() {
@@ -73,8 +77,21 @@ export class MappingService {
         }
       })
   }
+  public GetAllFirstLevel() {
+    this.settingService
+      .getAllDirectionRegionales({})
+      .subscribe({
+        next: (response) => {
+          const datas = response['data'].map(element => {
+            return { ...element, fullName: `${element.nom} [${element.code}]` }
+          });
+         },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
 
- 
   statutContrat(statut: string): any {
     switch (statut) {
       case 'actif': {

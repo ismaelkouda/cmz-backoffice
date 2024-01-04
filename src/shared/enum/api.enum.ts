@@ -14,6 +14,7 @@ export const enum EndPointUrl {
 
     //Second Level EndPoints
     GET_ALL_EXPLOITATION = 'parametres-securite/niveau_deux/all',
+    GET_ALL_SECOND_LEVEL_HABILITATION = 'parametres-securite/niveau_deux/all-for-habilitation',
     SAVE_EXPLOITATION = 'parametres-securite/niveau_deux/store',
     UPDATE_EXPLOITATION = 'parametres-securite/niveau_deux/update',
 
