@@ -33,11 +33,7 @@
                         données" [showCurrentPageReport]="true" [globalFilterFields]="['nom', 'code']">
                   <ng-template pTemplate="caption">
                     <div class="table_header">
-                      <div class="table_header__legende">
-                        <h4>
-                          <b>Liste des Usages Metiers</b>
-                        </h4>
-                      </div>
+                      <app-table-header [count]="listUsages" [legende]="'Usages Metiers'"></app-table-header>
                       <div class="table_header__input">
                         <span class="p-input-icon-left ml-auto">
                           <i class="pi pi-search"></i>

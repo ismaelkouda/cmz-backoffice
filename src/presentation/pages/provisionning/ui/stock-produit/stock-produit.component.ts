@@ -3,6 +3,7 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { ProvisionningService } from '../../data-access/provisionning.service';
 import { ClipboardService } from 'ngx-clipboard';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class StockProduitComponent implements OnInit {
     private toastrService: ToastrService,
     private provisionningService: ProvisionningService,
     private clipboardApi: ClipboardService,
+    private mappingService:MappingService
   ) {}
 
   ngOnInit() {
@@ -89,6 +91,7 @@ export class StockProduitComponent implements OnInit {
   }
   public OnRefresh(){
     this.GetAllStocks();
+    this.mappingService.GetAllPortefeuille()
     this.selectedTransaction = null
     this.selectedReference = null
     this.selectedImsi = null

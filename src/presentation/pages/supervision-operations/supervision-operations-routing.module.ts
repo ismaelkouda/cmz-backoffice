@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-
 import { SuivieTraitementComponent } from './ui/suivie-traitement/suivie-traitement.component';
 import { AlarmesComponent } from './ui/alarmes/alarmes.component';
 import { PerformancesComponent } from './ui/performances/performances.component';
@@ -9,11 +7,11 @@ import { PriseEnChargeComponent } from './ui/prise-en-charge/prise-en-charge.com
 import { ContencieuxComponent } from './ui/contencieux/contencieux.component';
 
 
-export const SUPERSION_STATUTS = 'demandes'
-export const SUPERSION_PRISE_EN_CHARGE = 'prise-en-charge'
-export const SUPERVISION_SUIVIE_TRAITEMENT = 'suivie-et-traitements'
-export const PERFORMANCE_SLA = 'performances-sla'
-export const CONTENCIEUX = 'contencieux'
+export const DEMANDE_ROUTE = 'demandes'
+export const PRISE_EN_CHARGE_ROUTE = 'prise-en-charge'
+export const SUIVIE_TRAITEMENT_ROUTE = 'suivie-et-traitements'
+export const PERFORMANCE_SLA_ROUTE = 'performances-sla'
+export const CONTENCIEUX_ROUTE = 'contencieux'
 
 
 const routes: Routes = [
@@ -21,23 +19,23 @@ const routes: Routes = [
         path: '',
         children: [
             {
-                path: SUPERSION_STATUTS,
+                path: DEMANDE_ROUTE,
                 component: AlarmesComponent,
             },
             {
-                path: SUPERVISION_SUIVIE_TRAITEMENT,
+                path: SUIVIE_TRAITEMENT_ROUTE,
                 component: SuivieTraitementComponent,
             },
             {
-                path: SUPERSION_PRISE_EN_CHARGE,
+                path: PRISE_EN_CHARGE_ROUTE,
                 component: PriseEnChargeComponent,
             },
             {
-                path: PERFORMANCE_SLA,
+                path: PERFORMANCE_SLA_ROUTE,
                 component: PerformancesComponent,
             },
             {
-                path: CONTENCIEUX,
+                path: CONTENCIEUX_ROUTE,
                 component: ContencieuxComponent,
             },
         ],

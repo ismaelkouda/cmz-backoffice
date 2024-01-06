@@ -1,10 +1,9 @@
-import { CONTENCIEUX, PERFORMANCE_SLA } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
+import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE, PERFORMANCE_SLA_ROUTE, CONTENCIEUX_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { ANALAYSE_REJET, COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
 import { CARTES_SIM, DOTATION_SERVICES, ETAT_SOLDE, GROUPE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
-import { SUPERSION_STATUTS, SUPERVISION_SUIVIE_TRAITEMENT } from 'src/presentation/pages/supervision-operations/supervision-operations-routing.module';
-import { OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, REPORTING, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
+import { OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
 import { VUE_GEOGRAPHIQUE } from 'src/presentation/pages/zone-trafic/zone-trafic-routing.module';
 import { PROFILS_HABILITATIONS, UTILISATEURS } from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
@@ -143,13 +142,13 @@ export var menuJson = [
         statut: false,
         icon: "airplay",
         url: "assets/images/portail/icone_recherche_multicritere.webp",
-        path: `/${SUPERVISION_OPERATIONS}/${SUPERSION_STATUTS}`,
-        routerLink: `/${SUPERVISION_OPERATIONS}/${SUPERSION_STATUTS}`,
+        path: `/${SUPERVISION_OPERATIONS}/${DEMANDE_ROUTE}`,
+        routerLink: `/${SUPERVISION_OPERATIONS}/${DEMANDE_ROUTE}`,
         type: "sub",
         pack: ApplicationType.MONITORING,
         children: [
             {
-                path: `/${SUPERVISION_OPERATIONS}/${SUPERSION_STATUTS}`,
+                path: `/${SUPERVISION_OPERATIONS}/${DEMANDE_ROUTE}`,
                 title: "File d'attente",
                 label: "File d'attente",
                 data: "4-1-0-fil-attente",
@@ -157,7 +156,7 @@ export var menuJson = [
                 pack: ApplicationType.MONITORING
             },
             {
-                path: `/${SUPERVISION_OPERATIONS}/${SUPERVISION_SUIVIE_TRAITEMENT}`,
+                path: `/${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`,
                 title: "Suivi et traitement",
                 label: "Suivi et traitement",
                 data: "4-2-0-suivi-traitement",
@@ -165,7 +164,7 @@ export var menuJson = [
                 pack: ApplicationType.MONITORING
             },
             {
-                path: `/${SUPERVISION_OPERATIONS}/${PERFORMANCE_SLA}`,
+                path: `/${SUPERVISION_OPERATIONS}/${PERFORMANCE_SLA_ROUTE}`,
                 title: "Performance SLA",
                 label: "Performance SLA",
                 data: "4-3-0-performance-sla",
@@ -173,7 +172,7 @@ export var menuJson = [
                 pack: ApplicationType.MONITORING
             },
             {
-                path: `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX}`,
+                path: `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX_ROUTE}`,
                 title: "Contentieux",
                 label: "Contentieux",
                 data: "4-4-0-contentieux",
@@ -259,3 +258,5 @@ export var menuJson = [
         ]
     },
 ]
+
+//10.10.0.200:28012

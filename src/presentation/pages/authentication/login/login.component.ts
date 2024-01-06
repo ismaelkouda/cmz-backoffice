@@ -1,3 +1,4 @@
+import { StoreLocaleService } from './../../../../shared/services/store-locale.service';
 import { EncodingDataService } from './../../../../shared/services/encoding-data.service';
 import { UserLoginUseCase } from '../../../../domain/usecases/users/user-login.usecase';
 import { Component, OnInit } from "@angular/core";
@@ -11,6 +12,7 @@ import { menuJson } from 'src/assets/menu';
 import { FORGOT_PASSWORD } from '../../password-reset/password-reset-routing.module';
 import { REINITIALISATION } from 'src/presentation/app-routing.module';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { DASHBOARD } from 'src/shared/routes/routes';
 
 @Component({
   selector: "app-login",
@@ -34,7 +36,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private toastService: ToastrService,
     private storage: EncodingDataService,
-    private mappingService: MappingService
+    private storeLocaleService: StoreLocaleService
   ) {
     this.permissionsJson = menuJson;
   }
@@ -50,11 +52,9 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    this.loginForm.patchValue({port: '11300'})
-    //this.loginForm.patchValue({port: window.location.port})
+    this.loginForm.patchValue({port: window.location.port})
     this.userLoginUseCase.execute(this.loginForm.value).subscribe({
       next: (response) => {        
-        this.storage.saveData('user', JSON.stringify(response.data));
         this.permissionsJson.map(module => {
           if (module?.children) {
             module?.children.map((sous_module,index) => {
@@ -79,10 +79,11 @@ export class LoginComponent implements OnInit {
             })
           }
         })
+        this.storage.saveData('user', JSON.stringify(response.data));
         this.storage.saveData("current_menu", JSON.stringify(this.permissionsJson))
-        this.router.navigateByUrl(`/dashboard`).then(()=>{
-          //this.mappingService.GetAllFirstLevel()
-        })
+        this.storeLocaleService.OnEmitTenantData(response?.data)
+        this.storeLocaleService.OnEmitCurrentPermission(this.permissionsJson)
+        this.router.navigateByUrl(`/${DASHBOARD}`)
         this.toastService.success(`Bienvenue ${response.data.nom} ${response.data.prenoms}`); 
       },
       error: (error) => {        

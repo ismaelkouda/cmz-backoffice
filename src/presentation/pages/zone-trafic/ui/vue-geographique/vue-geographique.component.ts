@@ -54,13 +54,13 @@ export class VueGeographiqueComponent implements OnInit {
     private mappingService: MappingService,
     private settingService: SettingService,
   ) {
-    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
-    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    //this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    //this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
   }
 
   ngOnInit() {
     this.GetAllZOneTrafic();
-    this.getAllFirstLevel();
+    this.GetAllDepartements();
     this.isFilter();
   }
   public GetAllZOneTrafic() {
@@ -98,13 +98,13 @@ export class VueGeographiqueComponent implements OnInit {
     this.initialView = !event;
   }
 
-  public getAllFirstLevel() {
-    this.settingService
-      .getAllDirectionRegionales({})
+  public GetAllDepartements() {
+    this.zoneTraficService
+      .GetAllDepartements({})
       .subscribe({
         next: (response) => {
           this.listDepartements = response['data'].map(element => {
-            return { ...element, fullName: `${element.nom} [${element.code}]` }
+            return { ...element, fullName: `${element.libelle} [${element.code}]` }
           });
         },
         error: (error) => {
@@ -115,10 +115,7 @@ export class VueGeographiqueComponent implements OnInit {
 
   onChangeFirstLvel(event: any) {
     this.selectedDepartement = event.value;
-    this.listCommunes = this.selectedDepartement?.niveaux_deux.map(element => {
-      return { ...element, fullName: `${element.nom} [${element.code}]` }
-    });
-    this.listSites = this.listCommunes[0].map(element => {
+    this.listCommunes = this.selectedDepartement?.communes.map(element => {
       return { ...element, fullName: `${element.libelle} [${element.code}]` }
     });
   }
@@ -142,7 +139,7 @@ export class VueGeographiqueComponent implements OnInit {
         commune_id: this.selectedCommune?.id,
         zone_trafic: this.selectedZone,
         msisdn: this.selectedSim,
-        site_id: this.selectedSite
+        site: this.selectedSite
       }, this.p).subscribe({
         next: (response) => {
           this.listZonesTrafics = response.data.data;

@@ -1,3 +1,4 @@
+import { SUIVIE_TRAITEMENT_ROUTE, CONTENCIEUX_ROUTE } from './../../../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { TraitementTransaction } from '../../enum/TraitementTransaction.enum';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -13,7 +14,6 @@ import { Justificatif } from 'src/shared/enum/Justificatif.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 import {  Router } from '@angular/router';
 import { OPERATION_PROVISIONNING, PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
-import { CONTENCIEUX, SUPERVISION_SUIVIE_TRAITEMENT } from 'src/presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { TRANSACTION_SIM } from 'src/presentation/pages/patrimoine/patrimoine-routing.module';
 import { COMMANDE_SIM, LIGNE_CREDIT } from 'src/presentation/pages/provisionning/provisionning-routing.module';
 import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
@@ -211,15 +211,17 @@ export class TransactionShowComponent implements OnInit {
   }
 
   OnFeebackTransaction(){
-     if (this.router.url === `/${SUPERVISION_OPERATIONS}/${SUPERVISION_SUIVIE_TRAITEMENT}`) {
+     if (this.router.url === `/${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`) {
         return this.GetAllTraitement()
-     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX}`){
+     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX_ROUTE}`){
       return this.GetAllContencieux()
      }else if(this.router.url === `/${PATRIMOINE}/${TRANSACTION_SIM}`){
       return this.GetAllTransactions()
      }else if(this.router.url === `/${OPERATION_PROVISIONNING}/${COMMANDE_SIM}`){
       return this.GetAllAchats()
      }else if(this.router.url === `/${OPERATION_PROVISIONNING}/${LIGNE_CREDIT}`){
+      return this.GetAllLigneCredits()
+     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${LIGNE_CREDIT}`){
       return this.GetAllLigneCredits()
      }
   }

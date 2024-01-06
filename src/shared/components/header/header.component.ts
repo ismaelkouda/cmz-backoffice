@@ -5,7 +5,6 @@ import { LayoutService } from "../../services/layout.service";
 import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 // @ts-ignore
 import appConfig from '../../../assets/config/app-config.json';
-import { EncodingDataService } from "src/shared/services/encoding-data.service";
 import { MappingService } from "src/shared/services/mapping.service";
 import { ApplicationType } from "src/shared/enum/ApplicationType.enum";
 
@@ -35,7 +34,6 @@ export class HeaderComponent implements OnInit {
     public layout: LayoutService,
     public navServices: NavService,
     @Inject(DOCUMENT) private document: any,
-    private storage: EncodingDataService,
     private mappingService: MappingService,
     
   ) {
@@ -49,8 +47,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.elem = document.documentElement;
-    this.profil = JSON.parse(this.storage.getData('user'));
-    this.logoTenant = `${this.minioUrl}${this.profil?.tenant?.logo_tenant}`;
+    this.profil = this.mappingService.currentUser
+    this.logoTenant = this.mappingService.logoTenant;
     this.mappingService.volumeDataGlobal$.subscribe((res: any) => {
       this.soldeGlobal = res
     });

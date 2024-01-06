@@ -23,10 +23,7 @@ export class ProvisionningService {
     const url: string = (<string>EndPointUrl.GET_ALL_COMMANDES_SIM);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
-  GetAllPortefeuille(): Observable<any> {
-    const url: string = (<string>EndPointUrl.GET_ALL_PORTEFEUILLE);
-    return this.http.get(`${this.baseUrl}${url}`);
-  }
+
   // Ligne Credits
   GetAllLigneCredits(data, page): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_LIGNE_CREDIT).replace('{page}', page);

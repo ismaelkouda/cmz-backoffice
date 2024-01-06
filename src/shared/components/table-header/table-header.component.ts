@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class TableHeaderComponent implements OnInit {
 
-  @Input() count: any;
+  @Input() count: [];
   @Input() legende: string;
 
   constructor() { }

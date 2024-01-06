@@ -15,10 +15,10 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>{{firstLevelLibelle}}</b>
+                    <b>Département</b>
                   </label>
                   <p-dropdown [options]="listDepartements" optionLabel="fullName" [filter]="true" filterBy="fullName"
-                    (onChange)="onChangeFirstLvel($event)" [(ngModel)]="selectedDepartement" [showClear]="true" placeholder={{firstLevelLibelle}}>
+                    (onChange)="onChangeFirstLvel($event)" [(ngModel)]="selectedDepartement" [showClear]="true" placeholder="departement">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -32,10 +32,10 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>{{secondLevelLibelle}}</b>
+                    <b>Commune</b>
                   </label>
                   <p-dropdown [options]="listCommunes" optionLabel="fullName" [filter]="true" filterBy="fullName" (onChange)="onChangeSecondLevel($event)"
-                    [(ngModel)]="selectedCommune" [showClear]="true" placeholder={{secondLevelLibelle}}>
+                    [(ngModel)]="selectedCommune" [showClear]="true" placeholder="commune">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -51,16 +51,7 @@
                   <label>
                     <b>Site</b>
                   </label>
-                  <p-dropdown [options]="listSites" optionLabel="fullName" [filter]="true" filterBy="fullName"
-                    [(ngModel)]="selectedSite" optionValue="id" [showClear]="true" placeholder="sites">
-                    <ng-template let-data pTemplate="item">
-                      <div class="country-item">
-                        <div>
-                          {{data.fullName}}
-                        </div>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
+                  <input placeholder="Site" [(ngModel)]="selectedSite" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-2">
@@ -92,13 +83,8 @@
                 class="p-button-helf"></button>
             </div>
             <div class="table_content_wrapper">
-              <div class="table_header mt-2">
-                <div class="table_header__legende">
-                  <h4 class="pt-2">
-                    <b>Liste des zones de trafics</b>
-                  </h4>
-                </div>
-                <div class="table_header__input"></div>
+              <div class="table_header">
+                <app-table-header [count]="listZonesTrafics" [legende]="'zones de trafics'"></app-table-header>
               </div>
               <table [ngClass]="['native_table table']">
                 <thead>
@@ -107,20 +93,22 @@
                   <th class="text-center">Commune</th>
                   <th class="text-center">Zone Trafic</th>
                   <th class="text-center"># Sites</th>
+                  <th class="text-center"># SIMs</th>
                   <th class="text-center" [ngStyle]="{width: '2rem'}">Action</th>
                 </thead>
                 <tbody>
                   <tr
                     *ngFor="let data of listZonesTrafics | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                     <td>{{ (this.offset + i)}}</td>
-                    <td>{{data.departement?.libelle}}</td>
-                    <td>{{data.commune?.libelle}}</td>
+                    <td>{{data?.departement_nom}}</td>
+                    <td>{{data?.commune_nom}} [{{data?.commune_code}}]</td>
                     <td (click)="copyData(data?.libelle)" style="cursor: pointer">{{data?.libelle}}</td>
                     <td>{{data?.sites_count}}</td>
+                    <td>{{data?.sims_count}}</td>
                     <td class="td-actions">
-                      <p-button icon="pi pi-map-marker" [pTooltip]="data.sims_count === 0 ? '' : 'Vue géographique'"
+                      <button icon="pi pi-map-marker" pButton pRipple [pTooltip]="data.sims_count === 0 ? '' : 'Vue géographique'"
                         tooltipPosition="top" [disabled]="data.sims_count === 0" (click)="showMap(data)"
-                        [styleClass]="data.sims_count === 0 ? 'p-button-success p-button-outlined' : 'p-button-success'"></p-button>
+                        [ngClass]="data.sims_count === 0 ? 'p-button-success p-button-outlined' : 'p-button-success'"></button>
                       <p-button icon="pi pi-eye" pTooltip="Voir Sites" tooltipPosition="top" styleClass="p-button-dark"
                         (click)="onInitForm(data)"></p-button>
                     </td>

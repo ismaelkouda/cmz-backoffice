@@ -25,7 +25,7 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
+                    <b>{{firstLevelLibelle}}</b>
                   </label>
                   <p-dropdown [options]="listFirstLeveDatas" optionLabel="fullName" (onChange)="onChangeFirstLvel($event)"
                     [showClear]="true" [filter]="true" filterBy="fullName" [(ngModel)]="selectedDirection" [placeholder]="firstLevelLibelle">
@@ -42,7 +42,7 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
+                    <b>{{secondLevelLibelle}}</b>
                   </label>
                   <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" optionLabel="fullName" [filter]="true" [showClear]="true"
                     [(ngModel)]="selectedExploitation" [placeholder]="firstLevelLibelle">
@@ -144,13 +144,8 @@
                 class="p-button-helf"></button>
             </div>
             <div class="table_content_wrapper">
-              <div class="table_header mt-2">
-                <div class="table_header__legende">
-                  <h4>
-                    <b>Liste des 50 derniers états de soldes</b>
-                  </h4>
-                </div>
-                <div class="table_header__input"></div>
+              <div class="table_header">
+                <app-table-header [count]="listEtats" [legende]="'états de soldes'"></app-table-header>
               </div>
               <table [ngClass]="['native_table table']">
                 <thead>

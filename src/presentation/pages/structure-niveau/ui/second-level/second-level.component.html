@@ -42,11 +42,7 @@
                       données" [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                   <div class="table_header">
-                    <div class="table_header__legende">
-                      <h4>
-                        <b>Liste des {{currentLevelLibelle | titlecase}}</b>
-                      </h4>
-                    </div>
+                    <app-table-header [count]="listCurrentLevelDatas" [legende]="currentLevelLibelle | titlecase"></app-table-header>
                     <div class="table_header__input">
                       <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>

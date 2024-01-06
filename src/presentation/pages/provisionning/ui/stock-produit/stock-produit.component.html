@@ -77,12 +77,7 @@
           </div>
           <div class="table_content_wrapper">
             <div class="table_header">
-              <div class="table_header__legende">
-                <h4>
-                  <b>Liste des 50 derniers mouvements</b>
-                </h4>
-              </div>
-              <div class="table_header__input"></div>
+              <app-table-header [count]="listStocks" [legende]="'Mouvements'"></app-table-header>
             </div>
             <table [ngClass]="['native_table table']">
               <thead>

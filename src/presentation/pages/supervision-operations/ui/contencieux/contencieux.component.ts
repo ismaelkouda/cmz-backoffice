@@ -10,6 +10,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import * as moment from 'moment';
+import { ExcelService } from 'src/shared/services/excel.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -64,7 +65,8 @@ export class ContencieuxComponent implements OnInit {
     private clipboardApi: ClipboardService,
     private modalService: NgbModal,
     private settingService: SettingService,
-    private mappingService: MappingService
+    private mappingService: MappingService,
+    private excelService: ExcelService
 
   ) {
     Object.values(OperationTransaction).forEach(item => {
@@ -115,6 +117,7 @@ export class ContencieuxComponent implements OnInit {
         }
       })
   }
+  
   public onFilter(): void {
     if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
       this.toastrService.error('Plage de date invalide');
@@ -148,11 +151,10 @@ export class ContencieuxComponent implements OnInit {
         }
       });
   }
-  onPageChange(event: any) {
-    console.log("event", event);
-    this.p = event.pageCount;
+  public onPageChange(event) {
+    this.p = event;
     if (this.isFilter()) {
-     // this.GetAllTransactions()
+      this.GetAllContencieux()
     } else {
       this.onFilter()
     }
@@ -300,5 +302,16 @@ export class ContencieuxComponent implements OnInit {
       this.selectDateEnd = null
     }
   }
+  public OnExportExcel(): void {
+    const data = this.listTraitemants.map((item: any) => ({
+      'Numero transaction': item?.transaction,
+      'Type Transaction': item?.operation,
+      'IMSI': item?.imsi,
+      'MSISDN': item?.msisdn,
+      'Statut': item?.statut,
+      'Date création': item?.created_at
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des contentieux');
+  }
 }
 

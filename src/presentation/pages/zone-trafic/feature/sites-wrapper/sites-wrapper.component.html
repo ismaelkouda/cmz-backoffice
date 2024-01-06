@@ -6,7 +6,7 @@
           <label>
             <b>Departement</b>
           </label>
-          <input type="text" [disabled]="true" [(ngModel)]="currentFirstLevel" pInputText />
+          <input type="text" [disabled]="true" [value]="currentObject.departement_nom" pInputText />
         </div>
       </div>
       <div class="col-md-4">
@@ -14,7 +14,7 @@
           <label>
             <b>Commune</b>
           </label>
-          <input type="text" [disabled]="true" [(ngModel)]="currentSecondLevel" pInputText />
+          <input type="text" [disabled]="true" [value]="currentObject.departement_nom+'['+ currentObject.commune_code+']'" pInputText />
         </div>
       </div>
     </div>
@@ -26,7 +26,7 @@
   </div>
   <hr>
   <div class="table_content_wrapper">
-    <p-table #dt [value]="currentObject.sites" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+    <p-table #dt [value]="listSites" [rows]="10" [paginator]="true" responsiveLayout="scroll"
       [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
                 données" [showCurrentPageReport]="true" [globalFilterFields]="['libelle','code']">
       <ng-template pTemplate="caption">
@@ -47,9 +47,8 @@
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
-          <th>#</th>
-          <!-- <th>Code</th> -->
-          <th>Libelle</th>
+          <th [style]="{width: '1.5rem'}">#</th>
+          <th>Nom</th>
           <th>Latitude</th>
           <th>Longitude</th>
         </tr>
@@ -57,7 +56,6 @@
       <ng-template let-i="rowIndex" pTemplate="body" let-data>
         <tr>
           <td>{{ i + 1 }}</td>
-          <!-- <td>{{data?.code}}</td> -->
           <td>{{data?.libelle}}</td>
           <td>{{data?.latitude}}</td>
           <td>{{data?.longitude}}</td>

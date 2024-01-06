@@ -1,104 +1,157 @@
 <div class="container-fluid">
-  <app-breadcrumb [title]="'Suivi des opérations'" [active_item]="'Demandes'"></app-breadcrumb>
-  <div class="d-flex g-2 justify-content-between">
-    <div>
-      <div class="card" [ngStyle]="{ width: '300px' }">
-        <div class="card-body" [ngStyle]="{ 'margin-top': '-1.4%', padding: '0' }">
-          <ul class="list-group">
-            <li [ngClass]="filterStatus === typeAchat? 'active': 'bg_light_green'" (click)="filterService(typeAchat)"
-              class="list-group-item cursor-pointer">
-              {{HandleFormatTitle('achat-service')}} ({{mappingResponse('commande_produit')?.length}})
-            </li>
-            <li [ngClass]="filterStatus === typeActivation? 'active': 'bg_light_green'"
-              (click)="filterService(typeActivation)" class="list-group-item cursor-pointer">
-              {{HandleFormatTitle('activation')}} ({{mappingResponse('demande_activation')?.length}})
-            </li>
-            <li [ngClass]="filterStatus === typeChangement? 'active': 'bg_light_green'"
-              (click)="filterService(typeChangement)" class="list-group-item cursor-pointer">
-              {{HandleFormatTitle('swap')}} ({{mappingResponse('swap')?.length}})
-            </li>
-            <li [ngClass]=" filterStatus === typeSuspension? 'active': 'bg_light_green'"
-              (click)="filterService(typeSuspension)" class="list-group-item cursor-pointer">
-              {{HandleFormatTitle('suspension')}} ({{mappingResponse('suspension')?.length}})
-            </li>
-            <li [ngClass]="filterStatus === typeResiliation? 'active': 'bg_light_green'"
-              (click)="filterService(typeResiliation)" class="list-group-item cursor-pointer">
-              {{HandleFormatTitle('resiliation')}} ({{mappingResponse('resiliation')?.length}})
-            </li>
-            <li [ngClass]="filterStatus === typeVolume? 'active': 'bg_light_green'" (click)="filterService(typeVolume)"
-              class="list-group-item cursor-pointer">
-              {{HandleFormatTitle('volume-data')}} ({{mappingResponse('volume_data')?.length}})
-            </li>
-            <li [ngClass]="filterStatus === typeProvisionning? 'active': 'bg_light_green'"
-              (click)="filterService(typeProvisionning)" class="list-group-item cursor-pointer">
-              {{HandleFormatTitle('provisionning')}} ({{mappingResponse('provisionning')?.length}})
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div [style]="{width: '79%'}">
-      <div class="card" [ngStyle]="{ 'border-radius': '10px'}">
-        <div class="card-body p-3">
-          <p-table #dtransaction [value]="mappingResponse(filterStatus)" [rows]="10" [paginator]="true"
-            [globalFilterFields]="[
-                  'demandeur',
-                  'erreurs',
-                ]" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
-            currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données"
-            [showCurrentPageReport]="true">
-            <ng-template pTemplate="caption">
-              <div style="display: flex;justify-content: space-between;">
-                <div>
-                  <div class="pt-2">
-                    <h4>
-                      <b>
-                        Catégorie de transaction - {{ HandleFormatSecondTitle(filterStatus) }}
-                      </b>
-                    </h4>
-                  </div>
-                </div>
-                <div>
-                  <form class="d-flex">
-                    <div class="pull-right">
-                      <span class="p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text"
-                          (input)="dtransaction.filterGlobal($event.target.value,'contains')"
-                          placeholder="Recherche..." />
-                      </span>
-                    </div>
-                  </form>
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="'Suivi des opérations'" [active_item]="'Demandes'"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div [hidden]="!initialView">
+            <div class="row filter_wrapper">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Type Transaction</b>
+                  </label>
+                  <p-dropdown [options]="listTypeOperations" [showClear]="true" [(ngModel)]="selectedOperation"
+                    placeholder="Type transaction">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data | titlecase}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
                 </div>
               </div>
-            </ng-template>
-            <br />
-            <ng-template pTemplate="header">
-              <tr>
-                <th>#</th>
-                <th> Date/Heure </th>
-                <th> N° Transaction </th>
-                <th [ngStyle]="{ width: '200px' }"> Demandeur </th>
-                <th> # Erreurs </th>
-                <th [style]="{width: '4rem'}">Actions</th>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-operation let-i="rowIndex">
-              <tr>
-                <td style="text-align: center">{{ i + 1 }}</td>
-                <td>{{ operation.created_at }}</td>
-                <td> {{ operation.transaction }} </td>
-                <td style="text-align: center">{{operation.nom_demandeur}} {{operation.prenoms_demandeur}}</td>
-                <td style="text-align: center">{{operation.erreurs_count || 'N/A'}}</td>
-                <td style="text-align: center">
-                  <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir"
-                    tooltipPosition="top" (click)="OnShowDemande(operation)"></button>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Transaction</b>
+                  </label>
+                  <input placeholder="Transaction" [(ngModel)]="selectedTransaction" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>IMSI</b>
+                  </label>
+                  <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>MSISDN</b>
+                  </label>
+                  <input placeholder="MSISDN" [(ngModel)]="selectedSim" type="text" pInputText />
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Statut</b>
+                  </label>
+                  <p-dropdown [options]="listStatuts" [showClear]="true" [(ngModel)]="selectedStatut"
+                    placeholder="Statut">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data | titlecase}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="p-0" [ngStyle]="{width: '4rem'}" *ngIf="!secondFilter">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                  [disabled]="isFilter()"></p-button>
+              </div>
+              <div class="p-0" [ngStyle]="{width: '4rem'}">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button *ngIf="!secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+                  icon="pi pi-plus"></p-button>
+                <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+                  icon="pi pi-minus"></p-button>
+              </div>
+            </div>
+            <!--------------------Second-------------Filter--------->
+            <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
+              <div class="col-md-2">
+                <label class="block"><b>Date début</b></label>
+                <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
+                  (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
+              </div>
+              <div class="col-md-2">
+                <label class="block"><b>Date fin </b></label>
+                <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+                  (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
+              </div>
+              <div class="p-0" [ngStyle]="{width: '4rem'}">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                  [disabled]="isFilter()"></p-button>
+              </div>
+            </div>
+            <hr>
+            <div class="table_content_wrapper">
+              <div class="table_actions_wrapper pt-2">
+                <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
+                  class="p-button-secondary">
+                </button>
+                <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download" [disabled]="disableAction()"
+                class="p-button-helf"></button>
+              </div>
+              <div class="d-flex gap-3">
+                <div class="table_header__legende">
+                  <app-table-header [count]="listTransactions" [legende]="'dernières demandes'"></app-table-header>
+                </div>
+              </div>
+              <table [ngClass]="['native_table table']">
+                <thead>
+                  <th class="text-center">#</th>
+                  <th>Date / Heure</th>
+                  <th class="text-center" [style]="{width: '10rem'}">N° Transaction</th>
+                  <th class="text-center">Type Transaction</th>
+                  <th class="text-center">IMSI</th>
+                  <th class="text-center">MSISDN</th>
+                  <th class="text-center">Demandeur</th>
+                  <th class="text-center" [style]="{width: '3rem'}">Actions</th>
+                </thead>
+                <tbody>
+                  <tr
+                  *ngFor="let data of listTransactions | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                  <td>{{ (this.offset + i)}}</td>
+                  <td style="text-align: left;">{{data?.created_at}}</td>
+                  <td (click)="copyData(data.transaction)" style="cursor: pointer">{{data?.transaction}}</td>
+                  <td>{{data?.operation | uppercase}}</td>
+                  <td>
+                    <span (click)=" data?.imsi ?copyData(data.imsi): null"
+                      style="cursor: pointer">{{data?.imsi ?? 'N/A'}}</span>
+                  </td>
+                  <td>
+                    <span (click)=" data?.msisdn ?copyData(data.msisdn): null"
+                      style="cursor: pointer">{{data?.msisdn ?? 'N/A'}}</span>
+                  </td>
+                  <td class="text-center">
+                    {{ data?.agent_nom }} {{ data?.agent_prenoms }}
+                  </td>
+                  <td class="td-actions">
+                    <button pButton pRipple label="Voir" icon="pi pi-eye" class="p-button-dark" (click)="OnShowTraitement(data)"></button>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <div [ngClass]="['pagination-controls']">
+                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
     </div>
-  </div>
-</div>

@@ -1,3 +1,4 @@
+import { TabViewHeaderComponent } from './components/tab-view-header/tab-view-header.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
 import { StatutContratComponent } from './components/statut-contrat/statut-contrat.component';
 import { FormatNumberPipe } from './pipes/formatNumber.pipe';
@@ -72,6 +73,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     JournalComponent,
     StatutContratComponent,
     TableHeaderComponent,
+    TabViewHeaderComponent,
     QrModalComponent,
     SafePipe,
     FormatNumberPipe,
@@ -116,6 +118,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     TapToTopComponent,
     StatutContratComponent,
     TableHeaderComponent,
+    TabViewHeaderComponent,
     SvgIconComponent,
     SwiperModule,
     SafePipe,

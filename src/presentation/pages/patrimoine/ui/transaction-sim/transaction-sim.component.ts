@@ -116,10 +116,14 @@ export class TransactionSimComponent implements OnInit {
         }
       })
   }
-
+  
   public onPageChange(event) {
     this.p = event;
-    this.GetAllTransactions()
+    if (this.isFilter()) {
+      this.GetAllTransactions()
+    } else {
+      this.onFilter()
+    }
   }
 
   public onFilter() {

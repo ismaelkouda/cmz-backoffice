@@ -135,11 +135,8 @@
                 class="p-button-helf"></button>
             </div>
             <div class="table_content_wrapper">
-              <div class="table_header mt-2">
-                <div class="table_header__legende">
-                  <app-table-header [count]="listPatrimoines" [legende]="'SIM mise à jour'"></app-table-header>
-                </div>
-                <div class="table_header__input"></div>
+              <div class="table_header">
+                <app-table-header [count]="listPatrimoines" [legende]="'SIM'"></app-table-header>
               </div>
               <table [ngClass]="['native_table table']">
                 <thead>

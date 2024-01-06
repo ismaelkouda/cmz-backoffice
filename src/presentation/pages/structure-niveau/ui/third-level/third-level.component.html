@@ -30,7 +30,7 @@
             <hr>
             <div class="table_actions_wrapper">
               <button pButton pRipple [label]="'Ajout Simple'" icon="pi pi-plus" (click)="openForm(content)"
-                class="p-button-success" [disabled]="true"></button>
+                class="p-button-success"></button>
               <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
                 (click)="GellCurrentLevel()"></button>
               <button pButton pRipple label="Exporter" [disabled]="disableAction()" icon="pi pi-download"
@@ -42,11 +42,7 @@
                       données" [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                   <div class="table_header">
-                    <div class="table_header__legende">
-                      <h4>
-                        <b>Liste des {{currentLevelLibelle | titlecase}}</b>
-                      </h4>
-                    </div>
+                    <app-table-header [count]="listCurrentLevelDatas" [legende]="currentLevelLibelle | titlecase"></app-table-header>
                     <div class="table_header__input">
                       <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
@@ -73,9 +69,9 @@
                       <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
                         (click)="onShowForm(data,content)" class="p-button-dark"></button>
                       <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
-                        (click)="onEditForm(data,content)" class="p-button-secondary" [disabled]="true"></button>
-                      <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Supprimer"
-                        tooltipPosition="top"></p-button>
+                        (click)="onEditForm(data,content)" class="p-button-secondary"></button>
+                      <!-- <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Supprimer"
+                        tooltipPosition="top"></p-button> -->
                     </td>
                   </tr>
                 </ng-template>

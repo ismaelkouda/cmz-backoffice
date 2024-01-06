@@ -1,6 +1,7 @@
-<div>
-  <h4 class="pt-2">
-    <b *ngIf="count?.length && count.length < 50">Liste de(s) {{count.length}} {{legende}}</b>
-    <b *ngIf="count?.length && count.length >= 50">Liste des 50 {{legende}}</b>  
-  </h4>
+<div style="padding: 1.2rem 0 0.8rem 0;">
+  <span class="table-header-wrapper">
+    <b *ngIf="count?.length && count.length < 50">Liste des {{count.length}} {{legende}} mise à jour</b>
+    <b *ngIf="count?.length && count.length >= 50">Liste des 50 {{legende}} mise à jour</b>
+    <b *ngIf="count?.length === 0 || !count">Liste des {{legende}}</b>    
+  </span>
 </div>

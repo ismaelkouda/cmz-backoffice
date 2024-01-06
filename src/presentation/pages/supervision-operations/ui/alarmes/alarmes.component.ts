@@ -1,9 +1,17 @@
-import { ToastrService } from 'ngx-toastr';
-import { SupervisionOperationService } from './../../data-access/supervision-operation.service';
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment';
+import { SettingService } from 'src/shared/services/setting.service';
+import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { ClipboardService } from 'ngx-clipboard';
+import { ActivatedRoute } from '@angular/router';
+import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DemandeShowComponent } from '../../feature/demande-show/demande-show.component';
-
+import { JournalComponent } from 'src/shared/components/journal/journal.component';
+import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
+import { ExcelService } from 'src/shared/services/excel.service';
+import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
+import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 
 @Component({
   selector: 'app-alarmes',
@@ -12,95 +20,230 @@ import { DemandeShowComponent } from '../../feature/demande-show/demande-show.co
 })
 export class AlarmesComponent implements OnInit {
 
-  public listDemandes: Array<any> = [];
-  public listOperations: Array<any> = [];
-  public filterStatus: string;
-  public filtreSelected: string;
-  public typeAchat: string = 'commande_produit';
-  public typeActivation: string = 'demande_activation';
-  public typeChangement: string = 'swap';
-  public typeSuspension: string = 'suspension';
-  public typeResiliation: string = 'resiliation';
-  public typeReactivation: string = 'reactivation'
-  public typeProvisionning: string = 'provisionning';
-  public typeVolume: string = 'volume_data';
-  public currentKey: string;
-
+  public module: string;
+  public subModule: string;
+  public listTransactions: Array<any> = [];
+  public listTypeOperations: Array<any> = [];
+  public listStatuts: Array<any> = [];
+  public initialView: boolean = true;
+  public formsView: boolean = false;
+  public currentObject: any;
+  public selectedSim: string;
+  public selectedimsi: string;
+  public selectedOperation: string;
+  public selectedTransaction: string;
+  public selectedStatut: string;
+  public totalPage: 0;
+  public totalRecords: 0;
+  public recordsPerPage: 0;
+  public offset: any;
+  public p: number = 1;
+  public display: boolean = false;
+  public isMaximized: boolean = false;
+  public secondFilter: boolean = false;
+  public filterDateStart: Date;
+  public filterDateEnd: Date;
+  public selectDateStart: any;
+  public selectDateEnd: any;
+  public stateSoumis: string = StatutTransaction.SOUMIS;
+  public stateTraite: string = StatutTransaction.TARITER;
+  public stateCloture: string = StatutTransaction.CLOTURER;
+  public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
+  public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
+  public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
+  public treatmenRejeter: string = TraitementTransaction.REJETER;
+  public treatmenRefuser: string = TraitementTransaction.REFUSER;
+  public treatmenCancel: string = TraitementTransaction.ABANDONNER;
 
   constructor(
-    private supervisionOperationService: SupervisionOperationService,
-    private toastrService: ToastrService,
+    public settingService: SettingService,
+    public patrimoineService: PatrimoineService,
+    public toastrService: ToastrService,
+    private clipboardApi: ClipboardService,
     private modalService: NgbModal,
+    private route: ActivatedRoute,
+    private excelService: ExcelService
 
   ) {
-    this.filterStatus = this.typeAchat;
+    this.listTypeOperations = [
+      OperationTransaction.ACTIVATION,
+      OperationTransaction.RESILIATION,
+      OperationTransaction.SUSPENSION,
+      OperationTransaction.SWAP,
+      OperationTransaction.VOLUME_DATA,
+    ],
+      Object.values(StatutTransaction).forEach(item => {
+        this.listStatuts.push(item);
+      });
   }
 
   ngOnInit() {
-    this.GetAllDemandes();
-    //localStorage.setItem('layout', 'Barcelona');
-
+    this.GetAllTransactions();
+    this.isFilter();
+    this.disableAction()
   }
 
-  public GetAllDemandes() {
-    this.supervisionOperationService
-      .GetAllDemandes({})
+  public GetAllTransactions() {
+    this.patrimoineService
+      .GetAllTransactions({
+        statut: this.stateSoumis
+      }, this.p)
       .subscribe({
-        next: (res) => {
-          this.listDemandes = res['data'];
-        }, error: (error) => {
+        next: (response) => {
+          this.listTransactions =  response['data']['data'];
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
+        },
+        error: (error) => {
           this.toastrService.error(error.error.message);
         }
       })
   }
-  public mappingResponse(key: string): any[] {
-    return this.listDemandes[key];
-  }
-
-  public filterService(status) {
-    this.filterStatus = status;
-  }
-  public HandleFormatTitle(title): string {
-    return this.supervisionOperationService.HandleFormatTitle(title);
-  }
-  HandleFormatSecondTitle(title: string) {
-    switch (title) {
-      case this.typeAchat: {
-        return "Achat de Services";
-      }
-      case this.typeActivation: {
-        return "Activation de SIM";
-      }
-      case this.typeChangement: {
-        return "Changement de SIM";
-      }
-      case this.typeSuspension: {
-        return "Suspension de SIM";
-      }
-      case this.typeResiliation: {
-        return "Résiliation de SIM";
-      }
-      case this.typeReactivation: {
-        return 'Réactivation de SIM';
-      }
-      case this.typeVolume: {
-        return "Depot de volume	";
-      }
-      case this.typeProvisionning: {
-        return 'Ligne de Credit';
-      }
-      default:
-        return 'N/A'
+  public onPageChange(event) {
+    this.p = event;
+    if (this.isFilter()) {
+      this.GetAllTransactions()
+    } else {
+      this.onFilter()
     }
   }
-  OnShowDemande(data: Object): void {
-    const modalRef = this.modalService.open(DemandeShowComponent, {
+  public onFilter() {
+    if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
+      this.toastrService.error('Plage de date invalide');
+      return;
+    }
+    this.patrimoineService
+      .GetAllTransactions({
+        operation: this.selectedOperation,
+        transaction: this.selectedTransaction,
+        msisdn: this.selectedSim,
+        imsi: this.selectedimsi,
+        statut: this.selectedStatut,
+        date_debut: this.selectDateStart,
+        date_fin: this.selectDateEnd,
+      }, this.p)
+      .subscribe({
+        next: (response) => {
+          this.listTransactions =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            } else{
+              return {...data,current_date: 'N/A'}
+            }
+          });
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public OnRefresh(){
+    this.GetAllTransactions()
+    this.selectedOperation =null
+    this.selectedTransaction = null
+    this.selectedSim = null
+    this.selectedimsi = null
+    this.selectedStatut = null
+    this.selectDateStart = null
+    this.selectDateEnd = null
+    this.filterDateStart = null
+    this.filterDateEnd = null
+  }
+  showJournal(data: Object): void {
+    const modalRef = this.modalService.open(JournalComponent, {
       ariaLabelledBy: "modal-basic-title",
       backdrop: "static",
       keyboard: false,
       centered: true,
-    });    
+    });
     modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.type = data['ouvrage'];
   }
-}
 
+  copyData(data: any): void {
+    this.toastrService.success('Copié dans le presse papier');
+    this.clipboardApi.copyFromContent(data);
+  }
+
+  public hideDialog(data) {
+    this.display = false;
+  }
+  public onDialogMaximized(event) {
+    event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
+  }
+  public onInitForm(): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = undefined;
+  }
+
+  public showSecondFilter() {
+    this.secondFilter = !this.secondFilter;
+  }
+  public onHistorique(data): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = data;
+  }
+  public pushStatutView(event: boolean): void {
+    this.formsView = event;
+    this.initialView = !event;
+  }
+  public pushListTransactions(event: any): void {
+    this.listTransactions = event;
+  }
+  public disableAction(): boolean {
+    return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
+  }
+  OnShowTraitement(data: Object): void {
+    const modalRef = this.modalService.open(TransactionShowComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });
+    modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.resultTraitement.subscribe((res) => {
+      this.listTransactions = res
+    })
+  }
+  changeDateStart(e) {
+    if ( moment(this.filterDateStart).isValid()) {
+      this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
+    }else{
+      this.selectDateStart = null
+    }
+  }
+  changeDateEnd(e) { 
+    if ( moment(this.filterDateEnd).isValid()) {
+      this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
+    }else{
+      this.selectDateEnd = null
+    }
+  }
+  public isFilter(): boolean {
+    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction) ? true : false
+  }
+  public OnExportExcel(): void {
+    const data = this.listTransactions.map((item: any) => ({
+      'Numero transaction': item?.transaction,
+      'Type Transaction': item?.operation,
+      'IMSI': item?.imsi,
+      'MSISDN': item?.msisdn,
+      'Statut': item?.statut,
+      'Date création': item?.created_at
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des transactions');
+  }
+
+}

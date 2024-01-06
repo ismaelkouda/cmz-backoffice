@@ -5,7 +5,6 @@ export const enum EndPointUrl {
     SAVE_PROVISION_CREDIT = 'gestion-portefeuille/ligne-credit/provisionner',
     CANCEL_CREDIT = 'gestion-portefeuille/ligne-credit/annuler-provisionning',
     STAT_CREDIT = 'gestion-portefeuille/ligne-credit/stat',
-    GET_ALL_PORTEFEUILLE = 'gestion-portefeuille/all',
 
 
     //Commandes Produits

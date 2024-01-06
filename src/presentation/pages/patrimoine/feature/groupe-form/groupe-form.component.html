@@ -112,13 +112,8 @@
     <hr>
     <div class="table_content_wrapper" *ngIf="currentObject?.type !== 'show' && currentObject?.type !== 'edit'">
       <div class="table_header mt-2">
-        <div class="table_header__legende">
-          <h4 class="pt-2">
-            <b *ngIf="currentObject?.type === 'affectation'">Liste des SIMS non affectées</b>
-            <b *ngIf="currentObject?.type === 'visualiser'">Liste des SIMS affectées</b>
-          </h4>
-        </div>
-        <div class="table_header__input"></div>
+        <app-tab-view-header *ngIf="currentObject?.type === 'affectation'" [legende]="'Liste des SIMS non affectées'"></app-tab-view-header>
+        <app-tab-view-header *ngIf="currentObject?.type === 'visualiser'" [legende]="'Liste des SIMS affectées'"></app-tab-view-header>
       </div>
       <table [ngClass]="['native_table table']" style="margin-top: -0.2rem">
         <thead>
@@ -168,12 +163,7 @@
       <p-tabView *ngIf="currentObject !== undefined">
         <p-tabPanel header="LISTE DES SIMS">
           <div class="table_header">
-            <div class="table_header__legende">
-              <h4>
-                <b>Liste des SIMS affectées</b>
-              </h4>
-            </div>
-            <div class="table_header__input"></div>
+            <app-tab-view-header [legende]="'Liste des SIMS affectées'"></app-tab-view-header>
           </div>
           <table [ngClass]="['native_table table']" style="margin-top: -0.2rem">
             <thead>

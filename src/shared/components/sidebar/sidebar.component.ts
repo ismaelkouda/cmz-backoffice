@@ -1,11 +1,9 @@
-import { filter } from 'rxjs/operators';
 import { Component, ViewEncapsulation, HostListener } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Menu, NavService } from '../../services/nav.service';
 import { LayoutService } from '../../services/layout.service';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-import { ADMIN_USER, DASHBOARD, STRUCTURE_ORGANISATIONNELLE } from 'src/shared/routes/routes';
-import { ADMIN_ACHAT, ADMIN_ACTIVATION_HISTORIE, ADMIN_CLIENT, ADMIN_GROUPE, ADMIN_POINT_VENTE, ADMIN_PRODUCT, ADMIN_STOCK, ADMIN_VENTE } from 'src/presentation/pages/administration/administration-routing.module';
+import {  DASHBOARD, STRUCTURE_ORGANISATIONNELLE } from 'src/shared/routes/routes';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { FIRST_LEVEL_ROUTE, SECOND_LEVEL_ROUTE, THRID_LEVEL_ROUTE, USAGE_METIER } from 'src/presentation/pages/structure-niveau/structure-niveau-routing.module';
 
@@ -30,6 +28,7 @@ export class SidebarComponent {
   public width: any = window.innerWidth;
   public leftArrowNone: boolean = true;
   public rightArrowNone: boolean = false;
+  public currentUser: any;
   public data: any = [];
 
   constructor(
@@ -39,151 +38,58 @@ export class SidebarComponent {
     private storage: EncodingDataService,
     private mappingService: MappingService
   ) {
-    let user = JSON.parse(this.storage.getData('user') || null);
-    if (user?.profil?.slug === 'utilisateur') {
-      this.data.push(
+    let user = this.mappingService.currentUser;
+    this.data = this.mappingService.currentPermissions
+   
+    this.data = JSON.parse(this.storage.getData('current_menu') || null);
+    this.data?.unshift({
+      title: "Tableau de bord",
+      icon: "home",
+      type: "link",
+      path: `/${DASHBOARD}`,
+      statut: true,
+    })
+    this.data?.push({
+      title: `Structure Organisationnelle`,
+      label: `Structure Organisationnelle`,
+      data: "7-0-0-structure-orga",
+      statut: true,
+      icon: "bar-chart-2",
+      url: "assets/images/portail/icone_settings.webp",
+      path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
+      routerLink: ``,
+      type: "sub",
+      children: [
         {
-          title: "Tableau de bord",
-          icon: "home",
-          type: "link",
-          path: `/${DASHBOARD}`,
-          statut: true,
+          path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
+          title: `${mappingService.structureGlobale?.niveau_1}`,
+          label: `${mappingService.structureGlobale?.niveau_1}`,
+          data: "7-1-0-structure-orga-niveau-1",
+          type: "link"
         },
         {
-          title: "Votre Stock",
-          icon: "trending-up",
-          type: "link",
-          path: `/${ADMIN_USER}/${ADMIN_STOCK}`,
-          statut: true,
+          path: `/${STRUCTURE_ORGANISATIONNELLE}/${SECOND_LEVEL_ROUTE}`,
+          title: `${mappingService.structureGlobale?.niveau_2}`,
+          label: `${mappingService.structureGlobale?.niveau_2}`,
+          data: "7-2-0-structure-orga-niveau-2",
+          type: "link"
         },
         {
-          title: "Vos Ventes",
-          icon: "activity",
-          type: "link",
-          path: `/${ADMIN_USER}/${ADMIN_VENTE}`,
-          statut: true,
+          path: `/${STRUCTURE_ORGANISATIONNELLE}/${THRID_LEVEL_ROUTE}`,
+          title: `${mappingService.structureGlobale?.niveau_3}`,
+          label: `${mappingService.structureGlobale?.niveau_3}`,
+          data: "7-3-0-structure-orga-niveau-3",
+          type: "link"
         },
         {
-          title: "Vos Achats",
-          icon: "shopping-cart",
-          type: "link",
-          path: `/${ADMIN_USER}/${ADMIN_ACHAT}`,
-          statut: true,
-        },
-        {
-          title: "Vos Produits & Services",
-          icon: "package",
-          type: "link",
-          path: `/${ADMIN_USER}/${ADMIN_PRODUCT}`,
-          statut: true,
-        },
-        {
-          title: "Objectifs & Performances",
-          icon: "life-buoy",
-          type: "sub",
-          statut: true,
-          expanded: true,
-          children: [
-            {
-              title: "Objectifs",
-              type: "link",
-              path: ``,
-              statut: true,
-            },
-            {
-              title: "Réalisations [Rapport]",
-              type: "link",
-              path: ``,
-              statut: true,
-            }
-          ]
-        },
-        {
-          title: "Vos Clients",
-          icon: "users",
-          type: "sub",
-          statut: true,
-          expanded: true,
-          children: [
-            {
-              title: "Votre liste de Clients",
-              type: "link",
-              path: `/${ADMIN_USER}/${ADMIN_CLIENT}`,
-              statut: true,
-            },
-            {
-              title: "Vos groupes de ventes",
-              type: "link",
-              path: `/${ADMIN_USER}/${ADMIN_GROUPE}`,
-              statut: true,
-            },
-            {
-              title: "Points de ventes",
-              type: "link",
-              path: `/${ADMIN_USER}/${ADMIN_POINT_VENTE}`,
-              statut: true,
-            },
-            {
-              title: "Historique activations",
-              type: "link",
-              path: `/${ADMIN_USER}/${ADMIN_ACTIVATION_HISTORIE}`,
-              statut: true,
-            },
-          ]
-        },
-      )
-    } else {
-      this.data = JSON.parse(this.storage.getData('current_menu') || null);
-      this.data?.unshift({
-        title: "Tableau de bord",
-        icon: "home",
-        type: "link",
-        path: `/${DASHBOARD}`,
-        statut: true,
-      })
-      this.data?.push({
-        title: `Structure Organisationnelle`,
-        label: `Structure Organisationnelle`,
-        data: "7-0-0-structure-orga",
-        statut: true,
-        icon: "bar-chart-2",
-        url: "assets/images/portail/icone_settings.webp",
-        path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
-        routerLink: ``,
-        type: "sub",
-        children: [
-          {
-            path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
-            title: `${mappingService.structureGlobale?.niveau_1}`,
-            label: `${mappingService.structureGlobale?.niveau_1}`,
-            data: "7-1-0-structure-orga-niveau-1",
-            type: "link"
-          },
-          {
-            path: `/${STRUCTURE_ORGANISATIONNELLE}/${SECOND_LEVEL_ROUTE}`,
-            title: `${mappingService.structureGlobale?.niveau_2}`,
-            label: `${mappingService.structureGlobale?.niveau_2}`,
-            data: "7-2-0-structure-orga-niveau-2",
-            type: "link"
-          },
-          {
-            path: `/${STRUCTURE_ORGANISATIONNELLE}/${THRID_LEVEL_ROUTE}`,
-            title: `${mappingService.structureGlobale?.niveau_3}`,
-            label: `${mappingService.structureGlobale?.niveau_3}`,
-            data: "7-3-0-structure-orga-niveau-3",
-            type: "link"
-          },
-          {
-            path: `/${STRUCTURE_ORGANISATIONNELLE}/${USAGE_METIER}`,
-            title: `Usage Métier`,
-            label: `Usage Métier`,
-            data: "7-4-0-structure-orga-usage",
-            type: "link"
-          }
-        ]
-      })
-    }
-
+          path: `/${STRUCTURE_ORGANISATIONNELLE}/${USAGE_METIER}`,
+          title: `Usage Métier`,
+          label: `Usage Métier`,
+          data: "7-4-0-structure-orga-usage",
+          type: "link"
+        }
+      ]
+    })
     this.data.map(item => {
       if (item.statut === true) {
         this.filterArray.push(item);

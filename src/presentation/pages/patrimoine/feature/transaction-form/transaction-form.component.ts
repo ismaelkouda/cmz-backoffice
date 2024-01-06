@@ -145,7 +145,10 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     }
     if (this.selectedActionValue === this.swap) {
       this.sourceValue = 'stock'
-    } 
+    }
+    if (this.applicationType === ApplicationType.MONITORING) {
+      this.sourceValue = this.sourceOrange
+    }
   }
 
 
@@ -363,10 +366,20 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       this.adminForm.get('exploitation').disable()
       this.adminForm.get('zone').disable()
       this.adminForm.get('statut').disable()
-
+      let adminData;
+      if (this.applicationType === ApplicationType.MONITORING) {
+         adminData = {
+          ...this.adminForm.value,
+          bac_a_pioche: 'orangeci'
+        }
+      }else if (this.applicationType === ApplicationType.PATRIMOINESIM) {
+        adminData = {
+         ...this.adminForm.value,
+         bac_a_pioche: this.sourceValue !== undefined ? this.sourceValue: 'patrimoine',
+        }
+     }
       data = formDataBuilder({
-        ...this.adminForm.value,
-        bac_a_pioche: this.sourceValue !== undefined ? this.sourceValue: 'patrimoine',
+        ...adminData,
         operation: this.selectedActionValue,
         description: this.selectedDescription,
         justificatif: this.selectedPiece,

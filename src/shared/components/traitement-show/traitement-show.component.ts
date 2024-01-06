@@ -1,3 +1,4 @@
+import { SUIVIE_TRAITEMENT_ROUTE, CONTENCIEUX_ROUTE } from './../../../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { TraitementTransaction } from '../../enum/TraitementTransaction.enum';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -14,7 +15,6 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
 import { Router } from '@angular/router';
 import { PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
-import { CONTENCIEUX, SUPERVISION_SUIVIE_TRAITEMENT } from 'src/presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { TRANSACTION_SIM } from 'src/presentation/pages/patrimoine/patrimoine-routing.module';
 declare var require;
 const Swal = require("sweetalert2");
@@ -213,9 +213,9 @@ export class TraitementShowComponent implements OnInit {
   }
 
   OnFeebackTransaction(){
-     if (this.router.url === `/${SUPERVISION_OPERATIONS}/${SUPERVISION_SUIVIE_TRAITEMENT}`) {
+     if (this.router.url === `/${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`) {
         return this.GetAllTraitement()
-     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX}`){
+     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX_ROUTE}`){
       return this.GetAllContencieux()
      }
   }

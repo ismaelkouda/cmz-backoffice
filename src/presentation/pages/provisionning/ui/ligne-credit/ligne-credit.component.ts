@@ -136,6 +136,7 @@ export class LigneCreditComponent implements OnInit {
   }
   public OnRefresh(){
     this.GetAllLigneCredits();
+    this.mappingService.GetAllPortefeuille()
     this.selectedTransaction = null
     this.selectedReference = null
     this.selectedStatut = null

@@ -224,7 +224,7 @@ export class EtatSoldeComponent implements OnInit {
     return (this.listEtats === undefined || this.listEtats?.length === 0) ? true : false
   }
   public isFilter(): boolean {
-    return (!this.selectedAlarme || !this.selectedDirection || !this.selectedExploitation) ? true : false
+    return (!this.selectedAlarme || (this.selectedDirection && this.selectedMsisdn && this.selectedImsi)) ? true : false
   }
 
   changeDateStart(e) {

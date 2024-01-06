@@ -6,7 +6,6 @@ export const enum EndPointUrl {
     GET_ALL_YEAR = 'gestion-campagnes/annees/all',
 
     //First Level EndPoints
-    
     GET_ALL_FIRSTLEVEL = 'parametres-securite/niveau_un/all',
     GET_ALL_FIRSTLEVEL_HABILITATION = 'parametres-securite/niveau_un/all-for-habilitation',
     SAVE_DIRECTION_REGIONALE = 'parametres-securite/niveau_un/store',
@@ -37,6 +36,9 @@ export const enum EndPointUrl {
     // SECURITY
     HANDLE_UPDATE_PASSWORD = 'users/update-password',
     GET_ALL_SITES = 'sites/all',
+
+
+    GET_ALL_PORTEFEUILLE = 'gestion-portefeuille/all',
 
 
 }

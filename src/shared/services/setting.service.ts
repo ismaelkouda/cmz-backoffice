@@ -100,7 +100,7 @@ export class SettingService {
   OnChangeStatutZone(data): Observable<any> {
     const url: string = (<string>EndPointUrl.UPDATE_STATUT_USAGE);
     return this.http.post(`${this.baseUrl}${url}`, data);
-}
+  }
 
   // Security
   HandleUpdatePassword(data): Observable<any> {

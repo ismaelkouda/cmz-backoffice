@@ -30,6 +30,7 @@ import { SupervisionOperationsRoutingModule } from './supervision-operations-rou
 import { SupervisionOperationService } from './data-access/supervision-operation.service';
 import { SharedModule } from 'src/shared/shared.module';
 import { PaginatorModule } from 'primeng/paginator';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 //Components
@@ -69,7 +70,8 @@ import { PerformancesComponent } from './ui/performances/performances.component'
         InputSwitchModule,
         RadioButtonModule,
         DynamicDialogModule,
-        PaginatorModule
+        PaginatorModule,
+        NgxPaginationModule
     ],
     declarations: [
         SuivieTraitementComponent,

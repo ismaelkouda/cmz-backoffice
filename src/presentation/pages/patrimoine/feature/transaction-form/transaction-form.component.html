@@ -70,7 +70,7 @@
         <legend [ngStyle]="{width: '100%'}">
           <b>Source Stock SIM</b>
         </legend>
-        <div style="display: flex;gap: 2rem;">
+        <div style="display: flex;gap: 2rem;" *ngIf="applicationType === patrimoineType">
           <div class="d-flex gap-2">
             <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
               (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
@@ -82,8 +82,11 @@
             <label [for]="sourceOrange" style="margin-top: 0.9rem">Stock SIM/OCI</label>
           </div>
         </div>
-        <div class="text-wrapper">
+        <div class="text-wrapper" *ngIf="applicationType === patrimoineType">
           <input [value]="sourceValue === 'stock' ? sourceStockTenantSim: sourceStockOrangeSim" type="text" [disabled]="true" pInputText/>
+        </div>
+        <div class="text-wrapper" *ngIf="applicationType !== patrimoineType">
+          <input [value]="sourceStockOrangeSim" type="text" [disabled]="true" pInputText/>
         </div>
       </fieldset>
       <div [formGroup]="adminForm" novalidate>

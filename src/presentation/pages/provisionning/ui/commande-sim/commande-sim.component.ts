@@ -8,6 +8,7 @@ import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
+import { MappingService } from 'src/shared/services/mapping.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -54,6 +55,7 @@ export class CommandeSimComponent implements OnInit {
     private provisionningService: ProvisionningService,
     private toastService: ToastrService,
     private clipboardApi: ClipboardService,
+     private mappingService: MappingService,
     private modalService: NgbModal,
 
   ) {
@@ -115,6 +117,7 @@ export class CommandeSimComponent implements OnInit {
   }
   public OnRefresh(){
     this.GetAllAchats();
+    this.mappingService.GetAllPortefeuille()
     this.selectedTranaction = null
     this.selectedReference = null
     this.selectedStatut = null

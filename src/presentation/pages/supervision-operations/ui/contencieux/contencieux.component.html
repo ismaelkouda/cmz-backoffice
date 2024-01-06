@@ -38,82 +38,69 @@
             [disabled]="isFilter()"></p-button>
         </div>
       </div>
-      <div class="mt-4">
-        <p-table #dt [value]="listTraitemants" [rows]="10" [paginator]="false" [globalFilterFields]="[
-        'created_at',
-        'transaction',
-        'operation',
-        'code_erreur',
-        'message',
-        'intervenant']" responsiveLayout="scroll" [rowHover]="true" dataKey="id">
-          <ng-template pTemplate="caption">
-            <div class="seach_and_btns p-0">
-              <div>
-                <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="OnRefresh()"
-                  class="p-button-secondary"></button>
-                <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf ms-3"></button>
-              </div>
-              <div>
-                <span class="p-input-icon-left">
-                  <i class="pi pi-search"></i>
-                  <input pInputText type="text" (input)="dt.filterGlobal($event.target.value,'contains')"
-                    placeholder="Recherche..." />
-                </span>
-              </div>
-            </div>
-          </ng-template>
-          <br />
-          <ng-template pTemplate="header">
-            <tr>
-              <th class="text-center" [style]="{width: '1.5rem'}">#</th>
-              <th class="text-center">Date / Heure</th>
-              <th class="text-center" [ngStyle]="{'width':'200px'}">N° Transaction</th>
-              <th class="text-center">Service</th>
-              <th class="text-center">Rapport</th>
-              <th pTooltip="Details de rapport" tooltipPosition="top">Détails Rapport</th>
-              <th class="text-center">Statut</th>
-              <th class="text-center">Traitement</th>
-              <th class="text-center" [ngStyle]="{'width':'150px'}" pTooltip="Date de traitement" tooltipPosition="top">
-                Date Traitement</th>
-              <th pTooltip="Date de traitement" tooltipPosition="top">Intervenant</th>
-              <th class="text-center" [style]="{width: '3rem'}">Actions</th>
-            </tr>
-
-          </ng-template>
-          <ng-template let-i="rowIndex" pTemplate="body" let-transaction>
-            <tr>
-              <td class="text-center">{{ (this.offset + i)}}</td>
-              <td [style]="{width: '10rem'}"> {{ transaction?.created_at }}</td>
-              <td class="cursor-pointer text-center" (click)="copyTransaction(transaction.transaction)">
-                {{ transaction.transaction }}
-              </td>
-              <td class="text-center">
-                {{ formatTitle(transaction?.operation ?? 'N/A') }}
-              </td>
-              <td class="text-center">
-                <span [ngStyle]="{'font-size':'16px'}" [class.text-white]="getCodeRapport(transaction?.code_rapport) === '200' ||
-                      getCodeRapport(transaction?.code_rapport) === 'false'"
-                  [class.badge-dark]="getCodeRapport(transaction?.code_rapport) === '100'"
-                  [class.badge-info]="getCodeRapport(transaction?.code_rapport) === '102'"
-                  [class.badge-success]="getCodeRapport(transaction?.code_rapport) === '200'"
-                  [class.badge-danger]="getCodeRapport(transaction?.code_rapport) === 'false'" class="badge">
-                  {{ transaction.code_rapport }}
-                </span>
-              </td>
-              <td class="cursor-pointer" [innerHTML]="transaction?.message" (click)="showDialog(transaction)"
-                pTooltip="cliquer pour voir" tooltipPosition="top">
-                {{ truncateString(transaction?.message, 20) }}
-              </td>
-              <td class="text-center">
-                <span [ngStyle]="{'font-size':'16px'}" class="badge"
-                  [class.badge-dark]="transaction?.statut === stateSoumis"
-                  [class.badge-info]="transaction?.statut === stateTraite"
-                  [class.badge-success]="transaction?.statut === stateCloture">
-                  {{ transaction.statut }}
-                </span>
-              </td>
-              <td class="text-center">
-                <span [ngStyle]="{'font-size':'16px'}" class="badge"
+      <div class="table_content_wrapper">
+        <div class="table_actions_wrapper pt-2">
+          <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
+            class="p-button-secondary">
+          </button>
+          <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download"
+          class="p-button-helf"></button>
+        </div>
+        <div class="d-flex gap-3">
+          <div class="table_header__legende">
+            <app-table-header [count]="listTraitemants" [legende]="'derniers contentieux'"></app-table-header>
+          </div>
+        </div>
+        <table [ngClass]="['native_table table']">
+          <thead>
+            <th class="text-center" [style]="{width: '1.5rem'}">#</th>
+            <th class="text-center">Date / Heure</th>
+            <th class="text-center" [ngStyle]="{'width':'200px'}">N° Transaction</th>
+            <th class="text-center">Service</th>
+            <th class="text-center">Rapport</th>
+            <th pTooltip="Details de rapport" tooltipPosition="top">Détails Rapport</th>
+            <th class="text-center">Statut</th>
+            <th class="text-center">Traitement</th>
+            <th class="text-center" [ngStyle]="{'width':'150px'}" pTooltip="Date de traitement" tooltipPosition="top">
+              Date Traitement</th>
+            <th pTooltip="Date de traitement" tooltipPosition="top">Intervenant</th>
+            <th class="text-center" [style]="{width: '3rem'}">Actions</th>
+          </thead>
+          <tbody>
+            <tr
+            *ngFor="let transaction of listTraitemants | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+            <td class="text-center">{{ (this.offset + i)}}</td>
+            <td [style]="{width: '10rem'}"> {{ transaction?.created_at }}</td>
+            <td class="cursor-pointer text-center" (click)="copyTransaction(transaction.transaction)">
+              {{ transaction.transaction }}
+            </td>
+            <td class="text-center">
+              {{ formatTitle(transaction?.operation ?? 'N/A') }}
+            </td>
+            <td class="text-center">
+              <span [ngStyle]="{'font-size':'16px'}" [class.text-white]="getCodeRapport(transaction?.code_rapport) === '200' ||
+                    getCodeRapport(transaction?.code_rapport) === 'false'"
+                [class.badge-dark]="getCodeRapport(transaction?.code_rapport) === '100'"
+                [class.badge-info]="getCodeRapport(transaction?.code_rapport) === '102'"
+                [class.badge-success]="getCodeRapport(transaction?.code_rapport) === '200'"
+                [class.badge-danger]="getCodeRapport(transaction?.code_rapport) === 'false'" class="badge">
+                {{ transaction.code_rapport }}
+              </span>
+            </td>
+            <td class="cursor-pointer" [innerHTML]="transaction?.message" (click)="showDialog(transaction)"
+              pTooltip="cliquer pour voir" tooltipPosition="top">
+              {{ truncateString(transaction?.message, 20) }}
+            </td>
+            <td class="text-center">
+              <span [ngStyle]="{'font-size':'16px'}" class="badge"
+                [class.badge-dark]="transaction?.statut === stateSoumis"
+                [class.badge-info]="transaction?.statut === stateTraite"
+                [class.badge-success]="transaction?.statut === stateCloture">
+                {{ transaction.statut }}
+              </span>
+            </td>
+            <td class="text-center">
+              <span [ngStyle]="{'font-size':'16px'}" class="badge"
                 [class.badge-dark]="transaction?.traitement === treatmenEntente || transaction?.traitement === treatmenAcquiter"
                 [class.badge-danger]="transaction?.traitement === treatmenRejeter || transaction?.traitement === treatmenRefuser"
                 [class.badge-warning]="transaction?.traitement === treatmenCancel"
@@ -121,29 +108,34 @@
                 [class.badge-success]="(transaction?.statut === stateCloture && transaction?.traitement === treatmenAccepter)">
                 {{ transaction.traitement }}
               </span>
-              </td>
-             <td>
+            </td>
+           <td>
+            <span>
+              {{ transaction?.current_date }}
+            </span>
+           </td>
+            <td class="text-center">
               <span>
-                {{ transaction?.current_date }}
+                {{ transaction?.intervenant_nom }} {{ transaction?.intervenant_prenoms }}
               </span>
-             </td>
-              <td class="text-center">
-                <span>
-                  {{ transaction?.intervenant_nom }} {{ transaction?.intervenant_prenoms }}
-                </span>
-              </td>
-              <td style="text-align: center">
-                <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"
-                  (click)="OnShowTraitement(transaction)"></button>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-        <div class="flex align-items-center justify-content-end">
-          <p-paginator (onPageChange)="onPageChange($event)" [rows]="recordsPerPage" [totalRecords]="totalRecords"
-            [first]="offset-1"></p-paginator>
+            </td>
+            <td style="text-align: center">
+              <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"
+                (click)="OnShowTraitement(transaction)"></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div [ngClass]="['pagination-controls']">
+          <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+          </pagination-controls>
         </div>
       </div>
+
+
+
+
+
     </div>
   </div>
 </div>

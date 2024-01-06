@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
 import { EncodingDataService } from "src/shared/services/encoding-data.service";
+import { MappingService } from "src/shared/services/mapping.service";
 import { SettingService } from "src/shared/services/setting.service";
 const Swal = require('sweetalert2');
 
@@ -27,14 +28,15 @@ export class MyAccountComponent implements OnInit {
   constructor(
     private settingService: SettingService,
     private router: Router,
-    private storage: EncodingDataService,
+    private storage : EncodingDataService,
+    private mappingService: MappingService,
     private fb: FormBuilder,
     private modalService: NgbModal,
     private toastrService: ToastrService
   ) { }
 
   ngOnInit() {
-    this.currentUser = JSON.parse(this.storage.getData('user'));
+    this.currentUser = this.mappingService.currentUser;
     this.initFormPassword()
     this.initFormAccount()
     this.OnChangeNewPasswordvalue()

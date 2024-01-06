@@ -41,12 +41,10 @@ export class DashboardComponent implements OnInit {
 
 
   constructor(
-    private storage: EncodingDataService,
     private htpp: HttpClient,
     public mappingService: MappingService
   ) {
-    const data = JSON.parse(this.storage.getData('user'))
-    this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
+    this.baseUrl = this.mappingService.baseUrl
     this.applicationType = this.mappingService.applicationType;
     this.appName = this.mappingService.appName
     this.patrimoineType = ApplicationType.PATRIMOINESIM;

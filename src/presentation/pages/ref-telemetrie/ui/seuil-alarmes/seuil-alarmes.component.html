@@ -21,11 +21,7 @@
                   [showCurrentPageReport]="true" editMode="row">
                   <ng-template pTemplate="caption">
                     <div class="table_header">
-                      <div class="table_header__legende" style="position: relative;left: -1rem;">
-                        <h4>
-                          <b>Liste des Indicateurs et Alarmes</b>
-                        </h4>
-                      </div>
+                      <app-table-header [count]="listTelemetries" [legende]="'Indicateurs et Alarmes'"></app-table-header>
                       <div class="table_header__input" style="position: relative;left: 1rem;">
                         <span class="p-input-icon-left ml-auto">
                           <i class="pi pi-search"></i>
