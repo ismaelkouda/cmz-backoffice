@@ -5,6 +5,9 @@
       <div class="card">
         <div class="card-body">
           <div [hidden]="!initialView">
+            <div style="margin-top: -2rem !important;">
+              <app-patrimoine-header [count]="listEtats" [legende]="'SIM'" [total]="total"></app-patrimoine-header>
+            </div>
             <div class="row filter_wrapper">
               <div class="col-md-2">
                 <div class="form-group">
@@ -76,9 +79,9 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Zone Trafic</b>
+                    <b>MSISDN</b>
                   </label>
-                  <input placeholder="Zone trafic" [(ngModel)]="selectedZone" type="text" pInputText />
+                  <input placeholder="Numéro" [(ngModel)]="selectedMsisdn" type="text" pInputText />
                 </div>
               </div>
               <div [ngStyle]="{width: 'auto'}" *ngIf="!secondFilter">
@@ -99,17 +102,17 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>MSISDN</b>
+                    <b>IMSI</b>
                   </label>
-                  <input placeholder="Numéro" [(ngModel)]="selectedMsisdn" type="text" pInputText />
+                  <input placeholder="Imsi" [(ngModel)]="selectedImsi" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>IMSI</b>
+                    <b>Zone Trafic</b>
                   </label>
-                  <input placeholder="Imsi" [(ngModel)]="selectedImsi" type="text" pInputText />
+                  <input placeholder="Zone trafic" [(ngModel)]="selectedZone" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-2">
@@ -144,25 +147,37 @@
                 class="p-button-helf"></button>
             </div>
             <div class="table_content_wrapper">
-              <div class="table_header">
-                <app-table-header [count]="listEtats" [legende]="'états de soldes'"></app-table-header>
+              <div class="d-flex gap-2">
+                <app-table-header [count]="listEtats" [legende]="'SIM'" [page]="page" [totalPage]="totalPage"></app-table-header> 
+                <div class="d-flex" style="margin-top: 1.1rem;" *ngIf="listEtats?.length"> 
+                  <div class="table-header-wrapper me-2">en Alarme</div>
+                  <app-alarme-color [alarme]="listEtats[0]?.alarme"></app-alarme-color>
+                </div>
               </div>
               <table [ngClass]="['native_table table']">
                 <thead>
                   <th class="text-center">#</th>
+                  <th>{{firstLevelLibelle}}</th>
+                  <th>{{secondLevelLibelle}}</th>
+                  <th class="text-center">{{thirdLevelLibelle}}</th>
                   <th class="text-center">MSISDN</th>
                   <th class="text-center">IMSI</th>
+                  <th class="text-center">Emplacement</th>
                   <th class="text-center">Solde (Go)</th>
-                  <th class="text-center">Alarme</th>
+                  <th class="text-center">Date Solde</th>
                 </thead>
                 <tbody>
                   <tr
                     *ngFor="let data of listEtats | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
-                    <td class="text-center">{{ i + 1 }}</td>
-                    <td (click)="copyData(data?.msisdn)" style="cursor: pointer" class="text-center">{{data?.msisdn}}</td>
-                    <td class="text-center">{{data?.imsi}}</td>
+                    <td>{{ (this.offset + i)}}</td>
+                    <td>{{data?.niveau_uns_nom}}</td>
+                    <td>{{data?.niveau_deux_nom}} </td>
+                    <td>{{data?.niveau_trois_nom}}</td>
+                    <td class="text-center" (click)="copyData(data?.msisdn)" style="cursor: pointer">{{data?.msisdn}}</td>
+                    <td class="text-center" (click)="copyData(data?.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
+                    <td class="text-center" (click)="copyData(data?.point_emplacement)" style="cursor: pointer">{{data?.point_emplacement}}</td>
                     <td class="text-center">{{data?.solde_actuel_go | formatNumber:2}}</td>
-                    <td class="text-center">{{data?.alarme}}</td>
+                    <td class="text-center">{{data?.updated_at}}</td>
                   </tr>
                 </tbody>
               </table>

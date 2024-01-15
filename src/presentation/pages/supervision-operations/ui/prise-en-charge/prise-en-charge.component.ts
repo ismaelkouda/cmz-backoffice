@@ -56,9 +56,7 @@ export class PriseEnChargeComponent implements OnInit {
     private clipboardApi: ClipboardService,
     private mappingService: MappingService
   ) {
-    Object.values(OperationTransaction).forEach(item => {
-      this.listOperations.push(item);
-    });
+    this.listOperations = this.mappingService.listOperationTraitementVue;
     Object.values(StatutTransaction).forEach(item => {
       this.listStatutTransactions.push(item);
     });

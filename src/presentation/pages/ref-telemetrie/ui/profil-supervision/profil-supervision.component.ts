@@ -1,3 +1,4 @@
+import { DeployStatut } from './../../../../../shared/enum/DeployStatut.enum';
 import { ExcelService } from './../../../../../shared/services/excel.service';
 import { Component, OnInit } from '@angular/core';
 import { TelemetrieService } from '../../data-access/telemetrie.service';
@@ -18,7 +19,10 @@ export class ProfilSupervisionComponent implements OnInit {
   public currentObject: any;
   public listProfils: any[] = [];
   public selectedNom: string;
-
+  public statutAttente: string = DeployStatut.EN_ATTENTE;
+  public statutEncours: string = DeployStatut.EN_COURS;
+  public statutActif: string = DeployStatut.ACTIF
+  
   constructor(
     private telemetrieService: TelemetrieService,
     private toastrService: ToastrService,

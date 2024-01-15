@@ -37,30 +37,30 @@
       <b>Type Transaction</b>
     </legend>
     <div style="display: flex;gap: 2rem;">
-      <div class="d-flex gap-2">
+      <div class="trans-radio d-flex gap-2">
         <p-radioButton name="valeur" [value]="activation" [disabled]="this.historie" [(ngModel)]="operationValue"
           (onClick)="selectedAction(activation)" [inputId]="activation" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="activation" style="margin-top: 0.9rem">Activation</label>
+        <label  [for]="activation"style="margin-top: 0.9rem;" >Activation</label>
       </div>
-      <div class="d-flex gap-2" *ngIf="applicationType === patrimoineType">
+      <div class="trans-radio d-flex gap-2" *ngIf="applicationType === patrimoineType">
         <p-radioButton name="valeur" [value]="swap" [disabled]="this.historie" [(ngModel)]="operationValue" (onClick)="selectedAction(swap)"
           [inputId]="swap" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="swap" style="margin-top: 0.9rem">Changement (SIM SWAP)</label>
+        <label [for]="swap"style="margin-top: 0.9rem">Changement (SIM SWAP)</label>
       </div>
-      <div class="d-flex gap-2">
+      <div class="trans-radio d-flex gap-2">
         <p-radioButton name="valeur" [value]="resiliation" [disabled]="this.historie" [(ngModel)]="operationValue"
           (onClick)="selectedAction(resiliation)" [inputId]="resiliation" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="resiliation" style="margin-top: 0.9rem">Résiliation</label>
+        <label [for]="resiliation"style="margin-top: 0.9rem">Résiliation</label>
       </div>
-      <div class="d-flex gap-2">
+      <div class="trans-radio d-flex gap-2">
         <p-radioButton name="valeur" [value]="suspension" [disabled]="this.historie" [(ngModel)]="operationValue"
           (onClick)="selectedAction(suspension)" [inputId]="suspension" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="suspension" style="margin-top: 0.9rem">Suspension</label>
+        <label [for]="suspension"style="margin-top: 0.9rem">Suspension</label>
       </div>
-      <div class="d-flex gap-2" *ngIf="applicationType === patrimoineType">
+      <div class="trans-radio d-flex gap-2" *ngIf="applicationType === patrimoineType">
         <p-radioButton name="valeur" [value]="volume" [disabled]="this.historie"  [(ngModel)]="operationValue" (onClick)="selectedAction(volume)"
           [inputId]="volume" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="volume" style="margin-top: 0.9rem">Volume (Go)</label>
+        <label [for]="volume"style="margin-top: 0.9rem">Volume (Go)</label>
       </div>
     </div>
   </fieldset>
@@ -74,7 +74,7 @@
           <div class="d-flex gap-2">
             <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
               (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
-            <label [for]="sourceStock" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
+            <label  [for]="sourceStock" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
           </div>
           <div class="d-flex gap-2">
             <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"

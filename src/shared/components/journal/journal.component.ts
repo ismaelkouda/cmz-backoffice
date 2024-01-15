@@ -29,6 +29,7 @@ export class JournalComponent implements OnInit {
   public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
   public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
   public treatmenRejeter: string = TraitementTransaction.REJETER;
+  public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
   constructor(
     private activeModal: NgbActiveModal,

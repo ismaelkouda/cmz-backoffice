@@ -12,6 +12,7 @@ import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enu
 import { ExcelService } from 'src/shared/services/excel.service';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
   selector: 'app-alarmes',
@@ -23,8 +24,9 @@ export class AlarmesComponent implements OnInit {
   public module: string;
   public subModule: string;
   public listTransactions: Array<any> = [];
-  public listTypeOperations: Array<any> = [];
+  public listOperations: Array<any> = [];
   public listStatuts: Array<any> = [];
+  public listUsers: Array<any> = [];
   public initialView: boolean = true;
   public formsView: boolean = false;
   public currentObject: any;
@@ -38,6 +40,7 @@ export class AlarmesComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public page: number = 0
   public display: boolean = false;
   public isMaximized: boolean = false;
   public secondFilter: boolean = false;
@@ -45,6 +48,7 @@ export class AlarmesComponent implements OnInit {
   public filterDateEnd: Date;
   public selectDateStart: any;
   public selectDateEnd: any;
+  public currentUser: any;
   public stateSoumis: string = StatutTransaction.SOUMIS;
   public stateTraite: string = StatutTransaction.TARITER;
   public stateCloture: string = StatutTransaction.CLOTURER;
@@ -61,17 +65,11 @@ export class AlarmesComponent implements OnInit {
     public toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private modalService: NgbModal,
-    private route: ActivatedRoute,
+    private mappingService: MappingService,
     private excelService: ExcelService
 
   ) {
-    this.listTypeOperations = [
-      OperationTransaction.ACTIVATION,
-      OperationTransaction.RESILIATION,
-      OperationTransaction.SUSPENSION,
-      OperationTransaction.SWAP,
-      OperationTransaction.VOLUME_DATA,
-    ],
+    this.listOperations = this.mappingService.listOperations
       Object.values(StatutTransaction).forEach(item => {
         this.listStatuts.push(item);
       });
@@ -79,6 +77,7 @@ export class AlarmesComponent implements OnInit {
 
   ngOnInit() {
     this.GetAllTransactions();
+    this.getAllUsers()
     this.isFilter();
     this.disableAction()
   }
@@ -86,7 +85,8 @@ export class AlarmesComponent implements OnInit {
   public GetAllTransactions() {
     this.patrimoineService
       .GetAllTransactions({
-        statut: this.stateSoumis
+        statut: StatutTransaction.SOUMIS,
+        traitement: TraitementTransaction.EN_ENTENTE
       }, this.p)
       .subscribe({
         next: (response) => {
@@ -94,6 +94,7 @@ export class AlarmesComponent implements OnInit {
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
@@ -120,7 +121,7 @@ export class AlarmesComponent implements OnInit {
         transaction: this.selectedTransaction,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
-        statut: this.selectedStatut,
+        demandeur_id: this.currentUser?.id,
         date_debut: this.selectDateStart,
         date_fin: this.selectDateEnd,
       }, this.p)
@@ -140,6 +141,7 @@ export class AlarmesComponent implements OnInit {
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
@@ -153,11 +155,28 @@ export class AlarmesComponent implements OnInit {
     this.selectedTransaction = null
     this.selectedSim = null
     this.selectedimsi = null
-    this.selectedStatut = null
+    this.currentUser = null
     this.selectDateStart = null
     this.selectDateEnd = null
     this.filterDateStart = null
     this.filterDateEnd = null
+  }
+  getAllUsers() {
+    this.settingService
+      .getAllUsers({})
+      .subscribe(
+        (response: any) => {
+          const users = response['data'];
+          this.listUsers = users.map((el) => {
+            const data = { ...el, fullName: el.nom + ' ' + el.prenoms };
+            return data;
+          });
+        },
+        (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      );
+
   }
   showJournal(data: Object): void {
     const modalRef = this.modalService.open(JournalComponent, {
@@ -232,7 +251,7 @@ export class AlarmesComponent implements OnInit {
     }
   }
   public isFilter(): boolean {
-    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction) ? true : false
+    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction && !this.currentUser) ? true : false
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({

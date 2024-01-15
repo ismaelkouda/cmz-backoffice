@@ -34,7 +34,7 @@
         <td class="text-center">
           <span [ngStyle]="{'font-size':'14px'}" class="badge"
           [class.badge-dark]="journal?.traitement === treatmenEntente || journal?.traitement === treatmenAcquiter"
-          [class.badge-danger]="journal?.traitement === treatmenRejeter"
+          [class.badge-danger]="journal?.traitement === treatmenRejeter || journal?.traitement === treatmenRefuser"
           [class.badge-warning]="journal?.traitement === treatmenCancel"
           [class.badge-info]="journal?.traitement === treatmenAccepter"
           [class.badge-success]="(journal?.statut === stateCloture && journal?.traitement === treatmenAccepter)">

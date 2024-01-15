@@ -83,8 +83,8 @@ export class SidebarComponent {
         },
         {
           path: `/${STRUCTURE_ORGANISATIONNELLE}/${USAGE_METIER}`,
-          title: `Usage Métier`,
-          label: `Usage Métier`,
+          title: `Usages Métier`,
+          label: `Usages Métier`,
           data: "7-4-0-structure-orga-usage",
           type: "link"
         }

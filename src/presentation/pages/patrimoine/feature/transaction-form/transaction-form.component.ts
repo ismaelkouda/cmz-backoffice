@@ -13,6 +13,8 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
+import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 
 @Component({
   selector: 'app-transaction-form',
@@ -136,12 +138,15 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       this.getAllZones();
       this.onGetDrValueChanges();
     }
-    if (this.historie) {
+    if (this.historie) {      
       this.selectedActionValue = history.state.operation;
       this.operationValue = this.selectedActionValue
       this.currentPatrimoine = history.state.patrimoine   
       this.onFormPachValues()
-      this.adminForm.disable() 
+      this.adminForm.disable()  
+      
+      console.log("currentPatrimoine",this.currentPatrimoine);
+      
     }
     if (this.selectedActionValue === this.swap) {
       this.sourceValue = 'stock'
@@ -198,7 +203,18 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       .GetAllTransactions({}, 1)
       .subscribe({
         next: (response) => {
-          this.listTransactions.emit(response.data.data);
+             const datas =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            } else{
+              return {...data,current_date: 'N/A'}
+            }
+          });
+          this.listTransactions.emit(datas);
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
@@ -366,14 +382,16 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       this.adminForm.get('exploitation').disable()
       this.adminForm.get('zone').disable()
       this.adminForm.get('statut').disable()
+    
       let adminData;
       if (this.applicationType === ApplicationType.MONITORING) {
          adminData = {
-          ...this.adminForm.value,
+          ...(this.historie ? this.currentPatrimoine : this.adminForm.value),
           bac_a_pioche: 'orangeci'
         }
       }else if (this.applicationType === ApplicationType.PATRIMOINESIM) {
         adminData = {
+          ...(this.historie ? this.currentPatrimoine : this.adminForm.value),
          ...this.adminForm.value,
          bac_a_pioche: this.sourceValue !== undefined ? this.sourceValue: 'patrimoine',
         }
@@ -384,7 +402,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         description: this.selectedDescription,
         justificatif: this.selectedPiece,
       })
-      baseUrl = `${this.baseUrl}${EndPointUrl.ACTIVATION_SIM}`
+      baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`
 
     } else if (this.selectedActionValue === OperationTransaction.VOLUME_DATA) {
       data = formDataBuilder({
@@ -470,10 +488,10 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
 
   public onFormPachValues(): void {
         //Identification Controls
-    this.adminForm.get('niveau_un_id').patchValue(this.currentPatrimoine?.direction_regionale?.nom);
-    this.adminForm.get('niveau_deux_id').patchValue(this.currentPatrimoine?.exploitation?.nom);
-    this.adminForm.get('niveau_trois_id').patchValue(this.currentPatrimoine.zone?.nom);
-    this.adminForm.get('usage_id').patchValue(this.currentPatrimoine?.usage?.nom_usage);
+    this.adminForm.get('niveau_un_id').patchValue(this.currentPatrimoine?.niveau_uns_nom);
+    this.adminForm.get('niveau_deux_id').patchValue(this.currentPatrimoine?.niveau_deux_nom);
+    this.adminForm.get('niveau_trois_id').patchValue(this.currentPatrimoine?.niveau_trois_nom);
+    this.adminForm.get('usage_id').patchValue(this.currentPatrimoine?.nom_usage);
     this.adminForm.get('imsi').patchValue(this.currentPatrimoine?.imsi);
     this.adminForm.get('msisdn').patchValue(this.currentPatrimoine?.msisdn);
     this.adminForm.get('statut').patchValue(this.currentPatrimoine?.statut);

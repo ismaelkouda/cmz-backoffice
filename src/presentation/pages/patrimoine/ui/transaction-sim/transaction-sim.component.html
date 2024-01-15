@@ -11,7 +11,7 @@
                   <label>
                     <b>Type Transaction</b>
                   </label>
-                  <p-dropdown [options]="listTypeOperations" [showClear]="true" [(ngModel)]="selectedOperation"
+                  <p-dropdown [options]="listOperations" [showClear]="true" [(ngModel)]="selectedOperation"
                     placeholder="Type transaction">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
@@ -112,7 +112,7 @@
                 class="p-button-helf"></button>
               </div>
               <div class="d-flex gap-3">
-                <app-table-header [count]="listTransactions" [legende]="'dernières transactions'"></app-table-header>
+                <app-table-header [count]="listTransactions" [legende]="'dernières transactions'" [page]="page" [totalPage]="totalPage"></app-table-header>
                 <div class="table_header__input"></div>
               </div>
               <table [ngClass]="['native_table table']">
@@ -167,8 +167,6 @@
                       (click)="OnShowTraitement(data)" class="p-button-dark"></button>
                       <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top"
                         (click)="showJournal(data)" class="p-button-success"></button>
-                        <button pButton icon="pi pi-history" pTooltip="Historique" tooltipPosition="top"
-                        (click)="onHistorique(data)" class="p-button-warning"></button>
                     </td>
                   </tr>
                 </tbody>

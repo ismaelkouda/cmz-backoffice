@@ -11,7 +11,7 @@
                   <label>
                     <b>Type Transaction</b>
                   </label>
-                  <p-dropdown [options]="listTypeOperations" [showClear]="true" [(ngModel)]="selectedOperation"
+                  <p-dropdown [options]="listOperations" [showClear]="true" [(ngModel)]="selectedOperation"
                     placeholder="Type transaction">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
@@ -26,7 +26,7 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Transaction</b>
+                    <b>N° Transaction</b>
                   </label>
                   <input placeholder="Transaction" [(ngModel)]="selectedTransaction" type="text" pInputText />
                 </div>
@@ -47,25 +47,18 @@
                   <input placeholder="MSISDN" [(ngModel)]="selectedSim" type="text" pInputText />
                 </div>
               </div>
-
               <div class="col-md-2">
-                <div class="form-group">
-                  <label>
-                    <b>Statut</b>
-                  </label>
-                  <p-dropdown [options]="listStatuts" [showClear]="true" [(ngModel)]="selectedStatut"
-                    placeholder="Statut">
+                <label class="block"><b>Demandeur</b></label>
+                <p-dropdown [options]="listUsers" [(ngModel)]="currentUser" optionLabel="fullName" [filter]="true"
+                    filterBy="fullName" [showClear]="true" placeholder="demandeur">
                     <ng-template let-data pTemplate="item">
-                      <div class="country-item">
-                        <div>
-                          {{data | titlecase}}
+                        <div class="country-item">
+                            <div>{{ data.fullName }}</div>
                         </div>
-                      </div>
                     </ng-template>
-                  </p-dropdown>
-                </div>
-              </div>
-              <div class="p-0" [ngStyle]="{width: '4rem'}" *ngIf="!secondFilter">
+                </p-dropdown>
+               </div>   
+               <div class="p-0" [ngStyle]="{width: '4rem'}" *ngIf="!secondFilter">
                 <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
                 <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
                   [disabled]="isFilter()"></p-button>
@@ -76,26 +69,26 @@
                   icon="pi pi-plus"></p-button>
                 <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
                   icon="pi pi-minus"></p-button>
-              </div>
+              </div>         
+          </div>
+          <!--------------------Second-------------Filter--------->
+          <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
+            <div class="col-md-2">
+              <label class="block"><b>Date début</b></label>
+              <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
+                (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
             </div>
-            <!--------------------Second-------------Filter--------->
-            <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
-              <div class="col-md-2">
-                <label class="block"><b>Date début</b></label>
-                <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
-                  (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
-              </div>
-              <div class="col-md-2">
-                <label class="block"><b>Date fin </b></label>
-                <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
-                  (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
-              </div>
-              <div class="p-0" [ngStyle]="{width: '4rem'}">
-                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
-                <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
-                  [disabled]="isFilter()"></p-button>
-              </div>
+            <div class="col-md-2">
+              <label class="block"><b>Date fin </b></label>
+              <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+                (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
             </div>
+            <div class="p-0" [ngStyle]="{width: '4rem'}">
+              <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+              <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                [disabled]="isFilter()"></p-button>
+            </div>
+          </div>
             <hr>
             <div class="table_content_wrapper">
               <div class="table_actions_wrapper pt-2">
@@ -107,7 +100,7 @@
               </div>
               <div class="d-flex gap-3">
                 <div class="table_header__legende">
-                  <app-table-header [count]="listTransactions" [legende]="'dernières demandes'"></app-table-header>
+                  <app-table-header [count]="listTransactions" [legende]="'dernières demandes'" [page]="page" [totalPage]="totalPage"></app-table-header>
                 </div>
               </div>
               <table [ngClass]="['native_table table']">

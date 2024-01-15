@@ -42,9 +42,7 @@
       <ng-template pTemplate="caption">
         <div class="table_header">
           <div class="table_header__legende">
-            <h4>
-              <b>Liste des Seuils et Alarmes</b>
-            </h4>
+            <app-table-header [count]="listTelemetries" [legende]="'Seuils et Alarmes'"></app-table-header>
           </div>
           <div class="table_header__input">
             <span class="p-input-icon-left ml-auto">
@@ -122,9 +120,7 @@
           <ng-template pTemplate="caption">
             <div class="table_header">
               <div class="table_header__legende">
-                <h4>
-                  <b>Liste des Seuils et Alarmes</b>
-                </h4>
+                <app-table-header [count]="listAffectations" [legende]="'Seuils et Alarmes'"></app-table-header>
               </div>
               <div class="table_header__input">
                 <span class="p-input-icon-left ml-auto">

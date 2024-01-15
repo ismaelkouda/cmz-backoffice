@@ -1,11 +1,16 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12">
-      <app-breadcrumb [title]="'Refrentiel Supervision'" [active_item]="'Profils de supervision'"></app-breadcrumb>
+      <app-breadcrumb [title]="'Réferentiel Supervision'" [active_item]="'Profils de supervision'"></app-breadcrumb>
       <div class="card">
         <div class="card-body">
           <div [hidden]="!initialView">
             <div class="table_content_wrapper">
+              <div class="table_actions_wrapper pt-2">
+                <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
+                  class="p-button-secondary">
+                </button>
+              </div>
               <p-table #dt [value]="listProfils" [rows]="10" [paginator]="true" responsiveLayout="scroll"
                 [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
                       données" [showCurrentPageReport]="true">
@@ -30,7 +35,7 @@
                     <th>Date de modification</th>
                     <th># SIM Affectés</th>
                     <th>Statut</th>
-                    <th>Deploy</th>
+                    <th>Deploiement</th>
                     <th class="text-center">Actions</th>
                   </tr>
                 </ng-template>
@@ -47,16 +52,18 @@
                         [disabled]="data?.sims_count === 0"></button>
                     </td>
                     <td class="text-center">
-                      <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
-                        [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
-                        {{ data.statut }}
-                      </span>
+                      <span [ngStyle]="{'font-size':'16px'}" class="badge"
+                      [class.badge-dark]="data?.statut === statutAttente"
+                      [class.badge-info]="data?.statut === statutEncours"
+                      [class.badge-success]="data?.statut === statutActif">
+                      {{ data?.statut}}
+                    </span>
                     </td>
                     <td class="text-center">
-                      <button pButton pRipple [pTooltip]="data?.deploy === true ? 'Deployer': ''" icon="pi pi-bolt"
+                      <button pButton pRipple [pTooltip]="data?.statut === statutAttente ? 'Deployer': ''" icon="pi pi-bolt"
                         tooltipPosition="top" label="Deployer"
-                        [class]="data?.deploy === false ? 'p-button-outlined': ''+ 'p-button-help'"
-                        (click)="OnDeploy(data)" [disabled]="data?.deploy === false"></button>
+                        [class]="data?.statut !== statutAttente ? 'p-button-outlined': ''+ 'p-button-help'"
+                        (click)="OnDeploy(data)" [disabled]="data?.statut !== statutAttente"></button>
                     </td>
                     <td class="td-actions">
                       <p-button icon="pi pi-eye" styleClass="p-button-dark" pTooltip="Voir" tooltipPosition="top"

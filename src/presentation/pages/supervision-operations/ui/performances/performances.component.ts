@@ -30,9 +30,7 @@ export class PerformancesComponent implements OnInit {
 
 
   ) {
-    Object.values(OperationTransaction).forEach(item => {
-      this.listOperations.push(item);
-    });
+    this.listOperations = this.mappingService.listOperationTraitementVue;
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
@@ -41,9 +39,7 @@ export class PerformancesComponent implements OnInit {
   ngOnInit() {
     this.GetFirstLevel()
     this.isFilter()
-    //localStorage.setItem('layout', 'Barcelona');
   }
-
 
   public onFilter() {
 

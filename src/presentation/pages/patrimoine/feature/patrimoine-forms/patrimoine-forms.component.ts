@@ -5,10 +5,8 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { ToastrService } from 'ngx-toastr';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { MappingService } from 'src/shared/services/mapping.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-import { HttpClient } from '@angular/common/http';
 import { PATRIMOINE } from 'src/shared/routes/routes';
 import { TRANSACTION_SIM } from '../../patrimoine-routing.module';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
@@ -20,9 +18,10 @@ import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum'
 })
 export class PatrimoineFormsComponent implements OnInit {
 
-  @Input() currentObject;
+  @Input() currentData;
   @Output() listPatrimoines = new EventEmitter();
   @Output() formsView = new EventEmitter();
+  public currentObject: any;
   public listDirectionRegionales: Array<any> = [];
   public listExploitations: Array<any> = [];
   public listZones: Array<any> = [];
@@ -77,18 +76,20 @@ export class PatrimoineFormsComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("response",this.currentData);
+
+    this.OnGetDetailSim()  
     this.initForm();
-  if (!this.currentObject?.show) {
+  if (!this.currentData?.show) {
     this.onGetDrValueChanges();
     this.getAllDirectionRegionales();
     this.GetAllUsages();
     this.getAllZones();
-  }
-    this.onFormPachValues();
-    this.OnRefreshValues()    
+  }  
+    this.OnRefreshValues() ;
   }
   public statutContrat(){
-    this.mappingService.statutContrat(this.currentObject?.statut)
+    this.mappingService.statutContrat(this.currentData?.statut)
   }
   public close(): void {
     this.formsView.emit(false);
@@ -130,6 +131,22 @@ export class PatrimoineFormsComponent implements OnInit {
     });
   }
 
+  public OnGetDetailSim(): void {
+    this.patrimoineService
+      .OnGetDetailSim(this.currentData?.imsi)
+      .subscribe({
+        next: (response) => {
+          this.currentObject = response['data'];
+
+          console.log("currentObject",this.currentObject);
+          
+          this.onFormPachValues();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
   public getAllDirectionRegionales(): void {
     this.settingService
       .getAllDirectionRegionales({})
@@ -225,15 +242,15 @@ export class PatrimoineFormsComponent implements OnInit {
   public onFormPachValues(): void {
 
     //Identification Controls
-    if (this.currentObject?.show) {      
-      this.adminForm.get('direction_regionale').patchValue(this.currentObject?.direction_regionale?.nom);
-      this.adminForm.get('exploitation').patchValue(this.currentObject?.exploitation?.nom);
-      this.adminForm.get('zone').patchValue(this.currentObject.zone?.nom);
-      this.adminForm.get('usage').patchValue(this.currentObject?.usage?.nom_usage);
+    if (this.currentData?.show) {      
+      this.adminForm.get('direction_regionale').patchValue(this.currentObject?.niveau_uns_nom);
+      this.adminForm.get('exploitation').patchValue(this.currentObject?.niveau_deux_nom);
+      this.adminForm.get('zone').patchValue(this.currentObject?.niveau_trois_nom);
+      this.adminForm.get('usage').patchValue(this.currentObject?.nom_usage);
     }else{
-      this.adminForm.get('direction_regionale').patchValue(this.currentObject?.direction_regionale?.id);
-      this.adminForm.get('exploitation').patchValue(this.currentObject?.exploitation?.id);
-      this.adminForm.get('zone').patchValue(this.currentObject.zone?.id);
+      this.adminForm.get('direction_regionale').patchValue(this.currentObject?.niveau_un_id);
+      this.adminForm.get('exploitation').patchValue(this.currentObject?.niveau_deux_id);
+      this.adminForm.get('zone').patchValue(this.currentObject?.niveau_trois_id);
       this.adminForm.get('usage').patchValue(this.currentObject?.usage?.id);
     }
     this.adminForm.get('imsi').patchValue(this.currentObject?.imsi);
@@ -265,7 +282,7 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.get('username').disable();
     this.adminForm.get('adresse_ip').disable();
 
-    if (this.currentObject.show) {
+    if (this.currentData.show) {
       this.adminForm.disable()
       this.statutContrat()
     }

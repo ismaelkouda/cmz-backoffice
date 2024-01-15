@@ -1,3 +1,5 @@
+import { DownloadComponent } from './ui/download/download.component';
+import { AlarmeColorComponent } from './feature/alarme-color/alarme-color.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -70,7 +72,9 @@ import { CarteMapComponent } from './feature/carte-map/carte-map.component';
         TransactionFormComponent,
         DotationFormComponent,
         GroupeFormComponent,
-        CarteMapComponent
+        DownloadComponent,
+        CarteMapComponent,
+        AlarmeColorComponent,
     ],
 })
 export class PatrimoineModule { }

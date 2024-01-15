@@ -26,20 +26,17 @@ export class SuivieTraitementComponent implements OnInit {
   public listTraitementTransactions: Array<any> = [];
   public listIntervenants: Array<any> = [];
   public listTraitements: Array<any> = [];
-  public listTenants: Array<any> = [];
-  public listFirstLevel: Array<any> = [];
-  public listSecondLevel: Array<any> = [];
+  public listUsers: Array<any> = [];
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public page: number = 0
   public selectedTypeOperation: any;
   public selectedTransaction: any;
   public selectedStatut: any;
   public selectedTraitement: any;
-  public selectedFirstLevel: any;
-  public selectedSecondLevel: any;
   public secondFilter: boolean = false;
   public firstLevelLibelle: string;
   public secondLevelLibelle: string;
@@ -48,6 +45,7 @@ export class SuivieTraitementComponent implements OnInit {
   public filterDateEnd: Date;
   public selectDateStart: any;
   public selectDateEnd: any;
+  public currentUser: any;
   public activationTransaction: string = OperationTransaction.ACTIVATION
   public stateSoumis: string = StatutTransaction.SOUMIS;
   public stateTraite: string = StatutTransaction.TARITER;
@@ -69,9 +67,7 @@ export class SuivieTraitementComponent implements OnInit {
     private excelService: ExcelService
 
   ) {
-    Object.values(OperationTransaction).forEach(item => {
-      this.listOperations.push(item);
-    });
+    this.listOperations = this.mappingService.listOperationTraitementVue;
     Object.values(StatutTransaction).forEach(item => {
       this.listStatutTransactions.push(item);
     });
@@ -86,9 +82,8 @@ export class SuivieTraitementComponent implements OnInit {
   ngOnInit() {
     this.isFilter();
     this.GetAllTransactions();
-    this.GetFirstLevel()
+    this.getAllUsers()
   }
-
 
   public GetAllTransactions() {
     this.supervisionOperationService
@@ -109,6 +104,7 @@ export class SuivieTraitementComponent implements OnInit {
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
@@ -126,8 +122,7 @@ export class SuivieTraitementComponent implements OnInit {
       transaction: this.selectedTransaction,
       statut: this.selectedStatut,
       traitement: this.selectedTraitement,
-      niveau_un_id: this.selectedFirstLevel?.id,
-      niveau_deux_id: this.selectedSecondLevel?.id,
+      demandeur_id: this.currentUser?.id,
       date_debut: this.selectDateStart,
       date_fin: this.selectDateEnd,
     };
@@ -139,6 +134,7 @@ export class SuivieTraitementComponent implements OnInit {
           this.totalPage = response['data'].last_page;
           this.totalRecords = response['data'].total;
           this.recordsPerPage = response['data'].per_page;
+          this.page = response.data?.current_page;
           this.offset = (response['data'].current_page - 1) * this.recordsPerPage + 1;
           this.listTraitemants.length === 0 ?
             Swal.fire('PATRIMOINE SIM', 'Aucune donnée pour cet Tenant', 'error')
@@ -148,6 +144,22 @@ export class SuivieTraitementComponent implements OnInit {
           this.toastrService.error(error.error.message);
         }
       });
+  }
+  getAllUsers() {
+    this.settingService
+      .getAllUsers({})
+      .subscribe(
+        (response: any) => {
+          const users = response['data'];
+          this.listUsers = users.map((el) => {
+            const data = { ...el, fullName: el.nom + ' ' + el.prenoms };
+            return data;
+          });
+        },
+        (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      );
   }
   public onPageChange(event) {
     this.p = event;
@@ -159,12 +171,11 @@ export class SuivieTraitementComponent implements OnInit {
   }
   OnRefresh() {
     this.GetAllTransactions();
-    this.selectedFirstLevel = null
     this.selectedTypeOperation = null
-    this.selectedSecondLevel = null
     this.selectedTransaction = null;
     this.selectedStatut = null;
     this.selectedTraitement = null;
+    this.currentUser = null;
     this.selectDateStart = null;
     this.selectDateEnd = null;
     this.filterDateStart = null;
@@ -196,26 +207,6 @@ export class SuivieTraitementComponent implements OnInit {
         this.listTraitementTransactions.push(item);
       });
     }
-  }
-  public GetFirstLevel() {
-    this.settingService
-      .getAllDirectionRegionales({})
-      .subscribe({
-        next: (response) => {
-          this.listFirstLevel = response['data'].map(element => {
-            return { ...element, fullName: `${element.nom} [${element.code}]` }
-          });
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
-  public onChangeItem(event: any) {
-    this.selectedFirstLevel = event.value;
-    this.listSecondLevel = this.selectedFirstLevel?.niveaux_deux.map(element => {
-      return { ...element, fullName: `${element.nom} [${element.code}]` }
-    });
   }
   public copyTransaction(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
@@ -302,11 +293,11 @@ export class SuivieTraitementComponent implements OnInit {
   }
 
   public isFilter(): boolean {
-    return (!this.selectedTypeOperation &&
-      !this.selectedFirstLevel &&
-      !this.selectedSecondLevel &&
+    return (
+      !this.selectedTypeOperation &&
       !this.selectedTransaction &&
       !this.selectedStatut &&
+      !this.currentUser &&
       !this.selectedTraitement &&
       !this.filterDateStart && 
       !this.filterDateStart

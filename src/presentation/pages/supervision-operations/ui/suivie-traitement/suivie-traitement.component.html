@@ -18,6 +18,14 @@
         </div>
         <div class="col-md-2">
           <div class="form-group">
+            <label>
+              <b>N° Transaction</b>
+            </label>
+            <input placeholder="Transaction" [(ngModel)]="selectedTransaction" type="text" pInputText />
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
             <label><b>Statut</b> </label>
             <p-dropdown [options]="listStatutTransactions" (onChange)="OnChangeStatut($event)" [showClear]="true" [(ngModel)]="selectedStatut"
               placeholder="Statut">
@@ -43,14 +51,40 @@
           </div>
         </div>
         <div class="col-md-2">
+          <label class="block"><b>Demandeur</b></label>
+          <p-dropdown [options]="listUsers" [(ngModel)]="currentUser" optionLabel="fullName" [filter]="true"
+              filterBy="fullName" [showClear]="true" placeholder="demandeur">
+              <ng-template let-data pTemplate="item">
+                  <div class="country-item">
+                      <div>{{ data.fullName }}</div>
+                  </div>
+              </ng-template>
+          </p-dropdown>
+         </div>  
+         <div class="p-0" [ngStyle]="{width: '4rem'}" *ngIf="!secondFilter">
+          <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+          <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+            [disabled]="isFilter()"></p-button>
+        </div>
+        <div class="p-0" [ngStyle]="{width: '4rem'}">
+          <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+          <p-button *ngIf="!secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+            icon="pi pi-plus"></p-button>
+          <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+            icon="pi pi-minus"></p-button>
+        </div> 
+      </div>
+      <!--------------------Second-------------Filter--------->
+      <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
+        <div class="col-md-2">
           <label class="block"><b>Date début</b></label>
           <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
-            (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy"></p-calendar>
+            (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
         </div>
         <div class="col-md-2">
           <label class="block"><b>Date fin </b></label>
           <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
-            (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy"></p-calendar>
+            (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
         </div>
         <div class="p-0" [ngStyle]="{width: '4rem'}">
           <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
@@ -58,6 +92,7 @@
             [disabled]="isFilter()"></p-button>
         </div>
       </div>
+        <hr>
       <div class="table_content_wrapper">
         <div class="table_actions_wrapper pt-2">
           <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
@@ -68,7 +103,7 @@
         </div>
         <div class="d-flex gap-3">
           <div class="table_header__legende">
-            <app-table-header [count]="listTraitemants" [legende]="'derniers traitements'"></app-table-header>
+            <app-table-header [count]="listTraitemants" [legende]="'derniers traitements'" [page]="page" [totalPage]="totalPage"></app-table-header>
           </div>
         </div>
         <table [ngClass]="['native_table table']">

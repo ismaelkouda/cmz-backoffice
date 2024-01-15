@@ -1,3 +1,4 @@
+import { PatrimoineHeaderComponent } from './components/patrimoine-header/patrimoine-header.component';
 import { TabViewHeaderComponent } from './components/tab-view-header/tab-view-header.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
 import { StatutContratComponent } from './components/statut-contrat/statut-contrat.component';
@@ -18,6 +19,7 @@ import {
 } from '@angular/core'; import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
+import { BadgeModule } from 'primeng/badge';
 import { NgxPaginationModule } from "ngx-pagination";
 
 // Components
@@ -74,6 +76,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     StatutContratComponent,
     TableHeaderComponent,
     TabViewHeaderComponent,
+    PatrimoineHeaderComponent,
     QrModalComponent,
     SafePipe,
     FormatNumberPipe,
@@ -97,6 +100,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     TooltipModule,
     DialogModule,
     NgxPaginationModule,
+    BadgeModule,
     RadioButtonModule,
     PasswordModule
   ],
@@ -119,6 +123,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     StatutContratComponent,
     TableHeaderComponent,
     TabViewHeaderComponent,
+    PatrimoineHeaderComponent,
     SvgIconComponent,
     SwiperModule,
     SafePipe,

@@ -1,4 +1,4 @@
-import { SUIVIE_TRAITEMENT_ROUTE, CONTENCIEUX_ROUTE } from './../../../presentation/pages/supervision-operations/supervision-operations-routing.module';
+import { SUIVIE_TRAITEMENT_ROUTE, CONTENCIEUX_ROUTE, DEMANDE_ROUTE } from './../../../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { TraitementTransaction } from '../../enum/TraitementTransaction.enum';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -114,6 +114,7 @@ export class TransactionShowComponent implements OnInit {
     this.IsCloture();
     this.IsReject();
     this.IsShow();
+    this.IsJustificatif()
     this.IsEmptyPanier()
     this.IsVerify();
     this.IsContentSim()
@@ -217,6 +218,8 @@ export class TransactionShowComponent implements OnInit {
       return this.GetAllContencieux()
      }else if(this.router.url === `/${PATRIMOINE}/${TRANSACTION_SIM}`){
       return this.GetAllTransactions()
+     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${DEMANDE_ROUTE}`){
+      return this.GetAllDemandes()
      }else if(this.router.url === `/${OPERATION_PROVISIONNING}/${COMMANDE_SIM}`){
       return this.GetAllAchats()
      }else if(this.router.url === `/${OPERATION_PROVISIONNING}/${LIGNE_CREDIT}`){
@@ -265,6 +268,23 @@ export class TransactionShowComponent implements OnInit {
               return {...data,current_date: 'N/A'}
             } 
           });          
+          this.resultTraitement.emit(this.listTraitemants);
+          this.activeModal.close();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllDemandes() {
+    this.patrimoineService
+      .GetAllTransactions({
+        statut: StatutTransaction.SOUMIS,
+        traitement: TraitementTransaction.EN_ENTENTE      
+      }, 1)
+      .subscribe({
+        next: (response) => {
+          this.listTraitemants =  response['data']['data'];
           this.resultTraitement.emit(this.listTraitemants);
           this.activeModal.close();
         },
@@ -356,6 +376,9 @@ export class TransactionShowComponent implements OnInit {
     }else{
           window.open(this.fileUrl + this.detailTransaction?.justificatif)
     }
+  }
+  IsJustificatif(): boolean{
+    return (this.detailTransaction?.jutificatif === null) ? true : false
   }
 
   /*@@@@@@@@@@@@@@@@@@@@@@Volume Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
@@ -699,6 +722,6 @@ export class TransactionShowComponent implements OnInit {
     this.clipboardApi.copyFromContent(data);
   }
   public handleCloseModal(): void {
-    this.OnFeebackTransaction()
+    this.activeModal.close();
   }
 }

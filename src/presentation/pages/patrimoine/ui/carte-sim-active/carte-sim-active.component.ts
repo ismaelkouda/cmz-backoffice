@@ -30,7 +30,7 @@ export class CarteSimActiveComponent implements OnInit {
   public subModule: string;
   public initialView: boolean = true;
   public formsView: boolean = false;
-  public currentObject: any;
+  public currentData: any;
   public listPatrimoines: any;
   public display: boolean = false;
   public map: any;
@@ -39,6 +39,7 @@ export class CarteSimActiveComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public page: number = 0
   public secondFilter: boolean = false;
   public isMaximized: boolean = false;
   public currentComposant: any;
@@ -54,7 +55,7 @@ export class CarteSimActiveComponent implements OnInit {
   public selectedUsage: string;
   public selectedZone: string;
   public selectedEmplacement: string
-  public currentData: any;
+  public currentOperation: any;
   public listStatus: Array<any> = [];
   public selectedDescription: string;
   public listStatuts: Array<any> = [];
@@ -132,6 +133,7 @@ export class CarteSimActiveComponent implements OnInit {
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
@@ -165,6 +167,7 @@ export class CarteSimActiveComponent implements OnInit {
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
@@ -191,7 +194,7 @@ export class CarteSimActiveComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listFirstLeveDatas = response['data'].map(element => {
-            return { ...element, fullName: `${element.nom} [${element.code}]` }
+            return { ...element, fullName: `${element.nom}` }
           });
         },
         error: (error) => {
@@ -203,7 +206,7 @@ export class CarteSimActiveComponent implements OnInit {
   onChangeFirstLvel(event: any) {
     this.selectedDirection = event.value;
     this.listSecondLevelDatas = this.selectedDirection?.niveaux_deux.map(element => {
-      return { ...element, fullName: `${element.nom} [${element.code}]` }
+      return { ...element, fullName: `${element.nom}` }
     });
   }
   public GetAllThirdLevel() {
@@ -220,11 +223,11 @@ export class CarteSimActiveComponent implements OnInit {
   }
 
   public suspensionForm(content, data) {
-    this.currentData = { ...data, type: SimStatut.SUSPENDU };
+    this.currentOperation = { ...data, type: SimStatut.SUSPENDU };
     this.modalService.open(content);
   }
   public resilierForm(content, data) {
-    this.currentData = { ...data, type: SimStatut.RESILIE };
+    this.currentOperation = { ...data, type: SimStatut.RESILIE };
     this.modalService.open(content);
   }
   public hideForm() {
@@ -233,8 +236,8 @@ export class CarteSimActiveComponent implements OnInit {
   public OnChangeStatut() {
     this.patrimoineService
       .OnChangeStatut({
-        operation: this.currentData?.type,
-        imsi: this.currentData?.imsi,
+        operation: this.currentOperation?.type,
+        imsi: this.currentOperation?.imsi,
         description: this.selectedDescription
       })
       .subscribe({
@@ -250,17 +253,17 @@ export class CarteSimActiveComponent implements OnInit {
   public onInitForm(): void {
     this.initialView = false;
     this.formsView = true;
-    this.currentObject = undefined;
+    this.currentData = undefined;
   }
   public onEditForm(data: any): void {
     this.initialView = false;
     this.formsView = true;
-    this.currentObject = data;
+    this.currentData = data;
   }
   public onShowForm(data: any): void {
     this.initialView = false;
     this.formsView = true;
-    this.currentObject = { ...data, show: true };
+    this.currentData = { ...data, show: true };
   }
   public onTransactionForm(data: any,operation: string): void {
     this.initialView = false;

@@ -9,6 +9,8 @@ export class TableHeaderComponent implements OnInit {
 
   @Input() count: [];
   @Input() legende: string;
+  @Input() page: number;
+  @Input() totalPage: number;
 
   constructor() { }
 

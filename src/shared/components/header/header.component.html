@@ -70,7 +70,10 @@
                 </span>
             </div>
         </div>
-        <div class="nav-right pull-right right-header p-2">
+        <div class="d-flex gap-4 nav-right pull-right right-header p-2">
+            <div style="padding-top: 0.9rem;">
+                <i class="pi pi-bell text-3xl" pBadge value="3" severity="danger" (click)="OnGoNotif()" style="font-size: 1.4rem;line-height: 1.5;cursor: pointer;"></i>
+            </div>
             <ul class="nav-menus">
                 <li class="profile-nav onhover-dropdown p-0">
                     <app-my-account></app-my-account>

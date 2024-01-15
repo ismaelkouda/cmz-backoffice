@@ -27,6 +27,23 @@
     perspective: 1200px;
     transform-style: preserve-3d;
 }
+.justificatif-container{
+    padding: 1rem 0;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    .justificatif-error{
+        span{
+            color: #DF0101;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            text-align: center !important;
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
 
 input[type="text"]:disabled, input[type="email"]:disabled,input[type="number"]:disabled, textarea:disabled {
     background: #fafafa !important;
@@ -260,4 +277,35 @@ p-password .p-disabled {
     justify-content: center !important;
 }
 
+.trans-radio{
+    label{
+        font-family: "FUTURA";
+        font-size: 19px !important;
+    }
+}
+.p-radiobutton-box.p-highlight .p-radiobutton-icon {
+    transform: translateZ(0) scale(0.7,0.7) !important;
+    visibility: visible;
+}
+.p-radiobutton .p-radiobutton-box {
+    width: 29px !important;
+    height: 29px !important;
+}
+.p-radiobutton .p-radiobutton-box .p-radiobutton-icon {
+    width: 25px !important;
+    height: 25px !important;
+}
 
+
+.p-datatable .p-sortable-column.p-highlight {
+    border-right: 0.5px solid #FAFAFA;
+    color: white;
+    background: #000 !important;
+}
+.p-datatable .p-sortable-column.p-highlight:hover {
+    color: white;
+    background: #000 !important;
+}
+.p-datatable .p-sortable-column.p-highlight:hover .p-sortable-column-icon {
+    color:  #FFFF !important;
+}

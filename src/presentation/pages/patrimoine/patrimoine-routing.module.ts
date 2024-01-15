@@ -5,6 +5,7 @@ import { TransactionSimComponent } from './ui/transaction-sim/transaction-sim.co
 import { GroupeSimComponent } from './ui/groupe-sim/groupe-sim.component';
 import { DotationServiceComponent } from './ui/dotation-service/dotation-service.component';
 import { EtatSoldeComponent } from './ui/etat-solde/etat-solde.component';
+import { DownloadComponent } from './ui/download/download.component';
 
 export const CARTES_SIM = 'cartes-sim';
 export const ETAT_SOLDE = 'etat-solde';
@@ -12,6 +13,7 @@ export const LIFECYCLE_SIM = 'cycle-de-vie-sim';
 export const GROUPE_SIM = 'groupe-sim';
 export const DOTATION_SERVICES = 'dotation-services';
 export const TRANSACTION_SIM = 'transaction-sur-sim';
+export const DOWNLOAD_FILE = 'telechargements';
 
 const routes: Routes = [{
     path: "",
@@ -35,6 +37,10 @@ const routes: Routes = [{
         {
             path: TRANSACTION_SIM,
             component: TransactionSimComponent
+        },
+        {
+            path: DOWNLOAD_FILE,
+            component: DownloadComponent
         }
     ]
 }];

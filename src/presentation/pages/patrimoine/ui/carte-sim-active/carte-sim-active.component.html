@@ -5,6 +5,9 @@
       <div class="card">
         <div class="card-body">
           <div [hidden]="!initialView">
+            <div style="margin-top: -2rem !important;">
+              <app-patrimoine-header [count]="listPatrimoines" [legende]="'SIM'" [total]="totalRecords"></app-patrimoine-header>
+            </div>
             <div class="row filter_wrapper">
               <div class="col-md-2">
                 <div class="form-group">
@@ -136,7 +139,7 @@
             </div>
             <div class="table_content_wrapper">
               <div class="table_header">
-                <app-table-header [count]="listPatrimoines" [legende]="'SIM'"></app-table-header>
+                <app-table-header [count]="listPatrimoines" [legende]="'SIM'" [page]="page" [totalPage]="totalPage"></app-table-header>
               </div>
               <table [ngClass]="['native_table table']">
                 <thead>
@@ -155,10 +158,10 @@
                   <tr
                     *ngFor="let data of listPatrimoines | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                     <td>{{ (this.offset + i)}}</td>
-                    <td>{{data.direction_regionale?.nom}} [{{data.direction_regionale?.code}}]</td>
-                    <td>{{data.exploitation?.nom}} [{{data.exploitation?.code}}]</td>
+                    <td>{{data?.niveau_uns_nom}}</td>
+                    <td>{{data?.niveau_deux_nom}}</td>
                     <td (click)="copyData(data.adresse_geographique)" style="cursor: pointer">{{data?.adresse_geographique}}</td>
-                    <td>{{data?.zone?.nom}}</td>
+                    <td>{{data?.niveau_trois_nom}}</td>
                     <td (click)="copyData(data.msisdn)" style="cursor: pointer" class="px-2">{{data.msisdn}}</td>
                     <td (click)="copyData(data.imsi)" style="cursor: pointer" class="px-2">{{data?.imsi ? data?.imsi : 'N/A' }}</td>
                     <td>{{data?.point_emplacement}}</td>
@@ -203,7 +206,7 @@
               </div>
             </div>
           </div>
-          <app-patrimoine-forms [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
+          <app-patrimoine-forms [currentData]="currentData" *ngIf="formsView" (formsView)="pushStatutView($event)"
             (listPatrimoines)="pushListPatrimoines($event)"></app-patrimoine-forms>
         </div>
       </div>

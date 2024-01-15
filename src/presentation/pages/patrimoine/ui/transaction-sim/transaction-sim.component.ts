@@ -12,6 +12,7 @@ import { JournalComponent } from 'src/shared/components/journal/journal.componen
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { ExcelService } from 'src/shared/services/excel.service';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
   selector: 'app-transaction-sim',
@@ -23,7 +24,7 @@ export class TransactionSimComponent implements OnInit {
   public module: string;
   public subModule: string;
   public listTransactions: Array<any> = [];
-  public listTypeOperations: Array<any> = [];
+  public listOperations: Array<any> = [];
   public listStatuts: Array<any> = [];
   public initialView: boolean = true;
   public formsView: boolean = false;
@@ -38,6 +39,7 @@ export class TransactionSimComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public page: number = 0
   public display: boolean = false;
   public isMaximized: boolean = false;
   public secondFilter: boolean = false;
@@ -60,18 +62,13 @@ export class TransactionSimComponent implements OnInit {
     public patrimoineService: PatrimoineService,
     public toastrService: ToastrService,
     private clipboardApi: ClipboardService,
+    private mappingService: MappingService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
     private excelService: ExcelService
 
   ) {
-    this.listTypeOperations = [
-      OperationTransaction.ACTIVATION,
-      OperationTransaction.RESILIATION,
-      OperationTransaction.SUSPENSION,
-      OperationTransaction.SWAP,
-      OperationTransaction.VOLUME_DATA,
-    ],
+    this.listOperations = this.mappingService.listOperations
       Object.values(StatutTransaction).forEach(item => {
         this.listStatuts.push(item);
       });
@@ -109,6 +106,7 @@ export class TransactionSimComponent implements OnInit {
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
@@ -157,6 +155,7 @@ export class TransactionSimComponent implements OnInit {
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {

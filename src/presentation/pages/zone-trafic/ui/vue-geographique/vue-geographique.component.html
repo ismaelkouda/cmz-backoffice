@@ -84,7 +84,7 @@
             </div>
             <div class="table_content_wrapper">
               <div class="table_header">
-                <app-table-header [count]="listZonesTrafics" [legende]="'zones de trafics'"></app-table-header>
+                <app-table-header [count]="listZonesTrafics" [legende]="'zones de trafics'" [page]="page" [totalPage]="totalPage"></app-table-header>
               </div>
               <table [ngClass]="['native_table table']">
                 <thead>
@@ -106,9 +106,7 @@
                     <td>{{data?.sites_count}}</td>
                     <td>{{data?.sims_count}}</td>
                     <td class="td-actions">
-                      <button icon="pi pi-map-marker" pButton pRipple [pTooltip]="data.sims_count === 0 ? '' : 'Vue géographique'"
-                        tooltipPosition="top" [disabled]="data.sims_count === 0" (click)="showMap(data)"
-                        [ngClass]="data.sims_count === 0 ? 'p-button-success p-button-outlined' : 'p-button-success'"></button>
+                      <button pButton icon="pi pi-map-marker" pTooltip="Vue géographique" tooltipPosition="top" (click)="showMap(data)" class="p-button-success"></button>
                       <p-button icon="pi pi-eye" pTooltip="Voir Sites" tooltipPosition="top" styleClass="p-button-dark"
                         (click)="onInitForm(data)"></p-button>
                     </td>

@@ -1,12 +1,13 @@
 export const enum EndPointUrl {
     GET_ALL_PATRIMOINES = 'patrimoine-sim/sims/all?page={page}',
+    DETAILS_SIM = 'patrimoine-sim/sims/{imsi}/details',
     GET_ALL_CYCLES = 'patrimoine-sim/cycle-de-vie/all?page={page}',
     GET_ALL_USAGES = 'patrimoine-sim/sims/all_usage',
     GET_ALL_ETAT_SOLDE = 'patrimoine-sim/sims/etat-sims?page={page}',
     UPDATE_PATRIMOINE = 'patrimoine-sim/sims/update',
     VERIFY_PATRIMOINE = 'patrimoine-sim/sims/verifier',
     ACTIVATION_SIM = 'patrimoine-sim/transactions/demande_activation',
-    CHANGE_STATUT = 'patrimoine-sim/transactions/demande_changement_statut',
+    CHANGE_STATUT = 'patrimoine-sim/transactions/sur-sim',
     SWAPER_SIM = 'patrimoine-sim/transactions/demande_swap',
     VOLUME_DATA = 'patrimoine-sim/transactions/demande_volume_data',
 

@@ -120,7 +120,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
     var critiqueLayerGroup = L.layerGroup();
 
     //@@@@@@@@@@@@@@@@@@@@@@GEOJSON SITE@@@@@@@@@@@@@@@@@
-    
+
     const geoJsonSite = L.geoJSON(this.datas.site_geo, {
       style: function () {
         return {
@@ -135,6 +135,9 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
       }
     });
 
+
+
+    
   //@@@@@@@@@@@@@@@@@@@@@@GEOJSON SIM@@@@@@@@@@@@@@@@@@@@@
     
     const geoJsonSim = L.geoJSON(this.datas.sim, {
@@ -311,9 +314,9 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
     }
     
     var layerGeoJson = {
-       "<span style='font-weight:bold'>SITES - OCI</span>": geoJsonSite,
-       "<span style='font-weight:bold'>EMPLACEMENTS</span>": geoJsonSim,
-       "<span style='font-weight:bold'>RESSORTS</span>": geojsonRessort,
+       "<span style='font-weight:bold;' ><b>SITES - OCI</b></span><span><img src='assets/svg/oci_site.svg' style='width: 12px; margin-left: 20px;'/></span>": geoJsonSite,
+       "<span style='font-weight:bold'><b>EMPLACEMENTS</b></span><span><img src='assets/svg/sim_loc_noir.svg' style='width: 10px; margin-left: 20px;'/></span>": geoJsonSim,
+       "<span style='font-weight:bold'><b>RESSORTS</b></span>": geojsonRessort,
        "<span style='font-weight:bold;' ><b>SIM état Normale</b></span><span><img src='assets/svg/sim_loc_vert.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": normalLayerGroup,
        "<span style='font-weight:bold;' ><b>Alarmes Mineures</b></span><span><img src='assets/svg/sim_loc_jaune.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": mineurLayerGroup,
       "<span style='font-weight:bold;' ><b>Alarmes Majeures</b></span><span><img src='assets/svg/sim_loc_orange.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": majeurLayerGroup,

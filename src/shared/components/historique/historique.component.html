@@ -31,10 +31,8 @@
                     (click)="filterHistoriques()"></p-button>
             </div>
         </div>
-        <div class="header-table mt-3" style="display: flex;justify-content: space-between;">
-            <div class="pt-3">
-                <h4><b>Liste des Historiques</b></h4>
-            </div>
+        <div class="header-table mt-2" style="display: flex;justify-content: space-between;">
+            <app-table-header [count]="listHistoriques" [legende]="'Historiques'"></app-table-header>
             <div>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>

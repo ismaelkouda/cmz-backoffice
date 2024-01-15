@@ -1,3 +1,4 @@
+import { NotificationComponent } from './ui/notification/notification.component';
 import { ContencieuxComponent } from './ui/contencieux/contencieux.component';
 import { DemandeShowComponent } from './feature/demande-show/demande-show.component';
 import { NgModule } from '@angular/core';
@@ -79,7 +80,8 @@ import { PerformancesComponent } from './ui/performances/performances.component'
         PriseEnChargeComponent,
         PerformancesComponent,
         ContencieuxComponent,
-        DemandeShowComponent
+        DemandeShowComponent,
+        NotificationComponent,
     ],
     providers: [EditableRow, SupervisionOperationService]
 })

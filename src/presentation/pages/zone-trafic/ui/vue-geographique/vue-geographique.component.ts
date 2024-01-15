@@ -27,6 +27,7 @@ export class VueGeographiqueComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public page: number;
   public listZonesTrafics: any;
   public listDepartements: Array<any> = [];
   public listCommunes: Array<any> = [];
@@ -73,6 +74,7 @@ export class VueGeographiqueComponent implements OnInit {
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
+          this.page = response.data?.current_page;
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -147,6 +149,7 @@ export class VueGeographiqueComponent implements OnInit {
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
+          this.page = response.data?.current_page;
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

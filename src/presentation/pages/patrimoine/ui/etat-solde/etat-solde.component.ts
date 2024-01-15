@@ -9,6 +9,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 const Swal = require('sweetalert2');
 import * as moment from 'moment';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 
 @Component({
@@ -32,6 +33,8 @@ export class EtatSoldeComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public total: number = 0;
+  public page: number
   public listFirstLeveDatas: Array<any> = [];
   public listSecondLevelDatas: Array<any> = [];
   public listThirdLevelDatas: Array<any> = [];
@@ -59,7 +62,8 @@ export class EtatSoldeComponent implements OnInit {
     private mappingService: MappingService,
     private settingService: SettingService,
     private clipboardApi: ClipboardService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private loadingBar: LoadingBarService,
   ) { 
     Object.values(TypeAlarme).forEach(item => {
       this.listAlarmes.push(item);
@@ -90,6 +94,7 @@ export class EtatSoldeComponent implements OnInit {
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
+          this.total = response.data.total;
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -97,19 +102,24 @@ export class EtatSoldeComponent implements OnInit {
       })
   }
   public OnRefresh(){
-    this.listEtats = [];
-    this.selectedAlarme = null
-    this.selectedDirection = null
-    this.selectedExploitation = null
-    this.selectedUsage = null
-    this.selectedMsisdn = null
-    this.selectedZone = null
-   this.selectedEmplacement = null
-   this.selectedImsi = null
-    this.selectDateStart = null
-    this.selectDateEnd = null
-    this.filterDateStart = null
-    this.filterDateEnd = null
+    this.loadingBar.start()
+    setTimeout(() => {
+      this.listEtats.splice(0, this.listEtats.length);
+      this.selectedAlarme = null
+      this.selectedDirection = null
+      this.selectedExploitation = null
+      this.selectedUsage = null
+      this.selectedMsisdn = null
+      this.selectedZone = null
+      this.selectedEmplacement = null
+      this.selectedImsi = null
+      this.selectDateStart = null
+      this.selectDateEnd = null
+      this.filterDateStart = null
+      this.filterDateEnd = null
+      this.totalRecords = 0;
+      this.loadingBar.stop()
+    }, 1000);
   }
 
   public GetAllFirstLevel() {
@@ -118,7 +128,7 @@ export class EtatSoldeComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listFirstLeveDatas = response['data'].map(element => {
-            return { ...element, fullName: `${element.nom} [${element.code}]` }
+            return { ...element, fullName: `${element.nom}` }
           });
         },
         error: (error) => {
@@ -130,7 +140,7 @@ export class EtatSoldeComponent implements OnInit {
   onChangeFirstLvel(event: any) {
     this.selectedDirection = event.value;
     this.listSecondLevelDatas = this.selectedDirection?.niveaux_deux.map(element => {
-      return { ...element, fullName: `${element.nom} [${element.code}]` }
+      return { ...element, fullName: `${element.nom}` }
     });
   }
   public GetAllThirdLevel() {
@@ -214,7 +224,10 @@ export class EtatSoldeComponent implements OnInit {
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
-          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;        },
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1
+          this.total = response.data.total;
+          this.page = response.data?.current_page;
+        },
         error: (error) => {
           this.toastrService.error(error.error.message);
         }
@@ -224,7 +237,7 @@ export class EtatSoldeComponent implements OnInit {
     return (this.listEtats === undefined || this.listEtats?.length === 0) ? true : false
   }
   public isFilter(): boolean {
-    return (!this.selectedAlarme || (this.selectedDirection && this.selectedMsisdn && this.selectedImsi)) ? true : false
+    return (!this.selectedAlarme && !this.selectedMsisdn && !this.selectedImsi) ? true : false
   }
 
   changeDateStart(e) {

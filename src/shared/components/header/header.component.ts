@@ -7,6 +7,9 @@ import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 import appConfig from '../../../assets/config/app-config.json';
 import { MappingService } from "src/shared/services/mapping.service";
 import { ApplicationType } from "src/shared/enum/ApplicationType.enum";
+import { Router } from "@angular/router";
+import { NOTIFY_ROUTE } from "src/presentation/pages/supervision-operations/supervision-operations-routing.module";
+import { SUPERVISION_OPERATIONS } from "src/shared/routes/routes";
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -35,6 +38,7 @@ export class HeaderComponent implements OnInit {
     public navServices: NavService,
     @Inject(DOCUMENT) private document: any,
     private mappingService: MappingService,
+    private router: Router
     
   ) {
     this.statutLayout();
@@ -55,6 +59,10 @@ export class HeaderComponent implements OnInit {
     this.mappingService.ligneCreditGlobal$.subscribe((res: any) => {      
       this.ligneCreditGlobal = res
     });
+  }
+
+  OnGoNotif(){
+    this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${NOTIFY_ROUTE}`)
   }
 
   public pipeValue(number: any) {

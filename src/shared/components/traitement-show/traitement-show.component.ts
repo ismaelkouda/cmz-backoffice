@@ -116,6 +116,7 @@ export class TraitementShowComponent implements OnInit {
     this.IsCloture();
     this.IsReject();
     this.IsShow();
+    this.IsJustificatif()
     this.IsEmptyPanier()
     this.IsVerify();
     this.IsContentSim()
@@ -168,6 +169,11 @@ export class TraitementShowComponent implements OnInit {
           this.toastrService.error(error.error.message);
         }
       })
+  }
+  IsContencieutRouter(): boolean{
+    if (this.router.url === `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX_ROUTE}`) {
+       return true
+    }
   }
   public GetCurrentMessage(operation): string {
     switch (operation) {
@@ -300,6 +306,10 @@ export class TraitementShowComponent implements OnInit {
           window.open(this.fileUrl + this.detailTransaction?.justificatif)
     }
   }
+  IsJustificatif(): boolean{
+    return (this.detailTransaction?.jutificatif === null) ? true : false
+  }
+
 
   /*@@@@@@@@@@@@@@@@@@@@@@Volume Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitVolumeForm() {
@@ -819,6 +829,6 @@ export class TraitementShowComponent implements OnInit {
     this.clipboardApi.copyFromContent(data);
   }
   public handleCloseModal(): void {
-    this.OnFeebackTransaction()
+    this.activeModal.close();
   }
 }

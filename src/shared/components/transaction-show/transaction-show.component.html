@@ -138,12 +138,13 @@
                 </div>
               </div>
               <br>
-              <div style="display: flex;justify-content: center;gap: 2rem;">
-                <div>
-                  <div style="display: flex;justify-content: center;">
-                    <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+              <div class="justificatif-container">
+                <div *ngIf="IsJustificatif()">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
                     class="p-button-success" (click)="downloadFile()"></button>
-                  </div>
+                </div>
+                <div class="justificatif-error">
+                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
                 </div>
               </div>
             </fieldset>
@@ -234,18 +235,14 @@
                 </div>
               </div>
               <br>
-              <div style="display: flex;justify-content: center;gap: 2rem">
-                <div>
-                  <div style="display: flex;justify-content: center;">
-                    <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                      class="p-button-success" (click)="downloadFile()"></button>
-                  </div>
+              <br>
+              <div class="justificatif-container">
+                <div *ngIf="IsJustificatif()">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
                 </div>
-                <div *ngIf="IsUpdate()">
-                  <div style="display: flex;justify-content: center;">
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                  </div>
+                <div class="justificatif-error">
+                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
                 </div>
               </div>
             </fieldset>
@@ -301,7 +298,7 @@
               <div class="d-flex gap-4">
                 <div>
                    <div class="d-flex gap-4">
-                       <div class="d-flex gap-2">
+                       <div class="trans-radio d-flex gap-2">
                           <p-radioButton name="valeur" [value]="'stock'" formControlName="bac_a_pioche" [inputId]="'stock'"></p-radioButton>
                           <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
                        </div>
@@ -309,7 +306,7 @@
                 </div>
                 <div>
                   <div class="d-flex gap-4">
-                    <div class="d-flex gap-2">
+                    <div class="trans-radio d-flex gap-2">
                       <p-radioButton name="valeur" [value]="'orangeci'" formControlName="bac_a_pioche" [inputId]="'orangeci'"></p-radioButton>
                       <label [for]="'orangeci'" style="margin-top: 0.9rem">Stock SIM/OCI</label>
                     </div>
@@ -330,18 +327,14 @@
                 </div>
               </div>
               <br>
-              <div style="display: flex;justify-content: center;gap: 2rem">
-                <div>
-                  <div style="display: flex;justify-content: center;">
-                    <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                      class="p-button-success" (click)="downloadFile()"></button>
-                  </div>
+              <br>
+              <div class="justificatif-container">
+                <div *ngIf="IsJustificatif()">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
                 </div>
-                <div *ngIf="IsUpdate()">
-                  <div style="display: flex;justify-content: center;">
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                  </div>
+                <div class="justificatif-error">
+                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
                 </div>
               </div>
             </fieldset>
@@ -403,18 +396,14 @@
                 </div>
               </div>
               <br>
-              <div style="display: flex;justify-content: center;gap: 2rem;">
-                <div>
-                  <div style="display: flex;justify-content: center;">
-                    <button pButton pRipple label="Télécharger le justificatif initial" icon="pi pi-download"
-                      class="p-button-success" (click)="downloadFile()"></button>
-                  </div>
+              <br>
+              <div class="justificatif-container">
+                <div *ngIf="IsJustificatif()">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
                 </div>
-                <div *ngIf="IsUpdate()">
-                  <div style="display: flex;justify-content: center;">
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                  </div>
+                <div class="justificatif-error">
+                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
                 </div>
               </div>
             </fieldset>
@@ -476,6 +465,16 @@
                 </div>
               </div>
               <br>
+              <div class="justificatif-container">
+                <div *ngIf="IsJustificatif()">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
+                </div>
+                <div class="justificatif-error">
+                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
+                </div>
+              </div>
+              <!-- <br>
               <div style="display: flex;justify-content: center;gap: 2rem;">
                 <div>
                   <div style="display: flex;justify-content: center;">
@@ -489,7 +488,7 @@
                       (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
                   </div>
                 </div>
-              </div>
+              </div> -->
             </fieldset>
           </div>
         </div>
@@ -503,7 +502,7 @@
               <div class="d-flex gap-4">
                 <div>
                    <div class="d-flex gap-4">
-                       <div class="d-flex gap-2">
+                       <div class="trans-radio d-flex gap-2">
                           <p-radioButton name="valeur" [value]="'stock'" formControlName="bac_a_pioche" [inputId]="'stock'"></p-radioButton>
                           <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
                        </div>
@@ -511,7 +510,7 @@
                 </div>
                 <div>
                   <div class="d-flex gap-4">
-                    <div class="d-flex gap-2">
+                    <div class="trans-radio d-flex gap-2">
                       <p-radioButton name="valeur" [value]="'orangeci'" formControlName="bac_a_pioche" [inputId]="'orangeci'"></p-radioButton>
                       <label [for]="'orangeci'" style="margin-top: 0.9rem">Stock SIM/OCI</label>
                     </div>
@@ -686,12 +685,13 @@
                 </div>
               </div>
               <br>
-              <div style="display: flex;justify-content: center;gap: 2rem;">
-                <div>
-                  <div style="display: flex;justify-content: center;">
-                    <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                      class="p-button-success" (click)="downloadFile()"></button>
-                  </div>
+              <div class="justificatif-container">
+                <div *ngIf="IsJustificatif()">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
+                </div>
+                <div class="justificatif-error">
+                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
                 </div>
               </div>
             </fieldset>

@@ -11,7 +11,6 @@ import { environment } from 'src/environments/environment.prod';
 import { menuJson } from 'src/assets/menu';
 import { FORGOT_PASSWORD } from '../../password-reset/password-reset-routing.module';
 import { REINITIALISATION } from 'src/presentation/app-routing.module';
-import { MappingService } from 'src/shared/services/mapping.service';
 import { DASHBOARD } from 'src/shared/routes/routes';
 
 @Component({
@@ -52,7 +51,8 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    this.loginForm.patchValue({port: window.location.port})
+    this.loginForm.patchValue({port: '11200'})
+    //this.loginForm.patchValue({port: window.location.port})
     this.userLoginUseCase.execute(this.loginForm.value).subscribe({
       next: (response) => {        
         this.permissionsJson.map(module => {

@@ -5,6 +5,7 @@ import { AlarmesComponent } from './ui/alarmes/alarmes.component';
 import { PerformancesComponent } from './ui/performances/performances.component';
 import { PriseEnChargeComponent } from './ui/prise-en-charge/prise-en-charge.component';
 import { ContencieuxComponent } from './ui/contencieux/contencieux.component';
+import { NotificationComponent } from './ui/notification/notification.component';
 
 
 export const DEMANDE_ROUTE = 'demandes'
@@ -12,6 +13,7 @@ export const PRISE_EN_CHARGE_ROUTE = 'prise-en-charge'
 export const SUIVIE_TRAITEMENT_ROUTE = 'suivie-et-traitements'
 export const PERFORMANCE_SLA_ROUTE = 'performances-sla'
 export const CONTENCIEUX_ROUTE = 'contencieux'
+export const NOTIFY_ROUTE = 'centre-notifications'
 
 
 const routes: Routes = [
@@ -37,6 +39,10 @@ const routes: Routes = [
             {
                 path: CONTENCIEUX_ROUTE,
                 component: ContencieuxComponent,
+            },
+            {
+                path: NOTIFY_ROUTE,
+                component: NotificationComponent,
             },
         ],
     },
