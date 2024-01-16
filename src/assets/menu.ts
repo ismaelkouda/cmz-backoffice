@@ -166,8 +166,8 @@ export var menuJson = [
             },
             {
                 path: `/${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`,
-                title: "Suivie et traitement",
-                label: "Suivie et traitement",
+                title: "Suivi et traitement",
+                label: "Suivi et traitement",
                 data: "4-2-0-suivi-traitement",
                 type: "link",
                 pack: ApplicationType.MONITORING
