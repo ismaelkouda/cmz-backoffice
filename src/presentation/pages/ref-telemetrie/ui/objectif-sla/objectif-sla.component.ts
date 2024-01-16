@@ -107,8 +107,7 @@ export class ObjectifSlaComponent implements OnInit {
       'ACK (h)': item?.delai_akc,
       'Traitement (h)': item?.delai_traitement,
       'Clôture(h)': item?.delai_cloture,
-      'Statut': item?.statut,
-      'Date création': item?.created_at
+      'Statut': item?.statut
     }));
     this.excelService.exportAsExcelFile(data, 'Liste des Objectifs SLA');
   }

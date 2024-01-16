@@ -1,11 +1,8 @@
-import { PusherWebsocketService } from './../../../../../shared/services/pusher-websocket.service';
-import { WebsocketService } from './../../../../../shared/services/websocket.service';
 import { ZoneTraficService } from './../../data-access/zone-trafic.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelService } from 'src/shared/services/excel.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { MappingService } from 'src/shared/services/mapping.service';
-import { SettingService } from 'src/shared/services/setting.service';
 
 @Component({
   selector: 'app-vue-geographique',
@@ -43,25 +40,18 @@ export class VueGeographiqueComponent implements OnInit {
 
   listMesssages = [];
 
-  //Mapping
-  firstLevelLibelle: string;
-  secondLevelLibelle: string;
-  thirdLevelLibelle: string;
-
   constructor(
     private zoneTraficService: ZoneTraficService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
-    private mappingService: MappingService,
-    private settingService: SettingService,
+    private excelService: ExcelService,
   ) {
-    //this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
-    //this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
   }
 
   ngOnInit() {
     this.GetAllZOneTrafic();
     this.GetAllDepartements();
+    this.disableAction()
     this.isFilter();
   }
   public GetAllZOneTrafic() {
@@ -106,7 +96,7 @@ export class VueGeographiqueComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listDepartements = response['data'].map(element => {
-            return { ...element, fullName: `${element.libelle} [${element.code}]` }
+            return { ...element, fullName: `${element.libelle}` }
           });
         },
         error: (error) => {
@@ -118,13 +108,7 @@ export class VueGeographiqueComponent implements OnInit {
   onChangeFirstLvel(event: any) {
     this.selectedDepartement = event.value;
     this.listCommunes = this.selectedDepartement?.communes.map(element => {
-      return { ...element, fullName: `${element.libelle} [${element.code}]` }
-    });
-  }
-  onChangeSecondLevel(event: any) {
-    this.selectedCommune = event.value;    
-    this.listSites = this.selectedCommune?.sites.map(element => {
-      return { ...element, fullName: `${element.libelle} [${element.code}]` }
+      return { ...element, fullName: `${element.libelle}` }
     });
   }
   onMaximized(e) {
@@ -198,6 +182,16 @@ export class VueGeographiqueComponent implements OnInit {
     return (!this.selectedDepartement && !this.selectedCommune && !this.selectedZone && !this.selectedSite && !this.selectedSim) ? true : false
   }
   public disableAction(): boolean {
-    return true
+    return (this.listZonesTrafics === undefined || this.listZonesTrafics?.length === 0) ? true : false
+  }
+  public OnExportExcel(): void {
+    const data = this.listZonesTrafics.map((item: any) => ({
+      'Département': item?.departement_nom,
+      'Commune': item?.commune_nom,
+      'Zone Trafic': item?.libelle,
+      '# Sites': item?.sites_count,
+      '# SIMs': item?.sims_count,
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des zones de trafics');
   }
 }

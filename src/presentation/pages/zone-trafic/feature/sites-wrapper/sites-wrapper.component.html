@@ -14,7 +14,15 @@
           <label>
             <b>Commune</b>
           </label>
-          <input type="text" [disabled]="true" [value]="currentObject.departement_nom+' ['+ currentObject.commune_code+']'" pInputText />
+          <input type="text" [disabled]="true" [value]="currentObject.commune_nom" pInputText />
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>
+            <b>Zone Trafic</b>
+          </label>
+          <input type="text" [disabled]="true" [value]="currentObject.libelle" pInputText />
         </div>
       </div>
     </div>
@@ -31,10 +39,9 @@
                 données" [showCurrentPageReport]="true" [globalFilterFields]="['libelle','code']">
       <ng-template pTemplate="caption">
         <div class="table_header">
-          <div class="table_header__legende">
-            <h4>
-              <b>Liste des Sites</b>
-            </h4>
+          <div class="d-flex gap-4">
+            <app-table-header style="margin-top: -1rem;" [count]="listSites" [legende]="'Sites'"></app-table-header>
+            <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf" (click)="OnExportExcel()"></button>
           </div>
           <div class="table_header__input">
             <span class="p-input-icon-left ml-auto">

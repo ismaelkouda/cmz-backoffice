@@ -37,6 +37,8 @@ export class VisualisationComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public page: number = 0
+
 
   //Mapping
   firstLevelLibelle: string;
@@ -98,6 +100,7 @@ export class VisualisationComponent implements OnInit {
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
@@ -123,6 +126,7 @@ export class VisualisationComponent implements OnInit {
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {

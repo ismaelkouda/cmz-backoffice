@@ -378,7 +378,7 @@ export class TransactionShowComponent implements OnInit {
     }
   }
   IsJustificatif(): boolean{
-    return (this.detailTransaction?.jutificatif === null) ? true : false
+    return (this.detailTransaction?.justificatif) ? true : false
   }
 
   /*@@@@@@@@@@@@@@@@@@@@@@Volume Data Forms Controls @@@@@@@@@@@@@@@@@@@*/

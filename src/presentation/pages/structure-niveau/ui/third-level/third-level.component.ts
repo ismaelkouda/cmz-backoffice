@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelService } from 'src/shared/services/excel.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { FormValidator } from 'src/shared/utils/spacer.validator';
@@ -28,7 +29,6 @@ export class ThirdLevelComponent implements OnInit {
   public currentLevelLibelle: string;
   public currentLevelLibelleSplit: string;
   public childLevelLibelle: string;
- // public parentLevelLibelle: string;
   public currentLevel: any;
   public isEdit: boolean = false;
   public isShow: boolean = false;
@@ -39,15 +39,14 @@ export class ThirdLevelComponent implements OnInit {
     private toastrService: ToastrService,
     private mappingService: MappingService,
     private modalService: NgbModal,
+    private excelService: ExcelService,
     private clipboardApi: ClipboardService,
     private fb: FormBuilder
   ) {
     this.currentLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
-    //this.parentLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
   }
 
   ngOnInit() {
-    this.disableAction();
     this.GellCurrentLevel();
     this.GellAllSecondLevel();
     this.onInitForm();
@@ -175,10 +174,13 @@ export class ThirdLevelComponent implements OnInit {
         }
       })
   }
-
-  public disableAction(): boolean {
-    return this.listCurrentLevelDatas?.length === 0 ? true : false
-  }
+  public OnExportExcel(): void {
+    const data = this.listCurrentLevelDatas.map((item: any) => ({
+      [this.currentLevelLibelle]: item?.nom,
+      'Code': item?.code
+    }));
+    this.excelService.exportAsExcelFile(data, `Lise des ${this.currentLevelLibelle}`);
+  }
   public isFilter(): boolean {
     return (!this.selectedNom && !this.selectedCodes) ? true : false
   }

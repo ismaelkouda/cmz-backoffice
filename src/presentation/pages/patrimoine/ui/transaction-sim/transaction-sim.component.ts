@@ -252,11 +252,12 @@ export class TransactionSimComponent implements OnInit {
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
-      'Numero transaction': item?.transaction,
+      'N° transaction': item?.transaction,
       'Type Transaction': item?.operation,
+      'Statut': item?.statut,
       'IMSI': item?.imsi,
       'MSISDN': item?.msisdn,
-      'Statut': item?.statut,
+      'Traitement': item?.traitement,
       'Date création': item?.created_at
     }));
     this.excelService.exportAsExcelFile(data, 'Liste des transactions');

@@ -121,7 +121,7 @@ export class AlarmesComponent implements OnInit {
         transaction: this.selectedTransaction,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
-        demandeur_id: this.currentUser?.id,
+        initie_par: this.currentUser?.id,
         date_debut: this.selectDateStart,
         date_fin: this.selectDateEnd,
       }, this.p)
@@ -255,14 +255,14 @@ export class AlarmesComponent implements OnInit {
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
-      'Numero transaction': item?.transaction,
+      'Date création': item?.created_at,
+      'N° transaction': item?.transaction,
       'Type Transaction': item?.operation,
       'IMSI': item?.imsi,
       'MSISDN': item?.msisdn,
-      'Statut': item?.statut,
-      'Date création': item?.created_at
+      'Demandeur': `${item.agent_nom} ${item.agent_prenoms}`,
     }));
-    this.excelService.exportAsExcelFile(data, 'Liste des transactions');
+    this.excelService.exportAsExcelFile(data, 'Liste des demandes');
   }
 
 }

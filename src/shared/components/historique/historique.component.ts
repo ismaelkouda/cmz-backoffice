@@ -46,7 +46,7 @@ export class HistoriqueComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllUsers();
-    this.refreshHistorique()
+    //this.refreshHistorique()
     this.getAllHistoriques()
   }
 

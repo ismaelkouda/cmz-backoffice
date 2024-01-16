@@ -147,18 +147,18 @@
             <strong>{{ formatTitleOuvrage(detailTransaction?.operation) }}
               <span style="color:#549B3D;font-weight: bold;">
                 <span *ngIf="IsContentSim()"> 
-                  {{detailTransaction?.niveau_uns_code}} |
-                  {{detailTransaction?.niveau_deux_nom}} [{{detailTransaction?.niveau_deux_code}}] -
-                  [{{detailTransaction?.msisdn}}]
+                  {{detailTransaction?.niveau_uns_code ?? 'N/A'}} |
+                  {{detailTransaction?.niveau_deux_nom ?? 'N/A'}} [{{detailTransaction?.niveau_deux_code ?? 'N/A'}}] -
+                  [{{detailTransaction?.msisdn ?? 'N/A'}}]
                 </span>&nbsp;
                 <span *ngIf="IsProvisionningTransaction()"> 
-                  {{detailTransaction?.reference}} [{{detailTransaction?.rapport?.code}}]
+                  {{detailTransaction?.reference ?? 'N/A'}} [{{detailTransaction?.rapport?.code ?? 'N/A'}}]
                 </span>&nbsp;
                 <span *ngIf="IsAchatTransaction()"> 
-                  {{detailTransaction?.numero_commande}} [{{detailTransaction?.rapport?.code}}]
+                  {{detailTransaction?.numero_commande ?? 'N/A'}} [{{detailTransaction?.rapport?.code ?? 'N/A'}}]
                 </span>&nbsp;
                 <span
-                  *ngIf="detailTransaction?.rapport?.identifiant">[{{detailTransaction?.rapport?.identifiant}}]</span>
+                  *ngIf="detailTransaction?.rapport?.identifiant">[{{detailTransaction?.rapport?.identifiant ?? 'N/A'}}]</span>
               </span>
             </strong>
           </h4>

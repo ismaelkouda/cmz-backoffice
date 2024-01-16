@@ -74,9 +74,7 @@
     <div class="table_content_wrapper">
       <div class="table_header mt-2">
         <div class="table_header__legende">
-          <h4 class="pt-2">
-            <b>Liste des SIM Non Affectées au Profil</b>
-          </h4>
+          <app-table-header [count]="listAffectations" [legende]="'SIM Non Affectées au profil'" [page]="page" [totalPage]="totalPage"></app-table-header>
         </div>
         <div class="table_header__input"></div>
       </div>

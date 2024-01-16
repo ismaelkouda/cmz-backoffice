@@ -122,7 +122,7 @@ export class SuivieTraitementComponent implements OnInit {
       transaction: this.selectedTransaction,
       statut: this.selectedStatut,
       traitement: this.selectedTraitement,
-      demandeur_id: this.currentUser?.id,
+      initie_par: this.currentUser?.id,
       date_debut: this.selectDateStart,
       date_fin: this.selectDateEnd,
     };
@@ -318,17 +318,18 @@ export class SuivieTraitementComponent implements OnInit {
       this.selectDateEnd = null
     }
   }
-
   public OnExportExcel(): void {
     const data = this.listTraitemants.map((item: any) => ({
-      'Numero transaction': item?.transaction,
+      'Date création': item?.created_at,
+      'N° transaction': item?.transaction,
       'Type Transaction': item?.operation,
-      'IMSI': item?.imsi,
-      'MSISDN': item?.msisdn,
+      'Service': [this.formatTitle(item?.operation)],
+      'Rapport': item?.code_rapport,
       'Statut': item?.statut,
-      'Date création': item?.created_at
+      'Traitement': item?.traitement,
+      'Demandeur': `${item.agent_nom} ${item.agent_prenoms}`,
     }));
-    this.excelService.exportAsExcelFile(data, 'Liste des transactions');
+    this.excelService.exportAsExcelFile(data, 'Liste de suivie et traitements');
   }
 }
 

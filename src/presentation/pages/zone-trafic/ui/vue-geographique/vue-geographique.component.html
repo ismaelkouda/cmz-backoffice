@@ -34,7 +34,7 @@
                   <label>
                     <b>Commune</b>
                   </label>
-                  <p-dropdown [options]="listCommunes" optionLabel="fullName" [filter]="true" filterBy="fullName" (onChange)="onChangeSecondLevel($event)"
+                  <p-dropdown [options]="listCommunes" optionLabel="fullName" [filter]="true" filterBy="fullName"
                     [(ngModel)]="selectedCommune" [showClear]="true" placeholder="commune">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
@@ -79,7 +79,7 @@
             <div class="table_actions_wrapper">
               <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
                 class="p-button-secondary"></button>
-              <button pButton pRipple label="Exporter" icon="pi pi-download" [disabled]="disableAction()"
+              <button pButton pRipple label="Exporter" icon="pi pi-download" (click)="OnExportExcel()" [disabled]="disableAction()"
                 class="p-button-helf"></button>
             </div>
             <div class="table_content_wrapper">
@@ -101,7 +101,7 @@
                     *ngFor="let data of listZonesTrafics | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
                     <td>{{ (this.offset + i)}}</td>
                     <td>{{data?.departement_nom}}</td>
-                    <td>{{data?.commune_nom}} [{{data?.commune_code}}]</td>
+                    <td>{{data?.commune_nom}}</td>
                     <td (click)="copyData(data?.libelle)" style="cursor: pointer">{{data?.libelle}}</td>
                     <td>{{data?.sites_count}}</td>
                     <td>{{data?.sims_count}}</td>

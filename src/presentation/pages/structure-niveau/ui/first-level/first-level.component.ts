@@ -6,6 +6,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { FormValidator } from '../../../../../shared/utils/spacer.validator';
 import { ClipboardService } from 'ngx-clipboard';
+import { ExcelService } from 'src/shared/services/excel.service';
 
 const Swal = require('sweetalert2');
 
@@ -40,20 +41,16 @@ export class FirstLevelComponent implements OnInit {
     private toastrService: ToastrService,
     private mappingService: MappingService,
     private modalService: NgbModal,
+    private excelService: ExcelService,
     private clipboardApi: ClipboardService,
     private fb: FormBuilder
 
   ) {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
-    // const keyWord = this.firstLevelLibelle.split(" ").map(item => {
-    //   return `${item}s`
-    // });
-    // this.firstLevelLibelleSplit = keyWord.join(" ");
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
   }
 
   ngOnInit() {
-    this.disableAction();
     this.GellAllFirstLevel();
     this.GellAllSecondLevel();
     this.onInitForm();
@@ -193,18 +190,21 @@ export class FirstLevelComponent implements OnInit {
   openAffectationForm(item: any, content: any) {
     this.modalService.open(content);
     this.affectationForm.get('niveau_un_id').patchValue(item?.niveau_un_id);
-    // this.isShow = false;
-    // this.isEdit = false;
     this.affectationForm.reset();
-    //this.adminForm.enable();
   }
   hideAffeactationForm() {
     this.modalService.dismissAll();
     this.affectationForm.reset();
   }
-  public disableAction(): boolean {
-    return this.listFirstLevelDatas?.length === 0 ? true : false
-  }
+
+  public OnExportExcel(): void {
+    const data = this.listFirstLevelDatas.map((item: any) => ({
+      [this.firstLevelLibelle]: item?.nom,
+      'Code': item?.code,
+      ['#'+this.secondLevelLibelle]: item?.niveaux_deux_count,
+    }));
+    this.excelService.exportAsExcelFile(data, `Lise des ${this.firstLevelLibelle}`);
+  }
   public isFilter(): boolean {
     return (!this.selectedNom && !this.selectedCode) ? true : false
   }

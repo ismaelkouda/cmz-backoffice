@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ZoneTraficService } from '../../data-access/zone-trafic.service';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelService } from 'src/shared/services/excel.service';
 
 @Component({
   selector: 'app-sites-wrapper',
@@ -15,7 +16,8 @@ export class SitesWrapperComponent implements OnInit {
 
   constructor(
     private zoneTraficService: ZoneTraficService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private excelService: ExcelService
   ) { }
 
   ngOnInit() {
@@ -38,4 +40,12 @@ export class SitesWrapperComponent implements OnInit {
   public close(): void {
     this.formsView.emit(false);
   }
+  public OnExportExcel(): void {
+    const data = this.listSites.map((item: any) => ({
+      'Nom': item?.libelle,
+      'Latitude': item?.latitude,
+      'Longitude': item?.longitude,
+    }));
+    this.excelService.exportAsExcelFile(data, `Lise des Sites`);
+  }
 }

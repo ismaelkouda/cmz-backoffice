@@ -377,15 +377,16 @@ export class CarteSimActiveComponent implements OnInit {
 
   public OnExportExcel(): void {
     const data = this.listPatrimoines.map((item: any) => ({
-      [this.firstLevelLibelle]: item?.direction_regionale?.nom,
-      [this.secondLevelLibelle]: item?.exploitation?.nom,
-       'Zone Trafic': item?.adresse_geographique,
-       [this.thirdLevelLibelle]: item?.zone?.nom,
+      [this.firstLevelLibelle]: item?.niveau_uns_nom,
+      [this.secondLevelLibelle]: item?.niveau_deux_nom,
+      'Zone Trafic': item?.adresse_geographique,
+       [this.thirdLevelLibelle]: item?.niveau_trois_nom,
       'MSISDN': item?.msisdn,
       'IMSI': item?.imsi,
-      'Emplacement': item?.nom_prenoms,
-       'Statut': item?.statut,
+      'Emplacement': item?.point_emplacement,
+       'Statut Contrat': item?.statut,
     }));
     this.excelService.exportAsExcelFile(data, 'Liste des cartes SIM');
   }
 }
+

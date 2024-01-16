@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelService } from 'src/shared/services/excel.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { FormValidator } from 'src/shared/utils/spacer.validator';
@@ -39,6 +40,7 @@ export class SecondLevelComponent implements OnInit {
     private toastrService: ToastrService,
     private mappingService: MappingService,
     private modalService: NgbModal,
+    private excelService: ExcelService,
     private clipboardApi: ClipboardService,
     private fb: FormBuilder
   ) {
@@ -48,7 +50,6 @@ export class SecondLevelComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.disableAction();
     this.GellCurrentLevel();
     this.GellAllFirstLevel();
     this.onInitForm();
@@ -180,10 +181,15 @@ export class SecondLevelComponent implements OnInit {
         }
       })
   }
-
-  public disableAction(): boolean {
-    return this.listCurrentLevelDatas?.length === 0 ? true : false
-  }
+  public OnExportExcel(): void {
+    const data = this.listCurrentLevelDatas.map((item: any) => ({
+      [this.currentLevelLibelle]: item?.nom,
+      'Code': item?.code,
+      [this.parentLevelLibelle]: item?.niveau_un?.nom,
+      '# SIM Affectées': item?.sims_count,
+    }));
+    this.excelService.exportAsExcelFile(data, `Lise des ${this.currentLevelLibelle}`);
+  }
   public isFilter(): boolean {
     return (!this.selectedNom && !this.selectedCodes) ? true : false
   }

@@ -33,8 +33,7 @@
                 class="p-button-success"></button>
               <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
                 (click)="GellCurrentLevel()"></button>
-              <button pButton pRipple label="Exporter" [disabled]="disableAction()" icon="pi pi-download"
-                class="p-button-helf"></button>
+              <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download"class="p-button-helf"></button>
             </div>
             <div class="table_content_wrapper">
               <p-table #dt [value]="listCurrentLevelDatas" [rows]="10" [paginator]="true" responsiveLayout="scroll"
@@ -42,7 +41,7 @@
                       données" [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                   <div class="table_header">
-                    <app-table-header [count]="listCurrentLevelDatas" [legende]="currentLevelLibelle | titlecase"></app-table-header>
+                    <app-table-header [count]="currentLevelLibelle" [legende]="currentLevelLibelle | titlecase"></app-table-header>
                     <div class="table_header__input">
                       <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
@@ -67,7 +66,7 @@
                     <td class="text-center">{{ i + 1 }}</td>
                     <td (click)="copyData(data?.nom)" style="cursor: pointer">{{data?.nom}}</td>
                     <td (click)="copyData(data?.code)" style="cursor: pointer" class="text-center">{{data?.code}}</td>
-                    <td class="text-center">{{data?.niveau_un?.nom}} [{{data?.niveau_un?.code}}]</td>
+                    <td class="text-center">{{data?.niveau_un?.nom}}</td>
                     <td class="text-center">
                       <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
                         label="Visualiser ({{data.sims_count}})" class="p-button" (click)="onViewVisualisation(data)"

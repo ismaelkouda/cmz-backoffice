@@ -1,3 +1,4 @@
+import { FormatNumberPipe } from './../../../../../shared/pipes/formatNumber.pipe';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -256,14 +257,18 @@ export class EtatSoldeComponent implements OnInit {
   }
   public OnExportExcel(): void {
     const data = this.listEtats.map((item: any) => ({
-      'Nom': item?.nom,
-      'Description': item?.description,
-      'SIM Affectés': item?.sims_count,
-      'Statut': item?.statut,
+      [this.firstLevelLibelle]: item?.niveau_uns_nom,
+      [this.secondLevelLibelle]: item?.niveau_deux_nom,
+      [this.thirdLevelLibelle]: item?.niveau_trois_nom,
+      'MSISDN': item?.msisdn,
+      'IMSI': item?.imsi,
+      'Emplacement': item?.point_emplacement,
       'Date création': item?.created_at,
-      'Date MAJ	': item?.updated_at,
+      'Solde (Go)': this.formatNumberPipe.transform(item?.solde_actuel_go, 2),
+      'Date MAJ': item?.updated_at,
     }));
-    this.excelService.exportAsExcelFile(data, 'Liste des groupes de SIM');
-  }
+    this.excelService.exportAsExcelFile(data, 'Liste des états de soldes');
+  }
+  private formatNumberPipe: FormatNumberPipe = new FormatNumberPipe();
 
 }
