@@ -15,8 +15,12 @@ export class DashboardComponent implements OnInit {
   public countTotalSim: number = 0;
   public countSimActive: number = 0;
   public countSimSuspendu: number = 0;
-  public   countSimResilie
-  : number = 0;
+  public countSimResilie: number = 0;
+  public countSoumis: number = 0;
+  public countTraiter: number = 0;
+  public countCloture: number = 0;
+  public countCancel: number = 0;
+
   public countVolumeData: number = 0;
   public countLigneCredit: number = 0;
   public countAlarmeNormal: number = 0;
@@ -68,6 +72,10 @@ export class DashboardComponent implements OnInit {
           this.countAlarmeMineure = this.dataResponse?.['alarme_mineur'];
           this.countAlarmeMajeure = this.dataResponse?.['alarme_majeur'];
           this.countAlarmeCritique = this.dataResponse?.['alarme_critique'];
+          this.countSoumis = this.dataResponse?.['nb_demandes_soumis'];
+          this.countTraiter = this.dataResponse?.['nb_demandes_traites'];
+          this.countCloture = this.dataResponse?.['nb_demandes_clotures'];
+          this.countCancel = this.dataResponse?.['nb_demandes_abandonne'];
           this.currrentDate = this.dataResponse?.['date_derniere_maj'];
         },
         error: (error) => {

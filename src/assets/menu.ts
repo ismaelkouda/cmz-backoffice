@@ -55,8 +55,8 @@ export var menuJson = [
             },
             {
                 path: `/${PATRIMOINE}/${TRANSACTION_SIM}`,
-                title: "Transactions sur SIM",
-                label: "Transactions sur SIM",
+                title: "Demande de service",
+                label: "Demande de service",
                 data: "1-5-0-transaction-sur-sim",
                 type: "link",
                 pack: ApplicationType.MONITORING

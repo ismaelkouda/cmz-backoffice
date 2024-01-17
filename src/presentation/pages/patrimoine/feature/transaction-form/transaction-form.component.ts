@@ -131,6 +131,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.initForm();
     this.IsFormFomSIMValidate()
     this.isVerify();
+    this.IsPatrimoineType()
     this.historie = history.state.patrimoine 
     if (!this.historie) {
       this.getAllDirectionRegionales();
@@ -143,10 +144,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       this.operationValue = this.selectedActionValue
       this.currentPatrimoine = history.state.patrimoine   
       this.onFormPachValues()
-      this.adminForm.disable()  
-      
-      console.log("currentPatrimoine",this.currentPatrimoine);
-      
+      this.adminForm.disable()        
     }
     if (this.selectedActionValue === this.swap) {
       this.sourceValue = 'stock'
@@ -160,6 +158,10 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   close() {
     history.state.operation = null
     this.formsView.emit(false);
+  }
+
+  IsPatrimoineType(): boolean{
+    return (this.applicationType === this.patrimoineType) ? true : false
   }
 
   public initForm(): void {

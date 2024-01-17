@@ -86,6 +86,7 @@ export class CarteSimActiveComponent implements OnInit {
  public thirdLevelLibelle: string;
  public applicationType: string;
  public patrimoineType: string;
+ public activation: string = OperationTransaction.ACTIVATION;
  public swap: string = OperationTransaction.SWAP;
  public suspension: string = OperationTransaction.SUSPENSION;
  public resiliation: string = OperationTransaction.RESILIATION;

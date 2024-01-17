@@ -15,14 +15,13 @@
                 </div>
               </div>
               <div class="col-md-1">
-                <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="true"
+                <p-button styleClass="p-button-success filter-button" icon="pi pi-filter"
                   (click)="onFilter()"></p-button>
               </div>
             </div>
             <hr>
             <div class="table_actions_wrapper">
-              <button pButton pRipple label="Ajout utilisateur" icon="pi pi-plus" [disabled]="true"
-                (click)="onInitForm()" class="p-button-success"></button>
+              <button pButton pRipple label="Ajout utilisateur" icon="pi pi-plus" (click)="onInitForm()" class="p-button-success"></button>
               <button pButton pRipple label="Rafraichir" (click)="GetAllUsers()" icon="pi pi-refresh"
                 class="p-button-secondary"></button>
             </div>
@@ -50,10 +49,12 @@
                     <th>Profil</th>
                     <th>Nom</th>
                     <th>Prénoms</th>
+                    <th>Code</th>
                     <th>Email</th>
                     <th>Contact</th>
                     <th>Date MAJ</th>
                     <th>Date Création</th>
+                    <th>Action</th>
                   </tr>
                 </ng-template>
                 <ng-template let-i="rowIndex" pTemplate="body" let-data>
@@ -65,17 +66,26 @@
                         {{ data?.profil_user?.nom ? data?.profil_user?.nom : 'Non Affecté' }}
                       </span>
                     </td>
-                    <td>{{data?.nom}}</td>
-                    <td>{{data?.prenoms}}</td>
-                    <td>{{data?.email}}</td>
-                    <td>{{data?.contacts}}</td>
-                    <td>{{data?.updated_at}}</td>
-                    <td>{{data?.created_at}}</td>
+                    <td>{{data?.nom ?? 'N/A'}}</td>
+                    <td>{{data?.prenoms ?? 'N/A'}}</td>
+                    <td>{{data?.code ?? 'N/A'}}</td>
+                    <td>{{data?.email ?? 'N/A'}}</td>
+                    <td>{{data?.contacts ?? 'N/A'}}</td>
+                    <td>{{data?.updated_at ?? 'N/A'}}</td>
+                    <td>{{data?.created_at ?? 'N/A'}}</td>
+                    <td class=" td-actions">
+                      <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
+                      (click)="onShowForm(data)" class="p-button-dark"></button>
+                    <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+                      (click)="onEditForm(data)" class="p-button-secondary"></button>
+                    </td>
                   </tr>
                 </ng-template>
               </p-table>
             </div>
           </div>
+          <app-admin-form [currentObject]="currentObject" *ngIf="formsView"
+          (formsView)="pushStatutView($event)" (listUsers)="pushListDatas($event)"></app-admin-form>
         </div>
       </div>
     </div>

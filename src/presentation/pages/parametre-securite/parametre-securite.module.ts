@@ -1,3 +1,4 @@
+import { AdminFormComponent } from './feature/admin-form/admin-form.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -53,7 +54,8 @@ import { TreeModule } from 'primeng/tree';
         UsersComponent,
         AffectationComponent,
         VisualisationComponent,
-        FormsProfilComponent
+        FormsProfilComponent,
+        AdminFormComponent,
     ]
 })
 export class ParametreSecuriteModule { }

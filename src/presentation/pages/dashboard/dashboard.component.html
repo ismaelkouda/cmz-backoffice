@@ -38,14 +38,9 @@
                 [countColor]="'#FFF'" [icon]="simIcon"></app-stat-box>
         </div>
         <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
-            <app-stat-box [cardBgColor]="'#e74c3c'" [cardBorderColor]="'#FFF'"
-            [legend]="'SIM Alarmes Critiques'" [count]="countAlarmeCritique || '0'" [legendColor]="'#FFF'"
-            [countColor]="'#FFF'" [icon]="simCrique"></app-stat-box>
-        </div>
-        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
-            <app-stat-box [cardBgColor]="'#FE9A2E'" [cardBorderColor]="'#FFF'"
-            [legend]="'SIM Alarmes Majeures'" [count]="countAlarmeMajeure || '0'" [legendColor]="'#FFF'"
-            [countColor]="'#FFF'" [icon]="simMajeure"></app-stat-box>
+            <app-stat-box [cardBgColor]="'#58FAAC'" [cardBorderColor]="'#FFF'"
+            [legend]="'SIM Alarmes Normales'" [count]="countAlarmeNormal || '0'" [legendColor]="'#000000'"
+            [countColor]="'#000000'" [icon]="simNormale"></app-stat-box>
         </div>
         <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
             <app-stat-box [cardBgColor]="'#FFFF00'" [cardBorderColor]="'#FFF'"
@@ -53,9 +48,34 @@
             [countColor]="'#130f40'" [icon]="simMineure"></app-stat-box>
         </div>
         <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
-            <app-stat-box [cardBgColor]="'#58FAAC'" [cardBorderColor]="'#FFF'"
-            [legend]="'SIM Alarmes Normales'" [count]="countAlarmeNormal || '0'" [legendColor]="'#000000'"
-            [countColor]="'#000000'" [icon]="simNormale"></app-stat-box>
+            <app-stat-box [cardBgColor]="'#FE9A2E'" [cardBorderColor]="'#FFF'"
+            [legend]="'SIM Alarmes Majeures'" [count]="countAlarmeMajeure || '0'" [legendColor]="'#FFF'"
+            [countColor]="'#FFF'" [icon]="simMajeure"></app-stat-box>
+        </div>
+        <div [ngClass]="applicationType === patrimoineType ? 'col-md-3' : 'col-md-3'">
+            <app-stat-box [cardBgColor]="'#e74c3c'" [cardBorderColor]="'#FFF'"
+            [legend]="'SIM Alarmes Critiques'" [count]="countAlarmeCritique || '0'" [legendColor]="'#FFF'"
+            [countColor]="'#FFF'" [icon]="simCrique"></app-stat-box>
+        </div>
+        <div class="col-md-3">
+            <app-stat-box [cardBgColor]="'#3498db'" [cardBorderColor]="'#FFF'" [legend]="'# Demandes Soumises'"
+                [count]="countSoumis || '0'" [legendColor]="'#000000'"
+                [countColor]="'#000000'"></app-stat-box>
+        </div>
+        <div class="col-md-3">
+            <app-stat-box [cardBgColor]="'#2ecc71'" [cardBorderColor]="'#FFF'" [legend]="'# Demandes Traitées'"
+                [count]="countTraiter || '0'" [legendColor]="'#FFF'"
+                [countColor]="'#FFF'"></app-stat-box>
+        </div>
+        <div class="col-md-3">
+            <app-stat-box [cardBgColor]="'#e74c3c'" [cardBorderColor]="'#FFF'" [legend]="'# Demandes Clôturées'"
+                [count]="countCloture || '0'" [legendColor]="'#FFFFFF'"
+                [countColor]="'#FFFFFF'"></app-stat-box>
+        </div>
+        <div class="col-md-3">
+            <app-stat-box [cardBgColor]="'#f39c12'" [cardBorderColor]="'#FFF'" [legend]="'# Demandes Abandonnées'"
+                [count]="countCancel || '0'" [legendColor]="'#FFFFFF'"
+                [countColor]="'#FFFFFF'"></app-stat-box>
         </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { SettingService } from 'src/shared/services/setting.service';
 
@@ -18,7 +19,8 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private settingService: SettingService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private clipboardApi: ClipboardService,
   ) { }
 
   ngOnInit() {
@@ -36,12 +38,33 @@ export class UsersComponent implements OnInit {
       })
   }
 
+  onFilter(){}
+
+  public copyData(data: any): void {
+    this.toastrService.success('Copié dans le presse papier');
+    this.clipboardApi.copyFromContent(data);
+  }
+
   public onInitForm(): void {
     this.initialView = false;
     this.formsView = true;
     this.currentObject = undefined;
   }
-  onFilter() {
-
+  public onEditForm(data: any): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = data;
+  }
+  public onShowForm(data: any): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, show: true };
+  }
+  public pushStatutView(event: boolean): void {
+    this.formsView = event;
+    this.initialView = !event;
+  }
+  public pushListDatas(event: any): void {
+    this.listUsers = event;
   }
 }

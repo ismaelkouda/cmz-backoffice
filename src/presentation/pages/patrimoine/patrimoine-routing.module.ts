@@ -12,7 +12,7 @@ export const ETAT_SOLDE = 'etat-solde';
 export const LIFECYCLE_SIM = 'cycle-de-vie-sim';
 export const GROUPE_SIM = 'groupe-sim';
 export const DOTATION_SERVICES = 'dotation-services';
-export const TRANSACTION_SIM = 'transaction-sur-sim';
+export const TRANSACTION_SIM = 'demande-service';
 export const DOWNLOAD_FILE = 'telechargements';
 
 const routes: Routes = [{
