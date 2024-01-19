@@ -74,6 +74,9 @@ export class LoginComponent implements OnInit {
                 this.permissionsJson[4] = { ...module, statut: true }
               }
               if (module.data === "6-0-0-parametres-securite" && response['data']['permissions'].includes(sous_module.data)) {
+                this.permissionsJson[6] = { ...module, statut: true }
+              }
+              if (module.data === "8-0-0-sla-demandes-de-services" && response['data']['permissions'].includes(sous_module.data)) {
                 this.permissionsJson[5] = { ...module, statut: true }
               }
             })

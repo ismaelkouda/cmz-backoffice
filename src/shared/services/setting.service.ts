@@ -27,6 +27,10 @@ export class SettingService {
     const url: string = (<string>EndPointUrl.GET_ALL_USERS);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  OnSaveUser(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.SAVE_USER);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   OnUpdateUser(data): Observable<any> {
     const url: string = (<string>EndPointUrl.UPDATE_USER);
     return this.http.post(`${this.baseUrl}${url}`, data);

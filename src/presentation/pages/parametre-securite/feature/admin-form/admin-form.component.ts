@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
+import { ParametreSecuriteService } from '../../data-access/parametre-securite.service';
 
 @Component({
   selector: 'app-admin-form',
@@ -15,13 +16,14 @@ export class AdminFormComponent implements OnInit {
   @Output() listUsers = new EventEmitter();
   @Output() formsView = new EventEmitter();
   adminForm: FormGroup;
-  public listTenants: Array<any> = []
+  public listProfils: Array<any> = []
   public currentLevelLibelle: string
 
   constructor(
     private fb: FormBuilder,
     public toastrService: ToastrService,
     private settingService: SettingService,
+    private parametreSecuriteService: ParametreSecuriteService,
     private mappingService: MappingService
   ) {
     this.currentLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
@@ -30,9 +32,7 @@ export class AdminFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.OnInitForm();
-    if (this.currentObject) {
-      this.onFormPachValues();
-    }
+    this.GetAllProfilHabilitations()
   }
 
   public GetAllUsers() {
@@ -48,6 +48,21 @@ export class AdminFormComponent implements OnInit {
         }
       })
   }
+  public GetAllProfilHabilitations() {
+    this.parametreSecuriteService
+      .GetAllProfilHabilitations({})
+      .subscribe({
+        next: (response) => {
+          this.listProfils = response['data'];
+          if (this.currentObject) {
+            this.onFormPachValues();
+          }
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
   public OnInitForm() {
     this.adminForm = this.fb.group({
       nom: ['', [Validators.required]],
@@ -57,7 +72,7 @@ export class AdminFormComponent implements OnInit {
         Validators.maxLength(10), 
         Validators.minLength(10),
         Validators.pattern("^[0-9]*$")]],
-      equipe: ['']
+        profil_user_id: ['',[Validators.required]] 
     })
   }
   public close(): void {
@@ -66,7 +81,7 @@ export class AdminFormComponent implements OnInit {
 
   public handleSave() {
     this.settingService
-      .OnSaveUsage(this.adminForm.value).subscribe({
+      .OnSaveUser(this.adminForm.value).subscribe({
         next: (response) => {
           this.GetAllUsers();
           this.toastrService.success(response.message);
@@ -79,8 +94,7 @@ export class AdminFormComponent implements OnInit {
 
   handleUpdate() {
     this.settingService
-      .OnUpdateUsage({
-        usage_id: this.currentObject?.id,
+      .OnUpdateUser({
         ...this.adminForm.value
       }).subscribe({
         next: (response) => {
@@ -98,7 +112,7 @@ export class AdminFormComponent implements OnInit {
     this.adminForm.get('prenoms').patchValue(this.currentObject?.prenoms);
     this.adminForm.get('email').patchValue(this.currentObject?.email)
     this.adminForm.get('contacts').patchValue(this.currentObject?.contacts)
-    this.adminForm.get('equipe').patchValue(this.currentObject?.equipe)
+    this.adminForm.get('profil_user_id').patchValue(this.currentObject?.profil_user_id)
     if (this.currentObject.show) {
       this.adminForm.disable()
     }

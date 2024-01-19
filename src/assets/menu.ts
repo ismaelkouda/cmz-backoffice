@@ -4,10 +4,11 @@ import { ANALAYSE_REJET, COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presen
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
 import { CARTES_SIM, DOTATION_SERVICES, ETAT_SOLDE, GROUPE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
-import { OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
+import { OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SLA_DEMANDE_SERVICE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
 import { VUE_GEOGRAPHIQUE } from 'src/presentation/pages/zone-trafic/zone-trafic-routing.module';
 import { PROFILS_HABILITATIONS, UTILISATEURS } from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
+import { RAPPORT_CONFORMITE, SLA_DASHBORD } from 'src/presentation/pages/sla-demande-service/sla-demande-service-routing.module';
 
 export var menuJson = [
     {
@@ -247,6 +248,34 @@ export var menuJson = [
         ]
     },
     {
+        title: "SLA Demandes Service",
+        label: "SLA Demandes Service",
+        data: "8-0-0-sla-demandes-de-services",
+        statut: false,
+        icon: "clock",
+        path: `/${SLA_DEMANDE_SERVICE}/${SLA_DASHBORD}`,
+        type: "sub",
+        pack: ApplicationType.MONITORING,
+        children: [
+            {
+                path: `/${SLA_DEMANDE_SERVICE}/${SLA_DASHBORD}`,
+                title: "Tableau de board SLA",
+                label: "Tableau de board SLA",
+                data: "8-1-0-dashboard-sla",
+                type: "link",
+                pack: ApplicationType.MONITORING
+            },
+            {
+                path: `/${SLA_DEMANDE_SERVICE}/${RAPPORT_CONFORMITE}`,
+                title: "Rapport Conformité",
+                label: "Rapport Conformité",
+                data: "8-2-0-rapport-de-conformite",
+                type: "link",
+                pack: ApplicationType.MONITORING
+            }
+        ]
+    },
+    {
         title: "Paramètres & Sécurité",
         label: "Paramètres & Sécurité",
         data: "6-0-0-parametres-securite",
@@ -275,7 +304,7 @@ export var menuJson = [
                 pack: ApplicationType.MONITORING
             }
         ]
-    },
+    }
 ]
 
 //10.10.0.200:28012

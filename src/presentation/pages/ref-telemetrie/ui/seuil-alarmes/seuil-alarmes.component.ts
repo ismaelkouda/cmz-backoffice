@@ -120,5 +120,3 @@ export class SeuilAlarmesComponent implements OnInit {
     return (this.globalMetriquesEditRow.length === 0) ? true : false
   }
 }
-
-

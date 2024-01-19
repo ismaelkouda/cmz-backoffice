@@ -9,6 +9,7 @@ export const SUPERVISION_OPERATIONS = 'operations';
 export const OPERATION_PROVISIONNING = 'provisionning';
 export const ZONE_TRAFIC = 'zone-trafic';
 export const REPORTING = 'reporting';
+export const SLA_DEMANDE_SERVICE = 'sla-demande-service';
 export const INTERCONNEXION_ECHANGE = 'interconnexion';
 export const SUPERVISION_SYSTEME = 'supervision-systeme';
 export const PARAMETRE_SECURITE = 'parametre-securite'
@@ -76,6 +77,17 @@ export const content: Routes = [
     path: SUPERVISION_SYSTEME,
     loadChildren: () => import("../../presentation/pages/supervision-systeme/supervision-systeme.module").then((m) => m.SupervisionSystemeModule),
     data: { title: SUPERVISION_SYSTEME }
+  },
+  {
+    path: SLA_DEMANDE_SERVICE,
+    loadChildren: () => import("../../presentation/pages/sla-demande-service/sla-demande-service.module").then((m) => m.SlaDemandeServiceModule),
+    data: {
+      module: 'SLA demandes Service',
+      subModule: [
+        'Tableau SLA',
+        'Rapport Conformité'
+      ]
+    }
   },
   {
     path: PARAMETRE_SECURITE,

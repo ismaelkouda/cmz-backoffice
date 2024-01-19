@@ -66,17 +66,20 @@
                       <label>
                           <b>Contacts</b>
                       </label>
-                      <input type="number" formControlName="contacts" pInputText />
+                      <input type="text" formControlName="contacts" pInputText />
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label><b>Equipe</b></label>
-                    <p-dropdown [options]="" [filter]="true" filterBy="nom,code" [showClear]="true"
-                      formControlName="equipe" placeholder="Equipe">
+                    <label>
+                      <b>Profil</b>
+                    </label>
+                    <p-dropdown [options]="listProfils" optionLabel="nom" [showClear]="true" [filter]="true" filterBy="nom" formControlName="profil_user_id" optionValue="id" [placeholder]="'profil'">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
-                          <div>{{ data }}</div>
+                          <div>
+                            {{data.nom}}
+                          </div>
                         </div>
                       </ng-template>
                     </p-dropdown>
@@ -131,17 +134,20 @@
                           <label>
                               <b>Contacts</b>
                           </label>
-                          <input type="number" formControlName="contacts" pInputText />
+                          <input type="text" formControlName="contacts" pInputText />
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label><b>Equipe</b></label>
-                        <p-dropdown [options]="" [filter]="true" filterBy="nom,code" [showClear]="true"
-                          formControlName="equipe" placeholder="Equipe">
+                        <label>
+                          <b>Profil</b>
+                        </label>
+                        <p-dropdown [options]="listProfils" optionLabel="nom" [showClear]="true" [filter]="true" filterBy="nom" formControlName="profil_user_id" optionValue="id" [placeholder]="'profil'">
                           <ng-template let-data pTemplate="item">
                             <div class="country-item">
-                              <div>{{ data }}</div>
+                              <div>
+                                {{data.nom}}
+                              </div>
                             </div>
                           </ng-template>
                         </p-dropdown>

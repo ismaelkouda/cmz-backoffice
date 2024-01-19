@@ -309,9 +309,9 @@ export class CarteSimActiveComponent implements OnInit {
       .bindPopup(
         "<div>" + "" +
         "<strong>Numero SIM :</strong>" + "<span>" + this.currentComposant?.msisdn + "</span>" + "<br>" +
-        "<strong>" + this.firstLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.direction_regionale?.nom + "</span>" + "<br>" +
-        "<strong>" + this.secondLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.exploitation?.nom + "</span>" + "<br>" +
-        "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.zone?.nom + "</span>" + "<br>" +
+        "<strong>" + this.firstLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_uns_nom + "</span>" + "<br>" +
+        "<strong>" + this.secondLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_deux_nom + "</span>" + "<br>" +
+        "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
         "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.point_emplacement + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
         "</div>",

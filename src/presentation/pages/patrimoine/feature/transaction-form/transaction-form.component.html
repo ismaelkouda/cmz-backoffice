@@ -4,7 +4,7 @@
       <div>
         <h3>
           <b>
-            <span>Transaction</span><span *ngIf="selectedActionValue" class="mx-2">|</span><span *ngIf="selectedActionValue">{{formatTitle(selectedActionValue)}}</span>
+            <span>Demande</span><span *ngIf="selectedActionValue" class="mx-2">|</span><span *ngIf="selectedActionValue">{{formatTitle(selectedActionValue)}}</span>
             <span class="current_values"*ngIf="selectedActionValue !== activation && selectedActionValue">[{{getFormattedMsisdn(currentPatrimoine?.msisdn ?? '0000000000')}}]</span>
           </b>
         </h3>
@@ -34,7 +34,7 @@
   <!--------------------------FORMS-------------------------->
   <fieldset style="margin-top: 2.5rem;" *ngIf="currentPatrimoine">
     <legend [ngStyle]="{width: '100%'}">
-      <b>Type Transaction</b>
+      <b>Type Demande</b>
     </legend>
     <div *ngIf="!this.historie" style="display: flex;gap: 2rem;">
       <div class="trans-radio d-flex gap-2">
@@ -353,7 +353,7 @@
       <!------------------INFOS---------TRANSACTION----------------->
       <fieldset style="margin-top: 2.5rem;">
         <legend [ngStyle]="{width: '100%'}">
-          <b>Détails de la Transaction</b>
+          <b>Détails de la Demande</b>
         </legend>
           <div class="row">
             <div class="col-md-4">
@@ -453,7 +453,7 @@
   </fieldset>
   <fieldset style="margin-top: 2.5rem;">
     <legend [ngStyle]="{width: '100%'}">
-      <b>Détails de la Transaction</b>
+      <b>Détails de la Demande</b>
     </legend>
     <!----------------------------RESILIER----SUSPENSION----FORMS-------------------------------->
     <div class="row p-1" *ngIf="selectedActionValue === resiliation || selectedActionValue === suspension">
