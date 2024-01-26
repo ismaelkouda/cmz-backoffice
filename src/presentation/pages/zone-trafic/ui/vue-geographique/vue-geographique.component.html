@@ -4,13 +4,10 @@
       <app-breadcrumb [title]="'Supervision des SIM'" [active_item]="'Zones Trafic'"></app-breadcrumb>
       <div class="card">
         <div class="card-body">
-
-          <div class="card-socket">
-            <h4 *ngFor="let item of listMesssages">
-              {{item?.data?.trafic?.name}}
-            </h4>
-          </div>
           <div [hidden]="!initialView">
+            <div style="margin-top: -2rem !important;">
+              <app-patrimoine-header [count]="listZonesTrafics" [legende]="'zones de trafics'" [total]="totalRecords"></app-patrimoine-header>
+            </div>
             <div class="row filter_wrapper">
               <div class="col-md-2">
                 <div class="form-group">

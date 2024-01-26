@@ -13,8 +13,8 @@
                                 <app-rapport-box
                                     [cardBgColor]="'#3498db'"
                                     [cardBorderColor]="'#FFF'"
-                                    [legend]="'# Demandes Soumises'"
-                                    [count]="rapport?.nb_demandes || '0'"
+                                    [legend]="'# Soumises'"
+                                    [count]="rapport?.nb_|| '0'"
                                     [legendColor]="'#FFF'"
                                     [countColor]="'#FFF'"
                                     [icon]=""
@@ -25,7 +25,7 @@
                                     [cardBgColor]="'#27ae60'"
                                     [cardBorderColor]="'#FFF'"
                                     [legend]="
-                                        '# Demandes Traitées dans les delais'
+                                        '# Traitées dans les delais'
                                     "
                                     [count]="rapport?.nb_demandes_ok || '0'"
                                     [legendColor]="'#FFF'"
@@ -37,7 +37,7 @@
                                 <app-rapport-box
                                     [cardBgColor]="'#e74c3c'"
                                     [cardBorderColor]="'#FFF'"
-                                    [legend]="'# Demandes Traitées Hors delais'"
+                                    [legend]="'# Traitées Hors delais'"
                                     [count]="rapport?.nb_demandes_ko || '0'"
                                     [legendColor]="'#FFF'"
                                     [countColor]="'#FFF'"
@@ -46,9 +46,9 @@
                             </div>
                             <div>
                                 <app-rapport-box
-                                    [cardBgColor]="'#34495e'"
+                                    [cardBgColor]="'#FF6600'"
                                     [cardBorderColor]="'#FFF'"
-                                    [legend]="'# Demandes Attentes Hors delais'"
+                                    [legend]="'# En Attentes Hors delais'"
                                     [count]="rapport?.taux_conformite || '0'"
                                     [legendColor]="'#FFF'"
                                     [countColor]="'#FFF'"
@@ -59,7 +59,7 @@
                                 <app-rapport-box
                                     [cardBgColor]="'#f1c40f'"
                                     [cardBorderColor]="'#FFF'"
-                                    [legend]="'# Demandes dont SLA en cours'"
+                                    [legend]="'# Dont SLA en cours'"
                                     [count]="rapport?.nb_demandes_ok || '0'"
                                     [legendColor]="'#000000'"
                                     [countColor]="'#000000'"

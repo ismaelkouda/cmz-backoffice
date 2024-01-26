@@ -37,8 +37,8 @@ export class ZoneTraficService {
     const url: string = (<string>EndPointUrl.GET_ALL_DEPARTEMENT);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
-  GetAllSites(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.GET_ALL_SITE);
+  GetAllSites(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_SITE).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
   GetAllCommunes(data): Observable<any> {

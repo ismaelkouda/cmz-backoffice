@@ -56,8 +56,8 @@ export var menuJson = [
             },
             {
                 path: `/${PATRIMOINE}/${TRANSACTION_SIM}`,
-                title: "Demande de service",
-                label: "Demande de service",
+                title: "Demandes de service",
+                label: "Demandes de service",
                 data: "1-5-0-transaction-sur-sim",
                 type: "link",
                 pack: ApplicationType.MONITORING
@@ -103,8 +103,8 @@ export var menuJson = [
             },
             {
                 path: `/${REFERENTIEL_TELEMETRIE}/${OBJECTIFS_SLA}`,
-                title: "Objectifs SLA",
-                label: "Objectifs SLA",
+                title: "Accords SLA",
+                label: "Accords SLA",
                 data: "2-3-0-objectif-sla",
                 type: "link",
                 pack: ApplicationType.MONITORING
@@ -191,14 +191,14 @@ export var menuJson = [
                 type: "link",
                 pack: ApplicationType.MONITORING
             },
-            {
-                path: `/${SUPERVISION_OPERATIONS}/${NOTIFY_ROUTE}`,
-                title: "Centre de Notifications",
-                label: "Centre de Notifications",
-                data: "4-4-0-contentieux",
-                type: "link",
-                pack: ApplicationType.MONITORING
-            },
+            // {
+            //     path: `/${SUPERVISION_OPERATIONS}/${NOTIFY_ROUTE}`,
+            //     title: "Centre de Notifications",
+            //     label: "Centre de Notifications",
+            //     data: "4-4-0-contentieux",
+            //     type: "link",
+            //     pack: ApplicationType.MONITORING
+            // },
         ]
     },
     {

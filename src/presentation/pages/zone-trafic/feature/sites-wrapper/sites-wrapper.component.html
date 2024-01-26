@@ -1,4 +1,7 @@
 <div>
+  <div style="margin-top: -2rem !important;">
+    <app-patrimoine-header [count]="listSites" [legende]="'Sites'" [total]="totalRecords"></app-patrimoine-header>
+  </div>
   <div class="container_flex_space_between">
     <div class="row filter_wrapper" style="width: 100%;">
       <div class="col-md-3">
@@ -34,40 +37,29 @@
   </div>
   <hr>
   <div class="table_content_wrapper">
-    <p-table #dt [value]="listSites" [rows]="10" [paginator]="true" responsiveLayout="scroll"
-      [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                données" [showCurrentPageReport]="true" [globalFilterFields]="['libelle','code']">
-      <ng-template pTemplate="caption">
-        <div class="table_header">
-          <div class="d-flex gap-4">
-            <app-table-header style="margin-top: -1rem;" [count]="listSites" [legende]="'Sites'"></app-table-header>
-            <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf" (click)="OnExportExcel()"></button>
-          </div>
-          <div class="table_header__input">
-            <span class="p-input-icon-left ml-auto">
-              <i class="pi pi-search"></i>
-              <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                placeholder="Recherche" />
-            </span>
-          </div>
-        </div>
-      </ng-template>
-      <ng-template pTemplate="header">
-        <tr>
-          <th [style]="{width: '1.5rem'}">#</th>
-          <th>Nom</th>
-          <th>Latitude</th>
-          <th>Longitude</th>
-        </tr>
-      </ng-template>
-      <ng-template let-i="rowIndex" pTemplate="body" let-data>
-        <tr>
-          <td>{{ i + 1 }}</td>
+    <div class="table_header">
+      <app-table-header [count]="listSites" [legende]="'Sites'" [page]="pages" [totalPage]="totalPages"></app-table-header>
+    </div>
+    <table [ngClass]="['native_table table']">
+      <thead>
+        <th [style]="{width: '1.5rem'}">#</th>
+        <th class="text-center">Nom</th>
+        <th class="text-center">Latitude</th>
+        <th class="text-center">Longitude</th>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let data of listSites | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPages, totalItems:totalRecords }; let i = index;">
+          <td [style]="{width: '1.5rem'}">{{ (this.offset + i)}}</td>
           <td>{{data?.libelle}}</td>
           <td>{{data?.latitude}}</td>
           <td>{{data?.longitude}}</td>
         </tr>
-      </ng-template>
-    </p-table>
+      </tbody>
+    </table>
+    <div [ngClass]="['pagination-controls']">
+      <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+      </pagination-controls>
+    </div>
   </div>
 </div>

@@ -160,7 +160,7 @@
                     <td>{{ (this.offset + i)}}</td>
                     <td>{{data?.niveau_uns_nom}}</td>
                     <td>{{data?.niveau_deux_nom}}</td>
-                    <td (click)="copyData(data.adresse_geographique)" style="cursor: pointer">{{data?.adresse_geographique}}</td>
+                    <td  (click)="data.adresse_geographique ? copyData(data.adresse_geographique): null" style="cursor: pointer">{{data?.adresse_geographique}}</td>
                     <td>{{data?.niveau_trois_nom}}</td>
                     <td (click)="copyData(data.msisdn)" style="cursor: pointer" class="px-2">{{data.msisdn}}</td>
                     <td (click)="copyData(data.imsi)" style="cursor: pointer" class="px-2">{{data?.imsi ? data?.imsi : 'N/A' }}</td>
@@ -177,7 +177,7 @@
                 </span>
                     </td>
                     <td class="td-actions">
-                      <button pButton icon="pi pi-map-marker" [disabled]="data.statut ==='inactif'"
+                      <button pButton icon="pi pi-map-marker" [disabled]="data.statut ==='inactif' || (!data.latitude && !data.longitude)"
                         pTooltip="Localisation" tooltipPosition="top" (click)="showDialog('map',data)"
                         class="p-button-success"></button>
                       

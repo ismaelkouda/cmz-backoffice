@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
-import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
@@ -72,10 +71,10 @@ export class DashboardComponent implements OnInit {
           this.countAlarmeMineure = this.dataResponse?.['alarme_mineur'];
           this.countAlarmeMajeure = this.dataResponse?.['alarme_majeur'];
           this.countAlarmeCritique = this.dataResponse?.['alarme_critique'];
-          this.countSoumis = this.dataResponse?.['nb_demandes_soumis'];
-          this.countTraiter = this.dataResponse?.['nb_demandes_traites'];
-          this.countCloture = this.dataResponse?.['nb_demandes_clotures'];
-          this.countCancel = this.dataResponse?.['nb_demandes_abandonne'];
+          this.countSoumis = this.dataResponse?.['nb_demandes_soumises'];
+          this.countTraiter = this.dataResponse?.['nb_demandes_traitees'];
+          this.countCloture = this.dataResponse?.['nb_demandes_cloturees'];
+          this.countCancel = this.dataResponse?.['nb_demandes_abandonnees'];
           this.currrentDate = this.dataResponse?.['date_derniere_maj'];
         },
         error: (error) => {

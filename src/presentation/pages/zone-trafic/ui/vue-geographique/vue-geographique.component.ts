@@ -49,7 +49,9 @@ export class VueGeographiqueComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.GetAllZOneTrafic();
+    if (this.initialView) {
+      this.GetAllZOneTrafic();
+    }
     this.GetAllDepartements();
     this.disableAction()
     this.isFilter();
@@ -81,13 +83,20 @@ export class VueGeographiqueComponent implements OnInit {
   }
 
   public onInitForm(data): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = data;
+    this.totalPage = 0;
+    this.totalRecords = 0;
+    this.recordsPerPage = 0;
+    this.page = 1;
+    setTimeout(() => {
+      this.initialView = false;
+      this.formsView = true;
+      this.currentObject = data;
+    }, 500);
   }
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;
+    this.GetAllZOneTrafic()
   }
 
   public GetAllDepartements() {

@@ -5,7 +5,7 @@ import { ProfilSupervisionComponent } from './ui/profil-supervision/profil-super
 import { ObjectifSlaComponent } from './ui/objectif-sla/objectif-sla.component';
 
 export const SEUIL_ALARMES = 'indicateurs-alarmes';
-export const OBJECTIFS_SLA = 'objectifs-sla';
+export const OBJECTIFS_SLA = 'accords-sla';
 export const PROFIL_SUPERVISION = 'profil-supervision';
 
 

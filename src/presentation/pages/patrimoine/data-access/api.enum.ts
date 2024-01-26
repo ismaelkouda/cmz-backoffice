@@ -33,4 +33,5 @@ export const enum EndPointUrl {
    //DOTATION
    GET_ALL_DOTATION = 'patrimoine-sim/dotations-services/all?page={page}',
    SAVE_DOATATION = 'patrimoine-sim/dotations-services/store',
+   DOWNLOAD_FILE = 'patrimoine-sim/telechargement-fichiers/all'
 }

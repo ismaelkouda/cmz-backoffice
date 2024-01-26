@@ -3,7 +3,6 @@ import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { SettingService } from 'src/shared/services/setting.service';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
-import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { ClipboardService } from 'ngx-clipboard';
 import { ActivatedRoute } from '@angular/router';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';

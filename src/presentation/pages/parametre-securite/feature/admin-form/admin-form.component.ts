@@ -67,13 +67,19 @@ export class AdminFormComponent implements OnInit {
     this.adminForm = this.fb.group({
       nom: ['', [Validators.required]],
       prenoms: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      contacts: ['', [        
-        Validators.maxLength(10), 
-        Validators.minLength(10),
-        Validators.pattern("^[0-9]*$")]],
-        profil_user_id: ['',[Validators.required]] 
+      email: ['',[
+        Validators.email,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+      ],
+     ],
+      contacts: ['', [Validators.pattern("^[0-9]*$")]],
+      profil_user_id: ['',[Validators.required]] 
     })
+    this.adminForm.get('contacts').valueChanges.subscribe(value => {
+      if (value && value.length > 10) {
+        this.adminForm.get('contacts').setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
   }
   public close(): void {
     this.formsView.emit(false);

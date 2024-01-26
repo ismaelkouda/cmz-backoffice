@@ -63,6 +63,4 @@ export class ParametreSecuriteService {
     const url: string = (<string>EndPointUrl.DISABLE_PROFIL).replace('{id}', data)
     return this.http.put(`${this.baseUrl}${url}`, {});
   }
-
-
 }

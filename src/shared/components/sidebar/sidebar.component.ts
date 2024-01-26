@@ -62,22 +62,22 @@ export class SidebarComponent {
       children: [
         {
           path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
-          title: `${mappingService.structureGlobale?.niveau_1}`,
-          label: `${mappingService.structureGlobale?.niveau_1}`,
+          title: `${mappingService.structureGlobale?.niveau_1_menu}`,
+          label: `${mappingService.structureGlobale?.niveau_1_menu}`,
           data: "7-1-0-structure-orga-niveau-1",
           type: "link"
         },
         {
           path: `/${STRUCTURE_ORGANISATIONNELLE}/${SECOND_LEVEL_ROUTE}`,
-          title: `${mappingService.structureGlobale?.niveau_2}`,
-          label: `${mappingService.structureGlobale?.niveau_2}`,
+          title: `${mappingService.structureGlobale?.niveau_2_menu}`,
+          label: `${mappingService.structureGlobale?.niveau_2_menu}`,
           data: "7-2-0-structure-orga-niveau-2",
           type: "link"
         },
         {
           path: `/${STRUCTURE_ORGANISATIONNELLE}/${THRID_LEVEL_ROUTE}`,
-          title: `${mappingService.structureGlobale?.niveau_3}`,
-          label: `${mappingService.structureGlobale?.niveau_3}`,
+          title: `${mappingService.structureGlobale?.niveau_3_menu}`,
+          label: `${mappingService.structureGlobale?.niveau_3_menu}`,
           data: "7-3-0-structure-orga-niveau-3",
           type: "link"
         },

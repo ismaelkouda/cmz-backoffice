@@ -81,6 +81,9 @@ export class SupervisionOperationService {
         return 'N/A'
     }
   }
-
+  GetAllSla(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_SLA);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
 
 }

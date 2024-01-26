@@ -65,9 +65,9 @@ export class PatrimoineFormsComponent implements OnInit {
     private storage: EncodingDataService,
     private router: Router
   ) {
-    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
-    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
-    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.nom_affichage_niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.nom_affichage_niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.nom_affichage_niveau_3;
     this.minioUrl = this.mappingService.minioUrl;
     const data = JSON.parse(this.storage.getData('user'))
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`

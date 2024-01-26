@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { SupervisionOperationService } from 'src/presentation/pages/supervision-operations/data-access/supervision-operation.service';
 @Component({
   selector: 'app-objectif-sla',
   templateUrl: './objectif-sla.component.html',
@@ -21,6 +22,7 @@ export class ObjectifSlaComponent implements OnInit {
 
   constructor(
     private telemetrieService: TelemetrieService,
+    private supervisionOperationService: SupervisionOperationService,
     private toastrService: ToastrService,
     private settingService: SettingService,
     private excelService: ExcelService,
@@ -28,18 +30,18 @@ export class ObjectifSlaComponent implements OnInit {
 
   ) {
     this.applicationType = this.mappingService.applicationType;
-    this.listObjectifs = mappingService.listObjectifSla
   }
 
   ngOnInit() {
+    this.GetAllSla()
     this.disableAction()
   }
 
-  public GetAllReferentielTelemetrie(): void {
-    this.telemetrieService
-      .GetAllReferentielTelemetrie({})
+  public GetAllSla(): void {
+    this.supervisionOperationService
+      .GetAllSla({})
       .subscribe({
-        next: (response) => {
+        next: (response) => {          
           this.listObjectifs = response['data'];
         },
         error: (error) => {
@@ -71,23 +73,6 @@ export class ObjectifSlaComponent implements OnInit {
     });
   }
 
-  public handleUpdateReferentielTelemetrie() {
-    const data = {
-      metriques: [...this.globalMetriquesEditRow],
-    };
-    this.telemetrieService
-      .handleUpdateReferentielTelemetrie(data)
-      .subscribe({
-        next: (response) => {
-          this.GetAllReferentielTelemetrie()
-          this.toastrService.success(response.message);
-          this.globalMetriquesEditRow = [];
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
   handleChangeTabviewIndex(e) {
     this.currentTabsIndex = e.index;
     if (this.currentTabsIndex === 1) {

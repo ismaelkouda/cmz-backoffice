@@ -2,6 +2,9 @@
   <app-breadcrumb [title]="'Suivi des opérations'" [active_item]="'Contentieux'"></app-breadcrumb>
   <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
     <div class="card-body">
+      <div style="margin-top: -2rem !important;">
+        <app-patrimoine-header [count]="listTraitemants" [legende]="'contentieux'" [total]="totalRecords"></app-patrimoine-header>
+      </div>
       <div class="row filter_wrapper">
         <div class="col-md-2">
           <div class="form-group">
@@ -102,7 +105,7 @@
         </div>
         <div class="d-flex gap-3">
           <div class="table_header__legende">
-            <app-table-header [count]="listTraitemants" [legende]="'derniers contentieux'" [page]="page" [totalPage]="totalPage"></app-table-header>
+            <app-table-header [count]="listTraitemants" [legende]="'contentieux'" [page]="page" [totalPage]="totalPage"></app-table-header>
           </div>
         </div>
         <table [ngClass]="['native_table table']">

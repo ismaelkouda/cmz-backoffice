@@ -46,8 +46,8 @@ export class FirstLevelComponent implements OnInit {
     private fb: FormBuilder
 
   ) {
-    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
-    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1_menu;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2_menu;
   }
 
   ngOnInit() {

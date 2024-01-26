@@ -33,7 +33,7 @@ export const content: Routes = [
         'Cartes SIM',
         'Groupe de SIM',
         'Dotation Data',
-        'Demande Service',
+        'Demandes de Service',
         'Etat des Soldes Data',
         'Téléchargement'
       ]
@@ -85,7 +85,7 @@ export const content: Routes = [
       module: 'SLA demandes Service',
       subModule: [
         'Tableau SLA',
-        'Rapport Conformité'
+        'Rapport Conformité des demandes'
       ]
     }
   },

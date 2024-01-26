@@ -52,74 +52,6 @@ export class MappingService {
     this.sourceStockOrangeSim = "Orange fournira la SIM. A l'issue de l'operation, elle sera livrée au point de contact accompagnée d'une facture";
     this.sourceSoldeDotation = 'Le solde de la dotation Data sera debité du volume demandé'
     this.sourceSoldeDotationOrange = "Orange fera le dépôt du volume demandé sur le compte Data de la SIM. A l'issue de l'operation une facture sera générée";
-    const objectifs = [
-      {
-        id: 1,
-        nom_service: 'Achat de Services',
-        description_service: "Services de traitement des demandes d'activation de P & S",
-        delai_akc: 4,
-        delai_traitement: 24,
-        delai_cloture: 48,
-        statut: "actif"
-      },
-      {
-        id: 2,
-        nom_service: 'Activation de SIM',
-        description_service: "Service de demande d'activation d'une carte SIM",
-        delai_akc: 4,
-        delai_traitement: 8,
-        delai_cloture: 16,
-        statut: "actif",
-        pack: ApplicationType.MONITORING,
-      },
-      {
-        id: 3,
-        nom_service: 'Changement de SIM',
-        description_service: "Services de traitement des demandes de changement de SIM",
-        delai_akc: 4,
-        delai_traitement: 8,
-        delai_cloture: 16,
-        statut: "inactif"
-      },
-      {
-        id: 4,
-        nom_service: 'Suspension de SIM',
-        description_service: "Service de demande de suspension d'une carte SIM",
-        delai_akc: 4,
-        delai_traitement: 8,
-        delai_cloture: 16,
-        statut: "actif",
-        pack: ApplicationType.MONITORING
-      },
-      {
-        id: 5,
-        nom_service: 'Résiliation de SIM',
-        description_service: "Service de demande de résiliation d'une carte SIM",
-        delai_akc: 8,
-        delai_traitement: 16,
-        delai_cloture: 24,
-        statut: "inactif",
-        pack: ApplicationType.MONITORING
-      },
-      {
-        id: 7,
-        nom_service: 'Depot de volume',
-        description_service: "Services de provisionning de volume Data",
-        delai_akc: 2,
-        delai_traitement: 4,
-        delai_cloture: 8,
-        statut: "actif"
-      },
-      {
-        id: 8,
-        nom_service: 'Ligne de credit',
-        description_service: "Services de traitement de provisionning de ligne de crédit",
-        delai_akc: 4,
-        delai_traitement: 8,
-        delai_cloture: 16,
-        statut: "actif"
-      }
-    ]
     this.storeLocaleService.tenantData$.subscribe((res: any) => {
       this.currentUser = res ?? JSON.parse(this.storage.getData('user') || null);
       this.baseUrl = `${this.currentUser?.tenant?.url_backend}/api/v1/`
@@ -136,14 +68,12 @@ export class MappingService {
       this.applicationType = this.tenant?.application;
       if (this.applicationType === ApplicationType.PATRIMOINESIM) {
         this.appName = 'PATRIMOINE SIM'
-        this.listObjectifSla = objectifs;
         this.listOperations = Object.values(OperationTransaction).filter(item => item !== OperationTransaction.ACHAT_SERVICE && item !== OperationTransaction.PROVISIONNING);
         Object.values(OperationTransaction).forEach(item => {
           this.listOperationTraitementVue.push(item);
         });
       } else if (this.applicationType === ApplicationType.MONITORING) {
         this.appName = 'SIM MONITORING'
-        this.listObjectifSla = objectifs.filter(objet => objet.hasOwnProperty('pack'));
         this.listOperations = Object.values(OperationTransaction).filter(item => 
           item !== OperationTransaction.ACHAT_SERVICE && 
           item !== OperationTransaction.PROVISIONNING &&
@@ -166,11 +96,6 @@ export class MappingService {
     });
     if (storage.getData('user')) {
       this.GetAllPortefeuille();
-    }
-    if (this.applicationType === ApplicationType.PATRIMOINESIM) {      
-      this.listObjectifSla = objectifs;
-    }else if(this.applicationType === ApplicationType.MONITORING){
-      this.listObjectifSla = objectifs.filter(objet => objet.hasOwnProperty('pack'));
     }
   }
 

@@ -5,14 +5,17 @@
       <div class="card">
         <div class="card-body">
           <div [hidden]="!initialView">
+            <div style="margin-top: -2rem !important;">
+              <app-patrimoine-header [count]="listTransactions" [legende]="'demandes'" [total]="totalRecords"></app-patrimoine-header>
+            </div>
             <div class="row filter_wrapper">
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Type Transaction</b>
+                    <b>Type Demande</b>
                   </label>
                   <p-dropdown [options]="listOperations" [showClear]="true" [(ngModel)]="selectedOperation"
-                    placeholder="Type transaction">
+                    placeholder="Type Demande">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -26,9 +29,9 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>N° Transaction</b>
+                    <b>N° Demande</b>
                   </label>
-                  <input placeholder="Transaction" [(ngModel)]="selectedTransaction" type="text" pInputText />
+                  <input placeholder="Demande" [(ngModel)]="selectedTransaction" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-2">
@@ -100,15 +103,15 @@
               </div>
               <div class="d-flex gap-3">
                 <div class="table_header__legende">
-                  <app-table-header [count]="listTransactions" [legende]="'dernières demandes'" [page]="page" [totalPage]="totalPage"></app-table-header>
+                  <app-table-header [count]="listTransactions" [legende]="'demandes'" [page]="page" [totalPage]="totalPage"></app-table-header>
                 </div>
               </div>
               <table [ngClass]="['native_table table']">
                 <thead>
                   <th class="text-center">#</th>
                   <th>Date / Heure</th>
-                  <th class="text-center" [style]="{width: '10rem'}">N° Transaction</th>
-                  <th class="text-center">Type Transaction</th>
+                  <th class="text-center" [style]="{width: '10rem'}">N° Demande</th>
+                  <th class="text-center">Type Demande</th>
                   <th class="text-center">IMSI</th>
                   <th class="text-center">MSISDN</th>
                   <th class="text-center">Demandeur</th>

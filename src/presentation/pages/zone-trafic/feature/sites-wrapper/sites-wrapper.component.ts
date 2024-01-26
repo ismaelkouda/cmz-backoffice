@@ -13,12 +13,19 @@ export class SitesWrapperComponent implements OnInit {
   @Input() currentObject;
   @Output() formsView = new EventEmitter();
   public listSites: Array<any> = [];
+  public totalPages: 0;
+  public totalRecords: 0;
+  public recordsPerPage: 0;
+  public offset: any;
+  public p: number = 1;
+  public pages: number = 1
 
   constructor(
     private zoneTraficService: ZoneTraficService,
     private toastrService: ToastrService,
     private excelService: ExcelService
-  ) { }
+  ) { 
+  }
 
   ngOnInit() {
    this.GetAllSites()
@@ -27,15 +34,25 @@ export class SitesWrapperComponent implements OnInit {
     this.zoneTraficService
       .GetAllSites({
         zone_trafic_id: this.currentObject?.id
-      })
+      },this.p)
       .subscribe({
         next: (response) => {
-            this.listSites = response['data']['data']
+            this.listSites = response.data.data
+            this.totalPages = response.data.last_page;
+            this.totalRecords = response.data.total;
+            this.recordsPerPage = response.data.per_page;
+            this.pages = response.data?.current_page;
+            this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
         }
       })
+  }
+
+  public onPageChange(event) {
+    this.p = event;
+    this.GetAllSites()
   }
   public close(): void {
     this.formsView.emit(false);

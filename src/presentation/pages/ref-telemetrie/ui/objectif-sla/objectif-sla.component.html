@@ -1,19 +1,12 @@
 <div class="container-fluid">
   <div class="col-sm-12">
-    <app-breadcrumb [title]="'Réferentiel Supervision'" [active_item]="'Objectifs SLA'"></app-breadcrumb>
+    <app-breadcrumb [title]="'Réferentiel Supervision'" [active_item]="'Accords SLA'"></app-breadcrumb>
     <div class="card">
       <div class="card-body">
         <div>
           <p-tabView (onChange)="handleChangeTabviewIndex($event)">
-            <p-tabPanel header="OBJECTIFS SLA">
+            <p-tabPanel header="ACCORDS SLA">
               <div class="table_actions_wrapper" style="display: flex;justify-content: space-between;">
-                <div>
-                  <button pButton pRipple label="Exporter" [disabled]="disableAction()" icon="pi pi-download"
-                    class="p-button-helf" (click)="OnExportExcel()"></button>
-                  <button pButton pRipple label="Enregistrer" (click)="handleUpdateReferentielTelemetrie()"
-                    [disabled]="globalMetriquesEditRow.length === 0" icon="pi pi-save"
-                    class="p-button-success ms-3"></button>
-                </div>
                 <div>
                 </div>
               </div>
@@ -24,7 +17,7 @@
                   [showCurrentPageReport]="true" editMode="row">
                   <ng-template pTemplate="caption">
                     <div class="table_header">
-                      <app-table-header [count]="listObjectifs" [legende]="'Objectifs SLA'"></app-table-header>
+                      <app-table-header [count]="listObjectifs" [legende]="'Accords SLA'"></app-table-header>
                       <div class="table_header__input" style="position: relative;left: 1rem;">
                         <span class="p-input-icon-left ml-auto">
                           <i class="pi pi-search"></i>
@@ -42,47 +35,50 @@
                       <th class="text-center"><span style="margin-right: 5px">ACK</span>(h)</th>
                       <th class="text-center"><span style="margin-right: 5px">Traitement</span>(h)</th>
                       <th class="text-center"><span style="margin-right: 5px">Clôture</span>(h)</th>
+                      <th class="text-center"><span style="margin-right: 5px">Escalade</span>(h)</th>
                       <th class="text-center">Statut</th>
-                      <th style="width: 2rem;" class="text-center">Actions</th>
                     </tr>
                   </ng-template>
                   <ng-template let-i="rowIndex" pTemplate="body" let-editing="editing" let-data>
                     <tr [pEditableRow]="data">
                       <td class="text-center">{{ i + 1 }}</td>
                       <td class="text-center">{{data?.nom_service}}</td>
-                      <td>{{data?.description_service}}</td>
+                      <td>{{data?.description}}</td>
                       <td class="text-center" style="width: 4rem !important;">
                         <p-cellEditor>
                           <ng-template pTemplate="input">
-                            <input class="text-center" pInputText type="number" [(ngModel)]="data.delai_akc"
-                              #data.delai_akc="ngModel" />
+                            <input class="text-center" pInputText type="number" [(ngModel)]="data.ack"
+                              #data.ack="ngModel" />
                           </ng-template>
                           <ng-template pTemplate="output">
-                            <span>{{ data.delai_akc }}</span>
+                            <span>{{ data?.ack }}</span>
                           </ng-template>
                         </p-cellEditor>
                       </td>
                       <td class="text-center" style="width: 4rem !important;">
                         <p-cellEditor>
                           <ng-template pTemplate="input">
-                            <input class="text-center" pInputText type="number" [(ngModel)]="data.delai_traitement"
-                              #data.delai_traitement="ngModel" />
+                            <input class="text-center" pInputText type="number" [(ngModel)]="data.traitement"
+                              #data.traitement="ngModel" />
                           </ng-template>
                           <ng-template pTemplate="output">
-                            <span>{{ data.delai_traitement }}</span>
+                            <span>{{ data?.traitement }}</span>
                           </ng-template>
                         </p-cellEditor>
                       </td>
                       <td class="text-center" style="width: 4rem !important;">
                         <p-cellEditor>
                           <ng-template pTemplate="input">
-                            <input class="text-center" pInputText type="number" [(ngModel)]="data.delai_cloture"
-                              #data.delai_cloture="ngModel" />
+                            <input class="text-center" pInputText type="number" [(ngModel)]="data.cloture"
+                              #data.cloture="ngModel" />
                           </ng-template>
                           <ng-template pTemplate="output">
-                            <span>{{ data.delai_cloture }}</span>
+                            <span>{{ data.cloture }}</span>
                           </ng-template>
                         </p-cellEditor>
+                      </td>
+                      <td class="text-center">
+                        {{ data?.escalade ?? 'N/A' }}
                       </td>
                       <td class="text-center" style="width: 4rem !important;">
                         <p-cellEditor>
@@ -98,17 +94,6 @@
                             </span>
                           </ng-template>
                         </p-cellEditor>
-                      </td>
-                      <td class="td-actions">
-                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow pTooltip="Modifier"
-                          tooltipPosition="top" icon="pi pi-pencil" (click)="OnEditOneRowMetrique(data)"
-                          class="p-button-secondary"></button>
-                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow pTooltip="Sauvegarder"
-                          tooltipPosition="top" icon="pi pi-check" (click)="onRowEditMetriqueSave(data)"
-                          class="p-button-success"></button>
-                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow pTooltip="Fermer"
-                          tooltipPosition="top" icon="pi pi-times" (click)="onCancelRowMetrique(data, i)"
-                          class="p-button-danger" style="margin-left: 1rem"></button>
                       </td>
                     </tr>
                   </ng-template>

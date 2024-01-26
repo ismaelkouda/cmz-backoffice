@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { PatrimoineService } from '../../data-access/patrimoine.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-download',
@@ -11,58 +13,43 @@ export class DownloadComponent implements OnInit {
 
   public module: string;
   public subModule: string;
+  public baseUrl: string;
   public initialView: boolean = true;
   public listFiles: Array<any> = [];
 
   constructor(
     private route: ActivatedRoute,
+    private patrimoineService: PatrimoineService,
+    private toastrService: ToastrService,
     private mappingService: MappingService,
   ) {
-    this.listFiles = [
-      {
-        id: 1,
-        type: 'Base de données SIM',
-        nom: 'nom_fichier',
-        taille: 100,
-        created_at: '2024-01-10 10:10:10'
-      },
-      {
-        id: 1,
-        type: 'Base de données SIM Actives',
-        nom: 'nom_fichier',
-        taille: 100,
-        created_at: '2024-01-10 10:10:10'
-      },
-      {
-        id: 1,
-        type: 'Base de données SIM Suspendues',
-        nom: 'nom_fichier',
-        taille: 100,
-        created_at: '2024-01-10 10:10:10'
-      },
-      {
-        id: 1,
-        type: 'Base de données SIM Résiliées',
-        nom: 'nom_fichier',
-        taille: 100,
-        created_at: '2024-01-10 10:10:10'
-      },
-      {
-        id: 5,
-        type: 'Base de données SIM Portées',
-        nom: 'nom_fichier',
-        taille: 100,
-        created_at: '2024-01-10 10:10:10'
-      }
-    ]
+    this.baseUrl = this.mappingService.baseUrl.replace("/api/v1", "");  
   }
 
   ngOnInit() {
-
+    this.GetAllDownlaod()
     this.route.data.subscribe((data) => {
       this.module = data.module;
       this.subModule = data.subModule[5];
     });
+  }
+
+  public GetAllDownlaod(): void {
+    this.patrimoineService
+      .GetAllDownlaod()
+      .subscribe({
+        next: (response) => {
+          this.listFiles = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  downloadFile(data) {
+    if (data) {
+      window.open(this.baseUrl + data.url_fichier)
+    }
   }
 
 }

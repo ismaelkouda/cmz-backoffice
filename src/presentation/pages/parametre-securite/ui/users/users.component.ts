@@ -16,15 +16,18 @@ export class UsersComponent implements OnInit {
   public initialView: boolean = true;
   public formsView: boolean = false;
   public currentObject: any;
-
+  public alerteMessage: string
   constructor(
     private settingService: SettingService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
-  ) { }
+  ) {
+    this.alerteMessage = "Le nombre d'utilisateurs a atteint la limite autorisée"
+  }
 
   ngOnInit() {
     this.GetAllUsers()
+    this.isFilter()
   }
   public GetAllUsers() {
     this.settingService.getAllUsers({})
@@ -37,18 +40,35 @@ export class UsersComponent implements OnInit {
         }
       })
   }
+  onFilter(){
+    this.settingService.getAllUsers({
+      profil_user: this.selectedProfil,
 
-  onFilter(){}
+    })
+    .subscribe({
+      next: (response) => {
+        this.listUsers = response['data']
+      },
+      error: (error) => {
+        this.toastrService.error(error.error.message);
+      }
+    })
+  }
 
   public copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
 
+
   public onInitForm(): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = undefined;
+    if (this.listUsers.length >=5) {
+       this.toastrService.error("Le nombre d'utilisateurs a atteint la limite autorisée");
+    }else{
+      this.initialView = false;
+      this.formsView = true;
+      this.currentObject = undefined;
+    }
   }
   public onEditForm(data: any): void {
     this.initialView = false;
@@ -66,5 +86,8 @@ export class UsersComponent implements OnInit {
   }
   public pushListDatas(event: any): void {
     this.listUsers = event;
+  }
+  public isFilter(): boolean {
+    return (!this.selectedProfil) ? true : false
   }
 }

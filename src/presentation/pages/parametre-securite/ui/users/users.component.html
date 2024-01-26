@@ -20,10 +20,17 @@
               </div>
             </div>
             <hr>
-            <div class="table_actions_wrapper">
-              <button pButton pRipple label="Ajout utilisateur" icon="pi pi-plus" (click)="onInitForm()" class="p-button-success"></button>
-              <button pButton pRipple label="Rafraichir" (click)="GetAllUsers()" icon="pi pi-refresh"
-                class="p-button-secondary"></button>
+            <div class="d-flex justify-content-between">
+              <div>
+                <button pButton pRipple label="Ajout utilisateur" icon="pi pi-plus" (click)="onInitForm()" [disabled]="this.listUsers.length >=5" class="p-button-success"></button>
+                <button pButton pRipple label="Rafraichir" (click)="GetAllUsers()" icon="pi pi-refresh"
+                  class="p-button-secondary ms-4"></button>
+              </div>
+              <div class="danger-alert" role="alert" *ngIf="this.listUsers.length >=5">
+                  <strong>
+                     {{alerteMessage}}
+                  </strong>
+                </div>
             </div>
             <div class="table_content_wrapper">
               <p-table #dt [value]="listUsers" [rows]="10" [paginator]="true" responsiveLayout="scroll"
@@ -37,7 +44,7 @@
                     <div class="table_header__input">
                       <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
                           placeholder="Recherche" />
                       </span>
                     </div>

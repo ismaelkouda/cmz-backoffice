@@ -114,9 +114,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   ) {
     const data = JSON.parse(this.storage.getData('user'))
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
-    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
-    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
-    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.nom_affichage_niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.nom_affichage_niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.nom_affichage_niveau_3;
     this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
     this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim,
     this.sourceSoldeDotation = this.mappingService?.sourceSoldeDotation
