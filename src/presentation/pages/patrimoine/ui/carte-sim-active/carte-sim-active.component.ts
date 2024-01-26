@@ -104,9 +104,9 @@ export class CarteSimActiveComponent implements OnInit {
     private excelService: ExcelService
   ) {
     this.listStatus = [SimStatut.ACTIF, SimStatut.SUSPENDU, SimStatut.RESILIE]    
-    this.firstLevelLibelle = this.mappingService.structureGlobale?.nom_affichage_niveau_1;
-    this.secondLevelLibelle = this.mappingService.structureGlobale?.nom_affichage_niveau_2;
-    this.thirdLevelLibelle = this.mappingService.structureGlobale?.nom_affichage_niveau_3;
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
 

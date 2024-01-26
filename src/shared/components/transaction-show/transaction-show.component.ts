@@ -87,9 +87,9 @@ export class TransactionShowComponent implements OnInit {
       this.listTypeJustificatif.push(item);
     });
     this.fileUrl = this.mappingService.fileUrl;  
-    this.firstLevelLibelle = this.mappingService.structureGlobale?.nom_affichage_niveau_1;
-    this.secondLevelLibelle = this.mappingService.structureGlobale?.nom_affichage_niveau_2;
-    this.thirdLevelLibelle = this.mappingService.structureGlobale?.nom_affichage_niveau_3;
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
     this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim,
     this.sourceSoldeDotation = this.mappingService.sourceSoldeDotation,
