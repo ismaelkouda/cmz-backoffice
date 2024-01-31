@@ -16,6 +16,12 @@ export class DownloadComponent implements OnInit {
   public baseUrl: string;
   public initialView: boolean = true;
   public listFiles: Array<any> = [];
+  public totalPage: 0;
+  public totalRecords: 0;
+  public recordsPerPage: 0;
+  public offset: any;
+  public p: number = 1;
+  public page: number = 0
 
   constructor(
     private route: ActivatedRoute,
@@ -39,12 +45,21 @@ export class DownloadComponent implements OnInit {
       .GetAllDownlaod()
       .subscribe({
         next: (response) => {
-          this.listFiles = response['data'];
+          this.listFiles = response.data.data;
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
         }
       })
+  }
+  public onPageChange(event) {
+    this.p = event;
+    this.GetAllDownlaod()
   }
   downloadFile(data) {
     if (data) {

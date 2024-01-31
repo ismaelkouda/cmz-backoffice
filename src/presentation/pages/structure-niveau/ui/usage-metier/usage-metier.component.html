@@ -67,7 +67,7 @@
                         <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
                           (click)="onShowForm(data,content)" class="p-button-dark"></button>
                         <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
-                          (click)="onEditForm(data,content)" class="p-button-secondary"></button>
+                          (click)="onEditForm(data)" class="p-button-secondary"></button>
                           <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
                           " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
                           ? 'Désactiver'

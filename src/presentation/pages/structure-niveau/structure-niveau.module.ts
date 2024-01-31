@@ -1,3 +1,6 @@
+import { FormThirdLevelComponent } from './feature/form-third-level/form-third-level.component';
+import { FormSecondLevelComponent } from './feature/form-second-level/form-second-level.component';
+import { FormFirstLevelComponent } from './feature/form-first-level/form-first-level.component';
 import { FormUsageComponent } from './feature/form-usage/form-usage.component';
 import { UsageMetierComponent } from './ui/usage-metier/usage-metier.component';
 import { StructureNiveauRoutingModule } from './structure-niveau-routing.module';
@@ -62,7 +65,10 @@ import { SharedModule } from 'src/shared/shared.module';
         SecondLevelComponent,
         ThirdLevelComponent,
         UsageMetierComponent,
-        FormUsageComponent
+        FormUsageComponent,
+        FormFirstLevelComponent,
+        FormSecondLevelComponent,
+        FormThirdLevelComponent
     ],
 })
 export class StructureNiveauModule { }

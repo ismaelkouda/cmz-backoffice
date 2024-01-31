@@ -83,6 +83,10 @@ export class SettingService {
     const url: string = (<string>EndPointUrl.UPDATE_EXPLOITATION);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  OngetAllExploiatationsNoAffecte(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_EXPLOIATATION_NO_AFFECTE);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
 
   // Third Level
   getAllZones(data): Observable<any> {

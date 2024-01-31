@@ -59,7 +59,7 @@
                   <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
                 </label>
                 <p-dropdown [options]="listDirectionRegionales" formControlName="direction_regionale" optionLabel="nom"
-                            optionValue="id">
+                            optionValue="uuid" [placeholder]="firstLevelLibelle">
                   <ng-template let-data pTemplate="item">
                     <div class="country-item">
                       <div>
@@ -76,7 +76,7 @@
                   <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
                 </label>
                 <p-dropdown [options]="listExploitations" formControlName="exploitation" optionLabel="nom"
-                            optionValue="id">
+                            optionValue="uuid" [placeholder]="secondLevelLibelle">
                   <ng-template let-data pTemplate="item">
                     <div class="country-item">
                       <div>
@@ -92,7 +92,7 @@
                 <label>
                   <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
                 </label>
-                <p-dropdown [options]="listActivites" formControlName="zone" optionLabel="nom" optionValue="id">
+                <p-dropdown [options]="listActivites" formControlName="zone" optionLabel="nom" optionValue="uuid" [placeholder]="thirdLevelLibelle">
                   <ng-template let-data pTemplate="item">
                     <div class="country-item">
                       <div>

@@ -27,6 +27,7 @@ export class ThirdLevelComponent implements OnInit {
   public selectedCode: string;
   public selectedCodes: string;
   public currentLevelLibelle: string;
+  public currentLevelMenus: string;
   public currentLevelLibelleSplit: string;
   public childLevelLibelle: string;
   public currentLevel: any;
@@ -44,6 +45,8 @@ export class ThirdLevelComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.currentLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+    this.currentLevelMenus = this.mappingService.structureGlobale?.niveau_3_menu;
+
   }
 
   ngOnInit() {
@@ -113,30 +116,29 @@ export class ThirdLevelComponent implements OnInit {
       ]]   
     })
   }
-  openForm(content) {
-    this.modalService.open(content);
-    this.isShow = false;
-    this.isEdit = false;
-    this.adminForm.reset();
-    this.adminForm.enable();
+  public openForm(): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = undefined;
   }
-  onEditForm(item: any, content: any) {
-    this.currentLevel = item;
-    this.isEdit = true;
-    this.isShow = false;
-    this.modalService.open(content);
-    this.adminForm.get('nom').patchValue(item?.nom);
-    this.adminForm.get('code').patchValue(item?.code);
-    this.adminForm.enable();
+  public onEditForm(data: any): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = data;
   }
-  onShowForm(item: any, content: any) {
-    this.isShow = true;
-    this.isEdit = false;
-    this.modalService.open(content);
-    this.adminForm.get('nom').patchValue(item?.nom);
-    this.adminForm.get('code').patchValue(item?.code);
-    this.adminForm.disable();
+  public onShowForm(data: any): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, show: true };
   }
+  public pushStatutView(event: boolean): void {
+    this.formsView = event;
+    this.initialView = !event;
+  }
+  public pushListDatas(event: any): void {
+    this.listCurrentLevelDatas = event;
+  }
+
   hideForm() {
     this.modalService.dismissAll();
     this.adminForm.reset();
@@ -159,7 +161,7 @@ export class ThirdLevelComponent implements OnInit {
   OnUpdateThirdLevel() {
     this.settingService
       .OnUpdateZone({
-        niveau_trois_id: this.currentLevel?.id,
+        niveau_trois_uuid: this.currentLevel?.uuid,
         ...this.adminForm.value
       })
       .subscribe({

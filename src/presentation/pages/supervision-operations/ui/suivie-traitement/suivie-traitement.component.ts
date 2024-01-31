@@ -56,6 +56,7 @@ export class SuivieTraitementComponent implements OnInit {
   public treatmenRejeter: string = TraitementTransaction.REJETER;
   public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
+  public historie: any;
 
   constructor(
     private supervisionOperationService: SupervisionOperationService,

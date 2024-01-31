@@ -438,9 +438,9 @@ export class TraitementShowComponent implements OnInit {
   OnInitActivationForm() {
     this.activationForm = this.fb.group({
       bac_a_pioche: [''],
-      niveau_un_id: [''],
-      niveau_deux_id: [''],
-      niveau_trois_id: [''],
+      niveau_un_uuid: [''],
+      niveau_deux_uuid: [''],
+      niveau_trois_uuid: [''],
       usage_id: [''],
       point_emplacement: [''],
       adresse_email: [''],
@@ -464,9 +464,9 @@ export class TraitementShowComponent implements OnInit {
   }
   OnShowActivationForm() {
     this.activationForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
-    this.activationForm.get('niveau_un_id').patchValue(this.detailTransaction?.niveau_un_id);
-    this.activationForm.get('niveau_deux_id').patchValue(this.detailTransaction?.niveau_deux_id);
-    this.activationForm.get('niveau_trois_id').patchValue(this.detailTransaction?.niveau_trois_id);
+    this.activationForm.get('niveau_un_uuid').patchValue(this.detailTransaction?.niveau_un_uuid);
+    this.activationForm.get('niveau_deux_uuid').patchValue(this.detailTransaction?.niveau_deux_uuid);
+    this.activationForm.get('niveau_trois_uuid').patchValue(this.detailTransaction?.niveau_trois_uuid);
     this.activationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.activationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
     this.activationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
@@ -480,8 +480,6 @@ export class TraitementShowComponent implements OnInit {
     this.activationForm.get('description').patchValue(this.detailTransaction?.description);
     this.activationForm.get('activation_accepte').patchValue(this.detailTransaction?.rapport?.activation_accepte);
     this.activationForm.get('activation_accepte_comment').patchValue(this.detailTransaction?.rapport?.activation_accepte_comment);
-
-    this.activationForm.get('bac_a_pioche').disable();
     this.activationForm.get('msisdn').disable();
     this.activationForm.get('imsi').disable();
     this.activationForm.get('statut_contrat').disable();
@@ -636,7 +634,7 @@ export class TraitementShowComponent implements OnInit {
     return ((this.transaction?.statut === StatutTransaction.SOUMIS && (this.transaction?.traitement === TraitementTransaction.EN_ENTENTE || this.transaction?.traitement === TraitementTransaction.ACQUITER))) ? true : false
   }
   public IsUpdate(): boolean {
-    return ((this.transaction?.statut === StatutTransaction.SOUMIS && (this.transaction?.traitement === TraitementTransaction.EN_ENTENTE || this.transaction?.traitement === TraitementTransaction.ACQUITER))
+    return ((this.transaction?.statut === StatutTransaction.SOUMIS && (this.transaction?.traitement === TraitementTransaction.EN_ENTENTE))
       || (this.transaction?.statut === StatutTransaction.TARITER && this.transaction?.traitement === TraitementTransaction.REJETER)
     ) ? true : false
   }
@@ -647,7 +645,7 @@ export class TraitementShowComponent implements OnInit {
     return ((this.transaction?.statut === StatutTransaction.TARITER && this.transaction?.traitement === TraitementTransaction.ACCEPTER)) ? true : false
   }
   public IsShow(): boolean {
-    return (this.transaction?.statut === StatutTransaction.CLOTURER) ? true : false
+    return (this.transaction?.statut === StatutTransaction.CLOTURER || this.transaction?.traitement === TraitementTransaction.ACQUITER) ? true : false
   }
   public IsVerify(): boolean {
     return (
@@ -689,7 +687,7 @@ export class TraitementShowComponent implements OnInit {
         }
         else if (this.transaction?.operation === OperationTransaction.ACTIVATION) {
           this.activationForm.patchValue({
-            justificatif: this.currentFile,
+            justificatif: this.currentFile
           })
         }else if (this.transaction?.operation === OperationTransaction.SUSPENSION) {
           this.suspensionForm.patchValue({

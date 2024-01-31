@@ -4,12 +4,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
-import { SettingService } from 'src/shared/services/setting.service';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { Justificatif } from 'src/shared/enum/Justificatif.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
-declare var require;
-const Swal = require("sweetalert2");
 
 @Component({
   selector: 'app-demande-show',

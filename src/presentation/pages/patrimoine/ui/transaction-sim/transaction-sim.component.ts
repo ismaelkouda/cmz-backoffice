@@ -25,6 +25,7 @@ export class TransactionSimComponent implements OnInit {
   public listTransactions: Array<any> = [];
   public listOperations: Array<any> = [];
   public listStatuts: Array<any> = [];
+  public listTraitementTransactions: Array<any> = [];
   public initialView: boolean = true;
   public formsView: boolean = false;
   public currentObject: any;
@@ -33,6 +34,7 @@ export class TransactionSimComponent implements OnInit {
   public selectedOperation: string;
   public selectedTransaction: string;
   public selectedStatut: string;
+  public selectedTraitement: string;
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
@@ -71,10 +73,13 @@ export class TransactionSimComponent implements OnInit {
       Object.values(StatutTransaction).forEach(item => {
         this.listStatuts.push(item);
       });
+      Object.values(TraitementTransaction).forEach(item => {
+        this.listTraitementTransactions.push(item);
+      });  
   }
 
   ngOnInit() {
-    this.GetAllTransactions();
+    this.GetAllTransactions()
     this.isFilter();
     this.disableAction()
     this.route.data.subscribe((data) => {
@@ -84,11 +89,18 @@ export class TransactionSimComponent implements OnInit {
     if (history.state.patrimoine) {
       this.onInitForm()
     }
+    if (history.state?.statut  || history.state?.traitement) {
+      this.selectedStatut = history.state?.statut
+      this.selectedTraitement = history.state?.traitement
+    }
   }
 
   public GetAllTransactions() {
     this.patrimoineService
-      .GetAllTransactions({}, this.p)
+      .GetAllTransactions({
+        ...(history.state?.statut ? { statut: history.state?.statut } : {}),
+        ...(history.state?.traitement ? { traitement: history.state?.traitement } : {})
+      }, this.p)
       .subscribe({
         next: (response) => {
           this.listTransactions =  response['data']['data'].map((data) => {
@@ -135,6 +147,7 @@ export class TransactionSimComponent implements OnInit {
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
         statut: this.selectedStatut,
+        traitement: this.selectedTraitement,
         date_debut: this.selectDateStart,
         date_fin: this.selectDateEnd,
       }, this.p)
@@ -169,6 +182,7 @@ export class TransactionSimComponent implements OnInit {
     this.selectedSim = null
     this.selectedimsi = null
     this.selectedStatut = null
+    this.selectedTraitement = null
     this.selectDateStart = null
     this.selectDateEnd = null
     this.filterDateStart = null
@@ -246,8 +260,34 @@ export class TransactionSimComponent implements OnInit {
       this.selectDateEnd = null
     }
   }
+  public OnChangeStatut(event){
+    const currentStatut = event.value
+    if (currentStatut === StatutTransaction.SOUMIS) {
+      this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
+      this.listTraitementTransactions = [
+        TraitementTransaction.EN_ENTENTE,
+        TraitementTransaction.ACQUITER
+      ]
+    }else if (currentStatut === StatutTransaction.TARITER) {
+      this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
+      this.listTraitementTransactions = [
+        TraitementTransaction.ACCEPTER,
+        TraitementTransaction.REJETER
+      ]
+    }else if (currentStatut === StatutTransaction.CLOTURER) {
+      this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
+      this.listTraitementTransactions = [
+        TraitementTransaction.REFUSER,
+        TraitementTransaction.ACCEPTER
+      ]
+    }else{
+      Object.values(TraitementTransaction).forEach(item => {
+        this.listTraitementTransactions.push(item);
+      });
+    }
+  }
   public isFilter(): boolean {
-    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction) ? true : false
+    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTraitement && !this.selectedTransaction) ? true : false
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({

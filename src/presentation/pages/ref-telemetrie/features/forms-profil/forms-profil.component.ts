@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { TelemetrieService } from '../../data-access/telemetrie.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { get } from 'http';
 
 @Component({
   selector: 'app-forms-profil',
@@ -140,6 +141,7 @@ export class FormsProfilComponent implements OnInit {
     if (this.currentObject.show) {
       this.adminForm.disable()
     }
+    this.adminForm.get('nom').disable()
   }
 
   public handleSaveProfilSupervision() {

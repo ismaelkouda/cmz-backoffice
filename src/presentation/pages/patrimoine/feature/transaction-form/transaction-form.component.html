@@ -161,7 +161,7 @@
               <label>
                 <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="listDirections" formControlName="direction_regionale" optionLabel="nom" [placeholder]="firstLevelLibelle" optionValue="id">
+              <p-dropdown [options]="listDirections" formControlName="direction_regionale" optionLabel="nom" [placeholder]="firstLevelLibelle" optionValue="uuid">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
@@ -177,7 +177,7 @@
               <label>
                 <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="listExploitations" formControlName="exploitation" optionLabel="nom" [placeholder]="secondLevelLibelle" optionValue="id">
+              <p-dropdown [options]="listExploitations" formControlName="exploitation" optionLabel="nom" [placeholder]="secondLevelLibelle" optionValue="uuid">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
@@ -193,7 +193,7 @@
               <label>
                 <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="listActivites" formControlName="zone" optionLabel="nom" [placeholder]="thirdLevelLibelle" optionValue="id">
+              <p-dropdown [options]="listActivites" formControlName="zone" optionLabel="nom" [placeholder]="thirdLevelLibelle" optionValue="uuid">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
@@ -276,7 +276,7 @@
               <label>
                 <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <input type="text" formControlName="niveau_un_id" pInputText />
+              <input type="text" formControlName="niveau_un_uuid" pInputText />
             </div>
           </div>
           <div class="col-md-4">
@@ -284,7 +284,7 @@
               <label>
                 <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <input type="text" formControlName="niveau_deux_id" pInputText />
+              <input type="text" formControlName="niveau_deux_uuid" pInputText />
             </div>
           </div>
           <div class="col-md-4">
@@ -292,7 +292,7 @@
               <label>
                 <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <input type="text" formControlName="niveau_trois_id" pInputText />
+              <input type="text" formControlName="niveau_trois_uuid" pInputText />
             </div>
           </div>
         </div>

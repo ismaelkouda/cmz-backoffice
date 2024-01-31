@@ -1,0 +1,94 @@
+<div>
+  <div class="forms-feature-header">
+      <div>
+          <h4>
+              <b *ngIf="currentObject === undefined">
+                  <span>Formulaire d'ajout {{currentLevelLibelle}}</span>
+              </b>
+              <b *ngIf="currentObject !== undefined && !currentObject?.show">
+                  <span>Modification {{currentLevelLibelle}}</span>
+                  <span class="current_values">[{{currentObject?.nom}}]</span>
+              </b>
+              <b *ngIf="currentObject?.show">
+                  <span>Visualisation {{currentLevelLibelle}}</span>
+                  <span class="current_values">[{{currentObject?.nom}}]</span>
+              </b>
+          </h4>
+      </div>
+      <div class="forms-feature-header__button" [ngStyle]="{display: 'flex',gap: '1rem'}">
+          <div *ngIf="!currentObject?.show">
+              <p-button label="Enregistrer" [label]="currentObject === undefined ? 'Enregistrer': 'Modifier'"
+                  [disabled]="!adminForm.valid" styleClass="p-button-success"
+                  (click)="!currentObject ? handleSave() : handleUpdate()"></p-button>
+          </div>
+          <div>
+              <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+          </div>
+      </div>
+  </div>
+  <hr *ngIf="!currentObject?.show">
+  <!--------------------------FORMS-------------------------->
+  <div *ngIf="!currentObject?.show" style="margin-top: 3rem;">
+      <div [formGroup]="adminForm" novalidate>
+          <fieldset>
+              <legend [ngStyle]="{width: '13rem'}">
+                  <b>Informations</b>
+              </legend>
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <label>
+                              <b>Nom<span class="text-danger">*</span></b>
+                          </label>
+                          <input type="text" [ngStyle]="{width: '100%'}" formControlName="nom" pInputText />
+                        </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label><b>Code<span class="text-danger">*</span></b></label>
+                      <input type="text" formControlName="code" pInputText />
+                    </div>
+                  </div>
+              </div>
+          </fieldset>
+      </div>
+      <div class="forms-feature-footer">
+          <p-button label="Enregistrer" [label]="currentObject === undefined ? 'Enregistrer': 'Modifier'"
+              [disabled]="!adminForm.valid" styleClass="p-button-success"
+              (click)="!currentObject ? handleSave() : handleUpdate()"></p-button>
+      </div>
+  </div>
+  <div *ngIf="currentObject?.show">
+      <p-tabView>
+          <p-tabPanel header="IDENTIFICATION">
+            <div [formGroup]="adminForm" novalidate>
+              <fieldset>
+                  <legend [ngStyle]="{width: '13rem'}">
+                      <b>Informations</b>
+                  </legend>
+                  <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>
+                                <b>Nom<span class="text-danger">*</span></b>
+                            </label>
+                            <input type="text" [ngStyle]="{width: '100%'}" formControlName="nom" pInputText />
+                          </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label><b>Code<span class="text-danger">*</span></b></label>
+                        <input type="text" formControlName="code" pInputText />
+                      </div>
+                    </div>
+                </div>
+              </fieldset>
+          </div>
+          </p-tabPanel>
+          <p-tabPanel header="HISTORIQUE">
+            <app-historique [modele]="'usage-metier'" [modele_id]="currentObject.id">
+            </app-historique>
+          </p-tabPanel>
+      </p-tabView>
+  </div>
+</div>

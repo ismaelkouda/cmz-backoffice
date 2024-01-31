@@ -26,10 +26,12 @@ export class SecondLevelComponent implements OnInit {
   public selectedNom: string;
   public selectedCode: string;
   public selectedCodes: string;
+  public selectedParent: any;
   public currentLevelLibelle: string;
   public currentLevelLibelleSplit: string;
   public childLevelLibelle: string;
   public parentLevelLibelle: string;
+  public currentLevelMenus: string;
   public currentLevel: any;
   public isEdit: boolean = false;
   public isShow: boolean = false;
@@ -47,6 +49,7 @@ export class SecondLevelComponent implements OnInit {
     this.currentLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.childLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.parentLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.currentLevelMenus = this.mappingService.structureGlobale?.niveau_2_menu;
   }
 
   ngOnInit() {
@@ -73,7 +76,8 @@ export class SecondLevelComponent implements OnInit {
     this.settingService
       .getAllExploiatations({
         nom: this.selectedNom,
-        code: this.selectedCodes
+        code: this.selectedCodes,
+        niveau_un_uuid: this.selectedParent
       })
       .subscribe({
         next: (response) => {
@@ -114,72 +118,34 @@ export class SecondLevelComponent implements OnInit {
         FormValidator.cannotContainSpace,
         FormValidator.symbolsOnly,
       ]],
-      niveau_un_id: ['', [Validators.required]]
+      niveau_un_uuid: ['', [Validators.required]]
     })
-  }
-  openForm(content) {
-    this.modalService.open(content);
-    this.isShow = false;
-    this.isEdit = false;
-    this.adminForm.reset();
-    this.adminForm.enable();
-  }
-  onEditForm(item: any, content: any) {
-    this.currentLevel = item;
-    this.isEdit = true;
-    this.isShow = false;
-    this.modalService.open(content);
-    this.adminForm.get('nom').patchValue(item?.nom);
-    this.adminForm.get('code').patchValue(item?.code);
-    this.adminForm.get('niveau_un_id').patchValue(item?.niveau_un_id);
-    this.adminForm.enable();
-  }
-  onShowForm(item: any, content: any) {
-    this.isShow = true;
-    this.isEdit = false;
-    this.modalService.open(content);
-    this.adminForm.get('nom').patchValue(item?.nom);
-    this.adminForm.get('code').patchValue(item?.code);
-    this.adminForm.get('niveau_un_id').patchValue(item?.niveau_un_id);
-    this.adminForm.disable();
   }
   hideForm() {
     this.modalService.dismissAll();
     this.adminForm.reset();
   }
-  OnSaveSecondLevel() {
-    this.settingService
-      .OnSaveExploitation(this.adminForm.value)
-      .subscribe({
-        next: (response) => {
-          this.GellCurrentLevel();
-          this.adminForm.reset();
-          this.hideForm();
-          this.toastrService.success(response.message);
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
-        }
-      })
+  public openForm(): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = undefined;
   }
-  OnUpdateSecondLevel() {
-    this.settingService
-      .OnUpdateEploitation({
-        niveau_deux_id: this.currentLevel?.id,
-        niveau_un_id: this.adminForm.get('niveau_un_id').value,
-        ...this.adminForm.value
-      })
-      .subscribe({
-        next: (response) => {
-          this.GellCurrentLevel();
-          this.adminForm.reset();
-          this.hideForm();
-          this.toastrService.success(response.message);
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
-        }
-      })
+  public onEditForm(data: any): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = data;
+  }
+  public onShowForm(data: any): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, show: true };
+  }
+  public pushStatutView(event: boolean): void {
+    this.formsView = event;
+    this.initialView = !event;
+  }
+  public pushListDatas(event: any): void {
+    this.listCurrentLevelDatas = event;
   }
   public OnExportExcel(): void {
     const data = this.listCurrentLevelDatas.map((item: any) => ({

@@ -35,7 +35,7 @@ export const content: Routes = [
         'Dotation Data',
         'Demandes de Service',
         'Etat des Soldes Data',
-        'Téléchargement'
+        'Téléchargements'
       ]
     }
   },

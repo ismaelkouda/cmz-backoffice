@@ -492,9 +492,9 @@ export class TransactionShowComponent implements OnInit {
   OnInitActivationForm() {
     this.activationForm = this.fb.group({
       bac_a_pioche: [''],
-      niveau_un_id: [''],
-      niveau_deux_id: [''],
-      niveau_trois_id: [''],
+      niveau_un_uuid: [''],
+      niveau_deux_uuid: [''],
+      niveau_trois_uuid: [''],
       usage_id: [''],
       point_emplacement: [''],
       adresse_email: [''],
@@ -519,9 +519,9 @@ export class TransactionShowComponent implements OnInit {
   }
   OnShowActivationForm() {
     this.activationForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
-    this.activationForm.get('niveau_un_id').patchValue(this.detailTransaction?.niveau_un_id);
-    this.activationForm.get('niveau_deux_id').patchValue(this.detailTransaction?.niveau_deux_id);
-    this.activationForm.get('niveau_trois_id').patchValue(this.detailTransaction?.niveau_trois_id);
+    this.activationForm.get('niveau_un_uuid').patchValue(this.detailTransaction?.niveau_un_uuid);
+    this.activationForm.get('niveau_deux_uuid').patchValue(this.detailTransaction?.niveau_deux_uuid);
+    this.activationForm.get('niveau_trois_uuid').patchValue(this.detailTransaction?.niveau_trois_uuid);
     this.activationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.activationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
     this.activationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);

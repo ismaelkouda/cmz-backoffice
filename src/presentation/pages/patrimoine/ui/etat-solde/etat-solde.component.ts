@@ -83,11 +83,17 @@ export class EtatSoldeComponent implements OnInit {
       this.module = data.module;
       this.subModule = data.subModule[4];
     });
+    if (history.state?.statut) {
+      this.selectedAlarme = history.state?.statut;
+      this.GetAllEtats()
+    }
   }
 
   public GetAllEtats(): void {
     this.patrimoineService
-      .GetAllEtats({},this.p)
+      .GetAllEtats({
+        ...(history.state?.statut ? { alarme: history.state?.statut } : {})
+      },this.p)
       .subscribe({
         next: (response) => {
           this.listEtats = response.data.data;
@@ -208,9 +214,9 @@ export class EtatSoldeComponent implements OnInit {
     this.patrimoineService
       .GetAllEtats({
         alarme: this.selectedAlarme,
-        niveau_un_id: this.selectedDirection?.id,
-        niveau_deux_id: this.selectedExploitation?.id,
-        niveau_trois_id: this.selectedUsage,
+        niveau_un_uuid: this.selectedDirection?.uuid,
+        niveau_deux_uuid: this.selectedExploitation?.uuid,
+        niveau_trois_uuid: this.selectedUsage,
         zone_trafic: this.selectedZone,
         msisdn: this.selectedMsisdn,
         imsi: this.selectedImsi,

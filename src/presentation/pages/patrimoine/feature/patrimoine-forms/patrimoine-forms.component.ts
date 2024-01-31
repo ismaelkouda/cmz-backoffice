@@ -76,7 +76,7 @@ export class PatrimoineFormsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("response",this.currentData);
+    console.log("response",this.currentObject);
 
     this.OnGetDetailSim()  
     this.initForm();
@@ -248,9 +248,9 @@ export class PatrimoineFormsComponent implements OnInit {
       this.adminForm.get('zone').patchValue(this.currentObject?.niveau_trois_nom);
       this.adminForm.get('usage').patchValue(this.currentObject?.nom_usage);
     }else{
-      this.adminForm.get('direction_regionale').patchValue(this.currentObject?.niveau_un_id);
-      this.adminForm.get('exploitation').patchValue(this.currentObject?.niveau_deux_id);
-      this.adminForm.get('zone').patchValue(this.currentObject?.niveau_trois_id);
+      this.adminForm.get('direction_regionale').patchValue(this.currentObject?.niveau_un_uuid);
+      this.adminForm.get('exploitation').patchValue(this.currentObject?.niveau_deux_uuid);
+      this.adminForm.get('zone').patchValue(this.currentObject?.niveau_trois_uuid);
       this.adminForm.get('usage').patchValue(this.currentObject?.usage?.id);
     }
     this.adminForm.get('imsi').patchValue(this.currentObject?.imsi);
@@ -294,9 +294,9 @@ export class PatrimoineFormsComponent implements OnInit {
       .UpdatePatrimoine({
         ...this.adminForm.value,
         sim_id: this.currentObject?.id,
-        niveau_un_id: this.adminForm.get('direction_regionale').value,
-        niveau_deux_id: this.adminForm.get('exploitation').value,
-        niveau_trois_id: this.adminForm.get('zone').value,
+        niveau_un_uuid: this.adminForm.get('direction_regionale').value,
+        niveau_deux_uuid: this.adminForm.get('exploitation').value,
+        niveau_trois_uuid: this.adminForm.get('zone').value,
         usage_id: this.adminForm.get('usage').value,
       }).subscribe({
         next: (response) => {

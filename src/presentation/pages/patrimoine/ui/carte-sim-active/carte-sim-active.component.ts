@@ -1,8 +1,6 @@
 import { ExcelService } from './../../../../../shared/services/excel.service';
 import { MappingService } from './../../../../../shared/services/mapping.service';
 import { SimStatut } from './../../../../../shared/enum/SimStatut.enum';
-import { Activity } from './../../../../../shared/enum/Activity.enum';
-
 import { PatrimoineService } from './../../data-access/patrimoine.service';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
@@ -53,6 +51,7 @@ export class CarteSimActiveComponent implements OnInit {
   public selectedimsi: string;
   public selectedStatut: string;
   public selectedUsage: string;
+  public selectedNiveauTrois: string;
   public selectedZone: string;
   public selectedEmplacement: string
   public currentOperation: any;
@@ -91,6 +90,7 @@ export class CarteSimActiveComponent implements OnInit {
  public suspension: string = OperationTransaction.SUSPENSION;
  public resiliation: string = OperationTransaction.RESILIATION;
  public volume: string = OperationTransaction.VOLUME_DATA;
+ public historie: any;
 
   constructor(
     public toastrService: ToastrService,
@@ -103,31 +103,35 @@ export class CarteSimActiveComponent implements OnInit {
     private router: Router,
     private excelService: ExcelService
   ) {
-    this.listStatus = [SimStatut.ACTIF, SimStatut.SUSPENDU, SimStatut.RESILIE]    
+    this.listStatuts = [SimStatut.ACTIF, SimStatut.SUSPENDU, SimStatut.RESILIE]    
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.applicationType = this.mappingService.applicationType;
-    this.patrimoineType = ApplicationType.PATRIMOINESIM;
-
-    this.listStatuts = ['actif','suspendu', 'resilié']
-    
+    this.patrimoineType = ApplicationType.PATRIMOINESIM;  
+  
   }
 
   ngOnInit() {
     this.GetAllPatrimoines();
     this.GetAllFirstLevel();
     this.GetAllThirdLevel();
+    this.GetAllUsages()
     this.isFilter();
     this.disableAction();
     this.route.data.subscribe((data) => {
       this.module = data.module;
       this.subModule = data.subModule[0];
     });
+    if (history.state?.statut) {
+      this.selectedStatut = history.state?.statut
+    }    
   }
   public GetAllPatrimoines() {
     this.patrimoineService
-      .GetAllPatrimoines({}, this.p)
+      .GetAllPatrimoines({
+        ...(history.state?.statut ? { statut: history.state?.statut } : {})
+      }, this.p)
       .subscribe({
         next: (response) => {
           this.listPatrimoines = response.data.data;
@@ -153,9 +157,10 @@ export class CarteSimActiveComponent implements OnInit {
   public onFilter() {
     this.patrimoineService
       .GetAllPatrimoines({
-        niveau_un_id: this.selectedDirection?.id,
-        niveau_deux_id: this.selectedExploitation?.id,
-        niveau_trois_id: this.selectedUsage,
+        niveau_un_uuid: this.selectedDirection?.uuid,
+        niveau_deux_uuid: this.selectedExploitation?.uuid,
+        niveau_trois_uuid: this.selectedNiveauTrois,
+        usage_id: this.selectedUsage,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
         zone_trafic: this.selectedZone,
@@ -181,6 +186,7 @@ export class CarteSimActiveComponent implements OnInit {
     this.GetAllPatrimoines();
     this.selectedDirection = null;
     this.selectedExploitation = null;
+    this.selectedNiveauTrois = null
     this.selectedUsage = null;
     this.selectedSim = null;
     this.selectedimsi = null;
@@ -222,7 +228,18 @@ export class CarteSimActiveComponent implements OnInit {
         }
       })
   }
-
+  public GetAllUsages(): void {
+    this.patrimoineService
+      .GetAllUsages({})
+      .subscribe({
+        next: (response) => {
+          this.listUsages = response['data']
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
   public suspensionForm(content, data) {
     this.currentOperation = { ...data, type: SimStatut.SUSPENDU };
     this.modalService.open(content);
@@ -370,7 +387,7 @@ export class CarteSimActiveComponent implements OnInit {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
   public isFilter(): boolean {
-    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi && !this.selectedStatut && !this.selectedUsage && !this.selectedZone && !this.selectedEmplacement) ? true : false
+    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi && !this.selectedStatut && !this.selectedUsage && !this.selectedZone && !this.selectedEmplacement && !this.selectedNiveauTrois) ? true : false
   }
   public disableAction(): boolean {
     return (this.listPatrimoines === undefined || this.listPatrimoines?.length === 0) ? true : false

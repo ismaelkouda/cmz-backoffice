@@ -9,7 +9,7 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label>
-                    <b>Nom {{currentLevelLibelle}}<span class="text-danger">*</span></b>
+                    <b>{{currentLevelLibelle}}<span class="text-danger">*</span></b>
                   </label>
                   <input placeholder="Saisir le nom" [(ngModel)]="selectedNom" type="text" pInputText />
                 </div>
@@ -22,6 +22,23 @@
                   <input placeholder="Saisir le code" [(ngModel)]="selectedCodes" type="text" pInputText />
                 </div>
               </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>{{parentLevelLibelle}}<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listFirstLevelDatas" [placeholder]="parentLevelLibelle" [(ngModel)]="selectedParent"
+                    optionLabel="nom" optionValue="uuid">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.nom}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
               <div class="col-md-1">
                 <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="isFilter()"
                   (click)="onFilter()"></p-button>
@@ -29,7 +46,7 @@
             </div>
             <hr>
             <div class="table_actions_wrapper">
-              <button pButton pRipple [label]="'Ajout Simple'" icon="pi pi-plus" (click)="openForm(content)"
+              <button pButton pRipple [label]="'Ajout Simple'" icon="pi pi-plus" (click)="openForm()"
                 class="p-button-success"></button>
               <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
                 (click)="GellCurrentLevel()"></button>
@@ -41,7 +58,7 @@
                       données" [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                   <div class="table_header">
-                    <app-table-header [count]="currentLevelLibelle" [legende]="currentLevelLibelle | titlecase"></app-table-header>
+                    <app-table-header [count]="listCurrentLevelDatas" [legende]="currentLevelMenus | titlecase"></app-table-header>
                     <div class="table_header__input">
                       <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
@@ -55,9 +72,8 @@
                   <tr>
                     <th class="text-center" [style]="{width: '1.5rem'}">#</th>
                     <th>{{currentLevelLibelle}}</th>
-                    <th>Code</th>
-                    <th>{{parentLevelLibelle}}</th>
-                    <th [style]="{width: '14rem'}"># SIM Affectées</th>
+                    <th class="text-center">Code</th>
+                    <th class="text-center">{{parentLevelLibelle}}</th>
                     <th class="text-center" [style]="{width: '7rem'}">Actions</th>
                   </tr>
                 </ng-template>
@@ -67,71 +83,21 @@
                     <td (click)="copyData(data?.nom)" style="cursor: pointer">{{data?.nom}}</td>
                     <td (click)="copyData(data?.code)" style="cursor: pointer" class="text-center">{{data?.code}}</td>
                     <td class="text-center">{{data?.niveau_un?.nom}}</td>
-                    <td class="text-center">
-                      <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
-                        label="Visualiser ({{data.sims_count}})" class="p-button" (click)="onViewVisualisation(data)"
-                        [disabled]="data?.sims_count === 0"></button>
-                    </td>
                     <td class=" td-actions">
                       <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
                         (click)="onShowForm(data,content)" class="p-button-dark"></button>
                       <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
                         (click)="onEditForm(data,content)" class="p-button-secondary"></button>
-                      <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Supprimer"
-                        tooltipPosition="top"></p-button>
                     </td>
                   </tr>
                 </ng-template>
               </p-table>
             </div>
           </div>
+          <app-form-second-level [currentObject]="currentObject" *ngIf="formsView"
+          (formsView)="pushStatutView($event)" (listCurrentLevelDatas)="pushListDatas($event)"></app-form-second-level>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-------------------FORMULAIRE---------FIRSTLEVEL----------WRAPPER------------->
-
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{currentLevelLibelle}}</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
-  </div>
-  <div class="modal-body" [formGroup]="adminForm" novalidate>
-    <div class="form-group">
-      <label><b>Nom<span class="text-danger">*</span></b></label>
-      <input type="text" formControlName="nom" pInputText />
-    </div>
-    <div class="form-group mt-3">
-      <label><b>Code<span class="text-danger">*</span></b></label>
-      <input type="text" formControlName="code" pInputText />
-    </div>
-    <div class="form-group mt-3">
-      <label>
-        <b>{{parentLevelLibelle}}<span class="text-danger">*</span></b>
-      </label>
-      <p-dropdown [options]="listFirstLevelDatas" [placeholder]="parentLevelLibelle" formControlName="niveau_un_id"
-        optionLabel="nom" optionValue="id">
-        <ng-template let-data pTemplate="item">
-          <div class="country-item">
-            <div>
-              {{data.nom}}
-            </div>
-          </div>
-        </ng-template>
-      </p-dropdown>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <div>
-      <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
-    </div>
-    <div *ngIf="!isShow">
-      <button type="button" class="btn btn-save" (click)="!isEdit
-              ? OnSaveSecondLevel()
-              : OnUpdateSecondLevel()" [disabled]="!adminForm.valid">{{!isEdit ? 'Valider':
-        'Modifiier'}}</button>
-    </div>
-  </div>
-</ng-template>

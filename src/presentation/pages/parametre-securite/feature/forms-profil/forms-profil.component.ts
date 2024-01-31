@@ -109,19 +109,19 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
         this.habilitationSourceFiles.map(parentHabilitation => {
           if (parentHabilitation?.label === this.firstLevelLibelle) {
             parentHabilitation?.children.map((niveau) => {            
-              if (this.currentObject.habilitationsNiveauUn.includes(niveau.id)) {
+              if (this.currentObject.habilitationsNiveauUn.includes(niveau.uuid)) {
                 this.selectedItemsHabilitationSource.push(niveau)
               }
             })
           }else if (parentHabilitation?.label === this.thirdLevelLibelle) {
             parentHabilitation?.children.map((niveau) => {            
-              if (this.currentObject.habilitationsNiveauTrois.includes(niveau.id)) {
+              if (this.currentObject.habilitationsNiveauTrois.includes(niveau.uuid)) {
                 this.selectedItemsHabilitationSource.push(niveau)
               }
             })
           }else if (parentHabilitation?.label === this.secondLevelLibelle) {
             parentHabilitation?.children.map((niveau) => {            
-              if (this.currentObject.habilitationsNiveauDeux.includes(niveau.id)) {
+              if (this.currentObject.habilitationsNiveauDeux.includes(niveau.uuid)) {
                 this.selectedItemsHabilitationSource.push(niveau)
               }
               
@@ -187,18 +187,25 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
     const thirdArray = []
     this.selectedItemsHabilitationSource.map((element) => {
       if (element?.parent?.label === this.firstLevelLibelle) {
-        firstArray.push(element.id)
+        firstArray.push(element.uuid)
       }else if(element?.parent?.label === this.secondLevelLibelle){
-        secondArray.push(element.id)
+        secondArray.push(element.uuid)
       }else if(element?.parent?.label === this.thirdLevelLibelle){
-        thirdArray.push(element.id)
+        thirdArray.push(element.uuid)
       }
     });
     this.parametreSecuriteService
       .handleSaveProfilHabilitation({
         nom: this.selectedNom,
         description: this.selectedDescription,
-        permissions: selectedItemsDataSource,
+        permissions: [
+          ...selectedItemsDataSource,
+          '7-0-0-structure-orga',
+           '7-1-0-structure-orga-niveau-1',
+           '7-2-0-structure-orga-niveau-2',
+           '7-3-0-structure-orga-niveau-3',
+           '7-4-0-structure-orga-usage'
+        ],
         niveau_uns: firstArray,
         niveau_deux: secondArray,
         niveau_trois: thirdArray
@@ -218,11 +225,11 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
     const thirdArray = []
     this.selectedItemsHabilitationSource.map((element) => {
       if (element?.parent?.label === this.firstLevelLibelle) {
-        firstArray.push(element.id)
+        firstArray.push(element.uuid)
       }else if(element?.parent?.label === this.secondLevelLibelle){
-        secondArray.push(element.id)
+        secondArray.push(element.uuid)
       }else if(element?.parent?.label === this.thirdLevelLibelle){
-        thirdArray.push(element.id)
+        thirdArray.push(element.uuid)
       }
     });
     const selectedItemsDataSource = this.selectedItemsDataSource.map(element => element.data);
@@ -230,7 +237,14 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
       .handleUpdateProfilHabilitation({
         nom: this.selectedNom,
         description: this.selectedDescription,
-        permissions: selectedItemsDataSource,
+        permissions: [
+            ...selectedItemsDataSource,
+            '7-0-0-structure-orga',
+             '7-1-0-structure-orga-niveau-1',
+             '7-2-0-structure-orga-niveau-2',
+             '7-3-0-structure-orga-niveau-3',
+             '7-4-0-structure-orga-usage'
+          ],
         niveau_uns: firstArray,
         niveau_deux: secondArray,
         niveau_trois: thirdArray

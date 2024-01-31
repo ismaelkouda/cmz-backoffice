@@ -66,7 +66,7 @@ export var menuJson = [
                 path: `/${PATRIMOINE}/${DOWNLOAD_FILE}`,
                 title: "Téléchargements",
                 label: "Téléchargements",
-                data: "1-5-0-transaction-sur-sim",
+                data: "1-6-0-telechargement",
                 type: "link",
                 pack: ApplicationType.MONITORING
             }

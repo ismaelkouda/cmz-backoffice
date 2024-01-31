@@ -50,14 +50,30 @@
                   <input placeholder="MSISDN" [(ngModel)]="selectedSim" type="text" pInputText />
                 </div>
               </div>
-
-              <div class="col-md-2">
+              <div [style]="{width: '11rem'}">
                 <div class="form-group">
                   <label>
                     <b>Statut</b>
                   </label>
-                  <p-dropdown [options]="listStatuts" [showClear]="true" [(ngModel)]="selectedStatut"
+                  <p-dropdown [options]="listStatuts" [showClear]="true" (onChange)="OnChangeStatut($event)" [(ngModel)]="selectedStatut"
                     placeholder="Statut">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data | titlecase}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div [style]="{width: '12rem'}">
+                <div class="form-group">
+                  <label>
+                    <b>Traitement</b>
+                  </label>
+                  <p-dropdown [options]="listTraitementTransactions" [showClear]="true" [(ngModel)]="selectedTraitement"
+                    placeholder="Traitement">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>

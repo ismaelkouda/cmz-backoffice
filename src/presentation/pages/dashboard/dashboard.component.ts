@@ -1,7 +1,14 @@
+import { CARTES_SIM, ETAT_SOLDE, TRANSACTION_SIM } from './../patrimoine/patrimoine-routing.module';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
+import { SimStatut } from 'src/shared/enum/SimStatut.enum';
+import { TypeAlarme } from 'src/shared/enum/TypeAlarme.enum';
+import { PATRIMOINE } from 'src/shared/routes/routes';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
+import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 
 @Component({
   selector: 'app-dashboard',
@@ -45,7 +52,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private htpp: HttpClient,
-    public mappingService: MappingService
+    public mappingService: MappingService,
+    public router: Router
   ) {
     this.baseUrl = this.mappingService.baseUrl
     this.applicationType = this.mappingService.applicationType;
@@ -81,6 +89,56 @@ export class DashboardComponent implements OnInit {
 
         }
       })
+  }
+  public OnFilterByLegend(legend: string): void {
+    switch (legend) {
+      // SIMS FILTER
+      case 'Total SIM':
+        this.router.navigateByUrl(`${PATRIMOINE}/${CARTES_SIM}`);
+        break;
+      case 'SIM Actives':
+        this.router.navigateByUrl(`${PATRIMOINE}/${CARTES_SIM}`, { state: { statut: SimStatut.ACTIF } });
+        break;
+      case 'SIM Suspendues':
+        this.router.navigateByUrl(`${PATRIMOINE}/${CARTES_SIM}`, { state: { statut: SimStatut.SUSPENDU } });
+        break;
+      case 'SIM Resiliées':
+          this.router.navigateByUrl(`${PATRIMOINE}/${CARTES_SIM}`, { state: { statut: SimStatut.RESILIE } });
+          break;
+
+      // SOLDES ETAT SIM  
+      case 'SIM Alarmes Normales':
+        this.router.navigateByUrl(`${PATRIMOINE}/${ETAT_SOLDE}`, { state: { statut: TypeAlarme.NORMAL } });
+        break;
+      case 'SIM Alarmes Mineures':
+        this.router.navigateByUrl(`${PATRIMOINE}/${ETAT_SOLDE}`, { state: { statut: TypeAlarme.MINEUR } });
+        break;
+      case 'SIM Alarmes Majeures':
+        this.router.navigateByUrl(`${PATRIMOINE}/${ETAT_SOLDE}`, { state: { statut: TypeAlarme.MAJEUR } });
+        break;  
+      case 'SIM Alarmes Critiques':
+        this.router.navigateByUrl(`${PATRIMOINE}/${ETAT_SOLDE}`, { state: { statut: TypeAlarme.CRITIQUE } });
+        break;
+
+      //DEMANDES  
+
+      case '# Demandes en Attentes':
+        this.router.navigateByUrl(`${PATRIMOINE}/${TRANSACTION_SIM}`, { state:{ statut: StatutTransaction.SOUMIS,traitement: TraitementTransaction.EN_ENTENTE}});
+        break;
+      case '# Demandes Traitées':
+          this.router.navigateByUrl(`${PATRIMOINE}/${TRANSACTION_SIM}`, { state: { statut: StatutTransaction.TARITER} });
+        break;
+      case '# Demandes Clôturées':
+        this.router.navigateByUrl(`${PATRIMOINE}/${TRANSACTION_SIM}`, { state: { statut: StatutTransaction.CLOTURER } });
+        break;  
+      case '# Demandes Abandonnées':
+        this.router.navigateByUrl(`${PATRIMOINE}/${TRANSACTION_SIM}`, { state: { traitement: TraitementTransaction.ABANDONNER } });
+        break;
+
+        default:
+        console.warn('Légende non prise en charge');
+        break;
+    }
   }
 
 }

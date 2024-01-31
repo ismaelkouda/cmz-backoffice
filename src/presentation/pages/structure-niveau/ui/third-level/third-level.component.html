@@ -29,7 +29,7 @@
             </div>
             <hr>
             <div class="table_actions_wrapper">
-              <button pButton pRipple [label]="'Ajout Simple'" icon="pi pi-plus" (click)="openForm(content)"
+              <button pButton pRipple [label]="'Ajout Simple'" icon="pi pi-plus" (click)="openForm()"
                 class="p-button-success"></button>
               <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
                 (click)="GellCurrentLevel()"></button>
@@ -41,7 +41,7 @@
                       données" [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                   <div class="table_header">
-                    <app-table-header [count]="currentLevelLibelle" [legende]="currentLevelLibelle | titlecase"></app-table-header>
+                    <app-table-header [count]="currentLevelLibelle" [legende]="currentLevelMenus | titlecase"></app-table-header>
                     <div class="table_header__input">
                       <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
@@ -77,38 +77,10 @@
               </p-table>
             </div>
           </div>
+          <app-form-third-level [currentObject]="currentObject" *ngIf="formsView"
+          (formsView)="pushStatutView($event)" (listCurrentLevelDatas)="pushListDatas($event)"></app-form-third-level>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-------------------FORMULAIRE---------FIRSTLEVEL----------WRAPPER------------->
-
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{currentLevelLibelle}}</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
-  </div>
-  <div class="modal-body" [formGroup]="adminForm" novalidate>
-    <div class="form-group">
-      <label><b>Nom<span class="text-danger">*</span></b></label>
-      <input type="text" formControlName="nom" pInputText />
-    </div>
-    <div class="form-group mt-3">
-      <label><b>Code<span class="text-danger">*</span></b></label>
-      <input type="text" formControlName="code" pInputText />
-    </div>
-  </div>
-  <div class="modal-footer">
-    <div>
-      <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
-    </div>
-    <div *ngIf="!isShow">
-      <button type="button" class="btn btn-save" (click)="!isEdit
-              ? OnSaveThirdLevel()
-              : OnUpdateThirdLevel()" [disabled]="!adminForm.valid">{{!isEdit ? 'Valider':
-        'Modifiier'}}</button>
-    </div>
-  </div>
-</ng-template>

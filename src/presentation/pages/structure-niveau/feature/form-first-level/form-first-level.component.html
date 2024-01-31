@@ -1,0 +1,195 @@
+<div class="container-fluid">
+  <div>
+    <div class="container_flex_space_between mb-3">
+      <div *ngIf="currentObject?.type === 'affectation' || currentObject?.type === 'visualiser'">
+        <h3>
+          <b>
+            <span *ngIf="currentObject?.type === 'affectation'">Affectation de {{secondLevelMenus}} au {{firstLevelLibelle}}</span>
+            <span *ngIf="currentObject?.type === 'visualiser'">{{secondLevelMenus}} affectées au {{firstLevelLibelle}}</span>
+            <span class="current_values">[{{currentObject?.nom}}]</span>
+          </b>
+        </h3>
+      </div>
+      <div *ngIf="!currentObject || currentObject?.type === 'edit' || currentObject?.type === 'show' "
+        class="filter_wrapper" [formGroup]="adminForm" style="display: flex;gap: 1rem;">
+        <div style="width: 15rem;">
+          <div class="form-group">
+            <label>
+              <b>Nom du {{firstLevelLibelle}}<span class="text-danger">*</span></b>
+            </label>
+            <input placeholder="Nom" formControlName="nom" type="text" pInputText />
+          </div>
+        </div>
+        <div style="width: 20rem;">
+          <div class="form-group">
+            <label>
+              <b>Code<span class="text-danger">*</span></b>
+            </label>
+            <input placeholder="Code" formControlName="code" type="text" pInputText />
+          </div>
+        </div>
+      </div>
+      <div class="mt-0">
+        <button pButton pRipple label="Enregistrer" [disabled]="!adminForm.valid"
+          *ngIf="!currentObject || currentObject?.type === 'edit'" icon="pi pi-save" class="p-button-success" (click)="!currentObject
+                        ? HandleSaveGroupe()
+                        : HandleUpdateGroupe()" style="margin-left: 1rem;"></button>
+        <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
+          style="margin-left: 1rem;" (click)="OnRefresh()"></button>
+        <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"
+          style="margin-left: 1rem;"></button>
+        <button pButton pRipple label="Fermer" class="p-button-danger" style="margin-left: 1rem;"
+          (click)="close()"></button>
+      </div>
+    </div>
+    <div class="container_flex_space_between" *ngIf="currentObject?.type !== 'edit'">
+      <div class="row filter_wrapper" [ngStyle]="{width: '100%'}">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>
+              <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
+            </label>
+            <input placeholder="Saisir le nom" [(ngModel)]="selectedNom" type="text" pInputText />
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>
+              <b>Code<span class="text-danger">*</span></b>
+            </label>
+            <input placeholder="Saisir le code" [(ngModel)]="selectedCodes" type="text" pInputText />
+          </div>
+        </div>
+        <div class="col-md-1">
+          <p-button styleClass="p-button-success filter-button" (click)="OnFilterALl()" icon="pi pi-filter"
+            [disabled]="isFilter()" ></p-button>
+        </div>
+      </div>
+      <div class="table_actions_wrapper mt-3" style="height: fit-content;">
+        <button *ngIf="currentObject?.type === 'affectation'" pButton pRipple label="Affecter" icon="pi pi-arrow-right"
+          class="p-button-success" [disabled]="checkconsumerList?.length ===0"
+          (click)="handleSaveAffectation()"></button>
+        <button *ngIf="currentObject?.type === 'visualiser'" pButton pRipple label="Retirer" icon="pi pi-times"
+          class="p-button-danger" [disabled]="checkconsumerList?.length === 0" (click)="handleRetraitSim()"></button>
+        <button *ngIf="currentObject?.type === 'visualiser'" pButton pRipple label="Réaffecter" icon="pi pi-arrows-h"
+          class="p-button-success" (click)="openForm(content)" [disabled]="checkconsumerList?.length === 0"></button>
+      </div>
+    </div>
+    <hr>
+    <div class="table_content_wrapper" *ngIf="currentObject?.type !== 'show' && currentObject?.type !== 'edit'">
+      <p-table #dt [value]="listAffectations" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+        [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+              données" [showCurrentPageReport]="true">
+        <ng-template pTemplate="caption">
+          <div class="table_header">
+            <app-tab-view-header *ngIf="currentObject?.type === 'affectation'" [legende]="'Liste des'+secondLevelMenus+'non affectées'"></app-tab-view-header>
+            <app-tab-view-header *ngIf="currentObject?.type === 'visualiser'" [legende]="'Liste des'+secondLevelMenus+'affectées'"></app-tab-view-header>
+            <div class="table_header__input">
+              <span class="p-input-icon-left ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                  placeholder="Recherche" />
+              </span>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="text-center" [style]="{width: '1.5rem'}">#</th>
+            <th>{{currentLevelLibelle}}</th>
+            <th class="text-center">Code</th>
+            <th class="text-center" [ngStyle]="{width: '1rem'}" *ngIf="currentObject?.type !== 'show'">
+              <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template let-i="rowIndex" pTemplate="body" let-data>
+          <tr>
+            <td>{{ i + 1}}</td>
+            <td>
+              <span *ngIf="currentObject">{{data?.nom}}</span>
+            </td>
+            <td (click)="copyData(data.code)" style="cursor: pointer">{{data?.code}}</td>
+            <td *ngIf="currentObject?.type !== 'show'">
+              <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
+                (click)="onCheckedOneConsumer(data)"></p-checkbox>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div *ngIf="currentObject?.type === 'show'">
+      <p-tabView *ngIf="currentObject !== undefined">
+        <p-tabPanel [header]="'LISTE DES'+ secondLevelMenus">
+          <div class="table_header">
+            <app-tab-view-header [legende]="'Liste des'+secondLevelMenus+'affectées'"></app-tab-view-header>
+          </div>
+          <div class="table_content_wrapper">
+            <p-table #dt [value]="listAffectations" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+              [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+                    données" [showCurrentPageReport]="true">
+              <ng-template pTemplate="caption">
+                <div class="table_header">
+                  <app-tab-view-header *ngIf="currentObject?.type === 'affectation'" [legende]="'Liste des'+secondLevelMenus+'non affectées'"></app-tab-view-header>
+                  <app-tab-view-header *ngIf="currentObject?.type === 'visualiser'" [legende]="'Liste des'+secondLevelMenus+'affectées'"></app-tab-view-header>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th class="text-center" [ngStyle]="{width: '3rem'}">#</th>
+                  <th>{{secondLevelLibelle}}</th>
+                  <th class="text-center">Code</th>
+                  <th class="text-center" [ngStyle]="{width: '1rem'}" *ngIf="currentObject?.type !== 'show'">
+                    <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
+                </tr>
+              </ng-template>
+              <ng-template let-i="rowIndex" pTemplate="body" let-data>
+                <tr>
+                  <td class="text-center">{{ i + 1}}</td>
+                  <td (click)="copyData(data.nom)" style="cursor: pointer">{{data?.nom}}</td>
+                  <td class="text-center" (click)="copyData(data.code)" style="cursor: pointer">{{data?.code}}</td>
+                  <td class="text-center" *ngIf="currentObject?.type !== 'show'">
+                    <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
+                      ></p-checkbox>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="HISTORIQUE">
+          <app-historique [module]="'PATRIMOINE SIM'" [modele]="'groupe_sims'" [modele_id]="currentObject?.id"></app-historique>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div>
+<!----------------------------------REAFECTATION---------------------SIM--------------->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Réafectation du {{secondLevelLibelle}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body" novalidate>
+    <div class="form-group">
+      <label><b>{{firstLevelMenus}}<span class="text-danger">*</span></b></label>
+      <p-dropdown [options]="listGroupes" [(ngModel)]="selectedGroupe" optionLabel="nom" optionValue="id"
+        [showClear]="true" placeholder="Selectionner le profil">
+        <ng-template let-data pTemplate="item">
+          <div class="country-item">
+            <div>{{data.nom}}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <div>
+      <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
+    </div>
+    <div>
+      <button type="button" class="btn btn-save" (click)="handleSaveReaffectation()"
+        [disabled]="!selectedGroupe">Valider</button>
+    </div>
+  </div>
+</ng-template>

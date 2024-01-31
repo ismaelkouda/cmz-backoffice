@@ -27,6 +27,7 @@ export class FirstLevelComponent implements OnInit {
   public selectedNom: string;
   public selectedCode: string;
   public firstLevelLibelle: string;
+  public firstLevelMenus: string;
   public firstLevelLibelleSplit: string;
   public secondLevelLibelle: string;
   public currentLevel: any;
@@ -46,15 +47,15 @@ export class FirstLevelComponent implements OnInit {
     private fb: FormBuilder
 
   ) {
-    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1_menu;
-    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2_menu;
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.firstLevelMenus = this.mappingService.structureGlobale?.niveau_1_menu;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
   }
 
   ngOnInit() {
     this.GellAllFirstLevel();
     this.GellAllSecondLevel();
     this.onInitForm();
-    this.onInitAffectation();
     this.isFilter();
   }
 
@@ -124,78 +125,39 @@ export class FirstLevelComponent implements OnInit {
     this.adminForm.reset();
     this.adminForm.enable();
   }
-  onEditForm(item: any, content: any) {
-    this.currentLevel = item;
-    this.isEdit = true;
-    this.isShow = false;
-    this.modalService.open(content);
-    this.adminForm.get('nom').patchValue(item?.nom);
-    this.adminForm.get('code').patchValue(item?.code);
-    this.adminForm.enable();
+  public OnOpenForm(): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = undefined;
+  }
+  public onEditForm(data: any): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, type: 'edit' };
+  }
+  public onShowForm(data: any): void {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, type: 'show' };
+  }
+  OnAffectaion(data) {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, type: 'affectation' };
+  }
+  OnVisualisation(data) {
+    this.initialView = false;
+    this.formsView = true;
+    this.currentObject = { ...data, type: 'visualiser' };
+  }
+  public pushStatutView(event: boolean): void {
+    this.formsView = event;
+    this.initialView = !event;
+  }
+  public pushListProfils(event: any): void {
+    this.listFirstLevelDatas = event;
   }
 
-  onShowForm(item: any, content: any) {
-    this.isShow = true;
-    this.isEdit = false;
-    this.modalService.open(content);
-    this.adminForm.get('nom').patchValue(item?.nom);
-    this.adminForm.get('code').patchValue(item?.code);
-    this.adminForm.disable();
-  }
-  hideForm() {
-    this.modalService.dismissAll();
-    this.adminForm.reset();
-  }
-  OnSaveFirstLevel() {
-    this.settingService
-      .OnSaveDirectionRegionale(this.adminForm.value)
-      .subscribe({
-        next: (response) => {
-          this.adminForm.reset();
-          this.hideForm();
-          this.GellAllFirstLevel();
-          this.toastrService.success(response.message);
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
-        }
-      })
-  }
-  OnUpdateFirstLevel() {
-    this.settingService
-      .OnUpdateDirectionRegionale({
-        niveau_un_id: this.currentLevel?.id,
-        ...this.adminForm.value,
-      })
-      .subscribe({
-        next: (response) => {
-          this.adminForm.reset();
-          this.hideForm();
-          this.GellAllFirstLevel();
-          this.toastrService.success(response.message);
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
-        }
-      })
-  }
-
-  //Affectation Form
-  onInitAffectation() {
-    this.affectationForm = this.fb.group({
-      niveau_un_id: [''],
-      niveau_deux: ['', [Validators.required]],
-    })
-  }
-  openAffectationForm(item: any, content: any) {
-    this.modalService.open(content);
-    this.affectationForm.get('niveau_un_id').patchValue(item?.niveau_un_id);
-    this.affectationForm.reset();
-  }
-  hideAffeactationForm() {
-    this.modalService.dismissAll();
-    this.affectationForm.reset();
-  }
 
   public OnExportExcel(): void {
     const data = this.listFirstLevelDatas.map((item: any) => ({

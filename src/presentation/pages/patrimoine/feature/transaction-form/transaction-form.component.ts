@@ -171,9 +171,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       direction_regionale: ['', [Validators.required]],
       exploitation: ['',[Validators.required]],
       zone: ['', [Validators.required]],
-      niveau_un_id: [''],
-      niveau_deux_id: [''],
-      niveau_trois_id: [''],
+      niveau_un_uuid: [''],
+      niveau_deux_uuid: [''],
+      niveau_trois_uuid: [''],
       usage_id: ['', [Validators.required]],
       point_emplacement: [''],
       adresse_geographique: [''],
@@ -375,9 +375,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       baseUrl = `${this.baseUrl}${EndPointUrl.SWAPER_SIM}`
     } else if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
       this.adminForm.patchValue({
-        niveau_un_id: this.adminForm.get('direction_regionale').value,
-        niveau_deux_id: this.adminForm.get('exploitation').value,
-        niveau_trois_id: this.adminForm.get('zone').value,
+        niveau_un_uuid: this.adminForm.get('direction_regionale').value,
+        niveau_deux_uuid: this.adminForm.get('exploitation').value,
+        niveau_trois_uuid: this.adminForm.get('zone').value,
         statut_contrat: this.adminForm.get('statut').value
       })
       this.adminForm.get('direction_regionale').disable()
@@ -490,9 +490,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
 
   public onFormPachValues(): void {
         //Identification Controls
-    this.adminForm.get('niveau_un_id').patchValue(this.currentPatrimoine?.niveau_uns_nom);
-    this.adminForm.get('niveau_deux_id').patchValue(this.currentPatrimoine?.niveau_deux_nom);
-    this.adminForm.get('niveau_trois_id').patchValue(this.currentPatrimoine?.niveau_trois_nom);
+    this.adminForm.get('niveau_un_uuid').patchValue(this.currentPatrimoine?.niveau_uns_nom);
+    this.adminForm.get('niveau_deux_uuid').patchValue(this.currentPatrimoine?.niveau_deux_nom);
+    this.adminForm.get('niveau_trois_uuid').patchValue(this.currentPatrimoine?.niveau_trois_nom);
     this.adminForm.get('usage_id').patchValue(this.currentPatrimoine?.nom_usage);
     this.adminForm.get('imsi').patchValue(this.currentPatrimoine?.imsi);
     this.adminForm.get('msisdn').patchValue(this.currentPatrimoine?.msisdn);

@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { StructureFormComponent } from './structure-form.component';
+import { FormSecondLevelComponent } from './form-second-level.component';
 
-describe('StructureFormComponent', () => {
-  let component: StructureFormComponent;
-  let fixture: ComponentFixture<StructureFormComponent>;
+describe('FormSecondLevelComponent', () => {
+  let component: FormSecondLevelComponent;
+  let fixture: ComponentFixture<FormSecondLevelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StructureFormComponent ]
+      declarations: [ FormSecondLevelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StructureFormComponent);
+    fixture = TestBed.createComponent(FormSecondLevelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

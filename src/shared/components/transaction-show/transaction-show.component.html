@@ -563,8 +563,8 @@
                     <label>
                       <b>{{firstLevelLibelle}}</b>
                     </label>
-                    <p-dropdown [options]="listFirstLevel" formControlName="niveau_un_id" optionLabel="nom"
-                      optionValue="id" [filter]="true" filterBy="nom">
+                    <p-dropdown [options]="listFirstLevel" formControlName="niveau_un_uuid" optionLabel="nom"
+                      optionValue="uuid" [filter]="true" filterBy="nom">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -580,8 +580,8 @@
                     <label>
                       <b>{{secondLevelLibelle}}</b>
                     </label>
-                    <p-dropdown [options]="listSecondLevel" formControlName="niveau_deux_id" optionLabel="nom"
-                      optionValue="id" [filter]="true" filterBy="nom">
+                    <p-dropdown [options]="listSecondLevel" formControlName="niveau_deux_uuid" optionLabel="nom"
+                      optionValue="uuid" [filter]="true" filterBy="nom">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -597,8 +597,8 @@
                     <label>
                       <b>{{thirdLevelLibelle}}</b>
                     </label>
-                    <p-dropdown [options]="listThirdLevel" formControlName="niveau_trois_id" optionLabel="nom"
-                      optionValue="id">
+                    <p-dropdown [options]="listThirdLevel" formControlName="niveau_trois_uuid" optionLabel="nom"
+                      optionValue="uuid">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
