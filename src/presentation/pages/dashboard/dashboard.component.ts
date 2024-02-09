@@ -110,7 +110,7 @@ export class DashboardComponent implements OnInit {
       case 'SIM Alarmes Normales':
         this.router.navigateByUrl(`${PATRIMOINE}/${ETAT_SOLDE}`, { state: { statut: TypeAlarme.NORMAL } });
         break;
-      case 'SIM Alarmes Mineures':
+      case 'SIM A larmes Mineures':
         this.router.navigateByUrl(`${PATRIMOINE}/${ETAT_SOLDE}`, { state: { statut: TypeAlarme.MINEUR } });
         break;
       case 'SIM Alarmes Majeures':
@@ -123,20 +123,19 @@ export class DashboardComponent implements OnInit {
       //DEMANDES  
 
       case '# Demandes en Attentes':
-        this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state:{ statut: StatutTransaction.SOUMIS,traitement: TraitementTransaction.EN_ENTENTE}});
+        //this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state:{ statut: StatutTransaction.SOUMIS,traitement: TraitementTransaction.EN_ENTENTE}});
         break;
       case '# Demandes Traitées':
-          this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state: { statut: StatutTransaction.TARITER} });
+          //this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state: { statut: StatutTransaction.TARITER} });
         break;
       case '# Demandes Clôturées':
-        this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state: { statut: StatutTransaction.CLOTURER } });
+        //this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state: { statut: StatutTransaction.CLOTURER } });
         break;  
       case '# Demandes Abandonnées':
-        this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state: { traitement: TraitementTransaction.ABANDONNER } });
+        //this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state: { traitement: TraitementTransaction.ABANDONNER } });
         break;
 
         default:
-        console.warn('Légende non prise en charge');
         break;
     }
   }

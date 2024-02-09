@@ -10,6 +10,8 @@
               [wrapperLabel]="'Demandes Suspensions'"
               (formsView)="pushStatutView($event)"
               (transactionId)="pushTransactionId($event)"
+              [isMasse]="true"
+              [listTransactions]="listTransactions"
               ></app-demande-wrapper>
           </div>
           <div *ngIf="showView">

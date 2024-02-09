@@ -15,6 +15,7 @@ export class DemandeResiliationComponent implements OnInit {
   public module: string;
   public subModule: string;
   public listStatuts: Array<any> = [];
+  public listTransactions: Array<any> = [];
   public initialView: boolean = true;
   public formsView: boolean = false;
   public transactionId: string;
@@ -54,6 +55,10 @@ export class DemandeResiliationComponent implements OnInit {
       this.initialView = false;
       this.formsView = false;
     }
+  }
+
+  public pushListTransactions(event: any): void {    
+    this.listTransactions = event;
   }
 
 }

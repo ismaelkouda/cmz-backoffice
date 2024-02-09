@@ -1,3 +1,4 @@
+import { StatutDemandeComponent } from './feature/statut-demande/statut-demande.component';
 import { DemandeWrapperShowComponent } from './feature/demande-wrapper-show/demande-wrapper-show.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -63,6 +64,7 @@ import { TransactionFormComponent } from './feature/transaction-form/transaction
         DemandeResiliationComponent,
         DemandeWrapperComponent,
         DemandeWrapperShowComponent,
+        StatutDemandeComponent,
         TransactionFormComponent
     ],
 })

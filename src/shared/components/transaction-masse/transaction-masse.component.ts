@@ -10,11 +10,10 @@ import Swal from 'sweetalert2';
 })
 export class TransactionMasseComponent implements OnInit {
 
-  @Output() currentArrayForm = new EventEmitter<string>();
-  @Input() currentArrayHeaders: ['NOM', 'PRENOMS', 'ADRESSE', 'CONTACTS', 'EMAIL', 'PROFIL'] | ['MARQUE', 'MODELE', 'NUMERO_SERIE', 'IMEI1', 'IMEI2', 'SIM1', 'SIM2'];
+  @Output() currentArrayForm = new EventEmitter<any>();
+  @Input() currentArrayHeaders;
   @Input() fileModel: any;
   @Input() typeOuvrage: any;
-  @Input() vue: 'enquetes-terrains' | 'operations-identification';
   @Input() displayModalAjoutEnMasse: boolean;
 
   arrayHeaderExcelFile: Array<any> = [];
@@ -22,60 +21,44 @@ export class TransactionMasseComponent implements OnInit {
   formatData: any[] = [];
   statutCompare: boolean = false;
   fileName: string;
-  commentaire: string;
 
-  constructor( private toastrService: ToastrService ) { }
+  constructor(
+    private toastrService: ToastrService
+    ) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
 
-   closeModalAjoutInMass() { if(this.displayModalAjoutEnMasse) { this.resetFile() } }
+    console.log("currentArrayHeaders",this.currentArrayHeaders);
 
-  // Debut: ajout du fichier excel au formulaire
+  }  
+
+  closeModalAjoutInMass() { if(this.displayModalAjoutEnMasse) { this.resetFile() } }
   onExcelFileChange(event: FileList) {
     if(event.length != 0) {
       readXlsxFile(event[0]).then((rows) => {
-        // debut: recuperer l'entete du fichier excel upload
-        this.arrayHeaderExcelFile = rows[0];
-        // fin: recuperer l'entete du fichier excel upload
-  
-        // debut: recuperer tout le contenu (le corps du fichier) du fichier excel upload
-        this.arrayContentExcelFile = rows;
-        // fin: recuperer tout le contenu (le corps du fichier) du fichier excel upload
-
-        this.arrayContentExcelFile.shift(); // suuprime le premier objet qui est l'entete du tableau
-  
+        this.arrayHeaderExcelFile = rows[0];  
+        this.arrayHeaderExcelFile.shift()
+        this.arrayContentExcelFile = rows;        
+        this.arrayContentExcelFile.shift();
         this.fileName = event[0]?.name;
       });
     } else {
       this.resetFile();
     }
   }
-  // Fin: ajout du fichier excel au formulaire
-
   resetFile() {
     this.arrayHeaderExcelFile = [];
     this.arrayContentExcelFile = [];
     this.fileName = '';
   }
-
-  // Debut: Verifier le fichier excel ajouté au formulaire est conforme au fichier qu'on attends
-  /**
-   * verifie d'abord si le nombre d'entete est exacte et si noms des entetes sont conformes
-   * @param arr1 l'entete du fichier excel upload
-   * @param arr2 le modele d'entete a respecter, il a été initialisé dans le constructor() du parent
-   * @returns un message toastr ou un boolean(true) lorsqu'il y a une erreur; oubien un boolean(false) lorsqu'il n'y a pas d'erreur
-   */
-  isArraySame(arr1: string[], arr2) {
+  isArraySame(arr1: string[], arr2): boolean {
     if (arr1.length !== arr2.length) {
       this.toastrService.error('Nombre de colonne du fichier n\'est le bon');
       return false
-    }else {
-      return arr1.every((value, index) => { value === arr2[index] })
+    }else {    
+      return true
     }
   }
-  // Fin: Verifier le fichier excel ajouté au formulaire est conforme au fichier qu'on attends
-
-  // Debut: Message sweetAlert a afficher quand le fichier excel upload est incorrecte
   messageFileIsNotCorrect() {
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -92,18 +75,14 @@ export class TransactionMasseComponent implements OnInit {
         confirmButtonText: 'ok',
       });
   }
-  // Debut: Message sweetAlert a afficher quand le fichier excel upload est incorrecte
-
-  // Debut: construction de l'object a envoyer au backend
   formatDataToSend() {
     this.arrayContentExcelFile.map((item) => {
       this.formatData.push({...this.arrayHeaderExcelFile.reduce((ac, key, i) => ({ ...ac, [key.toLowerCase()]: item[i] }), {})})
     });
+    this.currentArrayForm.emit(this.formatData);
   }
-  // Fin: construction de l'object a envoyer au backend
-
   checkFile() {
-    const isFileCorrect = this.isArraySame(this.arrayHeaderExcelFile, this.currentArrayHeaders);
+    const isFileCorrect = this.isArraySame(this.arrayHeaderExcelFile, this.currentArrayHeaders);    
     if (isFileCorrect === false) {
       this.messageFileIsNotCorrect()
     } else {
@@ -115,13 +94,5 @@ export class TransactionMasseComponent implements OnInit {
 
   downloadModelXls() {
     window.open(this.fileModel, "_blank");
-  }
-
-  addMasseOperationIdentification(): void {
-    this.currentArrayForm.emit(JSON.stringify({file: this.currentArrayForm, commentaire: this.commentaire}))
-  }
-
-  addMasseEnquetesTerrains(): void {
-    this.currentArrayForm.emit(JSON.stringify(this.formatData));
   }
 }

@@ -30,69 +30,6 @@
       </div>
     </div>
   </div>
-  <!--------------------------FORMS-------------------------->
-  <!---
-  <fieldset style="margin-top: 2.5rem;" *ngIf="currentPatrimoine">
-    <legend [ngStyle]="{width: '100%'}">
-      <b>Type Demande</b>
-    </legend>
-   <div *ngIf="!this.historie" style="display: flex;gap: 2rem;">
-      <div class="trans-radio d-flex gap-2">
-        <p-radioButton name="valeur" [value]="activation"  [(ngModel)]="operationValue"
-          (onClick)="selectedAction(activation)" [inputId]="activation" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label  [for]="activation"style="margin-top: 0.9rem;" >Activation</label>
-      </div>
-      <div class="trans-radio d-flex gap-2" *ngIf="IsPatrimoineType()">
-        <p-radioButton name="valeur" [value]="swap"  [(ngModel)]="operationValue" (onClick)="selectedAction(swap)"
-          [inputId]="swap" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="swap"style="margin-top: 0.9rem">Changement (SIM SWAP)</label>
-      </div>
-      <div class="trans-radio d-flex gap-2">
-        <p-radioButton name="valeur" [value]="resiliation"  [(ngModel)]="operationValue"
-          (onClick)="selectedAction(resiliation)" [inputId]="resiliation" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="resiliation"style="margin-top: 0.9rem">Résiliation</label>
-      </div>
-      <div class="trans-radio d-flex gap-2">
-        <p-radioButton name="valeur" [value]="suspension"  [(ngModel)]="operationValue"
-          (onClick)="selectedAction(suspension)" [inputId]="suspension" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="suspension"style="margin-top: 0.9rem">Suspension</label>
-      </div>
-      <div class="trans-radio d-flex gap-2" *ngIf="IsPatrimoineType()">
-        <p-radioButton name="valeur" [value]="volume"   [(ngModel)]="operationValue" (onClick)="selectedAction(volume)"
-          [inputId]="volume" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="volume"style="margin-top: 0.9rem">Volume (Go)</label>
-      </div>
-    </div> -->
-    <!-- <div style="display: flex;gap: 2rem;">
-      <div class="trans-radio d-flex gap-2" *ngIf="selectedActionValue === activation">
-        <p-radioButton name="valeur" [value]="activation"  [(ngModel)]="operationValue"
-          (onClick)="selectedAction(activation)" [inputId]="activation" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label  [for]="activation"style="margin-top: 0.9rem;" >Activation</label>
-      </div>
-      <div class="trans-radio d-flex gap-2" *ngIf="IsPatrimoineType() && selectedActionValue === swap">
-        <p-radioButton name="valeur" [value]="swap"  [(ngModel)]="operationValue" (onClick)="selectedAction(swap)"
-          [inputId]="swap" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="swap"style="margin-top: 0.9rem">Changement (SIM SWAP)</label>
-      </div>
-      <div class="trans-radio d-flex gap-2" *ngIf="selectedActionValue === resiliation">
-        <p-radioButton name="valeur" [value]="resiliation"  [(ngModel)]="operationValue"
-          (onClick)="selectedAction(resiliation)" [inputId]="resiliation" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="resiliation"style="margin-top: 0.9rem">Résiliation</label>
-      </div>
-      <div class="trans-radio d-flex gap-2" *ngIf="selectedActionValue === suspension">
-        <p-radioButton name="valeur" [value]="suspension"  [(ngModel)]="operationValue"
-          (onClick)="selectedAction(suspension)" [inputId]="suspension" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="suspension"style="margin-top: 0.9rem">Suspension</label>
-      </div>
-      <div class="trans-radio d-flex gap-2" *ngIf="IsPatrimoineType() && selectedActionValue === volume">
-        <p-radioButton name="valeur" [value]="volume"   [(ngModel)]="operationValue" (onClick)="selectedAction(volume)"
-          [inputId]="volume" [style]="{cursor: 'auto'}"></p-radioButton>
-        <label [for]="volume"style="margin-top: 0.9rem">Volume (Go)</label>
-      </div>
-    </div> 
-  </fieldset>
--->
-
   <!-----------------------------TRANSACTION SAMPLE-------------------------------->
   <div *ngIf="typeDemande === 'simple'">
   <!------------------------------ACTIVATION--------FORMS-------------------------------->
@@ -596,14 +533,141 @@
   </div>
     <!-----------------------------TRANSACTION MASSE-------------------------------->
     <div *ngIf="typeDemande === 'masse'">
-      <fieldset style="margin-top: 2.5rem;" *ngIf="selectedActionValue">
-        <legend [ngStyle]="{width: '100%'}">
-          <b>Transactions</b>
-        </legend>
-        <div>
-          <app-transaction-masse (currentArrayForm)="addMasseEnquetesTerrains($event)" [vue]="'enquetes-terrains'" 
-          [currentArrayHeaders]="currentArrayHeaders" [displayModalAjoutEnMasse]="displayModalAjoutEnMasse"></app-transaction-masse>
+         <!------------------------------ACTIVATION--------FORMS-------------------------------->
+        <div class="activation-forms" *ngIf="this.router.url === '/demandes/activation'">
+          <div [formGroup]="adminForm" novalidate>
+          <!------------------INFOS---------IDENTIFICATION----------------->
+          <fieldset *ngIf="!historie">
+            <legend [ngStyle]="{width: '18rem'}">
+              <b>Informations d'identification</b>
+            </legend>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listDirections" formControlName="direction_regionale" optionLabel="nom" [placeholder]="firstLevelLibelle" optionValue="uuid">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.nom}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listExploitations" formControlName="exploitation" optionLabel="nom" [placeholder]="secondLevelLibelle" optionValue="uuid">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.nom}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
+                  </label>
+                  <p-dropdown [options]="listActivites" formControlName="zone" optionLabel="nom" [placeholder]="thirdLevelLibelle" optionValue="uuid">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.nom}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <fieldset *ngIf="historie">
+            <legend [ngStyle]="{width: '18rem'}">
+              <b>Informations d'identification</b>
+            </legend>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="niveau_un_uuid" pInputText />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="niveau_deux_uuid" pInputText />
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>
+                    <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="niveau_trois_uuid" pInputText />
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          </div>
+          <fieldset style="margin-top: 2.5rem;" *ngIf="selectedActionValue">
+            <legend [ngStyle]="{width: '100%'}">
+              <b>Demandes</b>
+            </legend>
+            <div class="ps-3">
+              <app-transaction-masse 
+                  (currentArrayForm)="pushCurrentArrayForm($event)" 
+                  [currentArrayHeaders]="currentArrayHeaders" 
+                  [displayModalAjoutEnMasse]="displayModalAjoutEnMasse">
+                </app-transaction-masse>
+            </div>
+           </fieldset>
+          <!------------------INFOS---------TRANSACTION----------------->
+          <fieldset style="margin-top: 2.5rem;">
+            <legend [ngStyle]="{width: '100%'}">
+              <b>Détails de la Demande</b>
+            </legend>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Description <span class="text-danger">*</span></b>
+                    </label>
+                    <input type="text" [(ngModel)]="selectedDescription" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Justificatif <span class="text-danger">*</span></b>
+                    </label>
+                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                  </div>
+                </div>
+              </div>
+          </fieldset>
         </div>
-       </fieldset>
+       <div class="submit-form">
+        <div>
+          <button pButton style="float: right;margin-top: 1rem;"
+            label="Soumettre" class="p-button-success" [disabled]="!adminForm || !selectedDescription || listDemandes?.length === 0"
+            (click)="handleSaveMasse()"></button>
+        </div>
+        </div>
     </div>
 </div>

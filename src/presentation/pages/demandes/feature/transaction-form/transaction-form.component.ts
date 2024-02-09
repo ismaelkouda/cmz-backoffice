@@ -1,5 +1,6 @@
+import { DEMANDE_ACTIVATION } from 'src/presentation/pages/demandes/demandes-routing.module';
 import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
-import { formDataBuilder } from '../../../../../shared/constants/formDataBuilder.constant';
+import { formDataBuilder, formDataBuilderSome } from '../../../../../shared/constants/formDataBuilder.constant';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { SimStatut } from 'src/shared/enum/SimStatut.enum';
@@ -15,6 +16,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
+import { Router } from '@angular/router';
+import { DEMANDE_SERVICE } from 'src/shared/routes/routes';
+import { DemandeService } from '../../data-access/demande.service';
 
 @Component({
   selector: 'app-transaction-form',
@@ -71,6 +75,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public listExploitations: Array<any> = [];
   public listUsages: Array<any> = [];
   public listActivites: Array<any> = [];
+  public currentArrayHeaders: Array<any> = [];
+  public listDemandes: any;
   public selectedImsi: string;
   public selectedDescription: string;
   public selectedVoume: any;
@@ -86,10 +92,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public selectedLongitude: string;
   public selectedLatitude: string;
   public patrimoineType: string;
-
   public historie: any;
   @ViewChild('captchaElem', { static: false }) captchaElem: any;
-
   //Type Source
   public sourceStock: string = 'stock';
   public sourceOrange: string = 'orangeci';
@@ -105,11 +109,17 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public sourceSoldeDotation: string;
   public sourceSoldeDotationOrange: string;
 
+  readonly DEMANDE_SERVICE = DEMANDE_SERVICE;
+  readonly DEMANDE_ACTIVATION = DEMANDE_ACTIVATION;
+
+
   constructor(
     private patrimoineService: PatrimoineService,
+    private demandeService: DemandeService,
     private settingService: SettingService,
     private toastrService: ToastrService,
     private httpClient: HttpClient,
+    private router: Router,
     private mappingService: MappingService,
     private storage: EncodingDataService,
     private fb: FormBuilder
@@ -125,12 +135,11 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.sourceSoldeDotationOrange = this.mappingService?.sourceSoldeDotationOrange
     this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
-  }
+   }
 
   ngOnInit() {
 
-    console.log("typeDemande",this.typeDemande);
-    
+    console.log("router",this.router.url);
     this.siteKey = environment.recaptcha.siteKey;
     this.isFilter();
     this.initForm();
@@ -160,9 +169,23 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     if (this.applicationType === ApplicationType.MONITORING) {
       this.sourceValue = this.sourceOrange
     }
+    if (this.typeDemande === 'masse') {
+      this.currentArrayHeaders= [
+        'TYPE_EMPLACEMENT', 
+        'NOM_EMPLACEMENT', 
+        'USAGE', 
+        'ADRESSE_MAIL',
+        'ADRESSE_GEOGRAPHIQUE', 
+        'LATITUDE', 
+        'LONGITUDE', 
+        'MSISDN', 
+        'IMSI'];
+     }
   }
 
-
+  pushCurrentArrayForm(event){
+    this.listDemandes = event;    
+  }
   close() {
     history.state.operation = null
     this.formsView.emit(false);
@@ -182,15 +205,15 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       niveau_un_uuid: [''],
       niveau_deux_uuid: [''],
       niveau_trois_uuid: [''],
-      usage_id: ['', [Validators.required]],
+      usage_id: ['', (this.typeDemande === 'simple' ? [Validators.required] : [])],
       point_emplacement: [''],
       adresse_geographique: [''],
-      longitude: ['', [Validators.required]],
-      latitude: ['', [Validators.required]],
-      adresse_email: ['', [
+      longitude: ['', (this.typeDemande === 'simple' ? [Validators.required] : [])],
+      latitude: ['', (this.typeDemande === 'simple' ? [Validators.required] : [])],
+      adresse_email: ['', (this.typeDemande === 'simple' ? [
         Validators.email,
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
-      ]],
+      ] : [])],
       imsi: [''],
       statut: [''],
       statut_contrat: "",
@@ -209,8 +232,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   }
 
   public GetAllTransactions() {
-    this.patrimoineService
-      .GetAllTransactions({
+    this.demandeService
+      .GetDemandeServiceByTransaction({
         operation: this.currentSelectedActionValue,
       }, 1)
       .subscribe({
@@ -435,6 +458,67 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       })
       baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`
     }
+    this.httpClient.post(`${baseUrl}`, data)
+      .subscribe({
+        next: (res: any) => {
+          this.GetAllTransactions();
+          this.toastrService.success(res.message);
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public handleSaveMasse() {
+    let baseUrl;
+    let data;
+   if (this.router.url === `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`) {
+    this.adminForm.patchValue({
+      niveau_un_uuid: this.adminForm.get('direction_regionale').value,
+      niveau_deux_uuid: this.adminForm.get('exploitation').value,
+      niveau_trois_uuid: this.adminForm.get('zone').value,
+      statut_contrat: this.adminForm.get('statut').value
+    })
+    this.adminForm.get('direction_regionale').disable()
+    this.adminForm.get('exploitation').disable()
+    this.adminForm.get('zone').disable()
+    //Disable Our Controls
+    this.adminForm.get('usage_id').disable()
+    this.adminForm.get('point_emplacement').disable()
+    this.adminForm.get('adresse_geographique').disable()
+    this.adminForm.get('longitude').disable()
+    this.adminForm.get('latitude').disable()
+    this.adminForm.get('adresse_email').disable()
+    this.adminForm.get('imsi').disable()
+    this.adminForm.get('msisdn').disable()
+    this.adminForm.get('code_pin').disable()
+    this.adminForm.get('username').disable()
+    this.adminForm.get('site').disable()
+    this.adminForm.get('statut').disable()
+    this.adminForm.get('statut_contrat').disable()
+    this.adminForm.get('adresse_ip').disable()
+    this.adminForm.get('proxy').disable()
+    let adminData;
+    if (this.applicationType === ApplicationType.MONITORING) {
+       adminData = {
+        ...(this.historie ? this.currentPatrimoine : this.adminForm.value),
+        bac_a_pioche: 'orangeci'
+      }
+    }else if (this.applicationType === ApplicationType.PATRIMOINESIM) {
+      adminData = {
+        ...(this.historie ? this.currentPatrimoine : this.adminForm.value),
+       ...this.adminForm.value,
+       bac_a_pioche: this.sourceValue !== undefined ? this.sourceValue: 'patrimoine',
+      }
+   }
+    data = formDataBuilderSome({
+      ...adminData,
+      opetation: this.activation,
+      justificatif: this.selectedPiece,
+      demandes: this.listDemandes
+    })
+    baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`
+   }
     this.httpClient.post(`${baseUrl}`, data)
       .subscribe({
         next: (res: any) => {

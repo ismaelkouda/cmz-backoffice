@@ -24,7 +24,7 @@ export class DemandeWrapperShowComponent implements OnInit {
   public module: string;
   public subModule: string;
   @Input() selectedOperation: string;
-  @Input() transactionId: string;
+  @Input() transactionId: any;
   @Input() wrapperLabel: string;
   @Output() showView = new EventEmitter();
   public selectedTransaction: string;
@@ -81,15 +81,15 @@ export class DemandeWrapperShowComponent implements OnInit {
   ngOnInit() {
     console.log("GetDemandeServiceByTransaction",this.transactionId);
     if (this.transactionId) {
-      this.GetDemandeServiceByTransaction()
+      this.GetAllTransactions()
     }
     this.isFilter();
   }
 
-  public GetDemandeServiceByTransaction() {
-    this.demandeService
-      .GetDemandeServiceByTransaction({
-        numero_demande: this.transactionId,
+  public GetAllTransactions() {
+    this.patrimoineService
+      .GetAllTransactions({
+        numero_demande: this.transactionId?.numero_demande,
         operation: this.selectedOperation,
         tenant_code: this.mappingService.tenant.tenant_code
       }, this.p)
@@ -165,8 +165,7 @@ export class DemandeWrapperShowComponent implements OnInit {
       })
   }
   public OnRefresh(){
-    this.GetDemandeServiceByTransaction();
-    this.selectedOperation =null
+    this.GetAllTransactions();
     this.selectedTransaction = null
     this.selectedSim = null
     this.selectedimsi = null

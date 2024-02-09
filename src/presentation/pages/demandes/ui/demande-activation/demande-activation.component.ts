@@ -15,12 +15,13 @@ export class DemandeActivationComponent implements OnInit {
   public module: string;
   public subModule: string;
   public listStatuts: Array<any> = [];
+  public listTransactions: Array<any> = [];
   public initialView: boolean = true;
   public formsView: boolean = false;
   public transactionId: string;
   public showView: boolean = false;
   public currentObject: any;
-  public typeDemande: string = 'simple';
+  public typeDemande: string;
   public currentOperation: string = OperationTransaction.ACTIVATION;
 
   constructor(
@@ -47,6 +48,9 @@ export class DemandeActivationComponent implements OnInit {
     this.initialView = !event;
     this.formsView = event;
   }
+  public pushTypeDemande(event: string): void {    
+    this.typeDemande = event;
+  }
   public pushTransactionId(event: string): void { 
     if (event) {      
       this.transactionId = event;
@@ -55,5 +59,7 @@ export class DemandeActivationComponent implements OnInit {
       this.formsView = false;
     }
   }
-
+  public pushListTransactions(event: any): void {    
+    this.listTransactions = event;
+  }
 }

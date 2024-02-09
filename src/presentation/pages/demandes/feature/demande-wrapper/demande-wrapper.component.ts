@@ -13,6 +13,7 @@ import { ExcelService } from 'src/shared/services/excel.service';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
+import { DemandeService } from '../../data-access/demande.service';
 
 @Component({
   selector: 'app-demande-wrapper',
@@ -25,20 +26,22 @@ export class DemandeWrapperComponent implements OnInit {
   public subModule: string;
   @Input() selectedOperation: string;
   @Input() wrapperLabel: string;
+  @Input() isMasse: boolean;
+  @Input() listTransactions: any;
   @Output() formsView = new EventEmitter();
+  @Output() typeDemande = new EventEmitter<string>();
   @Output() transactionId = new EventEmitter();
+
+
   public selectedTransaction: string;
-  public listTransactions: Array<any> = [];
   public listOperations: Array<any> = [];
   public listStatuts: Array<any> = [];
   public listTraitementTransactions: Array<any> = [];
   public initialView: boolean = true;
   public currentObject: any;
-  public typeDemande: string = 'simple';
   public selectedSim: string;
   public selectedimsi: string;
   public selectedStatut: string;
-  public selectedTraitement: string;
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
@@ -64,7 +67,7 @@ export class DemandeWrapperComponent implements OnInit {
 
   constructor(
     public settingService: SettingService,
-    public patrimoineService: PatrimoineService,
+    public demandeService: DemandeService,
     public toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private mappingService: MappingService,
@@ -83,6 +86,9 @@ export class DemandeWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    console.log("isMasse",this.isMasse);
+    
     this.GetAllTransactions()
     this.isFilter();
     this.disableAction()
@@ -91,17 +97,16 @@ export class DemandeWrapperComponent implements OnInit {
       this.subModule = data.subModule[3];
     });
     if (history.state.patrimoine) {
-      this.onInitForm(this.typeDemande)
+      this.onInitForm('simple')
     }
     if (history.state?.statut  || history.state?.traitement) {
       this.selectedStatut = history.state?.statut
-      this.selectedTraitement = history.state?.traitement
     }
   }
 
   public GetAllTransactions() {
-    this.patrimoineService
-      .GetAllTransactions({
+    this.demandeService
+      .GetDemandeServiceByTransaction({
         operation: this.selectedOperation,
         ...(history.state?.statut ? { statut: history.state?.statut } : {}),
         ...(history.state?.traitement ? { traitement: history.state?.traitement } : {})
@@ -145,13 +150,12 @@ export class DemandeWrapperComponent implements OnInit {
       this.toastrService.error('Plage de date invalide');
       return;
     }
-    this.patrimoineService
-      .GetAllTransactions({
-        transaction: this.selectedTransaction,
+    this.demandeService
+      .GetDemandeServiceByTransaction({
+        numero_demande: this.selectedTransaction,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
         statut: this.selectedStatut,
-        traitement: this.selectedTraitement,
         date_debut: this.selectDateStart,
         date_fin: this.selectDateEnd,
       }, this.p)
@@ -181,12 +185,10 @@ export class DemandeWrapperComponent implements OnInit {
   }
   public OnRefresh(){
     this.GetAllTransactions()
-    this.selectedOperation =null
     this.selectedTransaction = null
     this.selectedSim = null
     this.selectedimsi = null
     this.selectedStatut = null
-    this.selectedTraitement = null
     this.selectDateStart = null
     this.selectDateEnd = null
     this.filterDateStart = null
@@ -214,8 +216,8 @@ export class DemandeWrapperComponent implements OnInit {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
   public onInitForm(type: string): void {    
-    this.typeDemande = type;
     this.formsView.emit(true);
+    this.typeDemande.emit(type);
     this.currentObject = undefined;    
   }
 
@@ -238,7 +240,7 @@ export class DemandeWrapperComponent implements OnInit {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
   OnShowTraitement(data: any): void {
-     this.transactionId.emit(data.transaction)
+     this.transactionId.emit(data)
   }
   changeDateStart(e) {
     if ( moment(this.filterDateStart).isValid()) {
@@ -281,7 +283,7 @@ export class DemandeWrapperComponent implements OnInit {
     }
   }
   public isFilter(): boolean {
-    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTraitement && !this.selectedTransaction) ? true : false
+    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction) ? true : false
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
