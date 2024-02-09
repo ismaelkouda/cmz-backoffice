@@ -11,16 +11,19 @@
                   class="p-button-secondary">
                 </button>
               </div>
-              <p-table #dt [value]="listProfils" [rows]="10" [paginator]="true" responsiveLayout="scroll"
-                [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                      données" [showCurrentPageReport]="true">
+              <p-table #dt [value]="listProfils" 
+                   [rows]="10" [paginator]="true" responsiveLayout="scroll"
+                   [rowHover]="true" dataKey="id" 
+                   currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données" 
+                   [globalFilterFields]="['nom', 'description']"
+                   [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                   <div class="table_header">
                     <app-table-header [count]="listProfils" [legende]="'Profils'"></app-table-header>
                     <div class="table_header__input">
                       <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                        <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
                           placeholder="Recherche" />
                       </span>
                     </div>

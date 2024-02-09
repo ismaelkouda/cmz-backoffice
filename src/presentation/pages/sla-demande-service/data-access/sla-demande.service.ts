@@ -1,23 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-// @ts-ignore
-import appConfig from '../../../../assets/config/app-config.json';
 import { Observable } from 'rxjs';
 import { EndPointUrl } from './api.enum';
+import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SlaDemandeService {
 
-  public baseUrl: any = appConfig.serverUrl;
+  public baseUrl: string;
 
 constructor(
-  private http: HttpClient
+  private http: HttpClient,
+  private storage: EncodingDataService
+) {
+  const data = JSON.parse(this.storage.getData('user'))
+  this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
+}
 
-) { }
 
+HandleSlaDemandeService(data, page): Observable<any> {
+  const url: string = (<string>EndPointUrl.SLA_DEMANDE_SERVICE).replace('{page}', page);
+  return this.http.post(`${this.baseUrl}${url}`, data);
+}
 
 GetActivationTransactions(data, page): Observable<any> {
   const url: string = (<string>EndPointUrl.GET_ALL_ACTIVATION_TRANSACTION).replace('{page}', page);

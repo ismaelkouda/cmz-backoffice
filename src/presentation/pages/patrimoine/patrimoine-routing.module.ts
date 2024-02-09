@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CarteSimActiveComponent } from './ui/carte-sim-active/carte-sim-active.component';
-import { TransactionSimComponent } from './ui/transaction-sim/transaction-sim.component';
 import { GroupeSimComponent } from './ui/groupe-sim/groupe-sim.component';
 import { DotationServiceComponent } from './ui/dotation-service/dotation-service.component';
 import { EtatSoldeComponent } from './ui/etat-solde/etat-solde.component';
@@ -12,7 +11,6 @@ export const ETAT_SOLDE = 'etat-solde';
 export const LIFECYCLE_SIM = 'cycle-de-vie-sim';
 export const GROUPE_SIM = 'groupe-sim';
 export const DOTATION_SERVICES = 'dotation-services';
-export const TRANSACTION_SIM = 'demande-service';
 export const DOWNLOAD_FILE = 'telechargements';
 
 const routes: Routes = [{
@@ -33,10 +31,6 @@ const routes: Routes = [{
         {
             path: DOTATION_SERVICES,
             component: DotationServiceComponent
-        },
-        {
-            path: TRANSACTION_SIM,
-            component: TransactionSimComponent
         },
         {
             path: DOWNLOAD_FILE,

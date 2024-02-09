@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RAPPORT_CONFORMITE } from '../../sla-demande-service-routing.module';
 import { SLA_DEMANDE_SERVICE } from 'src/shared/routes/routes';
+import { MappingService } from 'src/shared/services/mapping.service';
 @Component({
   selector: 'app-dashboard-sla',
   templateUrl: './dashboard-sla.component.html',
@@ -15,8 +16,9 @@ export class DashboardSlaComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private mappingService: MappingService
   ) {
-    this.visualUrl = `http://160.120.143.6:50200/d/fUHASnXVs/tb-des-transactions?orgId=1&refresh=10m`
+    this.visualUrl = this.mappingService.dashbordTransactionSLa;
     this.showIframe = true;
   }
 

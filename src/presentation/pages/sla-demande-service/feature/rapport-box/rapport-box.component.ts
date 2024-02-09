@@ -13,6 +13,7 @@ export class RapportBoxComponent implements OnInit {
   @Input() countColor: any;
   @Input() legend: string;
   @Input() count: any;
+  @Input() taux: any;
   @Input() icon: any;
 
 

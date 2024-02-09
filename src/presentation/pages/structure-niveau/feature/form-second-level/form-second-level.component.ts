@@ -40,7 +40,7 @@ export class FormSecondLevelComponent implements OnInit {
   }
   public GellCurrentLevel() {
     this.settingService
-      .getAllUsages({})
+      .getAllExploiatations({})
       .subscribe({
         next: (response) => {
           this.listCurrentLevelDatas.emit(response['data']);
@@ -59,7 +59,7 @@ export class FormSecondLevelComponent implements OnInit {
           this.listFirstLevelDatas = response['data'];
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }

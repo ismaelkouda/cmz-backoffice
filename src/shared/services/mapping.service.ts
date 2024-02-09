@@ -1,8 +1,7 @@
 import { ApplicationType } from './../enum/ApplicationType.enum';
-import { ProvisionningService } from './../../presentation/pages/provisionning/data-access/provisionning.service';
 import { EncodingDataService } from './encoding-data.service';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { StoreLocaleService } from './store-locale.service';
 import { HttpClient } from '@angular/common/http';
 import { EndPointUrl } from '../enum/api.enum';
@@ -30,6 +29,7 @@ export class MappingService {
   public minioUrl: string;
   public localCalendar: any;
   public applicationType: string;
+  public suffixEmail: string;
   public appName: string;
   public sourceStockTenantSim: string;
   public sourceStockOrangeSim: string;
@@ -41,6 +41,7 @@ export class MappingService {
   public volumeDataGlobal$ = this._volumeDataGlobalSource.asObservable();
   public _ligneCreditSource: BehaviorSubject<string> = new BehaviorSubject('');
   public ligneCreditGlobal$ = this._ligneCreditSource.asObservable();
+  public dashbordTransactionSLa: string;
 
   constructor(
     private storage: EncodingDataService,
@@ -57,15 +58,17 @@ export class MappingService {
       this.baseUrl = `${this.currentUser?.tenant?.url_backend}/api/v1/`
       this.fileUrl = `${this.currentUser?.tenant?.url_minio}/`
       this.minioUrl = `${this.currentUser?.tenant?.url_minio}/`
-      this.tenant = this.currentUser?.tenant;
+      this.tenant = this.currentUser?.tenant;      
       this.structureGlobale = this.currentUser?.structure_organisationnelle;
       this.logoTenant = `${this.fileUrl}${this.tenant?.logo_tenant}`;
       this.grafanaLink = this.tenant?.lien_dashboard_grafana;
       this.approLink = this.tenant?.lien_dashboard_appro;
       this.rejetLink = this.tenant?.lien_dashboard_rejets;
+      this.dashbordTransactionSLa = 'https://osim-dashboard.orange.ci:50200/d/fUHASnXVs/tb-des-demandes?orgId=1&refresh=10m'
       const newDatatEnv = { ...this.currentUser?.env, typeNiveau: 'Type Emplacement' };
       this.typeNiveau = newDatatEnv?.typeNiveau;
       this.applicationType = this.tenant?.application;
+      this.suffixEmail = this.tenant?.suffixe_email;
       if (this.applicationType === ApplicationType.PATRIMOINESIM) {
         this.appName = 'PATRIMOINE SIM'
         this.listOperations = Object.values(OperationTransaction).filter(item => item !== OperationTransaction.ACHAT_SERVICE && item !== OperationTransaction.PROVISIONNING);

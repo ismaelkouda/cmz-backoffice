@@ -29,6 +29,7 @@ export class TransactionSimComponent implements OnInit {
   public initialView: boolean = true;
   public formsView: boolean = false;
   public currentObject: any;
+  public typeDemande: string = 'simple';
   public selectedSim: string;
   public selectedimsi: string;
   public selectedOperation: string;
@@ -87,7 +88,7 @@ export class TransactionSimComponent implements OnInit {
       this.subModule = data.subModule[3];
     });
     if (history.state.patrimoine) {
-      this.onInitForm()
+      this.onInitForm(this.typeDemande)
     }
     if (history.state?.statut  || history.state?.traitement) {
       this.selectedStatut = history.state?.statut
@@ -210,10 +211,11 @@ export class TransactionSimComponent implements OnInit {
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
-  public onInitForm(): void {
+  public onInitForm(type: string): void {
     this.initialView = false;
     this.formsView = true;
-    this.currentObject = undefined;
+    this.currentObject = undefined;    
+    this.typeDemande = type;
   }
 
   public showSecondFilter() {

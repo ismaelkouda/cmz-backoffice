@@ -174,7 +174,6 @@ export class AlarmesComponent implements OnInit {
           this.toastrService.error(error.error.message);
         }
       );
-
   }
   showJournal(data: Object): void {
     const modalRef = this.modalService.open(JournalComponent, {

@@ -14,7 +14,9 @@
           <label>
             <b>Description<span class="text-danger">*</span></b>
           </label>
-          <input placeholder="Description du Profil" formControlName="description" type="text" pInputText />
+          <input placeholder="Description du Profil"
+          [ngStyle]="{'height': (!this.currentObject?.show && this.currentObject) ? '3.5rem' : 'inherit'}"
+          formControlName="description" type="text" pInputText />
         </div>
       </div>
     </div>

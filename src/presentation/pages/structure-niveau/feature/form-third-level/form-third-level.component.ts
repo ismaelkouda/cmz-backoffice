@@ -45,7 +45,7 @@ export class FormThirdLevelComponent implements OnInit {
           this.close()
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -67,7 +67,7 @@ export class FormThirdLevelComponent implements OnInit {
 
   public handleSave() {
     this.settingService
-      .OnUpdateZone(this.adminForm.value).subscribe({
+      .OnSaveZone(this.adminForm.value).subscribe({
         next: (response) => {
           this.GellCurrentLevel();
           this.toastrService.success(response.message);

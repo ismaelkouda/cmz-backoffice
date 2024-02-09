@@ -1,10 +1,11 @@
+import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION, DEMANDE_RESILIATION } from '../presentation/pages/demandes/demandes-routing.module';
 import { DOWNLOAD_FILE } from './../presentation/pages/patrimoine/patrimoine-routing.module';
-import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE, PERFORMANCE_SLA_ROUTE, CONTENCIEUX_ROUTE, NOTIFY_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
+import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE,CONTENCIEUX_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { ANALAYSE_REJET, COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
-import { CARTES_SIM, DOTATION_SERVICES, ETAT_SOLDE, GROUPE_SIM, TRANSACTION_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
+import { CARTES_SIM, DOTATION_SERVICES, ETAT_SOLDE, GROUPE_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
-import { OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SLA_DEMANDE_SERVICE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
+import { DEMANDE_SERVICE, OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SLA_DEMANDE_SERVICE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
 import { VUE_GEOGRAPHIQUE } from 'src/presentation/pages/zone-trafic/zone-trafic-routing.module';
 import { PROFILS_HABILITATIONS, UTILISATEURS } from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
@@ -55,14 +56,6 @@ export var menuJson = [
                 type: "link",
             },
             {
-                path: `/${PATRIMOINE}/${TRANSACTION_SIM}`,
-                title: "Demandes de service",
-                label: "Demandes de service",
-                data: "1-5-0-transaction-sur-sim",
-                type: "link",
-                pack: ApplicationType.MONITORING
-            },
-            {
                 path: `/${PATRIMOINE}/${DOWNLOAD_FILE}`,
                 title: "Téléchargements",
                 label: "Téléchargements",
@@ -70,6 +63,45 @@ export var menuJson = [
                 type: "link",
                 pack: ApplicationType.MONITORING
             }
+        ]
+    },
+    {
+        title: "Demandes de service",
+        label: "Demandes de service",
+        data: "9-0-0-demandes-de-services",
+        statut: false,
+        expanded: true,
+        icon: "disc",
+        url: "assets/images/portail/icone_ps.png",
+        path: `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
+        routerLink: `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
+        type: "sub",
+        pack: ApplicationType.MONITORING,
+        children: [
+            {
+                path: `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
+                title: "Activations mobile",
+                label: "Activations mobile",
+                data: "9-1-0-activations-mobile",
+                pack: ApplicationType.MONITORING,
+                type: "link"
+            },
+            {
+                path: `/${DEMANDE_SERVICE}/${DEMANDE_SUSPENSION}`,
+                title: "Suspensions",
+                label: "Suspensions",
+                data: "9-2-0-suspensions",
+                pack: ApplicationType.MONITORING,
+                type: "link"
+            },
+            {
+                path: `/${DEMANDE_SERVICE}/${DEMANDE_RESILIATION}`,
+                title: "Résiliations",
+                label: "Résiliations",
+                data: "9-3-0-resiliations",
+                pack: ApplicationType.MONITORING,
+                type: "link"
+            },
         ]
     },
     {
@@ -173,16 +205,6 @@ export var menuJson = [
                 type: "link",
                 pack: ApplicationType.MONITORING
             },
-            /*
-            {
-                path: `/${SUPERVISION_OPERATIONS}/${PERFORMANCE_SLA_ROUTE}`,
-                title: "Performance SLA",
-                label: "Performance SLA",
-                data: "4-3-0-performance-sla",
-                type: "link",
-                pack: ApplicationType.MONITORING
-            },
-            */
             {
                 path: `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX_ROUTE}`,
                 title: "Contentieux",
@@ -191,14 +213,6 @@ export var menuJson = [
                 type: "link",
                 pack: ApplicationType.MONITORING
             },
-            // {
-            //     path: `/${SUPERVISION_OPERATIONS}/${NOTIFY_ROUTE}`,
-            //     title: "Centre de Notifications",
-            //     label: "Centre de Notifications",
-            //     data: "4-4-0-contentieux",
-            //     type: "link",
-            //     pack: ApplicationType.MONITORING
-            // },
         ]
     },
     {

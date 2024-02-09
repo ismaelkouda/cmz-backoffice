@@ -10,32 +10,40 @@
           </b>
         </h3>
       </div>
-      <div *ngIf="!currentObject || currentObject?.type === 'edit' || currentObject?.type === 'show' "
-        class="filter_wrapper" [formGroup]="adminForm" style="display: flex;gap: 1rem;">
-        <div style="width: 15rem;">
-          <div class="form-group">
-            <label>
-              <b>Nom du {{firstLevelLibelle}}<span class="text-danger">*</span></b>
-            </label>
-            <input placeholder="Nom" formControlName="nom" type="text" pInputText />
-          </div>
+      <div *ngIf="!currentObject || currentObject?.type === 'edit' || currentObject?.type === 'show'">
+        <div *ngIf="!currentObject">
+          <h3>
+            <b>
+              <span *ngIf="!currentObject">Ajout de {{firstLevelLibelle}}</span>
+            </b>
+          </h3>
         </div>
-        <div style="width: 20rem;">
-          <div class="form-group">
-            <label>
-              <b>Code<span class="text-danger">*</span></b>
-            </label>
-            <input placeholder="Code" formControlName="code" type="text" pInputText />
+        <div class="filter_wrapper" [formGroup]="adminForm" style="display: flex;gap: 1rem;">
+          <div style="width: 15rem;">
+            <div class="form-group">
+              <label>
+                <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
+              </label>
+              <input placeholder="Nom" formControlName="nom" type="text" pInputText />
+            </div>
+          </div>
+          <div style="width: 20rem;">
+            <div class="form-group">
+              <label>
+                <b>Code<span class="text-danger">*</span></b>
+              </label>
+              <input placeholder="Code" formControlName="code" type="text" pInputText />
+            </div>
           </div>
         </div>
       </div>
       <div class="mt-0">
         <button pButton pRipple label="Enregistrer" [disabled]="!adminForm.valid"
           *ngIf="!currentObject || currentObject?.type === 'edit'" icon="pi pi-save" class="p-button-success" (click)="!currentObject
-                        ? HandleSaveGroupe()
-                        : HandleUpdateGroupe()" style="margin-left: 1rem;"></button>
-        <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
-          style="margin-left: 1rem;" (click)="OnRefresh()"></button>
+                        ? OnSaveFirstLevel()
+                        : OnUpdateFirstLevel()" style="margin-left: 1rem;"></button>
+        <!-- <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
+          style="margin-left: 1rem;" (click)="OnRefresh()"></button> -->
         <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"
           style="margin-left: 1rem;"></button>
         <button pButton pRipple label="Fermer" class="p-button-danger" style="margin-left: 1rem;"
@@ -43,7 +51,7 @@
       </div>
     </div>
     <div class="container_flex_space_between" *ngIf="currentObject?.type !== 'edit'">
-      <div class="row filter_wrapper" [ngStyle]="{width: '100%'}">
+      <!-- <div class="row filter_wrapper" [ngStyle]="{width: '100%'}">
         <div class="col-md-3">
           <div class="form-group">
             <label>
@@ -64,8 +72,8 @@
           <p-button styleClass="p-button-success filter-button" (click)="OnFilterALl()" icon="pi pi-filter"
             [disabled]="isFilter()" ></p-button>
         </div>
-      </div>
-      <div class="table_actions_wrapper mt-3" style="height: fit-content;">
+      </div> -->
+      <!-- <div class="table_actions_wrapper mt-3" style="height: fit-content;">
         <button *ngIf="currentObject?.type === 'affectation'" pButton pRipple label="Affecter" icon="pi pi-arrow-right"
           class="p-button-success" [disabled]="checkconsumerList?.length ===0"
           (click)="handleSaveAffectation()"></button>
@@ -73,17 +81,21 @@
           class="p-button-danger" [disabled]="checkconsumerList?.length === 0" (click)="handleRetraitSim()"></button>
         <button *ngIf="currentObject?.type === 'visualiser'" pButton pRipple label="Réaffecter" icon="pi pi-arrows-h"
           class="p-button-success" (click)="openForm(content)" [disabled]="checkconsumerList?.length === 0"></button>
-      </div>
+      </div> -->
     </div>
     <hr>
-    <div class="table_content_wrapper" *ngIf="currentObject?.type !== 'show' && currentObject?.type !== 'edit'">
-      <p-table #dt [value]="listAffectations" [rows]="10" [paginator]="true" responsiveLayout="scroll"
-        [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-              données" [showCurrentPageReport]="true">
+    <div class="table_content_wrapper" *ngIf="currentObject?.type === 'visualiser' || currentObject?.type === 'affectation'">
+      <p-table #dt 
+        [value]="listAffectations" 
+        [rows]="10" [paginator]="true" responsiveLayout="scroll"
+        [rowHover]="true" dataKey="id" 
+        currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données" 
+        [showCurrentPageReport]="true"
+        [globalFilterFields]="['nom', 'code']">
         <ng-template pTemplate="caption">
           <div class="table_header">
-            <app-tab-view-header *ngIf="currentObject?.type === 'affectation'" [legende]="'Liste des'+secondLevelMenus+'non affectées'"></app-tab-view-header>
-            <app-tab-view-header *ngIf="currentObject?.type === 'visualiser'" [legende]="'Liste des'+secondLevelMenus+'affectées'"></app-tab-view-header>
+            <app-tab-view-header *ngIf="currentObject?.type === 'affectation'" [legende]="'Liste des '+secondLevelMenus+'non affectées'"></app-tab-view-header>
+            <app-tab-view-header *ngIf="currentObject?.type === 'visualiser'" [legende]="'Liste des '+secondLevelMenus+' affectées'"></app-tab-view-header>
             <div class="table_header__input">
               <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
@@ -120,18 +132,24 @@
     </div>
     <div *ngIf="currentObject?.type === 'show'">
       <p-tabView *ngIf="currentObject !== undefined">
-        <p-tabPanel [header]="'LISTE DES'+ secondLevelMenus">
-          <div class="table_header">
-            <app-tab-view-header [legende]="'Liste des'+secondLevelMenus+'affectées'"></app-tab-view-header>
-          </div>
+        <p-tabPanel [header]="'LISTE DES '+ secondLevelMenus">
           <div class="table_content_wrapper">
-            <p-table #dt [value]="listAffectations" [rows]="10" [paginator]="true" responsiveLayout="scroll"
-              [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                    données" [showCurrentPageReport]="true">
+            <p-table #dt 
+                [value]="listAffectations" 
+                [rows]="10" [paginator]="true" responsiveLayout="scroll"
+                [rowHover]="true" dataKey="id" 
+                currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données" [showCurrentPageReport]="true"
+                [globalFilterFields]="['nom', 'code']">
               <ng-template pTemplate="caption">
                 <div class="table_header">
-                  <app-tab-view-header *ngIf="currentObject?.type === 'affectation'" [legende]="'Liste des'+secondLevelMenus+'non affectées'"></app-tab-view-header>
-                  <app-tab-view-header *ngIf="currentObject?.type === 'visualiser'" [legende]="'Liste des'+secondLevelMenus+'affectées'"></app-tab-view-header>
+                  <app-tab-view-header [legende]="'Liste des '+secondLevelMenus+' affectées'"></app-tab-view-header>
+                  <div class="table_header__input">
+                    <span class="p-input-icon-left ml-auto">
+                      <i class="pi pi-search"></i>
+                      <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Recherche" />
+                    </span>
+                  </div>
                 </div>
               </ng-template>
               <ng-template pTemplate="header">
@@ -164,7 +182,7 @@
     </div>
   </div>
 </div>
-<!----------------------------------REAFECTATION---------------------SIM--------------->
+<!----------------- -----------------REAFECTATION---------------------SIM--------------->
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Réafectation du {{secondLevelLibelle}}</h4>

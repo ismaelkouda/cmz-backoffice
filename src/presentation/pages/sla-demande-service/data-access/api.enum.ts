@@ -1,4 +1,5 @@
 export const enum EndPointUrl {
+    SLA_DEMANDE_SERVICE = 'sla-demandes-services/rapport-conformite?page={page}',
     GET_ALL_ACTIVATION_TRANSACTION = 'gestion-transactions/operations/activation/all?page={page}',
     GET_ALL_SWAPPING_TRANSACTION = 'gestion-transactions/operations/sim-swap/all?page={page}',
     GET_ALL_RESILIATION_TRANSACTION = 'gestion-transactions/operations/resiliation/all?page={page}',

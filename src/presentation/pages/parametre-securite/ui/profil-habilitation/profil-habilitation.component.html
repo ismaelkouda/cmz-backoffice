@@ -5,94 +5,92 @@
       <div class="card">
         <div class="card-body">
           <div [hidden]="!initialView">
-            <div class="row filter_wrapper">
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>
-                    <b>Profil</b>
-                  </label>
-                  <input placeholder="nom profil" [(ngModel)]="selectedProfil" type="text" pInputText />
+            <p-tabView (onChange)="handleChangeTabviewIndex($event)">
+              <p-tabPanel header="PROFILS ET HABILITATIONS">
+                <div class="table_actions_wrapper">
+                  <button pButton pRipple label="Ajout de profil" icon="pi pi-plus" (click)="onInitForm()"
+                    class="p-button-success"></button>
+                  <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
+                    class="p-button-secondary"></button>
                 </div>
-              </div>
-              <div class="col-md-1">
-                <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="isFilter()"
-                  (click)="onFilter()"></p-button>
-              </div>
-            </div>
-            <hr>
-            <div class="table_actions_wrapper">
-              <button pButton pRipple label="Ajout de profil" icon="pi pi-plus" (click)="onInitForm()"
-                class="p-button-success"></button>
-              <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
-                class="p-button-secondary"></button>
-            </div>
-            <div class="table_content_wrapper">
-              <p-table #dt [value]="listProfils" [rows]="10" [paginator]="true" responsiveLayout="scroll"
-                [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                      données" [showCurrentPageReport]="true">
-                <ng-template pTemplate="caption">
-                  <div class="table_header">
-                    <app-table-header [count]="listProfils" [legende]="'Profils et Habilitations'"></app-table-header>
-                    <div class="table_header__input">
-                      <span class="p-input-icon-left ml-auto">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
-                          placeholder="Recherche" />
-                      </span>
-                    </div>
-                  </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th class="text-center">#</th>
-                    <th>Nom du Profil</th>
-                    <th>Description du Profil</th>
-                    <th>Date de création</th>
-                    <th>Date de modification</th>
-                    <th># Utilisateur</th>
-                    <th>Statut</th>
-                    <th class="text-center">Actions</th>
-                  </tr>
-                </ng-template>
-                <ng-template let-i="rowIndex" pTemplate="body" let-data>
-                  <tr>
-                    <td class="text-center">{{ i + 1 }}</td>
-                    <td (click)="copyData(data.nom)" style="cursor: pointer">{{data?.nom}}</td>
-                    <td>{{data?.description}}</td>
-                    <td>{{data?.created_at}}</td>
-                    <td>{{data?.updated_at}}</td>
-                    <td class="text-center">
-                      <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
-                        label="Visualiser ({{data.users_count}})" class="p-button" (click)="onViewVisualisation(data)"
-                        [disabled]="data.users_count === 0 || data.statut === 'inactif'"></button>
-                    </td>
-                    <td class="text-center">
-                      <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
-                        [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
-                        {{ data.statut }}
-                      </span>
-                    </td>
-                    <td class="td-actions">
-                      <p-button icon="pi pi-eye" pTooltip="Historique" tooltipPosition="top" styleClass="p-button-dark"
-                      (click)="onShowForm(data)"></p-button>
-                      <button pButton pRipple icon="pi pi-pencil" [disabled]="data.statut === 'inactif'" class="p-button-secondary" pTooltip="Editer"
-                        tooltipPosition="top" (click)="onEditForm(data)"></button>
-                        <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
-                        " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
-                        ? 'Désactiver'
-                        : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
-                        ? handleDisableProfil(data)
-                        : handleActivateProfil(data)">
-                      </button>
-                      <button pButton pRipple icon="pi pi-arrow-right" [disabled]="data.statut === 'inactif'" (click)="onViewAffection(data)" class="p-button-dark"
-                        pTooltip="Affecter" tooltipPosition="top"></button>
-                      <button pButton pRipple icon="pi pi-trash" [disabled]="data.statut === 'inactif'" (click)="handleleteProfilHabilitation(data)"
-                        class="p-button-danger" pTooltip="Supprimer" tooltipPosition="top"></button>
-                    </td>
-                  </tr>
-                </ng-template>
-              </p-table>
-            </div>
+                <div class="table_content_wrapper">
+                  <p-table #dt 
+                       [value]="listProfils" 
+                       [rows]="10" [paginator]="true" 
+                       responsiveLayout="scroll"
+                       [rowHover]="true" dataKey="id" 
+                       currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données" 
+                       [showCurrentPageReport]="true"
+                       [globalFilterFields]="['nom', 'description']"
+                       >
+                    <ng-template pTemplate="caption">
+                      <div class="table_header">
+                        <app-table-header [count]="listProfils" [legende]="'Profils et Habilitations'"></app-table-header>
+                        <div class="table_header__input">
+                          <span class="p-input-icon-left ml-auto">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                              placeholder="Recherche" />
+                          </span>
+                        </div>
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th class="text-center">#</th>
+                        <th>Nom du Profil</th>
+                        <th>Description du Profil</th>
+                        <th>Date de création</th>
+                        <th>Date de modification</th>
+                        <th># Utilisateur</th>
+                        <th>Statut</th>
+                        <th class="text-center">Actions</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template let-i="rowIndex" pTemplate="body" let-data>
+                      <tr>
+                        <td class="text-center">{{ i + 1 }}</td>
+                        <td (click)="copyData(data.nom)" style="cursor: pointer">{{data?.nom}}</td>
+                        <td>{{data?.description}}</td>
+                        <td>{{data?.created_at}}</td>
+                        <td>{{data?.updated_at}}</td>
+                        <td class="text-center">
+                          <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
+                            label="Visualiser ({{data.users_count}})" class="p-button" (click)="onViewVisualisation(data)"
+                            [disabled]="data.users_count === 0 || data.statut === 'inactif'"></button>
+                        </td>
+                        <td class="text-center">
+                          <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+                            [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
+                            {{ data.statut }}
+                          </span>
+                        </td>
+                        <td class="td-actions">
+                          <p-button icon="pi pi-eye" pTooltip="Historique" tooltipPosition="top" styleClass="p-button-dark"
+                          (click)="onShowForm(data)"></p-button>
+                          <button pButton pRipple icon="pi pi-pencil" [disabled]="data.statut === 'inactif'" class="p-button-secondary" pTooltip="Editer"
+                            tooltipPosition="top" (click)="onEditForm(data)"></button>
+                            <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
+                            " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
+                            ? 'Désactiver'
+                            : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
+                            ? handleDisableProfil(data)
+                            : handleActivateProfil(data)">
+                          </button>
+                          <button pButton pRipple icon="pi pi-arrow-right" [disabled]="data.statut === 'inactif'" (click)="onViewAffection(data)" class="p-button-dark"
+                            pTooltip="Affecter" tooltipPosition="top"></button>
+                          <button pButton pRipple icon="pi pi-trash" [disabled]="data.users_count > 0" (click)="handleleteProfilHabilitation(data)"
+                            class="p-button-danger" pTooltip="Supprimer" tooltipPosition="top"></button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="HISTORIQUE">
+                <app-historique *ngIf="currentTabsIndex === 1" [sous_module]="'PROFIL HABILITATIONS'"></app-historique>
+              </p-tabPanel>
+            </p-tabView>
           </div>
           <app-forms-profil [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
             (listProfils)="pushListProfils($event)">

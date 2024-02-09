@@ -1,3 +1,4 @@
+import { TransactionMasseComponent } from './components/transaction-masse/transaction-masse.component';
 import { PatrimoineHeaderComponent } from './components/patrimoine-header/patrimoine-header.component';
 import { TabViewHeaderComponent } from './components/tab-view-header/tab-view-header.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
@@ -77,6 +78,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     TableHeaderComponent,
     TabViewHeaderComponent,
     PatrimoineHeaderComponent,
+    TransactionMasseComponent,
     QrModalComponent,
     SafePipe,
     FormatNumberPipe,
@@ -124,6 +126,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     TableHeaderComponent,
     TabViewHeaderComponent,
     PatrimoineHeaderComponent,
+    TransactionMasseComponent,
     SvgIconComponent,
     SwiperModule,
     SafePipe,

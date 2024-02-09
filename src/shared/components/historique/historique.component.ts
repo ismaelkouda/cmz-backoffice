@@ -16,6 +16,7 @@ export class HistoriqueComponent implements OnInit {
   @Input() sous_module: string;
   @Input() modele: string;
   @Input() modele_id: any
+  @Input() modele_type: any
 
   public listUsers: Array<any> = [];
   public exportList: Array<any> = [];
@@ -46,25 +47,28 @@ export class HistoriqueComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllUsers();
-    //this.refreshHistorique()
     this.getAllHistoriques()
   }
 
   showHistorique(data: any) {
-    if (data?.event === 'Mise à jour') {
-      this.currentEventParse = JSON.parse(data?.data);    
-      Object.values(this.currentEventParse?.before).map((value, i) => {
-        this.currentEventParseBeforeValues.push(value);
-        this.currentEventParseBeforeKeys.push(Object.keys(this.currentEventParse?.before)[i]);
-        this.currentEventParseAfter.push(Object.values(this.currentEventParse?.after)[i]);
-        this.currentEventParseAfterValues = this.currentEventParseAfter.map((item, index) => {
-          if (item === this.currentEventParseBeforeValues[index]) {
-            return { item, isIdentique: true }
-          } else {
-            return { item, isIdentique: false }
-          }
+    console.log("data",data);
+    
+    if (data?.event === 'Mise à jour' || data?.event === 'Évènement') {
+      this.currentEventParse = JSON.parse(data?.data);
+      if (this.currentEventParse?.before && this.currentEventParse?.after) {
+        Object.values(this.currentEventParse.before).map((value, i) => {
+          this.currentEventParseBeforeValues.push(value);
+          this.currentEventParseBeforeKeys.push(Object.keys(this.currentEventParse.before)[i]);
+          this.currentEventParseAfter.push(Object.values(this.currentEventParse.after)[i]);
+          this.currentEventParseAfterValues = this.currentEventParseAfter.map((item, index) => {
+            if (item === this.currentEventParseBeforeValues[index]) {
+              return { item, isIdentique: true };
+            } else {
+              return { item, isIdentique: false };
+            }
+          });
         });
-      });
+      }
     }
     this.display = true;
     this.currentEvent = data;
@@ -97,6 +101,7 @@ export class HistoriqueComponent implements OnInit {
       date_debut: this.selectDateStart,
       date_fin: this.selectDateEnd,
       modele_id: this.modele_id,
+      modele_type: this.modele_type,
       user_id: this.currentUser?.id,
     };
     this.settingService.

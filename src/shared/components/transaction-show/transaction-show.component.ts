@@ -14,7 +14,6 @@ import { Justificatif } from 'src/shared/enum/Justificatif.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 import {  Router } from '@angular/router';
 import { OPERATION_PROVISIONNING, PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
-import { TRANSACTION_SIM } from 'src/presentation/pages/patrimoine/patrimoine-routing.module';
 import { COMMANDE_SIM, LIGNE_CREDIT } from 'src/presentation/pages/provisionning/provisionning-routing.module';
 import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
 declare var require;
@@ -216,7 +215,7 @@ export class TransactionShowComponent implements OnInit {
         return this.GetAllTraitement()
      }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX_ROUTE}`){
       return this.GetAllContencieux()
-     }else if(this.router.url === `/${PATRIMOINE}/${TRANSACTION_SIM}`){
+     }else if(this.router.url === `/${PATRIMOINE}/${''}`){
       return this.GetAllTransactions()
      }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${DEMANDE_ROUTE}`){
       return this.GetAllDemandes()

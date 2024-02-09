@@ -1,4 +1,3 @@
-import { TransactionSwappingComponent } from './feature/transaction-swapping/transaction-swapping.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -25,15 +24,11 @@ import { CheckboxModule } from 'primeng/checkbox';
 
 
 //Components
-import { TransactionResiliationComponent } from './feature/transaction-resiliation/transaction-resiliation.component';
-import { TransactionSuspensionComponent } from './feature/transaction-suspension/transaction-suspension.component';
-import { TransactionVolumeDataComponent } from './feature/transaction-volume-data/transaction-volume-data.component';
-import { TransactionActivationComponent } from './feature/transaction-activation/transaction-activation.component';
-import { RapportBoxComponent } from './feature/rapport-box/rapport-box.component';
 import { DashboardSlaComponent } from './ui/dashboard-sla/dashboard-sla.component';
 import { RapportConformiteComponent } from './ui/rapport-conformite/rapport-conformite.component';
 import { SlaDemandeServiceRoutingModule } from './sla-demande-service-routing.module';
-
+import { RapportTransactionComponent } from './feature/rapport-transaction/rapport-transaction.component';
+import { RapportBoxComponent } from './feature/rapport-box/rapport-box.component';
 
 @NgModule({
     imports: [
@@ -62,12 +57,8 @@ import { SlaDemandeServiceRoutingModule } from './sla-demande-service-routing.mo
     declarations: [
         DashboardSlaComponent,
         RapportConformiteComponent,
+        RapportTransactionComponent,
         RapportBoxComponent,
-        TransactionResiliationComponent,
-        TransactionSuspensionComponent,
-        TransactionVolumeDataComponent,
-        TransactionActivationComponent,
-        TransactionSwappingComponent
     ],
 })
 export class SlaDemandeServiceModule { }

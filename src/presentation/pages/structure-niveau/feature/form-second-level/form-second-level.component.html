@@ -55,7 +55,7 @@
                         <b>{{parentLevelLibelle}}<span class="text-danger">*</span></b>
                       </label>
                       <p-dropdown [options]="listFirstLevelDatas" [placeholder]="parentLevelLibelle" formControlName="niveau_un_uuid"
-                        optionLabel="nom" optionValue="uuid">
+                        optionLabel="nom" [filter]="true" optionValue="uuid">
                         <ng-template let-data pTemplate="item">
                           <div class="country-item">
                             <div>
@@ -104,7 +104,7 @@
                           <b>{{parentLevelLibelle}}<span class="text-danger">*</span></b>
                         </label>
                         <p-dropdown [options]="listFirstLevelDatas" [placeholder]="parentLevelLibelle" formControlName="niveau_un_uuid"
-                          optionLabel="nom" optionValue="uuid">
+                          optionLabel="nom" [filter]="true" optionValue="uuid">
                           <ng-template let-data pTemplate="item">
                             <div class="country-item">
                               <div>

@@ -84,7 +84,7 @@ export class FormFirstLevelComponent implements OnInit {
           this.close()
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -96,7 +96,7 @@ export class FormFirstLevelComponent implements OnInit {
     //       this.listGroupes = response['data'];
     //     },
     //     error: (error) => {
-    //       this.toastrService.error(error.error.message);
+    //       this.toastrService.error(error.error.error.message);
     //     }
     //   })
   }
@@ -242,7 +242,7 @@ export class FormFirstLevelComponent implements OnInit {
           this.toastrService.success(response.message);
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -259,7 +259,7 @@ export class FormFirstLevelComponent implements OnInit {
           this.toastrService.success(response.message);
         },
         error: (error) => {
-          this.toastrService.error(error.message);
+          this.toastrService.error(error.error.message);
         }
       })
   }
@@ -277,7 +277,7 @@ export class FormFirstLevelComponent implements OnInit {
           this.toastrService.success(response.message);
         },
         error: (error) => {
-          this.toastrService.error(error.error.message);
+          this.toastrService.error(error.error.error.message);
         }
       })
       */
@@ -298,7 +298,7 @@ export class FormFirstLevelComponent implements OnInit {
           this.toastrService.success(response.message);
         },
         error: (error) => {
-          this.toastrService.error(error.error.message);
+          this.toastrService.error(error.error.error.message);
         }
       })
       */
@@ -306,7 +306,7 @@ export class FormFirstLevelComponent implements OnInit {
   public handleRetraitSim(): void {
     Swal.fire({
       title: 'En êtes vous sûr ?',
-      html: `Voulez-vous retirer ce(s) SIM(s)`,
+      html: `Voulez-vous retirer ce(s) ${this.secondLevelMenus}`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#569C5B',
@@ -328,7 +328,7 @@ export class FormFirstLevelComponent implements OnInit {
               this.toastrService.success(response.message);
             },
             error: (error) => {
-              this.toastrService.error(error.error.message);
+              this.toastrService.error(error.error.error.message);
             }
           })
       }
@@ -378,7 +378,7 @@ export class FormFirstLevelComponent implements OnInit {
           });
         },
         error: (error) => {
-          this.toastrService.error(error.error.message);
+          this.toastrService.error(error.error.error.message);
         }
       })
   }

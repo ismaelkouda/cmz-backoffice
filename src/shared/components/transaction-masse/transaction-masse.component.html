@@ -1,0 +1,24 @@
+<!-- DEBUT: formulaire ajout en masse dans le module 'Operation d'identification' -->
+<div>
+  <div class="row">
+    <div class="input_file h-75 col-md-3">
+      <label for="file" [ngClass]="{'isFile_backgroundGreen': arrayHeaderExcelFile.length !== 0}">
+        <img src="assets/images/excel.png" width="50" />
+        <span><b>{{ !fileName ? 'Spécifier le fichier' : fileName }}</b></span>
+      </label>
+      <input type="file" id="file" (change)="onExcelFileChange($event.target.files)" [disabled]="true" accept=".xlsx, .xls" name="file" />
+    </div>
+    <div class="col-md-4">
+      <textarea name="commentaire" [(ngModel)]="commentaire" class="form-control h-75 no-gutters"
+        placeholder="Entrez un commentaire"></textarea>
+    </div>
+    <div class="col-md-2">
+      <button pButton pRipple label="Vérifier" icon="pi pi-search" class="p-button-warning ms-3 w-100"
+        (click)="checkFile()" [disabled]="true"></button>
+    </div>
+    <div class="col-md-3">
+      <button pButton pRipple label="Télécharger le modèle" icon="pi pi-download" class="p-button-secondary"
+        (click)="downloadModelXls()" [disabled]="true"></button>
+    </div>
+  </div>
+</div>

@@ -34,6 +34,7 @@ export class ThirdLevelComponent implements OnInit {
   public isEdit: boolean = false;
   public isShow: boolean = false;
   public adminForm: FormGroup;
+  public currentTabsIndex: number = 0;
 
   constructor(
     private settingService: SettingService,
@@ -83,6 +84,11 @@ export class ThirdLevelComponent implements OnInit {
           this.toastrService.error(error.message);
         }
       })
+  }
+  public OnRefresh(){
+    this.GellCurrentLevel();
+    this.selectedNom = null
+    this.selectedCode = null
   }
 
   copyData(data: any): void {
@@ -139,6 +145,9 @@ export class ThirdLevelComponent implements OnInit {
     this.listCurrentLevelDatas = event;
   }
 
+  handleChangeTabviewIndex(e) {
+    this.currentTabsIndex = e.index;
+  }
   hideForm() {
     this.modalService.dismissAll();
     this.adminForm.reset();

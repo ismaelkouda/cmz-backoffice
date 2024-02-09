@@ -63,4 +63,12 @@ export class ParametreSecuriteService {
     const url: string = (<string>EndPointUrl.DISABLE_PROFIL).replace('{id}', data)
     return this.http.put(`${this.baseUrl}${url}`, {});
   }
+  handleActivateUser(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.ACTIVATE_USER).replace('{id}', data)
+    return this.http.put(`${this.baseUrl}${url}`, {});
+  }
+  handleDisableUser(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.DISABLE_USER).replace('{id}', data)
+    return this.http.put(`${this.baseUrl}${url}`, {});
+  }
 }

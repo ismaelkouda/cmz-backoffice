@@ -30,7 +30,7 @@
               <div class="table_content_wrapper">
                 <p-table #dt [value]="listUsages" [rows]="10" [paginator]="true" responsiveLayout="scroll"
                   [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                        données" [showCurrentPageReport]="true" [globalFilterFields]="['nom', 'code']">
+                        données" [showCurrentPageReport]="true" [globalFilterFields]="['nom_usage', 'description']">
                   <ng-template pTemplate="caption">
                     <div class="table_header">
                       <app-table-header [count]="listUsages" [legende]="'Usages Metiers'"></app-table-header>

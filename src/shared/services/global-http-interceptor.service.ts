@@ -32,7 +32,10 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                             case 401:
                                 if (data) {
                                     handled = true;
-                                    this.router.navigateByUrl(`/auth/login`);
+                                    this.storage.removeData('user');
+                                    this.storage.removeData('current_menu');
+                                    this.router.navigateByUrl('auth/login')
+                                    .then(() => window.location.reload());
                                 } else {
                                     this.loadingBar.stop();
                                     this.toastrService.error(`${error.error.message}`)

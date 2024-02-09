@@ -35,6 +35,10 @@ export class SettingService {
     const url: string = (<string>EndPointUrl.UPDATE_USER);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  OnDeleteUser(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.DELETE_USER);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   getHistoriques(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_HISTORIQUE);
     return this.http.post(`${this.baseUrl}${url}`, data);

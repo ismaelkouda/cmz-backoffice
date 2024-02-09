@@ -20,6 +20,7 @@ export class ProfilHabilitationComponent implements OnInit {
   public formsView: boolean = false;
   public affectationView: boolean = false;
   public visualisationView: boolean = false;
+  public currentTabsIndex: number = 0;
 
   constructor(
     private parametreSecuriteService: ParametreSecuriteService,
@@ -184,6 +185,10 @@ export class ProfilHabilitationComponent implements OnInit {
           })
       }
     });
+  }
+
+  handleChangeTabviewIndex(e) {
+    this.currentTabsIndex = e.index;
   }
 
   public isFilter(): boolean {

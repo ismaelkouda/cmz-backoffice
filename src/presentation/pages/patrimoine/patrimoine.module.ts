@@ -28,7 +28,6 @@ import { CheckboxModule } from 'primeng/checkbox';
 //Components
 import { CarteSimActiveComponent } from './ui/carte-sim-active/carte-sim-active.component';
 import { TransactionSimComponent } from './ui/transaction-sim/transaction-sim.component';
-import { TransactionFormComponent } from './feature/transaction-form/transaction-form.component';
 import { DotationServiceComponent } from './ui/dotation-service/dotation-service.component';
 import { GroupeSimComponent } from './ui/groupe-sim/groupe-sim.component';
 import { EtatSoldeComponent } from './ui/etat-solde/etat-solde.component';
@@ -69,7 +68,6 @@ import { CarteMapComponent } from './feature/carte-map/carte-map.component';
         PatrimoineFormsComponent,
         TransactionSimComponent,
         EtatSoldeComponent,
-        TransactionFormComponent,
         DotationFormComponent,
         GroupeFormComponent,
         DownloadComponent,

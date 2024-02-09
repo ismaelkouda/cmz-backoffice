@@ -5,5 +5,6 @@ export interface UserModel extends GenericModel {
     nom: string;
     prenoms: string;
     email: string;
+    username: string;
     token: string;
 }

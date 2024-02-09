@@ -1,5 +1,4 @@
 import { ParametreSecuriteService } from './../../data-access/parametre-securite.service';
-import { SettingService } from './../../../../../shared/services/setting.service';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';

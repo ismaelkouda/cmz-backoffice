@@ -141,10 +141,16 @@ export class MyAccountComponent implements OnInit {
         confirmButtonText: 'Oui',
       }).then((result) => {
         if (result.isConfirmed) {
+          const isProfil = 
           this.storage.removeData('user');
           this.storage.removeData('current_menu');
-          this.router.navigateByUrl('auth/login');
-
+          if (this.storage.getData('isProfil') || null) {
+            this.storage.removeData('isProfil');
+            this.router.navigateByUrl('auth/login')
+            .then(() => window.location.reload());
+          }else{
+            this.router.navigateByUrl('auth/login');
+          }
         }
       });
     }

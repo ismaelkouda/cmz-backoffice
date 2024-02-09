@@ -86,3 +86,4 @@ import { PerformancesComponent } from './ui/performances/performances.component'
     providers: [EditableRow, SupervisionOperationService]
 })
 export class SupervisionOperationsModule { }
+

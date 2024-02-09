@@ -252,10 +252,7 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.GetAllProfilHabilitations();
           this.toastrService.success(response.message);
-          this.storage.removeData('user');
-          this.storage.removeData('current_menu');
-          this.router.navigateByUrl('auth/login')
-            .then(() => window.location.reload());
+          this.storage.saveData('isProfil',"is_profil");
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

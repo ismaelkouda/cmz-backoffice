@@ -2,6 +2,7 @@ export const enum EndPointUrl {
     GET_ALL_USERS = 'users/all',
     SAVE_USER = 'users/store',
     UPDATE_USER = 'users/update',
+    DELETE_USER = 'users/delete',
     GET_ALL_HISTORIQUE = 'historiques',
     GET_ALL_JOURNAL = 'gestion-transactions/journal-evenements',
     GET_ALL_YEAR = 'gestion-campagnes/annees/all',

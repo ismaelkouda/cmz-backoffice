@@ -9,6 +9,8 @@ export const enum EndPointUrl {
     SAVE_REAFFECTATION = 'user-profiles/reaffectation',
     SAVE_RETRAIT = 'user-profiles/retrait',
     ACTIVATE_PROFIL = 'user-profiles/{id}/activer',
-    DISABLE_PROFIL = 'user-profiles/{id}/desactiver'
+    DISABLE_PROFIL = 'user-profiles/{id}/desactiver',
+    ACTIVATE_USER = 'users/{id}/activer',
+    DISABLE_USER = 'users/{id}/desactiver'
 }
 

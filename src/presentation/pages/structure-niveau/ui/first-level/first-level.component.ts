@@ -35,6 +35,7 @@ export class FirstLevelComponent implements OnInit {
   public isShow: boolean = false;
   public adminForm: FormGroup;
   public affectationForm: FormGroup
+  public currentTabsIndex: number = 0;
 
 
   constructor(
@@ -85,6 +86,12 @@ export class FirstLevelComponent implements OnInit {
           this.toastrService.error(error.message);
         }
       })
+  }
+
+  public OnRefresh(){
+    this.GellAllFirstLevel();
+    this.selectedNom = null
+    this.selectedCode = null
   }
 
   copyData(data: any): void {
@@ -158,6 +165,9 @@ export class FirstLevelComponent implements OnInit {
     this.listFirstLevelDatas = event;
   }
 
+  handleChangeTabviewIndex(e) {
+    this.currentTabsIndex = e.index;
+  }
 
   public OnExportExcel(): void {
     const data = this.listFirstLevelDatas.map((item: any) => ({

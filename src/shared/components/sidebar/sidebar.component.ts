@@ -49,47 +49,50 @@ export class SidebarComponent {
       path: `/${DASHBOARD}`,
       statut: true,
     })
-    this.data?.push({
-      title: `Structure Organisationnelle`,
-      label: `Structure Organisationnelle`,
-      data: "7-0-0-structure-orga",
-      statut: true,
-      icon: "bar-chart-2",
-      url: "assets/images/portail/icone_settings.webp",
-      path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
-      routerLink: ``,
-      type: "sub",
-      children: [
-        {
-          path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
-          title: `${mappingService.structureGlobale?.niveau_1_menu}`,
-          label: `${mappingService.structureGlobale?.niveau_1_menu}`,
-          data: "7-1-0-structure-orga-niveau-1",
-          type: "link"
-        },
-        {
-          path: `/${STRUCTURE_ORGANISATIONNELLE}/${SECOND_LEVEL_ROUTE}`,
-          title: `${mappingService.structureGlobale?.niveau_2_menu}`,
-          label: `${mappingService.structureGlobale?.niveau_2_menu}`,
-          data: "7-2-0-structure-orga-niveau-2",
-          type: "link"
-        },
-        {
-          path: `/${STRUCTURE_ORGANISATIONNELLE}/${THRID_LEVEL_ROUTE}`,
-          title: `${mappingService.structureGlobale?.niveau_3_menu}`,
-          label: `${mappingService.structureGlobale?.niveau_3_menu}`,
-          data: "7-3-0-structure-orga-niveau-3",
-          type: "link"
-        },
-        {
-          path: `/${STRUCTURE_ORGANISATIONNELLE}/${USAGE_METIER}`,
-          title: `Usages Métier`,
-          label: `Usages Métier`,
-          data: "7-4-0-structure-orga-usage",
-          type: "link"
-        }
-      ]
-    })
+    if (this.data?.length > 1) {
+      this.data?.push({
+        title: `Structure Organisationnelle`,
+        label: `Structure Organisationnelle`,
+        data: "7-0-0-structure-orga",
+        statut: true,
+        icon: "bar-chart-2",
+        url: "assets/images/portail/icone_settings.webp",
+        path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
+        routerLink: ``,
+        type: "sub",
+        children: [
+          {
+            path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
+            title: `${mappingService.structureGlobale?.niveau_1_menu}`,
+            label: `${mappingService.structureGlobale?.niveau_1_menu}`,
+            data: "7-1-0-structure-orga-niveau-1",
+            type: "link"
+          },
+          {
+            path: `/${STRUCTURE_ORGANISATIONNELLE}/${SECOND_LEVEL_ROUTE}`,
+            title: `${mappingService.structureGlobale?.niveau_2_menu}`,
+            label: `${mappingService.structureGlobale?.niveau_2_menu}`,
+            data: "7-2-0-structure-orga-niveau-2",
+            type: "link"
+          },
+          {
+            path: `/${STRUCTURE_ORGANISATIONNELLE}/${THRID_LEVEL_ROUTE}`,
+            title: `${mappingService.structureGlobale?.niveau_3_menu}`,
+            label: `${mappingService.structureGlobale?.niveau_3_menu}`,
+            data: "7-3-0-structure-orga-niveau-3",
+            type: "link"
+          },
+          {
+            path: `/${STRUCTURE_ORGANISATIONNELLE}/${USAGE_METIER}`,
+            title: `Usages Métier`,
+            label: `Usages Métier`,
+            data: "7-4-0-structure-orga-usage",
+            type: "link"
+          }
+        ]
+      })
+    }
+
     this.data.map(item => {
       if (item.statut === true) {
         this.filterArray.push(item);

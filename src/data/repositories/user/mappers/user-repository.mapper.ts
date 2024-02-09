@@ -8,6 +8,7 @@ export class UserImplementationRepositoryMapper extends Mapper<UserEntity, UserM
         return {
             id: param.id,
             email: param.email,
+            username: param.username,
             nom: param.nom,
             prenoms: param.prenoms,
             token: param.token,
@@ -18,6 +19,7 @@ export class UserImplementationRepositoryMapper extends Mapper<UserEntity, UserM
         return {
             id: param.id,
             email: param.email,
+            username: param.username,
             nom: param.nom,
             prenoms: param.prenoms,
             token: param.token,

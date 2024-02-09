@@ -3,6 +3,7 @@ import { Routes } from "@angular/router";
 
 export const DASHBOARD = 'dashboard';
 export const PATRIMOINE = 'patrimoine';
+export const DEMANDE_SERVICE = 'demandes';
 export const REFERENTIEL_TELEMETRIE = 'ref-supervision';
 export const SUPERVISION_SIM = 'supervision-sim';
 export const SUPERVISION_OPERATIONS = 'operations';
@@ -33,9 +34,20 @@ export const content: Routes = [
         'Cartes SIM',
         'Groupe de SIM',
         'Dotation Data',
-        'Demandes de Service',
         'Etat des Soldes Data',
         'Téléchargements'
+      ]
+    }
+  },
+  {
+    path: DEMANDE_SERVICE,
+    loadChildren: () => import("../../presentation/pages/demandes/demandes.module").then((m) => m.DemandesModule),
+    data: {
+      module: 'Demandes',
+      subModule: [
+        'Activations',
+        'Suspensions',
+        'Résiliations'
       ]
     }
   },

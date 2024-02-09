@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ParametreSecuriteService } from '../../data-access/parametre-securite.service';
+const Swal = require('sweetalert2');
 
 @Component({
   selector: 'app-admin-form',
@@ -18,6 +19,8 @@ export class AdminFormComponent implements OnInit {
   adminForm: FormGroup;
   public listProfils: Array<any> = []
   public currentLevelLibelle: string
+  public suffixEmail: string
+  public principalUsername: string
 
   constructor(
     private fb: FormBuilder,
@@ -27,7 +30,10 @@ export class AdminFormComponent implements OnInit {
     private mappingService: MappingService
   ) {
     this.currentLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
-
+    this.suffixEmail = this.mappingService.suffixEmail
+    this.principalUsername = `admin${this.suffixEmail}`;   
+    
+    
   }
 
   ngOnInit(): void {
@@ -49,12 +55,13 @@ export class AdminFormComponent implements OnInit {
       })
   }
   public GetAllProfilHabilitations() {
+    
     this.parametreSecuriteService
       .GetAllProfilHabilitations({})
       .subscribe({
         next: (response) => {
           this.listProfils = response['data'];
-          if (this.currentObject) {
+          if (this.currentObject) {            
             this.onFormPachValues();
           }
         },
@@ -64,16 +71,15 @@ export class AdminFormComponent implements OnInit {
       })
   }
   public OnInitForm() {
+    const suffixeEmail = '@gmail.com';
+
     this.adminForm = this.fb.group({
       nom: ['', [Validators.required]],
       prenoms: ['', [Validators.required]],
-      email: ['',[
-        Validators.email,
-        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
-      ],
-     ],
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required,Validators.email]],
       contacts: ['', [Validators.pattern("^[0-9]*$")]],
-      profil_user_id: ['',[Validators.required]] 
+      profil_user_id: [''] 
     })
     this.adminForm.get('contacts').valueChanges.subscribe(value => {
       if (value && value.length > 10) {
@@ -86,13 +92,15 @@ export class AdminFormComponent implements OnInit {
   }
 
   public handleSave() {
+     this.adminForm.get('username').patchValue(this.adminForm.get('username').value+this.suffixEmail);
     this.settingService
       .OnSaveUser(this.adminForm.value).subscribe({
         next: (response) => {
           this.GetAllUsers();
-          this.toastrService.success(response.message);
+          this.showPassword(response['message'])
         },
         error: (error) => {
+          this.adminForm.reset()
           this.toastrService.error(error.error.message);
         }
       })
@@ -101,7 +109,8 @@ export class AdminFormComponent implements OnInit {
   handleUpdate() {
     this.settingService
       .OnUpdateUser({
-        ...this.adminForm.value
+        ...this.adminForm.value,
+        user_id: this.currentObject.id
       }).subscribe({
         next: (response) => {
           this.GetAllUsers();
@@ -116,12 +125,34 @@ export class AdminFormComponent implements OnInit {
   public onFormPachValues(): void {
     this.adminForm.get('nom').patchValue(this.currentObject.nom);
     this.adminForm.get('prenoms').patchValue(this.currentObject?.prenoms);
+    this.adminForm.get('username').patchValue(this.currentObject?.username)
     this.adminForm.get('email').patchValue(this.currentObject?.email)
     this.adminForm.get('contacts').patchValue(this.currentObject?.contacts)
     this.adminForm.get('profil_user_id').patchValue(this.currentObject?.profil_user_id)
+    this.adminForm.get('username').disable()
+    if (this.currentObject?.username === this.principalUsername) {
+      this.adminForm.get('profil_user_id').patchValue(this.currentObject?.profil_user?.description)
+      this.adminForm.get('profil_user_id').disable()
+    }
     if (this.currentObject.show) {
       this.adminForm.disable()
     }
+  }
+
+  public showPassword(data: Object): void {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+    swalWithBootstrapButtons.fire({
+      icon: "warning", 
+      html: `${data}`,
+      confirmButtonColor: "#F07427",
+      confirmButtonText: "ok",
+    });
   }
 
 }

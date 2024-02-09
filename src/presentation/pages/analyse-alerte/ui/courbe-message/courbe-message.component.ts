@@ -13,7 +13,6 @@ export class CourbeMessageComponent implements OnInit {
   public visualUrl: string;
   public grafanaLink: string;
 
-
   constructor(
     private router: Router,
     private mappingService: MappingService

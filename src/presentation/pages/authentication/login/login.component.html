@@ -15,9 +15,9 @@
                         <div class="theme-form needs-validation" [formGroup]="loginForm">
                             <h4 class="text-center mb-5">Authentification</h4>
                             <div class="form-group">
-                                <label class="col-form-label"><b>Adresse email <span
+                                <label class="col-form-label"><b>Username<span
                                             class="text-danger">*</span></b></label>
-                                <input class="form-control" type="email" formControlName="email"
+                                <input class="form-control" type="email" formControlName="username"
                                     placeholder="app@yourmail.com">
                             </div>
                             <div class="form-group">
@@ -26,13 +26,14 @@
                                     <p-password formControlName="password" [feedback]="false"  [toggleMask]="true" styleClass="p-password p-component p-inputwrapper p-input-icon-right"></p-password>
                                 </div>
                             </div>
-                        <!-- <div class="recaptcha-wrapper"
-                            style="padding: 0 0 0 30px;margin-top: 1.2rem;margin-bottom: 2rem;">
+                            <!-- <div class="recaptcha-wrapper" style="padding: 0 0 0 30px;margin-top: 1.2rem;margin-bottom: 2rem;">
                             <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'"
-                                [(ngModel)]="currentRecaptcha" (success)="handleSuccess($event)"
+                                [(ngModel)]="currentRecaptcha" 
+                                (success)="handleSuccess($event)"
+                                (expire)="handleExpire()"
                                 >
                             </ngx-recaptcha2>
-                        </div> -->
+                           </div> -->
                         <div class="form-group mb-0 mt-4">
                             <button (click)="onLogin()" [disabled]="!loginForm.valid" class="btn btn-primary d-block w-100">
                                 Connexion

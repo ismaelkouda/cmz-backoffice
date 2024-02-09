@@ -5,6 +5,7 @@ export interface UserEntity extends GenericModel {
     nom: string;
     prenoms: string;
     email: string;
+    username: string;
     token: string;
 }
 

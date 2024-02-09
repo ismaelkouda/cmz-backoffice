@@ -56,7 +56,7 @@
       </div>
     </p-tabPanel>
     <p-tabPanel header="HISTORIQUE" *ngIf="currentObject?.show">
-      <app-historique [module]="'PARAMETRES SECURITE'" [sous_module]="'PROFIL USERS'" [modele_id]="currentObject.id">
+      <app-historique [modele_type]="'profils-habilitations'" [modele_id]="currentObject.id">
       </app-historique>
     </p-tabPanel>
   </p-tabView>

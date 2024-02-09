@@ -43,9 +43,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.siteKey = environment.recaptcha.siteKey;
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required]],
+      username: ['', [Validators.required]],
       password: ['', Validators.required],
-      port: ['']
+      port: [''],
+      //recaptcha_token: ['',[Validators.required]]
     });
 
   }
@@ -61,23 +62,26 @@ export class LoginComponent implements OnInit {
               if (module.data === "1-0-0-patrimoine" && response['data']['permissions'].includes(sous_module.data)) {
                 this.permissionsJson[0] = { ...module, statut: true }
               }
-              if (module.data === "2-0-0-referentiel-telemetrie" && response['data']['permissions'].includes(sous_module.data)) {
+              if (module.data === "9-0-0-demandes-de-services" && response['data']['permissions'].includes(sous_module.data)) {
                 this.permissionsJson[1] = { ...module, statut: true }
               }
-              if (module.data === "3-0-0-gestion-portefeuille" && response['data']['permissions'].includes(sous_module.data)) {
+              if (module.data === "2-0-0-referentiel-telemetrie" && response['data']['permissions'].includes(sous_module.data)) {
                 this.permissionsJson[2] = { ...module, statut: true }
               }
-              if (module.data === "4-0-0-suivi-operations" && response['data']['permissions'].includes(sous_module.data)) {
+              if (module.data === "3-0-0-gestion-portefeuille" && response['data']['permissions'].includes(sous_module.data)) {
                 this.permissionsJson[3] = { ...module, statut: true }
               }
-              if (module.data === "5-0-0-supervision-sim" && response['data']['permissions'].includes(sous_module.data)) {
+              if (module.data === "4-0-0-suivi-operations" && response['data']['permissions'].includes(sous_module.data)) {
                 this.permissionsJson[4] = { ...module, statut: true }
               }
-              if (module.data === "6-0-0-parametres-securite" && response['data']['permissions'].includes(sous_module.data)) {
-                this.permissionsJson[6] = { ...module, statut: true }
+              if (module.data === "5-0-0-supervision-sim" && response['data']['permissions'].includes(sous_module.data)) {
+                this.permissionsJson[5] = { ...module, statut: true }
               }
               if (module.data === "8-0-0-sla-demandes-de-services" && response['data']['permissions'].includes(sous_module.data)) {
-                this.permissionsJson[5] = { ...module, statut: true }
+                this.permissionsJson[6] = { ...module, statut: true }
+              }
+              if (module.data === "6-0-0-parametres-securite" && response['data']['permissions'].includes(sous_module.data)) {
+                this.permissionsJson[7] = { ...module, statut: true }
               }
             })
           }
@@ -98,8 +102,11 @@ export class LoginComponent implements OnInit {
     this.show = !this.show
   }
 
-  handleSuccess(event){
-    console.log("event",event);
+  handleExpire() {
+    this.loginForm.get('recaptcha_token').patchValue(null)
   }
 
+  handleSuccess(event){
+    this.loginForm.get('recaptcha_token').patchValue(event)
+  }
 }

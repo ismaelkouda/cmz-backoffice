@@ -1,3 +1,4 @@
+import { DEMANDE_RESILIATION } from './../../../demandes/demandes-routing.module';
 import { ExcelService } from './../../../../../shared/services/excel.service';
 import { MappingService } from './../../../../../shared/services/mapping.service';
 import { SimStatut } from './../../../../../shared/enum/SimStatut.enum';
@@ -10,10 +11,11 @@ import { ClipboardService } from 'ngx-clipboard';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QrModalComponent } from 'src/shared/components/qr-modal/qr-modal.component';
-import { PATRIMOINE } from 'src/shared/routes/routes';
-import { DOTATION_SERVICES, TRANSACTION_SIM } from '../../patrimoine-routing.module';
+import { DEMANDE_SERVICE, PATRIMOINE } from 'src/shared/routes/routes';
+import { DOTATION_SERVICES } from '../../patrimoine-routing.module';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
+import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION } from 'src/presentation/pages/demandes/demandes-routing.module';
 const Swal = require('sweetalert2');
 
 
@@ -283,14 +285,26 @@ export class CarteSimActiveComponent implements OnInit {
     this.formsView = true;
     this.currentData = { ...data, show: true };
   }
-  public onTransactionForm(data: any,operation: string): void {
+  public onTransactionForm(data: any, operation: string): void {
     this.initialView = false;
-    this.router.navigateByUrl(
-      `${PATRIMOINE}/${TRANSACTION_SIM}`,
-      { state: {patrimoine: data,operation: operation} }
-    );
-  }
+    let url: string;
+    switch (operation) {
+      case this.activation:
+        url = `${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`;
+        break;
+      case this.suspension:
+        url = `${DEMANDE_SERVICE}/${DEMANDE_SUSPENSION}`;
+        break;
+      case this.resiliation:
+          url = `${DEMANDE_SERVICE}/${DEMANDE_RESILIATION}`;
+          break;
+      default:
+        url = `${PATRIMOINE}/${''}`;
+    }
   
+    this.router.navigateByUrl(url, { state: { patrimoine: data, operation: operation } });
+  }
+
   public onDotationForm(data: any): void {
     this.initialView = false;
     this.router.navigateByUrl(

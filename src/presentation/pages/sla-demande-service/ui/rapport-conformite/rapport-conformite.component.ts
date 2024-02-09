@@ -1,6 +1,7 @@
 import { ApplicationType } from './../../../../../shared/enum/ApplicationType.enum';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
@@ -14,6 +15,13 @@ export class RapportConformiteComponent implements OnInit {
   public subModule: string;
   public rapport: any;
   public currentTabsIndex: number = 0;
+
+  public activation: string = OperationTransaction.ACTIVATION;
+  public suspension: string = OperationTransaction.SUSPENSION;
+  public resiliation: string = OperationTransaction.RESILIATION;
+  public swap: string = OperationTransaction.SWAP;
+  public volume: string = OperationTransaction.VOLUME_DATA;
+
 
   constructor(
     private route: ActivatedRoute,

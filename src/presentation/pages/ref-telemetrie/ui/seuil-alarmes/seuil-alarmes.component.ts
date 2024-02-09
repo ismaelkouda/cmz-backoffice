@@ -99,7 +99,6 @@ export class SeuilAlarmesComponent implements OnInit {
   handleChangeTabviewIndex(e) {
     this.currentTabsIndex = e.index;
     if (this.currentTabsIndex === 1) {
-      console.log("data");
       this.settingService.statutSubject.next(true);
     }
   }

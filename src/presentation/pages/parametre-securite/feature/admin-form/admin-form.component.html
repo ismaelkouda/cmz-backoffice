@@ -28,7 +28,7 @@
   </div>
   <hr *ngIf="!currentObject?.show">
   <!--------------------------FORMS-------------------------->
-  <div *ngIf="!currentObject?.show" style="margin-top: 3rem;">
+  <div *ngIf="!currentObject?.show">
       <div [formGroup]="adminForm" novalidate>
           <fieldset>
               <legend [ngStyle]="{width: '13rem'}">
@@ -54,27 +54,43 @@
                 <div class="col-md-4">
                   <div class="form-group">
                       <label>
+                          <b>Nom Connexion<span class="text-danger">*</span></b>
+                      </label>
+                      <div style="display: flex;">
+                        <div style="width: 100%;">
+                          <input type="text" formControlName="username"  pInputText />
+                        </div>
+                        <div style="margin-left: -14rem;width: 13.5rem;" *ngIf="!currentObject">
+                          <input type="text" [value]="suffixEmail" style="text-align: right;border: 0;height: 1rem;margin-top: 15px;    color: #000 !important;
+                          font-weight: 800;" readonly pInputText />
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                      <label>
                           <b>Email<span class="text-danger">*</span></b>
                       </label>
                       <input type="text" formControlName="email" pInputText />
                   </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div class="form-group">
                       <label>
-                          <b>Contacts</b>
+                          <b>Contacts<span class="text-danger">*</span></b>
                       </label>
                       <input type="text" formControlName="contacts" pInputText />
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label>
                       <b>Profil</b>
                     </label>
-                    <p-dropdown [options]="listProfils" optionLabel="nom" [showClear]="true" [filter]="true" filterBy="nom" formControlName="profil_user_id" optionValue="id" [placeholder]="'profil'">
+                    <p-dropdown *ngIf="this.currentObject?.username !== this.principalUsername" [options]="listProfils" optionLabel="nom" [showClear]="true" [filter]="true" filterBy="nom" formControlName="profil_user_id" optionValue="id" [placeholder]="'profil'">
                       <ng-template let-data pTemplate="item">
                         <div class="country-item">
                           <div>
@@ -83,6 +99,8 @@
                         </div>
                       </ng-template>
                     </p-dropdown>
+                    <!--------------------------------------->
+                    <input *ngIf="this.currentObject?.username === this.principalUsername" type="text" style="font-size: 17px !important;" formControlName="profil_user_id" pInputText />
                   </div>
                 </div>
               </div>
@@ -122,27 +140,35 @@
                     <div class="col-md-4">
                       <div class="form-group">
                           <label>
-                              <b>Email<span class="text-danger">*</span></b>
+                              <b>Nom Connexion<span class="text-danger">*</span></b>
                           </label>
-                          <input type="text" formControlName="email" pInputText />
+                          <input type="text" formControlName="username" pInputText />
                       </div>
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <div class="form-group">
                           <label>
-                              <b>Contacts</b>
+                              <b>Contacts<span class="text-danger">*</span></b>
                           </label>
                           <input type="text" formControlName="contacts" pInputText />
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                          <label>
+                              <b>Email<span class="text-danger">*</span><span class="text-danger">*</span></b>
+                          </label>
+                          <input type="text" formControlName="email" pInputText />
+                      </div>
+                    </div>
+                    <div class="col-md-4">
                       <div class="form-group">
                         <label>
                           <b>Profil</b>
                         </label>
-                        <p-dropdown [options]="listProfils" optionLabel="nom" [showClear]="true" [filter]="true" filterBy="nom" formControlName="profil_user_id" optionValue="id" [placeholder]="'profil'">
+                        <p-dropdown *ngIf="this.currentObject?.username !== this.principalUsername" [options]="listProfils" optionLabel="nom" [showClear]="true" [filter]="true" filterBy="nom" formControlName="profil_user_id" optionValue="id" [placeholder]="'profil'">
                           <ng-template let-data pTemplate="item">
                             <div class="country-item">
                               <div>
@@ -151,6 +177,8 @@
                             </div>
                           </ng-template>
                         </p-dropdown>
+                        <!--------------------------------------->
+                        <input *ngIf="this.currentObject?.username === this.principalUsername" type="text" formControlName="profil_user_id" pInputText />
                       </div>
                     </div>
                   </div>
@@ -158,8 +186,8 @@
           </div>
           </p-tabPanel>
           <p-tabPanel header="HISTORIQUE">
-            <!-- <app-historique [modele]="''" [modele_id]="currentObject.id">
-            </app-historique> -->
+            <app-historique [modele_type]="'users'" [modele_id]="currentObject.id">
+            </app-historique>
           </p-tabPanel>
       </p-tabView>
   </div>

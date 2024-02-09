@@ -7,25 +7,22 @@
           <p-tabView (onChange)="handleChangeTabviewIndex($event)">
             <p-tabPanel header="INDICATEURS & ALARMES">
               <div class="table_actions_wrapper" style="display: flex;justify-content: space-between;">
-                <!-- <div>
-                  <button pButton pRipple label="Exporter" (click)="OnExportExcel()" [disabled]="disableAction()" icon="pi pi-download"
-                    class="p-button-helf"></button>
-                  <button pButton pRipple label="Enregistrer" (click)="handleUpdateReferentielTelemetrie()"
-                    [disabled]="isValidate()" icon="pi pi-save" class="p-button-success ms-3"></button>
-                </div> -->
               </div>
               <div class="table_content_wrapper">
-                <p-table #dt [value]="listTelemetries" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+                <p-table #dt [value]="listTelemetries" 
+                [rows]="10" [paginator]="true" responsiveLayout="scroll"
                   [rowHover]="true" dataKey="id"
                   currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}données"
-                  [showCurrentPageReport]="true" editMode="row">
+                  [showCurrentPageReport]="true" editMode="row"
+                  [globalFilterFields]="['classification', 'description', 'type_mesure']"
+                  >
                   <ng-template pTemplate="caption">
                     <div class="table_header">
                       <app-table-header [count]="listTelemetries" [legende]="'Indicateurs et Alarmes'"></app-table-header>
                       <div class="table_header__input" style="position: relative;left: 1rem;">
                         <span class="p-input-icon-left ml-auto">
                           <i class="pi pi-search"></i>
-                          <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
                             placeholder="Recherche" />
                         </span>
                       </div>

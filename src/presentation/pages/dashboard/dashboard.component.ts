@@ -1,4 +1,4 @@
-import { CARTES_SIM, ETAT_SOLDE, TRANSACTION_SIM } from './../patrimoine/patrimoine-routing.module';
+import { CARTES_SIM, ETAT_SOLDE } from './../patrimoine/patrimoine-routing.module';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -123,16 +123,16 @@ export class DashboardComponent implements OnInit {
       //DEMANDES  
 
       case '# Demandes en Attentes':
-        this.router.navigateByUrl(`${PATRIMOINE}/${TRANSACTION_SIM}`, { state:{ statut: StatutTransaction.SOUMIS,traitement: TraitementTransaction.EN_ENTENTE}});
+        this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state:{ statut: StatutTransaction.SOUMIS,traitement: TraitementTransaction.EN_ENTENTE}});
         break;
       case '# Demandes Traitées':
-          this.router.navigateByUrl(`${PATRIMOINE}/${TRANSACTION_SIM}`, { state: { statut: StatutTransaction.TARITER} });
+          this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state: { statut: StatutTransaction.TARITER} });
         break;
       case '# Demandes Clôturées':
-        this.router.navigateByUrl(`${PATRIMOINE}/${TRANSACTION_SIM}`, { state: { statut: StatutTransaction.CLOTURER } });
+        this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state: { statut: StatutTransaction.CLOTURER } });
         break;  
       case '# Demandes Abandonnées':
-        this.router.navigateByUrl(`${PATRIMOINE}/${TRANSACTION_SIM}`, { state: { traitement: TraitementTransaction.ABANDONNER } });
+        this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state: { traitement: TraitementTransaction.ABANDONNER } });
         break;
 
         default:

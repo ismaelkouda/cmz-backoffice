@@ -36,6 +36,7 @@ export class SecondLevelComponent implements OnInit {
   public isEdit: boolean = false;
   public isShow: boolean = false;
   public adminForm: FormGroup;
+  public currentTabsIndex: number = 0;
 
   constructor(
     private settingService: SettingService,
@@ -89,6 +90,11 @@ export class SecondLevelComponent implements OnInit {
       })
   }
 
+  public OnRefresh(){
+    this.GellCurrentLevel();
+    this.selectedNom = null
+    this.selectedCode = null
+  }
   copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
@@ -146,6 +152,9 @@ export class SecondLevelComponent implements OnInit {
   }
   public pushListDatas(event: any): void {
     this.listCurrentLevelDatas = event;
+  }
+  handleChangeTabviewIndex(e) {
+    this.currentTabsIndex = e.index;
   }
   public OnExportExcel(): void {
     const data = this.listCurrentLevelDatas.map((item: any) => ({

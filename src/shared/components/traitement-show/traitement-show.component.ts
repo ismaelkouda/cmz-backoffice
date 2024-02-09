@@ -15,7 +15,6 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
 import { Router } from '@angular/router';
 import { PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
-import { TRANSACTION_SIM } from 'src/presentation/pages/patrimoine/patrimoine-routing.module';
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -130,7 +129,7 @@ export class TraitementShowComponent implements OnInit {
       .GetDetailTransaction({
         transaction: this.transaction?.transaction,
         operation: this.transaction?.operation,
-        ...(this.router.url !== `/${PATRIMOINE}/${TRANSACTION_SIM}` ? { model_id: this.transaction?.model_id } : { model_id: this.transaction?.demande_id }),
+        ...(this.router.url !== `/${PATRIMOINE}/${""}` ? { model_id: this.transaction?.model_id } : { model_id: this.transaction?.demande_id }),
         tenant_id: this.transaction?.tenant_id
       })
       .subscribe({

@@ -7,8 +7,7 @@ import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { Router } from '@angular/router';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-import { PATRIMOINE } from 'src/shared/routes/routes';
-import { TRANSACTION_SIM } from '../../patrimoine-routing.module';
+import { DEMANDE_SERVICE, PATRIMOINE } from 'src/shared/routes/routes';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 
 @Component({
@@ -318,7 +317,7 @@ export class PatrimoineFormsComponent implements OnInit {
   }
   public onTransactionForm(data: any,operation: string): void {
     this.router.navigateByUrl(
-      `${PATRIMOINE}/${TRANSACTION_SIM}`,
+      `${DEMANDE_SERVICE}/${DEMANDE_SERVICE}`,
       { state: {patrimoine: data,operation: operation} }
     );
   }

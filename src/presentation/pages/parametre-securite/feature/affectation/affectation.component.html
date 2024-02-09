@@ -14,9 +14,14 @@
       </div>
     </div>
     <div class="table_content_wrapper">
-      <p-table #dt [value]="listAffectations" [rows]="10" [paginator]="true" responsiveLayout="scroll" [rowHover]="true"
-        dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-              données" [showCurrentPageReport]="true">
+      <p-table #dt 
+       [value]="listAffectations" [rows]="10" 
+       [paginator]="true" responsiveLayout="scroll" 
+       [rowHover]="true"
+        dataKey="id" 
+        currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données" 
+        [globalFilterFields]="['nom', 'prenoms', 'code', 'username', 'contacts']"
+        [showCurrentPageReport]="true">
         <ng-template pTemplate="caption">
           <div class="table_header">
             <div class="table_header__legende">
@@ -32,7 +37,7 @@
               <div>
                 <span class="p-input-icon-left ml-auto">
                   <i class="pi pi-search"></i>
-                  <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                  <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
                     placeholder="Recherche" />
                 </span>
               </div>
@@ -45,7 +50,7 @@
             <th>Nom</th>
             <th>Prénom</th>
             <th>Contact</th>
-            <th>Email</th>
+            <th>Nom de connexion</th>
             <th class="text-center">
               <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
             </th>
@@ -57,7 +62,7 @@
             <td>{{ data.nom }}</td>
             <td>{{ data.prenoms }}</td>
             <td>{{ data.contact }}</td>
-            <td>{{ data.email }}</td>
+            <td>{{ data.username }}</td>
             <td class="text-center">
               <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
                 (click)="onCheckedOneConsumer(data)"></p-checkbox>
