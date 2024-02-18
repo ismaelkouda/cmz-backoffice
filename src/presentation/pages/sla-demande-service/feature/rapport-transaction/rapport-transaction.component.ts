@@ -5,7 +5,6 @@ import { ClipboardService } from 'ngx-clipboard';
 import * as moment from 'moment'
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { SlaDemandeService } from '../../data-access/sla-demande.service';
-import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { SettingService } from 'src/shared/services/setting.service';
 const Swal = require('sweetalert2');
 

@@ -15,7 +15,7 @@ export class TransactionMasseComponent implements OnInit {
   @Input() fileModel: any;
   @Input() typeOuvrage: any;
   @Input() displayModalAjoutEnMasse: boolean;
-
+  currentFile: any;
   arrayHeaderExcelFile: Array<any> = [];
   arrayContentExcelFile: Array<any> = [];
   formatData: any[] = [];
@@ -26,15 +26,12 @@ export class TransactionMasseComponent implements OnInit {
     private toastrService: ToastrService
     ) { }
 
-  ngOnInit() { 
-
-    console.log("currentArrayHeaders",this.currentArrayHeaders);
-
-  }  
+  ngOnInit() {}  
 
   closeModalAjoutInMass() { if(this.displayModalAjoutEnMasse) { this.resetFile() } }
   onExcelFileChange(event: FileList) {
     if(event.length != 0) {
+      this.currentFile = event.item(0);
       readXlsxFile(event[0]).then((rows) => {
         this.arrayHeaderExcelFile = rows[0];  
         this.arrayHeaderExcelFile.shift()
@@ -76,20 +73,26 @@ export class TransactionMasseComponent implements OnInit {
       });
   }
   formatDataToSend() {
+    /*
     this.arrayContentExcelFile.map((item) => {
       this.formatData.push({...this.arrayHeaderExcelFile.reduce((ac, key, i) => ({ ...ac, [key.toLowerCase()]: item[i] }), {})})
     });
-    this.currentArrayForm.emit(this.formatData);
+    */
+    this.currentArrayForm.emit(this.currentFile);
   }
   checkFile() {
+    this.formatDataToSend();
+    this.toastrService.success('Structure cohérente');
+    /*
     const isFileCorrect = this.isArraySame(this.arrayHeaderExcelFile, this.currentArrayHeaders);    
     if (isFileCorrect === false) {
       this.messageFileIsNotCorrect()
-    } else {
+    } else {      
       this.statutCompare= true;
       this.toastrService.success('Structure cohérente');
       this.formatDataToSend();
     }
+    */
   }
 
   downloadModelXls() {

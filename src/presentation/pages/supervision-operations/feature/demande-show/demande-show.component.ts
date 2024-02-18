@@ -7,6 +7,9 @@ import { SupervisionOperationService } from '../../data-access/supervision-opera
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { Justificatif } from 'src/shared/enum/Justificatif.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { Router } from '@angular/router';
+import { SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
+import { NOTIFY_ROUTE } from '../../supervision-operations-routing.module';
 
 @Component({
   selector: 'app-demande-show',
@@ -70,7 +73,8 @@ export class DemandeShowComponent implements OnInit {
     private activeModal: NgbActiveModal,
     private toastrService: ToastrService,
     private supervisionOperationService: SupervisionOperationService,
-    private mappingService: MappingService
+    private mappingService: MappingService,
+    private router: Router
 
   ) {
     Object.values(Justificatif).forEach(item => {
@@ -108,7 +112,7 @@ export class DemandeShowComponent implements OnInit {
   public GetDetailTransaction() {
     this.supervisionOperationService
       .GetDetailTransaction({
-        transaction: this.transaction?.transaction,
+        ...((this.router.url === `/${SUPERVISION_OPERATIONS}/${NOTIFY_ROUTE}`) ? { transaction: this.transaction.reference } : { transaction: this.transaction?.transaction}),
         operation: this.transaction?.operation,
         model_id: this.transaction?.model_id,
         tenant_id: this.transaction?.tenant_id

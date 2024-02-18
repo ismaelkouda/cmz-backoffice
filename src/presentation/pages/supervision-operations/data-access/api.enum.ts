@@ -7,5 +7,6 @@ export const enum EndPointUrl {
     UPDATE_TRANSACTION = 'supervision-operations/traitements-suivis/modifier-transaction',
     CANCEL_TRANSACTION = 'supervision-operations/traitements-suivis/abandonner-transaction',
     CLOSE_TRANSACTION = 'supervision-operations/traitements-suivis/cloturer-transaction',
-    GET_ALL_SLA = 'supervision-operations/engagement-sla/all'
+    GET_ALL_SLA = 'supervision-operations/engagement-sla/all',
+    GET_ALL_NOTIFICATIONS = 'supervision-operations/centre-notifications/all',
 }

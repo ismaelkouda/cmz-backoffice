@@ -1,3 +1,4 @@
+import { NotifyService } from './../../services/notify.service';
 import { Component, OnInit, Inject } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
 import { NavService } from "../../services/nav.service";
@@ -10,6 +11,7 @@ import { ApplicationType } from "src/shared/enum/ApplicationType.enum";
 import { Router } from "@angular/router";
 import { NOTIFY_ROUTE } from "src/presentation/pages/supervision-operations/supervision-operations-routing.module";
 import { SUPERVISION_OPERATIONS } from "src/shared/routes/routes";
+import { ToastrService } from 'ngx-toastr';
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -31,14 +33,16 @@ export class HeaderComponent implements OnInit {
   public patrimoineType: string;
   public soldeGlobal: string;
   public ligneCreditGlobal: string;
+  public countNotify: number = 0
 
-  
   constructor(
     public layout: LayoutService,
     public navServices: NavService,
     @Inject(DOCUMENT) private document: any,
     private mappingService: MappingService,
-    private router: Router
+    private router: Router,
+    private notifyService: NotifyService,
+    private toastrService: ToastrService,
     
   ) {
     this.statutLayout();
@@ -47,6 +51,7 @@ export class HeaderComponent implements OnInit {
     this.appName = this.mappingService.appName;  
     this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
+    this.countNotify = this.mappingService.notifications
   }
 
   ngOnInit() {
@@ -59,7 +64,24 @@ export class HeaderComponent implements OnInit {
     this.mappingService.ligneCreditGlobal$.subscribe((res: any) => {      
       this.ligneCreditGlobal = res
     });
+    this.notifyService.onData().subscribe((data: any) => {
+      this.OncountNotify()
+    });
   }
+  public OncountNotify() {
+    this.notifyService
+      .OncountNotify()
+      .subscribe({
+        next: (response) => {
+          this.countNotify = response['data']
+          this.toastrService.success(response['message'])
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+
 
   OnGoNotif(){
     this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${NOTIFY_ROUTE}`)

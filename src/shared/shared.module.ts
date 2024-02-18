@@ -20,7 +20,6 @@ import {
 } from '@angular/core'; import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
-import { BadgeModule } from 'primeng/badge';
 import { NgxPaginationModule } from "ngx-pagination";
 
 // Components
@@ -54,6 +53,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { DialogModule } from 'primeng/dialog';
 import { PasswordModule } from 'primeng/password';
 import { TraitementShowComponent } from './components/traitement-show/traitement-show.component';
+import { BadgeModule } from 'primeng/badge';
 
 
 @NgModule({
@@ -104,7 +104,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
     NgxPaginationModule,
     BadgeModule,
     RadioButtonModule,
-    PasswordModule
+    PasswordModule,
   ],
   providers: [NavService, LayoutService, DecimalPipe],
   exports: [

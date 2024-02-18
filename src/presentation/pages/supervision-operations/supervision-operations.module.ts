@@ -1,3 +1,4 @@
+import { ShowNotificationComponent } from './feature/show-notification/show-notification.component';
 import { NotificationComponent } from './ui/notification/notification.component';
 import { ContencieuxComponent } from './ui/contencieux/contencieux.component';
 import { DemandeShowComponent } from './feature/demande-show/demande-show.component';
@@ -82,6 +83,7 @@ import { PerformancesComponent } from './ui/performances/performances.component'
         ContencieuxComponent,
         DemandeShowComponent,
         NotificationComponent,
+        ShowNotificationComponent
     ],
     providers: [EditableRow, SupervisionOperationService]
 })

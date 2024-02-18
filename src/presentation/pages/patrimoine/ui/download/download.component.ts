@@ -36,7 +36,7 @@ export class DownloadComponent implements OnInit {
     this.GetAllDownlaod()
     this.route.data.subscribe((data) => {
       this.module = data.module;
-      this.subModule = data.subModule[5];
+      this.subModule = data.subModule[4];
     });
   }
 

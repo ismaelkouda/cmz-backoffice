@@ -1,10 +1,8 @@
-
 import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { ActivatedRoute } from '@angular/router';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
@@ -13,35 +11,29 @@ import { ExcelService } from 'src/shared/services/excel.service';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
-import { DemandeService } from '../../data-access/demande.service';
+import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 
 @Component({
-  selector: 'app-demande-wrapper',
-  templateUrl: './demande-wrapper.component.html',
-  styleUrls: ['./demande-wrapper.component.scss']
+  selector: 'app-show-notification',
+  templateUrl: './show-notification.component.html',
+  styleUrls: ['./show-notification.component.scss']
 })
-export class DemandeWrapperComponent implements OnInit {
+export class ShowNotificationComponent implements OnInit {
 
   public module: string;
   public subModule: string;
   @Input() selectedOperation: string;
-  @Input() wrapperLabel: string;
-  @Input() isMasse: boolean;
-  @Input() listTransactions: any;
-  @Output() formsView = new EventEmitter();
-  @Output() typeDemande = new EventEmitter<string>();
-  @Output() transactionId = new EventEmitter();
-
-
+  @Input() currentData;
+  @Output() showView = new EventEmitter();
   public selectedTransaction: string;
+  public listTransactions: Array<any> = [];
   public listOperations: Array<any> = [];
   public listStatuts: Array<any> = [];
   public listTraitementTransactions: Array<any> = [];
-  public initialView: boolean = true;
-  public currentObject: any;
   public selectedSim: string;
   public selectedimsi: string;
   public selectedStatut: string;
+  public selectedTraitement: string;
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
@@ -49,7 +41,6 @@ export class DemandeWrapperComponent implements OnInit {
   public p: number = 1;
   public page: number = 0
   public display: boolean = false;
-  public isMaximized: boolean = false;
   public secondFilter: boolean = false;
   public filterDateStart: Date;
   public filterDateEnd: Date;
@@ -67,12 +58,11 @@ export class DemandeWrapperComponent implements OnInit {
 
   constructor(
     public settingService: SettingService,
-    public demandeService: DemandeService,
+    public patrimoineService: PatrimoineService,
     public toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private mappingService: MappingService,
     private modalService: NgbModal,
-    private route: ActivatedRoute,
     private excelService: ExcelService
 
   ) {
@@ -86,30 +76,20 @@ export class DemandeWrapperComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    console.log("isMasse",this.isMasse);
+    console.log("transactionId",this.currentData);
     
-    this.GetAllTransactions()
+    if (this.currentData) {
+      this.GetAllTransactions()
+    }
     this.isFilter();
-    this.disableAction()
-    this.route.data.subscribe((data) => {
-      this.module = data.module;
-      this.subModule = data.subModule[3];
-    });
-    if (history.state.patrimoine) {
-      this.onInitForm('simple')
-    }
-    if (history.state?.statut  || history.state?.traitement) {
-      this.selectedStatut = history.state?.statut
-    }
   }
 
   public GetAllTransactions() {
-    this.demandeService
-      .GetDemandeServiceByTransaction({
-        operation: this.selectedOperation,
-        ...(history.state?.statut ? { statut: history.state?.statut } : {}),
-        ...(history.state?.traitement ? { traitement: history.state?.traitement } : {})
+    this.patrimoineService
+      .GetAllTransactions({
+        numero_demande: this.currentData?.reference,
+        operation: this.currentData.type,
+        tenant_code: this.mappingService.tenant.tenant_code
       }, this.p)
       .subscribe({
         next: (response) => {
@@ -138,11 +118,7 @@ export class DemandeWrapperComponent implements OnInit {
   
   public onPageChange(event) {
     this.p = event;
-    if (this.isFilter()) {
-      this.GetAllTransactions()
-    } else {
-      this.onFilter()
-    }
+    this.onFilter()
   }
 
   public onFilter() {
@@ -150,14 +126,17 @@ export class DemandeWrapperComponent implements OnInit {
       this.toastrService.error('Plage de date invalide');
       return;
     }
-    this.demandeService
-      .GetDemandeServiceByTransaction({
-        numero_demande: this.selectedTransaction,
+    this.patrimoineService
+      .GetAllTransactions({
+        operation: this.selectedOperation,
+        transaction: this.selectedTransaction,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
         statut: this.selectedStatut,
+        traitement: this.selectedTraitement,
         date_debut: this.selectDateStart,
         date_fin: this.selectDateEnd,
+
       }, this.p)
       .subscribe({
         next: (response) => {
@@ -184,16 +163,22 @@ export class DemandeWrapperComponent implements OnInit {
       })
   }
   public OnRefresh(){
-    this.GetAllTransactions()
+    this.GetAllTransactions();
     this.selectedTransaction = null
     this.selectedSim = null
     this.selectedimsi = null
     this.selectedStatut = null
+    this.selectedTraitement = null
     this.selectDateStart = null
     this.selectDateEnd = null
     this.filterDateStart = null
     this.filterDateEnd = null
+
   }
+  public showSecondFilter() {
+    this.secondFilter = !this.secondFilter;
+  }
+
   showJournal(data: Object): void {
     const modalRef = this.modalService.open(JournalComponent, {
       ariaLabelledBy: "modal-basic-title",
@@ -209,29 +194,8 @@ export class DemandeWrapperComponent implements OnInit {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
-  public hideDialog(data) {
-    this.display = false;
-  }
-  public onDialogMaximized(event) {
-    event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
-  }
-  public onInitForm(type: string): void {    
-    this.formsView.emit(true);
-    this.typeDemande.emit(type);
-    this.currentObject = undefined;    
-  }
-
-  public showSecondFilter() {
-    this.secondFilter = !this.secondFilter;
-  }
-  public onHistorique(data): void {
-    this.initialView = false;
-   // this.formsView = true;
-    this.currentObject = data;
-  }
-  public pushStatutView(event: boolean): void {
-   // this.formsView = event;
-    this.initialView = !event;
+  close() {
+    this.showView.emit(false);
   }
   public pushListTransactions(event: any): void {
     this.listTransactions = event;
@@ -239,12 +203,17 @@ export class DemandeWrapperComponent implements OnInit {
   public disableAction(): boolean {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
-  OnShowTraitement(data: any): void {
-    this.totalPage = 0;
-    this.totalRecords = 0;
-    this.recordsPerPage = 0;
-    this.page = 1;
-     this.transactionId.emit(data)
+  OnShowTraitement(data: Object): void {
+    const modalRef = this.modalService.open(TransactionShowComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });
+    modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.resultTraitement.subscribe((res) => {
+      this.listTransactions = res
+    })
   }
   changeDateStart(e) {
     if ( moment(this.filterDateStart).isValid()) {
@@ -287,7 +256,31 @@ export class DemandeWrapperComponent implements OnInit {
     }
   }
   public isFilter(): boolean {
-    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction) ? true : false
+    return (!this.selectedSim && !this.selectedimsi && !this.selectedStatut && !this.selectedTraitement && !this.selectedTransaction) ? true : false
+  }
+  public formatTitleOuvrage(title: string) {
+    switch (title) {
+      case OperationTransaction.ACTIVATION: {
+        return "Activations";
+      }
+      case OperationTransaction.SWAP: {
+        return "Changements de SIM";
+      }
+      case OperationTransaction.RESILIATION: {
+        return "Résiliations";
+      }case OperationTransaction.SUSPENSION: {
+        return "Suspension de SIM";
+      }
+      case OperationTransaction.VOLUME_DATA: {
+        return "Depots de volume";
+      }
+      case OperationTransaction.ACHAT_SERVICE: {
+        return "Achats de Services";
+      }
+      case OperationTransaction.PROVISIONNING: {
+        return 'Lignes de Credit';
+      }
+    }
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({

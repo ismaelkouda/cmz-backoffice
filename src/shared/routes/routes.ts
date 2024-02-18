@@ -40,10 +40,13 @@ export const content: Routes = [
     }
   },
   {
+    
     path: DEMANDE_SERVICE,
     loadChildren: () => import("../../presentation/pages/demandes/demandes.module").then((m) => m.DemandesModule),
     data: {
       module: 'Demandes',
+
+
       subModule: [
         'Activations',
         'Suspensions',

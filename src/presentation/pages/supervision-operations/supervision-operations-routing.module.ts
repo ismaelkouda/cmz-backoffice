@@ -12,7 +12,7 @@ export const DEMANDE_ROUTE = 'demandes'
 export const PRISE_EN_CHARGE_ROUTE = 'prise-en-charge'
 export const SUIVIE_TRAITEMENT_ROUTE = 'suivie-et-traitements'
 export const PERFORMANCE_SLA_ROUTE = 'performances-sla'
-export const CONTENCIEUX_ROUTE = 'contencieux'
+export const CONTENCIEUX_ROUTE = 'reclamations'
 export const NOTIFY_ROUTE = 'centre-notifications'
 
 

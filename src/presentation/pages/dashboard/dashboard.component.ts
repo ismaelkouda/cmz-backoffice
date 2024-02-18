@@ -110,7 +110,7 @@ export class DashboardComponent implements OnInit {
       case 'SIM Alarmes Normales':
         this.router.navigateByUrl(`${PATRIMOINE}/${ETAT_SOLDE}`, { state: { statut: TypeAlarme.NORMAL } });
         break;
-      case 'SIM A larmes Mineures':
+      case 'SIM Alarmes Mineures':
         this.router.navigateByUrl(`${PATRIMOINE}/${ETAT_SOLDE}`, { state: { statut: TypeAlarme.MINEUR } });
         break;
       case 'SIM Alarmes Majeures':

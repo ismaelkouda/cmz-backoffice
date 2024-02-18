@@ -1,6 +1,6 @@
 import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION, DEMANDE_RESILIATION } from '../presentation/pages/demandes/demandes-routing.module';
 import { DOWNLOAD_FILE } from './../presentation/pages/patrimoine/patrimoine-routing.module';
-import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE,CONTENCIEUX_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
+import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE,CONTENCIEUX_ROUTE, NOTIFY_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { ANALAYSE_REJET, COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
 import { CARTES_SIM, DOTATION_SERVICES, ETAT_SOLDE, GROUPE_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
@@ -207,9 +207,17 @@ export var menuJson = [
             },
             {
                 path: `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX_ROUTE}`,
-                title: "Contentieux",
-                label: "Contentieux",
+                title: "Réclamations",
+                label: "Réclamations",
                 data: "4-4-0-contentieux",
+                type: "link",
+                pack: ApplicationType.MONITORING
+            },
+            {
+                path: `/${SUPERVISION_OPERATIONS}/${NOTIFY_ROUTE}`,
+                title: "Centre de Notifications",
+                label: "Centre de Notifications",
+                data: "4-5-0-notifications",
                 type: "link",
                 pack: ApplicationType.MONITORING
             },

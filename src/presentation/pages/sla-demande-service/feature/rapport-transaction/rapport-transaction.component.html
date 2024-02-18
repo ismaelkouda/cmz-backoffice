@@ -1,24 +1,33 @@
 <div>
   <div class="row filter_wrapper">
-    <div class="col-md-3">
-      <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
-        (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" placeholder="Date debut" [showButtonBar]="true"></p-calendar>
+    <div style="width: 28%;">
+       <div class="d-flex gap-2">
+        <label style="padding-top: 0.7rem;font-size: 1.1rem;width: auto !important;"><b>Du</b></label>
+        <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
+          (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" placeholder="Date debut" [showButtonBar]="true"></p-calendar>
+       </div>
     </div>
-    <div class="col-md-3">
-      <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+    <div style="width: 28%;">
+      <div class="d-flex gap-2">
+        <label style="padding-top: 0.7rem;font-size: 1.1rem;width: auto !important;"><b>Au</b></label>
+        <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
         (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" placeholder="Date fin" [showButtonBar]="true"></p-calendar>
+       </div>
     </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <p-dropdown [options]="listUsers" [(ngModel)]="selectedUser" optionLabel="fullName" [filter]="true"
-        filterBy="fullName" [showClear]="true" placeholder="demandeur">
-        <ng-template let-data pTemplate="item">
-            <div class="country-item">
-                <div>{{ data.fullName }}</div>
-            </div>
-        </ng-template>
-        </p-dropdown>
-      </div>
+    <div style="width: 28%;">
+      <div class="d-flex gap-2">
+        <label style="padding-top: 0.7rem;font-size: 1.1rem;width: auto !important;"><b>Par</b></label>
+        <div class="form-group w-100">
+          <p-dropdown [options]="listUsers" [(ngModel)]="selectedUser" optionLabel="fullName" [filter]="true"
+          filterBy="fullName" [showClear]="true" placeholder="demandeur">
+          <ng-template let-data pTemplate="item">
+              <div class="country-item">
+                  <div>{{ data.fullName }}</div>
+              </div>
+          </ng-template>
+          </p-dropdown>
+        </div>
+       </div>
     </div>
     <div [ngStyle]="{width: '4rem',marginTop: '-1.7rem'}" *ngIf="!secondFilter">
       <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="isFilter()"

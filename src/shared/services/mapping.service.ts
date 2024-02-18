@@ -42,6 +42,7 @@ export class MappingService {
   public _ligneCreditSource: BehaviorSubject<string> = new BehaviorSubject('');
   public ligneCreditGlobal$ = this._ligneCreditSource.asObservable();
   public dashbordTransactionSLa: string;
+  public notifications: number
 
   constructor(
     private storage: EncodingDataService,
@@ -69,6 +70,7 @@ export class MappingService {
       this.typeNiveau = newDatatEnv?.typeNiveau;
       this.applicationType = this.tenant?.application;
       this.suffixEmail = this.tenant?.suffixe_email;
+      this.notifications = this.currentUser?.notifications;
       if (this.applicationType === ApplicationType.PATRIMOINESIM) {
         this.appName = 'PATRIMOINE SIM'
         this.listOperations = Object.values(OperationTransaction).filter(item => item !== OperationTransaction.ACHAT_SERVICE && item !== OperationTransaction.PROVISIONNING);

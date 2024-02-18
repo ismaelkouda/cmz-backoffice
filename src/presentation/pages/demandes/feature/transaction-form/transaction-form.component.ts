@@ -179,7 +179,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         'LATITUDE', 
         'LONGITUDE', 
         'MSISDN', 
-        'IMSI'];
+        'IMSI'
+      ];
      }
   }
 
@@ -245,7 +246,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
               return {...data,current_date: data?.date_cloture}
             }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
               return {...data,current_date: data?.date_acquittement}
-            } else{
+            }else{
               return {...data,current_date: 'N/A'}
             }
           });
@@ -511,10 +512,11 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
        bac_a_pioche: this.sourceValue !== undefined ? this.sourceValue: 'patrimoine',
       }
    }
-    data = formDataBuilderSome({
+    data = formDataBuilder({
       ...adminData,
-      opetation: this.activation,
+      operation: this.activation,
       justificatif: this.selectedPiece,
+      description: this.selectedDescription,
       demandes: this.listDemandes
     })
     baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`

@@ -37,7 +37,6 @@ export class SupervisionOperationService {
     const url: string = (<string>EndPointUrl.GET_ALL_DEMANDES);
     return this.http.post(`${this.baseUrl}${url}`, data);
   } 
-
   GetAllContencieux(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_CONTENCIEUX);
     return this.http.post(`${this.baseUrl}${url}`, data);
@@ -54,6 +53,10 @@ export class SupervisionOperationService {
     const url: string = (<string>EndPointUrl.CLOSE_TRANSACTION);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  GetAllNotifications(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_NOTIFICATIONS);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  } 
   HandleFormatTitle(title: string) {
     switch (title) {
       case OperationTransaction.ACHAT_SERVICE: {

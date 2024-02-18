@@ -19,6 +19,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { DataModule } from '../data/data.module';
 import { LocalStorageService } from 'ngx-webstorage';
 import { SupervisionOperationsModule } from './pages/supervision-operations/supervision-operations.module';
+import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
+import { NotifyService } from 'src/shared/services/notify.service';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -58,6 +60,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     LocalStorageService,
+    NotifyService,
+    { provide: WebSocketSubject, useValue: webSocket('ws://10.10.10.91:10200/ws/refrresh-notifs') },
     CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true },
     // { provide: ErrorHandler, useClass: GlobalErrorHandlerService }
