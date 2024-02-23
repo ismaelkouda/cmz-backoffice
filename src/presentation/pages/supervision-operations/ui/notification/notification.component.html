@@ -7,7 +7,12 @@
           <div [hidden]="!initialView">
             <div class="table_content_wrapper">
               <div class="table_header">
-                <app-table-header [count]="listNotifys" [legende]="'Notifications'" [page]="page" [totalPage]="totalPage"></app-table-header>
+                <div>
+                  <app-table-header [count]="listNotifys" [legende]="'Notifications'" [page]="page" [totalPage]="totalPage"></app-table-header>
+                </div>
+                <div>
+                  <button pButton pRipple label="Effacer" class="p-button-warning mt-2" [disabled]="checkconsumerList?.length ===0" (click)="OnReadNotification()"></button>
+                </div>
               </div>
               <table [ngClass]="['native_table table']">
                 <thead>
@@ -16,7 +21,9 @@
                   <th class="text-center">Reference</th>
                   <th class="text-center">Type Notification</th>
                   <th class="text-center">Description</th>
-                  <th class="text-center" [style]="{width: '3rem'}">Actions</th>
+                  <th class="text-center">
+                    <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
+                  </th>                
                 </thead>
                 <tbody>
                   <tr
@@ -26,9 +33,9 @@
                     <td class="text-center">{{data?.reference}}</td>
                     <td class="text-center">{{data?.type}}</td>
                     <td class="text-center" [innerHTML]="data?.description"></td>
-                    <td class="td-actions">
-                        <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"
-                        (click)="onShowNotification(data)"></button>
+                    <td>
+                      <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
+                        (click)="onCheckedOneConsumer(data)"></p-checkbox>
                     </td>
                   </tr>
                 </tbody>

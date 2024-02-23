@@ -121,6 +121,11 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
 
     //@@@@@@@@@@@@@@@@@@@@@@GEOJSON SITE@@@@@@@@@@@@@@@@@
 
+    var customIcon = L.icon({
+      iconUrl: '../../../../../assets/svg/sim_loc_vert.svg',
+      iconSize: [50, 50],
+      iconAnchor: [17, 17],
+    });
     const geoJsonSite = L.geoJSON(this.datas.site_geo, {
       style: function () {
         return {
@@ -128,15 +133,17 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           opacity: 1,
           color: '#FAAC58',
           fillOpacity: 0.1
-        }
+        };
+      },
+      pointToLayer: function (feature) {
+        return L.marker([feature?.properties?.LONGITUDE, feature?.properties?.LATITUDE])
+          .setIcon(customIcon);
       },
       onEachFeature: function (feature, layer) {
-        layer.bindTooltip(feature.properties.SITE, { permanent: true, direction: 'bottom', className: 'leaflet-tooltip-site' });
+        layer.bindTooltip(feature.properties.NAME, { permanent: true, direction: 'bottom', className: 'leaflet-tooltip-other-points' });
       }
     });
-
-
-
+    geoJsonSite.addTo(this.map); 
     
   //@@@@@@@@@@@@@@@@@@@@@@GEOJSON SIM@@@@@@@@@@@@@@@@@@@@@
     
@@ -158,7 +165,8 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.point_emplacement + "</span>" + "<br>" +
           "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
           "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.longitude+ ", "+ feature?.properties?.latitude+"</span>" + "<br>" +
-          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+
+          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+ "<br>"+
+          "<strong>" + "Date Trafic :" + "</strong>" + "<span>" + feature?.properties?.date_id + "</span>"+
           "</div>",
         ).openPopup();
       }
@@ -222,7 +230,8 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.sim?.point_emplacement + "</span>" + "<br>" +
           "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
           "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.long_site+ ", "+ feature?.properties?.lat_site+"</span>" + "<br>" +
-          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span style='color: #FFFFFF;font-weight: bold;background-color: #27ae60; padding: 2px 10px; border-radius: 2px'>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+
+          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span style='color: #FFFFFF;font-weight: bold;background-color: #27ae60; padding: 2px 10px; border-radius: 2px'>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+ "<br>"+
+          "<strong>" + "Date Trafic :" + "</strong>" + "<span>" + feature?.properties?.date_id + "</span>"+
           "</div>",
         ).openPopup();
       },
@@ -246,7 +255,8 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
             "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.sim?.point_emplacement + "</span>" + "<br>" +
             "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
             "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.long_site+ ", "+ feature?.properties?.lat_site+"</span>" + "<br>" +
-            "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span style='color: #000000;font-weight: bold;background-color: #FFFF00; padding: 2px 10px; border-radius: 2px'>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+
+            "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span style='color: #000000;font-weight: bold;background-color: #FFFF00; padding: 2px 10px; border-radius: 2px'>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+"<br>"+
+            "<strong>" + "Date Trafic :" + "</strong>" + "<span>" + feature?.properties?.date_id + "</span>"+
             "</div>",
           ).openPopup();
         },
@@ -270,7 +280,8 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
               "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.sim?.point_emplacement + "</span>" + "<br>" +
               "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
               "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.long_site+ ", "+ feature?.properties?.lat_site+"</span>" + "<br>" +
-              "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span style='color: #FFFFFF;font-weight: bold;background-color: #FE9A2E; padding: 2px 10px; border-radius: 2px'>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+
+              "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span style='color: #FFFFFF;font-weight: bold;background-color: #FE9A2E; padding: 2px 10px; border-radius: 2px'>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+"<br>"+
+              "<strong>" + "Date Trafic :" + "</strong>" + "<span>" + feature?.properties?.date_id + "</span>"+
               "</div>",
             ).openPopup();
           },
@@ -294,7 +305,8 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
           "<strong>" + "Point Emplacement :" + "</strong>" + "<span>" + feature?.properties?.sim?.point_emplacement + "</span>" + "<br>" +
           "<strong>" + "Site :" + "</strong>" + "<span>" + feature?.properties?.site + "</span>" + "<br>" +
           "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" +feature?.properties?.long_site+ ", "+ feature?.properties?.lat_site+"</span>" + "<br>" +
-          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span style='color: #FFFFFF;font-weight: bold;background-color: #e74c3c; padding: 2px 10px; border-radius: 2px'>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+
+          "<strong>" + "Solde Data (Go) :" + "</strong>" + "<span style='color: #FFFFFF;font-weight: bold;background-color: #e74c3c; padding: 2px 10px; border-radius: 2px'>" + (Number(feature?.properties?.solde_actuel_go) || 0).toFixed(2) + "</span>"+"<br>"+
+          "<strong>" + "Date Trafic :" + "</strong>" + "<span>" + feature?.properties?.date_id + "</span>"+
           "</div>",
         ).openPopup();;
       },
@@ -316,7 +328,7 @@ export class CardSecondComponent implements AfterViewInit,OnDestroy {
     var layerGeoJson = {
        "<span style='font-weight:bold;' ><b>SITES - OCI</b></span><span><img src='assets/svg/oci_site.svg' style='width: 12px; margin-left: 20px;'/></span>": geoJsonSite,
        "<span style='font-weight:bold'><b>EMPLACEMENTS</b></span><span><img src='assets/svg/sim_loc_noir.svg' style='width: 10px; margin-left: 20px;'/></span>": geoJsonSim,
-       "<span style='font-weight:bold'><b>RESSORTS</b></span>": geojsonRessort,
+       "<span style='font-weight:bold'><b>RESSORTS</b></span><span><img src='assets/svg/moins.png' style='width: 30px;height: 15px; margin-left: 20px;'/></span>": geojsonRessort,
        "<span style='font-weight:bold;' ><b>SIM état Normale</b></span><span><img src='assets/svg/sim_loc_vert.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": normalLayerGroup,
        "<span style='font-weight:bold;' ><b>Alarmes Mineures</b></span><span><img src='assets/svg/sim_loc_jaune.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": mineurLayerGroup,
       "<span style='font-weight:bold;' ><b>Alarmes Majeures</b></span><span><img src='assets/svg/sim_loc_orange.svg' style='width: 10px; margin-left: 20px; color: #2F02FB;'/></span>": majeurLayerGroup,

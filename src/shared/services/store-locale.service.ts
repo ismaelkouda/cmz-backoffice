@@ -11,6 +11,11 @@ export class StoreLocaleService {
 
   public _permissionsSource: BehaviorSubject<any> = new BehaviorSubject(null);
   public _permissions$ = this._permissionsSource.asObservable();
+
+  
+  public _notifySource: BehaviorSubject<any> = new BehaviorSubject(null);
+  public _notify$ = this._notifySource.asObservable();
+
   constructor() { }
 
   OnEmitTenantData(item: any) {
@@ -18,6 +23,9 @@ export class StoreLocaleService {
   }
   OnEmitCurrentPermission(item: any) {
     this._permissionsSource.next(item);
+  }
+  OnEmitNotify(item: any) {
+    this._notifySource.next(item);
   }
 
 }

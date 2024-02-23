@@ -630,7 +630,7 @@ export class TraitementShowComponent implements OnInit {
       this.transaction?.operation === OperationTransaction.ACHAT_SERVICE) ? true : false
   }
   public IsCancel(): boolean {
-    return ((this.transaction?.statut === StatutTransaction.SOUMIS && (this.transaction?.traitement === TraitementTransaction.EN_ENTENTE || this.transaction?.traitement === TraitementTransaction.ACQUITER))) ? true : false
+    return ((this.transaction?.statut === StatutTransaction.SOUMIS && (this.transaction?.traitement === TraitementTransaction.EN_ENTENTE))) ? true : false
   }
   public IsUpdate(): boolean {
     return ((this.transaction?.statut === StatutTransaction.SOUMIS && (this.transaction?.traitement === TraitementTransaction.EN_ENTENTE))
@@ -641,7 +641,7 @@ export class TraitementShowComponent implements OnInit {
     return (this.transaction?.statut === StatutTransaction.TARITER && this.transaction?.traitement === TraitementTransaction.REJETER) ? true : false
   }
   public IsCloture(): boolean {
-    return ((this.transaction?.statut === StatutTransaction.TARITER && this.transaction?.traitement === TraitementTransaction.ACCEPTER)) ? true : false
+    return (((this.transaction?.statut === StatutTransaction.TARITER && this.transaction?.traitement === TraitementTransaction.ACCEPTER))) ? true : false
   }
   public IsShow(): boolean {
     return (this.transaction?.statut === StatutTransaction.CLOTURER || this.transaction?.traitement === TraitementTransaction.ACQUITER) ? true : false

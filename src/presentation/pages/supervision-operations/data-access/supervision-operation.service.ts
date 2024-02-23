@@ -57,6 +57,10 @@ export class SupervisionOperationService {
     const url: string = (<string>EndPointUrl.GET_ALL_NOTIFICATIONS);
     return this.http.post(`${this.baseUrl}${url}`, data);
   } 
+  ReadNotifications(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.READ_NOTIFICATION);
+    return this.http.put(`${this.baseUrl}${url}`, data);
+  } 
   HandleFormatTitle(title: string) {
     switch (title) {
       case OperationTransaction.ACHAT_SERVICE: {

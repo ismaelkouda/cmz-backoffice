@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { DEMANDE_SERVICE, PATRIMOINE } from 'src/shared/routes/routes';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { DEMANDE_ACTIVATION } from 'src/presentation/pages/demandes/demandes-routing.module';
 
 @Component({
   selector: 'app-patrimoine-forms',
@@ -118,6 +119,7 @@ export class PatrimoineFormsComponent implements OnInit {
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
       ]],
 
+      formule: [''],
       imsi: [''],
       statut: [''],
       msisdn: [''],
@@ -261,6 +263,7 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.get('adresse_email').patchValue(this.currentObject?.adresse_email);
     this.adminForm.get('longitude').patchValue(this.currentObject?.longitude);
     this.adminForm.get('latitude').patchValue(this.currentObject?.latitude);
+    this.adminForm.get('formule').patchValue(this.currentObject?.formule);
 
     //Trafic Controls
     this.adminForm.get('apni').patchValue(this.currentObject?.apni);
@@ -317,7 +320,7 @@ export class PatrimoineFormsComponent implements OnInit {
   }
   public onTransactionForm(data: any,operation: string): void {
     this.router.navigateByUrl(
-      `${DEMANDE_SERVICE}/${DEMANDE_SERVICE}`,
+      `${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
       { state: {patrimoine: data,operation: operation} }
     );
   }

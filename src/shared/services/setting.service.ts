@@ -113,6 +113,10 @@ export class SettingService {
     const url: string = (<string>EndPointUrl.UPDATE_STATUT_USAGE);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  HandleDeleteZone(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.DELETE_NIVEAUX_3).replace('{id}', data)
+    return this.http.delete(`${this.baseUrl}${url}`);
+  }
 
   // Security
   HandleUpdatePassword(data): Observable<any> {

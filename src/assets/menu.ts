@@ -1,7 +1,7 @@
 import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION, DEMANDE_RESILIATION } from '../presentation/pages/demandes/demandes-routing.module';
 import { DOWNLOAD_FILE } from './../presentation/pages/patrimoine/patrimoine-routing.module';
 import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE,CONTENCIEUX_ROUTE, NOTIFY_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
-import { ANALAYSE_REJET, COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
+import { COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
 import { CARTES_SIM, DOTATION_SERVICES, ETAT_SOLDE, GROUPE_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
@@ -80,8 +80,8 @@ export var menuJson = [
         children: [
             {
                 path: `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
-                title: "Activations mobile",
-                label: "Activations mobile",
+                title: "Activations mobiles",
+                label: "Activations mobiles",
                 data: "9-1-0-activations-mobile",
                 pack: ApplicationType.MONITORING,
                 type: "link"
@@ -252,14 +252,6 @@ export var menuJson = [
                 pack: ApplicationType.MONITORING,
             },
             {
-                path: `/${SUPERVISION_SIM}/${ANALAYSE_REJET}`,
-                title: "Analyse des Rejets",
-                label: "Analyse des Rejets",
-                data: "5-3-0-analyse-rejets",
-                type: "link",
-                pack: ApplicationType.MONITORING,
-            },
-            {
                 path: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
                 title: "Approvisionnements Data",
                 label: "Approvisionnements Data",
@@ -281,8 +273,8 @@ export var menuJson = [
         children: [
             {
                 path: `/${SLA_DEMANDE_SERVICE}/${SLA_DASHBORD}`,
-                title: "Tableau de board SLA",
-                label: "Tableau de board SLA",
+                title: "Tableau de bord SLA",
+                label: "Tableau de bord SLA",
                 data: "8-1-0-dashboard-sla",
                 type: "link",
                 pack: ApplicationType.MONITORING

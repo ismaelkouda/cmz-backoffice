@@ -345,6 +345,7 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
         "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.point_emplacement + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
+        "<strong>" + "Date Trafic :" + "</strong>" + "<span>" + this.currentComposant?.date_id + "</span>" + "<br>" +
         "</div>",
 
       ).openPopup();
@@ -416,8 +417,7 @@ export class CarteSimActiveComponent implements OnInit {
       'MSISDN': item?.msisdn,
       'IMSI': item?.imsi,
       'Emplacement': item?.point_emplacement,
-       'Statut Contrat': item?.statut,
-    }));
+      'Statut Contrat': item?.statut    }));
     this.excelService.exportAsExcelFile(data, 'Liste des cartes SIM');
   }
 }

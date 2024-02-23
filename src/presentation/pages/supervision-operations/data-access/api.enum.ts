@@ -9,4 +9,6 @@ export const enum EndPointUrl {
     CLOSE_TRANSACTION = 'supervision-operations/traitements-suivis/cloturer-transaction',
     GET_ALL_SLA = 'supervision-operations/engagement-sla/all',
     GET_ALL_NOTIFICATIONS = 'supervision-operations/centre-notifications/all',
+    READ_NOTIFICATION = 'supervision-operations/centre-notifications/read',
+
 }

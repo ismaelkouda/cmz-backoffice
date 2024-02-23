@@ -49,8 +49,5 @@ export class RapportConformiteComponent implements OnInit {
   }
   public OnPushRapport(event: any): void {
     this.rapport = event;
-    console.log("event",event);
-    console.log("rapport",this.rapport);
-
   }
 }

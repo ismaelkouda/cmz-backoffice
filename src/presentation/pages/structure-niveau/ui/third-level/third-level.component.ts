@@ -185,6 +185,32 @@ export class ThirdLevelComponent implements OnInit {
         }
       })
   }
+  public HandleDelete(data: any): void {
+    Swal.fire({
+      title: 'En êtes vous sûr ?',
+      html: `Voulez-vous Supprimer la zone <br> ${data.nom} ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#569C5B',
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Oui',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.settingService
+          .HandleDeleteZone(data.id)
+          .subscribe({
+            next: (response) => {
+              this.toastrService.success(response.message);
+              this.GellCurrentLevel();
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
+      }
+    });
+  }
   public OnExportExcel(): void {
     const data = this.listCurrentLevelDatas.map((item: any) => ({
       [this.currentLevelLibelle]: item?.nom,

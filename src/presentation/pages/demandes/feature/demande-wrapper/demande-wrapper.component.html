@@ -49,8 +49,8 @@
     <button pButton pRipple label="Demande Simple" icon="pi pi-plus" class="p-button-success"
       (click)="onInitForm('simple')">
     </button>
-    <button pButton pRipple label="Demande en masse" icon="pi pi-plus" class="p-button btn-dark"
-      (click)="onInitForm('masse')" [disabled]="isMasse">
+    <button pButton pRipple label="Demande en masse" *ngIf="!isMasse" icon="pi pi-plus" class="p-button btn-dark"
+      (click)="onInitForm('masse')">
     </button>
     <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
       class="p-button-secondary">

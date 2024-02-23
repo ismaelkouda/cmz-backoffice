@@ -6,6 +6,7 @@ import * as moment from 'moment'
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { SlaDemandeService } from '../../data-access/sla-demande.service';
 import { SettingService } from 'src/shared/services/setting.service';
+import { DatePipe } from '@angular/common';
 const Swal = require('sweetalert2');
 
 
@@ -37,18 +38,32 @@ export class RapportTransactionComponent implements OnInit {
   public offset: any;
   public p: number = 1;
   public page: number = 1;
+  date: Date | undefined;
+  minDate: Date | undefined
+  maxDate: Date | undefined; 
+  dateToday: Date | undefined;
 
+  CALENDER_CONFIG_EN = {
+    firstDayOfWeek: 1,
+    dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    dayNamesShort: ['lUN', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    dayNamesMin: ['', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+        'November', 'December'],
+    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    today: 'Today',
+    clear: 'eFFACER',
+}
   public stateSoumis: string = StatutTransaction.SOUMIS;
   public stateTraite: string = StatutTransaction.TARITER;
   public stateCloture: string = StatutTransaction.CLOTURER;
-
+ 
   constructor(
     private toastrService: ToastrService,
     private route: ActivatedRoute,
     private clipboardApi: ClipboardService,
     private settingService: SettingService,
-    private slaDemandeService: SlaDemandeService
-
+    private slaDemandeService: SlaDemandeService,
   ) {
     Object.values(StatutTransaction).forEach(item => {
       this.listStatutTransactions.push(item);
@@ -63,6 +78,12 @@ export class RapportTransactionComponent implements OnInit {
       this.module = data.module;
       this.subModule = data.subModule[2];
     });
+    let currentDate = new Date();
+    let prevDate = new Date(currentDate);
+    prevDate.setDate(currentDate.getDate() - 90);
+    this.minDate = prevDate;
+    this.maxDate = currentDate;
+    this.dateToday = currentDate;
   }
   public HandleSlaDemandeService(): void {
     this.slaDemandeService
@@ -74,12 +95,14 @@ export class RapportTransactionComponent implements OnInit {
           this.listTransactions =  response['data']['data']['data'].map((data) => {
             if (data?.statut === StatutTransaction.TARITER) {
               return {...data,current_date: data?.date_traitement,current_dure: data?.duree_traitement, current_sla: data?.sla_traitement}
-            }else if (data?.statut === StatutTransaction.CLOTURER) {
-              return {...data,current_date: data?.date_cloture,current_dure: data?.duree_cloture, current_sla: data?.sla_cloture}
-            }else if ((data?.statut === StatutTransaction.SOUMIS)) {
-              return {...data,current_date: data?.date_acquittement ?? 'N/A',current_dure: data?.duree_acquittement ?? 'N/A', current_sla: data?.sla_acquittement ?? 'N/A'}
             } else{
-              return {...data,current_date: 'N/A', current_dure: 'N/A',current_sla: 'N/A' }
+              const dayDate = new Date();
+              const currentDate = new Date(data.created_at);
+              const timeDifference = dayDate.getTime() - currentDate.getTime();
+              const secondsDifference = timeDifference / 1000;
+              const minutesDifference = secondsDifference / 60;
+              const hoursDifference = minutesDifference / 60;
+              return {...data,current_date: 'N/A', current_dure: hoursDifference.toFixed(1),current_sla: data?.sla_traitement }
             }
           });
           this.rapport.emit({ 
@@ -125,13 +148,14 @@ export class RapportTransactionComponent implements OnInit {
           this.listTransactions =  response['data']['data']['data'].map((data) => {
             if (data?.statut === StatutTransaction.TARITER) {
               return {...data,current_date: data?.date_traitement,current_dure: data?.duree_traitement, current_sla: data?.sla_traitement}
-            }else if (data?.statut === StatutTransaction.CLOTURER) {
-              return {...data,current_date: data?.date_cloture,current_dure: data?.duree_cloture, current_sla: data?.sla_cloture}
-            }else if ((data?.statut === StatutTransaction.SOUMIS)) {
-              return {...data,current_date: data?.date_acquittement ?? 'N/A',current_dure: data?.duree_acquittement ?? 'N/A', 
-              current_sla: data?.sla_acquittement ?? 'N/A'}
             } else{
-              return {...data,current_date: 'N/A', current_dure: 'N/A',current_sla: 'N/A' }
+              const dayDate = new Date();
+              const currentDate = new Date(data.created_at);
+              const timeDifference = dayDate.getTime() - currentDate.getTime();
+              const secondsDifference = timeDifference / 1000;
+              const minutesDifference = secondsDifference / 60;
+              const hoursDifference = minutesDifference / 60;
+              return {...data,current_date: 'N/A', current_dure: hoursDifference.toFixed(1),current_sla: data?.sla_traitement }
             }
           });
           this.rapport.emit({ 

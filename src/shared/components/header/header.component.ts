@@ -12,6 +12,8 @@ import { Router } from "@angular/router";
 import { NOTIFY_ROUTE } from "src/presentation/pages/supervision-operations/supervision-operations-routing.module";
 import { SUPERVISION_OPERATIONS } from "src/shared/routes/routes";
 import { ToastrService } from 'ngx-toastr';
+import { EncodingDataService } from 'src/shared/services/encoding-data.service';
+import { StoreLocaleService } from 'src/shared/services/store-locale.service';
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -43,6 +45,8 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private notifyService: NotifyService,
     private toastrService: ToastrService,
+    private storage: EncodingDataService,
+    private storeLocaleService: StoreLocaleService
     
   ) {
     this.statutLayout();
@@ -51,7 +55,18 @@ export class HeaderComponent implements OnInit {
     this.appName = this.mappingService.appName;  
     this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
-    this.countNotify = this.mappingService.notifications
+    this.storeLocaleService._notify$.subscribe((res: any) => {
+      if (res) {
+        this.countNotify = res
+      }else{
+        let user = JSON.parse(this.storage.getData('user') || null);    
+        if (user !== null) {
+           this.countNotify = user.notifications
+        }else{
+          this.countNotify = this.mappingService.notifications
+        }
+      }
+    });
   }
 
   ngOnInit() {
@@ -72,8 +87,11 @@ export class HeaderComponent implements OnInit {
     this.notifyService
       .OncountNotify()
       .subscribe({
-        next: (response) => {
+        next: (response) => {          
+          let user = JSON.parse(this.storage.getData('user'));
           this.countNotify = response['data']
+          user.notifications = response['data'];
+          this.storage.saveData('user', JSON.stringify(user));
           this.toastrService.success(response['message'])
         },
         error: (error) => {

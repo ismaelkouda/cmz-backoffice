@@ -27,6 +27,7 @@ export const enum EndPointUrl {
     UPDATE_NIVEAUX_3 = 'parametres-securite/niveau_trois/update',
     GET_ALL_ZONES = 'parametres-securite/zones/all',
     UPDATE_STATUT_USAGE = 'usages/mise-a-jour-statut',
+    DELETE_NIVEAUX_3 = 'parametres-securite/niveau_trois/{id}/delete',
 
 
     //Third Level EndPoints

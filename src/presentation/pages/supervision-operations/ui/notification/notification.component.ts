@@ -3,6 +3,9 @@ import { SupervisionOperationService } from '../../data-access/supervision-opera
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DemandeShowComponent } from '../../feature/demande-show/demande-show.component';
+import { EncodingDataService } from 'src/shared/services/encoding-data.service';
+import { MappingService } from 'src/shared/services/mapping.service';
+import { StoreLocaleService } from 'src/shared/services/store-locale.service';
 
 @Component({
   selector: 'app-notification',
@@ -21,11 +24,15 @@ export class NotificationComponent implements OnInit {
   public page: number = 0
   public showView: boolean = false;
   public currentData: any;
+  public checkedAllConsumers: boolean = false;
+  public checkconsumerList: any[] = [];
 
   constructor(
     private supervisionOperationService: SupervisionOperationService,
     private toastrService: ToastrService,
-    private modalService: NgbModal,
+    private storage: EncodingDataService,
+    private mappingService: MappingService,
+    private storeLocaleService: StoreLocaleService
   ) {}
 
   ngOnInit() {
@@ -49,32 +56,57 @@ export class NotificationComponent implements OnInit {
         }
       })
   }
-  /*
-  public onShowNotification(data): void {
-    this.currentData = data;
-    this.initialView = false;
-    this.showView = true;
-    this.currentData = data;
-  }
-  */
-  public onShowNotification(data): void {
-    if (data.type === 'transaction') {
-       this.OnShowTraitement(data)
-    }else{
-      this.currentData = data;
-      this.initialView = false;
-      this.showView = true;
-      this.currentData = data;
+  public OnCheckAllConsumer() {
+    this.checkconsumerList = [];
+    if (this.checkedAllConsumers) {
+      this.listNotifys.forEach((consumer) => {
+        consumer.checked = true;
+        this.checkconsumerList.push(consumer.id);
+      });
+    } else {
+      this.listNotifys.forEach((consumer) => {
+        consumer.checked = false;
+      });
+      this.checkconsumerList.splice(0, this.checkconsumerList.length);
     }
   }
-  OnShowTraitement(data: Object): void {
-    const modalRef = this.modalService.open(DemandeShowComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
-    modalRef.componentInstance.transaction = data;
+  public onCheckedOneConsumer(consumer: any) {
+    if (this.checkconsumerList.includes(consumer.id)) {
+      this.checkconsumerList.forEach((value, index) => {
+        if (value == consumer.id)
+          this.checkconsumerList.splice(index, 1);
+      });
+    } else if (!this.checkconsumerList.includes(consumer.id)) {
+      this.checkconsumerList.push(consumer.id);
+    }
+    if (this.checkconsumerList.length === this.listNotifys.length) {
+      this.checkedAllConsumers = true;
+    } else {
+      this.checkedAllConsumers = false;
+    }
+  }
+
+  OnReadNotification(): void {
+    this.supervisionOperationService
+    .ReadNotifications({
+      notifications: this.checkconsumerList
+    })
+    .subscribe({
+      next: (response) => {
+        this.GetAllNotifications();
+        setTimeout(() => {
+          let user = JSON.parse(this.storage.getData('user'));
+          user.notifications = this.listNotifys.length;
+          this.mappingService.notifications = this.listNotifys.length;
+          this.storage.saveData('user', JSON.stringify(user));
+          this.storeLocaleService.OnEmitNotify(this.listNotifys.length)
+        }, 1000);
+        this.toastrService.success(response.message);
+      },
+      error: (error) => {
+        this.toastrService.error(error.error.message);
+      }
+    })
   }
   public pushStatutView(event: boolean): void {
     this.showView = event;
