@@ -82,13 +82,21 @@ export class SuivieTraitementComponent implements OnInit {
 
   ngOnInit() {
     this.isFilter();
-    this.GetAllTransactions();
     this.getAllUsers()
+    if (history.state) {
+      this.historie = history.state;
+      this.selectedStatut = this.historie?.statut;
+      this.selectedTraitement = this.historie?.traitement;
+    }
+    this.GetAllTransactions();
   }
 
   public GetAllTransactions() {
     this.supervisionOperationService
-      .GetAllTransactions({}, this.p)
+      .GetAllTransactions({
+        ...(this.historie?.statut ? { statut: this.selectedStatut } : {}),
+        ...(this.historie?.traitement ? { traitement: this.selectedTraitement } : {})
+      }, this.p)
       .subscribe({
         next: (response) => {
           this.listTraitemants =  response['data']['data'].map((data) => {
@@ -171,7 +179,7 @@ export class SuivieTraitementComponent implements OnInit {
     }
   }
   OnRefresh() {
-    this.GetAllTransactions();
+    this.historie = null;
     this.selectedTypeOperation = null
     this.selectedTransaction = null;
     this.selectedStatut = null;
@@ -181,6 +189,7 @@ export class SuivieTraitementComponent implements OnInit {
     this.selectDateEnd = null;
     this.filterDateStart = null;
     this.filterDateEnd = null;
+    this.GetAllTransactions();
   }
 
   public OnChangeStatut(event){

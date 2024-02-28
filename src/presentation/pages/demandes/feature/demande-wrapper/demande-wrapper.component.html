@@ -27,12 +27,12 @@
       </p-dropdown>
     </div>
   </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
       <label class="block"><b>Date début</b></label>
       <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
         (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
       <label class="block"><b>Date fin</b></label>
       <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
         (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>

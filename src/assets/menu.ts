@@ -1,13 +1,13 @@
 import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION, DEMANDE_RESILIATION } from '../presentation/pages/demandes/demandes-routing.module';
 import { DOWNLOAD_FILE } from './../presentation/pages/patrimoine/patrimoine-routing.module';
-import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE,CONTENCIEUX_ROUTE, NOTIFY_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
+import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE,CONTENCIEUX_ROUTE, NOTIFY_ROUTE, JOURNAL_TRANSACTION_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
 import { CARTES_SIM, DOTATION_SERVICES, ETAT_SOLDE, GROUPE_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
 import { DEMANDE_SERVICE, OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SLA_DEMANDE_SERVICE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
 import { VUE_GEOGRAPHIQUE } from 'src/presentation/pages/zone-trafic/zone-trafic-routing.module';
-import { PROFILS_HABILITATIONS, UTILISATEURS } from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
+import { JOURNAL_ATHENTICATION, PROFILS_HABILITATIONS, UTILISATEURS } from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { RAPPORT_CONFORMITE, SLA_DASHBORD } from 'src/presentation/pages/sla-demande-service/sla-demande-service-routing.module';
 
@@ -221,6 +221,14 @@ export var menuJson = [
                 type: "link",
                 pack: ApplicationType.MONITORING
             },
+            {
+                path: `/${SUPERVISION_OPERATIONS}/${JOURNAL_TRANSACTION_ROUTE}`,
+                title: "Journal des Transactions",
+                label: "Journal des Transactions",
+                data: "4-6-0-journaux-transaction",
+                type: "link",
+                pack: ApplicationType.MONITORING
+            },
         ]
     },
     {
@@ -314,6 +322,14 @@ export var menuJson = [
                 title: "Utilisateurs",
                 label: "Utilisateurs",
                 data: "6-2-0-utilisateurs",
+                type: "link",
+                pack: ApplicationType.MONITORING
+            },
+            {
+                path: `/${PARAMETRE_SECURITE}/${JOURNAL_ATHENTICATION}`,
+                title: "Journal des accès",
+                label: "Journal des accès",
+                data: "6-3-0-journaux-auth",
                 type: "link",
                 pack: ApplicationType.MONITORING
             }

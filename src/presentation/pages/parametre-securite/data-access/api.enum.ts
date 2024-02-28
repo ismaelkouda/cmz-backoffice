@@ -4,6 +4,7 @@ export const enum EndPointUrl {
     DELETE_PROFIL_HABILITATION = 'user-profiles/{id}/delete',
     GET_ALL_USERS_WITHOUT_PROFIL = 'users/without-profil',
     GET_ALL_USER_WITH_PROFIL = 'user-profiles/{id}/users',
+    GET_JOURNAL_ACCES = 'parametres-securite/journaux-authentifications/all',
     UPDATE_PROFIL = 'user-profiles/{id}/update',
     SAVE_AFFECTATION = 'user-profiles/affectation',
     SAVE_REAFFECTATION = 'user-profiles/reaffectation',
@@ -11,6 +12,6 @@ export const enum EndPointUrl {
     ACTIVATE_PROFIL = 'user-profiles/{id}/activer',
     DISABLE_PROFIL = 'user-profiles/{id}/desactiver',
     ACTIVATE_USER = 'users/{id}/activer',
-    DISABLE_USER = 'users/{id}/desactiver'
+    DISABLE_USER = 'users/{id}/desactiver',
 }
 

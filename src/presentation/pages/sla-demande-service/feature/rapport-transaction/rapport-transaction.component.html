@@ -81,15 +81,25 @@
             </span>
           </td>
           <td class="text-center">
-            <div *ngIf="(transaction?.current_dure > transaction?.current_sla && transaction?.current_date !== 'N/A') || transaction?.current_dure > transaction?.current_sla && transaction?.current_date === 'N/A'">
+           <div *ngIf="transaction?.statut === 'soumis'">
+              <div *ngIf="(transaction?.current_dure > transaction?.current_sla && transaction?.current_date !== 'N/A')">
+                <img src="assets/images/icones/sad.png" width="22" alt="">
+              </div>
+              <div *ngIf="(transaction?.current_dure < transaction?.current_sla && transaction?.current_date !== 'N/A')">
+                <img  src="assets/images/icones/smile.png" width="22" alt="">
+              </div>
+              <div *ngIf="transaction?.current_date === 'N/A'">
+                <img src="assets/images/icones/horloge.png" width="22" alt="">
+              </div>
+           </div>
+           <div *ngIf="transaction?.statut === 'traité'">
+            <div *ngIf="transaction?.current_dure > transaction?.current_sla">
               <img src="assets/images/icones/sad.png" width="22" alt="">
             </div>
-            <div *ngIf="(transaction?.current_dure < transaction?.current_sla && transaction?.current_date !== 'N/A') || transaction?.current_dure < transaction?.current_sla && transaction?.current_date === 'N/A'">
+            <div *ngIf="transaction?.current_dure < transaction?.current_sla">
               <img  src="assets/images/icones/smile.png" width="22" alt="">
             </div>
-            <div *ngIf="transaction?.current_dure < transaction?.current_sla && transaction?.current_date === 'N/A'">
-              <img src="assets/images/icones/horloge.png" width="22" alt="">
-            </div>
+         </div>
           </td>
           <td>{{ transaction?.current_date}}</td>
           <td>{{transaction?.current_dure}}</td>

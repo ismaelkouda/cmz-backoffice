@@ -185,6 +185,58 @@ export class ThirdLevelComponent implements OnInit {
         }
       })
   }
+  public handleActivate(data: any): void {
+    Swal.fire({
+      title: 'En êtes vous sûr ?',
+      html: `Voulez-vous Activer le profil <br> ${data.nom} ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#569C5B',
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Oui',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.settingService
+          .handleActivateZone(data.id)
+          .subscribe({
+            next: (response) => {
+              this.toastrService.success(response.message);
+              this.GellCurrentLevel();
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
+      }
+    });
+  }
+  public handleDisable(data: any): void {
+    Swal.fire({
+      title: 'En êtes vous sûr ?',
+      html: `Voulez-vous Désactiver le profil <br> ${data.nom} ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#569C5B',
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Oui',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.settingService
+          .handleDisableZone(data.id)
+          .subscribe({
+            next: (response) => {
+              this.toastrService.success(response.message);
+              this.GellCurrentLevel();
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
+      }
+    });
+  }
   public HandleDelete(data: any): void {
     Swal.fire({
       title: 'En êtes vous sûr ?',

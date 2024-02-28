@@ -60,6 +60,7 @@
                         <th class="text-center" [style]="{width: '1.5rem'}">#</th>
                         <th>{{currentLevelLibelle}}</th>
                         <th class="text-center">Code</th>
+                        <th class="text-center">Statut</th>
                         <th class="text-center" [style]="{width: '7rem'}">Actions</th>
                       </tr>
                     </ng-template>
@@ -68,13 +69,26 @@
                         <td class="text-center">{{ i + 1 }}</td>
                         <td (click)="copyData(data?.nom)" style="cursor: pointer">{{data?.nom}}</td>
                         <td (click)="copyData(data?.code)" style="cursor: pointer" class="text-center">{{data?.code}}</td>
+                        <td class="text-center">
+                          <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+                            [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
+                            {{ data.statut }}
+                          </span>
+                        </td>
                         <td class=" td-actions">
                           <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
                             (click)="onShowForm(data,content)" class="p-button-dark"></button>
                           <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
                             (click)="onEditForm(data,content)" class="p-button-secondary"></button>
-                          <!-- <p-button icon="pi pi-trash" [disabled]="true" styleClass="p-button-danger" pTooltip="Supprimer"
-                            tooltipPosition="top" (click)="HandleDelete(data)"></p-button> -->
+                            <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
+                            " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
+                            ? 'Désactiver'
+                            : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
+                            ? handleDisable(data)
+                            : handleActivate(data)">
+                          </button>
+                          <p-button icon="pi pi-trash" [disabled]="true" styleClass="p-button-danger" pTooltip="Supprimer"
+                            tooltipPosition="top" (click)="HandleDelete(data)"></p-button>
                         </td>
                       </tr>
                     </ng-template>

@@ -117,6 +117,14 @@ export class SettingService {
     const url: string = (<string>EndPointUrl.DELETE_NIVEAUX_3).replace('{id}', data)
     return this.http.delete(`${this.baseUrl}${url}`);
   }
+  handleActivateZone(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.ACTIVATE_NIVEAUX_3).replace('{id}', data)
+    return this.http.put(`${this.baseUrl}${url}`, {});
+  }
+  handleDisableZone(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.DISABLE_NIVEAUX_3).replace('{id}', data)
+    return this.http.put(`${this.baseUrl}${url}`, {});
+  }
 
   // Security
   HandleUpdatePassword(data): Observable<any> {
@@ -152,6 +160,10 @@ export class SettingService {
     HandleDisableUsage(id): Observable<any> {
       const url: string = (<string>EndPointUrl.DISABLE_USAGE).replace('{id}', id);
       return this.http.put(`${this.baseUrl}${url}`,{});
+    }
+    Logout(data): Observable<any> {
+      const url: string = (<string>EndPointUrl.LOGOUT);
+      return this.http.put(`${this.baseUrl}${url}`, data);
     }
 
 }

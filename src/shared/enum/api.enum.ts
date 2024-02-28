@@ -28,7 +28,8 @@ export const enum EndPointUrl {
     GET_ALL_ZONES = 'parametres-securite/zones/all',
     UPDATE_STATUT_USAGE = 'usages/mise-a-jour-statut',
     DELETE_NIVEAUX_3 = 'parametres-securite/niveau_trois/{id}/delete',
-
+    ACTIVATE_NIVEAUX_3 = 'parametres-securite/niveau_trois/{id}/activer',
+    DISABLE_NIVEAUX_3 = 'parametres-securite/niveau_trois/{id}/desactiver',
 
     //Third Level EndPoints
     GET_ALL_USAGES = 'parametres-securite/usages/all',    
@@ -37,12 +38,11 @@ export const enum EndPointUrl {
     ACTIVATE_USAGE = 'parametres-securite/usages/{id}/activer',
     DISABLE_USAGE = 'parametres-securite/usages/{id}/desactiver',
     DELETE_USAGE = 'parametres-securite/usages/{id}/delete',
+    
     // SECURITY
     HANDLE_UPDATE_PASSWORD = 'users/update-password',
     GET_ALL_SITES = 'sites/all',
-
-
+    LOGOUT = 'logout',
     GET_ALL_PORTEFEUILLE = 'gestion-portefeuille/all',
-
 
 }

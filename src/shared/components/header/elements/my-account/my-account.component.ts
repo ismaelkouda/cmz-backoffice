@@ -95,6 +95,7 @@ export class MyAccountComponent implements OnInit {
       this.accountForm = this.fb.group({
         nom: ['',[Validators.required]],
         prenoms: ['',[Validators.required]],
+        username: ['',[Validators.required]],
         email: ['',[Validators.required]],
         contacts: ['',[Validators.required]],
         adresse: ['',[Validators.required]]
@@ -103,10 +104,11 @@ export class MyAccountComponent implements OnInit {
     public openFormAccount(account,data) {
       this.accountForm.get('nom').patchValue(data.nom);
       this.accountForm.get('prenoms').patchValue(data.prenoms);
+      this.accountForm.get('username').patchValue(data.username);
       this.accountForm.get('email').patchValue(data.email);
       this.accountForm.get('contacts').patchValue(data.contacts);
       this.accountForm.get('adresse').patchValue(data.adresse);
-      this.accountForm.get('email').disable();
+      this.accountForm.get('username').disable();
       this.modalService.open(account);
     }
     public hideFormAccount() {
@@ -129,7 +131,26 @@ export class MyAccountComponent implements OnInit {
           }
         })
     }
-
+    public handleLogout(): void {
+      this.settingService
+        .Logout({})
+        .subscribe({
+          next: (response) => {
+            this.storage.removeData('current_menu');
+            if (this.storage.getData('isProfil') || null) {
+              this.storage.removeData('isProfil');
+              this.router.navigateByUrl('auth/login')
+              .then(() => window.location.reload());
+            }else{
+              this.router.navigateByUrl('auth/login');
+            }
+            this.toastrService.success(response?.message);
+          },
+          error: (error) => {
+            this.toastrService.error(error.error.message);
+          }
+        })
+    }
     public logout(): void {
       Swal.fire({
         title: 'En êtes vous sûr ?',
@@ -141,16 +162,7 @@ export class MyAccountComponent implements OnInit {
         confirmButtonText: 'Oui',
       }).then((result) => {
         if (result.isConfirmed) {
-          const isProfil = 
-          this.storage.removeData('user');
-          this.storage.removeData('current_menu');
-          if (this.storage.getData('isProfil') || null) {
-            this.storage.removeData('isProfil');
-            this.router.navigateByUrl('auth/login')
-            .then(() => window.location.reload());
-          }else{
-            this.router.navigateByUrl('auth/login');
-          }
+          this.handleLogout()
         }
       });
     }

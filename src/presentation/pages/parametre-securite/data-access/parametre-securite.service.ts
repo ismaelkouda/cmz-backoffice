@@ -23,6 +23,10 @@ export class ParametreSecuriteService {
     const url: string = (<string>EndPointUrl.GET_ALL_PROFIL_HABILITATIONS);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  GetAllJournal(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_JOURNAL_ACCES);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   handleSaveProfilHabilitation(data): Observable<any> {
     const url: string = (<string>EndPointUrl.SAVE_PROFIL_HABILITATION);
     return this.http.post(`${this.baseUrl}${url}`, data);

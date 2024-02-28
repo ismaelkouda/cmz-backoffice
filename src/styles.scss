@@ -322,3 +322,14 @@ p-password .p-disabled {
     font-family: Poppins;
     src: url("./assets/fonts/Poppins.ttf");
 }
+
+.p-datatable .p-sortable-column:hover {
+    background: #000000 !important;
+    color:  #FFFFFF !important;
+}
+.p-datatable .p-sortable-column.p-highlight:hover .p-sortable-column-icon {
+    color:  #FFFFFF !important;
+}
+.p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
+    color:  #FFFFFF !important;
+}

@@ -6,6 +6,7 @@ import { PerformancesComponent } from './ui/performances/performances.component'
 import { PriseEnChargeComponent } from './ui/prise-en-charge/prise-en-charge.component';
 import { ContencieuxComponent } from './ui/contencieux/contencieux.component';
 import { NotificationComponent } from './ui/notification/notification.component';
+import { JournalTransactionComponent } from './ui/journal-transaction/journal-transaction.component';
 
 
 export const DEMANDE_ROUTE = 'demandes'
@@ -14,6 +15,7 @@ export const SUIVIE_TRAITEMENT_ROUTE = 'suivie-et-traitements'
 export const PERFORMANCE_SLA_ROUTE = 'performances-sla'
 export const CONTENCIEUX_ROUTE = 'reclamations'
 export const NOTIFY_ROUTE = 'centre-notifications'
+export const JOURNAL_TRANSACTION_ROUTE = 'journal-transaction'
 
 
 const routes: Routes = [
@@ -44,7 +46,11 @@ const routes: Routes = [
                 path: NOTIFY_ROUTE,
                 component: NotificationComponent,
             },
-        ],
+            {
+                path: JOURNAL_TRANSACTION_ROUTE,
+                component: JournalTransactionComponent,
+            }
+        ]
     },
 ];
 

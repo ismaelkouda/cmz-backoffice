@@ -5,10 +5,11 @@ import { Router } from '@angular/router';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { SimStatut } from 'src/shared/enum/SimStatut.enum';
 import { TypeAlarme } from 'src/shared/enum/TypeAlarme.enum';
-import { PATRIMOINE } from 'src/shared/routes/routes';
+import { PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
+import { SUIVIE_TRAITEMENT_ROUTE } from '../supervision-operations/supervision-operations-routing.module';
 
 @Component({
   selector: 'app-dashboard',
@@ -123,16 +124,16 @@ export class DashboardComponent implements OnInit {
       //DEMANDES  
 
       case '# Demandes en Attentes':
-        //this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state:{ statut: StatutTransaction.SOUMIS,traitement: TraitementTransaction.EN_ENTENTE}});
+        this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`, { state:{ statut: StatutTransaction.SOUMIS,traitement: TraitementTransaction.EN_ENTENTE}});
         break;
       case '# Demandes Traitées':
-          //this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state: { statut: StatutTransaction.TARITER} });
+          this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`, { state: { statut: StatutTransaction.TARITER} });
         break;
       case '# Demandes Clôturées':
-        //this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state: { statut: StatutTransaction.CLOTURER } });
+        this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`, { state: { statut: StatutTransaction.CLOTURER } });
         break;  
       case '# Demandes Abandonnées':
-        //this.router.navigateByUrl(`${PATRIMOINE}/${''}`, { state: { traitement: TraitementTransaction.ABANDONNER } });
+        this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`, { state: { traitement: TraitementTransaction.ABANDONNER } });
         break;
 
         default:

@@ -131,7 +131,6 @@ export class DemandeWrapperShowComponent implements OnInit {
     this.patrimoineService
       .GetAllTransactions({
         operation: this.selectedOperation,
-        transaction: this.selectedTransaction,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
         statut: this.selectedStatut,

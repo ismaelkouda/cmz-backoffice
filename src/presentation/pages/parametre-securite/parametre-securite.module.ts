@@ -1,3 +1,4 @@
+import { JournalAuthenticationComponent } from './ui/journal-authentication/journal-authentication.component';
 import { AdminFormComponent } from './feature/admin-form/admin-form.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -22,6 +23,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { TooltipModule } from 'primeng/tooltip';
+import { CalendarModule } from 'primeng/calendar';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ParametreSecuriteRoutingModule } from './parametre-securite-routing.module';
@@ -45,6 +47,7 @@ import { TreeModule } from 'primeng/tree';
         CheckboxModule,
         DialogModule,
         TooltipModule,
+        CalendarModule,
         InputSwitchModule,
         NgxPaginationModule,
         TreeModule
@@ -56,6 +59,7 @@ import { TreeModule } from 'primeng/tree';
         VisualisationComponent,
         FormsProfilComponent,
         AdminFormComponent,
+        JournalAuthenticationComponent
     ]
 })
 export class ParametreSecuriteModule { }
