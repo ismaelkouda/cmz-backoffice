@@ -60,7 +60,7 @@ export class MappingService {
       this.baseUrl = `${this.currentUser?.tenant?.url_backend}/api/v1/`
       this.fileUrl = `${this.currentUser?.tenant?.url_minio}/`
       this.minioUrl = `${this.currentUser?.tenant?.url_minio}/`
-      this.noderedUrl = this.currentUser?.tenant?.url_nodered
+      this.noderedUrl = this.currentUser?.tenant?.url_nodered.replace("https://", "")      
       this.tenant = this.currentUser?.tenant;      
       this.structureGlobale = this.currentUser?.structure_organisationnelle;
       this.logoTenant = `${this.fileUrl}${this.tenant?.logo_tenant}`;

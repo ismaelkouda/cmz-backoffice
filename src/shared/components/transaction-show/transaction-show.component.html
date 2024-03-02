@@ -18,16 +18,16 @@
             </legend>
             <div class="d-flex flex-column gap-2">
                 <div>
-                  <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>{{transaction?.agent_nom ??"N/A"}}</span>
+                  <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{detailTransaction?.demandeur_matricule ??"N/A"}}</span>
                 </div>
                 <div>
-                  <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{transaction?.agent_matricule ??"N/A"}}</span>
+                  <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>{{detailTransaction?.demandeur_nom ??"N/A"}} {{detailTransaction?.demandeur_prenoms ??"N/A"}}</span>
                 </div>
                 <div>
-                  <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{transaction?.agent_contacts ??"N/A"}}</span>
+                  <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{detailTransaction?.demandeur_contacts ??"N/A"}}</span>
                 </div>
                 <div>
-                  <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{transaction?.agent_email ??"N/A"}}</span>
+                  <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{detailTransaction?.demandeur_email ??"N/A"}}</span>
                 </div>
                 <div>
                   <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.created_at ??"N/A"}}</span>
@@ -35,28 +35,27 @@
             </div>
         </fieldset>
           </div>
-    <br>
     <div>
       <fieldset>
           <legend>
               <strong>Homologation</strong>
           </legend>
           <div class="d-flex flex-column gap-2">
-              <div>
-                <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{transaction?.intervenant_matricule ??"N/A"}}</span>
-              </div>
-              <div>
-                <span class="mb-0 fs__30"><strong>Nom&nbsp;:&nbsp;</strong>{{transaction?.intervenant_nom ??"N/A"}}</span>
-              </div>
-              <div>
-                <span class="mb-0 fs__30"><strong>Prénoms&nbsp;:&nbsp;</strong>{{transaction?.intervenant_prenoms ??"N/A"}}</span>
-              </div>
-              <div>
-                <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{transaction?.agent_email ??"N/A"}}</span>
-              </div>
-              <div>
-                <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.intervenant_contacts ??"N/A"}}</span>
-              </div>
+            <div>
+              <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.matricule ??"N/A"}}</span>
+            </div>
+            <div>
+              <span class="mb-0 fs__30"><strong>Nom Complet&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.nom ??"N/A"}} {{detailTransaction?.intervenant?.prenoms ??"N/A"}}</span>
+            </div>
+            <div>
+              <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.contacts ??"N/A"}}</span>
+            </div>
+            <div>
+              <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.email ??"N/A"}}</span>
+            </div>
+            <div>
+              <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.created_at ??"N/A"}}</span>
+            </div>
           </div>
       </fieldset>
           </div>

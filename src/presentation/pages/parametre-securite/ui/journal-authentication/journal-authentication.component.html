@@ -8,7 +8,7 @@
                responsiveLayout="scroll" [rowHover]="true" dataKey="id" 
                currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
               données" [showCurrentPageReport]="true"
-              [globalFilterFields]="['event', 'action']"
+              [globalFilterFields]="['event', 'action', 'created_at','data.username']"
               >
          <ng-template pTemplate="caption">
         <div class="row">
@@ -42,7 +42,7 @@
         </div>
         <div class="header-table mt-2" style="display: flex;justify-content: space-between;">
              <div class="d-flex gap-3">
-              <app-table-header [count]="listHistoriques" [legende]="'Journaux des accès'"></app-table-header>
+              <app-table-header [count]="listHistoriques" [legende]="'accès'"></app-table-header>
               <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
               class="p-button-secondary mt-3" style="height: max-content;">
                </button>

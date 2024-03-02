@@ -33,7 +33,6 @@
             Information de Transaction
           </li>
         </ul>
-        <br>
         <div class="submit-wrapper">
           <button pButton pRipple label="Abandonner" *ngIf="IsCancel()" (click)="OnCancelTransaction()"
             class="p-button-warning w-100">
@@ -45,7 +44,6 @@
             label="Enregistrer" class="p-button-success w-100">
           </button>
         </div>
-        <br>
         <fieldset *ngIf="IsContencieutRouter()">
           <legend>
             <strong>Decision</strong>
@@ -74,54 +72,51 @@
             </div>
           </div>
         </fieldset>
-        <br>
-        <br>
-          <div>
+        <div>
             <fieldset>
                 <legend>
                     <strong>Emission</strong>
                 </legend>
                 <div class="d-flex flex-column gap-2">
-                    <div>
-                      <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>{{transaction?.agent_nom ??"N/A"}}</span>
-                    </div>
-                    <div>
-                      <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{transaction?.agent_matricule ??"N/A"}}</span>
-                    </div>
-                    <div>
-                      <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{transaction?.agent_contacts ??"N/A"}}</span>
-                    </div>
-                    <div>
-                      <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{transaction?.agent_email ??"N/A"}}</span>
-                    </div>
-                    <div>
-                      <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.created_at ??"N/A"}}</span>
-                    </div>
-                </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{detailTransaction?.demandeur_matricule ??"N/A"}}</span>
+                  </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>{{detailTransaction?.demandeur_nom ??"N/A"}} {{detailTransaction?.demandeur_prenoms ??"N/A"}}</span>
+                  </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{detailTransaction?.demandeur_contacts ??"N/A"}}</span>
+                  </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{detailTransaction?.demandeur_email ??"N/A"}}</span>
+                  </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.created_at ??"N/A"}}</span>
+                  </div>
+                 </div>
             </fieldset>
-          </div>
-        <br>
+         </div>
         <div>
           <fieldset>
               <legend>
                   <strong>Homologation</strong>
               </legend>
               <div class="d-flex flex-column gap-2">
-                  <div>
-                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{transaction?.intervenant_matricule ??"N/A"}}</span>
-                  </div>
-                  <div>
-                    <span class="mb-0 fs__30"><strong>Nom&nbsp;:&nbsp;</strong>{{transaction?.intervenant_nom ??"N/A"}}</span>
-                  </div>
-                  <div>
-                    <span class="mb-0 fs__30"><strong>Prénoms&nbsp;:&nbsp;</strong>{{transaction?.intervenant_prenoms ??"N/A"}}</span>
-                  </div>
-                  <div>
-                    <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{transaction?.agent_email ??"N/A"}}</span>
-                  </div>
-                  <div>
-                    <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.intervenant_contacts ??"N/A"}}</span>
-                  </div>
+                <div>
+                  <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.matricule ??"N/A"}}</span>
+                </div>
+                <div>
+                  <span class="mb-0 fs__30"><strong>Nom Complet&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.nom ??"N/A"}} {{detailTransaction?.intervenant?.prenoms ??"N/A"}}</span>
+                </div>
+                <div>
+                  <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.contacts ??"N/A"}}</span>
+                </div>
+                <div>
+                  <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.email ??"N/A"}}</span>
+                </div>
+                <div>
+                  <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.created_at ??"N/A"}}</span>
+                </div>
               </div>
           </fieldset>
           </div>
@@ -133,7 +128,7 @@
         :(!detailTransaction?.rapport?.code.includes('100') || !detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapportDifferentTo100' : '']"
           role="alert" style="display: flex;justify-content: space-between;">
           <div>
-            <strong class="wrapper-header">Acquittement : {{detailTransaction?.rapport?.statut_acquittement ?? 'N/A'}} [{{detailTransaction?.rapport?.date_acquittement ?? '-- : --'}}]</strong>
+            <strong class="wrapper-header">Reception : {{detailTransaction?.rapport?.statut_acquittement ?? 'N/A'}} [{{detailTransaction?.rapport?.date_acquittement ?? '-- : --'}}]</strong>
           </div>
           <div>
             <strong class="wrapper-header">Traitement : {{detailTransaction?.rapport?.statut_traitement ?? 'N/A'}} [{{detailTransaction?.rapport?.date_traitement ?? '-- : --'}}]</strong>

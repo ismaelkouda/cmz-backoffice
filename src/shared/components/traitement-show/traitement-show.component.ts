@@ -725,7 +725,7 @@ export class TraitementShowComponent implements OnInit {
           ),
           transaction: this.transaction?.transaction,
           operation: this.transaction.operation,
-          model_id: this.transaction.model_id
+         // model_id: this.transaction.model_id
         }
         this.supervisionOperationService
           .OnUpdateTransaction((this.transaction?.operation === OperationTransaction.VOLUME_DATA  || this.transaction?.operation === OperationTransaction.SWAP  || this.transaction?.operation === OperationTransaction.RESILIATION || this.transaction?.operation === OperationTransaction.SUSPENSION || this.transaction?.operation === OperationTransaction.PROVISIONNING || this.transaction?.operation === OperationTransaction.ACTIVATION) ? formDataBuilder(data) : data)

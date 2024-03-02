@@ -58,6 +58,8 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                                 handled = false;
                                 break;
                             case 500:
+                                this.loadingBar.stop();
+                                this.toastrService.error(`${error.error.message}`)
                                 handled = true;
                                 break;
                         }

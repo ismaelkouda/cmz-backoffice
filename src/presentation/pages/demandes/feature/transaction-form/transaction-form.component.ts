@@ -200,12 +200,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public initForm(): void {
     this.adminForm = this.fb.group({
       //Identification Controls
-      direction_regionale: ['', [Validators.required]],
-      exploitation: ['',[Validators.required]],
-      zone: ['', [Validators.required]],
-      niveau_un_uuid: [''],
-      niveau_deux_uuid: [''],
-      niveau_trois_uuid: [''],
+      niveau_un_uuid: ['',[Validators.required]],
+      niveau_deux_uuid: ['',[Validators.required]],
+      niveau_trois_uuid: ['',[Validators.required]],
       usage_id: ['', (this.typeDemande === 'simple' ? [Validators.required] : [])],
       point_emplacement: [''],
       adresse_geographique: [''],
@@ -337,7 +334,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   }
 
   onGetDrValueChanges() {
-    return this.adminForm.get('direction_regionale').valueChanges.subscribe((value) => {      
+    return this.adminForm.get('niveau_un_uuid').valueChanges.subscribe((value) => {      
       this.getAllExploitation(value);
     });
   }
@@ -407,17 +404,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       })
       baseUrl = `${this.baseUrl}${EndPointUrl.SWAPER_SIM}`
     } else if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
-      this.adminForm.patchValue({
-        niveau_un_uuid: this.adminForm.get('direction_regionale').value,
-        niveau_deux_uuid: this.adminForm.get('exploitation').value,
-        niveau_trois_uuid: this.adminForm.get('zone').value,
-        statut_contrat: this.adminForm.get('statut').value
-      })
-      this.adminForm.get('direction_regionale').disable()
-      this.adminForm.get('exploitation').disable()
-      this.adminForm.get('zone').disable()
-      this.adminForm.get('statut').disable()
-    
       let adminData;
       if (this.applicationType === ApplicationType.MONITORING) {
          adminData = {
@@ -475,14 +461,11 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     let data;
    if (this.router.url === `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`) {
     this.adminForm.patchValue({
-      niveau_un_uuid: this.adminForm.get('direction_regionale').value,
-      niveau_deux_uuid: this.adminForm.get('exploitation').value,
-      niveau_trois_uuid: this.adminForm.get('zone').value,
+      niveau_un_uuid: this.adminForm.get('niveau_un_uuid').value,
+      niveau_deux_uuid: this.adminForm.get('niveau_deux_uuid').value,
+      niveau_trois_uuid: this.adminForm.get('niveau_trois_uuid').value,
       statut_contrat: this.adminForm.get('statut').value
     })
-    this.adminForm.get('direction_regionale').disable()
-    this.adminForm.get('exploitation').disable()
-    this.adminForm.get('zone').disable()
     //Disable Our Controls
     this.adminForm.get('usage_id').disable()
     this.adminForm.get('point_emplacement').disable()
@@ -584,7 +567,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   }
 
   public onFormPachValues(): void {
-        //Identification Controls
     this.adminForm.get('niveau_un_uuid').patchValue(this.currentPatrimoine?.niveau_uns_nom);
     this.adminForm.get('niveau_deux_uuid').patchValue(this.currentPatrimoine?.niveau_deux_nom);
     this.adminForm.get('niveau_trois_uuid').patchValue(this.currentPatrimoine?.niveau_trois_nom);
