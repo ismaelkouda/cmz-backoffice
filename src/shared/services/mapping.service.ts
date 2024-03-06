@@ -12,7 +12,9 @@ import { OperationTransaction } from '../enum/OperationTransaction.enum';
 })
 export class MappingService {
 
-  public currentUser: any
+  public currentUser: any;
+  public profil: any;
+  public appReadStatut: boolean;
   public currentPermissions: any[]
   public listOperations: any[]
   public listObjectifSla: any[]
@@ -67,6 +69,8 @@ export class MappingService {
       this.grafanaLink = this.tenant?.lien_dashboard_grafana;
       this.approLink = this.tenant?.lien_dashboard_appro;
       this.rejetLink = this.tenant?.lien_dashboard_rejets;
+      this.profil = this.currentUser?.profil;
+      this.appReadStatut = this.profil?.mode_lecture;
       this.dashbordTransactionSLa = 'https://osim-dashboard.orange.ci:50200/d/fUHASnXVs/tb-des-demandes?orgId=1&refresh=10m'
       const newDatatEnv = { ...this.currentUser?.env, typeNiveau: 'Type Emplacement' };
       this.typeNiveau = newDatatEnv?.typeNiveau;
@@ -104,6 +108,7 @@ export class MappingService {
     if (storage.getData('user')) {
       this.GetAllPortefeuille();
     }
+    this.IsAction()
   }
 
   public GetAllPortefeuille() {
@@ -142,5 +147,8 @@ export class MappingService {
       default:
         return { 'badge-secondary': true };
     }
+  }
+  IsAction(): boolean {
+    return !(this.appReadStatut)
   }
 }

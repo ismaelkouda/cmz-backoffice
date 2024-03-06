@@ -39,7 +39,7 @@ export class ThirdLevelComponent implements OnInit {
   constructor(
     private settingService: SettingService,
     private toastrService: ToastrService,
-    private mappingService: MappingService,
+    public mappingService: MappingService,
     private modalService: NgbModal,
     private excelService: ExcelService,
     private clipboardApi: ClipboardService,
@@ -47,7 +47,6 @@ export class ThirdLevelComponent implements OnInit {
   ) {
     this.currentLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.currentLevelMenus = this.mappingService.structureGlobale?.niveau_3_menu;
-
   }
 
   ngOnInit() {

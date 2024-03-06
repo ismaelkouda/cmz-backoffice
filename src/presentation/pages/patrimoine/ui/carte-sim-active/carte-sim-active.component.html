@@ -204,7 +204,7 @@
                         [class]="data.qrcode?'p-button-help': 'p-button-help p-button-outlined'"></button>
                         <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"
                         (click)="onShowForm(data)"></button>
-                        <div ngbDropdown>
+                        <div ngbDropdown *ngIf="mappingService.IsAction()">
                           <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Choisir</button>
                           <div ngbDropdownMenu>
                             <button ngbDropdownItem  (click)="onEditForm(data)">Modifier</button>

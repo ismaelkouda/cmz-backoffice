@@ -166,4 +166,18 @@ export class SettingService {
       return this.http.put(`${this.baseUrl}${url}`, data);
     }
 
+    //NIVEAUX SIMPLE
+
+    GetAllFirstLevelSimple(data): Observable<any> {
+      const url: string = (<string>EndPointUrl.GET_ALL_NIVEAUX_1_SIMPLE);
+      return this.http.post(`${this.baseUrl}${url}`, data);
+    }
+    GetAllSecondLevelSimple(data): Observable<any> {
+      const url: string = (<string>EndPointUrl.GET_ALL_NIVEAUX_2_SIMPLE);
+      return this.http.post(`${this.baseUrl}${url}`, data);
+    }
+    GetAllThirdSimple(data): Observable<any> {
+      const url: string = (<string>EndPointUrl.GET_ALL_NIVEAUX_3_SIMPLE);
+      return this.http.post(`${this.baseUrl}${url}`, data);
+    }
 }

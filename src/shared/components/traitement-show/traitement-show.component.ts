@@ -81,7 +81,7 @@ export class TraitementShowComponent implements OnInit {
     private settingService: SettingService,
     private patrimoineService: PatrimoineService,
     private clipboardApi: ClipboardService,
-    private mappingService: MappingService,
+    public mappingService: MappingService,
     private router: Router
   ) {
     Object.values(Justificatif).forEach(item => {
@@ -154,7 +154,7 @@ export class TraitementShowComponent implements OnInit {
           } else if (this.detailTransaction?.operation === OperationTransaction.ACHAT_SERVICE) {
             this.OnShowAchatForm();
           }
-          if (this.IsShow() || this.IsCloture()) {
+          if (this.IsShow() || this.IsCloture() || !this.mappingService.IsAction()) {
             this.activationForm.disable();
             this.ligneForm.disable();
             this.volumeForm.disable();
@@ -532,7 +532,7 @@ export class TraitementShowComponent implements OnInit {
 
   public GetFirstLevel() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listFirstLevel = response['data']
@@ -544,7 +544,7 @@ export class TraitementShowComponent implements OnInit {
   }
   public GetSecondLevel() {
     this.settingService
-      .getAllExploiatations({})
+      .GetAllSecondLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listSecondLevel = response['data']
@@ -556,7 +556,7 @@ export class TraitementShowComponent implements OnInit {
   }
   public GetThirdLevel(): void {
     this.settingService
-      .getAllZones({})
+      .GetAllThirdSimple({})
       .subscribe({
         next: (response) => {
           this.listThirdLevel = response['data'];

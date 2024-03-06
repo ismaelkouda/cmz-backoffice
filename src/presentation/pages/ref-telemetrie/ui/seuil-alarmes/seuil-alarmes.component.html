@@ -3,12 +3,9 @@
     <app-breadcrumb [title]="'Réferentiel Supervision'" [active_item]="'Indicateurs & Alarmes'"></app-breadcrumb>
     <div class="card">
       <div class="card-body">
-        <div>
           <p-tabView (onChange)="handleChangeTabviewIndex($event)">
             <p-tabPanel header="INDICATEURS & ALARMES">
-              <div class="table_actions_wrapper" style="display: flex;justify-content: space-between;">
-              </div>
-              <div class="table_content_wrapper">
+              <div class="table_content_wrapper" *ngIf="currentTabsIndex === 0">
                 <p-table #dt [value]="listTelemetries" 
                 [rows]="10" [paginator]="true" responsiveLayout="scroll"
                   [rowHover]="true" dataKey="id"
@@ -61,11 +58,10 @@
                 </p-table>
               </div>
             </p-tabPanel>
-            <p-tabPanel header="HISTORIQUE">
-              <app-historique [module]="'PROFIL SUPERVISION'" [modele]="'metriques'"></app-historique>
+            <p-tabPanel header="HISTORIQUE" >
+              <app-historique *ngIf="currentTabsIndex === 1" [module]="'PROFIL SUPERVISION'" [modele]="'metriques'"></app-historique>
             </p-tabPanel>
           </p-tabView>
-        </div>
       </div>
     </div>
   </div>

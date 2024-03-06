@@ -125,13 +125,14 @@ export class EtatSoldeComponent implements OnInit {
       this.filterDateStart = null
       this.filterDateEnd = null
       this.totalRecords = 0;
+      this.secondFilter = false;
       this.loadingBar.stop()
     }, 1000);
   }
 
   public GetAllFirstLevel() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listFirstLeveDatas = response['data'].map(element => {
@@ -152,7 +153,7 @@ export class EtatSoldeComponent implements OnInit {
   }
   public GetAllThirdLevel() {
     this.settingService
-      .getAllZones({})
+      .GetAllThirdSimple({})
       .subscribe({
         next: (response) => {
           this.listThirdLevelDatas = response['data']

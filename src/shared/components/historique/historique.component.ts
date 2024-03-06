@@ -3,7 +3,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-historique',
@@ -56,7 +55,7 @@ export class HistoriqueComponent implements OnInit {
     if (data?.event === 'Mise à jour' || data?.event === 'Évènement') {
       this.currentEventParse = JSON.parse(data?.data);
       if (this.currentEventParse?.before && this.currentEventParse?.after) {
-        Object.values(this.currentEventParse.before).map((value, i) => {
+        Object.values(this.currentEventParse?.before).map((value, i) => {
           this.currentEventParseBeforeValues.push(value);
           this.currentEventParseBeforeKeys.push(Object.keys(this.currentEventParse.before)[i]);
           this.currentEventParseAfter.push(Object.values(this.currentEventParse.after)[i]);

@@ -70,7 +70,7 @@ export class DemandeWrapperComponent implements OnInit {
     public demandeService: DemandeService,
     public toastrService: ToastrService,
     private clipboardApi: ClipboardService,
-    private mappingService: MappingService,
+    public mappingService: MappingService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
     private excelService: ExcelService
@@ -82,13 +82,10 @@ export class DemandeWrapperComponent implements OnInit {
       });
       Object.values(TraitementTransaction).forEach(item => {
         this.listTraitementTransactions.push(item);
-      });  
+      });        
   }
 
-  ngOnInit() {
-
-    console.log("isMasse",this.isMasse);
-    
+  ngOnInit() {    
     this.GetAllTransactions()
     this.isFilter();
     this.disableAction()
@@ -153,6 +150,7 @@ export class DemandeWrapperComponent implements OnInit {
     this.demandeService
       .GetDemandeServiceByTransaction({
         numero_demande: this.selectedTransaction,
+        operation: this.selectedOperation,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
         statut: this.selectedStatut,

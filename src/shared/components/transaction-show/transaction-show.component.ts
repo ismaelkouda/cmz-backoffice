@@ -583,7 +583,7 @@ export class TransactionShowComponent implements OnInit {
 
   public GetFirstLevel() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listFirstLevel = response['data']
@@ -595,7 +595,7 @@ export class TransactionShowComponent implements OnInit {
   }
   public GetSecondLevel() {
     this.settingService
-      .getAllExploiatations({})
+      .GetAllSecondLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listSecondLevel = response['data']
@@ -607,7 +607,7 @@ export class TransactionShowComponent implements OnInit {
   }
   public GetThirdLevel(): void {
     this.settingService
-      .getAllZones({})
+      .GetAllThirdSimple({})
       .subscribe({
         next: (response) => {
           this.listThirdLevel = response['data'];

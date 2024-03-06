@@ -158,6 +158,7 @@ export class AlarmesComponent implements OnInit {
     this.selectDateEnd = null
     this.filterDateStart = null
     this.filterDateEnd = null
+    this.secondFilter = false;
   }
   getAllUsers() {
     this.settingService

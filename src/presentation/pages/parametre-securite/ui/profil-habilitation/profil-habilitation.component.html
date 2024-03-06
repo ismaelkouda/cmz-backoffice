@@ -8,7 +8,7 @@
             <p-tabView (onChange)="handleChangeTabviewIndex($event)">
               <p-tabPanel header="PROFILS ET HABILITATIONS">
                 <div class="table_actions_wrapper">
-                  <button pButton pRipple label="Ajout de profil" icon="pi pi-plus" (click)="onInitForm()"
+                  <button pButton pRipple *ngIf="mappingService.IsAction()" label="Ajout de profil" icon="pi pi-plus" (click)="onInitForm()"
                     class="p-button-success"></button>
                   <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
                     class="p-button-secondary"></button>
@@ -68,18 +68,18 @@
                         <td class="td-actions">
                           <p-button icon="pi pi-eye" pTooltip="Historique" tooltipPosition="top" styleClass="p-button-dark"
                           (click)="onShowForm(data)"></p-button>
-                          <button pButton pRipple icon="pi pi-pencil" [disabled]="data.statut === 'inactif'" class="p-button-secondary" pTooltip="Editer"
+                          <button pButton pRipple *ngIf="mappingService.IsAction()" icon="pi pi-pencil" [disabled]="data.statut === 'inactif'" class="p-button-secondary" pTooltip="Editer"
                             tooltipPosition="top" (click)="onEditForm(data)"></button>
-                            <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
-                            " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
+                            <button pButton pRipple *ngIf="mappingService.IsAction()" [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
+                            " icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
                             ? 'Désactiver'
                             : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
                             ? handleDisableProfil(data)
                             : handleActivateProfil(data)">
                           </button>
-                          <button pButton pRipple icon="pi pi-arrow-right" [disabled]="data.statut === 'inactif'" (click)="onViewAffection(data)" class="p-button-dark"
+                          <button pButton pRipple *ngIf="mappingService.IsAction()" icon="pi pi-arrow-right" [disabled]="data.statut === 'inactif'" (click)="onViewAffection(data)" class="p-button-dark"
                             pTooltip="Affecter" tooltipPosition="top"></button>
-                          <button pButton pRipple icon="pi pi-trash" [disabled]="data.users_count > 0" (click)="handleleteProfilHabilitation(data)"
+                          <button pButton pRipple *ngIf="mappingService.IsAction()" icon="pi pi-trash" [disabled]="data.users_count > 0" (click)="handleleteProfilHabilitation(data)"
                             class="p-button-danger" pTooltip="Supprimer" tooltipPosition="top"></button>
                         </td>
                       </tr>

@@ -2,6 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ParametreSecuriteService } from './../../data-access/parametre-securite.service';
 import { Component, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
+import { MappingService } from 'src/shared/services/mapping.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -26,6 +27,7 @@ export class ProfilHabilitationComponent implements OnInit {
     private parametreSecuriteService: ParametreSecuriteService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
+    public mappingService: MappingService
 
   ) { }
 

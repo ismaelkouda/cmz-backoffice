@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { SettingService } from 'src/shared/services/setting.service';
+import { MappingService } from 'src/shared/services/mapping.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -27,6 +28,7 @@ export class UsageMetierComponent implements OnInit {
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private settingService: SettingService,
+    public mappingService: MappingService
   ) { }
 
   ngOnInit(): void {

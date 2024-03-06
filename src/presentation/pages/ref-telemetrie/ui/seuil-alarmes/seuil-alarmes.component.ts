@@ -1,7 +1,6 @@
 import { ToastrService } from 'ngx-toastr';
 import { TelemetrieService } from './../../data-access/telemetrie.service';
 import { Component, OnInit } from '@angular/core';
-import { SettingService } from 'src/shared/services/setting.service';
 import { ExcelService } from 'src/shared/services/excel.service';
 
 @Component({
@@ -15,20 +14,17 @@ export class SeuilAlarmesComponent implements OnInit {
   public clonedMetrique: { [s: string]: any } = {};
   public currentMetrique: any;
   public globalMetriquesEditRow: Array<any> = [];
-  public currentTabsIndex: number;
+  public currentTabsIndex: number = 0;
 
   constructor(
     private telemetrieService: TelemetrieService,
     private toastrService: ToastrService,
-    private settingService: SettingService,
     private excelService: ExcelService
 
   ) { }
 
   ngOnInit() {
     this.GetAllReferentielTelemetrie();
-    this.disableAction();
-    this.isValidate()
   }
 
   public GetAllReferentielTelemetrie(): void {
@@ -98,14 +94,8 @@ export class SeuilAlarmesComponent implements OnInit {
   }
   handleChangeTabviewIndex(e) {
     this.currentTabsIndex = e.index;
-    if (this.currentTabsIndex === 1) {
-      this.settingService.statutSubject.next(true);
-    }
   }
 
-  public disableAction(): boolean {
-    return (this.listTelemetries === undefined || this.listTelemetries?.length === 0) ? true : false
-  }
   public OnExportExcel(): void {
     const data = this.listTelemetries.map((item: any) => ({
       'Services': item?.classification,
@@ -115,7 +105,4 @@ export class SeuilAlarmesComponent implements OnInit {
     }));
     this.excelService.exportAsExcelFile(data, 'Liste des Métriques et Alarmes');
   }
-  isValidate(): boolean {
-    return (this.globalMetriquesEditRow.length === 0) ? true : false
-  }
 }

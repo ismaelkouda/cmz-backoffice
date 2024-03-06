@@ -47,7 +47,8 @@
                   <label>
                     <b>{{secondLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" optionLabel="fullName" [filter]="true" [showClear]="true"
+                  <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" 
+                     optionLabel="fullName" [filter]="true" [showClear]="true"
                     [(ngModel)]="selectedExploitation" [placeholder]="firstLevelLibelle">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
@@ -64,7 +65,9 @@
                   <label>
                     <b>{{thirdLevelLibelle}}</b>
                   </label>
-                  <p-dropdown [options]="listThirdLevelDatas" [(ngModel)]="selectedUsage" optionLabel="nom" [showClear]="true"
+                  <p-dropdown [options]="listThirdLevelDatas" [(ngModel)]="selectedUsage" 
+                     optionLabel="nom" [showClear]="true"
+                     optionLabel="nom" [filter]="true"
                     [placeholder]="thirdLevelLibelle" optionValue=" uuid">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">

@@ -8,10 +8,10 @@
             <p-tabView (onChange)="handleChangeTabviewIndex($event)">
               <p-tabPanel header="UTILISATEURS">
             <div class="d-flex justify-content-between">
-              <div>
-                <button pButton pRipple label="Ajout utilisateur" icon="pi pi-plus" (click)="onInitForm()" [disabled]="this.listUsers.length >=5" class="p-button-success"></button>
+              <div class="d-flex gap-2">
+                <button pButton pRipple *ngIf="mappingService.IsAction()" label="Ajout utilisateur" icon="pi pi-plus" (click)="onInitForm()" [disabled]="this.listUsers.length >=5" class="p-button-success"></button>
                 <button pButton pRipple label="Rafraichir" (click)="GetAllUsers()" icon="pi pi-refresh"
-                  class="p-button-secondary ms-4"></button>
+                  class="p-button-secondary"></button>
               </div>
               <div class="danger-alert" role="alert" *ngIf="this.listUsers.length >=5">
                   <strong>
@@ -82,10 +82,10 @@
                     <td class="td-actions">
                       <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
                       (click)="onShowForm(data)" class="p-button-dark"></button>
-                    <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+                    <button pButton pRipple *ngIf="mappingService.IsAction()" icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
                       (click)="onEditForm(data)" class="p-button-secondary"></button>
-                      <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
-                      " pButton pRipple  icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
+                      <button pButto  *ngIf="mappingService.IsAction()" [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
+                      "icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
                       ? 'Désactiver'
                       : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
                       ? handleDisableUser(data)
@@ -93,7 +93,7 @@
                       [disabled]="data?.username === principalUsername"
                       >
                     </button>
-                      <button pButton pRipple icon="pi pi-trash"                       
+                      <button pButton pRipple *ngIf="mappingService.IsAction()" icon="pi pi-trash"                       
                       [disabled]="data?.username === principalUsername"
                       (click)="OnAffectaion(data)" class="p-button-danger"
                       pTooltip="Supprimer" (click)="OnDelete(data)" tooltipPosition="top"></button>

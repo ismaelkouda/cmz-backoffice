@@ -31,7 +31,7 @@
                 </div>
                 <hr>
                 <div class="table_actions_wrapper">
-                  <button pButton pRipple [label]="'Ajout Simple'" icon="pi pi-plus" (click)="OnOpenForm()"
+                  <button pButton pRipple *ngIf="mappingService.IsAction()" [label]="'Ajout Simple'" icon="pi pi-plus" (click)="OnOpenForm()"
                     class="p-button-success"></button>
                   <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
                     (click)="OnRefresh()"></button>
@@ -77,9 +77,9 @@
                         <td class="td-actions">
                           <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
                             (click)="onShowForm(data,content)" class="p-button-dark"></button>
-                          <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+                          <button *ngIf="mappingService.IsAction()" pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
                             (click)="onEditForm(data,content)" class="p-button-secondary"></button>
-                            <button pButton pRipple icon="pi pi-arrow-right" (click)="OnAffectaion(data)" class="p-button-dark"
+                            <button *ngIf="mappingService.IsAction()" pButton pRipple icon="pi pi-arrow-right" (click)="OnAffectaion(data)" class="p-button-dark"
                             pTooltip="Affecter" tooltipPosition="top"></button>
                         </td>
                       </tr>

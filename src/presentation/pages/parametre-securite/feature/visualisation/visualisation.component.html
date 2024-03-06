@@ -30,9 +30,9 @@
             </div>
             <div style="display: flex;gap: 1rem;">
               <div>
-                <button pButton pRipple label="Retirer" icon="pi pi-times" class="p-button-danger"
+                <button pButton pRipple *ngIf="mappingService.IsAction()" label="Retirer" icon="pi pi-times" class="p-button-danger"
                   (click)="handleRetraitSim()" [disabled]="checkconsumerList?.length === 0"></button>
-                <button pButton pRipple label="Réaffecter" icon="pi pi-arrows-h" class="p-button-success ms-2"
+                <button pButton pRipple label="Réaffecter" *ngIf="mappingService.IsAction()" icon="pi pi-arrows-h" class="p-button-success ms-2"
                   (click)="openForm(content)" [disabled]="checkconsumerList?.length === 0"></button>
               </div>
               <div>
@@ -52,7 +52,7 @@
             <th>Prénom</th>
             <th>Contact</th>
             <th>Nom de Connexion</th>
-            <th class="text-center">
+            <th class="text-center" *ngIf="mappingService.IsAction()">
               <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
             </th>
           </tr>
@@ -64,7 +64,7 @@
             <td>{{ data.prenoms }}</td>
             <td>{{ data.contact }}</td>
             <td>{{ data.email }}</td>
-            <td class="text-center">
+            <td class="text-center" *ngIf="mappingService.IsAction()">
               <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
                 (click)="onCheckedOneConsumer(data)"></p-checkbox>
             </td>

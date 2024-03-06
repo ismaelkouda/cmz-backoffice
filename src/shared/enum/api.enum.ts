@@ -45,4 +45,9 @@ export const enum EndPointUrl {
     LOGOUT = 'logout',
     GET_ALL_PORTEFEUILLE = 'gestion-portefeuille/all',
 
+    // LEVEL SIMPLE
+    GET_ALL_NIVEAUX_1_SIMPLE = 'parametres-securite/niveau_un/simple',
+    GET_ALL_NIVEAUX_2_SIMPLE = 'parametres-securite/niveau_deux/simple',
+    GET_ALL_NIVEAUX_3_SIMPLE = 'parametres-securite/niveau_trois/simple',
+
 }

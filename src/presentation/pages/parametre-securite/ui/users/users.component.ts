@@ -28,7 +28,7 @@ export class UsersComponent implements OnInit {
     private settingService: SettingService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
-    private mappingService: MappingService,
+    public mappingService: MappingService,
     private parametreSecuriteService: ParametreSecuriteService
   ) {
     this.suffixEmail = this.mappingService.suffixEmail

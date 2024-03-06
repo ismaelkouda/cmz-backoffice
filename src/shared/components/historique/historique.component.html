@@ -1,4 +1,5 @@
-<p-table #dt [value]="listHistoriques" [rows]="10" [paginator]="true" [globalFilterFields]="['created_at', 'nom']"
+<div>
+    <p-table #dt [value]="listHistoriques" [rows]="10" [paginator]="true" [globalFilterFields]="['created_at', 'nom']"
     responsiveLayout="scroll" [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
     données" [showCurrentPageReport]="true">
     <ng-template pTemplate="caption">
@@ -65,8 +66,9 @@
         </tr>
     </ng-template>
 </p-table>
-
-<p-dialog [(visible)]="display" position="bottom-right" (onHide)="hideDialog()" [style]="{ width: '100%' }"
+</div>
+<div *ngIf="this.currentEventParse">
+    <p-dialog [(visible)]="display" position="bottom-right" (onHide)="hideDialog()" [style]="{ width: '100%' }"
     (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true" [maximizable]="true" [draggable]="false"
     [resizable]="false">
     <ng-template pTemplate="header">
@@ -145,7 +147,7 @@
                 <tbody>
                     <tr>
                         <td style="padding: 0 !important;">
-                    <tr style="display: flex;flex-direction: column;">
+                        <tr style="display: flex;flex-direction: column;">
                         <td style="text-align: left;text-transform:uppercase;font-weight: bold;"
                             *ngFor="let item of this.currentEventParseBeforeKeys">
                             {{item}}</td>
@@ -162,7 +164,7 @@
                         <tr style="display: flex;flex-direction: column;">
                             <td style="text-align: left;text-transform: capitalize;font-weight: 600;"
                                 *ngFor="let item of this.currentEventParseAfterValues;">
-                                {{item.item ?? 'N/A'}}
+                                {{item?.item ?? 'N/A'}}
                             </td>
                         </tr>
                     </td>
@@ -181,3 +183,4 @@
         </div>
     </ng-template>
 </p-dialog>
+</div>

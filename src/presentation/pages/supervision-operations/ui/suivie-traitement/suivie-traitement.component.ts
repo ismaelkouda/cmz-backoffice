@@ -190,6 +190,7 @@ export class SuivieTraitementComponent implements OnInit {
     this.filterDateStart = null;
     this.filterDateEnd = null;
     this.GetAllTransactions();
+    this.secondFilter = false;
   }
 
   public OnChangeStatut(event){

@@ -2,6 +2,7 @@ import { ParametreSecuriteService } from './../../data-access/parametre-securite
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MappingService } from 'src/shared/services/mapping.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -26,6 +27,7 @@ export class VisualisationComponent implements OnInit {
   constructor(
     private parametreSecuriteService: ParametreSecuriteService,
     private toastrService: ToastrService,
+    public mappingService: MappingService,
     private modalService: NgbModal
   ) { }
 

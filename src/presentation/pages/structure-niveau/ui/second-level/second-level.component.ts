@@ -41,7 +41,7 @@ export class SecondLevelComponent implements OnInit {
   constructor(
     private settingService: SettingService,
     private toastrService: ToastrService,
-    private mappingService: MappingService,
+    public mappingService: MappingService,
     private modalService: NgbModal,
     private excelService: ExcelService,
     private clipboardApi: ClipboardService,

@@ -101,7 +101,7 @@ export class CarteSimActiveComponent implements OnInit {
     private clipboardApi: ClipboardService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private mappingService: MappingService,
+    public mappingService: MappingService,
     private router: Router,
     private excelService: ExcelService
   ) {
@@ -110,8 +110,7 @@ export class CarteSimActiveComponent implements OnInit {
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.applicationType = this.mappingService.applicationType;
-    this.patrimoineType = ApplicationType.PATRIMOINESIM;  
-  
+    this.patrimoineType = ApplicationType.PATRIMOINESIM;      
   }
 
   ngOnInit() {
@@ -195,11 +194,12 @@ export class CarteSimActiveComponent implements OnInit {
     this.selectedZone = null;
     this.selectedStatut = null;
     this.selectedEmplacement = null
+    this.secondFilter = false;
   }
 
   public GetAllFirstLevel() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listFirstLeveDatas = response['data'].map(element => {
@@ -220,7 +220,7 @@ export class CarteSimActiveComponent implements OnInit {
   }
   public GetAllThirdLevel() {
     this.settingService
-      .getAllZones({})
+      .GetAllThirdSimple({})
       .subscribe({
         next: (response) => {
           this.listThirdLevelDatas = response['data']

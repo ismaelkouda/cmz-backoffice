@@ -31,7 +31,7 @@
                 </div>
                 <hr>
                 <div class="table_actions_wrapper">
-                  <button pButton pRipple [label]="'Ajout Simple'" icon="pi pi-plus" (click)="openForm()"
+                  <button pButton pRipple *ngIf="mappingService.IsAction()" [label]="'Ajout Simple'" icon="pi pi-plus" (click)="openForm()"
                     class="p-button-success"></button>
                   <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
                     (click)="OnRefresh()"></button>
@@ -78,16 +78,16 @@
                         <td class=" td-actions">
                           <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
                             (click)="onShowForm(data,content)" class="p-button-dark"></button>
-                          <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+                          <button *ngIf="mappingService.IsAction()" pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
                             (click)="onEditForm(data,content)" class="p-button-secondary"></button>
-                            <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
+                            <button *ngIf="mappingService.IsAction()" [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
                             " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
                             ? 'Désactiver'
                             : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
                             ? handleDisable(data)
                             : handleActivate(data)">
                           </button>
-                          <p-button icon="pi pi-trash" [disabled]="true" styleClass="p-button-danger" pTooltip="Supprimer"
+                          <p-button *ngIf="mappingService.IsAction()" icon="pi pi-trash" [disabled]="data.sims_count > 0" styleClass="p-button-danger" pTooltip="Supprimer"
                             tooltipPosition="top" (click)="HandleDelete(data)"></p-button>
                         </td>
                       </tr>

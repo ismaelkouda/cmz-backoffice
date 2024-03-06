@@ -55,13 +55,14 @@ export class PatrimoineFormsComponent implements OnInit {
   public patrimoineType: string;
   public baseUrl: string;
   public activation: string = OperationTransaction.ACTIVATION;
+  public currentTabsIndex: number = 0;
 
   constructor(
     private fb: FormBuilder,
     private settingService: SettingService,
     private toastrService: ToastrService,
     private patrimoineService: PatrimoineService,
-    private mappingService: MappingService,
+    public mappingService: MappingService,
     private storage: EncodingDataService,
     private router: Router
   ) {
@@ -137,10 +138,7 @@ export class PatrimoineFormsComponent implements OnInit {
       .OnGetDetailSim(this.currentData?.imsi)
       .subscribe({
         next: (response) => {
-          this.currentObject = response['data'];
-
-          console.log("currentObject",this.currentObject);
-          
+          this.currentObject = response['data'];          
           this.onFormPachValues();
         },
         error: (error) => {
@@ -150,7 +148,7 @@ export class PatrimoineFormsComponent implements OnInit {
   }
   public getAllDirectionRegionales(): void {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listDirectionRegionales = response['data'];
@@ -162,7 +160,7 @@ export class PatrimoineFormsComponent implements OnInit {
   }
   public getAllZones(): void {
     this.settingService
-      .getAllZones({})
+      .GetAllThirdSimple({})
       .subscribe({
         next: (response) => {
           this.listActivites = response['data'];
@@ -215,7 +213,7 @@ export class PatrimoineFormsComponent implements OnInit {
   }
   public getAllExploitation(id: number) {
     this.settingService
-      .getAllExploiatations({
+      .GetAllSecondLevelSimple({
         niveau_un_id: id,
       })
       .subscribe(
@@ -282,6 +280,7 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.get('site').disable();
     this.adminForm.get('proxy').disable();
     this.adminForm.get('username').disable();
+    this.adminForm.get('formule').disable();
     this.adminForm.get('adresse_ip').disable();
 
     if (this.currentData.show) {
@@ -323,6 +322,9 @@ export class PatrimoineFormsComponent implements OnInit {
       `${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
       { state: {patrimoine: data,operation: operation} }
     );
+  }
+  handleChangeTabviewIndex(e) {
+    this.currentTabsIndex = e.index;
   }
 
 }      

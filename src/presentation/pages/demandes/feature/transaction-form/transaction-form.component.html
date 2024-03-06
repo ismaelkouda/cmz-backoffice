@@ -102,7 +102,9 @@
               <label>
                 <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="listDirections" formControlName="niveau_un_uuid" optionLabel="nom" [placeholder]="firstLevelLibelle" optionValue="uuid">
+              <p-dropdown [options]="listDirections" formControlName="niveau_un_uuid" (onChange)="onChangeFirstLvel($event)" optionLabel="nom" 
+                     [placeholder]="firstLevelLibelle" optionValue="uuid"
+                     [filter]="true" filterBy="nom">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
@@ -118,7 +120,10 @@
               <label>
                 <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="listExploitations" formControlName="niveau_deux_uuid" optionLabel="nom" [placeholder]="secondLevelLibelle" optionValue="uuid">
+              <p-dropdown [options]="listExploitations" 
+              formControlName="niveau_deux_uuid" 
+              optionLabel="nom" [placeholder]="secondLevelLibelle"
+              [filter]="true" filterBy="nom" optionValue="uuid">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
@@ -134,7 +139,10 @@
               <label>
                 <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="listActivites" formControlName="niveau_trois_uuid" optionLabel="nom" [placeholder]="thirdLevelLibelle" optionValue="uuid">
+              <p-dropdown [options]="listActivites" 
+                  formControlName="niveau_trois_uuid" 
+                  optionLabel="nom" [placeholder]="thirdLevelLibelle" 
+                  [filter]="true" filterBy="nom" optionValue="uuid">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>

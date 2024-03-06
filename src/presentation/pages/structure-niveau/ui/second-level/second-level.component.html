@@ -48,7 +48,7 @@
                 </div>
                 <hr>
                 <div class="table_actions_wrapper">
-                  <button pButton pRipple [label]="'Ajout Simple'" icon="pi pi-plus" (click)="openForm()"
+                  <button pButton pRipple *ngIf="mappingService.IsAction()" [label]="'Ajout Simple'" icon="pi pi-plus" (click)="openForm()"
                     class="p-button-success"></button>
                   <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
                     (click)="OnRefresh()"></button>
@@ -90,7 +90,7 @@
                         <td class=" td-actions">
                           <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
                             (click)="onShowForm(data,content)" class="p-button-dark"></button>
-                          <button pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+                          <button pButton icon="pi pi-pencil" *ngIf="mappingService.IsAction()" pTooltip="Editer" tooltipPosition="top"
                             (click)="onEditForm(data,content)" class="p-button-secondary"></button>
                         </td>
                       </tr>

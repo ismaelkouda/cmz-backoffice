@@ -46,10 +46,10 @@
 <hr>
 <div class="table_content_wrapper">
   <div class="table_actions_wrapper pt-2">
-    <button pButton pRipple label="Demande Simple" icon="pi pi-plus" class="p-button-success"
+    <button *ngIf="mappingService.IsAction()" pButton pRipple label="Demande Simple" icon="pi pi-plus" class="p-button-success"
       (click)="onInitForm('simple')">
     </button>
-    <button pButton pRipple label="Demande en masse" *ngIf="!isMasse" icon="pi pi-plus" class="p-button btn-dark"
+    <button pButton pRipple label="Demande en masse" *ngIf="!isMasse && mappingService.IsAction()" icon="pi pi-plus" class="p-button btn-dark"
       (click)="onInitForm('masse')">
     </button>
     <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"

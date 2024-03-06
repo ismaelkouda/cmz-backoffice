@@ -308,7 +308,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   }
   public getAllDirectionRegionales() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listDirections = response.data
@@ -320,7 +320,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   }
   public getAllExploitation(id: number) {
     this.settingService
-      .getAllExploiatations({
+      .GetAllSecondLevelSimple({
         niveau_un_id: id,
       })
       .subscribe(
@@ -352,7 +352,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   }
   public getAllZones(): void {
     this.settingService
-      .getAllZones({})
+      .GetAllThirdSimple({})
       .subscribe({
         next: (response) => {
           this.listActivites = response['data'];
@@ -390,6 +390,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   }
   public onChangeFile(file: FileList) {
     this.selectedPiece = file.item(0);
+    console.log("slectedeFile",this.selectedPiece);
+    
   }
   public handleSaveNewTransaction() {
     let baseUrl;
@@ -612,5 +614,10 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     history.state.patrimoine = null
     history.state.operation = null
+ }
+
+ onChangeFirstLvel(event){
+   console.log("data",event);
+   
  }
 }
