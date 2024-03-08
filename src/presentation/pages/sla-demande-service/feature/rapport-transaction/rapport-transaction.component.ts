@@ -85,7 +85,7 @@ export class RapportTransactionComponent implements OnInit {
     this.maxDate = currentDate;
     this.dateToday = currentDate;
   }
-  public HandleSlaDemandeService(): void {
+  public HandleSlaDemandeService(): void {  
     this.slaDemandeService
       .HandleSlaDemandeService({
         operation: this.selectedTransaction,
@@ -93,8 +93,8 @@ export class RapportTransactionComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listTransactions =  response['data']['data']['data'].map((data) => {
-            if (data?.statut === StatutTransaction.TARITER) {
-              return {...data,current_date: data?.date_traitement,current_dure: data?.duree_traitement, current_sla: data?.sla_traitement}
+            if (data?.statut === StatutTransaction.TARITER || data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,statut:StatutTransaction.TARITER, current_date: data?.date_traitement,current_dure: data?.duree_traitement, current_sla: data?.sla_traitement}
             } else{
               const dayDate = new Date();
               const currentDate = new Date(data.created_at);
@@ -146,8 +146,8 @@ export class RapportTransactionComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listTransactions =  response['data']['data']['data'].map((data) => {
-            if (data?.statut === StatutTransaction.TARITER) {
-              return {...data,current_date: data?.date_traitement,current_dure: data?.duree_traitement, current_sla: data?.sla_traitement}
+            if (data?.statut === StatutTransaction.TARITER || data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,statut:StatutTransaction.TARITER, current_date: data?.date_traitement,current_dure: data?.duree_traitement, current_sla: data?.sla_traitement}
             } else{
               const dayDate = new Date();
               const currentDate = new Date(data.created_at);

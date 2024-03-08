@@ -287,14 +287,14 @@ export class SuivieTraitementComponent implements OnInit {
     }
   }
 
-  OnShowTraitement(data: Object): void {
+  OnShowTraitement(data: any): void {
     const modalRef = this.modalService.open(TraitementShowComponent, {
       ariaLabelledBy: "modal-basic-title",
       backdrop: "static",
       keyboard: false,
       centered: true,
     });
-    modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.transaction = {...data,current_date: data.current_date};
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
       this.listTraitemants = res
     })

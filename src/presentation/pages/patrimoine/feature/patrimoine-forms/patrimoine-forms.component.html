@@ -436,6 +436,12 @@
         </div>
       </div>
     </div>
+    <div class="col-md-12 mt-3">
+      <div *ngIf="currentData?.show && currentObject?.statut === 'actif'">
+       <button pButton pRipple label="Rafraîchir Solde Data" icon="pi pi-refresh"
+       class="p-button-warning" [style]="{fontSize: '20px'}" style="width: 384px;" (click)="handleRefreshData(currentObject)"></button>
+      </div>
+   </div>
     <div class="col-md-12 mt-3" *ngIf="mappingService.IsAction()">
        <div *ngIf="currentData?.show && currentObject?.statut === 'suspendu'">
         <button pButton pRipple label="Réactiver la SIM" icon="pi pi-power-off"

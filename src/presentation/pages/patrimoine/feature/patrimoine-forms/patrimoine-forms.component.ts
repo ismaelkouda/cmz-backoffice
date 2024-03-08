@@ -10,6 +10,7 @@ import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { DEMANDE_SERVICE, PATRIMOINE } from 'src/shared/routes/routes';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { DEMANDE_ACTIVATION } from 'src/presentation/pages/demandes/demandes-routing.module';
+const Swal = require('sweetalert2');
 
 @Component({
   selector: 'app-patrimoine-forms',
@@ -323,7 +324,32 @@ export class PatrimoineFormsComponent implements OnInit {
       { state: {patrimoine: data,operation: operation} }
     );
   }
-  handleChangeTabviewIndex(e) {
+  public handleRefreshData(data: any): void {
+    Swal.fire({
+      html: `Voulez-vous rafraîchir le solde Data ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#569C5B',
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Oui',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.patrimoineService
+        .handleRefreshData({
+          msisdn: data?.msisdn,
+        }).subscribe(
+          (response: any) => {
+            this.toastrService.success(response.message);
+          },
+          (error) => {
+            this.toastrService.error(error.error.message);
+          }
+        )
+      }
+    });
+  }
+  public handleChangeTabviewIndex(e) {
     this.currentTabsIndex = e.index;
   }
 

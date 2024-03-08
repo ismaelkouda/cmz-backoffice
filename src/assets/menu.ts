@@ -338,3 +338,4 @@ export var menuJson = [
 ]
 
 //10.10.0.200:28012
+//https://osim-monitoring.orange.ci:12200

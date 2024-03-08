@@ -43,7 +43,7 @@ export class AffectationSimComponent implements OnInit {
     private toastrService: ToastrService,
     private telemetrieService: TelemetrieService,
     private settingService: SettingService,
-    private mappingService: MappingService,
+    public mappingService: MappingService,
     private clipboardApi: ClipboardService,
 
   ) {

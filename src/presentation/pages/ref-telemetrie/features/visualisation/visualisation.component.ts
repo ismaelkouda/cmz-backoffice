@@ -50,7 +50,7 @@ export class VisualisationComponent implements OnInit {
     private toastrService: ToastrService,
     private modalService: NgbModal,
     private settingService: SettingService,
-    private mappingService: MappingService,
+    public mappingService: MappingService,
     private clipboardApi: ClipboardService,
 
   ) {

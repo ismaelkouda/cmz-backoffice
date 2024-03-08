@@ -111,11 +111,11 @@
       <th class="text-center">#</th>
       <th>Date Demande</th>
       <th class="text-center" [style]="{width: '10rem'}">N° Demande</th>
-      <th class="text-center">Date MAJ</th>
       <th class="text-center">IMSI</th>
       <th class="text-center">MSISDN</th>
       <th class="text-center" [style]="{width: '4rem'}">Statut</th>
       <th class="text-center">Traitement</th>
+      <th class="text-center" [ngStyle]="{'width':'150px'}"><span>Date</span> <span>Traitement</span></th>
       <th class="text-center" [style]="{width: '3rem'}">Actions</th>
     </thead>
     <tbody>
@@ -124,7 +124,6 @@
         <td>{{ (this.offset + i)}}</td>
         <td style="text-align: left;">{{data?.created_at}}</td>
         <td (click)="copyData(data.transaction)" style="cursor: pointer">{{data?.transaction}}</td>
-        <td>{{data?.current_date}}</td>
         <td>
           <span (click)=" data?.imsi ?copyData(data.imsi): null"
             style="cursor: pointer">{{data?.imsi ?? 'N/A'}}</span>
@@ -150,6 +149,9 @@
           [class.badge-success]="(data?.statut === stateCloture && data?.traitement === treatmenAccepter)">
           {{ data.traitement }}
         </span> 
+        </td>
+        <td>
+          {{ data?.current_date }}
         </td>
         <td class="td-actions">
           <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"

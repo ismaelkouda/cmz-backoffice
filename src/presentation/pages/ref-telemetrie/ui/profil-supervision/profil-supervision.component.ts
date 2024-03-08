@@ -3,6 +3,7 @@ import { ExcelService } from './../../../../../shared/services/excel.service';
 import { Component, OnInit } from '@angular/core';
 import { TelemetrieService } from '../../data-access/telemetrie.service';
 import { ToastrService } from 'ngx-toastr';
+import { MappingService } from 'src/shared/services/mapping.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -26,6 +27,7 @@ export class ProfilSupervisionComponent implements OnInit {
   constructor(
     private telemetrieService: TelemetrieService,
     private toastrService: ToastrService,
+    public mappingService: MappingService,
     private excelService: ExcelService
   ) { }
 

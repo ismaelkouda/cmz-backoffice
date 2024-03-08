@@ -222,14 +222,14 @@ export class AlarmesComponent implements OnInit {
   public disableAction(): boolean {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
-  OnShowTraitement(data: Object): void {
+  OnShowTraitement(data: any): void {
     const modalRef = this.modalService.open(TransactionShowComponent, {
       ariaLabelledBy: "modal-basic-title",
       backdrop: "static",
       keyboard: false,
       centered: true,
     });
-    modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.transaction = {...data,current_date: data.current_date};
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
       this.listTransactions = res
     })

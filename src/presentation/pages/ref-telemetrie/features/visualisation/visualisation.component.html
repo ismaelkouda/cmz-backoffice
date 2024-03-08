@@ -13,7 +13,7 @@
         <div class="table_actions_wrapper mt-0">
           <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="GetAllListSimAffecte()"
             class="p-button-secondary"></button>
-          <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button>
+          <!-- <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button> -->
           <button pButton pRipple label="Fermer" class="p-button-danger" (click)="close()"></button>
         </div>
       </div>
@@ -68,9 +68,9 @@
         </div>
       </div>
       <div class="table_actions_wrapper mt-4" style="height: fit-content;">
-        <button pButton pRipple label="Retirer" icon="pi pi-times" class="p-button-danger" (click)="handleRetraitSim()"
+        <button pButton pRipple *ngIf="mappingService.IsAction()" label="Retirer" icon="pi pi-times" class="p-button-danger" (click)="handleRetraitSim()"
           [disabled]="checkconsumerList?.length === 0"></button>
-        <button pButton pRipple label="Réaffecter" icon="pi pi-arrows-h" class="p-button-success"
+        <button pButton pRipple *ngIf="mappingService.IsAction()" label="Réaffecter" icon="pi pi-arrows-h" class="p-button-success"
           (click)="openForm(content)" [disabled]="checkconsumerList?.length === 0"></button>
       </div>
     </div>
@@ -89,7 +89,7 @@
           <th>Numéro SIM</th>
           <th>IMSI</th>
           <th>Statut</th>
-          <th class="text-center">
+          <th class="text-center" *ngIf="mappingService.IsAction()">
             <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
           </th>
         </thead>
@@ -107,7 +107,7 @@
                 {{ data.statut }}
               </span>
             </td>
-            <td>
+            <td *ngIf="mappingService.IsAction()">
               <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
                 (click)="onCheckedOneConsumer(data)"></p-checkbox>
             </td>

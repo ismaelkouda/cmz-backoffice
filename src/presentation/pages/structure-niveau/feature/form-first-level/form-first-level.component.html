@@ -44,8 +44,6 @@
                         : OnUpdateFirstLevel()" style="margin-left: 1rem;"></button>
         <!-- <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
           style="margin-left: 1rem;" (click)="OnRefresh()"></button> -->
-        <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"
-          style="margin-left: 1rem;"></button>
         <button pButton pRipple label="Fermer" class="p-button-danger" style="margin-left: 1rem;"
           (click)="close()"></button>
       </div>
@@ -110,9 +108,9 @@
             <th class="text-center" [style]="{width: '1.5rem'}">#</th>
             <th>{{currentLevelLibelle}}</th>
             <th class="text-center">Code</th>
-            <th class="text-center" [ngStyle]="{width: '1rem'}" *ngIf="currentObject?.type !== 'show'">
+            <!-- <th class="text-center" [ngStyle]="{width: '1rem'}" *ngIf="currentObject?.type !== 'show'">
               <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
-            </th>
+            </th> -->
           </tr>
         </ng-template>
         <ng-template let-i="rowIndex" pTemplate="body" let-data>
@@ -122,10 +120,10 @@
               <span *ngIf="currentObject">{{data?.nom}}</span>
             </td>
             <td (click)="copyData(data.code)" style="cursor: pointer">{{data?.code}}</td>
-            <td *ngIf="currentObject?.type !== 'show'">
+            <!-- <td *ngIf="currentObject?.type !== 'show'">
               <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
                 (click)="onCheckedOneConsumer(data)"></p-checkbox>
-            </td>
+            </td> -->
           </tr>
         </ng-template>
       </p-table>

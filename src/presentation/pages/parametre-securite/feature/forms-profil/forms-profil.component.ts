@@ -32,13 +32,14 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
   public newPermissions: any;
   public newPermissionSlice: any[] = [];
   public selectedNom: string;
+  public selectedMode: boolean;
   public selectedDescription: string;
   public currentACtion: any;
   public firstLevelMapping: any;
   public secondLevelMapping: any;
   public thirdLevelDataMapping: any;
   public LevelDataSources: Array<any> = [];
-  public  firstLevelLibelle: string;
+  public firstLevelLibelle: string;
   public secondLevelLibelle: string;
   public thirdLevelLibelle: string;
   public applicationType: string;
@@ -47,7 +48,6 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
     private parametreSecuriteService: ParametreSecuriteService,
     private settingService: SettingService,
     private toastrService: ToastrService,
-    private router: Router,
     private mappingService: MappingService,
     private storage: EncodingDataService
   ) {
@@ -93,6 +93,7 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
     if (this.currentObject !== undefined) {
       this.selectedNom = this.currentObject.nom;
       this.selectedDescription = this.currentObject.description;
+      this.selectedMode = this.currentObject.mode_lecture;
       this.newPermissionSlice.map(parentN1Permission => {
         if (this.currentObject.permissions.includes(parentN1Permission.data)) {
           this.selectedItemsDataSource.push(parentN1Permission)
@@ -197,6 +198,7 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
     this.parametreSecuriteService
       .handleSaveProfilHabilitation({
         nom: this.selectedNom,
+        mode_lecture: this.selectedMode,
         description: this.selectedDescription,
         permissions: [
           ...selectedItemsDataSource,
@@ -236,6 +238,7 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
     this.parametreSecuriteService
       .handleUpdateProfilHabilitation({
         nom: this.selectedNom,
+        mode_lecture: this.selectedMode,
         description: this.selectedDescription,
         permissions: [
             ...selectedItemsDataSource,

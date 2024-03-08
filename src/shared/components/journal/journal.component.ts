@@ -54,8 +54,18 @@ export class JournalComponent implements OnInit {
       .getAllJournal({
         transaction: this.transaction.transaction,
       }).subscribe({
-        next: (response) => {
-          this.listJournal = response['data'];          
+        next: (response) => {          
+          this.listJournal =  response['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,user: data?.intervenant}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,user: data?.intervenant}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,user: data?.demandeur}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.EN_ENTENTE || data?.traitement === 'non-traité')) {
+              return {...data,user: data?.demandeur}
+            }
+          });
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

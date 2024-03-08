@@ -115,7 +115,7 @@
                   <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.email ??"N/A"}}</span>
                 </div>
                 <div>
-                  <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.created_at ??"N/A"}}</span>
+                  <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{detailTransaction?.rapport?.date_traitement ?? detailTransaction?.rapport?.date_acquittement}}</span>
                 </div>
               </div>
           </fieldset>

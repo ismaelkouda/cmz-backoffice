@@ -71,7 +71,7 @@ export class MappingService {
       this.rejetLink = this.tenant?.lien_dashboard_rejets;
       this.profil = this.currentUser?.profil;
       this.appReadStatut = this.profil?.mode_lecture;
-      this.dashbordTransactionSLa = 'https://osim-dashboard.orange.ci:50200/d/fUHASnXVs/tb-des-demandes?orgId=1&refresh=10m'
+      this.dashbordTransactionSLa = this.tenant?.url_demandes_sla;
       const newDatatEnv = { ...this.currentUser?.env, typeNiveau: 'Type Emplacement' };
       this.typeNiveau = newDatatEnv?.typeNiveau;
       this.applicationType = this.tenant?.application;

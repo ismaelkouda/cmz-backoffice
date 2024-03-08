@@ -17,6 +17,16 @@
           <input placeholder="Description du Profil" [disabled]="currentObject?.show"  [(ngModel)]="selectedDescription" type="text" pInputText />
         </div>
       </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>
+            <b>Mode Lecture</b>
+          </label>
+          <div style="margin-top: 0.4rem;">
+            <p-inputSwitch [disabled]="currentObject?.show" [(ngModel)]="selectedMode" class="me-5"></p-inputSwitch>
+          </div>
+        </div>
+      </div>
     </div>
     <div>
       <div class="table_actions_wrapper pt-3">

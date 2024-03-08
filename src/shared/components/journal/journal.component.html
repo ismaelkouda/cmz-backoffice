@@ -16,6 +16,7 @@
         <th>Statut</th>
         <th>Traitement</th>
         <th>Date Traitement</th>
+        <th>Utilisateur</th>
         <th>Description</th>
       </tr>
     </ng-template>
@@ -42,6 +43,7 @@
         </span>
         </td>
         <td>{{journal?.date_heure}}</td>
+        <td>{{data?.user?.nom}} {{data?.user?.prenoms}}</td>
         <td style="width: 23rem;text-align: start;">
             {{ journal?.description }}
         </td>

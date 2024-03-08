@@ -10,6 +10,7 @@ export const enum EndPointUrl {
     CHANGE_STATUT = 'patrimoine-sim/transactions/sur-sim',
     SWAPER_SIM = 'patrimoine-sim/transactions/demande_swap',
     VOLUME_DATA = 'patrimoine-sim/transactions/demande_volume_data',
+    REFRESH_DATA = 'patrimoine-sim/etats-des-soldes/actualisation-simple',
 
     //TRANSACTION
     GET_ALL_TRANSACTIONS = 'patrimoine-sim/transactions/all?page={page}',

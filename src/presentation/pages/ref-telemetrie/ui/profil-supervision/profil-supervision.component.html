@@ -38,7 +38,7 @@
                     <th>Date de modification</th>
                     <th># SIM Affectés</th>
                     <th>Statut</th>
-                    <th>Deploiement</th>
+                    <th *ngIf="mappingService.IsAction()">Deploiement</th>
                     <th class="text-center">Actions</th>
                   </tr>
                 </ng-template>
@@ -56,13 +56,14 @@
                     </td>
                     <td class="text-center">
                       <span [ngStyle]="{'font-size':'16px'}" class="badge"
-                      [class.badge-dark]="data?.statut === statutAttente || data?.statut === 'suspendu'"
+                      [class.badge-dark]="data?.statut === statutAttente"
+                      [class.badge-warning]="data?.statut === 'suspendu'"
                       [class.badge-info]="data?.statut === statutEncours"
                       [class.badge-success]="data?.statut === statutActif">
                       {{ data?.statut}}
                     </span>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" *ngIf="mappingService.IsAction()">
                       <button pButton pRipple [pTooltip]="data?.statut === statutAttente ? 'Deployer': ''" icon="pi pi-bolt"
                         tooltipPosition="top" label="Deployer"
                         [class]="data?.statut !== statutAttente ? 'p-button-outlined': ''+ 'p-button-help'"
@@ -71,12 +72,12 @@
                     <td class="td-actions">
                       <p-button icon="pi pi-eye" styleClass="p-button-dark" pTooltip="Voir" tooltipPosition="top"
                         (click)="onShowForm(data)"></p-button>
-                      <button pButton pRipple icon="pi pi-pencil" class="p-button-secondary" pTooltip="Editer"
+                      <button pButton pRipple *ngIf="mappingService.IsAction()" icon="pi pi-pencil" class="p-button-secondary" pTooltip="Editer"
                         tooltipPosition="top" (click)="onEditForm(data)" [disabled]="data?.statut === 'inactif'"></button>
-                      <button pButton pRipple icon="pi pi-arrow-right" (click)="onViewAffection(data)" class="p-button-dark"
+                      <button pButton pRipple *ngIf="mappingService.IsAction()" icon="pi pi-arrow-right" (click)="onViewAffection(data)" class="p-button-dark"
                         pTooltip="Affecter" tooltipPosition="top" [disabled]="data?.statut === 'inactif'"></button>
-                      <button [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
-                        " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
+                      <button pButton pRipple *ngIf="mappingService.IsAction()" [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
+                        " icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
                         ? 'Désactiver'
                         : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
                         ? handleDisableProfil(data)
