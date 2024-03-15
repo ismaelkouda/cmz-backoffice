@@ -49,7 +49,7 @@ export class JournalComponent implements OnInit {
     this.activeModal.close();
   }
 
- public  getAllJournal() {
+ public  getAllJournal() {  
     this.settingsService
       .getAllJournal({
         transaction: this.transaction.transaction,
@@ -62,10 +62,10 @@ export class JournalComponent implements OnInit {
               return {...data,user: data?.intervenant}
             }else if (data?.statut === StatutTransaction.CLOTURER) {
               return {...data,user: data?.demandeur}
-            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.EN_ENTENTE || data?.traitement === 'non-traité')) {
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.EN_ENTENTE)) {
               return {...data,user: data?.demandeur}
             }
-          });
+          });          
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

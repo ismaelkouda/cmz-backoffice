@@ -92,7 +92,7 @@
         </div>
       </fieldset>
       <!------------------INFOS---------IDENTIFICATION----------------->
-      <fieldset *ngIf="!historie">
+      <fieldset>
         <legend [ngStyle]="{width: '18rem'}">
           <b>Informations d'identification</b>
         </legend>
@@ -102,8 +102,10 @@
               <label>
                 <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
               </label>
-              <p-dropdown [options]="listDirections" formControlName="niveau_un_uuid" (onChange)="onChangeFirstLvel($event)" optionLabel="nom" 
-                     [placeholder]="firstLevelLibelle" optionValue="uuid"
+              <p-dropdown 
+                     [options]="listDirections" 
+                     formControlName="niveau_un_uuid" (onChange)="onChangeFirstLvel($event)" optionLabel="nom" 
+                     [placeholder]="firstLevelLibelle"
                      [filter]="true" filterBy="nom">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
@@ -215,7 +217,7 @@
           </div>
         </div>
       </fieldset>
-      <fieldset *ngIf="historie">
+      <!-- <fieldset *ngIf="historie">
         <legend [ngStyle]="{width: '18rem'}">
           <b>Informations d'identification</b>
         </legend>
@@ -297,7 +299,7 @@
             </div>
           </div>
         </div>
-      </fieldset>
+      </fieldset> -->
       </div>
       <!------------------INFOS---------TRANSACTION----------------->
       <fieldset style="margin-top: 2.5rem;">

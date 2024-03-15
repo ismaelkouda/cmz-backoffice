@@ -27,7 +27,7 @@
             <input placeholder="Demande" [(ngModel)]="selectedTransaction" type="text" pInputText />
           </div>
         </div>
-        <div class="col-md-2">
+        <!-- <div class="col-md-2">
           <div class="form-group">
             <label><b>Statut</b> </label>
             <p-dropdown [options]="listStatutTransactions" (onChange)="OnChangeStatut($event)" [showClear]="true" [(ngModel)]="selectedStatut"
@@ -52,7 +52,7 @@
               </ng-template>
             </p-dropdown>
           </div>
-        </div>
+        </div> -->
         <div class="col-md-2">
           <label class="block"><b>Demandeur</b></label>
           <p-dropdown [options]="listUsers" [(ngModel)]="currentUser" optionLabel="fullName" [filter]="true"
@@ -63,33 +63,18 @@
                   </div>
               </ng-template>
           </p-dropdown>
-         </div>  
-         <div class="p-0" [ngStyle]="{width: '4rem'}" *ngIf="!secondFilter">
-          <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
-          <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
-            [disabled]="isFilter()"></p-button>
-        </div>
-        <div class="p-0" [ngStyle]="{width: '4rem'}">
-          <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
-          <p-button *ngIf="!secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
-            icon="pi pi-plus"></p-button>
-          <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
-            icon="pi pi-minus"></p-button>
-        </div> 
-      </div>
-      <!--------------------Second-------------Filter--------->
-      <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
-        <div class="col-md-2">
+         </div> 
+         <div class="col-md-2">
           <label class="block"><b>Date début</b></label>
           <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
             (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
-        </div>
-        <div class="col-md-2">
-          <label class="block"><b>Date fin </b></label>
-          <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
-            (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
-        </div>
-        <div class="p-0" [ngStyle]="{width: '4rem'}">
+         </div> 
+       <div class="col-md-2">
+         <label class="block"><b>Date fin </b></label>
+         <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+           (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
+       </div>
+         <div class="p-0" [ngStyle]="{width: '4rem'}" *ngIf="!secondFilter">
           <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
           <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
             [disabled]="isFilter()"></p-button>

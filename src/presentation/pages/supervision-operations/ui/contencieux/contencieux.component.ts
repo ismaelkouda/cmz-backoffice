@@ -122,8 +122,6 @@ export class ContencieuxComponent implements OnInit {
     const data = {
       operation: this.selectedTypeOperation,
       transaction: this.selectedTransaction,
-      statut: this.selectedStatut,
-      traitement: this.selectedTraitement,
       initie_par: this.currentUser?.id,
       date_debut: this.selectDateStart,
       date_fin: this.selectDateEnd,

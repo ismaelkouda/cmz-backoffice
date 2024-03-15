@@ -7,7 +7,7 @@ import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { Router } from '@angular/router';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-import { DEMANDE_SERVICE, PATRIMOINE } from 'src/shared/routes/routes';
+import { DASHBOARD, DEMANDE_SERVICE, PATRIMOINE } from 'src/shared/routes/routes';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { DEMANDE_ACTIVATION } from 'src/presentation/pages/demandes/demandes-routing.module';
 const Swal = require('sweetalert2');
@@ -341,6 +341,7 @@ export class PatrimoineFormsComponent implements OnInit {
         }).subscribe(
           (response: any) => {
             this.toastrService.success(response.message);
+            this.close()
           },
           (error) => {
             this.toastrService.error(error.error.message);

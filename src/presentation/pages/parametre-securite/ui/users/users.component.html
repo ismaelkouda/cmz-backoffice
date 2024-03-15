@@ -84,7 +84,7 @@
                       (click)="onShowForm(data)" class="p-button-dark"></button>
                     <button pButton pRipple *ngIf="mappingService.IsAction()" icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
                       (click)="onEditForm(data)" class="p-button-secondary"></button>
-                      <button pButto  *ngIf="mappingService.IsAction()" [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
+                      <button pButton pRipple *ngIf="mappingService.IsAction()" [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
                       "icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
                       ? 'Désactiver'
                       : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'

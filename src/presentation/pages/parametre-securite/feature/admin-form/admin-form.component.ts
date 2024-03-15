@@ -71,15 +71,13 @@ export class AdminFormComponent implements OnInit {
       })
   }
   public OnInitForm() {
-    const suffixeEmail = '@gmail.com';
-
     this.adminForm = this.fb.group({
       nom: ['', [Validators.required]],
       prenoms: ['', [Validators.required]],
       username: ['', [Validators.required]],
       email: ['', [Validators.required,Validators.email]],
-      contacts: ['', [Validators.pattern("^[0-9]*$")]],
-      profil_user_id: [''] 
+      contacts: ['', [Validators.required,Validators.pattern("^[0-9]*$")]],
+      profil_user_id: ['',[Validators.required]] 
     })
     this.adminForm.get('contacts').valueChanges.subscribe(value => {
       if (value && value.length > 10) {
@@ -92,7 +90,6 @@ export class AdminFormComponent implements OnInit {
   }
 
   public handleSave() {
-     this.adminForm.get('username').patchValue(this.adminForm.get('username').value+this.suffixEmail);
     this.settingService
       .OnSaveUser(this.adminForm.value).subscribe({
         next: (response) => {
@@ -100,7 +97,6 @@ export class AdminFormComponent implements OnInit {
           this.showPassword(response['message'])
         },
         error: (error) => {
-          this.adminForm.reset()
           this.toastrService.error(error.error.message);
         }
       })

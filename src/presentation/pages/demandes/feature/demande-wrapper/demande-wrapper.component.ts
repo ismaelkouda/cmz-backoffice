@@ -32,10 +32,10 @@ export class DemandeWrapperComponent implements OnInit {
   @Output() typeDemande = new EventEmitter<string>();
   @Output() transactionId = new EventEmitter();
 
-
+  public listStatuts: Array<any> = [];
   public selectedTransaction: string;
   public listOperations: Array<any> = [];
-  public listStatuts: Array<any> = [];
+  public listUsers: Array<any> = [];
   public listTraitementTransactions: Array<any> = [];
   public initialView: boolean = true;
   public currentObject: any;
@@ -51,6 +51,7 @@ export class DemandeWrapperComponent implements OnInit {
   public display: boolean = false;
   public isMaximized: boolean = false;
   public secondFilter: boolean = false;
+  public currentUser: any;
   public filterDateStart: Date;
   public filterDateEnd: Date;
   public selectDateStart: any;
@@ -88,7 +89,8 @@ export class DemandeWrapperComponent implements OnInit {
   ngOnInit() {    
     this.GetAllTransactions()
     this.isFilter();
-    this.disableAction()
+    this.disableAction();
+    this.GetAllUsers();
     this.route.data.subscribe((data) => {
       this.module = data.module;
       this.subModule = data.subModule[3];
@@ -151,8 +153,7 @@ export class DemandeWrapperComponent implements OnInit {
       .GetDemandeServiceByTransaction({
         numero_demande: this.selectedTransaction,
         operation: this.selectedOperation,
-        msisdn: this.selectedSim,
-        imsi: this.selectedimsi,
+        initie_par: this.currentUser?.id,
         statut: this.selectedStatut,
         date_debut: this.selectDateStart,
         date_fin: this.selectDateEnd,
@@ -184,13 +185,28 @@ export class DemandeWrapperComponent implements OnInit {
   public OnRefresh(){
     this.GetAllTransactions()
     this.selectedTransaction = null
-    this.selectedSim = null
-    this.selectedimsi = null
+    this.currentUser = null
     this.selectedStatut = null
     this.selectDateStart = null
     this.selectDateEnd = null
     this.filterDateStart = null
     this.filterDateEnd = null
+  }
+  GetAllUsers() {
+    this.settingService
+      .getAllUsers({})
+      .subscribe(
+        (response: any) => {
+          const users = response['data'];
+          this.listUsers = users.map((el) => {
+            const data = { ...el, fullName: el.nom + ' ' + el.prenoms };
+            return data;
+          });
+        },
+        (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      );
   }
   showJournal(data: Object): void {
     const modalRef = this.modalService.open(JournalComponent, {

@@ -138,8 +138,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
-
-    console.log("router",this.router.url);
     this.siteKey = environment.recaptcha.siteKey;
     this.isFilter();
     this.initForm();
@@ -147,21 +145,24 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.isVerify();
     this.IsPatrimoineType()
     this.historie = history.state.patrimoine 
-    if (!this.historie) {
-      this.getAllDirectionRegionales();
-      this.getAllUsages();
-      this.getAllZones();
-      this.onGetDrValueChanges();
-    }
     if (this.historie) {      
       this.selectedActionValue = history.state.operation;
       this.operationValue = this.selectedActionValue
       this.currentPatrimoine = history.state.patrimoine   
       this.onFormPachValues()
-      this.adminForm.disable()        
-    }else{
+      this.adminForm.get('imsi').disable()
+      this.adminForm.get('msisdn').disable()
+      console.log("currentPatrimoine",this.currentPatrimoine);
+      }else{
       this.selectedActionValue = this.currentSelectedActionValue;
       this.operationValue = this.selectedActionValue
+    }
+    if (this.selectedActionValue === OperationTransaction.ACTIVATION
+      ) {
+      this.getAllDirectionRegionales();
+      this.getAllUsages();
+      this.getAllZones();
+      this.onGetDrValueChanges();
     }
     if (this.selectedActionValue === this.swap) {
       this.sourceValue = 'stock'
@@ -335,7 +336,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
 
   onGetDrValueChanges() {
     return this.adminForm.get('niveau_un_uuid').valueChanges.subscribe((value) => {      
-      this.getAllExploitation(value);
+      this.listExploitations = value?.niveaux_deux
     });
   }
   public getAllUsages() {
@@ -389,9 +390,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.selectedDescription = null
   }
   public onChangeFile(file: FileList) {
-    this.selectedPiece = file.item(0);
-    console.log("slectedeFile",this.selectedPiece);
-    
+    this.selectedPiece = file.item(0);    
   }
   public handleSaveNewTransaction() {
     let baseUrl;
@@ -406,15 +405,18 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       })
       baseUrl = `${this.baseUrl}${EndPointUrl.SWAPER_SIM}`
     } else if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
+       this.adminForm.patchValue({
+        niveau_un_uuid: this.adminForm.get('niveau_un_uuid').value?.uuid
+       })
       let adminData;
       if (this.applicationType === ApplicationType.MONITORING) {
          adminData = {
-          ...(this.historie ? this.currentPatrimoine : this.adminForm.value),
+          ...this.adminForm.value,
           bac_a_pioche: 'orangeci'
         }
       }else if (this.applicationType === ApplicationType.PATRIMOINESIM) {
         adminData = {
-          ...(this.historie ? this.currentPatrimoine : this.adminForm.value),
+        ...this.adminForm.value,
          ...this.adminForm.value,
          bac_a_pioche: this.sourceValue !== undefined ? this.sourceValue: 'patrimoine',
         }
@@ -463,7 +465,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     let data;
    if (this.router.url === `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`) {
     this.adminForm.patchValue({
-      niveau_un_uuid: this.adminForm.get('niveau_un_uuid').value,
+      niveau_un_uuid: this.adminForm.get('niveau_un_uuid').value?.id,
       niveau_deux_uuid: this.adminForm.get('niveau_deux_uuid').value,
       niveau_trois_uuid: this.adminForm.get('niveau_trois_uuid').value,
       statut_contrat: this.adminForm.get('statut').value
@@ -569,10 +571,10 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   }
 
   public onFormPachValues(): void {
-    this.adminForm.get('niveau_un_uuid').patchValue(this.currentPatrimoine?.niveau_uns_nom);
-    this.adminForm.get('niveau_deux_uuid').patchValue(this.currentPatrimoine?.niveau_deux_nom);
-    this.adminForm.get('niveau_trois_uuid').patchValue(this.currentPatrimoine?.niveau_trois_nom);
-    this.adminForm.get('usage_id').patchValue(this.currentPatrimoine?.nom_usage);
+    this.adminForm.get('niveau_un_uuid').patchValue(this.currentPatrimoine?.niveau_un_uuid);
+    this.adminForm.get('niveau_deux_uuid').patchValue(this.currentPatrimoine?.niveau_deux_uuid);
+    this.adminForm.get('niveau_trois_uuid').patchValue(this.currentPatrimoine?.niveau_trois_uuid);
+    this.adminForm.get('usage_id').patchValue(this.currentPatrimoine?.usage_id);
     this.adminForm.get('imsi').patchValue(this.currentPatrimoine?.imsi);
     this.adminForm.get('msisdn').patchValue(this.currentPatrimoine?.msisdn);
     this.adminForm.get('statut').patchValue(this.currentPatrimoine?.statut);

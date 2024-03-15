@@ -64,7 +64,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NotifyService,
     { 
       provide: WebSocketSubject, 
-      useFactory: (mappingService: MappingService) => webSocket(`ws://${mappingService.noderedUrl}/ws/refrresh-notifs`),
+      useFactory: (mappingService: MappingService) => webSocket(`${mappingService.ws_server}/ws/refrresh-notifs`),
       deps: [MappingService]
     },
     CookieService,

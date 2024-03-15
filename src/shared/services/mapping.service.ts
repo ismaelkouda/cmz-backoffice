@@ -29,7 +29,8 @@ export class MappingService {
   public baseUrl: string;
   public fileUrl: string;
   public minioUrl: string;
-  public noderedUrl: string
+  public noderedUrl: string;
+  public ws_server: string;
   public localCalendar: any;
   public applicationType: string;
   public suffixEmail: string;
@@ -62,7 +63,8 @@ export class MappingService {
       this.baseUrl = `${this.currentUser?.tenant?.url_backend}/api/v1/`
       this.fileUrl = `${this.currentUser?.tenant?.url_minio}/`
       this.minioUrl = `${this.currentUser?.tenant?.url_minio}/`
-      this.noderedUrl = this.currentUser?.tenant?.url_nodered.replace("https://", "")      
+      this.noderedUrl = this.currentUser?.tenant?.url_nodered;
+      this.ws_server = this.currentUser?.tenant?.ws_server;     
       this.tenant = this.currentUser?.tenant;      
       this.structureGlobale = this.currentUser?.structure_organisationnelle;
       this.logoTenant = `${this.fileUrl}${this.tenant?.logo_tenant}`;
