@@ -58,14 +58,9 @@
             [countColor]="'#FFF'" [icon]="simCrique" [style]="{cursor: 'pointer'}"></app-stat-box>
         </div>
         <div class="col-md-3">
-            <app-stat-box (click)="OnFilterByLegend('# Demandes en Attentes')" [cardBgColor]="'#FFF'" [cardBorderColor]="'#000000'" [legend]="'# Demandes en Attentes'"
-                [count]="countSoumis || '0'" [legendColor]="'#000000'"
-                [countColor]="'#000000'" [style]="{cursor: 'pointer'}"></app-stat-box>
-        </div>
-        <div class="col-md-3">
-            <app-stat-box (click)="OnFilterByLegend('# Demandes Traitées')" [cardBgColor]="'#000000'" [cardBorderColor]="'#000000'" [legend]="'# Demandes Traitées'"
-                [count]="countTraiter || '0'" [legendColor]="'#ff7f50'"
-                [countColor]="'#ff7f50'" [style]="{cursor: 'pointer'}"></app-stat-box>
+            <app-stat-box (click)="OnFilterByLegend('# Demandes Soumises')" [cardBgColor]="'#3498db'"  [cardBorderColor]="'#FFF'"
+                [legend]="'# Demandes Soumises'" [count]="countSoumis || '0'" [legendColor]="'#FFF'"
+                [countColor]="'#FFF'" [style]="{cursor: 'pointer'}"></app-stat-box>
         </div>
         <div class="col-md-3">
             <app-stat-box (click)="OnFilterByLegend('# Demandes Clôturées')" [cardBgColor]="'#27ae60'"  [cardBorderColor]="'#FFF'"
@@ -73,9 +68,14 @@
                 [countColor]="'#FFF'" [style]="{cursor: 'pointer'}"></app-stat-box>
         </div>
         <div class="col-md-3">
-            <app-stat-box (click)="OnFilterByLegend('# Demandes Abandonnées')" [cardBgColor]="'#f39c12'" [cardBorderColor]="'#FFF'" [legend]="'# Demandes Abandonnées'"
-                [count]="countCancel || '0'" [legendColor]="'#FFFFFF'"
-                [countColor]="'#FFFFFF'" [style]="{cursor: 'pointer'}"></app-stat-box>
+            <app-stat-box (click)="OnFilterByLegend('# Demandes Traitées')" [cardBgColor]="'#000000'" [cardBorderColor]="'#000000'" [legend]="'# Demandes Traitées'"
+                [count]="countTraiter || '0'" [legendColor]="'#ff7f50'"
+                [countColor]="'#ff7f50'" [style]="{cursor: 'pointer'}"></app-stat-box>
+        </div>
+        <div class="col-md-3">
+            <app-stat-box (click)="OnFilterByLegend('# Demandes en Attentes')" [cardBgColor]="'#FFF'" [cardBorderColor]="'#000000'" [legend]="'# Demandes en Attentes'"
+                [count]="countAttente || '0'" [legendColor]="'#000000'"
+                [countColor]="'#000000'" [style]="{cursor: 'pointer'}"></app-stat-box>
         </div>
     </div>
 </div>

@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
   public countSoumis: number = 0;
   public countTraiter: number = 0;
   public countCloture: number = 0;
-  public countCancel: number = 0;
+  public countAttente: number = 0;
 
   public countVolumeData: number = 0;
   public countLigneCredit: number = 0;
@@ -83,7 +83,7 @@ export class DashboardComponent implements OnInit {
           this.countSoumis = this.dataResponse?.['nb_demandes_soumises'];
           this.countTraiter = this.dataResponse?.['nb_demandes_traitees'];
           this.countCloture = this.dataResponse?.['nb_demandes_cloturees'];
-          this.countCancel = this.dataResponse?.['nb_demandes_abandonnees'];
+          this.countAttente = this.dataResponse?.['nb_demandes_attentes'];
           this.currrentDate = this.dataResponse?.['date_derniere_maj'];
         },
         error: (error) => {
@@ -123,6 +123,9 @@ export class DashboardComponent implements OnInit {
 
       //DEMANDES  
 
+      case '# Demandes Soumises':
+        this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`);
+      break;
       case '# Demandes en Attentes':
         this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`, { state:{ statut: StatutTransaction.SOUMIS,traitement: TraitementTransaction.EN_ENTENTE}});
         break;
@@ -132,9 +135,6 @@ export class DashboardComponent implements OnInit {
       case '# Demandes Clôturées':
         this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`, { state: { statut: StatutTransaction.CLOTURER } });
         break;  
-      case '# Demandes Abandonnées':
-        this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`, { state: { traitement: TraitementTransaction.ABANDONNER } });
-        break;
 
         default:
         break;

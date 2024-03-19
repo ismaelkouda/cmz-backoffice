@@ -13,7 +13,7 @@
                                 <app-rapport-box
                                     [cardBgColor]="'#3498db'"
                                     [cardBorderColor]="'#FFF'"
-                                    [legend]="'#Totale Demandes'"
+                                    [legend]="'# Demandes'"
                                     [count]="rapport?.soumises || '0'"
                                     [legendColor]="'#FFF'"
                                     [countColor]="'#FFF'"
@@ -33,7 +33,7 @@
                             </div>
                             <div>
                                 <app-rapport-box
-                                    [cardBgColor]="'#e74c3c'"
+                                    [cardBgColor]="'#FF6600'"
                                     [cardBorderColor]="'#FFF'"
                                     [legend]="'# Traitées - Hors delai'"
                                     [count]="rapport?.traitees_hors_delais || '0'"
@@ -44,7 +44,7 @@
                             </div>
                             <div>
                                 <app-rapport-box
-                                    [cardBgColor]="'#FF6600'"
+                                    [cardBgColor]="'#e74c3c'"
                                     [cardBorderColor]="'#FFF'"
                                     [legend]="'# En-attente - Hors delai'"
                                     [count]="rapport?.attentes_hors_delais || '0'"

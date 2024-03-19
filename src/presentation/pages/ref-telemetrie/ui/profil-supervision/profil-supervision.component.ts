@@ -19,7 +19,8 @@ export class ProfilSupervisionComponent implements OnInit {
   public visualisationView: boolean = false;
   public currentObject: any;
   public listProfils: any[] = [];
-  public selectedNom: string;
+  public selectedMsisdn: string;
+  public selectedImsi: string;
   public statutAttente: string = DeployStatut.EN_ATTENTE;
   public statutEncours: string = DeployStatut.EN_COURS;
   public statutActif: string = DeployStatut.ACTIF
@@ -33,7 +34,7 @@ export class ProfilSupervisionComponent implements OnInit {
 
   ngOnInit() {
     this.GetAllProfilSupervision();
-    this.disableAction()
+    this.isFilter()
   }
 
 
@@ -148,7 +149,8 @@ export class ProfilSupervisionComponent implements OnInit {
   onFilter() {
     this.telemetrieService
       .GetAllProfilSupervision({
-        nom: this.selectedNom
+        msisdn: this.selectedMsisdn,
+        imsi: this.selectedImsi
       })
       .subscribe({
         next: (response) => {
@@ -161,7 +163,8 @@ export class ProfilSupervisionComponent implements OnInit {
   }
 
   public OnRefresh(){
-     this.selectedNom = null;
+     this.selectedMsisdn = null;
+     this.selectedImsi = null;
      this.GetAllProfilSupervision()
   }
 
@@ -193,8 +196,8 @@ export class ProfilSupervisionComponent implements OnInit {
       }
     });
   }
-  public disableAction(): boolean {
-    return (this.listProfils === undefined || this.listProfils?.length === 0) ? true : false
+  public isFilter(): boolean {
+    return (!this.selectedMsisdn && !this.selectedImsi) ? true : false
   }
   public OnExportExcel(): void {
     const data = this.listProfils.map((item: any) => ({

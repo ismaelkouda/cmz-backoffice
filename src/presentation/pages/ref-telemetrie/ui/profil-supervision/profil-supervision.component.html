@@ -6,11 +6,29 @@
         <div class="card-body">
           <div [hidden]="!initialView">
             <div class="table_content_wrapper">
-              <div class="table_actions_wrapper pt-2">
-                <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
-                  class="p-button-secondary">
-                </button>
+              <div class="row filter_wrapper">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>
+                      <b>MSISDN<span class="text-danger">*</span></b>
+                    </label>
+                    <input placeholder="msisdn" [(ngModel)]="selectedMsisdn" type="text" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>
+                      <b>IMSI<span class="text-danger">*</span></b>
+                    </label>
+                    <input placeholder="imsi" [(ngModel)]="selectedImsi" type="text" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="isFilter()"
+                    (click)="onFilter()"></p-button>
+                </div>
               </div>
+              <hr>
               <p-table #dt [value]="listProfils" 
                    [rows]="10" [paginator]="true" responsiveLayout="scroll"
                    [rowHover]="true" dataKey="id" 
@@ -19,7 +37,14 @@
                    [showCurrentPageReport]="true">
                 <ng-template pTemplate="caption">
                   <div class="table_header">
-                    <app-table-header [count]="listProfils" [legende]="'Profils'"></app-table-header>
+                    <div class="d-flex gap-3 mb-2">
+                      <app-table-header [count]="listProfils" [legende]="'Profils'"></app-table-header>
+                      <div class="pt-2">
+                        <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
+                        class="p-button-secondary">
+                      </button>
+                      </div>
+                    </div>
                     <div class="table_header__input">
                       <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>

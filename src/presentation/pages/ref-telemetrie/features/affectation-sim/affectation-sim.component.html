@@ -10,9 +10,8 @@
         </h3>
       </div>
       <div class="table_actions_wrapper mt-0">
-        <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="GetAllListAffectationBySim()"
+        <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="OnRefresh()"
           class="p-button-secondary"></button>
-        <!-- <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button> -->
         <button pButton pRipple label="Fermer" class="p-button-danger" (click)="close()"></button>
       </div>
     </div>
@@ -55,9 +54,17 @@
         <div style="width: 13rem;">
           <div class="form-group">
             <label>
+              <b>MSISDN</b>
+            </label>
+            <input placeholder="msisdn" [(ngModel)]="selectedMsisdn" type="text" pInputText />
+          </div>
+        </div>
+        <div style="width: 13rem;">
+          <div class="form-group">
+            <label>
               <b>IMSI</b>
             </label>
-            <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
+            <input placeholder="imsi" [(ngModel)]="selectedimsi" type="text" pInputText />
           </div>
         </div>
         <div class="col-md-1">
@@ -99,10 +106,15 @@
             <td>{{data.msisdn}}</td>
             <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
             <td>
-              <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'actif'"
-                [class.badge-danger]="data.statut !== 'actif'">
-                {{ data.statut }}
-              </span>
+              <span [ngStyle]="{ 'font-size': '16px' }"
+              class="badge"
+              [ngClass]="{
+                'badge-success': data.statut === 'actif',
+                'badge-dark': data.statut === 'suspendu',
+                'badge-danger': data.statut === 'resilié'
+              }">
+            {{ data.statut }}
+             </span>
             </td>
             <td>
               <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"

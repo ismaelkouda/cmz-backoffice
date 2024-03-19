@@ -30,7 +30,7 @@ export class VisualisationComponent implements OnInit {
   public listZones: Array<any> = [];
   public selectedDirection: any;
   public selectedExploitation: any;
-  public selectedSim: any;
+  public selectedMsisdn: any;
   public selectedimsi: any;
   public totalPage: 0;
   public totalRecords: 0;
@@ -112,12 +112,20 @@ export class VisualisationComponent implements OnInit {
     this.p = event;
     this.GetAllListSimAffecte()
   }
+  public OnRefresh(){
+    this.selectedDirection = null;
+    this.selectedExploitation = null;
+    this.selectedMsisdn = null;
+    this.selectedimsi = null;
+    this.GetAllListSimAffecte()
+  }
   public onFilter() {
     this.telemetrieService
       .GetAllListSimAffecte({
         profil_id: this.currentObject?.id,
         niveau_un_id: this.selectedDirection?.id,
         niveau_deux_id: this.selectedExploitation?.id,
+        msisdn: this.selectedMsisdn,
         imsi: this.selectedimsi
       }, this.p)
       .subscribe({
@@ -136,7 +144,7 @@ export class VisualisationComponent implements OnInit {
   }
   public getAllDirectionRegionales() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listDirections = response['data'].map(element => {
@@ -250,6 +258,6 @@ export class VisualisationComponent implements OnInit {
     });
   }
   public isFilter(): boolean {
-    return (!this.selectedDirection && !this.selectedExploitation && !this.selectedimsi) ? true : false
+    return (!this.selectedDirection && !this.selectedExploitation && !this.selectedimsi && !this.selectedMsisdn) ? true : false
   }
 }

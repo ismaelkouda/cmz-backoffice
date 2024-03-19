@@ -258,15 +258,7 @@ export var menuJson = [
                 data: "5-2-0-analyse-alarmes",
                 type: "link",
                 pack: ApplicationType.MONITORING,
-            },
-            {
-                path: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
-                title: "Approvisionnements Data",
-                label: "Approvisionnements Data",
-                data: "5-4-0-analyse-appro",
-                type: "link",
-                pack: ApplicationType.MONITORING
-            },
+            }
         ]
     },
     {
@@ -337,5 +329,5 @@ export var menuJson = [
     }
 ]
 
-//10.10.0.200:28012
+//10.10.0.200:12200
 //https://osim-monitoring.orange.ci:12200

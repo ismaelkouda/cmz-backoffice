@@ -25,7 +25,7 @@ export class AffectationSimComponent implements OnInit {
   public listExploitations: Array<any> = [];
   public selectedDirection: any;
   public selectedExploitation: any;
-  public selectedSim: any;
+  public selectedMsisdn: any;
   public selectedimsi: any;
   public totalPage: 0;
   public totalRecords: 0;
@@ -96,6 +96,13 @@ export class AffectationSimComponent implements OnInit {
     this.p = event;
     this.GetAllListAffectationBySim()
   }
+  public OnRefresh(){
+    this.selectedDirection = null;
+    this.selectedExploitation = null;
+    this.selectedMsisdn = null;
+    this.selectedimsi = null;
+    this.GetAllListAffectationBySim()
+  }
   public onCheckedOneConsumer(consumer: any) {
     if (this.checkconsumerList.includes(consumer.id)) {
       this.checkconsumerList.forEach((value, index) => {
@@ -147,7 +154,7 @@ export class AffectationSimComponent implements OnInit {
   }
   public getAllDirectionRegionales() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listDirections = response['data'].map(element => {
@@ -178,6 +185,7 @@ export class AffectationSimComponent implements OnInit {
         profil_id: this.currentObject?.id,
         niveau_un_id: this.selectedDirection?.id,
         niveau_deux_id: this.selectedExploitation?.id,
+        msisdn: this.selectedMsisdn,
         imsi: this.selectedimsi
       }, this.p)
       .subscribe({
@@ -195,7 +203,7 @@ export class AffectationSimComponent implements OnInit {
       })
   }
   public isFilter(): boolean {
-    return (!this.selectedDirection && !this.selectedExploitation && !this.selectedimsi) ? true : false
+    return (!this.selectedDirection && !this.selectedExploitation && !this.selectedimsi &&  !this.selectedMsisdn) ? true : false
   }
 
 }
