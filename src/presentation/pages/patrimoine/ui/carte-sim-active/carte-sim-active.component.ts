@@ -1,9 +1,9 @@
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DEMANDE_RESILIATION } from './../../../demandes/demandes-routing.module';
 import { ExcelService } from './../../../../../shared/services/excel.service';
 import { MappingService } from './../../../../../shared/services/mapping.service';
 import { SimStatut } from './../../../../../shared/enum/SimStatut.enum';
 import { PatrimoineService } from './../../data-access/patrimoine.service';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
 import { ToastrService } from 'ngx-toastr';
 import { SettingService } from 'src/shared/services/setting.service';
@@ -156,6 +156,7 @@ export class CarteSimActiveComponent implements OnInit {
     }
   }
   public onFilter() {
+    this.p = 1
     this.patrimoineService
       .GetAllPatrimoines({
         niveau_un_uuid: this.selectedDirection?.uuid,
@@ -184,6 +185,7 @@ export class CarteSimActiveComponent implements OnInit {
   }
 
   OnRefresh() {
+    this.p = 1;
     this.GetAllPatrimoines();
     this.selectedDirection = null;
     this.selectedExploitation = null;

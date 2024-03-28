@@ -184,6 +184,7 @@ export class RapportTransactionComponent implements OnInit {
       });
   }
   OnRefresh() {
+    this.p = 1;
     this.HandleSlaDemandeService()
     this.selectedUser = null
     this.selectDateStart = null

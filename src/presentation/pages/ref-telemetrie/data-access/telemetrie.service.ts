@@ -77,4 +77,12 @@ export class TelemetrieService {
     const url: string = (<string>EndPointUrl.DEPLOYER);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  GetContactSla(): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_CONTACT_GESTION_SLA);
+    return this.http.get(`${this.baseUrl}${url}`);
+  }
+  UpdateContactSla(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.UPDATE_CONTACT_GESTION_SLA);
+    return this.http.post(`${this.baseUrl}${url}`,data);
+  }
 }

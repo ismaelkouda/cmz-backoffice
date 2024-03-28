@@ -72,6 +72,12 @@ export class TraitementShowComponent implements OnInit {
   public sourceStockOrangeSim: string;
   public sourceSoldeDotation: string
   public sourceSoldeDotationOrange: string
+  public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
+  public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
+  public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
+  public treatmenRejeter: string = TraitementTransaction.REJETER;
+  public treatmenRefuser: string = TraitementTransaction.REFUSER;
+  public treatmenCancel: string = TraitementTransaction.ABANDONNER;
 
   constructor(
     private fb: FormBuilder,
@@ -110,15 +116,18 @@ export class TraitementShowComponent implements OnInit {
     this.OnInitActivationForm();
     this.OnInitAchatForm();
     this.isAccepteForms();
+    this.IsTraitement()
     this.IsCancel();
     this.IsUpdate();
     this.IsCloture();
     this.IsReject();
     this.IsShow();
+    this.IsNotMessage()
     this.IsJustificatif()
     this.IsEmptyPanier()
     this.IsVerify();
     this.IsContentSim()
+    this.ShowAcceptedForm()
     this.IsProvisionningTransaction()
     this.IsAchatTransaction()    
     this.IscurrentDate()
@@ -161,6 +170,15 @@ export class TraitementShowComponent implements OnInit {
             this.swapForm.disable();
             this.resiliationForm.disable();
             this.suspensionForm.disable();
+          }
+          if (this.ShowAcceptedForm()) {
+            this.activationForm.get('activation_accepte_comment').disable()
+            this.suspensionForm.get('suspension_accepte_comment').disable()
+            this.resiliationForm.get('resiliation_accepte_comment').disable()
+            this.swapForm.get('swap_accepte_comment').disable()
+            this.volumeForm.get('volume_data_accepte_comment').disable()
+            this.achatForm.get('commmande_produit_accepte_comment').disable()
+            this.ligneForm.get('provisionning_accepte_comment').disable()
           }
         },
         error: (error) => {
@@ -621,6 +639,20 @@ export class TraitementShowComponent implements OnInit {
       this.detailTransaction?.rapport?.activation_accepte === 'oui'
     ) ? false : true
   }
+
+
+  public IsTraitement(): string {
+    if (!this.isAccepteForms()) {
+       return TraitementTransaction.ACCEPTER
+    }else if (this.isAccepteForms()){
+      return TraitementTransaction.REJETER
+    }else{
+      return ""
+    }
+  }
+  public ShowAcceptedForm(): boolean {
+    return (this.transaction?.statut === StatutTransaction.TARITER || (this.transaction?.statut === StatutTransaction.CLOTURER && this.transaction?.traitement !== TraitementTransaction.ABANDONNER)) ? true : false
+  }
   public IsProvisionningTransaction(): boolean {
     return (
       this.transaction?.operation === OperationTransaction.PROVISIONNING) ? true : false
@@ -645,6 +677,9 @@ export class TraitementShowComponent implements OnInit {
   }
   public IsShow(): boolean {
     return (this.transaction?.statut === StatutTransaction.CLOTURER || this.transaction?.traitement === TraitementTransaction.ACQUITER) ? true : false
+  }
+  public IsNotMessage(): boolean {
+    return (this.transaction?.statut === StatutTransaction.TARITER || this.transaction?.statut === StatutTransaction.CLOTURER ||  this.transaction?.traitement === TraitementTransaction.ACQUITER) ? true : false
   }
   public IsVerify(): boolean {
     return (

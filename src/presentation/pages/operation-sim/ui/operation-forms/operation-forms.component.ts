@@ -28,7 +28,7 @@ export class OperationFormsComponent implements OnInit {
 
   public getAllDirectionRegionales(): void {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listDirectionRegionales = response['data']

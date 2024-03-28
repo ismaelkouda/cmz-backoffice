@@ -130,8 +130,17 @@ export class ContencieuxComponent implements OnInit {
       .GetAllContencieux(data)
       .subscribe({
         next: (response) => {
-          this.listTraitemants = response['data']['data'];
-          this.totalPage = response['data'].last_page;
+          this.listTraitemants =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            } else{
+              return {...data,current_date: 'N/A'}
+            }
+          });          this.totalPage = response['data'].last_page;
           this.totalRecords = response['data'].total;
           this.recordsPerPage = response['data'].per_page;
           this.page = response.data?.current_page;
@@ -154,6 +163,7 @@ export class ContencieuxComponent implements OnInit {
     }
   }
   OnRefresh() {
+    this.p = 1;
     this.GetAllContencieux();
     this.selectedTypeOperation = null
     this.selectedTransaction = null;

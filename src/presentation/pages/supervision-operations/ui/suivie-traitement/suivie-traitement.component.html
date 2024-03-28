@@ -80,6 +80,22 @@
       <!--------------------Second-------------Filter--------->
       <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
         <div class="col-md-2">
+          <div class="form-group">
+            <label>
+              <b>MSISDN</b>
+            </label>
+            <input placeholder="Numéro" [(ngModel)]="selectedSim" type="text" pInputText />
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>
+              <b>IMSI</b>
+            </label>
+            <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
+          </div>
+        </div>
+        <div class="col-md-2">
           <label class="block"><b>Date début</b></label>
           <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
             (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>

@@ -46,7 +46,7 @@ export class DemandeActivationComponent implements OnInit {
   public pushStatutShowView(event: boolean): void {    
     this.showView = event;
     this.initialView = !event;
-    this.formsView = event;
+    this.formsView = event; 
   }
   public pushTypeDemande(event: string): void {    
     this.typeDemande = event;

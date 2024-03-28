@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { ActivatedRoute } from '@angular/router';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
@@ -162,6 +161,7 @@ export class DemandeWrapperShowComponent implements OnInit {
       })
   }
   public OnRefresh(){
+    this.p = 1;
     this.GetAllTransactions();
     this.selectedTransaction = null
     this.selectedSim = null

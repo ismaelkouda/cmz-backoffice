@@ -150,6 +150,7 @@ export class VueGeographiqueComponent implements OnInit {
       })
   }
   public OnRefresh(){
+    this.p = 1;
     this.selectedDepartement = null
     this.selectedCommune = null
     this.selectedZone = null

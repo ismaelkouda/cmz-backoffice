@@ -148,6 +148,7 @@ export class AlarmesComponent implements OnInit {
       })
   }
   public OnRefresh(){
+    this.p = 1;
     this.GetAllTransactions()
     this.selectedOperation =null
     this.selectedTransaction = null

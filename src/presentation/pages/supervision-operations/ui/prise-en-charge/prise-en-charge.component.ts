@@ -132,7 +132,7 @@ export class PriseEnChargeComponent implements OnInit {
   }
   public GetFirstLevel() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listFirstLevel = response['data'].map(element => {

@@ -35,7 +35,8 @@ export const content: Routes = [
         'Groupe de SIM',
         'Dotation Data',
         'Etat des Soldes Data',
-        'Téléchargements'
+        'Téléchargements',
+        'Cartographie'
       ]
     }
   },

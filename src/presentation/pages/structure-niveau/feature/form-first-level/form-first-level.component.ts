@@ -37,6 +37,7 @@ export class FormFirstLevelComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public page: number = 0;
   public adminForm: FormGroup;
   public selectedGroupe: string;
   public firstLevelLibelle: string;
@@ -63,21 +64,16 @@ export class FormFirstLevelComponent implements OnInit {
   ngOnInit() {    
     if (!this.currentObject) {
       this.GetAllPatrimoines();
-    }else if (this.currentObject?.type === 'affectation') {
-      this.GetAllSimNoGroupe();
-    } else if (this.currentObject?.type === 'visualiser' || this.currentObject?.type === 'show') {
-      this.listAffectations = this.currentObject?.niveaux_deux;
-    } else if (this.currentObject?.type === 'edit') {
-      this.GetAllSimNoGroupe();
-    } 
-    this.GetFirstLevelDatas();
+    }else if (this.currentObject?.type === 'visualiser' || this.currentObject?.type === 'show') {
+      this.GetAllSecondLevelSimple()
+    }
     this.isFilter();
     this.initForm();
     this.onFormPachValues()
   }
   public GetAllGroupes() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .getAllDirectionRegionales({},1)
       .subscribe({
         next: (response) => {
           this.listFirstLevelDatas.emit(response['data']);
@@ -88,118 +84,47 @@ export class FormFirstLevelComponent implements OnInit {
         }
       })
   }
-  public GetAll(): void {
-    // this.patrimoineService
-    //   .GetAllGroupes({})
-    //   .subscribe({
-    //     next: (response) => {
-    //       this.listGroupes = response['data'];
-    //     },
-    //     error: (error) => {
-    //       this.toastrService.error(error.error.error.message);
-    //     }
-    //   })
-  }
-
   public GetAllPatrimoines() {
-    // this.patrimoineService
-    //   .GetAllPatrimoines({}, this.p)
-    //   .subscribe({
-    //     next: (response) => {
-    //       this.listAffectations = response.data.data;
-    //       this.totalPage = response.data.last_page;
-    //       this.totalRecords = response.data.total;
-    //       this.recordsPerPage = response.data.per_page;
-    //       this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
-    //     },
-    //     error: (error) => {
-    //       this.toastrService.error(error.error.message);
-    //     }
-    //   })
   }
-  public GetAllSimNoGroupe() {
+  // public GetAllSimNoGroupe() {
+  //   this.settingService
+  //     .OngetAllExploiatationsNoAffecte({})
+  //     .subscribe({
+  //       next: (response) => {
+  //         this.listAffectations = response.data.data;
+  //         this.totalPage = response.data.last_page;
+  //         this.totalRecords = response.data.total;
+  //         this.recordsPerPage = response.data.per_page;
+  //         this.page = response.data?.current_page;
+  //         this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;         
+  //        },
+  //       error: (error) => {
+  //         this.toastrService.error(error.error.message);
+  //       }
+  //     })
+  // }
+  public GetAllSecondLevelSimple() {
     this.settingService
-      .OngetAllExploiatationsNoAffecte({})
+      .getAllExploiatations({
+        niveau_un_uuid: this.currentObject?.uuid,
+      },this.p)
       .subscribe({
-        next: (response) => {
-          this.listAffectations = response['data'];
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
-  public OnRefresh(){
-    if (!this.currentObject) {
-      this.GetAllPatrimoines();
-    }else if (this.currentObject?.type === 'affectation') {
-      this.GetAllSimNoGroupe();
-    } else if (this.currentObject?.type === 'visualiser' || this.currentObject?.type === 'show') {
-      this.currentObject?.niveaux_deux
-    } else if (this.currentObject?.type === 'edit') {
-      this.GetAllSimNoGroupe();
-    } 
-    this.selectedDirection = null
-    this.selectedExploitation = null
-    this.selectedImsi = null
-    this.selectedMsisdn = null
-  }
-
- 
-  public OnFilterALl() { 
-    
-    /*
-    if (!this.currentObject) {
-      this.currentObservable = this.patrimoineService.GetAllPatrimoines({
-        niveau_un_id: this.selectedDirection?.id,
-        niveau_deux_id: this.selectedExploitation?.id,
-        imsi: this.selectedImsi,
-        msisdn: this.selectedMsisdn
-      }, this.p);
-    }else if (this.currentObject?.type === 'affectation') {
-        this.currentObservable = this.patrimoineService.GetAllSimNoGroupe({
-          groupe_id: this.currentObject?.id,
-          niveau_un_id: this.selectedDirection?.id,
-          niveau_deux_id: this.selectedExploitation?.id,
-          imsi: this.selectedImsi,
-          msisdn: this.selectedMsisdn
-        }, this.p);
-      } else if (this.currentObject?.type === 'visualiser' || this.currentObject?.type === 'show') {        
-        this.currentObservable = this.patrimoineService.GetAllsimAtGroupe({
-          groupe_id: this.currentObject?.id,
-          niveau_un_id: this.selectedDirection?.id,
-          niveau_deux_id: this.selectedExploitation?.id,
-          imsi: this.selectedImsi,
-          msisdn: this.selectedMsisdn
-        }, this.p);
-      } else if (this.currentObject?.type === 'edit') {
-        this.currentObservable = this.patrimoineService.GetAllSimNoGroupe({
-          groupe_id: this.currentObject?.id,
-          niveau_un_id: this.selectedDirection?.id,
-          niveau_deux_id: this.selectedExploitation?.id,
-          imsi: this.selectedImsi,
-          msisdn: this.selectedMsisdn
-        }, this.p);
-      }
-      this.currentObservable.subscribe({
         next: (response) => {
           this.listAffectations = response.data.data;
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
-          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
+          this.page = response.data?.current_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;   
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
         }
       })
-      */
   }
-  
-
   public onPageChange(event) {
     this.p = event;
-    this.GetAllSimNoGroupe()
+    this.GetAllSecondLevelSimple()
   }
   public onCheckedOneConsumer(consumer: any) {
     if (this.checkconsumerList.includes(consumer.id)) {
@@ -263,79 +188,6 @@ export class FormFirstLevelComponent implements OnInit {
         }
       })
   }
-
-  public handleSaveAffectation() {
-    /*
-    this.patrimoineService
-      .handleSaveAffectation({
-        groupe_id: this.currentObject?.id,
-        sims: this.checkconsumerList
-      })
-      .subscribe({
-        next: (response) => {
-          this.GetAllGroupes();
-          this.toastrService.success(response.message);
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.error.message);
-        }
-      })
-      */
-  }
-
-  public handleSaveReaffectation() {
-    /*
-    this.patrimoineService
-      .handleSaveReaffectation({
-        groupe_id: this.selectedGroupe,
-        sims: this.checkconsumerList
-      })
-      .subscribe({
-        next: (response) => {
-          this.GetAllGroupes();
-          this.hideForm();
-          this.adminForm.reset();
-          this.toastrService.success(response.message);
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.error.message);
-        }
-      })
-      */
-  }
-  public handleRetraitSim(): void {
-    Swal.fire({
-      title: 'En êtes vous sûr ?',
-      html: `Voulez-vous retirer ce(s) ${this.secondLevelMenus}`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#569C5B',
-      cancelButtonColor: '#dc3545',
-      cancelButtonText: 'Annuler',
-      confirmButtonText: 'Oui',
-    }).then((result) => {
-      /*
-      if (result.isConfirmed) {
-        this.patrimoineService
-          .handleRetraitSim({
-            profil_id: this.currentObject?.id,
-            sims: this.checkconsumerList
-          })
-          .subscribe({
-            next: (response) => {
-              this.GetAllGroupes();
-              this.adminForm.reset();
-              this.toastrService.success(response.message);
-            },
-            error: (error) => {
-              this.toastrService.error(error.error.error.message);
-            }
-          })
-      }
-      */
-    });
-  }
-
   public close(): void {
     this.formsView.emit(false);
   }
@@ -354,7 +206,6 @@ export class FormFirstLevelComponent implements OnInit {
     });
   }
   openForm(content) {
-    this.GetAll();
     this.modalService.open(content);
   }
   hideForm() {
@@ -367,20 +218,6 @@ export class FormFirstLevelComponent implements OnInit {
     if (this.currentObject?.type === 'show') {
       this.adminForm.disable()
     }
-  }
-  public GetFirstLevelDatas() {
-    this.settingService
-      .getAllDirectionRegionales({})
-      .subscribe({
-        next: (response) => {
-          this.listDirections = response['data'].map(element => {
-            return { ...element, fullName: `${element.nom} [${element.code}]` }
-          });
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.error.message);
-        }
-      })
   }
 
   public onChangeItem(event: any) {

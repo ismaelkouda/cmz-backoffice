@@ -144,7 +144,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.IsFormFomSIMValidate()
     this.isVerify();
     this.IsPatrimoineType()
-    this.historie = history.state.patrimoine 
+    this.historie = history.state.patrimoine;
+    this.onGetDrValueChanges();
     if (this.historie) {      
       this.selectedActionValue = history.state.operation;
       this.operationValue = this.selectedActionValue
@@ -152,7 +153,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       this.onFormPachValues()
       this.adminForm.get('imsi').disable()
       this.adminForm.get('msisdn').disable()
-      console.log("currentPatrimoine",this.currentPatrimoine);
       }else{
       this.selectedActionValue = this.currentSelectedActionValue;
       this.operationValue = this.selectedActionValue
@@ -162,7 +162,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       this.getAllDirectionRegionales();
       this.getAllUsages();
       this.getAllZones();
-      this.onGetDrValueChanges();
     }
     if (this.selectedActionValue === this.swap) {
       this.sourceValue = 'stock'
@@ -204,15 +203,12 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       niveau_un_uuid: ['',[Validators.required]],
       niveau_deux_uuid: ['',[Validators.required]],
       niveau_trois_uuid: ['',[Validators.required]],
-      usage_id: ['', (this.typeDemande === 'simple' ? [Validators.required] : [])],
-      point_emplacement: [''],
-      adresse_geographique: [''],
-      longitude: ['', (this.typeDemande === 'simple' ? [Validators.required] : [])],
-      latitude: ['', (this.typeDemande === 'simple' ? [Validators.required] : [])],
-      adresse_email: ['', (this.typeDemande === 'simple' ? [
-        Validators.email,
-        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
-      ] : [])],
+      usage_id: ['', [Validators.required]],
+      point_emplacement: ['',(this.typeDemande === 'simple' ? [Validators.required] : [])],
+      adresse_geographique: ['',(this.typeDemande === 'simple' ? [Validators.required] : [])],
+      longitude: [''],
+      latitude: [''],
+      adresse_email: ['', (this.typeDemande === 'simple' ? [Validators.email,] : [])],
       imsi: [''],
       statut: [''],
       statut_contrat: "",
@@ -319,10 +315,16 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         }
       })
   }
-  public getAllExploitation(id: number) {
+
+  onGetDrValueChanges() {    
+    return this.adminForm.get('niveau_un_uuid').valueChanges.subscribe((value) => {
+      this.getAllExploitation(value);
+    });
+  }
+  public getAllExploitation(data: string) {
     this.settingService
       .GetAllSecondLevelSimple({
-        niveau_un_id: id,
+        niveau_un_uuid: data,
       })
       .subscribe(
         (response: any) => {
@@ -332,12 +334,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
           this.toastrService.error(error.error.message);
         }
       )
-  }
-
-  onGetDrValueChanges() {
-    return this.adminForm.get('niveau_un_uuid').valueChanges.subscribe((value) => {      
-      this.listExploitations = value?.niveaux_deux
-    });
   }
   public getAllUsages() {
     this.patrimoineService
@@ -362,12 +358,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
           this.toastrService.error(error.error.message);
         }
       })
-  }
-  public onChangeItem(event: any) {
-    this.selectedDirection = event.value;
-    this.listExploitations = this.selectedDirection?.niveaux_deux.map(element => {
-      return { ...element, fullName: `${element.nom} [${element.code}]` }
-    });
   }
   public onVerify() {
     this.patrimoineService
@@ -405,13 +395,14 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       })
       baseUrl = `${this.baseUrl}${EndPointUrl.SWAPER_SIM}`
     } else if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
-       this.adminForm.patchValue({
-        niveau_un_uuid: this.adminForm.get('niveau_un_uuid').value?.uuid
-       })
       let adminData;
       if (this.applicationType === ApplicationType.MONITORING) {
          adminData = {
-          ...this.adminForm.value,
+          ...(this.historie ? {
+            ...this.adminForm.value,
+            msisdn: this.currentPatrimoine?.msisdn,
+            imsi: this.currentPatrimoine?.imsi
+          } : this.adminForm.value),
           bac_a_pioche: 'orangeci'
         }
       }else if (this.applicationType === ApplicationType.PATRIMOINESIM) {
@@ -465,7 +456,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     let data;
    if (this.router.url === `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`) {
     this.adminForm.patchValue({
-      niveau_un_uuid: this.adminForm.get('niveau_un_uuid').value?.id,
+      niveau_un_uuid: this.adminForm.get('niveau_un_uuid').value,
       niveau_deux_uuid: this.adminForm.get('niveau_deux_uuid').value,
       niveau_trois_uuid: this.adminForm.get('niveau_trois_uuid').value,
       statut_contrat: this.adminForm.get('statut').value
@@ -538,7 +529,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   }
 
   handleSuccess(event){    
-    console.log("event",event);
   }
   
   public selectedSource(value: string) {
@@ -618,8 +608,4 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     history.state.operation = null
  }
 
- onChangeFirstLvel(event){
-   console.log("data",event);
-   
- }
 }

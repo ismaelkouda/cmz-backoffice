@@ -8,20 +8,20 @@ export const enum EndPointUrl {
     GET_ALL_YEAR = 'gestion-campagnes/annees/all',
 
     //First Level EndPoints
-    GET_ALL_FIRSTLEVEL = 'parametres-securite/niveau_un/all',
+    GET_ALL_FIRSTLEVEL = 'parametres-securite/niveau_un/all?page={page}',
     GET_ALL_FIRSTLEVEL_HABILITATION = 'parametres-securite/niveau_un/all-for-habilitation',
     SAVE_DIRECTION_REGIONALE = 'parametres-securite/niveau_un/store',
     UPDATE_DIRECTION_REGIONALE = 'parametres-securite/niveau_un/update',
 
     //Second Level EndPoints
-    GET_ALL_EXPLOITATION = 'parametres-securite/niveau_deux/all',
+    GET_ALL_EXPLOITATION = 'parametres-securite/niveau_deux/all?page={page}',
     GET_ALL_SECOND_LEVEL_HABILITATION = 'parametres-securite/niveau_deux/all-for-habilitation',
     SAVE_EXPLOITATION = 'parametres-securite/niveau_deux/store',
     UPDATE_EXPLOITATION = 'parametres-securite/niveau_deux/update',
     GET_EXPLOIATATION_NO_AFFECTE = 'parametres-securite/niveau_deux/all-non-affectes',
 
     //Third Level EndPoints
-    GET_ALL_NIVEAUX_3 = 'parametres-securite/niveau_trois/all',
+    GET_ALL_NIVEAUX_3 = 'parametres-securite/niveau_trois/all?page={page}',
     GET_ALL_NIVEAUX_3_HABILITATION = 'parametres-securite/niveau_trois/all-for-habilitation',
     SAVE_NIVEAUX_3 = 'parametres-securite/niveau_trois/store',
     UPDATE_NIVEAUX_3 = 'parametres-securite/niveau_trois/update',

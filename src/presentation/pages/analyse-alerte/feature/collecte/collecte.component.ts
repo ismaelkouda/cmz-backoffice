@@ -115,7 +115,7 @@ export class CollecteComponent implements OnInit {
   }
   public getAllDirectionRegionales(): void {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listDirectionRegionales = response['data']

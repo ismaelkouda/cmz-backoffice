@@ -39,6 +39,7 @@ export class JournalTransactionComponent implements OnInit {
   }
 
   OnRefresh() {
+    this.p = 1;
     this.selectedUser = null
     this.selectDateStart = null
     this.selectDateEnd = null

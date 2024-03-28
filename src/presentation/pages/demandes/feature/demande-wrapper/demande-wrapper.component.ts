@@ -183,6 +183,7 @@ export class DemandeWrapperComponent implements OnInit {
       })
   }
   public OnRefresh(){
+    this.p = 1;
     this.GetAllTransactions()
     this.selectedTransaction = null
     this.currentUser = null
@@ -254,10 +255,6 @@ export class DemandeWrapperComponent implements OnInit {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
   OnShowTraitement(data: any): void {
-    this.totalPage = 0;
-    this.totalRecords = 0;
-    this.recordsPerPage = 0;
-    this.page = 1;
      this.transactionId.emit(data)
   }
   changeDateStart(e) {

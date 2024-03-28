@@ -1,3 +1,5 @@
+import { ContactFormComponent } from './features/contact-form/contact-form.component';
+import { ContactSlaComponent } from './ui/contact-sla/contact-sla.component';
 import { ObjectifSlaComponent } from './ui/objectif-sla/objectif-sla.component';
 import { VisualisationComponent } from './features/visualisation/visualisation.component';
 import { AffectationSimComponent } from './features/affectation-sim/affectation-sim.component';
@@ -53,7 +55,9 @@ import { BadgeModule } from 'primeng/badge';
   declarations: [
     SeuilAlarmesComponent,
     ProfilSupervisionComponent,
+    ContactSlaComponent,
     ObjectifSlaComponent,
+    ContactFormComponent,
     FormsProfilComponent,
     AffectationSimComponent,
     VisualisationComponent

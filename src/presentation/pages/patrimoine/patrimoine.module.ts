@@ -1,3 +1,4 @@
+import { CartographieComponent } from './ui/cartographie/cartographie.component';
 import { DownloadComponent } from './ui/download/download.component';
 import { AlarmeColorComponent } from './feature/alarme-color/alarme-color.component';
 import { NgModule } from '@angular/core';
@@ -71,6 +72,7 @@ import { CarteMapComponent } from './feature/carte-map/carte-map.component';
         DotationFormComponent,
         GroupeFormComponent,
         DownloadComponent,
+        CartographieComponent,
         CarteMapComponent,
         AlarmeColorComponent,
     ],

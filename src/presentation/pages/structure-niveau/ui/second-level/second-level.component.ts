@@ -20,6 +20,12 @@ export class SecondLevelComponent implements OnInit {
   public formsView: boolean = false;
   public affectationView: boolean = false;
   public visualisationView: boolean = false;
+  public totalPage: 0;
+  public totalRecords: 0;
+  public recordsPerPage: 0;
+  public offset: any;
+  public p: number = 1;
+  public page: number = 0;
   public currentObject: any;
   public listCurrentLevelDatas: Array<any> = [];
   public listFirstLevelDatas: Array<any> = [];
@@ -62,38 +68,54 @@ export class SecondLevelComponent implements OnInit {
 
   public GellCurrentLevel() {
     this.settingService
-      .getAllExploiatations({})
+      .getAllExploiatations({},this.p)
       .subscribe({
-        next: (response) => {
-          this.listCurrentLevelDatas = response['data'];
+        next: (response) => {          
+          this.listCurrentLevelDatas = response.data.data;
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;   
         },
         error: (error) => {
           this.toastrService.error(error.message);
         }
       })
   }
-
   public onFilter() {
     this.settingService
       .getAllExploiatations({
         nom: this.selectedNom,
-        code: this.selectedCodes,
         niveau_un_uuid: this.selectedParent
-      })
+      },this.p)
       .subscribe({
         next: (response) => {
-          this.listCurrentLevelDatas = response['data'];
+          this.listCurrentLevelDatas = response.data.data;
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;         
         },
         error: (error) => {
           this.toastrService.error(error.message);
         }
       })
   }
-
+  public onPageChange(event) {
+    this.p = event;
+    if (this.isFilter()) {
+      this.GellCurrentLevel()
+    } else {
+      this.onFilter()
+    }
+  }
   public OnRefresh(){
+    this.p = 1;
     this.GellCurrentLevel();
     this.selectedNom = null
-    this.selectedCode = null
+    this.selectedParent = null
   }
   copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
@@ -102,7 +124,7 @@ export class SecondLevelComponent implements OnInit {
 
   public GellAllFirstLevel() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listFirstLevelDatas = response['data'];
@@ -166,6 +188,6 @@ export class SecondLevelComponent implements OnInit {
     this.excelService.exportAsExcelFile(data, `Lise des ${this.currentLevelLibelle}`);
   }
   public isFilter(): boolean {
-    return (!this.selectedNom && !this.selectedCodes) ? true : false
+    return (!this.selectedNom && !this.selectedParent) ? true : false
   }
 }

@@ -39,21 +39,19 @@ export class HistoriqueComponent implements OnInit {
     private loadingBar: LoadingBarService,
     private toastService: ToastrService,
     private settingService: SettingService
-  ) {
-    this.filterDateStart = new Date();
-    this.filterDateEnd = new Date();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.getAllUsers();
     this.getAllHistoriques()
   }
 
-  showHistorique(data: any) {
+  showHistorique(data: any) {    
+
     console.log("data",data);
-    
+    this.currentEvent = data;
     if (data?.event === 'Mise à jour' || data?.event === 'Évènement') {
-      this.currentEventParse = JSON.parse(data?.data);
+      this.currentEventParse = JSON.parse(data?.data || null);
       if (this.currentEventParse?.before && this.currentEventParse?.after) {
         Object.values(this.currentEventParse?.before).map((value, i) => {
           this.currentEventParseBeforeValues.push(value);
@@ -68,9 +66,8 @@ export class HistoriqueComponent implements OnInit {
           });
         });
       }
+      this.display = true;
     }
-    this.display = true;
-    this.currentEvent = data;
   }
   getAllUsers() {
     this.loadingBar.start();
@@ -90,7 +87,6 @@ export class HistoriqueComponent implements OnInit {
           this.toastService.error(error.error.message);
         }
       );
-
   }
   getAllHistoriques() {
     const data = {

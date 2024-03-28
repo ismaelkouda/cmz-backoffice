@@ -78,15 +78,13 @@ export class PatrimoineFormsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("response",this.currentObject);
-
     this.OnGetDetailSim()  
     this.initForm();
   if (!this.currentData?.show) {
-    this.onGetDrValueChanges();
+    this.onGetDrValueChanges()
     this.getAllDirectionRegionales();
     this.GetAllUsages();
-    this.getAllZones();
+    this.getAllZones();    
   }  
     this.OnRefreshValues() ;
   }
@@ -106,21 +104,15 @@ export class PatrimoineFormsComponent implements OnInit {
 
   public initForm(): void {
     this.adminForm = this.fb.group({
-
-      //Identification Controls
       direction_regionale: ['', [Validators.required]],
       exploitation: [''],
       zone: ['', [Validators.required]],
       usage: ['', [Validators.required]],
       point_emplacement: [''],
       adresse_geographique: [''],
-      longitude: ['', [Validators.required]],
-      latitude: ['', [Validators.required]],
-      adresse_email: ['', [
-        Validators.email,
-        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
-      ]],
-
+      longitude: [''],
+      latitude: [''],
+      adresse_email: ['', [Validators.email]],
       formule: [''],
       imsi: [''],
       statut: [''],
@@ -152,7 +144,7 @@ export class PatrimoineFormsComponent implements OnInit {
       .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
-          this.listDirectionRegionales = response['data'];
+          this.listDirectionRegionales = response['data']
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -215,7 +207,7 @@ export class PatrimoineFormsComponent implements OnInit {
   public getAllExploitation(id: number) {
     this.settingService
       .GetAllSecondLevelSimple({
-        niveau_un_id: id,
+        niveau_un_uuid: id,
       })
       .subscribe(
         (response: any) => {
@@ -252,6 +244,10 @@ export class PatrimoineFormsComponent implements OnInit {
       this.adminForm.get('exploitation').patchValue(this.currentObject?.niveau_deux_uuid);
       this.adminForm.get('zone').patchValue(this.currentObject?.niveau_trois_uuid);
       this.adminForm.get('usage').patchValue(this.currentObject?.usage?.id);
+      console.log("this.adminForm.get('direction_regionale')",this.adminForm.get('direction_regionale').value);
+      // if (this.adminForm.get('direction_regionale').value !== null) {
+      //   this.onGetDrValueChanges()
+      // }
     }
     this.adminForm.get('imsi').patchValue(this.currentObject?.imsi);
     this.adminForm.get('msisdn').patchValue(this.currentObject?.msisdn);

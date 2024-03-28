@@ -6,7 +6,7 @@
         <div class="card-body">
           <div [hidden]="!initialView">
             <p-tabView (onChange)="handleChangeTabviewIndex($event)">
-              <p-tabPanel [header]="currentLevelMenus">
+              <p-tabPanel [header]="currentLevelMenus | uppercase">
                 <div class="row filter_wrapper">
                   <div class="col-md-3">
                     <div class="form-group">
@@ -38,35 +38,21 @@
                     <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download"class="p-button-helf"></button>
                 </div>
                 <div class="table_content_wrapper">
-                  <p-table #dt [value]="listCurrentLevelDatas" [rows]="10" [paginator]="true" responsiveLayout="scroll"
-                    [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                     données" [showCurrentPageReport]="true"
-                      [globalFilterFields]="['nom', 'code']"
-                    >
-                    <ng-template pTemplate="caption">
-                      <div class="table_header">
-                        <app-table-header [count]="currentLevelLibelle" [legende]="currentLevelMenus | titlecase"></app-table-header>
-                        <div class="table_header__input">
-                          <span class="p-input-icon-left ml-auto">
-                            <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                              placeholder="Recherche" />
-                          </span>
-                        </div>
-                      </div>
-                    </ng-template>
-                    <ng-template pTemplate="header">
-                      <tr>
-                        <th class="text-center" [style]="{width: '1.5rem'}">#</th>
-                        <th>{{currentLevelLibelle}}</th>
-                        <th class="text-center">Code</th>
-                        <th class="text-center">Statut</th>
-                        <th class="text-center" [style]="{width: '7rem'}">Actions</th>
-                      </tr>
-                    </ng-template>
-                    <ng-template let-i="rowIndex" pTemplate="body" let-data>
-                      <tr>
-                        <td class="text-center">{{ i + 1 }}</td>
+                  <div class="table_header">
+                    <app-table-header [count]="listCurrentLevelDatas" [legende]="currentLevelMenus | titlecase" [page]="page" [totalPage]="totalPage"></app-table-header>
+                  </div>
+                  <table [ngClass]="['native_table table']">
+                    <thead>
+                      <th class="text-center" [style]="{width: '1.5rem'}">#</th>
+                      <th>{{currentLevelLibelle}}</th>
+                      <th class="text-center">Code</th>
+                      <th class="text-center">Statut</th>
+                      <th class="text-center" [style]="{width: '7rem'}">Actions</th>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="let data of listCurrentLevelDatas | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                        <td>{{ (this.offset + i)}}</td>
                         <td (click)="copyData(data?.nom)" style="cursor: pointer">{{data?.nom}}</td>
                         <td (click)="copyData(data?.code)" style="cursor: pointer" class="text-center">{{data?.code}}</td>
                         <td class="text-center">
@@ -91,8 +77,12 @@
                             tooltipPosition="top" (click)="HandleDelete(data)"></p-button>
                         </td>
                       </tr>
-                    </ng-template>
-                  </p-table>
+                    </tbody>
+                  </table>
+                </div>
+                <div [ngClass]="['pagination-controls']">
+                  <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                  </pagination-controls>
                 </div>
               </p-tabPanel>
               <p-tabPanel header="HISTORIQUE">

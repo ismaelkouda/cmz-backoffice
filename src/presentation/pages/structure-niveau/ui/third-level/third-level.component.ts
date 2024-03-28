@@ -20,6 +20,12 @@ export class ThirdLevelComponent implements OnInit {
   public formsView: boolean = false;
   public affectationView: boolean = false;
   public visualisationView: boolean = false;
+  public totalPage: 0;
+  public totalRecords: 0;
+  public recordsPerPage: 0;
+  public offset: any;
+  public p: number = 1;
+  public page: number = 0
   public currentObject: any;
   public listCurrentLevelDatas: Array<any> = [];
   public listSecondLevelDatas: Array<any> = [];
@@ -58,10 +64,15 @@ export class ThirdLevelComponent implements OnInit {
 
   public GellCurrentLevel() {
     this.settingService
-      .getAllZones({})
+      .getAllZones({},this.p)
       .subscribe({
         next: (response) => {
-          this.listCurrentLevelDatas = response['data'];
+          this.listCurrentLevelDatas = response.data.data;
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;         
         },
         error: (error) => {
           this.toastrService.error(error.message);
@@ -74,17 +85,31 @@ export class ThirdLevelComponent implements OnInit {
       .getAllZones({
         nom: this.selectedNom,
         code: this.selectedCodes
-      })
+      },this.p)
       .subscribe({
         next: (response) => {
-          this.listCurrentLevelDatas = response['data'];
-        },
+          this.listCurrentLevelDatas = response.data.data;
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;                 
+        ''},
         error: (error) => {
           this.toastrService.error(error.message);
         }
       })
   }
+  public onPageChange(event) {
+    this.p = event;
+    if (this.isFilter()) {
+      this.GellCurrentLevel()
+    } else {
+      this.onFilter()
+    }
+  }
   public OnRefresh(){
+    this.p = 1;
     this.GellCurrentLevel();
     this.selectedNom = null
     this.selectedCode = null
@@ -97,7 +122,7 @@ export class ThirdLevelComponent implements OnInit {
 
   public GellAllSecondLevel() {
     this.settingService
-      .getAllExploiatations({})
+      .GetAllSecondLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listSecondLevelDatas = response['data'];
@@ -187,7 +212,7 @@ export class ThirdLevelComponent implements OnInit {
   public handleActivate(data: any): void {
     Swal.fire({
       title: 'En êtes vous sûr ?',
-      html: `Voulez-vous Activer le profil <br> ${data.nom} ?`,
+      html: `Voulez-vous Activer <br> ${data.nom} ?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#569C5B',
@@ -213,7 +238,7 @@ export class ThirdLevelComponent implements OnInit {
   public handleDisable(data: any): void {
     Swal.fire({
       title: 'En êtes vous sûr ?',
-      html: `Voulez-vous Désactiver le profil <br> ${data.nom} ?`,
+      html: `Voulez-vous Désactiver <br> ${data.nom} ?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#569C5B',
@@ -239,7 +264,7 @@ export class ThirdLevelComponent implements OnInit {
   public HandleDelete(data: any): void {
     Swal.fire({
       title: 'En êtes vous sûr ?',
-      html: `Voulez-vous Supprimer la zone <br> ${data.nom} ?`,
+      html: `Voulez-vous Supprimer <br> ${data.nom} ?`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#569C5B',

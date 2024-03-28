@@ -4,7 +4,7 @@
       <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
       <div class="card">
         <div class="card-body">
-          <div [hidden]="!initialView">
+          <div *ngIf="initialView">
             <app-demande-wrapper
               [selectedOperation]="currentOperation"
               [wrapperLabel]="'Demandes Résiliations'"

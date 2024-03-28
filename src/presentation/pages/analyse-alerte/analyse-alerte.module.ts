@@ -1,3 +1,4 @@
+import { DetectionApproComponent } from './ui/detection-appro/detection-appro.component';
 import { AnalyseRejetComponent } from './ui/analyse-rejet/analyse-rejet.component';
 import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from '@angular/core';
@@ -45,6 +46,7 @@ import { SoldesSimComponent } from './ui/soldes-sim/soldes-sim.component';
   declarations: [
     CourbeMessageComponent,
     AnalyseRejetComponent,
+    DetectionApproComponent,
     PerformanceCollecteComponent,
     SoldesSimComponent,
     CollecteComponent

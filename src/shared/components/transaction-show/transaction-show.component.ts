@@ -16,7 +16,6 @@ import {  Router } from '@angular/router';
 import { OPERATION_PROVISIONNING, PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
 import { COMMANDE_SIM, LIGNE_CREDIT } from 'src/presentation/pages/provisionning/provisionning-routing.module';
 import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
-declare var require;
 @Component({
   selector: 'app-transaction-show',
   templateUrl: './transaction-show.component.html',
@@ -69,6 +68,9 @@ export class TransactionShowComponent implements OnInit {
   public thirdLevelLibelle: string;
   public sourceSoldeDotation: string
   public sourceSoldeDotationOrange: string
+  public treatmenRejeter: string = TraitementTransaction.REJETER;
+  public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
+
 
   constructor(
     private fb: FormBuilder,
@@ -97,7 +99,6 @@ export class TransactionShowComponent implements OnInit {
 
   ngOnInit() {
     console.log("transaction", this.transaction);
-    
     this.filterItem("first-item");
     this.GetDetailTransaction();
     this.OnInitLigneForm();
@@ -108,6 +109,7 @@ export class TransactionShowComponent implements OnInit {
     this.OnInitActivationForm();
     this.OnInitAchatForm();
     this.isAccepteForms();
+    this.IsTraitement()
     this.IsCancel();
     this.IsUpdate();
     this.IsCloture();
@@ -117,6 +119,7 @@ export class TransactionShowComponent implements OnInit {
     this.IsEmptyPanier()
     this.IsVerify();
     this.IsContentSim()
+    this.ShowAcceptedForm()
     this.IsProvisionningTransaction()
     this.IsAchatTransaction()    
     this.IscurrentDate()
@@ -158,8 +161,6 @@ export class TransactionShowComponent implements OnInit {
           this.swapForm.disable();
           this.resiliationForm.disable();
           this.suspensionForm.disable();
-          console.log("this.detailTransaction?.statut_contrat",this.detailTransaction);
-
         },
         error: (error) => {
           this.OnFeebackTransaction();
@@ -663,6 +664,9 @@ export class TransactionShowComponent implements OnInit {
       this.transaction?.operation === OperationTransaction.VOLUME_DATA 
     ) ? true : false
   }
+  public ShowAcceptedForm(): boolean {
+    return (this.transaction?.statut === StatutTransaction.TARITER || (this.transaction?.statut === StatutTransaction.CLOTURER && this.transaction?.traitement !== TraitementTransaction.ABANDONNER)) ? true : false
+  }
   public isAccepteForms(): boolean {
     return (
       this.detailTransaction?.rapport?.provisionning_accepte === 'oui' ||
@@ -672,6 +676,15 @@ export class TransactionShowComponent implements OnInit {
       this.detailTransaction?.rapport?.resiliation_accepte === 'oui' ||
       this.detailTransaction?.rapport?.activation_accepte === 'oui'
     ) ? false : true
+  }
+  public IsTraitement(): string {
+    if (!this.isAccepteForms()) {
+       return TraitementTransaction.ACCEPTER
+    }else if (this.isAccepteForms()){
+      return TraitementTransaction.REJETER
+    }else{
+      return ""
+    }
   }
   public IsProvisionningTransaction(): boolean {
     return (

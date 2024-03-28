@@ -1,0 +1,71 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div [hidden]="!initialView">
+            <div class="row filter_wrapper">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>{{firstLevelLibelle}}</b>
+                  </label>
+                  <p-dropdown [options]="listFirstLeveDatas" optionLabel="fullName" (onChange)="onChangeFirstLvel($event)"
+                    [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.fullName}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>{{secondLevelLibelle}}</b>
+                  </label>
+                  <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" optionLabel="fullName" [filter]="true" [showClear]="true"
+                    [(ngModel)]="selectedExploitation" [placeholder]="firstLevelLibelle">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.fullName}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Zone Trafic</b>
+                  </label>
+                  <input placeholder="zone" [(ngModel)]="selectedZone" type="text" pInputText />
+                </div>
+              </div>
+              <div [ngStyle]="{width: 'auto'}">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                  [disabled]="isFilter()"></p-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-dialog header="Vue géographique" [(visible)]="display" position="bottom-right" (onHide)="hideDialog('map')"
+    [style]="{ width: '100%' }" (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true"
+    [maximizable]="true" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content" class="mt-4">
+      <div class="mt-4">
+        <div #parcelleMap></div>
+      </div>
+    </ng-template>
+  </p-dialog>
+</div>

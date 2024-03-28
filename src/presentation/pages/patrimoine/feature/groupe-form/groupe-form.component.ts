@@ -381,7 +381,7 @@ export class GroupeFormComponent implements OnInit {
   }
   public GetFirstLevelDatas() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listDirections = response['data'].map(element => {

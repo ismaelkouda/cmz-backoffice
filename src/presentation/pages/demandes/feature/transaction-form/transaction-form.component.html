@@ -104,9 +104,9 @@
               </label>
               <p-dropdown 
                      [options]="listDirections" 
-                     formControlName="niveau_un_uuid" (onChange)="onChangeFirstLvel($event)" optionLabel="nom" 
+                     formControlName="niveau_un_uuid" optionLabel="nom" 
                      [placeholder]="firstLevelLibelle"
-                     [filter]="true" filterBy="nom">
+                     [filter]="true" filterBy="nom" optionValue="uuid">
                 <ng-template let-data pTemplate="item">
                   <div class="country-item">
                     <div>
@@ -160,7 +160,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>
-                <b>Nom Emplacement</b>
+                <b>Nom Emplacement <span class="text-danger">*</span></b>
               </label>
               <input type="text" formControlName="point_emplacement" pInputText />
             </div>
@@ -202,7 +202,7 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>
-                <b>Latitude<span class="text-danger">*</span></b>
+                <b>Latitude</b>
               </label>
               <input type="text" formControlName="latitude" pInputText />
             </div>
@@ -210,96 +210,13 @@
           <div class="col-md-4">
             <div class="form-group">
               <label>
-                <b>Longitude<span class="text-danger">*</span></b>
+                <b>Longitude</b>
               </label>
               <input type="text" formControlName="longitude" pInputText />
             </div>
           </div>
         </div>
       </fieldset>
-      <!-- <fieldset *ngIf="historie">
-        <legend [ngStyle]="{width: '18rem'}">
-          <b>Informations d'identification</b>
-        </legend>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>
-                <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" formControlName="niveau_un_uuid" pInputText />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>
-                <b>{{secondLevelLibelle}}<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" formControlName="niveau_deux_uuid" pInputText />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>
-                <b>{{thirdLevelLibelle}}<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" formControlName="niveau_trois_uuid" pInputText />
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>
-                <b>Nom Emplacement</b>
-              </label>
-              <input type="text" formControlName="point_emplacement" pInputText />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>
-                <b>Usage<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" formControlName="usage_id" pInputText />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>
-                <b>Adresse mail</b>
-              </label>
-              <input type="text" formControlName="adresse_email" pInputText />
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>
-                <b>Adresse géographique<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" formControlName="adresse_geographique" pInputText />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>
-                <b>Latitude<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" formControlName="latitude" pInputText />
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="form-group">
-              <label>
-                <b>Longitude<span class="text-danger">*</span></b>
-              </label>
-              <input type="text" formControlName="longitude" pInputText />
-            </div>
-          </div>
-        </div>
-      </fieldset> -->
       </div>
       <!------------------INFOS---------TRANSACTION----------------->
       <fieldset style="margin-top: 2.5rem;">
@@ -536,7 +453,7 @@
         label="Soumettre" class="p-button-success" [disabled]="IsFormFomSIMValidate()"
         (click)="handleSaveNewTransaction()"></button>
       <button pButton *ngIf="selectedActionValue === activation" style="float: right;margin-top: 1rem;"
-        label="Soumettre" class="p-button-success" [disabled]="!adminForm || !selectedDescription || !selectedPiece"
+        label="Soumettre" class="p-button-success" [disabled]="!adminForm.valid || !selectedDescription || !selectedPiece"
         (click)="handleSaveNewTransaction()"></button>
     </div>
     </div>

@@ -46,7 +46,7 @@ export class PerformancesComponent implements OnInit {
   }
   public GetFirstLevel() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listFirstLevel = response['data'].map(element => {

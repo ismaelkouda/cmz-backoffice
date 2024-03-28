@@ -53,8 +53,8 @@ export class SettingService {
   }
 
   //First Level
-  getAllDirectionRegionales(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.GET_ALL_FIRSTLEVEL);
+  getAllDirectionRegionales(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_FIRSTLEVEL).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
   GetAllFirstLevelHabilitation(data): Observable<any> {
@@ -75,8 +75,8 @@ export class SettingService {
   }
 
   //Second Level
-  getAllExploiatations(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.GET_ALL_EXPLOITATION);
+  getAllExploiatations(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_EXPLOITATION).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
   OnSaveExploitation(data): Observable<any> {
@@ -93,8 +93,8 @@ export class SettingService {
   }
 
   // Third Level
-  getAllZones(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.GET_ALL_NIVEAUX_3);
+  getAllZones(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_NIVEAUX_3).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
   GetAllThirdLevelHabilitation(data): Observable<any> {

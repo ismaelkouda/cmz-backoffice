@@ -1,7 +1,8 @@
+import { CONTACT_SLA } from './../presentation/pages/ref-telemetrie/ref-telemetrie-routing.module';
 import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION, DEMANDE_RESILIATION } from '../presentation/pages/demandes/demandes-routing.module';
-import { DOWNLOAD_FILE } from './../presentation/pages/patrimoine/patrimoine-routing.module';
+import { CARTOGRAPHIE, DOWNLOAD_FILE } from './../presentation/pages/patrimoine/patrimoine-routing.module';
 import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE,CONTENCIEUX_ROUTE, NOTIFY_ROUTE, JOURNAL_TRANSACTION_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
-import { COURBE_MESSAGE, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
+import { COURBE_MESSAGE, DETECTION_APPRO, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
 import { CARTES_SIM, DOTATION_SERVICES, ETAT_SOLDE, GROUPE_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
@@ -30,6 +31,14 @@ export var menuJson = [
                 title: "Cartes SIM",
                 label: "Cartes SIM",
                 data: "1-1-0-cartes-sim",
+                pack: ApplicationType.MONITORING,
+                type: "link"
+            },
+            {
+                path: `/${PATRIMOINE}/${CARTOGRAPHIE}`,
+                title: "Cartographie",
+                label: "Cartographie",
+                data: "1-7-0-cartographie",
                 pack: ApplicationType.MONITORING,
                 type: "link"
             },
@@ -141,6 +150,14 @@ export var menuJson = [
                 type: "link",
                 pack: ApplicationType.MONITORING
             },
+            {
+                path: `/${REFERENTIEL_TELEMETRIE}/${CONTACT_SLA}`,
+                title: "Contacts Gestion SLA",
+                label: "Contacts Gestion SLA",
+                data: "2-4-0-contact-sla",
+                type: "link",
+                pack: ApplicationType.MONITORING
+            }
         ]
     },
     {
@@ -258,6 +275,14 @@ export var menuJson = [
                 data: "5-2-0-analyse-alarmes",
                 type: "link",
                 pack: ApplicationType.MONITORING,
+            },
+            {
+                path: `/${SUPERVISION_SIM}/${DETECTION_APPRO}`,
+                title: "Détection Appro.",
+                label: "Détection Appro.",
+                data: "5-3-0-detection-appro",
+                type: "link",
+                pack: ApplicationType.MONITORING,
             }
         ]
     },
@@ -331,3 +356,4 @@ export var menuJson = [
 
 //10.10.0.200:12200
 //https://osim-monitoring.orange.ci:12200
+

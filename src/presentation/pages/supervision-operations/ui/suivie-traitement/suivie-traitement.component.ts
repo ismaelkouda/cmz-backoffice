@@ -37,6 +37,8 @@ export class SuivieTraitementComponent implements OnInit {
   public selectedTransaction: any;
   public selectedStatut: any;
   public selectedTraitement: any;
+  public selectedSim: string;
+  public selectedimsi: string;
   public secondFilter: boolean = false;
   public firstLevelLibelle: string;
   public secondLevelLibelle: string;
@@ -132,6 +134,8 @@ export class SuivieTraitementComponent implements OnInit {
       statut: this.selectedStatut,
       traitement: this.selectedTraitement,
       initie_par: this.currentUser?.id,
+      msisdn: this.selectedSim,
+      imsi: this.selectedimsi,
       date_debut: this.selectDateStart,
       date_fin: this.selectDateEnd,
     };
@@ -139,7 +143,17 @@ export class SuivieTraitementComponent implements OnInit {
       .GetAllTransactions(data, this.p)
       .subscribe({
         next: (response) => {
-          this.listTraitemants = response['data']['data'];
+          this.listTraitemants =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            } else{
+              return {...data,current_date: 'N/A'}
+            }
+          });
           this.totalPage = response['data'].last_page;
           this.totalRecords = response['data'].total;
           this.recordsPerPage = response['data'].per_page;
@@ -179,12 +193,15 @@ export class SuivieTraitementComponent implements OnInit {
     }
   }
   OnRefresh() {
+    this.p = 1;
     this.historie = null;
     this.selectedTypeOperation = null
     this.selectedTransaction = null;
     this.selectedStatut = null;
     this.selectedTraitement = null;
     this.currentUser = null;
+    this.selectedSim = null;
+    this.selectedimsi = null;
     this.selectDateStart = null;
     this.selectDateEnd = null;
     this.filterDateStart = null;
@@ -210,8 +227,10 @@ export class SuivieTraitementComponent implements OnInit {
     }else if (currentStatut === StatutTransaction.CLOTURER) {
       this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
       this.listTraitementTransactions = [
+        TraitementTransaction.ACCEPTER,
         TraitementTransaction.REFUSER,
-        TraitementTransaction.ACCEPTER
+        TraitementTransaction.ABANDONNER,
+
       ]
     }else{
       Object.values(TraitementTransaction).forEach(item => {
@@ -309,6 +328,8 @@ export class SuivieTraitementComponent implements OnInit {
       !this.selectedTransaction &&
       !this.selectedStatut &&
       !this.currentUser &&
+      !this.selectedSim &&
+      !this.selectedimsi &&
       !this.selectedTraitement &&
       !this.filterDateStart && 
       !this.filterDateStart

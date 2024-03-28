@@ -142,9 +142,7 @@
             <strong>{{ formatTitleOuvrage(detailTransaction?.operation) }}
               <span style="color:#549B3D;font-weight: bold;">
                 <span *ngIf="IsContentSim()"> 
-                  {{detailTransaction?.niveau_uns_code ?? 'N/A'}} |
-                  {{detailTransaction?.niveau_deux_nom ?? 'N/A'}} [{{detailTransaction?.niveau_deux_code ?? 'N/A'}}] -
-                  [{{detailTransaction?.msisdn ?? 'N/A'}}]
+                  {{detailTransaction?.niveau_deux_nom ?? 'N/A'}} [{{detailTransaction?.msisdn ?? 'N/A'}}]
                 </span>&nbsp;
                 <span *ngIf="IsProvisionningTransaction()"> 
                   {{detailTransaction?.reference ?? 'N/A'}} [{{detailTransaction?.rapport?.code ?? 'N/A'}}]
@@ -215,6 +213,37 @@
                     <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
                       (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
                   </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset *ngIf="ShowAcceptedForm()">
+              <legend>
+                <strong>Traitement</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div style="margin-left: 8%;" class="ml-3">
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
+                    </span>
+                    <div class="wrapper-check">
+                      <div class="form-check form-check-inline">
+                        <input formControlName="provisionning_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="oui" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input formControlName="provisionning_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="non" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="provisionning_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  </textarea>
                 </div>
               </div>
             </fieldset>
@@ -323,6 +352,37 @@
                 </div>
               </div>
             </fieldset>
+            <fieldset *ngIf="ShowAcceptedForm()">
+              <legend>
+                <strong>Traitement</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div style="margin-left: 8%;" class="ml-3">
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
+                    </span>
+                    <div class="wrapper-check">
+                      <div class="form-check form-check-inline">
+                        <input formControlName="volume_data_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="oui" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input formControlName="volume_data_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="non" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="volume_data_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  </textarea>
+                </div>
+              </div>
+            </fieldset>
           </div>
         </div>
         <!--------------CHANGEMENT------------FORMS----------------->
@@ -420,6 +480,37 @@
                 </div>
               </div>
             </fieldset>
+            <fieldset *ngIf="ShowAcceptedForm()">
+              <legend>
+                <strong>Traitement</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div style="margin-left: 8%;" class="ml-3">
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
+                    </span>
+                    <div class="wrapper-check">
+                      <div class="form-check form-check-inline">
+                        <input formControlName="swap_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="oui" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input formControlName="swap_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="non" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="swap_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  </textarea>
+                </div>
+              </div>
+            </fieldset>
           </div>
         </div>
         <!--------------RESILIATION------------FORMS----------------->
@@ -491,6 +582,34 @@
                     <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
                       (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
                   </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset *ngIf="ShowAcceptedForm()">
+              <legend>
+                <strong>Traitement</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div>
+                    <div class="wrapper-check" style="display: flex;justify-content: center !important;padding-top: 1.3rem;">
+                      <div class="form-check form-check-inline">
+                        <span class="badge table-header-wrapper"
+                        [class.badge-danger]="IsTraitement() === treatmenRejeter"
+                        [class.badge-success]="(IsTraitement() === treatmenAccepter)"
+                        >
+
+                        {{ IsTraitement() }}
+                      </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="resiliation_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  </textarea>
                 </div>
               </div>
             </fieldset>
@@ -568,12 +687,40 @@
                 </div>
               </div>
             </fieldset>
+            <fieldset *ngIf="ShowAcceptedForm()">
+              <legend>
+                <strong>Traitement</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div>
+                    <div class="wrapper-check" style="display: flex;justify-content: center !important;padding-top: 1.3rem;">
+                      <div class="form-check form-check-inline">
+                        <span class="badge table-header-wrapper"
+                        [class.badge-danger]="IsTraitement() === treatmenRejeter"
+                        [class.badge-success]="(IsTraitement() === treatmenAccepter)"
+                        >
+
+                        {{ IsTraitement() }}
+                      </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="suspension_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  </textarea>
+                </div>
+              </div>
+            </fieldset>
           </div>
         </div>
         <!-------------ACTIVATION--------------FORMS--------------------------->
         <div *ngIf="transaction?.operation === operationActivation">
           <div [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
-            <fieldset style="margin-top: 2.5rem;" *ngIf="bacPiocheActivation !== 'patrimoine'">
+            <fieldset style="margin-top: 2.5rem;" *ngIf="bacPiocheActivation !== 'patrimoine' && !IsNotMessage()">
               <legend [ngStyle]="{width: '100%'}">
                 <b>Source Stock SIM</b>
               </legend>
@@ -778,6 +925,33 @@
                 </div>
               </div>
             </fieldset>
+            <fieldset *ngIf="ShowAcceptedForm()">
+              <legend>
+                <strong>Traitement</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div>
+                    <div class="wrapper-check" style="display: flex;justify-content: center !important;padding-top: 1.3rem;">
+                      <div class="form-check form-check-inline">
+                        <span class="badge table-header-wrapper"
+                        [class.badge-danger]="IsTraitement() === treatmenRejeter"
+                        [class.badge-success]="(IsTraitement() === treatmenAccepter)"
+                        >
+                        {{ IsTraitement() }}
+                      </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="activation_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  </textarea>
+                </div>
+              </div>
+            </fieldset>
           </div>
         </div>
         <div *ngIf="transaction?.operation === OperationAchat">
@@ -804,6 +978,37 @@
                       incrementButtonClass="p-button-success"></i></button>
                 </div>
                 <div class="panier-card__price">{{ pipeValue((prod.montant_ht)*(prod.quantite))}} F</div>
+              </div>
+            </fieldset>
+            <fieldset *ngIf="ShowAcceptedForm()">
+              <legend>
+                <strong>Traitement</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div style="margin-left: 8%;" class="ml-3">
+                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
+                    </span>
+                    <div class="wrapper-check">
+                      <div class="form-check form-check-inline">
+                        <input formControlName="commmande_produit_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="oui" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input formControlName="commmande_produit_accepte" class="form-check-input" type="radio"
+                          name="infosLigne" value="non" id="infosLigne">
+                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="commmande_produit_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  </textarea>
+                </div>
               </div>
             </fieldset>
           </div>
@@ -881,7 +1086,7 @@
           </fieldset>
         </div>
         <!-----------------------COMMENTAIRE----------ORANGE--------------------------------->
-        <div *ngIf="detailTransaction?.rapport?.statut_traitement">
+        <!-- <div *ngIf="detailTransaction?.rapport?.statut_traitement">
           <fieldset>
             <legend>
               <strong>Commentaire Homologation</strong>
@@ -892,7 +1097,8 @@
                 </div>
             </div>
           </fieldset>
-        </div>
+         </div> 
+         -->
           <!-----------------------COMMENTAIRE----------GS2E--------------------------------->
           <div *ngIf="detailTransaction?.rapport?.statut_traitement && detailTransaction?.rapport?.statut_cloture">
             <fieldset>

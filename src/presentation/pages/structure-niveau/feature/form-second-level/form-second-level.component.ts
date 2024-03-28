@@ -40,7 +40,7 @@ export class FormSecondLevelComponent implements OnInit {
   }
   public GellCurrentLevel() {
     this.settingService
-      .getAllExploiatations({})
+      .getAllExploiatations({},1)
       .subscribe({
         next: (response) => {
           this.listCurrentLevelDatas.emit(response['data']);
@@ -53,7 +53,7 @@ export class FormSecondLevelComponent implements OnInit {
   }
   public GellAllFirstLevel() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listFirstLevelDatas = response['data'];

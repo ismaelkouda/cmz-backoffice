@@ -38,7 +38,7 @@ export class FormThirdLevelComponent implements OnInit {
   }
   public GellCurrentLevel() {
     this.settingService
-      .getAllZones({})
+      .getAllZones({},1)
       .subscribe({
         next: (response) => {
           this.listCurrentLevelDatas.emit(response['data']);

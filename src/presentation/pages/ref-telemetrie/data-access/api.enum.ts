@@ -13,5 +13,8 @@ export const enum EndPointUrl {
     SAVE_AFFECTATION = 'profil-supervision/sims/affectation',
     SAVE_REAFFECTATION = 'profil-supervision/sims/reaffectation',
     RETRAIT_SIM = 'profil-supervision/sims/retrait',
-    DEPLOYER = 'profil-supervision/referentiel-telemetriques/deploy'
+    DEPLOYER = 'profil-supervision/referentiel-telemetriques/deploy',
+    GET_CONTACT_GESTION_SLA = 'supervision-operations/contcats-sla',
+    UPDATE_CONTACT_GESTION_SLA = 'supervision-operations/contcats-sla/update'
+
 }

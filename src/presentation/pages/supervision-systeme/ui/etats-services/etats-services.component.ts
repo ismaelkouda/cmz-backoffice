@@ -45,7 +45,7 @@ export class EtatsServicesComponent implements OnInit {
 
   public getAllDirectionRegionales() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .GetAllFirstLevelSimple({})
       .subscribe({
         next: (response) => {
           this.listDirections = response.data

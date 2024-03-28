@@ -7,7 +7,6 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { FormValidator } from '../../../../../shared/utils/spacer.validator';
 import { ClipboardService } from 'ngx-clipboard';
 import { ExcelService } from 'src/shared/services/excel.service';
-
 const Swal = require('sweetalert2');
 
 @Component({
@@ -21,10 +20,17 @@ export class FirstLevelComponent implements OnInit {
   public formsView: boolean = false;
   public affectationView: boolean = false;
   public visualisationView: boolean = false;
+  public totalPage: 0;
+  public totalRecords: 0;
+  public recordsPerPage: 0;
+  public offset: any;
+  public p: number = 1;
+  public page: number = 0
   public currentObject: any;
   public listFirstLevelDatas: Array<any> = [];
   public listSecondLevelDatas: Array<any> = [];
   public selectedNom: string;
+  public selectedCommune: string;
   public selectedCode: string;
   public firstLevelLibelle: string;
   public firstLevelMenus: string;
@@ -46,7 +52,6 @@ export class FirstLevelComponent implements OnInit {
     private excelService: ExcelService,
     private clipboardApi: ClipboardService,
     private fb: FormBuilder
-
   ) {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.firstLevelMenus = this.mappingService.structureGlobale?.niveau_1_menu;
@@ -55,17 +60,20 @@ export class FirstLevelComponent implements OnInit {
 
   ngOnInit() {
     this.GellAllFirstLevel();
-    this.GellAllSecondLevel();
     this.onInitForm();
     this.isFilter();
   }
-
   public GellAllFirstLevel() {
     this.settingService
-      .getAllDirectionRegionales({})
+      .getAllDirectionRegionales({},this.p)
       .subscribe({
         next: (response) => {
-          this.listFirstLevelDatas = response['data'];
+          this.listFirstLevelDatas = response.data.data;
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;        
         },
         error: (error) => {
           this.toastrService.error(error.message);
@@ -75,20 +83,31 @@ export class FirstLevelComponent implements OnInit {
   public onFilter() {
     this.settingService
       .getAllDirectionRegionales({
-        nom: this.selectedNom,
-        code: this.selectedCode
-      })
+        nom: this.selectedNom
+       },this.p)
       .subscribe({
         next: (response) => {
-          this.listFirstLevelDatas = response['data'];
-        },
+          this.listFirstLevelDatas = response.data.data;
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;                },
         error: (error) => {
           this.toastrService.error(error.message);
         }
       })
   }
-
+  public onPageChange(event) {
+    this.p = event;
+    if (this.isFilter()) {
+      this.GellAllFirstLevel()
+    } else {
+      this.onFilter()
+    }
+  }
   public OnRefresh(){
+    this.p = 1;
     this.GellAllFirstLevel();
     this.selectedNom = null
     this.selectedCode = null
@@ -98,20 +117,6 @@ export class FirstLevelComponent implements OnInit {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
-
-  public GellAllSecondLevel() {
-    this.settingService
-      .getAllExploiatations({})
-      .subscribe({
-        next: (response) => {
-          this.listSecondLevelDatas = response['data'];
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
-        }
-      })
-  }
-
   onInitForm() {
     this.adminForm = this.fb.group({
       nom: ['', [
@@ -153,6 +158,10 @@ export class FirstLevelComponent implements OnInit {
     this.currentObject = { ...data, type: 'affectation' };
   }
   OnVisualisation(data) {
+    this.totalPage = 0;
+    this.totalRecords = 0;
+    this.recordsPerPage = 0;
+    this.page = 1;    
     this.initialView = false;
     this.formsView = true;
     this.currentObject = { ...data, type: 'visualiser' };
@@ -164,11 +173,9 @@ export class FirstLevelComponent implements OnInit {
   public pushListProfils(event: any): void {
     this.listFirstLevelDatas = event;
   }
-
   handleChangeTabviewIndex(e) {
     this.currentTabsIndex = e.index;
   }
-
   public OnExportExcel(): void {
     const data = this.listFirstLevelDatas.map((item: any) => ({
       [this.firstLevelLibelle]: item?.nom,
@@ -178,6 +185,6 @@ export class FirstLevelComponent implements OnInit {
     this.excelService.exportAsExcelFile(data, `Lise des ${this.firstLevelLibelle}`);
   }
   public isFilter(): boolean {
-    return (!this.selectedNom && !this.selectedCode) ? true : false
+    return (!this.selectedNom && !this.selectedCode && !this.selectedCommune) ? true : false
   }
 }

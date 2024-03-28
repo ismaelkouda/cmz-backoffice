@@ -24,6 +24,7 @@ export class MappingService {
   public tenant: any;
   public grafanaLink: string;
   public rejetLink: string;
+  public detectionApproUrl: string
   public approLink: string;
   public typeNiveau: string;
   public baseUrl: string;
@@ -71,6 +72,7 @@ export class MappingService {
       this.grafanaLink = this.tenant?.lien_dashboard_grafana;
       this.approLink = this.tenant?.lien_dashboard_appro;
       this.rejetLink = this.tenant?.lien_dashboard_rejets;
+      this.detectionApproUrl = this.tenant?.url_detection_appro
       this.profil = this.currentUser?.profil;
       this.appReadStatut = this.profil?.mode_lecture;
       this.dashbordTransactionSLa = this.tenant?.url_demandes_sla;
