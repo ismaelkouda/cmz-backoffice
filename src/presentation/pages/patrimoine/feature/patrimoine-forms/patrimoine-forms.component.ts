@@ -244,10 +244,6 @@ export class PatrimoineFormsComponent implements OnInit {
       this.adminForm.get('exploitation').patchValue(this.currentObject?.niveau_deux_uuid);
       this.adminForm.get('zone').patchValue(this.currentObject?.niveau_trois_uuid);
       this.adminForm.get('usage').patchValue(this.currentObject?.usage?.id);
-      console.log("this.adminForm.get('direction_regionale')",this.adminForm.get('direction_regionale').value);
-      // if (this.adminForm.get('direction_regionale').value !== null) {
-      //   this.onGetDrValueChanges()
-      // }
     }
     this.adminForm.get('imsi').patchValue(this.currentObject?.imsi);
     this.adminForm.get('msisdn').patchValue(this.currentObject?.msisdn);

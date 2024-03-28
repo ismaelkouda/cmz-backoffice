@@ -1,14 +1,13 @@
-import { ZoneTraficService } from './../../data-access/zone-trafic.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ExcelService } from 'src/shared/services/excel.service';
 import { ClipboardService } from 'ngx-clipboard';
+import { ZoneTraficService } from '../../data-access/zone-trafic.service';
 
 @Component({
   selector: 'app-vue-geographique',
   templateUrl: './vue-geographique.component.html',
   styleUrls: ['./vue-geographique.component.scss'],
-  //providers: [RxWebsocketService]
 
 })
 export class VueGeographiqueComponent implements OnInit {

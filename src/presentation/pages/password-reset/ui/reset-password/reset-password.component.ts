@@ -26,8 +26,6 @@ export class ResetPasswordComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      console.log("data",params);
-      
       this.queryValue = params
     });
     this.initFormPassword()

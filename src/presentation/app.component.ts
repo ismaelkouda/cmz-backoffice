@@ -24,12 +24,10 @@ export class AppComponent {
     private router: Router,
     private titleService: Title,
     private route: ActivatedRoute,
-    @Inject(PLATFORM_ID) private platformId: Object,
     private loader: LoadingBarService,
     private config: PrimeNGConfig, 
     private translateService: TranslateService
     ) {
-      console.info(this.platformId)
   }
 
   ngOnInit(): void {

@@ -41,7 +41,6 @@ export class TauxDesChargesComponent implements OnInit {
 
 
   visualiser(url: string, nom: string): void {
-    console.log(url);
     this.url = url;
     this.showIframe = true;
     this.nom = nom;

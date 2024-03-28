@@ -177,7 +177,6 @@ export class PriseEnChargeComponent implements OnInit {
   }
 
   public copyTransaction(data: any): void {
-    console.log(data);
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }

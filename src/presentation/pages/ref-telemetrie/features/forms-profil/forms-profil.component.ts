@@ -162,7 +162,6 @@ export class FormsProfilComponent implements OnInit {
       })
   }
   public handleUpdateProfilSupervision() {
-    console.log("globalMetriquesEditRow", this.globalMetriquesEditRow);
     this.telemetrieService
       .handleUpdateProfilSupervision({
         profil_id: this.currentObject?.id,

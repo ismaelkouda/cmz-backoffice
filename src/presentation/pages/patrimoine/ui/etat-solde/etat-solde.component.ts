@@ -198,8 +198,6 @@ export class EtatSoldeComponent implements OnInit {
     this.secondFilter = !this.secondFilter;
   }
   public onPageChange(event) {
-    console.log("event",event);
-    
     this.p = event;
     if (this.isFilter()) {
       this.GetAllEtats()

@@ -76,8 +76,6 @@ export class ShowNotificationComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("transactionId",this.currentData);
-    
     if (this.currentData) {
       this.GetAllTransactions()
     }

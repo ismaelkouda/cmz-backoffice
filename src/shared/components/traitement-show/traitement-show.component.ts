@@ -105,7 +105,6 @@ export class TraitementShowComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("transaction", this.transaction);
     this.filterItem("first-item");
     this.GetDetailTransaction();
     this.OnInitLigneForm();

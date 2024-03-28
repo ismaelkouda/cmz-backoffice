@@ -42,8 +42,6 @@ export class OperationFormsComponent implements OnInit {
   public onChangeItem(event) {
     const currentValue = event.value;
     this.listExploitations = currentValue?.exploitations;
-    console.log("eveneneetetet", currentValue);
-
     if (currentValue === null) {
       this.listExploitations = [];
     }
