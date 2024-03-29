@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MappingService } from './../../../../../shared/services/mapping.service';
-import { PatrimoineService } from './../../data-access/patrimoine.service';
-import * as L from 'leaflet';
 import { ToastrService } from 'ngx-toastr';
 import { SettingService } from 'src/shared/services/setting.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
+import { HttpClient } from '@angular/common/http';
 const Swal = require('sweetalert2');
 
 
@@ -22,9 +21,10 @@ export class CartographieComponent implements OnInit {
   public formsView: boolean = false;
   public currentData: any;
   public listPatrimoines: any;
-  public display: boolean = false;
+  public datas: any;
   public map: any;
   public isMaximized: boolean = false;
+  public display: boolean = false;
   public currentComposant: any;
   public listFirstLeveDatas: Array<any> = [];
   public listSecondLevelDatas: Array<any> = [];
@@ -33,27 +33,6 @@ export class CartographieComponent implements OnInit {
   public selectedExploitation: any;
   public selectedNiveauTrois: string;
   public selectedZone: string;
-
-  @ViewChild('parcelleMap') parcelleMap: ElementRef;
-
-  OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'PATRIMOINE SIM-MAP',
-    detectRetina: false,
-    maxNativeZoom: 19,
-    maxZoom: 23,
-    minZoom: 12,
-    noWrap: false,
-    opacity: 1,
-    subdomains: 'abc',
-    tms: false,
-  })
-  satelite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-    maxZoom: 23,
-    minZoom: 10,
-    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-    attribution: 'PATRIMOINE SIM-MAP',
-  })
-
  public firstLevelLibelle: string;
  public secondLevelLibelle: string;
  public thirdLevelLibelle: string;
@@ -65,6 +44,7 @@ export class CartographieComponent implements OnInit {
     public settingService: SettingService,
     private route: ActivatedRoute,
     public mappingService: MappingService,
+    private http: HttpClient
   ) {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
@@ -118,61 +98,20 @@ export class CartographieComponent implements OnInit {
         }
       })
   }
-  onFilter(){}
-  public onMapReady() {
-    var customIcon = L.icon({
-      iconUrl: '../../../../../assets/svg/sim_loc_noir.svg',
-      iconSize: [45, 45],
-      iconAnchor: [17, 17],
-    });
-    var  osmLayer = this.OpenStreetMap
-    this.map = new L.Map('map');
-    this.map.setView(new L.LatLng(this.currentComposant?.longitude, this.currentComposant?.latitude), 18);
-    this.map.options.minZoom = 12;
-    var marker = L.marker([this.currentComposant?.longitude, this.currentComposant?.latitude])
-      .setIcon(customIcon)
-      .bindPopup(
-        "<div>" + "" +
-        "<strong>Numero SIM :</strong>" + "<span>" + this.currentComposant?.msisdn + "</span>" + "<br>" +
-        "<strong>" + this.firstLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_uns_nom + "</span>" + "<br>" +
-        "<strong>" + this.secondLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_deux_nom + "</span>" + "<br>" +
-        "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
-        "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.point_emplacement + "</span>" + "<br>" +
-        "<strong>Statut :</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
-        "</div>",
+  onFilter(){
+    this.http.get("assets/datas.json")
+    .subscribe((res: any) => {
 
-      ).openPopup();
-    marker.addTo(this.map);
-    this.map.addLayer(osmLayer);
-    var baseMaps = {
-      'OpenStreetMap': this.OpenStreetMap.addTo(this.map),
-      'Satellite': this.satelite
-    }
-    L.control.layers(baseMaps, {}, { collapsed: false }).addTo(this.map);
-  }
-  public showDialog(data, composant) {
-    switch (data) {
-      case "map": {
-        this.display = true;
+      console.log("res",res);
+      
+        this.datas = res;
+        this.display = true
         this.onDialogMaximized(true);
-        this.currentComposant = composant;
-        setTimeout(() => {
-          this.parcelleMap.nativeElement.innerHTML = "<div id='map' style='height: 45vw'></div>";
-          this.onMapReady();
-        }, 1000);
-        break;
-      }
-    }
+     });
   }
-  public hideDialog(data) {
-    switch (data) {
-      case "map": {
-        this.display = false;
-        break;
-      }
-    }
+  handleClose() {
+    this.display = false;    
   }
-
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }

@@ -325,8 +325,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.settingService
       .GetAllSecondLevelSimple({
         niveau_un_uuid: data,
-      })
-      .subscribe(
+      }).subscribe(
         (response: any) => {
           this.listExploitations = response['data'];
         },

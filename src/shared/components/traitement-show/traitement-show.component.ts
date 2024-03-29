@@ -155,8 +155,8 @@ export class TraitementShowComponent implements OnInit {
           }else if (this.detailTransaction?.operation === OperationTransaction.SUSPENSION) {
             this.OnShowSuspensionForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION) {
+            this.onGetDrValueChanges()
             this.GetFirstLevel();
-            this.GetSecondLevel();
             this.GetThirdLevel();
             this.GetAllUsages();
             this.OnShowActivationForm();
@@ -560,17 +560,23 @@ export class TraitementShowComponent implements OnInit {
         }
       })
   }
-  public GetSecondLevel() {
+  onGetDrValueChanges() {    
+    return this.activationForm.get('niveau_un_uuid').valueChanges.subscribe((value) => {
+      this.getAllExploitation(value);
+    });
+  }
+  public getAllExploitation(data: string) {
     this.settingService
-      .GetAllSecondLevelSimple({})
-      .subscribe({
-        next: (response) => {
-          this.listSecondLevel = response['data']
+      .GetAllSecondLevelSimple({
+        niveau_un_uuid: data,
+      }).subscribe(
+        (response: any) => {
+          this.listSecondLevel = response['data'];
         },
-        error: (error) => {
+        (error) => {
           this.toastrService.error(error.error.message);
         }
-      })
+      )
   }
   public GetThirdLevel(): void {
     this.settingService

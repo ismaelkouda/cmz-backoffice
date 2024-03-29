@@ -8,8 +8,6 @@ import { ClipboardService } from 'ngx-clipboard';
   selector: 'app-vue-geographique',
   templateUrl: './vue-geographique.component.html',
   styleUrls: ['./vue-geographique.component.scss'],
-  //providers: [RxWebsocketService]
-
 })
 export class VueGeographiqueComponent implements OnInit {
 

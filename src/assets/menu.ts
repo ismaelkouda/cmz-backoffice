@@ -34,6 +34,7 @@ export var menuJson = [
                 pack: ApplicationType.MONITORING,
                 type: "link"
             },
+            /*
             {
                 path: `/${PATRIMOINE}/${CARTOGRAPHIE}`,
                 title: "Cartographie",
@@ -42,6 +43,7 @@ export var menuJson = [
                 pack: ApplicationType.MONITORING,
                 type: "link"
             },
+            */
             {
                 path: `/${PATRIMOINE}/${ETAT_SOLDE}`,
                 title: "Etat des Soldes Data",

@@ -35,7 +35,7 @@ import { EtatSoldeComponent } from './ui/etat-solde/etat-solde.component';
 import { PatrimoineFormsComponent } from './feature/patrimoine-forms/patrimoine-forms.component';
 import { DotationFormComponent } from './feature/dotation-form/dotation-form.component';
 import { GroupeFormComponent } from './feature/groupe-form/groupe-form.component';
-import { CarteMapComponent } from './feature/carte-map/carte-map.component';
+import { CarteComponent } from './feature/carte/carte.component';
 
 
 @NgModule({
@@ -73,8 +73,8 @@ import { CarteMapComponent } from './feature/carte-map/carte-map.component';
         GroupeFormComponent,
         DownloadComponent,
         CartographieComponent,
-        CarteMapComponent,
         AlarmeColorComponent,
+        CarteComponent
     ],
 })
 export class PatrimoineModule { }
