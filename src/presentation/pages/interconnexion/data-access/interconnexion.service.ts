@@ -3,19 +3,23 @@ import { Injectable } from '@angular/core';
 
 
 // @ts-ignore
-import appConfig from '../../../../assets/config/app-config.json';
 import { Observable } from 'rxjs';
 import { EndPointUrl } from './api.enum';
+import { EnvService } from '../../../../shared/services/env.service';
 @Injectable({
   providedIn: 'root'
 })
 export class InterconnexionService {
 
-  public BASE_URL: any = appConfig.serverUrl;
+  public BASE_URL: any;
 
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    private envService: EnvService
+
+  ) {
+    this.BASE_URL = this.envService.apiUrl;
+  }
 
   GetAllConnexions(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_CONNEXION);

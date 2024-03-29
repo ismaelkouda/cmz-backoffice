@@ -5,9 +5,9 @@ import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ActivatedRoute } from '@angular/router';
 import { MappingService } from 'src/shared/services/mapping.service';
-import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
 import * as moment from 'moment';
 import { ExcelService } from 'src/shared/services/excel.service';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -20,11 +20,8 @@ export class DotationServiceComponent implements OnInit {
   public module: string;
   public subModule: string;
   public listDotations: Array<any> = [];
-  public listGroupes: Array<any> = [];
-  public listThirdLevel: Array<any> = [];
   public initialView: boolean = true;
   public formsView: boolean = false;
-  public currentSolde: any;
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
@@ -35,8 +32,6 @@ export class DotationServiceComponent implements OnInit {
   public selectedSim: string;
   public selectedimsi: string;
   public selectedEmplacement: string;
-  public selectedGroupe: string;
-  public selectedThirdLevel: any;
   public display: boolean = false;
   public isMaximized: boolean = false;
   public soldeGlobal: string;
@@ -44,17 +39,19 @@ export class DotationServiceComponent implements OnInit {
   public filterDateEnd: Date;
   public selectDateStart: any;
   public selectDateEnd: any;
-
+  public title = 'Dotations service - Système de Gestion de Collecte Centralisée';
   constructor(
     public settingService: SettingService,
     public patrimoineService: PatrimoineService,
-    public provisionningService: ProvisionningService,
     private mappingService: MappingService,
     public toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private route: ActivatedRoute,
-    private excelService: ExcelService
-  ) { }
+    private excelService: ExcelService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.GetAllDotations();

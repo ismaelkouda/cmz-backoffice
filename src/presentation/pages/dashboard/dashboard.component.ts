@@ -10,6 +10,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { SUIVIE_TRAITEMENT_ROUTE } from '../supervision-operations/supervision-operations-routing.module';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,8 +29,6 @@ export class DashboardComponent implements OnInit {
   public countCloture: number = 0;
   public countAttente: number = 0;
 
-  public countVolumeData: number = 0;
-  public countLigneCredit: number = 0;
   public countAlarmeNormal: number = 0;
   public countAlarmeMineure: number = 0;
   public countAlarmeMajeure: number = 0;
@@ -47,15 +46,15 @@ export class DashboardComponent implements OnInit {
   simMineure = '../../../assets/svg/mineure.png';
   simMajeure = '../../../assets/svg/majeure_white.png';
   simCrique = '../../../assets/svg/critique_white.png';
-  dataIcon = '../../../assets/svg/data.png';
-  creditIcon = '../../../assets/svg/credit.png';
-
+  public title = 'Tableau de bord - Système de Gestion de Collecte Centralisée';
 
   constructor(
-    private htpp: HttpClient,
+    private http: HttpClient,
     public mappingService: MappingService,
-    public router: Router
+    public router: Router,
+    private titleService: Title
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.baseUrl = this.mappingService.baseUrl
     this.applicationType = this.mappingService.applicationType;
     this.appName = this.mappingService.appName
@@ -68,7 +67,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onDashboard() {
-    this.htpp.get(`${this.baseUrl}dashboard/statistiques`)
+    this.http.get(`${this.baseUrl}dashboard/statistiques`)
       .subscribe({
         next: (res) => {
           this.dataResponse = res['data'];

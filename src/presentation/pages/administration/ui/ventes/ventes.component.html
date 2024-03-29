@@ -41,8 +41,7 @@
                   (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy"></p-calendar>
               </div>
               <div class="col-md-1">
-                <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
-                  [disabled]="isFilter()"></p-button>
+                <p-button styleClass="p-button-success filter-button" icon="pi pi-filter"></p-button>
               </div>
             </div>
             <hr>
@@ -51,7 +50,7 @@
                 <button pButton pRipple label="Nouvelle Vente" icon="pi pi-plus" (click)="onInitForm()"
                   class="p-button-success">
                 </button>
-                <button pButton pRipple label="Rafraichir" (click)="GetAllVentes()" icon="pi pi-refresh"
+                <button pButton pRipple label="Rafraichir" icon="pi pi-refresh"
                   class="p-button-secondary"></button>
                 <button pButton pRipple label="Exporter" [disabled]="true" icon="pi pi-download"
                   class="p-button-helf"></button>
@@ -82,8 +81,8 @@
                     <td>{{data?.updated_at}}</td>
                     <td>{{data?.transaction}} </td>
                     <td>{{data?.operation | uppercase}}</td>
-                    <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
-                    <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data.msisdn}}</td>
+                    <td style="cursor: pointer">{{data?.imsi}}</td>
+                    <td style="cursor: pointer">{{data.msisdn}}</td>
                     <td>
                       <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
                         [class.badge-success]="data.statut === 'cloture'"
@@ -95,7 +94,7 @@
                 </tbody>
               </table>
               <div [ngClass]="['pagination-controls']">
-                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                <pagination-controls previousLabel="" nextLabel="">
                 </pagination-controls>
               </div>
             </div>

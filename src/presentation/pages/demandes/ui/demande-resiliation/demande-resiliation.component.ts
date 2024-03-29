@@ -4,6 +4,7 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { ActivatedRoute } from '@angular/router';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-demande-resiliation',
@@ -23,13 +24,16 @@ export class DemandeResiliationComponent implements OnInit {
   public currentObject: any;
   public typeDemande: string = 'simple';
   public currentOperation: string = OperationTransaction.RESILIATION;
-
+  public title = 'Demande résiliation - Système de Gestion de Collecte Centralisée';
   constructor(
     public settingService: SettingService,
     public patrimoineService: PatrimoineService,
     public toastrService: ToastrService,
     private route: ActivatedRoute,
-  ) {}
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.route.data.subscribe((data) => {

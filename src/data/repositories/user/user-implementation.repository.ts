@@ -6,18 +6,17 @@ import { UserEntity } from './entities/user-entity';
 import { UserImplementationRepositoryMapper } from './mappers/user-repository.mapper';
 import { UserRepository } from 'src/domain/repositories/user.repository';
 import { UserModel } from 'src/domain/models/user.model';
-// @ts-ignore
-import appConfig from '../../../assets/config/app-config.json';
+import { EnvService } from '../../../shared/services/env.service';
 @Injectable({
     providedIn: 'root',
 })
 export class UserImplementationRepository extends UserRepository {
     userMapper = new UserImplementationRepositoryMapper();
-    timeoutInterval: any;
-    baseUrl: any = appConfig.serverUrl;
+    baseUrl: any;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private envService: EnvService) {
         super();
+        this.baseUrl = this.envService.apiUrl;
     }
 
     login(params: { username: string, password: string }): Observable<UserModel> {

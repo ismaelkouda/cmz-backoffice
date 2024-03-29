@@ -1,13 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-reporting-alarme',
   templateUrl: './reporting-alarme.component.html',
-  styleUrls: ['./reporting-alarme.component.scss']
+  standalone: true,
+  styleUrls: ['./reporting-alarme.component.scss'],
 })
 export class ReportingAlarmeComponent implements OnInit {
-
-  constructor() { }
+  public title = 'Reporting alarmes - Système de Gestion de Collecte Centralisée';
+  constructor(private titleService: Title) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
   }

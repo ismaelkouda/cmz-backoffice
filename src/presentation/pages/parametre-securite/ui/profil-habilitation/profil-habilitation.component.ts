@@ -3,6 +3,7 @@ import { ParametreSecuriteService } from './../../data-access/parametre-securite
 import { Component, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -16,20 +17,22 @@ export class ProfilHabilitationComponent implements OnInit {
   public listUsers: Array<any> = [];
   public selectedProfil: any;
   public currentObject: any;
-  public selectedUSer: any;
   public initialView: boolean = true;
   public formsView: boolean = false;
   public affectationView: boolean = false;
   public visualisationView: boolean = false;
   public currentTabsIndex: number = 0;
+  public title = 'Profil habilitations - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private parametreSecuriteService: ParametreSecuriteService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
-    public mappingService: MappingService
-
-  ) { }
+    public mappingService: MappingService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.GetAllProfilHabilitations();
@@ -38,20 +41,6 @@ export class ProfilHabilitationComponent implements OnInit {
   public GetAllProfilHabilitations() {
     this.parametreSecuriteService
       .GetAllProfilHabilitations({})
-      .subscribe({
-        next: (response) => {
-          this.listProfils = response['data'];
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
-  onFilter() {
-    this.parametreSecuriteService
-      .GetAllProfilHabilitations({
-        nom: this.selectedProfil
-      })
       .subscribe({
         next: (response) => {
           this.listProfils = response['data'];

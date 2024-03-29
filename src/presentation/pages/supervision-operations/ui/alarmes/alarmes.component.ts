@@ -11,6 +11,7 @@ import { ExcelService } from 'src/shared/services/excel.service';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-alarmes',
@@ -56,6 +57,7 @@ export class AlarmesComponent implements OnInit {
   public treatmenRejeter: string = TraitementTransaction.REJETER;
   public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
+  public title = 'Supervision alarmes - Système de Gestion de Collecte Centralisée';
 
   constructor(
     public settingService: SettingService,
@@ -64,9 +66,11 @@ export class AlarmesComponent implements OnInit {
     private clipboardApi: ClipboardService,
     private modalService: NgbModal,
     private mappingService: MappingService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private titleService: Title
 
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.listOperations = this.mappingService.listOperations
       Object.values(StatutTransaction).forEach(item => {
         this.listStatuts.push(item);

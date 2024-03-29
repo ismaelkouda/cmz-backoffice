@@ -85,9 +85,6 @@
          <div class="wrapper-header"  style="font-size: 20px;">
           Statut :&nbsp;<b><span>{{detailTransaction?.statut}}</span></b>
         </div>
-          <!-- <div class="wrapper-header"  style="font-size: 20px;">
-            Date de création :&nbsp;<b><span>{{detailTransaction?.date_debut}}</span></b>
-          </div> -->
           <div class="wrapper-header"  style="font-size: 20px;">
             Date de traitement :&nbsp;<b><span>{{IscurrentDate() ?? 'N/A'}}</span></b>
           </div>
@@ -336,7 +333,6 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
                     <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
@@ -459,7 +455,6 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
                     <app-statut-contrat [statut]="this.detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
@@ -553,7 +548,6 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
                     <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
@@ -589,21 +583,6 @@
                   <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
                 </div>
               </div>
-              <!-- <br>
-              <div style="display: flex;justify-content: center;gap: 2rem;">
-                <div>
-                  <div style="display: flex;justify-content: center;">
-                    <button pButton pRipple label="Télécharger le justificatif initial" icon="pi pi-download"
-                      class="p-button-success" (click)="downloadFile()"></button>
-                  </div>
-                </div>
-                <div *ngIf="IsUpdate()">
-                  <div style="display: flex;justify-content: center;">
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                  </div>
-                </div>
-              </div> -->
             </fieldset>
             <fieldset *ngIf="ShowAcceptedForm()">
               <legend>
@@ -634,20 +613,12 @@
         </div>
         <!-------------ACTIVATION--------------FORMS--------------------------->
         <div *ngIf="transaction?.operation === operationActivation">
-          <div [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
+          <div class="row" [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
             <fieldset style="margin-top: 2.5rem;" *ngIf="bacPiocheActivation !== 'patrimoine'">
               <legend [ngStyle]="{width: '100%'}">
                 <b>Source Stock SIM</b>
               </legend>
               <div class="d-flex gap-4">
-                <!-- <div>
-                   <div class="d-flex gap-4">
-                       <div class="trans-radio d-flex gap-2">
-                          <p-radioButton name="valeur" [value]="'stock'" formControlName="bac_a_pioche" [inputId]="'stock'"></p-radioButton>
-                          <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
-                       </div>
-                   </div>
-                </div> -->
                 <div>
                   <div class="d-flex gap-4">
                     <div class="trans-radio d-flex gap-2">

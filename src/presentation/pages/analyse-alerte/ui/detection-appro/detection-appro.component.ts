@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-detection-appro',
   templateUrl: './detection-appro.component.html',
@@ -11,12 +12,14 @@ export class DetectionApproComponent implements OnInit {
   public isMaximized: boolean = false;
   public showIframe: boolean = false;
   public visualUrl: string;
-  public grafanaLink: string;
+  public title = 'Détection appro - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private router: Router,
-    private mappingService: MappingService
+    private mappingService: MappingService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.visualUrl = this.mappingService.detectionApproUrl;
   }
 

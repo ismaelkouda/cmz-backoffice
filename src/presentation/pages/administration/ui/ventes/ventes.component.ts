@@ -24,6 +24,7 @@ export class VentesComponent implements OnInit {
   public filterDateEnd: Date;
   public selectDateStart: any;
   public selectDateEnd: any;
+  public title = 'Ventes - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private route: ActivatedRoute
@@ -37,17 +38,10 @@ export class VentesComponent implements OnInit {
     });
   }
 
-  public GetAllVentes() {
-
-  }
-
   public onInitForm(): void {
     this.initialView = false;
     this.formsView = true;
     this.currentObject = undefined;
-  }
-  public onPageChange(event) {
-
   }
   changeDateStart(e) {
     this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
@@ -56,13 +50,6 @@ export class VentesComponent implements OnInit {
     this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
   }
 
-  public isFilter() {
-
-  }
-
-  public onFilter() {
-
-  }
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;

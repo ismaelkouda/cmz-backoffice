@@ -12,6 +12,7 @@ import { menuJson } from 'src/assets/menu';
 import { FORGOT_PASSWORD } from '../../password-reset/password-reset-routing.module';
 import { REINITIALISATION } from 'src/presentation/app-routing.module';
 import { DASHBOARD } from 'src/shared/routes/routes';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: "app-login",
@@ -23,10 +24,10 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   public show: boolean = false
   public siteKey: string;
-  public currentRecaptcha: string;
   public permissionsJson: any = [];
   readonly REINITIALISATION = REINITIALISATION;
   readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
+  public title = 'Connexion - Système de Gestion de Collecte Centralisée';
 
 
   constructor(
@@ -35,8 +36,10 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private toastService: ToastrService,
     private storage: EncodingDataService,
+    private titleService: Title,
     private storeLocaleService: StoreLocaleService
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.permissionsJson = menuJson;
   }
 
@@ -46,14 +49,12 @@ export class LoginComponent implements OnInit {
       username: ['', [Validators.required]],
       password: ['', Validators.required],
       port: [''],
-      //recaptcha_token: ['',[Validators.required]]
     });
 
   }
 
   onLogin() {
     this.loginForm.patchValue({port: '11200'})
-    //this.loginForm.patchValue({port: window.location.port})
     this.userLoginUseCase.execute(this.loginForm.value).subscribe({
       next: (response) => {        
         this.permissionsJson.map(module => {
@@ -97,16 +98,5 @@ export class LoginComponent implements OnInit {
         this.toastService.error(error.error.message);
       }
     })
-  }
-  showPassword() {
-    this.show = !this.show
-  }
-
-  handleExpire() {
-    this.loginForm.get('recaptcha_token').patchValue(null)
-  }
-
-  handleSuccess(event){
-    this.loginForm.get('recaptcha_token').patchValue(event)
   }
 }

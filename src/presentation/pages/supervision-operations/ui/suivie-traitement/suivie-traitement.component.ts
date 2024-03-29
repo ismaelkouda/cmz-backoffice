@@ -11,6 +11,7 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import * as moment from 'moment';
 import { ExcelService } from 'src/shared/services/excel.service';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -48,7 +49,6 @@ export class SuivieTraitementComponent implements OnInit {
   public selectDateStart: any;
   public selectDateEnd: any;
   public currentUser: any;
-  public activationTransaction: string = OperationTransaction.ACTIVATION
   public stateSoumis: string = StatutTransaction.SOUMIS;
   public stateTraite: string = StatutTransaction.TARITER;
   public stateCloture: string = StatutTransaction.CLOTURER;
@@ -59,6 +59,7 @@ export class SuivieTraitementComponent implements OnInit {
   public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
   public historie: any;
+  public title = 'Suivi et traitements - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private supervisionOperationService: SupervisionOperationService,
@@ -67,9 +68,10 @@ export class SuivieTraitementComponent implements OnInit {
     private modalService: NgbModal,
     private settingService: SettingService,
     private mappingService: MappingService,
-    private excelService: ExcelService
-
+    private excelService: ExcelService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.listOperations = this.mappingService.listOperationTraitementVue;
     Object.values(StatutTransaction).forEach(item => {
       this.listStatutTransactions.push(item);

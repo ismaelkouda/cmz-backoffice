@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-list-clients',
@@ -24,11 +25,13 @@ export class ListClientsComponent implements OnInit {
   public filterDateEnd: Date;
   public selectDateStart: any;
   public selectDateEnd: any;
-
+  public title = 'Liste clients - Système de Gestion de Collecte Centralisée';
   constructor(
-    private route: ActivatedRoute
-
-  ) { }
+    private route: ActivatedRoute,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.route.data.subscribe((data) => {

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ParametreSecuriteService } from '../../data-access/parametre-securite.service';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -15,7 +16,6 @@ export class UsersComponent implements OnInit {
 
   public listUsers: Array<any> = [];
   public selectedProfil: any;
-  public selectedUSer: any;
   public initialView: boolean = true;
   public formsView: boolean = false;
   public currentObject: any;
@@ -23,14 +23,16 @@ export class UsersComponent implements OnInit {
   public principalUsername: string;
   public suffixEmail: string;
   public currentTabsIndex: number = 0;
-  
+  public title = 'Utilisateurs - Système de Gestion de Collecte Centralisée';
+
   constructor(
     private settingService: SettingService,
     private toastrService: ToastrService,
-    private clipboardApi: ClipboardService,
     public mappingService: MappingService,
+    private titleService: Title,
     private parametreSecuriteService: ParametreSecuriteService
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.suffixEmail = this.mappingService.suffixEmail
     this.principalUsername = `admin${this.suffixEmail}`;    
     this.alerteMessage = "Le nombre d'utilisateurs a atteint la limite autorisée"
@@ -51,25 +53,7 @@ export class UsersComponent implements OnInit {
         }
       })
   }
-  onFilter(){
-    this.settingService.getAllUsers({
-      profil_user: this.selectedProfil,
 
-    })
-    .subscribe({
-      next: (response) => {
-        this.listUsers = response['data']
-      },
-      error: (error) => {
-        this.toastrService.error(error.error.message);
-      }
-    })
-  }
-
-  public copyData(data: any): void {
-    this.toastrService.success('Copié dans le presse papier');
-    this.clipboardApi.copyFromContent(data);
-  }
   public onInitForm(): void {
     if (this.listUsers.length >=5) {
        this.toastrService.error("Le nombre d'utilisateurs a atteint la limite autorisée");

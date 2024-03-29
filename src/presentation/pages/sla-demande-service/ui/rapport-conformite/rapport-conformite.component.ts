@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-rapport-conformite',
@@ -21,12 +22,16 @@ export class RapportConformiteComponent implements OnInit {
   public resiliation: string = OperationTransaction.RESILIATION;
   public swap: string = OperationTransaction.SWAP;
   public volume: string = OperationTransaction.VOLUME_DATA;
+  public title = 'Rapport conformité - Système de Gestion de Collecte Centralisée';
 
 
   constructor(
     private route: ActivatedRoute,
-    private mappingService: MappingService
-  ) {}
+    private mappingService: MappingService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.route.data.subscribe((data) => {

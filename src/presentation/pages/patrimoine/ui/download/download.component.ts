@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { ToastrService } from 'ngx-toastr';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-download',
@@ -22,14 +23,16 @@ export class DownloadComponent implements OnInit {
   public offset: any;
   public p: number = 1;
   public page: number = 0
-
+  public title = 'Télechargements - Système de Gestion de Collecte Centralisée';
   constructor(
     private route: ActivatedRoute,
     private patrimoineService: PatrimoineService,
     private toastrService: ToastrService,
     private mappingService: MappingService,
+    private titleService: Title
   ) {
-    this.baseUrl = this.mappingService.baseUrl.replace("/api/v1", "");  
+    this.baseUrl = this.mappingService.baseUrl.replace("/api/v1", "");
+    this.titleService.setTitle(`${this.title}`);
   }
 
   ngOnInit() {

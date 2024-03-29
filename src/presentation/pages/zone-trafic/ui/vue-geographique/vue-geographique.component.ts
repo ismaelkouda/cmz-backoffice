@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ExcelService } from 'src/shared/services/excel.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ZoneTraficService } from '../../data-access/zone-trafic.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-vue-geographique',
@@ -27,7 +28,6 @@ export class VueGeographiqueComponent implements OnInit {
   public listZonesTrafics: any;
   public listDepartements: Array<any> = [];
   public listCommunes: Array<any> = [];
-  public listSites: Array<any> = [];
   public selectedDepartement: any;
   public selectedCommune: any;
   public selectedSite: any;
@@ -37,14 +37,16 @@ export class VueGeographiqueComponent implements OnInit {
   public initialView: boolean = true;
   public formsView: boolean = false;
 
-  listMesssages = [];
+  public title = 'Zone géographique - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private zoneTraficService: ZoneTraficService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private excelService: ExcelService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle(`${this.title}`);
   }
 
   ngOnInit() {

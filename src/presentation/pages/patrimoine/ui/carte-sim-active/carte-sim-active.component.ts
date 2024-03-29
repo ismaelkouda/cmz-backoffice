@@ -16,6 +16,7 @@ import { DOTATION_SERVICES } from '../../patrimoine-routing.module';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION } from 'src/presentation/pages/demandes/demandes-routing.module';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 
@@ -57,7 +58,6 @@ export class CarteSimActiveComponent implements OnInit {
   public selectedZone: string;
   public selectedEmplacement: string
   public currentOperation: any;
-  public listStatus: Array<any> = [];
   public selectedDescription: string;
   public listStatuts: Array<any> = [];
 
@@ -92,8 +92,7 @@ export class CarteSimActiveComponent implements OnInit {
  public suspension: string = OperationTransaction.SUSPENSION;
  public resiliation: string = OperationTransaction.RESILIATION;
  public volume: string = OperationTransaction.VOLUME_DATA;
- public historie: any;
-
+    public title = 'Carte SIM actives - Système de Gestion de Collecte Centralisée';
   constructor(
     public toastrService: ToastrService,
     public settingService: SettingService,
@@ -103,6 +102,7 @@ export class CarteSimActiveComponent implements OnInit {
     private route: ActivatedRoute,
     public mappingService: MappingService,
     private router: Router,
+    private titleService: Title,
     private excelService: ExcelService
   ) {
     this.listStatuts = [SimStatut.ACTIF, SimStatut.SUSPENDU, SimStatut.RESILIE]    
@@ -110,7 +110,8 @@ export class CarteSimActiveComponent implements OnInit {
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.applicationType = this.mappingService.applicationType;
-    this.patrimoineType = ApplicationType.PATRIMOINESIM;      
+    this.patrimoineType = ApplicationType.PATRIMOINESIM;
+      this.titleService.setTitle(`${this.title}`);
   }
 
   ngOnInit() {

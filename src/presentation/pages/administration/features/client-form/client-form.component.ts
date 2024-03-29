@@ -31,11 +31,4 @@ export class ClientFormComponent implements OnInit {
   public close(): void {
     this.formsView.emit(false);
   }
-
-  public handleSave() {
-
-  }
-  public handleUpdate() {
-
-  }
 }

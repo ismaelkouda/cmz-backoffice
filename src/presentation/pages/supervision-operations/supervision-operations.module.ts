@@ -1,7 +1,7 @@
 import { JournalTransactionComponent } from './ui/journal-transaction/journal-transaction.component';
 import { ShowNotificationComponent } from './feature/show-notification/show-notification.component';
 import { NotificationComponent } from './ui/notification/notification.component';
-import { ContencieuxComponent } from './ui/contencieux/contencieux.component';
+import { ContentieuxComponent } from './ui/contentieux/contentieux.component';
 import { DemandeShowComponent } from './feature/demande-show/demande-show.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -81,7 +81,7 @@ import { PerformancesComponent } from './ui/performances/performances.component'
         AlarmesComponent,
         PriseEnChargeComponent,
         PerformancesComponent,
-        ContencieuxComponent,
+        ContentieuxComponent,
         DemandeShowComponent,
         NotificationComponent,
         ShowNotificationComponent,

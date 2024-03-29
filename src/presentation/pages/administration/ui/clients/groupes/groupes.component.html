@@ -15,8 +15,7 @@
                 </div>
               </div>
               <div class="col-md-1">
-                <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
-                  [disabled]="isFilter()"></p-button>
+                <p-button styleClass="p-button-success filter-button" icon="pi pi-filter"></p-button>
               </div>
             </div>
             <hr>
@@ -24,7 +23,7 @@
               <div class="table_actions_wrapper pt-2">
                 <button pButton pRipple label="Nouveau Groupe" icon="pi pi-plus" (click)="openGroupeForm(content)"
                   class="p-button-success"></button>
-                <button pButton pRipple label="Rafraichir" (click)="GetAllVentes()" icon="pi pi-refresh"
+                <button pButton pRipple label="Rafraichir" icon="pi pi-refresh"
                   class="p-button-secondary"></button>
                 <button pButton pRipple label="Exporter" [disabled]="true" icon="pi pi-download"
                   class="p-button-helf"></button>
@@ -77,7 +76,7 @@
                 </tbody>
               </table>
               <div [ngClass]="['pagination-controls']">
-                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                <pagination-controls previousLabel="" nextLabel="">
                 </pagination-controls>
               </div>
             </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-achats',
@@ -23,11 +24,15 @@ export class AchatsComponent implements OnInit {
   public filterDateEnd: Date;
   public selectDateStart: any;
   public selectDateEnd: any;
+  public title = 'Achats - Système de Gestion de Collecte Centralisée';
 
   constructor(
-    private route: ActivatedRoute
+      private titleService: Title,
+  private route: ActivatedRoute
 
-  ) { }
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.route.data.subscribe((data) => {
@@ -36,29 +41,11 @@ export class AchatsComponent implements OnInit {
     });
   }
 
-  public GetAllStock() {
-
-  }
-
-  public onInitForm() {
-
-  }
-  public onPageChange(event) {
-
-  }
-
-  public onFilter() {
-
-  }
   changeDateStart(e) {
     this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
   }
   changeDateEnd(e) {
     this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
-  }
-
-  public isFilter() {
-
   }
 
 

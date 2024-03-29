@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 
@@ -21,7 +22,6 @@ export class CartographieComponent implements OnInit {
   public initialView: boolean = true;
   public formsView: boolean = false;
   public currentData: any;
-  public listPatrimoines: any;
   public display: boolean = false;
   public map: any;
   public isMaximized: boolean = false;
@@ -59,18 +59,21 @@ export class CartographieComponent implements OnInit {
  public thirdLevelLibelle: string;
  public applicationType: string;
  public patrimoineType: string;
+    public title = 'Cartographie - Système de Gestion de Collecte Centralisée';
 
   constructor(
     public toastrService: ToastrService,
     public settingService: SettingService,
     private route: ActivatedRoute,
     public mappingService: MappingService,
+    private titleService: Title
   ) {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.applicationType = this.mappingService.applicationType;
-    this.patrimoineType = ApplicationType.PATRIMOINESIM;      
+    this.patrimoineType = ApplicationType.PATRIMOINESIM;
+      this.titleService.setTitle(`${this.title}`);
   }
 
   ngOnInit() {

@@ -1,5 +1,5 @@
-import { InterconnexionService } from './../../data-access/interconnexion.service';
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-connexion-api',
@@ -12,10 +12,10 @@ export class ConnexionApiComponent implements OnInit {
   public initialView: boolean = true;
   public formsView: boolean = false;
   public currentObject: any;
-
-  constructor(
-    private interconnexionService: InterconnexionService,
-  ) { }
+  public title = 'Connexion API - Système de Gestion de Collecte Centralisée';
+  constructor(private titleService: Title) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
   }
@@ -25,12 +25,6 @@ export class ConnexionApiComponent implements OnInit {
     this.formsView = true;
     this.currentObject = undefined;
   }
-  public onEditForm(data: any): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = data;
-  }
-
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;

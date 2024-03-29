@@ -11,6 +11,7 @@ import { SettingService } from 'src/shared/services/setting.service';
 const Swal = require('sweetalert2');
 import * as moment from 'moment';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -55,6 +56,7 @@ export class EtatSoldeComponent implements OnInit {
   public selectDateStart: any;
   public selectDateEnd: any;
   public selectedEmplacement: string
+  public title = 'Etat des soldes - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private patrimoineService: PatrimoineService,
@@ -65,7 +67,9 @@ export class EtatSoldeComponent implements OnInit {
     private clipboardApi: ClipboardService,
     private excelService: ExcelService,
     private loadingBar: LoadingBarService,
-  ) { 
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
     Object.values(TypeAlarme).forEach(item => {
       this.listAlarmes.push(item);
     });

@@ -12,6 +12,7 @@ import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enu
 import { ExcelService } from 'src/shared/services/excel.service';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-transaction-sim',
@@ -58,7 +59,7 @@ export class TransactionSimComponent implements OnInit {
   public treatmenRejeter: string = TraitementTransaction.REJETER;
   public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
-
+  public title = 'Transactions SIM - Système de Gestion de Collecte Centralisée';
   constructor(
     public settingService: SettingService,
     public patrimoineService: PatrimoineService,
@@ -67,9 +68,11 @@ export class TransactionSimComponent implements OnInit {
     private mappingService: MappingService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private titleService: Title
 
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.listOperations = this.mappingService.listOperations
       Object.values(StatutTransaction).forEach(item => {
         this.listStatuts.push(item);

@@ -14,8 +14,7 @@
     <div class="forms-feature-header__button" [ngStyle]="{display: 'flex',gap: '1rem'}">
       <div *ngIf="!currentObject?.show">
         <p-button label="Enregistrer" [label]="currentObject === undefined ? 'Enregistrer': 'Modifier'"
-          [disabled]="!adminForm.valid" styleClass="p-button-success"
-          (click)="!currentObject ? handleSave() : handleUpdate()"></p-button>
+          [disabled]="!adminForm.valid" styleClass="p-button-success"></p-button>
       </div>
       <div>
         <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
@@ -67,7 +66,7 @@
     </div>
     <div class="forms-feature-footer">
       <p-button label="Enregistrer" [label]="currentObject === undefined ? 'Enregistrer': 'Modifier'" [disabled]="true"
-        styleClass="p-button-success" (click)="!currentObject ? handleSave() : handleUpdate()"></p-button>
+        styleClass="p-button-success"></p-button>
     </div>
   </div>
 </div>

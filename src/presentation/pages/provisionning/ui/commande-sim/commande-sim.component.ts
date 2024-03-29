@@ -9,6 +9,7 @@ import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enu
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -50,15 +51,17 @@ export class CommandeSimComponent implements OnInit {
   public soldeData: number = 0;
   public soldeSimA: number = 0;
   public soldeSimB: number = 0;
-
+  public title = 'Commandes SIM - Système de Gestion de Collecte Centralisée';
   constructor(
     private provisionningService: ProvisionningService,
     private toastService: ToastrService,
     private clipboardApi: ClipboardService,
      private mappingService: MappingService,
     private modalService: NgbModal,
+    private titleService: Title
 
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.listTypeSims = ['SIM Blanche', 'SIM MSISDN'];
     Object.values(TraitementTransaction).forEach(item => {
       this.listStatuts.push(item);

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
-import { LoadingBarService } from '@ngx-loading-bar/core';
 import { SettingService } from 'src/shared/services/setting.service';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -20,16 +19,18 @@ export class UsageMetierComponent implements OnInit {
   public formsView: boolean = false;
   public currentObject: any;
   public listUsages: Array<any> = [];
-  public listTenants: Array<any> = [];
   public selectedUsage: string;
   public selectedTenant: any
-
+  public title = 'Usage metier - Système de Gestion de Collecte Centralisée';
   constructor(
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private settingService: SettingService,
-    public mappingService: MappingService
-  ) { }
+    public mappingService: MappingService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit(): void {
     this.GetAllUsageMetier()
@@ -53,30 +54,8 @@ export class UsageMetierComponent implements OnInit {
       nom_usage: this.selectedUsage,
       tenant_code: this.selectedTenant?.code
     };
-    // this.portefeuilleTenantService
-    //   .GetAllUsageMetier(data, this.p)
-    //   .subscribe({
-    //     next: (response) => {
-    //       this.listUsages = response['data']['data'];
-    //       this.totalPage = response['data'].last_page;
-    //       this.totalRecords = response['data'].total;
-    //       this.recordsPerPage = response['data'].per_page;
-    //       this.offset = (response['data'].current_page - 1) * this.recordsPerPage + 1;
-    //       this.listUsages.length === 0 ?
-    //         Swal.fire('P;ATRIMOINE SIM', 'Aucune donnée pour cet Tenant', 'error')
-    //         : ''
-    //     },
-    //     error: (error) => {
-    //       this.toastrService.error(error.error.message);
-    //     }
-    //   });
   }
 
-
-  OnRefresh() {
-    this.selectedTenant = null
-    this.selectedUsage = null
-  }
   public copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);

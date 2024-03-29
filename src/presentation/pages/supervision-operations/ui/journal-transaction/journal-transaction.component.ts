@@ -3,6 +3,7 @@ import * as moment from 'moment'
 import { ToastrService } from 'ngx-toastr';
 import { ParametreSecuriteService } from 'src/presentation/pages/parametre-securite/data-access/parametre-securite.service';
 import { SettingService } from 'src/shared/services/setting.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-journal-transaction',
@@ -24,13 +25,17 @@ export class JournalTransactionComponent implements OnInit {
   public offset: any;
   public p: number = 1;
   public page: number = 1;
+  public title = 'Supervision journal transactions - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private parametreSecuriteService: ParametreSecuriteService,
     private toastrService: ToastrService,
     private settingService: SettingService,
-    private toastService: ToastrService
-  ) { }
+    private toastService: ToastrService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.GetAllJournal()

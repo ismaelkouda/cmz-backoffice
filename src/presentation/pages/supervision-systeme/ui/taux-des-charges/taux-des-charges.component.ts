@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SupervisionSystemeService } from '../../data-access/supervision-systeme.service';
 import { ToastrService } from 'ngx-toastr';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-taux-des-charges',
@@ -13,18 +14,19 @@ export class TauxDesChargesComponent implements OnInit {
   showIframe: boolean = false;
   url: string;
   nom: any
+  public title = 'Taux des charges - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private supervisionSystemeService: SupervisionSystemeService,
     private toastrService: ToastrService,
-
-  ) { }
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.GetAllTauxCharges()
   }
-
-
 
   public GetAllTauxCharges() {
     this.supervisionSystemeService
