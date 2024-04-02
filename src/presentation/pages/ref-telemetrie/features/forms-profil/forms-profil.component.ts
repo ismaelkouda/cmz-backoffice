@@ -2,7 +2,6 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { TelemetrieService } from '../../data-access/telemetrie.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { get } from 'http';
 
 @Component({
   selector: 'app-forms-profil',
@@ -18,7 +17,6 @@ export class FormsProfilComponent implements OnInit {
   @Output() listProfils = new EventEmitter();
 
   adminForm: FormGroup;
-  checkedAll: boolean = false;
   public checkedAllConsumers: boolean = false;
   public listAffectations: Array<any> = [];
   public clonedMetrique: { [s: string]: any } = {};

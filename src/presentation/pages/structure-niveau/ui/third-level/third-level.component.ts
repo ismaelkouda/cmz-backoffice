@@ -175,39 +175,7 @@ export class ThirdLevelComponent implements OnInit {
     this.modalService.dismissAll();
     this.adminForm.reset();
   }
-  OnSaveThirdLevel() {
-    this.settingService
-      .OnSaveZone(this.adminForm.value)
-      .subscribe({
-        next: (response) => {
-          this.GellCurrentLevel();
-          this.adminForm.reset();
-          this.hideForm();
-          this.toastrService.success(response.message);
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
-        }
-      })
-  }
-  OnUpdateThirdLevel() {
-    this.settingService
-      .OnUpdateZone({
-        niveau_trois_uuid: this.currentLevel?.uuid,
-        ...this.adminForm.value
-      })
-      .subscribe({
-        next: (response) => {
-          this.GellCurrentLevel();
-          this.adminForm.reset();
-          this.hideForm();
-          this.toastrService.success(response.message);
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
-        }
-      })
-  }
+
   public handleActivate(data: any): void {
     Swal.fire({
       title: 'En êtes vous sûr ?',

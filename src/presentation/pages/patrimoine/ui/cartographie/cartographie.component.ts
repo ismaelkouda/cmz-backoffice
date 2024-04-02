@@ -1,14 +1,12 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MappingService } from './../../../../../shared/services/mapping.service';
-import { PatrimoineService } from './../../data-access/patrimoine.service';
 import * as L from 'leaflet';
 import { ToastrService } from 'ngx-toastr';
 import { SettingService } from 'src/shared/services/setting.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
-
 
 @Component({
   selector: 'app-cartographie',
@@ -152,20 +150,6 @@ export class CartographieComponent implements OnInit {
       'Satellite': this.satelite
     }
     L.control.layers(baseMaps, {}, { collapsed: false }).addTo(this.map);
-  }
-  public showDialog(data, composant) {
-    switch (data) {
-      case "map": {
-        this.display = true;
-        this.onDialogMaximized(true);
-        this.currentComposant = composant;
-        setTimeout(() => {
-          this.parcelleMap.nativeElement.innerHTML = "<div id='map' style='height: 45vw'></div>";
-          this.onMapReady();
-        }, 1000);
-        break;
-      }
-    }
   }
   public hideDialog(data) {
     switch (data) {

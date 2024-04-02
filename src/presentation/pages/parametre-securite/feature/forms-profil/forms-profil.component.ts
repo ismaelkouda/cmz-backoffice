@@ -1,9 +1,8 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ParametreSecuriteService } from '../../data-access/parametre-securite.service';
 import { TreeNode } from 'primeng/api';
 import { menuJson } from 'src/assets/menu';
-import { Router } from '@angular/router';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { MappingService } from 'src/shared/services/mapping.service';
@@ -16,25 +15,21 @@ const Swal = require('sweetalert2');
   templateUrl: './forms-profil.component.html',
   styleUrls: ['./forms-profil.component.scss']
 })
-export class FormsProfilComponent implements OnInit, OnDestroy {
+export class FormsProfilComponent implements OnInit {
 
   @Input() currentObject;
   @Output() formsView = new EventEmitter();
   @Output() listProfils = new EventEmitter();
-  public listProfilHabilitations: Array<any> = [];
   public selectedItemsDataSource: Array<any> = [];
   public selectedItemsHabilitationSource: Array<any> = [];
-  public permissionExploitations: Array<any> = [];
   public dataSourceFiles: Array<any> = [];
   public habilitationSourceFiles: Array<any> = [];
-  public selectedItemsDataDirectReg: any;
   public permissions: Array<any> = [];
   public newPermissions: any;
   public newPermissionSlice: any[] = [];
   public selectedNom: string;
   public selectedMode: boolean;
   public selectedDescription: string;
-  public currentACtion: any;
   public firstLevelMapping: any;
   public secondLevelMapping: any;
   public thirdLevelDataMapping: any;
@@ -353,9 +348,5 @@ export class FormsProfilComponent implements OnInit, OnDestroy {
 
   isDisabled(): boolean {
     return (this.selectedItemsDataSource?.length === 0 || !this.currentObject?.nom) ? true : false
-  }
-
-  ngOnDestroy(): void {
-    //location.reload()
   }
 }

@@ -36,17 +36,11 @@ export class TransactionShowComponent implements OnInit {
   public OperationSuspension: string = OperationTransaction.SUSPENSION
   public OperationVolumeData: string = OperationTransaction.VOLUME_DATA
   public OperationAchat: string = OperationTransaction.ACHAT_SERVICE
-  public justificatifError: string = 'AUCUN JUSTIFICATIF POUR CETTE TRANSACTION'
-  public creditForm: FormGroup;
   public listTypeJustificatif: Array<any> = [];
-  public listProducts: Array<any> = [];
   public listFirstLevel: Array<any> = [];
   public listSecondLevel: Array<any> = [];
   public listThirdLevel: Array<any> = [];
   public listUsages: Array<any> = [];
-  public selectedJustificatif: any;
-  public typeFilterValue: string;
-  public sourceValue: string;
 
   //Services Forms
   public ligneForm: FormGroup;
@@ -60,9 +54,6 @@ export class TransactionShowComponent implements OnInit {
   public currentFile: any;
   public sourceStockTenantSim: string;
   public sourceStockOrangeSim: string;
-  public selectedNotation: string;
-  public selectedIsCloture: string;
-  public selectedDescriptionNotation: string;
   public firstLevelLibelle: string;
   public secondLevelLibelle: string;
   public thirdLevelLibelle: string;
@@ -557,28 +548,6 @@ export class TransactionShowComponent implements OnInit {
     if (this.detailTransaction?.detail_commande?.length === 0) {
       return this.OnFeebackTransaction()
     }
-  }
-  OnIncrementButton(data: any) {
-    let findProduct = this.detailTransaction?.detail_commande.find((it) => it.id === data.id);
-    if (findProduct === undefined) {
-      this.detailTransaction?.detail_commande.push(data);
-    } else {
-      findProduct.quantite += 1;
-    }
-  }
-  OnDecrementButton(data: any) {
-    if (data.quantite <= 1) {
-      return;
-    } else {
-      data.quantite -= 1;
-    }
-  }
-  RemoveFromPanier(data: any) {
-    this.detailTransaction?.detail_commande.forEach((value, index) => {
-      if (value == data) {
-        this.detailTransaction?.detail_commande.splice(index, 1);
-      }
-    });
   }
 
   public GetFirstLevel() {

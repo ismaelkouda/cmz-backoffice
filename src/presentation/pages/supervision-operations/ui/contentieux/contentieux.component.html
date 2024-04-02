@@ -27,32 +27,6 @@
             <input placeholder="Demande" [(ngModel)]="selectedTransaction" type="text" pInputText />
           </div>
         </div>
-        <!-- <div class="col-md-2">
-          <div class="form-group">
-            <label><b>Statut</b> </label>
-            <p-dropdown [options]="listStatutTransactions" (onChange)="OnChangeStatut($event)" [showClear]="true" [(ngModel)]="selectedStatut"
-              placeholder="Statut">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>{{ data | titlecase }}</div>
-                </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label><b>Traitement</b> </label>
-            <p-dropdown [options]="listTraitementTransactions" [filter]="true" filterBy="libele" [showClear]="true"
-              [(ngModel)]="selectedTraitement" placeholder="Traitement" name="libele">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>{{ data | titlecase }}</div>
-                </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
-        </div> -->
         <div class="col-md-2">
           <label class="block"><b>Demandeur</b></label>
           <p-dropdown [options]="listUsers" [(ngModel)]="currentUser" optionLabel="fullName" [filter]="true"

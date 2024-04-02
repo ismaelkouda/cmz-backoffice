@@ -25,8 +25,6 @@ export class SuivieTraitementComponent implements OnInit {
   public listOperations: Array<any> = [];
   public listStatutTransactions: Array<any> = [];
   public listTraitementTransactions: Array<any> = [];
-  public listIntervenants: Array<any> = [];
-  public listTraitements: Array<any> = [];
   public listUsers: Array<any> = [];
   public totalPage: 0;
   public totalRecords: 0;

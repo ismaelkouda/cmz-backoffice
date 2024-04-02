@@ -6,7 +6,6 @@ import * as moment from 'moment'
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { SlaDemandeService } from '../../data-access/sla-demande.service';
 import { SettingService } from 'src/shared/services/setting.service';
-import { DatePipe } from '@angular/common';
 const Swal = require('sweetalert2');
 
 
@@ -26,7 +25,6 @@ export class RapportTransactionComponent implements OnInit {
   public listUsers: Array<any> = [];
   public listStatutTransactions: Array<any> = [];
   public selectedUser: any;
-  public currentTransactionId: string;
   public filterDateStart: Date;
   public filterDateEnd: Date;
   public selectDateStart: any;

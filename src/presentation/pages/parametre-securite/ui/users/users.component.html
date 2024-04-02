@@ -95,7 +95,7 @@
                     </button>
                       <button pButton pRipple *ngIf="mappingService.IsAction()" icon="pi pi-trash"                       
                       [disabled]="data?.username === principalUsername"
-                      (click)="OnAffectaion(data)" class="p-button-danger"
+                      class="p-button-danger"
                       pTooltip="Supprimer" (click)="OnDelete(data)" tooltipPosition="top"></button>
                     </td>
                   </tr>

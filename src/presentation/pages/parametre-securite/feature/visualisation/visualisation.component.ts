@@ -19,8 +19,6 @@ export class VisualisationComponent implements OnInit {
   public display: boolean = false;
   public listAffectations: any[] = [];
   public checkedAllConsumers: boolean = false;
-  public checkedconsumer: boolean = false;
-  public listconfigCheckedTrue: Array<any> = [];
   public checkconsumerList: Array<any> = [];
   public selectedProfil: any;
 
@@ -72,13 +70,6 @@ export class VisualisationComponent implements OnInit {
           this.toastrService.error(error.message);
         }
       })
-  }
-  public onFilter() {
-
-  }
-
-  public isFilter(): boolean {
-    return
   }
   public onCheckedOneConsumer(consumer: any) {
     if (this.checkconsumerList.includes(consumer.id)) {

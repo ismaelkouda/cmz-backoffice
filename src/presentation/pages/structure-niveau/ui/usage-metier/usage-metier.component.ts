@@ -49,12 +49,6 @@ export class UsageMetierComponent implements OnInit {
         }
       })
   }
-  public onFilter(): void {
-    const data = {
-      nom_usage: this.selectedUsage,
-      tenant_code: this.selectedTenant?.code
-    };
-  }
 
   public copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');

@@ -15,7 +15,6 @@ export class JournalComponent implements OnInit {
   @Input() transaction;
   @Input() type;
   response: any;
-  commentaire: any;
   listJournal: Array<any> = [];
   public totalPage: 0;
   public totalRecords: 0;

@@ -21,13 +21,10 @@ export class VisualisationComponent implements OnInit {
   public display: boolean = false;
   public listAffectations: any[] = [];
   public checkedAllConsumers: boolean = false;
-  public checkedconsumer: boolean = false;
-  public listconfigCheckedTrue: Array<any> = [];
   public checkconsumerList: Array<any> = [];
   public selectedProfil: any;
   public listDirections: Array<any> = [];
   public listExploitations: Array<any> = [];
-  public listZones: Array<any> = [];
   public selectedDirection: any;
   public selectedExploitation: any;
   public selectedMsisdn: any;
@@ -38,8 +35,6 @@ export class VisualisationComponent implements OnInit {
   public offset: any;
   public p: number = 1;
   public page: number = 0
-
-
   //Mapping
   firstLevelLibelle: string;
   secondLevelLibelle: string;

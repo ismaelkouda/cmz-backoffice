@@ -181,25 +181,12 @@ export class AlarmesComponent implements OnInit {
         }
       );
   }
-  showJournal(data: Object): void {
-    const modalRef = this.modalService.open(JournalComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
-    modalRef.componentInstance.transaction = data;
-    modalRef.componentInstance.type = data['ouvrage'];
-  }
 
   copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
 
-  public hideDialog(data) {
-    this.display = false;
-  }
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
@@ -212,18 +199,7 @@ export class AlarmesComponent implements OnInit {
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
   }
-  public onHistorique(data): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = data;
-  }
-  public pushStatutView(event: boolean): void {
-    this.formsView = event;
-    this.initialView = !event;
-  }
-  public pushListTransactions(event: any): void {
-    this.listTransactions = event;
-  }
+
   public disableAction(): boolean {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }

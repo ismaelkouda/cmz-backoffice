@@ -30,12 +30,7 @@ export class DemandeShowComponent implements OnInit {
   public OperationSuspension: string = OperationTransaction.SUSPENSION
   public OperationVolumeData: string = OperationTransaction.VOLUME_DATA
   public OperationAchat: string = OperationTransaction.ACHAT_SERVICE
-  public creditForm: FormGroup;
   public listTypeJustificatif: Array<any> = [];
-  public listProducts: Array<any> = [];
-  public selectedJustificatif: any;
-  public typeFilterValue: string;
-  public sourceValue: string;
 
   //Services Forms
   public ligneForm: FormGroup;
@@ -47,16 +42,9 @@ export class DemandeShowComponent implements OnInit {
   public adminForm: FormGroup;
   public achatForm: FormGroup;
   public isError: boolean = false;
-  public currentArrayHeaders = [];
-  public currentSheetForm: any;
   public currentSheetFormValidate: boolean = false;
   public fileModel: any;
-  public typeOuvrage: any;
-  public arrayHeaderExcelFile: Array<any> = [];
-  public arrayContentExcelFile: Array<any> = [];
-  public fileName: string;
   public currentData: any;
-  public validateArray: any = [];
   public currentVolP: any;
   //Mapping
   public firstLevelLibelle: string;
@@ -497,13 +485,5 @@ export class DemandeShowComponent implements OnInit {
       this.detailTransaction?.rapport?.commmande_produit_accepte === 'oui'
     ) ? false : true
   }
-  removeFile(prod) {
-    prod.file = '';
-  }
-  downloadModelXls() {
-    window.open(this.fileModel, "_blank");
-  }
-
-  
 
 }

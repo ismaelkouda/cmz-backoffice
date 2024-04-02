@@ -16,9 +16,6 @@ export class CarteModalComponent implements OnInit {
   ngOnInit() {
   }
 
-  openForm(content, data) {
-    this.modalService.open(content);
-  }
   hideForm() {
     this.modalService.dismissAll();
   }

@@ -23,8 +23,6 @@ export class GroupeFormComponent implements OnInit {
   @Output() listProfils = new EventEmitter();
   public display: boolean = false;
   public checkedAllConsumers: boolean = false;
-  public checkedconsumer: boolean = false;
-  public listconfigCheckedTrue: any[] = [];
   public checkconsumerList: any[] = [];
   public listDirections: Array<any> = [];
   public listExploitations: Array<any> = [];

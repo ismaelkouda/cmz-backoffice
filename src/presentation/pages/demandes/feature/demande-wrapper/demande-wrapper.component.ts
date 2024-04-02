@@ -10,9 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { ExcelService } from 'src/shared/services/excel.service';
-import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { MappingService } from 'src/shared/services/mapping.service';
-import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 import { DemandeService } from '../../data-access/demande.service';
 
 @Component({
@@ -209,16 +207,6 @@ export class DemandeWrapperComponent implements OnInit {
         }
       );
   }
-  showJournal(data: Object): void {
-    const modalRef = this.modalService.open(JournalComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
-    modalRef.componentInstance.transaction = data;
-    modalRef.componentInstance.type = data['ouvrage'];
-  }
 
   copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
@@ -236,21 +224,6 @@ export class DemandeWrapperComponent implements OnInit {
     this.currentObject = undefined;    
   }
 
-  public showSecondFilter() {
-    this.secondFilter = !this.secondFilter;
-  }
-  public onHistorique(data): void {
-    this.initialView = false;
-   // this.formsView = true;
-    this.currentObject = data;
-  }
-  public pushStatutView(event: boolean): void {
-   // this.formsView = event;
-    this.initialView = !event;
-  }
-  public pushListTransactions(event: any): void {
-    this.listTransactions = event;
-  }
   public disableAction(): boolean {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }

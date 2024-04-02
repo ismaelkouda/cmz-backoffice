@@ -76,8 +76,6 @@
       </fieldset>
     </div>
     <div class="submit-form">
-      <!-- <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha">
-      </ngx-recaptcha2> -->
       <button pButton pRipple label="Enregistrer" (click)="OnSaveCredit()" [disabled]="!creditForm.valid || !selectedJustificatif"
         class="p-button-success mt-2 pull-right"></button>
     </div>

@@ -1,4 +1,3 @@
-import { ServiceEnum } from './../../../../../shared/enum/Service.enum';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { ProvisionningService } from '../../data-access/provisionning.service';
@@ -19,51 +18,21 @@ export class CommandeFormComponent implements OnInit {
   @Output() listCommandes = new EventEmitter();
   @Output() formsView = new EventEmitter();
   public initialView: boolean = true;
-  public factureView: boolean = false;
-  public currentObjectTwo: any;
   public display: boolean = false;
   public isMaximized: boolean = false;
-  public numeroCommande: string;
   public selectedDescription: string;
-  public selectedCountSim: string;
-  public currentRecaptcha: string;
   public siteKey: string;
 
   //Operations Transaction
-  public operationValue: string = OperationTransaction.ACTIVATION;
   public activation: string = OperationTransaction.ACTIVATION;
   public suspension: string = OperationTransaction.SUSPENSION;
   public resiliation: string = OperationTransaction.RESILIATION;
   public swap: string = OperationTransaction.SWAP;
-  public volumeData: string = OperationTransaction.VOLUME_DATA;
-
-
-  //Type Services
-  public airtimeService: string = ServiceEnum.AIRTIME;
-  public dataService: string = ServiceEnum.DATA;
-  public smsService: string = ServiceEnum.SMS;
-
-  //Type SIM
-  public typeSimBlanche: string = 'sim_blanche';
-  public typeSimMsisdn: string = 'sim_msisdn';
-  public selectedTypeSim: string = this.typeSimBlanche;
-
-  public selectedCodeb: string;
-  public selectedCodea: string;
-  public selectedVol: string;
-
-  fiedlistA: any = {};
-  fiedlistB: any = {};
-  fiedlistC: any = {};
 
   //Forms Model
   public selectedQtyBlanche: number = 0;
-  public selectedDescBlanche: string;
   public selectedQtyMsimsdn: number = 0;
-  public selectedDescSimMsisdn: string;
   public selectedvp: number = 0;
-  public selectedDescVp: string;
-  public currentId: any;
   public panierList: Array<any> = []
   public listProducts: Array<any> = []
   public currentItem: any;
@@ -87,8 +56,6 @@ export class CommandeFormComponent implements OnInit {
     this.formsView.emit(false);
   }
 
-  public selectedAction(value: string) {
-  }
 
   public GetAllServices() {
     this.provisionningService
@@ -210,22 +177,11 @@ export class CommandeFormComponent implements OnInit {
         }
       })
   }
-  public CreateProformatCommande() {
-  }
-  public hideFacture(data) {
-    this.display = false;
-  }
+
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
 
-  public pushStatutView(event: any): void {
-    this.factureView = event?.statut;
-    this.initialView = !event?.statut;
-    if (event?.type === 'fermer') {
-      this.close()
-    }
-  }
   pipeValue(number: any) {
     return new Intl.NumberFormat('fr-FR').format(number);
   }

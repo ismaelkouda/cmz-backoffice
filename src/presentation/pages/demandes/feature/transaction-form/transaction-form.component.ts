@@ -37,7 +37,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   @Output() listTransactions = new EventEmitter();
   public    adminForm: FormGroup;
   public selectedValue: string;
-  public listPatrimoine: Array<any> = [];
   public listPatrimoineSims: Array<any> = [];
   public totalPageArray: Array<any> = [];
   public currentListSims: Array<any> = [];
@@ -48,7 +47,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public selectedActionValue: string;
   public radioValue: string = 'IMSI';
   public operationValue: string;
-  public piocheSim: string;
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
@@ -57,12 +55,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public currentListSimsPage: number;
   public siteKey: string;
   public currentRecaptcha: string;
-  //Statut
-  public statutActif: string = SimStatut.ACTIF;
-  public statutSuspendu: string = SimStatut.SUSPENDU;
-  public statutResilier: string = SimStatut.RESILIE;
-  public statutSwaper: string = SimStatut.SWAPER;
-
   //Operations Transaction
   public activation: string = OperationTransaction.ACTIVATION;
   public suspension: string = OperationTransaction.SUSPENSION;
@@ -79,18 +71,10 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public listDemandes: any;
   public selectedImsi: string;
   public selectedDescription: string;
-  public selectedVoume: any;
   public selectedPiece: any;
   public selectedMsisdn: string;
   public selectedDirection: any;
   public selectedExploitation: any;
-  public selectedActivite: any;
-  public selectedBeneficaire: string;
-  public selectedUsage: any;
-  public selectedEmail: string;
-  public selectedAdresseGeo: string;
-  public selectedLongitude: string;
-  public selectedLatitude: string;
   public patrimoineType: string;
   public historie: any;
   @ViewChild('captchaElem', { static: false }) captchaElem: any;
@@ -108,9 +92,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public sourceStockOrangeSim: string;
   public sourceSoldeDotation: string;
   public sourceSoldeDotationOrange: string;
-
-  readonly DEMANDE_SERVICE = DEMANDE_SERVICE;
-  readonly DEMANDE_ACTIVATION = DEMANDE_ACTIVATION;
 
 
   constructor(
@@ -511,49 +492,11 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       })
   }
 
-  public selectedAction(value: string) {
-    this.selectedActionValue = value;
-    this.captchaElem?.ReCaptcha2Component.reset();
-    this.currentRecaptcha = null
-    this.selectedImsi = null;
-    this.selectedDescription = null;
-    this.selectedMsisdn = null;
-    this.selectedPiece = null;
-    this.selectedValue = null;
-    this.sourceValue = 'stock'
-    this.currentPatrimoine = {};
-  }
-  
-  onExpired() {
-    this.currentRecaptcha = null
-  }
 
-  handleSuccess(event){    
-  }
-  
   public selectedSource(value: string) {
     this.sourceValue = value;
   }
 
-  public onSelectedSim(data) {
-    this.selectedImsi = data;
-    this.hideDialog();
-  }
-
-  public GetSimByPage(index) {
-    this.patrimoineService
-      .GetAllPatrimoines({}, index)
-      .subscribe({
-        next: (response) => {
-          this.display = true;
-          this.currentListSims = response.data['data'];
-          this.currentListSimsPage = response.data['current_page'];
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
   public hideDialog() {
     setTimeout(() => {
       this.display = false;
@@ -578,9 +521,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public isVerify(): boolean {
     return (Object.keys(this.currentPatrimoine).length === 0) ? true : false
   }
-  public onDialogMaximized(event) {
-    event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
-  }
 
   public IsFormFomSIMValidate(): boolean {
     if (this.selectedActionValue === this.volume) {
@@ -599,9 +539,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     const msisdn = value || ""; // Assurez-vous que msisdn est défini
     const formattedMsisdn = msisdn.replace(/(\d{2})(?=\d)/g, "$1 "); // Ajoute le séparateur
     return formattedMsisdn;
-  }
-  pipeValue(number: any) {
-    return new Intl.NumberFormat('fr-FR').format(number);
   }
   ngOnDestroy(): void {
     history.state.patrimoine = null

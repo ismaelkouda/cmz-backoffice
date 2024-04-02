@@ -196,12 +196,6 @@ export class LigneCreditComponent implements OnInit {
     this.currentObject = undefined;
   }
 
-  public onEditForm(data: any): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = data;
-  }
-
   public onShowForm(data: any): void {
     this.initialView = false;
     this.formsView = true;

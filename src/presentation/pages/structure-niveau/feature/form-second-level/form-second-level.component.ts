@@ -16,7 +16,6 @@ export class FormSecondLevelComponent implements OnInit {
   @Output() listCurrentLevelDatas = new EventEmitter();
   @Output() formsView = new EventEmitter();
   adminForm: FormGroup;
-  public listTenants: Array<any> = []
   public listFirstLevelDatas: Array<any> = []
   public currentLevelLibelle: string
   public parentLevelLibelle: string

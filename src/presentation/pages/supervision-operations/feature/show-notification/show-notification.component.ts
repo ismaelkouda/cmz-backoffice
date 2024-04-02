@@ -195,9 +195,6 @@ export class ShowNotificationComponent implements OnInit {
   close() {
     this.showView.emit(false);
   }
-  public pushListTransactions(event: any): void {
-    this.listTransactions = event;
-  }
   public disableAction(): boolean {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }

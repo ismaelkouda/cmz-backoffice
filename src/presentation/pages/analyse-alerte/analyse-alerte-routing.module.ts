@@ -9,7 +9,6 @@ export const COURBE_MESSAGE = 'analyse-alarmes';
 export const DETECTION_APPRO = 'detection-appro';
 export const ANALAYSE_REJET = 'analyse-rejet';
 export const PERFORMANCE_COLLECTE = 'approvisionnement';
-export const ETAT_LIAISON = 'etat-des-liaisons';
 
 
 const routes: Routes = [{

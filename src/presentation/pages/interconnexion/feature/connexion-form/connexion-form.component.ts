@@ -47,8 +47,5 @@ export class ConnexionFormComponent implements OnInit {
 
   public onFormPachValues(): void {
     this.adminForm.get('nom').patchValue(this.currentObject?.nom);
-    // if (this.currentObject.show) {
-    //   this.adminForm.disable()
-    // }
   }
 }

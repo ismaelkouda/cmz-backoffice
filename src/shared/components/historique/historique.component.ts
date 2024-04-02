@@ -112,7 +112,6 @@ export class HistoriqueComponent implements OnInit {
             };
             return data;
           });
-          //response.data.length === 0 ? this.toastrService.info('Historique vide !') : this.toastrService.success(response.message);
         },
         (error) => {
           this.toastService.error(error.error.message);
@@ -128,14 +127,7 @@ export class HistoriqueComponent implements OnInit {
   hideDialog() {
     this.display = false;
   }
-  refreshHistorique() {
-    this.settingService.statutSubject$.subscribe((response: any) => {
-      if (response === true) {
-        this.getAllHistoriques();
-      }
-    });
-  }
-  exportTable() { }
+
   changeDateStart(e) {
     this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
   }

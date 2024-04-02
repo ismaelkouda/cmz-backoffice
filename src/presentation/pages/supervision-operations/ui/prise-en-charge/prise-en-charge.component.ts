@@ -27,7 +27,6 @@ export class PriseEnChargeComponent implements OnInit {
   public selectedTypeOperation: any;
   public selectedTransaction: any;
   public selectedStatut: any;
-  public selectedTraitement: any;
   public selectedFirstLevel: any;
   public selectedSecondLevel: any;
   public firstLevelLibelle: string;
@@ -71,7 +70,6 @@ export class PriseEnChargeComponent implements OnInit {
     this.GetFirstLevel();
     this.getAllUsers();
     this.isFilter();
-    //localStorage.setItem('layout', 'Barcelona');
   }
 
   public GetAllPriseEnCharge() {

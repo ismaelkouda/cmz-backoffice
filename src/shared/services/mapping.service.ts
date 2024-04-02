@@ -6,6 +6,7 @@ import { StoreLocaleService } from './store-locale.service';
 import { HttpClient } from '@angular/common/http';
 import { EndPointUrl } from '../enum/api.enum';
 import { OperationTransaction } from '../enum/OperationTransaction.enum';
+import { EnvService } from './env.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,6 @@ export class MappingService {
   public appReadStatut: boolean;
   public currentPermissions: any[]
   public listOperations: any[]
-  public listObjectifSla: any[]
   public listOperationTraitementVue: any[]
   public structureGlobale: any;
   public logoTenant: any;
@@ -32,7 +32,6 @@ export class MappingService {
   public minioUrl: string;
   public noderedUrl: string;
   public ws_server: string;
-  public localCalendar: any;
   public applicationType: string;
   public suffixEmail: string;
   public appName: string;
@@ -40,8 +39,6 @@ export class MappingService {
   public sourceStockOrangeSim: string;
   public sourceSoldeDotation: string;
   public sourceSoldeDotationOrange: string;
-  public _tenantDataSource: BehaviorSubject<any> = new BehaviorSubject(null);
-  public tenantData$ = this._tenantDataSource.asObservable();
   public _volumeDataGlobalSource: BehaviorSubject<string> = new BehaviorSubject('');
   public volumeDataGlobal$ = this._volumeDataGlobalSource.asObservable();
   public _ligneCreditSource: BehaviorSubject<string> = new BehaviorSubject('');
@@ -52,13 +49,14 @@ export class MappingService {
   constructor(
     private storage: EncodingDataService,
     private storeLocaleService: StoreLocaleService,
-    private http: HttpClient
+    private http: HttpClient,
+    private envService: EnvService
 
   ) {
-    this.sourceStockTenantSim = 'Le système utilisera une SIM blanche du Stock du Tenant';
-    this.sourceStockOrangeSim = "Orange fournira la SIM. A l'issue de l'operation, elle sera livrée au point de contact accompagnée d'une facture";
-    this.sourceSoldeDotation = 'Le solde de la dotation Data sera debité du volume demandé'
-    this.sourceSoldeDotationOrange = "Orange fera le dépôt du volume demandé sur le compte Data de la SIM. A l'issue de l'operation une facture sera générée";
+    this.sourceStockTenantSim = this.envService.messageApp.sourceStockTenantSim;
+    this.sourceStockOrangeSim = this.envService.messageApp.sourceStockOrangeSim;
+    this.sourceSoldeDotation = this.envService.messageApp.sourceSoldeDotation;
+    this.sourceSoldeDotationOrange = this.envService.messageApp.sourceSoldeDotationOrange;
     this.storeLocaleService.tenantData$.subscribe((res: any) => {
       this.currentUser = res ?? JSON.parse(this.storage.getData('user') || null);
       this.baseUrl = `${this.currentUser?.tenant?.url_backend}/api/v1/`
@@ -82,13 +80,13 @@ export class MappingService {
       this.suffixEmail = this.tenant?.suffixe_email;
       this.notifications = this.currentUser?.notifications;
       if (this.applicationType === ApplicationType.PATRIMOINESIM) {
-        this.appName = 'PATRIMOINE SIM'
+        this.appName = this.envService.headerSettings.appTypePS
         this.listOperations = Object.values(OperationTransaction).filter(item => item !== OperationTransaction.ACHAT_SERVICE && item !== OperationTransaction.PROVISIONNING);
         Object.values(OperationTransaction).forEach(item => {
           this.listOperationTraitementVue.push(item);
         });
       } else if (this.applicationType === ApplicationType.MONITORING) {
-        this.appName = 'SIM MONITORING'
+        this.appName = this.envService.headerSettings.appTypeSM
         this.listOperations = Object.values(OperationTransaction).filter(item => 
           item !== OperationTransaction.ACHAT_SERVICE && 
           item !== OperationTransaction.PROVISIONNING &&
