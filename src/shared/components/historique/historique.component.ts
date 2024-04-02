@@ -33,8 +33,6 @@ export class HistoriqueComponent implements OnInit {
   public currentEventParse;
   public display: boolean = false;
   public isMaximized: boolean = false;
-
-
   constructor(
     private loadingBar: LoadingBarService,
     private toastService: ToastrService,
