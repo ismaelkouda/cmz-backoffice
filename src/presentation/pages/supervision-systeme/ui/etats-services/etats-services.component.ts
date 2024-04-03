@@ -2,6 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SupervisionSystemeService } from './../../data-access/supervision-systeme.service';
 import { Component, OnInit } from '@angular/core';
 import { SettingService } from 'src/shared/services/setting.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-etats-services',
@@ -16,13 +17,15 @@ export class EtatsServicesComponent implements OnInit {
   selectedDirection: any;
   selectedSim: string;
   selectedExploitation: any;
-
-
+  public title = 'Etats services - Système de Gestion de Collecte Centralisée';
   constructor(
     private supervisionSystemeService: SupervisionSystemeService,
     private settingService: SettingService,
-    private toastrService: ToastrService
-  ) { }
+    private toastrService: ToastrService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.GetAllEtatServices();

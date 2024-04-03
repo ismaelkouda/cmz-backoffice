@@ -8,6 +8,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -22,9 +23,7 @@ export class LigneCreditComponent implements OnInit {
   public formsView: boolean = false;
   public currentObject: any;
   public listCredits: any;
-  public listTypeSims: Array<any> = [];
   public listStatuts: Array<any> = [];
-  public listJournals: Array<any> = [];
   public selectedTransaction: string;
   public selectedReference: string;
   public selectedStatut: string;
@@ -42,13 +41,16 @@ export class LigneCreditComponent implements OnInit {
   public stateTraite: string = StatutTransaction.TARITER;
   public stateCloture: string = StatutTransaction.CLOTURER;
   public fr: any
+  public title = 'Lignes CREDIT - Système de Gestion de Collecte Centralisée';
   constructor(
     private provisionningService: ProvisionningService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private mappingService: MappingService,
     private modalService: NgbModal,
+    private titleService: Title
   ) {
+    this.titleService.setTitle(`${this.title}`);
     Object.values(StatutTransaction).forEach(item => {
       this.listStatuts.push(item);
     });

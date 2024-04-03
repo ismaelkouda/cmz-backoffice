@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { TelemetrieService } from '../../data-access/telemetrie.service';
 import { ToastrService } from 'ngx-toastr';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -24,13 +25,17 @@ export class ProfilSupervisionComponent implements OnInit {
   public statutAttente: string = DeployStatut.EN_ATTENTE;
   public statutEncours: string = DeployStatut.EN_COURS;
   public statutActif: string = DeployStatut.ACTIF
-  
+  public title = 'Profils supervision - Système de Gestion de Collecte Centralisée';
+
   constructor(
     private telemetrieService: TelemetrieService,
     private toastrService: ToastrService,
     public mappingService: MappingService,
-    private excelService: ExcelService
-  ) { }
+    private excelService: ExcelService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.GetAllProfilSupervision();

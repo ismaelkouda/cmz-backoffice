@@ -4,7 +4,7 @@ import { SuivieTraitementComponent } from './ui/suivie-traitement/suivie-traitem
 import { AlarmesComponent } from './ui/alarmes/alarmes.component';
 import { PerformancesComponent } from './ui/performances/performances.component';
 import { PriseEnChargeComponent } from './ui/prise-en-charge/prise-en-charge.component';
-import { ContencieuxComponent } from './ui/contencieux/contencieux.component';
+import { ContentieuxComponent } from './ui/contentieux/contentieux.component';
 import { NotificationComponent } from './ui/notification/notification.component';
 import { JournalTransactionComponent } from './ui/journal-transaction/journal-transaction.component';
 
@@ -40,7 +40,7 @@ const routes: Routes = [
             },
             {
                 path: CONTENCIEUX_ROUTE,
-                component: ContencieuxComponent,
+                component: ContentieuxComponent,
             },
             {
                 path: NOTIFY_ROUTE,

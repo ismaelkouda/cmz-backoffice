@@ -10,7 +10,6 @@ import { SettingService } from 'src/shared/services/setting.service';
 export class OperationFormsComponent implements OnInit {
 
   public selectedValue: string;
-  public responseDatas: Array<any> = [];
   public operationDatas: any = {};
   public listDirectionRegionales: Array<any> = [];
   public listExploitations: Array<any> = [];
@@ -42,8 +41,6 @@ export class OperationFormsComponent implements OnInit {
   public onChangeItem(event) {
     const currentValue = event.value;
     this.listExploitations = currentValue?.exploitations;
-    console.log("eveneneetetet", currentValue);
-
     if (currentValue === null) {
       this.listExploitations = [];
     }

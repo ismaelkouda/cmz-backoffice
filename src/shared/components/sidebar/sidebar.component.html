@@ -1,21 +1,16 @@
 <!-- Page Sidebar Start-->
-<!---shopping-bag-->
 <div class="logo-wrapper">
         <img class="img-fluid for-light" width="200" src="assets/images/logo/logo-orange-full.png" alt="" />
         <img class="img-fluid for-dark" width="200" src="assets/images/logo/logo-orange-full.png" alt="" />
     <div class="back-btn" (click)="sidebarToggle()">
         <i class="fa fa-angle-left"></i>
     </div>
-    <!-- <div class="toggle-sidebar" (click)="sidebarToggle()">
-        <i data-feather="grid" class="status_toggle middle sidebar-toggle"></i>
-    </div> -->
 </div>
 <div class="logo-icon-wrapper">
         <img class="img-fluid" src="assets/images/logo/logo_orange.png" alt="" />
 </div>
 <nav class="sidebar-main">
     <div class="left-arrow" id="left-arrow" [class.d-none]="leftArrowNone" (click)="scrollToLeft()">
-        <!-- <i data-feather="arrow-left" ></i> -->
         <i [attr.data-feather]="'arrow-left'"></i>
     </div>
     <div id="sidebar-menu"
@@ -40,7 +35,6 @@
                                     *ngFor="let menuItem of menuItems" [ngClass]="{ active: menuItem.active }">
                                     <div *ngIf="menuItem.headTitle1">
                                         <h6 class="lan-1">{{ menuItem.headTitle1 | translate }}</h6>
-                                        <!-- <p class="lan-2">{{ menuItem.headTitle2 | translate }}</p> -->
                                     </div>
 
                                     <label class="badge badge-{{ menuItem.badgeType }}"

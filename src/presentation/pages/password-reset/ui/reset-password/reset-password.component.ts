@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../data-access/authentication.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-reset-password',
@@ -15,19 +16,20 @@ export class ResetPasswordComponent implements OnInit {
   public newPasswordValue: string;
   public confirmPasswordValue: string;
   public queryValue: any
-
+  public title = 'Réinitialisation mot de passe - Système de Gestion de Collecte Centralisée';
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private toastrService: ToastrService,
     private fb: FormBuilder,
-  ) {}
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      console.log("data",params);
-      
       this.queryValue = params
     });
     this.initFormPassword()

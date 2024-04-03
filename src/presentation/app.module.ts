@@ -22,6 +22,7 @@ import { SupervisionOperationsModule } from './pages/supervision-operations/supe
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
 import { NotifyService } from 'src/shared/services/notify.service';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { EnvServiceProvider } from '../shared/services/env.service.provider';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -60,6 +61,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoadingBarModule
   ],
   providers: [
+    EnvServiceProvider,
     LocalStorageService,
     NotifyService,
     { 

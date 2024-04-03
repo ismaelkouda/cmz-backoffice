@@ -2,6 +2,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TelemetrieService } from './../../data-access/telemetrie.service';
 import { Component, OnInit } from '@angular/core';
 import { ExcelService } from 'src/shared/services/excel.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-seuil-alarmes',
@@ -15,13 +16,15 @@ export class SeuilAlarmesComponent implements OnInit {
   public currentMetrique: any;
   public globalMetriquesEditRow: Array<any> = [];
   public currentTabsIndex: number = 0;
-
+  public title = 'Seuil alarmes - Système de Gestion de Collecte Centralisée';
   constructor(
     private telemetrieService: TelemetrieService,
     private toastrService: ToastrService,
-    private excelService: ExcelService
-
-  ) { }
+    private excelService: ExcelService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.GetAllReferentielTelemetrie();

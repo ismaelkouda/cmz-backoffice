@@ -1,14 +1,13 @@
-import { LIST_AFFECTE, LIST_CODE_RAPPORT, LIST_OPERATIONS, LIST_TRAITEMENTS } from './../../../../../shared/constants/operations.constants';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
-import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 import * as moment from 'moment';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -23,10 +22,6 @@ export class PriseEnChargeComponent implements OnInit {
   public listStatutTransactions: Array<any> = [];
   public listTraitementTransactions: Array<any> = [];
   public listIntervenants: Array<any> = [];
-  public listAffectes: Array<any> = [];
-  public listCodeRapports: Array<any> = [];
-  public listTraitements: Array<any> = [];
-  public listTenants: Array<any> = [];
   public listFirstLevel: Array<any> = [];
   public listSecondLevel: Array<any> = [];
   public selectedTypeOperation: any;
@@ -48,14 +43,17 @@ export class PriseEnChargeComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
+  public title = 'Prises en charge - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private supervisionOperationService: SupervisionOperationService,
     private settingService: SettingService,
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
-    private mappingService: MappingService
+    private mappingService: MappingService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.listOperations = this.mappingService.listOperationTraitementVue;
     Object.values(StatutTransaction).forEach(item => {
       this.listStatutTransactions.push(item);
@@ -177,7 +175,6 @@ export class PriseEnChargeComponent implements OnInit {
   }
 
   public copyTransaction(data: any): void {
-    console.log(data);
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }

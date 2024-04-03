@@ -3,9 +3,9 @@ import { ToastrService } from 'ngx-toastr';
 import { TelemetrieService } from './../../data-access/telemetrie.service';
 import { Component, OnInit } from '@angular/core';
 import { SettingService } from 'src/shared/services/setting.service';
-import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SupervisionOperationService } from 'src/presentation/pages/supervision-operations/data-access/supervision-operation.service';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-objectif-sla',
   templateUrl: './objectif-sla.component.html',
@@ -19,16 +19,16 @@ export class ObjectifSlaComponent implements OnInit {
   public globalMetriquesEditRow: Array<any> = [];
   public currentTabsIndex: number;
   public applicationType: string;
-
+  public title = 'Objectif SLA - Système de Gestion de Collecte Centralisée';
   constructor(
-    private telemetrieService: TelemetrieService,
     private supervisionOperationService: SupervisionOperationService,
     private toastrService: ToastrService,
     private settingService: SettingService,
     private excelService: ExcelService,
     private mappingService: MappingService,
-
+    private titleService: Title
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.applicationType = this.mappingService.applicationType;
   }
 
@@ -76,7 +76,6 @@ export class ObjectifSlaComponent implements OnInit {
   handleChangeTabviewIndex(e) {
     this.currentTabsIndex = e.index;
     if (this.currentTabsIndex === 1) {
-      console.log("data");
       this.settingService.statutSubject.next(true);
     }
   }

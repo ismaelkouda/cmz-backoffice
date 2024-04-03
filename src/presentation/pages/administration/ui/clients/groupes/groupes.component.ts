@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-groupes',
@@ -29,13 +29,14 @@ export class GroupesComponent implements OnInit {
   public selectDateEnd: any;
   public groupeForm: FormGroup;
   public memeberForm: FormGroup;
-
-
+  public title = 'Groupes clients - Système de Gestion de Collecte Centralisée';
   constructor(
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private titleService: Title
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.listGroupeContacts = [
       {
         id: 1
@@ -95,33 +96,12 @@ export class GroupesComponent implements OnInit {
     this.memeberForm.reset();
   }
 
-
-  public GetAllVentes() {
-
-  }
-
   public onInitForm(): void {
     this.initialView = false;
     this.formsView = true;
     this.currentObject = undefined;
   }
-  public onPageChange(event) {
 
-  }
-  changeDateStart(e) {
-    this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
-  }
-  changeDateEnd(e) {
-    this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
-  }
-
-  public isFilter() {
-
-  }
-
-  public onFilter() {
-
-  }
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;

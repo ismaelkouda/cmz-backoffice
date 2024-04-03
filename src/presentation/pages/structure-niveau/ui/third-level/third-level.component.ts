@@ -7,6 +7,7 @@ import { ExcelService } from 'src/shared/services/excel.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { FormValidator } from 'src/shared/utils/spacer.validator';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -34,14 +35,10 @@ export class ThirdLevelComponent implements OnInit {
   public selectedCodes: string;
   public currentLevelLibelle: string;
   public currentLevelMenus: string;
-  public currentLevelLibelleSplit: string;
-  public childLevelLibelle: string;
   public currentLevel: any;
-  public isEdit: boolean = false;
-  public isShow: boolean = false;
   public adminForm: FormGroup;
   public currentTabsIndex: number = 0;
-
+  public title = '3ème niveau - Système de Gestion de Collecte Centralisée';
   constructor(
     private settingService: SettingService,
     private toastrService: ToastrService,
@@ -49,8 +46,10 @@ export class ThirdLevelComponent implements OnInit {
     private modalService: NgbModal,
     private excelService: ExcelService,
     private clipboardApi: ClipboardService,
+    private titleService: Title,
     private fb: FormBuilder
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.currentLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.currentLevelMenus = this.mappingService.structureGlobale?.niveau_3_menu;
   }

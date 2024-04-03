@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { FormValidator } from '../../../../../shared/utils/spacer.validator';
 import { ClipboardService } from 'ngx-clipboard';
 import { ExcelService } from 'src/shared/services/excel.service';
-const Swal = require('sweetalert2');
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-first-level',
@@ -28,31 +27,27 @@ export class FirstLevelComponent implements OnInit {
   public page: number = 0
   public currentObject: any;
   public listFirstLevelDatas: Array<any> = [];
-  public listSecondLevelDatas: Array<any> = [];
   public selectedNom: string;
   public selectedCommune: string;
   public selectedCode: string;
   public firstLevelLibelle: string;
   public firstLevelMenus: string;
-  public firstLevelLibelleSplit: string;
   public secondLevelLibelle: string;
-  public currentLevel: any;
-  public isEdit: boolean = false;
-  public isShow: boolean = false;
   public adminForm: FormGroup;
-  public affectationForm: FormGroup
   public currentTabsIndex: number = 0;
+  public title = '1er niveau - Système de Gestion de Collecte Centralisée';
 
 
   constructor(
     private settingService: SettingService,
     private toastrService: ToastrService,
     public mappingService: MappingService,
-    private modalService: NgbModal,
     private excelService: ExcelService,
     private clipboardApi: ClipboardService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private titleService: Title
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.firstLevelMenus = this.mappingService.structureGlobale?.niveau_1_menu;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
@@ -130,13 +125,7 @@ export class FirstLevelComponent implements OnInit {
       ]],
     })
   }
-  openForm(content) {
-    this.modalService.open(content);
-    this.isShow = false;
-    this.isEdit = false;
-    this.adminForm.reset();
-    this.adminForm.enable();
-  }
+
   public OnOpenForm(): void {
     this.initialView = false;
     this.formsView = true;
@@ -152,11 +141,7 @@ export class FirstLevelComponent implements OnInit {
     this.formsView = true;
     this.currentObject = { ...data, type: 'show' };
   }
-  OnAffectaion(data) {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = { ...data, type: 'affectation' };
-  }
+
   OnVisualisation(data) {
     this.totalPage = 0;
     this.totalRecords = 0;

@@ -47,8 +47,6 @@ export class HistoriqueComponent implements OnInit {
   }
 
   showHistorique(data: any) {    
-
-    console.log("data",data);
     this.currentEvent = data;
     if (data?.event === 'Mise à jour' || data?.event === 'Évènement') {
       this.currentEventParse = JSON.parse(data?.data || null);

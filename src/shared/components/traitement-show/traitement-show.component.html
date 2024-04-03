@@ -278,7 +278,6 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
                     <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
@@ -297,15 +296,6 @@
                 <b>Détails de la Transaction</b>
               </legend>
               <div class="row">
-                <!-- <div class="col-md-3">
-                  <div style="display: flex;gap: 2rem;">
-                    <div class="d-flex gap-2">
-                      <p-radioButton name="bac_a_pioche" value="stock" formControlName="bac_a_pioche"
-                        inputId="b_1"></p-radioButton>
-                      <label style="margin-top: 0.9rem">Dotation Point Emplacement</label>
-                    </div>
-                  </div>
-                </div> -->
                 <div style="margin-top: -1.8rem">
                   <div class="form-group">
                     <label style="opacity: 0;">
@@ -414,7 +404,6 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
                     <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
@@ -542,7 +531,6 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
                     <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
@@ -644,7 +632,6 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
                     <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
@@ -725,14 +712,6 @@
                 <b>Source Stock SIM</b>
               </legend>
               <div class="d-flex gap-4">
-                <!--<div>
-                   <div class="d-flex gap-4" *ngIf="bacPiocheActivation === 'stock'">
-                       <div class="trans-radio d-flex gap-2">
-                          <p-radioButton name="valeur" [value]="'stock'" formControlName="bac_a_pioche" [inputId]="'stock'"></p-radioButton>
-                          <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
-                       </div>
-                   </div>
-                </div>-->
                 <div *ngIf="bacPiocheActivation !== 'stock'">
                   <div class="d-flex gap-4">
                     <div class="trans-radio d-flex gap-2">
@@ -1085,20 +1064,6 @@
             </div>
           </fieldset>
         </div>
-        <!-----------------------COMMENTAIRE----------ORANGE--------------------------------->
-        <!-- <div *ngIf="detailTransaction?.rapport?.statut_traitement">
-          <fieldset>
-            <legend>
-              <strong>Commentaire Homologation</strong>
-            </legend>
-            <div class="row">
-                <div class="form-group">
-                  <input type="text" [disabled]="true" [value]="this.GetCurrentMessage(this.transaction.operation)" pInputText />
-                </div>
-            </div>
-          </fieldset>
-         </div> 
-         -->
           <!-----------------------COMMENTAIRE----------GS2E--------------------------------->
           <div *ngIf="detailTransaction?.rapport?.statut_traitement && detailTransaction?.rapport?.statut_cloture">
             <fieldset>

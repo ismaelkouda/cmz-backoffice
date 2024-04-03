@@ -1,10 +1,8 @@
 import { AuthenticationService } from './../../data-access/authentication.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { REINITIALISATION } from 'src/presentation/app-routing.module';
-import { RESET_PASSWORD } from '../../password-reset-routing.module';
 import { ToastrService } from 'ngx-toastr';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-forgot-password',
@@ -14,12 +12,16 @@ import { ToastrService } from 'ngx-toastr';
 export class ForgotPasswordComponent implements OnInit {
 
   isModal: boolean = false;
-  selectedEmail: string
+  selectedEmail: string;
+  public title = 'Mot de passe oublié - Système de Gestion de Collecte Centralisée';
   constructor(
     private location: Location,
     private authenticationService: AuthenticationService,
     private toastService: ToastrService,
-  ) { }
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {}
 

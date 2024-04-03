@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { MappingService } from 'src/shared/services/mapping.service';
-import { ClipboardService } from 'ngx-clipboard';
-import { ExcelService } from 'src/shared/services/excel.service';
 import { TelemetrieService } from '../../data-access/telemetrie.service';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 
@@ -29,13 +26,16 @@ export class ContactSlaComponent implements OnInit {
   public currentObject: any;
   public currentContact: any;
   public currentTabsIndex: number = 0;
-
+  public title = 'Contact SLA - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private telemetrieService: TelemetrieService,
     private toastrService: ToastrService,
-    public mappingService: MappingService
-   ) {}
+    public mappingService: MappingService,
+    private titleService: Title
+   ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.GellAllContact();

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ProvisionningService } from '../../data-access/provisionning.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -30,14 +31,17 @@ export class StockProduitComponent implements OnInit {
   public soldeData: number = 0;
   public soldeSimA: number = 0;
   public soldeSimB: number = 0;
-
+  public title = 'Stock Produit - Système de Gestion de Collecte Centralisée';
   constructor(
     
     private toastrService: ToastrService,
     private provisionningService: ProvisionningService,
     private clipboardApi: ClipboardService,
-    private mappingService:MappingService
-  ) {}
+    private mappingService:MappingService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.GetAllStocks()

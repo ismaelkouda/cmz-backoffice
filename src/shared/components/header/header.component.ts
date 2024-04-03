@@ -5,7 +5,6 @@ import { NavService } from "../../services/nav.service";
 import { LayoutService } from "../../services/layout.service";
 import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 // @ts-ignore
-import appConfig from '../../../assets/config/app-config.json';
 import { MappingService } from "src/shared/services/mapping.service";
 import { ApplicationType } from "src/shared/enum/ApplicationType.enum";
 import { Router } from "@angular/router";
@@ -14,6 +13,7 @@ import { SUPERVISION_OPERATIONS } from "src/shared/routes/routes";
 import { ToastrService } from 'ngx-toastr';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { StoreLocaleService } from 'src/shared/services/store-locale.service';
+import { EnvService } from '../../services/env.service';
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -46,11 +46,12 @@ export class HeaderComponent implements OnInit {
     private notifyService: NotifyService,
     private toastrService: ToastrService,
     private storage: EncodingDataService,
+    private envService: EnvService,
     private storeLocaleService: StoreLocaleService
     
   ) {
     this.statutLayout();
-    this.headerTitle = appConfig?.titlePage;
+    this.headerTitle = this.envService?.headerTitle;
     this.minioUrl = this.mappingService.minioUrl;  
     this.appName = this.mappingService.appName;  
     this.applicationType = this.mappingService.applicationType;

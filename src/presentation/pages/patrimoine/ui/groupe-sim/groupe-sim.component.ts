@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { TelemetrieService } from 'src/presentation/pages/ref-telemetrie/data-access/telemetrie.service';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ExcelService } from 'src/shared/services/excel.service';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -25,15 +25,18 @@ export class GroupeSimComponent implements OnInit {
   public selectedNom: string;
   public selectedImsi: string;
   public selectedMsisdn: string;
-
+  public title = 'Groupe SIM - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private patrimoineService: PatrimoineService,
     private toastrService: ToastrService,
     private route: ActivatedRoute,
     private clipboardApi: ClipboardService,
-    private excelService: ExcelService
-  ) { }
+    private excelService: ExcelService,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.GetAllGroupes();

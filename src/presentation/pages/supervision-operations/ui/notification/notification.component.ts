@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { DemandeShowComponent } from '../../feature/demande-show/demande-show.component';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { StoreLocaleService } from 'src/shared/services/store-locale.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-notification',
@@ -26,14 +25,18 @@ export class NotificationComponent implements OnInit {
   public currentData: any;
   public checkedAllConsumers: boolean = false;
   public checkconsumerList: any[] = [];
+  public title = 'Notifications - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private supervisionOperationService: SupervisionOperationService,
     private toastrService: ToastrService,
     private storage: EncodingDataService,
     private mappingService: MappingService,
+    private titleService: Title,
     private storeLocaleService: StoreLocaleService
-  ) {}
+  ) {
+    this.titleService.setTitle(`${this.title}`);
+  }
 
   ngOnInit() {
     this.GetAllNotifications()

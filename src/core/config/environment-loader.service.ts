@@ -10,7 +10,6 @@ export class EnvironmentLoaderService {
   constructor(private readonly http: HttpClient) { }
 
   async loadEnvConfig(configPath: string): Promise<void> {
-    console.log('Loading environment config !!');
     this.envConfig = await lastValueFrom(this.http.get<EnvConfig>(configPath));
   }
 

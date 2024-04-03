@@ -1,15 +1,12 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 const Swal = require('sweetalert2');
 
 // @ts-ignore
 import { menuJson } from 'src/assets/menu';
-import { ProvisionningService } from '../../provisionning/data-access/provisionning.service';
 import { MappingService } from 'src/shared/services/mapping.service';
-
-
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-portail',
@@ -19,18 +16,18 @@ import { MappingService } from 'src/shared/services/mapping.service';
 export class PortailComponent implements OnInit, AfterViewInit {
   public dateOfDay: string = '';
   public heureOfDay: string = '';
-  public listModule: any;
   public profil: any;
   public permissionsJson: any = [];
   public portailJson: any = [];
-  public listPermissionMapper: any;
   public appName: string;
-  
+  public title = 'Portail - Système de Gestion de Collecte Centralisée';
   constructor(
     public router: Router,
     private storage: EncodingDataService,
-    private mappingService: MappingService
+    private mappingService: MappingService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.permissionsJson = menuJson;
     this.appName = this.mappingService.appName;
   }

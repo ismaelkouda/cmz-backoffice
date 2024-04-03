@@ -4,10 +4,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-// @ts-ignore
-import appConfig from '../../../assets/config/app-config.json';
 import { PatrimoineRepository } from '../../../domain/repositories/patrimoine.repository';
 import { PatrimoineModel } from '../../../domain/models/patrimoine.model';
+import { EnvService } from '../../../shared/services/env.service';
 
 @Injectable({
     providedIn: 'root',
@@ -15,11 +14,11 @@ import { PatrimoineModel } from '../../../domain/models/patrimoine.model';
 export class PatrimoineImplementationRepository extends PatrimoineRepository {
 
     patrimoineMapper = new PatrimoineImplementationRepositoryMapper();
-    timeoutInterval: any;
-    baseUrl: any = appConfig.serverUrl;
+    public baseUrl: any;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private envService: EnvService) {
         super();
+        this.baseUrl = this.envService.apiUrl;
     }
 
     GetAllPatrimoine(): Observable<PatrimoineModel> {

@@ -24,7 +24,6 @@ export class AffectationMembreComponent implements OnInit {
   }
 
   public onExcelFileChange(event: any): void {
-    console.log(event.path[0].files[0].name);
     this.fileName = event.path[0].files[0].name;
     readXlsxFile(event.target.files[0]).then((rows) => {
     });

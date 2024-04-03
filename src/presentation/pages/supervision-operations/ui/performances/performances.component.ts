@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -22,14 +22,15 @@ export class PerformancesComponent implements OnInit {
   public selectedTransaction: string;
   public selectedFirstLevel: any;
   public selectedSecondLevel: any;
+  public title = 'Performances - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private settingService: SettingService,
     private mappingService: MappingService,
     private toastrService: ToastrService,
-
-
+    private titleService: Title
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.listOperations = this.mappingService.listOperationTraitementVue;
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;

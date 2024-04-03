@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { EndPointUrl } from './api.enum';
 
 // @ts-ignore
-import appConfig from '../../../../assets/config/app-config.json';
+import { EnvService } from '../../../../shared/services/env.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +14,10 @@ export class AuthenticationService {
   public baseUrl: string;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private envService: EnvService
       ) {
-    this.baseUrl = `${appConfig.serverUrl}tenants/`
+    this.baseUrl = `${this.envService.apiUrl}tenants/`
   }
 
   HandleForgotPassword(data): Observable<any> {

@@ -25,7 +25,6 @@ export class QrModalComponent implements OnInit {
      */
 
     ngOnInit() {
-        console.log(this.qr);
     }
 
     closeModal() {

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import { ServiceEnum } from 'src/shared/enum/Service.enum';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vente-form',
@@ -13,9 +12,6 @@ export class VenteFormComponent implements OnInit {
   @Input() currentObject;
   @Output() listPatrimoines = new EventEmitter();
   @Output() formsView = new EventEmitter();
-  public listGroupes: Array<any> = []
-  public selectedValue: any;
-  public currentPatrimoine: any = {};
   public selectedService: string = ServiceEnum.AIRTIME;
   public airtimeService: string = ServiceEnum.AIRTIME;
   public dataService: string = ServiceEnum.DATA;
@@ -29,10 +25,7 @@ export class VenteFormComponent implements OnInit {
   public userBcy: string = TypeBeneficiare.USER;
   public groupeBcy: string = TypeBeneficiare.GROUPE;
 
-  constructor(
-    private toastrService: ToastrService
-
-  ) { }
+  constructor() { }
 
   ngOnInit() {
     this.siteKey = environment.recaptcha.siteKey;
@@ -40,22 +33,6 @@ export class VenteFormComponent implements OnInit {
 
   public close(): void {
     this.formsView.emit(false);
-  }
-
-  public changeItem(event: any) {
-    this.selectedValue = null
-  }
-
-  public onVerify() {
-
-  }
-
-  HandleSaveVente() {
-
-  }
-
-  public isFilter() {
-
   }
 }
 

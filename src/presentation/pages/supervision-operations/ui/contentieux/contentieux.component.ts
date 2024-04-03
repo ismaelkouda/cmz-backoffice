@@ -11,21 +11,20 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import * as moment from 'moment';
 import { ExcelService } from 'src/shared/services/excel.service';
+import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
 @Component({
-  selector: 'app-contencieux',
-  templateUrl: './contencieux.component.html',
-  styleUrls: ['./contencieux.component.scss']
+  selector: 'app-contentieux',
+  templateUrl: './contentieux.component.html',
+  styleUrls: ['./contentieux.component.scss']
 })
-export class ContencieuxComponent implements OnInit {
+export class ContentieuxComponent implements OnInit {
 
   public listTraitemants: Array<any> = [];
   public listOperations: Array<any> = [];
   public listStatutTransactions: Array<any> = [];
   public listTraitementTransactions: Array<any> = [];
-  public listIntervenants: Array<any> = [];
-  public listTraitements: Array<any> = [];
   public listUsers: Array<any> = [];
   public totalPage: 0;
   public totalRecords: 0;
@@ -37,8 +36,6 @@ export class ContencieuxComponent implements OnInit {
   public selectedTransaction: any;
   public selectedStatut: any;
   public selectedTraitement: any;
-  public selectedFirstLevel: any;
-  public selectedSecondLevel: any;
   public secondFilter: boolean = false;
   public firstLevelLibelle: string;
   public secondLevelLibelle: string;
@@ -48,7 +45,6 @@ export class ContencieuxComponent implements OnInit {
   public currentUser: any
   public selectDateStart: any;
   public selectDateEnd: any;
-  public activationTransaction: string = OperationTransaction.ACTIVATION
   public stateSoumis: string = StatutTransaction.SOUMIS;
   public stateTraite: string = StatutTransaction.TARITER;
   public stateCloture: string = StatutTransaction.CLOTURER;
@@ -58,6 +54,7 @@ export class ContencieuxComponent implements OnInit {
   public treatmenRejeter: string = TraitementTransaction.REJETER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
   public treatmenRefuser: string = TraitementTransaction.REFUSER;
+  public title = 'Supervision contentieux - Système de Gestion de Collecte Centralisée';
 
   constructor(
     private supervisionOperationService: SupervisionOperationService,
@@ -66,9 +63,10 @@ export class ContencieuxComponent implements OnInit {
     private modalService: NgbModal,
     private settingService: SettingService,
     private mappingService: MappingService,
-    private excelService: ExcelService
-
+    private excelService: ExcelService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle(`${this.title}`);
     this.listOperations = this.mappingService.listOperationTraitementVue;
     Object.values(StatutTransaction).forEach(item => {
       this.listStatutTransactions.push(item);
