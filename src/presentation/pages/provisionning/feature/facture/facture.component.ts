@@ -30,10 +30,7 @@ export class FactureComponent implements OnInit {
   constructor(
     private provisionningService: ProvisionningService,
     private toastrService: ToastrService,
-    private mappingService: MappingService
   ) {
-    this.tenant = mappingService.tenant;
-    //const today = moment().endOf('day')
     this.currentDate = moment().format('DD/MM/YYYY');
     this.delayDate = moment().add(6, 'days').format('DD/MM/YYYY');
 
@@ -50,26 +47,6 @@ export class FactureComponent implements OnInit {
 
   }
 
-  public GetAllAchats() {
-    this.provisionningService
-      .GetAllAchats({}, 1)
-      .subscribe({
-        next: (response) => {
-          this.listAchats = response.data;
-          this.totalPage = response.last_page;
-          this.totalRecords = response.total;
-          this.recordsPerPage = response.per_page;
-          this.offset = (response.current_page - 1) * this.recordsPerPage + 1;
-          this.close()
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
-        }
-      })
-  }
-  public onToBack(): void {
-    this.factureView.emit(false);
-  }
 
   public OnValidate() {
     this.provisionningService

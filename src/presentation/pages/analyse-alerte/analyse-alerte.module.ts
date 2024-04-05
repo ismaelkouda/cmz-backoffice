@@ -20,7 +20,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { TooltipModule } from 'primeng/tooltip';
 
 //Components
-import { CollecteComponent } from './feature/collecte/collecte.component';
 import { PerformanceCollecteComponent } from './ui/performance-collecte/performance-collecte.component';
 import { CourbeMessageComponent } from './ui/courbe-message/courbe-message.component';
 import { SoldesSimComponent } from './ui/soldes-sim/soldes-sim.component';
@@ -48,8 +47,7 @@ import { SoldesSimComponent } from './ui/soldes-sim/soldes-sim.component';
     AnalyseRejetComponent,
     DetectionApproComponent,
     PerformanceCollecteComponent,
-    SoldesSimComponent,
-    CollecteComponent
+    SoldesSimComponent
   ]
 })
 export class AnalyseAlerteModule { }

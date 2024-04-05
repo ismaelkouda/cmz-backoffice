@@ -28,7 +28,6 @@ export class CreditFormComponent implements OnInit {
   public offset: any;
   public p: number = 1;
   public fileUrl: string;
-  public currentRecaptcha: string;
   public siteKey: string;
   creditForm: FormGroup;
 

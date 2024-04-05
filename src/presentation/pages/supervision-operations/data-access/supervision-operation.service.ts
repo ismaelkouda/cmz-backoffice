@@ -20,6 +20,10 @@ export class SupervisionOperationService {
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
   }
 
+  GetAllDemandes(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_DEMANDES).replace('{page}', page);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   GetAllTransactions(data, page): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_TRANSACTIONS).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
@@ -28,15 +32,10 @@ export class SupervisionOperationService {
     const url: string = (<string>EndPointUrl.GET_ALL_PRISE_EN_CHARGE).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
-
   GetDetailTransaction(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_DETAIL_TRANSACTION);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
-  GetAllDemandes(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.GET_ALL_DEMANDES);
-    return this.http.post(`${this.baseUrl}${url}`, data);
-  } 
   GetAllContencieux(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_CONTENCIEUX);
     return this.http.post(`${this.baseUrl}${url}`, data);

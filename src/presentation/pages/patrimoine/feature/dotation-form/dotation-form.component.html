@@ -81,8 +81,6 @@
                 <label>
                   <b>Statut Contrat</b>
                 </label>
-                <!-- <input type="text" [(ngModel)]="currentPatrimoine.statut" style="text-transform: uppercase;"
-                  [disabled]="true" pInputText /> -->
                   <input *ngIf="!currentPatrimoine?.statut" type="text" [(ngModel)]="currentPatrimoine.statut" pInputText [disabled]="true" />
                   <app-statut-contrat *ngIf="currentPatrimoine?.statut" [statut]="currentPatrimoine?.statut"></app-statut-contrat>
               </div>

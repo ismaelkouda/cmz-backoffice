@@ -18,8 +18,6 @@ export class TransactionMasseComponent implements OnInit {
   currentFile: any;
   arrayHeaderExcelFile: Array<any> = [];
   arrayContentExcelFile: Array<any> = [];
-  formatData: any[] = [];
-  statutCompare: boolean = false;
   fileName: string;
 
   constructor(
@@ -28,7 +26,6 @@ export class TransactionMasseComponent implements OnInit {
 
   ngOnInit() {}  
 
-  closeModalAjoutInMass() { if(this.displayModalAjoutEnMasse) { this.resetFile() } }
   onExcelFileChange(event: FileList) {
     if(event.length != 0) {
       this.currentFile = event.item(0);
@@ -48,51 +45,13 @@ export class TransactionMasseComponent implements OnInit {
     this.arrayContentExcelFile = [];
     this.fileName = '';
   }
-  isArraySame(arr1: string[], arr2): boolean {
-    if (arr1.length !== arr2.length) {
-      this.toastrService.error('Nombre de colonne du fichier n\'est le bon');
-      return false
-    }else {    
-      return true
-    }
-  }
-  messageFileIsNotCorrect() {
-      const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-          confirmButton: 'btn btn-success',
-          cancelButton: 'btn btn-danger'
-        },
-        buttonsStyling: false,
-      });
-      swalWithBootstrapButtons.fire({
-        title: this.typeOuvrage,
-        icon: 'error',
-        text: `Structure du fichier incohérente`,
-        confirmButtonColor: '#F07427',
-        confirmButtonText: 'ok',
-      });
-  }
+
   formatDataToSend() {
-    /*
-    this.arrayContentExcelFile.map((item) => {
-      this.formatData.push({...this.arrayHeaderExcelFile.reduce((ac, key, i) => ({ ...ac, [key.toLowerCase()]: item[i] }), {})})
-    });
-    */
     this.currentArrayForm.emit(this.currentFile);
   }
   checkFile() {
     this.formatDataToSend();
     this.toastrService.success('Structure cohérente');
-    /*
-    const isFileCorrect = this.isArraySame(this.arrayHeaderExcelFile, this.currentArrayHeaders);    
-    if (isFileCorrect === false) {
-      this.messageFileIsNotCorrect()
-    } else {      
-      this.statutCompare= true;
-      this.toastrService.success('Structure cohérente');
-      this.formatDataToSend();
-    }
-    */
   }
 
   downloadModelXls() {

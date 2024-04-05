@@ -1,5 +1,4 @@
 import { ParametreSecuriteService } from './../../data-access/parametre-securite.service';
-import { SettingService } from '../../../../../shared/services/setting.service';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
@@ -16,8 +15,6 @@ export class AffectationComponent implements OnInit {
   @Output() listProfils = new EventEmitter();
   public display: boolean = false;
   public checkedAllConsumers: boolean = false;
-  public checkedconsumer: boolean = false;
-  public listconfigCheckedTrue: any[] = [];
   public checkconsumerList: any[] = [];
   public listDirections: Array<any> = [];
   public listExploitations: Array<any> = [];
@@ -32,7 +29,6 @@ export class AffectationComponent implements OnInit {
 
   constructor(
     private toastrService: ToastrService,
-    private settingService: SettingService,
     private parametreSecuriteService: ParametreSecuriteService
   ) { }
 
@@ -115,12 +111,8 @@ export class AffectationComponent implements OnInit {
         }
       })
   }
-  public onFilter() {
-
-  }
   public isFilter(): boolean {
     return true;
-    // return (!this.selectedDirection && !this.selectedSim) ? true : false
   }
 
 

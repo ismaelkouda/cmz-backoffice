@@ -7,7 +7,7 @@ import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { Router } from '@angular/router';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-import { DASHBOARD, DEMANDE_SERVICE, PATRIMOINE } from 'src/shared/routes/routes';
+import { DEMANDE_SERVICE } from 'src/shared/routes/routes';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { DEMANDE_ACTIVATION } from 'src/presentation/pages/demandes/demandes-routing.module';
 const Swal = require('sweetalert2');
@@ -25,27 +25,18 @@ export class PatrimoineFormsComponent implements OnInit {
   public currentObject: any;
   public listDirectionRegionales: Array<any> = [];
   public listExploitations: Array<any> = [];
-  public listZones: Array<any> = [];
-  public idDirectionRegionale: any;
-  public listTypePersonne: Array<any> = [];
   public listUsage: Array<any> = [];
-  public listServices: Array<any> = [];
   public listProfils: Array<any> = [];
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
-  public currentDhcpValue: string;
   public display: boolean = true;
   public isMaximized: boolean = false;
   public adminForm: FormGroup;
   public listActivites: Array<any> = [];
   public listDepartements: Array<any> = [];
-  public listCommunes: Array<any> = [];
-  public selectedDepartement: any;
-  public selectedCommune: any;
-  public reactivationComment: string;
   public soldeGlobal: string
   //Mapping
   public firstLevelLibelle: string;
@@ -101,7 +92,6 @@ export class PatrimoineFormsComponent implements OnInit {
     const formattedMsisdn = msisdn.replace(/(\d{2})(?=\d)/g, "$1 "); // Ajoute le séparateur
     return formattedMsisdn;
   }
-
   public initForm(): void {
     this.adminForm = this.fb.group({
       direction_regionale: ['', [Validators.required]],
@@ -117,12 +107,13 @@ export class PatrimoineFormsComponent implements OnInit {
       imsi: [''],
       statut: [''],
       msisdn: [''],
-      code_pin: [''],
-      apni: [''],
-      username: [''],
-      site: [''],
-      adresse_ip: [''],
-      proxy: ['']
+      date_id_reseau: [''],
+      apnni_reseau: [''],
+      site_reseau: [''],
+      adresse_ip_reseau: ['']
+      /*
+       0704842695
+      */
     });
   }
 
@@ -175,18 +166,7 @@ export class PatrimoineFormsComponent implements OnInit {
         }
       })
   }
-  public GetAllDepartements() {
-    this.patrimoineService
-      .GetAllDepartements({})
-      .subscribe({
-        next: (response) => {
-          this.listDepartements = response['data'];
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
+
   public GetAllPatrimoines() {
     this.patrimoineService
       .GetAllPatrimoines({}, this.p)
@@ -248,7 +228,6 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.get('imsi').patchValue(this.currentObject?.imsi);
     this.adminForm.get('msisdn').patchValue(this.currentObject?.msisdn);
     this.adminForm.get('statut').patchValue(this.currentObject?.statut);
-    this.adminForm.get('code_pin').patchValue(this.currentObject?.code_pin);
     this.adminForm.get('adresse_geographique').patchValue(this.currentObject?.adresse_geographique);
     this.adminForm.get('point_emplacement').patchValue(this.currentObject?.point_emplacement);
     this.adminForm.get('adresse_email').patchValue(this.currentObject?.adresse_email);
@@ -257,24 +236,21 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.get('formule').patchValue(this.currentObject?.formule);
 
     //Trafic Controls
-    this.adminForm.get('apni').patchValue(this.currentObject?.apni);
-    this.adminForm.get('username').patchValue(this.currentObject?.username);
-    this.adminForm.get('site').patchValue(this.currentObject?.site);
-    this.adminForm.get('adresse_ip').patchValue(this.currentObject?.adresse_ip);
-    this.adminForm.get('proxy').patchValue(this.currentObject?.proxy);
+    this.adminForm.get('date_id_reseau').patchValue(this.currentObject?.date_id_reseau);
+    this.adminForm.get('apnni_reseau').patchValue(this.currentObject?.apnni_reseau);
+    this.adminForm.get('site_reseau').patchValue(this.currentObject?.site_reseau);
+    this.adminForm.get('adresse_ip_reseau').patchValue(this.currentObject?.adresse_ip_reseau);
 
 
     //Disabled Controls
     this.adminForm.get('statut').disable();
     this.adminForm.get('imsi').disable();
     this.adminForm.get('msisdn').disable();
-    this.adminForm.get('code_pin').disable();
-    this.adminForm.get('apni').disable();
-    this.adminForm.get('site').disable();
-    this.adminForm.get('proxy').disable();
-    this.adminForm.get('username').disable();
     this.adminForm.get('formule').disable();
-    this.adminForm.get('adresse_ip').disable();
+    this.adminForm.get('date_id_reseau').disable();
+    this.adminForm.get('apnni_reseau').disable();
+    this.adminForm.get('site_reseau').disable();
+    this.adminForm.get('adresse_ip_reseau').disable();
 
     if (this.currentData.show) {
       this.adminForm.disable()
@@ -301,14 +277,6 @@ export class PatrimoineFormsComponent implements OnInit {
           this.toastrService.error(error.error.message);
         }
       })
-  }
-  public onDialogMaximized(event) {
-    this.display = true
-    event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
-  }
-
-  pipeValue(number: any) {
-    return new Intl.NumberFormat('fr-FR').format(number);
   }
   public onTransactionForm(data: any,operation: string): void {
     this.router.navigateByUrl(

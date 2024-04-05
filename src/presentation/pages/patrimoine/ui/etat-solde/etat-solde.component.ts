@@ -171,26 +171,7 @@ export class EtatSoldeComponent implements OnInit {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
-  public onEditForm(data: any): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = { ...data, type: 'edit' };
-  }
-  public onShowForm(data: any): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = { ...data, type: 'show' };
-  }
-  OnAffectaion(data) {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = { ...data, type: 'affectation' };
-  }
-  OnVisualisation(data) {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = { ...data, type: 'visualiser' };
-  }
+
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;

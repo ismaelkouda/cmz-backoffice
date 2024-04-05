@@ -18,6 +18,7 @@ import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access
   templateUrl: './demande-wrapper-show.component.html',
   styleUrls: ['./demande-wrapper-show.component.scss']
 })
+
 export class DemandeWrapperShowComponent implements OnInit {
 
   public module: string;
@@ -60,7 +61,6 @@ export class DemandeWrapperShowComponent implements OnInit {
   constructor(
     public settingService: SettingService,
     public patrimoineService: PatrimoineService,
-    public demandeService: DemandeService,
     public toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private mappingService: MappingService,
@@ -195,9 +195,6 @@ export class DemandeWrapperShowComponent implements OnInit {
   }
   close() {
     this.showView.emit(false);
-  }
-  public pushListTransactions(event: any): void {
-    this.listTransactions = event;
   }
   public disableAction(): boolean {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false

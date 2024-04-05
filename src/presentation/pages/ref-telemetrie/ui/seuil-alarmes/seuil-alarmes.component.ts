@@ -43,69 +43,9 @@ export class SeuilAlarmesComponent implements OnInit {
       })
   }
 
-  public OnEditOneRowMetrique(item: any) {
-    this.currentMetrique = item;
-    this.clonedMetrique[item.id] = { ...item };
-  }
 
-  public onRowEditMetriqueSave(metrique: any) {
-    const currentMetrique = this.clonedMetrique[metrique.id];
-    const data = {
-      metrique_id: currentMetrique.id,
-      ...(metrique.unite === null ? { unite: currentMetrique.unite } : { unite: metrique.unite }),
-    };
-    const checkValue = metriqueParam => this.globalMetriquesEditRow.some(({ metrique_id }) => metrique_id == metriqueParam);
-    if (data?.unite === null) {
-      const indexOfItemInArray = this.globalMetriquesEditRow.findIndex(q => q.metrique_id === data.metrique_id);
-      this.globalMetriquesEditRow.splice(indexOfItemInArray, 1);
-      this.toastrService.warning("Veuillez activez l'alarme ou Configurer l'unité");
-      return;
-    } else {
-      if (checkValue(data.metrique_id) === false) {
-        this.globalMetriquesEditRow.push(data);
-        this.toastrService.info('Enregistrement en attente !', 'EDITION');
-      } else {
-        const indexOfItemInArray = this.globalMetriquesEditRow.findIndex(q => q.metrique_id === data.metrique_id);
-        this.globalMetriquesEditRow.splice(indexOfItemInArray, 1, data);
-      }
-    }
-  }
-  public onCancelRowMetrique(metrique: any, index: number) {
-    this.listTelemetries[index] = this.clonedMetrique[metrique.id];
-    delete this.clonedMetrique[metrique.id];
-    this.globalMetriquesEditRow.forEach((index) => {
-      this.globalMetriquesEditRow.splice(index, 1);
-    });
-  }
-
-  public handleUpdateReferentielTelemetrie() {
-    const data = {
-      metriques: [...this.globalMetriquesEditRow],
-    };
-    this.telemetrieService
-      .handleUpdateReferentielTelemetrie(data)
-      .subscribe({
-        next: (response) => {
-          this.GetAllReferentielTelemetrie()
-          this.toastrService.success(response.message);
-          this.globalMetriquesEditRow = [];
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
   handleChangeTabviewIndex(e) {
     this.currentTabsIndex = e.index;
   }
 
-  public OnExportExcel(): void {
-    const data = this.listTelemetries.map((item: any) => ({
-      'Services': item?.classification,
-      'Description': item?.description,
-      'Type Mesure': item?.type_mesure,
-      'Unité': item?.unite
-    }));
-    this.excelService.exportAsExcelFile(data, 'Liste des Métriques et Alarmes');
-  }
 }

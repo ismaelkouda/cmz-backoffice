@@ -1,7 +1,7 @@
 import { CONTACT_SLA } from './../presentation/pages/ref-telemetrie/ref-telemetrie-routing.module';
 import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION, DEMANDE_RESILIATION } from '../presentation/pages/demandes/demandes-routing.module';
 import { CARTOGRAPHIE, DOWNLOAD_FILE } from './../presentation/pages/patrimoine/patrimoine-routing.module';
-import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE,CONTENCIEUX_ROUTE, NOTIFY_ROUTE, JOURNAL_TRANSACTION_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
+import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE,CONTENCIEUX_ROUTE, NOTIFY_ROUTE, JOURNAL_TRANSACTION_ROUTE, MESSAGERIE_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { COURBE_MESSAGE, DETECTION_APPRO, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
 import { CARTES_SIM, DOTATION_SERVICES, ETAT_SOLDE, GROUPE_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
@@ -245,6 +245,14 @@ export var menuJson = [
                 title: "Journal des Transactions",
                 label: "Journal des Transactions",
                 data: "4-6-0-journaux-transaction",
+                type: "link",
+                pack: ApplicationType.MONITORING
+            },
+            {
+                path: `/${SUPERVISION_OPERATIONS}/${MESSAGERIE_ROUTE}`,
+                title: "Messagerie",
+                label: "Messagerie",
+                data: "4-7-0-messagerie",
                 type: "link",
                 pack: ApplicationType.MONITORING
             },

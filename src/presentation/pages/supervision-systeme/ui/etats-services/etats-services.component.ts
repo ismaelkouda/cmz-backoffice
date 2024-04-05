@@ -66,10 +66,6 @@ export class EtatsServicesComponent implements OnInit {
     });
   }
 
-  onFilter() {
-
-  }
-
   public isFilter(): boolean {
     return this.selectedDirection == null ? true : false
   }

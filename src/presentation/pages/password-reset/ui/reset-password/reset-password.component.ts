@@ -77,6 +77,4 @@ export class ResetPasswordComponent implements OnInit {
     this.passwordForm.reset()
     this.router.navigateByUrl('/auth/login')
   }
-
-  handleConfirm() { }
 }

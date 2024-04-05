@@ -8,7 +8,6 @@ import { HttpClient } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
-
 @Component({
   selector: 'app-cartographie',
   templateUrl: './cartographie.component.html',

@@ -12,3 +12,4 @@ export const enum EndPointUrl {
     READ_NOTIFICATION = 'supervision-operations/centre-notifications/read',
 
 }
+

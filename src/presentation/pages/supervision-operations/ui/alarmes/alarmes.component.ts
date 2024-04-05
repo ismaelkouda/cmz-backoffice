@@ -5,13 +5,13 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { JournalComponent } from 'src/shared/components/journal/journal.component';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { ExcelService } from 'src/shared/services/excel.service';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { Title } from '@angular/platform-browser';
+import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
 
 @Component({
   selector: 'app-alarmes',
@@ -57,11 +57,11 @@ export class AlarmesComponent implements OnInit {
   public treatmenRejeter: string = TraitementTransaction.REJETER;
   public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
-  public title = 'Supervision alarmes - Système de Gestion de Collecte Centralisée';
+  public title = 'File attente - Système de Gestion de Collecte Centralisée';
 
   constructor(
     public settingService: SettingService,
-    public patrimoineService: PatrimoineService,
+    public supervisionOperationService: SupervisionOperationService,
     public toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     private modalService: NgbModal,
@@ -85,11 +85,8 @@ export class AlarmesComponent implements OnInit {
   }
 
   public GetAllTransactions() {
-    this.patrimoineService
-      .GetAllTransactions({
-        statut: StatutTransaction.SOUMIS,
-        traitement: TraitementTransaction.EN_ENTENTE
-      }, this.p)
+    this.supervisionOperationService
+      .GetAllDemandes({}, this.p)
       .subscribe({
         next: (response) => {
           this.listTransactions =  response['data']['data'];
@@ -117,8 +114,8 @@ export class AlarmesComponent implements OnInit {
       this.toastrService.error('Plage de date invalide');
       return;
     }
-    this.patrimoineService
-      .GetAllTransactions({
+    this.supervisionOperationService
+      .GetAllDemandes({
         operation: this.selectedOperation,
         transaction: this.selectedTransaction,
         msisdn: this.selectedSim,
@@ -181,25 +178,12 @@ export class AlarmesComponent implements OnInit {
         }
       );
   }
-  showJournal(data: Object): void {
-    const modalRef = this.modalService.open(JournalComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
-    modalRef.componentInstance.transaction = data;
-    modalRef.componentInstance.type = data['ouvrage'];
-  }
 
   copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
 
-  public hideDialog(data) {
-    this.display = false;
-  }
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
@@ -212,18 +196,7 @@ export class AlarmesComponent implements OnInit {
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
   }
-  public onHistorique(data): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = data;
-  }
-  public pushStatutView(event: boolean): void {
-    this.formsView = event;
-    this.initialView = !event;
-  }
-  public pushListTransactions(event: any): void {
-    this.listTransactions = event;
-  }
+
   public disableAction(): boolean {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
@@ -254,7 +227,7 @@ export class AlarmesComponent implements OnInit {
     }
   }
   public isFilter(): boolean {
-    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction && !this.currentUser) ? true : false
+    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction && !this.currentUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({

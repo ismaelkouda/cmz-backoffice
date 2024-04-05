@@ -152,12 +152,6 @@ export class DotationServiceComponent implements OnInit {
     this.clipboardApi.copyFromContent(data);
   }
 
-  public hideDialog(data) {
-    this.display = false;
-  }
-  public onDialogMaximized(event) {
-    event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
-  }
   public onInitForm(): void {
     this.initialView = false;
     this.formsView = true;

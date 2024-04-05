@@ -4,7 +4,6 @@ import { ServiceEnum } from 'src/shared/enum/Service.enum';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 import { ToastrService } from 'ngx-toastr';
 import { MappingService } from 'src/shared/services/mapping.service';
-import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
 
 @Component({
   selector: 'app-dotation-form',
@@ -31,7 +30,6 @@ export class DotationFormComponent implements OnInit, OnDestroy {
   public simArray: Array<any> = []
   public selectedGroupe: any;
   public siteKey: string;
-  public currentRecaptcha: string;
   public historie: any;
 
   constructor(
@@ -167,9 +165,7 @@ export class DotationFormComponent implements OnInit, OnDestroy {
       !this.selectedDescription
       ) ? true : false
   }
-  pipeValue(number: any) {
-    return new Intl.NumberFormat('fr-FR').format(number);
-  }
+
   ngOnDestroy(): void {
      history.state.patrimoine = null
   }

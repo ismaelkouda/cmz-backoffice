@@ -4,7 +4,7 @@
   </div>
   <div class="container_flex_space_between">
     <div class="row filter_wrapper" style="width: 100%;">
-      <div class="col-md-3">
+      <div class="col-md-2">
         <div class="form-group">
           <label>
             <b>Departement</b>
@@ -12,7 +12,7 @@
           <input type="text" [disabled]="true" [value]="currentObject.departement_nom" pInputText />
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-2">
         <div class="form-group">
           <label>
             <b>Commune</b>
@@ -20,7 +20,7 @@
           <input type="text" [disabled]="true" [value]="currentObject.commune_nom" pInputText />
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-2">
         <div class="form-group">
           <label>
             <b>Zone Trafic</b>
@@ -28,9 +28,24 @@
           <input type="text" [disabled]="true" [value]="currentObject.libelle" pInputText />
         </div>
       </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>
+            <b>Site Trafic</b>
+          </label>
+          <input type="text" [(ngModel)]="selectedSite" style="padding: 0.9rem 0.75rem !important;" pInputText />
+        </div>
+      </div>
+      <div [ngStyle]="{width: 'auto'}">
+        <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+        <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="OnFilter()"
+          [disabled]="isFilter()"></p-button>
+      </div>
     </div>
     <div>
       <div class="table_actions_wrapper pt-3">
+        <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
+        class="p-button-secondary"></button>
         <button pButton pRipple label="Fermer" (click)="close()" class="p-button-danger"></button>
       </div>
     </div>
@@ -43,7 +58,7 @@
     <table [ngClass]="['native_table table']">
       <thead>
         <th [style]="{width: '1.5rem'}">#</th>
-        <th class="text-center">Nom</th>
+        <th class="text-center">Site Trafic</th>
         <th class="text-center">Latitude</th>
         <th class="text-center">Longitude</th>
       </thead>
@@ -51,7 +66,7 @@
         <tr
           *ngFor="let data of listSites | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPages, totalItems:totalRecords }; let i = index;">
           <td [style]="{width: '1.5rem'}">{{ (this.offset + i)}}</td>
-          <td>{{data?.libelle}}</td>
+          <td (click)="copyData(data.libelle)" style="cursor: pointer">{{data?.libelle}}</td>
           <td>{{data?.latitude}}</td>
           <td>{{data?.longitude}}</td>
         </tr>

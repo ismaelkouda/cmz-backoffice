@@ -4,8 +4,16 @@ export class EnvService {
     public apiUrl = '';
     public fileUrl = '';
 
-    // HeaderTitle
-    public headerTitle = '';
+    public headerSettings = {
+        appTypePS: '',
+        appTypeSM: ''
+    };
+    public messageApp = {
+        sourceStockTenantSim : '',
+        sourceStockOrangeSim : '',
+        sourceSoldeDotation : '',
+        sourceSoldeDotationOrange : '',
+    };
 
     // Whether or not to enable debug mode
     public enableDebug = true;

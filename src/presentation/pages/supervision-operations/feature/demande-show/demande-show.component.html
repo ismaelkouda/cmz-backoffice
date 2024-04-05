@@ -86,9 +86,6 @@
           <div class="wrapper-header"  style="font-size: 20px;">
            Statut :&nbsp;<b><span>{{detailTransaction?.statut}}</span></b>
          </div>
-           <!-- <div class="wrapper-header"  style="font-size: 20px;">
-             Date de création :&nbsp;<b><span>{{detailTransaction?.date_debut}}</span></b>
-           </div> -->
          </div>
         <hr style="position: relative;top: -0.2rem;margin-top: -0.4rem;">
         <!--------------LIGNE----------CREDIT------------FORMS----------------->
@@ -169,7 +166,6 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
                     <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
@@ -248,7 +244,6 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
                     <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
@@ -336,7 +331,6 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
                     <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
@@ -401,7 +395,6 @@
                     <label>
                       <b>Statut Contrat</b>
                     </label>
-                    <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
                     <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
                   </div>
                 </div>
@@ -644,38 +637,6 @@
                 </table>
               </div>
             </fieldset>
-            <!-- <br>
-            <fieldset [formGroup]="achatForm">
-              <legend>
-                <strong>Acceptation</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input formControlName="commmande_produit_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input formControlName="commmande_produit_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="commmande_produit_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
-                </div>
-              </div>
-            </fieldset> -->
           </div>
         </div>
       </div>

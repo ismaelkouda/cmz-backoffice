@@ -158,10 +158,6 @@ export class CommandeSimComponent implements OnInit {
     }
   }
 
-  public handleCancel() {
-
-  }
-
   public onInitForm(): void {
     this.initialView = false;
     this.formsView = true;

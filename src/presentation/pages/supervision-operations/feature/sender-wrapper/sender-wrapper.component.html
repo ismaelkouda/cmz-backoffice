@@ -1,0 +1,69 @@
+<div>
+  <div class="row filter_wrapper">
+    <div class="col-md-2">
+      <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
+      (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [minDate]="minDate" [maxDate]="dateToday"  placeholder="Date debut" [showButtonBar]="true"></p-calendar>
+    </div>
+    <div class="col-md-2">
+      <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+      (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [minDate]="minDate" [maxDate]="dateToday"  placeholder="Date fin" [showButtonBar]="true"></p-calendar>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <input placeholder="object/sujet" [(ngModel)]="selectedSubject" type="text" pInputText />
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <p-dropdown [options]="listStates" [(ngModel)]="selectedState" [filter]="true" [showClear]="true" placeholder="statut">
+        <ng-template let-data pTemplate="item">
+            <div class="country-item">
+                <div>{{ data }}</div>
+            </div>
+        </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+    <div [ngStyle]="{width: '4rem',marginTop: '-1.7rem'}" *ngIf="!secondFilter">
+      <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="isFilter()"
+        (click)="onFilter()"></p-button>
+    </div>
+  </div>
+  <hr [style]="{margin: '0'}">
+  <div class="table_content_wrapper">
+    <div class="d-flex justify-content-between">
+      <div class="table_header ">
+        <app-table-header [count]="listTransactions" [legende]="tabsLabel" [page]="page" [totalPage]="totalPage"></app-table-header>
+      </div>
+      <div class="table_actions_wrapper mb-2">
+        <button *ngIf="mappingService.IsAction()" pButton pRipple label="Redigez un message" icon="pi pi-send" class="p-button-success" (click)="onInitForm()"></button>
+        <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary" (click)="OnRefresh()"></button>
+        <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button>
+      </div>
+    </div>
+    <table [ngClass]="['native_table table']">
+      <thead>
+        <tr>
+          <th class="text-center">#</th>
+          <th>Destinataire</th>
+          <th class="text-center">Date d'envoi</th>
+          <th>Sujet</th>
+          <th>Message</th>
+          <th>Statut de lecture</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let transaction of listTransactions | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+          <td class="text-center">{{ (this.offset + i)}}</td>
+          <td> {{ transaction?.created_at }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div [ngClass]="['pagination-controls']">
+      <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

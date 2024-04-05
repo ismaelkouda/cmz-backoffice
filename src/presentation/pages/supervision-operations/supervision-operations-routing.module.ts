@@ -1,3 +1,4 @@
+import { MessagerieComponent } from './ui/messagerie/messagerie.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SuivieTraitementComponent } from './ui/suivie-traitement/suivie-traitement.component';
@@ -16,6 +17,7 @@ export const PERFORMANCE_SLA_ROUTE = 'performances-sla'
 export const CONTENCIEUX_ROUTE = 'reclamations'
 export const NOTIFY_ROUTE = 'centre-notifications'
 export const JOURNAL_TRANSACTION_ROUTE = 'journal-transaction'
+export const MESSAGERIE_ROUTE = 'messagerie'
 
 
 const routes: Routes = [
@@ -49,6 +51,10 @@ const routes: Routes = [
             {
                 path: JOURNAL_TRANSACTION_ROUTE,
                 component: JournalTransactionComponent,
+            },
+            {
+                path: MESSAGERIE_ROUTE,
+                component: MessagerieComponent,
             }
         ]
     },

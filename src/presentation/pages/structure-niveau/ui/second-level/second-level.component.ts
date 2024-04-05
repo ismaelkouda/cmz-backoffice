@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { ExcelService } from 'src/shared/services/excel.service';
@@ -43,7 +42,6 @@ export class SecondLevelComponent implements OnInit {
     private settingService: SettingService,
     private toastrService: ToastrService,
     public mappingService: MappingService,
-    private modalService: NgbModal,
     private excelService: ExcelService,
     private clipboardApi: ClipboardService,
     private titleService: Title,
@@ -145,10 +143,6 @@ export class SecondLevelComponent implements OnInit {
       ]],
       niveau_un_uuid: ['', [Validators.required]]
     })
-  }
-  hideForm() {
-    this.modalService.dismissAll();
-    this.adminForm.reset();
   }
   public openForm(): void {
     this.initialView = false;

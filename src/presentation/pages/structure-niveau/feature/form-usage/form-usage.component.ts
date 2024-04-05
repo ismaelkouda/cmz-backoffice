@@ -15,7 +15,6 @@ export class FormUsageComponent implements OnInit {
   @Output() listUsages = new EventEmitter();
   @Output() formsView = new EventEmitter();
   adminForm: FormGroup;
-  public listTenants: Array<any> = []
   public currentLevelLibelle: string
 
   constructor(

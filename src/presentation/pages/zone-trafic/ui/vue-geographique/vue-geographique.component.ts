@@ -120,9 +120,6 @@ export class VueGeographiqueComponent implements OnInit {
       return { ...element, fullName: `${element.libelle}` }
     });
   }
-  onMaximized(e) {
-    this.maxi = e.maximized;
-  }
   copyData(data: any): void {
     this.clipboardApi.copyFromContent(data);
     this.toastrService.success('Copié dans le presse papier');

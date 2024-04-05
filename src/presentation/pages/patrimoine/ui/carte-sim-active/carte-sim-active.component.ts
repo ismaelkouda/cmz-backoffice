@@ -336,9 +336,9 @@ export class CarteSimActiveComponent implements OnInit {
     });
     var  osmLayer = this.OpenStreetMap
     this.map = new L.Map('map');
-    this.map.setView(new L.LatLng(this.currentComposant?.longitude, this.currentComposant?.latitude), 18);
+    this.map.setView(new L.LatLng(this.currentComposant?.longitude ?? this.currentComposant?.long_reseau, this.currentComposant?.latitude ?? this.currentComposant?.lat_reseau), 18);
     this.map.options.minZoom = 12;
-    var marker = L.marker([this.currentComposant?.longitude, this.currentComposant?.latitude])
+    var marker = L.marker([this.currentComposant?.longitude ?? this.currentComposant?.long_reseau, this.currentComposant?.latitude ?? this.currentComposant?.lat_reseau])
       .setIcon(customIcon)
       .bindPopup(
         "<div>" + "" +

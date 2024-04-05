@@ -1,3 +1,7 @@
+import { MessageFormComponent } from './feature/message-form/message-form.component';
+import { RecipientWrapperComponent } from './feature/recipient-wrapper/recipient-wrapper.component';
+import { SenderWrapperComponent } from './feature/sender-wrapper/sender-wrapper.component';
+import { MessageBoxComponent } from './feature/message-box/message-box.component';
 import { JournalTransactionComponent } from './ui/journal-transaction/journal-transaction.component';
 import { ShowNotificationComponent } from './feature/show-notification/show-notification.component';
 import { NotificationComponent } from './ui/notification/notification.component';
@@ -41,6 +45,7 @@ import { PriseEnChargeComponent } from './ui/prise-en-charge/prise-en-charge.com
 import { AlarmesComponent } from './ui/alarmes/alarmes.component';
 import { SuivieTraitementComponent } from './ui/suivie-traitement/suivie-traitement.component';
 import { PerformancesComponent } from './ui/performances/performances.component';
+import { MessagerieComponent } from './ui/messagerie/messagerie.component';
 
 @NgModule({
     imports: [
@@ -85,7 +90,12 @@ import { PerformancesComponent } from './ui/performances/performances.component'
         DemandeShowComponent,
         NotificationComponent,
         ShowNotificationComponent,
-        JournalTransactionComponent
+        JournalTransactionComponent,
+        MessagerieComponent,
+        MessageBoxComponent,
+        SenderWrapperComponent,
+        RecipientWrapperComponent,
+        MessageFormComponent
     ],
     providers: [EditableRow, SupervisionOperationService]
 })

@@ -196,10 +196,10 @@
                      </span>
                     </td>
                     <td class="td-actions">
-                      <button pButton icon="pi pi-map-marker" [disabled]="data.statut ==='inactif' || (!data.latitude && !data.longitude)"
-                        pTooltip="Localisation" tooltipPosition="top" (click)="showDialog('map',data)"
-                        class="p-button-success"></button>
-                      
+                      <button pButton icon="pi pi-map-marker" [disabled]="
+                          data.statut ==='inactif'|| (!data?.latitude && !data?.longitude && !data?.site_reseau)"
+                          pTooltip="Localisation" tooltipPosition="top" (click)="showDialog('map',data)"
+                          class="p-button-success"></button>
                         <button pButton icon="pi pi-qrcode" [pTooltip]="data.qrcode ? 'Scaner' : ''" tooltipPosition="top" (click)="OnShowQr(data)"
                         [class]="data.qrcode?'p-button-help': 'p-button-help p-button-outlined'"></button>
                         <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"

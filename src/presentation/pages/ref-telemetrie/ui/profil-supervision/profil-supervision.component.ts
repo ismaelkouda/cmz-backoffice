@@ -56,12 +56,6 @@ export class ProfilSupervisionComponent implements OnInit {
       })
   }
 
-  public onInitForm(): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = undefined;
-  }
-
   public onEditForm(data: any): void {
     this.initialView = false;
     this.formsView = true;
