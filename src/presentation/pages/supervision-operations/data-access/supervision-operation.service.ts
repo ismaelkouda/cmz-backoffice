@@ -91,5 +91,20 @@ export class SupervisionOperationService {
     const url: string = (<string>EndPointUrl.GET_ALL_SLA);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
-
+  HandleSaveMessage(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.SAVE_MESSAGE);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+  GetAllMessagesSender(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_MESSAGE_SENDER).replace('{page}', page);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+  OnDetailMessagesSender(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.DETAIL_MESSAGE_SENDER);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+  GetAllMessagesRecieve(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_MESSAGE_RECIEVE).replace('{page}', page);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
 }

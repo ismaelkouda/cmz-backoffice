@@ -9,10 +9,10 @@
                       [cardBgColor]="'#3498db'"
                       [cardBorderColor]="'#FFF'"
                       [legend]="'# Total '+ (+currentTabsIndex === 0 ? 'Reçus': 'Envoyés')"
-                      [count]="rapport?.soumises || '0'"
+                      [count]="rapport?.total || '0'"
                       [legendColor]="'#FFF'"
                       [countColor]="'#FFF'"
-                      [taux]="rapport?.pourcentage_soumises">
+                      >
                   </app-message-box>
               </div>
               <div>
@@ -20,10 +20,9 @@
                       [cardBgColor]="'#27ae60'"
                       [cardBorderColor]="'#FFF'"
                       [legend]="'# Total Lus'"
-                      [count]="rapport?.traitees_dans_delais || '0'"
+                      [count]="rapport?.total_lus || '0'"
                       [legendColor]="'#FFF'"
                       [countColor]="'#FFF'"
-                      [taux]="rapport?.pourcentage_traitees_dans_delais"
                   ></app-message-box>
               </div>
               <div>
@@ -31,10 +30,9 @@
                       [cardBgColor]="'#FF6600'"
                       [cardBorderColor]="'#FFF'"
                       [legend]="'# Sujet Offres Commerciales'"
-                      [count]="rapport?.traitees_hors_delais || '0'"
+                      [count]="rapport?.total_offres_commerciales || '0'"
                       [legendColor]="'#FFF'"
                       [countColor]="'#FFF'"
-                      [taux]="rapport?.pourcentage_traitees_hors_delais"
                   ></app-message-box>
               </div>
               <div>
@@ -42,10 +40,9 @@
                       [cardBgColor]="'#e74c3c'"
                       [cardBorderColor]="'#FFF'"
                       [legend]="'# Sujet Contrat'"
-                      [count]="rapport?.attentes_hors_delais || '0'"
+                      [count]="rapport?.total_contrats || '0'"
                       [legendColor]="'#FFF'"
                       [countColor]="'#FFF'"
-                      [taux]="rapport?.pourcentage_attentes_hors_delais"
                   ></app-message-box>
               </div>
               <div>
@@ -56,7 +53,6 @@
                       [count]="rapport?.sla_en_cours || '0'"
                       [legendColor]="'#000000'"
                       [countColor]="'#000000'"
-                      [taux]="rapport?.pourcentage_sla_en_cours"
                   ></app-message-box>
               </div>
             </div>

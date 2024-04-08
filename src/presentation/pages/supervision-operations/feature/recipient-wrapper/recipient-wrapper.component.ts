@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 import * as moment from 'moment'
+import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
 
 @Component({
   selector: 'app-recipient-wrapper',
@@ -17,10 +18,8 @@ export class RecipientWrapperComponent implements OnInit {
   @Input() selectedTransaction: string;
   @Input() tabsLabel: string;
   @Output() rapport = new EventEmitter();
-  public listTransactions: Array<any> = [];
+  public listMessages: Array<any> = [];
   public listStates: Array<any> = [];
-  public listTenants: Array<any> = [];
-  public listStatutTransactions: Array<any> = [];
   public selectedState: any;
   public currentTransactionId: string;
   public filterDateStart: Date;
@@ -35,58 +34,89 @@ export class RecipientWrapperComponent implements OnInit {
   public p: number = 1;
   public page: number = 1;
   public date: Date | undefined;
-  public minDate: Date | undefined
-  public maxDate: Date | undefined; 
-  public dateToday: Date | undefined;
 
 
   constructor(
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
+    private supervisionOperationService: SupervisionOperationService
   ) {
     this.listStates = ['Lu', 'Non lu']
   }
 
   ngOnInit() {
     this.isFilter();
-    let currentDate = new Date();
-    let prevDate = new Date(currentDate);
-    prevDate.setDate(currentDate.getDate() - 90);
-    this.minDate = prevDate;
-    this.maxDate = currentDate;
-    this.dateToday = currentDate;
+    this.GetAllMessagesRecieve()
   }
-  public HandleSlaDemandeService(): void {
-    
+  public GetAllMessagesRecieve() {
+    this.supervisionOperationService
+      .GetAllMessagesRecieve({}, this.p)
+      .subscribe({
+        next: (res) => {
+          this.listMessages = res['data']['data']['data'];
+          this.rapport.emit({ 
+            total: res['data']['total'],
+            total_lus: res['data']['total_lus'],
+            total_offres_commerciales: res['data']['total_offres_commerciales'],
+            total_contrats: res['data']['total_contrats'],
+            total_facture: res['data']['total_facture'],
+          })          
+          this.totalPage = res['data']['data'].last_page;
+          this.totalRecords = res['data']['data'].total;
+          this.recordsPerPage = res['data']['data'].per_page;
+          this.offset = (res['data']['data'].current_page - 1) * this.recordsPerPage + 1;
+        },
+        error: (err) => {
+          this.toastrService.error(err.message);
+        }
+      })
   }
   public onFilter(): void {
     if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
       this.toastrService.error('Plage de date invalide');
       return;
     }
-    const data = {
-      operation: this.selectedTransaction,
-      traite_par: this.selectedState,
+    this.supervisionOperationService
+    .GetAllMessagesRecieve({
       date_debut: this.selectDateStart,
-      date_fin: this.selectDateEnd
-    };
+      date_fin: this.selectDateEnd,
+      sujet: this.selectedSubject,
+      lecture_id: this.selectedState
+    }, this.p)
+    .subscribe({
+      next: (res) => {
+        this.listMessages = res['data']['data']['data'];
+        this.rapport.emit({ 
+          total: res['data']['total'],
+          total_lus: res['data']['total_lus'],
+          total_offres_commerciales: res['data']['total_offres_commerciales'],
+          total_contrats: res['data']['total_contrats'],
+          total_facture: res['data']['total_facture'],
+        })          
+        this.totalPage = res['data']['data'].last_page;
+        this.totalRecords = res['data']['data'].total;
+        this.recordsPerPage = res['data']['data'].per_page;
+        this.offset = (res['data']['data'].current_page - 1) * this.recordsPerPage + 1;
+      },
+      error: (err) => {
+        this.toastrService.error(err.message);
+      }
+    })
   }
   OnRefresh() {
-    this.onFilter()
     this.selectedState = null
     this.selectDateStart = null
     this.selectedSubject = null
     this.selectDateEnd = null
     this.filterDateStart = null
     this.filterDateEnd = null
+    this.GetAllMessagesRecieve()
   }
 
   onPageChange(event: any) {
     this.p = event.pageCount;
     this.onFilter()
   }
-
-
 
   copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
@@ -112,7 +142,7 @@ export class RecipientWrapperComponent implements OnInit {
     }
   }
   public isFilter(): boolean {
-    return true
+    return (!this.selectedSubject && !this.selectedState && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
 
 }

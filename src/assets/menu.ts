@@ -288,8 +288,8 @@ export var menuJson = [
             },
             {
                 path: `/${SUPERVISION_SIM}/${DETECTION_APPRO}`,
-                title: "Détection Appro.",
-                label: "Détection Appro.",
+                title: "Détection Appro. Data",
+                label: "Détection Appro. Data",
                 data: "5-3-0-detection-appro",
                 type: "link",
                 pack: ApplicationType.MONITORING,

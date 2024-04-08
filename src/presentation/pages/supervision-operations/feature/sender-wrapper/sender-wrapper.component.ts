@@ -1,9 +1,10 @@
 import { Component, OnInit,Output,EventEmitter, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 import * as moment from 'moment'
 import { MappingService } from 'src/shared/services/mapping.service';
+import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
+const Swal = require('sweetalert2');
 
 @Component({
   selector: 'app-sender-wrapper',
@@ -18,9 +19,9 @@ export class SenderWrapperComponent implements OnInit {
   @Input() selectedTransaction: string;
   @Input() tabsLabel: string;
   @Output() formsView = new EventEmitter();
-  public listTransactions: Array<any> = [];
+  @Output() rapport = new EventEmitter();
+  public listMessages: Array<any> = [];
   public listStates: Array<any> = [];
-  public listStatutTransactions: Array<any> = [];
   public selectedState: any;
   public currentTransactionId: string;
   public filterDateStart: Date;
@@ -43,44 +44,82 @@ export class SenderWrapperComponent implements OnInit {
   constructor(
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
-    public mappingService: MappingService
+    public mappingService: MappingService,
+    public supervisionOperationService: SupervisionOperationService,
   ) {
     this.listStates = ['Lu', 'Non lu']
   }
 
   ngOnInit() {
     this.isFilter();
-    let currentDate = new Date();
-    let prevDate = new Date(currentDate);
-    prevDate.setDate(currentDate.getDate() - 90);
-    this.minDate = prevDate;
-    this.maxDate = currentDate;
-    this.dateToday = currentDate;
+    this.GetAllMessagesSender()
   }
 
-  public HandleSlaDemandeService(): void {
-    
+  
+  public GetAllMessagesSender() {
+    this.supervisionOperationService
+      .GetAllMessagesSender({}, this.p)
+      .subscribe({
+        next: (res) => {
+          this.listMessages = res['data']['data']['data'];
+          this.rapport.emit({ 
+            total: res['data']['total'],
+            total_lus: res['data']['total_lus'],
+            total_offres_commerciales: res['data']['total_offres_commerciales'],
+            total_contrats: res['data']['total_contrats'],
+            total_facture: res['data']['total_facture'],
+          })          
+          this.totalPage = res['data']['data'].last_page;
+          this.totalRecords = res['data']['data'].total;
+          this.recordsPerPage = res['data']['data'].per_page;
+          this.offset = (res['data']['data'].current_page - 1) * this.recordsPerPage + 1;
+        },
+        error: (err) => {
+          this.toastrService.error(err.message);
+        }
+      })
   }
+
   public onFilter(): void {
     if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
       this.toastrService.error('Plage de date invalide');
       return;
     }
-    const data = {
-      operation: this.selectedTransaction,
-      traite_par: this.selectedState,
-      date_debut: this.selectDateStart,
-      date_fin: this.selectDateEnd
-    };
+    this.supervisionOperationService
+      .GetAllMessagesSender({
+        sujet: this.selectedSubject,
+        lecture_id: this.selectedState,
+        date_debut: this.selectDateStart,
+        date_fin: this.selectDateEnd
+      }, this.p)
+      .subscribe({
+        next: (res) => {
+          this.listMessages = res['data']['data']['data'];
+          this.rapport.emit({ 
+            total: res['data']['total'],
+            total_lus: res['data']['total_lus'],
+            total_offres_commerciales: res['data']['total_offres_commerciales'],
+            total_contrats: res['data']['total_contrats'],
+            total_facture: res['data']['total_facture'],
+          })          
+          this.totalPage = res['data']['data'].last_page;
+          this.totalRecords = res['data']['data'].total;
+          this.recordsPerPage = res['data']['data'].per_page;
+          this.offset = (res['data']['data'].current_page - 1) * this.recordsPerPage + 1;
+        },
+        error: (err) => {
+          this.toastrService.error(err.message);
+        }
+      })
   }
   OnRefresh() {
-    this.onFilter()
     this.selectedState = null
     this.selectDateStart = null
     this.selectedSubject = null
     this.selectDateEnd = null
     this.filterDateStart = null
     this.filterDateEnd = null
+    this.GetAllMessagesSender()
   }
 
   onPageChange(event: any) {
@@ -98,7 +137,34 @@ export class SenderWrapperComponent implements OnInit {
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
   }
-
+  public OnDetailMessagesSender(data: any): void {    
+    Swal.fire({
+      title: 'En êtes vous sûr ?',
+      html: `Voulez-vous lire ce message ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#569C5B',
+      cancelButtonColor: '#dc3545',
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Oui',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.supervisionOperationService
+          .OnDetailMessagesSender({
+            message_id: data?.id
+          })
+          .subscribe({
+            next: (response) => {
+              this.toastrService.success(response.message);
+              this.GetAllMessagesSender();
+            },
+            error: (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          })
+      }
+    });
+  }
   changeDateStart(e) {
     if ( moment(this.filterDateStart).isValid()) {
       this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
@@ -114,7 +180,7 @@ export class SenderWrapperComponent implements OnInit {
     }
   }
   public isFilter(): boolean {
-    return true
+    return (!this.selectedSubject && !this.selectedState && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
 
 }

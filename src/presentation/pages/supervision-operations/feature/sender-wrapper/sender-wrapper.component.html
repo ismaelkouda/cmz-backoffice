@@ -33,7 +33,7 @@
   <div class="table_content_wrapper">
     <div class="d-flex justify-content-between">
       <div class="table_header ">
-        <app-table-header [count]="listTransactions" [legende]="tabsLabel" [page]="page" [totalPage]="totalPage"></app-table-header>
+        <app-table-header [count]="listMessages" [legende]="tabsLabel" [page]="page" [totalPage]="totalPage"></app-table-header>
       </div>
       <div class="table_actions_wrapper mb-2">
         <button *ngIf="mappingService.IsAction()" pButton pRipple label="Redigez un message" icon="pi pi-send" class="p-button-success" (click)="onInitForm()"></button>
@@ -45,19 +45,34 @@
       <thead>
         <tr>
           <th class="text-center">#</th>
-          <th>Destinataire</th>
           <th class="text-center">Date d'envoi</th>
           <th>Sujet</th>
-          <th>Message</th>
-          <th>Statut de lecture</th>
+          <th class="text-center">Objet</th>
+          <th>Statut</th>
+          <th>Signature</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr
-          *ngFor="let transaction of listTransactions | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+          *ngFor="let data of listMessages | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
           <td class="text-center">{{ (this.offset + i)}}</td>
-          <td> {{ transaction?.created_at }}</td>
+          <td> {{ data?.created_at }}</td>
+          <td (click)="copyData(data.sujet)" style="cursor: pointer"> {{ data?.sujet | titlecase }}</td>
+          <td> {{ data?.objet }}</td>
+          <td class="text-center">
+            <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+              [class.badge-success]="data.statut === 'lu'" [class.badge-dark]="data.statut !== 'non-lu'">
+              {{ data.statut }}
+            </span>
+          </td>
+          <td> {{ data?.signature_nom }} {{ data?.signature_fonction }} [{{data?.signature_contact}}]</td>
+          <td class="td-actions">
+            <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
+            (click)="OnDetailMessagesSender(data)" class="p-button-dark"></button>
+            <button pButton pRipple *ngIf="mappingService.IsAction()" icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+            (click)="onEditForm(data)" class="p-button-secondary"></button>
+          </td>
         </tr>
       </tbody>
     </table>
