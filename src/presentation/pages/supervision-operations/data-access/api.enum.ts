@@ -14,5 +14,6 @@ export const enum EndPointUrl {
     GET_ALL_MESSAGE_SENDER = 'messagerie/boite-envoi/all?page={page}',
     DETAIL_MESSAGE_SENDER = 'messagerie/boite-envoi/details',
     GET_ALL_MESSAGE_RECIEVE = 'messagerie/boite-reception/all?page={page}',
+    DOWNLOAD_MESSAGE = 'messagerie/boite-reception/telecharger',
 }
 

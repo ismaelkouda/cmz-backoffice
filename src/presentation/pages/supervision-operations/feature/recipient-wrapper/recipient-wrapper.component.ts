@@ -4,6 +4,9 @@ import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 import * as moment from 'moment'
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
+import { SujetEnum } from '../../data-access/sujet.enum';
+import { SettingService } from 'src/shared/services/setting.service';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
   selector: 'app-recipient-wrapper',
@@ -20,8 +23,10 @@ export class RecipientWrapperComponent implements OnInit {
   @Output() rapport = new EventEmitter();
   public listMessages: Array<any> = [];
   public listStates: Array<any> = [];
+  public listSubjects: Array<any> = [];
+  public listUsers: Array<any> = [];
   public selectedState: any;
-  public currentTransactionId: string;
+  public selectedUser: any;
   public filterDateStart: Date;
   public filterDateEnd: Date;
   public selectDateStart: any;
@@ -39,14 +44,18 @@ export class RecipientWrapperComponent implements OnInit {
   constructor(
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
-    private supervisionOperationService: SupervisionOperationService
+    private settingService: SettingService,
+    private supervisionOperationService: SupervisionOperationService,
+    private mappingService: MappingService
   ) {
-    this.listStates = ['Lu', 'Non lu']
+    this.listStates = ['lu', 'non-lu']
+    this.listSubjects = [SujetEnum.OFRRE_COMMERCIAL,SujetEnum.CONTRAT,SujetEnum.FACTURE]
   }
 
   ngOnInit() {
     this.isFilter();
     this.GetAllMessagesRecieve()
+    this.GetAllUsers()
   }
   public GetAllMessagesRecieve() {
     this.supervisionOperationService
@@ -78,10 +87,11 @@ export class RecipientWrapperComponent implements OnInit {
     }
     this.supervisionOperationService
     .GetAllMessagesRecieve({
-      date_debut: this.selectDateStart,
-      date_fin: this.selectDateEnd,
       sujet: this.selectedSubject,
-      lecture_id: this.selectedState
+      statut: this.selectedState,
+      envoye_par: this.selectedUser,
+      date_debut: this.selectDateStart,
+      date_fin: this.selectDateEnd
     }, this.p)
     .subscribe({
       next: (res) => {
@@ -122,9 +132,42 @@ export class RecipientWrapperComponent implements OnInit {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
-  
-  public showSecondFilter() {
-    this.secondFilter = !this.secondFilter;
+
+  OnDownload(data): void {
+    window.open(`${this.mappingService.fileUrl}${data.piece_jointe}`)
+    setTimeout(() => {
+      this.OnDownloadMessage(data)
+    }, 1000);
+  }
+  OnDownloadMessage(data){    
+    this.supervisionOperationService
+      .OnDownloadMessage({
+        message_id: data.id
+      }).subscribe({
+        next: (response) => {
+          this.toastrService.success(response.message);
+          this.GetAllMessagesRecieve()
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+    }
+    GetAllUsers() {
+    this.settingService
+      .getAllUsers({})
+      .subscribe(
+        (response: any) => {
+          const users = response['data'];
+          this.listUsers = users.map((el) => {
+            const data = { ...el, fullName: el.nom + ' ' + el.prenoms };
+            return data;
+          });
+        },
+        (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      );
   }
 
   changeDateStart(e) {
@@ -142,7 +185,7 @@ export class RecipientWrapperComponent implements OnInit {
     }
   }
   public isFilter(): boolean {
-    return (!this.selectedSubject && !this.selectedState && !this.selectDateStart && !this.selectDateEnd) ? true : false
+    return (!this.selectedSubject && !this.selectedState && !this.selectedUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
 
 }
