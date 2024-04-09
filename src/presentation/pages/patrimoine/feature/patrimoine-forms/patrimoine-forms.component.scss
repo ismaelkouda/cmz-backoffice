@@ -1,0 +1,45 @@
+.small-dashboard{
+    display: flex;gap: 2rem;
+}
+
+.label {
+    font-size: 20px;
+    color: #000;
+    text-align: center;
+}
+
+.box-card{
+    text-align: center;
+    border: 2px solid #2c3e50;
+    border-radius: 6px;
+    height: 80px !important;
+    width: 384px !important;
+    .title {
+        span{
+            color: black;
+            text-transform: capitalize;
+            font-weight: 900 !important;
+            font-size: 35px;
+        }
+    }
+    .valeur {
+        span{
+            color: #FF6600;
+            font-size: 45px;
+            text-align: center;
+            font-weight: 900 !important;
+        }
+    }
+}
+// #card-box{
+//     position: relative;
+//     top: -1rem;
+//     .app-statistics-box{
+//         .card{
+//             width: 10rem !important;
+//             .content{
+//                 gap: 0 !important
+//             }
+//         }
+//     }
+// }

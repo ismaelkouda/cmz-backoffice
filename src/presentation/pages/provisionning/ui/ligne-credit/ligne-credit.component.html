@@ -1,0 +1,146 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="'Gestion de Portefeuille'" [active_item]="'Ligne de Crédits'"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div [hidden]="!initialView">
+            <div class="row statistique">
+              <div class="col-md-3">
+                <app-card-stock [cardBgColor]="'#FFFFFF'" [ngClass]="['ligne-card']" [cardBorderColor]="'#DF7401'"
+                  [legend]="'Crédit Disponible (FCFA)'" [count]="ligneCreditStat?.credit_disponible || '0'" [legendColor]="'#DF7401'"
+                  [countColor]="'#000000'"></app-card-stock>
+              </div>
+              <div class="col-md-3">
+                <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'"
+                  [legend]="'Crédit en Attente (FCFA)'" [count]="ligneCreditStat?.credit_en_attente || '0'" [legendColor]="'#DF7401'"
+                  [countColor]="'#000000'"></app-card-stock>
+              </div>
+              <div class="col-md-3">
+                <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'Provision Mois (M)'"
+                  [count]="ligneCreditStat?.provision_mois || '0'" [legendColor]="'#DF7401'"
+                  [countColor]="'#000000'"></app-card-stock>
+              </div>
+              <div class="col-md-3">
+                <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'"
+                  [legend]="'Provision Mois (M-1)'" [count]="ligneCreditStat?.provision_mois_m_1 || '0'" [legendColor]="'#DF7401'"
+                  [countColor]="'#000000'"></app-card-stock>
+              </div>
+            </div>
+            <hr style="margin-top: -0.4rem;">
+            <div class="row filter_wrapper">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Transaction</b>
+                  </label>
+                  <input placeholder="Transaction" [(ngModel)]="selectedTransaction" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Reference</b>
+                  </label>
+                  <input placeholder="Réference" [(ngModel)]="selectedReference" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Statut</b>
+                  </label>
+                  <p-dropdown [options]="listStatuts" [(ngModel)]="selectedStatut" [showClear]="true"
+                    placeholder="Statut">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <label class="block"><b>Date début</b></label>
+                <p-calendar [ngStyle]="{width: '15rem'}" [(ngModel)]="filterDateStart" [showIcon]="true"
+                  (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [locale]="fr"></p-calendar>
+              </div>
+              <div class="col-md-2">
+                <label class="block"><b>Date fin </b></label>
+                <p-calendar [ngStyle]="{width: '15rem'}" [(ngModel)]="filterDateEnd" [showIcon]="true"
+                  (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [locale]="fr"></p-calendar>
+              </div>
+              <div class="col-md-1">
+                <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
+                  [disabled]="isFilter()"></p-button>
+              </div>
+            </div>
+            <!----->
+            <hr>
+            <div class="table_actions_wrapper">
+              <button pButton pRipple label="Provision" (click)="onInitForm()" icon="pi pi-plus"
+                class="p-button-success"></button>
+              <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="OnRefresh()"
+                class="p-button-secondary"></button>
+              <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button>
+            </div>
+            <div class="table_content_wrapper">
+              <div class="table_header">
+                <app-table-header [count]="listCredits" [legende]="'Lignes de Crédits'"></app-table-header>
+              </div>
+              <table [ngClass]="['native_table table']">
+                <thead>
+                  <th class="text-center">#</th>
+                  <th class="text-center">Date création </th>
+                  <th class="text-center">Transaction</th>
+                  <th class="text-center">Réference</th>
+                  <th class="text-center">Montant (FCFA)</th>
+                  <th class="text-center" [style]="{width: '5rem'}">Justificatif</th>
+                  <th [ngStyle]="{width: '4rem'}">Statut</th>
+                  <th class="text-center" [ngStyle]="{width: '3rem'}">Actions</th>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let data of listCredits | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                    <td>{{ (this.offset + i)}}</td>
+                    <td>{{data?.created_at}}</td>
+                    <td (click)="copyData(data.transaction)" style="cursor: pointer">{{data?.transaction}}</td>
+                    <td (click)="copyData(data.reference)" style="cursor: pointer">{{data?.reference}}</td>
+                    <td>{{pipeValue(data?.montant)}} F</td>
+                    <td>
+                      <button pButton pRipple pTooltip="Télecharger" icon="pi pi-download" (click)="downloadFile(data)"
+                        tooltipPosition="top" label="Télecharger" class="p-button"></button>
+                    </td>
+                    <td class="text-center">
+                      <span [ngStyle]="{'font-size':'16px'}" class="badge"
+                      [class.badge-dark]="data?.statut === stateSoumis"
+                      [class.badge-info]="data?.statut === stateTraite"
+                      [class.badge-success]="data?.statut === stateCloture">
+                      {{ data.statut }}
+                    </span>
+                    </td>
+                  <td class="td-actions">
+                    <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
+                    (click)="OnShowTraitement(data)" class="p-button-dark"></button>
+                    <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top"
+                      (click)="showJournal(data)" class="p-button-success"></button>
+                      <button pButton icon="pi pi-history" pTooltip="Historique" tooltipPosition="top"
+                      (click)="onShowForm(data)" class="p-button-warning"></button>
+                  </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div [ngClass]="['pagination-controls']">
+                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+          <app-credit-form [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
+            (listCredits)="pushListCredits($event)" (ligneCreditStat)="pushLigneCreditStat($event)"></app-credit-form>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,115 @@
+<div>
+  <div class="row filter_wrapper">
+    <div style="width: 28%;">
+       <div class="d-flex gap-2">
+        <label style="padding-top: 0.7rem;font-size: 1.1rem;width: auto !important;"><b>Du</b></label>
+        <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
+          (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [minDate]="minDate" [maxDate]="dateToday"
+          [locale]="CALENDER_CONFIG_EN"
+          placeholder="Date debut" [showButtonBar]="true"></p-calendar>
+       </div>
+    </div>
+    <div style="width: 28%;">
+      <div class="d-flex gap-2">
+        <label style="padding-top: 0.7rem;font-size: 1.1rem;width: auto !important;"><b>Au</b></label>
+        <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+        (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [minDate]="minDate" [maxDate]="dateToday"  placeholder="Date fin" [showButtonBar]="true"></p-calendar>
+       </div>
+    </div>
+    <div style="width: 28%;">
+      <div class="d-flex gap-2">
+        <label style="padding-top: 0.7rem;font-size: 1.1rem;width: auto !important;"><b>Par</b></label>
+        <div class="form-group w-100">
+          <p-dropdown [options]="listUsers" [(ngModel)]="selectedUser" optionLabel="fullName" [filter]="true"
+          filterBy="fullName" [showClear]="true" placeholder="demandeur">
+          <ng-template let-data pTemplate="item">
+              <div class="country-item">
+                  <div>{{ data.fullName }}</div>
+              </div>
+          </ng-template>
+          </p-dropdown>
+        </div>
+       </div>
+    </div>
+    <div [ngStyle]="{width: '4rem',marginTop: '-1.7rem'}" *ngIf="!secondFilter">
+      <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="isFilter()"
+        (click)="onFilter()"></p-button>
+    </div>
+  </div>
+  <hr [style]="{margin: '0'}">
+  <div class="table_content_wrapper">
+    <div class="d-flex justify-content-between">
+      <div class="table_header ">
+        <app-table-header [count]="listTransactions" [legende]="tabsLabel" [page]="page" [totalPage]="totalPage"></app-table-header>
+      </div>
+      <div class="table_actions_wrapper mb-2">
+        <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary" (click)="OnRefresh()"></button>
+        <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button>
+      </div>
+    </div>
+    <table [ngClass]="['native_table table']">
+      <thead>
+        <tr>
+          <th class="text-center">#</th>
+          <th>Date</th>
+          <th class="text-center" [ngStyle]="{'width':'200px'}">N° Demande</th>
+          <th>MSISDN</th>
+          <th>Demandeur</th>
+          <th>Statut</th>
+          <th>Délai</th>
+          <th>Date Traitement</th>
+          <th>Durée Traitement (h)</th>
+          <th>SLA (h)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let transaction of listTransactions | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+          <td class="text-center">{{ (this.offset + i)}}</td>
+          <td> {{ transaction?.created_at }}</td>
+          <td class="cursor-pointer text-center" (click)="copyData(transaction.transaction)">
+            {{ transaction.transaction }}
+          </td>
+          <td class="cursor-pointer text-center" (click)="transaction.msisdn ? copyData(transaction.msisdn) : null">{{transaction?.msisdn ?? 'N/A'}}</td>
+          <td>{{transaction?.demandeur_nom}} {{transaction?.demandeur_prenoms}}</td>
+          <td class="text-center">
+            <span [ngStyle]="{'font-size':'16px'}" class="badge"
+              [class.badge-dark]="transaction?.statut === stateSoumis"
+              [class.badge-info]="transaction?.statut === stateTraite"
+              [class.badge-success]="transaction?.statut === stateCloture">
+              {{ transaction.statut }}
+            </span>
+          </td>
+          <td class="text-center">
+           <div *ngIf="transaction?.statut === 'soumis'">
+              <div *ngIf="(transaction?.current_dure > transaction?.current_sla && transaction?.current_date !== 'N/A')">
+                <img src="assets/images/icones/sad.png" width="22" alt="">
+              </div>
+              <div *ngIf="(transaction?.current_dure < transaction?.current_sla && transaction?.current_date !== 'N/A')">
+                <img  src="assets/images/icones/smile.png" width="22" alt="">
+              </div>
+              <div *ngIf="transaction?.current_date === 'N/A'">
+                <img src="assets/images/icones/horloge.png" width="22" alt="">
+              </div>
+           </div>
+           <div *ngIf="transaction?.statut === 'traité'">
+            <div *ngIf="transaction?.current_dure > transaction?.current_sla">
+              <img src="assets/images/icones/sad.png" width="22" alt="">
+            </div>
+            <div *ngIf="transaction?.current_dure < transaction?.current_sla">
+              <img  src="assets/images/icones/smile.png" width="22" alt="">
+            </div>
+         </div>
+          </td>
+          <td>{{ transaction?.current_date}}</td>
+          <td>{{transaction?.current_dure}}</td>
+          <td>{{transaction?.current_sla}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div [ngClass]="['pagination-controls']">
+      <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

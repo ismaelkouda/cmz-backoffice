@@ -1,0 +1,109 @@
+<div class="container-fluid">
+  <div class="col-sm-12">
+    <app-breadcrumb [title]="'Réferentiel Supervision'" [active_item]="'Accords SLA'"></app-breadcrumb>
+    <div class="card">
+      <div class="card-body">
+        <div>
+          <p-tabView (onChange)="handleChangeTabviewIndex($event)">
+            <p-tabPanel header="ACCORDS SLA">
+              <div class="table_content_wrapper">
+                <p-table #dt [value]="listObjectifs" [rows]="10" [paginator]="true" responsiveLayout="scroll"
+                  [rowHover]="true" dataKey="id"
+                  currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}données"
+                  [showCurrentPageReport]="true" editMode="row"
+                  [globalFilterFields]="['nom_service', 'description']"
+                  >
+                  <ng-template pTemplate="caption">
+                    <div class="table_header">
+                      <app-table-header [count]="listObjectifs" [legende]="'Accords SLA'"></app-table-header>
+                      <div class="table_header__input" style="position: relative;left: 1rem;">
+                        <span class="p-input-icon-left ml-auto">
+                          <i class="pi pi-search"></i>
+                          <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                            placeholder="Recherche" />
+                        </span>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th class="text-center">#</th>
+                      <th class="text-center">Nom du service</th>
+                      <th>Description du service</th>
+                      <th class="text-center"><span style="margin-right: 5px">ACK</span>(h)</th>
+                      <th class="text-center"><span style="margin-right: 5px">Traitement</span>(h)</th>
+                      <th class="text-center"><span style="margin-right: 5px">Clôture</span>(h)</th>
+                      <th class="text-center"><span style="margin-right: 5px">Escalade</span>(h)</th>
+                      <th class="text-center">Statut</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template let-i="rowIndex" pTemplate="body" let-editing="editing" let-data>
+                    <tr [pEditableRow]="data">
+                      <td class="text-center">{{ i + 1 }}</td>
+                      <td class="text-center">{{data?.nom_service}}</td>
+                      <td>{{data?.description}}</td>
+                      <td class="text-center" style="width: 4rem !important;">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <input class="text-center" pInputText type="number" [(ngModel)]="data.ack"
+                              #data.ack="ngModel" />
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            <span>{{ data?.ack }}</span>
+                          </ng-template>
+                        </p-cellEditor>
+                      </td>
+                      <td class="text-center" style="width: 4rem !important;">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <input class="text-center" pInputText type="number" [(ngModel)]="data.traitement"
+                              #data.traitement="ngModel" />
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            <span>{{ data?.traitement }}</span>
+                          </ng-template>
+                        </p-cellEditor>
+                      </td>
+                      <td class="text-center" style="width: 4rem !important;">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <input class="text-center" pInputText type="number" [(ngModel)]="data.cloture"
+                              #data.cloture="ngModel" />
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            <span>{{ data.cloture }}</span>
+                          </ng-template>
+                        </p-cellEditor>
+                      </td>
+                      <td class="text-center">
+                        {{ data?.escalade ?? 'N/A' }}
+                      </td>
+                      <td class="text-center" style="width: 4rem !important;">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <p-inputSwitch trueValue="actif" falseValue="inactif" [(ngModel)]="data.statut"
+                              #data.statut="ngModel"></p-inputSwitch>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            <span [ngStyle]="{ 'font-size': '16px'}" class="badge text-center"
+                              [class.badge-success]="data.statut === 'actif'"
+                              [class.badge-danger]="data.statut !== 'actif'">
+                              {{ data.statut }}
+                            </span>
+                          </ng-template>
+                        </p-cellEditor>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel header="HISTORIQUE">
+              <app-historique [module]="'PROFIL SUPERVISION'" [modele]="'metriques'"></app-historique>
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

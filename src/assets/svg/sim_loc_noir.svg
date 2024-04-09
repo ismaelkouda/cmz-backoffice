@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Généré par Microsoft Visio, SVG Export sim_loc_noir.svg Page 1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="5.98885in" height="9.00833in"
+		viewBox="0 0 431.197 648.6" xml:space="preserve" color-interpolation-filters="sRGB" class="st6">
+	<v:documentProperties v:langID="1036" v:metric="true" v:viewMarkup="false"/>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {visibility:visible}
+		.st2 {fill:#5b9bd5;fill-opacity:0.22;filter:url(#filter_2);stroke:none}
+		.st3 {fill:#000000;stroke:none;stroke-width:0.25}
+		.st4 {fill:#ffffff;stroke:none;stroke-width:0.25}
+		.st5 {fill:#000000;stroke:none;stroke-width:0.75}
+		.st6 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<defs id="Filters">
+		<filter id="filter_2">
+			<feGaussianBlur stdDeviation="2"/>
+		</filter>
+	</defs>
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<title>Page 1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="9"
+				v:shadowOffsetY="-9"/>
+		<g id="shape166-1" v:mID="166" v:groupContext="shape" transform="translate(2.6544,-4.9728)">
+			<title>Feuille.166</title>
+			<g id="shadow166-2" v:groupContext="shadow" v:shadowOffsetX="0.3456" v:shadowOffsetY="-1.9728" v:shadowType="1"
+					transform="matrix(1,0,0,1,0.3456,1.9728)" class="st1">
+				<path d="M425.2 246.98 C425.2 380.09 212.6 648.6 212.6 648.6 C212.6 648.6 0 380.09 0 246.98 A212.598 240.975 0 1
+							 1 425.2 246.98 Z" class="st2"/>
+			</g>
+			<path d="M425.2 246.98 C425.2 380.09 212.6 648.6 212.6 648.6 C212.6 648.6 0 380.09 0 246.98 A212.598 240.975 0 1 1 425.2
+						 246.98 Z" class="st3"/>
+		</g>
+		<g id="shape167-6" v:mID="167" v:groupContext="shape" transform="translate(39.8417,-245.67)">
+			<title>Feuille.167</title>
+			<g id="shadow167-7" v:groupContext="shadow" v:shadowOffsetX="0.3456" v:shadowOffsetY="-1.9728" v:shadowType="1"
+					transform="matrix(1,0,0,1,0.3456,1.9728)" class="st1">
+				<ellipse cx="175.411" cy="473.189" rx="175.411" ry="175.411" class="st2"/>
+			</g>
+			<ellipse cx="175.411" cy="473.189" rx="175.411" ry="175.411" class="st4"/>
+		</g>
+		<g id="group168-11" transform="translate(120.057,-294.152)" v:mID="168" v:groupContext="group">
+			<title>Feuille.168</title>
+			<g id="shape169-12" v:mID="169" v:groupContext="shape">
+				<title>Feuille.169</title>
+				<g id="shadow169-13" v:groupContext="shadow" v:shadowOffsetX="0.3456" v:shadowOffsetY="-1.9728" v:shadowType="1"
+						transform="matrix(1,0,0,1,0.3456,1.9728)" class="st1">
+					<path d="M31.73 394.74 C0 394.74 0 426.48 0 426.48 L0 616.87 C0 648.6 31.73 648.6 31.73 648.6 L158.66 648.6 C158.66
+								 648.6 190.39 648.6 190.39 616.87 L190.39 442.34 L142.79 394.74 L31.73 394.74 ZM47.6 489.94 L63.43
+								 490.03 L63.43 521.77 L31.7 521.77 L31.73 505.81 C31.73 505.81 31.73 489.94 47.6 489.94 ZM142.79
+								 489.94 C158.66 489.94 158.66 505.81 158.66 505.81 L158.63 521.7 L126.9 521.7 L126.9 489.97 L142.79
+								 489.94 ZM79.3 490.03 L111.03 490.03 L111.03 521.77 L79.3 521.77 L79.3 490.03 ZM31.7 537.57 L158.63
+								 537.57 L158.63 569.27 L158.66 569.27 L158.66 601 C158.66 616.87 142.79 616.87 142.79 616.87 L126.9
+								 616.84 L126.93 569.3 L31.7 569.3 L31.7 537.57 ZM126.93 569.3 L158.63 569.3 L158.63 569.27 L126.93
+								 569.27 L126.93 569.3 ZM31.7 585.17 L63.43 585.17 L63.43 616.9 L47.6 616.87 C31.73 616.87 31.73 601
+								 31.73 601 L31.7 585.17 ZM79.3 585.17 L111.03 585.17 L111.03 616.9 L79.3 616.9 L79.3 585.17 Z"
+							class="st2"/>
+				</g>
+				<path d="M31.73 394.74 C0 394.74 0 426.48 0 426.48 L0 616.87 C0 648.6 31.73 648.6 31.73 648.6 L158.66 648.6 C158.66
+							 648.6 190.39 648.6 190.39 616.87 L190.39 442.34 L142.79 394.74 L31.73 394.74 ZM47.6 489.94 L63.43 490.03
+							 L63.43 521.77 L31.7 521.77 L31.73 505.81 C31.73 505.81 31.73 489.94 47.6 489.94 ZM142.79 489.94 C158.66
+							 489.94 158.66 505.81 158.66 505.81 L158.63 521.7 L126.9 521.7 L126.9 489.97 L142.79 489.94 ZM79.3 490.03
+							 L111.03 490.03 L111.03 521.77 L79.3 521.77 L79.3 490.03 ZM31.7 537.57 L158.63 537.57 L158.63 569.27
+							 L158.66 569.27 L158.66 601 C158.66 616.87 142.79 616.87 142.79 616.87 L126.9 616.84 L126.93 569.3 L31.7
+							 569.3 L31.7 537.57 ZM126.93 569.3 L158.63 569.3 L158.63 569.27 L126.93 569.27 L126.93 569.3 ZM31.7 585.17
+							 L63.43 585.17 L63.43 616.9 L47.6 616.87 C31.73 616.87 31.73 601 31.73 601 L31.7 585.17 ZM79.3 585.17
+							 L111.03 585.17 L111.03 616.9 L79.3 616.9 L79.3 585.17 Z" class="st5"/>
+			</g>
+		</g>
+	</g>
+</svg>

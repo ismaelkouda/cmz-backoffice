@@ -1,0 +1,117 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="'Gestion de Portefeuille'"
+        [active_item]="'Stock de Produits & Services'"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div class="row statistique">
+            <div class="col-md-4">
+              <app-card-stock [cardBgColor]="'#DF7401'" [legend]="'SIM MSISDN'" [count]="soldeSimA || '0'"
+                [legendColor]="'#FFFFFF'" [countColor]="'#FFFFFF'"></app-card-stock>
+            </div>
+            <div class="col-md-4">
+              <app-card-stock [cardBgColor]="'#FFFFFF'" [cardBorderColor]="'#DF7401'" [legend]="'SIM Blanches'" [count]="soldeSimB || '0'" [legendColor]="'#DF7401'" [countColor]="'#DF7401'"></app-card-stock>
+            </div>
+
+            <div class="col-md-4">
+              <app-card-stock [cardBgColor]="'#424242'" [cardBorderColor]="'#DF7401'"
+                [legend]="'Volume Data Partagé (Go)'" [count]="soldeData || '0'"[legendColor]="'#FFFFFF'"
+                [countColor]="'#FFFFFF'"></app-card-stock>
+            </div>
+          </div>
+          <hr style="margin-top: -0.4rem;">
+          <div class="row filter_wrapper">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>
+                  <b>Transaction</b>
+                </label>
+                <input placeholder="Transaction" [(ngModel)]="selectedTransaction" type="text" pInputText />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>
+                  <b>Reference</b>
+                </label>
+                <input placeholder="Reference" [(ngModel)]="selectedReference" type="text" pInputText />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>
+                  <b>IMSI</b>
+                </label>
+                <input placeholder="IMSI" [(ngModel)]="selectedImsi" type="text" pInputText />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>
+                  <b>MSISDN </b>
+                </label>
+                <input placeholder="MSISDN" [(ngModel)]="selectedMsisdn" type="text" pInputText />
+              </div>
+            </div>
+            <div style="width: 12rem">
+              <label class="block"><b>Date début</b></label>
+              <p-calendar [ngStyle]="{width: '15rem'}" [(ngModel)]="filterDateStart" [showIcon]="true"
+                (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy"></p-calendar>
+            </div>
+            <div style="width: 12rem">
+              <label class="block"><b>Date fin </b></label>
+              <p-calendar [ngStyle]="{width: '15rem'}" [(ngModel)]="filterDateEnd" [showIcon]="true"
+                (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy"></p-calendar>
+            </div>
+            <div style="width: 3rem">
+              <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
+                [disabled]="isFilter()"></p-button>
+            </div>
+          </div>
+          <hr>
+          <div class="table_actions_wrapper">
+            <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" (click)="OnRefresh()"
+              class="p-button-secondary"></button>
+            <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button>
+          </div>
+          <div class="table_content_wrapper">
+            <div class="table_header">
+              <app-table-header [count]="listStocks" [legende]="'Mouvements'"></app-table-header>
+            </div>
+            <table [ngClass]="['native_table table']">
+              <thead>
+                <th class="text-center">#</th>
+                <th class="text-center">Date création</th>
+                <th class="text-center">Transaction</th>
+                <th class="text-center">Reference</th>
+                <th class="text-center">Type Transaction</th>
+                <th class="text-center">Initiateur</th>
+                <th class="text-center">Produit</th>
+                <th class="text-center">Qté Avant</th>
+                <th class="text-center">Qté Après</th>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let data of listStocks | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                  <td>{{ (this.offset + i)}}</td>
+                  <td>{{data?.created_at}}</td>
+                  <td (click)="copyData(data?.numero_transaction)" style="cursor: pointer">{{data?.numero_transaction}}</td>
+                  <td (click)="copyData(data?.numero_commande)" style="cursor: pointer">{{data?.numero_commande}}</td>
+                  <td>{{data?.transaction?.operation}}</td>
+                  <td>{{data?.transaction?.initiateur?.nom}} {{data?.transaction?.initiateur?.prenoms}}</td>
+                  <td>{{data?.code_produit}}</td>
+                  <td>{{data?.qte_avant}}</td>
+                  <td>{{data?.qte_apres}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div [ngClass]="['pagination-controls']">
+              <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+              </pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

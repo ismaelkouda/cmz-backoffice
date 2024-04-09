@@ -1,0 +1,104 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="'Structure Organisationnelle'" [active_item]="currentLevelLibelle"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div [hidden]="!initialView">
+            <p-tabView (onChange)="handleChangeTabviewIndex($event)">
+              <p-tabPanel [header]="currentLevelMenus | uppercase">
+                <div class="row filter_wrapper">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>
+                        <b>Nom {{currentLevelLibelle}}<span class="text-danger">*</span></b>
+                      </label>
+                      <input placeholder="Saisir le nom" [(ngModel)]="selectedNom" type="text" pInputText />
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label>
+                        <b>Code<span class="text-danger">*</span></b>
+                      </label>
+                      <input placeholder="Saisir le code" [(ngModel)]="selectedCodes" type="text" pInputText />
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="isFilter()"
+                      (click)="onFilter()"></p-button>
+                  </div>
+                </div>
+                <hr>
+                <div class="table_actions_wrapper">
+                  <button pButton pRipple *ngIf="mappingService.IsAction()" [label]="'Ajout Simple'" icon="pi pi-plus" (click)="openForm()"
+                    class="p-button-success"></button>
+                  <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
+                    (click)="OnRefresh()"></button>
+                    <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download"class="p-button-helf"></button>
+                </div>
+                <div class="table_content_wrapper">
+                  <div class="table_header">
+                    <app-table-header [count]="listCurrentLevelDatas" [legende]="currentLevelMenus | titlecase" [page]="page" [totalPage]="totalPage"></app-table-header>
+                  </div>
+                  <table [ngClass]="['native_table table']">
+                    <thead>
+                      <th class="text-center" [style]="{width: '1.5rem'}">#</th>
+                      <th>{{currentLevelLibelle}}</th>
+                      <th class="text-center">Code</th>
+                      <th class="text-center">Statut</th>
+                      <th class="text-center" [style]="{width: '7rem'}">Actions</th>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="let data of listCurrentLevelDatas | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                        <td>{{ (this.offset + i)}}</td>
+                        <td (click)="copyData(data?.nom)" style="cursor: pointer">{{data?.nom}}</td>
+                        <td (click)="copyData(data?.code)" style="cursor: pointer" class="text-center">{{data?.code}}</td>
+                        <td class="text-center">
+                          <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+                            [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">
+                            {{ data.statut }}
+                          </span>
+                        </td>
+                        <td class=" td-actions">
+                          <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
+                            (click)="onShowForm(data,content)" class="p-button-dark"></button>
+                          <button *ngIf="mappingService.IsAction()" pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+                            (click)="onEditForm(data,content)" class="p-button-secondary"></button>
+                            <button *ngIf="mappingService.IsAction()" [ngClass]="data?.statut === 'actif' ? 'p-button-warning' : 'p-button-success'
+                            " pButton pRipple icon="pi pi-power-off" [pTooltip]="data?.statut === 'actif'
+                            ? 'Désactiver'
+                            : 'Activer' " tooltipPosition="top" (click)="data?.statut === 'actif'
+                            ? handleDisable(data)
+                            : handleActivate(data)">
+                          </button>
+                          <p-button *ngIf="mappingService.IsAction()" icon="pi pi-trash" [disabled]="data.sims_count > 0" styleClass="p-button-danger" pTooltip="Supprimer"
+                            tooltipPosition="top" (click)="HandleDelete(data)"></p-button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div [ngClass]="['pagination-controls']">
+                  <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                  </pagination-controls>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="HISTORIQUE">
+                <app-historique 
+                *ngIf="currentTabsIndex === 1" 
+                [module]="'STRUCTURE ORGANISATIONNELLE'"
+                [sous_module]="'NIVEAU TROIS'"                
+                >
+              </app-historique>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+          <app-form-third-level [currentObject]="currentObject" *ngIf="formsView"
+          (formsView)="pushStatutView($event)" (listCurrentLevelDatas)="pushListDatas($event)"></app-form-third-level>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

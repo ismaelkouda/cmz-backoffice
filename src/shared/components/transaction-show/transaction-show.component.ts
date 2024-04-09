@@ -1,0 +1,707 @@
+import { SUIVIE_TRAITEMENT_ROUTE, CONTENCIEUX_ROUTE, DEMANDE_ROUTE } from './../../../presentation/pages/supervision-operations/supervision-operations-routing.module';
+import { TraitementTransaction } from '../../enum/TraitementTransaction.enum';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { SupervisionOperationService } from '../../../presentation/pages/supervision-operations/data-access/supervision-operation.service';
+import { SettingService } from 'src/shared/services/setting.service';
+import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
+import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
+import { ClipboardService } from 'ngx-clipboard';
+import { Justificatif } from 'src/shared/enum/Justificatif.enum';
+import { MappingService } from 'src/shared/services/mapping.service';
+import {  Router } from '@angular/router';
+import { OPERATION_PROVISIONNING, PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
+import { COMMANDE_SIM, LIGNE_CREDIT } from 'src/presentation/pages/provisionning/provisionning-routing.module';
+import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
+@Component({
+  selector: 'app-transaction-show',
+  templateUrl: './transaction-show.component.html',
+  styleUrls: ['./transaction-show.component.scss']
+})
+export class TransactionShowComponent implements OnInit {
+
+  @Input() transaction;
+  @Output() resultTraitement = new EventEmitter();
+  public detailTransaction: any;
+  public fileUrl: string;
+  public filterTab: string;
+  public listTraitemants: Array<any> = [];
+  public operationLigneCredit: string = OperationTransaction.PROVISIONNING;
+  public operationActivation: string = OperationTransaction.ACTIVATION
+  public operationSwap: string = OperationTransaction.SWAP
+  public OperationResiliation: string = OperationTransaction.RESILIATION
+  public OperationSuspension: string = OperationTransaction.SUSPENSION
+  public OperationVolumeData: string = OperationTransaction.VOLUME_DATA
+  public OperationAchat: string = OperationTransaction.ACHAT_SERVICE
+  public listTypeJustificatif: Array<any> = [];
+  public listFirstLevel: Array<any> = [];
+  public listSecondLevel: Array<any> = [];
+  public listThirdLevel: Array<any> = [];
+  public listUsages: Array<any> = [];
+
+  //Services Forms
+  public ligneForm: FormGroup;
+  public volumeForm: FormGroup;
+  public swapForm: FormGroup;
+  public resiliationForm: FormGroup;
+  public suspensionForm: FormGroup;
+  public activationForm: FormGroup;
+  public adminForm: FormGroup;
+  public achatForm: FormGroup;
+  public currentFile: any;
+  public sourceStockTenantSim: string;
+  public sourceStockOrangeSim: string;
+  public firstLevelLibelle: string;
+  public secondLevelLibelle: string;
+  public thirdLevelLibelle: string;
+  public sourceSoldeDotation: string
+  public sourceSoldeDotationOrange: string
+  public treatmenRejeter: string = TraitementTransaction.REJETER;
+  public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
+
+
+  constructor(
+    private fb: FormBuilder,
+    private activeModal: NgbActiveModal,
+    private toastrService: ToastrService,
+    private supervisionOperationService: SupervisionOperationService,
+    private settingService: SettingService,
+    private patrimoineService: PatrimoineService,
+    private clipboardApi: ClipboardService,
+    private mappingService: MappingService,
+    private provisionningService: ProvisionningService,
+    private router: Router
+  ) {
+    Object.values(Justificatif).forEach(item => {
+      this.listTypeJustificatif.push(item);
+    });
+    this.fileUrl = this.mappingService.fileUrl;  
+    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+    this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
+    this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim,
+    this.sourceSoldeDotation = this.mappingService.sourceSoldeDotation,
+    this.sourceSoldeDotationOrange = this.mappingService.sourceSoldeDotationOrange
+  }
+
+  ngOnInit() {
+    this.filterItem("first-item");
+    this.GetDetailTransaction();
+    this.OnInitLigneForm();
+    this.OnInitVolumeForm();
+    this.OnInitSwapForm();
+    this.OnInitResiliationForm();
+    this.OnInitSuspensionForm();
+    this.OnInitActivationForm();
+    this.OnInitAchatForm();
+    this.isAccepteForms();
+    this.IsTraitement()
+    this.IsCancel();
+    this.IsUpdate();
+    this.IsCloture();
+    this.IsReject();
+    this.IsShow();
+    this.IsJustificatif()
+    this.IsEmptyPanier()
+    this.IsVerify();
+    this.IsContentSim()
+    this.ShowAcceptedForm()
+    this.IsProvisionningTransaction()
+    this.IsAchatTransaction()    
+    this.IscurrentDate()
+  }
+
+  public GetDetailTransaction() {
+    this.supervisionOperationService
+      .GetDetailTransaction({
+        transaction: this.transaction?.transaction,
+        operation: this.transaction?.operation,
+        model_id: this.transaction?.model_id,        
+        tenant_id: this.transaction?.tenant_id
+      })
+      .subscribe({
+        next: (response) => {
+          this.detailTransaction = response['data'];
+          if (this.detailTransaction?.operation === OperationTransaction.PROVISIONNING) {
+            this.OnShowLigneForm();
+          } else if (this.detailTransaction?.operation === OperationTransaction.VOLUME_DATA) {
+            this.OnShowVolumeForm();
+          } else if (this.detailTransaction?.operation === OperationTransaction.SWAP) {
+            this.OnShowSwapForm();
+          } else if (this.detailTransaction?.operation === OperationTransaction.RESILIATION) {
+            this.OnShowResiliationForm();
+          } else if (this.detailTransaction?.operation === OperationTransaction.SUSPENSION) {
+            this.OnShowSuspensionForm();
+          } else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION) {
+            this.GetFirstLevel();   
+            this.GetSecondLevel();
+            this.GetThirdLevel();
+            this.GetAllUsages();
+            this.OnShowActivationForm();
+          } else if (this.detailTransaction?.operation === OperationTransaction.ACHAT_SERVICE) {
+            this.OnShowAchatForm();
+          }
+          this.activationForm.disable();
+          this.ligneForm.disable();
+          this.volumeForm.disable();
+          this.swapForm.disable();
+          this.resiliationForm.disable();
+          this.suspensionForm.disable();
+        },
+        error: (error) => {
+          this.OnFeebackTransaction();
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetCurrentMessage(operation): string {
+    switch (operation) {
+      case OperationTransaction.ACTIVATION: {
+        return this.activationForm.get('activation_accepte_comment').value;
+      }
+      case OperationTransaction.SWAP: {
+        return this.swapForm.get('swap_accepte_comment').value;
+      }
+      case OperationTransaction.RESILIATION: {
+        return this.resiliationForm.get('resiliation_accepte_comment').value;
+      }
+      case OperationTransaction.SUSPENSION: {
+        return this.suspensionForm.get('suspension_accepte_comment').value;
+      }
+      case OperationTransaction.VOLUME_DATA: {
+        return this.volumeForm.get('volume_data_accepte_comment').value;
+      }
+      case OperationTransaction.ACHAT_SERVICE: {        
+        return this.achatForm.get('commmande_produit_accepte_comment').value;
+      }
+      case OperationTransaction.PROVISIONNING: {
+        return this.ligneForm.get('provisionning_accepte_comment').value;
+        ;
+      }
+      default:
+        return 'Aucun Message Pour cette Transaction !'
+    }
+  }
+
+  public mappingNotation(notation): string {
+    switch (notation) {
+      case 'mécontent': {
+        return 'assets/images/icones/sad.png';
+      }
+      case 'neutre': {
+        return 'assets/images/icones/confused.png';
+      }
+      case 'content': {
+        return 'assets/images/icones/smile.png';
+      }
+    }
+  }
+
+  OnFeebackTransaction(){
+     if (this.router.url === `/${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`) {
+        return this.GetAllTraitement()
+     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX_ROUTE}`){
+      return this.GetAllContencieux()
+     }else if(this.router.url === `/${PATRIMOINE}/${''}`){
+      return this.GetAllTransactions()
+     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${DEMANDE_ROUTE}`){
+      return this.GetAllDemandes()
+     }else if(this.router.url === `/${OPERATION_PROVISIONNING}/${COMMANDE_SIM}`){
+      return this.GetAllAchats()
+     }else if(this.router.url === `/${OPERATION_PROVISIONNING}/${LIGNE_CREDIT}`){
+      return this.GetAllLigneCredits()
+     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${LIGNE_CREDIT}`){
+      return this.GetAllLigneCredits()
+     }
+  }
+  public GetAllTraitement() {
+    this.supervisionOperationService
+      .GetAllTransactions({}, 1)
+      .subscribe({
+        next: (response) => {
+          this.listTraitemants =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            }else{
+              return {...data,current_date: 'N/A'}
+            } 
+          });          
+          this.resultTraitement.emit(this.listTraitemants);
+          this.activeModal.close();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllTransactions() {
+    this.patrimoineService
+      .GetAllTransactions({}, 1)
+      .subscribe({
+        next: (response) => {
+          this.listTraitemants =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            }else{
+              return {...data,current_date: 'N/A'}
+            } 
+          });          
+          this.resultTraitement.emit(this.listTraitemants);
+          this.activeModal.close();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllDemandes() {
+    this.patrimoineService
+      .GetAllTransactions({
+        statut: StatutTransaction.SOUMIS,
+        traitement: TraitementTransaction.EN_ENTENTE      
+      }, 1)
+      .subscribe({
+        next: (response) => {
+          this.listTraitemants =  response['data']['data'];
+          this.resultTraitement.emit(this.listTraitemants);
+          this.activeModal.close();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllContencieux() {
+    this.supervisionOperationService
+      .GetAllContencieux({})
+      .subscribe({
+        next: (response) => {
+          this.listTraitemants =  response['data']['data'].map((data) => {
+            if (data?.statut === StatutTransaction.TARITER) {
+              return {...data,current_date: data?.date_traitement}
+            }else if (data?.statut === StatutTransaction.CLOTURER) {
+              return {...data,current_date: data?.date_cloture}
+            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return {...data,current_date: data?.date_acquittement}
+            }else{
+              return {...data,current_date: 'N/A'}
+            } 
+          });          
+          this.resultTraitement.emit(this.listTraitemants);
+          this.activeModal.close();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+
+
+  public GetAllAchats() {
+    this.provisionningService
+      .GetAllAchats({}, 1)
+      .subscribe({
+        next: (response) => {
+          this.resultTraitement.emit(response['data']);
+          this.activeModal.close();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllLigneCredits() {
+    this.provisionningService
+      .GetAllLigneCredits({},1)
+      .subscribe({
+        next: (response) => {
+          this.resultTraitement.emit(response['data']['data']);
+          this.activeModal.close();
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public filterItem(status: string): string {
+    this.filterTab = status;
+    return this.filterTab
+  }
+  public pipeValue(number: any) {
+    return new Intl.NumberFormat('fr-FR').format(number);
+  }
+  /*@@@@@@@@@@@ Ligne Form Controls @@@@@@@@@@@@@@@@@@@*/
+  OnInitLigneForm() {
+    this.ligneForm = this.fb.group({
+      montant: [''],
+      justificatif: [''],
+      type_justificatif: [''],
+      description: [''],
+      provisionning_accepte: [''],
+      provisionning_accepte_comment: ['']
+    })
+  }
+  OnShowLigneForm() {
+    this.ligneForm.get('montant').patchValue(this.detailTransaction?.montant);
+    this.ligneForm.get('type_justificatif').patchValue(this.detailTransaction?.type_justificatif);
+    this.ligneForm.get('description').patchValue(this.detailTransaction?.description);
+    this.ligneForm.get('provisionning_accepte').patchValue(this.detailTransaction?.rapport?.provisionning_accepte);
+    this.ligneForm.get('provisionning_accepte_comment').patchValue(this.detailTransaction?.rapport?.provisionning_accepte_comment);
+  }
+  downloadFile() {
+    if (!this.detailTransaction?.justificatif) {
+      this.toastrService.warning('Pas de justificatif pour cette operation')
+    }else{
+          window.open(this.fileUrl + this.detailTransaction?.justificatif)
+    }
+  }
+  IsJustificatif(): boolean{
+    return (this.detailTransaction?.justificatif) ? true : false
+  }
+
+  /*@@@@@@@@@@@@@@@@@@@@@@Volume Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
+  OnInitVolumeForm() {
+    this.volumeForm = this.fb.group({
+      imsi: [''],
+      msisdn: [''],
+      statut_contrat: [''],
+      point_emplacement: [''],
+      bac_a_pioche: [''],
+      description: [''],
+      volume: [''],
+      volume_data_accepte: [''],
+      volume_data_accepte_comment: ['']
+    })
+  }
+  OnShowVolumeForm() {
+    this.volumeForm.get('imsi').patchValue(this.detailTransaction?.imsi);
+    this.volumeForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+    this.volumeForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
+    this.volumeForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
+    this.volumeForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
+    this.volumeForm.get('volume').patchValue(this.detailTransaction?.volume);
+    this.volumeForm.get('description').patchValue(this.detailTransaction?.description);
+    this.volumeForm.get('volume_data_accepte').patchValue(this.detailTransaction?.rapport?.volume_data_accepte);
+    this.volumeForm.get('volume_data_accepte_comment').patchValue(this.detailTransaction?.rapport?.volume_data_accepte_comment);
+    this.volumeForm.get('msisdn').disable();
+    this.volumeForm.get('statut_contrat').disable();
+  }
+  get sourceStock() {
+    return this.volumeForm.get('bac_a_pioche').value;
+  }
+
+  /*@@@@@@@@@@@@@@@@@@@@@@Swap Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
+  OnInitSwapForm() {
+    this.swapForm = this.fb.group({
+      imsi: [''],
+      msisdn: [''],
+      statut_contrat: [''],
+      point_emplacement: [''],
+      bac_a_pioche: [''],
+      description: [''],
+      swap_accepte: [''],
+      swap_accepte_comment: ['']
+    })
+  }
+  OnShowSwapForm() {
+    this.swapForm.get('imsi').patchValue(this.detailTransaction?.imsi);
+    this.swapForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+    this.swapForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
+    this.swapForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
+    this.swapForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
+    this.swapForm.get('description').patchValue(this.detailTransaction?.description);
+    this.swapForm.get('swap_accepte').patchValue(this.detailTransaction?.rapport?.swap_accepte);
+    this.swapForm.get('swap_accepte_comment').patchValue(this.detailTransaction?.rapport?.swap_accepte_comment);
+  }
+  get sourceStockSwap() {
+    return this.swapForm.get('bac_a_pioche').value;
+  }
+
+  /*@@@@@@@@@@@@@@@@@@@@@@Resiliation Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
+  OnInitResiliationForm() {
+    this.resiliationForm = this.fb.group({
+      imsi: [''],
+      msisdn: [''],
+      statut_contrat: [''],
+      justificatif: [''],
+      point_emplacement: [''],
+      description: [''],
+      resiliation_accepte: [''],
+      resiliation_accepte_comment: ['']
+    })
+  }
+  OnShowResiliationForm() {
+    this.resiliationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
+    this.resiliationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+    this.resiliationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
+    this.resiliationForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
+    this.resiliationForm.get('description').patchValue(this.detailTransaction?.description);
+    this.resiliationForm.get('resiliation_accepte').patchValue(this.detailTransaction?.rapport?.resiliation_accepte);
+    this.resiliationForm.get('resiliation_accepte_comment').patchValue(this.detailTransaction?.rapport?.resiliation_accepte_comment);
+  }
+
+  public onChangeFile(file: FileList) {
+    this.currentFile = file.item(0);
+  }
+  /*@@@@@@@@@@@@@@@@@@@@@@Suspension Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
+  OnInitSuspensionForm() {
+    this.suspensionForm = this.fb.group({
+      imsi: [''],
+      msisdn: [''],
+      statut_contrat: [''],
+      justificatif: [''],
+      point_emplacement: [''],
+      description: [''],
+      suspension_accepte: [''],
+      suspension_accepte_comment: ['']
+    })
+  }
+  OnShowSuspensionForm() {
+    this.suspensionForm.get('imsi').patchValue(this.detailTransaction?.imsi);
+    this.suspensionForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+    this.suspensionForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
+    this.suspensionForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
+    this.suspensionForm.get('description').patchValue(this.detailTransaction?.description);
+    this.suspensionForm.get('suspension_accepte').patchValue(this.detailTransaction?.rapport?.suspension_accepte);
+    this.suspensionForm.get('suspension_accepte_comment').patchValue(this.detailTransaction?.rapport?.suspension_accepte_comment);
+  }
+
+  /*@@@@@@@@@@@@@@@@@@@ Activation Form Controls @@@@@@@@@@@@@@@@@*/
+  OnInitActivationForm() {
+    this.activationForm = this.fb.group({
+      bac_a_pioche: [''],
+      niveau_un_uuid: [''],
+      niveau_deux_uuid: [''],
+      niveau_trois_uuid: [''],
+      usage_id: [''],
+      point_emplacement: [''],
+      adresse_email: [''],
+      adresse_geographique: [''],
+      latitude: [''],
+      longitude: [''],
+      niveau_1: [''],
+      niveau_2: [''],
+      niveau_3: [''],
+      usage: [''],
+      imsi: [''],
+      msisdn: [''],
+      statut_contrat: [''],
+      code_pin: [''],
+      email: [''],
+      description: [''],
+      activation_accepte: [''],
+      activation_accepte_comment: [''],
+    })
+
+
+  }
+  OnShowActivationForm() {
+    this.activationForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
+    this.activationForm.get('niveau_un_uuid').patchValue(this.detailTransaction?.niveau_un_uuid);
+    this.activationForm.get('niveau_deux_uuid').patchValue(this.detailTransaction?.niveau_deux_uuid);
+    this.activationForm.get('niveau_trois_uuid').patchValue(this.detailTransaction?.niveau_trois_uuid);
+    this.activationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
+    this.activationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+    this.activationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
+    this.activationForm.get('code_pin').patchValue(this.detailTransaction?.code_pin);
+    this.activationForm.get('usage_id').patchValue(this.detailTransaction?.usage_id);
+    this.activationForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
+    this.activationForm.get('adresse_email').patchValue(this.detailTransaction?.adresse_email);
+    this.activationForm.get('adresse_geographique').patchValue(this.detailTransaction?.adresse_geographique);
+    this.activationForm.get('latitude').patchValue(this.detailTransaction?.latitude);
+    this.activationForm.get('description').patchValue(this.detailTransaction?.description);
+    this.activationForm.get('longitude').patchValue(this.detailTransaction?.longitude);
+    this.activationForm.get('activation_accepte').patchValue(this.detailTransaction?.rapport?.activation_accepte);
+    this.activationForm.get('activation_accepte_comment').patchValue(this.detailTransaction?.rapport?.activation_accepte_comment);
+  }
+
+  get bacPiocheActivation() {
+    return this.activationForm.get('bac_a_pioche').value;
+  }
+
+  /*@@@@@@@@@@@@@@@@@@@ Achat Form Controls @@@@@@@@@@@@@@@@@*/
+  OnInitAchatForm() {
+    this.achatForm = this.fb.group({
+      detail_commande: [''],
+      commmande_produit_accepte: [''],
+      commmande_produit_accepte_comment: ['']
+    })
+  }
+  OnShowAchatForm() {
+    this.achatForm.get('commmande_produit_accepte').patchValue(this.detailTransaction?.rapport?.commmande_produit_accepte);
+    this.achatForm.get('commmande_produit_accepte_comment').patchValue(this.detailTransaction?.rapport?.commmande_produit_accepte_comment);
+  }
+
+  IsEmptyPanier(): any {
+    if (this.detailTransaction?.detail_commande?.length === 0) {
+      return this.OnFeebackTransaction()
+    }
+  }
+
+  public GetFirstLevel() {
+    this.settingService
+      .GetAllFirstLevelSimple({})
+      .subscribe({
+        next: (response) => {
+          this.listFirstLevel = response['data']
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetSecondLevel() {
+    this.settingService
+      .GetAllSecondLevelSimple({})
+      .subscribe({
+        next: (response) => {
+          this.listSecondLevel = response['data']
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetThirdLevel(): void {
+    this.settingService
+      .GetAllThirdSimple({})
+      .subscribe({
+        next: (response) => {
+          this.listThirdLevel = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllUsages() {
+    this.patrimoineService
+      .GetAllUsages({})
+      .subscribe({
+        next: (response) => {
+          this.listUsages = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public formatTitleOuvrage(title: string) {
+    switch (title) {
+      case OperationTransaction.ACTIVATION: {
+        return "Activation de SIM";
+      }
+      case OperationTransaction.SWAP: {
+        return "Changement de SIM";
+      }
+      case OperationTransaction.RESILIATION: {
+        return "Résiliation de SIM";
+      }
+      case OperationTransaction.SUSPENSION: {
+        return "Suspension de SIM";
+      }
+      case OperationTransaction.VOLUME_DATA: {
+        return "Depot de volume";
+      }
+      case OperationTransaction.ACHAT_SERVICE: {
+        return "Achat de Services";
+      }
+      case OperationTransaction.PROVISIONNING: {
+        return 'Ligne de Credit';
+      }
+    }
+  }
+  public IsContentSim(): boolean {
+    return (
+      this.transaction?.operation === OperationTransaction.ACTIVATION  ||
+      this.transaction?.operation === OperationTransaction.RESILIATION ||
+      this.transaction?.operation === OperationTransaction.SUSPENSION ||
+      this.transaction?.operation === OperationTransaction.SWAP ||
+      this.transaction?.operation === OperationTransaction.VOLUME_DATA 
+    ) ? true : false
+  }
+  public ShowAcceptedForm(): boolean {
+    return (this.transaction?.statut === StatutTransaction.TARITER || (this.transaction?.statut === StatutTransaction.CLOTURER && this.transaction?.traitement !== TraitementTransaction.ABANDONNER)) ? true : false
+  }
+  public isAccepteForms(): boolean {
+    return (
+      this.detailTransaction?.rapport?.provisionning_accepte === 'oui' ||
+      this.detailTransaction?.rapport?.volume_data_accepte === 'oui' ||
+      this.detailTransaction?.rapport?.swap_accepte === 'oui' ||
+      this.detailTransaction?.rapport?.suspension_accepte === 'oui' ||
+      this.detailTransaction?.rapport?.resiliation_accepte === 'oui' ||
+      this.detailTransaction?.rapport?.activation_accepte === 'oui'
+    ) ? false : true
+  }
+  public IsTraitement(): string {
+    if (!this.isAccepteForms()) {
+       return TraitementTransaction.ACCEPTER
+    }else if (this.isAccepteForms()){
+      return TraitementTransaction.REJETER
+    }else{
+      return ""
+    }
+  }
+  public IsProvisionningTransaction(): boolean {
+    return (
+      this.transaction?.operation === OperationTransaction.PROVISIONNING) ? true : false
+  }
+  public IsAchatTransaction(): boolean {
+    return (
+      this.transaction?.operation === OperationTransaction.ACHAT_SERVICE) ? true : false
+  }
+  public IsCancel(): boolean {
+    return ((this.transaction?.statut === StatutTransaction.SOUMIS && (this.transaction?.traitement === TraitementTransaction.EN_ENTENTE || this.transaction?.traitement === TraitementTransaction.ACQUITER))) ? true : false
+  }
+  public IsUpdate(): boolean {
+    return ((this.transaction?.statut === StatutTransaction.SOUMIS && (this.transaction?.traitement === TraitementTransaction.EN_ENTENTE || this.transaction?.traitement === TraitementTransaction.ACQUITER))
+      || (this.transaction?.statut === StatutTransaction.TARITER && this.transaction?.traitement === TraitementTransaction.REJETER)
+    ) ? true : false
+  }
+  IsReject() {
+    return (this.transaction?.statut === StatutTransaction.TARITER && this.transaction?.traitement === TraitementTransaction.REJETER) ? true : false
+  }
+  public IsCloture(): boolean {
+    return ((this.transaction?.statut === StatutTransaction.TARITER && this.transaction?.traitement === TraitementTransaction.ACCEPTER)) ? true : false
+  }
+  public IsShow(): boolean {
+    return (this.transaction?.statut === StatutTransaction.CLOTURER) ? true : false
+  }
+  public IsVerify(): boolean {
+    return (
+      this.transaction?.operation === OperationTransaction.SWAP ||
+      this.transaction?.operation === OperationTransaction.RESILIATION ||
+      this.transaction?.operation === OperationTransaction.SUSPENSION ||
+      this.transaction?.operation === OperationTransaction.VOLUME_DATA
+    ) ? true : false
+  }
+  public IscurrentDate(): string {
+    if (this.transaction?.statut === StatutTransaction.TARITER) {
+      return this.detailTransaction?.rapport?.date_traitement
+    }else if (this.transaction?.statut === StatutTransaction.CLOTURER) {
+      return this.detailTransaction?.rapport?.date_cloture
+    }else if ((this.transaction?.traitement === StatutTransaction.SOUMIS) && (this.transaction?.traitement === TraitementTransaction.ACQUITER)) {
+      return this.detailTransaction?.rapport?.date_acquittement
+    }    
+  }
+
+  public copyTransaction(data: any): void {
+    this.toastrService.success('Copié dans le presse papier');
+    this.clipboardApi.copyFromContent(data);
+  }
+  public handleCloseModal(): void {
+    this.activeModal.close();
+  }
+}

@@ -1,0 +1,48 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div [hidden]="!initialView">
+            <div class="table_content_wrapper">
+              <div class="d-flex gap-3 mb-2">
+                <app-table-header [count]="listFiles" [legende]="'Fichiers à Télécharger'" [page]="page" [totalPage]="totalPage"></app-table-header>
+                <div class="pt-2">
+                  <button pButton pRipple label="Rafraichir" (click)="GetAllDownlaod()" icon="pi pi-refresh"
+                  class="p-button-secondary">
+                </button>
+                </div>
+              </div>
+              <table [ngClass]="['native_table table']">
+                <thead>
+                  <th class="text-center">#</th>
+                  <th>Date fichier</th>
+                  <th class="text-center">Nom fichier CSV</th>
+                  <th class="text-center">Taille fichier (Mo)</th>
+                  <th class="text-center" [style]="{width: '4rem'}">Action</th>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let data of listFiles | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                    <td class="text-center">{{i+1}}</td>
+                    <td class="text-center" [style]="{width: '12rem'}">{{data?.created_at}}</td>
+                    <td style="text-align: left !important;">{{data?.nom_fichier}}</td>
+                    <td class="text-center">{{data?.taille_fichier}}</td>
+                    <td class="text-center">
+                      <button pButton pRipple label="Télécharger"  icon="pi pi-download" class="p-button-helf" (click)="downloadFile(data)"></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div [ngClass]="['pagination-controls']">
+                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+<div>
+  <div class="row filter_wrapper">
+    <div class="col-md-2">
+      <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
+      (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [minDate]="minDate" [maxDate]="dateToday"  placeholder="Date debut" [showButtonBar]="true"></p-calendar>
+    </div>
+    <div class="col-md-2">
+      <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+      (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [minDate]="minDate" [maxDate]="dateToday"  placeholder="Date fin" [showButtonBar]="true"></p-calendar>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <input placeholder="object/sujet" [(ngModel)]="selectedSubject" type="text" pInputText />
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <p-dropdown [options]="listStates" [(ngModel)]="selectedState" [filter]="true" [showClear]="true" placeholder="statut">
+        <ng-template let-data pTemplate="item">
+            <div class="country-item">
+                <div>{{ data }}</div>
+            </div>
+        </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+    <div [ngStyle]="{width: '4rem',marginTop: '-1.7rem'}" *ngIf="!secondFilter">
+      <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="isFilter()"
+        (click)="onFilter()"></p-button>
+    </div>
+  </div>
+  <hr [style]="{margin: '0'}">
+  <div class="table_content_wrapper">
+    <div class="d-flex justify-content-between">
+      <div class="table_header ">
+        <app-table-header [count]="listMessages" [legende]="tabsLabel" [page]="page" [totalPage]="totalPage"></app-table-header>
+      </div>
+      <div class="table_actions_wrapper mb-2">
+        <button *ngIf="mappingService.IsAction()" pButton pRipple label="Redigez un message" icon="pi pi-send" class="p-button-success" (click)="onInitForm()"></button>
+        <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary" (click)="OnRefresh()"></button>
+        <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button>
+      </div>
+    </div>
+    <table [ngClass]="['native_table table']">
+      <thead>
+        <tr>
+          <th class="text-center">#</th>
+          <th class="text-center">Date d'envoi</th>
+          <th>Sujet</th>
+          <th class="text-center">Objet</th>
+          <th>Statut</th>
+          <th>Signature</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let data of listMessages | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+          <td class="text-center">{{ (this.offset + i)}}</td>
+          <td> {{ data?.created_at }}</td>
+          <td (click)="copyData(data.sujet)" style="cursor: pointer"> {{ data?.sujet | titlecase }}</td>
+          <td> {{ data?.objet }}</td>
+          <td class="text-center">
+            <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+              [class.badge-success]="data.statut === 'lu'" [class.badge-dark]="data.statut !== 'non-lu'">
+              {{ data.statut }}
+            </span>
+          </td>
+          <td> {{ data?.signature_nom }} {{ data?.signature_fonction }} [{{data?.signature_contact}}]</td>
+          <td class="td-actions">
+            <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
+            (click)="OnDetailMessagesSender(data)" class="p-button-dark"></button>
+            <button pButton pRipple *ngIf="mappingService.IsAction()" icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+            (click)="onEditForm(data)" class="p-button-secondary"></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div [ngClass]="['pagination-controls']">
+      <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+      </pagination-controls>
+    </div>
+  </div>
+</div>

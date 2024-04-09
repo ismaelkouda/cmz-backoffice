@@ -1,0 +1,9 @@
+<p-dialog [header]="'ANALYSE DES REJETS'" [(visible)]="showIframe" (onHide)="hideDialog()" [modal]="true"
+  [style]="{ width: '100%' }" (onMaximize)="onDialogMaximized($event)" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="content" [style]="{height: '100vh !important' }">
+    <div>
+      <iframe class="iframe__constainer" [src]="visualUrl | safe">
+      </iframe>
+    </div>
+  </ng-template>
+</p-dialog>

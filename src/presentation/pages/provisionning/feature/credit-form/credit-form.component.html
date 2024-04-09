@@ -1,0 +1,91 @@
+<div>
+  <div class="forms-feature-header">
+    <div>
+      <h4>
+        <b *ngIf="!currentObject?.show">
+          <span>Nouvelle provision</span>
+        </b>
+        <b *ngIf="currentObject?.show">
+          <span>Visualisation de la ligne</span>
+          <span class="current_values">[{{currentObject?.transaction}}]</span>
+        </b>
+      </h4>
+    </div>
+    <div></div>
+    <div class="forms-feature-header__button">
+      <div>
+        <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <!--------------------------FORMS-------------------------->
+
+  <div *ngIf="!currentObject?.show">
+    <div>
+      <fieldset>
+        <legend [ngStyle]="{width: '100%'}">
+          <b>Informations</b>
+        </legend>
+        <div class="row" [formGroup]="creditForm">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>
+                <b>Montant<span class="text-danger">*</span></b>
+              </label>
+              <input formControlName="montant" type="number" placeholder="montant" pInputText />
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>
+                <b>Type Justificatif<span class="text-danger">*</span></b>
+              </label>
+              <p-dropdown [options]="listTypeJustificatif" formControlName="type_justificatif" placeholder="Type">
+                <ng-template let-data pTemplate="item">
+                  <div class="country-item">
+                    <div>
+                      {{data}}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>
+                <b>Justificatif<span class="text-danger">*</span></b>
+              </label>
+              <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label>
+                <b>Description<span class="text-danger">*</span></b>
+              </label>
+              <input formControlName="description" type="text" pInputText />
+            </div>
+          </div>
+        </div>
+        <div class="wrapper-assets" *ngIf="currentObject">
+          <img src="{{fileUrl+currentObject?.justificatif}}" alt="">
+        </div>
+      </fieldset>
+    </div>
+    <div class="submit-form">
+      <button pButton pRipple label="Enregistrer" (click)="OnSaveCredit()" [disabled]="!creditForm.valid || !selectedJustificatif"
+        class="p-button-success mt-2 pull-right"></button>
+    </div>
+  </div>
+  <div *ngIf="currentObject?.show">
+    <p-tabView>
+      <p-tabPanel header="HISTORIQUE">
+        <app-historique [module]="''" [sous_module]="''" [modele]="'provisionning'" [modele_id]="currentObject.id">
+        </app-historique>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

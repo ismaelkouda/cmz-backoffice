@@ -1,0 +1,137 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="'Supervision des SIM'" [active_item]="'Zones Trafic'"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div [hidden]="!initialView">
+            <div style="margin-top: -2rem !important;">
+              <app-patrimoine-header [count]="listZonesTrafics" [legende]="'zones de trafics'" [total]="totalRecords"></app-patrimoine-header>
+            </div>
+            <div class="row filter_wrapper">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Département</b>
+                  </label>
+                  <p-dropdown [options]="listDepartements" optionLabel="fullName" [filter]="true" filterBy="fullName"
+                    (onChange)="onChangeFirstLvel($event)" [(ngModel)]="selectedDepartement" [showClear]="true" placeholder="departement">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.fullName}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Commune</b>
+                  </label>
+                  <p-dropdown [options]="listCommunes" optionLabel="fullName" [filter]="true" filterBy="fullName"
+                    [(ngModel)]="selectedCommune" [showClear]="true" placeholder="commune">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.fullName}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>
+                    <b>Site</b>
+                  </label>
+                  <input placeholder="Site" [(ngModel)]="selectedSite" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Zone de trafic</b>
+                  </label>
+                  <input placeholder="Zone trafic" [(ngModel)]="selectedZone" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>MSISDN</b>
+                  </label>
+                  <input [(ngModel)]="selectedSim" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-1">
+                <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
+                  [disabled]="isFilter()"></p-button>
+              </div>
+            </div>
+            <hr>
+            <div class="table_actions_wrapper">
+              <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
+                class="p-button-secondary"></button>
+              <button pButton pRipple label="Exporter" icon="pi pi-download" (click)="OnExportExcel()" [disabled]="disableAction()"
+                class="p-button-helf"></button>
+            </div>
+            <div class="table_content_wrapper">
+              <div class="table_header">
+                <app-table-header [count]="listZonesTrafics" [legende]="'zones de trafics'" [page]="page" [totalPage]="totalPage"></app-table-header>
+              </div>
+              <table [ngClass]="['native_table table']">
+                <thead>
+                  <th class="text-center">#</th>
+                  <th>Département</th>
+                  <th class="text-center">Commune</th>
+                  <th class="text-center">Zone Trafic</th>
+                  <th class="text-center"># Sites</th>
+                  <th class="text-center"># SIMs</th>
+                  <th class="text-center" [ngStyle]="{width: '2rem'}">Action</th>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let data of listZonesTrafics | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                    <td>{{ (this.offset + i)}}</td>
+                    <td>{{data?.departement_nom}}</td>
+                    <td>{{data?.commune_nom}}</td>
+                    <td (click)="copyData(data?.libelle)" style="cursor: pointer">{{data?.libelle}}</td>
+                    <td>{{data?.sites_count}}</td>
+                    <td>{{data?.sims_count}}</td>
+                    <td class="td-actions">
+                      <button pButton icon="pi pi-map-marker" pTooltip="Vue géographique" tooltipPosition="top" (click)="showMap(data)" class="p-button-success"></button>
+                      <p-button icon="pi pi-eye" pTooltip="Voir Sites" tooltipPosition="top" styleClass="p-button-dark"
+                        (click)="onInitForm(data)"></p-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div [ngClass]="['pagination-controls']">
+                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+          <app-sites-wrapper [currentObject]="currentObject" *ngIf="formsView"
+            (formsView)="pushStatutView($event)"></app-sites-wrapper>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog [(visible)]="displayValue" position="bottom-right" (onHide)="handleClose()" [style]="{ width: '100%' }"
+  (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true" [maximizable]="true" [draggable]="false"
+  [resizable]="false">
+  <ng-template pTemplate="header">
+    <h3>
+      <b [style]="{ color: '#FFFFFF' }">Zone de Trafic: <u class="current_values">[{{currentZone?.libelle}}]</u></b>
+    </h3>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <app-card-second [maxi]="maxi" [datas]="datas" [zoneId]="zoneId" [display]="displayValue"></app-card-second>
+  </ng-template>
+</p-dialog>

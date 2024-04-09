@@ -1,0 +1,264 @@
+@font-face {
+    font-family: FUTURA;
+    src: url("../../../../../assets/fonts/futura-bold.otf");
+}
+
+.header-wrapper {
+    display: flex;
+    justify-content: space-evenly !important;
+
+    >div {
+        width: 50%;
+    }
+
+}
+
+.card-commande {
+    margin-top: 2.5rem;
+}
+
+%card_shadow_property {
+    overflow: hidden;
+    box-shadow: 0px 1px 11px 2px rgb(240 235 235 / 75%);
+    -webkit-box-shadow: 0px 1px 11px 2px rgb(240 235 235 / 75%);
+    -moz-box-shadow: 0px 1px 11px 2px rgb(240 235 235 / 75%);
+    border-radius: 15px;
+}
+
+%mx_vertically {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.product-container {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 218px);
+    grid-gap: (2rem);
+    outline: 0;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.card_component {
+    @extend %card_shadow_property;
+
+    &__namePrice {
+        &--name {
+            font-size: 14px;
+            overflow: hidden;
+            text-align: center;
+            display: block;
+            height: 3rem;
+
+            &::first-letter {
+                text-transform: uppercase;
+            }
+        }
+
+        &--price {
+            text-align: center;
+            color: #FF6600;
+            font-size: 14px;
+            padding-bottom: 0.2rem;
+        }
+    }
+
+    &__code {
+        font-size: 14px;
+        overflow: hidden;
+        text-align: center;
+        display: block;
+    }
+
+    &__picture {
+        img {
+            height: 4rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+    }
+
+
+    &__actions {
+        display: flex;
+        justify-content: center;
+        color: white;
+        background-color: #FF6600;
+        padding: 8px 0;
+    }
+}
+
+.card-footer {
+    padding: 0;
+}
+
+.panier-wrapper {
+    height: 90vh;
+    overflow: hidden;
+    overflow-y: scroll;
+    width: 70%;
+    padding: 1.2rem;
+
+
+    .panier-card {
+        @extend %card_shadow_property;
+        display: flex;
+        margin-bottom: 1rem;
+        margin-top: 1.5rem;
+        padding: 0.5rem 1.3rem;
+        justify-content: space-between;
+
+        &__infos {
+            @extend %mx_vertically;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-family: "Lato";
+            font-weight: 900;
+            font-size: 18px;
+
+            &--nom {
+                &::first-letter {
+                    text-transform: uppercase;
+                }
+            }
+        }
+
+        &__file {
+            width: 10%;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        &__quantity {
+            display: flex;
+            align-items: center;
+            @extend %mx_vertically;
+            height: 2rem;
+
+            button {
+                border-radius: 4px;
+            }
+
+            span {
+                font-weight: bold;
+                padding: 5px 15px;
+                font-size: 21px;
+            }
+
+            .increment {
+                background-color: #FF6600;
+                color: white;
+                border: 0;
+                padding: 4px;
+
+                i {
+                    position: relative;
+                }
+            }
+
+            .decrement {
+                background-color: #000 !important;
+                color: white;
+                border: 0;
+                padding: 4px;
+
+                i {
+                    position: relative;
+                }
+            }
+
+            .input-number {
+                text-align: center;
+                padding: 4px 0;
+                position: relative;
+                border-radius: 1px;
+                width: 100%;
+            }
+
+        }
+
+        &__price {
+            @extend %mx_vertically;
+            font-family: "Lato";
+            font-weight: 900;
+            font-size: 20px;
+        }
+
+        &__actions {
+            display: flex;
+            align-items: center;
+            @extend %mx_vertically;
+            height: 2rem;
+        }
+    }
+}
+
+.resume-wrapper {
+    width: 30%;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .resume-panier {
+        display: flex;
+        justify-content: space-between;
+
+        &__title {
+            display: flex;
+            flex-direction: column;
+            font-family: "FUTURA" !important;
+            font-size: 16px;
+            gap: 1rem;
+        }
+
+        &__values {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-family: "Lato";
+            font-weight: 900;
+
+            .global {
+                font-family: "FUTURA" !important;
+                font-size: 15px;
+                color: #FF6600;
+            }
+        }
+    }
+
+    .actions {
+        padding-top: 15rem;
+
+        button {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            font-family: "FUTURA" !important;
+            font-size: 1rem;
+            text-transform: uppercase;
+            width: 100%;
+
+            .p-button-label {
+                flex: 0 !important;
+            }
+        }
+    }
+}
+
+.legende {
+    font-family: "FUTURA" !important;
+    font-size: 1.5rem;
+    color: #000;
+}
+ngx-recaptcha2 {
+    width: 100%;
+  }

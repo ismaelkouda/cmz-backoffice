@@ -1,0 +1,74 @@
+<div class="container-fluid">
+  <div>
+    <div class="container_flex_space_between mb-3">
+      <div *ngIf="currentObject?.type === 'affectation' || currentObject?.type === 'visualiser'">
+        <h3>
+          <b>
+            <span *ngIf="currentObject?.type === 'visualiser'">{{secondLevelMenus}} affectées au {{firstLevelLibelle}}</span>
+            <span class="current_values">[{{currentObject?.nom}}]</span>
+          </b>
+        </h3>
+      </div>
+      <div *ngIf="!currentObject || currentObject?.type === 'edit' || currentObject?.type === 'show'">
+        <div *ngIf="!currentObject">
+          <h3>
+            <b>
+              <span *ngIf="!currentObject">Ajout de {{firstLevelLibelle}}</span>
+            </b>
+          </h3>
+        </div>
+        <div class="filter_wrapper" [formGroup]="adminForm" style="display: flex;gap: 1rem;">
+          <div style="width: 15rem;">
+            <div class="form-group">
+              <label>
+                <b>{{firstLevelLibelle}}<span class="text-danger">*</span></b>
+              </label>
+              <input placeholder="Nom" formControlName="nom" type="text" pInputText />
+            </div>
+          </div>
+          <div style="width: 20rem;">
+            <div class="form-group">
+              <label>
+                <b>Code<span class="text-danger">*</span></b>
+              </label>
+              <input placeholder="Code" formControlName="code" type="text" pInputText />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-0">
+        <button pButton pRipple label="Enregistrer" [disabled]="!adminForm.valid"
+          *ngIf="!currentObject || currentObject?.type === 'edit'" icon="pi pi-save" class="p-button-success" (click)="!currentObject
+                        ? OnSaveFirstLevel()
+                        : OnUpdateFirstLevel()" style="margin-left: 1rem;"></button>
+        <button pButton pRipple label="Fermer" class="p-button-danger" style="margin-left: 1rem;"
+          (click)="close()"></button>
+      </div>
+    </div>
+    <hr>
+    <div class="table_content_wrapper" *ngIf="currentObject?.type === 'visualiser' || currentObject?.type === 'affectation'">
+      <div class="table_header">
+        <app-table-header [count]="listAffectations" [legende]="secondLevelMenus | titlecase" [page]="page" [totalPage]="totalPage"></app-table-header>
+      </div>
+      <table [ngClass]="['native_table table']">
+        <thead>
+          <th class="text-center" [style]="{width: '1.5rem'}">#</th>
+          <th></th>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let data of listAffectations | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+            <td>{{ (this.offset + i)}}</td>
+            <td>
+              <span>{{data?.nom}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div [ngClass]="['pagination-controls']">
+        <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

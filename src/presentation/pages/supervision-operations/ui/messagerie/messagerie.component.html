@@ -1,0 +1,86 @@
+<div class="container-fluid">
+    <app-breadcrumb [title]="'Suivi des opérations'" [active_item]="'Messagerie'"></app-breadcrumb>
+    <div class="card">
+        <div class="card-body">
+         <div *ngIf="!formsView">
+          <div class="rapport-container">
+              <div>
+                  <app-message-box
+                      [cardBgColor]="'#3498db'"
+                      [cardBorderColor]="'#FFF'"
+                      [legend]="'# Total '+ (+currentTabsIndex === 0 ? 'Reçus': 'Envoyés')"
+                      [count]="rapport?.total || '0'"
+                      [legendColor]="'#FFF'"
+                      [countColor]="'#FFF'"
+                      >
+                  </app-message-box>
+              </div>
+              <div>
+                  <app-message-box
+                      [cardBgColor]="'#27ae60'"
+                      [cardBorderColor]="'#FFF'"
+                      [legend]="'# Total Lus'"
+                      [count]="rapport?.total_lus || '0'"
+                      [legendColor]="'#FFF'"
+                      [countColor]="'#FFF'"
+                  ></app-message-box>
+              </div>
+              <div>
+                  <app-message-box
+                      [cardBgColor]="'#FF6600'"
+                      [cardBorderColor]="'#FFF'"
+                      [legend]="'# Sujet Offres Commerciales'"
+                      [count]="rapport?.total_offres_commerciales || '0'"
+                      [legendColor]="'#FFF'"
+                      [countColor]="'#FFF'"
+                  ></app-message-box>
+              </div>
+              <div>
+                  <app-message-box
+                      [cardBgColor]="'#e74c3c'"
+                      [cardBorderColor]="'#FFF'"
+                      [legend]="'# Sujet Contrat'"
+                      [count]="rapport?.total_contrats || '0'"
+                      [legendColor]="'#FFF'"
+                      [countColor]="'#FFF'"
+                  ></app-message-box>
+              </div>
+              <div>
+                  <app-message-box
+                      [cardBgColor]="'#f1c40f'"
+                      [cardBorderColor]="'#FFF'"
+                      [legend]="'# Sujet Facture'"
+                      [count]="rapport?.sla_en_cours || '0'"
+                      [legendColor]="'#000000'"
+                      [countColor]="'#000000'"
+                  ></app-message-box>
+              </div>
+            </div>
+            <div>
+                <p-tabView
+                    (onChange)="handleChangeTabviewIndex($event)">
+                    <p-tabPanel header="BOITE DE RECEPTION">
+                        <app-recipient-wrapper *ngIf="currentTabsIndex === 0"
+                            (rapport)="OnPushRapport($event)"
+                            [selectedTransaction]="activation"
+                            [tabsLabel]="'Messages reçus'"
+                        ></app-recipient-wrapper>
+                    </p-tabPanel>
+                    <p-tabPanel header="BOITE D'ENVOI">
+                        <app-sender-wrapper *ngIf="currentTabsIndex === 1"
+                            (rapport)="OnPushRapport($event)"
+                            (formsView)="pushStatutView($event)"
+                            [selectedTransaction]="suspension"
+                            [tabsLabel]="'Messages envoyés'"
+                        ></app-sender-wrapper>
+                    </p-tabPanel>
+                </p-tabView>
+            </div>
+         </div>
+         <app-message-form 
+         [currentData]="currentData" 
+         (formsView)="pushStatutView($event)"
+         *ngIf="formsView" (listPatrimoines)="pushListPatrimoines($event)"></app-message-form>
+        </div>
+    </div>
+</div>
