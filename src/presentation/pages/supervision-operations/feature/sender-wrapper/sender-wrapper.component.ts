@@ -144,9 +144,6 @@ export class SenderWrapperComponent implements OnInit {
 
  OnDownload(data): void {
   window.open(`${this.mappingService.fileUrl}${data.piece_jointe}`)
-  setTimeout(() => {
-    this.OnDownloadMessage(data)
-  }, 1000);
 }
 OnDownloadMessage(data){    
   this.supervisionOperationService

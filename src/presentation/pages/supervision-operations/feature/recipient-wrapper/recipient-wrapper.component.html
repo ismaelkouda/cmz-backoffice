@@ -86,7 +86,8 @@
           </td>
           <td> {{ data?.signature_nom }} {{ data?.signature_fonction }} [{{data?.signature_contact}}]</td>
           <td>
-            <button pButton pRipple label="Télecharger" [disabled]="!data.piece_jointe" icon="pi pi-download" class="p-button-helf" (click)="OnDownload(data)"></button>
+            <button *ngIf="data.piece_jointe" pButton pRipple label="Télecharger"  icon="pi pi-download" class="p-button-helf" (click)="OnDownload(data)"></button>
+            <button *ngIf="!data.piece_jointe" [disabled]="true" pButton pRipple label="Aucun" icon="pi pi-ban" class="p-button-warning"></button>
           </td>
           <td class="td-actions">
             <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
