@@ -422,5 +422,6 @@ export class CarteSimActiveComponent implements OnInit {
       'Statut Contrat': item?.statut    }));
     this.excelService.exportAsExcelFile(data, 'Liste des cartes SIM');
   }
+
 }
 
