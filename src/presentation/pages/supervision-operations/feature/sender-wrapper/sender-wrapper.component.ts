@@ -2,8 +2,10 @@ import { Component, OnInit,Output,EventEmitter, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 import * as moment from 'moment'
+import { SujetEnum } from '../../data-access/sujet.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
+import { SettingService } from 'src/shared/services/setting.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -16,12 +18,15 @@ export class SenderWrapperComponent implements OnInit {
   public module: string;
   public subModule: string;
   public selectedSubject: any;
+  public selectedUser: any;
   @Input() selectedTransaction: string;
   @Input() tabsLabel: string;
   @Output() formsView = new EventEmitter();
   @Output() rapport = new EventEmitter();
   public listMessages: Array<any> = [];
   public listStates: Array<any> = [];
+  public listUsers: Array<any> = [];
+  public listSubjects: Array<any> = [];
   public selectedState: any;
   public currentTransactionId: string;
   public filterDateStart: Date;
@@ -46,16 +51,18 @@ export class SenderWrapperComponent implements OnInit {
     private clipboardApi: ClipboardService,
     public mappingService: MappingService,
     public supervisionOperationService: SupervisionOperationService,
+    private settingService: SettingService
   ) {
-    this.listStates = ['Lu', 'Non lu']
+    this.listStates = ['lu', 'non-lu']
+    this.listSubjects = [SujetEnum.OFRRE_COMMERCIAL,SujetEnum.CONTRAT,SujetEnum.FACTURE]
   }
 
   ngOnInit() {
     this.isFilter();
     this.GetAllMessagesSender()
+    this.GetAllUsers()
   }
 
-  
   public GetAllMessagesSender() {
     this.supervisionOperationService
       .GetAllMessagesSender({}, this.p)
@@ -88,7 +95,8 @@ export class SenderWrapperComponent implements OnInit {
     this.supervisionOperationService
       .GetAllMessagesSender({
         sujet: this.selectedSubject,
-        lecture_id: this.selectedState,
+        statut: this.selectedState,
+        envoye_par: this.selectedUser,
         date_debut: this.selectDateStart,
         date_fin: this.selectDateEnd
       }, this.p)
@@ -133,7 +141,43 @@ export class SenderWrapperComponent implements OnInit {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
-  
+
+ OnDownload(data): void {
+  window.open(`${this.mappingService.fileUrl}${data.piece_jointe}`)
+  setTimeout(() => {
+    this.OnDownloadMessage(data)
+  }, 1000);
+}
+OnDownloadMessage(data){    
+  this.supervisionOperationService
+    .OnDownloadMessage({
+      message_id: data.id
+    }).subscribe({
+      next: (response) => {
+        this.toastrService.success(response.message);
+        this.GetAllMessagesSender()
+      },
+      error: (error) => {
+        this.toastrService.error(error.error.message);
+      }
+    })
+}
+  GetAllUsers() {
+    this.settingService
+      .getAllUsers({})
+      .subscribe(
+        (response: any) => {
+          const users = response['data'];
+          this.listUsers = users.map((el) => {
+            const data = { ...el, fullName: el.nom + ' ' + el.prenoms };
+            return data;
+          });
+        },
+        (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      );
+  }
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
   }
@@ -180,7 +224,7 @@ export class SenderWrapperComponent implements OnInit {
     }
   }
   public isFilter(): boolean {
-    return (!this.selectedSubject && !this.selectedState && !this.selectDateStart && !this.selectDateEnd) ? true : false
+    return (!this.selectedSubject && !this.selectedState && !this.selectedUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
 
 }

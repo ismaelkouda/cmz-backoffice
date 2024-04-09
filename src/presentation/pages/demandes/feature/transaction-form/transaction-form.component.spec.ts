@@ -3,19 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-describe('SuspensionFormComponent', () => {
-  let component: SuspensionFormComponent;
-  let fixture: ComponentFixture<SuspensionFormComponent>;
+import { TransactionFormComponent } from './transaction-form.component';
+
+describe('TransactionFormComponent', () => {
+  let component: TransactionFormComponent;
+  let fixture: ComponentFixture<TransactionFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SuspensionFormComponent ]
+      declarations: [ TransactionFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SuspensionFormComponent);
+    fixture = TestBed.createComponent(TransactionFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

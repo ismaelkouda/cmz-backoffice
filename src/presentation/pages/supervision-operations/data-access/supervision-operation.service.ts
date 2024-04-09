@@ -107,4 +107,8 @@ export class SupervisionOperationService {
     const url: string = (<string>EndPointUrl.GET_ALL_MESSAGE_RECIEVE).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  OnDownloadMessage(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.DOWNLOAD_MESSAGE);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
 }

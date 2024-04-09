@@ -124,8 +124,8 @@
       <!--------------------MODAL----------BODY---------->
       <div class="col-lg-10">
         <div
-          [ngClass]="[(detailTransaction?.rapport?.code.includes('100') || detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapport100102' 
-        :(!detailTransaction?.rapport?.code.includes('100') || !detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapportDifferentTo100' : '']"
+          [ngClass]="[(detailTransaction?.rapport?.code.includes('100') || detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapportDifferentTo100' 
+        :(!detailTransaction?.rapport?.code.includes('100') || !detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapport100102' : '']"
           role="alert" style="display: flex;justify-content: space-between;">
           <div>
             <strong class="wrapper-header">Reception : {{detailTransaction?.rapport?.statut_acquittement ?? 'N/A'}} [{{detailTransaction?.rapport?.date_acquittement ?? '-- : --'}}]</strong>
