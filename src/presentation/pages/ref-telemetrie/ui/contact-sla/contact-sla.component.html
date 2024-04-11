@@ -1,0 +1,155 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="'Réferentiel Supervision'" [active_item]="'Contacts SLA'"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div [hidden]="!initialView">
+            <div style="display: flex;justify-content: end;">
+              <div>
+                  <p-button label="Editer"  icon="pi pi-pencil" styleClass="p-button-secondary" (click)="onEditForm(currentContact)"></p-button>
+              </div>
+          </div>
+            <p-tabView (onChange)="handleChangeTabviewIndex($event)">
+              <p-tabPanel header="CONTACTS GESTION SLA">
+                <div *ngIf="currentContact">
+                  <fieldset>
+                    <legend [ngStyle]="{width: '15rem'}">
+                        <b>Informations Identification</b>
+                    </legend>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    <b>Nom</b>
+                                </label>
+                                <input type="text" [value]="currentContact.nom_tenant" [disabled]="true" pInputText />
+                            </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                            <label>
+                                <b>Domaine Activité</b>
+                            </label>
+                            <input type="text" [value]="currentContact.domaine_activite" [disabled]="true" pInputText />
+                        </div>
+                    </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                            <label>
+                                <b>Email Diffusion</b>
+                            </label>
+                            <input type="text" [value]="currentContact.email_diffusion_tenant" [disabled]="true" pInputText />
+                        </div>
+                    </div>
+                    </div>
+                 </fieldset>
+                  <fieldset>
+                    <legend [ngStyle]="{width: '15rem'}">
+                        <b>Informations Admin</b>
+                    </legend>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    <b>Nom Admin</b>
+                                </label>
+                                <input type="text" [value]="currentContact.nom_admin_tenant+'  '+ currentContact.prenoms_admin_tenant" [disabled]="true" pInputText />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    <b>Contact Admin</b>
+                                </label>
+                                <input type="text" [value]="currentContact.contact_admin_tenant" [disabled]="true" pInputText />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    <b>Email Admin</b>
+                                </label>
+                                <input type="text" [value]="currentContact.email_admin_tenant" [disabled]="true" pInputText />
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                  <fieldset>
+                      <legend [ngStyle]="{width: '15rem'}">
+                          <b>Informations Gestionnaire</b>
+                      </legend>
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>
+                                      <b>Nom Gestionnaire Contrat</b>
+                                  </label>
+                                  <input type="text" [value]="currentContact.nom_gestionnaire_tenant+'  '+ currentContact.prenoms_gestionnaire_tenant" [disabled]="true" pInputText />
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>
+                                      <b>Contact Gestionnaire Contrat</b>
+                                  </label>
+                                  <input type="text" [value]="currentContact.contacts_gestionnaire_tenant" [disabled]="true" pInputText />
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>
+                                      <b>Email Gestionnaire Contrat</b>
+                                  </label>
+                                  <input type="text" [value]="currentContact.email_gestionnaire_tenant" [disabled]="true" pInputText />
+                              </div>
+                          </div>
+                      </div>
+                  </fieldset>
+                  <fieldset>
+                      <legend [ngStyle]="{width: '15rem'}">
+                          <b>Informations Escalade</b>
+                      </legend>
+                      <div class="row">
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>
+                                      <b>Nom Escalade</b>
+                                  </label>
+                                  <input type="text" [value]="currentContact.nom_escalade_tenant+'  '+ currentContact.prenoms_escalade_tenant" [disabled]="true" pInputText />
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>
+                                      <b>Contact Escalade</b>
+                                  </label>
+                                  <input type="text" [value]="currentContact.contacts_escalade_tenant" [disabled]="true" pInputText />
+                              </div>
+                          </div>
+                          <div class="col-md-4">
+                              <div class="form-group">
+                                  <label>
+                                      <b>Email Escalade</b>
+                                  </label>
+                                  <input type="text" [value]="currentContact.email_escalade_tenant" [disabled]="true" pInputText />
+                              </div>
+                          </div>
+                      </div>
+                  </fieldset>
+              </div>
+              </p-tabPanel>
+              <p-tabPanel header="HISTORIQUE">
+                <app-historique *ngIf="currentTabsIndex === 1" [module]="'INFOS TENANT'" [sous_module]="'ENV-CONFIG'"></app-historique>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+          <app-contact-form [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
+          (currentContact)="pushListProfils($event)">
+         </app-contact-form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

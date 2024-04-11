@@ -1,0 +1,6 @@
+.col-md-3:hover {
+    transform: scale(1.1);
+  }
+  .col-md-3 {
+    transition: transform 0.5s;
+  }

@@ -1,0 +1,134 @@
+<div>
+  <div class="forms-feature-header">
+      <div>
+          <h4>
+              <b *ngIf="currentObject !== undefined && !currentObject?.show">
+                  <span>Modification de Contacts</span>
+                  <span class="current_values">[{{currentObject?.nom_tenant}}]</span>
+              </b>
+              <b *ngIf="currentObject?.show">
+                  <span>Visualisation de Contacts</span>
+                  <span class="current_values">[{{currentObject?.nom_tenant}}]</span>
+              </b>
+          </h4>
+      </div>
+      <div class="forms-feature-header__button" [ngStyle]="{display: 'flex',gap: '1rem'}">
+          <div *ngIf="!currentObject?.show">
+              <p-button label="Enregistrer" [disabled]="!adminForm?.valid" [label]="currentObject === undefined ? 'Enregistrer': 'Modifier'"styleClass="p-button-success"
+                  (click)="handleSave()"></p-button>
+          </div>
+          <div>
+              <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+          </div>
+      </div>
+  </div>
+  <hr *ngIf="!currentObject?.show">
+  <!--------------------------FORMS-------------------------->
+  <div *ngIf="!currentObject?.show" style="margin-top: 3rem;">
+      <div [formGroup]="adminForm">
+        <fieldset>
+            <legend [ngStyle]="{width: '15rem'}">
+                <b>Informations Identification</b>
+            </legend>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>
+                            <b>Nom</b>
+                        </label>
+                        <input type="text" [value]="currentObject?.nom_tenant" [disabled]="true" pInputText />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>
+                            <b>Domaine Activité</b>
+                        </label>
+                        <input type="text" [value]="currentObject?.domaine_activite" [disabled]="true" pInputText />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>
+                            <b>Email Diffusion</b>
+                        </label>
+                        <input type="text" formControlName="email_diffusion_tenant" pInputText />
+                    </div>
+                </div>
+            </div>
+         </fieldset>
+        <fieldset>
+            <legend [ngStyle]="{width: '15rem'}">
+                <b>Informations Gestionnaire</b>
+            </legend>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>
+                            <b>Nom Gestionnaire Contrat</b>
+                        </label>
+                        <p-dropdown [options]="listUsers" formControlName="gestionnaire_tenant_id" optionLabel="fullName" [filter]="true"
+                        filterBy="nom" [showClear]="true" optionValue="id" placeholder="Gestionnaire">
+                        <ng-template let-data pTemplate="item">
+                            <div class="country-item">
+                                <div>{{ data.fullName }}</div>
+                            </div>
+                        </ng-template>
+                      </p-dropdown>
+                      </div>
+                </div>
+                <div class="col-md-4">
+                    <label>
+                        <b>Contact Gestionnaire Contrat</b>
+                    </label>
+                    <input type="text" [value]="this.currentGestionnaire?.fullName"  [disabled]="true" pInputText />
+                </div>
+                <div class="col-md-4">
+                    <label>
+                        <b>Email Gestionnaire Contrat</b>
+                    </label>
+                    <input type="text" [value]="this.currentGestionnaire?.email"  [disabled]="true" pInputText />
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend [ngStyle]="{width: '15rem'}">
+                <b>Informations Escalade</b>
+            </legend>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>
+                            <b>Nom Escalade</b>
+                        </label>
+                        <p-dropdown [options]="listUsers" formControlName="escalade_tenant_id" optionLabel="fullName" [filter]="true"
+                         filterBy="nom" [showClear]="true" optionValue="id" placeholder="Escaldae">
+                        <ng-template let-data pTemplate="item">
+                            <div class="country-item">
+                                <div>{{ data.fullName }}</div>
+                            </div>
+                         </ng-template>
+                      </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label>
+                        <b>Contact Escalade</b>
+                    </label>
+                    <input type="text" [value]="this.currentEscalade?.fullName" [disabled]="true" pInputText />
+                </div>
+                <div class="col-md-4">
+                    <label>
+                        <b>Email Escalade</b>
+                    </label>
+                    <input type="text" [value]="this.currentEscalade?.email"  [disabled]="true" pInputText />
+                </div>
+            </div>
+        </fieldset>
+      </div>
+      <div class="forms-feature-footer">
+          <p-button label="Enregistrer" [disabled]="!adminForm?.valid" [label]="currentObject === undefined ? 'Enregistrer': 'Modifier'" styleClass="p-button-success"
+              (click)="handleSave()"></p-button>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,275 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+      <div class="card">
+        <div class="card-body">
+          <div [hidden]="!initialView">
+            <div style="margin-top: -2rem !important;">
+              <app-patrimoine-header [count]="listPatrimoines" [legende]="'SIM'" [total]="totalRecords"></app-patrimoine-header>
+            </div>
+            <div class="row filter_wrapper">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>{{firstLevelLibelle}}</b>
+                  </label>
+                  <p-dropdown [options]="listFirstLeveDatas" optionLabel="fullName" (onChange)="onChangeFirstLvel($event)"
+                    [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.fullName}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>{{secondLevelLibelle}}</b>
+                  </label>
+                  <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" optionLabel="fullName" [filter]="true" [showClear]="true"
+                    [(ngModel)]="selectedExploitation" [placeholder]="firstLevelLibelle">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.fullName}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div [style]="{width: '14rem'}">
+                <div class="form-group">
+                  <label>
+                    <b>Zone Trafic</b>
+                  </label>
+                  <input placeholder="zone" [(ngModel)]="selectedZone" type="text" pInputText />
+                </div>
+              </div>
+              <div style="width: 14rem;">
+                <div class="form-group">
+                  <label>
+                    <b>{{thirdLevelLibelle}}</b>
+                  </label>
+                  <p-dropdown [options]="listThirdLevelDatas" [(ngModel)]="selectedNiveauTrois" optionLabel="nom" [showClear]="true"
+                    [placeholder]="thirdLevelLibelle" optionValue="uuid">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.nom}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div [style]="{width: '12rem'}">
+                <div class="form-group">
+                  <label>
+                    <b>MSISDN</b>
+                  </label>
+                  <input placeholder="Numéro" [(ngModel)]="selectedSim" type="text" pInputText />
+                </div>
+              </div>
+              <div [style]="{width: '12rem'}">
+                <div class="form-group">
+                  <label>
+                    <b>IMSI</b>
+                  </label>
+                  <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
+                </div>
+              </div>
+              <div [ngStyle]="{width: 'auto'}" *ngIf="!secondFilter">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                  [disabled]="isFilter()"></p-button>
+              </div>
+              <div [ngStyle]="{width: 'auto'}">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button *ngIf="!secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+                  icon="pi pi-plus"></p-button>
+                <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+                  icon="pi pi-minus"></p-button>
+              </div>
+            </div>
+            <!--------------------Second-------------Filter--------->
+            <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Usage</b>
+                  </label>
+                  <p-dropdown [options]="listUsages" [(ngModel)]="selectedUsage" optionLabel="nom_usage" [showClear]="true"
+                    [placeholder]="'Usage'" optionValue="id">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.nom_usage}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Nom Emplacement</b>
+                  </label>
+                  <input placeholder="Emplacement" [(ngModel)]="selectedEmplacement" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Statut</b>
+                  </label>
+                  <p-dropdown [options]="listStatuts" [showClear]="true" [(ngModel)]="selectedStatut"
+                    placeholder="Statut">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data | titlecase}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="p-0" [ngStyle]="{width: '4rem'}">
+                <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+                <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                  [disabled]="isFilter()"></p-button>
+              </div>
+            </div>
+            <hr>
+            <div class="table_actions_wrapper">
+              <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
+                class="p-button-secondary"></button>
+              <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download" [disabled]="disableAction()"
+                class="p-button-helf"></button>
+            </div>
+            <div class="table_content_wrapper">
+              <div class="table_header">
+                <app-table-header [count]="listPatrimoines" [legende]="'SIM'" [page]="page" [totalPage]="totalPage"></app-table-header>
+              </div>
+              <table [ngClass]="['native_table table']">
+                <thead>
+                  <th class="text-center">#</th>
+                  <th>{{firstLevelLibelle}}</th>
+                  <th>{{secondLevelLibelle}}</th>
+                  <th class="text-center">Zone Trafic</th>
+                  <th class="text-center">{{thirdLevelLibelle}}</th>
+                  <th class="text-center">MSISDN</th>
+                  <th class="text-center">IMSI</th>
+                  <th class="text-center">Usage</th>
+                  <th class="text-center">Emplacement</th>
+                  <th>Statut</th>
+                  <th class="text-center" [style]="{width: '3rem'}">Actions</th>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let data of listPatrimoines | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
+                    <td>{{ (this.offset + i)}}</td>
+                    <td>{{data?.niveau_uns_nom}}</td>
+                    <td>{{data?.niveau_deux_nom}}</td>
+                    <td  (click)="data.adresse_geographique ? copyData(data.adresse_geographique): null" style="cursor: pointer">{{data?.adresse_geographique}}</td>
+                    <td>{{data?.niveau_trois_nom}}</td>
+                    <td (click)="copyData(data.msisdn)" style="cursor: pointer" class="px-2">{{data.msisdn}}</td>
+                    <td (click)="copyData(data.imsi)" style="cursor: pointer" class="px-2">{{data?.imsi ? data?.imsi : 'N/A' }}</td>
+                    <td>{{data?.nom_usage}}</td>
+                    <td>{{data?.point_emplacement}}</td>
+                    <td>
+                      <span [ngStyle]="{ 'font-size': '16px' }"
+                      class="badge"
+                      [ngClass]="{
+                        'badge-success': data.statut === 'actif',
+                        'badge-dark': data.statut === 'suspendu',
+                        'badge-danger': data.statut === 'resilié'
+                      }">
+                    {{ data.statut }}
+                     </span>
+                    </td>
+                    <td class="td-actions">
+                      <button pButton icon="pi pi-map-marker" [disabled]="
+                          data.statut ==='inactif'|| (!data?.latitude && !data?.longitude && !data?.site_reseau)"
+                          pTooltip="Localisation" tooltipPosition="top" (click)="showDialog('map',data)"
+                          class="p-button-success"></button>
+                        <button pButton icon="pi pi-qrcode" [pTooltip]="data.qrcode ? 'Scaner' : ''" tooltipPosition="top" (click)="OnShowQr(data)"
+                        [class]="data.qrcode?'p-button-help': 'p-button-help p-button-outlined'"></button>
+                        <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"
+                        (click)="onShowForm(data)"></button>
+                        <div ngbDropdown *ngIf="mappingService.IsAction()">
+                          <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>Choisir</button>
+                          <div ngbDropdownMenu>
+                            <button ngbDropdownItem  (click)="onEditForm(data)">Modifier</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,swap)" *ngIf="applicationType === patrimoineType && data.statut === 'actif'">SIM Swap</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,resiliation)" *ngIf="data.statut === 'suspendu'">Résilier</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,activation)" *ngIf="data.statut === 'suspendu'">Réactiver</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,suspension)" *ngIf="data.statut === 'actif'">Suspendre</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,volume)" *ngIf="applicationType === patrimoineType && data.statut === 'actif'">Volume Data</button>
+                            <button ngbDropdownItem (click)="onDotationForm(data)" *ngIf="applicationType === patrimoineType && data.statut === 'actif'">Dotation</button>
+                          </div>
+                        </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div [ngClass]="['pagination-controls']">
+                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                </pagination-controls>
+              </div>
+            </div>
+          </div>
+          <app-patrimoine-forms [currentData]="currentData" *ngIf="formsView" (formsView)="pushStatutView($event)"
+            (listPatrimoines)="pushListPatrimoines($event)"></app-patrimoine-forms>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-dialog header="Vue géographique" [(visible)]="display" position="bottom-right" (onHide)="hideDialog('map')"
+    [style]="{ width: '100%' }" (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true"
+    [maximizable]="true" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="content" class="mt-4">
+      <div class="mt-4">
+        <div #parcelleMap></div>
+      </div>
+    </ng-template>
+  </p-dialog>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{currentData?.type === 'suspendu' ? 'suspension' : 'resiliation'}}
+        de la carte SIM</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
+    </div>
+    <div class="modal-body" novalidate>
+      <div class="form-group">
+        <label>
+          <b>MSNDN</b>
+        </label>
+        <input type="text" [ngStyle]="{width: '100%'}" [placeholder]="currentData?.imsi" [disabled]="true" pInputText />
+      </div>
+      <br>
+      <div class="form-group">
+        <label>
+          <b>Description</b>
+        </label>
+        <textarea class="form-control" [(ngModel)]="selectedDescription" rows="2"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div>
+        <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-save" [disabled]="!selectedDescription"
+          (click)="OnChangeStatut()">Valider</button>
+      </div>
+    </div>
+  </ng-template>
+</div>

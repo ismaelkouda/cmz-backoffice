@@ -1,0 +1,18 @@
+<!-- Loader starts-->
+<div class="loader-wrapper" [class.loderhide]="!show">
+    <div class="logo-data--collector">
+        <div style="display: flex;justify-content: center;">
+            <img width="80" src="assets/images/logo/logo_orange.png" alt="">
+        </div>
+        <h4 class="text-center" style="text-transform: uppercase;">
+            <b>{{profil?.tenant?.nom_tenant ? profil?.tenant?.nom_tenant : 'OCI SIM ASSET' }} - {{appName ?? 'Tenant'}}</b>
+        </h4>
+    </div>
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<!-- Loader ends-->

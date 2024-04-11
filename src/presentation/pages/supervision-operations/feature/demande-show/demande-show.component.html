@@ -1,0 +1,645 @@
+<div class="modal-content">
+  <div class="modal-header" style="background-color:#569c5b;color:#fff;cursor: all-scroll;padding: 0.2rem 1rem;">
+    <h4 class="modal-title pl-3">
+      Détails <strong>[{{transaction?.transaction}}]</strong>
+    </h4>
+    <button type="button" class="close" aria-label="Close" (click)="handleCloseModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+        <div class="col-lg-2"  style="border-right: 1px solid #D8D8D8;">
+          <div>
+            <fieldset>
+                <legend>
+                    <strong>Emission</strong>
+                </legend>
+                <div class="d-flex flex-column gap-2">
+                    <div>
+                      <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>{{transaction?.agent_nom ??"N/A"}}</span>
+                    </div>
+                    <div>
+                      <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{transaction?.agent_matricule ??"N/A"}}</span>
+                    </div>
+                    <div>
+                      <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{transaction?.agent_contacts ??"N/A"}}</span>
+                    </div>
+                    <div>
+                      <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{transaction?.agent_email ??"N/A"}}</span>
+                    </div>
+                    <div>
+                      <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.created_at ??"N/A"}}</span>
+                    </div>
+                </div>
+            </fieldset>
+              </div>
+        <br>
+        <div>
+          <fieldset>
+              <legend>
+                  <strong>Homologation</strong>
+              </legend>
+              <div class="d-flex flex-column gap-2">
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{transaction?.intervenant_matricule ??"N/A"}}</span>
+                  </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Nom&nbsp;:&nbsp;</strong>{{transaction?.intervenant_nom ??"N/A"}}</span>
+                  </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Prénoms&nbsp;:&nbsp;</strong>{{transaction?.intervenant_prenoms ??"N/A"}}</span>
+                  </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{transaction?.agent_email ??"N/A"}}</span>
+                  </div>
+                  <div>
+                    <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.intervenant_contacts ??"N/A"}}</span>
+                  </div>
+              </div>
+          </fieldset>
+              </div>
+        </div>
+      <div class="col-lg-10">
+        <div class="d-flex justify-content-between">
+          <div>
+           <h4 *ngIf="detailTransaction?.rapport" class="wrapper-header">
+             <strong>{{ formatTitleOuvrage(detailTransaction?.operation) }}
+               <span style="color:#549B3D;font-weight: bold;">
+                 <span *ngIf="IsContentSim()"> 
+                   {{detailTransaction?.niveau_uns_code}} |
+                   {{detailTransaction?.niveau_deux_nom}} [{{detailTransaction?.niveau_deux_code}}] -
+                   [{{detailTransaction?.msisdn}}]
+                 </span>&nbsp;
+                 <span *ngIf="IsProvisionningTransaction()"> 
+                   {{detailTransaction?.reference}} [{{detailTransaction?.rapport?.code}}]
+                 </span>&nbsp;
+                 <span *ngIf="IsAchatTransaction()"> 
+                   {{detailTransaction?.numero_commande}} [{{detailTransaction?.rapport?.code}}]
+                 </span>&nbsp;
+                 <span
+                   *ngIf="detailTransaction?.rapport?.identifiant">[{{detailTransaction?.rapport?.identifiant}}]</span>
+               </span>
+             </strong>
+           </h4>
+          </div>
+          <div class="wrapper-header"  style="font-size: 20px;">
+           Statut :&nbsp;<b><span>{{detailTransaction?.statut}}</span></b>
+         </div>
+         </div>
+        <hr style="position: relative;top: -0.2rem;margin-top: -0.4rem;">
+        <!--------------LIGNE----------CREDIT------------FORMS----------------->
+        <div *ngIf="transaction?.operation === operationLigneCredit">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="ligneForm">
+            <fieldset>
+              <legend>
+                <strong>Information de Transaction</strong>
+              </legend>
+              <div class="row">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>
+                      <b>Montant</b>
+                    </label>
+                    <input type="text" formControlName="montant" placeholder="montant" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>
+                      <b>Type Justificatif</b>
+                    </label>
+                    <p-dropdown [options]="listTypeJustificatif" formControlName="justificatif" placeholder="Type">
+                      <ng-template let-data pTemplate="item">
+                        <div class="country-item">
+                          <div>
+                            {{data}}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <label>
+                      <b>Description</b>
+                    </label>
+                    <input type="text" formControlName="description" pInputText />
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div style="display: flex;justify-content: center;">
+                <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                  class="p-button-success" (click)="downloadFile()"></button>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <!--------------DEPOT----------VOLUME------------FORMS----------------->
+        <div *ngIf="transaction?.operation === OperationVolumeData">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="volumeForm">
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Informations de Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>MSIDN</b>
+                    </label>
+                    <input type="text" formControlName="msisdn" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>IMSI</b>
+                    </label>
+                    <input type="text" formControlName="imsi" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Statut Contrat</b>
+                    </label>
+                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Emplacement</b>
+                    </label>
+                    <input type="text" formControlName="point_emplacement" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Détails de la Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Voume (Go) <span class="text-danger">*</span></b>
+                    </label>
+                    <input type="number" formControlName="volume" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-9">
+                  <div class="form-group">
+                    <label style="opacity: 0;">
+                      <b> <span class="text-danger">*</span></b>
+                    </label>
+                    <input [disabled]="true" class="infos_text"
+                      [value]="sourceStock === 'stock' ? sourceSoldeDotation: sourceSoldeDotationOrange "
+                      type="text" pInputText />
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div style="display: flex;justify-content: center;gap: 2rem">
+                <div>
+                  <div style="display: flex;justify-content: center;">
+                    <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                      class="p-button-success" (click)="downloadFile()"></button>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <!--------------CHANGEMENT------------FORMS----------------->
+        <div *ngIf="transaction?.operation === operationSwap">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="swapForm">
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Informations sur la SIM</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>MSIDN</b>
+                    </label>
+                    <input type="text" formControlName="msisdn" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>IMSI</b>
+                    </label>
+                    <input type="text" formControlName="imsi" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Statut Contrat</b>
+                    </label>
+                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Emplacement</b>
+                    </label>
+                    <input type="text" formControlName="point_emplacement" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Source Stock SIM / Détails de la Transaction</b>
+              </legend>
+              <div class="d-flex gap-4">
+                <div>
+                   <div class="d-flex gap-4">
+                       <div class="d-flex gap-2">
+                          <p-radioButton name="valeur" [value]="'stock'" formControlName="bac_a_pioche" [inputId]="'stock'"></p-radioButton>
+                          <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
+                       </div>
+                   </div>
+                </div>
+                <div>
+                  <div class="d-flex gap-4">
+                    <div class="d-flex gap-2">
+                      <p-radioButton name="valeur" [value]="'orangeci'" formControlName="bac_a_pioche" [inputId]="'orangeci'"></p-radioButton>
+                      <label [for]="'orangeci'" style="margin-top: 0.9rem">Stock SIM/OCI</label>
+                    </div>
+                </div>
+                </div>
+              </div>
+              <div class="text-wrapper mt-2">
+                <input [value]="sourceStockSwap === 'stock' ? sourceStockTenantSim: sourceStockOrangeSim" type="text" [disabled]="true" pInputText/>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>
+                      <b>Description<span class="text-danger">*</span></b>
+                    </label>
+                    <input type="text" formControlName="description" pInputText />
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div>
+                <div style="display: flex;justify-content: center;">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <!--------------RESILIATION------------FORMS----------------->
+        <div *ngIf="transaction?.operation === OperationResiliation">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="resiliationForm">
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Informations sur la SIM</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>MSIDN</b>
+                    </label>
+                    <input type="text" formControlName="msisdn" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>IMSI</b>
+                    </label>
+                    <input type="text" formControlName="imsi" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Statut Contrat</b>
+                    </label>
+                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Emplacement</b>
+                    </label>
+                    <input type="text" formControlName="point_emplacement" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Détails de la Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="form-group">
+                  <label>
+                    <b>Description<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="description" pInputText />
+                </div>
+              </div>
+              <br>
+              <div>
+                <div style="display: flex;justify-content: center;">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <!--------------SUSPENSION------------FORMS----------------->
+        <div *ngIf="transaction?.operation === OperationSuspension">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="suspensionForm">
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Informations sur la SIM</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>MSIDN</b>
+                    </label>
+                    <input type="text" formControlName="msisdn" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>IMSI</b>
+                    </label>
+                    <input type="text" formControlName="imsi" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Statut Contrat</b>
+                    </label>
+                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>
+                      <b>Emplacement</b>
+                    </label>
+                    <input type="text" formControlName="point_emplacement" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Détails de la Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="form-group">
+                  <label>
+                    <b>Description<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="description" pInputText />
+                </div>
+              </div>
+              <br>
+              <div>
+                <div style="display: flex;justify-content: center;">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <!-------------ACTIVATION--------------FORMS--------------------------->
+        <div *ngIf="transaction?.operation === operationActivation">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
+            <fieldset style="margin-top: 2.5rem;" *ngIf="bacPiocheActivation !== 'patrimoine'">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Source Stock SIM</b>
+              </legend>
+              <div class="d-flex gap-4">
+                <div>
+                   <div class="d-flex gap-4">
+                       <div class="d-flex gap-2">
+                          <p-radioButton name="valeur" [value]="'stock'" formControlName="bac_a_pioche" [inputId]="'stock'"></p-radioButton>
+                          <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
+                       </div>
+                   </div>
+                </div>
+                <div>
+                  <div class="d-flex gap-4">
+                    <div class="d-flex gap-2">
+                      <p-radioButton name="valeur" [value]="'orangeci'" formControlName="bac_a_pioche" [inputId]="'orangeci'"></p-radioButton>
+                      <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/OCI</label>
+                    </div>
+                </div>
+                </div>
+              </div>
+              <div class="text-wrapper mt-2">
+                <input [value]="bacPiocheActivation === 'stock' ? sourceStockTenantSim: sourceStockOrangeSim" type="text" [disabled]="true" pInputText/>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend [ngStyle]="{width: '12rem'}">
+                <b>Informations SIM</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>IMSI</b>
+                    </label>
+                    <input type="text" formControlName="imsi" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>MSISDN</b>
+                    </label>
+                    <input type="text" formControlName="msisdn" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Statut Contrat</b>
+                    </label>
+                    <input *ngIf="!detailTransaction?.statut_contrat" type="text" formControlName="statut_contrat" pInputText />
+                    <app-statut-contrat  *ngIf="detailTransaction?.statut_contrat" [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend [ngStyle]="{width: '18rem'}">
+                <b>Informations d'identifications</b>
+              </legend>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>{{firstLevelLibelle}}</b>
+                    </label>
+                    <input type="text" formControlName="niveau_1" placeholder="niveau_1" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>{{secondLevelLibelle}}</b>
+                    </label>
+                    <input type="text" formControlName="niveau_2"  pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>{{thirdLevelLibelle}}</b>
+                    </label>
+                    <input type="text" formControlName="niveau_3" pInputText />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Usage</b>
+                    </label>
+                    <input type="text" formControlName="usage" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Emplacement</b>
+                    </label>
+                    <input type="text" formControlName="point_emplacement" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Adresse mail</b>
+                    </label>
+                    <input type="text" formControlName="email" placeholder="Adresse Email" pInputText />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Adresse géographique</b>
+                    </label>
+                    <input type="text" formControlName="adresse_geographique" placeholder="Adresse Geo" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Latitude</b>
+                    </label>
+                    <input type="text" formControlName="latitude" placeholder="Latitude" pInputText />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>
+                      <b>Longitude</b>
+                    </label>
+                    <input type="text" formControlName="longitude" placeholder="Longitude" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Détails de la Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="form-group">
+                  <label>
+                    <b>Description<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="description" pInputText />
+                </div>
+              </div>
+              <br>
+              <div style="display: flex;justify-content: center;gap: 2rem;">
+                <div>
+                  <div style="display: flex;justify-content: center;">
+                    <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                      class="p-button-success" (click)="downloadFile()"></button>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+        <!-------------COMMANDE--------------FORMS--------------------------->
+        <div *ngIf="transaction?.operation === OperationAchat">
+          <div [hidden]="filterTab !== 'first-item'">
+            <fieldset>
+              <legend>
+                <strong>Information de Transaction</strong>
+              </legend>
+              <div>
+                <table [ngClass]="'table-natif'">
+                  <thead>
+                    <th>Code Produit</th>
+                    <th>Description</th>
+                    <th>Prix Unitaire (Fcfa)</th>
+                    <th>Quantité</th>
+                    <th>Montant (Fcfa)</th>
+                  </thead>
+                  <tr *ngFor="let prod of detailTransaction?.detail_commande;let i = index">
+                    <td>
+                      <div class="produit-picture">
+                        <img src="assets/images/unboxing.png" style="height: 1.8rem" alt="">
+                      </div>
+                      <div class="produit-code">{{prod.code_produit}}</div>
+                    </td>
+                    <td>
+                      <span class="produit-code">{{prod.nom_produit}}</span>
+                    </td>
+                    <td>
+                      <div class="produit-prix">{{pipeValue(prod.montant_ht)}}</div>
+                    </td>
+                    <td>
+                      <div class="produit-prix">{{prod.quantite}}</div>
+                    </td>
+                    <td>
+                      <div class="produit-prix">{{pipeValue(prod.montant_ht*prod.quantite)}}</div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

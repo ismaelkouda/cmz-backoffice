@@ -1,0 +1,52 @@
+.masse-container {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.file_container {
+    border-radius: 5px;
+    overflow: hidden;
+    padding-right: 5px;
+    border: solid .5px rgba(0, 0, 0, .5);
+    height: 100%;
+
+}
+
+.input_file {
+    align-items: center;
+    position: relative;
+    height: 100%;
+    display: flex;
+    width: 30rem;
+
+    input {
+        width: 1px;
+        height: 1px;
+        background-color: red;
+        z-index: 1;
+    }
+
+    label {
+        position: relative;
+        z-index: 2;
+        // background-color: #e1e1e1;
+        margin-bottom: 0 !important;
+        padding-right: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: .25s ease;
+
+        &:hover {
+            background-color: #d0d0d0;
+        }
+    }
+
+    span#file_name {
+        position: absolute;
+        margin-left: 10px;
+        z-index: 2;
+    }
+}

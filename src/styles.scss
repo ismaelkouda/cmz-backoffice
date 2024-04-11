@@ -1,0 +1,346 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "./assets/scss/app.scss";
+
+
+.p-button.p-button-success, .p-buttonset.p-button-success>.p-button, .p-splitbutton.p-button-success>.p-button {
+    color: #fff;
+    background: #569c5b!important;
+    border: 1px solid #569c5b!important;
+}
+.p-button.p-button-success:enabled:hover, .p-buttonset.p-button-success>.p-button:enabled:hover, .p-splitbutton.p-button-success>.p-button:enabled:hover {
+    background: #569c5b!important;
+    border: 1px solid #569c5b!important;
+}
+
+.pi-filter {
+    font-size: 1.7rem !important;
+}
+.pi-plus {
+    font-size: 1.7rem !important;
+}
+
+.router-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100vw;
+    height: calc(100% - 47px);
+    perspective: 1200px;
+    transform-style: preserve-3d;
+}
+.justificatif-container{
+    padding: 1rem 0;
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    .justificatif-error{
+        span{
+            color: #DF0101;
+            font-weight: 900;
+            font-style: italic;
+            text-transform: uppercase;
+            text-align: center !important;
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
+
+input[type="text"]:disabled, input[type="email"]:disabled,input[type="number"]:disabled, textarea:disabled {
+    background: #fafafa !important;
+    opacity: 1!important;
+    color: #000 !important;
+    font-weight: 800;
+    font-size: 19.5px;
+    border: 2px solid #ccc !important;
+}
+p-dropdown .p-disabled,
+p-password .p-disabled {
+    background: #fafafa !important;
+    opacity: 1 !important;
+    color: #000 !important;
+    font-weight: 800;
+    font-size: 19.5px;
+    border: 2px solid #ccc !important;
+     .p-dropdown-trigger {
+        opacity: 0 !important;
+    }
+}
+
+
+:host {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #60d7a9;
+}
+
+.fs-30 {
+    font-size: 30px !important;
+    font-weight: 800;
+}
+
+.mt-15 {
+    margin-top: 41px !important;
+}
+
+.text-black {
+    color: #000;
+}
+
+.text-white {
+    color: #fff !important;
+}
+
+.background__light__orange {
+    background: #FAEBE1 !important;
+}
+
+.background__body__wrapper {
+    background: #F8F8F8 !important;
+}
+
+.body__background {
+    background-color: rgb(250, 235, 225) !important;
+}
+
+.p-tabview .p-tabview-panels {
+    padding: 1.25rem 0 !important;
+}
+
+.pagination-controls {
+    float: right;
+}
+
+.ngx-pagination .current {
+    padding: 0.6rem 1rem !important;
+    background: #EFF6FF !important;
+    border-color: #EFF6FF !important;
+    color: #1D4ED8 !important;
+    cursor: pointer !important;
+    border-radius: 50%;
+    font-weight: 300 !important;
+
+}
+
+.ngx-pagination li {
+    padding: 0.6rem 1rem !important;
+    font-weight: 300 !important;
+    border-radius: 50% !important;
+    color: #6C756C !important;
+    margin: 0.1rem !important;
+}
+
+:host ::ng-deep .p-dropdown .p-component .p-disabled {
+    background-color: red !important;
+
+}
+
+.legende {
+    color: #FF6600;
+    position: relative;
+    top: 0.6rem;
+    text-transform: uppercase;
+    font-family: "FUTURA";
+}
+.table-header-wrapper{
+    font-size: 1.5rem;
+    font-family: "FUTURA";
+}
+.loader-wrapper{
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    font-family: "FUTURA";
+}
+.leaflet-popup-content {
+    min-height: 5px;
+
+    strong {
+        font-size: 35px !important;
+    }
+
+    span {
+        margin-left: 0.3rem !important;
+        font-size: 36px !important;
+    }
+
+    width: max-content !important;
+    width: max-content !important;
+}
+
+.pagination-controls {
+    nav {
+        margin-top: 0.5rem !important;
+    }
+}
+
+@font-face {
+    font-family: FUTURA;
+    src: url("./assets/fonts/FUTURA.otf");
+}
+
+.p-calendar {
+    width: 22rem !important;
+}
+
+.submit-form {
+    padding-top: 1rem;
+    float: right;
+}
+.wrapper-header {
+    font-family: "FUTURA";
+}
+
+
+.p-calendar-w-btn .p-datepicker-trigger {
+    background-color: #000 !important;
+    border: none !important;
+}
+
+.p-datatable .p-datatable-header {
+
+    padding: 0rem 0rem 0.5rem 0rem !important;
+}
+
+.form-group {
+    label {
+        b {
+            span {
+                margin-left: 0.2rem;
+            }
+        }
+    }
+}
+
+.p-dialog {
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+    max-height: 100% !important;
+    transform: scale(1);
+    position: relative;
+}
+
+.p-dialog .p-dialog-header h3 {
+    position: relative !important;
+    top: 10px !important;
+}
+
+.p-dialog .p-dialog-content {
+    height: 100vh !important;
+}
+
+.leaflet-tooltip-site {
+    position: absolute;
+    padding: 0px !important;
+    background-color: #000 !important;
+    border: none !important;
+    font-weight: 900;
+    color: #FFFF;
+    //text-shadow: 2px 2px #FF6600;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.leaflet-tooltip-ressort {
+    position: absolute;
+    padding: 2px !important;
+    background-color: #2E9AFE !important;
+    border: none !important;
+    font-weight: 900;
+    color: #FFFF;
+    //text-shadow: 2px 2px #FF6600;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.table_header__legende {
+    h4 {
+        margin-top: 0.7rem;
+    }
+}
+
+.dropdown .dropdown-toggle:after {
+    display: none !important;
+}
+
+.modal.fade .modal-dialog {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.trans-radio{
+    label{
+        font-family: "FUTURA";
+        font-size: 19px !important;
+    }
+}
+.current-transaction-label{
+    font-family: "FUTURA";
+    font-size: 22px !important;
+
+}
+.p-radiobutton-box.p-highlight .p-radiobutton-icon {
+    transform: translateZ(0) scale(0.7,0.7) !important;
+    visibility: visible;
+}
+.p-radiobutton .p-radiobutton-box {
+    width: 29px !important;
+    height: 29px !important;
+}
+.p-radiobutton .p-radiobutton-box .p-radiobutton-icon {
+    width: 25px !important;
+    height: 25px !important;
+}
+
+
+.p-datatable .p-sortable-column.p-highlight {
+    border-right: 0.5px solid #FAFAFA;
+    color: white;
+    background: #000 !important;
+}
+.p-datatable .p-sortable-column.p-highlight:hover {
+    color: white;
+    background: #000 !important;
+}
+.p-datatable .p-sortable-column.p-highlight:hover .p-sortable-column-icon {
+    color:  #FFFF !important;
+}
+@font-face {
+    font-family: Lato;
+    src: url("./assets/fonts/Lato.ttf");
+}
+@font-face {
+    font-family: Poppins;
+    src: url("./assets/fonts/Poppins.ttf");
+}
+
+.p-datatable .p-sortable-column:hover {
+    background: #000000 !important;
+    color:  #FFFFFF !important;
+}
+.p-datatable .p-sortable-column.p-highlight:hover .p-sortable-column-icon {
+    color:  #FFFFFF !important;
+}
+.p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
+    color:  #FFFFFF !important;
+}
+
+.p-inputswitch .p-inputswitch-slider {
+    width: 5rem !important;
+    height: 3rem !important;
+}
+.p-inputswitch .p-inputswitch-slider:before {
+    width: 1.5rem;
+    height: 1.5rem;
+    left: 0.4rem;
+}

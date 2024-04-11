@@ -1,0 +1,20 @@
+%messageAlert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 2px solid transparent;
+    border-radius: 0.25rem;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    strong {
+        font-size: 18px;
+    }
+}
+.infos-alert {
+    @extend %messageAlert;
+    background-color: #E0F2F7;
+    color: #01A9DB;
+    border-color: #E0F2F7;
+}
