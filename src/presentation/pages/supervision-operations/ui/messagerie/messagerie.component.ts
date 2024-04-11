@@ -11,6 +11,7 @@ export class MessagerieComponent implements OnInit {
   public rapport: any;
   public initialView: boolean = true;
   public formsView: boolean = false;  
+  public currentObject: any;  
   public currentTabsIndex: number = 0;
   public title = 'Messagerie - Système de Gestion de Collecte Centralisée';
 
@@ -48,6 +49,12 @@ export class MessagerieComponent implements OnInit {
     }
     this.formsView = event;
     this.initialView = !event;
+  }
+  public pushCurrentObject(event: any): void {
+
+    console.log("this.currentObject",this.currentObject);
+    
+    this.currentObject = event;
   }
 
 }

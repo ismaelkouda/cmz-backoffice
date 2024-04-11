@@ -6,6 +6,8 @@ import { SujetEnum } from '../../data-access/sujet.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
 import { SettingService } from 'src/shared/services/setting.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ShowMessageSenderComponent } from '../show-message-sender/show-message-sender.component';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -22,6 +24,7 @@ export class SenderWrapperComponent implements OnInit {
   @Input() selectedTransaction: string;
   @Input() tabsLabel: string;
   @Output() formsView = new EventEmitter();
+  @Output() currentObject = new EventEmitter();
   @Output() rapport = new EventEmitter();
   public listMessages: Array<any> = [];
   public listStates: Array<any> = [];
@@ -51,6 +54,7 @@ export class SenderWrapperComponent implements OnInit {
     private clipboardApi: ClipboardService,
     public mappingService: MappingService,
     public supervisionOperationService: SupervisionOperationService,
+    private modalService: NgbModal,
     private settingService: SettingService
   ) {
     this.listStates = ['lu', 'non-lu']
@@ -74,7 +78,7 @@ export class SenderWrapperComponent implements OnInit {
             total_lus: res['data']['total_lus'],
             total_offres_commerciales: res['data']['total_offres_commerciales'],
             total_contrats: res['data']['total_contrats'],
-            total_facture: res['data']['total_facture'],
+            total_factures: res['data']['total_factures'],
           })          
           this.totalPage = res['data']['data'].last_page;
           this.totalRecords = res['data']['data'].total;
@@ -108,7 +112,7 @@ export class SenderWrapperComponent implements OnInit {
             total_lus: res['data']['total_lus'],
             total_offres_commerciales: res['data']['total_offres_commerciales'],
             total_contrats: res['data']['total_contrats'],
-            total_facture: res['data']['total_facture'],
+            total_factures: res['data']['total_factures'],
           })          
           this.totalPage = res['data']['data'].last_page;
           this.totalRecords = res['data']['data'].total;
@@ -178,33 +182,23 @@ OnDownloadMessage(data){
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
   }
-  public OnDetailMessagesSender(data: any): void {    
-    Swal.fire({
-      title: 'En êtes vous sûr ?',
-      html: `Voulez-vous lire ce message ?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#569C5B',
-      cancelButtonColor: '#dc3545',
-      cancelButtonText: 'Annuler',
-      confirmButtonText: 'Oui',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.supervisionOperationService
-          .OnDetailMessagesSender({
-            message_id: data?.id
-          })
-          .subscribe({
-            next: (response) => {
-              this.toastrService.success(response.message);
-              this.GetAllMessagesSender();
-            },
-            error: (error) => {
-              this.toastrService.error(error.error.message);
-            }
-          })
-      }
-    });
+  OnShowMessage(data: any): void {
+    const modalRef = this.modalService.open(ShowMessageSenderComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });    
+    modalRef.componentInstance.transaction = {...data};
+    modalRef.componentInstance.resultTraitement.subscribe((res) => {
+      this.listMessages = res
+    })
+  }
+  onEditForm(data){
+    this.currentObject.emit(data);
+  setTimeout(() => {
+    this.formsView.emit(data);
+  }, 1000);
   }
   changeDateStart(e) {
     if ( moment(this.filterDateStart).isValid()) {

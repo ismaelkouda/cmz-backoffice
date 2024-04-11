@@ -63,7 +63,8 @@
       <thead>
         <tr>
           <th class="text-center">#</th>
-          <th class="text-center">Date d'envoi</th>
+          <th class="text-center" [style]="{width: '11rem'}">Date d'envoi</th>
+          <th class="text-center">Reference</th>
           <th class="text-center">Sujet</th>
           <th class="text-center">Objet</th>
           <th class="text-center">Statut</th>
@@ -77,6 +78,7 @@
           *ngFor="let data of listMessages | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
           <td class="text-center">{{ (this.offset + i)}}</td>
           <td> {{ data?.created_at }}</td>
+          <td> {{ data?.reference }}</td>
           <td (click)="copyData(data.sujet)" style="cursor: pointer"> {{ data?.sujet | titlecase }}</td>
           <td> {{ data?.objet }}</td>
           <td class="text-center">
@@ -87,12 +89,14 @@
           </td>
           <td> {{ data?.signature_nom }} {{ data?.signature_fonction }} [{{data?.signature_contact}}]</td>
           <td>
-            <button *ngIf="data.piece_jointe" pButton pRipple label="Télecharger"  icon="pi pi-download" class="p-button-helf" (click)="OnDownload(data)"></button>
-            <button *ngIf="!data.piece_jointe" [disabled]="true" pButton pRipple label="Aucun" icon="pi pi-ban" class="p-button-warning"></button>
+            <button *ngIf="data.piece_jointe" style="height: 2rem" [disabled]="true" pButton pRipple label="Fichier"  icon="pi pi-check" class="p-button-helf"></button>
+            <button *ngIf="!data.piece_jointe" style="height: 2rem" [disabled]="true" pButton pRipple label="Aucun" icon="pi pi-ban" class="p-button-warning"></button>
           </td>
           <td class="td-actions">
             <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
-            (click)="OnDetailMessagesSender(data)" class="p-button-dark"></button>
+            (click)="OnShowMessage(data)" class="p-button-dark"></button>
+            <button pButton pRipple *ngIf="mappingService.IsAction()" icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
+            (click)="onEditForm(data)" [disabled]="data.statut === 'lu'" class="p-button-secondary"></button>
           </td>
         </tr>
       </tbody>

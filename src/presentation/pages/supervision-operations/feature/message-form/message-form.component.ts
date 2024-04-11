@@ -28,11 +28,23 @@ export class MessageFormComponent implements OnInit {
     private mappingService: MappingService
   ) { }
 
-  ngOnInit() {
+  ngOnInit() {   
+    console.log("currentObject",this.currentObject);
     this.initForm()
-    this.adminForm.get('signature_nom').patchValue(this.mappingService.currentUser?.nom);
-    this.adminForm.get('signature_contact').patchValue(this.mappingService.currentUser?.contacts);
-    this.adminForm.get('signature_fonction').patchValue(this.mappingService.profil?.nom);    
+    if (!this.currentObject) {
+      this.adminForm.get('signature_nom').patchValue(this.mappingService.currentUser?.nom);
+      this.adminForm.get('signature_contact').patchValue(this.mappingService.currentUser?.contacts);
+      this.adminForm.get('signature_fonction').patchValue(this.mappingService.profil?.nom);    
+    }else{
+      this.adminForm.get('sujet').patchValue(this.currentObject?.sujet);
+      this.adminForm.get('objet').patchValue(this.currentObject?.objet);
+      this.adminForm.get('message').patchValue(this.currentObject?.message);
+      this.adminForm.get('signature_nom').patchValue(this.currentObject?.signature_nom);
+      this.adminForm.get('signature_fonction').patchValue(this.currentObject?.signature_fonction);
+      this.adminForm.get('signature_contact').patchValue(this.currentObject?.signature_contact);
+      this.adminForm.get('sujet').disable();
+
+    }
   }
 
   public close(): void {
@@ -61,6 +73,25 @@ export class MessageFormComponent implements OnInit {
     })
     this.supervisionOperationService
       .HandleSaveMessage(formDataBuilder(this.adminForm.value)).subscribe({
+        next: (response) => {
+          this.adminForm.reset();
+          this.close()
+          this.toastrService.success(response.message);
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  handleUpdate(){    
+    this.adminForm.patchValue({
+      piece_jointe: this.currentFile
+    })
+    this.supervisionOperationService
+      .HandleUpdateMessage(formDataBuilder({
+        ...this.adminForm.value,
+        message_id: this.currentObject?.id
+      })).subscribe({
         next: (response) => {
           this.adminForm.reset();
           this.close()

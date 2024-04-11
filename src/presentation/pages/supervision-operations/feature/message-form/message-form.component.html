@@ -2,12 +2,12 @@
   <div class="forms-feature-header">
     <div>
       <h4>
-        <b *ngIf="!currentObject?.show">
+        <b *ngIf="!currentObject">
           <span>Nouveau Message</span>
         </b>
-        <b *ngIf="currentObject?.show">
-          <span>Visualisation Message</span>
-          <span class="current_values">[{{currentObject?.transaction}}]</span>
+        <b *ngIf="currentObject">
+          <span>Modification Message</span>
+          <span class="current_values">[{{currentObject?.reference}}]</span>
         </b>
       </h4>
     </div>
@@ -105,7 +105,9 @@
       </fieldset>
     </div>
     <div class="submit-form">
-      <button pButton pRipple label="Enregistrer" (click)="handleSave()" [disabled]="!adminForm.valid" class="p-button-success mt-2 pull-right"></button>
+      <p-button label="Enregistrer" [label]="!currentObject ? 'Enregistrer': 'Modifier'"
+      [disabled]="!adminForm.valid" styleClass="p-button-success mt-2 pull-right"
+      (click)="!currentObject ? handleSave() : handleUpdate()"></p-button>
     </div>
   </div>
   <div *ngIf="currentObject?.show">

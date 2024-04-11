@@ -11,9 +11,11 @@ export const enum EndPointUrl {
     GET_ALL_NOTIFICATIONS = 'supervision-operations/centre-notifications/all',
     READ_NOTIFICATION = 'supervision-operations/centre-notifications/read',
     SAVE_MESSAGE = 'messagerie/boite-envoi/envoyer',
+    UPDATE_MESSAGE = 'messagerie/boite-envoi/update',
     GET_ALL_MESSAGE_SENDER = 'messagerie/boite-envoi/all?page={page}',
-    DETAIL_MESSAGE_SENDER = 'messagerie/boite-envoi/details',
     GET_ALL_MESSAGE_RECIEVE = 'messagerie/boite-reception/all?page={page}',
+    DETAIL_MESSAGE_SENDER = 'messagerie/boite-envoi/details',
+    DETAIL_MESSAGE_RECIEVE = 'messagerie/boite-reception/details',
     DOWNLOAD_MESSAGE = 'messagerie/boite-reception/telecharger',
 }
 

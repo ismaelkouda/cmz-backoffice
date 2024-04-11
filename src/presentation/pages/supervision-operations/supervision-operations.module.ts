@@ -1,3 +1,5 @@
+import { ShowMessageRecieveComponent } from './feature/show-message-recieve/show-message-recieve.component';
+import { ShowMessageSenderComponent } from './feature/show-message-sender/show-message-sender.component';
 import { MessageFormComponent } from './feature/message-form/message-form.component';
 import { RecipientWrapperComponent } from './feature/recipient-wrapper/recipient-wrapper.component';
 import { SenderWrapperComponent } from './feature/sender-wrapper/sender-wrapper.component';
@@ -95,7 +97,9 @@ import { MessagerieComponent } from './ui/messagerie/messagerie.component';
         MessageBoxComponent,
         SenderWrapperComponent,
         RecipientWrapperComponent,
-        MessageFormComponent
+        MessageFormComponent,
+        ShowMessageSenderComponent,
+        ShowMessageRecieveComponent
     ],
     providers: [EditableRow, SupervisionOperationService]
 })

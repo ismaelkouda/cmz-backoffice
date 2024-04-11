@@ -50,7 +50,7 @@
                       [cardBgColor]="'#f1c40f'"
                       [cardBorderColor]="'#FFF'"
                       [legend]="'# Sujet Facture'"
-                      [count]="rapport?.sla_en_cours || '0'"
+                      [count]="rapport?.total_factures || '0'"
                       [legendColor]="'#000000'"
                       [countColor]="'#000000'"
                   ></app-message-box>
@@ -70,6 +70,7 @@
                         <app-sender-wrapper *ngIf="currentTabsIndex === 1"
                             (rapport)="OnPushRapport($event)"
                             (formsView)="pushStatutView($event)"
+                            (currentObject)="pushCurrentObject($event)"
                             [selectedTransaction]="suspension"
                             [tabsLabel]="'Messages envoyés'"
                         ></app-sender-wrapper>
@@ -78,9 +79,9 @@
             </div>
          </div>
          <app-message-form 
-         [currentData]="currentData" 
-         (formsView)="pushStatutView($event)"
-         *ngIf="formsView" (listPatrimoines)="pushListPatrimoines($event)"></app-message-form>
+           [currentObject]="currentObject"
+           (formsView)="pushStatutView($event)"
+           *ngIf="formsView"></app-message-form>
         </div>
     </div>
 </div>

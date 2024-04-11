@@ -7,6 +7,8 @@ import { SupervisionOperationService } from '../../data-access/supervision-opera
 import { SujetEnum } from '../../data-access/sujet.enum';
 import { SettingService } from 'src/shared/services/setting.service';
 import { MappingService } from 'src/shared/services/mapping.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ShowMessageRecieveComponent } from '../show-message-recieve/show-message-recieve.component';
 
 @Component({
   selector: 'app-recipient-wrapper',
@@ -46,7 +48,8 @@ export class RecipientWrapperComponent implements OnInit {
     private clipboardApi: ClipboardService,
     private settingService: SettingService,
     private supervisionOperationService: SupervisionOperationService,
-    private mappingService: MappingService
+    private mappingService: MappingService,
+    private modalService: NgbModal,
   ) {
     this.listStates = ['lu', 'non-lu']
     this.listSubjects = [SujetEnum.OFRRE_COMMERCIAL,SujetEnum.CONTRAT,SujetEnum.FACTURE]
@@ -68,7 +71,7 @@ export class RecipientWrapperComponent implements OnInit {
             total_lus: res['data']['total_lus'],
             total_offres_commerciales: res['data']['total_offres_commerciales'],
             total_contrats: res['data']['total_contrats'],
-            total_facture: res['data']['total_facture'],
+            total_factures: res['data']['total_factures'],
           })          
           this.totalPage = res['data']['data'].last_page;
           this.totalRecords = res['data']['data'].total;
@@ -101,7 +104,7 @@ export class RecipientWrapperComponent implements OnInit {
           total_lus: res['data']['total_lus'],
           total_offres_commerciales: res['data']['total_offres_commerciales'],
           total_contrats: res['data']['total_contrats'],
-          total_facture: res['data']['total_facture'],
+          total_factures: res['data']['total_factures'],
         })          
         this.totalPage = res['data']['data'].last_page;
         this.totalRecords = res['data']['data'].total;
@@ -132,7 +135,18 @@ export class RecipientWrapperComponent implements OnInit {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
-
+  OnShowMessage(data: any): void {
+    const modalRef = this.modalService.open(ShowMessageRecieveComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });    
+    modalRef.componentInstance.transaction = {...data};
+    modalRef.componentInstance.resultTraitement.subscribe((res) => {
+      this.listMessages = res
+    })
+  }
   OnDownload(data): void {
     window.open(`${this.mappingService.fileUrl}${data.piece_jointe}`)
     setTimeout(() => {
