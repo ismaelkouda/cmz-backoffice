@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
 import { SujetEnum } from '../../data-access/sujet.enum';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
   selector: 'app-show-message-sender',
@@ -26,6 +27,7 @@ export class ShowMessageSenderComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private mappingService: MappingService,
     private activeModal: NgbActiveModal,
     private toastrService: ToastrService,
     private supervisionOperationService: SupervisionOperationService
@@ -34,7 +36,8 @@ export class ShowMessageSenderComponent implements OnInit {
   ngOnInit() {
     this.filterItem("first-item");
     this.OnInitForm();
-    this.OnDetailMessageRecieve()    
+    this.OnDetailMessageRecieve()   
+    this.IsJustificatif() 
   }
   
  public GetAllMessagesRecieve() {
@@ -97,16 +100,12 @@ export class ShowMessageSenderComponent implements OnInit {
     this.adminForm.get('piece_jointe').patchValue(this.detailTransaction?.piece_jointe);
   }
   downloadFile() {
-    if (!this.detailTransaction?.justificatif) {
-      this.toastrService.warning('Pas de justificatif pour cette operation')
-    }else{
-          window.open(this.detailTransaction?.justificatif)
-    }
-  }
-  IsJustificatif(): boolean{
-    return (this.detailTransaction?.justificatif) ? true : false
+    window.open(`${this.mappingService.fileUrl}${this.detailTransaction.piece_jointe}`)
   }
 
+  IsJustificatif(): boolean{
+    return (this.detailTransaction?.piece_jointe) ? true : false
+  }
   public handleCloseModal(): void {
     this.activeModal.close()
   }
