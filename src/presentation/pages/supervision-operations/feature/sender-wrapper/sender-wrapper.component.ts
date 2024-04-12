@@ -146,9 +146,6 @@ export class SenderWrapperComponent implements OnInit {
     this.clipboardApi.copyFromContent(data);
   }
 
- OnDownload(data): void {
-  window.open(`${this.mappingService.fileUrl}${data.piece_jointe}`)
-}
 OnDownloadMessage(data){    
   this.supervisionOperationService
     .OnDownloadMessage({

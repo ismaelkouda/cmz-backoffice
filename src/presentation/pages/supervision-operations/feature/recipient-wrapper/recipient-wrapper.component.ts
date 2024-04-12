@@ -147,27 +147,8 @@ export class RecipientWrapperComponent implements OnInit {
       this.listMessages = res
     })
   }
-  OnDownload(data): void {
-    window.open(`${this.mappingService.fileUrl}${data.piece_jointe}`)
-    setTimeout(() => {
-      this.OnDownloadMessage(data)
-    }, 1000);
-  }
-  OnDownloadMessage(data){    
-    this.supervisionOperationService
-      .OnDownloadMessage({
-        message_id: data.id
-      }).subscribe({
-        next: (response) => {
-          this.toastrService.success(response.message);
-          this.GetAllMessagesRecieve()
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-    }
-    GetAllUsers() {
+
+  GetAllUsers() {
     this.settingService
       .getAllUsers({})
       .subscribe(

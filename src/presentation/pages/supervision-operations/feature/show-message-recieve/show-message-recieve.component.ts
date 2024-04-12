@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
 import { SujetEnum } from '../../data-access/sujet.enum';
+import { MappingService } from 'src/shared/services/mapping.service';
 
 @Component({
   selector: 'app-show-message-recieve',
@@ -26,6 +27,7 @@ export class ShowMessageRecieveComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private mappingService: MappingService,
     private activeModal: NgbActiveModal,
     private toastrService: ToastrService,
     private supervisionOperationService: SupervisionOperationService
@@ -34,7 +36,8 @@ export class ShowMessageRecieveComponent implements OnInit {
   ngOnInit() {
     this.filterItem("first-item");
     this.OnInitForm();
-    this.OnDetailMessageRecieve()    
+    this.OnDetailMessageRecieve() 
+    this.IsJustificatif()   
   }
   
  public GetAllMessagesRecieve() {
@@ -96,15 +99,26 @@ export class ShowMessageRecieveComponent implements OnInit {
     this.adminForm.get('signature_fonction').patchValue(this.detailTransaction?.signature_fonction);
     this.adminForm.get('piece_jointe').patchValue(this.detailTransaction?.piece_jointe);
   }
-  downloadFile() {
-    if (!this.detailTransaction?.justificatif) {
-      this.toastrService.warning('Pas de justificatif pour cette operation')
-    }else{
-          window.open(this.detailTransaction?.justificatif)
-    }
+  OnDownloadMessage(){    
+    this.supervisionOperationService
+      .OnDownloadMessage({
+        message_id: this.transaction.id
+      }).subscribe({
+        next: (response) => {
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  downloadFile(): void {
+    window.open(`${this.mappingService.fileUrl}${this.detailTransaction.piece_jointe}`)
+    setTimeout(() => {
+      this.OnDownloadMessage()
+    }, 1000);
   }
   IsJustificatif(): boolean{
-    return (this.detailTransaction?.justificatif) ? true : false
+    return (this.detailTransaction?.piece_jointe) ? true : false
   }
 
   public handleCloseModal(): void {

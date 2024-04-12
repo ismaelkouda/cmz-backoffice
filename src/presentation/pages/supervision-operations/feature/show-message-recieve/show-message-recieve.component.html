@@ -149,5 +149,14 @@
         </div>
       </div>
     </div>
+    <div class="justificatif-container mt-4">
+      <div *ngIf="IsJustificatif()">
+        <button pButton pRipple label="Télécharger la pièce" icon="pi pi-download"
+          class="p-button-success" (click)="downloadFile()"></button>
+      </div>
+      <div class="justificatif-error">
+        <span class="" *ngIf="!IsJustificatif()">Aucune pièce pour ce message</span>
+      </div>
+    </div>
   </div>
 </div>
