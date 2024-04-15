@@ -142,7 +142,7 @@
             <strong>{{ formatTitleOuvrage(detailTransaction?.operation) }}
               <span style="color:#549B3D;font-weight: bold;">
                 <span *ngIf="IsContentSim()"> 
-                  {{detailTransaction?.niveau_deux_nom ?? 'N/A'}} [{{detailTransaction?.msisdn ?? 'N/A'}}]
+                  {{detailTransaction?.point_emplacement ?? 'N/A'}} [{{detailTransaction?.msisdn ?? 'N/A'}}]
                 </span>&nbsp;
                 <span *ngIf="IsProvisionningTransaction()"> 
                   {{detailTransaction?.reference ?? 'N/A'}} [{{detailTransaction?.rapport?.code ?? 'N/A'}}]
@@ -837,7 +837,7 @@
                     <label>
                       <b>Emplacement</b>
                     </label>
-                    <input type="text" formControlName="point_emplacement" placeholder="Emplacement" pInputText />
+                    <input type="text" formControlName="point_emplacement" pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -845,7 +845,7 @@
                     <label>
                       <b>Adresse mail</b>
                     </label>
-                    <input type="text" formControlName="adresse_email" placeholder="Adresse Email" pInputText />
+                    <input type="text" formControlName="adresse_email" pInputText />
                   </div>
                 </div>
               </div>
@@ -855,7 +855,7 @@
                     <label>
                       <b>Adresse géographique</b>
                     </label>
-                    <input type="text" formControlName="adresse_geographique" placeholder="Adresse Geo" pInputText />
+                    <input type="text" formControlName="adresse_geographique"  pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -863,7 +863,7 @@
                     <label>
                       <b>Latitude</b>
                     </label>
-                    <input type="text" formControlName="latitude" placeholder="Latitude" pInputText />
+                    <input type="text" formControlName="latitude" pInputText />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -871,7 +871,7 @@
                     <label>
                       <b>Longitude</b>
                     </label>
-                    <input type="text" formControlName="longitude" placeholder="Longitude" pInputText />
+                    <input type="text" formControlName="longitude" pInputText />
                   </div>
                 </div>
               </div>
