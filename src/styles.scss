@@ -344,3 +344,19 @@ p-password .p-disabled {
     height: 1.5rem;
     left: 0.4rem;
 }
+
+.p-radiobutton-box.p-highlight .p-radiobutton-icon {
+    transform: translateZ(0) scale(0.4, 0.4) !important;
+    visibility: visible;
+}
+.p-radiobutton .p-radiobutton-box.p-highlight {
+    border-color: #1D4ED8 !important;
+    background: #1D4ED8 !important;
+}
+.p-radiobutton .p-disabled {
+    opacity: 1 !important;
+  }
+
+  .p-radiobutton-disabled{
+    cursor: not-allowed !important;
+  }
