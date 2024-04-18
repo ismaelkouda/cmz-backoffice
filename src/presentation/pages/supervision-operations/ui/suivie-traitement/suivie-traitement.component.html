@@ -148,7 +148,7 @@
               {{ transaction.transaction }}
             </td>
             <td class="text-center">
-              {{ formatTitle(transaction?.operation ?? 'N/A') }}
+              {{ formatTitle(transaction?.operation) }}
             </td>
             <td class="text-center">
               <span [ngStyle]="{'font-size':'16px'}" [class.text-white]="getCodeRapport(transaction?.code_rapport) === '200' ||

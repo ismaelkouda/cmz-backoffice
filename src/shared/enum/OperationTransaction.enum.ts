@@ -6,4 +6,5 @@ export enum OperationTransaction {
     VOLUME_DATA = 'volume-data',
     PROVISIONNING = 'provisionning',
     ACHAT_SERVICE = 'achat-service',
+    CHANGEMENT_FORMULE = 'chg-formule-sim'
 }   

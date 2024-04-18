@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { DEMANDE_RESILIATION } from './../../../demandes/demandes-routing.module';
+import { DEMANDE_FORMULE_CHANGE, DEMANDE_RESILIATION } from './../../../demandes/demandes-routing.module';
 import { ExcelService } from './../../../../../shared/services/excel.service';
 import { MappingService } from './../../../../../shared/services/mapping.service';
 import { SimStatut } from './../../../../../shared/enum/SimStatut.enum';
@@ -91,6 +91,7 @@ export class CarteSimActiveComponent implements OnInit {
  public swap: string = OperationTransaction.SWAP;
  public suspension: string = OperationTransaction.SUSPENSION;
  public resiliation: string = OperationTransaction.RESILIATION;
+ public formule: string = OperationTransaction.CHANGEMENT_FORMULE;
  public volume: string = OperationTransaction.VOLUME_DATA;
     public title = 'Carte SIM actives - Système de Gestion de Collecte Centralisée';
   constructor(
@@ -301,6 +302,9 @@ export class CarteSimActiveComponent implements OnInit {
       case this.resiliation:
           url = `${DEMANDE_SERVICE}/${DEMANDE_RESILIATION}`;
           break;
+      case this.formule:
+        url = `${DEMANDE_SERVICE}/${DEMANDE_FORMULE_CHANGE}`;
+        break;    
       default:
         url = `${PATRIMOINE}/${''}`;
     }

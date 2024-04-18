@@ -180,4 +180,9 @@ export class SettingService {
       const url: string = (<string>EndPointUrl.GET_ALL_NIVEAUX_3_SIMPLE);
       return this.http.post(`${this.baseUrl}${url}`, data);
     }
+
+    GetAllFormules(data): Observable<any> {
+      const url: string = (<string>EndPointUrl.GET_ALL_FORMULES);
+      return this.http.post(`${this.baseUrl}${url}`, data);
+    }
 }

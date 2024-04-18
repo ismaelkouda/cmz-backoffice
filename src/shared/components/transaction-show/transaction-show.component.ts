@@ -34,6 +34,7 @@ export class TransactionShowComponent implements OnInit {
   public operationSwap: string = OperationTransaction.SWAP
   public OperationResiliation: string = OperationTransaction.RESILIATION
   public OperationSuspension: string = OperationTransaction.SUSPENSION
+  public OperationFormule: string = OperationTransaction.CHANGEMENT_FORMULE
   public OperationVolumeData: string = OperationTransaction.VOLUME_DATA
   public OperationAchat: string = OperationTransaction.ACHAT_SERVICE
   public listTypeJustificatif: Array<any> = [];
@@ -41,6 +42,7 @@ export class TransactionShowComponent implements OnInit {
   public listSecondLevel: Array<any> = [];
   public listThirdLevel: Array<any> = [];
   public listUsages: Array<any> = [];
+  public listFormules: Array<any> = [];
 
   //Services Forms
   public ligneForm: FormGroup;
@@ -48,6 +50,7 @@ export class TransactionShowComponent implements OnInit {
   public swapForm: FormGroup;
   public resiliationForm: FormGroup;
   public suspensionForm: FormGroup;
+  public formuleForm: FormGroup;
   public activationForm: FormGroup;
   public adminForm: FormGroup;
   public achatForm: FormGroup;
@@ -96,6 +99,7 @@ export class TransactionShowComponent implements OnInit {
     this.OnInitSwapForm();
     this.OnInitResiliationForm();
     this.OnInitSuspensionForm();
+    this.OnInitFormuleForm()
     this.OnInitActivationForm();
     this.OnInitAchatForm();
     this.isAccepteForms();
@@ -136,7 +140,10 @@ export class TransactionShowComponent implements OnInit {
             this.OnShowResiliationForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.SUSPENSION) {
             this.OnShowSuspensionForm();
-          } else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION) {
+          }else if (this.detailTransaction?.operation === OperationTransaction.CHANGEMENT_FORMULE) {
+            this.GetAllFormules()
+            this.OnShowFormuleForm();
+          }else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION) {
             this.GetFirstLevel();   
             this.GetSecondLevel();
             this.GetThirdLevel();
@@ -151,6 +158,7 @@ export class TransactionShowComponent implements OnInit {
           this.swapForm.disable();
           this.resiliationForm.disable();
           this.suspensionForm.disable();
+          this.formuleForm.disable();
         },
         error: (error) => {
           this.OnFeebackTransaction();
@@ -171,6 +179,9 @@ export class TransactionShowComponent implements OnInit {
       }
       case OperationTransaction.SUSPENSION: {
         return this.suspensionForm.get('suspension_accepte_comment').value;
+      }
+      case OperationTransaction.CHANGEMENT_FORMULE: {
+        return this.formuleForm.get('chg_formule_accepte_comment').value;
       }
       case OperationTransaction.VOLUME_DATA: {
         return this.volumeForm.get('volume_data_accepte_comment').value;
@@ -478,6 +489,46 @@ export class TransactionShowComponent implements OnInit {
     this.suspensionForm.get('suspension_accepte_comment').patchValue(this.detailTransaction?.rapport?.suspension_accepte_comment);
   }
 
+  /*@@@@@@@@@@@@@@@@@@@@@@Formule Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
+
+  public GetAllFormules(): void {
+    this.settingService
+      .GetAllFormules({})
+      .subscribe({
+        next: (response) => {
+          this.listFormules = response['data'];          
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+    OnInitFormuleForm() {
+      this.formuleForm = this.fb.group({
+        imsi: [''],
+        msisdn: [''],
+        formule: [''],
+        statut_contrat: [''],
+        justificatif: [''],
+        point_emplacement: [''],
+        formule_uuid: [''],
+        description: [''],
+        chg_formule_accepte: [''],
+        chg_formule_accepte_comment: ['']
+      })
+    }
+    OnShowFormuleForm() {
+      this.formuleForm.get('imsi').patchValue(this.detailTransaction?.imsi);
+      this.formuleForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+      this.formuleForm.get('formule').patchValue(this.detailTransaction?.formule);
+      this.formuleForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
+      this.formuleForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
+      this.formuleForm.get('formule_uuid').patchValue(this.detailTransaction?.formule_uuid);
+      this.formuleForm.get('description').patchValue(this.detailTransaction?.description);
+      this.formuleForm.get('chg_formule_accepte').patchValue(this.detailTransaction?.rapport?.chg_formule_accepte);
+      this.formuleForm.get('chg_formule_accepte_comment').patchValue(this.detailTransaction?.rapport?.chg_formule_accepte_comment);
+    }
+
   /*@@@@@@@@@@@@@@@@@@@ Activation Form Controls @@@@@@@@@@@@@@@@@*/
   OnInitActivationForm() {
     this.activationForm = this.fb.group({
@@ -641,6 +692,7 @@ export class TransactionShowComponent implements OnInit {
       this.detailTransaction?.rapport?.volume_data_accepte === 'oui' ||
       this.detailTransaction?.rapport?.swap_accepte === 'oui' ||
       this.detailTransaction?.rapport?.suspension_accepte === 'oui' ||
+      this.detailTransaction?.rapport?.chg_formule_accepte === 'oui' ||
       this.detailTransaction?.rapport?.resiliation_accepte === 'oui' ||
       this.detailTransaction?.rapport?.activation_accepte === 'oui'
     ) ? false : true

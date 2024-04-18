@@ -14,7 +14,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 export class ShowMessageRecieveComponent implements OnInit {
 
   @Input() transaction;
-  @Output() resultTraitement = new EventEmitter();
+  IsRead = new EventEmitter();
   public detailTransaction: any;
   public filterTab: string;
   public listTraitemants: Array<any> = [];
@@ -37,7 +37,7 @@ export class ShowMessageRecieveComponent implements OnInit {
     this.filterItem("first-item");
     this.OnInitForm();
     this.OnDetailMessageRecieve() 
-    this.IsJustificatif()   
+    this.IsJustificatif()       
   }
   
  public GetAllMessagesRecieve() {
@@ -62,7 +62,7 @@ export class ShowMessageRecieveComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.detailTransaction = response['data'];
-          this.OnShowForm()
+          this.OnShowForm();
           this.adminForm.disable();
         },
         error: (error) => {
@@ -99,6 +99,9 @@ export class ShowMessageRecieveComponent implements OnInit {
     this.adminForm.get('signature_fonction').patchValue(this.detailTransaction?.signature_fonction);
     this.adminForm.get('piece_jointe').patchValue(this.detailTransaction?.piece_jointe);
   }
+  get getSujet() {    
+    return this.adminForm.get('sujet').value;
+  }
   OnDownloadMessage(){    
     this.supervisionOperationService
       .OnDownloadMessage({
@@ -122,7 +125,8 @@ export class ShowMessageRecieveComponent implements OnInit {
   }
 
   public handleCloseModal(): void {
-    this.activeModal.close()
+    this.activeModal.close();
+    this.IsRead.emit(true)
   }
 
 }

@@ -1,5 +1,5 @@
 import { CONTACT_SLA } from './../presentation/pages/ref-telemetrie/ref-telemetrie-routing.module';
-import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION, DEMANDE_RESILIATION } from '../presentation/pages/demandes/demandes-routing.module';
+import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION, DEMANDE_RESILIATION, DEMANDE_FORMULE_CHANGE } from '../presentation/pages/demandes/demandes-routing.module';
 import { CARTOGRAPHIE, DOWNLOAD_FILE } from './../presentation/pages/patrimoine/patrimoine-routing.module';
 import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE,CONTENCIEUX_ROUTE, NOTIFY_ROUTE, JOURNAL_TRANSACTION_ROUTE, MESSAGERIE_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { COURBE_MESSAGE, DETECTION_APPRO, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
@@ -73,7 +73,7 @@ export var menuJson = [
                 data: "1-6-0-telechargement",
                 type: "link",
                 pack: ApplicationType.MONITORING
-            }
+            },
         ]
     },
     {
@@ -110,6 +110,14 @@ export var menuJson = [
                 title: "Résiliations",
                 label: "Résiliations",
                 data: "9-3-0-resiliations",
+                pack: ApplicationType.MONITORING,
+                type: "link"
+            },
+            {
+                path: `/${DEMANDE_SERVICE}/${DEMANDE_FORMULE_CHANGE}`,
+                title: "Changements Formules",
+                label: "Changements Formules",
+                data: "9-4-0-changement-formules",
                 pack: ApplicationType.MONITORING,
                 type: "link"
             },

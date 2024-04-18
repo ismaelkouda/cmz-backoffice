@@ -424,7 +424,7 @@
               <div class="d-flex gap-4">
                 <div>
                    <div class="d-flex gap-4">
-                       <div class="trans-radio d-flex gap-2">
+                       <div class="trans-radio d-flex gap-3">
                           <p-radioButton name="valeur" [value]="'stock'" formControlName="bac_a_pioche" [inputId]="'stock'"></p-radioButton>
                           <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
                        </div>
@@ -432,7 +432,7 @@
                 </div>
                 <div>
                   <div class="d-flex gap-4">
-                    <div class="trans-radio d-flex gap-2">
+                    <div class="trans-radio d-flex gap-3">
                       <p-radioButton name="valeur" [value]="'orangeci'" formControlName="bac_a_pioche" [inputId]="'orangeci'"></p-radioButton>
                       <label [for]="'orangeci'" style="margin-top: 0.9rem">Stock SIM/OCI</label>
                     </div>
@@ -704,6 +704,136 @@
             </fieldset>
           </div>
         </div>
+        <!--------------FORMULE------------FORMS----------------->
+        <div *ngIf="transaction?.operation === OperationFormule">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="formuleForm">
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Informations sur la SIM</b>
+              </legend>
+              <div class="wrapper-sim-infos">
+                <div>
+                  <div class="form-group">
+                    <label>
+                      <b>MSIDN</b>
+                    </label>
+                    <input type="text" formControlName="msisdn" pInputText />
+                  </div>
+                </div>
+                <div>
+                  <div class="form-group">
+                    <label>
+                      <b>IMSI</b>
+                    </label>
+                    <input type="text" formControlName="imsi" pInputText />
+                  </div>
+                </div>
+                <div>
+                  <div class="form-group">
+                    <label>
+                      <b>Formule</b>
+                    </label>
+                    <input type="text" formControlName="formule" pInputText />
+                  </div>
+                </div>
+                <div>
+                  <div class="form-group">
+                    <label>
+                      <b>Statut Contrat</b>
+                    </label>
+                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
+                  </div>
+                </div>
+                <div>
+                  <div class="form-group">
+                    <label>
+                      <b>Emplacement</b>
+                    </label>
+                    <input type="text" formControlName="point_emplacement" pInputText />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Détails Formule</b>
+              </legend>
+              <div class="row">
+                  <div class="form-group">
+                    <label>
+                      <b>Formule de destination<span class="text-danger">*</span></b>
+                    </label>
+                    <p-dropdown [options]="listFormules" formControlName="formule_uuid" optionLabel="nom" [showClear]="true" optionValue="uuid">
+                      <ng-template let-data pTemplate="item">
+                        <div class="country-item">
+                          <div>
+                            {{data.nom}}
+                          </div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset style="margin-top: 2.5rem;">
+              <legend [ngStyle]="{width: '100%'}">
+                <b>Détails de la Transaction</b>
+              </legend>
+              <div class="row">
+                <div class="form-group">
+                  <label>
+                    <b>Description<span class="text-danger">*</span></b>
+                  </label>
+                  <input type="text" formControlName="description" pInputText />
+                </div>
+              </div>
+              <br>
+              <div class="justificatif-container">
+                <div *ngIf="IsJustificatif()">
+                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
+                    class="p-button-success" (click)="downloadFile()"></button>
+                </div>
+                <div class="justificatif-error">
+                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
+                </div>
+                <div *ngIf="IsUpdate()">
+                  <div>
+                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <fieldset *ngIf="ShowAcceptedForm()">
+              <legend>
+                <strong>Traitement</strong>
+              </legend>
+              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+                <div class="block-checked">
+                  <div>
+                    <div class="wrapper-check" style="display: flex;justify-content: center !important;padding-top: 1.3rem;">
+                      <div class="form-check form-check-inline">
+                        <span class="badge table-header-wrapper"
+                        [class.badge-danger]="IsTraitement() === treatmenRejeter"
+                        [class.badge-success]="(IsTraitement() === treatmenAccepter)"
+                        >
+
+                        {{ IsTraitement() }}
+                      </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div style="width: 100%">
+                  <label for="commentaire"><strong>Commentaire</strong></label>
+                  <textarea name="commentaire" formControlName="chg_formule_accepte_comment" class="form-control"
+                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
+                  </textarea>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
         <!-------------ACTIVATION--------------FORMS--------------------------->
         <div *ngIf="transaction?.operation === operationActivation">
           <div [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
@@ -714,7 +844,7 @@
               <div class="d-flex gap-4">
                 <div *ngIf="bacPiocheActivation !== 'stock'">
                   <div class="d-flex gap-4">
-                    <div class="trans-radio d-flex gap-2">
+                    <div class="trans-radio d-flex gap-3">
                       <p-radioButton name="valeur" [value]="'orangeci'" formControlName="bac_a_pioche" [inputId]="'orangeci'"></p-radioButton>
                       <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/OCI</label>
                     </div>

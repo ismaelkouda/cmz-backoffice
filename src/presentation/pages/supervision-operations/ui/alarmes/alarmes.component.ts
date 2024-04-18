@@ -12,6 +12,7 @@ import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access
 import { MappingService } from 'src/shared/services/mapping.service';
 import { Title } from '@angular/platform-browser';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
+import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 
 @Component({
   selector: 'app-alarmes',
@@ -184,6 +185,36 @@ export class AlarmesComponent implements OnInit {
     this.clipboardApi.copyFromContent(data);
   }
 
+  public formatTitle(title: string) {
+    switch (title) {
+      case OperationTransaction.ACHAT_SERVICE: {
+        return "Achat de Services";
+      }
+      case OperationTransaction.ACTIVATION: {
+        return "Activation de SIM";
+      }
+      case OperationTransaction.SWAP: {
+        return "Changement de SIM";
+      }
+      case OperationTransaction.SUSPENSION: {
+        return "Suspension de SIM";
+      }
+      case OperationTransaction.CHANGEMENT_FORMULE: {
+        return "Changement de Formule";
+      }
+      case OperationTransaction.RESILIATION: {
+        return "Résiliation de SIM";
+      }
+      case OperationTransaction.VOLUME_DATA: {
+        return "Depot de volume	";
+      }
+      case 'provisionning': {
+        return 'Ligne de Credit';
+      }
+      default:
+        return 'N/A'
+    }
+  }
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }

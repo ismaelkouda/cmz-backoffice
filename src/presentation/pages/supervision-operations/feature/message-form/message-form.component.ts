@@ -4,6 +4,7 @@ import { SupervisionOperationService } from '../../data-access/supervision-opera
 import { ToastrService } from 'ngx-toastr';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
+import { SujetEnum } from '../../data-access/sujet.enum';
 
 @Component({
   selector: 'app-message-form',
@@ -17,9 +18,9 @@ export class MessageFormComponent implements OnInit {
   adminForm: FormGroup;
   currentFile: any;
   public sourceValue: string;
-  public sourceOffreCommercial: string = 'offre-commerciale'
-  public sourceContrat: string = 'contrat'
-  public sourceFacture: string = 'facture'
+  public sourceOffreCommercial: string = SujetEnum.OFRRE_COMMERCIAL
+  public sourceContrat: string = SujetEnum.CONTRAT
+  public sourceFacture: string = SujetEnum.FACTURE
 
   constructor(
     private fb: FormBuilder,
@@ -29,7 +30,6 @@ export class MessageFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {   
-    console.log("currentObject",this.currentObject);
     this.initForm()
     if (!this.currentObject) {
       this.adminForm.get('signature_nom').patchValue(this.mappingService.currentUser?.nom);
@@ -43,8 +43,7 @@ export class MessageFormComponent implements OnInit {
       this.adminForm.get('signature_fonction').patchValue(this.currentObject?.signature_fonction);
       this.adminForm.get('signature_contact').patchValue(this.currentObject?.signature_contact);
       this.adminForm.get('sujet').disable();
-
-    }
+    }    
   }
 
   public close(): void {
