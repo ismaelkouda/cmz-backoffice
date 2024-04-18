@@ -99,6 +99,9 @@ export class ShowMessageSenderComponent implements OnInit {
     this.adminForm.get('signature_fonction').patchValue(this.detailTransaction?.signature_fonction);
     this.adminForm.get('piece_jointe').patchValue(this.detailTransaction?.piece_jointe);
   }
+  get getSujet() {    
+    return this.adminForm.get('sujet').value;
+  }
   downloadFile() {
     window.open(`${this.mappingService.fileUrl}${this.detailTransaction.piece_jointe}`)
   }

@@ -15,7 +15,11 @@ label {
     font-weight: bold;
     font-style: italic;
 }
-
+.wrapper-sim-infos{
+    display: grid;
+    justify-content: space-between;
+    grid-template-columns: repeat(auto-fill, 19.8%);
+}
 .filter-button {
     height: 3rem !important;
 }

@@ -219,6 +219,7 @@ export class ContentieuxComponent implements OnInit {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
+
   public formatTitle(title: string) {
     switch (title) {
       case OperationTransaction.ACHAT_SERVICE: {
@@ -232,6 +233,9 @@ export class ContentieuxComponent implements OnInit {
       }
       case OperationTransaction.SUSPENSION: {
         return "Suspension de SIM";
+      }
+      case OperationTransaction.CHANGEMENT_FORMULE: {
+        return "Changement de Formule";
       }
       case OperationTransaction.RESILIATION: {
         return "Résiliation de SIM";

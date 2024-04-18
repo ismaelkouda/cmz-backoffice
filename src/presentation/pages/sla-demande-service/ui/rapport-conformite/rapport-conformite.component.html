@@ -1,115 +1,111 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="d-flex justify-content-between">
-                <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
-                <div class="pt-3"><span class="current-transaction-label">Sur les 90 derniers jours</span></div>
-            </div>
-            <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
-                <div style="padding: 0 1rem">
+    <div class="d-flex justify-content-between">
+        <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+        <div class="pt-3"><span class="current-transaction-label">Sur les 90 derniers jours</span></div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div>
+                <div class="rapport-container">
                     <div>
-                        <div class="rapport-container">
-                            <div>
-                                <app-rapport-box
-                                    [cardBgColor]="'#3498db'"
-                                    [cardBorderColor]="'#FFF'"
-                                    [legend]="'# Demandes'"
-                                    [count]="rapport?.soumises || '0'"
-                                    [legendColor]="'#FFF'"
-                                    [countColor]="'#FFF'"
-                                    [taux]="rapport?.pourcentage_soumises"
-                                ></app-rapport-box>
-                            </div>
-                            <div>
-                                <app-rapport-box
-                                    [cardBgColor]="'#27ae60'"
-                                    [cardBorderColor]="'#FFF'"
-                                    [legend]="'# Traitées - Dans les délais'"
-                                    [count]="rapport?.traitees_dans_delais || '0'"
-                                    [legendColor]="'#FFF'"
-                                    [countColor]="'#FFF'"
-                                    [taux]="rapport?.pourcentage_traitees_dans_delais"
-                                ></app-rapport-box>
-                            </div>
-                            <div>
-                                <app-rapport-box
-                                    [cardBgColor]="'#FF6600'"
-                                    [cardBorderColor]="'#FFF'"
-                                    [legend]="'# Traitées - Hors delai'"
-                                    [count]="rapport?.traitees_hors_delais || '0'"
-                                    [legendColor]="'#FFF'"
-                                    [countColor]="'#FFF'"
-                                    [taux]="rapport?.pourcentage_traitees_hors_delais"
-                                ></app-rapport-box>
-                            </div>
-                            <div>
-                                <app-rapport-box
-                                    [cardBgColor]="'#e74c3c'"
-                                    [cardBorderColor]="'#FFF'"
-                                    [legend]="'# En-attente - Hors delai'"
-                                    [count]="rapport?.attentes_hors_delais || '0'"
-                                    [legendColor]="'#FFF'"
-                                    [countColor]="'#FFF'"
-                                    [taux]="rapport?.pourcentage_attentes_hors_delais"
-                                ></app-rapport-box>
-                            </div>
-                            <div>
-                                <app-rapport-box
-                                    [cardBgColor]="'#f1c40f'"
-                                    [cardBorderColor]="'#FFF'"
-                                    [legend]="'# En-attente - SLA en cours'"
-                                    [count]="rapport?.sla_en_cours || '0'"
-                                    [legendColor]="'#000000'"
-                                    [countColor]="'#000000'"
-                                    [taux]="rapport?.pourcentage_sla_en_cours"
-                                ></app-rapport-box>
-                            </div>
-                        </div>
+                        <app-rapport-box
+                            [cardBgColor]="'#3498db'"
+                            [cardBorderColor]="'#FFF'"
+                            [legend]="'# Demandes'"
+                            [count]="rapport?.soumises || '0'"
+                            [legendColor]="'#FFF'"
+                            [countColor]="'#FFF'"
+                            [taux]="rapport?.pourcentage_soumises"
+                        ></app-rapport-box>
                     </div>
                     <div>
-                        <p-tabView
-                            (onChange)="handleChangeTabviewIndex($event)">
-                            <p-tabPanel header="DEMANDES ACTIVATIONS">
-                                <app-rapport-transaction *ngIf="currentTabsIndex === 0"
-                                    (rapport)="OnPushRapport($event)"
-                                    [selectedTransaction]="activation"
-                                    [tabsLabel]="'Activations'"
-                                ></app-rapport-transaction>
-                            </p-tabPanel>
-                            <p-tabPanel header="DEMANDES SUSPENSIONS">
-                                <app-rapport-transaction *ngIf="currentTabsIndex === 1"
-                                    (rapport)="OnPushRapport($event)"
-                                    [selectedTransaction]="suspension"
-                                    [tabsLabel]="'Suspensions'"
-                                ></app-rapport-transaction>
-                            </p-tabPanel>
-                            <p-tabPanel header="DEMANDES RESILIATIONS">
-                                <app-rapport-transaction *ngIf="currentTabsIndex === 2"
-                                  (rapport)="OnPushRapport($event)"
-                                  [selectedTransaction]="resiliation"
-                                  [tabsLabel]="'Résiliations'"
-                              ></app-rapport-transaction>
-                            </p-tabPanel>
-                            <p-tabPanel header="DEMANDES SIM-SWAP" *ngIf="IsPatrimoineType()">
-                                <app-rapport-transaction *ngIf="currentTabsIndex === 3"
-                                    (rapport)="OnPushRapport($event)"
-                                    [selectedTransaction]="swap"
-                                    [tabsLabel]="'Changements de SIM'"
-                                ></app-rapport-transaction>
-                            </p-tabPanel>
-                            <p-tabPanel header="DEMANDE ACHAT SERVICE" *ngIf="IsPatrimoineType()">
-                            </p-tabPanel>
-                            <p-tabPanel header="DEMANDE DEPOT VOLUME" *ngIf="IsPatrimoineType()">
-                                <app-rapport-transaction
-                                (rapport)="OnPushRapport($event)"
-                                [tabsLabel]="'Volume DATA'"
-                                ></app-rapport-transaction>
-                            </p-tabPanel>
-                            <p-tabPanel header="DEMANDES LIGNES CREDIT" *ngIf="IsPatrimoineType()">
-                            </p-tabPanel>
-                        </p-tabView>
+                        <app-rapport-box
+                            [cardBgColor]="'#27ae60'"
+                            [cardBorderColor]="'#FFF'"
+                            [legend]="'# Traitées - Dans les délais'"
+                            [count]="rapport?.traitees_dans_delais || '0'"
+                            [legendColor]="'#FFF'"
+                            [countColor]="'#FFF'"
+                            [taux]="rapport?.pourcentage_traitees_dans_delais"
+                        ></app-rapport-box>
+                    </div>
+                    <div>
+                        <app-rapport-box
+                            [cardBgColor]="'#FF6600'"
+                            [cardBorderColor]="'#FFF'"
+                            [legend]="'# Traitées - Hors delai'"
+                            [count]="rapport?.traitees_hors_delais || '0'"
+                            [legendColor]="'#FFF'"
+                            [countColor]="'#FFF'"
+                            [taux]="rapport?.pourcentage_traitees_hors_delais"
+                        ></app-rapport-box>
+                    </div>
+                    <div>
+                        <app-rapport-box
+                            [cardBgColor]="'#e74c3c'"
+                            [cardBorderColor]="'#FFF'"
+                            [legend]="'# En-attente - Hors delai'"
+                            [count]="rapport?.attentes_hors_delais || '0'"
+                            [legendColor]="'#FFF'"
+                            [countColor]="'#FFF'"
+                            [taux]="rapport?.pourcentage_attentes_hors_delais"
+                        ></app-rapport-box>
+                    </div>
+                    <div>
+                        <app-rapport-box
+                            [cardBgColor]="'#f1c40f'"
+                            [cardBorderColor]="'#FFF'"
+                            [legend]="'# En-attente - SLA en cours'"
+                            [count]="rapport?.sla_en_cours || '0'"
+                            [legendColor]="'#000000'"
+                            [countColor]="'#000000'"
+                            [taux]="rapport?.pourcentage_sla_en_cours"
+                        ></app-rapport-box>
                     </div>
                 </div>
+            </div>
+            <div>
+                <p-tabView
+                    (onChange)="handleChangeTabviewIndex($event)">
+                    <p-tabPanel header="DEMANDES ACTIVATIONS">
+                        <app-rapport-transaction *ngIf="currentTabsIndex === 0"
+                            (rapport)="OnPushRapport($event)"
+                            [selectedTransaction]="activation"
+                            [tabsLabel]="'Activations'"
+                        ></app-rapport-transaction>
+                    </p-tabPanel>
+                    <p-tabPanel header="DEMANDES SUSPENSIONS">
+                        <app-rapport-transaction *ngIf="currentTabsIndex === 1"
+                            (rapport)="OnPushRapport($event)"
+                            [selectedTransaction]="suspension"
+                            [tabsLabel]="'Suspensions'"
+                        ></app-rapport-transaction>
+                    </p-tabPanel>
+                    <p-tabPanel header="DEMANDES RESILIATIONS">
+                        <app-rapport-transaction *ngIf="currentTabsIndex === 2"
+                          (rapport)="OnPushRapport($event)"
+                          [selectedTransaction]="resiliation"
+                          [tabsLabel]="'Résiliations'"
+                      ></app-rapport-transaction>
+                    </p-tabPanel>
+                    <p-tabPanel header="DEMANDES SIM-SWAP" *ngIf="IsPatrimoineType()">
+                        <app-rapport-transaction *ngIf="currentTabsIndex === 3"
+                            (rapport)="OnPushRapport($event)"
+                            [selectedTransaction]="swap"
+                            [tabsLabel]="'Changements de SIM'"
+                        ></app-rapport-transaction>
+                    </p-tabPanel>
+                    <p-tabPanel header="DEMANDE ACHAT SERVICE" *ngIf="IsPatrimoineType()">
+                    </p-tabPanel>
+                    <p-tabPanel header="DEMANDE DEPOT VOLUME" *ngIf="IsPatrimoineType()">
+                        <app-rapport-transaction
+                        (rapport)="OnPushRapport($event)"
+                        [tabsLabel]="'Volume DATA'"
+                        ></app-rapport-transaction>
+                    </p-tabPanel>
+                    <p-tabPanel header="DEMANDES LIGNES CREDIT" *ngIf="IsPatrimoineType()">
+                    </p-tabPanel>
+                </p-tabView>
             </div>
         </div>
     </div>

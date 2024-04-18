@@ -212,6 +212,7 @@
                             <button ngbDropdownItem (click)="onTransactionForm(data,resiliation)" *ngIf="data.statut === 'suspendu'">Résilier</button>
                             <button ngbDropdownItem (click)="onTransactionForm(data,activation)" *ngIf="data.statut === 'suspendu'">Réactiver</button>
                             <button ngbDropdownItem (click)="onTransactionForm(data,suspension)" *ngIf="data.statut === 'actif'">Suspendre</button>
+                            <button ngbDropdownItem (click)="onTransactionForm(data,formule)" *ngIf="data.statut === 'actif'">Changer la formule</button>
                             <button ngbDropdownItem (click)="onTransactionForm(data,volume)" *ngIf="applicationType === patrimoineType && data.statut === 'actif'">Volume Data</button>
                             <button ngbDropdownItem (click)="onDotationForm(data)" *ngIf="applicationType === patrimoineType && data.statut === 'actif'">Dotation</button>
                           </div>

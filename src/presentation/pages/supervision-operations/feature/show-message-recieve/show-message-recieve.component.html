@@ -79,15 +79,15 @@
             </legend>
             <div>
               <div style="display: flex;gap: 2rem;">
-                <div class="trans-radio d-flex gap-3">
+                <div class="trans-radio d-flex gap-3" *ngIf="getSujet === sourceOffreCommercial">
                   <p-radioButton name="sujet" formControlName="sujet" [value]="sourceOffreCommercial" [inputId]="sourceOffreCommercial"></p-radioButton>
                   <label  [for]="sourceOffreCommercial" style="margin-top: 0.9rem">Offre Commerciale</label>
                 </div>
-                <div class="trans-radio d-flex gap-3">
+                <div class="trans-radio d-flex gap-3" *ngIf="getSujet === sourceContrat">
                   <p-radioButton name="sujet" formControlName="sujet" [value]="sourceContrat" [inputId]="sourceContrat"></p-radioButton>
                   <label [for]="sourceContrat" style="margin-top: 0.9rem">Contrat</label>
                 </div>
-                <div class="trans-radio d-flex gap-3">
+                <div class="trans-radio d-flex gap-3" *ngIf="getSujet === sourceFacture">
                   <p-radioButton name="sujet" formControlName="sujet" [value]="sourceFacture" [inputId]="sourceFacture"></p-radioButton>
                   <label [for]="sourceFacture" style="margin-top: 0.9rem">Facture</label>
                 </div>

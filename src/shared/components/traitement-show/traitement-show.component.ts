@@ -36,6 +36,7 @@ export class TraitementShowComponent implements OnInit {
   public operationSwap: string = OperationTransaction.SWAP
   public OperationResiliation: string = OperationTransaction.RESILIATION
   public OperationSuspension: string = OperationTransaction.SUSPENSION
+  public OperationFormule: string = OperationTransaction.CHANGEMENT_FORMULE
   public OperationVolumeData: string = OperationTransaction.VOLUME_DATA
   public OperationAchat: string = OperationTransaction.ACHAT_SERVICE
   public justificatifError: string = 'AUCUN JUSTIFICATIF POUR CETTE TRANSACTION'
@@ -46,6 +47,7 @@ export class TraitementShowComponent implements OnInit {
   public listSecondLevel: Array<any> = [];
   public listThirdLevel: Array<any> = [];
   public listUsages: Array<any> = [];
+  public listFormules: Array<any> = [];
   public selectedJustificatif: any;
   public typeFilterValue: string;
   public sourceValue: string;
@@ -57,6 +59,7 @@ export class TraitementShowComponent implements OnInit {
   public resiliationForm: FormGroup;
   public reactivationForm: FormGroup;
   public suspensionForm: FormGroup;
+  public formuleForm: FormGroup;
   public activationForm: FormGroup;
   public adminForm: FormGroup;
   public achatForm: FormGroup;
@@ -112,6 +115,7 @@ export class TraitementShowComponent implements OnInit {
     this.OnInitSwapForm();
     this.OnInitResiliationForm();
     this.OnInitSuspensionForm();
+    this.OnInitFormuleForm();
     this.OnInitActivationForm();
     this.OnInitAchatForm();
     this.isAccepteForms();
@@ -153,6 +157,9 @@ export class TraitementShowComponent implements OnInit {
             this.OnShowResiliationForm();
           }else if (this.detailTransaction?.operation === OperationTransaction.SUSPENSION) {
             this.OnShowSuspensionForm();
+          }else if (this.detailTransaction?.operation === OperationTransaction.CHANGEMENT_FORMULE) {
+            this.GetAllFormules()
+            this.OnShowFormuleForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION) {
             this.onGetDrValueChanges()
             this.GetFirstLevel();
@@ -169,10 +176,12 @@ export class TraitementShowComponent implements OnInit {
             this.swapForm.disable();
             this.resiliationForm.disable();
             this.suspensionForm.disable();
+            this.formuleForm.disable();
           }
           if (this.ShowAcceptedForm()) {
             this.activationForm.get('activation_accepte_comment').disable()
             this.suspensionForm.get('suspension_accepte_comment').disable()
+            this.formuleForm.get('chg_formule_accepte_comment').disable()
             this.resiliationForm.get('resiliation_accepte_comment').disable()
             this.swapForm.get('swap_accepte_comment').disable()
             this.volumeForm.get('volume_data_accepte_comment').disable()
@@ -204,6 +213,10 @@ export class TraitementShowComponent implements OnInit {
       }
       case OperationTransaction.SUSPENSION: {
         return this.suspensionForm.get('suspension_accepte_comment').value;
+      }
+      case OperationTransaction.CHANGEMENT_FORMULE: {
+        return this.formuleForm.get('chg_formule_accepte_comment').value;
+        ;
       }
       case OperationTransaction.VOLUME_DATA: {
         return this.volumeForm.get('volume_data_accepte_comment').value;
@@ -450,6 +463,51 @@ export class TraitementShowComponent implements OnInit {
     this.suspensionForm.get('point_emplacement').disable();
   }
 
+    /*@@@@@@@@@@@@@@@@@@@@@@Formule Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
+
+    public GetAllFormules(): void {
+      this.settingService
+        .GetAllFormules({})
+        .subscribe({
+          next: (response) => {
+            this.listFormules = response['data'];          
+          },
+          error: (error) => {
+            this.toastrService.error(error.error.message);
+          }
+        })
+     }
+      OnInitFormuleForm() {
+        this.formuleForm = this.fb.group({
+          imsi: [''],
+          msisdn: [''],
+          formule: [''],
+          statut_contrat: [''],
+          justificatif: [''],
+          point_emplacement: [''],
+          formule_uuid: [''],
+          description: [''],
+          chg_formule_accepte: [''],
+          chg_formule_accepte_comment: ['']
+        })
+      }
+      OnShowFormuleForm() {
+        this.formuleForm.get('imsi').patchValue(this.detailTransaction?.imsi);
+        this.formuleForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+        this.formuleForm.get('formule').patchValue(this.detailTransaction?.formule);
+        this.formuleForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
+        this.formuleForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
+        this.formuleForm.get('formule_uuid').patchValue(this.detailTransaction?.formule_uuid);
+        this.formuleForm.get('description').patchValue(this.detailTransaction?.description);
+        this.formuleForm.get('chg_formule_accepte').patchValue(this.detailTransaction?.rapport?.chg_formule_accepte);
+        this.formuleForm.get('chg_formule_accepte_comment').patchValue(this.detailTransaction?.rapport?.chg_formule_accepte_comment);
+        this.formuleForm.get('msisdn').disable();
+        this.formuleForm.get('imsi').disable();
+        this.formuleForm.get('formule').disable();
+        this.formuleForm.get('statut_contrat').disable();
+        this.formuleForm.get('point_emplacement').disable();
+      }
+
   /*@@@@@@@@@@@@@@@@@@@ Activation Form Controls @@@@@@@@@@@@@@@@@*/
   OnInitActivationForm() {
     this.activationForm = this.fb.group({
@@ -630,6 +688,7 @@ export class TraitementShowComponent implements OnInit {
       this.transaction?.operation === OperationTransaction.ACTIVATION  ||
       this.transaction?.operation === OperationTransaction.RESILIATION ||
       this.transaction?.operation === OperationTransaction.SUSPENSION ||
+      this.transaction?.operation === OperationTransaction.CHANGEMENT_FORMULE ||
       this.transaction?.operation === OperationTransaction.SWAP ||
       this.transaction?.operation === OperationTransaction.VOLUME_DATA 
     ) ? true : false
@@ -640,6 +699,7 @@ export class TraitementShowComponent implements OnInit {
       this.detailTransaction?.rapport?.volume_data_accepte === 'oui' ||
       this.detailTransaction?.rapport?.swap_accepte === 'oui' ||
       this.detailTransaction?.rapport?.suspension_accepte === 'oui' ||
+      this.detailTransaction?.rapport?.chg_formule_accepte === 'oui' ||
       this.detailTransaction?.rapport?.resiliation_accepte === 'oui' ||
       this.detailTransaction?.rapport?.activation_accepte === 'oui'
     ) ? false : true
@@ -732,7 +792,11 @@ export class TraitementShowComponent implements OnInit {
           this.suspensionForm.patchValue({
             justificatif: this.currentFile,
           })
-        } else if (this.transaction?.operation === OperationTransaction.PROVISIONNING) {
+        } else if (this.transaction?.operation === OperationTransaction.CHANGEMENT_FORMULE) {
+          this.formuleForm.patchValue({
+            justificatif: this.currentFile,
+          })
+        }else if (this.transaction?.operation === OperationTransaction.PROVISIONNING) {
           this.ligneForm.patchValue({
             justificatif: this.currentFile,
           })
@@ -750,7 +814,7 @@ export class TraitementShowComponent implements OnInit {
             this.transaction?.operation === OperationTransaction.PROVISIONNING
               ? this.ligneForm.value :
               this.transaction?.operation === OperationTransaction.ACHAT_SERVICE
-                ? this.achatForm.value :
+              ? this.achatForm.value :
                 this.transaction?.operation === OperationTransaction.VOLUME_DATA
                   ? this.volumeForm.value :
                   this.transaction?.operation === OperationTransaction.SWAP
@@ -759,6 +823,8 @@ export class TraitementShowComponent implements OnInit {
                       ? this.resiliationForm.value :
                       this.transaction?.operation === OperationTransaction.SUSPENSION
                         ? this.suspensionForm.value :
+                        this.transaction?.operation === OperationTransaction.CHANGEMENT_FORMULE
+                        ? this.formuleForm.value :
                         this.transaction?.operation === OperationTransaction.ACTIVATION
                           ? this.activationForm.value :
                           this.achatForm.value
@@ -768,7 +834,14 @@ export class TraitementShowComponent implements OnInit {
          // model_id: this.transaction.model_id
         }
         this.supervisionOperationService
-          .OnUpdateTransaction((this.transaction?.operation === OperationTransaction.VOLUME_DATA  || this.transaction?.operation === OperationTransaction.SWAP  || this.transaction?.operation === OperationTransaction.RESILIATION || this.transaction?.operation === OperationTransaction.SUSPENSION || this.transaction?.operation === OperationTransaction.PROVISIONNING || this.transaction?.operation === OperationTransaction.ACTIVATION) ? formDataBuilder(data) : data)
+          .OnUpdateTransaction((
+             this.transaction?.operation === OperationTransaction.VOLUME_DATA || 
+             this.transaction?.operation === OperationTransaction.SWAP  || 
+             this.transaction?.operation === OperationTransaction.RESILIATION || 
+             this.transaction?.operation === OperationTransaction.SUSPENSION || 
+             this.transaction?.operation === OperationTransaction.CHANGEMENT_FORMULE || 
+             this.transaction?.operation === OperationTransaction.PROVISIONNING || 
+             this.transaction?.operation === OperationTransaction.ACTIVATION) ? formDataBuilder(data) : data)
           .subscribe({
             next: (response) => {
               this.toastrService.success(response.message);
@@ -839,6 +912,7 @@ export class TraitementShowComponent implements OnInit {
               this.transaction?.operation === OperationTransaction.SWAP ? {swap_cloture: this.selectedIsCloture} :
               this.transaction?.operation === OperationTransaction.RESILIATION ? {resiliation_cloture: this.selectedIsCloture} :
               this.transaction?.operation === OperationTransaction.SUSPENSION ? {suspension_cloture: this.selectedIsCloture} :
+              this.transaction?.operation === OperationTransaction.CHANGEMENT_FORMULE ? {chg_formule_cloture: this.selectedIsCloture} :
               this.transaction?.operation === OperationTransaction.ACTIVATION ? {activation_cloture: this.selectedIsCloture} : null
             ),
           })

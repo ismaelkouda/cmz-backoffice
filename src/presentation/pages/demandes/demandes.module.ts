@@ -33,6 +33,7 @@ import { DemandeSuspensionComponent } from './ui/demande-suspension/demande-susp
 import { DemandeActivationComponent } from './ui/demande-activation/demande-activation.component';
 import { DemandeResiliationComponent } from './ui/demande-resiliation/demande-resiliation.component';
 import { TransactionFormComponent } from './feature/transaction-form/transaction-form.component';
+import { DemandeFormuleChangeComponent } from './ui/demande-formule-change/demande-formule-change.component';
 
 @NgModule({
     imports: [
@@ -62,6 +63,7 @@ import { TransactionFormComponent } from './feature/transaction-form/transaction
         DemandeActivationComponent,
         DemandeSuspensionComponent,
         DemandeResiliationComponent,
+        DemandeFormuleChangeComponent,
         DemandeWrapperComponent,
         DemandeWrapperShowComponent,
         StatutDemandeComponent,

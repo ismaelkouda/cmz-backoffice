@@ -1,3 +1,4 @@
+import { DemandeFormuleChangeComponent } from './ui/demande-formule-change/demande-formule-change.component';
 import { DemandeResiliationComponent } from './ui/demande-resiliation/demande-resiliation.component';
 import { DemandeSuspensionComponent } from './ui/demande-suspension/demande-suspension.component';
 import { DemandeActivationComponent } from './ui/demande-activation/demande-activation.component';
@@ -7,6 +8,7 @@ import { Routes, RouterModule } from '@angular/router';
 export const DEMANDE_ACTIVATION = 'activation';
 export const DEMANDE_SUSPENSION = 'suspension';
 export const DEMANDE_RESILIATION = 'resiliation';
+export const DEMANDE_FORMULE_CHANGE = 'changement-formule';
 
 
 const routes: Routes = [{
@@ -23,6 +25,10 @@ const routes: Routes = [{
         {
             path: DEMANDE_RESILIATION,
             component: DemandeResiliationComponent
+        },
+        {
+            path: DEMANDE_FORMULE_CHANGE,
+            component: DemandeFormuleChangeComponent
         },
     ]
 }];

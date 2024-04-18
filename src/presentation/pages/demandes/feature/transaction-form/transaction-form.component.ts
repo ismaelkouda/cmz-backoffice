@@ -40,6 +40,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public listPatrimoineSims: Array<any> = [];
   public totalPageArray: Array<any> = [];
   public currentListSims: Array<any> = [];
+  public listFormules: Array<any> = [];
   public currentPatrimoine: any = {};
   public selectedVolume: any;
   public display: boolean = false;
@@ -58,6 +59,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   //Operations Transaction
   public activation: string = OperationTransaction.ACTIVATION;
   public suspension: string = OperationTransaction.SUSPENSION;
+  public formule: string = OperationTransaction.CHANGEMENT_FORMULE;
   public resiliation: string = OperationTransaction.RESILIATION;
   public swap: string = OperationTransaction.SWAP;
   public volume: string = OperationTransaction.VOLUME_DATA;
@@ -72,6 +74,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public selectedImsi: string;
   public selectedDescription: string;
   public selectedPiece: any;
+  public selectedFormule: any;
   public selectedMsisdn: string;
   public selectedDirection: any;
   public selectedExploitation: any;
@@ -125,8 +128,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     this.IsFormFomSIMValidate()
     this.isVerify();
     this.IsPatrimoineType()
+    this.GetAllFormules()
     this.historie = history.state.patrimoine;
-    this.onGetDrValueChanges();
+        this.onGetDrValueChanges();
     if (this.historie) {      
       this.selectedActionValue = history.state.operation;
       this.operationValue = this.selectedActionValue
@@ -280,6 +284,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       case 'provisionning': {
         return 'Ligne de Credit';
       }
+      case OperationTransaction.CHANGEMENT_FORMULE: {
+        return 'Changement de formule';
+      }
       default:
         return 'N/A'
     }
@@ -333,6 +340,18 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response) => {
           this.listActivites = response['data'];
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+  public GetAllFormules(): void {
+    this.settingService
+      .GetAllFormules({})
+      .subscribe({
+        next: (response) => {
+          this.listFormules = response['data'];          
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -417,6 +436,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         operation: this.selectedActionValue,
         description: this.selectedDescription,
         justificatif: this.selectedPiece,
+        formule_uuid: this.selectedFormule
       })
       baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`
     }
@@ -524,11 +544,11 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
   public IsFormFomSIMValidate(): boolean {
     if (this.selectedActionValue === this.volume) {
       return (!this.selectedDescription || !this.selectedVolume) ? true : false
+    }else if (this.selectedActionValue === this.formule) {
+      return (!this.selectedDescription || !this.selectedFormule) ? true : false
     }else{ 
       !this.selectedDescription ? true : false
-
       return (!this.selectedDescription) ? true : false
-
     }
   }
   public isFilter(): boolean {

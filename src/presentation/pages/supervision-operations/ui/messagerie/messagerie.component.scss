@@ -1,5 +1,8 @@
+
+.card .card-body {
+    padding: 15px !important;
+}
 .rapport-container{
-    margin-top: 1rem;
     display: grid;
     justify-content: space-between;
     grid-template-columns: repeat(auto-fill, 19.8%);

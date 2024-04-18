@@ -256,6 +256,9 @@ export class SuivieTraitementComponent implements OnInit {
       case OperationTransaction.SUSPENSION: {
         return "Suspension de SIM";
       }
+      case OperationTransaction.CHANGEMENT_FORMULE: {
+        return "Changement de Formule";
+      }
       case OperationTransaction.RESILIATION: {
         return "Résiliation de SIM";
       }

@@ -143,8 +143,8 @@ export class RecipientWrapperComponent implements OnInit {
       centered: true,
     });    
     modalRef.componentInstance.transaction = {...data};
-    modalRef.componentInstance.resultTraitement.subscribe((res) => {
-      this.listMessages = res
+    modalRef.componentInstance.IsRead.subscribe(() => {
+      this.GetAllMessagesRecieve()
     })
   }
 

@@ -68,7 +68,7 @@
           <th class="text-center">Objet</th>
           <th class="text-center">Statut</th>
           <th class="text-center">Signature</th>
-          <th class="text-center">Fichier</th>
+          <th class="text-center">Pièce</th>
           <th class="text-center">Actions</th>
         </tr>
       </thead>
@@ -88,8 +88,8 @@
           </td>
           <td> {{ data?.signature_nom }} {{ data?.signature_fonction }} [{{data?.signature_contact}}]</td>
           <td>
-            <button *ngIf="data.piece_jointe" style="height: 2rem"  pButton pRipple label="Fichier"  icon="pi pi-check" class="p-button-helf"></button>
-            <button *ngIf="!data.piece_jointe" style="height: 2rem"  pButton pRipple label="Aucun" icon="pi pi-ban" class="p-button-warning"></button>
+            <button *ngIf="data.piece_jointe" style="height: 2rem"  pButton pRipple label="Pièce"  icon="pi pi-check" class="p-button-helf"></button>
+            <button *ngIf="!data.piece_jointe" style="height: 2rem"  pButton pRipple label="Aucune" icon="pi pi-ban" class="p-button-warning"></button>
           </td>
           <td class="td-actions">
             <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
