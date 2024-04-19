@@ -18,7 +18,8 @@ export class UsersComponent implements OnInit {
   public initialView: boolean = true;
   public formsView: boolean = false;
   public currentObject: any;
-  public alerteMessage: string
+  public alerteMessage: string;
+  public maximumMessage: string
   public principalUsername: string;
   public suffixEmail: string;
   public currentTabsIndex: number = 0;
@@ -34,7 +35,9 @@ export class UsersComponent implements OnInit {
     this.titleService.setTitle(`${this.title}`);
     this.suffixEmail = this.mappingService.suffixEmail
     this.principalUsername = `admin${this.suffixEmail}`;    
-    this.alerteMessage = "Le nombre d'utilisateurs a atteint la limite autorisée"
+    this.alerteMessage = "Le nombre d'utilisateurs a atteint la limite autorisée : 5"
+    this.maximumMessage = "Le nombre maximum d'utilisateurs autorisés dans le système est de 5"
+
   }
 
   ngOnInit() {

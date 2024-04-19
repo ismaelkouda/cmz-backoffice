@@ -46,9 +46,18 @@
               <div [style]="{width: '14rem'}">
                 <div class="form-group">
                   <label>
-                    <b>Zone Trafic</b>
+                    <b>Statut</b>
                   </label>
-                  <input placeholder="zone" [(ngModel)]="selectedZone" type="text" pInputText />
+                  <p-dropdown [options]="listStatuts" [showClear]="true" [(ngModel)]="selectedStatut"
+                    placeholder="Statut">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data | titlecase}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
                 </div>
               </div>
               <div style="width: 14rem;">
@@ -127,18 +136,9 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>Statut</b>
+                    <b>Zone Trafic</b>
                   </label>
-                  <p-dropdown [options]="listStatuts" [showClear]="true" [(ngModel)]="selectedStatut"
-                    placeholder="Statut">
-                    <ng-template let-data pTemplate="item">
-                      <div class="country-item">
-                        <div>
-                          {{data | titlecase}}
-                        </div>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
+                  <input placeholder="zone" [(ngModel)]="selectedZone" type="text" pInputText />
                 </div>
               </div>
               <div class="p-0" [ngStyle]="{width: '4rem'}">
