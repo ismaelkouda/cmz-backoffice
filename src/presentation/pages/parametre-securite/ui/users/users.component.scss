@@ -1,7 +1,7 @@
 %messageAlert {
     position: relative;
     padding: 0.75rem 1.25rem;
-    margin-bottom: 1rem;
+    //margin-bottom: 1rem;
     border: 2px solid transparent;
     border-radius: 0.25rem;
     height: 50px;
@@ -17,4 +17,10 @@
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
+}
+.infos-alert {
+    @extend %messageAlert;
+    color: #01A9DB;
+    background-color: #E0F2F7;
+    border-color: #E0F2F7;
 }

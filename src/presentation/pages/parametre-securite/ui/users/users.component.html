@@ -18,6 +18,11 @@
                      {{alerteMessage}}
                   </strong>
               </div>
+              <div class="infos-alert" role="alert" *ngIf="this.listUsers.length < 5">
+                <strong>
+                   {{maximumMessage}}
+                </strong>
+               </div>
             </div>
             <div class="table_content_wrapper">
               <p-table #dt 
@@ -33,7 +38,7 @@
                     <div class="table_header__legende">
                       <app-table-header [count]="listUsers" [legende]="'Utilisateurs'"></app-table-header>
                     </div>
-                    <div class="table_header__input">
+                    <div class="table_header__input" style="margin-top: 1rem">
                       <span class="p-input-icon-left ml-auto">
                         <i class="pi pi-search"></i>
                         <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
