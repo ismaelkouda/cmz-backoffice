@@ -15,7 +15,7 @@ export const DOTATION_SERVICES = 'dotation-services';
 export const DOWNLOAD_FILE = 'telechargements';
 export const CARTOGRAPHIE = 'cartographie';
 
-const routes: Routes = [{
+const routes: Routes = [{ 
     path: "",
     children: [
         {

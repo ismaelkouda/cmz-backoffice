@@ -16,7 +16,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { AppComponent } from './app.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { AppRoutingModule } from './app-routing.module';
-import { DataModule } from '../data/data.module';
 import { LocalStorageService } from 'ngx-webstorage';
 import { SupervisionOperationsModule } from './pages/supervision-operations/supervision-operations.module';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
@@ -43,7 +42,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
-    DataModule,
     SupervisionOperationsModule,
     ToastrModule.forRoot(),
     TranslateModule.forRoot({

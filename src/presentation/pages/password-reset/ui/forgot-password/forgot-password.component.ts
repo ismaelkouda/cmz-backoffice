@@ -1,8 +1,8 @@
-import { AuthenticationService } from './../../data-access/authentication.service';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
+import { AuthenticationService } from 'src/presentation/pages/authentication/data-access/authentication.service';
 
 @Component({
   selector: 'app-forgot-password',

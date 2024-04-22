@@ -1,6 +1,6 @@
-import { StoreLocaleService } from './../../../../shared/services/store-locale.service';
-import { EncodingDataService } from './../../../../shared/services/encoding-data.service';
-import { UserLoginUseCase } from '../../../../domain/usecases/users/user-login.usecase';
+import { AuthenticationService } from './../../data-access/authentication.service';
+import { StoreLocaleService } from '../../../../../shared/services/store-locale.service';
+import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 // @ts-ignore
 import { environment } from 'src/environments/environment.prod';
 import { menuJson } from 'src/assets/menu';
-import { FORGOT_PASSWORD } from '../../password-reset/password-reset-routing.module';
+import { FORGOT_PASSWORD } from '../../../password-reset/password-reset-routing.module';
 import { REINITIALISATION } from 'src/presentation/app-routing.module';
 import { DASHBOARD } from 'src/shared/routes/routes';
 import { Title } from '@angular/platform-browser';
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private readonly userLoginUseCase: UserLoginUseCase,
+    private authService: AuthenticationService,
     private router: Router,
     private toastService: ToastrService,
     private storage: EncodingDataService,
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     this.loginForm.patchValue({port: '11200'})
-    this.userLoginUseCase.execute(this.loginForm.value).subscribe({
+    this.authService.OnLogin(this.loginForm.value).subscribe({
       next: (response) => {        
         this.permissionsJson.map(module => {
           if (module?.children) {
