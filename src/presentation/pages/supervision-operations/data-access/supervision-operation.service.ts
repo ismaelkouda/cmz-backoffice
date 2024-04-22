@@ -11,7 +11,6 @@ import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 export class SupervisionOperationService {
 
   public baseUrl: string;
-
   constructor(
     private http: HttpClient,
     private storage: EncodingDataService,
