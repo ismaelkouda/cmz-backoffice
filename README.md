@@ -1,27 +1,35 @@
 # Cateli Data Collector - Système de Gestion de Collecte Centralisée
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.3.
+## Description
 
-## Development server
+Cateli Data Collector est un système de gestion de collecte centralisée conçu 
+pour capturer, stocker, et analyser les données provenant de diverses sources 
+au sein de votre organisation. Ce système offre une plateforme robuste et 
+évolutive pour la consolidation et la gestion des données, ainsi que des 
+fonctionnalités avancées de surveillance en temps réel.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Version de Node.js
 
-## Code scaffolding
+Cette application nécessite Node.js version 18.18.0 ou supérieure.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Installation des dépendances
 
-## Build
+Exécutez `yarn install` pour installer les dépendances.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Serveur de développement
 
-## Running unit tests
+Exécutez `npm run start` pour démarrer un serveur de développement. Naviguez sur `http://localhost:4200/`. L'application se rechargera automatiquement si vous modifiez l'un des fichiers sources.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Génération de code
 
-## Running end-to-end tests
+Exécutez `ng generate component component-name` pour générer un nouveau composant. Vous pouvez également utiliser `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Construction
 
-## Further help
+Exécutez `npm run build-production` pour construire le projet. Les artefacts de construction seront stockés dans le répertoire `dist/`. Utilisez le drapeau `--prod` pour une construction de production.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Exécution de tests unitaires
+
+## Aide supplémentaire
+
+Pour obtenir plus d'aide sur Angular CLI, utilisez `ng help` ou consultez le [README d'Angular CLI](https://github.com/angular/angular-cli/blob/master/README.md).
