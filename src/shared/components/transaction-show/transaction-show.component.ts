@@ -757,3 +757,5 @@ export class TransactionShowComponent implements OnInit {
     this.activeModal.close();
   }
 }
+
+  //this.baseUrl = this.envService.apiUrl;

@@ -9,9 +9,7 @@ import { EncodingDataService } from 'src/shared/services/encoding-data.service';
   providedIn: 'root'
 })
 export class SupervisionOperationService {
-
   public baseUrl: string;
-
   constructor(
     private http: HttpClient,
     private storage: EncodingDataService,
