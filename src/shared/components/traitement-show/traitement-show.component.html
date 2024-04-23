@@ -595,9 +595,7 @@
                 </div>
                 <div style="width: 100%">
                   <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="resiliation_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
+                  <input type="text" formControlName="resiliation_accepte_comment" pInputText />
                 </div>
               </div>
             </fieldset>
@@ -687,7 +685,6 @@
                         [class.badge-danger]="IsTraitement() === treatmenRejeter"
                         [class.badge-success]="(IsTraitement() === treatmenAccepter)"
                         >
-
                         {{ IsTraitement() }}
                       </span>
                       </div>
@@ -696,9 +693,7 @@
                 </div>
                 <div style="width: 100%">
                   <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="suspension_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
+                  <input type="text" formControlName="suspension_accepte_comment" pInputText />
                 </div>
               </div>
             </fieldset>
@@ -826,9 +821,7 @@
                 </div>
                 <div style="width: 100%">
                   <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="chg_formule_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
+                  <input type="text" formControlName="chg_formule_accepte_comment" pInputText />
                 </div>
               </div>
             </fieldset>
@@ -1055,9 +1048,7 @@
                 </div>
                 <div style="width: 100%">
                   <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="activation_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
+                  <input type="text" formControlName="activation_accepte_comment" pInputText />
                 </div>
               </div>
             </fieldset>
@@ -1194,19 +1185,27 @@
             </div>
           </fieldset>
         </div>
-          <!-----------------------COMMENTAIRE----------GS2E--------------------------------->
-          <div *ngIf="detailTransaction?.rapport?.statut_traitement && detailTransaction?.rapport?.statut_cloture">
-            <fieldset>
-              <legend>
-                <strong>Commentaire Cloture</strong>
-              </legend>
-              <div class="row">
-                  <div class="form-group">
-                    <input type="text" [disabled]="true" [value]="detailTransaction?.rapport?.notation_description" pInputText />
+          <fieldset *ngIf="detailTransaction?.rapport?.statut_traitement && detailTransaction?.rapport?.statut_cloture">
+            <legend>
+              <strong>Clôture</strong>
+            </legend>
+            <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
+              <div class="block-checked">
+                <div>
+                  <div class="d-flex justify-content-center">
+                    <span for="accepte" style="font-size: 23px;font-weight:800">Avis</span>
                   </div>
+                  <div class="wrapper-check d-flex justify-content-center">
+                    <img [src]="mappingNotation(this.detailTransaction?.rapport?.notation_cloture)" width="30" alt="">
+                  </div>
+                </div>
               </div>
-            </fieldset>
-          </div> 
+              <div style="width: 100%">
+                <label for="commentaire"><strong>Commentaire</strong></label>
+                <input type="text" [disabled]="true" [value]="detailTransaction?.rapport?.notation_description" pInputText />
+              </div>
+            </div>
+          </fieldset>
       </div>
     </div>
   </div>
