@@ -184,27 +184,24 @@ fieldset {
     }
 }
 
-.styleForCodeRapport100102 {
-    @extend %messageAlert;
-    background-color: #c8e6c9;
-    color: #256029;
-    border-color: #c8e6c9;
-}
-
-.styleForCodeRapportDifferentTo100 {
-    @extend %messageAlert;
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-}
-
-.style-infos-traitement {
+.style100 {
     @extend %messageAlert;
     background-color: #E0F2F7;
     color: #01A9DB;
     border-color: #E0F2F7;
 }
-
+.style200 {
+    @extend %messageAlert;
+    background-color: #c8e6c9;
+    color: #256029;
+    border-color: #c8e6c9;
+}
+.styledefault {
+    @extend %messageAlert;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
 /* Stepper CSS */
 
 

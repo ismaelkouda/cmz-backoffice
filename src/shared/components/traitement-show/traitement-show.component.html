@@ -1,4 +1,4 @@
-<div class="modal-content">
+<div class="modal-content" *ngIf="!IsLoading">
   <div class="modal-header" style="background-color:#569c5b;color:#fff;cursor: all-scroll;padding: 0.2rem 1rem;">
     <h4 class="modal-title pl-3">
       Détails <strong class="cursor-pointer text-center"
@@ -124,8 +124,7 @@
       <!--------------------MODAL----------BODY---------->
       <div class="col-lg-10">
         <div
-          [ngClass]="[(detailTransaction?.rapport?.code.includes('100') || detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapportDifferentTo100' 
-        :(!detailTransaction?.rapport?.code.includes('100') || !detailTransaction?.rapport?.code.includes('102')) ? 'styleForCodeRapport100102' : '']"
+          [ngClass]="OnGetRapportCodeStyle(detailTransaction?.rapport?.code)"
           role="alert" style="display: flex;justify-content: space-between;">
           <div>
             <strong class="wrapper-header">Reception : {{detailTransaction?.rapport?.statut_acquittement ?? 'N/A'}} [{{detailTransaction?.rapport?.date_acquittement ?? '-- : --'}}]</strong>
