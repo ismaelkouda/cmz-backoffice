@@ -73,7 +73,7 @@ export class TraitementShowComponent implements OnInit {
   public thirdLevelLibelle: string;
   public sourceStockTenantSim: string;
   public sourceStockOrangeSim: string;
-  public sourceSoldeDotation: string
+  public sourceSoldeDotation: string;
   public sourceSoldeDotationOrange: string
   public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
   public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
@@ -81,6 +81,7 @@ export class TraitementShowComponent implements OnInit {
   public treatmenRejeter: string = TraitementTransaction.REJETER;
   public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
+  public IsLoading: boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -188,6 +189,7 @@ export class TraitementShowComponent implements OnInit {
             this.achatForm.get('commmande_produit_accepte_comment').disable()
             this.ligneForm.get('provisionning_accepte_comment').disable()
           }
+          this.IsLoading = false;
         },
         error: (error) => {
           this.OnFeebackTransaction();
@@ -244,6 +246,15 @@ export class TraitementShowComponent implements OnInit {
       case 'content': {
         return 'assets/images/icones/smile.png';
       }
+    }
+  }
+  public OnGetRapportCodeStyle(code: any): string {    
+    if (code.includes('100')) {
+      return 'style100';
+    } else if (code.includes('200')) {
+      return 'style200';
+    }else {
+      return 'styledefault';
     }
   }
 
