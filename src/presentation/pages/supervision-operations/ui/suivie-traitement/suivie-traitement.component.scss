@@ -162,3 +162,30 @@
     justify-content: space-between;
 
 }
+
+:host ::ng-deep .spinner .p-progress-spinner-circle { 
+	animation: geek 5s ease-in-out infinite; 
+} 
+
+@keyframes geek { 
+	100%, 
+	0% { 
+		stroke: #FF6600; 
+	} 
+	40% { 
+		stroke: #FF6600; 
+	} 
+	66% { 
+		stroke: #FF6600; 
+	} 
+	80%, 
+	90% { 
+		stroke: #FF6600; 
+	} 
+}
+.spinner-container{
+    position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -120%)
+}

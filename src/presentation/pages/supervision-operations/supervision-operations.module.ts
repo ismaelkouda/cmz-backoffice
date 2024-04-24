@@ -40,6 +40,7 @@ import { SupervisionOperationService } from './data-access/supervision-operation
 import { SharedModule } from 'src/shared/shared.module';
 import { PaginatorModule } from 'primeng/paginator';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 //Components
@@ -81,7 +82,8 @@ import { MessagerieComponent } from './ui/messagerie/messagerie.component';
         RadioButtonModule,
         DynamicDialogModule,
         PaginatorModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        ProgressSpinnerModule
     ],
     declarations: [
         SuivieTraitementComponent,

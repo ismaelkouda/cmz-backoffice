@@ -57,6 +57,7 @@ export class SuivieTraitementComponent implements OnInit {
   public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
   public historie: any;
+  public IsLoading: boolean;
   public title = 'Suivi et traitements - Système de Gestion de Collecte Centralisée';
 
   constructor(
@@ -310,16 +311,21 @@ export class SuivieTraitementComponent implements OnInit {
   }
 
   OnShowTraitement(data: any): void {
+    this.IsLoading = true;
     const modalRef = this.modalService.open(TraitementShowComponent, {
       ariaLabelledBy: "modal-basic-title",
       backdrop: "static",
       keyboard: false,
       centered: true,
     });
-    modalRef.componentInstance.transaction = {...data,current_date: data.current_date};
+    modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
-      this.listTraitemants = res
-    })
+      this.listTraitemants = res;
+    })    
+    modalRef.componentInstance.IsLoading.subscribe((res) => {
+      this.IsLoading = res;
+      modalRef.componentInstance.IsLoadData = !res;
+    })    
   }
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;

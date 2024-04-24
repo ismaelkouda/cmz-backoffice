@@ -26,6 +26,7 @@ const Swal = require("sweetalert2");
 export class TraitementShowComponent implements OnInit {
 
   @Input() transaction;
+  @Input() IsLoadData;
   @Output() resultTraitement = new EventEmitter();
   public detailTransaction: any;
   public fileUrl: string;
@@ -81,7 +82,8 @@ export class TraitementShowComponent implements OnInit {
   public treatmenRejeter: string = TraitementTransaction.REJETER;
   public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
-  public IsLoading: boolean = true;
+  @Output() IsLoading = new EventEmitter();
+
 
   constructor(
     private fb: FormBuilder,
@@ -105,7 +107,6 @@ export class TraitementShowComponent implements OnInit {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
-      
   }
 
   ngOnInit() {
@@ -138,6 +139,7 @@ export class TraitementShowComponent implements OnInit {
   }
 
   public GetDetailTransaction() {
+    this.IsLoading.emit(true);
     this.supervisionOperationService
       .GetDetailTransaction({
         transaction: this.transaction?.transaction,
@@ -189,10 +191,11 @@ export class TraitementShowComponent implements OnInit {
             this.achatForm.get('commmande_produit_accepte_comment').disable()
             this.ligneForm.get('provisionning_accepte_comment').disable()
           }
-          this.IsLoading = false;
+          this.IsLoading.emit(false);
         },
         error: (error) => {
-          this.OnFeebackTransaction();
+          this.handleCloseModal();
+          this.IsLoading.emit(false);
           this.toastrService.error(error.error.message);
         }
       })

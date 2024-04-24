@@ -278,6 +278,7 @@ export var menuJson = [
         path: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
         routerLink: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
         children: [
+            /*
             {
                 path: `/zone-trafic/${VUE_GEOGRAPHIQUE}`,
                 title: "Zones de Trafic",
@@ -286,6 +287,7 @@ export var menuJson = [
                 type: "link",
                 pack: ApplicationType.MONITORING,
             },
+            */
             {
                 path: `/${SUPERVISION_SIM}/${COURBE_MESSAGE}`,
                 title: "Analyse des Alarmes",
