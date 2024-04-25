@@ -8,7 +8,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { ExcelService } from 'src/shared/services/excel.service';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
-import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { Title } from '@angular/platform-browser';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
@@ -58,6 +57,7 @@ export class AlarmesComponent implements OnInit {
   public treatmenRejeter: string = TraitementTransaction.REJETER;
   public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
+  public IsLoading: boolean;
   public title = 'File attente - Système de Gestion de Collecte Centralisée';
 
   constructor(
@@ -232,16 +232,21 @@ export class AlarmesComponent implements OnInit {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
   OnShowTraitement(data: any): void {
+    this.IsLoading = true;
     const modalRef = this.modalService.open(TransactionShowComponent, {
       ariaLabelledBy: "modal-basic-title",
       backdrop: "static",
       keyboard: false,
       centered: true,
     });
-    modalRef.componentInstance.transaction = {...data,current_date: data.current_date};
+    modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
       this.listTransactions = res
     })
+    modalRef.componentInstance.IsLoading.subscribe((res) => {
+      this.IsLoading = res;
+      modalRef.componentInstance.IsLoadData = !res;
+    })    
   }
   changeDateStart(e) {
     if ( moment(this.filterDateStart).isValid()) {

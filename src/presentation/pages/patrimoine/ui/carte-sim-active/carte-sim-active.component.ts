@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { DEMANDE_FORMULE_CHANGE, DEMANDE_RESILIATION } from './../../../demandes/demandes-routing.module';
+import { DEMANDE_FORMULE_CHANGE, DEMANDE_RESILIATION, DEMANDE_SWAPPING } from './../../../demandes/demandes-routing.module';
 import { ExcelService } from './../../../../../shared/services/excel.service';
 import { MappingService } from './../../../../../shared/services/mapping.service';
 import { SimStatut } from './../../../../../shared/enum/SimStatut.enum';
@@ -12,7 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QrModalComponent } from 'src/shared/components/qr-modal/qr-modal.component';
 import { DEMANDE_SERVICE, PATRIMOINE } from 'src/shared/routes/routes';
-import { DOTATION_SERVICES } from '../../patrimoine-routing.module';
+import { CARTES_SIM, DOTATION_SERVICES } from '../../patrimoine-routing.module';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION } from 'src/presentation/pages/demandes/demandes-routing.module';
@@ -302,11 +302,14 @@ export class CarteSimActiveComponent implements OnInit {
       case this.resiliation:
           url = `${DEMANDE_SERVICE}/${DEMANDE_RESILIATION}`;
           break;
+      case this.swap:
+        url = `${DEMANDE_SERVICE}/${DEMANDE_SWAPPING}`;
+        break;    
       case this.formule:
         url = `${DEMANDE_SERVICE}/${DEMANDE_FORMULE_CHANGE}`;
         break;    
       default:
-        url = `${PATRIMOINE}/${''}`;
+        url = `${PATRIMOINE}/${CARTES_SIM}`;
     }
   
     this.router.navigateByUrl(url, { state: { patrimoine: data, operation: operation } });

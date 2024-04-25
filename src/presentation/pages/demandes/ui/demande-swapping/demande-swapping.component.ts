@@ -7,11 +7,11 @@ import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum'
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-demande-suspension',
-  templateUrl: './demande-suspension.component.html',
-  styleUrls: ['./demande-suspension.component.scss']
+  selector: 'app-demande-swapping',
+  templateUrl: './demande-swapping.component.html',
+  styleUrls: ['./demande-swapping.component.scss']
 })
-export class DemandeSuspensionComponent implements OnInit {
+export class DemandeSwappingComponent implements OnInit {
 
   public module: string;
   public subModule: string;
@@ -23,8 +23,8 @@ export class DemandeSuspensionComponent implements OnInit {
   public showView: boolean = false;
   public currentObject: any;
   public typeDemande: string = 'simple';
-  public currentOperation: string = OperationTransaction.SUSPENSION;
-  public title = 'Demande suspension - Système de Gestion de Collecte Centralisée';
+  public currentOperation: string = OperationTransaction.SWAP;
+  public title = 'Demande Changement Carte SIM - Système de Gestion de Collecte Centralisée';
   constructor(
     public settingService: SettingService,
     public patrimoineService: PatrimoineService,

@@ -4,10 +4,12 @@ import { DemandeSuspensionComponent } from './ui/demande-suspension/demande-susp
 import { DemandeActivationComponent } from './ui/demande-activation/demande-activation.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { DemandeSwappingComponent } from './ui/demande-swapping/demande-swapping.component';
 
 export const DEMANDE_ACTIVATION = 'activation';
 export const DEMANDE_SUSPENSION = 'suspension';
 export const DEMANDE_RESILIATION = 'resiliation';
+export const DEMANDE_SWAPPING = 'changement-carte-sim';
 export const DEMANDE_FORMULE_CHANGE = 'changement-formule';
 
 
@@ -25,6 +27,10 @@ const routes: Routes = [{
         {
             path: DEMANDE_RESILIATION,
             component: DemandeResiliationComponent
+        },
+        {
+            path: DEMANDE_SWAPPING,
+            component: DemandeSwappingComponent
         },
         {
             path: DEMANDE_FORMULE_CHANGE,
