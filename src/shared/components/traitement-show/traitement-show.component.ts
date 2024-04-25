@@ -28,6 +28,7 @@ export class TraitementShowComponent implements OnInit {
   @Input() transaction;
   @Input() IsLoadData;
   @Output() resultTraitement = new EventEmitter();
+  @Output() IsLoading = new EventEmitter();
   public detailTransaction: any;
   public fileUrl: string;
   public filterTab: string;
@@ -82,7 +83,6 @@ export class TraitementShowComponent implements OnInit {
   public treatmenRejeter: string = TraitementTransaction.REJETER;
   public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
-  @Output() IsLoading = new EventEmitter();
 
 
   constructor(

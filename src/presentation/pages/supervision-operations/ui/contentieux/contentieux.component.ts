@@ -45,6 +45,7 @@ export class ContentieuxComponent implements OnInit {
   public currentUser: any
   public selectDateStart: any;
   public selectDateEnd: any;
+  public IsLoading: boolean;
   public stateSoumis: string = StatutTransaction.SOUMIS;
   public stateTraite: string = StatutTransaction.TARITER;
   public stateCloture: string = StatutTransaction.CLOTURER;
@@ -287,22 +288,23 @@ export class ContentieuxComponent implements OnInit {
     }
   }
 
-  OnShowTraitement(data: Object): void {
+  OnShowTraitement(data: any): void {
+    this.IsLoading = true;
     const modalRef = this.modalService.open(TraitementShowComponent, {
       ariaLabelledBy: "modal-basic-title",
       backdrop: "static",
       keyboard: false,
       centered: true,
     });
-    modalRef.componentInstance.transaction = data;
+    modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
-      this.listTraitemants = res
+      this.listTraitemants = res;
+    })    
+    modalRef.componentInstance.IsLoading.subscribe((res) => {
+      this.IsLoading = res;
+      modalRef.componentInstance.IsLoadData = !res;
     })
   }
-  public showSecondFilter() {
-    this.secondFilter = !this.secondFilter;
-  }
-
 
   public isFilter(): boolean {
     return (

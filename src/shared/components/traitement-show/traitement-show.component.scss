@@ -19,6 +19,13 @@
 
 }
 
+.form-container > :first-child {
+    margin-top: 2rem;
+}
+.form-container fieldset:not(:first-child) {
+    margin-top: 2rem;
+}
+
 .infos_text {
     background-color: #ccc !important;
     font-weight: 800;

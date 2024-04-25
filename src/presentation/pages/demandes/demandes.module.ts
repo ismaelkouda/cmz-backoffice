@@ -1,3 +1,4 @@
+import { DemandeSwappingComponent } from './ui/demande-swapping/demande-swapping.component';
 import { StatutDemandeComponent } from './feature/statut-demande/statut-demande.component';
 import { DemandeWrapperShowComponent } from './feature/demande-wrapper-show/demande-wrapper-show.component';
 import { NgModule } from '@angular/core';
@@ -64,6 +65,7 @@ import { DemandeFormuleChangeComponent } from './ui/demande-formule-change/deman
         DemandeSuspensionComponent,
         DemandeResiliationComponent,
         DemandeFormuleChangeComponent,
+        DemandeSwappingComponent,
         DemandeWrapperComponent,
         DemandeWrapperShowComponent,
         StatutDemandeComponent,

@@ -24,7 +24,9 @@ import { ProvisionningService } from 'src/presentation/pages/provisionning/data-
 export class TransactionShowComponent implements OnInit {
 
   @Input() transaction;
+  @Input() IsLoadData;
   @Output() resultTraitement = new EventEmitter();
+  @Output() IsLoading = new EventEmitter();
   public detailTransaction: any;
   public fileUrl: string;
   public filterTab: string;
@@ -120,6 +122,7 @@ export class TransactionShowComponent implements OnInit {
   }
 
   public GetDetailTransaction() {
+    this.IsLoading.emit(true);
     this.supervisionOperationService
       .GetDetailTransaction({
         transaction: this.transaction?.transaction,
@@ -159,9 +162,11 @@ export class TransactionShowComponent implements OnInit {
           this.resiliationForm.disable();
           this.suspensionForm.disable();
           this.formuleForm.disable();
+          this.IsLoading.emit(false);
         },
         error: (error) => {
-          this.OnFeebackTransaction();
+          this.IsLoading.emit(false);
+          this.handleCloseModal();
           this.toastrService.error(error.error.message);
         }
       })

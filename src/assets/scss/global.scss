@@ -113,11 +113,7 @@ fieldset {
     border: 1px solid #000;
     border-radius: 5px;
     padding: 10px;
-    margin-top: 2rem;
-
-    .row {
-        padding-top: 1.3rem;
-    }
+    margin-top: 1.8rem;
 
     legend {
         background-color: $black;
@@ -127,9 +123,17 @@ fieldset {
         border-radius: 5px;
         position: relative;
         margin-top: -2rem;
+        width: 16rem !important;
+        min-width: 12rem !important;
     }
 }
 
+fieldset .row:first-of-type {
+    padding-top: 0rem !important;
+}
+fieldset .row:not(:first-child) {
+    padding-top: 0.6rem;
+}
 /*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@TAB VIEW@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 .p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link {

@@ -1,4 +1,4 @@
-<div class="modal-content">
+<div class="modal-content" *ngIf="IsLoadData">
   <div class="modal-header" style="background-color:#569c5b;color:#fff;cursor: all-scroll;padding: 0.2rem 1rem;">
     <h4 class="modal-title pl-3">
       Détails <strong class="cursor-pointer text-center"
@@ -89,9 +89,9 @@
             Date de traitement :&nbsp;<b><span>{{IscurrentDate() ?? 'N/A'}}</span></b>
           </div>
         </div>
-        <hr style="position: relative;top: -0.2rem;margin-top: -0.4rem;">
+        <hr style="position: relative;top: -0.2rem;margin-top: -0.8rem;">
         <!--------------LIGNE----------CREDIT------------FORMS----------------->
-        <div *ngIf="transaction?.operation === operationLigneCredit">
+        <div *ngIf="transaction?.operation === operationLigneCredit" class="form-container">
           <div [hidden]="filterTab !== 'first-item'" [formGroup]="ligneForm">
             <fieldset>
               <legend>
@@ -176,9 +176,9 @@
           </div>
         </div>
         <!--------------DEPOT----------VOLUME------------FORMS----------------->
-        <div *ngIf="transaction?.operation === OperationVolumeData">
+        <div *ngIf="transaction?.operation === OperationVolumeData" class="form-container">
           <div [hidden]="filterTab !== 'first-item'" [formGroup]="volumeForm">
-            <fieldset style="margin-top: 2.5rem;">
+            <fieldset>
               <legend [ngStyle]="{width: '100%'}">
                 <b>Informations de Transaction</b>
               </legend>
@@ -218,7 +218,7 @@
                 </div>
               </div>
             </fieldset>
-            <fieldset style="margin-top: 2.5rem;">
+            <fieldset>
               <legend [ngStyle]="{width: '100%'}">
                 <b>Détails de la Transaction</b>
               </legend>
@@ -305,10 +305,10 @@
           </div>
         </div>
         <!--------------CHANGEMENT------------FORMS----------------->
-        <div *ngIf="transaction?.operation === operationSwap">
+        <div *ngIf="transaction?.operation === operationSwap" class="form-container">
           <div [hidden]="filterTab !== 'first-item'" [formGroup]="swapForm">
-            <fieldset style="margin-top: 2.5rem;">
-              <legend [ngStyle]="{width: '100%'}">
+            <fieldset>
+              <legend>
                 <b>Informations sur la SIM</b>
               </legend>
               <div class="row">
@@ -346,8 +346,8 @@
                 </div>
               </div>
             </fieldset>
-            <fieldset style="margin-top: 2.5rem;">
-              <legend [ngStyle]="{width: '100%'}">
+            <fieldset>
+              <legend>
                 <b>Source Stock SIM / Détails de la Transaction</b>
               </legend>
               <div class="d-flex gap-4">
@@ -427,10 +427,10 @@
           </div>
         </div>
         <!--------------RESILIATION------------FORMS----------------->
-        <div *ngIf="transaction?.operation === OperationResiliation">
+        <div *ngIf="transaction?.operation === OperationResiliation" class="form-container">
           <div [hidden]="filterTab !== 'first-item'" [formGroup]="resiliationForm">
-            <fieldset style="margin-top: 2.5rem;">
-              <legend [ngStyle]="{width: '100%'}">
+            <fieldset>
+              <legend>
                 <b>Informations sur la SIM</b>
               </legend>
               <div class="row">
@@ -468,7 +468,7 @@
                 </div>
               </div>
             </fieldset>
-            <fieldset style="margin-top: 2.5rem;">
+            <fieldset>
               <legend [ngStyle]="{width: '100%'}">
                 <b>Détails de la Transaction</b>
               </legend>
@@ -520,10 +520,10 @@
           </div>
         </div>
         <!--------------SUSPENSION------------FORMS----------------->
-        <div *ngIf="transaction?.operation === OperationSuspension">
+        <div *ngIf="transaction?.operation === OperationSuspension" class="form-container">
           <div [hidden]="filterTab !== 'first-item'" [formGroup]="suspensionForm">
-            <fieldset style="margin-top: 2.5rem;">
-              <legend [ngStyle]="{width: '100%'}">
+            <fieldset>
+              <legend>
                 <b>Informations sur la SIM</b>
               </legend>
               <div class="row">
@@ -561,7 +561,7 @@
                 </div>
               </div>
             </fieldset>
-            <fieldset style="margin-top: 2.5rem;">
+            <fieldset>
               <legend [ngStyle]="{width: '100%'}">
                 <b>Détails de la Transaction</b>
               </legend>
@@ -612,9 +612,9 @@
           </div>
         </div>
         <!--------------FORMULE------------FORMS----------------->
-        <div *ngIf="transaction?.operation === OperationFormule">
+        <div *ngIf="transaction?.operation === OperationFormule" class="form-container">
           <div [hidden]="filterTab !== 'first-item'" [formGroup]="formuleForm">
-            <fieldset style="margin-top: 2.5rem;">
+            <fieldset>
               <legend [ngStyle]="{width: '100%'}">
                 <b>Informations sur la SIM</b>
               </legend>
@@ -661,7 +661,7 @@
                 </div>
               </div>
             </fieldset>
-            <fieldset style="margin-top: 2.5rem">
+            <fieldset>
               <legend [ngStyle]="{width: '100%'}">
                 <b>Détails Formule</b>
               </legend>
@@ -682,7 +682,7 @@
                 </div>
               </div>
             </fieldset>
-            <fieldset style="margin-top: 2.5rem;">
+            <fieldset>
               <legend [ngStyle]="{width: '100%'}">
                 <b>Détails de la Transaction</b>
               </legend>
@@ -733,60 +733,68 @@
           </div>
         </div>
         <!-------------ACTIVATION--------------FORMS--------------------------->
-        <div *ngIf="transaction?.operation === operationActivation">
-          <div class="row" [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
-            <fieldset style="margin-top: 2.5rem;" *ngIf="bacPiocheActivation !== 'patrimoine'">
-              <legend [ngStyle]="{width: '100%'}">
-                <b>Source Stock SIM</b>
-              </legend>
-              <div class="d-flex gap-4">
-                <div>
-                  <div class="d-flex gap-4">
-                    <div class="trans-radio d-flex gap-3">
-                      <p-radioButton name="valeur" [value]="'orangeci'" formControlName="bac_a_pioche" [inputId]="'orangeci'"></p-radioButton>
-                      <label [for]="'orangeci'" style="margin-top: 0.9rem">Stock SIM/OCI</label>
-                    </div>
-                </div>
-                </div>
-              </div>
-              <div class="text-wrapper mt-2">
-                <input [value]="bacPiocheActivation === 'stock' ? sourceStockTenantSim: sourceStockOrangeSim" type="text" [disabled]="true" pInputText/>
-              </div>
-            </fieldset>
-            <fieldset style="margin-top: 2.5rem;">
-              <legend [ngStyle]="{width: '12rem'}">
-                <b>Informations SIM</b>
-              </legend>
+        <div *ngIf="transaction?.operation === operationActivation" class="form-container">
+          <div [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
+            <div [style]="{marginTop: '-2rem'}">
               <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>IMSI</b>
-                    </label>
-                    <input type="text" formControlName="imsi" pInputText />
-                  </div>
+                <div class="col-md-6">
+                  <fieldset *ngIf="bacPiocheActivation !== 'patrimoine'">
+                    <legend>
+                      <b>Source Stock SIM</b>
+                    </legend>
+                    <div class="d-flex gap-4">
+                      <div>
+                        <div class="d-flex gap-4">
+                          <div class="trans-radio d-flex gap-3">
+                            <p-radioButton name="valeur" [value]="'orangeci'" formControlName="bac_a_pioche" [inputId]="'orangeci'"></p-radioButton>
+                            <label [for]="'orangeci'" style="margin-top: 0.9rem">Stock SIM/OCI</label>
+                          </div>
+                      </div>
+                      </div>
+                    </div>
+                    <div class="text-wrapper mt-2">
+                      <input [value]="bacPiocheActivation === 'stock' ? sourceStockTenantSim: sourceStockOrangeSim" type="text" style="font-size: 13.5px !important;font-weight: bold !important;" [disabled]="true" pInputText/>
+                    </div>
+                  </fieldset>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>MSISDN</b>
-                    </label>
-                    <input type="text" formControlName="msisdn" pInputText />
-                  </div>
+                <div [ngClass]="bacPiocheActivation !== 'patrimoine' ? 'col-md-6' : 'col-md-12'">
+                  <fieldset>
+                    <legend>
+                      <b>Informations SIM</b>
+                    </legend>
+                    <div class="row" style="padding-top: 1.4rem !important">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>
+                            <b>IMSI</b>
+                          </label>
+                          <input type="text" formControlName="imsi" pInputText />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>
+                            <b>MSISDN</b>
+                          </label>
+                          <input type="text" formControlName="msisdn" pInputText />
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>
+                            <b>Statut Contrat</b>
+                          </label>
+                          <input *ngIf="!detailTransaction?.statut_contrat" type="text" formControlName="statut_contrat" pInputText />
+                          <app-statut-contrat  *ngIf="detailTransaction?.statut_contrat" [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Statut Contrat</b>
-                    </label>
-                    <input *ngIf="!detailTransaction?.statut_contrat" type="text" formControlName="statut_contrat" pInputText />
-                    <app-statut-contrat  *ngIf="detailTransaction?.statut_contrat" [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset style="margin-top: 2.5rem;">
-              <legend [ngStyle]="{width: '18rem'}">
+            </div>
+            </div>
+            <fieldset>
+              <legend>
                 <b>Informations d'identification</b>
               </legend>
               <div class="row">
@@ -904,8 +912,8 @@
                 </div>
               </div>
             </fieldset>
-            <fieldset style="margin-top: 2.5rem;">
-              <legend [ngStyle]="{width: '100%'}">
+            <fieldset>
+              <legend>
                 <b>Détails de la Transaction</b>
               </legend>
               <div class="row">
@@ -954,7 +962,7 @@
             </fieldset>
           </div>
         </div>
-        <div *ngIf="transaction?.operation === OperationAchat">
+        <div *ngIf="transaction?.operation === OperationAchat" class="form-container">
           <div [hidden]="filterTab !== 'first-item'">
             <fieldset>
               <legend>
