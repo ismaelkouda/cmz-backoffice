@@ -12,7 +12,8 @@
                       [count]="rapport?.total || '0'"
                       [legendColor]="'#FFF'"
                       [countColor]="'#FFF'"
-                      >
+                      [taux]="rapport?.pourcentage_total"
+                     >
                   </app-message-box>
               </div>
               <div>
@@ -23,6 +24,7 @@
                       [count]="rapport?.total_lus || '0'"
                       [legendColor]="'#FFF'"
                       [countColor]="'#FFF'"
+                      [taux]="rapport?.pourcentage_total_lus"
                   ></app-message-box>
               </div>
               <div>
@@ -33,6 +35,7 @@
                       [count]="rapport?.total_offres_commerciales || '0'"
                       [legendColor]="'#FFF'"
                       [countColor]="'#FFF'"
+                      [taux]="rapport?.pourcentage_total_offres_commerciales"
                   ></app-message-box>
               </div>
               <div>
@@ -43,6 +46,7 @@
                       [count]="rapport?.total_contrats || '0'"
                       [legendColor]="'#FFF'"
                       [countColor]="'#FFF'"
+                      [taux]="rapport?.pourcentage_total_contrats"
                   ></app-message-box>
               </div>
               <div>
@@ -53,6 +57,7 @@
                       [count]="rapport?.total_factures || '0'"
                       [legendColor]="'#000000'"
                       [countColor]="'#000000'"
+                      [taux]="rapport?.pourcentage_total_factures"
                   ></app-message-box>
               </div>
             </div>
