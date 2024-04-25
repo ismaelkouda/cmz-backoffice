@@ -72,6 +72,13 @@ export class RecipientWrapperComponent implements OnInit {
             total_offres_commerciales: res['data']['total_offres_commerciales'],
             total_contrats: res['data']['total_contrats'],
             total_factures: res['data']['total_factures'],
+
+            //Taux
+            pourcentage_total: res['data']['pourcentage_total'],
+            pourcentage_total_lus: res['data']['pourcentage_total_lus'],
+            pourcentage_total_offres_commerciales: res['data']['pourcentage_total_offres_commerciales'],
+            pourcentage_total_contrats: res['data']['pourcentage_total_contrats'],
+            pourcentage_total_factures: res['data']['pourcentage_total_factures']
           })          
           this.totalPage = res['data']['data'].last_page;
           this.totalRecords = res['data']['data'].total;
