@@ -137,7 +137,10 @@ export class TraitementShowComponent implements OnInit {
     this.IsAchatTransaction()    
     this.IscurrentDate()
   }
-
+  copyData(data: any): void {
+    this.toastrService.success('Copié dans le presse papier');
+    this.clipboardApi.copyFromContent(data);
+  }
   public GetDetailTransaction() {
     this.IsLoading.emit(true);
     this.supervisionOperationService

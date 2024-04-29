@@ -1006,34 +1006,47 @@
                 </div>
               </div>
             </fieldset>
-            <fieldset>
-              <legend>
-                <b>Détails de la Transaction</b>
-              </legend>
-              <div class="row">
-                <div class="form-group">
-                  <label>
-                    <b>Description<span class="text-danger">*</span></b>
-                  </label>
-                  <input type="text" formControlName="description" pInputText />
-                </div>
-              </div>
-              <div class="justificatif-container">
-                <div *ngIf="IsJustificatif()">
-                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                    class="p-button-success" (click)="downloadFile()"></button>
-                </div>
-                <div class="justificatif-error">
-                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
-                </div>
-                <div *ngIf="IsUpdate()">
-                  <div>
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+            <div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <fieldset>
+                      <legend>
+                        <b>Détails de la Transaction</b>
+                      </legend>
+                      <div class="row">
+                        <div class="form-group">
+                          <label>
+                            <b>Description<span class="text-danger">*</span></b>
+                          </label>
+                          <input type="text" formControlName="description" pInputText />
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="col-md-6">
+                    <fieldset>
+                      <legend>
+                        <b>Justificatif</b>
+                      </legend>
+                      <div class="justificatif-container">
+                        <div *ngIf="IsJustificatif()">
+                          <button pButton pRipple label="Télécharger" icon="pi pi-download"
+                            class="p-button-success" (click)="downloadFile()"></button>
+                        </div>
+                        <div class="justificatif-error">
+                          <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
+                        </div>
+                        <div *ngIf="IsUpdate()">
+                          <div>
+                            <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
+                              (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                          </div>
+                        </div>
+                      </div>
+                    </fieldset>
                   </div>
                 </div>
-              </div>
-            </fieldset>
+            </div>
             <fieldset *ngIf="ShowAcceptedForm()">
               <legend>
                 <strong>Traitement</strong>

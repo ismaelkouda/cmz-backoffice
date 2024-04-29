@@ -24,6 +24,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DemandesRoutingModule } from './demandes-routing.module';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SharedModule } from 'src/shared/shared.module';
 
 
@@ -58,7 +59,8 @@ import { DemandeFormuleChangeComponent } from './ui/demande-formule-change/deman
         RadioButtonModule,
         NgxCaptchaModule,
         CalendarModule,
-        CheckboxModule
+        CheckboxModule,
+        ProgressSpinnerModule
     ],
     declarations: [
         DemandeActivationComponent,
