@@ -27,6 +27,7 @@ export class DemandeWrapperShowComponent implements OnInit {
   @Input() transactionId: any;
   @Input() wrapperLabel: string;
   @Output() showView = new EventEmitter();
+  public IsLoading: boolean;
   public selectedTransaction: string;
   public listTransactions: Array<any> = [];
   public listOperations: Array<any> = [];
@@ -200,16 +201,21 @@ export class DemandeWrapperShowComponent implements OnInit {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
   OnShowTraitement(data: any): void {
+    this.IsLoading = true;
     const modalRef = this.modalService.open(TransactionShowComponent, {
       ariaLabelledBy: "modal-basic-title",
       backdrop: "static",
       keyboard: false,
       centered: true,
     });
-    modalRef.componentInstance.transaction = {...data,current_date: data.current_date};
+    modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
       this.listTransactions = res
     })
+    modalRef.componentInstance.IsLoading.subscribe((res) => {
+      this.IsLoading = res;
+      modalRef.componentInstance.IsLoadData = !res;
+    }) 
   }
   changeDateStart(e) {
     if ( moment(this.filterDateStart).isValid()) {

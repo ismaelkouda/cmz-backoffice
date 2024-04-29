@@ -171,6 +171,11 @@ export class TransactionShowComponent implements OnInit {
         }
       })
   }
+
+  copyData(data: any): void {
+    this.toastrService.success('Copié dans le presse papier');
+    this.clipboardApi.copyFromContent(data);
+  }
   public GetCurrentMessage(operation): string {
     switch (operation) {
       case OperationTransaction.ACTIVATION: {
