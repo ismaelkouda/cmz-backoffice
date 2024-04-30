@@ -197,6 +197,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       imsi: [''],
       statut: [''],
       statut_contrat: "",
+      formule_uuid: "",
       msisdn: [''],
       code_pin: [''],
       username: [''],

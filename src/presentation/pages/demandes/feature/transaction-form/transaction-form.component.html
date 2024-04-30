@@ -216,7 +216,43 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <div class="form-group">
+            <label>
+              <b>Formule destination<span class="text-danger">*</span></b>
+            </label>
+            <p-dropdown [options]="listFormules" formControlName="formule_uuid"
+              optionLabel="nom" [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
+              <ng-template let-data pTemplate="item">
+                <div class="country-item">
+                  <div>
+                    {{data.nom}}
+                  </div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+        </div>
+      </div>
       </fieldset>
+      <!-- <fieldset>
+        <legend [ngStyle]="{width: '100%'}">
+          <b>Formule Destination</b>
+        </legend>
+        <div class="row">
+            <div class="form-group">
+              <p-dropdown [options]="listFormules" formControlName="formule_uuid"
+                optionLabel="nom" [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
+                <ng-template let-data pTemplate="item">
+                  <div class="country-item">
+                    <div>
+                      {{data.nom}}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+          </div>
+        </div>
+      </fieldset> -->
       </div>
       <!------------------INFOS---------TRANSACTION----------------->
       <fieldset style="margin-top: 2.5rem;">
@@ -330,13 +366,10 @@
   <!----------------------------FORMULE----FORMS-------------------------------->
   <fieldset style="margin-top: 2.5rem;" *ngIf="selectedActionValue === formule">
     <legend [ngStyle]="{width: '100%'}">
-      <b>Détails Formule</b>
+      <b>Formule de destination</b>
     </legend>
     <div class="row">
         <div class="form-group">
-          <label>
-            <b>Formule de destination<span class="text-danger">*</span></b>
-          </label>
           <p-dropdown [options]="listFormules" [(ngModel)]="selectedFormule" 
             optionLabel="nom" [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
             <ng-template let-data pTemplate="item">

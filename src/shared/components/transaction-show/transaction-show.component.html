@@ -782,10 +782,9 @@
                       <div class="col-md-4">
                         <div class="form-group">
                           <label>
-                            <b>Statut Contrat</b>
+                            <b>Formule</b>
                           </label>
-                          <input *ngIf="!detailTransaction?.statut_contrat" type="text" formControlName="statut_contrat" pInputText />
-                          <app-statut-contrat  *ngIf="detailTransaction?.statut_contrat" [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
+                          <input type="text" formControlName="formule_uuid" pInputText />
                         </div>
                       </div>
                     </div>

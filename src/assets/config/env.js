@@ -1,8 +1,8 @@
 (function (window) {
     window.__env = window.__env || {};
 
-    window.__env.apiUrl = 'https://osim-monitoring.orange.ci:12200/api/v1/';
-    window.__env.fileUrl = 'https://osim-monitoring.orange.ci:12200/';
+    window.__env.apiUrl = 'http://10.10.0.200:12200/api/v1/';
+    window.__env.fileUrl = 'http://10.10.0.200:12200/';
     window.__env.headerSettings = {
         appTypePS: 'PATRIMOINE SIM',
         appTypeSM: 'SIM MONITORING'
