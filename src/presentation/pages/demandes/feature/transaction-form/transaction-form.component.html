@@ -216,43 +216,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="form-group">
-            <label>
-              <b>Formule destination<span class="text-danger">*</span></b>
-            </label>
-            <p-dropdown [options]="listFormules" formControlName="formule_uuid"
-              optionLabel="nom" [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>
-                    {{data.nom}}
-                  </div>
-                </div>
-              </ng-template>
-            </p-dropdown>
-        </div>
-      </div>
       </fieldset>
-      <!-- <fieldset>
-        <legend [ngStyle]="{width: '100%'}">
-          <b>Formule Destination</b>
-        </legend>
-        <div class="row">
-            <div class="form-group">
-              <p-dropdown [options]="listFormules" formControlName="formule_uuid"
-                optionLabel="nom" [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
-                <ng-template let-data pTemplate="item">
-                  <div class="country-item">
-                    <div>
-                      {{data.nom}}
-                    </div>
-                  </div>
-                </ng-template>
-              </p-dropdown>
-          </div>
-        </div>
-      </fieldset> -->
       </div>
       <!------------------INFOS---------TRANSACTION----------------->
       <fieldset style="margin-top: 2.5rem;">
@@ -260,6 +224,23 @@
           <b>Détails de la Demande</b>
         </legend>
           <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>
+                  <b>Formule destination<span class="text-danger">*</span></b>
+                </label>
+                <p-dropdown [options]="listFormules" [(ngModel)]="selectedFormule"
+                  optionLabel="nom" [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
+                  <ng-template let-data pTemplate="item">
+                    <div class="country-item">
+                      <div>
+                        {{data.nom}}
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-dropdown>
+               </div>
+            </div>
             <div class="col-md-4">
               <div class="form-group">
                 <label>
@@ -363,13 +344,17 @@
       </div>
     </div>
   </fieldset>
-  <!----------------------------FORMULE----FORMS-------------------------------->
-  <fieldset style="margin-top: 2.5rem;" *ngIf="selectedActionValue === formule">
+  <fieldset style="margin-top: 2.5rem;">
     <legend [ngStyle]="{width: '100%'}">
-      <b>Formule de destination</b>
+      <b>Détails de la demande</b>
     </legend>
-    <div class="row">
+    <!----------------------------RESILIER----SUSPENSION----FORMULE-------------------------------->
+    <div class="row p-1" *ngIf="selectedActionValue === resiliation || selectedActionValue === suspension || selectedActionValue === formule">
+      <div class="col-md-4" *ngIf="selectedActionValue === formule">
         <div class="form-group">
+          <label>
+            <b>Formule destination <span class="text-danger">*</span></b>
+          </label>
           <p-dropdown [options]="listFormules" [(ngModel)]="selectedFormule" 
             optionLabel="nom" [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
             <ng-template let-data pTemplate="item">
@@ -380,15 +365,8 @@
               </div>
             </ng-template>
           </p-dropdown>
+        </div>
       </div>
-    </div>
-  </fieldset>
-  <fieldset style="margin-top: 2.5rem;">
-    <legend [ngStyle]="{width: '100%'}">
-      <b>Détails de la Demande</b>
-    </legend>
-    <!----------------------------RESILIER----SUSPENSION----FORMULE-------------------------------->
-    <div class="row p-1" *ngIf="selectedActionValue === resiliation || selectedActionValue === suspension || selectedActionValue === formule">
       <div class="col-md-4">
         <div class="form-group">
           <label>
@@ -499,7 +477,12 @@
         label="Soumettre" class="p-button-success" [disabled]="IsFormFomSIMValidate()"
         (click)="handleSaveNewTransaction()"></button>
       <button pButton *ngIf="selectedActionValue === activation" style="float: right;margin-top: 1rem;"
-        label="Soumettre" class="p-button-success" [disabled]="!adminForm.valid || !selectedDescription || !selectedPiece"
+        label="Soumettre" class="p-button-success" 
+            [disabled]="
+            !adminForm.valid || 
+            !selectedDescription || 
+            !selectedPiece || 
+            !selectedFormule"
         (click)="handleSaveNewTransaction()"></button>
     </div>
     </div>

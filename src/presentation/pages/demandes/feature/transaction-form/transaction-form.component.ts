@@ -196,8 +196,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       adresse_email: ['', (this.typeDemande === 'simple' ? [Validators.email,] : [])],
       imsi: [''],
       statut: [''],
-      statut_contrat: "",
-      formule_uuid: "",
+      statut_contrat: [''],
+      formule_uuid: [''],
       msisdn: [''],
       code_pin: [''],
       username: [''],
@@ -395,13 +395,16 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       })
       baseUrl = `${this.baseUrl}${EndPointUrl.SWAPER_SIM}`
     } else if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
+      this.adminForm.patchValue({
+        formule_uuid: this.selectedFormule,
+      })
       let adminData;
       if (this.applicationType === ApplicationType.MONITORING) {
          adminData = {
           ...(this.historie ? {
             ...this.adminForm.value,
             msisdn: this.currentPatrimoine?.msisdn,
-            imsi: this.currentPatrimoine?.imsi
+            imsi: this.currentPatrimoine?.imsi,
           } : this.adminForm.value),
           bac_a_pioche: 'orangeci'
         }
