@@ -86,7 +86,7 @@
               "apexcharts/dist/apexcharts.min.js",
               "calendar-utils/date-adapters/date-fns"
             ],
-            "outputPath": "dist/patrimoineSim",
+            "outputPath": "dist/patrimoine-sim-tenant",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
