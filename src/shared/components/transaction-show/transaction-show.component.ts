@@ -559,6 +559,7 @@ export class TransactionShowComponent implements OnInit {
       imsi: [''],
       msisdn: [''],
       statut_contrat: [''],
+      formule: [''],
       formule_uuid: [''],
       code_pin: [''],
       email: [''],
@@ -576,6 +577,7 @@ export class TransactionShowComponent implements OnInit {
     this.activationForm.get('niveau_trois_uuid').patchValue(this.detailTransaction?.niveau_trois_uuid);
     this.activationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.activationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+    this.activationForm.get('formule').patchValue(this.detailTransaction?.formule);
     this.activationForm.get('formule_uuid').patchValue(this.detailTransaction?.formule_uuid);
     this.activationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
     this.activationForm.get('code_pin').patchValue(this.detailTransaction?.code_pin);

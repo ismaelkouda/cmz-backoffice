@@ -1,7 +1,7 @@
 import { SUIVIE_TRAITEMENT_ROUTE, CONTENCIEUX_ROUTE } from './../../../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { TraitementTransaction } from '../../enum/TraitementTransaction.enum';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
@@ -167,6 +167,7 @@ export class TraitementShowComponent implements OnInit {
             this.GetAllFormules()
             this.OnShowFormuleForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION) {
+            this.GetAllFormules()
             this.onGetDrValueChanges()
             this.GetFirstLevel();
             this.GetThirdLevel();
@@ -536,8 +537,8 @@ export class TraitementShowComponent implements OnInit {
       point_emplacement: [''],
       adresse_email: [''],
       adresse_geographique: [''],
-      latitude: [''],
-      longitude: [''],
+      latitude: ['',[Validators.required]],
+      longitude: ['',[Validators.required]],
       niveau_1: [''],
       niveau_2: [''],
       niveau_3: [''],
@@ -545,9 +546,10 @@ export class TraitementShowComponent implements OnInit {
       imsi: [''],
       msisdn: [''],
       statut_contrat: [''],
+      formule: [''],
       formule_uuid: [''],
       code_pin: [''],
-      email: [''],
+      email: ['',[Validators.required,Validators.email]],
       description: [''],
       justificatif: [''],
       activation_accepte: [''],
@@ -561,6 +563,7 @@ export class TraitementShowComponent implements OnInit {
     this.activationForm.get('niveau_trois_uuid').patchValue(this.detailTransaction?.niveau_trois_uuid);
     this.activationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.activationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+    this.activationForm.get('formule').patchValue(this.detailTransaction?.formule);
     this.activationForm.get('formule_uuid').patchValue(this.detailTransaction?.formule_uuid);
     this.activationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
     this.activationForm.get('code_pin').patchValue(this.detailTransaction?.code_pin);
@@ -576,7 +579,7 @@ export class TraitementShowComponent implements OnInit {
     this.activationForm.get('msisdn').disable();
     this.activationForm.get('imsi').disable();
     this.activationForm.get('statut_contrat').disable();
-    this.activationForm.get('formule_uuid').disable();
+    this.activationForm.get('formule').disable();
     this.activationForm.get('code_pin').disable();
   }
 
