@@ -54,7 +54,8 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    this.loginForm.patchValue({port: '11200'})
+    //this.loginForm.patchValue({port: '11200'})
+    this.loginForm.patchValue({port: window.location.port})
     this.authService.OnLogin(this.loginForm.value).subscribe({
       next: (response) => {  
         this.permissionsJson.forEach((module, index) => {
