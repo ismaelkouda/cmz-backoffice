@@ -46,7 +46,7 @@ export class HistoriqueComponent implements OnInit {
 
   showHistorique(data: any) {    
     this.currentEvent = data;
-    if (data?.event === 'Mise à jour' || data?.event === 'Évènement') {
+    if (data?.event) {
       this.currentEventParse = JSON.parse(data?.data || null);
       if (this.currentEventParse?.before && this.currentEventParse?.after) {
         Object.values(this.currentEventParse?.before).map((value, i) => {

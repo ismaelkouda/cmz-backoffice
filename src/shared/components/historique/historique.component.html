@@ -58,7 +58,7 @@
             <td class="text-center">{{historique?.created_at === null? 'N/A': historique?.created_at}}</td>
             <td class="text-center">{{historique?.sous_module === null? 'N/A': historique?.sous_module}}</td>
             <td>{{historique?.action === null? 'N/A': historique?.action}}</td>
-            <td>{{ historique?.ip }} [{{historique?.user.nom +' ' +historique?.user.prenoms}}]</td>
+            <td>{{ historique?.ip }} [{{historique?.user?.nom +' ' +historique?.user?.prenoms}}]</td>
             <td class="text-center">
                 <button pButton pRipple label="Voir" class="p-button-dark"
                     (click)="showHistorique(historique)"></button>
@@ -94,7 +94,7 @@
                             <label>
                                 <b>Utilisateur</b>
                             </label>
-                            <input type="text" [placeholder]="currentEvent?.user.nom+' '+currentEvent?.user.prenoms"
+                            <input type="text" [placeholder]="currentEvent?.user?.nom+' '+currentEvent?.user?.prenoms"
                                 [disabled]="true" pInputText />
                         </div>
                     </div>

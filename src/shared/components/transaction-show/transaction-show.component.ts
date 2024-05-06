@@ -122,7 +122,6 @@ export class TransactionShowComponent implements OnInit {
   }
 
   public GetDetailTransaction() {
-    this.IsLoading.emit(true);
     this.supervisionOperationService
       .GetDetailTransaction({
         transaction: this.transaction?.transaction,
@@ -165,8 +164,10 @@ export class TransactionShowComponent implements OnInit {
           this.IsLoading.emit(false);
         },
         error: (error) => {
-          this.IsLoading.emit(false);
+          console.log("xxxxxxxxxxxxxxxxxxxxxx");
+          
           this.handleCloseModal();
+          this.IsLoading.emit(false);
           this.toastrService.error(error.error.message);
         }
       })

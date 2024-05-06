@@ -164,7 +164,6 @@ export class FirstLevelComponent implements OnInit {
   public OnExportExcel(): void {
     const data = this.listFirstLevelDatas.map((item: any) => ({
       [this.firstLevelLibelle]: item?.nom,
-      'Code': item?.code,
       ['#'+this.secondLevelLibelle]: item?.niveaux_deux_count,
     }));
     this.excelService.exportAsExcelFile(data, `Lise des ${this.firstLevelLibelle}`);

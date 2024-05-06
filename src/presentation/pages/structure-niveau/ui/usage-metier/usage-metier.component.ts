@@ -4,6 +4,7 @@ import { ClipboardService } from 'ngx-clipboard';
 import { SettingService } from 'src/shared/services/setting.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { Title } from '@angular/platform-browser';
+import { ExcelService } from 'src/shared/services/excel.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -27,6 +28,7 @@ export class UsageMetierComponent implements OnInit {
     private clipboardApi: ClipboardService,
     private settingService: SettingService,
     public mappingService: MappingService,
+    private excelService: ExcelService,
     private titleService: Title
   ) {
     this.titleService.setTitle(`${this.title}`);
@@ -154,9 +156,16 @@ export class UsageMetierComponent implements OnInit {
       }
     });
   }
-
   public isFilter(): boolean {
     return (!this.selectedTenant && !this.selectedUsage) ? true : false
   }
+  public OnExportExcel(): void {
+    const data = this.listUsages.map((item: any) => ({
+      "Nom Usage": item?.nom_usage,
+      "Description": item?.description,
+      "Statut": item?.statut,
+    }));
+    this.excelService.exportAsExcelFile(data, `Lise des Usages Metiers`);
+  }
 
 }

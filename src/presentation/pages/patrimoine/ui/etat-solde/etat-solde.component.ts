@@ -253,6 +253,7 @@ export class EtatSoldeComponent implements OnInit {
       'MSISDN': item?.msisdn,
       'IMSI': item?.imsi,
       'Emplacement': item?.point_emplacement,
+      'Alarme': item?.alarme,
       'Date création': item?.created_at,
       'Solde (Go)': this.formatNumberPipe.transform(item?.solde_actuel_go, 2),
       'Date MAJ': item?.updated_at,

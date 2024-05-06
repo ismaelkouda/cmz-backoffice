@@ -14,7 +14,8 @@
                   <label>
                     <b>Statut Alarme<span class="text-danger">*</span></b>
                   </label>
-                  <p-dropdown [options]="listAlarmes"[showClear]="true" [(ngModel)]="selectedAlarme" [filter]="true" [placeholder]="'alarme'">
+                  <p-dropdown [options]="listAlarmes"[showClear]="true" [(ngModel)]="selectedAlarme" 
+                              [filter]="true" [placeholder]="'alarme'">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -31,7 +32,8 @@
                     <b>{{firstLevelLibelle}}</b>
                   </label>
                   <p-dropdown [options]="listFirstLeveDatas" optionLabel="fullName" (onChange)="onChangeFirstLvel($event)"
-                    [showClear]="true" [filter]="true" filterBy="fullName" [(ngModel)]="selectedDirection" [placeholder]="firstLevelLibelle">
+                               [showClear]="true" [filter]="true" filterBy="fullName" 
+                               [(ngModel)]="selectedDirection" [placeholder]="firstLevelLibelle">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -48,8 +50,8 @@
                     <b>{{secondLevelLibelle}}</b>
                   </label>
                   <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" 
-                     optionLabel="fullName" [filter]="true" [showClear]="true"
-                    [(ngModel)]="selectedExploitation" [placeholder]="firstLevelLibelle">
+                              optionLabel="fullName" [filter]="true" [showClear]="true"
+                              [(ngModel)]="selectedExploitation" [placeholder]="secondLevelLibelle">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>
@@ -66,9 +68,8 @@
                     <b>{{thirdLevelLibelle}}</b>
                   </label>
                   <p-dropdown [options]="listThirdLevelDatas" [(ngModel)]="selectedUsage" 
-                     optionLabel="nom" [showClear]="true"
-                     optionLabel="nom" [filter]="true"
-                    [placeholder]="'xxxxxxxxxxx'" optionValue=" uuid">
+                              optionLabel="nom" [showClear]="true" [filter]="true"
+                              [placeholder]="thirdLevelLibelle" optionValue="uuid">
                     <ng-template let-data pTemplate="item">
                       <div class="country-item">
                         <div>

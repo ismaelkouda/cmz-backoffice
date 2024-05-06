@@ -8,6 +8,7 @@ import { SupervisionOperationService } from '../../data-access/supervision-opera
 import { SettingService } from 'src/shared/services/setting.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShowMessageSenderComponent } from '../show-message-sender/show-message-sender.component';
+import { ExcelService } from 'src/shared/services/excel.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -55,6 +56,7 @@ export class SenderWrapperComponent implements OnInit {
     public mappingService: MappingService,
     public supervisionOperationService: SupervisionOperationService,
     private modalService: NgbModal,
+    private excelService: ExcelService,
     private settingService: SettingService
   ) {
     this.listStates = ['lu', 'non-lu']
@@ -217,8 +219,24 @@ OnDownloadMessage(data){
       this.selectDateEnd = null
     }
   }
+  public disableAction(): boolean {
+    return (this.listMessages === undefined || this.listMessages?.length === 0) ? true : false
+  }
   public isFilter(): boolean {
     return (!this.selectedSubject && !this.selectedState && !this.selectedUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
+  public OnExportExcel(): void {
+    const data = this.listMessages.map((item: any) => ({
+      'Date envoie': item?.created_at,
+      'Reference': item?.reference,
+      'Sujet': item?.sujet,
+      'Objet': item?.objet,
+      'Statut': item?.statut,
+      'Signature': `${item.signature_nom} ${item.signature_fonction} [${item?.signature_contact}]`,
+      'Pièce': item?.piece_jointe ? 'Pièce' : 'Aucune pièce',
+      'Demandeur': `${item.demandeur_nom} ${item.signature_fonction} [${item?.signature_contact}]`,
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des Messages envoyés');
+  }
 
 }

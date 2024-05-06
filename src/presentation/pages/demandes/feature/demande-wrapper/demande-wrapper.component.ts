@@ -224,9 +224,6 @@ export class DemandeWrapperComponent implements OnInit {
     this.currentObject = undefined;    
   }
 
-  public disableAction(): boolean {
-    return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
-  }
   OnShowTraitement(data: any): void {
      this.transactionId.emit(data)
   }
@@ -270,20 +267,22 @@ export class DemandeWrapperComponent implements OnInit {
       });
     }
   }
+  public disableAction(): boolean {
+    return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
+  }
   public isFilter(): boolean {
     return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction) ? true : false
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
-      'N° transaction': item?.transaction,
-      'Type Transaction': item?.operation,
+      'Date demande': item?.created_at,
+      'N° demande': item?.numero_demande,
+      '# Lignes': item?.nb_demande_soumises,
+      '# Traitées': item?.nb_demande_traitees,
       'Statut': item?.statut,
-      'IMSI': item?.imsi,
-      'MSISDN': item?.msisdn,
-      'Traitement': item?.traitement,
-      'Date création': item?.created_at
-    }));
-    this.excelService.exportAsExcelFile(data, 'Liste des transactions');
+      'Demandeur': `${item?.demandeur_nom} ${item?.demandeur_prenoms}`
+     }));
+    this.excelService.exportAsExcelFile(data, `Liste des demandes [${this.selectedOperation}]`);
   }
 
 }

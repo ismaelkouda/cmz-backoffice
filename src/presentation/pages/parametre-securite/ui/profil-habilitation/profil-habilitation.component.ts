@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { Title } from '@angular/platform-browser';
+import { ExcelService } from 'src/shared/services/excel.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -29,6 +30,7 @@ export class ProfilHabilitationComponent implements OnInit {
     private toastrService: ToastrService,
     private clipboardApi: ClipboardService,
     public mappingService: MappingService,
+    private excelService: ExcelService,
     private titleService: Title
   ) {
     this.titleService.setTitle(`${this.title}`);
@@ -36,7 +38,6 @@ export class ProfilHabilitationComponent implements OnInit {
 
   ngOnInit() {
     this.GetAllProfilHabilitations();
-    this.isFilter()
   }
   public GetAllProfilHabilitations() {
     this.parametreSecuriteService
@@ -177,13 +178,22 @@ export class ProfilHabilitationComponent implements OnInit {
       }
     });
   }
-
   handleChangeTabviewIndex(e) {
     this.currentTabsIndex = e.index;
   }
-
-  public isFilter(): boolean {
-    return !this.selectedProfil ? true : false
+  public disableAction(): boolean {
+    return (this.listProfils === undefined || this.listProfils?.length === 0) ? true : false
   }
+  public OnExportExcel(): void {
+    const data = this.listProfils.map((item: any) => ({
+      'Nom du Profil': item?.nom,
+      'Description du Profil': item?.description,
+      'Date de création': item?.created_at,
+      'Date de modification': item?.updated_at,
+      '# Utilisateurs': item?.users_count,
+      'Statut': item?.statut,
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des Profils et Habilitations');
+  }
 
 }
