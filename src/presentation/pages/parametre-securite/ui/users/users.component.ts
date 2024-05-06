@@ -4,6 +4,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ParametreSecuriteService } from '../../data-access/parametre-securite.service';
 import { Title } from '@angular/platform-browser';
+import { ExcelService } from 'src/shared/services/excel.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -30,6 +31,7 @@ export class UsersComponent implements OnInit {
     private toastrService: ToastrService,
     public mappingService: MappingService,
     private titleService: Title,
+    private excelService: ExcelService,
     private parametreSecuriteService: ParametreSecuriteService
   ) {
     this.titleService.setTitle(`${this.title}`);
@@ -42,7 +44,6 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.GetAllUsers()
-    this.isFilter()
   }
   public GetAllUsers() {
     this.settingService.getAllUsers({})
@@ -165,7 +166,19 @@ export class UsersComponent implements OnInit {
   handleChangeTabviewIndex(e) {
     this.currentTabsIndex = e.index;
   }
-  public isFilter(): boolean {
-    return (!this.selectedProfil) ? true : false
+  public disableAction(): boolean {
+    return (this.listUsers === undefined || this.listUsers?.length === 0) ? true : false
   }
+  public OnExportExcel(): void {
+    const data = this.listUsers.map((item: any) => ({
+      'Nom': item?.nom,
+      'Prénoms': item?.prenoms,
+      'Code': item?.code,
+      'Nom de connexion': item?.username,
+      'Contact': item?.contacts,
+      'Statut': item?.statut,
+      'Date Création': item?.created_at,
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des Utilisateurs');
+  }
 }

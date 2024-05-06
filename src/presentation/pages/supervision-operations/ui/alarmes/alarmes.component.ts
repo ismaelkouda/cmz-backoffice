@@ -82,7 +82,6 @@ export class AlarmesComponent implements OnInit {
     this.GetAllTransactions();
     this.getAllUsers()
     this.isFilter();
-    this.disableAction()
   }
 
   public GetAllTransactions() {
@@ -227,10 +226,6 @@ export class AlarmesComponent implements OnInit {
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
   }
-
-  public disableAction(): boolean {
-    return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
-  }
   OnShowTraitement(data: any): void {
     this.IsLoading = true;
     const modalRef = this.modalService.open(TransactionShowComponent, {
@@ -262,19 +257,22 @@ export class AlarmesComponent implements OnInit {
       this.selectDateEnd = null
     }
   }
+  public disableAction(): boolean {
+    return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
+  }
   public isFilter(): boolean {
     return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction && !this.currentUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
       'Date création': item?.created_at,
-      'N° transaction': item?.transaction,
-      'Type Transaction': item?.operation,
+      'N° demande': item?.transaction,
+      'Service': item?.operation,
       'IMSI': item?.imsi,
       'MSISDN': item?.msisdn,
-      'Demandeur': `${item.agent_nom} ${item.agent_prenoms}`,
+      'Demandeur': `${item.demandeur_nom} ${item.demandeur_prenoms}`,
     }));
-    this.excelService.exportAsExcelFile(data, 'Liste des demandes');
+    this.excelService.exportAsExcelFile(data, "File d'attente");
   }
 
 }

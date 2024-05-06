@@ -19,12 +19,9 @@
             </div>
             <hr>
             <div class="table_actions_wrapper">
-              <button pButton pRipple *ngIf="mappingService.IsAction()" [label]="'Ajout Simple'" icon="pi pi-plus" (click)="onInitForm()"
-                class="p-button-success"></button>
-              <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary"
-                (click)="GetAllUsageMetier()"></button>
-              <button pButton pRipple label="Exporter" icon="pi pi-download"
-                class="p-button-helf"></button>
+              <button pButton pRipple *ngIf="mappingService.IsAction()" [label]="'Ajout Simple'" icon="pi pi-plus" (click)="onInitForm()" class="p-button-success"></button>
+              <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary" (click)="GetAllUsageMetier()"></button>
+              <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf" (click)="OnExportExcel()"></button>
             </div>
             <div class="table_content_wrapper">
               <div class="table_content_wrapper">
@@ -46,8 +43,8 @@
                   <ng-template pTemplate="header">
                     <tr>
                       <th class="text-center" [ngStyle]="{width: '3rem'}">#</th>
-                      <th>Nom Usage</th>
-                      <th>Description</th>
+                      <th class="text-center">Nom Usage</th>
+                      <th class="text-center">Description</th>
                       <th class="text-center" [ngStyle]="{ 'width': '6rem' }">Statut</th>
                       <th class="text-center" [ngStyle]="{ 'width': '11rem' }">Actions</th>
                     </tr>
@@ -55,8 +52,8 @@
                   <ng-template let-i="rowIndex" pTemplate="body" let-data>
                     <tr>
                       <td class="text-center">{{ i + 1 }}</td>
-                      <td class="text-start" (click)="copyData(data?.nom_usage)" style="cursor: pointer"> {{ data?.nom_usage }}</td>
-                      <td class="text-start">{{ data?.description }}</td>
+                      <td class="text-center" (click)="copyData(data?.nom_usage)" style="cursor: pointer"> {{ data?.nom_usage }}</td>
+                      <td class="text-center">{{ data?.description }}</td>
                       <td class="text-center">
                         <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
                           [class.badge-success]="data.statut === 'actif'" [class.badge-danger]="data.statut !== 'actif'">

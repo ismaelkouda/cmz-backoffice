@@ -9,6 +9,7 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShowMessageRecieveComponent } from '../show-message-recieve/show-message-recieve.component';
+import { ExcelService } from 'src/shared/services/excel.service';
 
 @Component({
   selector: 'app-recipient-wrapper',
@@ -48,7 +49,7 @@ export class RecipientWrapperComponent implements OnInit {
     private clipboardApi: ClipboardService,
     private settingService: SettingService,
     private supervisionOperationService: SupervisionOperationService,
-    private mappingService: MappingService,
+    private excelService: ExcelService,
     private modalService: NgbModal,
   ) {
     this.listStates = ['lu', 'non-lu']
@@ -186,8 +187,24 @@ export class RecipientWrapperComponent implements OnInit {
       this.selectDateEnd = null
     }
   }
+  public disableAction(): boolean {
+    return (this.listMessages === undefined || this.listMessages?.length === 0) ? true : false
+  }
   public isFilter(): boolean {
     return (!this.selectedSubject && !this.selectedState && !this.selectedUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
+  public OnExportExcel(): void {
+    const data = this.listMessages.map((item: any) => ({
+      'Date envoie': item?.created_at,
+      'Reference': item?.reference,
+      'Sujet': item?.sujet,
+      'Objet': item?.objet,
+      'Statut': item?.statut,
+      'Signature': `${item.signature_nom} ${item.signature_fonction} [${item?.signature_contact}]`,
+      'Pièce': item?.piece_jointe ? 'Pièce' : 'Aucune pièce',
+      'Demandeur': `${item.demandeur_nom} ${item.signature_fonction} [${item?.signature_contact}]`,
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des Messages reçus');
+  }
 
 }

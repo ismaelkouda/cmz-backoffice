@@ -60,7 +60,7 @@
             class="p-button-secondary">
           </button>
           <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download"
-          class="p-button-helf"></button>
+          [disabled]="disableAction()" class="p-button-helf"></button>
         </div>
         <div class="d-flex gap-3">
           <div class="table_header__legende">
@@ -74,11 +74,11 @@
             <th class="text-center" [ngStyle]="{'width':'200px'}">N° Demande</th>
             <th class="text-center">Service</th>
             <th class="text-center">Rapport</th>
-            <th pTooltip="Details de rapport" tooltipPosition="top">Détails Rapport</th>
+            <th class="text-center">Détails Rapport</th>
             <th class="text-center">Statut</th>
             <th class="text-center">Demandeur</th>
             <th class="text-center" [ngStyle]="{'width':'150px'}"><span>Date</span><span>Traitement</span></th>
-            <th pTooltip="Date de traitement" tooltipPosition="top">Intervenant</th>
+            <th class="text-center">Intervenant</th>
             <th class="text-center" [style]="{width: '3rem'}">Actions</th>
           </thead>
           <tbody>

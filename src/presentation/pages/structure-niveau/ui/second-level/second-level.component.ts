@@ -172,7 +172,6 @@ export class SecondLevelComponent implements OnInit {
   public OnExportExcel(): void {
     const data = this.listCurrentLevelDatas.map((item: any) => ({
       [this.currentLevelLibelle]: item?.nom,
-      'Code': item?.code,
       [this.parentLevelLibelle]: item?.niveau_un?.nom,
       '# SIM Affectées': item?.sims_count,
     }));

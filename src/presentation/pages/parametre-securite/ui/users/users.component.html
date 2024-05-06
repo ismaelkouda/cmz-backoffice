@@ -10,8 +10,8 @@
             <div class="d-flex justify-content-between">
               <div class="d-flex gap-2">
                 <button pButton pRipple *ngIf="mappingService.IsAction()" label="Ajout utilisateur" icon="pi pi-plus" (click)="onInitForm()" [disabled]="this.listUsers.length >=5" class="p-button-success"></button>
-                <button pButton pRipple label="Rafraichir" (click)="GetAllUsers()" icon="pi pi-refresh"
-                  class="p-button-secondary"></button>
+                <button pButton pRipple label="Rafraichir" (click)="GetAllUsers()" icon="pi pi-refresh"class="p-button-secondary"></button>
+                <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf" [disabled]="disableAction()" (click)="OnExportExcel()"></button>
               </div>
               <div class="danger-alert" role="alert" *ngIf="this.listUsers.length >=5">
                   <strong>

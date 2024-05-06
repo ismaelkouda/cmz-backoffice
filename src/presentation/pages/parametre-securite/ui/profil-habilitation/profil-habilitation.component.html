@@ -8,10 +8,9 @@
             <p-tabView (onChange)="handleChangeTabviewIndex($event)">
               <p-tabPanel header="PROFILS ET HABILITATIONS">
                 <div class="table_actions_wrapper">
-                  <button pButton pRipple *ngIf="mappingService.IsAction()" label="Ajout de profil" icon="pi pi-plus" (click)="onInitForm()"
-                    class="p-button-success"></button>
-                  <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
-                    class="p-button-secondary"></button>
+                  <button pButton pRipple *ngIf="mappingService.IsAction()" label="Ajout de profil" icon="pi pi-plus" (click)="onInitForm()" class="p-button-success"></button>
+                  <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh" class="p-button-secondary"></button>
+                  <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf" [disabled]="disableAction()" (click)="OnExportExcel()"></button>
                 </div>
                 <div class="table_content_wrapper">
                   <p-table #dt 
@@ -50,14 +49,14 @@
                     <ng-template let-i="rowIndex" pTemplate="body" let-data>
                       <tr>
                         <td class="text-center">{{ i + 1 }}</td>
-                        <td (click)="copyData(data.nom)" style="cursor: pointer">{{data?.nom}}</td>
-                        <td>{{data?.description}}</td>
-                        <td>{{data?.created_at}}</td>
-                        <td>{{data?.updated_at}}</td>
+                        <td class="text-center" (click)="copyData(data.nom)" style="cursor: pointer">{{data?.nom}}</td>
+                        <td class="text-center">{{data?.description}}</td>
+                        <td class="text-center">{{data?.created_at}}</td>
+                        <td class="text-center">{{data?.updated_at}}</td>
                         <td class="text-center">
                           <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
-                            label="Visualiser ({{data.users_count}})" class="p-button" (click)="onViewVisualisation(data)"
-                            [disabled]="data.users_count === 0 || data.statut === 'inactif'"></button>
+                            label="Visualiser ({{data?.users_count}})" class="p-button" (click)="onViewVisualisation(data)"
+                            [disabled]="data?.users_count === 0 || data.statut === 'inactif'"></button>
                         </td>
                         <td class="text-center">
                           <span [ngStyle]="{ 'font-size': '16px' }" class="badge"

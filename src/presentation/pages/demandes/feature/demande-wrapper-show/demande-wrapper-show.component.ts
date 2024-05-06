@@ -262,15 +262,15 @@ export class DemandeWrapperShowComponent implements OnInit {
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
-      'N° transaction': item?.transaction,
-      'Type Transaction': item?.operation,
-      'Statut': item?.statut,
+      'Date demande': item?.created_at,
+      'N° demande': item?.numero_demande,
       'IMSI': item?.imsi,
       'MSISDN': item?.msisdn,
+      'Statut': item?.statut,
       'Traitement': item?.traitement,
-      'Date création': item?.created_at
-    }));
-    this.excelService.exportAsExcelFile(data, 'Liste des transactions');
+      'Date Traitement': item?.current_date
+     }));
+    this.excelService.exportAsExcelFile(data, `Liste des lignes de la demande [${this.transactionId.numero_demande}]`);
   }
 
 }

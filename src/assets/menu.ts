@@ -82,7 +82,7 @@ export var menuJson = [
         data: "9-0-0-demandes-de-services",
         statut: false,
         expanded: true,
-        icon: "disc",
+        icon: "pen-tool",
         url: "assets/images/portail/icone_ps.png",
         path: `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
         routerLink: `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
@@ -255,14 +255,6 @@ export var menuJson = [
                 title: "Centre de Notifications",
                 label: "Centre de Notifications",
                 data: "4-5-0-notifications",
-                type: "link",
-                pack: ApplicationType.MONITORING
-            },
-            {
-                path: `/${SUPERVISION_OPERATIONS}/${JOURNAL_TRANSACTION_ROUTE}`,
-                title: "Journal des Transactions",
-                label: "Journal des Transactions",
-                data: "4-6-0-journaux-transaction",
                 type: "link",
                 pack: ApplicationType.MONITORING
             },

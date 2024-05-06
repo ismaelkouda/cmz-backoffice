@@ -44,7 +44,7 @@
                   <table [ngClass]="['native_table table']">
                     <thead>
                       <th class="text-center" [style]="{width: '1.5rem'}">#</th>
-                      <th>{{firstLevelLibelle}}</th>
+                      <th class="text-center">{{firstLevelLibelle}}</th>
                       <th class="text-center"># {{secondLevelLibelle}} Affectés</th>
                       <th class="text-center" [ngStyle]="{'width':'10rem'}">Actions</th>
                     </thead>
@@ -56,7 +56,8 @@
                         <td class="text-center">
                           <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
                             label="Visualiser [{{data.niveaux_deux_count}}]" class="p-button"
-                            (click)="OnVisualisation(data)" [disabled]="niveaux_deux_count === 0"></button>
+                            (click)="OnVisualisation(data)" [disabled]="data?.niveaux_deux_count === 0">
+                          </button>
                         </td>
                         <td class="td-actions">
                           <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"

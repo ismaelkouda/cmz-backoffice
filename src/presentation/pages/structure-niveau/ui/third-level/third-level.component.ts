@@ -257,7 +257,8 @@ export class ThirdLevelComponent implements OnInit {
   public OnExportExcel(): void {
     const data = this.listCurrentLevelDatas.map((item: any) => ({
       [this.currentLevelLibelle]: item?.nom,
-      'Code': item?.code
+      'Code': item?.code,
+      'Statut': item?.statut
     }));
     this.excelService.exportAsExcelFile(data, `Lise des ${this.currentLevelLibelle}`);
   }

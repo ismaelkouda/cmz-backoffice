@@ -305,7 +305,9 @@ export class ContentieuxComponent implements OnInit {
       modalRef.componentInstance.IsLoadData = !res;
     })
   }
-
+  public disableAction(): boolean {
+    return (this.listTraitemants === undefined || this.listTraitemants?.length === 0) ? true : false
+  }
   public isFilter(): boolean {
     return (
       !this.selectedTypeOperation &&
@@ -335,15 +337,15 @@ export class ContentieuxComponent implements OnInit {
   public OnExportExcel(): void {
     const data = this.listTraitemants.map((item: any) => ({
       'Date création': item?.created_at,
-      'N° transaction': item?.transaction,
-      'Type Transaction': item?.operation,
-      'Service': [this.formatTitle(item?.operation)],
+      'N° demande': item?.transaction,
+      'Service': item?.operation,
       'Rapport': item?.code_rapport,
       'Statut': item?.statut,
-      'Traitement': item?.traitement,
-      'Demandeur': `${item.agent_nom} ${item.agent_prenoms}`,
+      'Date Traitement': item?.current_date,
+      'Demandeur': `${item.demandeur_nom} ${item.demandeur_prenoms}`,
+      'Intervenant': `${item.intervenant_nom} ${item.intervenant_prenoms}`,
     }));
-    this.excelService.exportAsExcelFile(data, 'Liste des contentieux');
+    this.excelService.exportAsExcelFile(data, 'Liste des réclamations');
   }
 }
 

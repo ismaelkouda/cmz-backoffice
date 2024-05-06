@@ -198,8 +198,8 @@ export class TraitementShowComponent implements OnInit {
           this.IsLoading.emit(false);
         },
         error: (error) => {
-          this.handleCloseModal();
           this.IsLoading.emit(false);
+          this.handleCloseModal();
           this.toastrService.error(error.error.message);
         }
       })
