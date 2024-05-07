@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    //this.loginForm.patchValue({port: '11200'})
     this.loginForm.patchValue({port: window.location.port})
     this.authService.OnLogin(this.loginForm.value).subscribe({
       next: (response) => {  
@@ -75,7 +74,7 @@ export class LoginComponent implements OnInit {
         this.toastService.success(`Bienvenue ${response.data.nom} ${response.data.prenoms}`); 
       },
       error: (error) => {        
-        this.toastService.error(error.error.message);
+        this.toastService.error(error?.error?.message);
       }
     })
   }

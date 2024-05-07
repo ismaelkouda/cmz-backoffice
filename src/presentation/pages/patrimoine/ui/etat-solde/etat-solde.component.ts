@@ -85,7 +85,7 @@ export class EtatSoldeComponent implements OnInit {
     this.disableAction()
     this.route.data.subscribe((data) => {
       this.module = data.module;
-      this.subModule = data.subModule[4];
+      this.subModule = data.subModule[3];
     });
     if (history.state?.statut) {
       this.selectedAlarme = history.state?.statut;
