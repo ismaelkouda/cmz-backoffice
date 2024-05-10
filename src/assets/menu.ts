@@ -328,8 +328,8 @@ export var menuJson = [
             },
             {
                 path: `/${SLA_DEMANDE_SERVICE}/${RAPPORT_CONFORMITE}`,
-                title: "Rapport Conformité",
-                label: "Rapport Conformité",
+                title: "Rapport Performances",
+                label: "Rapport Performances",
                 data: "8-2-0-rapport-de-conformite",
                 type: "link",
                 pack: ApplicationType.MONITORING

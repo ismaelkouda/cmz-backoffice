@@ -65,8 +65,7 @@
                 </div>
             </div>
             <div>
-                <p-tabView
-                    (onChange)="handleChangeTabviewIndex($event)">
+                <p-tabView (onChange)="handleChangeTabviewIndex($event)">
                     <p-tabPanel header="DEMANDES ACTIVATIONS">
                         <app-rapport-transaction *ngIf="currentTabsIndex === 0"
                             (rapport)="OnPushRapport($event)"
@@ -88,8 +87,15 @@
                           [tabsLabel]="'Résiliations'"
                       ></app-rapport-transaction>
                     </p-tabPanel>
-                    <p-tabPanel header="DEMANDES SIM-SWAP" *ngIf="IsPatrimoineType()">
+                    <p-tabPanel header="DEMANDES CHANGEMENT DE FORMULES">
                         <app-rapport-transaction *ngIf="currentTabsIndex === 3"
+                          (rapport)="OnPushRapport($event)"
+                          [selectedTransaction]="formule"
+                          [tabsLabel]="'Changements de formules'"
+                      ></app-rapport-transaction>
+                    </p-tabPanel>
+                    <p-tabPanel header="DEMANDES SIM-SWAP">
+                        <app-rapport-transaction *ngIf="currentTabsIndex === 4"
                             (rapport)="OnPushRapport($event)"
                             [selectedTransaction]="swap"
                             [tabsLabel]="'Changements de SIM'"

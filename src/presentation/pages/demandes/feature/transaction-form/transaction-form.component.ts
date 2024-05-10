@@ -197,7 +197,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       imsi: [''],
       statut: [''],
       statut_contrat: [''],
-      formule_uuid: [''],
+      formule_uuid: ['',[Validators.required]],
+      description: ['',[Validators.required]],
       msisdn: [''],
       code_pin: [''],
       username: [''],
@@ -395,9 +396,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       })
       baseUrl = `${this.baseUrl}${EndPointUrl.SWAPER_SIM}`
     } else if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
-      this.adminForm.patchValue({
-        formule_uuid: this.selectedFormule,
-      })
       let adminData;
       if (this.applicationType === ApplicationType.MONITORING) {
          adminData = {
@@ -418,7 +416,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       data = formDataBuilder({
         ...adminData,
         operation: this.selectedActionValue,
-        description: this.selectedDescription,
         justificatif: this.selectedPiece,
       })
       baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`
