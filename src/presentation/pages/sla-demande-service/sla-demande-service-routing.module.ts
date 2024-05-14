@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { RapportConformiteComponent } from './ui/rapport-conformite/rapport-conformite.component';
 
 export const SLA_DASHBORD = 'dashboard-sla';
-export const RAPPORT_CONFORMITE = 'rapport-conformite';
+export const RAPPORT_CONFORMITE = 'rapport-performances';
 
 const routes: Routes = [{
     path: "",

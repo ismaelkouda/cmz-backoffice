@@ -102,7 +102,7 @@ export const content: Routes = [
       module: 'SLA demandes Service',
       subModule: [
         'Tableau SLA',
-        'Rapport Conformité des demandes'
+        'Rapport Performances'
       ]
     }
   },

@@ -200,9 +200,8 @@ export class RecipientWrapperComponent implements OnInit {
       'Sujet': item?.sujet,
       'Objet': item?.objet,
       'Statut': item?.statut,
-      'Signature': `${item.signature_nom} ${item.signature_fonction} [${item?.signature_contact}]`,
-      'Pièce': item?.piece_jointe ? 'Pièce' : 'Aucune pièce',
-      'Demandeur': `${item.demandeur_nom} ${item.signature_fonction} [${item?.signature_contact}]`,
+      'Signature': `${item?.signature_nom} ${item?.signature_fonction} [${item?.signature_contact}]`,
+      'Pièce': item?.piece_jointe ? 'Pièce' : 'Aucune pièce'
     }));
     this.excelService.exportAsExcelFile(data, 'Liste des Messages reçus');
   }

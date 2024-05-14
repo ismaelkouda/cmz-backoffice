@@ -6,6 +6,7 @@ import * as moment from 'moment'
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { SlaDemandeService } from '../../data-access/sla-demande.service';
 import { SettingService } from 'src/shared/services/setting.service';
+import { ExcelService } from 'src/shared/services/excel.service';
 const Swal = require('sweetalert2');
 
 
@@ -41,17 +42,6 @@ export class RapportTransactionComponent implements OnInit {
   maxDate: Date | undefined; 
   dateToday: Date | undefined;
 
-  CALENDER_CONFIG_EN = {
-    firstDayOfWeek: 1,
-    dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    dayNamesShort: ['lUN', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    dayNamesMin: ['', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-        'November', 'December'],
-    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    today: 'Today',
-    clear: 'eFFACER',
-}
   public stateSoumis: string = StatutTransaction.SOUMIS;
   public stateTraite: string = StatutTransaction.TARITER;
   public stateCloture: string = StatutTransaction.CLOTURER;
@@ -61,6 +51,7 @@ export class RapportTransactionComponent implements OnInit {
     private route: ActivatedRoute,
     private clipboardApi: ClipboardService,
     private settingService: SettingService,
+    private excelService: ExcelService,
     private slaDemandeService: SlaDemandeService,
   ) {
     Object.values(StatutTransaction).forEach(item => {
@@ -239,5 +230,22 @@ export class RapportTransactionComponent implements OnInit {
   public isFilter(): boolean {
     return (!this.selectedUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
+
+  public disableAction(): boolean {
+    return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
+  }
+  public OnExportExcel(): void {
+    const data = this.listTransactions.map((item: any) => ({
+      'Date': item?.created_at,
+      'N° demande': item?.transaction,
+      'MSISDN': item?.msisdn,
+      'Demandeur': `${item?.demandeur_nom} ${item?.demandeur_prenoms}`,
+      'Statut': item?.statut,
+      'Date Traitement': item?.current_date,
+      'Durée Traitement (h)': item?.current_dure,
+      'SLA (h)': item?.current_sla
+    }));
+    this.excelService.exportAsExcelFile(data, `Liste des Rapport Performances - ${this.selectedTransaction}`);
+  }
 
 }

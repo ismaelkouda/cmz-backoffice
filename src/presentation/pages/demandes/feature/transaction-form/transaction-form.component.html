@@ -217,7 +217,6 @@
           </div>
         </div>
       </fieldset>
-      </div>
       <!------------------INFOS---------TRANSACTION----------------->
       <fieldset style="margin-top: 2.5rem;">
         <legend [ngStyle]="{width: '100%'}">
@@ -229,8 +228,7 @@
                 <label>
                   <b>Formule destination<span class="text-danger">*</span></b>
                 </label>
-                <p-dropdown [options]="listFormules" [(ngModel)]="selectedFormule"
-                  optionLabel="nom" [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
+                <p-dropdown [options]="listFormules" formControlName="formule_uuid" optionLabel="nom" [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
                   <ng-template let-data pTemplate="item">
                     <div class="country-item">
                       <div>
@@ -246,7 +244,7 @@
                 <label>
                   <b>Description <span class="text-danger">*</span></b>
                 </label>
-                <input type="text" [(ngModel)]="selectedDescription" pInputText />
+                <input type="text" formControlName="description" pInputText />
               </div>
             </div>
             <div class="col-md-4">
@@ -260,6 +258,7 @@
             </div>
           </div>
       </fieldset>
+    </div>
   </div>
   <div
   *ngIf="selectedActionValue === swap || selectedActionValue === resiliation || selectedActionValue === suspension || selectedActionValue === formule || selectedActionValue === volume">
@@ -477,13 +476,8 @@
         label="Soumettre" class="p-button-success" [disabled]="IsFormFomSIMValidate()"
         (click)="handleSaveNewTransaction()"></button>
       <button pButton *ngIf="selectedActionValue === activation" style="float: right;margin-top: 1rem;"
-        label="Soumettre" class="p-button-success" 
-            [disabled]="
-            !adminForm.valid || 
-            !selectedDescription || 
-            !selectedPiece || 
-            !selectedFormule"
-        (click)="handleSaveNewTransaction()"></button>
+            label="Soumettre" class="p-button-success" 
+            [disabled]="!adminForm.valid || !selectedPiece" (click)="handleSaveNewTransaction()"></button>
     </div>
     </div>
   </div>

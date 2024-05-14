@@ -1,6 +1,6 @@
 export enum SimStatut {
     ACTIF = 'actif',
     SUSPENDU = 'suspendu',
-    RESILIE = 'resilie',
+    RESILIE = 'resilié',
     SWAPER = 'swaper'
 }   

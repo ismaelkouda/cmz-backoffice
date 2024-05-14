@@ -21,6 +21,7 @@ export class RapportConformiteComponent implements OnInit {
   public suspension: string = OperationTransaction.SUSPENSION;
   public resiliation: string = OperationTransaction.RESILIATION;
   public swap: string = OperationTransaction.SWAP;
+  public formule: string = OperationTransaction.CHANGEMENT_FORMULE;
   public volume: string = OperationTransaction.VOLUME_DATA;
   public title = 'Rapport conformité - Système de Gestion de Collecte Centralisée';
 

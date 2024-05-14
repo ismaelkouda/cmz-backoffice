@@ -273,6 +273,6 @@ export class AlarmesComponent implements OnInit {
       'Demandeur': `${item.demandeur_nom} ${item.demandeur_prenoms}`,
     }));
     this.excelService.exportAsExcelFile(data, "File d'attente");
-  }
+   }
 
 }
