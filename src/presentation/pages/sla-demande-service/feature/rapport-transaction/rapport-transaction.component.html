@@ -4,9 +4,7 @@
        <div class="d-flex gap-2">
         <label style="padding-top: 0.7rem;font-size: 1.1rem;width: auto !important;"><b>Du</b></label>
         <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
-          (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [minDate]="minDate" [maxDate]="dateToday"
-          [locale]="CALENDER_CONFIG_EN"
-          placeholder="Date debut" [showButtonBar]="true"></p-calendar>
+          (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [minDate]="minDate" [maxDate]="dateToday" placeholder="Date debut" [showButtonBar]="true"></p-calendar>
        </div>
     </div>
     <div style="width: 28%;">
@@ -44,7 +42,7 @@
       </div>
       <div class="table_actions_wrapper mb-2">
         <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary" (click)="OnRefresh()"></button>
-        <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button>
+        <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf" [disabled]="disableAction()" (click)="OnExportExcel()"></button>
       </div>
     </div>
     <table [ngClass]="['native_table table']">
