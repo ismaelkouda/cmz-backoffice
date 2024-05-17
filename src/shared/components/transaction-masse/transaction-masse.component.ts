@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import readXlsxFile from "read-excel-file";
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-transaction-masse',

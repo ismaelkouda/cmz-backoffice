@@ -53,10 +53,10 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    this.loginForm.patchValue({port: '11200'})
-    //this.loginForm.patchValue({port: window.location.port})
+    //this.loginForm.patchValue({ port: '11200' })
+    this.loginForm.patchValue({port: window.location.port})
     this.authService.OnLogin(this.loginForm.value).subscribe({
-      next: (response) => {  
+      next: (response) => {
         this.permissionsJson.forEach((module, index) => {
           if (module.children) {
             module.children.forEach((sous_module) => {
@@ -72,9 +72,9 @@ export class LoginComponent implements OnInit {
         this.storeLocaleService.OnEmitTenantData(response?.data)
         this.storeLocaleService.OnEmitCurrentPermission(this.permissionsJson)
         this.router.navigateByUrl(`/${DASHBOARD}`)
-        this.toastService.success(`Bienvenue ${response.data.nom} ${response.data.prenoms}`); 
+        this.toastService.success(`Bienvenue ${response.data.nom} ${response.data.prenoms}`);
       },
-      error: (error) => {        
+      error: (error) => {
         this.toastService.error(error?.error?.message);
       }
     })

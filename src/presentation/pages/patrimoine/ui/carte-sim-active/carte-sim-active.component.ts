@@ -336,8 +336,13 @@ export class CarteSimActiveComponent implements OnInit {
   }
 
   public onMapReady() {
-    var customIcon = L.icon({
+    var traficIcon = L.icon({
       iconUrl: '../../../../../assets/svg/sim_loc_noir.svg',
+      iconSize: [45, 45],
+      iconAnchor: [17, 17],
+    });
+    var networkIcon = L.icon({
+      iconUrl: '../../../../../assets/svg/sim_loc_orange.svg',
       iconSize: [45, 45],
       iconAnchor: [17, 17],
     });
@@ -345,8 +350,9 @@ export class CarteSimActiveComponent implements OnInit {
     this.map = new L.Map('map');
     this.map.setView(new L.LatLng(this.currentComposant?.longitude ?? this.currentComposant?.long_reseau, this.currentComposant?.latitude ?? this.currentComposant?.lat_reseau), 18);
     this.map.options.minZoom = 12;
-    var marker = L.marker([this.currentComposant?.longitude ?? this.currentComposant?.long_reseau, this.currentComposant?.latitude ?? this.currentComposant?.lat_reseau])
-      .setIcon(customIcon)
+    
+    var traficPoint = L.marker([this.currentComposant?.longitude ?? this.currentComposant?.long_reseau, this.currentComposant?.latitude ?? this.currentComposant?.lat_reseau])
+      .setIcon(traficIcon)
       .bindPopup(
         "<div>" + "" +
         "<strong>Numero SIM :</strong>" + "<span>" + this.currentComposant?.msisdn + "</span>" + "<br>" +
@@ -355,10 +361,27 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
         "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.point_emplacement + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
-        "</div>",
-
+        "</div>"
       ).openPopup();
-    marker.addTo(this.map);
+
+      var reseauPoint = L.marker([this.currentComposant?.long_reseau,this.currentComposant?.lat_reseau])
+      .setIcon(networkIcon)
+      .bindPopup(
+        "<div>" + "" +
+        "<strong>Numero SIM :</strong>" + "<span>" + this.currentComposant?.msisdn + "</span>" + "<br>" +
+        "<strong>" + this.firstLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_uns_nom + "</span>" + "<br>" +
+        "<strong>" + this.secondLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_deux_nom + "</span>" + "<br>" +
+        "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
+        "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.point_emplacement + "</span>" + "<br>" +
+        "<strong>" + "Date Trafic :" + "</strong>" + "<span>" + this.currentComposant?.date_id + "</span>" + "<br>" +
+        "<strong>Statut :</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
+        "</div>"
+      ).openPopup();
+
+      
+
+    traficPoint.addTo(this.map);
+    reseauPoint.addTo(this.map);
     this.map.addLayer(osmLayer);
     var baseMaps = {
       'OpenStreetMap': this.OpenStreetMap.addTo(this.map),

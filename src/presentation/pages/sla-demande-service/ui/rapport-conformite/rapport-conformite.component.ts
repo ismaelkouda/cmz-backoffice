@@ -48,7 +48,7 @@ export class RapportConformiteComponent implements OnInit {
       if (this.rapport.hasOwnProperty(key)) {
           this.rapport[key] = '0';
       }
-  }
+   }
   }
   IsPatrimoineType(){
     return (this.mappingService.applicationType === ApplicationType.PATRIMOINESIM) ? true : false

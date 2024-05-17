@@ -32,6 +32,7 @@ export class DemandeWrapperComponent implements OnInit {
 
   public listStatuts: Array<any> = [];
   public selectedTransaction: string;
+  public selectedTransactionShow: string;
   public listOperations: Array<any> = [];
   public listUsers: Array<any> = [];
   public listTraitementTransactions: Array<any> = [];
@@ -150,6 +151,7 @@ export class DemandeWrapperComponent implements OnInit {
     this.demandeService
       .GetDemandeServiceByTransaction({
         numero_demande: this.selectedTransaction,
+        transaction: this.selectedTransactionShow,
         operation: this.selectedOperation,
         initie_par: this.currentUser?.id,
         statut: this.selectedStatut,
@@ -184,6 +186,7 @@ export class DemandeWrapperComponent implements OnInit {
     this.p = 1;
     this.GetAllTransactions()
     this.selectedTransaction = null
+    this.selectedTransactionShow = null
     this.currentUser = null
     this.selectedStatut = null
     this.selectDateStart = null
@@ -271,7 +274,7 @@ export class DemandeWrapperComponent implements OnInit {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
   public isFilter(): boolean {
-    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction) ? true : false
+    return (!this.selectedStatut && !this.selectedTransaction && !this.selectedTransactionShow) ? true : false
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
