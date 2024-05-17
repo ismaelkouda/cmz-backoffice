@@ -163,9 +163,7 @@ export class TransactionShowComponent implements OnInit {
           this.formuleForm.disable();
           this.IsLoading.emit(false);
         },
-        error: (error) => {
-          console.log("xxxxxxxxxxxxxxxxxxxxxx");
-          
+        error: (error) => {          
           this.handleCloseModal();
           this.IsLoading.emit(false);
           this.toastrService.error(error.error.message);

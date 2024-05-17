@@ -2,7 +2,7 @@
   <app-patrimoine-header [count]="listTransactions" [legende]="wrapperLabel" [total]="totalRecords"></app-patrimoine-header>
 </div>
 <div class="row filter_wrapper">
-  <div class="col-md-3">
+  <div class="col-md-2">
     <div class="form-group">
       <label>
         <b>N° demande</b>
@@ -11,6 +11,14 @@
     </div>
   </div>
   <div class="col-md-2">
+    <div class="form-group">
+      <label>
+        <b>Transaction</b>
+      </label>
+      <input placeholder="Transaction" [(ngModel)]="selectedTransactionShow" type="text" pInputText />
+    </div>
+  </div>
+  <div [style]="{width: '13rem'}">
     <div class="form-group">
       <label>
         <b>Statut</b>
@@ -38,19 +46,19 @@
         </ng-template>
     </p-dropdown>
    </div>  
-    <div class="col-md-2">
+    <div [ngStyle]="{width: '14rem'}">
       <label class="block"><b>Date début</b></label>
       <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
         (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
     </div>
-    <div class="col-md-2">
+    <div [ngStyle]="{width: '14rem'}">
       <label class="block"><b>Date fin</b></label>
       <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
         (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
     </div>
-  <div class="p-0" [ngStyle]="{width: '4rem'}" *ngIf="!secondFilter">
+  <div class="p-0" [ngStyle]="{width: '4rem'}">
     <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
-    <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+    <p-button styleClass="p-button-success ms-3" icon="pi pi-filter" (click)="onFilter()"
       [disabled]="isFilter()"></p-button>
   </div>
 </div>
