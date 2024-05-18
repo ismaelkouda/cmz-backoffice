@@ -378,8 +378,6 @@ export class CarteSimActiveComponent implements OnInit {
         "</div>"
       ).openPopup();
 
-      
-
     traficPoint.addTo(this.map);
     reseauPoint.addTo(this.map);
     this.map.addLayer(osmLayer);
@@ -387,7 +385,11 @@ export class CarteSimActiveComponent implements OnInit {
       'OpenStreetMap': this.OpenStreetMap.addTo(this.map),
       'Satellite': this.satelite
     }
-    L.control.layers(baseMaps, {}, { collapsed: false }).addTo(this.map);
+    var layerGeoJson = {
+      "<span style='font-weight:bold;'><b>Position déclarée</b></span><span><img src='assets/svg/sim_loc_noir.svg' style='width: 10px; margin-left: 20px;'/></span>": traficPoint,
+      "<span style='font-weight:bold'><b>Position trafic</b></span><span><img src='assets/svg/sim_loc_orange.svg' style='width: 10px; margin-left: 20px;'/></span>": reseauPoint,
+   }
+    L.control.layers(baseMaps, layerGeoJson, { collapsed: false }).addTo(this.map);
   }
   public showDialog(data, composant) {
     switch (data) {
