@@ -145,10 +145,7 @@
             </div>
             <hr>
             <div class="table_actions_wrapper">
-              <button pButton pRipple label="Rafraîchir" (click)="OnRefresh()" icon="pi pi-refresh"
-                class="p-button-secondary"></button>
-              <button pButton pRipple label="Exporter" (click)="OnExportExcel()" [disabled]="disableAction()" icon="pi pi-download"
-                class="p-button-helf"></button>
+                <app-table-button-header (refresh)="OnRefresh()" (export)="OnExportExcel()" [hiddenButtonOther]="true"></app-table-button-header>
             </div>
             <div class="table_content_wrapper">
               <div class="d-flex gap-2">

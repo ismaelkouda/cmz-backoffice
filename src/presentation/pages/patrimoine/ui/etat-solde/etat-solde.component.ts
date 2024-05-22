@@ -8,7 +8,6 @@ import { ExcelService } from 'src/shared/services/excel.service';
 import { TypeAlarme } from 'src/shared/enum/TypeAlarme.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
-const Swal = require('sweetalert2');
 import * as moment from 'moment';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { Title } from '@angular/platform-browser';

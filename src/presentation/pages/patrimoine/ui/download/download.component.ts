@@ -70,4 +70,8 @@ export class DownloadComponent implements OnInit {
     }
   }
 
+  public OnRefresh() {
+    this.GetAllDownlaod()
+  }
+
 }

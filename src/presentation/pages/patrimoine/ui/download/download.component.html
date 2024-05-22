@@ -5,14 +5,13 @@
       <div class="card">
         <div class="card-body">
           <div [hidden]="!initialView">
+            <hr>
+            <div class="table_actions_wrapper">
+              <app-table-button-header (refresh)="OnRefresh()" [hiddenButtonExport]="true" [hiddenButtonOther]="true"></app-table-button-header>
+            </div>
             <div class="table_content_wrapper">
-              <div class="d-flex gap-3 mb-2">
+              <div class="table_header">
                 <app-table-header [count]="listFiles" [legende]="'Fichiers à Télécharger'" [page]="page" [totalPage]="totalPage"></app-table-header>
-                <div class="pt-2">
-                  <button pButton pRipple label="Rafraîchir" (click)="GetAllDownlaod()" icon="pi pi-refresh"
-                  class="p-button-secondary">
-                </button>
-                </div>
               </div>
               <table [ngClass]="['native_table table']">
                 <thead>
