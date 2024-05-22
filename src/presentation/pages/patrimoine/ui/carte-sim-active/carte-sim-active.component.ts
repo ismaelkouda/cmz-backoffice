@@ -56,6 +56,7 @@ export class CarteSimActiveComponent implements OnInit {
   public selectedUsage: string;
   public selectedNiveauTrois: string;
   public selectedZone: string;
+  public adresse_ip: string;
   public selectedEmplacement: string
   public currentOperation: any;
   public selectedDescription: string;
@@ -168,6 +169,7 @@ export class CarteSimActiveComponent implements OnInit {
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
         zone_trafic: this.selectedZone,
+        adresse_ip: this.adresse_ip,
         statut: this.selectedStatut,
         point_emplacement: this.selectedEmplacement
       }, this.p)
@@ -196,6 +198,7 @@ export class CarteSimActiveComponent implements OnInit {
     this.selectedSim = null;
     this.selectedimsi = null;
     this.selectedZone = null;
+    this.adresse_ip = null;
     this.selectedStatut = null;
     this.selectedEmplacement = null
     this.secondFilter = false;
@@ -436,7 +439,7 @@ export class CarteSimActiveComponent implements OnInit {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
   public isFilter(): boolean {
-    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi && !this.selectedStatut && !this.selectedUsage && !this.selectedZone && !this.selectedEmplacement && !this.selectedNiveauTrois) ? true : false
+    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi && !this.selectedStatut && !this.selectedUsage && !this.selectedZone && !this.adresse_ip && !this.selectedEmplacement && !this.selectedNiveauTrois) ? true : false
   }
   public disableAction(): boolean {
     return (this.listPatrimoines === undefined || this.listPatrimoines?.length === 0) ? true : false
