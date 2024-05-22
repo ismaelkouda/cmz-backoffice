@@ -20,7 +20,7 @@
             <hr>
             <div class="table_actions_wrapper">
               <button pButton pRipple *ngIf="mappingService.IsAction()" [label]="'Ajout Simple'" icon="pi pi-plus" (click)="onInitForm()" class="p-button-success"></button>
-              <button pButton pRipple label="Rafraichir" icon="pi pi-refresh" class="p-button-secondary" (click)="GetAllUsageMetier()"></button>
+              <button pButton pRipple label="Rafraîchir" icon="pi pi-refresh" class="p-button-secondary" (click)="GetAllUsageMetier()"></button>
               <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf" (click)="OnExportExcel()"></button>
             </div>
             <div class="table_content_wrapper">

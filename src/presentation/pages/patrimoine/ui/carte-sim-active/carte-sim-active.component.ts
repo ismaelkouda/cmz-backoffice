@@ -19,12 +19,11 @@ import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION } from 'src/presentation/pages/d
 import { Title } from '@angular/platform-browser';
 const Swal = require('sweetalert2');
 
-
 @Component({
   selector: 'app-carte-sim-active',
-  templateUrl: './carte-sim-active.component.html',
-  styleUrls: ['./carte-sim-active.component.scss']
+  templateUrl: './carte-sim-active.component.html'
 })
+
 export class CarteSimActiveComponent implements OnInit {
 
   public module: string;
