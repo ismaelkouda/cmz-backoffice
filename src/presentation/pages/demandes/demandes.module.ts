@@ -7,7 +7,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxCaptchaModule } from 'ngx-captcha';
 
-
 //Modules Primeng
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -26,7 +25,6 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DemandesRoutingModule } from './demandes-routing.module';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SharedModule } from 'src/shared/shared.module';
-
 
 //Components
 

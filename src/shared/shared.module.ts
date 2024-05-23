@@ -56,7 +56,6 @@ import { PasswordModule } from 'primeng/password';
 import { TraitementShowComponent } from './components/traitement-show/traitement-show.component';
 import { BadgeModule } from 'primeng/badge';
 
-
 @NgModule({
   declarations: [
     HeaderComponent,

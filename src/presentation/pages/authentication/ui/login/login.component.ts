@@ -2,9 +2,10 @@ import { AuthenticationService } from './../../data-access/authentication.servic
 import { StoreLocaleService } from '../../../../../shared/services/store-locale.service';
 import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
 import { Component, OnInit } from "@angular/core";
-import { Validators, FormBuilder, FormGroup } from "@angular/forms";
+import { Validators, FormGroup, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 // @ts-ignore
 import { environment } from 'src/environments/environment.prod';
@@ -13,31 +14,35 @@ import { FORGOT_PASSWORD } from '../../../password-reset/password-reset-routing.
 import { REINITIALISATION } from 'src/presentation/app-routing.module';
 import { DASHBOARD } from 'src/shared/routes/routes';
 import { Title } from '@angular/platform-browser';
+import { LOGO_ORANGE } from 'src/shared/constants/logoOrange.constant';
+import { handle } from "src/shared/functions/api.function";
 
 @Component({
   selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"],
+  templateUrl: "./login.component.html"
 })
+
 export class LoginComponent implements OnInit {
 
-  loginForm: FormGroup;
+  loginForm = new FormGroup({
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+    port: new FormControl(''),
+  });
+
   public show: boolean = false
   public siteKey: string;
   public permissionsJson: any = [];
   readonly REINITIALISATION = REINITIALISATION;
   readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
   public title = 'Connexion - Système de Gestion de Collecte Centralisée';
+  public LOGO_ORANGE = LOGO_ORANGE;
+  private response: any = {};
 
-
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthenticationService,
-    private router: Router,
-    private toastService: ToastrService,
-    private storage: EncodingDataService,
-    private titleService: Title,
-    private storeLocaleService: StoreLocaleService
+  constructor(private authService: AuthenticationService,
+    private router: Router, private toastrService: ToastrService,
+    private storage: EncodingDataService, private titleService: Title,
+    private storeLocaleService: StoreLocaleService, private loadingBar: LoadingBarService
   ) {
     this.titleService.setTitle(`${this.title}`);
     this.permissionsJson = menuJson;
@@ -45,38 +50,31 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.siteKey = environment.recaptcha.siteKey;
-    this.loginForm = this.fb.group({
-      username: ['', [Validators.required]],
-      password: ['', Validators.required],
-      port: [''],
-    });
   }
 
-  onLogin() {
-    //this.loginForm.patchValue({ port: '11200' })
-    this.loginForm.patchValue({port: window.location.port})
-    this.authService.OnLogin(this.loginForm.value).subscribe({
-      next: (response) => {
-        this.permissionsJson.forEach((module, index) => {
-          if (module.children) {
-            module.children.forEach((sous_module) => {
-              const found = response['data'].permissions.includes(sous_module.data);
-              if (found) {
-                this.permissionsJson[index] = { ...module, statut: true };
-              }
-            });
+  async onLogin() {
+    this.loginForm.patchValue({ port: window.location.port })
+    this.response = await handle(() => this.authService.OnLogin(this.loginForm.value), this.toastrService, this.loadingBar);
+    this.handleSuccessful(this.response);
+  }
+
+
+  private handleSuccessful(response): void {
+    this.permissionsJson.forEach((module, index) => {
+      if (module.children) {
+        module.children.forEach((sous_module) => {
+          const found = response['data'].permissions.includes(sous_module.data);
+          if (found) {
+            this.permissionsJson[index] = { ...module, statut: true };
           }
         });
-        this.storage.saveData('user', JSON.stringify(response.data));
-        this.storage.saveData("current_menu", JSON.stringify(this.permissionsJson))
-        this.storeLocaleService.OnEmitTenantData(response?.data)
-        this.storeLocaleService.OnEmitCurrentPermission(this.permissionsJson)
-        this.router.navigateByUrl(`/${DASHBOARD}`)
-        this.toastService.success(`Bienvenue ${response.data.nom} ${response.data.prenoms}`);
-      },
-      error: (error) => {
-        this.toastService.error(error?.error?.message);
       }
-    })
+    });
+    this.storage.saveData('user', JSON.stringify(response.data));
+    this.storage.saveData("current_menu", JSON.stringify(this.permissionsJson))
+    this.storeLocaleService.OnEmitTenantData(response?.data)
+    this.storeLocaleService.OnEmitCurrentPermission(this.permissionsJson)
+    this.router.navigateByUrl(`/${DASHBOARD}`)
+    this.toastrService.success(`Bienvenue ${response.data.nom} ${response.data.prenoms}`);
   }
 }

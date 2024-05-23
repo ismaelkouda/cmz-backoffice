@@ -116,6 +116,8 @@ export class CarteSimActiveComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('this.firstLevelLibelle', this.firstLevelLibelle)
+    alert()
     this.GetAllPatrimoines();
     this.GetAllFirstLevel();
     this.GetAllThirdLevel();
@@ -224,6 +226,7 @@ export class CarteSimActiveComponent implements OnInit {
       return { ...element, fullName: `${element.nom}` }
     });
   }
+
   public GetAllThirdLevel() {
     this.settingService
       .GetAllThirdSimple({})
@@ -236,6 +239,7 @@ export class CarteSimActiveComponent implements OnInit {
         }
       })
   }
+
   public GetAllUsages(): void {
     this.patrimoineService
       .GetAllUsages({})
@@ -248,17 +252,21 @@ export class CarteSimActiveComponent implements OnInit {
         }
       })
   }
+
   public suspensionForm(content, data) {
     this.currentOperation = { ...data, type: SimStatut.SUSPENDU };
     this.modalService.open(content);
   }
+
   public resilierForm(content, data) {
     this.currentOperation = { ...data, type: SimStatut.RESILIE };
     this.modalService.open(content);
   }
+
   public hideForm() {
     this.modalService.dismissAll();
   }
+
   public OnChangeStatut() {
     this.patrimoineService
       .OnChangeStatut({
@@ -276,21 +284,25 @@ export class CarteSimActiveComponent implements OnInit {
         }
       })
   }
+
   public onInitForm(): void {
     this.initialView = false;
     this.formsView = true;
     this.currentData = undefined;
   }
+
   public onEditForm(data: any): void {
     this.initialView = false;
     this.formsView = true;
     this.currentData = data;
   }
+
   public onShowForm(data: any): void {
     this.initialView = false;
     this.formsView = true;
     this.currentData = { ...data, show: true };
   }
+
   public onTransactionForm(data: any, operation: string): void {
     this.initialView = false;
     let url: string;
@@ -313,7 +325,6 @@ export class CarteSimActiveComponent implements OnInit {
       default:
         url = `${PATRIMOINE}/${CARTES_SIM}`;
     }
-  
     this.router.navigateByUrl(url, { state: { patrimoine: data, operation: operation } });
   }
 
@@ -455,7 +466,7 @@ export class CarteSimActiveComponent implements OnInit {
       'Emplacement': item?.point_emplacement,
       'Statut Contrat': item?.statut    }));
     this.excelService.exportAsExcelFile(data, 'Liste des cartes SIM');
-  }
+  }
 
 }
 
