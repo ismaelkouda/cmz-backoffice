@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class StoreLocaleService {
 
   public _tenantDataSource: BehaviorSubject<any> = new BehaviorSubject(null);

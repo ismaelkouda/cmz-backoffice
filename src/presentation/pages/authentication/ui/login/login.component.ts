@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', Validators.required),
     port: new FormControl(''),
   });
-
   public show: boolean = false
   public siteKey: string;
   public permissionsJson: any = [];

@@ -67,7 +67,6 @@ export class MappingService {
       this.ws_server = this.currentUser?.tenant?.ws_server;     
       this.tenant = this.currentUser?.tenant;      
       this.structureGlobale = this.currentUser?.structure_organisationnelle;
-      console.log('this.structureGlobale', this.structureGlobale)
       this.logoTenant = `${this.fileUrl}${this.tenant?.logo_tenant}`;
       this.grafanaLink = this.tenant?.lien_dashboard_grafana;
       this.approLink = this.tenant?.lien_dashboard_appro;

@@ -17,6 +17,8 @@ import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum'
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION } from 'src/presentation/pages/demandes/demandes-routing.module';
 import { Title } from '@angular/platform-browser';
+import { handle } from 'src/shared/functions/api.function';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -40,26 +42,12 @@ export class CarteSimActiveComponent implements OnInit {
   public offset: any;
   public p: number = 1;
   public page: number = 0
-  public secondFilter: boolean = false;
   public isMaximized: boolean = false;
   public currentComposant: any;
-  public listFirstLeveDatas: Array<any> = [];
-  public listSecondLevelDatas: Array<any> = [];
-  public listThirdLevelDatas: Array<any> = [];
-  public listUsages: Array<any> = [];
-  public selectedDirection: any;
-  public selectedExploitation: any;
-  public selectedSim: string;
-  public selectedimsi: string;
-  public selectedStatut: string;
-  public selectedUsage: string;
-  public selectedNiveauTrois: string;
-  public selectedZone: string;
-  public adresse_ip: string;
-  public selectedEmplacement: string
   public currentOperation: any;
   public selectedDescription: string;
-  public listStatuts: Array<any> = [];
+  public dataToSend: any = {};
+  public response: any = {};
 
 
   @ViewChild('parcelleMap') parcelleMap: ElementRef;
@@ -82,18 +70,18 @@ export class CarteSimActiveComponent implements OnInit {
     attribution: 'PATRIMOINE SIM-MAP',
   })
 
- public firstLevelLibelle: string;
- public secondLevelLibelle: string;
- public thirdLevelLibelle: string;
- public applicationType: string;
- public patrimoineType: string;
- public activation: string = OperationTransaction.ACTIVATION;
- public swap: string = OperationTransaction.SWAP;
- public suspension: string = OperationTransaction.SUSPENSION;
- public resiliation: string = OperationTransaction.RESILIATION;
- public formule: string = OperationTransaction.CHANGEMENT_FORMULE;
- public volume: string = OperationTransaction.VOLUME_DATA;
-    public title = 'Carte SIM actives - Système de Gestion de Collecte Centralisée';
+  public firstLevelLibelle: string;
+  public secondLevelLibelle: string;
+  public thirdLevelLibelle: string;
+  public applicationType: string;
+  public patrimoineType: string;
+  public activation: string = OperationTransaction.ACTIVATION;
+  public swap: string = OperationTransaction.SWAP;
+  public suspension: string = OperationTransaction.SUSPENSION;
+  public resiliation: string = OperationTransaction.RESILIATION;
+  public formule: string = OperationTransaction.CHANGEMENT_FORMULE;
+  public volume: string = OperationTransaction.VOLUME_DATA;
+  public title = 'Carte SIM actives - Système de Gestion de Collecte Centralisée';
   constructor(
     public toastrService: ToastrService,
     public settingService: SettingService,
@@ -104,153 +92,70 @@ export class CarteSimActiveComponent implements OnInit {
     public mappingService: MappingService,
     private router: Router,
     private titleService: Title,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private loadingBar: LoadingBarService
   ) {
-    this.listStatuts = [SimStatut.ACTIF, SimStatut.SUSPENDU, SimStatut.RESILIE]    
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
-      this.titleService.setTitle(`${this.title}`);
+    this.titleService.setTitle(`${this.title}`);
   }
 
   ngOnInit() {
-    console.log('this.firstLevelLibelle', this.firstLevelLibelle)
-    alert()
-    this.GetAllPatrimoines();
-    this.GetAllFirstLevel();
-    this.GetAllThirdLevel();
-    this.GetAllUsages()
-    this.isFilter();
+    this.pageCallback();
+    // this.GetAllPatrimoines();
     this.disableAction();
     this.route.data.subscribe((data) => {
       this.module = data.module;
       this.subModule = data.subModule[0];
     });
-    if (history.state?.statut) {
-      this.selectedStatut = history.state?.statut
-    }    
+    // if (history.state?.statut) {
+    //   this.selectedStatut = history.state?.statut
+    // }
   }
-  public GetAllPatrimoines() {
-    this.patrimoineService
-      .GetAllPatrimoines({
-        ...(history.state?.statut ? { statut: history.state?.statut } : {})
-      }, this.p)
-      .subscribe({
-        next: (response) => {
-          this.listPatrimoines = response.data.data;
-          this.totalPage = response.data.last_page;
-          this.totalRecords = response.data.total;
-          this.recordsPerPage = response.data.per_page;
-          this.page = response.data?.current_page;
-          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
-  public onPageChange(event) {
-    this.p = event;
-    if (this.isFilter()) {
-      this.GetAllPatrimoines()
-    } else {
-      this.onFilter()
-    }
-  }
-  public onFilter() {
-    this.p = 1
-    this.patrimoineService
-      .GetAllPatrimoines({
-        niveau_un_uuid: this.selectedDirection?.uuid,
-        niveau_deux_uuid: this.selectedExploitation?.uuid,
-        niveau_trois_uuid: this.selectedNiveauTrois,
-        usage_id: this.selectedUsage,
-        msisdn: this.selectedSim,
-        imsi: this.selectedimsi,
-        zone_trafic: this.selectedZone,
-        adresse_ip: this.adresse_ip,
-        statut: this.selectedStatut,
-        point_emplacement: this.selectedEmplacement
-      }, this.p)
-      .subscribe({
-        next: (response) => {
-          this.listPatrimoines = response.data.data;
-          this.totalPage = response.data.last_page;
-          this.totalRecords = response.data.total;
-          this.recordsPerPage = response.data.per_page;
-          this.page = response.data?.current_page;
-          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
+  // public GetAllPatrimoines() {
+  //   this.patrimoineService
+  //     .GetAllPatrimoines({
+  //       ...(history.state?.statut ? { statut: history.state?.statut } : {})
+  //     }, this.p)
+  //     .subscribe({
+  //       next: (response) => {
+  //         this.listPatrimoines = response.data.data;
+  //         this.totalPage = response.data.last_page;
+  //         this.totalRecords = response.data.total;
+  //         this.recordsPerPage = response.data.per_page;
+  //         this.page = response.data?.current_page;
+  //         this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
+  //       },
+  //       error: (error) => {
+  //         this.toastrService.error(error.error.message);
+  //       }
+  //     })
+  // }
+
+  public onPageChange(event: number) {
+    this.pageCallback(this.dataToSend, event + 1);
   }
 
-  OnRefresh() {
-    this.p = 1;
-    this.GetAllPatrimoines();
-    this.selectedDirection = null;
-    this.selectedExploitation = null;
-    this.selectedNiveauTrois = null
-    this.selectedUsage = null;
-    this.selectedSim = null;
-    this.selectedimsi = null;
-    this.selectedZone = null;
-    this.adresse_ip = null;
-    this.selectedStatut = null;
-    this.selectedEmplacement = null
-    this.secondFilter = false;
+  public filter(dataToSend: {}): void {
+    this.dataToSend = dataToSend;
+    this.pageCallback(dataToSend);
   }
 
-  public GetAllFirstLevel() {
-    this.settingService
-      .GetAllFirstLevelSimple({})
-      .subscribe({
-        next: (response) => {
-          this.listFirstLeveDatas = response['data'].map(element => {
-            return { ...element, fullName: `${element.nom}` }
-          });
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
+  async pageCallback(dataToSend = {}, nbrPage: number = 1) {
+    this.response = await handle(() => this.patrimoineService.GetAllPatrimoines(dataToSend, nbrPage), this.toastrService, this.loadingBar);
+    this.handleSuccessfulPageCallback(this.response);
   }
 
-  onChangeFirstLvel(event: any) {
-    this.selectedDirection = event.value;
-    this.listSecondLevelDatas = this.selectedDirection?.niveaux_deux.map(element => {
-      return { ...element, fullName: `${element.nom}` }
-    });
-  }
-
-  public GetAllThirdLevel() {
-    this.settingService
-      .GetAllThirdSimple({})
-      .subscribe({
-        next: (response) => {
-          this.listThirdLevelDatas = response['data']
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
-
-  public GetAllUsages(): void {
-    this.patrimoineService
-      .GetAllUsages({})
-      .subscribe({
-        next: (response) => {
-          this.listUsages = response['data']
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
+  private handleSuccessfulPageCallback(response): void {
+    this.listPatrimoines = response.data.data;
+    this.totalPage = response.data.last_page;
+    this.totalRecords = response.data.total;
+    this.recordsPerPage = response.data.per_page;
+    this.page = response.data?.current_page;
+    this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
   }
 
   public suspensionForm(content, data) {
@@ -276,7 +181,8 @@ export class CarteSimActiveComponent implements OnInit {
       })
       .subscribe({
         next: (response) => {
-          this.GetAllPatrimoines();
+          this.pageCallback(this.dataToSend);
+          // this.GetAllPatrimoines();
           this.selectedDescription = null;
         },
         error: (error) => {
@@ -314,14 +220,14 @@ export class CarteSimActiveComponent implements OnInit {
         url = `${DEMANDE_SERVICE}/${DEMANDE_SUSPENSION}`;
         break;
       case this.resiliation:
-          url = `${DEMANDE_SERVICE}/${DEMANDE_RESILIATION}`;
-          break;
+        url = `${DEMANDE_SERVICE}/${DEMANDE_RESILIATION}`;
+        break;
       case this.swap:
         url = `${DEMANDE_SERVICE}/${DEMANDE_SWAPPING}`;
-        break;    
+        break;
       case this.formule:
         url = `${DEMANDE_SERVICE}/${DEMANDE_FORMULE_CHANGE}`;
-        break;    
+        break;
       default:
         url = `${PATRIMOINE}/${CARTES_SIM}`;
     }
@@ -332,13 +238,10 @@ export class CarteSimActiveComponent implements OnInit {
     this.initialView = false;
     this.router.navigateByUrl(
       `${PATRIMOINE}/${DOTATION_SERVICES}`,
-      { state: {patrimoine: data} }
+      { state: { patrimoine: data } }
     );
   }
-
-  public showSecondFilter() {
-    this.secondFilter = !this.secondFilter;
-  }
+  
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;
@@ -359,11 +262,11 @@ export class CarteSimActiveComponent implements OnInit {
       iconSize: [45, 45],
       iconAnchor: [17, 17],
     });
-    var  osmLayer = this.OpenStreetMap
+    var osmLayer = this.OpenStreetMap
     this.map = new L.Map('map');
     this.map.setView(new L.LatLng(this.currentComposant?.longitude ?? this.currentComposant?.long_reseau, this.currentComposant?.latitude ?? this.currentComposant?.lat_reseau), 18);
     this.map.options.minZoom = 12;
-    
+
     var traficPoint = L.marker([this.currentComposant?.longitude ?? this.currentComposant?.long_reseau, this.currentComposant?.latitude ?? this.currentComposant?.lat_reseau])
       .setIcon(traficIcon)
       .bindPopup(
@@ -377,7 +280,7 @@ export class CarteSimActiveComponent implements OnInit {
         "</div>"
       ).openPopup();
 
-      var reseauPoint = L.marker([this.currentComposant?.long_reseau,this.currentComposant?.lat_reseau])
+    var reseauPoint = L.marker([this.currentComposant?.long_reseau, this.currentComposant?.lat_reseau])
       .setIcon(networkIcon)
       .bindPopup(
         "<div>" + "" +
@@ -401,7 +304,7 @@ export class CarteSimActiveComponent implements OnInit {
     var layerGeoJson = {
       "<span style='font-weight:bold;'><b>Position déclarée</b></span><span><img src='assets/svg/sim_loc_noir.svg' style='width: 10px; margin-left: 20px;'/></span>": traficPoint,
       "<span style='font-weight:bold'><b>Position trafic</b></span><span><img src='assets/svg/sim_loc_orange.svg' style='width: 10px; margin-left: 20px;'/></span>": reseauPoint,
-   }
+    }
     L.control.layers(baseMaps, layerGeoJson, { collapsed: false }).addTo(this.map);
   }
   public showDialog(data, composant) {
@@ -445,12 +348,11 @@ export class CarteSimActiveComponent implements OnInit {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
+
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
-  public isFilter(): boolean {
-    return (!this.selectedDirection && !this.selectedSim && !this.selectedimsi && !this.selectedStatut && !this.selectedUsage && !this.selectedZone && !this.adresse_ip && !this.selectedEmplacement && !this.selectedNiveauTrois) ? true : false
-  }
+  
   public disableAction(): boolean {
     return (this.listPatrimoines === undefined || this.listPatrimoines?.length === 0) ? true : false
   }
@@ -460,11 +362,12 @@ export class CarteSimActiveComponent implements OnInit {
       [this.firstLevelLibelle]: item?.niveau_uns_nom,
       [this.secondLevelLibelle]: item?.niveau_deux_nom,
       'Zone Trafic': item?.adresse_geographique,
-       [this.thirdLevelLibelle]: item?.niveau_trois_nom,
+      [this.thirdLevelLibelle]: item?.niveau_trois_nom,
       'MSISDN': item?.msisdn,
       'IMSI': item?.imsi,
       'Emplacement': item?.point_emplacement,
-      'Statut Contrat': item?.statut    }));
+      'Statut Contrat': item?.statut
+    }));
     this.excelService.exportAsExcelFile(data, 'Liste des cartes SIM');
   }
 

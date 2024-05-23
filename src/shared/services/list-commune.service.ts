@@ -8,7 +8,7 @@ export class ListCommuneService {
     public getListCommune(commune) {
         const listCommune: any[] = [];
         commune['niveaux_deux'].forEach(element => {
-            listCommune.push({...element, fullName: `${element.nom}`})
+            listCommune.push({...element, fullName: `[${element.code}] ${element.nom}`})
         });
         return listCommune;
     }
