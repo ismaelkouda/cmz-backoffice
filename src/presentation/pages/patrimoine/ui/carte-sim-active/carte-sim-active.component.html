@@ -141,6 +141,14 @@
                   <input placeholder="zone" [(ngModel)]="selectedZone" type="text" pInputText />
                 </div>
               </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Adreese IP</b>
+                  </label>
+                  <input placeholder="Adresse IP" [(ngModel)]="adresse_ip" type="text" pInputText />
+                </div>
+              </div>
               <div class="p-0" [ngStyle]="{width: '4rem'}">
                 <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
                 <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
