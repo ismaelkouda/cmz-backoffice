@@ -71,7 +71,7 @@
     <button pButton pRipple label="Demande en masse" *ngIf="!isMasse && mappingService.IsAction()" icon="pi pi-plus" class="p-button btn-dark"
       (click)="onInitForm('masse')">
     </button>
-    <button pButton pRipple label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
+    <button pButton pRipple label="Rafraîchir" (click)="OnRefresh()" icon="pi pi-refresh"
       class="p-button-secondary">
     </button>
     <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download" [disabled]="disableAction()"

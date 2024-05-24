@@ -2,46 +2,43 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/presentation/pages/authentication/data-access/authentication.service';
 import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
+import { LOGO_ORANGE } from 'src/shared/constants/logoOrange.constant';
+import { handle } from "src/shared/functions/api.function";
+import { LoadingBarService } from '@ngx-loading-bar/core';
+import { AUTH } from "src/shared/routes/full.routes";
+import { LOGIN } from "src/presentation/pages/authentication/authentication-routing.module";
 
 @Component({
   selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+  templateUrl: './reset-password.component.html'
 })
+
 export class ResetPasswordComponent implements OnInit {
 
-  public passwordForm: FormGroup;
+  public passwordForm = new FormGroup({
+    password: new FormControl('', Validators.required),
+    confirm_password: new FormControl('', Validators.required),
+  });
   public newPasswordValue: string;
   public confirmPasswordValue: string;
   public queryValue: any
   public title = 'Réinitialisation mot de passe - Système de Gestion de Collecte Centralisée';
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private authenticationService: AuthenticationService,
-    private toastrService: ToastrService,
-    private fb: FormBuilder,
-    private titleService: Title
-  ) {
-    this.titleService.setTitle(`${this.title}`);
-  }
+  public LOGO_ORANGE = LOGO_ORANGE;
+  private response: any = {};
+
+  constructor(private router: Router, private route: ActivatedRoute,
+    private authenticationService: AuthenticationService, private toastrService: ToastrService,
+    private titleService: Title, private loadingBar: LoadingBarService
+  ) { this.titleService.setTitle(`${this.title}`); }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.queryValue = params
     });
-    this.initFormPassword()
     this.OnChangeNewPasswordvalue()
     this.OnChangeConfirmPasswordvalue()
-  }
-
-  public initFormPassword(): void {
-    this.passwordForm = this.fb.group({
-      password: ['',[Validators.required]],
-      confirm_password: ['',[Validators.required]],
-    });
   }
 
   OnChangeNewPasswordvalue() {
@@ -58,23 +55,19 @@ export class ResetPasswordComponent implements OnInit {
         return this.confirmPasswordValue = value;
       });
   }
-  public HandleResetPassword() {
-    this.authenticationService
-      .HandleResetPassword({
-        ...this.passwordForm.value,...this.queryValue
-      })
-      .subscribe({
-        next: (response) => {  
-          this.router.navigateByUrl('auth/login')        
-          this.toastrService.success(response.data.message); 
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
+
+  async HandleResetPassword() {
+    this.response = await handle(() => this.authenticationService.HandleResetPassword({...this.passwordForm.value,...this.queryValue}), this.toastrService, this.loadingBar);
+    this.handleSuccessful(this.response);
   }
-  onCancel() {
+
+  private handleSuccessful(response): void {
+    this.router.navigateByUrl(`/${AUTH}/${LOGIN}`)        
+    this.toastrService.success(response.data.message);
+  }
+
+  public onCancel() {
     this.passwordForm.reset()
-    this.router.navigateByUrl('/auth/login')
+    this.router.navigateByUrl(`/${AUTH}/${LOGIN}`)
   }
 }

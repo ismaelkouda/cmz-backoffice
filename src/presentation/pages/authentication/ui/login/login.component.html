@@ -5,9 +5,9 @@
                 <div>
                     <div>
                         <a class="logo" routerLink='/'>
-                            <img class="img-fluid for-light" width="200" src="assets/images/logo/logo-orange-full.png"
+                            <img class="img-fluid for-light" width="200" [src]="LOGO_ORANGE"
                                 alt="looginpage">
-                            <img class="img-fluid for-dark" width="200" src="assets/images/logo/logo-orange-full.png"
+                            <img class="img-fluid for-dark" width="200" [src]="LOGO_ORANGE"
                                 alt="looginpage">
                         </a>
                     </div>
@@ -23,7 +23,8 @@
                             <div class="form-group">
                                 <label class="col-form-label"><b>Mot de passe <span
                                             class="text-danger">*</span></b></label>
-                                    <p-password formControlName="password" [feedback]="false"  [toggleMask]="true" styleClass="p-password p-component p-inputwrapper p-input-icon-right"></p-password>
+                                    <p-password formControlName="password" [feedback]="false"  [toggleMask]="true" 
+                                        styleClass="p-password p-component p-inputwrapper p-input-icon-right"></p-password>
                                 </div>
                             </div>
                         <div class="form-group mb-0 mt-4">

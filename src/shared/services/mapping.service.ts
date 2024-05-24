@@ -11,6 +11,7 @@ import { EnvService } from './env.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class MappingService {
 
   public currentUser: any;

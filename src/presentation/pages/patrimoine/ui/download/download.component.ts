@@ -7,9 +7,9 @@ import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-download',
-  templateUrl: './download.component.html',
-  styleUrls: ['./download.component.scss']
+  templateUrl: './download.component.html'
 })
+
 export class DownloadComponent implements OnInit {
 
   public module: string;
@@ -24,11 +24,9 @@ export class DownloadComponent implements OnInit {
   public p: number = 1;
   public page: number = 0
   public title = 'Télechargements - Système de Gestion de Collecte Centralisée';
-  constructor(
-    private route: ActivatedRoute,
-    private patrimoineService: PatrimoineService,
-    private toastrService: ToastrService,
-    private mappingService: MappingService,
+
+  constructor(private route: ActivatedRoute, private patrimoineService: PatrimoineService,
+    private toastrService: ToastrService, private mappingService: MappingService,
     private titleService: Title
   ) {
     this.baseUrl = this.mappingService.baseUrl.replace("/api/v1", "");
@@ -68,6 +66,10 @@ export class DownloadComponent implements OnInit {
     if (data) {
       window.open(this.baseUrl + data.url_fichier)
     }
+  }
+
+  public OnRefresh() {
+    this.GetAllDownlaod()
   }
 
 }

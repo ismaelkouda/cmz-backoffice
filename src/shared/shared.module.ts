@@ -32,6 +32,7 @@ import { LoaderComponent } from "./components/loader/loader.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { TapToTopComponent } from "./components/tap-to-top/tap-to-top.component";
 import { MyAccountComponent } from "./components/header/elements/my-account/my-account.component";
+import { TablebuttonHeaderComponent } from "src/shared/components/table-button-header/table-button-header.component";
 
 // Services
 import { LayoutService } from "./services/layout.service";
@@ -54,7 +55,6 @@ import { DialogModule } from 'primeng/dialog';
 import { PasswordModule } from 'primeng/password';
 import { TraitementShowComponent } from './components/traitement-show/traitement-show.component';
 import { BadgeModule } from 'primeng/badge';
-
 
 @NgModule({
   declarations: [
@@ -80,6 +80,7 @@ import { BadgeModule } from 'primeng/badge';
     PatrimoineHeaderComponent,
     TransactionMasseComponent,
     QrModalComponent,
+    TablebuttonHeaderComponent,
     SafePipe,
     FormatNumberPipe,
     TableFilterPipe,
@@ -131,7 +132,8 @@ import { BadgeModule } from 'primeng/badge';
     SwiperModule,
     SafePipe,
     FormatNumberPipe,
-    TableFilterPipe
+    TableFilterPipe,
+    TablebuttonHeaderComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 

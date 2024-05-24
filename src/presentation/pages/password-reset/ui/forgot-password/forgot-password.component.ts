@@ -1,51 +1,46 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
 import { AuthenticationService } from 'src/presentation/pages/authentication/data-access/authentication.service';
+import { LOGO_ORANGE } from 'src/shared/constants/logoOrange.constant';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { handle } from "src/shared/functions/api.function";
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
   selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+  templateUrl: './forgot-password.component.html'
 })
-export class ForgotPasswordComponent implements OnInit {
 
+export class ForgotPasswordComponent {
+  forgotPasswordForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email])
+  })
   isModal: boolean = false;
-  selectedEmail: string;
   public title = 'Mot de passe oublié - Système de Gestion de Collecte Centralisée';
-  constructor(
-    private location: Location,
-    private authenticationService: AuthenticationService,
-    private toastService: ToastrService,
-    private titleService: Title
-  ) {
-    this.titleService.setTitle(`${this.title}`);
+  public LOGO_ORANGE = LOGO_ORANGE;
+  private response: any = {};
+
+  constructor(private location: Location, private authenticationService: AuthenticationService,
+    private toastrService: ToastrService, private titleService: Title,
+    private loadingBar: LoadingBarService
+  ) { this.titleService.setTitle(`${this.title}`); }
+
+  async HandleForgotPassword() {
+    this.response = await handle(() => this.authenticationService.HandleForgotPassword(this.forgotPasswordForm.value), this.toastrService, this.loadingBar);
+    this.handleSuccessful(this.response);
   }
 
-  ngOnInit() {}
-
-  public HandleForgotPassword() {
-    this.authenticationService
-      .HandleForgotPassword({
-        email: this.selectedEmail
-      })
-      .subscribe({
-        next: (response) => {  
-          this.isModal = true 
-          this.toastService.success(response.message);         
-        },
-        error: (error) => {
-          this.toastService.error(error.error.message);
-        }
-      })
+  private handleSuccessful(response): void {
+    this.isModal = true 
+    this.toastrService.success(response.message);
   }
+
   handleOpen(){
     this.isModal = false
   } 
   onCancel() {
     this.location.back()
   }
-
-  
 }

@@ -36,6 +36,7 @@ import { PatrimoineFormsComponent } from './feature/patrimoine-forms/patrimoine-
 import { DotationFormComponent } from './feature/dotation-form/dotation-form.component';
 import { GroupeFormComponent } from './feature/groupe-form/groupe-form.component';
 import { CarteComponent } from './feature/carte/carte.component';
+import { CarteFilterComponent } from 'src/presentation/pages/patrimoine/feature/carte-filter/carte-filter.component';
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import { CarteComponent } from './feature/carte/carte.component';
         DownloadComponent,
         CartographieComponent,
         AlarmeColorComponent,
-        CarteComponent
+        CarteComponent,
+        CarteFilterComponent
     ],
 })
 export class PatrimoineModule { }
