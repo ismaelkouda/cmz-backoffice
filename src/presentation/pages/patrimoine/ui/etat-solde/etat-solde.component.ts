@@ -16,7 +16,7 @@ import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-etat-solde',
   templateUrl: './etat-solde.component.html',
-  styleUrls: ['./etat-solde.component.scss']
+  styles: [`*td { padding: 0.6rem !important; }`]
 })
 export class EtatSoldeComponent implements OnInit {
 

@@ -11,7 +11,12 @@ import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access
 
 @Component({
     selector: 'app-carte-filter',
-    templateUrl: './carte-filter.component.html'
+    templateUrl: './carte-filter.component.html',
+    styles: [`
+    .col-md-2 {
+        padding-right: 0;
+    }
+    `]
 })
 
 export class CarteFilterComponent implements OnInit {
@@ -81,7 +86,7 @@ export class CarteFilterComponent implements OnInit {
             imsi: [null],
             zone_trafic: [null],
             adresse_ip: [null],
-            statut: [null],
+            statut: [history?.state?.statut],
             point_emplacement: [null]
         })
     }

@@ -65,27 +65,17 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>{{thirdLevelLibelle}}</b>
+                    <b>MSISDN</b>
                   </label>
-                  <p-dropdown [options]="listThirdLevelDatas" [(ngModel)]="selectedUsage" 
-                              optionLabel="nom" [showClear]="true" [filter]="true"
-                              [placeholder]="thirdLevelLibelle" optionValue="uuid">
-                    <ng-template let-data pTemplate="item">
-                      <div class="country-item">
-                        <div>
-                          {{data.nom}}
-                        </div>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
+                  <input placeholder="Numéro" [(ngModel)]="selectedMsisdn" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>MSISDN</b>
+                    <b>IMSI</b>
                   </label>
-                  <input placeholder="Numéro" [(ngModel)]="selectedMsisdn" type="text" pInputText />
+                  <input placeholder="Imsi" [(ngModel)]="selectedImsi" type="text" pInputText />
                 </div>
               </div>
               <div [ngStyle]="{width: 'auto'}" *ngIf="!secondFilter">
@@ -106,17 +96,19 @@
               <div class="col-md-2">
                 <div class="form-group">
                   <label>
-                    <b>IMSI</b>
+                    <b>{{thirdLevelLibelle}}</b>
                   </label>
-                  <input placeholder="Imsi" [(ngModel)]="selectedImsi" type="text" pInputText />
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>
-                    <b>Zone Trafic</b>
-                  </label>
-                  <input placeholder="Zone trafic" [(ngModel)]="selectedZone" type="text" pInputText />
+                  <p-dropdown [options]="listThirdLevelDatas" [(ngModel)]="selectedUsage" 
+                              optionLabel="nom" [showClear]="true" [filter]="true"
+                              [placeholder]="thirdLevelLibelle" optionValue="uuid">
+                    <ng-template let-data pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{data.nom}}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
                 </div>
               </div>
               <div class="col-md-2">
@@ -125,6 +117,14 @@
                     <b>Nom Emplacement</b>
                   </label>
                   <input placeholder="Emplacement" [(ngModel)]="selectedEmplacement" type="text" pInputText />
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>
+                    <b>Zone Trafic</b>
+                  </label>
+                  <input placeholder="Zone trafic" [(ngModel)]="selectedZone" type="text" pInputText />
                 </div>
               </div>
               <div class="col-md-2">
@@ -161,9 +161,9 @@
                   <th>{{firstLevelLibelle}}</th>
                   <th>{{secondLevelLibelle}}</th>
                   <th class="text-center">{{thirdLevelLibelle}}</th>
+                  <th class="text-center">Emplacement</th>
                   <th class="text-center">MSISDN</th>
                   <th class="text-center">IMSI</th>
-                  <th class="text-center">Emplacement</th>
                   <th class="text-center">Solde (Go)</th>
                   <th class="text-center">Date Solde</th>
                 </thead>
@@ -174,9 +174,9 @@
                     <td>{{data?.niveau_uns_nom}}</td>
                     <td>{{data?.niveau_deux_nom}} </td>
                     <td>{{data?.niveau_trois_nom}}</td>
+                    <td class="text-center" (click)="copyData(data?.point_emplacement)" style="cursor: pointer">{{data?.point_emplacement}}</td>
                     <td class="text-center" (click)="copyData(data?.msisdn)" style="cursor: pointer">{{data?.msisdn}}</td>
                     <td class="text-center" (click)="copyData(data?.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
-                    <td class="text-center" (click)="copyData(data?.point_emplacement)" style="cursor: pointer">{{data?.point_emplacement}}</td>
                     <td class="text-center">{{data?.solde_actuel_go | formatNumber:2}}</td>
                     <td class="text-center">{{data?.updated_at}}</td>
                   </tr>

@@ -1,3 +1,4 @@
+import { ParginationComponent } from 'src/shared/components/pargination/pargination.component';
 import { TransactionMasseComponent } from './components/transaction-masse/transaction-masse.component';
 import { PatrimoineHeaderComponent } from './components/patrimoine-header/patrimoine-header.component';
 import { TabViewHeaderComponent } from './components/tab-view-header/tab-view-header.component';
@@ -55,6 +56,7 @@ import { DialogModule } from 'primeng/dialog';
 import { PasswordModule } from 'primeng/password';
 import { TraitementShowComponent } from './components/traitement-show/traitement-show.component';
 import { BadgeModule } from 'primeng/badge';
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   declarations: [
@@ -84,7 +86,8 @@ import { BadgeModule } from 'primeng/badge';
     SafePipe,
     FormatNumberPipe,
     TableFilterPipe,
-    TableFilterPipe
+    TableFilterPipe,
+    ParginationComponent
   ],
   imports: [
     CommonModule,
@@ -106,6 +109,7 @@ import { BadgeModule } from 'primeng/badge';
     BadgeModule,
     RadioButtonModule,
     PasswordModule,
+    PaginatorModule,
   ],
   providers: [NavService, LayoutService, DecimalPipe],
   exports: [
@@ -133,7 +137,8 @@ import { BadgeModule } from 'primeng/badge';
     SafePipe,
     FormatNumberPipe,
     TableFilterPipe,
-    TablebuttonHeaderComponent
+    TablebuttonHeaderComponent,
+    ParginationComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 
