@@ -1,11 +1,22 @@
 (function (window) {
     window.__env = window.__env || {};
-    window.__env.apiUrl = 'http://10.10.0.30:8003/api/v1/';
-    window.__env.fileUrl = 'http://10.10.0.30:8003/';
-    // window.__env.apiUrl = 'http://10.10.0.200:12200/api/v1/';
-    // window.__env.fileUrl = 'http://10.10.0.200:12200/';
-    // window.__env.apiUrl = 'https://osim-monitoring.orange.ci:12500/api/v1/';
-    // window.__env.fileUrl = 'https://osim-monitoring.orange.ci:12500/';
+
+    // PROD Config
+    window.__env.prod = {
+        apiUrl: 'https://osim-monitoring.orange.ci:12500/api/v1/',
+        fileUrl: 'https://osim-monitoring.orange.ci:12500/',
+        environmentDeployment: 'PROD',
+        enableDebug: false
+    };
+
+    // DEV Config
+    window.__env.dev = {
+        apiUrl: 'http://10.10.0.30:8003/api/v1/',
+        fileUrl: 'http://10.10.0.30:8003/',
+        environmentDeployment: 'DEV',
+        enableDebug: true
+    };
+
     window.__env.headerSettings = {
         appTypePS: 'PATRIMOINE SIM',
         appTypeSM: 'SIM MONITORING'
@@ -16,6 +27,7 @@
         sourceSoldeDotation: 'Le solde de la dotation Data sera debité du volume demandé',
         sourceSoldeDotationOrange: 'Orange fera le dépôt du volume demandé sur le compte Data de la SIM. A l\'issue de l\'operation une facture sera générée'
     };
-    window.__env.environmentDeployment = 'PROD'
-    window.__env.enableDebug = true;
+
+    window.__env.currentEnv = window.__env.dev;
+
 }(this));
