@@ -338,7 +338,6 @@ export class FormsProfilComponent implements OnInit {
             habilitations.push(module)
             this.habilitationSourceFiles = <TreeNode[]>habilitations
           })
-          
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

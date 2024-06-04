@@ -24,7 +24,6 @@ export class DemandeWrapperComponent implements OnInit {
   public subModule: string;
   @Input() selectedOperation: string;
   @Input() wrapperLabel: string;
-  @Input() isMasse: boolean;
   @Input() listTransactions: any;
   @Output() formsView = new EventEmitter();
   @Output() typeDemande = new EventEmitter<string>();

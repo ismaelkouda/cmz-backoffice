@@ -53,7 +53,7 @@ export class CarteSimActiveComponent implements OnInit {
 
   @ViewChild('parcelleMap') parcelleMap: ElementRef;
 
-  OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  OpenStreetMap: L.TileLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'PATRIMOINE SIM-MAP',
     detectRetina: false,
     maxNativeZoom: 19,
@@ -64,7 +64,7 @@ export class CarteSimActiveComponent implements OnInit {
     subdomains: 'abc',
     tms: false,
   })
-  satelite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+  satelite: L.TileLayer = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
     maxZoom: 23,
     minZoom: 10,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
@@ -98,7 +98,7 @@ export class CarteSimActiveComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pageCallback({statut: history?.state?.statut});
+    this.pageCallback({ statut: history?.state?.statut });
     this.disableAction();
     this.route.data.subscribe((data) => {
       this.module = data.module;
@@ -141,7 +141,7 @@ export class CarteSimActiveComponent implements OnInit {
   }
 
   async OnChangeStatut() {
-    const dataToSend = {operation: this.currentOperation?.type, imsi: this.currentOperation?.imsi, description: this.selectedDescription};
+    const dataToSend = { operation: this.currentOperation?.type, imsi: this.currentOperation?.imsi, description: this.selectedDescription };
     this.response = await handle(() => this.patrimoineService.OnChangeStatut(dataToSend), this.toastrService, this.loadingBar);
     this.handleSuccessfulOnChangeStatut(this.response);
   }
@@ -206,7 +206,7 @@ export class CarteSimActiveComponent implements OnInit {
       { state: { patrimoine: data } }
     );
   }
-  
+
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;
@@ -246,6 +246,7 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
         "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.point_emplacement + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
+        "<strong>Coordonnées GPS :</strong>" + "<span>" + this.currentComposant?.longitude + "," + this.currentComposant?.latitude + "</span>" + "<br>" +
         "</div>"
       ).openPopup();
 
@@ -260,6 +261,7 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.point_emplacement + "</span>" + "<br>" +
         "<strong>" + "Date Trafic :" + "</strong>" + "<span>" + this.currentComposant?.date_id + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
+        "<strong>Coordonnées GPS :</strong>" + "<span>" + this.currentComposant?.long_reseau + "," + this.currentComposant?.lat_reseau + "</span>" + "<br>" +
         "</div>"
       ).openPopup();
 
@@ -283,6 +285,23 @@ export class CarteSimActiveComponent implements OnInit {
         this.display = true;
         this.onDialogMaximized(true);
         this.currentComposant = composant;
+        this.OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: 'PATRIMOINE SIM-MAP',
+          detectRetina: false,
+          maxNativeZoom: 19,
+          maxZoom: 23,
+          minZoom: 12,
+          noWrap: false,
+          opacity: 1,
+          subdomains: 'abc',
+          tms: false,
+        })
+        this.satelite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+          maxZoom: 23,
+          minZoom: 10,
+          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+          attribution: 'PATRIMOINE SIM-MAP',
+        })
         setTimeout(() => {
           this.parcelleMap.nativeElement.innerHTML = "<div id='map' style='height: 45vw'></div>";
           this.onMapReady();
@@ -299,19 +318,6 @@ export class CarteSimActiveComponent implements OnInit {
       }
     }
   }
-  public OnShowQr(data) {
-    this.onMarkItemCarteSim(data);
-    if (data.qrcode) {
-      const modalRef = this.modalService.open(QrModalComponent, {
-        ariaLabelledBy: "modal-basic-title",
-        keyboard: false,
-        centered: true,
-      });
-      modalRef.componentInstance.qr = data;
-    } else {
-      Swal.fire("PATRIMOINE SIM", "Aucun QRCode enregistré", "info");
-    }
-  }
   public fileChangeEvent(event: any) {
 
   }
@@ -323,7 +329,7 @@ export class CarteSimActiveComponent implements OnInit {
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
-  
+
   public disableAction(): boolean {
     return (this.listPatrimoines === undefined || this.listPatrimoines?.length === 0) ? true : false
   }

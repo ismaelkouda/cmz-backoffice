@@ -1,7 +1,7 @@
 <div [formGroup]="formFilter">
-    <div class="d-flex gap-1">
-      <div class="width-100">
-        <div class="form-group">
+      <div class="d-flex gap-1">
+        <div class="width-100">
+          <div class="form-group">
           <label><b>{{firstLevelLibelle}}</b></label>
           <p-dropdown [options]="listFirstLeveDatas" optionLabel="fullName" (onChange)="onChangeFirstLvel($event.value)"
             [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle" 

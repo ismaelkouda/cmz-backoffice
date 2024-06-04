@@ -8,7 +8,6 @@ import readXlsxFile from "read-excel-file";
   styleUrls: ['./transaction-masse.component.scss']
 })
 export class TransactionMasseComponent implements OnInit {
-
   @Output() currentArrayForm = new EventEmitter<any>();
   @Input() currentArrayHeaders;
   @Input() fileModel: any;

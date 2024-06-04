@@ -25,7 +25,7 @@ export class UsersComponent implements OnInit {
   public suffixEmail: string;
   public currentTabsIndex: number = 0;
   public title = 'Utilisateurs - Système de Gestion de Collecte Centralisée';
-
+  public nb_max_users: number;
   constructor(
     private settingService: SettingService,
     private toastrService: ToastrService,
@@ -37,9 +37,9 @@ export class UsersComponent implements OnInit {
     this.titleService.setTitle(`${this.title}`);
     this.suffixEmail = this.mappingService.suffixEmail
     this.principalUsername = `admin${this.suffixEmail}`; 
-    const nb_max_users = this.mappingService.tenant.nb_max_users;
-    this.alerteMessage = `Le nombre d'utilisateurs a atteint la limite autorisée : ${nb_max_users}`
-    this.maximumMessage = `Le nombre maximum d'utilisateurs autorisés dans le système est de ${nb_max_users}`
+    this.nb_max_users = this.mappingService.tenant.nb_max_users;
+    this.alerteMessage = `Le nombre d'utilisateurs a atteint la limite autorisée : ${this.nb_max_users}`
+    this.maximumMessage = `Le nombre maximum d'utilisateurs autorisés dans le système est de ${this.nb_max_users}`
 
   }
 
@@ -59,7 +59,7 @@ export class UsersComponent implements OnInit {
   }
 
   public onInitForm(): void {
-    if (this.listUsers.length >=5) {
+    if (this.listUsers.length >= this.nb_max_users) {
        this.toastrService.error("Le nombre d'utilisateurs a atteint la limite autorisée");
     }else{
       this.initialView = false;
@@ -181,5 +181,5 @@ export class UsersComponent implements OnInit {
       'Date Création': item?.created_at,
     }));
     this.excelService.exportAsExcelFile(data, 'Liste des Utilisateurs');
-  }
+  }
 }
