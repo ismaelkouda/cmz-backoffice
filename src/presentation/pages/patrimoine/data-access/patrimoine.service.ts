@@ -138,8 +138,8 @@ export class PatrimoineService {
     const url: string = (<string>EndPointUrl.SAVE_DOATATION)
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
-  GetAllDownlaod(): Observable<any> {
-    const url: string = (<string>EndPointUrl.DOWNLOAD_FILE);
+  GetAllDownlaod(page): Observable<any> {
+    const url: string = (<string>EndPointUrl.DOWNLOAD_FILE).replace('{page}', page);
     return this.http.get(`${this.baseUrl}${url}`);
   }
   handleRefreshData(data): Observable<any> {

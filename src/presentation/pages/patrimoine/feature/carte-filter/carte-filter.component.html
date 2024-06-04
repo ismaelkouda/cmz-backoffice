@@ -1,7 +1,7 @@
 <div [formGroup]="formFilter">
-    <div class="row filter_wrapper">
-      <div class="col-md-2">
-        <div class="form-group">
+      <div class="d-flex gap-1">
+        <div class="width-100">
+          <div class="form-group">
           <label><b>{{firstLevelLibelle}}</b></label>
           <p-dropdown [options]="listFirstLeveDatas" optionLabel="fullName" (onChange)="onChangeFirstLvel($event.value)"
             [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle" 
@@ -9,7 +9,7 @@
           </p-dropdown>
         </div>
       </div>
-      <div class="col-md-2">
+      <div class="width-100">
         <div class="form-group">
           <label><b>{{secondLevelLibelle}}</b></label>
           <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" [filter]="true" [showClear]="true"
@@ -17,13 +17,12 @@
           </p-dropdown>
         </div>
       </div>
-      <div [style]="{width: '14rem'}">
+      <div class="width-100">
         <div class="form-group">
           <label>
             <b>Statut</b>
           </label>
-          <p-dropdown [options]="listStatuts" [showClear]="true" formControlName="statut"
-            placeholder="Statut">
+          <p-dropdown [options]="listStatuts" [showClear]="true" formControlName="statut" placeholder="Statut">
             <ng-template let-data pTemplate="item">
               <div class="country-item">
                 <div>
@@ -34,17 +33,7 @@
           </p-dropdown>
         </div>
       </div>
-      <div style="width: 14rem;">
-        <div class="form-group">
-          <label>
-            <b>{{thirdLevelLibelle}}</b>
-          </label>
-          <p-dropdown [options]="listThirdLevelDatas" formControlName="niveau_trois_uuid" optionLabel="nom" [showClear]="true"
-            [placeholder]="thirdLevelLibelle" optionValue="uuid">
-          </p-dropdown>
-        </div>
-      </div>
-      <div [style]="{width: '12rem'}">
+      <div class="width-100">
         <div class="form-group">
           <label>
             <b>MSISDN</b>
@@ -52,12 +41,20 @@
           <input placeholder="Numéro" formControlName="msisdn" type="text" pInputText />
         </div>
       </div>
-      <div [style]="{width: '12rem'}">
+      <div class="width-100">
         <div class="form-group">
           <label>
             <b>IMSI</b>
           </label>
           <input placeholder="IMSI" formControlName="imsi" type="text" pInputText />
+        </div>
+      </div>
+      <div class="width-100">
+        <div class="form-group">
+          <label>
+            <b>Adreese IP</b>
+          </label>
+          <input placeholder="Adresse IP" formControlName="adresse_ip" type="text" pInputText />
         </div>
       </div>
       <div [ngStyle]="{width: 'auto'}" *ngIf="!secondFilter">
@@ -87,6 +84,16 @@
       <div class="col-md-2">
         <div class="form-group">
           <label>
+            <b>{{thirdLevelLibelle}}</b>
+          </label>
+          <p-dropdown [options]="listThirdLevelDatas" formControlName="niveau_trois_uuid" optionLabel="nom" [showClear]="true"
+            [placeholder]="thirdLevelLibelle" optionValue="uuid">
+          </p-dropdown>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>
             <b>Nom Emplacement</b>
           </label>
           <input placeholder="Emplacement" formControlName="point_emplacement" type="text" pInputText />
@@ -100,16 +107,7 @@
           <input placeholder="zone" formControlName="zone_trafic" type="text" pInputText />
         </div>
       </div>
-      <div class="col-md-2">
-        <div class="form-group">
-          <label>
-            <b>Adreese IP</b>
-          </label>
-          <input placeholder="Adresse IP" formControlName="adresse_ip" type="text" pInputText />
-        </div>
-      </div>
-      <div class="p-0" [ngStyle]="{width: '4rem'}">
-        <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
+      <div class="p-0 d-flex align-items-end justify-content-end" [ngStyle]="{width: '4rem'}">
         <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"></p-button>
       </div>
     </div>

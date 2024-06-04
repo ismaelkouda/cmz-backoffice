@@ -27,7 +27,7 @@ import { DemandeService } from '../../data-access/demande.service';
 })
 export class TransactionFormComponent implements OnInit, OnDestroy {
 
-
+  public fileModel = "../../../../../assets/data/Modele-Activation-En-Masse.xlsx";
   public baseUrl: string;
   @Output() listSuspensions = new EventEmitter();
   @Input() currentObject;
@@ -189,6 +189,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       niveau_deux_uuid: ['',[Validators.required]],
       niveau_trois_uuid: ['',[Validators.required]],
       usage_id: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
       point_emplacement: ['',(this.typeDemande === 'simple' ? [Validators.required] : [])],
       adresse_geographique: ['',(this.typeDemande === 'simple' ? [Validators.required] : [])],
       longitude: [''],
@@ -460,10 +461,12 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
       niveau_un_uuid: this.adminForm.get('niveau_un_uuid').value,
       niveau_deux_uuid: this.adminForm.get('niveau_deux_uuid').value,
       niveau_trois_uuid: this.adminForm.get('niveau_trois_uuid').value,
-      statut_contrat: this.adminForm.get('statut').value
+      statut_contrat: this.adminForm.get('statut').value,
+      formule_uuid: this.adminForm.get('formule_uuid').value,
+      usage_id: this.adminForm.get('usage_id').value,
+      nombre: this.adminForm.get('nombre').value
     })
     //Disable Our Controls
-    this.adminForm.get('usage_id').disable()
     this.adminForm.get('point_emplacement').disable()
     this.adminForm.get('adresse_geographique').disable()
     this.adminForm.get('longitude').disable()

@@ -9,16 +9,16 @@
               <p-tabPanel header="UTILISATEURS">
             <div class="d-flex justify-content-between">
               <div class="d-flex gap-2">
-                <button pButton pRipple *ngIf="mappingService.IsAction()" label="Ajout utilisateur" icon="pi pi-plus" (click)="onInitForm()" [disabled]="this.listUsers.length >=5" class="p-button-success"></button>
+                <button pButton pRipple *ngIf="mappingService.IsAction()" label="Ajout utilisateur" icon="pi pi-plus" (click)="onInitForm()" [disabled]="this.listUsers.length >= nb_max_users" class="p-button-success"></button>
                 <button pButton pRipple label="Rafraîchir" (click)="GetAllUsers()" icon="pi pi-refresh"class="p-button-secondary"></button>
                 <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf" [disabled]="disableAction()" (click)="OnExportExcel()"></button>
               </div>
-              <div class="danger-alert" role="alert" *ngIf="this.listUsers.length >=5">
+              <div class="danger-alert" role="alert" *ngIf="this.listUsers.length >= nb_max_users">
                   <strong>
                      {{alerteMessage}}
                   </strong>
               </div>
-              <div class="infos-alert" role="alert" *ngIf="this.listUsers.length < 5">
+              <div class="infos-alert" role="alert" *ngIf="this.listUsers.length < nb_max_users">
                 <strong>
                    {{maximumMessage}}
                 </strong>
@@ -26,7 +26,7 @@
             </div>
             <div class="table_content_wrapper">
               <p-table #dt 
-                [value]="listUsers" [rows]="10" 
+                [value]="listUsers" [rows]="50" 
                 [paginator]="true" responsiveLayout="scroll"
                 [rowHover]="true" dataKey="id" 
                 currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données" 

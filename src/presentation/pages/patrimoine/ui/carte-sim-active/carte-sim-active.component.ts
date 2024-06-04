@@ -19,6 +19,7 @@ import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION } from 'src/presentation/pages/d
 import { Title } from '@angular/platform-browser';
 import { handle } from 'src/shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { Pargination } from 'src/shared/table/pargination';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -27,7 +28,8 @@ const Swal = require('sweetalert2');
 })
 
 export class CarteSimActiveComponent implements OnInit {
-
+  public itemCatreSim: {};
+  public pargination = new Pargination(1, 50, 0, 0, 0, 1, 0);
   public module: string;
   public subModule: string;
   public initialView: boolean = true;
@@ -47,12 +49,11 @@ export class CarteSimActiveComponent implements OnInit {
   public currentOperation: any;
   public selectedDescription: string;
   public dataToSend: any = {};
-  public response: any = {};
-
+  private response: any = {};
 
   @ViewChild('parcelleMap') parcelleMap: ElementRef;
 
-  OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  OpenStreetMap: L.TileLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'PATRIMOINE SIM-MAP',
     detectRetina: false,
     maxNativeZoom: 19,
@@ -63,7 +64,7 @@ export class CarteSimActiveComponent implements OnInit {
     subdomains: 'abc',
     tms: false,
   })
-  satelite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+  satelite: L.TileLayer = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
     maxZoom: 23,
     minZoom: 10,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
@@ -82,18 +83,11 @@ export class CarteSimActiveComponent implements OnInit {
   public formule: string = OperationTransaction.CHANGEMENT_FORMULE;
   public volume: string = OperationTransaction.VOLUME_DATA;
   public title = 'Carte SIM actives - Système de Gestion de Collecte Centralisée';
-  constructor(
-    public toastrService: ToastrService,
-    public settingService: SettingService,
-    private patrimoineService: PatrimoineService,
-    private clipboardApi: ClipboardService,
-    private modalService: NgbModal,
-    private route: ActivatedRoute,
-    public mappingService: MappingService,
-    private router: Router,
-    private titleService: Title,
-    private excelService: ExcelService,
-    private loadingBar: LoadingBarService
+  constructor(public toastrService: ToastrService, public settingService: SettingService,
+    private patrimoineService: PatrimoineService, private clipboardApi: ClipboardService,
+    private modalService: NgbModal, private route: ActivatedRoute,
+    public mappingService: MappingService, private router: Router,
+    private titleService: Title, private excelService: ExcelService, private loadingBar: LoadingBarService
   ) {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
@@ -104,38 +98,16 @@ export class CarteSimActiveComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pageCallback();
-    // this.GetAllPatrimoines();
+    this.pageCallback({ statut: history?.state?.statut });
     this.disableAction();
     this.route.data.subscribe((data) => {
       this.module = data.module;
       this.subModule = data.subModule[0];
     });
-    // if (history.state?.statut) {
-    //   this.selectedStatut = history.state?.statut
-    // }
   }
-  // public GetAllPatrimoines() {
-  //   this.patrimoineService
-  //     .GetAllPatrimoines({
-  //       ...(history.state?.statut ? { statut: history.state?.statut } : {})
-  //     }, this.p)
-  //     .subscribe({
-  //       next: (response) => {
-  //         this.listPatrimoines = response.data.data;
-  //         this.totalPage = response.data.last_page;
-  //         this.totalRecords = response.data.total;
-  //         this.recordsPerPage = response.data.per_page;
-  //         this.page = response.data?.current_page;
-  //         this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
-  //       },
-  //       error: (error) => {
-  //         this.toastrService.error(error.error.message);
-  //       }
-  //     })
-  // }
 
   public onPageChange(event: number) {
+    this.p = event;
     this.pageCallback(this.dataToSend, event + 1);
   }
 
@@ -151,11 +123,7 @@ export class CarteSimActiveComponent implements OnInit {
 
   private handleSuccessfulPageCallback(response): void {
     this.listPatrimoines = response.data.data;
-    this.totalPage = response.data.last_page;
-    this.totalRecords = response.data.total;
-    this.recordsPerPage = response.data.per_page;
-    this.page = response.data?.current_page;
-    this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
+    this.pargination = new Pargination(response?.data?.p, response?.data?.to, response?.data?.last_page, response?.data?.total, response?.data?.per_page, response?.data?.current_page, (response?.data?.current_page - 1) * this.pargination?.per_page + 1);
   }
 
   public suspensionForm(content, data) {
@@ -172,23 +140,16 @@ export class CarteSimActiveComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  public OnChangeStatut() {
-    this.patrimoineService
-      .OnChangeStatut({
-        operation: this.currentOperation?.type,
-        imsi: this.currentOperation?.imsi,
-        description: this.selectedDescription
-      })
-      .subscribe({
-        next: (response) => {
-          this.pageCallback(this.dataToSend);
-          // this.GetAllPatrimoines();
-          this.selectedDescription = null;
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
+  async OnChangeStatut() {
+    const dataToSend = { operation: this.currentOperation?.type, imsi: this.currentOperation?.imsi, description: this.selectedDescription };
+    this.response = await handle(() => this.patrimoineService.OnChangeStatut(dataToSend), this.toastrService, this.loadingBar);
+    this.handleSuccessfulOnChangeStatut(this.response);
+  }
+
+  private handleSuccessfulOnChangeStatut(response): void {
+    this.pageCallback(this.dataToSend);
+    // this.GetAllPatrimoines();
+    this.selectedDescription = null;
   }
 
   public onInitForm(): void {
@@ -198,18 +159,21 @@ export class CarteSimActiveComponent implements OnInit {
   }
 
   public onEditForm(data: any): void {
+    this.onMarkItemCarteSim(data);
     this.initialView = false;
     this.formsView = true;
     this.currentData = data;
   }
 
   public onShowForm(data: any): void {
+    this.onMarkItemCarteSim(data);
     this.initialView = false;
     this.formsView = true;
     this.currentData = { ...data, show: true };
   }
 
   public onTransactionForm(data: any, operation: string): void {
+    this.onMarkItemCarteSim(data);
     this.initialView = false;
     let url: string;
     switch (operation) {
@@ -235,13 +199,14 @@ export class CarteSimActiveComponent implements OnInit {
   }
 
   public onDotationForm(data: any): void {
+    this.onMarkItemCarteSim(data);
     this.initialView = false;
     this.router.navigateByUrl(
       `${PATRIMOINE}/${DOTATION_SERVICES}`,
       { state: { patrimoine: data } }
     );
   }
-  
+
   public pushStatutView(event: boolean): void {
     this.formsView = event;
     this.initialView = !event;
@@ -249,6 +214,10 @@ export class CarteSimActiveComponent implements OnInit {
 
   public pushListPatrimoines(event: any): void {
     this.listPatrimoines = event;
+  }
+
+  onMarkItemCarteSim(data) {
+    this.itemCatreSim = data;
   }
 
   public onMapReady() {
@@ -277,6 +246,7 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
         "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.point_emplacement + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
+        "<strong>Coordonnées GPS :</strong>" + "<span>" + this.currentComposant?.longitude + "," + this.currentComposant?.latitude + "</span>" + "<br>" +
         "</div>"
       ).openPopup();
 
@@ -291,6 +261,7 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.point_emplacement + "</span>" + "<br>" +
         "<strong>" + "Date Trafic :" + "</strong>" + "<span>" + this.currentComposant?.date_id + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
+        "<strong>Coordonnées GPS :</strong>" + "<span>" + this.currentComposant?.long_reseau + "," + this.currentComposant?.lat_reseau + "</span>" + "<br>" +
         "</div>"
       ).openPopup();
 
@@ -308,11 +279,29 @@ export class CarteSimActiveComponent implements OnInit {
     L.control.layers(baseMaps, layerGeoJson, { collapsed: false }).addTo(this.map);
   }
   public showDialog(data, composant) {
+    this.onMarkItemCarteSim(data);
     switch (data) {
       case "map": {
         this.display = true;
         this.onDialogMaximized(true);
         this.currentComposant = composant;
+        this.OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: 'PATRIMOINE SIM-MAP',
+          detectRetina: false,
+          maxNativeZoom: 19,
+          maxZoom: 23,
+          minZoom: 12,
+          noWrap: false,
+          opacity: 1,
+          subdomains: 'abc',
+          tms: false,
+        })
+        this.satelite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+          maxZoom: 23,
+          minZoom: 10,
+          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+          attribution: 'PATRIMOINE SIM-MAP',
+        })
         setTimeout(() => {
           this.parcelleMap.nativeElement.innerHTML = "<div id='map' style='height: 45vw'></div>";
           this.onMapReady();
@@ -329,18 +318,6 @@ export class CarteSimActiveComponent implements OnInit {
       }
     }
   }
-  public OnShowQr(data) {
-    if (data.qrcode) {
-      const modalRef = this.modalService.open(QrModalComponent, {
-        ariaLabelledBy: "modal-basic-title",
-        keyboard: false,
-        centered: true,
-      });
-      modalRef.componentInstance.qr = data;
-    } else {
-      Swal.fire("PATRIMOINE SIM", "Aucun QRCode enregistré", "info");
-    }
-  }
   public fileChangeEvent(event: any) {
 
   }
@@ -352,7 +329,7 @@ export class CarteSimActiveComponent implements OnInit {
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
-  
+
   public disableAction(): boolean {
     return (this.listPatrimoines === undefined || this.listPatrimoines?.length === 0) ? true : false
   }
