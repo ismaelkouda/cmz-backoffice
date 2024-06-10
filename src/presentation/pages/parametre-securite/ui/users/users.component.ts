@@ -38,6 +38,7 @@ export class UsersComponent implements OnInit {
     this.suffixEmail = this.mappingService.suffixEmail
     this.principalUsername = `admin${this.suffixEmail}`; 
     this.nb_max_users = this.mappingService.tenant.nb_max_users;
+    console.log('this.nb_max_users', this.nb_max_users)
     this.alerteMessage = `Le nombre d'utilisateurs a atteint la limite autorisée : ${this.nb_max_users}`
     this.maximumMessage = `Le nombre maximum d'utilisateurs autorisés dans le système est de ${this.nb_max_users}`
 

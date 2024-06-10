@@ -81,6 +81,7 @@ export class CarteFilterComponent implements OnInit {
             niveau_un_uuid: [null],
             niveau_deux_uuid: [null],
             niveau_trois_uuid: [null],
+            apn: [null],
             usage_id: [null],
             msisdn: [null],
             imsi: [null],

@@ -45,76 +45,76 @@ export class HistoriqueComponent implements OnInit {
   }
 
   showHistorique(data: any) {    
-    this.currentEvent = data;
-    if (data?.event) {
-      this.currentEventParse = JSON.parse(data?.data || null);
-      if (this.currentEventParse?.before && this.currentEventParse?.after) {
-        Object.values(this.currentEventParse?.before).map((value, i) => {
-          this.currentEventParseBeforeValues.push(value);
-          this.currentEventParseBeforeKeys.push(Object.keys(this.currentEventParse.before)[i]);
-          this.currentEventParseAfter.push(Object.values(this.currentEventParse.after)[i]);
-          this.currentEventParseAfterValues = this.currentEventParseAfter.map((item, index) => {
-            if (item === this.currentEventParseBeforeValues[index]) {
-              return { item, isIdentique: true };
-            } else {
-              return { item, isIdentique: false };
-            }
-          });
-        });
-      }
-      this.display = true;
-    }
+    // this.currentEvent = data;
+    // if (data?.event) {
+    //   this.currentEventParse = JSON.parse(data?.data || null);
+    //   if (this.currentEventParse?.before && this.currentEventParse?.after) {
+    //     Object.values(this.currentEventParse?.before).map((value, i) => {
+    //       this.currentEventParseBeforeValues.push(value);
+    //       this.currentEventParseBeforeKeys.push(Object.keys(this.currentEventParse.before)[i]);
+    //       this.currentEventParseAfter.push(Object.values(this.currentEventParse.after)[i]);
+    //       this.currentEventParseAfterValues = this.currentEventParseAfter.map((item, index) => {
+    //         if (item === this.currentEventParseBeforeValues[index]) {
+    //           return { item, isIdentique: true };
+    //         } else {
+    //           return { item, isIdentique: false };
+    //         }
+    //       });
+    //     });
+    //   }
+    //   this.display = true;
+    // }
   }
   getAllUsers() {
-    this.loadingBar.start();
-    this.settingService
-      .getAllUsers({})
-      .subscribe(
-        (response: any) => {
-          const users = response['data'];
-          this.listUsers = users.map((el) => {
-            const data = { ...el, fullName: el.nom + ' ' + el.prenoms };
-            return data;
-          });
-          this.loadingBar.stop();
-        },
-        (error) => {
-          this.loadingBar.stop();
-          this.toastService.error(error.error.message);
-        }
-      );
+    // this.loadingBar.start();
+    // this.settingService
+    //   .getAllUsers({})
+    //   .subscribe(
+    //     (response: any) => {
+    //       const users = response['data'];
+    //       this.listUsers = users.map((el) => {
+    //         const data = { ...el, fullName: el.nom + ' ' + el.prenoms };
+    //         return data;
+    //       });
+    //       this.loadingBar.stop();
+    //     },
+    //     (error) => {
+    //       this.loadingBar.stop();
+    //       this.toastService.error(error.error.message);
+    //     }
+    //   );
   }
   getAllHistoriques() {
-    const data = {
-      module: this.module,
-      sous_module: this.sous_module,
-      modele: this.modele,
-      date_debut: this.selectDateStart,
-      date_fin: this.selectDateEnd,
-      modele_id: this.modele_id,
-      modele_type: this.modele_type,
-      user_id: this.currentUser?.id,
-    };
-    this.settingService.
-      getHistoriques(data)
-      .subscribe(
-        (response: any) => {
-          this.listHistoriques = response['data'];
-          this.exportList = this.listHistoriques.map((el) => {
-            const data = {
-              SourceUtilisteur: el.ip + '[' + el.nom + ' ' + el.prenoms + ']',
-              Module: el.module,
-              sousModule: el.sous_module,
-              action: el.action,
-              date: el.created_at,
-            };
-            return data;
-          });
-        },
-        (error) => {
-          this.toastService.error(error.error.message);
-        }
-      );
+    // const data = {
+    //   module: this.module,
+    //   sous_module: this.sous_module,
+    //   modele: this.modele,
+    //   date_debut: this.selectDateStart,
+    //   date_fin: this.selectDateEnd,
+    //   modele_id: this.modele_id,
+    //   modele_type: this.modele_type,
+    //   user_id: this.currentUser?.id,
+    // };
+    // this.settingService.
+    //   getHistoriques(data)
+    //   .subscribe(
+    //     (response: any) => {
+    //       this.listHistoriques = response['data'];
+    //       this.exportList = this.listHistoriques.map((el) => {
+    //         const data = {
+    //           SourceUtilisteur: el.ip + '[' + el.nom + ' ' + el.prenoms + ']',
+    //           Module: el.module,
+    //           sousModule: el.sous_module,
+    //           action: el.action,
+    //           date: el.created_at,
+    //         };
+    //         return data;
+    //       });
+    //     },
+    //     (error) => {
+    //       this.toastService.error(error.error.message);
+    //     }
+    //   );
   }
 
 
@@ -134,11 +134,11 @@ export class HistoriqueComponent implements OnInit {
   }
 
   filterHistoriques() {
-    if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
-      this.toastService.error('Plage de date invalide');
-      return;
-    }
-    this.getAllHistoriques();
+    // if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
+    //   this.toastService.error('Plage de date invalide');
+    //   return;
+    // }
+    // this.getAllHistoriques();
   }
 
 

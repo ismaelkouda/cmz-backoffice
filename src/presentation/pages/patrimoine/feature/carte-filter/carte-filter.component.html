@@ -74,6 +74,14 @@
       <div class="col-md-2">
         <div class="form-group">
           <label>
+            <b>APN</b>
+          </label>
+          <input placeholder="apn" formControlName="apn" type="text" pInputText />
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>
             <b>Usage</b>
           </label>
           <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage" [showClear]="true"
