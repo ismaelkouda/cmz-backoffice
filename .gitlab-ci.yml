@@ -3,7 +3,7 @@ image: node:18
 stages:
   - notify
   - build_and_deploy
-  - update
+  - deploye_on_server
 
 before_script:
   - npm install -g pnpm
