@@ -7,7 +7,7 @@ stages:
 
 before_script:
   - if [ "$CI_INCLUDE_JOB" != "true" ]; then
-      npm install -g pnpm
+       npm install -g pnpm
     fi
 
 notify_slack_push:
