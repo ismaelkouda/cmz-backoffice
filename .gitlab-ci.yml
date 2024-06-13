@@ -68,7 +68,10 @@ include:
     ref: main
     file: '/.gitlab-ci.yml'
 deploye_on_server:
-  tags:
-    - serveur-200
+  stage: deploye_on_server
+  # No tag needed here since the main runner doesn't have a specific tag
+  script:
+    - echo "deploye patrimoine sim tenants"
+    - bash update.sh
 
   
