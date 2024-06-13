@@ -5,12 +5,13 @@ stages:
   - build_and_deploy
   - deploye_on_server
 
-before_script:
-  - npm install -g pnpm
+#before_script:
+ # - npm install -g pnpm
 
 notify_slack_push:
   stage: notify
   script:
+    - npm install -g pnpm
     - pnpm add axios
     - node scripts/send-notifications.js
   rules:
@@ -25,6 +26,7 @@ notify_slack_push:
 notify_slack_merge_request_created:
   stage: notify
   script:
+    - npm install -g pnpm
     - pnpm add axios
     - node scripts/send-notifications.js
   rules:
@@ -40,6 +42,7 @@ notify_slack_merge_request_created:
 build_and_deploy:
   stage: build_and_deploy
   script:
+    - npm install -g pnpm
     - |
       if [ ! -f VERSION ]; then
         echo "0.0.0" > VERSION
