@@ -6,8 +6,7 @@ stages:
   - deploye_on_server
 
 before_script:
-  - |
-    if [ "$CI_INCLUDE_JOB" != "true" ]; then
+  - if [ "$CI_INCLUDE_JOB" != "true" ]; then
       npm install -g pnpm
     fi
 
