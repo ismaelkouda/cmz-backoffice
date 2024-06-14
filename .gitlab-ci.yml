@@ -43,22 +43,24 @@ build_and_deploy:
   stage: build_and_deploy
   script:
     - npm install -g pnpm
-    - |
-      if [ ! -f VERSION ]; then
-        echo "0.0.0" > VERSION
-      fi
-      VERSION=$(cat VERSION)
-      IFS='.' read -r major minor patch <<< "$VERSION"
-      NEW_VERSION="$major.$minor.$((patch + 1))"
-      echo $NEW_VERSION > VERSION
+    #- |
+     # if [ ! -f VERSION ]; then
+      #  echo "0.0.0" > VERSION
+     # fi
+      #VERSION=$(cat VERSION)
+      #IFS='.' read -r major minor patch <<< "$VERSION"
+      #NEW_VERSION="$major.$minor.$((patch + 1))"
+      #echo $NEW_VERSION > VERSION
     - pnpm install
     - pnpm run build:prod
     - apt-get update && apt-get install -y unzip zip groff less
-    - zip -r patrimoine-sim-tenant_v${NEW_VERSION}.zip dist/
+    #- zip -r patrimoine-sim-tenant_v${NEW_VERSION}.zip dist/
+    - zip -r patrimoine-sim-tenant.zip dist/
     - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
     - unzip awscliv2.zip
     - ./aws/install
     - aws s3 cp patrimoine-sim-tenant_v${NEW_VERSION}.zip s3://$S3_BUCKET/patrimoine-sim-tenant_v${NEW_VERSION}/
+     - aws s3 cp patrimoine-sim-tenant.zip s3://$S3_BUCKET/
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == "main"'
   variables:
