@@ -72,3 +72,4 @@ include:
   - project: 'imako-frontend/patrimoine_sim_aws_frontend_deploye'
     ref: main
     file: '/.gitlab-ci.yml'
+
