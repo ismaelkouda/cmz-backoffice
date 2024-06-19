@@ -3,27 +3,27 @@
     justify-content: start !important;
 }
 
-.box-card{
+.box-card {
     text-align: center;
     border: 0.5px solid black;
     border-radius: 6px;
-    padding: 0.0 0.5rem;
+    padding: 0 0.5rem;
     line-height: 3.5rem;
     height: 3.5rem;
     text-align: center;
-  }
-    .title{
+}
+.title {
+    font-size: 20px;
+    color: black;
+    text-transform: capitalize;
+    font-family: 'FUTURA';
+}
+.valeur {
+    span {
+        margin-left: 5px;
+        color: #ff6600;
         font-size: 20px;
-        color: black;
-        text-transform: capitalize;
-        font-family: "FUTURA";
+        text-align: center;
+        font-family: 'FUTURA';
     }
-    .valeur{
-        span{
-            margin-left: 5px;
-            color: #FF6600;
-            font-size: 20px;
-            text-align: center;
-            font-family: "FUTURA";
-        }    
 }

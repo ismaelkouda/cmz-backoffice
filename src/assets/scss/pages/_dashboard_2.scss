@@ -24,7 +24,7 @@
         .mobile-img {
             height: 130px;
         }
-        [dir="rtl"] & {
+        [dir='rtl'] & {
             right: unset;
             left: 15px;
         }
@@ -33,13 +33,13 @@
             .mobile-img {
                 height: 100px;
             }
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 right: unset;
                 left: 0;
             }
         }
     }
-    [dir="rtl"] & {
+    [dir='rtl'] & {
         text-align: right;
     }
     &.card-body {
@@ -73,7 +73,7 @@
         top: 50%;
         position: absolute;
         transform: translateY(-50%);
-        [dir="rtl"] & {
+        [dir='rtl'] & {
             right: unset;
             left: -12px;
             transform: translateY(-50%) scaleX(-1);
@@ -221,13 +221,13 @@
 .overview-card {
     .balance-data {
         right: 12px;
-        [dir="rtl"] & {
+        [dir='rtl'] & {
             right: unset;
             left: 12px;
         }
         @media (max-width: 767px) {
             right: -40%;
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 left: -40%;
             }
         }
@@ -344,14 +344,14 @@
             td {
                 &:first-child {
                     padding-left: 0;
-                    [dir="rtl"] & {
+                    [dir='rtl'] & {
                         padding-left: unset;
                         padding-right: 0;
                     }
                 }
                 &:last-child {
                     padding-right: 0;
-                    [dir="rtl"] & {
+                    [dir='rtl'] & {
                         padding-left: 0;
                         padding-right: unset;
                     }
@@ -490,7 +490,8 @@
     .frame-image {
         min-width: 62px;
         height: 62px;
-        border-color: var(--recent-border) var(--white) var(--white) var(--recent-border);
+        border-color: var(--recent-border) var(--white) var(--white)
+            var(--recent-border);
         border-width: 1px;
         border-style: solid;
         margin: 6px;
@@ -528,15 +529,11 @@
     }
 }
 
-@each $activity-dot-name,
-$activity-dot-color in (primary, $primary-color),
-(secondary, $secondary-color),
-(success, $success-color),
-(danger, $danger-color),
-(info, $info-color),
-(light, $light-color),
-(dark, $dark-color),
-(warning, $warning-color) {
+@each $activity-dot-name, $activity-dot-color in (primary, $primary-color),
+    (secondary, $secondary-color), (success, $success-color),
+    (danger, $danger-color), (info, $info-color), (light, $light-color),
+    (dark, $dark-color), (warning, $warning-color)
+{
     .activity-dot-#{$activity-dot-name} {
         min-width: 6px;
         height: 6px;
@@ -606,7 +603,6 @@ $activity-dot-color in (primary, $primary-color),
         }
     }
 }
-
 
 /**=====================
      67. Dashboard 2  CSS End

@@ -1,33 +1,33 @@
 // General variables
 $theme-font-color: #242934;
-$theme-body-font-color: #2F2F3B;
+$theme-body-font-color: #2f2f3b;
 $theme-body-sub-title-color: #52526c;
 $body-color: #f8f8f8;
-$main-body-color: #F7F8F9;
+$main-body-color: #f7f8f9;
 // Theme colors variables
-$primary-color: #FF6600;
-$secondary-color: #FF3364;
-$success-color: #54BA4A;
-$info-color: #16C7F9;
-$warning-color: #FFAA05;
-$danger-color: #FC4438;
+$primary-color: #ff6600;
+$secondary-color: #ff3364;
+$success-color: #54ba4a;
+$info-color: #16c7f9;
+$warning-color: #ffaa05;
+$danger-color: #fc4438;
 $light-color: #f4f4f4;
 $badge-light-color: #52526c;
 $light-gray: #ecf3fa;
-$light-widget-border: #EFEEFF;
-$light-semi-gray :#efefef;
-$font-gray-color: #6C757D;
-$dark-light :$theme-font-color;
+$light-widget-border: #efeeff;
+$light-semi-gray: #efefef;
+$font-gray-color: #6c757d;
+$dark-light: $theme-font-color;
 $dark-gray: #898989;
 $dark-color: #2c323f;
-$gray-60 :#cccccc;
+$gray-60: #cccccc;
 $card-body-color: #f9f9fa;
 $transparent-color: transparent;
 $auth-bg-color: #fafafa;
 $light: #fdfeff;
-$semi-dark :#59667a;
+$semi-dark: #59667a;
 $light-text: #999999;
-$light-paragraph: #8F8F8F;
+$light-paragraph: #8f8f8f;
 $light-background: #d7e2e9;
 $light-font: rgba(27, 49, 85, 0.4);
 $light-semi-font: $semi-dark;
@@ -36,32 +36,39 @@ $pitch-color: #fe8a7d;
 $color-scarpa: #4c5667;
 $color-fiord: #455a64;
 $black: #000;
-$white: #FFFF;
-$off-white: #F7F6FF;
+$white: #ffff;
+$off-white: #f7f6ff;
 $theme-medium-color: #eae8ff;
-$dropdown-border-color: #918E99;
+$dropdown-border-color: #918e99;
 // gradient colors
-$gradient-primary: linear-gradient(26deg, var(--theme-deafult) 0%, #a26cf8 100%);
-$gradient-bg-primary: linear-gradient(103.75deg, #EC671B -13.9%, var(--theme-deafult) 79.68%);
+$gradient-primary: linear-gradient(
+    26deg,
+    var(--theme-deafult) 0%,
+    #a26cf8 100%
+);
+$gradient-bg-primary: linear-gradient(
+    103.75deg,
+    #ec671b -13.9%,
+    var(--theme-deafult) 79.68%
+);
 //social colors
 $fb: #50598e;
 $twitter: #6fa2d8;
 $google-plus: #c64e40;
-$linkedin: #0077B5;
-// soical table 
-$fb-color: #2F84F4;
-$insta-color: #FC971E;
+$linkedin: #0077b5;
+// soical table
+$fb-color: #2f84f4;
+$insta-color: #fc971e;
 $pintrest-color: $secondary-color;
-$twitter-color: #57B9F6;
-$youtube-color: #F42F2F;
+$twitter-color: #57b9f6;
+$youtube-color: #f42f2f;
 //error input color start
 $light-body-bg-color: #fafdff;
 //fonts
 $font-rubik: Helvetica;
 $font-roboto: Helvetica;
 $font-serif: sans-serif;
-$landing-cursive: 'Caveat',
-    cursive;
+$landing-cursive: 'Caveat', cursive;
 $font-themify: themify;
 $font-awesome: FontAwesome;
 $font-ICO: IcoFont;
@@ -116,16 +123,16 @@ $table-hover-color: $light;
 $table-padding: 0.75rem;
 $table-xl-padding: 1.25rem 2rem;
 $table-xl-font: 120%;
-$table-lg-padding: .9rem 2rem;
+$table-lg-padding: 0.9rem 2rem;
 $table-lg-font: 110%;
-$table-de-padding: .75rem 2rem;
+$table-de-padding: 0.75rem 2rem;
 $table-de-font: 100%;
-$table-sm-padding: .5rem 2rem;
+$table-sm-padding: 0.5rem 2rem;
 $table-sm-font: 90%;
 $table-xs-padding: 0.2rem 2rem;
 $table-xs-font: 80%;
 $horizontal-border-color: #f2f4ff;
-$horizontal-padding: .75rem 2rem;
+$horizontal-padding: 0.75rem 2rem;
 $table-inverse-bg-color: #292b2c;
 //According setting
 $according-card-top-margin: 10px;
@@ -133,16 +140,16 @@ $according-btn-weight: 500;
 $according-btn-color: $theme-body-font-color;
 $according-card-header-padding: 0.75rem 1.25rem;
 $according-card-header-icon: $font-ICO;
-$according-open-icon: "\eb73";
-$according-close-icon: "\eb7a";
+$according-open-icon: '\eb73';
+$according-close-icon: '\eb7a';
 //Alert settings
-$alert-hover-color :$dark-color;
-$alert-border-radious :0.15rem;
-$alert-padding :15px;
-$alert-msg-icon-size :16px;
+$alert-hover-color: $dark-color;
+$alert-border-radious: 0.15rem;
+$alert-padding: 15px;
+$alert-msg-icon-size: 16px;
 //badge settings
-$badge-padding :0.44em 0.7em;
-$badge-svg-size :12px;
+$badge-padding: 0.44em 0.7em;
+$badge-svg-size: 12px;
 //form input settings
 $form-group-margin-bottom: 1.25em;
 $col-form-label-font-size: 14px;
@@ -160,10 +167,10 @@ $btn-sm-font-size: 12px;
 $btn-xs-font-size: 11px;
 $btn-xs-padding: 0.05rem 0.4rem;
 //Card settings
-$card-padding :30px;
-$card-margin-bottom :30px;
-$card-border-color :1px solid $light-gray;
-$card-border-radious :15px;
+$card-padding: 30px;
+$card-margin-bottom: 30px;
+$card-border-color: 1px solid $light-gray;
+$card-border-radious: 15px;
 $common-shadow-color: rgba($info-color, 0.08);
 $card-box-shadow: 0px 9px 20px rgba(46, 35, 94, 0.07);
 $card-header-bg-color: $white;
@@ -172,14 +179,14 @@ $card-header-span-size: 12px;
 $card-header-span-color: $theme-body-sub-title-color;
 $card-body-bg-color: $transparent-color;
 $card-footer-bg-color: $white;
-$card-hover-box-shadow: 0 0 40px rgba(8, 21, 66, .05);
+$card-hover-box-shadow: 0 0 40px rgba(8, 21, 66, 0.05);
 //footer settings
 $footer_bg_color: $white;
 $footer_box_shadow: 0 0 20px rgba($semi-dark, 0.1);
 $footer_dark_color: $theme-font-color;
 $footer_dark__txt_color: $white;
 //form settings
-$form-group-margin-bottom :20px;
+$form-group-margin-bottom: 20px;
 $sm-form-margin-bottom: 14px;
 $form-placeholder-color: $dark-gray;
 $form-placeholder-font-size: 14px;
@@ -229,8 +236,8 @@ $sidebar-hover-txt-color: var(--theme-deafult);
 $sidebar-arrow-margin-top: 2px;
 $sidebar-arrow-size: 15px;
 $sidebar-arrow-color: $theme-body-font-color;
-$sidebar-open-icon: "\f107";
-$sidebar-close-icon: "\f105";
+$sidebar-open-icon: '\f107';
+$sidebar-close-icon: '\f105';
 $sidebar-icon-font-family: $font-awesome;
 $sidebar-height: calc(100vh - 115px);
 $sidebar-compact-width: 310px;
@@ -254,7 +261,7 @@ $page-small-title-margin-bottom: 5px;
 $page-small-title-text-transform: capitalize;
 $page-small-title-text-color: $theme-body-sub-title-color;
 $breadcrumb-size: 16px;
-$breadcrumb-content: "/";
+$breadcrumb-content: '/';
 //main header left settings
 $header-left-bg-color: $white;
 $main-header-padding: 27px 22px;

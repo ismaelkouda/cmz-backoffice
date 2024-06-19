@@ -121,7 +121,6 @@ h5 {
     }
 }
 
-
 /*=======================================================================
 2. Template Default Style
 =========================================================================*/
@@ -178,7 +177,6 @@ ul {
         display: none !important;
     }
 }
-
 
 /*========================================================================
 3. Template Animation
@@ -336,7 +334,6 @@ ul {
     transition-delay: 2s;
 }
 
-
 /*========================================================================
 4. Demo Layout One
 =========================================================================*/
@@ -468,7 +465,10 @@ ul {
     }
 }
 
-.fxt-template-layout1 .fxt-header .fxt-page-switcher .switcher-text1:last-child {
+.fxt-template-layout1
+    .fxt-header
+    .fxt-page-switcher
+    .switcher-text1:last-child {
     margin-right: 0;
     padding-right: 0;
     border-right: 0;
@@ -511,10 +511,10 @@ ul {
     transform: translateY(-50%);
 }
 
-.fxt-template-layout1 .fxt-form .form-group [class^="flaticon-"]:before,
-.fxt-template-layout1 .fxt-form .form-group [class*=" flaticon-"]:before,
-.fxt-template-layout1 .fxt-form .form-group [class^="flaticon-"]:after,
-.fxt-template-layout1 .fxt-form .form-group [class*=" flaticon-"]:after {
+.fxt-template-layout1 .fxt-form .form-group [class^='flaticon-']:before,
+.fxt-template-layout1 .fxt-form .form-group [class*=' flaticon-']:before,
+.fxt-template-layout1 .fxt-form .form-group [class^='flaticon-']:after,
+.fxt-template-layout1 .fxt-form .form-group [class*=' flaticon-']:after {
     margin-left: 0;
     font-size: 17px;
     color: #a1a1a1;
@@ -664,13 +664,13 @@ ul {
 }
 
 .fxt-template-layout1 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
-    border-color: #CC3333;
+    background-color: #cc3333;
+    border-color: #cc3333;
 }
 
 .fxt-template-layout1 ul.fxt-socials li.fxt-google a:hover {
     background-color: transparent;
-    color: #CC3333;
+    color: #cc3333;
 }
 
 .fxt-template-layout1 ul.fxt-socials li.fxt-instagram a {
@@ -684,13 +684,13 @@ ul {
 }
 
 .fxt-template-layout1 ul.fxt-socials li.fxt-linkedin a {
-    background-color: #0077B5;
-    border-color: #0077B5;
+    background-color: #0077b5;
+    border-color: #0077b5;
 }
 
 .fxt-template-layout1 ul.fxt-socials li.fxt-linkedin a:hover {
     background-color: transparent;
-    color: #0077B5;
+    color: #0077b5;
 }
 
 .fxt-template-layout1 ul.fxt-socials li.fxt-youtube a {
@@ -716,7 +716,6 @@ ul {
 .fxt-template-layout1 .fxt-footer {
     text-align: center;
 }
-
 
 /*========================================================================
 5. Demo Layout Two
@@ -934,7 +933,7 @@ ul {
 
 .fxt-template-layout2 .fxt-style-line h2:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -949,7 +948,7 @@ ul {
 
 .fxt-template-layout2 .fxt-style-line h2:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -1078,7 +1077,7 @@ ul {
 }
 
 .fxt-template-layout2 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout2 ul.fxt-socials li.fxt-google a i {
@@ -1102,7 +1101,7 @@ ul {
 }
 
 .fxt-template-layout2 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -1126,20 +1125,20 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout2 .checkbox input[type="checkbox"] {
+.fxt-template-layout2 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout2 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout2 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout2 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout2 .checkbox input[type='checkbox']:checked + label::before {
     background-color: #ff0000;
     border-color: #ff0000;
 }
@@ -1147,7 +1146,6 @@ ul {
 .fxt-template-layout2 .fxt-footer {
     text-align: center;
 }
-
 
 /*========================================================================
 6. Demo Layout Three
@@ -1174,7 +1172,7 @@ ul {
 }
 
 .fxt-template-layout3:before {
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     background-color: rgba(4, 4, 14, 0.4);
@@ -1401,7 +1399,7 @@ ul {
 
 .fxt-template-layout3 .fxt-style-line h3:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -1416,7 +1414,7 @@ ul {
 
 .fxt-template-layout3 .fxt-style-line h3:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -1486,7 +1484,7 @@ ul {
 }
 
 .fxt-template-layout3 ul.fxt-socials li a:before {
-    content: "";
+    content: '';
     width: 0;
     right: 0;
     left: inherit;
@@ -1522,7 +1520,7 @@ ul {
 }
 
 .fxt-template-layout3 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout3 ul.fxt-socials li.fxt-google a:before {
@@ -1530,7 +1528,7 @@ ul {
 }
 
 .fxt-template-layout3 ul.fxt-socials li.fxt-linkedin a {
-    background-color: #0077B5;
+    background-color: #0077b5;
 }
 
 .fxt-template-layout3 ul.fxt-socials li.fxt-linkedin a:before {
@@ -1550,7 +1548,7 @@ ul {
 }
 
 .fxt-template-layout3 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -1574,20 +1572,20 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout3 .checkbox input[type="checkbox"] {
+.fxt-template-layout3 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout3 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout3 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout3 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout3 .checkbox input[type='checkbox']:checked + label::before {
     background-color: #5a8dee;
     border-color: #5a8dee;
 }
@@ -1595,7 +1593,6 @@ ul {
 .fxt-template-layout3 .fxt-footer {
     text-align: center;
 }
-
 
 /*========================================================================
 7. Demo Layout Four
@@ -1611,7 +1608,7 @@ ul {
     position: absolute;
     z-index: 0;
     background-color: #01cc66;
-    content: "";
+    content: '';
     min-height: 100%;
     width: 35vw;
     top: 0;
@@ -1728,7 +1725,7 @@ ul {
 }
 
 .fxt-template-layout4 .fxt-bg-img:before {
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     background-color: rgba(2, 2, 3, 0.6);
@@ -1739,7 +1736,7 @@ ul {
 }
 
 .fxt-template-layout4 .fxt-bg-img:after {
-    content: "";
+    content: '';
     right: 0;
     top: 20%;
     position: absolute;
@@ -1970,13 +1967,13 @@ ul {
 }
 
 .fxt-template-layout4 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
-    border-color: #CC3333;
+    background-color: #cc3333;
+    border-color: #cc3333;
 }
 
 .fxt-template-layout4 ul.fxt-socials li.fxt-google a:hover {
     background-color: transparent;
-    color: #CC3333;
+    color: #cc3333;
 }
 
 .fxt-template-layout4 ul.fxt-socials li.fxt-instagram a {
@@ -1990,13 +1987,13 @@ ul {
 }
 
 .fxt-template-layout4 ul.fxt-socials li.fxt-linkedin a {
-    background-color: #0077B5;
-    border-color: #0077B5;
+    background-color: #0077b5;
+    border-color: #0077b5;
 }
 
 .fxt-template-layout4 ul.fxt-socials li.fxt-linkedin a:hover {
     background-color: transparent;
-    color: #0077B5;
+    color: #0077b5;
 }
 
 .fxt-template-layout4 ul.fxt-socials li.fxt-youtube a {
@@ -2043,7 +2040,7 @@ ul {
 }
 
 .fxt-template-layout4 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -2067,20 +2064,20 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout4 .checkbox input[type="checkbox"] {
+.fxt-template-layout4 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout4 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout4 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout4 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout4 .checkbox input[type='checkbox']:checked + label::before {
     background-color: #01cc66;
     border-color: #01cc66;
 }
@@ -2088,7 +2085,6 @@ ul {
 .fxt-template-layout4 .fxt-footer {
     text-align: center;
 }
-
 
 /*========================================================================
 8. Demo Layout Five
@@ -2249,10 +2245,10 @@ ul {
     transform: translateY(-50%);
 }
 
-.fxt-template-layout5 .fxt-form .form-group [class^="flaticon-"]:before,
-.fxt-template-layout5 .fxt-form .form-group [class*=" flaticon-"]:before,
-.fxt-template-layout5 .fxt-form .form-group [class^="flaticon-"]:after,
-.fxt-template-layout5 .fxt-form .form-group [class*=" flaticon-"]:after {
+.fxt-template-layout5 .fxt-form .form-group [class^='flaticon-']:before,
+.fxt-template-layout5 .fxt-form .form-group [class*=' flaticon-']:before,
+.fxt-template-layout5 .fxt-form .form-group [class^='flaticon-']:after,
+.fxt-template-layout5 .fxt-form .form-group [class*=' flaticon-']:after {
     margin-left: 0;
     font-size: 17px;
     color: #a1a1a1;
@@ -2363,8 +2359,12 @@ ul {
         padding: 6px 30px 6px 20px;
         font-size: 16px;
     }
-    .fxt-template-layout5 .fxt-page-switcher .switcher-text.switcher-text1.active,
-    .fxt-template-layout5 .fxt-page-switcher .switcher-text.switcher-text2.active {
+    .fxt-template-layout5
+        .fxt-page-switcher
+        .switcher-text.switcher-text1.active,
+    .fxt-template-layout5
+        .fxt-page-switcher
+        .switcher-text.switcher-text2.active {
         color: #0e9d88;
         background-color: #e4e4e4;
     }
@@ -2507,13 +2507,13 @@ ul {
 }
 
 .fxt-template-layout5 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
-    border-color: #CC3333;
+    background-color: #cc3333;
+    border-color: #cc3333;
 }
 
 .fxt-template-layout5 ul.fxt-socials li.fxt-google a:hover {
     background-color: transparent;
-    color: #CC3333;
+    color: #cc3333;
 }
 
 .fxt-template-layout5 ul.fxt-socials li.fxt-instagram a {
@@ -2527,13 +2527,13 @@ ul {
 }
 
 .fxt-template-layout5 ul.fxt-socials li.fxt-linkedin a {
-    background-color: #0077B5;
-    border-color: #0077B5;
+    background-color: #0077b5;
+    border-color: #0077b5;
 }
 
 .fxt-template-layout5 ul.fxt-socials li.fxt-linkedin a:hover {
     background-color: transparent;
-    color: #0077B5;
+    color: #0077b5;
 }
 
 .fxt-template-layout5 ul.fxt-socials li.fxt-pinterest a {
@@ -2560,7 +2560,7 @@ ul {
 }
 
 .fxt-template-layout5 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -2584,20 +2584,20 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout5 .checkbox input[type="checkbox"] {
+.fxt-template-layout5 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout5 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout5 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout5 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout5 .checkbox input[type='checkbox']:checked + label::before {
     background-color: #0e9d88;
     border-color: #0e9d88;
 }
@@ -2605,7 +2605,6 @@ ul {
 .fxt-template-layout5 .fxt-footer {
     text-align: center;
 }
-
 
 /*========================================================================
 9. Demo Layout Six
@@ -2635,7 +2634,7 @@ ul {
 }
 
 .fxt-template-layout6:before {
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.15);
@@ -2721,10 +2720,10 @@ ul {
     transform: translateY(-50%);
 }
 
-.fxt-template-layout6 .fxt-form .form-group [class^="flaticon-"]:before,
-.fxt-template-layout6 .fxt-form .form-group [class*=" flaticon-"]:before,
-.fxt-template-layout6 .fxt-form .form-group [class^="flaticon-"]:after,
-.fxt-template-layout6 .fxt-form .form-group [class*=" flaticon-"]:after {
+.fxt-template-layout6 .fxt-form .form-group [class^='flaticon-']:before,
+.fxt-template-layout6 .fxt-form .form-group [class*=' flaticon-']:before,
+.fxt-template-layout6 .fxt-form .form-group [class^='flaticon-']:after,
+.fxt-template-layout6 .fxt-form .form-group [class*=' flaticon-']:after {
     margin-left: 0;
     font-size: 17px;
     color: #a1a1a1;
@@ -2901,13 +2900,13 @@ ul {
 }
 
 .fxt-template-layout6 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
-    border-color: #CC3333;
+    background-color: #cc3333;
+    border-color: #cc3333;
 }
 
 .fxt-template-layout6 ul.fxt-socials li.fxt-google a:hover {
     background-color: transparent;
-    color: #CC3333;
+    color: #cc3333;
 }
 
 .fxt-template-layout6 ul.fxt-socials li.fxt-instagram a {
@@ -2921,13 +2920,13 @@ ul {
 }
 
 .fxt-template-layout6 ul.fxt-socials li.fxt-linkedin a {
-    background-color: #0077B5;
-    border-color: #0077B5;
+    background-color: #0077b5;
+    border-color: #0077b5;
 }
 
 .fxt-template-layout6 ul.fxt-socials li.fxt-linkedin a:hover {
     background-color: transparent;
-    color: #0077B5;
+    color: #0077b5;
 }
 
 .fxt-template-layout6 ul.fxt-socials li.fxt-youtube a {
@@ -2959,7 +2958,6 @@ ul {
 .fxt-template-layout6 .fxt-footer p {
     color: #747474;
 }
-
 
 /*========================================================================
 10. Demo Layout Seven
@@ -3212,7 +3210,7 @@ ul {
 
 .fxt-template-layout7 .fxt-style-line h3:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -3227,7 +3225,7 @@ ul {
 
 .fxt-template-layout7 .fxt-style-line h3:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -3356,7 +3354,7 @@ ul {
 }
 
 .fxt-template-layout7 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout7 ul.fxt-socials li.fxt-google a i {
@@ -3380,7 +3378,7 @@ ul {
 }
 
 .fxt-template-layout7 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -3404,20 +3402,20 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout7 .checkbox input[type="checkbox"] {
+.fxt-template-layout7 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout7 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout7 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout7 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout7 .checkbox input[type='checkbox']:checked + label::before {
     background-color: #2e4bf1;
     border-color: #2e4bf1;
 }
@@ -3429,7 +3427,6 @@ ul {
 .fxt-template-layout7 .fxt-footer p {
     color: #999898;
 }
-
 
 /*========================================================================
 11. Demo Layout Eight
@@ -3456,7 +3453,7 @@ ul {
 }
 
 .fxt-template-layout8:before {
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.1);
@@ -3666,7 +3663,7 @@ ul {
 
 .fxt-template-layout8 .fxt-style-line h3:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #a4a4a4;
@@ -3681,7 +3678,7 @@ ul {
 
 .fxt-template-layout8 .fxt-style-line h3:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #a4a4a4;
@@ -3810,7 +3807,7 @@ ul {
 }
 
 .fxt-template-layout8 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout8 ul.fxt-socials li.fxt-google a i {
@@ -3835,7 +3832,7 @@ ul {
 }
 
 .fxt-template-layout8 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -3859,20 +3856,20 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout8 .checkbox input[type="checkbox"] {
+.fxt-template-layout8 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout8 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout8 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout8 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout8 .checkbox input[type='checkbox']:checked + label::before {
     background-color: #1fbe66;
     border-color: #1fbe66;
 }
@@ -3884,7 +3881,6 @@ ul {
 .fxt-template-layout8 .fxt-footer p {
     color: #b6b6b6;
 }
-
 
 /*========================================================================
 12. Demo Layout Nine
@@ -3911,7 +3907,7 @@ ul {
 }
 
 .fxt-template-layout9:before {
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.1);
@@ -4110,7 +4106,7 @@ ul {
 }
 
 .fxt-template-layout9 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -4134,20 +4130,20 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout9 .checkbox input[type="checkbox"] {
+.fxt-template-layout9 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout9 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout9 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout9 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout9 .checkbox input[type='checkbox']:checked + label::before {
     background-color: #ffbd3f;
     border-color: #ffbd3f;
 }
@@ -4159,7 +4155,6 @@ ul {
 .fxt-template-layout9 .fxt-footer p {
     color: #b6b6b6;
 }
-
 
 /*========================================================================
 13. Demo Layout Ten
@@ -4478,7 +4473,7 @@ ul {
 }
 
 .fxt-template-layout10 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -4502,20 +4497,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout10 .checkbox input[type="checkbox"] {
+.fxt-template-layout10 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout10 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout10 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout10 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout10
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #ffbd3f;
     border-color: #ffbd3f;
 }
@@ -4578,12 +4576,12 @@ ul {
 }
 
 .fxt-template-layout10 ul.fxt-socials li.fxt-google a {
-    color: #CC3333;
+    color: #cc3333;
 }
 
 .fxt-template-layout10 ul.fxt-socials li.fxt-google a:hover {
-    border-color: #CC3333;
-    background-color: #CC3333;
+    border-color: #cc3333;
+    background-color: #cc3333;
     color: #fff;
 }
 
@@ -4598,12 +4596,12 @@ ul {
 }
 
 .fxt-template-layout10 ul.fxt-socials li.fxt-linkedin a {
-    color: #0077B5;
+    color: #0077b5;
 }
 
 .fxt-template-layout10 ul.fxt-socials li.fxt-linkedin a:hover {
-    border-color: #0077B5;
-    background-color: #0077B5;
+    border-color: #0077b5;
+    background-color: #0077b5;
     color: #fff;
 }
 
@@ -4631,7 +4629,6 @@ ul {
     margin-top: 50px;
     text-align: center;
 }
-
 
 /*========================================================================
 14. Demo Layout Eleven
@@ -4882,7 +4879,7 @@ ul {
 
 .fxt-template-layout11 .fxt-style-line h3:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -4897,7 +4894,7 @@ ul {
 
 .fxt-template-layout11 .fxt-style-line h3:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -5026,7 +5023,7 @@ ul {
 }
 
 .fxt-template-layout11 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout11 ul.fxt-socials li.fxt-google a i {
@@ -5050,7 +5047,7 @@ ul {
 }
 
 .fxt-template-layout11 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -5074,20 +5071,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout11 .checkbox input[type="checkbox"] {
+.fxt-template-layout11 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout11 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout11 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout11 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout11
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #111;
     border-color: #111;
 }
@@ -5099,7 +5099,6 @@ ul {
 .fxt-template-layout11 .fxt-footer p {
     color: #999898;
 }
-
 
 /*========================================================================
 15. Demo Layout Twelve
@@ -5351,7 +5350,7 @@ ul {
 
 .fxt-template-layout12 .fxt-style-line h3:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -5366,7 +5365,7 @@ ul {
 
 .fxt-template-layout12 .fxt-style-line h3:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -5495,7 +5494,7 @@ ul {
 }
 
 .fxt-template-layout12 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout12 ul.fxt-socials li.fxt-google a i {
@@ -5519,7 +5518,7 @@ ul {
 }
 
 .fxt-template-layout12 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -5543,20 +5542,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout12 .checkbox input[type="checkbox"] {
+.fxt-template-layout12 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout12 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout12 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout12 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout12
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #2e4bf1;
     border-color: #2e4bf1;
 }
@@ -5568,7 +5570,6 @@ ul {
 .fxt-template-layout12 .fxt-footer p {
     color: #999898;
 }
-
 
 /*========================================================================
 16. Demo Layout Thirteen
@@ -5583,8 +5584,8 @@ ul {
 .fxt-template-layout13:before {
     position: absolute;
     z-index: 0;
-    background-color: #009BB6;
-    content: "";
+    background-color: #009bb6;
+    content: '';
     min-height: 100%;
     width: 35vw;
     top: 0;
@@ -5701,7 +5702,7 @@ ul {
 }
 
 .fxt-template-layout13 .fxt-bg-img:before {
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     background-color: rgba(2, 2, 3, 0.6);
@@ -5712,7 +5713,7 @@ ul {
 }
 
 .fxt-template-layout13 .fxt-bg-img:after {
-    content: "";
+    content: '';
     left: 0;
     top: 20%;
     position: absolute;
@@ -5859,7 +5860,7 @@ ul {
     border: 0;
     color: #fff;
     border-radius: 3px;
-    background-color: #009BB6;
+    background-color: #009bb6;
     padding: 10px 36px;
     margin-bottom: 10px;
     width: 100%;
@@ -5938,13 +5939,13 @@ ul {
 }
 
 .fxt-template-layout13 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
-    border-color: #CC3333;
+    background-color: #cc3333;
+    border-color: #cc3333;
 }
 
 .fxt-template-layout13 ul.fxt-socials li.fxt-google a:hover {
     background-color: transparent;
-    color: #CC3333;
+    color: #cc3333;
 }
 
 .fxt-template-layout13 ul.fxt-socials li.fxt-instagram a {
@@ -5958,13 +5959,13 @@ ul {
 }
 
 .fxt-template-layout13 ul.fxt-socials li.fxt-linkedin a {
-    background-color: #0077B5;
-    border-color: #0077B5;
+    background-color: #0077b5;
+    border-color: #0077b5;
 }
 
 .fxt-template-layout13 ul.fxt-socials li.fxt-linkedin a:hover {
     background-color: transparent;
-    color: #0077B5;
+    color: #0077b5;
 }
 
 .fxt-template-layout13 ul.fxt-socials li.fxt-youtube a {
@@ -6011,7 +6012,7 @@ ul {
 }
 
 .fxt-template-layout13 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -6035,28 +6036,30 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout13 .checkbox input[type="checkbox"] {
+.fxt-template-layout13 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout13 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout13 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout13 .checkbox input[type="checkbox"]:checked+label::before {
-    background-color: #009BB6;
-    border-color: #009BB6;
+.fxt-template-layout13
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
+    background-color: #009bb6;
+    border-color: #009bb6;
 }
 
 .fxt-template-layout13 .fxt-footer {
     text-align: center;
 }
-
 
 /*========================================================================
 17. Demo Layout Fourteen
@@ -6081,7 +6084,7 @@ ul {
 }
 
 .fxt-template-layout14:before {
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     background-color: rgba(4, 4, 14, 0.3);
@@ -6326,7 +6329,7 @@ ul {
 
 .fxt-template-layout14 .fxt-style-line h3:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -6341,7 +6344,7 @@ ul {
 
 .fxt-template-layout14 .fxt-style-line h3:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -6470,7 +6473,7 @@ ul {
 }
 
 .fxt-template-layout14 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout14 ul.fxt-socials li.fxt-google a i {
@@ -6494,7 +6497,7 @@ ul {
 }
 
 .fxt-template-layout14 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -6518,20 +6521,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout14 .checkbox input[type="checkbox"] {
+.fxt-template-layout14 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout14 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout14 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout14 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout14
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #e5698e;
     border-color: #e5698e;
 }
@@ -6543,7 +6549,6 @@ ul {
 .fxt-template-layout14 .fxt-footer p {
     color: #999898;
 }
-
 
 /*========================================================================
 18. Demo Layout Fifteen
@@ -6608,7 +6613,7 @@ ul {
 }
 
 .fxt-template-layout15 .fxt-bg-img:before {
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     background-color: rgba(4, 4, 14, 0.6);
@@ -6683,7 +6688,10 @@ ul {
     }
 }
 
-.fxt-template-layout15 .fxt-intro .fxt-page-switcher .switcher-text1:last-child {
+.fxt-template-layout15
+    .fxt-intro
+    .fxt-page-switcher
+    .switcher-text1:last-child {
     margin-right: 0;
     padding-right: 0;
     border-right: 0;
@@ -6737,10 +6745,10 @@ ul {
     transform: translateY(-50%);
 }
 
-.fxt-template-layout15 .fxt-form .form-group [class^="flaticon-"]:before,
-.fxt-template-layout15 .fxt-form .form-group [class*=" flaticon-"]:before,
-.fxt-template-layout15 .fxt-form .form-group [class^="flaticon-"]:after,
-.fxt-template-layout15 .fxt-form .form-group [class*=" flaticon-"]:after {
+.fxt-template-layout15 .fxt-form .form-group [class^='flaticon-']:before,
+.fxt-template-layout15 .fxt-form .form-group [class*=' flaticon-']:before,
+.fxt-template-layout15 .fxt-form .form-group [class^='flaticon-']:after,
+.fxt-template-layout15 .fxt-form .form-group [class*=' flaticon-']:after {
     margin-left: 0;
     font-size: 17px;
     color: #a1a1a1;
@@ -6890,13 +6898,13 @@ ul {
 }
 
 .fxt-template-layout15 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
-    border-color: #CC3333;
+    background-color: #cc3333;
+    border-color: #cc3333;
 }
 
 .fxt-template-layout15 ul.fxt-socials li.fxt-google a:hover {
     background-color: transparent;
-    color: #CC3333;
+    color: #cc3333;
 }
 
 .fxt-template-layout15 ul.fxt-socials li.fxt-instagram a {
@@ -6910,13 +6918,13 @@ ul {
 }
 
 .fxt-template-layout15 ul.fxt-socials li.fxt-linkedin a {
-    background-color: #0077B5;
-    border-color: #0077B5;
+    background-color: #0077b5;
+    border-color: #0077b5;
 }
 
 .fxt-template-layout15 ul.fxt-socials li.fxt-linkedin a:hover {
     background-color: transparent;
-    color: #0077B5;
+    color: #0077b5;
 }
 
 .fxt-template-layout15 ul.fxt-socials li.fxt-youtube a {
@@ -6942,7 +6950,6 @@ ul {
 .fxt-template-layout15 .fxt-footer {
     text-align: center;
 }
-
 
 /*========================================================================
 19. Demo Layout Sixteen
@@ -7194,7 +7201,7 @@ ul {
 
 .fxt-template-layout16 .fxt-style-line h3:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -7209,7 +7216,7 @@ ul {
 
 .fxt-template-layout16 .fxt-style-line h3:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -7338,7 +7345,7 @@ ul {
 }
 
 .fxt-template-layout16 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout16 ul.fxt-socials li.fxt-google a i {
@@ -7362,7 +7369,7 @@ ul {
 }
 
 .fxt-template-layout16 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -7386,20 +7393,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout16 .checkbox input[type="checkbox"] {
+.fxt-template-layout16 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout16 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout16 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout16 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout16
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #111;
     border-color: #111;
 }
@@ -7411,7 +7421,6 @@ ul {
 .fxt-template-layout16 .fxt-footer p {
     color: #999898;
 }
-
 
 /*========================================================================
 20. Demo Layout Seventeen
@@ -7617,7 +7626,7 @@ ul {
 
 .fxt-template-layout17 .fxt-style-line h2:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -7632,7 +7641,7 @@ ul {
 
 .fxt-template-layout17 .fxt-style-line h2:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -7761,7 +7770,7 @@ ul {
 }
 
 .fxt-template-layout17 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout17 ul.fxt-socials li.fxt-google a i {
@@ -7785,7 +7794,7 @@ ul {
 }
 
 .fxt-template-layout17 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -7809,20 +7818,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout17 .checkbox input[type="checkbox"] {
+.fxt-template-layout17 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout17 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout17 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout17 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout17
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #46a203;
     border-color: #46a203;
 }
@@ -7830,7 +7842,6 @@ ul {
 .fxt-template-layout17 .fxt-footer {
     text-align: center;
 }
-
 
 /*========================================================================
 21. Demo Layout Eighteen
@@ -7857,7 +7868,7 @@ ul {
 }
 
 .fxt-template-layout18:before {
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.1);
@@ -8087,7 +8098,7 @@ ul {
 
 .fxt-template-layout18 .fxt-style-line h3:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #a4a4a4;
@@ -8102,7 +8113,7 @@ ul {
 
 .fxt-template-layout18 .fxt-style-line h3:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #a4a4a4;
@@ -8231,7 +8242,7 @@ ul {
 }
 
 .fxt-template-layout18 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout18 ul.fxt-socials li.fxt-google a i {
@@ -8256,7 +8267,7 @@ ul {
 }
 
 .fxt-template-layout18 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -8280,20 +8291,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout18 .checkbox input[type="checkbox"] {
+.fxt-template-layout18 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout18 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout18 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout18 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout18
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #1fbe66;
     border-color: #1fbe66;
 }
@@ -8305,7 +8319,6 @@ ul {
 .fxt-template-layout18 .fxt-footer p {
     color: #b6b6b6;
 }
-
 
 /*========================================================================
 22. Demo Layout Nineteen
@@ -8366,11 +8379,25 @@ ul {
 }
 
 .fxt-template-layout19 .fxt-bg-img:before {
-    content: "";
+    content: '';
     background: rgba(0, 255, 180, 0.75);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(16%, rgba(0, 255, 180, 0.75)), to(rgba(38, 112, 212, 0.75)));
-    background: -o-linear-gradient(top, rgba(0, 255, 180, 0.75) 16%, rgba(38, 112, 212, 0.75) 100%);
-    background: linear-gradient(180deg, rgba(0, 255, 180, 0.75) 16%, rgba(38, 112, 212, 0.75) 100%);
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(16%, rgba(0, 255, 180, 0.75)),
+        to(rgba(38, 112, 212, 0.75))
+    );
+    background: -o-linear-gradient(
+        top,
+        rgba(0, 255, 180, 0.75) 16%,
+        rgba(38, 112, 212, 0.75) 100%
+    );
+    background: linear-gradient(
+        180deg,
+        rgba(0, 255, 180, 0.75) 16%,
+        rgba(38, 112, 212, 0.75) 100%
+    );
     position: absolute;
     z-index: -1;
     height: 100%;
@@ -8640,7 +8667,7 @@ ul {
 }
 
 .fxt-template-layout19 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -8664,20 +8691,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout19 .checkbox input[type="checkbox"] {
+.fxt-template-layout19 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout19 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout19 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout19 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout19
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #2670d4;
     border-color: #2670d4;
 }
@@ -8740,12 +8770,12 @@ ul {
 }
 
 .fxt-template-layout19 ul.fxt-socials li.fxt-google a {
-    color: #CC3333;
+    color: #cc3333;
 }
 
 .fxt-template-layout19 ul.fxt-socials li.fxt-google a:hover {
-    border-color: #CC3333;
-    background-color: #CC3333;
+    border-color: #cc3333;
+    background-color: #cc3333;
     color: #fff;
 }
 
@@ -8760,12 +8790,12 @@ ul {
 }
 
 .fxt-template-layout19 ul.fxt-socials li.fxt-linkedin a {
-    color: #0077B5;
+    color: #0077b5;
 }
 
 .fxt-template-layout19 ul.fxt-socials li.fxt-linkedin a:hover {
-    border-color: #0077B5;
-    background-color: #0077B5;
+    border-color: #0077b5;
+    background-color: #0077b5;
     color: #fff;
 }
 
@@ -8793,7 +8823,6 @@ ul {
     margin-top: 50px;
     text-align: center;
 }
-
 
 /*========================================================================
 23. Demo Layout Twenty
@@ -9013,7 +9042,7 @@ ul {
 
 .fxt-template-layout20 .fxt-style-line h2:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -9028,7 +9057,7 @@ ul {
 
 .fxt-template-layout20 .fxt-style-line h2:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -9157,7 +9186,7 @@ ul {
 }
 
 .fxt-template-layout20 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout20 ul.fxt-socials li.fxt-google a i {
@@ -9181,7 +9210,7 @@ ul {
 }
 
 .fxt-template-layout20 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -9205,20 +9234,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout20 .checkbox input[type="checkbox"] {
+.fxt-template-layout20 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout20 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout20 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout20 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout20
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #6b79fd;
     border-color: #6b79fd;
 }
@@ -9226,7 +9258,6 @@ ul {
 .fxt-template-layout20 .fxt-footer {
     text-align: center;
 }
-
 
 /*========================================================================
 24. Demo Layout Twenty One
@@ -9486,7 +9517,7 @@ ul {
 
 .fxt-template-layout21 .fxt-style-line h3:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -9501,7 +9532,7 @@ ul {
 
 .fxt-template-layout21 .fxt-style-line h3:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -9630,7 +9661,7 @@ ul {
 }
 
 .fxt-template-layout21 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout21 ul.fxt-socials li.fxt-google a i {
@@ -9654,7 +9685,7 @@ ul {
 }
 
 .fxt-template-layout21 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -9678,20 +9709,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout21 .checkbox input[type="checkbox"] {
+.fxt-template-layout21 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout21 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout21 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout21 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout21
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #111;
     border-color: #111;
 }
@@ -9703,7 +9737,6 @@ ul {
 .fxt-template-layout21 .fxt-footer p {
     color: #999898;
 }
-
 
 /*========================================================================
 25. Demo Layout Twenty Two
@@ -9730,7 +9763,7 @@ ul {
 }
 
 .fxt-template-layout22:before {
-    content: "";
+    content: '';
     height: 100%;
     width: 100%;
     background-color: rgba(4, 4, 14, 0.5);
@@ -9957,7 +9990,7 @@ ul {
 
 .fxt-template-layout22 .fxt-style-line h3:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -9972,7 +10005,7 @@ ul {
 
 .fxt-template-layout22 .fxt-style-line h3:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #ebebeb;
@@ -10042,7 +10075,7 @@ ul {
 }
 
 .fxt-template-layout22 ul.fxt-socials li a:before {
-    content: "";
+    content: '';
     width: 0;
     right: 0;
     left: inherit;
@@ -10078,7 +10111,7 @@ ul {
 }
 
 .fxt-template-layout22 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout22 ul.fxt-socials li.fxt-google a:before {
@@ -10086,7 +10119,7 @@ ul {
 }
 
 .fxt-template-layout22 ul.fxt-socials li.fxt-linkedin a {
-    background-color: #0077B5;
+    background-color: #0077b5;
 }
 
 .fxt-template-layout22 ul.fxt-socials li.fxt-linkedin a:before {
@@ -10106,7 +10139,7 @@ ul {
 }
 
 .fxt-template-layout22 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -10130,20 +10163,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout22 .checkbox input[type="checkbox"] {
+.fxt-template-layout22 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout22 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout22 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout22 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout22
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #ff0000;
     border-color: #ff0000;
 }
@@ -10151,7 +10187,6 @@ ul {
 .fxt-template-layout22 .fxt-footer {
     text-align: center;
 }
-
 
 /*========================================================================
 26. Demo Layout Twenty Three
@@ -10379,7 +10414,7 @@ ul {
 
 .fxt-template-layout23 .fxt-style-line h3:before {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #a4a4a4;
@@ -10394,7 +10429,7 @@ ul {
 
 .fxt-template-layout23 .fxt-style-line h3:after {
     display: inline-block;
-    content: "";
+    content: '';
     height: 1px;
     width: 100%;
     background-color: #a4a4a4;
@@ -10523,7 +10558,7 @@ ul {
 }
 
 .fxt-template-layout23 ul.fxt-socials li.fxt-google a {
-    background-color: #CC3333;
+    background-color: #cc3333;
 }
 
 .fxt-template-layout23 ul.fxt-socials li.fxt-google a i {
@@ -10563,7 +10598,7 @@ ul {
 }
 
 .fxt-template-layout23 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -10587,20 +10622,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout23 .checkbox input[type="checkbox"] {
+.fxt-template-layout23 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout23 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout23 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout23 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout23
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #1fbe66;
     border-color: #1fbe66;
 }
@@ -10612,7 +10650,6 @@ ul {
 .fxt-template-layout23 .fxt-footer p {
     color: #b6b6b6;
 }
-
 
 /*========================================================================
 27. Demo Layout Twenty Four
@@ -10647,7 +10684,7 @@ ul {
 }
 
 .fxt-template-layout24 .fxt-video-background:before {
-    content: "";
+    content: '';
     position: absolute;
     z-index: 2;
     background-color: rgba(0, 0, 0, 0.7);
@@ -10853,7 +10890,7 @@ ul {
 }
 
 .fxt-template-layout24 .checkbox label:before {
-    content: "";
+    content: '';
     position: absolute;
     width: 15px;
     height: 15px;
@@ -10877,20 +10914,23 @@ ul {
     color: #555555;
 }
 
-.fxt-template-layout24 .checkbox input[type="checkbox"] {
+.fxt-template-layout24 .checkbox input[type='checkbox'] {
     display: none;
 }
 
-.fxt-template-layout24 .checkbox input[type="checkbox"]:checked+label::after {
+.fxt-template-layout24 .checkbox input[type='checkbox']:checked + label::after {
     font-family: 'Font Awesome 5 Free';
-    content: "\f00c";
+    content: '\f00c';
     font-weight: 900;
     color: #ffffff;
     left: 15px;
     top: 4px;
 }
 
-.fxt-template-layout24 .checkbox input[type="checkbox"]:checked+label::before {
+.fxt-template-layout24
+    .checkbox
+    input[type='checkbox']:checked
+    + label::before {
     background-color: #ffbd3f;
     border-color: #ffbd3f;
 }
@@ -10904,7 +10944,7 @@ ul {
 }
 
 .flex-item {
-    transition: transform .2s;
+    transition: transform 0.2s;
 }
 
 .flex-item:hover {
@@ -10919,7 +10959,6 @@ table td {
     padding: 30px;
     border: none;
 }
-
 
 /*  */
 

@@ -6,12 +6,12 @@ td {
 
 table td {
     padding: 5px !important;
-    background-color: #D8D8D8 !important;
+    background-color: #d8d8d8 !important;
 }
 
 table th {
     padding: 10px !important;
-    background-color: #D8D8D8 !important;
+    background-color: #d8d8d8 !important;
 }
 
 //Order Wrapper
@@ -22,11 +22,11 @@ table th {
 
 .legende {
     text-align: center;
-    color: #D8D8D8;
+    color: #d8d8d8;
 }
 
 .facture-component {
-    font-family: "Poppins" !important;
+    font-family: 'Poppins' !important;
 }
 
 //Recap Wrapper
@@ -42,19 +42,18 @@ table th {
 
         .personal-block {
             font-weight: bold;
-            background-color: #D8D8D8;
+            background-color: #d8d8d8;
             padding: 0.5rem;
             width: 50%;
         }
 
-        >div {
+        > div {
             width: 50%;
         }
 
         .company-block {
             span {
                 float: right !important;
-
             }
         }
     }

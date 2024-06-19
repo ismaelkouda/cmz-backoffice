@@ -1,8 +1,29 @@
 <div>
-    <button *ngIf="!hiddenButtonOther" (click)="onOther()" pButton pRipple [label]="labelOther" [icon]="iconOther"
-        class="p-button-success margin-right-5"></button>
-    <button *ngIf="!hiddenButtonRefresh" (click)="onRefresh()" pButton pRipple label="Rafraîchir" icon="pi pi-refresh"
-        class="p-button-secondary margin-right-5"></button>
-    <button *ngIf="!hiddenButtonExport" (click)="onExport()" pButton pRipple label="Exporter" icon="pi pi-download"
-        class="p-button-helf"></button>
+    <button
+        *ngIf="!hiddenButtonOther"
+        (click)="onOther()"
+        pButton
+        pRipple
+        [label]="labelOther"
+        [icon]="iconOther"
+        class="p-button-success margin-right-5"
+    ></button>
+    <button
+        *ngIf="!hiddenButtonRefresh"
+        (click)="onRefresh()"
+        pButton
+        pRipple
+        label="Rafraîchir"
+        icon="pi pi-refresh"
+        class="p-button-secondary margin-right-5"
+    ></button>
+    <button
+        *ngIf="!hiddenButtonExport"
+        (click)="onExport()"
+        pButton
+        pRipple
+        label="Exporter"
+        icon="pi pi-download"
+        class="p-button-helf"
+    ></button>
 </div>

@@ -34,15 +34,11 @@
     }
 }
 
-@each $badge-light-name,
-$badge-light-color in (primary, $primary-color),
-(secondary, $secondary-color),
-(success, $success-color),
-(danger, $danger-color),
-(info, $info-color),
-(light, $badge-light-color),
-(dark, $dark-color),
-(warning, $warning-color) {
+@each $badge-light-name, $badge-light-color in (primary, $primary-color),
+    (secondary, $secondary-color), (success, $success-color),
+    (danger, $danger-color), (info, $info-color), (light, $badge-light-color),
+    (dark, $dark-color), (warning, $warning-color)
+{
     .badge-light-#{$badge-light-name} {
         background-color: lighten($badge-light-color, 38%);
         color: $badge-light-color;
@@ -112,7 +108,6 @@ $badge-light-color in (primary, $primary-color),
         }
     }
 }
-
 
 /* Clock styles */
 
@@ -188,7 +183,7 @@ $badge-light-color in (primary, $primary-color),
             min-height: unset !important;
         }
     }
-    >.col-xxl-auto {
+    > .col-xxl-auto {
         @media (min-width: 1400px) {
             width: 22.22%;
         }
@@ -196,7 +191,7 @@ $badge-light-color in (primary, $primary-color),
 }
 
 .order-chart {
-    >div {
+    > div {
         margin-top: -25px;
         margin-bottom: -43px;
     }
@@ -215,7 +210,7 @@ $badge-light-color in (primary, $primary-color),
 }
 
 .growth-wrapper {
-    >div {
+    > div {
         margin-top: -54px;
         margin-bottom: -25px;
         @media (max-width: 1481px) {
@@ -225,7 +220,7 @@ $badge-light-color in (primary, $primary-color),
 }
 
 .profit-chart {
-    >div {
+    > div {
         margin-top: -45px;
         margin-bottom: -48px;
     }
@@ -353,14 +348,14 @@ $badge-light-color in (primary, $primary-color),
         bottom: -15px;
         right: 20px;
         animation: bounce-effect 5s infinite ease-in;
-        [dir="rtl"] & {
+        [dir='rtl'] & {
             right: unset !important;
             left: 5px;
         }
         @media (max-width: 1660px) {
             right: 30px;
             text-align: right;
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 left: -6px;
                 text-align: left;
             }
@@ -375,7 +370,7 @@ $badge-light-color in (primary, $primary-color),
         }
         @media (max-width: 767px) {
             right: 10px;
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 left: -10px;
             }
             img {
@@ -384,7 +379,7 @@ $badge-light-color in (primary, $primary-color),
         }
         @media (max-width: 575px) {
             right: 30px;
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 left: 10px;
             }
             img {
@@ -478,7 +473,7 @@ $badge-light-color in (primary, $primary-color),
     .note-labels {
         display: flex;
         align-items: center;
-        >* {
+        > * {
             padding: 3px 0;
         }
         ul {
@@ -502,7 +497,7 @@ $badge-light-color in (primary, $primary-color),
             padding-left: 16px;
             margin-left: 16px;
             border-left: 1px dashed rgba($theme-body-sub-title-color, 0.7);
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 padding-left: unset;
                 margin-left: unset;
                 margin-right: 16px;
@@ -513,7 +508,7 @@ $badge-light-color in (primary, $primary-color),
             @media (max-width: 575px) {
                 padding-left: 8px;
                 margin-left: 8px;
-                [dir="rtl"] & {
+                [dir='rtl'] & {
                     margin-right: 8px;
                     padding-right: 8px;
                 }
@@ -571,13 +566,13 @@ $badge-light-color in (primary, $primary-color),
         position: relative;
         &::before {
             position: absolute;
-            content: "";
+            content: '';
             border: 1px dashed $theme-body-sub-title-color;
             opacity: 0.3;
             top: 12px;
             left: 2px;
             height: calc(100% - 12px);
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 left: unset;
                 right: 2px;
             }
@@ -586,7 +581,7 @@ $badge-light-color in (primary, $primary-color),
     li {
         padding-bottom: 22px;
     }
-    div[class*="activity-dot-"] {
+    div[class*='activity-dot-'] {
         margin-top: 12px;
         animation: round 1.3s ease-in-out infinite;
     }
@@ -603,7 +598,7 @@ $badge-light-color in (primary, $primary-color),
                 h6 {
                     margin-bottom: 5px;
                     position: relative;
-                    ~p {
+                    ~ p {
                         -webkit-box-orient: vertical;
                         -webkit-line-clamp: 1;
                         text-emphasis: inherit;
@@ -660,7 +655,7 @@ $badge-light-color in (primary, $primary-color),
 }
 
 .schedule-container {
-    >div {
+    > div {
         margin-bottom: -40px;
     }
     svg {
@@ -899,7 +894,11 @@ $badge-light-color in (primary, $primary-color),
         width: 43px;
         height: 43px;
         background: $white;
-        box-shadow: 0px 71.2527px 51.5055px rgba(229, 229, 245, 0.189815), 0px 42.3445px 28.0125px rgba(229, 229, 245, 0.151852), 0px 21.9866px 14.2913px rgba(229, 229, 245, 0.125), 0px 8.95749px 7.16599px rgba(229, 229, 245, 0.0981481), 0px 2.03579px 3.46085px rgba(229, 229, 245, 0.0601852);
+        box-shadow: 0px 71.2527px 51.5055px rgba(229, 229, 245, 0.189815),
+            0px 42.3445px 28.0125px rgba(229, 229, 245, 0.151852),
+            0px 21.9866px 14.2913px rgba(229, 229, 245, 0.125),
+            0px 8.95749px 7.16599px rgba(229, 229, 245, 0.0981481),
+            0px 2.03579px 3.46085px rgba(229, 229, 245, 0.0601852);
         border-radius: 10px;
         display: flex;
         align-items: center;
@@ -927,8 +926,8 @@ $badge-light-color in (primary, $primary-color),
 
 //index dashboard css ends
 .crm-activity {
-    >li {
-        +li {
+    > li {
+        + li {
             border-top: 1px solid $light-semi-gray;
             margin-top: 10px;
             padding-top: 10px;
@@ -954,7 +953,7 @@ $badge-light-color in (primary, $primary-color),
             font-size: 12px;
             display: inline-block;
             line-height: 1;
-            +li {
+            + li {
                 border-left: 1px solid $light-semi-gray;
                 padding-left: 10px;
                 margin-left: 5px;
@@ -1039,7 +1038,13 @@ $badge-light-color in (primary, $primary-color),
     justify-content: center;
     font-size: 25px;
     margin: 0 auto;
-    background-image: linear-gradient(90deg, $light-color 50%, transparent 50%, transparent), linear-gradient(90deg, $light-gray 50%, $light-color 50%, $light-color);
+    background-image: linear-gradient(
+            90deg,
+            $light-color 50%,
+            transparent 50%,
+            transparent
+        ),
+        linear-gradient(90deg, $light-gray 50%, $light-color 50%, $light-color);
     i {
         background-color: $white;
         height: 80px;
@@ -1051,7 +1056,18 @@ $badge-light-color in (primary, $primary-color),
         justify-content: center;
     }
     &.radial-bar-70 {
-        background-image: linear-gradient(342deg, var(--theme-deafult) 50%, transparent 50%, transparent), linear-gradient(270deg, var(--theme-deafult) 50%, $light-color 50%, $light-color);
+        background-image: linear-gradient(
+                342deg,
+                var(--theme-deafult) 50%,
+                transparent 50%,
+                transparent
+            ),
+            linear-gradient(
+                270deg,
+                var(--theme-deafult) 50%,
+                $light-color 50%,
+                $light-color
+            );
     }
 }
 
@@ -1642,14 +1658,14 @@ span.twitter-typeahead {
     position: absolute;
     top: -50px;
     right: 2%;
-    [dir="rtl"] & {
+    [dir='rtl'] & {
         right: unset;
         left: 2%;
     }
     @media (max-width: 991px) {
         top: -42px;
         right: -65%;
-        [dir="rtl"] & {
+        [dir='rtl'] & {
             left: -65%;
         }
     }
@@ -1671,11 +1687,11 @@ span.twitter-typeahead {
 
 .current-sale-container {
     padding-right: 12px;
-    [dir="rtl"] & {
+    [dir='rtl'] & {
         padding-right: unset;
         padding-left: 12px;
     }
-    >div {
+    > div {
         margin: -22px 0 -30px -16px;
         @media (max-width: 1199px) {
             margin-bottom: 0;
@@ -1699,11 +1715,11 @@ span.twitter-typeahead {
     &.order-container {
         @media (max-width: 575px) {
             padding-right: 0;
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 padding-left: 0;
             }
         }
-        >div {
+        > div {
             @media (max-width: 404px) {
                 margin-bottom: 0;
             }
@@ -1749,7 +1765,7 @@ span.twitter-typeahead {
             }
         }
     }
-    >div {
+    > div {
         @media (max-width: 1560px) and (min-width: 1400px) {
             width: 100%;
         }
@@ -1765,8 +1781,14 @@ span.twitter-typeahead {
     position: relative;
     &::after {
         position: absolute;
-        content: "";
-        background: linear-gradient(0deg, #ffffff 0.05%, #f4f4f4 19.91%, #f5f6f9 55.02%, #eaecf4 100%);
+        content: '';
+        background: linear-gradient(
+            0deg,
+            #ffffff 0.05%,
+            #f4f4f4 19.91%,
+            #f5f6f9 55.02%,
+            #eaecf4 100%
+        );
         width: calc(100% + 10px);
         height: calc(100% + 10px);
         top: 0;
@@ -1965,7 +1987,6 @@ footer {
         }
     }
 }
-
 
 /**=====================
 53. Dashboard CSS Ends

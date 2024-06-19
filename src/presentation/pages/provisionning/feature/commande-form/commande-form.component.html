@@ -1,162 +1,259 @@
-
-
 <div *ngIf="!currentObject?.show">
-  <div class="forms-feature-header">
-    <div>
-      <h3>
-        <b>
-          <span>Nouvel Achat</span>
-        </b>
-      </h3>
-    </div>
-    <div class="forms-feature-header__button" style="display: flex;gap: 1.5rem;">
-      <div>
-        <p-button label="Panier Produits" icon="pi pi-shopping-cart" [badge]="totalProduct() || '0'"
-          (click)="displays=true" [disabled]="panierList?.length ===0"></p-button>
-      </div>
-      <div>
-        <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
-      </div>
-    </div>
-  </div>
-  <hr>
-  <div class="product-container">
-    <div *ngFor="let prod of listProducts" class="card_component" (click)="OnModal(prod,content)"
-      [style]="{marginBottom: '10px',cursor: 'pointer'}">
-      <div class="card-body" style="padding: 15px !important;">
+    <div class="forms-feature-header">
         <div>
-          <div class="card_component__code">{{prod.code_produit}}</div>
+            <h3>
+                <b>
+                    <span>Nouvel Achat</span>
+                </b>
+            </h3>
         </div>
-        <div class="card_component__picture">
-          <span><img src="assets/images/unboxing.png" alt=""></span>
+        <div
+            class="forms-feature-header__button"
+            style="display: flex; gap: 1.5rem"
+        >
+            <div>
+                <p-button
+                    label="Panier Produits"
+                    icon="pi pi-shopping-cart"
+                    [badge]="totalProduct() || '0'"
+                    (click)="displays = true"
+                    [disabled]="panierList?.length === 0"
+                ></p-button>
+            </div>
+            <div>
+                <p-button
+                    label="Fermer"
+                    styleClass="p-button-danger"
+                    (click)="close()"
+                ></p-button>
+            </div>
         </div>
-        <div class="card_component__namePrice">
-          <div>
-            <div class="card_component__namePrice--name">{{prod.libelle_produit}}</div>
-          </div>
-          <div>
-            <div class="card_component__namePrice--price">{{pipeValue(prod.prix_unitaire)}} F</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer">
-        <button pButton pRipple label="Ajouter au panier" icon="pi pi-plus" class="p-button-dark"
-          style="width: 100%;border-radius: 0 !important;">
-        </button>
-      </div>
     </div>
-  </div>
-  <!--[disabled]="!currentRecaptcha"-->
+    <hr />
+    <div class="product-container">
+        <div
+            *ngFor="let prod of listProducts"
+            class="card_component"
+            (click)="OnModal(prod, content)"
+            [style]="{ marginBottom: '10px', cursor: 'pointer' }"
+        >
+            <div class="card-body" style="padding: 15px !important">
+                <div>
+                    <div class="card_component__code">
+                        {{ prod.code_produit }}
+                    </div>
+                </div>
+                <div class="card_component__picture">
+                    <span><img src="assets/images/unboxing.png" alt="" /></span>
+                </div>
+                <div class="card_component__namePrice">
+                    <div>
+                        <div class="card_component__namePrice--name">
+                            {{ prod.libelle_produit }}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card_component__namePrice--price">
+                            {{ pipeValue(prod.prix_unitaire) }} F
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button
+                    pButton
+                    pRipple
+                    label="Ajouter au panier"
+                    icon="pi pi-plus"
+                    class="p-button-dark"
+                    style="width: 100%; border-radius: 0 !important"
+                ></button>
+            </div>
+        </div>
+    </div>
+    <!--[disabled]="!currentRecaptcha"-->
 </div>
 <!-- <div>
   <app-facture [currentObjectTwo]="currentObjectTwo" *ngIf="factureView" (factureView)="pushStatutView($event,'data')"
     [currentId]="currentId"></app-facture>
 </div> -->
-<ng-template #content let-modal style="width: 70rem;">
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{currentItem?.nom}}</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
-  </div>
-  <div class="modal-body">
-    <div class="form-group">
-      <label><b>Quantité<span class="text-danger">*</span></b></label>
-      <input [(ngModel)]="currentItem.quantite" type="number" pInputText />
+<ng-template #content let-modal style="width: 70rem">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            {{ currentItem?.nom }}
+        </h4>
+        <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="modal.dismiss()"
+        ></button>
     </div>
-  </div>
-  <div class="modal-footer">
-    <div>
-      <button type="button" class="btn btn-hide" (click)="hideModal()">Fermer</button>
+    <div class="modal-body">
+        <div class="form-group">
+            <label
+                ><b>Quantité<span class="text-danger">*</span></b></label
+            >
+            <input
+                [(ngModel)]="currentItem.quantite"
+                type="number"
+                pInputText
+            />
+        </div>
     </div>
-    <div>
-      <button type="button" class="btn btn-save" (click)="OnAddToPanier(currentItem)">Valider</button>
+    <div class="modal-footer">
+        <div>
+            <button type="button" class="btn btn-hide" (click)="hideModal()">
+                Fermer
+            </button>
+        </div>
+        <div>
+            <button
+                type="button"
+                class="btn btn-save"
+                (click)="OnAddToPanier(currentItem)"
+            >
+                Valider
+            </button>
+        </div>
     </div>
-  </div>
 </ng-template>
 
-<p-dialog [(visible)]="displays" position="bottom-right" [style]="{ width: '100%' }"
-  (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true" [maximizable]="true" [draggable]="false"
-  [resizable]="false">
-  <ng-template pTemplate="header">
-    <h3>
-
-    </h3>
-  </ng-template>
-  <ng-template pTemplate="content">
-    <div style="
-    display: flex;
-    gap: 1rem;
-    width: 100%;padding-right: 1.8rem;">
-      <div class="panier-wrapper">
-        <div class="legende">Mon Panier</div>
-        <div class="panier-card" *ngFor="let prod of panierList">
-          <div class="panier-card__file">
-            <img src="assets/images/unboxing.png" alt="">
-          </div>
-          <div class="panier-card__infos">
-            <div class="panier-card__infos--code">{{prod.code}}</div>
-            <div class="panier-card__infos--nom">{{prod.nom}}</div>
-          </div>
-          <div class="panier-card__quantity">
-            <button [ngClass]="['decrement']" (click)="OnIecrementButton(prod)" decrementButtonIcon="pi pi-minus"><i
-                class="pi pi-minus"></i></button>
-            <span>{{prod.quantite}}</span>
-            <button [ngClass]="['increment']" (click)="OnIncrementButton(prod)"><i class="pi pi-plus"
-                incrementButtonClass="p-button-success"></i></button>
-          </div>
-          <div class="panier-card__price">{{ pipeValue((prod.prix_unitaire)*(prod.quantite))}} F</div>
-          <div class="panier-card__actions">
-            <p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Retirer" tooltipPosition="top"
-              (click)="RemoveFromPanier(prod)"></p-button>
-          </div>
-        </div>
-      </div>
-      <div class="resume-wrapper">
-        <div class="legende">résumé</div>
-        <div class="resume-panier">
-          <div class="resume-panier__title">
-            <div>Prix HT</div>
-            <div>TVA 18 %</div>
-            <div>Montant totale à régler</div>
-          </div>
-          <div class="resume-panier__values">
-            <div>{{ pipeValue(totalPrice())}} FCFA</div>
-            <div>{{pipeValue(montantRemise()) }} FCFA</div>
-            <div class="global">{{ pipeValue(montantTotal())}} FCFA</div>
-          </div>
-        </div>
-        <div class="actions">
-          <!-- <div class="d-flex justify-content-end">
+<p-dialog
+    [(visible)]="displays"
+    position="bottom-right"
+    [style]="{ width: '100%' }"
+    (onMaximize)="onDialogMaximized($event)"
+    [modal]="true"
+    [responsive]="true"
+    [maximizable]="true"
+    [draggable]="false"
+    [resizable]="false"
+>
+    <ng-template pTemplate="header">
+        <h3></h3>
+    </ng-template>
+    <ng-template pTemplate="content">
+        <div
+            style="display: flex; gap: 1rem; width: 100%; padding-right: 1.8rem"
+        >
+            <div class="panier-wrapper">
+                <div class="legende">Mon Panier</div>
+                <div class="panier-card" *ngFor="let prod of panierList">
+                    <div class="panier-card__file">
+                        <img src="assets/images/unboxing.png" alt="" />
+                    </div>
+                    <div class="panier-card__infos">
+                        <div class="panier-card__infos--code">
+                            {{ prod.code }}
+                        </div>
+                        <div class="panier-card__infos--nom">
+                            {{ prod.nom }}
+                        </div>
+                    </div>
+                    <div class="panier-card__quantity">
+                        <button
+                            [ngClass]="['decrement']"
+                            (click)="OnIecrementButton(prod)"
+                            decrementButtonIcon="pi pi-minus"
+                        >
+                            <i class="pi pi-minus"></i>
+                        </button>
+                        <span>{{ prod.quantite }}</span>
+                        <button
+                            [ngClass]="['increment']"
+                            (click)="OnIncrementButton(prod)"
+                        >
+                            <i
+                                class="pi pi-plus"
+                                incrementButtonClass="p-button-success"
+                            ></i>
+                        </button>
+                    </div>
+                    <div class="panier-card__price">
+                        {{ pipeValue(prod.prix_unitaire * prod.quantite) }} F
+                    </div>
+                    <div class="panier-card__actions">
+                        <p-button
+                            icon="pi pi-trash"
+                            styleClass="p-button-danger"
+                            pTooltip="Retirer"
+                            tooltipPosition="top"
+                            (click)="RemoveFromPanier(prod)"
+                        ></p-button>
+                    </div>
+                </div>
+            </div>
+            <div class="resume-wrapper">
+                <div class="legende">résumé</div>
+                <div class="resume-panier">
+                    <div class="resume-panier__title">
+                        <div>Prix HT</div>
+                        <div>TVA 18 %</div>
+                        <div>Montant totale à régler</div>
+                    </div>
+                    <div class="resume-panier__values">
+                        <div>{{ pipeValue(totalPrice()) }} FCFA</div>
+                        <div>{{ pipeValue(montantRemise()) }} FCFA</div>
+                        <div class="global">
+                            {{ pipeValue(montantTotal()) }} FCFA
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <!-- <div class="d-flex justify-content-end">
             <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [type]="'image'" [(ngModel)]="currentRecaptcha" (success)="handleSuccess($event)">
             </ngx-recaptcha2 >
           </div> -->
-            <button pButton pRipple label="Valider la commande" icon="pi pi-shopping-cart" (click)="OnSaveCommande()"
-            class="p-button-success mt-2"></button>
+                    <button
+                        pButton
+                        pRipple
+                        label="Valider la commande"
+                        icon="pi pi-shopping-cart"
+                        (click)="OnSaveCommande()"
+                        class="p-button-success mt-2"
+                    ></button>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </ng-template>
+    </ng-template>
 </p-dialog>
 
 <div *ngIf="currentObject?.show">
-  <div class="forms-feature-header">
-    <div>
-      <h3>
-        <b>
-          <span>Visualisation de la Commande</span>
-          <span class="current_values">[{{currentObject?.transaction}}]</span>        </b>
-      </h3>
+    <div class="forms-feature-header">
+        <div>
+            <h3>
+                <b>
+                    <span>Visualisation de la Commande</span>
+                    <span class="current_values"
+                        >[{{ currentObject?.transaction }}]</span
+                    >
+                </b>
+            </h3>
+        </div>
+        <div
+            class="forms-feature-header__button"
+            style="display: flex; gap: 1.5rem"
+        >
+            <div>
+                <p-button
+                    label="Fermer"
+                    styleClass="p-button-danger"
+                    (click)="close()"
+                ></p-button>
+            </div>
+        </div>
     </div>
-    <div class="forms-feature-header__button" style="display: flex;gap: 1.5rem;">
-      <div>
-        <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
-      </div>
-    </div>
-  </div>
-  <hr>
-  <p-tabView>
-    <p-tabPanel header="HISTORIQUE">
-      <app-historique [module]="''" [sous_module]="''" [modele]="'achat_service'" [modele_id]="currentObject.id">
-      </app-historique>
-    </p-tabPanel>
-  </p-tabView>
+    <hr />
+    <p-tabView>
+        <p-tabPanel header="HISTORIQUE">
+            <app-historique
+                [module]="''"
+                [sous_module]="''"
+                [modele]="'achat_service'"
+                [modele_id]="currentObject.id"
+            >
+            </app-historique>
+        </p-tabPanel>
+    </p-tabView>
 </div>

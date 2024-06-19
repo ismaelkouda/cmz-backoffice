@@ -2,20 +2,19 @@
      07. Color CSS Start
 ==========================**/
 .color-box {
-  margin-bottom: -10px;
+    margin-bottom: -10px;
 
-  button {
-    margin-bottom: 10px;
+    button {
+        margin-bottom: 10px;
 
-    +button {
-      margin-left: 5px;
+        + button {
+            margin-left: 5px;
+        }
     }
-  }
 }
 
-
 .light-font {
-  color: $theme-body-sub-title-color;
+    color: $theme-body-sub-title-color;
 }
 
 /**=====================

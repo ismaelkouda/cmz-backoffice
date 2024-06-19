@@ -1,247 +1,512 @@
 <div class="container-fluid">
-  <div>
-    <div class="container_flex_space_between mb-3">
-      <div *ngIf="currentObject?.type === 'affectation' || currentObject?.type === 'visualiser'">
-        <h3>
-          <b>
-            <span *ngIf="currentObject?.type === 'affectation'">Affectation de SIM au groupe</span>
-            <span *ngIf="currentObject?.type === 'visualiser'">SIM affectées au groupe</span>
-            <span class="current_values">[{{currentObject?.nom}}]</span>
-          </b>
-        </h3>
-      </div>
-      <div *ngIf="!currentObject || currentObject?.type === 'edit' || currentObject?.type === 'show'"
-        class="filter_wrapper" [formGroup]="adminForm" style="display: flex;gap: 1rem;">
-        <div style="width: 15rem;">
-          <div class="form-group">
-            <label>
-              <b>Nom du groupe<span class="text-danger">*</span></b>
-            </label>
-            <input placeholder="Nom du groupe" formControlName="nom" type="text" pInputText />
-          </div>
-        </div>
-        <div style="width: 20rem;">
-          <div class="form-group">
-            <label>
-              <b>Description<span class="text-danger">*</span></b>
-            </label>
-            <input placeholder="Description du Profil" formControlName="description" type="text" pInputText />
-          </div>
-        </div>
-      </div>
-      <div class="mt-0">
-        <button pButton pRipple label="Enregistrer" [disabled]="!adminForm.valid"
-          *ngIf="!currentObject || currentObject?.type === 'edit'" icon="pi pi-save" class="p-button-success" (click)="!currentObject
-                        ? HandleSaveGroupe()
-                        : HandleUpdateGroupe()" style="margin-left: 1rem;"></button>
-        <button pButton pRipple label="Rafraîchir" icon="pi pi-refresh" class="p-button-secondary"
-          style="margin-left: 1rem;" (click)="OnRefresh()"></button>
-        <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"
-          style="margin-left: 1rem;"></button>
-        <button pButton pRipple label="Fermer" class="p-button-danger" style="margin-left: 1rem;"
-          (click)="close()"></button>
-      </div>
-    </div>
-    <div class="container_flex_space_between" *ngIf="currentObject?.type !== 'edit'">
-      <div class="row filter_wrapper" [ngStyle]="{width: '100%'}">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <b>{{firstLevelLibelle}}</b>
-            </label>
-            <p-dropdown [options]="listDirections" optionLabel="fullName" (onChange)="onChangeItem($event)"
-              [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>
-                    {{data.fullName}}
-                  </div>
+    <div>
+        <div class="container_flex_space_between mb-3">
+            <div
+                *ngIf="
+                    currentObject?.type === 'affectation' ||
+                    currentObject?.type === 'visualiser'
+                "
+            >
+                <h3>
+                    <b>
+                        <span *ngIf="currentObject?.type === 'affectation'"
+                            >Affectation de SIM au groupe</span
+                        >
+                        <span *ngIf="currentObject?.type === 'visualiser'"
+                            >SIM affectées au groupe</span
+                        >
+                        <span class="current_values"
+                            >[{{ currentObject?.nom }}]</span
+                        >
+                    </b>
+                </h3>
+            </div>
+            <div
+                *ngIf="
+                    !currentObject ||
+                    currentObject?.type === 'edit' ||
+                    currentObject?.type === 'show'
+                "
+                class="filter_wrapper"
+                [formGroup]="adminForm"
+                style="display: flex; gap: 1rem"
+            >
+                <div style="width: 15rem">
+                    <div class="form-group">
+                        <label>
+                            <b
+                                >Nom du groupe<span class="text-danger"
+                                    >*</span
+                                ></b
+                            >
+                        </label>
+                        <input
+                            placeholder="Nom du groupe"
+                            formControlName="nom"
+                            type="text"
+                            pInputText
+                        />
+                    </div>
                 </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <b>{{secondLevelLibelle}}</b>
-            </label>
-            <p-dropdown [options]="listExploitations" optionLabel="fullName" optionLabel="nom" [filter]="true"
-              [(ngModel)]="selectedExploitation" [showClear]="true" [placeholder]="secondLevelLibelle">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>
-                    {{data.fullName}}
-                  </div>
+                <div style="width: 20rem">
+                    <div class="form-group">
+                        <label>
+                            <b>Description<span class="text-danger">*</span></b>
+                        </label>
+                        <input
+                            placeholder="Description du Profil"
+                            formControlName="description"
+                            type="text"
+                            pInputText
+                        />
+                    </div>
                 </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
+            </div>
+            <div class="mt-0">
+                <button
+                    pButton
+                    pRipple
+                    label="Enregistrer"
+                    [disabled]="!adminForm.valid"
+                    *ngIf="!currentObject || currentObject?.type === 'edit'"
+                    icon="pi pi-save"
+                    class="p-button-success"
+                    (click)="
+                        !currentObject
+                            ? HandleSaveGroupe()
+                            : HandleUpdateGroupe()
+                    "
+                    style="margin-left: 1rem"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Rafraîchir"
+                    icon="pi pi-refresh"
+                    class="p-button-secondary"
+                    style="margin-left: 1rem"
+                    (click)="OnRefresh()"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Exporter"
+                    icon="pi pi-download"
+                    class="p-button-helf"
+                    style="margin-left: 1rem"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Fermer"
+                    class="p-button-danger"
+                    style="margin-left: 1rem"
+                    (click)="close()"
+                ></button>
+            </div>
         </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>
-              <b>IMSI</b>
-            </label>
-            <input placeholder="Imsi" [(ngModel)]="selectedImsi" type="text" pInputText />
-          </div>
+        <div
+            class="container_flex_space_between"
+            *ngIf="currentObject?.type !== 'edit'"
+        >
+            <div class="row filter_wrapper" [ngStyle]="{ width: '100%' }">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>
+                            <b>{{ firstLevelLibelle }}</b>
+                        </label>
+                        <p-dropdown
+                            [options]="listDirections"
+                            optionLabel="fullName"
+                            (onChange)="onChangeItem($event)"
+                            [showClear]="true"
+                            [filter]="true"
+                            filterBy="fullName"
+                            [placeholder]="firstLevelLibelle"
+                        >
+                            <ng-template let-data pTemplate="item">
+                                <div class="country-item">
+                                    <div>
+                                        {{ data.fullName }}
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>
+                            <b>{{ secondLevelLibelle }}</b>
+                        </label>
+                        <p-dropdown
+                            [options]="listExploitations"
+                            optionLabel="fullName"
+                            optionLabel="nom"
+                            [filter]="true"
+                            [(ngModel)]="selectedExploitation"
+                            [showClear]="true"
+                            [placeholder]="secondLevelLibelle"
+                        >
+                            <ng-template let-data pTemplate="item">
+                                <div class="country-item">
+                                    <div>
+                                        {{ data.fullName }}
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>
+                            <b>IMSI</b>
+                        </label>
+                        <input
+                            placeholder="Imsi"
+                            [(ngModel)]="selectedImsi"
+                            type="text"
+                            pInputText
+                        />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>
+                            <b>MSISDN</b>
+                        </label>
+                        <input
+                            placeholder="Msisdn"
+                            [(ngModel)]="selectedMsisdn"
+                            type="text"
+                            pInputText
+                        />
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <p-button
+                        styleClass="p-button-success filter-button"
+                        (click)="OnFilterALl()"
+                        icon="pi pi-filter"
+                        [disabled]="isFilter()"
+                    ></p-button>
+                </div>
+            </div>
+            <div class="table_actions_wrapper mt-3" style="height: fit-content">
+                <button
+                    *ngIf="currentObject?.type === 'affectation'"
+                    pButton
+                    pRipple
+                    label="Affecter"
+                    icon="pi pi-arrow-right"
+                    class="p-button-success"
+                    [disabled]="checkconsumerList?.length === 0"
+                    (click)="handleSaveAffectation()"
+                ></button>
+                <button
+                    *ngIf="currentObject?.type === 'visualiser'"
+                    pButton
+                    pRipple
+                    label="Retirer"
+                    icon="pi pi-times"
+                    class="p-button-danger"
+                    [disabled]="checkconsumerList?.length === 0"
+                    (click)="handleRetraitSim()"
+                ></button>
+                <button
+                    *ngIf="currentObject?.type === 'visualiser'"
+                    pButton
+                    pRipple
+                    label="Réaffecter"
+                    icon="pi pi-arrows-h"
+                    class="p-button-success"
+                    (click)="openForm(content)"
+                    [disabled]="checkconsumerList?.length === 0"
+                ></button>
+            </div>
         </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>
-              <b>MSISDN</b>
-            </label>
-            <input placeholder="Msisdn" [(ngModel)]="selectedMsisdn" type="text" pInputText />
-          </div>
+        <hr />
+        <div
+            class="table_content_wrapper"
+            *ngIf="
+                currentObject?.type !== 'show' && currentObject?.type !== 'edit'
+            "
+        >
+            <div class="table_header mt-2">
+                <app-tab-view-header
+                    *ngIf="currentObject?.type === 'affectation'"
+                    [legende]="'Liste des SIMS non affectées'"
+                ></app-tab-view-header>
+                <app-tab-view-header
+                    *ngIf="currentObject?.type === 'visualiser'"
+                    [legende]="'Liste des SIMS affectées'"
+                ></app-tab-view-header>
+            </div>
+            <table
+                [ngClass]="['native_table table']"
+                style="margin-top: -0.2rem"
+            >
+                <thead>
+                    <th class="text-center" [ngStyle]="{ width: '3rem' }">#</th>
+                    <th>{{ firstLevelLibelle }}</th>
+                    <th>{{ secondLevelLibelle }}</th>
+                    <th class="text-center">IMSI</th>
+                    <th class="text-center">MSISDN</th>
+                    <th class="text-center">Statut</th>
+                    <th
+                        class="text-center"
+                        [ngStyle]="{ width: '1rem' }"
+                        *ngIf="currentObject?.type !== 'show'"
+                    >
+                        <p-checkbox
+                            [binary]="true"
+                            (click)="OnCheckAllConsumer()"
+                            [(ngModel)]="checkedAllConsumers"
+                        ></p-checkbox>
+                    </th>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="
+                            let data of listAffectations
+                                | paginate
+                                    : {
+                                          itemsPerPage: recordsPerPage,
+                                          currentPage: p,
+                                          totalPages: totalPage,
+                                          totalItems: totalRecords
+                                      };
+                            let i = index
+                        "
+                    >
+                        <td>{{ this.offset + i }}</td>
+                        <td>
+                            <span *ngIf="!currentObject"
+                                >{{ data?.direction_regionale?.nom }} [{{
+                                    data?.direction_regionale?.code
+                                }}]</span
+                            >
+                            <span *ngIf="currentObject">{{
+                                data?.niveau_un
+                            }}</span>
+                        </td>
+                        <td>
+                            <span *ngIf="!currentObject"
+                                >{{ data?.exploitation?.nom }} [{{
+                                    data.exploitation?.code
+                                }}]</span
+                            >
+                            <span *ngIf="currentObject">{{
+                                data?.niveau_deux
+                            }}</span>
+                        </td>
+                        <td
+                            (click)="copyData(data.imsi)"
+                            style="cursor: pointer"
+                        >
+                            {{ data?.imsi }}
+                        </td>
+                        <td
+                            (click)="copyData(data.msisdn)"
+                            style="cursor: pointer"
+                        >
+                            {{ data?.msisdn }}
+                        </td>
+                        <td>
+                            <span
+                                [ngStyle]="{ 'font-size': '16px' }"
+                                class="badge"
+                                [class.badge-success]="data.statut === 'actif'"
+                                [class.badge-danger]="data.statut !== 'actif'"
+                            >
+                                {{ data.statut }}
+                            </span>
+                        </td>
+                        <td *ngIf="currentObject?.type !== 'show'">
+                            <p-checkbox
+                                name="groupname"
+                                [value]="data.id"
+                                [binary]="true"
+                                [(ngModel)]="data.checked"
+                                (click)="onCheckedOneConsumer(data)"
+                            ></p-checkbox>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div [ngClass]="['pagination-controls']">
+                <pagination-controls
+                    (pageChange)="onPageChange($event)"
+                    previousLabel=""
+                    nextLabel=""
+                >
+                </pagination-controls>
+            </div>
         </div>
-        <div class="col-md-1">
-          <p-button styleClass="p-button-success filter-button" (click)="OnFilterALl()" icon="pi pi-filter"
-            [disabled]="isFilter()" ></p-button>
+        <div *ngIf="currentObject?.type === 'show'">
+            <p-tabView *ngIf="currentObject !== undefined">
+                <p-tabPanel header="LISTE DES SIMS">
+                    <div class="table_header">
+                        <app-tab-view-header
+                            [legende]="'Liste des SIMS affectées'"
+                        ></app-tab-view-header>
+                    </div>
+                    <table
+                        [ngClass]="['native_table table']"
+                        style="margin-top: -0.2rem"
+                    >
+                        <thead>
+                            <th
+                                class="text-center"
+                                [ngStyle]="{ width: '3rem' }"
+                            >
+                                #
+                            </th>
+                            <th>{{ firstLevelLibelle }}</th>
+                            <th>{{ secondLevelLibelle }}</th>
+                            <th class="text-center">IMSI</th>
+                            <th class="text-center">MSISDN</th>
+                            <th class="text-center">Statut</th>
+                            <th class="text-center">Date</th>
+                            <th
+                                class="text-center"
+                                [ngStyle]="{ width: '1rem' }"
+                                *ngIf="currentObject?.type !== 'show'"
+                            >
+                                <p-checkbox
+                                    [binary]="true"
+                                    (click)="OnCheckAllConsumer()"
+                                    [(ngModel)]="checkedAllConsumers"
+                                ></p-checkbox>
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="
+                                    let data of listAffectations
+                                        | paginate
+                                            : {
+                                                  itemsPerPage: recordsPerPage,
+                                                  currentPage: p,
+                                                  totalPages: totalPage,
+                                                  totalItems: totalRecords
+                                              };
+                                    let i = index
+                                "
+                            >
+                                <td>{{ this.offset + i }}</td>
+                                <td>
+                                    <span>{{ data?.niveau_un }}</span>
+                                </td>
+                                <td>
+                                    <span>{{ data?.niveau_deux }}</span>
+                                </td>
+                                <td
+                                    (click)="copyData(data.imsi)"
+                                    style="cursor: pointer"
+                                >
+                                    {{ data?.imsi }}
+                                </td>
+                                <td
+                                    (click)="copyData(data.msisdn)"
+                                    style="cursor: pointer"
+                                >
+                                    {{ data?.msisdn }}
+                                </td>
+                                <td>
+                                    <span
+                                        [ngStyle]="{ 'font-size': '16px' }"
+                                        class="badge"
+                                        [class.badge-success]="
+                                            data.statut === 'actif'
+                                        "
+                                        [class.badge-danger]="
+                                            data.statut !== 'actif'
+                                        "
+                                    >
+                                        {{ data.statut }}
+                                    </span>
+                                </td>
+                                <td>{{ data?.created_at }}</td>
+                                <td *ngIf="currentObject?.type !== 'show'">
+                                    <p-checkbox
+                                        name="groupname"
+                                        [value]="data.id"
+                                        [binary]="true"
+                                        [(ngModel)]="data.checked"
+                                    ></p-checkbox>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div [ngClass]="['pagination-controls']">
+                        <pagination-controls
+                            (pageChange)="onPageChange($event)"
+                            previousLabel=""
+                            nextLabel=""
+                        >
+                        </pagination-controls>
+                    </div>
+                </p-tabPanel>
+                <p-tabPanel header="HISTORIQUE">
+                    <app-historique
+                        [module]="'PATRIMOINE SIM'"
+                        [modele]="'groupe_sims'"
+                        [modele_id]="currentObject?.id"
+                    ></app-historique>
+                </p-tabPanel>
+            </p-tabView>
         </div>
-      </div>
-      <div class="table_actions_wrapper mt-3" style="height: fit-content;">
-        <button *ngIf="currentObject?.type === 'affectation'" pButton pRipple label="Affecter" icon="pi pi-arrow-right"
-          class="p-button-success" [disabled]="checkconsumerList?.length ===0"
-          (click)="handleSaveAffectation()"></button>
-        <button *ngIf="currentObject?.type === 'visualiser'" pButton pRipple label="Retirer" icon="pi pi-times"
-          class="p-button-danger" [disabled]="checkconsumerList?.length === 0" (click)="handleRetraitSim()"></button>
-        <button *ngIf="currentObject?.type === 'visualiser'" pButton pRipple label="Réaffecter" icon="pi pi-arrows-h"
-          class="p-button-success" (click)="openForm(content)" [disabled]="checkconsumerList?.length === 0"></button>
-      </div>
     </div>
-    <hr>
-    <div class="table_content_wrapper" *ngIf="currentObject?.type !== 'show' && currentObject?.type !== 'edit'">
-      <div class="table_header mt-2">
-        <app-tab-view-header *ngIf="currentObject?.type === 'affectation'" [legende]="'Liste des SIMS non affectées'"></app-tab-view-header>
-        <app-tab-view-header *ngIf="currentObject?.type === 'visualiser'" [legende]="'Liste des SIMS affectées'"></app-tab-view-header>
-      </div>
-      <table [ngClass]="['native_table table']" style="margin-top: -0.2rem">
-        <thead>
-          <th class="text-center" [ngStyle]="{width: '3rem'}">#</th>
-          <th>{{firstLevelLibelle}}</th>
-          <th>{{secondLevelLibelle}}</th>
-          <th class="text-center">IMSI</th>
-          <th class="text-center">MSISDN</th>
-          <th class="text-center">Statut</th>
-          <th class="text-center" [ngStyle]="{width: '1rem'}" *ngIf="currentObject?.type !== 'show'">
-            <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
-          </th>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="let data of listAffectations | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
-            <td>{{ (this.offset + i)}}</td>
-            <td>
-              <span *ngIf="!currentObject">{{data?.direction_regionale?.nom}} [{{data?.direction_regionale?.code}}]</span>
-              <span *ngIf="currentObject">{{data?.niveau_un}}</span>
-            </td>
-            <td>
-              <span *ngIf="!currentObject">{{data?.exploitation?.nom}} [{{data.exploitation?.code}}]</span>
-              <span *ngIf="currentObject">{{data?.niveau_deux}}</span>
-            </td>
-            <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
-            <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data?.msisdn}}</td>
-            <td>
-              <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'actif'"
-                [class.badge-danger]="data.statut !== 'actif'">
-                {{ data.statut }}
-              </span>
-            </td>
-            <td *ngIf="currentObject?.type !== 'show'">
-              <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
-                (click)="onCheckedOneConsumer(data)"></p-checkbox>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div [ngClass]="['pagination-controls']">
-        <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
-        </pagination-controls>
-      </div>
-    </div>
-    <div *ngIf="currentObject?.type === 'show'">
-      <p-tabView *ngIf="currentObject !== undefined">
-        <p-tabPanel header="LISTE DES SIMS">
-          <div class="table_header">
-            <app-tab-view-header [legende]="'Liste des SIMS affectées'"></app-tab-view-header>
-          </div>
-          <table [ngClass]="['native_table table']" style="margin-top: -0.2rem">
-            <thead>
-              <th class="text-center" [ngStyle]="{width: '3rem'}">#</th>
-              <th>{{firstLevelLibelle}}</th>
-              <th>{{secondLevelLibelle}}</th>
-              <th class="text-center">IMSI</th>
-              <th class="text-center">MSISDN</th>
-              <th class="text-center">Statut</th>
-              <th class="text-center">Date</th>
-              <th class="text-center" [ngStyle]="{width: '1rem'}" *ngIf="currentObject?.type !== 'show'">
-                <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
-              </th>
-            </thead>
-            <tbody>
-              <tr
-                *ngFor="let data of listAffectations | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
-                <td>{{ (this.offset + i)}}</td>
-                <td>
-                  <span>{{data?.niveau_un}}</span>
-                </td>
-                <td>
-                  <span>{{data?.niveau_deux}}</span>
-                </td>
-                <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
-                <td (click)="copyData(data.msisdn)" style="cursor: pointer">{{data?.msisdn}}</td>
-                <td>
-                  <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="data.statut === 'actif'"
-                    [class.badge-danger]="data.statut !== 'actif'">
-                    {{ data.statut }}
-                  </span>
-                </td>
-                <td>{{data?.created_at}}</td>
-                <td *ngIf="currentObject?.type !== 'show'">
-                  <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
-                    ></p-checkbox>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div [ngClass]="['pagination-controls']">
-            <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
-            </pagination-controls>
-          </div>
-        </p-tabPanel>
-        <p-tabPanel header="HISTORIQUE">
-          <app-historique [module]="'PATRIMOINE SIM'" [modele]="'groupe_sims'" [modele_id]="currentObject?.id"></app-historique>
-        </p-tabPanel>
-      </p-tabView>
-    </div>
-  </div>
 </div>
 <!----------------------------------REAFECTATION---------------------SIM--------------->
 <ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Réafectation du SIM</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body" novalidate>
-    <div class="form-group">
-      <label><b>Groupes<span class="text-danger">*</span></b></label>
-      <p-dropdown [options]="listGroupes" [(ngModel)]="selectedGroupe" optionLabel="nom" optionValue="id"
-        [showClear]="true" placeholder="Selectionner le profil">
-        <ng-template let-data pTemplate="item">
-          <div class="country-item">
-            <div>{{data.nom}}</div>
-          </div>
-        </ng-template>
-      </p-dropdown>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Réafectation du SIM</h4>
+        <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="modal.dismiss('Cross click')"
+        ></button>
     </div>
-  </div>
-  <div class="modal-footer">
-    <div>
-      <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
+    <div class="modal-body" novalidate>
+        <div class="form-group">
+            <label
+                ><b>Groupes<span class="text-danger">*</span></b></label
+            >
+            <p-dropdown
+                [options]="listGroupes"
+                [(ngModel)]="selectedGroupe"
+                optionLabel="nom"
+                optionValue="id"
+                [showClear]="true"
+                placeholder="Selectionner le profil"
+            >
+                <ng-template let-data pTemplate="item">
+                    <div class="country-item">
+                        <div>{{ data.nom }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
     </div>
-    <div>
-      <button type="button" class="btn btn-save" (click)="handleSaveReaffectation()"
-        [disabled]="!selectedGroupe">Valider</button>
+    <div class="modal-footer">
+        <div>
+            <button type="button" class="btn btn-hide" (click)="hideForm()">
+                Fermer
+            </button>
+        </div>
+        <div>
+            <button
+                type="button"
+                class="btn btn-save"
+                (click)="handleSaveReaffectation()"
+                [disabled]="!selectedGroupe"
+            >
+                Valider
+            </button>
+        </div>
     </div>
-  </div>
 </ng-template>
