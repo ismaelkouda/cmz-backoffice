@@ -2,7 +2,6 @@
     width: 21.6rem !important;
 }
 
-
 .modal-content {
     width: 100vw !important;
     height: 100vh !important;
@@ -13,7 +12,7 @@
     left: 0 !important;
     //top: 0;
     z-index: 1300 !important;
-    background: #F8F8F8;
+    background: #f8f8f8;
     padding-bottom: 1rem;
     margin-top: -30rem;
 }
@@ -40,7 +39,7 @@
 }
 
 .card-value {
-    color: #A4A4A4;
+    color: #a4a4a4;
     font-size: 12px;
 }
 
@@ -54,7 +53,7 @@
 }
 
 .modal-content {
-    background: #F8F8F8;
+    background: #f8f8f8;
 }
 
 .modal-backdrop {
@@ -85,7 +84,6 @@
         margin: auto;
         display: block;
     }
-
 }
 
 .ml-70px {
@@ -93,26 +91,26 @@
 }
 
 .list-group-item {
-    background: #DEEDE1 !important;
+    background: #deede1 !important;
     color: #000;
     border: 1px solid #fff !important;
 }
 
 .list-group-item.active {
-    background: #E6ED41 !important;
+    background: #e6ed41 !important;
     color: #000;
     font-weight: 700;
     border: 1px solid #fff !important;
 }
 
 .last-ofa {
-    background: #DEEDE1 !important;
+    background: #deede1 !important;
     color: #000;
     border: 1px solid #fff !important;
 }
 
 .last-ofa.active {
-    background: #E6ED41 !important;
+    background: #e6ed41 !important;
     color: #fff;
     border: 1px solid #fff !important;
 }
@@ -121,7 +119,7 @@
     font-size: 18px !important;
     text-align: center;
     // width: 190px !important;
-    border-top: 1px solid #DFDFDF !important;
+    border-top: 1px solid #dfdfdf !important;
 }
 
 .alarme-value {
@@ -130,7 +128,7 @@
 }
 
 .vl {
-    border-left: 1px solid #DFDFDF;
+    border-left: 1px solid #dfdfdf;
     height: 600px;
     position: absolute;
     margin-left: 225px;
@@ -140,13 +138,16 @@
 .table_details thead th {
     position: sticky;
     top: 0;
-    background: #F2F2F2;
+    background: #f2f2f2;
     color: #000;
     box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
     z-index: 1000;
 }
 
-.ngx-datatable.bootstrap .datatable-header .datatable-header-cell .datatable-header-cell-label {
+.ngx-datatable.bootstrap
+    .datatable-header
+    .datatable-header-cell
+    .datatable-header-cell-label {
     font-weight: 800;
 }
 
@@ -158,7 +159,12 @@ hr {
 hr.hr-1 {
     border: 0;
     height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.75),
+        rgba(0, 0, 0, 0)
+    );
 }
 
 .mt-10 {
@@ -192,9 +198,9 @@ fieldset {
 
 .style100 {
     @extend %messageAlert;
-    background-color: #E0F2F7;
-    color: #01A9DB;
-    border-color: #E0F2F7;
+    background-color: #e0f2f7;
+    color: #01a9db;
+    border-color: #e0f2f7;
 }
 .style200 {
     @extend %messageAlert;
@@ -210,7 +216,6 @@ fieldset {
 }
 /* Stepper CSS */
 
-
 /* Steps */
 
 .step {
@@ -219,36 +224,35 @@ fieldset {
     color: gray;
 }
 
-.step+.step {
-    margin-top: 1.5em
+.step + .step {
+    margin-top: 1.5em;
 }
 
-.step>div:first-child {
+.step > div:first-child {
     position: static;
     height: 0;
 }
 
-.step>div:not(:first-child) {
+.step > div:not(:first-child) {
     margin-left: 1.5em;
     padding-left: 1em;
 }
 
 .step.step-active {
-    color: #50C878
+    color: #50c878;
 }
 
 .step.step-active.pending {
-    color: #F39C12
+    color: #f39c12;
 }
 
 .step.step-active .circle {
-    background-color: #50C878;
+    background-color: #50c878;
 }
 
 .step.step-active.pending .circle {
-    background-color: #F39C12;
+    background-color: #f39c12;
 }
-
 
 /* Circle */
 
@@ -263,7 +267,6 @@ fieldset {
     text-align: center;
     box-shadow: 0 0 0 3px #fff;
 }
-
 
 /* Vertical Line */
 
@@ -284,13 +287,12 @@ fieldset {
 }
 
 .step:last-child .circle:after {
-    display: none
+    display: none;
 }
 
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
 }
-
 
 /* Stepper Titles */
 
@@ -309,7 +311,7 @@ fieldset {
     opacity: 0.2;
 }
 
-input[type="text"]:disabled {
+input[type='text']:disabled {
     background-color: #ecf0f1;
 }
 
@@ -329,7 +331,7 @@ table thead th {
 }
 
 .pending-text {
-    color: #F39C12 !important;
+    color: #f39c12 !important;
 }
 
 .row_foyers {
@@ -346,7 +348,7 @@ table thead th {
 .wrapper-evaluation {
     .block-checked {
         width: 20rem;
-        border: 1px solid #D0D3DA;
+        border: 1px solid #d0d3da;
         border-radius: 5%;
     }
 
@@ -394,7 +396,7 @@ table thead th {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
-        font-family: "Lato";
+        font-family: 'Lato';
         font-weight: 900;
         font-size: 18px;
         width: 30rem;
@@ -433,7 +435,7 @@ table thead th {
         }
 
         .increment {
-            background-color: #FF6600;
+            background-color: #ff6600;
             color: white;
             border: 0;
             padding: 4px;
@@ -461,12 +463,11 @@ table thead th {
             border-radius: 1px;
             width: 100%;
         }
-
     }
 
     &__price {
         @extend %mx_vertically;
-        font-family: "Lato";
+        font-family: 'Lato';
         font-weight: 900;
         font-size: 20px;
     }
@@ -481,5 +482,5 @@ table thead th {
 
 ::-webkit-input-placeholder,
 .p-dropdown .p-dropdown-label.p-placeholder {
-    color: #D8D8D8 !important;
+    color: #d8d8d8 !important;
 }

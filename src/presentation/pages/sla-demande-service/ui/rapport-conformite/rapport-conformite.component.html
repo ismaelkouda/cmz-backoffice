@@ -1,7 +1,14 @@
 <div class="container-fluid">
     <div class="d-flex justify-content-between">
-        <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
-        <div class="pt-3"><span class="current-transaction-label">Sur les 90 derniers jours</span></div>
+        <app-breadcrumb
+            [title]="module"
+            [active_item]="subModule"
+        ></app-breadcrumb>
+        <div class="pt-3">
+            <span class="current-transaction-label"
+                >Sur les 90 derniers jours</span
+            >
+        </div>
     </div>
     <div class="card">
         <div class="card-body">
@@ -67,49 +74,63 @@
             <div>
                 <p-tabView (onChange)="handleChangeTabviewIndex($event)">
                     <p-tabPanel header="DEMANDES ACTIVATIONS">
-                        <app-rapport-transaction *ngIf="currentTabsIndex === 0"
+                        <app-rapport-transaction
+                            *ngIf="currentTabsIndex === 0"
                             (rapport)="OnPushRapport($event)"
                             [selectedTransaction]="activation"
                             [tabsLabel]="'Activations'"
                         ></app-rapport-transaction>
                     </p-tabPanel>
                     <p-tabPanel header="DEMANDES SUSPENSIONS">
-                        <app-rapport-transaction *ngIf="currentTabsIndex === 1"
+                        <app-rapport-transaction
+                            *ngIf="currentTabsIndex === 1"
                             (rapport)="OnPushRapport($event)"
                             [selectedTransaction]="suspension"
                             [tabsLabel]="'Suspensions'"
                         ></app-rapport-transaction>
                     </p-tabPanel>
                     <p-tabPanel header="DEMANDES RESILIATIONS">
-                        <app-rapport-transaction *ngIf="currentTabsIndex === 2"
-                          (rapport)="OnPushRapport($event)"
-                          [selectedTransaction]="resiliation"
-                          [tabsLabel]="'Résiliations'"
-                      ></app-rapport-transaction>
+                        <app-rapport-transaction
+                            *ngIf="currentTabsIndex === 2"
+                            (rapport)="OnPushRapport($event)"
+                            [selectedTransaction]="resiliation"
+                            [tabsLabel]="'Résiliations'"
+                        ></app-rapport-transaction>
                     </p-tabPanel>
                     <p-tabPanel header="DEMANDES CHANGEMENT DE FORMULES">
-                        <app-rapport-transaction *ngIf="currentTabsIndex === 3"
-                          (rapport)="OnPushRapport($event)"
-                          [selectedTransaction]="formule"
-                          [tabsLabel]="'Changements de formules'"
-                      ></app-rapport-transaction>
+                        <app-rapport-transaction
+                            *ngIf="currentTabsIndex === 3"
+                            (rapport)="OnPushRapport($event)"
+                            [selectedTransaction]="formule"
+                            [tabsLabel]="'Changements de formules'"
+                        ></app-rapport-transaction>
                     </p-tabPanel>
                     <p-tabPanel header="DEMANDES SIM-SWAP">
-                        <app-rapport-transaction *ngIf="currentTabsIndex === 4"
+                        <app-rapport-transaction
+                            *ngIf="currentTabsIndex === 4"
                             (rapport)="OnPushRapport($event)"
                             [selectedTransaction]="swap"
                             [tabsLabel]="'Changements de SIM'"
                         ></app-rapport-transaction>
                     </p-tabPanel>
-                    <p-tabPanel header="DEMANDE ACHAT SERVICE" *ngIf="IsPatrimoineType()">
+                    <p-tabPanel
+                        header="DEMANDE ACHAT SERVICE"
+                        *ngIf="IsPatrimoineType()"
+                    >
                     </p-tabPanel>
-                    <p-tabPanel header="DEMANDE DEPOT VOLUME" *ngIf="IsPatrimoineType()">
+                    <p-tabPanel
+                        header="DEMANDE DEPOT VOLUME"
+                        *ngIf="IsPatrimoineType()"
+                    >
                         <app-rapport-transaction
-                        (rapport)="OnPushRapport($event)"
-                        [tabsLabel]="'Volume DATA'"
+                            (rapport)="OnPushRapport($event)"
+                            [tabsLabel]="'Volume DATA'"
                         ></app-rapport-transaction>
                     </p-tabPanel>
-                    <p-tabPanel header="DEMANDES LIGNES CREDIT" *ngIf="IsPatrimoineType()">
+                    <p-tabPanel
+                        header="DEMANDES LIGNES CREDIT"
+                        *ngIf="IsPatrimoineType()"
+                    >
                     </p-tabPanel>
                 </p-tabView>
             </div>

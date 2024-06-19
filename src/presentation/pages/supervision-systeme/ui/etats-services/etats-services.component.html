@@ -1,120 +1,197 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12">
-      <app-breadcrumb [title]="'Supervision système'" [active_item]="'Etats des services'"></app-breadcrumb>
-      <div class="card">
-        <div class="card-body">
-          <div>
-            <div class="row filter_wrapper">
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label>
-                    <b>Direction Régionale<span class="text-danger">*</span></b>
-                  </label>
-                  <p-dropdown [options]="listDirections" optionLabel="nom" (onChange)="onChangeItem($event)"
-                    [showClear]="true" placeholder="Selectionnez la direction">
-                    <ng-template let-data pTemplate="item">
-                      <div class="country-item">
-                        <div>
-                          {{data.nom}}
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="'Supervision système'"
+                [active_item]="'Etats des services'"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <div class="row filter_wrapper">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>
+                                        <b
+                                            >Direction Régionale<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></b
+                                        >
+                                    </label>
+                                    <p-dropdown
+                                        [options]="listDirections"
+                                        optionLabel="nom"
+                                        (onChange)="onChangeItem($event)"
+                                        [showClear]="true"
+                                        placeholder="Selectionnez la direction"
+                                    >
+                                        <ng-template let-data pTemplate="item">
+                                            <div class="country-item">
+                                                <div>
+                                                    {{ data.nom }}
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>
+                                        <b>Exploitation</b>
+                                    </label>
+                                    <p-dropdown
+                                        [options]="listExploitations"
+                                        optionLabel="fullName"
+                                        [(ngModel)]="selectedExploitation"
+                                        placeholder="Selectionnez l'exploitation"
+                                        >>
+                                        <ng-template let-data pTemplate="item">
+                                            <div class="country-item">
+                                                <div>
+                                                    {{ data.fullName }}
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>
+                                        <b>Numéro SIM</b>
+                                    </label>
+                                    <input
+                                        placeholder="Saisir le numéro"
+                                        [(ngModel)]="selectedSim"
+                                        type="text"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <p-button
+                                    styleClass="p-button-success filter-button"
+                                    icon="pi pi-filter"
+                                    [disabled]="isFilter()"
+                                ></p-button>
+                            </div>
                         </div>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label>
-                    <b>Exploitation</b>
-                  </label>
-                  <p-dropdown [options]="listExploitations" optionLabel="fullName" [(ngModel)]="selectedExploitation"
-                    placeholder="Selectionnez l'exploitation">>
-                    <ng-template let-data pTemplate="item">
-                      <div class="country-item">
-                        <div>
-                          {{data.fullName}}
+                        <hr />
+                        <div class="table_actions_wrapper">
+                            <button
+                                pButton
+                                pRipple
+                                label="Rafraîchir"
+                                (click)="GetAllEtatServices()"
+                                icon="pi pi-refresh"
+                                class="p-button-secondary"
+                            ></button>
+                            <button
+                                pButton
+                                pRipple
+                                label="Exporter"
+                                icon="pi pi-download"
+                                class="p-button-helf"
+                            ></button>
                         </div>
-                      </div>
-                    </ng-template>
-                  </p-dropdown>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label>
-                    <b>Numéro SIM</b>
-                  </label>
-                  <input placeholder="Saisir le numéro" [(ngModel)]="selectedSim" type="text" pInputText />
-                </div>
-              </div>
-              <div class="col-md-1">
-                <p-button styleClass="p-button-success filter-button" icon="pi pi-filter"
-                  [disabled]="isFilter()"></p-button>
-              </div>
-            </div>
-            <hr>
-            <div class="table_actions_wrapper">
-              <button pButton pRipple label="Rafraîchir" (click)="GetAllEtatServices()" icon="pi pi-refresh"
-                class="p-button-secondary"></button>
-              <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf"></button>
-            </div>
-            <div class="table_content_wrapper">
-              <p-table #dt [value]="listEtatServices" [rows]="10" [paginator]="true" responsiveLayout="scroll"
-                [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                    données" [showCurrentPageReport]="true">
-                <ng-template pTemplate="caption">
-                  <div class="table_header">
-                    <div class="table_header__legende">
-                      <h4>
-                        <b>Liste des flux de collecte</b>
-                      </h4>
+                        <div class="table_content_wrapper">
+                            <p-table
+                                #dt
+                                [value]="listEtatServices"
+                                [rows]="10"
+                                [paginator]="true"
+                                responsiveLayout="scroll"
+                                [rowHover]="true"
+                                dataKey="id"
+                                currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+                    données"
+                                [showCurrentPageReport]="true"
+                            >
+                                <ng-template pTemplate="caption">
+                                    <div class="table_header">
+                                        <div class="table_header__legende">
+                                            <h4>
+                                                <b
+                                                    >Liste des flux de
+                                                    collecte</b
+                                                >
+                                            </h4>
+                                        </div>
+                                        <div class="table_header__input">
+                                            <span
+                                                class="p-input-icon-left ml-auto"
+                                            >
+                                                <i class="pi pi-search"></i>
+                                                <input
+                                                    pInputText
+                                                    type="text"
+                                                    (input)="
+                                                        dt1.filterGlobal(
+                                                            $event.target.value,
+                                                            'contains'
+                                                        )
+                                                    "
+                                                    placeholder="Recherche"
+                                                />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>Identifiant SIM</th>
+                                        <th>Numéro SIM</th>
+                                        <th>Direction régionale</th>
+                                        <th>Exploitation</th>
+                                        <th>Zone</th>
+                                        <th>Service collecte</th>
+                                        <th>Service distribution</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template
+                                    let-i="rowIndex"
+                                    pTemplate="body"
+                                    let-data
+                                >
+                                    <tr>
+                                        <td class="text-center">{{ i + 1 }}</td>
+                                        <td>{{ data?.nom }}</td>
+                                        <td>{{ data?.direction_regionale }}</td>
+                                        <td>{{ data?.exploitation }}</td>
+                                        <td>
+                                            {{ data.zone }}-{{ data.tournee }}
+                                        </td>
+                                        <td></td>
+                                        <td class="text-center">
+                                            <span
+                                                [ngStyle]="{
+                                                    'font-size': '16px'
+                                                }"
+                                                class="badge badge-success"
+                                            >
+                                                actif
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span
+                                                [ngStyle]="{
+                                                    'font-size': '16px'
+                                                }"
+                                                class="badge badge-danger"
+                                            >
+                                                inactif
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
                     </div>
-                    <div class="table_header__input">
-                      <span class="p-input-icon-left ml-auto">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
-                          placeholder="Recherche" />
-                      </span>
-                    </div>
-                  </div>
-                </ng-template>
-                <ng-template pTemplate="header">
-                  <tr>
-                    <th class="text-center">#</th>
-                    <th>Identifiant SIM</th>
-                    <th>Numéro SIM</th>
-                    <th>Direction régionale</th>
-                    <th>Exploitation</th>
-                    <th>Zone</th>
-                    <th>Service collecte</th>
-                    <th>Service distribution</th>
-                  </tr>
-                </ng-template>
-                <ng-template let-i="rowIndex" pTemplate="body" let-data>
-                  <tr>
-                    <td class="text-center">{{ i + 1 }}</td>
-                    <td>{{data?.nom}}</td>
-                    <td>{{data?.direction_regionale}}</td>
-                    <td>{{data?.exploitation}}</td>
-                    <td>{{ data.zone }}-{{ data.tournee }}</td>
-                    <td>
-                    <td class="text-center">
-                      <span [ngStyle]="{ 'font-size': '16px' }" class="badge badge-success">
-                        actif
-                      </span>
-                    </td>
-                    <td class="text-center">
-                      <span [ngStyle]="{ 'font-size': '16px' }" class="badge badge-danger">
-                        inactif
-                      </span>
-                    </td>
-                  </tr>
-                </ng-template>
-              </p-table>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>

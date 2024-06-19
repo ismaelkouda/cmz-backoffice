@@ -4,7 +4,8 @@
 
 .user-profile {
     .hovercard {
-        .socialheader {}
+        .socialheader {
+        }
         .user-image {
             .share-icons {
                 position: absolute;
@@ -35,7 +36,7 @@
         }
     }
     .card-footer {
-        >div {
+        > div {
             h3 {
                 font-size: 16px;
             }
@@ -206,7 +207,7 @@
             margin-top: 5px;
         }
         &:before {
-            content: "";
+            content: '';
             position: absolute;
             top: 19px;
             right: 100%;
@@ -214,7 +215,7 @@
             border-right: 7px solid $semi-dark;
         }
         &:after {
-            content: "";
+            content: '';
             position: absolute;
             top: 19px;
             right: 100%;
@@ -274,7 +275,7 @@
             margin-bottom: 0;
         }
         .social-status {
-            content: "";
+            content: '';
             position: absolute;
             width: 12px;
             height: 12px;
@@ -298,7 +299,7 @@
                 margin-bottom: 5px;
             }
             span {
-                +span {
+                + span {
                     color: $light-text;
                 }
             }
@@ -325,7 +326,7 @@
 }
 
 .details-about {
-    +.details-about {
+    + .details-about {
         margin-top: 30px;
     }
     .your-details {
@@ -361,7 +362,7 @@
 
 .activity-log {
     .my-activity {
-        +.my-activity {
+        + .my-activity {
             margin-top: 30px;
         }
         p {
@@ -375,7 +376,6 @@
         }
     }
 }
-
 
 /**=====================
      79. social app CSS end

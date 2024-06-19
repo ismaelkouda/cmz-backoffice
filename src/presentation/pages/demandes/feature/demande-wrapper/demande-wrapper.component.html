@@ -1,125 +1,224 @@
-<div style="margin-top: -2rem !important;">
-  <app-patrimoine-header [count]="listTransactions" [legende]="wrapperLabel" [total]="totalRecords"></app-patrimoine-header>
+<div style="margin-top: -2rem !important">
+    <app-patrimoine-header
+        [count]="listTransactions"
+        [legende]="wrapperLabel"
+        [total]="totalRecords"
+    ></app-patrimoine-header>
 </div>
 <div class="row filter_wrapper">
-  <div class="col-md-2">
-    <div class="form-group">
-      <label>
-        <b>N° demande</b>
-      </label>
-      <input placeholder="Demande" [(ngModel)]="selectedTransaction" type="text" pInputText />
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>
+                <b>N° demande</b>
+            </label>
+            <input
+                placeholder="Demande"
+                [(ngModel)]="selectedTransaction"
+                type="text"
+                pInputText
+            />
+        </div>
     </div>
-  </div>
-  <div class="col-md-2">
-    <div class="form-group">
-      <label>
-        <b>Transaction</b>
-      </label>
-      <input placeholder="Transaction" [(ngModel)]="selectedTransactionShow" type="text" pInputText />
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>
+                <b>Transaction</b>
+            </label>
+            <input
+                placeholder="Transaction"
+                [(ngModel)]="selectedTransactionShow"
+                type="text"
+                pInputText
+            />
+        </div>
     </div>
-  </div>
-  <div [style]="{width: '13rem'}">
-    <div class="form-group">
-      <label>
-        <b>Statut</b>
-      </label>
-      <p-dropdown [options]="listStatuts" [showClear]="true" (onChange)="OnChangeStatut($event)" [(ngModel)]="selectedStatut"
-        placeholder="Statut">
-        <ng-template let-data pTemplate="item">
-          <div class="country-item">
-            <div>
-              {{data | titlecase}}
-            </div>
-          </div>
-        </ng-template>
-      </p-dropdown>
+    <div [style]="{ width: '13rem' }">
+        <div class="form-group">
+            <label>
+                <b>Statut</b>
+            </label>
+            <p-dropdown
+                [options]="listStatuts"
+                [showClear]="true"
+                (onChange)="OnChangeStatut($event)"
+                [(ngModel)]="selectedStatut"
+                placeholder="Statut"
+            >
+                <ng-template let-data pTemplate="item">
+                    <div class="country-item">
+                        <div>
+                            {{ data | titlecase }}
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
     </div>
-  </div>
-  <div class="col-md-2">
-    <label class="block"><b>Demandeur</b></label>
-    <p-dropdown [options]="listUsers" [(ngModel)]="currentUser" optionLabel="fullName" [filter]="true"
-        filterBy="fullName" [showClear]="true" placeholder="demandeur">
-        <ng-template let-data pTemplate="item">
-            <div class="country-item">
-                <div>{{ data.fullName }}</div>
-            </div>
-        </ng-template>
-    </p-dropdown>
-   </div>  
-    <div [ngStyle]="{width: '14rem'}">
-      <label class="block"><b>Date début</b></label>
-      <p-calendar  [(ngModel)]="filterDateStart" [showIcon]="true"
-        (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
+    <div class="col-md-2">
+        <label class="block"><b>Demandeur</b></label>
+        <p-dropdown
+            [options]="listUsers"
+            [(ngModel)]="currentUser"
+            optionLabel="fullName"
+            [filter]="true"
+            filterBy="fullName"
+            [showClear]="true"
+            placeholder="demandeur"
+        >
+            <ng-template let-data pTemplate="item">
+                <div class="country-item">
+                    <div>{{ data.fullName }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
     </div>
-    <div [ngStyle]="{width: '14rem'}">
-      <label class="block"><b>Date fin</b></label>
-      <p-calendar  [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
-        (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
+    <div [ngStyle]="{ width: '14rem' }">
+        <label class="block"><b>Date début</b></label>
+        <p-calendar
+            [(ngModel)]="filterDateStart"
+            [showIcon]="true"
+            (ngModelChange)="changeDateStart($event)"
+            dateFormat="dd-mm-yy"
+            [showButtonBar]="true"
+        ></p-calendar>
     </div>
-  <div class="p-0" [ngStyle]="{width: '4rem'}">
-    <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
-    <p-button styleClass="p-button-success ms-3" icon="pi pi-filter" (click)="onFilter()"
-      [disabled]="isFilter()"></p-button>
-  </div>
+    <div [ngStyle]="{ width: '14rem' }">
+        <label class="block"><b>Date fin</b></label>
+        <p-calendar
+            [(ngModel)]="filterDateEnd"
+            [showIcon]="true"
+            [showClear]="true"
+            (ngModelChange)="changeDateEnd($event)"
+            dateFormat="dd-mm-yy"
+            [showButtonBar]="true"
+        ></p-calendar>
+    </div>
+    <div class="p-0" [ngStyle]="{ width: '4rem' }">
+        <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
+        <p-button
+            styleClass="p-button-success ms-3"
+            icon="pi pi-filter"
+            (click)="onFilter()"
+            [disabled]="isFilter()"
+        ></p-button>
+    </div>
 </div>
-<hr>
+<hr />
 <div class="table_content_wrapper">
-  <div class="table_actions_wrapper pt-2">
-    <button *ngIf="mappingService.IsAction()" pButton pRipple label="Demande Simple" icon="pi pi-plus" class="p-button-success"
-      (click)="onInitForm('simple')">
-    </button>
-    <button pButton pRipple label="Demande en masse" *ngIf="mappingService.IsAction()" icon="pi pi-plus" class="p-button btn-dark"
-      (click)="onInitForm('masse')">
-    </button>
-    <button pButton pRipple label="Rafraîchir" (click)="OnRefresh()" icon="pi pi-refresh"
-      class="p-button-secondary">
-    </button>
-    <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download" [disabled]="disableAction()"
-    class="p-button-helf"></button>
-  </div>
-  <div class="d-flex gap-3">
-    <app-table-header [count]="listTransactions" [legende]="wrapperLabel" [page]="page" [totalPage]="totalPage"></app-table-header>
-    <div class="table_header__input"></div>
-  </div>
-  <table [ngClass]="['native_table table']">
-    <thead>
-      <th class="text-center" [style]="{width: '2rem'}">#</th>
-      <th [style]="{width: '10rem'}">Date Demande</th>
-      <th class="text-center" [style]="{width: '14rem'}">N° demande</th>
-      <th class="text-center" [style]="{width: '4rem'}"># Lignes</th>
-      <th class="text-center" [style]="{width: '4rem'}"># Traitées</th>
-      <th class="text-center" [style]="{width: '4rem'}">Statut</th>
-      <th class="text-center" [style]="{width: '4rem'}">Demandeur</th>
-      <th class="text-center" [style]="{width: '3rem'}">Actions</th>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="let data of listTransactions | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
-        <td>{{ (this.offset + i)}}</td>
-        <td style="text-align: left;">{{data?.created_at}}</td>
-        <td (click)="copyData(data.numero_demande)" style="cursor: pointer">{{data?.numero_demande}}</td>
-        <td>{{data?.nb_demande_soumises ?? 'N/A'}}</td>
-        <td>{{data?.nb_demande_traitees ?? 'N/A'}}</td>
-        <td class="text-center">
-          <span [ngStyle]="{'font-size':'16px'}" class="badge"
-          [class.badge-dark]="data?.statut === stateSoumis"
-          [class.badge-warning]="data?.statut === 'en-traitement'"
-          [class.badge-success]="data?.statut === stateCloture">
-          {{ data.statut }}
-        </span>
-        </td>
-        <td class="text-center">
-            {{ data?.demandeur_nom }} {{ data?.demandeur_prenoms }}
-        </td>
-        <td class="td-actions">
-          <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
-          (click)="OnShowTraitement(data)" class="p-button-dark"></button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div [ngClass]="['pagination-controls']">
-    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
-    </pagination-controls>
-  </div>
+    <div class="table_actions_wrapper pt-2">
+        <button
+            *ngIf="mappingService.IsAction()"
+            pButton
+            pRipple
+            label="Demande Simple"
+            icon="pi pi-plus"
+            class="p-button-success"
+            (click)="onInitForm('simple')"
+        ></button>
+        <button
+            pButton
+            pRipple
+            label="Demande en masse"
+            *ngIf="mappingService.IsAction()"
+            icon="pi pi-plus"
+            class="p-button btn-dark"
+            (click)="onInitForm('masse')"
+        ></button>
+        <button
+            pButton
+            pRipple
+            label="Rafraîchir"
+            (click)="OnRefresh()"
+            icon="pi pi-refresh"
+            class="p-button-secondary"
+        ></button>
+        <button
+            pButton
+            pRipple
+            label="Exporter"
+            (click)="OnExportExcel()"
+            icon="pi pi-download"
+            [disabled]="disableAction()"
+            class="p-button-helf"
+        ></button>
+    </div>
+    <div class="d-flex gap-3">
+        <app-table-header
+            [count]="listTransactions"
+            [legende]="wrapperLabel"
+            [page]="page"
+            [totalPage]="totalPage"
+        ></app-table-header>
+        <div class="table_header__input"></div>
+    </div>
+    <table [ngClass]="['native_table table']">
+        <thead>
+            <th class="text-center" [style]="{ width: '2rem' }">#</th>
+            <th [style]="{ width: '10rem' }">Date Demande</th>
+            <th class="text-center" [style]="{ width: '14rem' }">N° demande</th>
+            <th class="text-center" [style]="{ width: '4rem' }"># Lignes</th>
+            <th class="text-center" [style]="{ width: '4rem' }"># Traitées</th>
+            <th class="text-center" [style]="{ width: '4rem' }">Statut</th>
+            <th class="text-center" [style]="{ width: '4rem' }">Demandeur</th>
+            <th class="text-center" [style]="{ width: '3rem' }">Actions</th>
+        </thead>
+        <tbody>
+            <tr
+                *ngFor="
+                    let data of listTransactions
+                        | paginate
+                            : {
+                                  itemsPerPage: recordsPerPage,
+                                  currentPage: p,
+                                  totalPages: totalPage,
+                                  totalItems: totalRecords
+                              };
+                    let i = index
+                "
+            >
+                <td>{{ this.offset + i }}</td>
+                <td style="text-align: left">{{ data?.created_at }}</td>
+                <td
+                    (click)="copyData(data.numero_demande)"
+                    style="cursor: pointer"
+                >
+                    {{ data?.numero_demande }}
+                </td>
+                <td>{{ data?.nb_demande_soumises ?? 'N/A' }}</td>
+                <td>{{ data?.nb_demande_traitees ?? 'N/A' }}</td>
+                <td class="text-center">
+                    <span
+                        [ngStyle]="{ 'font-size': '16px' }"
+                        class="badge"
+                        [class.badge-dark]="data?.statut === stateSoumis"
+                        [class.badge-warning]="data?.statut === 'en-traitement'"
+                        [class.badge-success]="data?.statut === stateCloture"
+                    >
+                        {{ data.statut }}
+                    </span>
+                </td>
+                <td class="text-center">
+                    {{ data?.demandeur_nom }} {{ data?.demandeur_prenoms }}
+                </td>
+                <td class="td-actions">
+                    <button
+                        pButton
+                        icon="pi pi-eye"
+                        pTooltip="Voir"
+                        tooltipPosition="top"
+                        (click)="OnShowTraitement(data)"
+                        class="p-button-dark"
+                    ></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div [ngClass]="['pagination-controls']">
+        <pagination-controls
+            (pageChange)="onPageChange($event)"
+            previousLabel=""
+            nextLabel=""
+        >
+        </pagination-controls>
+    </div>
 </div>

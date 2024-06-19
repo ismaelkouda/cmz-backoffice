@@ -21,7 +21,7 @@
             line-height: 1;
             padding: 10px 15px;
             margin: 0;
-            &+.btn {
+            & + .btn {
                 margin-left: 5px;
             }
             svg {
@@ -52,7 +52,7 @@
             .or {
                 position: relative;
                 &:before {
-                    content: "";
+                    content: '';
                     position: absolute;
                     width: 65%;
                     height: 2px;
@@ -104,11 +104,11 @@
         color: var(--theme-deafult);
         &.show {
             &:before {
-                content: "show";
+                content: 'show';
             }
         }
         &:before {
-            content: "hide";
+            content: 'hide';
         }
     }
 }
@@ -125,7 +125,6 @@
         right: 10px;
     }
 }
-
 
 /**=====================
     25. Authentication CSS Ends

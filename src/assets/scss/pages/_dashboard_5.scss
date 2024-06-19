@@ -16,7 +16,9 @@
             min-width: 55px;
             height: 55px;
             background: var(--white);
-            box-shadow: 0px 42.1092px 27.8569px rgba(41, 72, 152, 0.0303704), 0px 8.90772px 7.12618px rgba(41, 72, 152, 0.0196296), 0px 2.02448px 3.44162px rgba(41, 72, 152, 0.012037);
+            box-shadow: 0px 42.1092px 27.8569px rgba(41, 72, 152, 0.0303704),
+                0px 8.90772px 7.12618px rgba(41, 72, 152, 0.0196296),
+                0px 2.02448px 3.44162px rgba(41, 72, 152, 0.012037);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -46,10 +48,9 @@
             }
         }
     }
-   
 }
 .follower-chart {
-    margin: -20px 0  -20px -34px;
+    margin: -20px 0 -20px -34px;
     @media (max-width: 717px) {
         margin-left: 0;
     }
@@ -115,7 +116,8 @@
     }
 }
 .follower-wrap {
-    .card-body, .card-header {
+    .card-body,
+    .card-header {
         @media (max-width: 1693px) {
             padding: 22px;
         }
@@ -133,7 +135,7 @@
         + li {
             &::before {
                 position: absolute;
-                content: "";
+                content: '';
                 width: 1px;
                 height: 20px;
                 background-color: var(--chart-text-color);
@@ -141,7 +143,7 @@
                 transform: translateY(-50%);
                 left: -10px;
                 opacity: 0.6;
-                [dir="rtl"] & {
+                [dir='rtl'] & {
                     left: unset;
                     right: -10px;
                 }
@@ -149,7 +151,11 @@
         }
     }
     .campaign-box {
-        background: linear-gradient(180deg, var(--course-light-btn) 0%, rgba(242, 243, 247, 0) 100%);
+        background: linear-gradient(
+            180deg,
+            var(--course-light-btn) 0%,
+            rgba(242, 243, 247, 0) 100%
+        );
         border-radius: 5px;
         padding: 6px 10px;
     }
@@ -181,7 +187,7 @@
         > div {
             border-left: 2px solid $fb-color;
             padding-left: 15px;
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 padding-left: unset;
                 padding-right: 15px;
             }
@@ -190,7 +196,7 @@
     .facebook {
         > div {
             border-left: 2px solid $fb-color;
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 border-left: unset;
                 border-right: 2px solid $fb-color;
             }
@@ -204,7 +210,7 @@
     .instagram {
         > div {
             border-left: 2px solid $insta-color;
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 border-left: unset;
                 border-right: 2px solid $insta-color;
             }
@@ -218,7 +224,7 @@
     .pinterest {
         > div {
             border-left: 2px solid $pintrest-color;
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 border-left: unset;
                 border-right: 2px solid $pintrest-color;
             }
@@ -243,7 +249,7 @@
     .twitter {
         > div {
             border-left: 2px solid $twitter-color;
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 border-left: unset;
                 border-right: 2px solid $twitter-color;
             }
@@ -255,9 +261,9 @@
         }
     }
     .you-tube {
-         > div {
+        > div {
             border-left: 2px solid $youtube-color;
-            [dir="rtl"] & {
+            [dir='rtl'] & {
                 border-left: unset;
                 border-right: 2px solid $youtube-color;
             }
@@ -268,11 +274,13 @@
             color: $youtube-color;
         }
     }
-    .badge-light-primary, .badge-light-light {
+    .badge-light-primary,
+    .badge-light-light {
         padding: 4px 12px;
     }
     tr {
-        td,th {
+        td,
+        th {
             border-style: dashed;
             &:nth-child(5) {
                 min-width: 190px;
@@ -281,15 +289,17 @@
     }
     .recent-table {
         tr {
-            td,th {
+            td,
+            th {
                 &:nth-child(2) {
                     min-width: 120px;
                 }
                 &:first-child {
                     min-width: 110px;
                 }
-                &:nth-child(3), &:last-child {
-                     min-width: 50px;
+                &:nth-child(3),
+                &:last-child {
+                    min-width: 50px;
                 }
             }
         }
@@ -302,8 +312,10 @@
             stroke-width: 15px;
             stroke: var(--white);
         }
-        .apexcharts-gridlines-vertical, .apexcharts-gridlines-horizontal {
-            line, react {
+        .apexcharts-gridlines-vertical,
+        .apexcharts-gridlines-horizontal {
+            line,
+            react {
                 stroke-width: 15px;
                 stroke: var(--white);
             }

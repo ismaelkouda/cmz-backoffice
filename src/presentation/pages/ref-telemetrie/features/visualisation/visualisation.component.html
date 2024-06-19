@@ -1,163 +1,285 @@
 <div class="container-fluid">
-  <div>
-    <div class="container_flex_space_between mb-3">
-      <div>
-        <h3>
-          <b>
-            <span>Liste des SIM affectés au profil</span>
-            <span class="current_values">[{{currentObject?.nom}}]</span>
-          </b>
-        </h3>
-      </div>
-      <div class="table_actions_wrapper mt-0">
-        <div class="table_actions_wrapper mt-0">
-          <button pButton pRipple label="Rafraîchir" icon="pi pi-refresh" (click)="OnRefresh()"
-            class="p-button-secondary"></button>
-          <button pButton pRipple label="Fermer" class="p-button-danger" (click)="close()"></button>
-        </div>
-      </div>
-    </div>
-    <div class="container_flex_space_between">
-      <div class="row filter_wrapper" [ngStyle]="{width: '100%'}">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <b>{{firstLevelLibelle}}</b>
-            </label>
-            <p-dropdown [options]="listDirections" optionLabel="fullName" (onChange)="onChangeItem($event)"
-              [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>
-                    {{data.fullName}}
-                  </div>
+    <div>
+        <div class="container_flex_space_between mb-3">
+            <div>
+                <h3>
+                    <b>
+                        <span>Liste des SIM affectés au profil</span>
+                        <span class="current_values"
+                            >[{{ currentObject?.nom }}]</span
+                        >
+                    </b>
+                </h3>
+            </div>
+            <div class="table_actions_wrapper mt-0">
+                <div class="table_actions_wrapper mt-0">
+                    <button
+                        pButton
+                        pRipple
+                        label="Rafraîchir"
+                        icon="pi pi-refresh"
+                        (click)="OnRefresh()"
+                        class="p-button-secondary"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        label="Fermer"
+                        class="p-button-danger"
+                        (click)="close()"
+                    ></button>
                 </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
+            </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <b>{{secondLevelLibelle}}</b>
-            </label>
-            <p-dropdown [options]="listExploitations" optionLabel="fullName" optionLabel="nom" [filter]="true"
-              [(ngModel)]="selectedExploitation" [showClear]="true" [placeholder]="secondLevelLibelle">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>
-                    {{data.fullName}}
-                  </div>
+        <div class="container_flex_space_between">
+            <div class="row filter_wrapper" [ngStyle]="{ width: '100%' }">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>
+                            <b>{{ firstLevelLibelle }}</b>
+                        </label>
+                        <p-dropdown
+                            [options]="listDirections"
+                            optionLabel="fullName"
+                            (onChange)="onChangeItem($event)"
+                            [showClear]="true"
+                            [filter]="true"
+                            filterBy="fullName"
+                            [placeholder]="firstLevelLibelle"
+                        >
+                            <ng-template let-data pTemplate="item">
+                                <div class="country-item">
+                                    <div>
+                                        {{ data.fullName }}
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
                 </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>
+                            <b>{{ secondLevelLibelle }}</b>
+                        </label>
+                        <p-dropdown
+                            [options]="listExploitations"
+                            optionLabel="fullName"
+                            optionLabel="nom"
+                            [filter]="true"
+                            [(ngModel)]="selectedExploitation"
+                            [showClear]="true"
+                            [placeholder]="secondLevelLibelle"
+                        >
+                            <ng-template let-data pTemplate="item">
+                                <div class="country-item">
+                                    <div>
+                                        {{ data.fullName }}
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div style="width: 13rem">
+                    <div class="form-group">
+                        <label>
+                            <b>MSISDN</b>
+                        </label>
+                        <input
+                            placeholder="msisdn"
+                            [(ngModel)]="selectedMsisdn"
+                            type="text"
+                            pInputText
+                        />
+                    </div>
+                </div>
+                <div style="width: 13rem">
+                    <div class="form-group">
+                        <label>
+                            <b>IMSI</b>
+                        </label>
+                        <input
+                            placeholder="IMSI"
+                            [(ngModel)]="selectedimsi"
+                            type="text"
+                            pInputText
+                        />
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <p-button
+                        styleClass="p-button-success filter-button"
+                        (click)="onFilter()"
+                        icon="pi pi-filter"
+                        [disabled]="isFilter()"
+                    ></p-button>
+                </div>
+            </div>
+            <div class="table_actions_wrapper mt-4" style="height: fit-content">
+                <button
+                    pButton
+                    pRipple
+                    *ngIf="mappingService.IsAction()"
+                    label="Retirer"
+                    icon="pi pi-times"
+                    class="p-button-danger"
+                    (click)="handleRetraitSim()"
+                    [disabled]="checkconsumerList?.length === 0"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    *ngIf="mappingService.IsAction()"
+                    label="Réaffecter"
+                    icon="pi pi-arrows-h"
+                    class="p-button-success"
+                    (click)="openForm(content)"
+                    [disabled]="checkconsumerList?.length === 0"
+                ></button>
+            </div>
         </div>
-        <div style="width: 13rem;">
-          <div class="form-group">
-            <label>
-              <b>MSISDN</b>
-            </label>
-            <input placeholder="msisdn" [(ngModel)]="selectedMsisdn" type="text" pInputText />
-          </div>
+        <hr />
+        <div class="table_content_wrapper">
+            <div class="table_header mt-2">
+                <div class="table_header__legende">
+                    <app-table-header
+                        [count]="listAffectations"
+                        [legende]="'SIM Affectées au profil'"
+                        [page]="page"
+                        [totalPage]="totalPage"
+                    ></app-table-header>
+                </div>
+            </div>
+            <table
+                [ngClass]="['native_table table']"
+                style="margin-top: -0.2rem"
+            >
+                <thead>
+                    <th class="text-center">#</th>
+                    <th>{{ firstLevelLibelle }}</th>
+                    <th>{{ secondLevelLibelle }}</th>
+                    <th class="text-center">MSISDN</th>
+                    <th class="text-center">IMSI</th>
+                    <th class="text-center">Statut</th>
+                    <th class="text-center" *ngIf="mappingService.IsAction()">
+                        <p-checkbox
+                            [binary]="true"
+                            (click)="OnCheckAllConsumer()"
+                            [(ngModel)]="checkedAllConsumers"
+                        ></p-checkbox>
+                    </th>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="
+                            let data of listAffectations
+                                | paginate
+                                    : {
+                                          itemsPerPage: recordsPerPage,
+                                          currentPage: p,
+                                          totalPages: totalPage,
+                                          totalItems: totalRecords
+                                      };
+                            let i = index
+                        "
+                    >
+                        <td>{{ this.offset + i }}</td>
+                        <td>{{ data.niveau_un }}</td>
+                        <td>{{ data.niveau_deux }}</td>
+                        <td
+                            (click)="copyData(data.msisdn)"
+                            style="cursor: pointer"
+                        >
+                            {{ data.msisdn }}
+                        </td>
+                        <td
+                            (click)="copyData(data.imsi)"
+                            style="cursor: pointer"
+                        >
+                            {{ data?.imsi }}
+                        </td>
+                        <td>
+                            <span
+                                [ngStyle]="{ 'font-size': '16px' }"
+                                class="badge"
+                                [ngClass]="{
+                                    'badge-success': data.statut === 'actif',
+                                    'badge-dark': data.statut === 'suspendu',
+                                    'badge-danger': data.statut === 'resilié'
+                                }"
+                            >
+                                {{ data.statut }}
+                            </span>
+                        </td>
+                        <td *ngIf="mappingService.IsAction()">
+                            <p-checkbox
+                                name="groupname"
+                                [value]="data.id"
+                                [binary]="true"
+                                [(ngModel)]="data.checked"
+                                (click)="onCheckedOneConsumer(data)"
+                            ></p-checkbox>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div [ngClass]="['pagination-controls']">
+                <pagination-controls
+                    (pageChange)="onPageChange($event)"
+                    previousLabel=""
+                    nextLabel=""
+                >
+                </pagination-controls>
+            </div>
         </div>
-        <div style="width: 13rem;">
-          <div class="form-group">
-            <label>
-              <b>IMSI</b>
-            </label>
-            <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
-          </div>
-        </div>
-        <div class="col-md-1">
-          <p-button styleClass="p-button-success filter-button" (click)="onFilter()" icon="pi pi-filter"
-            [disabled]="isFilter()"></p-button>
-        </div>
-      </div>
-      <div class="table_actions_wrapper mt-4" style="height: fit-content;">
-        <button pButton pRipple *ngIf="mappingService.IsAction()" label="Retirer" icon="pi pi-times" class="p-button-danger" (click)="handleRetraitSim()"
-          [disabled]="checkconsumerList?.length === 0"></button>
-        <button pButton pRipple *ngIf="mappingService.IsAction()" label="Réaffecter" icon="pi pi-arrows-h" class="p-button-success"
-          (click)="openForm(content)" [disabled]="checkconsumerList?.length === 0"></button>
-      </div>
     </div>
-    <hr>
-    <div class="table_content_wrapper">
-      <div class="table_header mt-2">
-        <div class="table_header__legende">
-          <app-table-header [count]="listAffectations" [legende]="'SIM Affectées au profil'" [page]="page" [totalPage]="totalPage"></app-table-header>
-        </div>
-      </div>
-      <table [ngClass]="['native_table table']" style="margin-top: -0.2rem">
-        <thead>
-          <th class="text-center">#</th>
-          <th>{{firstLevelLibelle}}</th>
-          <th>{{secondLevelLibelle}}</th>
-          <th class="text-center">MSISDN</th>
-          <th class="text-center">IMSI</th>
-          <th class="text-center">Statut</th>
-          <th class="text-center" *ngIf="mappingService.IsAction()">
-            <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()" [(ngModel)]="checkedAllConsumers"></p-checkbox>
-          </th>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="let data of listAffectations | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
-            <td>{{ (this.offset + i)}}</td>
-            <td>{{data.niveau_un}}</td>
-            <td>{{data.niveau_deux}}</td>
-            <td (click)="copyData(data.msisdn)"  style="cursor: pointer">{{data.msisdn}}</td>
-            <td (click)="copyData(data.imsi)" style="cursor: pointer">{{data?.imsi}}</td>
-            <td>
-              <span [ngStyle]="{ 'font-size': '16px' }"
-              class="badge"
-              [ngClass]="{
-                'badge-success': data.statut === 'actif',
-                'badge-dark': data.statut === 'suspendu',
-                'badge-danger': data.statut === 'resilié'
-              }">
-            {{ data.statut }}
-             </span>
-            </td>
-            <td *ngIf="mappingService.IsAction()">
-              <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
-                (click)="onCheckedOneConsumer(data)"></p-checkbox>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div [ngClass]="['pagination-controls']">
-        <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
-        </pagination-controls>
-      </div>
-    </div>
-  </div>
 </div>
 <ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Réafectation du SIM</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body" novalidate>
-    <div class="form-group">
-      <label><b>Profils<span class="text-danger">*</span></b></label>
-      <p-dropdown [options]="listDatas" [(ngModel)]="selectedProfil" optionLabel="nom" [showClear]="true"
-        placeholder="Selectionner le profil">
-        <ng-template let-data pTemplate="item">
-          <div class="country-item">
-            <div>{{data.nom}}</div>
-          </div>
-        </ng-template>
-      </p-dropdown>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Réafectation du SIM</h4>
+        <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="modal.dismiss('Cross click')"
+        ></button>
     </div>
-  </div>
-  <div class="modal-footer">
-    <div>
-      <button type="button" class="btn btn-hide" (click)="hideForm()">Fermer</button>
+    <div class="modal-body" novalidate>
+        <div class="form-group">
+            <label
+                ><b>Profils<span class="text-danger">*</span></b></label
+            >
+            <p-dropdown
+                [options]="listDatas"
+                [(ngModel)]="selectedProfil"
+                optionLabel="nom"
+                [showClear]="true"
+                placeholder="Selectionner le profil"
+            >
+                <ng-template let-data pTemplate="item">
+                    <div class="country-item">
+                        <div>{{ data.nom }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
     </div>
-    <div>
-      <button type="button" class="btn btn-save" (click)="handleSaveReaffectation()"
-        [disabled]="!selectedProfil">Valider</button>
+    <div class="modal-footer">
+        <div>
+            <button type="button" class="btn btn-hide" (click)="hideForm()">
+                Fermer
+            </button>
+        </div>
+        <div>
+            <button
+                type="button"
+                class="btn btn-save"
+                (click)="handleSaveReaffectation()"
+                [disabled]="!selectedProfil"
+            >
+                Valider
+            </button>
+        </div>
     </div>
-  </div>
 </ng-template>

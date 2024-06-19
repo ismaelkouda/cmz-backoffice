@@ -1,107 +1,192 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12">
-      <app-breadcrumb [title]="'Operations SIM'" [active_item]="'Operation'"></app-breadcrumb>
-      <div class="card">
-        <div class="card-body">
-          <div class="row filter-wrapper">
-            <div class="col-md-3">
-              <div class="form-group">
-                <label>
-                  <b>IMSI</b>
-                </label>
-                <input type="text" [(ngModel)]="selectedValue" pInputText />
-              </div>
-            </div>
-            <div class="col-md-2">
-              <button pButton pRipple label="Verifier" (click)="onVerify()" [disabled]="isFilter()" icon="pi pi-sync"
-                class="p-button-success"></button>
-            </div>
-          </div>
-          <div class="forms-wrapper">
-            <fieldset>
-              <legend [ngStyle]="{width: '100%'}">
-                <b>Informations</b>
-              </legend>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Direction Régionale<span class="text-danger">*</span></b>
-                    </label>
-                    <p-dropdown [options]="listDirectionRegionales" [disabled]="isVerify()" optionLabel="nom"
-                      (onChange)="onChangeItem($event)" [showClear]="true" placeholder="Selectionnez la direction">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data.nom}}
-                          </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="'Operations SIM'"
+                [active_item]="'Operation'"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row filter-wrapper">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>
+                                    <b>IMSI</b>
+                                </label>
+                                <input
+                                    type="text"
+                                    [(ngModel)]="selectedValue"
+                                    pInputText
+                                />
+                            </div>
                         </div>
-                      </ng-template>
-                    </p-dropdown>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Exploitation<span class="text-danger">*</span></b>
-                    </label>
-                    <p-dropdown [options]="listExploitations" [disabled]="isVerify()" optionLabel="nom"
-                      optionValue="id">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data.nom}}
-                          </div>
+                        <div class="col-md-2">
+                            <button
+                                pButton
+                                pRipple
+                                label="Verifier"
+                                (click)="onVerify()"
+                                [disabled]="isFilter()"
+                                icon="pi pi-sync"
+                                class="p-button-success"
+                            ></button>
                         </div>
-                      </ng-template>
-                    </p-dropdown>
-                  </div>
+                    </div>
+                    <div class="forms-wrapper">
+                        <fieldset>
+                            <legend [ngStyle]="{ width: '100%' }">
+                                <b>Informations</b>
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b
+                                                >Direction Régionale<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            >
+                                        </label>
+                                        <p-dropdown
+                                            [options]="listDirectionRegionales"
+                                            [disabled]="isVerify()"
+                                            optionLabel="nom"
+                                            (onChange)="onChangeItem($event)"
+                                            [showClear]="true"
+                                            placeholder="Selectionnez la direction"
+                                        >
+                                            <ng-template
+                                                let-data
+                                                pTemplate="item"
+                                            >
+                                                <div class="country-item">
+                                                    <div>
+                                                        {{ data.nom }}
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b
+                                                >Exploitation<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            >
+                                        </label>
+                                        <p-dropdown
+                                            [options]="listExploitations"
+                                            [disabled]="isVerify()"
+                                            optionLabel="nom"
+                                            optionValue="id"
+                                        >
+                                            <ng-template
+                                                let-data
+                                                pTemplate="item"
+                                            >
+                                                <div class="country-item">
+                                                    <div>
+                                                        {{ data.nom }}
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b
+                                                >Bénéficiaire<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            >
+                                        </label>
+                                        <input
+                                            placeholder="Bénéficiaire"
+                                            [disabled]="isVerify()"
+                                            type="text"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b
+                                                >Adresse<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            >
+                                        </label>
+                                        <input
+                                            placeholder="Adresse"
+                                            [disabled]="isVerify()"
+                                            type="text"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b
+                                                >Latitude<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            >
+                                        </label>
+                                        <input
+                                            placeholder="Latitude"
+                                            [disabled]="isVerify()"
+                                            type="text"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b
+                                                >Longitude<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            >
+                                        </label>
+                                        <input
+                                            placeholder="Longitude"
+                                            [disabled]="isVerify()"
+                                            type="text"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="submit-form">
+                            <div>
+                                <p-button
+                                    style="float: right; margin-top: 1rem"
+                                    label="Soumettre"
+                                    styleClass="p-button-success"
+                                    [disabled]="true"
+                                ></p-button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Bénéficiaire<span class="text-danger">*</span></b>
-                    </label>
-                    <input placeholder="Bénéficiaire" [disabled]="isVerify()" type="text" pInputText />
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Adresse<span class="text-danger">*</span></b>
-                    </label>
-                    <input placeholder="Adresse" [disabled]="isVerify()" type="text" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Latitude<span class="text-danger">*</span></b>
-                    </label>
-                    <input placeholder="Latitude" [disabled]="isVerify()" type="text" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Longitude<span class="text-danger">*</span></b>
-                    </label>
-                    <input placeholder="Longitude" [disabled]="isVerify()" type="text" pInputText />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <div class="submit-form">
-              <div>
-                <p-button style="float: right;margin-top: 1rem;" label="Soumettre" styleClass="p-button-success"
-                  [disabled]="true"></p-button>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>

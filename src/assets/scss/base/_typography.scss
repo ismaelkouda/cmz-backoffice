@@ -27,7 +27,7 @@ a {
         color: var(--theme-deafult);
     }
 
-    &[class*="badge-"] {
+    &[class*='badge-'] {
         &:hover {
             color: $white;
         }
@@ -75,7 +75,6 @@ blockquote {
         blockquote {
             border: none !important;
         }
-
     }
 
     &.text-end {
@@ -87,7 +86,7 @@ blockquote {
 }
 
 .row {
-    >div {
+    > div {
         position: relative;
     }
 }
@@ -112,7 +111,7 @@ input {
 }
 
 label {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
 }
 
 .media-widgets {
@@ -125,7 +124,6 @@ label {
 
 //Typography css start
 .typography {
-
     h1,
     .h1,
     h2,
@@ -157,7 +155,6 @@ pre {
     padding: $pre-tag-padding;
 }
 
-
 //Typography css end
 .owl-theme {
     .owl-dots {
@@ -177,7 +174,7 @@ pre {
 
     .owl-nav {
         &.disabled {
-            &+.owl-dots {
+            & + .owl-dots {
                 margin-bottom: -10px;
                 margin-top: 25px;
             }
@@ -186,7 +183,7 @@ pre {
 }
 
 .click2edit {
-    &~.note-editor {
+    & ~ .note-editor {
         &.note-frame {
             margin-bottom: 30px;
         }
@@ -237,7 +234,7 @@ pre {
     .close {
         color: $white;
 
-        [dir="rtl"] & {
+        [dir='rtl'] & {
             right: unset !important;
             left: 10px !important;
         }
@@ -256,15 +253,15 @@ pre {
         right: 20px !important;
         color: var(--theme-deafult);
 
-        [dir="rtl"] & {
+        [dir='rtl'] & {
             right: unset !important;
             left: 20px !important;
         }
     }
 
     span {
-        +span {
-            +span {
+        + span {
+            + span {
                 // border: 2px solid var(--theme-deafult);
                 background-color: $white;
                 color: var(--theme-deafult);
@@ -310,7 +307,7 @@ pre {
         font-weight: 100;
         top: -15px;
 
-        [dir="rtl"] & {
+        [dir='rtl'] & {
             right: unset !important;
             left: 10px !important;
         }
@@ -371,7 +368,7 @@ pre {
 }
 
 .swal-button--cancel {
-    background-color: #EFEFEE !important;
+    background-color: #efefee !important;
 }
 
 .clipboaard-container {
@@ -382,11 +379,10 @@ pre {
 }
 
 fieldset {
-
     .bootstrap-touchspin-postfix,
     .bootstrap-touchspin-prefix {
         border-radius: 0;
-        padding: .4rem .75rem;
+        padding: 0.4rem 0.75rem;
     }
 
     .input-group-lg {

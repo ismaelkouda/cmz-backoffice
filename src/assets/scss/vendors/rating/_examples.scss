@@ -1,7 +1,7 @@
-@import "variables";
+@import 'variables';
 
 /* Center ratings in container */
-.rating-container{
+.rating-container {
     // padding:20px;
 }
 .box-example-1to10 .br-wrapper {
@@ -62,20 +62,21 @@
         line-height: 1.2;
     }
 
-    h1, p {
+    h1,
+    p {
         text-align: center;
     }
 
     .stars {
         width: 205px;
-        text-align:center;
+        text-align: center;
 
         .title {
             font-size: 14px;
             color: #cccccc;
             line-height: 3;
         }
-        .clear-rating{
+        .clear-rating {
             padding-left: 5px;
         }
 
@@ -114,7 +115,7 @@
     .box-header {
         text-align: center;
         font-weight: 400;
-        padding: .5em 0;
+        padding: 0.5em 0;
     }
 
     .box-body {
@@ -140,7 +141,7 @@
     }
 }
 
-@mixin box-color($color){
+@mixin box-color($color) {
     .box-header {
         background-color: $color;
         color: white;

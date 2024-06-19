@@ -1,22 +1,22 @@
-.box-card{
+.box-card {
     text-align: center;
     border: 0.5px solid black;
     border-radius: 6px;
     padding: 0.2rem 0.5rem;
-    .title{
-        span{
+    .title {
+        span {
             font-size: 25px;
             color: black;
             text-transform: capitalize;
             font-weight: 900 !important;
         }
     }
-    .valeur{
-        span{
-            color: #FF6600;
+    .valeur {
+        span {
+            color: #ff6600;
             font-size: 28px;
             text-align: center;
             font-weight: 900 !important;
-        }    
-}
+        }
+    }
 }
