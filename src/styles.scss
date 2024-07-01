@@ -1,20 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "./assets/scss/app.scss";
+@import './assets/scss/app.scss';
 
 .width-100 {
     width: 100%;
 }
 
-
-.p-button.p-button-success, .p-buttonset.p-button-success>.p-button, .p-splitbutton.p-button-success>.p-button {
-    color: #fff;
-    background: #569c5b!important;
-    border: 1px solid #569c5b!important;
+label {
+    color: #2f2f3b;
 }
-.p-button.p-button-success:enabled:hover, .p-buttonset.p-button-success>.p-button:enabled:hover, .p-splitbutton.p-button-success>.p-button:enabled:hover {
-    background: #569c5b!important;
-    border: 1px solid #569c5b!important;
+
+.table-header-wrapper,
+.current-transaction-label {
+    color: #2f2f3b;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    color: #fff !important;
+}
+
+.p-button.p-button-success,
+.p-buttonset.p-button-success > .p-button,
+.p-splitbutton.p-button-success > .p-button {
+    color: #fff;
+    background: #569c5b !important;
+    border: 1px solid #569c5b !important;
+}
+.p-button.p-button-success:enabled:hover,
+.p-buttonset.p-button-success > .p-button:enabled:hover,
+.p-splitbutton.p-button-success > .p-button:enabled:hover {
+    background: #569c5b !important;
+    border: 1px solid #569c5b !important;
 }
 
 .pi-filter {
@@ -32,14 +48,14 @@
     perspective: 1200px;
     transform-style: preserve-3d;
 }
-.justificatif-container{
+.justificatif-container {
     padding: 1rem 0;
     display: flex;
     gap: 2rem;
     justify-content: center;
-    .justificatif-error{
-        span{
-            color: #DF0101;
+    .justificatif-error {
+        span {
+            color: #df0101;
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
@@ -50,9 +66,12 @@
     }
 }
 
-input[type="text"]:disabled, input[type="email"]:disabled,input[type="number"]:disabled, textarea:disabled {
+input[type='text']:disabled,
+input[type='email']:disabled,
+input[type='number']:disabled,
+textarea:disabled {
     background: #fafafa !important;
-    opacity: 1!important;
+    opacity: 1 !important;
     color: #000 !important;
     font-weight: 800;
     font-size: 19.5px;
@@ -67,11 +86,10 @@ p-password .p-disabled {
     font-weight: 800;
     font-size: 19.5px;
     border: 2px solid #ccc !important;
-     .p-dropdown-trigger {
+    .p-dropdown-trigger {
         opacity: 0 !important;
     }
 }
-
 
 :host {
     display: block;
@@ -80,31 +98,31 @@ p-password .p-disabled {
     height: 100%;
     background: #60d7a9;
 }
-:host ::ng-deep .spinner .p-progress-spinner-circle { 
-	animation: geek 5s ease-in-out infinite; 
-} 
-
-@keyframes geek { 
-	100%, 
-	0% { 
-		stroke: #FF6600; 
-	} 
-	40% { 
-		stroke: #FF6600; 
-	} 
-	66% { 
-		stroke: #FF6600; 
-	} 
-	80%, 
-	90% { 
-		stroke: #FF6600; 
-	} 
+:host ::ng-deep .spinner .p-progress-spinner-circle {
+    animation: geek 5s ease-in-out infinite;
 }
-.progress-spinner{
+
+@keyframes geek {
+    100%,
+    0% {
+        stroke: #ff6600;
+    }
+    40% {
+        stroke: #ff6600;
+    }
+    66% {
+        stroke: #ff6600;
+    }
+    80%,
+    90% {
+        stroke: #ff6600;
+    }
+}
+.progress-spinner {
     position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -120%)
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -120%);
 }
 .progress-spinner {
     position: fixed;
@@ -119,14 +137,14 @@ p-password .p-disabled {
     right: 0;
 }
 .progress-spinner:before {
-  content: '';
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: transparent !important;
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent !important;
 }
 
 .fs-30 {
@@ -147,11 +165,11 @@ p-password .p-disabled {
 }
 
 .background__light__orange {
-    background: #FAEBE1 !important;
+    background: #faebe1 !important;
 }
 
 .background__body__wrapper {
-    background: #F8F8F8 !important;
+    background: #f8f8f8 !important;
 }
 
 .body__background {
@@ -168,43 +186,41 @@ p-password .p-disabled {
 
 .ngx-pagination .current {
     padding: 0.6rem 1rem !important;
-    background: #EFF6FF !important;
-    border-color: #EFF6FF !important;
-    color: #1D4ED8 !important;
+    background: #eff6ff !important;
+    border-color: #eff6ff !important;
+    color: #1d4ed8 !important;
     cursor: pointer !important;
     border-radius: 50%;
     font-weight: 300 !important;
-
 }
 
 .ngx-pagination li {
     padding: 0.6rem 1rem !important;
     font-weight: 300 !important;
     border-radius: 50% !important;
-    color: #6C756C !important;
+    color: #6c756c !important;
     margin: 0.1rem !important;
 }
 
 :host ::ng-deep .p-dropdown .p-component .p-disabled {
     background-color: red !important;
-
 }
 
 .legende {
-    color: #FF6600;
+    color: #ff6600;
     position: relative;
     top: 0.6rem;
     text-transform: uppercase;
-    font-family: "FUTURA";
+    font-family: 'FUTURA';
 }
-.table-header-wrapper{
+.table-header-wrapper {
     font-size: 1.5rem;
-    font-family: "FUTURA";
+    font-family: 'FUTURA';
 }
-.loader-wrapper{
+.loader-wrapper {
     font-size: 1.6rem;
     text-transform: uppercase;
-    font-family: "FUTURA";
+    font-family: 'FUTURA';
 }
 .leaflet-popup-content {
     min-height: 5px;
@@ -230,7 +246,7 @@ p-password .p-disabled {
 
 @font-face {
     font-family: FUTURA;
-    src: url("./assets/fonts/FUTURA.otf");
+    src: url('./assets/fonts/FUTURA.otf');
 }
 
 .p-calendar {
@@ -242,9 +258,8 @@ p-password .p-disabled {
     float: right;
 }
 .wrapper-header {
-    font-family: "FUTURA";
+    font-family: 'FUTURA';
 }
-
 
 .p-calendar-w-btn .p-datepicker-trigger {
     background-color: #000 !important;
@@ -252,7 +267,6 @@ p-password .p-disabled {
 }
 
 .p-datatable .p-datatable-header {
-
     padding: 0rem 0rem 0.5rem 0rem !important;
 }
 
@@ -290,7 +304,7 @@ p-password .p-disabled {
     background-color: #000 !important;
     border: none !important;
     font-weight: 900;
-    color: #FFFF;
+    color: #ffff;
     //text-shadow: 2px 2px #FF6600;
     white-space: nowrap;
     -webkit-user-select: none;
@@ -303,10 +317,10 @@ p-password .p-disabled {
 .leaflet-tooltip-ressort {
     position: absolute;
     padding: 2px !important;
-    background-color: #2E9AFE !important;
+    background-color: #2e9afe !important;
     border: none !important;
     font-weight: 900;
-    color: #FFFF;
+    color: #ffff;
     //text-shadow: 2px 2px #FF6600;
     white-space: nowrap;
     -webkit-user-select: none;
@@ -331,19 +345,18 @@ p-password .p-disabled {
     justify-content: center !important;
 }
 
-.trans-radio{
-    label{
-        font-family: "FUTURA";
+.trans-radio {
+    label {
+        font-family: 'FUTURA';
         font-size: 19px !important;
     }
 }
-.current-transaction-label{
-    font-family: "FUTURA";
+.current-transaction-label {
+    font-family: 'FUTURA';
     font-size: 22px !important;
-
 }
 .p-radiobutton-box.p-highlight .p-radiobutton-icon {
-    transform: translateZ(0) scale(0.7,0.7) !important;
+    transform: translateZ(0) scale(0.7, 0.7) !important;
     visibility: visible;
 }
 .p-radiobutton .p-radiobutton-box {
@@ -355,9 +368,8 @@ p-password .p-disabled {
     height: 25px !important;
 }
 
-
 .p-datatable .p-sortable-column.p-highlight {
-    border-right: 0.5px solid #FAFAFA;
+    border-right: 0.5px solid #fafafa;
     color: white;
     background: #000 !important;
 }
@@ -366,36 +378,38 @@ p-password .p-disabled {
     background: #000 !important;
 }
 .p-datatable .p-sortable-column.p-highlight:hover .p-sortable-column-icon {
-    color:  #FFFF !important;
+    color: #ffff !important;
 }
 @font-face {
     font-family: Lato;
-    src: url("./assets/fonts/Lato.ttf");
+    src: url('./assets/fonts/Lato.ttf');
 }
 @font-face {
     font-family: Poppins;
-    src: url("./assets/fonts/Poppins.ttf");
+    src: url('./assets/fonts/Poppins.ttf');
 }
 
 .p-datatable .p-sortable-column:hover {
     background: #000000 !important;
-    color:  #FFFFFF !important;
+    color: #ffffff !important;
 }
 .p-datatable .p-sortable-column.p-highlight:hover .p-sortable-column-icon {
-    color:  #FFFFFF !important;
+    color: #ffffff !important;
 }
 .p-datatable .p-sortable-column.p-highlight .p-sortable-column-icon {
-    color:  #FFFFFF !important;
+    color: #ffffff !important;
 }
 
 .p-inputswitch .p-inputswitch-slider {
-    width: 5rem !important;
-    height: 3rem !important;
+    width: 4rem !important;
+    height: 2rem !important;
 }
+
 .p-inputswitch .p-inputswitch-slider:before {
     width: 1.5rem;
     height: 1.5rem;
-    left: 0.4rem;
+    left: 1.1rem;
+    top: 0.82rem;
 }
 
 .p-radiobutton-box.p-highlight .p-radiobutton-icon {
@@ -403,13 +417,13 @@ p-password .p-disabled {
     visibility: visible;
 }
 .p-radiobutton .p-radiobutton-box.p-highlight {
-    border-color: #1D4ED8 !important;
-    background: #1D4ED8 !important;
+    border-color: #1d4ed8 !important;
+    background: #1d4ed8 !important;
 }
 .p-radiobutton .p-disabled {
     opacity: 1 !important;
-  }
+}
 
-  .p-radiobutton-disabled{
+.p-radiobutton-disabled {
     cursor: not-allowed !important;
-  }
+}

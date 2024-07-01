@@ -7,9 +7,9 @@
             font: {
                 size: 52px;
                 family: var(--fontFamily) !important;
-            };
+            }
         }
-        h2{
+        h2 {
             font-size: 20px !important;
         }
         .icon {
@@ -35,11 +35,11 @@
             margin: {
                 bottom: 2px;
                 top: 20px;
-            };
+            }
             font: {
                 size: 1.2rem;
                 family: var(--fontFamily) !important;
-            };
+            }
         }
     }
 }
@@ -104,21 +104,20 @@
     }
 }
 
-.stat_box{
+.stat_box {
     display: flex;
     justify-content: space-between;
     border-radius: 15px;
     margin-bottom: 1rem;
     padding: 0.1rem 1rem;
-    &__asset{
-        img{
+    &__asset {
+        img {
             width: 2rem;
         }
     }
 }
 
-@media only screen and (max-width : 767px) {
-
+@media only screen and (max-width: 767px) {
     .single-stats-box {
         &.patrimoine-sim-card {
             h3 {
@@ -135,11 +134,9 @@
             }
         }
     }
-
 }
 
-@media only screen and (min-width : 768px) and (max-width : 991px) {
-
+@media only screen and (min-width: 768px) and (max-width: 991px) {
     .single-stats-box {
         &.patrimoine-sim-card {
             h3 {
@@ -156,5 +153,4 @@
             }
         }
     }
-
 }

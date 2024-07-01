@@ -31,7 +31,7 @@
                 text-transform: $card-header-font-transform;
             }
         }
-        >span {
+        > span {
             font-size: $card-header-span-size;
             color: $card-header-span-color;
             margin-top: 5px;
@@ -223,8 +223,8 @@
     }
     .card-footer {
         padding: 0;
-        >div {
-            +div {
+        > div {
+            + div {
                 border-left: 1px solid $light-semi-gray;
             }
             padding: 15px;
@@ -282,17 +282,17 @@
             }
             li {
                 position: relative;
-                +li {
+                + li {
                     &::before {
                         position: absolute;
-                        content: "";
+                        content: '';
                         width: 1px;
                         height: 14px;
                         background-color: var(--recent-dashed-border);
                         left: -15px;
                         top: 50%;
                         transform: translateY(-50%);
-                        [dir="rtl"] & {
+                        [dir='rtl'] & {
                             left: unset;
                             right: -15px;
                         }
@@ -309,7 +309,11 @@
         }
     }
     &-img-wrap {
-        background: linear-gradient(253deg, var(--theme-deafult) 11.51%, rgba(115, 102, 255, 0) 82.07%);
+        background: linear-gradient(
+            253deg,
+            var(--theme-deafult) 11.51%,
+            rgba(115, 102, 255, 0) 82.07%
+        );
         display: inline-block;
         border-radius: 100%;
         padding: 2px;
@@ -337,7 +341,6 @@
         }
     }
 }
-
 
 /**=====================
     03. Card CSS End

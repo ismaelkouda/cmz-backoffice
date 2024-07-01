@@ -1,5 +1,6 @@
-.small-dashboard{
-    display: flex;gap: 2rem;
+.small-dashboard {
+    display: flex;
+    gap: 2rem;
 }
 
 .label {
@@ -8,14 +9,14 @@
     text-align: center;
 }
 
-.box-card{
+.box-card {
     text-align: center;
     border: 2px solid #2c3e50;
     border-radius: 6px;
     height: 80px !important;
     width: 384px !important;
     .title {
-        span{
+        span {
             color: black;
             text-transform: capitalize;
             font-weight: 900 !important;
@@ -23,8 +24,8 @@
         }
     }
     .valeur {
-        span{
-            color: #FF6600;
+        span {
+            color: #ff6600;
             font-size: 45px;
             text-align: center;
             font-weight: 900 !important;

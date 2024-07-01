@@ -1,95 +1,225 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12">
-      <app-breadcrumb [title]="'Structure Organisationnelle'" [active_item]="firstLevelLibelle"></app-breadcrumb>
-      <div class="card">
-        <div class="card-body">
-          <div [hidden]="!initialView">
-            <p-tabView (onChange)="handleChangeTabviewIndex($event)">
-              <p-tabPanel [header]="firstLevelMenus | uppercase">
-                <div class="row filter_wrapper">
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label>
-                        <b>Nom {{firstLevelLibelle}}</b>
-                      </label>
-                      <input placeholder="Saisir le nom" [(ngModel)]="selectedNom" type="text" pInputText />
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="'Structure Organisationnelle'"
+                [active_item]="firstLevelLibelle"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div [hidden]="!initialView">
+                        <p-tabView
+                            (onChange)="handleChangeTabviewIndex($event)"
+                        >
+                            <p-tabPanel [header]="firstLevelMenus | uppercase">
+                                <div class="row filter_wrapper">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>
+                                                <b
+                                                    >Nom
+                                                    {{ firstLevelLibelle }}</b
+                                                >
+                                            </label>
+                                            <input
+                                                placeholder="Saisir le nom"
+                                                [(ngModel)]="selectedNom"
+                                                type="text"
+                                                pInputText
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>
+                                                <b>{{ secondLevelLibelle }}</b>
+                                            </label>
+                                            <input
+                                                [(ngModel)]="selectedCommune"
+                                                type="text"
+                                                pInputText
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <p-button
+                                            styleClass="p-button-success filter-button"
+                                            icon="pi pi-filter"
+                                            [disabled]="isFilter()"
+                                            (click)="onFilter()"
+                                        ></p-button>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="table_actions_wrapper">
+                                    <button
+                                        pButton
+                                        pRipple
+                                        *ngIf="mappingService.IsAction()"
+                                        [label]="'Ajout Simple'"
+                                        icon="pi pi-plus"
+                                        (click)="OnOpenForm()"
+                                        class="p-button-success"
+                                    ></button>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        label="Rafraîchir"
+                                        icon="pi pi-refresh"
+                                        class="p-button-secondary"
+                                        (click)="OnRefresh()"
+                                    ></button>
+                                    <button
+                                        pButton
+                                        pRipple
+                                        label="Exporter"
+                                        icon="pi pi-download"
+                                        class="p-button-helf"
+                                        (click)="OnExportExcel()"
+                                    ></button>
+                                </div>
+                                <div class="table_content_wrapper">
+                                    <div class="table_header">
+                                        <app-table-header
+                                            [count]="listFirstLevelDatas"
+                                            [legende]="firstLevelMenus"
+                                            [page]="page"
+                                            [totalPage]="totalPage"
+                                        ></app-table-header>
+                                    </div>
+                                    <table [ngClass]="['native_table table']">
+                                        <thead>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center">Code</th>
+                                            <th class="text-center">
+                                                {{ firstLevelLibelle }}
+                                            </th>
+                                            <th class="text-center">
+                                                #
+                                                {{ secondLevelLibelle }}
+                                                Affectés
+                                            </th>
+                                            <th
+                                                class="text-center"
+                                                [ngStyle]="{ width: '10rem' }"
+                                            >
+                                                Actions
+                                            </th>
+                                        </thead>
+                                        <tbody>
+                                            <tr
+                                                *ngFor="
+                                                    let data of listFirstLevelDatas
+                                                        | paginate
+                                                            : {
+                                                                  itemsPerPage:
+                                                                      recordsPerPage,
+                                                                  currentPage:
+                                                                      p,
+                                                                  totalPages:
+                                                                      totalPage,
+                                                                  totalItems:
+                                                                      totalRecords
+                                                              };
+                                                    let i = index
+                                                "
+                                            >
+                                                <td>{{ this.offset + i }}</td>
+                                                <td class="text-center">
+                                                    {{ data?.code }}
+                                                </td>
+                                                <td
+                                                    (click)="
+                                                        copyData(data?.nom)
+                                                    "
+                                                    style="cursor: pointer"
+                                                >
+                                                    {{ data?.nom }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <button
+                                                        pButton
+                                                        pRipple
+                                                        pTooltip="Visualiser"
+                                                        tooltipPosition="top"
+                                                        label="Visualiser [{{
+                                                            data.niveaux_deux_count
+                                                        }}]"
+                                                        class="p-button"
+                                                        (click)="
+                                                            OnVisualisation(
+                                                                data
+                                                            )
+                                                        "
+                                                        [disabled]="
+                                                            data?.niveaux_deux_count ===
+                                                            0
+                                                        "
+                                                    ></button>
+                                                </td>
+                                                <td class="td-actions">
+                                                    <button
+                                                        pButton
+                                                        icon="pi pi-eye"
+                                                        pTooltip="Voir"
+                                                        tooltipPosition="top"
+                                                        (click)="
+                                                            onShowForm(
+                                                                data,
+                                                                content
+                                                            )
+                                                        "
+                                                        class="p-button-dark"
+                                                    ></button>
+                                                    <button
+                                                        *ngIf="
+                                                            mappingService.IsAction()
+                                                        "
+                                                        pButton
+                                                        icon="pi pi-pencil"
+                                                        pTooltip="Editer"
+                                                        tooltipPosition="top"
+                                                        (click)="
+                                                            onEditForm(
+                                                                data,
+                                                                content
+                                                            )
+                                                        "
+                                                        class="p-button-secondary"
+                                                    ></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div [ngClass]="['pagination-controls']">
+                                    <pagination-controls
+                                        (pageChange)="onPageChange($event)"
+                                        previousLabel=""
+                                        nextLabel=""
+                                    >
+                                    </pagination-controls>
+                                </div>
+                            </p-tabPanel>
+                            <p-tabPanel header="HISTORIQUE">
+                                <app-historique
+                                    *ngIf="currentTabsIndex === 1"
+                                    [module]="'STRUCTURE ORGANISATIONNELLE'"
+                                    [sous_module]="'NIVEAU UN'"
+                                >
+                                </app-historique>
+                            </p-tabPanel>
+                        </p-tabView>
                     </div>
-                  </div>
-                  <div class="col-md-3">
-                    <div class="form-group">
-                      <label>
-                        <b>{{secondLevelLibelle}}</b>
-                      </label>
-                      <input [(ngModel)]="selectedCommune" type="text" pInputText />
-                    </div>
-                  </div>
-                  <div class="col-md-1">
-                    <p-button styleClass="p-button-success filter-button" icon="pi pi-filter" [disabled]="isFilter()"
-                      (click)="onFilter()"></p-button>
-                  </div>
+                    <app-form-first-level
+                        [currentObject]="currentObject"
+                        *ngIf="formsView"
+                        (formsView)="pushStatutView($event)"
+                        (listFirstLevelDatas)="pushListProfils($event)"
+                    >
+                    </app-form-first-level>
                 </div>
-                <hr>
-                <div class="table_actions_wrapper">
-                  <button pButton pRipple *ngIf="mappingService.IsAction()" [label]="'Ajout Simple'" icon="pi pi-plus" (click)="OnOpenForm()"
-                    class="p-button-success"></button>
-                  <button pButton pRipple label="Rafraîchir" icon="pi pi-refresh" class="p-button-secondary"
-                    (click)="OnRefresh()"></button>
-                  <button pButton pRipple label="Exporter" icon="pi pi-download" class="p-button-helf" (click)="OnExportExcel()"></button>
-                </div>
-                <div class="table_content_wrapper">
-                  <div class="table_header">
-                    <app-table-header [count]="listFirstLevelDatas" [legende]="firstLevelMenus" [page]="page" [totalPage]="totalPage"></app-table-header>
-                  </div>
-                  <table [ngClass]="['native_table table']">
-                    <thead>
-                      <th class="text-center" [style]="{width: '1.5rem'}">#</th>
-                      <th class="text-center">{{firstLevelLibelle}}</th>
-                      <th class="text-center"># {{secondLevelLibelle}} Affectés</th>
-                      <th class="text-center" [ngStyle]="{'width':'10rem'}">Actions</th>
-                    </thead>
-                    <tbody>
-                      <tr
-                        *ngFor="let data of listFirstLevelDatas | paginate: { itemsPerPage: recordsPerPage, currentPage: p, totalPages:totalPage, totalItems:totalRecords }; let i = index;">
-                        <td>{{ (this.offset + i)}}</td>
-                        <td (click)="copyData(data?.nom)" style="cursor: pointer">{{data?.nom}}</td>
-                        <td class="text-center">
-                          <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
-                            label="Visualiser [{{data.niveaux_deux_count}}]" class="p-button"
-                            (click)="OnVisualisation(data)" [disabled]="data?.niveaux_deux_count === 0">
-                          </button>
-                        </td>
-                        <td class="td-actions">
-                          <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top"
-                            (click)="onShowForm(data,content)" class="p-button-dark"></button>
-                          <button *ngIf="mappingService.IsAction()" pButton icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
-                            (click)="onEditForm(data,content)" class="p-button-secondary"></button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div [ngClass]="['pagination-controls']">
-                  <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
-                  </pagination-controls>
-                </div>
-              </p-tabPanel>
-              <p-tabPanel header="HISTORIQUE">
-                <app-historique 
-                *ngIf="currentTabsIndex === 1" 
-                  [module]="'STRUCTURE ORGANISATIONNELLE'"
-                  [sous_module]="'NIVEAU UN'"
-                  >
-                </app-historique>
-              </p-tabPanel>
-            </p-tabView>
-          </div>
-          <app-form-first-level [currentObject]="currentObject" *ngIf="formsView" (formsView)="pushStatutView($event)"
-          (listFirstLevelDatas)="pushListProfils($event)">
-        </app-form-first-level>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
-

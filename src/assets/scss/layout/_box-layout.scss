@@ -42,7 +42,7 @@
             }
         }
         .currency-widget {
-            div[class*="bg-light-"] {
+            div[class*='bg-light-'] {
                 display: none;
             }
         }
@@ -89,7 +89,7 @@
         .apache-cotainer-large,
         #line-visual,
         #line-visulH {
-            >div,
+            > div,
             canvas {
                 width: 100% !important;
             }
@@ -108,11 +108,11 @@
                         top: $box-layout-space;
                         border-radius: 10px 0 0 10px;
                         &.close_icon {
-                            ~footer {
+                            ~ footer {
                                 width: 1200px;
                                 left: 47%;
                             }
-                            ~.footer-fix {
+                            ~ .footer-fix {
                                 padding-left: 0;
                             }
                             .sidebar-main {
@@ -177,8 +177,8 @@
                                     }
                                     a {
                                         &.active {
-                                            ~.sidebar-submenu,
-                                            ~.mega-menu-container {
+                                            ~ .sidebar-submenu,
+                                            ~ .mega-menu-container {
                                                 animation: unset;
                                             }
                                         }
@@ -304,7 +304,7 @@
                                     height: calc(100vh - 316px);
                                 }
                             }
-                            ~footer {
+                            ~ footer {
                                 width: 1280px;
                                 left: 50%;
                                 margin-left: 0;
@@ -461,7 +461,7 @@
                             align-items: center;
                             justify-content: center;
                             min-width: 300px;
-                            >div {
+                            > div {
                                 z-index: 8;
                                 background-color: rgba(255, 255, 255, 0.75);
                                 background-blend-mode: overlay;
@@ -545,7 +545,7 @@
             }
             ul {
                 &.close_icon {
-                    >li {
+                    > li {
                         label {
                             padding: 0;
                             &:after {
@@ -578,7 +578,7 @@
                 .btn-radio {
                     .btn-group {
                         .radio {
-                            input[type="radio"] {
+                            input[type='radio'] {
                                 display: none;
                             }
                         }
@@ -771,7 +771,7 @@
                         padding-left: 12px;
                     }
                     .col-xl-3 {
-                        +.col-xl-3 {
+                        + .col-xl-3 {
                             padding-right: 12px;
                         }
                     }
@@ -821,7 +821,6 @@
         }
     }
 }
-
 
 /**=====================
     63. Box-layout CSS ends

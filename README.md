@@ -1,35 +1,37 @@
-# Cateli Data Collector - Système de Gestion de Collecte Centralisée
+# Cateli Data Collector - Centralized Collection Management System
 
 ## Description
 
-Cateli Data Collector est un système de gestion de collecte centralisée conçu 
-pour capturer, stocker, et analyser les données provenant de diverses sources 
-au sein de votre organisation. Ce système offre une plateforme robuste et 
-évolutive pour la consolidation et la gestion des données, ainsi que des 
-fonctionnalités avancées de surveillance en temps réel.
+Cateli Data Collector is a centralized collection management system designed to capture, store, and analyze data from various sources within your organization. This system offers a robust and scalable platform for data consolidation and management, as well as advanced real-time monitoring features.
 
-## Version de Node.js
+## Node.js Version
 
-Cette application nécessite Node.js version 18.18.0 ou supérieure.
+This application requires Node.js version 18.18.0 or higher.
 
-## Installation des dépendances
+## Dependency Installation
 
-Exécutez `yarn install` pour installer les dépendances.
+Run `pnpm install` to install the dependencies.
 
-## Serveur de développement
+## Development Server
 
-Exécutez `npm run start` pour démarrer un serveur de développement. Naviguez sur `http://localhost:4200/`. L'application se rechargera automatiquement si vous modifiez l'un des fichiers sources.
+Run `pnpm run start:dev` to start a development server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Génération de code
+## Production Server
 
-Exécutez `ng generate component component-name` pour générer un nouveau composant. Vous pouvez également utiliser `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run `pnpm run start:prod` to start a production server.
 
-## Construction
+## Code Generation
 
-Exécutez `npm run build-production` pour construire le projet. Les artefacts de construction seront stockés dans le répertoire `dist/`. Utilisez le drapeau `--prod` pour une construction de production.
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Exécution de tests unitaires
+## Build
 
-## Aide supplémentaire
+Run `pnpm run build:dev` to build the project for development. Run `pnpm run build:prod` to build the project for production. The build artifacts will be stored in the `dist/` directory.
 
-Pour obtenir plus d'aide sur Angular CLI, utilisez `ng help` ou consultez le [README d'Angular CLI](https://github.com/angular/angular-cli/blob/master/README.md).
+## Running Unit Tests
+
+Run `ng test` to execute the unit tests via Karma.
+
+## Further Help
+
+To get more help on the Angular CLI, use `ng help` or check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

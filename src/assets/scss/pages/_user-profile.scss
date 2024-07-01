@@ -145,7 +145,7 @@
             margin-bottom: 30px;
             .media-body {
                 margin-left: 14px;
-                [dir="rtl"] & {
+                [dir='rtl'] & {
                     margin-left: unset;
                     margin-right: 14px;
                 }
@@ -153,7 +153,6 @@
         }
     }
 }
-
 
 /**=====================
      22. User profile css Ends

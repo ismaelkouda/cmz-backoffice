@@ -1,13 +1,13 @@
 /**=====================
     80. avatars CSS start
 ==========================**/
-.avatars{
-    .avatar{
+.avatars {
+    .avatar {
         display: inline-block;
         margin-right: 10px;
         position: relative;
         width: auto;
-        &:last-child{
+        &:last-child {
             margin-right: 0;
         }
         .b-r-30 {
@@ -22,12 +22,12 @@
         .b-r-15 {
             border-radius: 15px;
         }
-        &.ratio{
-            img{
+        &.ratio {
+            img {
                 width: auto;
             }
-        }        
-        .status{
+        }
+        .status {
             position: absolute;
             background-color: $light-text;
             bottom: 0;
@@ -35,7 +35,7 @@
             border-radius: 100%;
             border: 1px solid $white;
         }
-        .status{
+        .status {
             position: absolute;
             height: 12%;
             width: 12%;
@@ -46,42 +46,42 @@
         }
     }
 }
-.customers{
-    ul{
+.customers {
+    ul {
         display: inline-block;
-        li{
-            img{
+        li {
+            img {
                 border: 2px solid $white;
                 transition: 0.5s;
-                &:hover{
+                &:hover {
                     transform: translateY(-4px) scale(1.02);
                     transition: 0.5s;
                 }
             }
-            + li{
+            + li {
                 margin-left: -7%;
             }
         }
     }
-    &.avatar-group{
-       margin-right: 30px;
-        &:last-child{
+    &.avatar-group {
+        margin-right: 30px;
+        &:last-child {
             margin-right: 0;
         }
     }
 }
-.avatar-showcase{
+.avatar-showcase {
     margin-bottom: -10px;
-    .avatars{
-        .avatar{
+    .avatars {
+        .avatar {
             margin-bottom: 10px;
         }
     }
-    .avatar-group{
+    .avatar-group {
         margin-bottom: 10px;
     }
     .ratio {
-        >* {
+        > * {
             position: relative;
             top: unset;
             left: unset;

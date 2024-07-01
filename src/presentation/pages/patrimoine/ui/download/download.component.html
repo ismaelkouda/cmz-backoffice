@@ -1,49 +1,101 @@
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-sm-12">
-      <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
-      <div class="card">
-        <div class="card-body">
-          <div [hidden]="!initialView">
-            <hr>
-            <div class="table_actions_wrapper">
-              <app-table-button-header (refresh)="pageCallback()" [hiddenButtonExport]="true" [hiddenButtonOther]="true"></app-table-button-header>
-            </div>
-            <div class="table_content_wrapper">
-              <div class="table_header">
-                <app-table-header [count]="listFiles" [legende]="'Fichiers à Télécharger'" [page]="page" [totalPage]="totalPage"></app-table-header>
-              </div>
-              <p-table [ngClass]="['native_table table']" [value]="listFiles" dataKey="id" selectionMode="single"  [(selection)]="itemDownload">
-                <ng-template pTemplate="header">
-                  <tr>
-                  <th class="text-center">#</th>
-                  <th>Date fichier</th>
-                  <th class="text-center">Nom fichier CSV</th>
-                  <th class="text-center">Taille fichier (Mo)</th>
-                  <th class="text-center" [style]="{width: '4rem'}">Action</th>
-                </tr>
-              </ng-template>
-              <ng-template pTemplate="body" let-rowIndex="rowIndex" let-data>
-                  <tr [pSelectableRow]="data">
-                    <td class="text-center">{{rowIndex + pargination?.offset}}</td>
-                    <td class="text-center" [style]="{width: '12rem'}">{{data?.created_at}}</td>
-                    <td style="text-align: left !important;">{{data?.nom_fichier}}</td>
-                    <td class="text-center">{{data?.taille_fichier}}</td>
-                    <td class="text-center">
-                      <button pButton pRipple label="Télécharger"  icon="pi pi-download" class="p-button-helf" (click)="downloadFile(data)"></button>
-                    </td>
-                  </tr>
-                </ng-template>
-              </p-table>
-              <app-pargination [pargination]="pargination" (pageChange)="onPageChange($event)"></app-pargination>
-              <!-- <div [ngClass]="['pagination-controls']">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div [hidden]="!initialView">
+                        <hr />
+                        <div class="table_actions_wrapper">
+                            <app-table-button-header
+                                (refresh)="pageCallback()"
+                                [hiddenButtonExport]="true"
+                                [hiddenButtonOther]="true"
+                            ></app-table-button-header>
+                        </div>
+                        <div class="table_content_wrapper">
+                            <div class="table_header">
+                                <app-table-header
+                                    [count]="listFiles"
+                                    [legende]="'Fichiers à Télécharger'"
+                                    [page]="page"
+                                    [totalPage]="totalPage"
+                                ></app-table-header>
+                            </div>
+                            <p-table
+                                [ngClass]="['native_table table']"
+                                [value]="listFiles"
+                                dataKey="id"
+                                selectionMode="single"
+                                [(selection)]="itemDownload"
+                            >
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>Date fichier</th>
+                                        <th class="text-center">
+                                            Nom fichier CSV
+                                        </th>
+                                        <th class="text-center">
+                                            Taille fichier (Mo)
+                                        </th>
+                                        <th
+                                            class="text-center"
+                                            [style]="{ width: '4rem' }"
+                                        >
+                                            Action
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template
+                                    pTemplate="body"
+                                    let-rowIndex="rowIndex"
+                                    let-data
+                                >
+                                    <tr [pSelectableRow]="data">
+                                        <td class="text-center">
+                                            {{ rowIndex + pargination?.offset }}
+                                        </td>
+                                        <td
+                                            class="text-center"
+                                            [style]="{ width: '12rem' }"
+                                        >
+                                            {{ data?.created_at }}
+                                        </td>
+                                        <td style="text-align: left !important">
+                                            {{ data?.nom_fichier }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ data?.taille_fichier }}
+                                        </td>
+                                        <td class="text-center">
+                                            <button
+                                                pButton
+                                                pRipple
+                                                label="Télécharger"
+                                                icon="pi pi-download"
+                                                class="p-button-helf"
+                                                (click)="downloadFile(data)"
+                                            ></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <app-pargination
+                                [pargination]="pargination"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pargination>
+                            <!-- <div [ngClass]="['pagination-controls']">
                 <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
                 </pagination-controls>
               </div> -->
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>

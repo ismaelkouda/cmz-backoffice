@@ -64,43 +64,45 @@ export class CarteTableComponent {
     }
   }
   public onDialogMaximized(event) {
-    event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
+    // event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
   
   public showDialog(data, composant) {
     this.onMarkItemCarteSim(data);
-    switch (data) {
-      case "map": {
-        this.display = true;
-        this.onDialogMaximized(true);
-        this.currentComposant = composant;
-        this.OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: 'PATRIMOINE SIM-MAP',
-          detectRetina: false,
-          maxNativeZoom: 19,
-          maxZoom: 23,
-          minZoom: 12,
-          noWrap: false,
-          opacity: 1,
-          subdomains: 'abc',
-          tms: false,
-        })
-        this.satelite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-          maxZoom: 23,
-          minZoom: 10,
-          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-          attribution: 'PATRIMOINE SIM-MAP',
-        })
-        setTimeout(() => {
-          this.parcelleMap.nativeElement.innerHTML = "<div id='map' style='height: 45vw'></div>";
-          this.onMapReady();
-        }, 1000);
-        break;
-      }
-    }
+    // switch (data) {
+    //   case "map": {
+    //     this.display = true;
+    //     this.onDialogMaximized(true);
+    //     this.currentComposant = composant;
+    //     this.OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //       attribution: 'PATRIMOINE SIM-MAP',
+    //       detectRetina: false,
+    //       maxNativeZoom: 19,
+    //       maxZoom: 23,
+    //       minZoom: 12,
+    //       noWrap: false,
+    //       opacity: 1,
+    //       subdomains: 'abc',
+    //       tms: false,
+    //     })
+    //     this.satelite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+    //       maxZoom: 23,
+    //       minZoom: 10,
+    //       subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+    //       attribution: 'PATRIMOINE SIM-MAP',
+    //     })
+    //     setTimeout(() => {
+    //       this.parcelleMap.nativeElement.innerHTML = "<div id='map' style='height: 45vw'></div>";
+    //       this.onMapReady();
+    //     }, 1000);
+    //     break;
+    //   }
+    // }
   }
 
   onMarkItemCarteSim(data) {
     this.itemCatreSim = data;
   }
+
+  hideDialog(type) {}
 }

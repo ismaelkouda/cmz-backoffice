@@ -1,50 +1,118 @@
 <div class="modal-content" *ngIf="IsLoadData">
-  <div class="modal-header" style="background-color:#569c5b;color:#fff;cursor: all-scroll;padding: 0.2rem 1rem;">
-    <h4 class="modal-title pl-3">
-      Détails <strong class="cursor-pointer text-center"
-        (click)="copyTransaction(transaction.transaction)">[{{transaction?.transaction}}]</strong>
-    </h4>
-    <button type="button" class="close" (click)="handleCloseModal()" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="row">
-      <!--------------------MODAL----------SIDEBAR---------->
-      <div class="col-lg-2" style="border-right: 1px solid #D8D8D8;">
-        <ul class="list-group pl-3" *ngIf="transaction?.operation === operationLigneCredit">
-          <li style="cursor: pointer;font-size:15px;"
-            [ngClass]="filterTab === 'first-item' ? 'active' : 'bg_light_green'" (click)="filterItem('first-item')"
-            class="list-group-item cursor-pointer">
-            Information de Transaction
-          </li>
-        </ul>
-        <ul class="list-group pl-3" *ngIf="transaction?.operation === OperationVolumeData">
-          <li style="cursor: pointer;font-size:15px;"
-            [ngClass]="filterTab === 'first-item' ? 'active' : 'bg_light_green'" (click)="filterItem('first-item')"
-            class="list-group-item cursor-pointer">
-            Information de soumission
-          </li>
-        </ul>
-        <ul class="list-group pl-3" *ngIf="transaction?.rapport?.ouvrage === operationActivation">
-          <li style="cursor: pointer;font-size:15px;"
-            [ngClass]="filterTab === 'first-item' ? 'active' : 'bg_light_green'" (click)="filterItem('first-item')"
-            class="list-group-item cursor-pointer">
-            Information de Transaction
-          </li>
-        </ul>
-        <div class="submit-wrapper" *ngIf="mappingService.IsAction()">
-          <button pButton pRipple label="Abandonner" *ngIf="IsCancel()" (click)="OnCancelTransaction()"
-            class="p-button-warning w-100">
-          </button>
-          <button *ngIf="IsUpdate()" (click)="OnUpdateTransaction()" pButton pRipple
-            label="Enregistrer" class="p-button-success w-100">
-          </button>
-          <button *ngIf="IsCloture()" (click)="OnCloseTransaction()" [disabled]="!selectedNotation || !selectedIsCloture" pButton pRipple
-            label="Enregistrer" class="p-button-success w-100">
-          </button>
-        </div>
-        <!-- <fieldset *ngIf="IsContencieutRouter()">
+    <div
+        class="modal-header"
+        style="
+            background-color: #569c5b;
+            color: #fff;
+            cursor: all-scroll;
+            padding: 0.2rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        "
+    >
+        <h4 class="modal-title pl-3">
+            Détails
+            <strong
+                class="cursor-pointer text-center"
+                (click)="copyTransaction(transaction.transaction)"
+                >[{{ transaction?.transaction }}]</strong
+            >
+        </h4>
+        <button
+            type="button"
+            class="close"
+            (click)="handleCloseModal()"
+            aria-label="Close"
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <!--------------------MODAL----------SIDEBAR---------->
+            <div class="col-lg-2" style="border-right: 1px solid #d8d8d8">
+                <ul
+                    class="list-group pl-3"
+                    *ngIf="transaction?.operation === operationLigneCredit"
+                >
+                    <li
+                        style="cursor: pointer; font-size: 15px"
+                        [ngClass]="
+                            filterTab === 'first-item'
+                                ? 'active'
+                                : 'bg_light_green'
+                        "
+                        (click)="filterItem('first-item')"
+                        class="list-group-item cursor-pointer"
+                    >
+                        Information de Transaction
+                    </li>
+                </ul>
+                <ul
+                    class="list-group pl-3"
+                    *ngIf="transaction?.operation === OperationVolumeData"
+                >
+                    <li
+                        style="cursor: pointer; font-size: 15px"
+                        [ngClass]="
+                            filterTab === 'first-item'
+                                ? 'active'
+                                : 'bg_light_green'
+                        "
+                        (click)="filterItem('first-item')"
+                        class="list-group-item cursor-pointer"
+                    >
+                        Information de soumission
+                    </li>
+                </ul>
+                <ul
+                    class="list-group pl-3"
+                    *ngIf="
+                        transaction?.rapport?.ouvrage === operationActivation
+                    "
+                >
+                    <li
+                        style="cursor: pointer; font-size: 15px"
+                        [ngClass]="
+                            filterTab === 'first-item'
+                                ? 'active'
+                                : 'bg_light_green'
+                        "
+                        (click)="filterItem('first-item')"
+                        class="list-group-item cursor-pointer"
+                    >
+                        Information de Transaction
+                    </li>
+                </ul>
+                <div class="submit-wrapper" *ngIf="mappingService.IsAction()">
+                    <button
+                        pButton
+                        pRipple
+                        label="Abandonner"
+                        *ngIf="IsCancel()"
+                        (click)="OnCancelTransaction()"
+                        class="p-button-warning w-100"
+                    ></button>
+                    <button
+                        *ngIf="IsUpdate()"
+                        (click)="OnUpdateTransaction()"
+                        pButton
+                        pRipple
+                        label="Enregistrer"
+                        class="p-button-success w-100"
+                    ></button>
+                    <button
+                        *ngIf="IsCloture()"
+                        (click)="OnCloseTransaction()"
+                        [disabled]="!selectedNotation || !selectedIsCloture"
+                        pButton
+                        pRipple
+                        label="Enregistrer"
+                        class="p-button-success w-100"
+                    ></button>
+                </div>
+                <!-- <fieldset *ngIf="IsContencieutRouter()">
           <legend>
             <strong>Decision</strong>
           </legend>
@@ -72,1180 +140,2382 @@
             </div>
           </div>
         </fieldset> -->
-        <div>
-            <fieldset>
-                <legend>
-                    <strong>Emission</strong>
-                </legend>
-                <div class="d-flex flex-column gap-2">
-                  <div>
-                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{detailTransaction?.demandeur_matricule ??"N/A"}}</span>
-                  </div>
-                  <div>
-                    <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>{{detailTransaction?.demandeur_nom ??"N/A"}} {{detailTransaction?.demandeur_prenoms ??"N/A"}}</span>
-                  </div>
-                  <div>
-                    <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{detailTransaction?.demandeur_contacts ??"N/A"}}</span>
-                  </div>
-                  <div>
-                    <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{detailTransaction?.demandeur_email ??"N/A"}}</span>
-                  </div>
-                  <div>
-                    <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{transaction?.created_at ??"N/A"}}</span>
-                  </div>
-                 </div>
-            </fieldset>
-         </div>
-        <div>
-          <fieldset>
-              <legend>
-                  <strong>Homologation</strong>
-              </legend>
-              <div class="d-flex flex-column gap-2">
                 <div>
-                  <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.matricule ??"N/A"}}</span>
-                </div>
-                <div>
-                  <span class="mb-0 fs__30"><strong>Nom Complet&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.nom ??"N/A"}} {{detailTransaction?.intervenant?.prenoms ??"N/A"}}</span>
-                </div>
-                <div>
-                  <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.contacts ??"N/A"}}</span>
-                </div>
-                <div>
-                  <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{detailTransaction?.intervenant?.email ??"N/A"}}</span>
-                </div>
-                <div>
-                  <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{detailTransaction?.rapport?.date_traitement ?? detailTransaction?.rapport?.date_acquittement}}</span>
-                </div>
-              </div>
-          </fieldset>
-          </div>
-      </div>
-      <!--------------------MODAL----------BODY---------->
-      <div class="col-lg-10">
-        <div
-          [ngClass]="OnGetRapportCodeStyle(detailTransaction?.rapport?.code)"
-          role="alert" style="display: flex;justify-content: space-between;">
-          <div>
-            <strong class="wrapper-header">Reception : {{detailTransaction?.rapport?.statut_acquittement ?? 'N/A'}} [{{detailTransaction?.rapport?.date_acquittement ?? '-- : --'}}]</strong>
-          </div>
-          <div>
-            <strong class="wrapper-header">Traitement : {{detailTransaction?.rapport?.statut_traitement ?? 'N/A'}} [{{detailTransaction?.rapport?.date_traitement ?? '-- : --'}}]</strong>
-          </div>
-          <div>
-            <strong class="wrapper-header">Clôture : {{detailTransaction?.rapport?.statut_cloture ?? 'N/A'}}  [{{detailTransaction?.rapport?.date_cloture ?? '-- : --'}}]</strong>
-          </div>
-        </div>
-        <div class="row">
-          <h4 *ngIf="detailTransaction?.rapport" class="col-md-7 wrapper-header">
-            <strong>{{ formatTitleOuvrage(detailTransaction?.operation) }}
-              <span style="color:#549B3D;font-weight: bold;">
-                <span *ngIf="IsContentSim()"> 
-                  {{detailTransaction?.point_emplacement ?? 'N/A'}} [{{detailTransaction?.msisdn ?? 'N/A'}}]
-                </span>&nbsp;
-                <span *ngIf="IsProvisionningTransaction()"> 
-                  {{detailTransaction?.reference ?? 'N/A'}} [{{detailTransaction?.rapport?.code ?? 'N/A'}}]
-                </span>&nbsp;
-                <span *ngIf="IsAchatTransaction()"> 
-                  {{detailTransaction?.numero_commande ?? 'N/A'}} [{{detailTransaction?.rapport?.code ?? 'N/A'}}]
-                </span>&nbsp;
-                <span
-                  *ngIf="detailTransaction?.rapport?.identifiant">[{{detailTransaction?.rapport?.identifiant ?? 'N/A'}}]</span>
-              </span>
-            </strong>
-          </h4>
-          <div class="col-md-5 wrapper-header" style="display: flex; justify-content: end; font-size: 20px;">Date mise à jour :&nbsp;<b><span>{{IscurrentDate() ?? 'N/A'}}</span></b></div>
-        </div>
-        <hr style="position: relative;top: -0.2rem;margin-top: -0.8rem;">
-        <!--------------LIGNE----------CREDIT------------FORMS----------------->
-        <div *ngIf="transaction?.operation === operationLigneCredit" class="form-container">
-          <div [hidden]="filterTab !== 'first-item'" [formGroup]="ligneForm">
-            <fieldset>
-              <legend>
-                <strong>Information de Transaction</strong>
-              </legend>
-              <div class="row">
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label>
-                      <b>Montant</b>
-                    </label>
-                    <input type="text" formControlName="montant" placeholder="montant" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label>
-                      <b>Type Justificatif</b>
-                    </label>
-                    <p-dropdown [options]="listTypeJustificatif" formControlName="type_justificatif" placeholder="Type">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data}}
-                          </div>
+                    <fieldset>
+                        <legend>
+                            <strong>Emission</strong>
+                        </legend>
+                        <div class="d-flex flex-column gap-2">
+                            <div>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Matricule&nbsp;:&nbsp;</strong
+                                    >{{
+                                        detailTransaction?.demandeur_matricule ??
+                                            'N/A'
+                                    }}</span
+                                >
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Nom complet&nbsp;:&nbsp;</strong
+                                    >{{
+                                        detailTransaction?.demandeur_nom ??
+                                            'N/A'
+                                    }}
+                                    {{
+                                        detailTransaction?.demandeur_prenoms ??
+                                            'N/A'
+                                    }}</span
+                                >
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Contact&nbsp;:&nbsp;</strong
+                                    >{{
+                                        detailTransaction?.demandeur_contacts ??
+                                            'N/A'
+                                    }}</span
+                                >
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Email&nbsp;:&nbsp;</strong
+                                    >{{
+                                        detailTransaction?.demandeur_email ??
+                                            'N/A'
+                                    }}</span
+                                >
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Date&nbsp;:&nbsp;</strong
+                                    >{{
+                                        transaction?.created_at ?? 'N/A'
+                                    }}</span
+                                >
+                            </div>
                         </div>
-                      </ng-template>
-                    </p-dropdown>
-                  </div>
-                </div>
-                <div class="col-md-8">
-                  <div class="form-group">
-                    <label>
-                      <b>Description</b>
-                    </label>
-                    <input type="text" formControlName="description" pInputText />
-                  </div>
-                </div>
-              </div>
-              <br>
-              <div class="justificatif-container">
-                <div *ngIf="IsJustificatif()">
-                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                    class="p-button-success" (click)="downloadFile()"></button>
-                </div>
-                <div class="justificatif-error">
-                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
-                </div>
-                <div *ngIf="IsUpdate()">
-                  <div>
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset *ngIf="ShowAcceptedForm()">
-              <legend>
-                <strong>Traitement</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input formControlName="provisionning_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input formControlName="provisionning_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="provisionning_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <!--------------DEPOT----------VOLUME------------FORMS----------------->
-        <div *ngIf="transaction?.operation === OperationVolumeData" class="form-container">
-          <div [hidden]="filterTab !== 'first-item'" [formGroup]="volumeForm">
-            <fieldset>
-              <legend>
-                <b>Informations de Transaction</b>
-              </legend>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>MSIDN</b>
-                    </label>
-                    <input type="text" formControlName="msisdn" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>IMSI</b>
-                    </label>
-                    <input type="text" formControlName="imsi" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>Statut Contrat</b>
-                    </label>
-                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>Emplacement</b>
-                    </label>
-                    <input type="text" formControlName="point_emplacement" pInputText />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend>
-                <b>Détails de la Transaction</b>
-              </legend>
-              <div class="row">
-                <div style="margin-top: -1.8rem">
-                  <div class="form-group">
-                    <label style="opacity: 0;">
-                      <b> <span class="text-danger">*</span></b>
-                    </label>
-                    <input [disabled]="true" class="infos_text"
-                    [value]="sourceStock === 'stock' ? sourceSoldeDotation: sourceSoldeDotationOrange "
-                    type="text" pInputText />
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>Voume (Go)<span class="text-danger">*</span></b>
-                    </label>
-                    <input type="number" formControlName="volume" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-9">
-                  <div class="form-group">
-                    <label>
-                      <b>Description<span class="text-danger">*</span></b>
-                    </label>
-                    <input type="text" formControlName="description" pInputText />
-                  </div>
-                </div>
-              </div>
-              <br>
-              <div class="justificatif-container">
-                <div *ngIf="IsJustificatif()">
-                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                    class="p-button-success" (click)="downloadFile()"></button>
-                </div>
-                <div class="justificatif-error">
-                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
-                </div>
-                <div *ngIf="IsUpdate()">
-                  <div>
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset *ngIf="ShowAcceptedForm()">
-              <legend>
-                <strong>Traitement</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input formControlName="volume_data_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input formControlName="volume_data_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="volume_data_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <!--------------CHANGEMENT------------FORMS----------------->
-        <div *ngIf="transaction?.operation === operationSwap" class="form-container">
-          <div [hidden]="filterTab !== 'first-item'" [formGroup]="swapForm">
-            <fieldset>
-              <legend>
-                <b>Informations sur la SIM</b>
-              </legend>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>MSIDN</b>
-                    </label>
-                    <input type="text" formControlName="msisdn" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>IMSI</b>
-                    </label>
-                    <input type="text" formControlName="imsi" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>Statut Contrat</b>
-                    </label>
-                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>Emplacement</b>
-                    </label>
-                    <input type="text" formControlName="point_emplacement" pInputText />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend>
-                <b>Source Stock SIM / Détails de la Transaction</b>
-              </legend>
-              <div class="d-flex gap-4">
-                <div>
-                   <div class="d-flex gap-4">
-                       <div class="trans-radio d-flex gap-3">
-                          <p-radioButton name="valeur" [value]="'stock'" formControlName="bac_a_pioche" [inputId]="'stock'"></p-radioButton>
-                          <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
-                       </div>
-                   </div>
+                    </fieldset>
+                             
                 </div>
                 <div>
-                  <div class="d-flex gap-4">
-                    <div class="trans-radio d-flex gap-3">
-                      <p-radioButton name="valeur" [value]="'orangeci'" formControlName="bac_a_pioche" [inputId]="'orangeci'"></p-radioButton>
-                      <label [for]="'orangeci'" style="margin-top: 0.9rem">Stock SIM/OCI</label>
-                    </div>
-                </div>
-                </div>
-              </div>
-              <div class="text-wrapper mt-2">
-                <input [value]="sourceStockSwap === 'stock' ? sourceStockTenantSim: sourceStockOrangeSim" type="text" [disabled]="true" pInputText/>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label>
-                      <b>Description<span class="text-danger">*</span></b>
-                    </label>
-                    <input type="text" formControlName="description" pInputText />
-                  </div>
-                </div>
-              </div>
-              <br>
-              <div class="justificatif-container">
-                <div *ngIf="IsJustificatif()">
-                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                    class="p-button-success" (click)="downloadFile()"></button>
-                </div>
-                <div class="justificatif-error">
-                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
-                </div>
-                <div *ngIf="IsUpdate()">
-                  <div>
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset *ngIf="ShowAcceptedForm()">
-              <legend>
-                <strong>Traitement</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input formControlName="swap_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input formControlName="swap_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="swap_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <!--------------RESILIATION------------FORMS----------------->
-        <div *ngIf="transaction?.operation === OperationResiliation" class="form-container">
-          <div [hidden]="filterTab !== 'first-item'" [formGroup]="resiliationForm">
-            <fieldset>
-              <legend [ngStyle]="{width: '100%'}">
-                <b>Informations sur la SIM</b>
-              </legend>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>MSIDN</b>
-                    </label>
-                    <input type="text" formControlName="msisdn" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>IMSI</b>
-                    </label>
-                    <input type="text" formControlName="imsi" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>Statut Contrat</b>
-                    </label>
-                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>Emplacement</b>
-                    </label>
-                    <input type="text" formControlName="point_emplacement" pInputText />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend>
-                <b>Détails de la Transaction</b>
-              </legend>
-              <div class="row">
-                <div class="form-group">
-                  <label>
-                    <b>Description<span class="text-danger">*</span></b>
-                  </label>
-                  <input type="text" formControlName="description" pInputText />
-                </div>
-              </div>
-              <br>
-              <div class="justificatif-container">
-                <div *ngIf="IsJustificatif()">
-                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                    class="p-button-success" (click)="downloadFile()"></button>
-                </div>
-                <div class="justificatif-error">
-                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
-                </div>
-                <div *ngIf="IsUpdate()">
-                  <div>
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset *ngIf="ShowAcceptedForm()">
-              <legend>
-                <strong>Traitement</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div>
-                    <div class="wrapper-check" style="display: flex;justify-content: center !important;padding-top: 1.3rem;">
-                      <div class="form-check form-check-inline">
-                        <span class="badge table-header-wrapper"
-                        [class.badge-danger]="IsTraitement() === treatmenRejeter"
-                        [class.badge-success]="(IsTraitement() === treatmenAccepter)"
-                        >
-
-                        {{ IsTraitement() }}
-                      </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <input type="text" formControlName="resiliation_accepte_comment" pInputText />
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <!--------------SUSPENSION------------FORMS----------------->
-        <div *ngIf="transaction?.operation === OperationSuspension" class="form-container">
-          <div [hidden]="filterTab !== 'first-item'" [formGroup]="suspensionForm">
-            <fieldset>
-              <legend [ngStyle]="{width: '100%'}">
-                <b>Informations sur la SIM</b>
-              </legend>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>MSIDN</b>
-                    </label>
-                    <input type="text" formControlName="msisdn" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>IMSI</b>
-                    </label>
-                    <input type="text" formControlName="imsi" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>Statut Contrat</b>
-                    </label>
-                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label>
-                      <b>Emplacement</b>
-                    </label>
-                    <input type="text" formControlName="point_emplacement" pInputText />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend [ngStyle]="{width: '100%'}">
-                <b>Détails de la Transaction</b>
-              </legend>
-              <div class="row">
-                <div class="form-group">
-                  <label>
-                    <b>Description<span class="text-danger">*</span></b>
-                  </label>
-                  <input type="text" formControlName="description" pInputText />
-                </div>
-              </div>
-              <br>
-              <div class="justificatif-container">
-                <div *ngIf="IsJustificatif()">
-                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                    class="p-button-success" (click)="downloadFile()"></button>
-                </div>
-                <div class="justificatif-error">
-                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
-                </div>
-                <div *ngIf="IsUpdate()">
-                  <div>
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset *ngIf="ShowAcceptedForm()">
-              <legend>
-                <strong>Traitement</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div>
-                    <div class="wrapper-check" style="display: flex;justify-content: center !important;padding-top: 1.3rem;">
-                      <div class="form-check form-check-inline">
-                        <span class="badge table-header-wrapper"
-                        [class.badge-danger]="IsTraitement() === treatmenRejeter"
-                        [class.badge-success]="(IsTraitement() === treatmenAccepter)"
-                        >
-                        {{ IsTraitement() }}
-                      </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <input type="text" formControlName="suspension_accepte_comment" pInputText />
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <!--------------FORMULE------------FORMS----------------->
-        <div *ngIf="transaction?.operation === OperationFormule" class="form-container">
-          <div [hidden]="filterTab !== 'first-item'" [formGroup]="formuleForm">
-            <fieldset>
-              <legend [ngStyle]="{width: '100%'}">
-                <b>Informations sur la SIM</b>
-              </legend>
-              <div class="wrapper-sim-infos">
-                <div>
-                  <div class="form-group">
-                    <label>
-                      <b>MSIDN</b>
-                    </label>
-                    <input type="text" formControlName="msisdn" pInputText />
-                  </div>
-                </div>
-                <div>
-                  <div class="form-group">
-                    <label>
-                      <b>IMSI</b>
-                    </label>
-                    <input type="text" formControlName="imsi" pInputText />
-                  </div>
-                </div>
-                <div>
-                  <div class="form-group">
-                    <label>
-                      <b>Formule</b>
-                    </label>
-                    <input type="text" formControlName="formule" pInputText />
-                  </div>
-                </div>
-                <div>
-                  <div class="form-group">
-                    <label>
-                      <b>Statut Contrat</b>
-                    </label>
-                    <app-statut-contrat [statut]="detailTransaction?.statut_contrat"></app-statut-contrat>
-                  </div>
-                </div>
-                <div>
-                  <div class="form-group">
-                    <label>
-                      <b>Emplacement</b>
-                    </label>
-                    <input type="text" formControlName="point_emplacement" pInputText />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend [ngStyle]="{width: '100%'}">
-                <b>Détails Formule</b>
-              </legend>
-              <div class="row">
-                  <div class="form-group">
-                    <label>
-                      <b>Formule de destination<span class="text-danger">*</span></b>
-                    </label>
-                    <p-dropdown [options]="listFormules" formControlName="formule_uuid" optionLabel="nom" [showClear]="true" optionValue="uuid">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data.nom}}
-                          </div>
+                    <fieldset>
+                        <legend>
+                            <strong>Homologation</strong>
+                        </legend>
+                        <div class="d-flex flex-column gap-2">
+                            <div>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Matricule&nbsp;:&nbsp;</strong
+                                    >{{
+                                        detailTransaction?.intervenant
+                                            ?.matricule ?? 'N/A'
+                                    }}</span
+                                >
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Nom Complet&nbsp;:&nbsp;</strong
+                                    >{{
+                                        detailTransaction?.intervenant?.nom ??
+                                            'N/A'
+                                    }}
+                                    {{
+                                        detailTransaction?.intervenant
+                                            ?.prenoms ?? 'N/A'
+                                    }}</span
+                                >
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Contact&nbsp;:&nbsp;</strong
+                                    >{{
+                                        detailTransaction?.intervenant
+                                            ?.contacts ?? 'N/A'
+                                    }}</span
+                                >
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Email&nbsp;:&nbsp;</strong
+                                    >{{
+                                        detailTransaction?.intervenant?.email ??
+                                            'N/A'
+                                    }}</span
+                                >
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Date&nbsp;:&nbsp;</strong
+                                    >{{
+                                        detailTransaction?.rapport
+                                            ?.date_traitement ??
+                                            detailTransaction?.rapport
+                                                ?.date_acquittement
+                                    }}</span
+                                >
+                            </div>
                         </div>
-                      </ng-template>
-                    </p-dropdown>
+                    </fieldset>
+                              
                 </div>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend>
-                <b>Détails de la Transaction</b>
-              </legend>
-              <div class="row">
-                <div class="form-group">
-                  <label>
-                    <b>Description<span class="text-danger">*</span></b>
-                  </label>
-                  <input type="text" formControlName="description" pInputText />
-                </div>
-              </div>
-              <br>
-              <div class="justificatif-container">
-                <div *ngIf="IsJustificatif()">
-                  <button pButton pRipple label="Télécharger le justificatif" icon="pi pi-download"
-                    class="p-button-success" (click)="downloadFile()"></button>
-                </div>
-                <div class="justificatif-error">
-                  <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
-                </div>
-                <div *ngIf="IsUpdate()">
-                  <div>
-                    <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                      (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset *ngIf="ShowAcceptedForm()">
-              <legend>
-                <strong>Traitement</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div>
-                    <div class="wrapper-check" style="display: flex;justify-content: center !important;padding-top: 1.3rem;">
-                      <div class="form-check form-check-inline">
-                        <span class="badge table-header-wrapper"
-                        [class.badge-danger]="IsTraitement() === treatmenRejeter"
-                        [class.badge-success]="(IsTraitement() === treatmenAccepter)"
-                        >
-
-                        {{ IsTraitement() }}
-                      </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <input type="text" formControlName="chg_formule_accepte_comment" pInputText />
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <!-------------ACTIVATION--------------FORMS--------------------------->
-        <div *ngIf="transaction?.operation === operationActivation" class="form-container">
-          <div [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
-            <div [style]="{marginTop: '-2rem'}">
-              <div class="row">
-                <div class="col-md-6">
-                 <fieldset *ngIf="bacPiocheActivation !== 'patrimoine' && !IsNotMessage()">
-                   <legend [ngStyle]="{width: '100%'}">
-                     <b>Source Stock SIM</b>
-                   </legend>
-                   <div class="d-flex gap-4">
-                     <div *ngIf="bacPiocheActivation !== 'stock'">
-                       <div class="d-flex gap-4">
-                         <div class="trans-radio d-flex gap-3">
-                           <p-radioButton name="valeur" [value]="'orangeci'" formControlName="bac_a_pioche" [inputId]="'orangeci'"></p-radioButton>
-                           <label [for]="'stock'" style="margin-top: 0.9rem">Stock SIM/OCI</label>
-                         </div>
-                     </div>
-                     </div>
-                   </div>
-                   <div class="text-wrapper mt-2">
-                    <input [value]="bacPiocheActivation === 'stock' ? sourceStockTenantSim: sourceStockOrangeSim" type="text" style="font-size: 13.5px !important;font-weight: bold !important;" [disabled]="true" pInputText/>
-                  </div>
-                 </fieldset>
-                </div>
-                <div [ngClass]="bacPiocheActivation !== 'patrimoine' && !IsNotMessage() ? 'col-md-6' : 'col-md-12'">
-                 <fieldset>
-                   <legend >
-                     <b>Informations SIM</b>
-                   </legend>
-                   <div class="row" style="padding-top: 1.4rem !important;">
-                     <div [style]="{width: '15rem'}">
-                       <div class="form-group">
-                         <label>
-                           <b>IMSI</b>
-                         </label>
-                         <input type="text" formControlName="imsi" pInputText />
-                       </div>
-                     </div>
-                     <div [style]="{width: '12rem'}">
-                       <div class="form-group">
-                         <label>
-                           <b>MSISDN</b>
-                         </label>
-                         <input type="text" formControlName="msisdn" pInputText />
-                       </div>
-                     </div>
-                     <div class="col-md-5">
-                      <div class="form-group">
-                        <label>
-                          <b>Formule</b>
-                        </label>
-                        <input type="text" style="font-size: 1.1rem;padding: 0.8rem 0.5rem !important;" formControlName="formule" pInputText />
-                      </div>
-                    </div>
-                   </div>
-                 </fieldset>
-                </div>
-             </div>
             </div>
-            <fieldset>
-              <legend>
-                <b>Informations d'identification</b>
-              </legend>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>{{firstLevelLibelle}}</b>
-                    </label>
-                    <p-dropdown [options]="listFirstLevel" formControlName="niveau_un_uuid" optionLabel="nom"
-                      optionValue="uuid" [filter]="true" filterBy="nom">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data.nom}} [{{data.code}}]
-                          </div>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
-                  </div>
+            <!--------------------MODAL----------BODY---------->
+            <div class="col-lg-10">
+                <div
+                    [ngClass]="
+                        OnGetRapportCodeStyle(detailTransaction?.rapport?.code)
+                    "
+                    role="alert"
+                    style="display: flex; justify-content: space-between"
+                >
+                    <div>
+                        <strong class="wrapper-header"
+                            >Reception :
+                            {{
+                                detailTransaction?.rapport
+                                    ?.statut_acquittement ?? 'N/A'
+                            }}
+                            [{{
+                                detailTransaction?.rapport?.date_acquittement ??
+                                    '-- : --'
+                            }}]</strong
+                        >
+                    </div>
+                    <div>
+                        <strong class="wrapper-header"
+                            >Traitement :
+                            {{
+                                detailTransaction?.rapport?.statut_traitement ??
+                                    'N/A'
+                            }}
+                            [{{
+                                detailTransaction?.rapport?.date_traitement ??
+                                    '-- : --'
+                            }}]</strong
+                        >
+                    </div>
+                    <div>
+                        <strong class="wrapper-header"
+                            >Clôture :
+                            {{
+                                detailTransaction?.rapport?.statut_cloture ??
+                                    'N/A'
+                            }}
+                            [{{
+                                detailTransaction?.rapport?.date_cloture ??
+                                    '-- : --'
+                            }}]</strong
+                        >
+                    </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>{{secondLevelLibelle}}</b>
-                    </label>
-                    <p-dropdown [options]="listSecondLevel" formControlName="niveau_deux_uuid" optionLabel="nom"
-                      optionValue="uuid" [filter]="true" filterBy="nom">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data.nom}}
-                          </div>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>{{thirdLevelLibelle}}</b>
-                    </label>
-                    <p-dropdown [options]="listThirdLevel" formControlName="niveau_trois_uuid" optionLabel="nom"
-                      optionValue="uuid">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data.nom}}
-                          </div>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Usage</b>
-                    </label>
-                    <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage"
-                      placeholder="Usage" optionValue="id" placeholder="Usage">
-                      <ng-template let-data pTemplate="item">
-                        <div class="country-item">
-                          <div>
-                            {{data.nom_usage}}
-                          </div>
-                        </div>
-                      </ng-template>
-                    </p-dropdown>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Emplacement</b>
-                    </label>
-                    <input type="text" formControlName="point_emplacement" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Adresse mail</b>
-                    </label>
-                    <input type="text" formControlName="adresse_email" pInputText />
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Adresse géographique</b>
-                    </label>
-                    <input type="text" formControlName="adresse_geographique"  pInputText />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Latitude</b>
-                    </label>
-                    <input type="text" formControlName="latitude" pInputText />
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label>
-                      <b>Longitude</b>
-                    </label>
-                    <input type="text" formControlName="longitude" pInputText />
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <div>
                 <div class="row">
-                  <div class="col-md-7">
-                    <fieldset>
-                      <legend>
-                        <b>Détails de la Transaction</b>
-                      </legend>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label>
-                              <b>Formule de destination<span class="text-danger">*</span></b>
-                            </label>
-                            <p-dropdown [options]="listFormules" formControlName="formule_uuid"
-                              optionLabel="nom" [showClear]="true" placeholder="formule destination" optionValue="uuid">
-                            <ng-template let-data pTemplate="item">
-                              <div class="country-item">
-                                <div>
-                                  {{data.nom}}
-                                </div>
-                              </div>
-                            </ng-template>
-                          </p-dropdown>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label>
-                              <b>Description<span class="text-danger">*</span></b>
-                            </label>
-                            <input type="text" formControlName="description" pInputText />
-                          </div>
-                        </div>
-                      </div>
-                    </fieldset>
-                  </div>
-                  <div class="col-md-5">
-                    <fieldset>
-                      <legend>
-                        <b>Justificatif</b>
-                      </legend>
-                      <div class="justificatif-container">
-                        <div *ngIf="IsJustificatif()">
-                          <button pButton pRipple label="Télécharger" icon="pi pi-download"
-                            class="p-button-success" (click)="downloadFile()"></button>
-                        </div>
-                        <div class="justificatif-error">
-                          <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette transaction</span>
-                        </div>
-                        <div *ngIf="IsUpdate()">
-                          <div>
-                            <input type="file" style="padding: 0.6rem;border: 1px solid;border-radius: 0.3rem;"
-                              (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
-                          </div>
-                        </div>
-                      </div>
-                    </fieldset>
-                  </div>
-                </div>
-            </div>
-            <fieldset *ngIf="ShowAcceptedForm()">
-              <legend>
-                <strong>Traitement</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div>
-                    <div class="wrapper-check" style="display: flex;justify-content: center !important;padding-top: 1.3rem;">
-                      <div class="form-check form-check-inline">
-                        <span class="badge table-header-wrapper"
-                        [class.badge-danger]="IsTraitement() === treatmenRejeter"
-                        [class.badge-success]="(IsTraitement() === treatmenAccepter)"
+                    <h4
+                        *ngIf="detailTransaction?.rapport"
+                        class="col-md-7 wrapper-header"
+                    >
+                        <strong
+                            >{{
+                                formatTitleOuvrage(detailTransaction?.operation)
+                            }}
+                            <span style="color: #549b3d; font-weight: bold">
+                                <span *ngIf="IsContentSim()">
+                                    {{
+                                        detailTransaction?.point_emplacement ??
+                                            'N/A'
+                                    }}
+                                    [{{
+                                        detailTransaction?.msisdn ?? 'N/A'
+                                    }}] </span
+                                >&nbsp;
+                                <span *ngIf="IsProvisionningTransaction()">
+                                    {{ detailTransaction?.reference ?? 'N/A' }}
+                                    [{{
+                                        detailTransaction?.rapport?.code ??
+                                            'N/A'
+                                    }}] </span
+                                >&nbsp;
+                                <span *ngIf="IsAchatTransaction()">
+                                    {{
+                                        detailTransaction?.numero_commande ??
+                                            'N/A'
+                                    }}
+                                    [{{
+                                        detailTransaction?.rapport?.code ??
+                                            'N/A'
+                                    }}] </span
+                                >&nbsp;
+                                <span
+                                    *ngIf="
+                                        detailTransaction?.rapport?.identifiant
+                                    "
+                                    >[{{
+                                        detailTransaction?.rapport
+                                            ?.identifiant ?? 'N/A'
+                                    }}]</span
+                                >
+                            </span>
+                        </strong>
+                    </h4>
+                    <div
+                        class="col-md-5 wrapper-header"
+                        style="
+                            display: flex;
+                            justify-content: end;
+                            font-size: 20px;
+                        "
+                    >
+                        Date mise à jour :&nbsp;<b
+                            ><span>{{ IscurrentDate() ?? 'N/A' }}</span></b
                         >
-                        {{ IsTraitement() }}
-                      </span>
-                      </div>
                     </div>
-                  </div>
                 </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <input type="text" formControlName="activation_accepte_comment" pInputText />
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <div *ngIf="transaction?.operation === OperationAchat" class="form-container">
-          <div [hidden]="filterTab !== 'first-item'">
-            <fieldset>
-              <legend>
-                <strong>Information de Transaction</strong>
-              </legend>
-              <div class="panier-card" *ngFor="let prod of detailTransaction?.detail_commande">
-                <div class="panier-card__file">
-                  <img src="assets/images/unboxing.png" alt="">
-                </div>
-                <div class="panier-card__infos">
-                  <div class="panier-card__infos--code">{{prod.code_produit}}</div>
-                  <div class="panier-card__infos--nom">{{prod.nom_produit}}</div>
-                </div>
-                <div class="panier-card__quantity">
-                  <button [ngClass]="['decrement']" [disabled]="this.IsShow() || this.IsCloture()"
-                    (click)="OnDecrementButton(prod)" decrementButtonIcon="pi pi-minus"><i
-                      class="pi pi-minus"></i></button>
-                  <span>{{prod.quantite}}</span>
-                  <button [ngClass]="['increment']" [disabled]="this.IsShow() || this.IsCloture()"
-                    (click)="OnIncrementButton(prod)"><i class="pi pi-plus"
-                      incrementButtonClass="p-button-success"></i></button>
-                </div>
-                <div class="panier-card__price">{{ pipeValue((prod.montant_ht)*(prod.quantite))}} F</div>
-              </div>
-            </fieldset>
-            <fieldset *ngIf="ShowAcceptedForm()">
-              <legend>
-                <strong>Traitement</strong>
-              </legend>
-              <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-                <div class="block-checked">
-                  <div style="margin-left: 8%;" class="ml-3">
-                    <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Accepté ?
-                    </span>
-                    <div class="wrapper-check">
-                      <div class="form-check form-check-inline">
-                        <input formControlName="commmande_produit_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="oui" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Oui</label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input formControlName="commmande_produit_accepte" class="form-check-input" type="radio"
-                          name="infosLigne" value="non" id="infosLigne">
-                        <label class="form-check-label" for="infosLigne" style="width: auto !important;">Non</label>
-                      </div>
+                <hr
+                    style="
+                        position: relative;
+                        top: -0.2rem;
+                        margin-top: -0.8rem;
+                    "
+                />
+                <!--------------LIGNE----------CREDIT------------FORMS----------------->
+                <div
+                    *ngIf="transaction?.operation === operationLigneCredit"
+                    class="form-container"
+                >
+                    <div
+                        [hidden]="filterTab !== 'first-item'"
+                        [formGroup]="ligneForm"
+                    >
+                        <fieldset>
+                            <legend>
+                                <strong>Information de Transaction</strong>
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Montant</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="montant"
+                                            placeholder="montant"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Type Justificatif</b>
+                                        </label>
+                                        <p-dropdown
+                                            [options]="listTypeJustificatif"
+                                            formControlName="type_justificatif"
+                                            placeholder="Type"
+                                        >
+                                            <ng-template
+                                                let-data
+                                                pTemplate="item"
+                                            >
+                                                <div class="country-item">
+                                                    <div>
+                                                        {{ data }}
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Description</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="description"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="justificatif-container">
+                                <div *ngIf="IsJustificatif()">
+                                    <button
+                                        pButton
+                                        pRipple
+                                        label="Télécharger le justificatif"
+                                        icon="pi pi-download"
+                                        class="p-button-success"
+                                        (click)="downloadFile()"
+                                    ></button>
+                                </div>
+                                <div class="justificatif-error">
+                                    <span class="" *ngIf="!IsJustificatif()"
+                                        >Aucun justificatif pour cette
+                                        transaction</span
+                                    >
+                                </div>
+                                <div *ngIf="IsUpdate()">
+                                    <div>
+                                        <input
+                                            type="file"
+                                            style="
+                                                padding: 0.6rem;
+                                                border: 1px solid;
+                                                border-radius: 0.3rem;
+                                            "
+                                            (change)="
+                                                onChangeFile(
+                                                    $event.target.files
+                                                )
+                                            "
+                                            accept="image/png,image/jpeg"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset *ngIf="ShowAcceptedForm()">
+                            <legend>
+                                <strong>Traitement</strong>
+                            </legend>
+                            <div
+                                class="wrapper-evaluation"
+                                style="display: flex; gap: 1rem"
+                            >
+                                <div class="block-checked">
+                                    <div style="margin-left: 8%" class="ml-3">
+                                        <span
+                                            for="accepte"
+                                            style="
+                                                font-size: 23px;
+                                                margin-left: 5%;
+                                                font-weight: 800;
+                                            "
+                                            >Accepté ?
+                                        </span>
+                                        <div class="wrapper-check">
+                                            <div
+                                                class="form-check form-check-inline"
+                                            >
+                                                <input
+                                                    formControlName="provisionning_accepte"
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    name="infosLigne"
+                                                    value="oui"
+                                                    id="infosLigne"
+                                                />
+                                                <label
+                                                    class="form-check-label"
+                                                    for="infosLigne"
+                                                    style="
+                                                        width: auto !important;
+                                                    "
+                                                    >Oui</label
+                                                >
+                                            </div>
+                                            <div
+                                                class="form-check form-check-inline"
+                                            >
+                                                <input
+                                                    formControlName="provisionning_accepte"
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    name="infosLigne"
+                                                    value="non"
+                                                    id="infosLigne"
+                                                />
+                                                <label
+                                                    class="form-check-label"
+                                                    for="infosLigne"
+                                                    style="
+                                                        width: auto !important;
+                                                    "
+                                                    >Non</label
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 100%">
+                                    <label for="commentaire"
+                                        ><strong>Commentaire</strong></label
+                                    >
+                                    <textarea
+                                        name="commentaire"
+                                        formControlName="provisionning_accepte_comment"
+                                        class="form-control"
+                                        rows="2"
+                                        style="width: 100%; margin-top: 0%"
+                                        placeholder="Entrer un commentaire"
+                                    >
+                                    </textarea>
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
-                  </div>
                 </div>
-                <div style="width: 100%">
-                  <label for="commentaire"><strong>Commentaire</strong></label>
-                  <textarea name="commentaire" formControlName="commmande_produit_accepte_comment" class="form-control"
-                    rows="2" style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                  </textarea>
+                <!--------------DEPOT----------VOLUME------------FORMS----------------->
+                <div
+                    *ngIf="transaction?.operation === OperationVolumeData"
+                    class="form-container"
+                >
+                    <div
+                        [hidden]="filterTab !== 'first-item'"
+                        [formGroup]="volumeForm"
+                    >
+                        <fieldset>
+                            <legend>
+                                <b>Informations de Transaction</b>
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>MSIDN</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="msisdn"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>IMSI</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="imsi"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Statut Contrat</b>
+                                        </label>
+                                        <app-statut-contrat
+                                            [statut]="
+                                                detailTransaction?.statut_contrat
+                                            "
+                                        ></app-statut-contrat>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Emplacement</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="point_emplacement"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>
+                                <b>Détails de la Transaction</b>
+                            </legend>
+                            <div class="row">
+                                <div style="margin-top: -1.8rem">
+                                    <div class="form-group">
+                                        <label style="opacity: 0">
+                                            <b>
+                                                <span class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            >
+                                        </label>
+                                        <input
+                                            [disabled]="true"
+                                            class="infos_text"
+                                            [value]="
+                                                sourceStock === 'stock'
+                                                    ? sourceSoldeDotation
+                                                    : sourceSoldeDotationOrange
+                                            "
+                                            type="text"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b
+                                                >Voume (Go)<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            >
+                                        </label>
+                                        <input
+                                            type="number"
+                                            formControlName="volume"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label>
+                                            <b
+                                                >Description<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            >
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="description"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="justificatif-container">
+                                <div *ngIf="IsJustificatif()">
+                                    <button
+                                        pButton
+                                        pRipple
+                                        label="Télécharger le justificatif"
+                                        icon="pi pi-download"
+                                        class="p-button-success"
+                                        (click)="downloadFile()"
+                                    ></button>
+                                </div>
+                                <div class="justificatif-error">
+                                    <span class="" *ngIf="!IsJustificatif()"
+                                        >Aucun justificatif pour cette
+                                        transaction</span
+                                    >
+                                </div>
+                                <div *ngIf="IsUpdate()">
+                                    <div>
+                                        <input
+                                            type="file"
+                                            style="
+                                                padding: 0.6rem;
+                                                border: 1px solid;
+                                                border-radius: 0.3rem;
+                                            "
+                                            (change)="
+                                                onChangeFile(
+                                                    $event.target.files
+                                                )
+                                            "
+                                            accept="image/png,image/jpeg"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset *ngIf="ShowAcceptedForm()">
+                            <legend>
+                                <strong>Traitement</strong>
+                            </legend>
+                            <div
+                                class="wrapper-evaluation"
+                                style="display: flex; gap: 1rem"
+                            >
+                                <div class="block-checked">
+                                    <div style="margin-left: 8%" class="ml-3">
+                                        <span
+                                            for="accepte"
+                                            style="
+                                                font-size: 23px;
+                                                margin-left: 5%;
+                                                font-weight: 800;
+                                            "
+                                            >Accepté ?
+                                        </span>
+                                        <div class="wrapper-check">
+                                            <div
+                                                class="form-check form-check-inline"
+                                            >
+                                                <input
+                                                    formControlName="volume_data_accepte"
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    name="infosLigne"
+                                                    value="oui"
+                                                    id="infosLigne"
+                                                />
+                                                <label
+                                                    class="form-check-label"
+                                                    for="infosLigne"
+                                                    style="
+                                                        width: auto !important;
+                                                    "
+                                                    >Oui</label
+                                                >
+                                            </div>
+                                            <div
+                                                class="form-check form-check-inline"
+                                            >
+                                                <input
+                                                    formControlName="volume_data_accepte"
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    name="infosLigne"
+                                                    value="non"
+                                                    id="infosLigne"
+                                                />
+                                                <label
+                                                    class="form-check-label"
+                                                    for="infosLigne"
+                                                    style="
+                                                        width: auto !important;
+                                                    "
+                                                    >Non</label
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 100%">
+                                    <label for="commentaire"
+                                        ><strong>Commentaire</strong></label
+                                    >
+                                    <textarea
+                                        name="commentaire"
+                                        formControlName="volume_data_accepte_comment"
+                                        class="form-control"
+                                        rows="2"
+                                        style="width: 100%; margin-top: 0%"
+                                        placeholder="Entrer un commentaire"
+                                    >
+                                    </textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
                 </div>
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <div *ngIf="IsCloture()">
-          <fieldset>
-            <legend>
-              <strong>Message Clôture</strong>
-            </legend>
-            <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-              <div class="block-checked">
-                <div style="margin-left: 6%;">
-                  <span for="accepte" style="font-size: 23px;margin-left:5%;font-weight:800;">Cloturer ?
-                  </span>
-                  <div class="wrapper-check">
-                    <div class="form-check form-check-inline">
-                      <input [(ngModel)]="selectedIsCloture" class="form-check-input" type="radio"
-                        name="infosCloture" value="oui" (change)="handleChangeEvent($event)" id="infosCloture">
-                      <label class="form-check-label"  for="infosCloture" style="width: auto !important;">Oui</label>
+                <!--------------CHANGEMENT------------FORMS----------------->
+                <div
+                    *ngIf="transaction?.operation === operationSwap"
+                    class="form-container"
+                >
+                    <div
+                        [hidden]="filterTab !== 'first-item'"
+                        [formGroup]="swapForm"
+                    >
+                        <fieldset>
+                            <legend>
+                                <b>Informations sur la SIM</b>
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>MSIDN</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="msisdn"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>IMSI</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="imsi"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Statut Contrat</b>
+                                        </label>
+                                        <app-statut-contrat
+                                            [statut]="
+                                                detailTransaction?.statut_contrat
+                                            "
+                                        ></app-statut-contrat>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Emplacement</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="point_emplacement"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>
+                                <b
+                                    >Source Stock SIM / Détails de la
+                                    Transaction</b
+                                >
+                            </legend>
+                            <div class="d-flex gap-4">
+                                <div>
+                                    <div class="d-flex gap-4">
+                                        <div class="trans-radio d-flex gap-3">
+                                            <p-radioButton
+                                                name="valeur"
+                                                [value]="'stock'"
+                                                formControlName="bac_a_pioche"
+                                                [inputId]="'stock'"
+                                            ></p-radioButton>
+                                            <label
+                                                [for]="'stock'"
+                                                style="margin-top: 0.9rem"
+                                                >Stock SIM/Tenant</label
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="d-flex gap-4">
+                                        <div class="trans-radio d-flex gap-3">
+                                            <p-radioButton
+                                                name="valeur"
+                                                [value]="'orangeci'"
+                                                formControlName="bac_a_pioche"
+                                                [inputId]="'orangeci'"
+                                            ></p-radioButton>
+                                            <label
+                                                [for]="'orangeci'"
+                                                style="margin-top: 0.9rem"
+                                                >Stock SIM/OCI</label
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-wrapper mt-2">
+                                <input
+                                    [value]="
+                                        sourceStockSwap === 'stock'
+                                            ? sourceStockTenantSim
+                                            : sourceStockOrangeSim
+                                    "
+                                    type="text"
+                                    [disabled]="true"
+                                    pInputText
+                                />
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>
+                                            <b
+                                                >Description<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            >
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="description"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="justificatif-container">
+                                <div *ngIf="IsJustificatif()">
+                                    <button
+                                        pButton
+                                        pRipple
+                                        label="Télécharger le justificatif"
+                                        icon="pi pi-download"
+                                        class="p-button-success"
+                                        (click)="downloadFile()"
+                                    ></button>
+                                </div>
+                                <div class="justificatif-error">
+                                    <span class="" *ngIf="!IsJustificatif()"
+                                        >Aucun justificatif pour cette
+                                        transaction</span
+                                    >
+                                </div>
+                                <div *ngIf="IsUpdate()">
+                                    <div>
+                                        <input
+                                            type="file"
+                                            style="
+                                                padding: 0.6rem;
+                                                border: 1px solid;
+                                                border-radius: 0.3rem;
+                                            "
+                                            (change)="
+                                                onChangeFile(
+                                                    $event.target.files
+                                                )
+                                            "
+                                            accept="image/png,image/jpeg"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset *ngIf="ShowAcceptedForm()">
+                            <legend>
+                                <strong>Traitement</strong>
+                            </legend>
+                            <div
+                                class="wrapper-evaluation"
+                                style="display: flex; gap: 1rem"
+                            >
+                                <div class="block-checked">
+                                    <div style="margin-left: 8%" class="ml-3">
+                                        <span
+                                            for="accepte"
+                                            style="
+                                                font-size: 23px;
+                                                margin-left: 5%;
+                                                font-weight: 800;
+                                            "
+                                            >Accepté ?
+                                        </span>
+                                        <div class="wrapper-check">
+                                            <div
+                                                class="form-check form-check-inline"
+                                            >
+                                                <input
+                                                    formControlName="swap_accepte"
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    name="infosLigne"
+                                                    value="oui"
+                                                    id="infosLigne"
+                                                />
+                                                <label
+                                                    class="form-check-label"
+                                                    for="infosLigne"
+                                                    style="
+                                                        width: auto !important;
+                                                    "
+                                                    >Oui</label
+                                                >
+                                            </div>
+                                            <div
+                                                class="form-check form-check-inline"
+                                            >
+                                                <input
+                                                    formControlName="swap_accepte"
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    name="infosLigne"
+                                                    value="non"
+                                                    id="infosLigne"
+                                                />
+                                                <label
+                                                    class="form-check-label"
+                                                    for="infosLigne"
+                                                    style="
+                                                        width: auto !important;
+                                                    "
+                                                    >Non</label
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 100%">
+                                    <label for="commentaire"
+                                        ><strong>Commentaire</strong></label
+                                    >
+                                    <textarea
+                                        name="commentaire"
+                                        formControlName="swap_accepte_comment"
+                                        class="form-control"
+                                        rows="2"
+                                        style="width: 100%; margin-top: 0%"
+                                        placeholder="Entrer un commentaire"
+                                    >
+                                    </textarea>
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
-                    <div class="form-check form-check-inline">
-                      <input [(ngModel)]="selectedIsCloture" class="form-check-input" type="radio"
-                        name="infosCloture" value="non" (change)="handleChangeEvent($event)" id="infosCloture">
-                      <label class="form-check-label" for="infosCloture"  style="width: auto !important;">Non</label>
-                    </div>
-                  </div>
                 </div>
-              </div>
-              <div class="block-checked" style="width: 15rem;padding: 0 0.5rem 0.5rem 0.5rem;">
-                <div class="ml-3">
-                  <div class="wrapper-check">
-                    <div style="display: flex;flex-direction: column">
-                      <div>
-                        <label for="infosLigne" style="margin-left: 0 !important;">
-                          <img src="assets/images/icones/smile.png" width="22" alt="">
-                        </label>
-                      </div>
-                      <div>
-                        <input class="form-check-input" [disabled]="!selectedIsCloture || selectedIsCloture === 'non'" [(ngModel)]="selectedNotation" type="radio" name="infosLigne"
-                          value="content" id="infosLigne">
-                      </div>
+                <!--------------RESILIATION------------FORMS----------------->
+                <div
+                    *ngIf="transaction?.operation === OperationResiliation"
+                    class="form-container"
+                >
+                    <div
+                        [hidden]="filterTab !== 'first-item'"
+                        [formGroup]="resiliationForm"
+                    >
+                        <fieldset>
+                            <legend [ngStyle]="{ width: '100%' }">
+                                <b>Informations sur la SIM</b>
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>MSIDN</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="msisdn"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>IMSI</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="imsi"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Statut Contrat</b>
+                                        </label>
+                                        <app-statut-contrat
+                                            [statut]="
+                                                detailTransaction?.statut_contrat
+                                            "
+                                        ></app-statut-contrat>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Emplacement</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="point_emplacement"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>
+                                <b>Détails de la Transaction</b>
+                            </legend>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label>
+                                        <b
+                                            >Description<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></b
+                                        >
+                                    </label>
+                                    <input
+                                        type="text"
+                                        formControlName="description"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="justificatif-container">
+                                <div *ngIf="IsJustificatif()">
+                                    <button
+                                        pButton
+                                        pRipple
+                                        label="Télécharger le justificatif"
+                                        icon="pi pi-download"
+                                        class="p-button-success"
+                                        (click)="downloadFile()"
+                                    ></button>
+                                </div>
+                                <div class="justificatif-error">
+                                    <span class="" *ngIf="!IsJustificatif()"
+                                        >Aucun justificatif pour cette
+                                        transaction</span
+                                    >
+                                </div>
+                                <div *ngIf="IsUpdate()">
+                                    <div>
+                                        <input
+                                            type="file"
+                                            style="
+                                                padding: 0.6rem;
+                                                border: 1px solid;
+                                                border-radius: 0.3rem;
+                                            "
+                                            (change)="
+                                                onChangeFile(
+                                                    $event.target.files
+                                                )
+                                            "
+                                            accept="image/png,image/jpeg"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset *ngIf="ShowAcceptedForm()">
+                            <legend>
+                                <strong>Traitement</strong>
+                            </legend>
+                            <div
+                                class="wrapper-evaluation"
+                                style="display: flex; gap: 1rem"
+                            >
+                                <div class="block-checked">
+                                    <div>
+                                        <div
+                                            class="wrapper-check"
+                                            style="
+                                                display: flex;
+                                                justify-content: center !important;
+                                                padding-top: 1.3rem;
+                                            "
+                                        >
+                                            <div
+                                                class="form-check form-check-inline"
+                                            >
+                                                <span
+                                                    class="badge table-header-wrapper"
+                                                    [class.badge-danger]="
+                                                        IsTraitement() ===
+                                                        treatmenRejeter
+                                                    "
+                                                    [class.badge-success]="
+                                                        IsTraitement() ===
+                                                        treatmenAccepter
+                                                    "
+                                                >
+                                                    {{ IsTraitement() }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 100%">
+                                    <label for="commentaire"
+                                        ><strong>Commentaire</strong></label
+                                    >
+                                    <input
+                                        type="text"
+                                        formControlName="resiliation_accepte_comment"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
-                    <div style="display: flex;flex-direction: column">
-                      <div>
-                        <label for="infosLigne" style="margin-left: 0 !important;">
-                          <img src="assets/images/icones/confused.png" width="22" alt="">
-                        </label>
-                      </div>
-                      <div>
-                        <input class="form-check-input" type="radio" [disabled]="!selectedIsCloture || selectedIsCloture === 'non'" [(ngModel)]="selectedNotation" name="infosLigne"
-                          value="neutre" id="infosLigne">
-                      </div>
-                    </div>
-                    <div style="display: flex;flex-direction: column">
-                      <div>
-                        <label for="infosLigne" style="margin-left: 0 !important;">
-                          <img src="assets/images/icones/sad.png" width="22" alt="">
-                        </label>
-                      </div>
-                      <div>
-                        <input class="form-check-input" [disabled]="!selectedIsCloture" type="radio" name="infosLigne" [(ngModel)]="selectedNotation"
-                          value="mécontent" id="infosLigne">
-                      </div>
-                    </div>
-                  </div>
                 </div>
-              </div>
-              <div style="width: 100%">
-                <label for="commentaire"><strong>Commentaire</strong></label>
-                <textarea name="commentaire" [(ngModel)]="selectedDescriptionNotation" class="form-control" rows="2"
-                  style="width:100%;margin-top:0%;" placeholder="Entrer un commentaire">
-                </textarea>
-              </div>
+                <!--------------SUSPENSION------------FORMS----------------->
+                <div
+                    *ngIf="transaction?.operation === OperationSuspension"
+                    class="form-container"
+                >
+                    <div
+                        [hidden]="filterTab !== 'first-item'"
+                        [formGroup]="suspensionForm"
+                    >
+                        <fieldset>
+                            <legend [ngStyle]="{ width: '100%' }">
+                                <b>Informations sur la SIM</b>
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>MSIDN</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="msisdn"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>IMSI</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="imsi"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Statut Contrat</b>
+                                        </label>
+                                        <app-statut-contrat
+                                            [statut]="
+                                                detailTransaction?.statut_contrat
+                                            "
+                                        ></app-statut-contrat>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Emplacement</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="point_emplacement"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend [ngStyle]="{ width: '100%' }">
+                                <b>Détails de la Transaction</b>
+                            </legend>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label>
+                                        <b
+                                            >Description<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></b
+                                        >
+                                    </label>
+                                    <input
+                                        type="text"
+                                        formControlName="description"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="justificatif-container">
+                                <div *ngIf="IsJustificatif()">
+                                    <button
+                                        pButton
+                                        pRipple
+                                        label="Télécharger le justificatif"
+                                        icon="pi pi-download"
+                                        class="p-button-success"
+                                        (click)="downloadFile()"
+                                    ></button>
+                                </div>
+                                <div class="justificatif-error">
+                                    <span class="" *ngIf="!IsJustificatif()"
+                                        >Aucun justificatif pour cette
+                                        transaction</span
+                                    >
+                                </div>
+                                <div *ngIf="IsUpdate()">
+                                    <div>
+                                        <input
+                                            type="file"
+                                            style="
+                                                padding: 0.6rem;
+                                                border: 1px solid;
+                                                border-radius: 0.3rem;
+                                            "
+                                            (change)="
+                                                onChangeFile(
+                                                    $event.target.files
+                                                )
+                                            "
+                                            accept="image/png,image/jpeg"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset *ngIf="ShowAcceptedForm()">
+                            <legend>
+                                <strong>Traitement</strong>
+                            </legend>
+                            <div
+                                class="wrapper-evaluation"
+                                style="display: flex; gap: 1rem"
+                            >
+                                <div class="block-checked">
+                                    <div>
+                                        <div
+                                            class="wrapper-check"
+                                            style="
+                                                display: flex;
+                                                justify-content: center !important;
+                                                padding-top: 1.3rem;
+                                            "
+                                        >
+                                            <div
+                                                class="form-check form-check-inline"
+                                            >
+                                                <span
+                                                    class="badge table-header-wrapper"
+                                                    [class.badge-danger]="
+                                                        IsTraitement() ===
+                                                        treatmenRejeter
+                                                    "
+                                                    [class.badge-success]="
+                                                        IsTraitement() ===
+                                                        treatmenAccepter
+                                                    "
+                                                >
+                                                    {{ IsTraitement() }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 100%">
+                                    <label for="commentaire"
+                                        ><strong>Commentaire</strong></label
+                                    >
+                                    <input
+                                        type="text"
+                                        formControlName="suspension_accepte_comment"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <!--------------FORMULE------------FORMS----------------->
+                <div
+                    *ngIf="transaction?.operation === OperationFormule"
+                    class="form-container"
+                >
+                    <div
+                        [hidden]="filterTab !== 'first-item'"
+                        [formGroup]="formuleForm"
+                    >
+                        <fieldset>
+                            <legend [ngStyle]="{ width: '100%' }">
+                                <b>Informations sur la SIM</b>
+                            </legend>
+                            <div class="wrapper-sim-infos">
+                                <div>
+                                    <div class="form-group">
+                                        <label>
+                                            <b>MSIDN</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="msisdn"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="form-group">
+                                        <label>
+                                            <b>IMSI</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="imsi"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Formule</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="formule"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Statut Contrat</b>
+                                        </label>
+                                        <app-statut-contrat
+                                            [statut]="
+                                                detailTransaction?.statut_contrat
+                                            "
+                                        ></app-statut-contrat>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Emplacement</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="point_emplacement"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend [ngStyle]="{ width: '100%' }">
+                                <b>Détails Formule</b>
+                            </legend>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label>
+                                        <b
+                                            >Formule de destination<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></b
+                                        >
+                                    </label>
+                                    <p-dropdown
+                                        [options]="listFormules"
+                                        formControlName="formule_uuid"
+                                        optionLabel="nom"
+                                        [showClear]="true"
+                                        optionValue="uuid"
+                                    >
+                                        <ng-template let-data pTemplate="item">
+                                            <div class="country-item">
+                                                <div>
+                                                    {{ data.nom }}
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>
+                                <b>Détails de la Transaction</b>
+                            </legend>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label>
+                                        <b
+                                            >Description<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></b
+                                        >
+                                    </label>
+                                    <input
+                                        type="text"
+                                        formControlName="description"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="justificatif-container">
+                                <div *ngIf="IsJustificatif()">
+                                    <button
+                                        pButton
+                                        pRipple
+                                        label="Télécharger le justificatif"
+                                        icon="pi pi-download"
+                                        class="p-button-success"
+                                        (click)="downloadFile()"
+                                    ></button>
+                                </div>
+                                <div class="justificatif-error">
+                                    <span class="" *ngIf="!IsJustificatif()"
+                                        >Aucun justificatif pour cette
+                                        transaction</span
+                                    >
+                                </div>
+                                <div *ngIf="IsUpdate()">
+                                    <div>
+                                        <input
+                                            type="file"
+                                            style="
+                                                padding: 0.6rem;
+                                                border: 1px solid;
+                                                border-radius: 0.3rem;
+                                            "
+                                            (change)="
+                                                onChangeFile(
+                                                    $event.target.files
+                                                )
+                                            "
+                                            accept="image/png,image/jpeg"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset *ngIf="ShowAcceptedForm()">
+                            <legend>
+                                <strong>Traitement</strong>
+                            </legend>
+                            <div
+                                class="wrapper-evaluation"
+                                style="display: flex; gap: 1rem"
+                            >
+                                <div class="block-checked">
+                                    <div>
+                                        <div
+                                            class="wrapper-check"
+                                            style="
+                                                display: flex;
+                                                justify-content: center !important;
+                                                padding-top: 1.3rem;
+                                            "
+                                        >
+                                            <div
+                                                class="form-check form-check-inline"
+                                            >
+                                                <span
+                                                    class="badge table-header-wrapper"
+                                                    [class.badge-danger]="
+                                                        IsTraitement() ===
+                                                        treatmenRejeter
+                                                    "
+                                                    [class.badge-success]="
+                                                        IsTraitement() ===
+                                                        treatmenAccepter
+                                                    "
+                                                >
+                                                    {{ IsTraitement() }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 100%">
+                                    <label for="commentaire"
+                                        ><strong>Commentaire</strong></label
+                                    >
+                                    <input
+                                        type="text"
+                                        formControlName="chg_formule_accepte_comment"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <!-------------ACTIVATION--------------FORMS--------------------------->
+                <div
+                    *ngIf="transaction?.operation === operationActivation"
+                    class="form-container"
+                >
+                    <div
+                        [hidden]="filterTab !== 'first-item'"
+                        [formGroup]="activationForm"
+                    >
+                        <div [style]="{ marginTop: '-2rem' }">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <fieldset
+                                        *ngIf="
+                                            bacPiocheActivation !==
+                                                'patrimoine' && !IsNotMessage()
+                                        "
+                                    >
+                                        <legend [ngStyle]="{ width: '100%' }">
+                                            <b>Source Stock SIM</b>
+                                        </legend>
+                                        <div class="d-flex gap-4">
+                                            <div
+                                                *ngIf="
+                                                    bacPiocheActivation !==
+                                                    'stock'
+                                                "
+                                            >
+                                                <div class="d-flex gap-4">
+                                                    <div
+                                                        class="trans-radio d-flex gap-3"
+                                                    >
+                                                        <p-radioButton
+                                                            name="valeur"
+                                                            [value]="'orangeci'"
+                                                            formControlName="bac_a_pioche"
+                                                            [inputId]="
+                                                                'orangeci'
+                                                            "
+                                                        ></p-radioButton>
+                                                        <label
+                                                            [for]="'stock'"
+                                                            style="
+                                                                margin-top: 0.9rem;
+                                                            "
+                                                            >Stock
+                                                            SIM/OCI</label
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-wrapper mt-2">
+                                            <input
+                                                [value]="
+                                                    bacPiocheActivation ===
+                                                    'stock'
+                                                        ? sourceStockTenantSim
+                                                        : sourceStockOrangeSim
+                                                "
+                                                type="text"
+                                                style="
+                                                    font-size: 13.5px !important;
+                                                    font-weight: bold !important;
+                                                "
+                                                [disabled]="true"
+                                                pInputText
+                                            />
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div
+                                    [ngClass]="
+                                        bacPiocheActivation !== 'patrimoine' &&
+                                        !IsNotMessage()
+                                            ? 'col-md-6'
+                                            : 'col-md-12'
+                                    "
+                                >
+                                    <fieldset>
+                                        <legend>
+                                            <b>Informations SIM</b>
+                                        </legend>
+                                        <div
+                                            class="row"
+                                            style="
+                                                padding-top: 1.4rem !important;
+                                            "
+                                        >
+                                            <div [style]="{ width: '15rem' }">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>IMSI</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="imsi"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div [style]="{ width: '12rem' }">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>MSISDN</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="msisdn"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Formule</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        style="
+                                                            font-size: 1.1rem;
+                                                            padding: 0.8rem
+                                                                0.5rem !important;
+                                                        "
+                                                        formControlName="formule"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <fieldset>
+                            <legend>
+                                <b>Informations d'identification</b>
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>{{ firstLevelLibelle }}</b>
+                                        </label>
+                                        <p-dropdown
+                                            [options]="listFirstLevel"
+                                            formControlName="niveau_un_uuid"
+                                            optionLabel="nom"
+                                            optionValue="uuid"
+                                            [filter]="true"
+                                            filterBy="nom"
+                                        >
+                                            <ng-template
+                                                let-data
+                                                pTemplate="item"
+                                            >
+                                                <div class="country-item">
+                                                    <div>
+                                                        {{ data.nom }} [{{
+                                                            data.code
+                                                        }}]
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>{{ secondLevelLibelle }}</b>
+                                        </label>
+                                        <p-dropdown
+                                            [options]="listSecondLevel"
+                                            formControlName="niveau_deux_uuid"
+                                            optionLabel="nom"
+                                            optionValue="uuid"
+                                            [filter]="true"
+                                            filterBy="nom"
+                                        >
+                                            <ng-template
+                                                let-data
+                                                pTemplate="item"
+                                            >
+                                                <div class="country-item">
+                                                    <div>
+                                                        {{ data.nom }}
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>{{ thirdLevelLibelle }}</b>
+                                        </label>
+                                        <p-dropdown
+                                            [options]="listThirdLevel"
+                                            formControlName="niveau_trois_uuid"
+                                            optionLabel="nom"
+                                            optionValue="uuid"
+                                        >
+                                            <ng-template
+                                                let-data
+                                                pTemplate="item"
+                                            >
+                                                <div class="country-item">
+                                                    <div>
+                                                        {{ data.nom }}
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Usage</b>
+                                        </label>
+                                        <p-dropdown
+                                            [options]="listUsages"
+                                            formControlName="usage_id"
+                                            optionLabel="nom_usage"
+                                            placeholder="Usage"
+                                            optionValue="id"
+                                            placeholder="Usage"
+                                        >
+                                            <ng-template
+                                                let-data
+                                                pTemplate="item"
+                                            >
+                                                <div class="country-item">
+                                                    <div>
+                                                        {{ data.nom_usage }}
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Emplacement</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="point_emplacement"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Adresse mail</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="adresse_email"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Adresse géographique</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="adresse_geographique"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Latitude</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="latitude"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Longitude</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="longitude"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <fieldset>
+                                        <legend>
+                                            <b>Détails de la Transaction</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b
+                                                            >Formule de
+                                                            destination<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        >
+                                                    </label>
+                                                    <p-dropdown
+                                                        [options]="listFormules"
+                                                        formControlName="formule_uuid"
+                                                        optionLabel="nom"
+                                                        [showClear]="true"
+                                                        placeholder="formule destination"
+                                                        optionValue="uuid"
+                                                    >
+                                                        <ng-template
+                                                            let-data
+                                                            pTemplate="item"
+                                                        >
+                                                            <div
+                                                                class="country-item"
+                                                            >
+                                                                <div>
+                                                                    {{
+                                                                        data.nom
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b
+                                                            >Description<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        >
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="description"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-5">
+                                    <fieldset>
+                                        <legend>
+                                            <b>Justificatif</b>
+                                        </legend>
+                                        <div class="justificatif-container">
+                                            <div *ngIf="IsJustificatif()">
+                                                <button
+                                                    pButton
+                                                    pRipple
+                                                    label="Télécharger"
+                                                    icon="pi pi-download"
+                                                    class="p-button-success"
+                                                    (click)="downloadFile()"
+                                                ></button>
+                                            </div>
+                                            <div class="justificatif-error">
+                                                <span
+                                                    class=""
+                                                    *ngIf="!IsJustificatif()"
+                                                    >Aucun justificatif pour
+                                                    cette transaction</span
+                                                >
+                                            </div>
+                                            <div *ngIf="IsUpdate()">
+                                                <div>
+                                                    <input
+                                                        type="file"
+                                                        style="
+                                                            padding: 0.6rem;
+                                                            border: 1px solid;
+                                                            border-radius: 0.3rem;
+                                                        "
+                                                        (change)="
+                                                            onChangeFile(
+                                                                $event.target
+                                                                    .files
+                                                            )
+                                                        "
+                                                        accept="image/png,image/jpeg"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <fieldset *ngIf="ShowAcceptedForm()">
+                            <legend>
+                                <strong>Traitement</strong>
+                            </legend>
+                            <div
+                                class="wrapper-evaluation"
+                                style="display: flex; gap: 1rem"
+                            >
+                                <div class="block-checked">
+                                    <div>
+                                        <div
+                                            class="wrapper-check"
+                                            style="
+                                                display: flex;
+                                                justify-content: center !important;
+                                                padding-top: 1.3rem;
+                                            "
+                                        >
+                                            <div
+                                                class="form-check form-check-inline"
+                                            >
+                                                <span
+                                                    class="badge table-header-wrapper"
+                                                    [class.badge-danger]="
+                                                        IsTraitement() ===
+                                                        treatmenRejeter
+                                                    "
+                                                    [class.badge-success]="
+                                                        IsTraitement() ===
+                                                        treatmenAccepter
+                                                    "
+                                                >
+                                                    {{ IsTraitement() }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 100%">
+                                    <label for="commentaire"
+                                        ><strong>Commentaire</strong></label
+                                    >
+                                    <input
+                                        type="text"
+                                        formControlName="activation_accepte_comment"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div
+                    *ngIf="transaction?.operation === OperationAchat"
+                    class="form-container"
+                >
+                    <div [hidden]="filterTab !== 'first-item'">
+                        <fieldset>
+                            <legend>
+                                <strong>Information de Transaction</strong>
+                            </legend>
+                            <div
+                                class="panier-card"
+                                *ngFor="
+                                    let prod of detailTransaction?.detail_commande
+                                "
+                            >
+                                <div class="panier-card__file">
+                                    <img
+                                        src="assets/images/unboxing.png"
+                                        alt=""
+                                    />
+                                </div>
+                                <div class="panier-card__infos">
+                                    <div class="panier-card__infos--code">
+                                        {{ prod.code_produit }}
+                                    </div>
+                                    <div class="panier-card__infos--nom">
+                                        {{ prod.nom_produit }}
+                                    </div>
+                                </div>
+                                <div class="panier-card__quantity">
+                                    <button
+                                        [ngClass]="['decrement']"
+                                        [disabled]="
+                                            this.IsShow() || this.IsCloture()
+                                        "
+                                        (click)="OnDecrementButton(prod)"
+                                        decrementButtonIcon="pi pi-minus"
+                                    >
+                                        <i class="pi pi-minus"></i>
+                                    </button>
+                                    <span>{{ prod.quantite }}</span>
+                                    <button
+                                        [ngClass]="['increment']"
+                                        [disabled]="
+                                            this.IsShow() || this.IsCloture()
+                                        "
+                                        (click)="OnIncrementButton(prod)"
+                                    >
+                                        <i
+                                            class="pi pi-plus"
+                                            incrementButtonClass="p-button-success"
+                                        ></i>
+                                    </button>
+                                </div>
+                                <div class="panier-card__price">
+                                    {{
+                                        pipeValue(
+                                            prod.montant_ht * prod.quantite
+                                        )
+                                    }}
+                                    F
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset *ngIf="ShowAcceptedForm()">
+                            <legend>
+                                <strong>Traitement</strong>
+                            </legend>
+                            <div
+                                class="wrapper-evaluation"
+                                style="display: flex; gap: 1rem"
+                            >
+                                <div class="block-checked">
+                                    <div style="margin-left: 8%" class="ml-3">
+                                        <span
+                                            for="accepte"
+                                            style="
+                                                font-size: 23px;
+                                                margin-left: 5%;
+                                                font-weight: 800;
+                                            "
+                                            >Accepté ?
+                                        </span>
+                                        <div class="wrapper-check">
+                                            <div
+                                                class="form-check form-check-inline"
+                                            >
+                                                <input
+                                                    formControlName="commmande_produit_accepte"
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    name="infosLigne"
+                                                    value="oui"
+                                                    id="infosLigne"
+                                                />
+                                                <label
+                                                    class="form-check-label"
+                                                    for="infosLigne"
+                                                    style="
+                                                        width: auto !important;
+                                                    "
+                                                    >Oui</label
+                                                >
+                                            </div>
+                                            <div
+                                                class="form-check form-check-inline"
+                                            >
+                                                <input
+                                                    formControlName="commmande_produit_accepte"
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    name="infosLigne"
+                                                    value="non"
+                                                    id="infosLigne"
+                                                />
+                                                <label
+                                                    class="form-check-label"
+                                                    for="infosLigne"
+                                                    style="
+                                                        width: auto !important;
+                                                    "
+                                                    >Non</label
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 100%">
+                                    <label for="commentaire"
+                                        ><strong>Commentaire</strong></label
+                                    >
+                                    <textarea
+                                        name="commentaire"
+                                        formControlName="commmande_produit_accepte_comment"
+                                        class="form-control"
+                                        rows="2"
+                                        style="width: 100%; margin-top: 0%"
+                                        placeholder="Entrer un commentaire"
+                                    >
+                                    </textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div *ngIf="IsCloture()">
+                    <fieldset>
+                        <legend>
+                            <strong>Message Clôture</strong>
+                        </legend>
+                        <div
+                            class="wrapper-evaluation"
+                            style="display: flex; gap: 1rem"
+                        >
+                            <div class="block-checked">
+                                <div style="margin-left: 6%">
+                                    <span
+                                        for="accepte"
+                                        style="
+                                            font-size: 23px;
+                                            margin-left: 5%;
+                                            font-weight: 800;
+                                        "
+                                        >Cloturer ?
+                                    </span>
+                                    <div class="wrapper-check">
+                                        <div
+                                            class="form-check form-check-inline"
+                                        >
+                                            <input
+                                                [(ngModel)]="selectedIsCloture"
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="infosCloture"
+                                                value="oui"
+                                                (change)="
+                                                    handleChangeEvent($event)
+                                                "
+                                                id="infosCloture"
+                                            />
+                                            <label
+                                                class="form-check-label"
+                                                for="infosCloture"
+                                                style="width: auto !important"
+                                                >Oui</label
+                                            >
+                                        </div>
+                                        <div
+                                            class="form-check form-check-inline"
+                                        >
+                                            <input
+                                                [(ngModel)]="selectedIsCloture"
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="infosCloture"
+                                                value="non"
+                                                (change)="
+                                                    handleChangeEvent($event)
+                                                "
+                                                id="infosCloture"
+                                            />
+                                            <label
+                                                class="form-check-label"
+                                                for="infosCloture"
+                                                style="width: auto !important"
+                                                >Non</label
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="block-checked"
+                                style="
+                                    width: 15rem;
+                                    padding: 0 0.5rem 0.5rem 0.5rem;
+                                "
+                            >
+                                <div class="ml-3">
+                                    <div class="wrapper-check">
+                                        <div
+                                            style="
+                                                display: flex;
+                                                flex-direction: column;
+                                            "
+                                        >
+                                            <div>
+                                                <label
+                                                    for="infosLigne"
+                                                    style="
+                                                        margin-left: 0 !important;
+                                                    "
+                                                >
+                                                    <img
+                                                        src="assets/images/icones/smile.png"
+                                                        width="22"
+                                                        alt=""
+                                                    />
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <input
+                                                    class="form-check-input"
+                                                    [disabled]="
+                                                        !selectedIsCloture ||
+                                                        selectedIsCloture ===
+                                                            'non'
+                                                    "
+                                                    [(ngModel)]="
+                                                        selectedNotation
+                                                    "
+                                                    type="radio"
+                                                    name="infosLigne"
+                                                    value="content"
+                                                    id="infosLigne"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div
+                                            style="
+                                                display: flex;
+                                                flex-direction: column;
+                                            "
+                                        >
+                                            <div>
+                                                <label
+                                                    for="infosLigne"
+                                                    style="
+                                                        margin-left: 0 !important;
+                                                    "
+                                                >
+                                                    <img
+                                                        src="assets/images/icones/confused.png"
+                                                        width="22"
+                                                        alt=""
+                                                    />
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <input
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    [disabled]="
+                                                        !selectedIsCloture ||
+                                                        selectedIsCloture ===
+                                                            'non'
+                                                    "
+                                                    [(ngModel)]="
+                                                        selectedNotation
+                                                    "
+                                                    name="infosLigne"
+                                                    value="neutre"
+                                                    id="infosLigne"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div
+                                            style="
+                                                display: flex;
+                                                flex-direction: column;
+                                            "
+                                        >
+                                            <div>
+                                                <label
+                                                    for="infosLigne"
+                                                    style="
+                                                        margin-left: 0 !important;
+                                                    "
+                                                >
+                                                    <img
+                                                        src="assets/images/icones/sad.png"
+                                                        width="22"
+                                                        alt=""
+                                                    />
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <input
+                                                    class="form-check-input"
+                                                    [disabled]="
+                                                        !selectedIsCloture
+                                                    "
+                                                    type="radio"
+                                                    name="infosLigne"
+                                                    [(ngModel)]="
+                                                        selectedNotation
+                                                    "
+                                                    value="mécontent"
+                                                    id="infosLigne"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width: 100%">
+                                <label for="commentaire"
+                                    ><strong>Commentaire</strong></label
+                                >
+                                <textarea
+                                    name="commentaire"
+                                    [(ngModel)]="selectedDescriptionNotation"
+                                    class="form-control"
+                                    rows="2"
+                                    style="width: 100%; margin-top: 0%"
+                                    placeholder="Entrer un commentaire"
+                                >
+                                </textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <fieldset
+                    *ngIf="
+                        detailTransaction?.rapport?.statut_traitement &&
+                        detailTransaction?.rapport?.statut_cloture
+                    "
+                >
+                    <legend>
+                        <strong>Clôture</strong>
+                    </legend>
+                    <div
+                        class="wrapper-evaluation"
+                        style="display: flex; gap: 1rem"
+                    >
+                        <div class="block-checked">
+                            <div>
+                                <div class="d-flex justify-content-center">
+                                    <span
+                                        for="accepte"
+                                        style="
+                                            font-size: 23px;
+                                            font-weight: 800;
+                                        "
+                                        >Avis</span
+                                    >
+                                </div>
+                                <div
+                                    class="wrapper-check d-flex justify-content-center"
+                                >
+                                    <img
+                                        [src]="
+                                            mappingNotation(
+                                                this.detailTransaction?.rapport
+                                                    ?.notation_cloture
+                                            )
+                                        "
+                                        width="30"
+                                        alt=""
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 100%">
+                            <label for="commentaire"
+                                ><strong>Commentaire</strong></label
+                            >
+                            <input
+                                type="text"
+                                [disabled]="true"
+                                [value]="
+                                    detailTransaction?.rapport
+                                        ?.notation_description
+                                "
+                                pInputText
+                            />
+                        </div>
+                    </div>
+                </fieldset>
             </div>
-          </fieldset>
         </div>
-          <fieldset *ngIf="detailTransaction?.rapport?.statut_traitement && detailTransaction?.rapport?.statut_cloture">
-            <legend>
-              <strong>Clôture</strong>
-            </legend>
-            <div class="wrapper-evaluation" style="display: flex;gap: 1rem;">
-              <div class="block-checked">
-                <div>
-                  <div class="d-flex justify-content-center">
-                    <span for="accepte" style="font-size: 23px;font-weight:800">Avis</span>
-                  </div>
-                  <div class="wrapper-check d-flex justify-content-center">
-                    <img [src]="mappingNotation(this.detailTransaction?.rapport?.notation_cloture)" width="30" alt="">
-                  </div>
-                </div>
-              </div>
-              <div style="width: 100%">
-                <label for="commentaire"><strong>Commentaire</strong></label>
-                <input type="text" [disabled]="true" [value]="detailTransaction?.rapport?.notation_description" pInputText />
-              </div>
-            </div>
-          </fieldset>
-      </div>
     </div>
-  </div>
 </div>
-
