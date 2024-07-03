@@ -1,0 +1,26 @@
+<!-- DEBUT: formulaire ajout en masse dans le module 'Operation d'identification' -->
+<div class="row width-100">
+    <div class="input_file h-75 col-md-4">
+        <label for="file" [ngClass]="{'isFile_backgroundGreen': arrayHeaderExcelFile?.length !== 0, 'isFile_backgroundRed': arrayHeaderExcelFile?.length === 0}">
+            <img src="assets/images/excel.png" width="50" />
+            <span [hidden]="fileName"><b>Spécifier le fichier</b></span>
+            <span [hidden]="!fileName"><b>{{fileName}}</b></span>
+        </label>
+        <input type="file" id="file" (change)="onExcelFileChange($event.target.files)" accept=".xlsx, .xls"
+            name="file" />
+    </div>
+    <div class="col-md-4 d-flex align-items-center">
+        <!-- <button pButton pRipple label="Vérifier" icon="pi pi-search" class="p-button-warning ms-3 w-100"
+            (click)="checkFile()" [disabled]="arrayHeaderExcelFile?.length === 0"></button> -->
+            <button #buttonCheckFile type="button" class="btn btn-warning w-100 ms-3" icon="pi pi-search"
+                    (click)="checkFile()" [disabled]="arrayHeaderExcelFile?.length === 0">
+                Vérifier
+            </button>
+            <!-- <div class="width-100" [ngStyle]="{'color': 'red', 'opacity': arrayHeaderExcelFile?.length !== 0 ? 1 : 0, 'opacity': formatData.length !== 0 ? 0 : 1 }">Veuillez verifier le fichier</div> -->
+    </div>
+    <div class="col-md-4 d-flex align-items-center">
+        <button type="button" class="btn btn-save" icon="pi pi-download" (click)="downloadModelXls()">
+            Télécharger le modèle
+        </button>
+    </div>
+</div>

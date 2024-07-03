@@ -367,7 +367,7 @@
                             <div class="form-group">
                                 <label>
                                     <b
-                                        >Formule destination 444<span
+                                        >Formule destination<span
                                             class="text-danger"
                                             >*</span
                                         ></b
@@ -380,14 +380,9 @@
                                     [placeholder]="'Formule destination'"
                                     [showClear]="true"
                                     optionValue="uuid"
+                                    [filter]="true"
+                                    filterBy="nom"
                                 >
-                                    <ng-template let-data pTemplate="item">
-                                        <div class="country-item">
-                                            <div>
-                                                {{ data.nom }}
-                                            </div>
-                                        </div>
-                                    </ng-template>
                                 </p-dropdown>
                             </div>
                         </div>
@@ -1016,7 +1011,7 @@
                         <b>Demandes</b>
                     </legend>
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label
                                     ><b>Nombre</b
@@ -1030,6 +1025,55 @@
                                 />
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    <b
+                                        >Justificatif
+                                        <span class="text-danger">*</span></b
+                                    >
+                                </label>
+                                <input
+                                    type="file"
+                                    style="
+                                        padding: 0.6rem;
+                                        border: 1px solid #000;
+                                        border-radius: 0.3rem;
+                                        color: #000;
+                                    "
+                                    (change)="
+                                        onChangeFile(
+                                            $event.target.files,
+                                            'justificatif'
+                                        )
+                                    "
+                                    accept="image/png,image/jpeg"
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>
+                                    <b
+                                        >Reçu de paiement
+                                        <span class="text-danger">*</span></b
+                                    >
+                                </label>
+                                <input
+                                    type="file"
+                                    style="
+                                        padding: 0.6rem;
+                                        border: 1px solid;
+                                        border-radius: 0.3rem;
+                                        color: #000;
+                                    "
+                                    (change)="
+                                        onChangeFile($event.target.files, 'recu')
+                                    "
+                                    accept="image/png,image/jpeg"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </fieldset>
             </div>
@@ -1039,7 +1083,7 @@
                     <b>Détails de la Demande</b>
                 </legend>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label>
                                 <b
@@ -1054,55 +1098,6 @@
                             />
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>
-                                <b
-                                    >Justificatif
-                                    <span class="text-danger">*</span></b
-                                >
-                            </label>
-                            <input
-                                type="file"
-                                style="
-                                    padding: 0.6rem;
-                                    border: 1px solid #000;
-                                    border-radius: 0.3rem;
-                                    color: #000;
-                                "
-                                (change)="
-                                    onChangeFile(
-                                        $event.target.files,
-                                        'justificatif'
-                                    )
-                                "
-                                accept="image/png,image/jpeg"
-                            />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>
-                                <b
-                                    >Reçu de paiement
-                                    <span class="text-danger">*</span></b
-                                >
-                            </label>
-                            <input
-                                type="file"
-                                style="
-                                    padding: 0.6rem;
-                                    border: 1px solid;
-                                    border-radius: 0.3rem;
-                                    color: #000;
-                                "
-                                (change)="
-                                    onChangeFile($event.target.files, 'recu')
-                                "
-                                accept="image/png,image/jpeg"
-                            />
-                        </div>
-                    </div>
                 </div>
             </fieldset>
         </div>
@@ -1114,7 +1109,7 @@
                     label="Soumettre"
                     class="p-button-success"
                     [disabled]="
-                        !adminForm ||
+                        !adminForm || !selectedPiece || !selectedRecuPaiement ||
                         !selectedDescription ||
                         listDemandes?.length === 0
                     "

@@ -1,0 +1,339 @@
+<div #modal class="modal-content" *ngIf="IsLoadData">
+    <div>
+        <div class="modal-header" style="background-color: #569c5b; color: #fff; align-items: center;
+             cursor: all-scroll; padding: 0.2rem 1rem; display: flex; justify-content: space-between;">
+            <h4 class="modal-title pl-3" style="margin: 0">
+                Détails
+                <strong class="cursor-pointer" (click)="copyTransaction(demande.numero_demande)">
+                    [{{demande.numero_demande}}]
+                </strong>
+            </h4>
+            <button type="button" class="close" aria-label="Close" (click)="handleCloseModal()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body" [formGroup]="formTraitementMasse">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div [style]="{ marginTop: '-1rem' }" class="mb-2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <fieldset>
+                                    <legend>
+                                        <b>Identification</b>
+                                    </legend>
+                                    <div>
+                                        <div class="d-flex gap-4">
+                                            <div class="d-flex gap-4">
+                                                <div class="trans-radio d-flex gap-3 align-items-center">
+                                                    <input class="form-check-input" type="radio" name="identification" 
+                                                            value="cloturer" id="cloturer" formControlName="operation" 
+                                                            style="width: 39px; height: 29px; border-radius: 50%;"/>
+                                                    <label for="cloturer" style="margin-top: 0.9rem">Clôturer</label>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex gap-4">
+                                                <div class="trans-radio d-flex gap-3 align-items-center">
+                                                    <input class="form-check-input" type="radio" name="identification" 
+                                                            value="traiter" id="traiter" formControlName="operation" 
+                                                            style="width: 39px; height: 29px; border-radius: 50%;"/>
+                                                    <label for="traiter" style="margin-top: 0.9rem">Traiter</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="submit-wrapper">
+                        <button class="btn btn-success w-100" [disabled]="formTraitementMasse.invalid" type="button"
+                            (click)="onSaveDemandes()">
+                            Enregistrer
+                        </button>
+                    </div>
+
+                    <div>
+                        <fieldset>
+                            <legend>
+                                <strong>Emission</strong>
+                            </legend>
+                            <div class="d-flex flex-column gap-2">
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>
+                                        {{listDemandes?.demandeur_matricule ?? "N/A"}}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>
+                                        {{listDemandes?.demandeur_nom ?? "N/A"}}
+                                        {{listDemandes?.demandeur_prenoms ?? "N/A"}}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>
+                                        {{listDemandes?.demandeur_contacts ?? "N/A"}}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>
+                                        {{listDemandes?.demandeur_email ?? "N/A"}}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>
+                                        {{listDemandes?.created_at}}
+                                    </span>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div>
+                        <fieldset>
+                            <legend>
+                                <strong>Homologation</strong>
+                            </legend>
+                            <div class="d-flex flex-column gap-2">
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>
+                                        {{listDemandes?.intervenant?.matricule ?? "N/A"}}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>
+                                        {{listDemandes?.intervenant?.nom ?? "N/A"}}
+                                        {{listDemandes?.intervenant?.prenoms ?? "N/A"}}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>
+                                        {{listDemandes?.intervenant?.contacts ?? "N/A"}}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>
+                                        {{listDemandes?.intervenant?.email ?? "N/A"}}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong> </span>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="col-lg-10">
+                    <div class="col-lg-12">
+                        <div role="alert" style="display: flex; justify-content: space-between">
+                            <div>
+                                <strong class="wrapper-header">Reception : </strong>
+                            </div>
+                            <div>
+                                <strong class="wrapper-header">Traitement : </strong>
+                            </div>
+                            <div>
+                                <strong class="wrapper-header">Clôture : </strong>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h4 class="col-md-7 wrapper-header">
+                                <strong>Activation de SIM
+                                    <span style="color: #549b3d; font-weight: bold">
+                                        <span>
+                                            [ 0704839830 ]
+                                        </span>
+                                    </span>
+                                </strong>
+                            </h4>
+                            <div class="col-md-5 wrapper-header"
+                                style="display: flex; justify-content: end; font-size: 20px">
+                                Date mise à jour :&nbsp;
+                                <b><span>{{ "N/A" }}</span></b>
+                            </div>
+                        </div>
+
+                        <hr style="position: relative; top: -0.2rem; margin-top: -0.8rem" />
+
+                        <div>
+                            <div>
+                                <div [style]="{ marginTop: '-1rem' }">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <fieldset>
+                                                <legend>
+                                                    <b>Stock SIM/OCI</b>
+                                                </legend>
+                                                <div class="text-wrapper">
+                                                    <input type="text"
+                                                        style="font-size: 13.5px !important; font-weight: bold !important;"
+                                                        pInputText [value]="sourceStockOrangeSim" [disabled]="true" />
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <fieldset>
+                                    <legend>
+                                        <b>Informations d'identification</b>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>
+                                                    <b>Niveau 1</b>
+                                                </label>
+                                                <input type="text" pInputText formControlName="niveau_uns_uuid" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>
+                                                    <b>Niveau 2</b>
+                                                </label>
+                                                <input type="text" pInputText formControlName="niveau_deux_uuid" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>
+                                                    <b>Type d'emplacement</b>
+                                                </label>
+                                                <input type="text" pInputText formControlName="niveau_trois_uuid" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label><b>Formule destination<span class="text-danger">*</span></b></label>
+                                                <!-- <p-dropdown [options]="listFormules" formControlName="formule_uuid"
+                                                    optionLabel="nom" optionValue="uuid"
+                                                    placeholder="Sélectionner la formule de destination"
+                                                    [showClear]="true" name="formule_uuid">
+                                                </p-dropdown> -->
+                                                <input type="text" pInputText formControlName="formule_uuid" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label><b>Usage</b></label>
+                                                <input type="text" pInputText formControlName="usage_id" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <fieldset>
+                                                <legend>
+                                                    <b>Jutificatif</b>
+                                                </legend>
+                                                <div class="justificatif-container">
+                                                    <div *ngIf="IsJustificatif()">
+                                                        <button pButton pRipple label="Télécharger"
+                                                            icon="pi pi-download" class="p-button-success"
+                                                            (click)="downloadFile()">
+                                                        </button>
+                                                    </div>
+                                                    <div class="justificatif-error">
+                                                        <span class="" *ngIf="!IsJustificatif()">
+                                                            Aucun justificatif pour cette transaction
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <fieldset>
+                                                <legend>
+                                                    <b>Reçu paiement</b>
+                                                </legend>
+                                                <div class="justificatif-container">
+                                                    <div *ngIf="IsRecuPaiement()">
+                                                        <button pButton pRipple label="Télécharger"
+                                                            icon="pi pi-download" class="p-button-success"
+                                                            (click)="downloadRecuPaiement()">
+                                                        </button>
+                                                    </div>
+                                                    <div class="justificatif-error">
+                                                        <span class="" *ngIf="!IsRecuPaiement()">
+                                                            Aucun recu de paiement pour cette transaction
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div style="width: 100%">
+                                        <label for="commentaire"><strong>Description</strong></label>
+                                        <textarea name="commentaire" formControlName="description" class="form-control"
+                                            rows="1" style="width:100%;margin-top:0%;">
+                                        </textarea>
+                                    </div>
+                                </fieldset>
+
+                                    <fieldset *ngIf="displayFieldsetIdentification === 'cloturer'">
+                                        <legend>
+                                            <strong>Traitement</strong>
+                                        </legend>
+                                        <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
+                                            <div class="block-checked">
+                                                <div style="margin-left: 8%" class="ml-3">
+                                                    <span for="accepte"
+                                                        style="font-size: 23px; margin-left: 5%; font-weight: 800;">
+                                                        Accepté<span class="text-danger">*</span> ?
+                                                    </span>
+                                                    <div class="wrapper-check">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="demande"
+                                                                value="oui" id="infosLigne" formControlName="accepte" />
+                                                            <label class="form-check-label" for="oui"
+                                                                style="width: auto !important">Oui</label>
+                                                        </div>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="demande"
+                                                                value="non" id="infosLigne" formControlName="accepte" />
+                                                            <label class="form-check-label" for="non"
+                                                                style="width: auto !important">Non</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="width: 100%">
+                                                <label for="commentaire"><strong>Commentaire<span class="text-danger" [hidden]="!croixRougeCommentaire">*</span></strong></label>
+                                                <textarea name="commentaire" formControlName="commentaire"
+                                                    class="form-control" rows="2" style="width: 100%; margin-top: 0%"
+                                                    placeholder="Entrer un commentaire">
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset style="margin-top: 2.5rem;" *ngIf="displayFieldsetIdentification === 'traiter'">
+                                        <legend [ngStyle]="{width: '100%'}">
+                                            <b>Demandes</b>
+                                        </legend>
+                                        <div class="row">
+                                            <app-form-masse class="col-md-9 d-flex align-items-end"
+                                                [fileModel]="fileModel" (dataToSend)="pushCurrentArrayForm($event)"
+                                                [currentArrayHeaders]="currentArrayHeaders">
+                                            </app-form-masse>
+                                        </div>
+                                    </fieldset>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>

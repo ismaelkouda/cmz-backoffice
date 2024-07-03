@@ -3,7 +3,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TraitementShowComponent } from '../../../../../shared/components/traitement-show/traitement-show.component';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { StatutTransaction } from './../../../../../shared/enum/StatutTransaction.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
@@ -12,6 +11,9 @@ import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enu
 import * as moment from 'moment';
 import { ExcelService } from 'src/shared/services/excel.service';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SEARCH } from 'src/shared/routes/routes';
+import { DemandeMasseComponent } from '../../feature/demande-masse/demande-masse.component';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -68,7 +70,9 @@ export class SuivieTraitementComponent implements OnInit {
     private settingService: SettingService,
     private mappingService: MappingService,
     private excelService: ExcelService,
-    private titleService: Title
+    private titleService: Title,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
     this.titleService.setTitle(`${this.title}`);
     this.listOperations = this.mappingService.listOperationTraitementVue;
@@ -93,7 +97,7 @@ export class SuivieTraitementComponent implements OnInit {
     }
     this.GetAllTransactions();
   }
-
+ 
   public GetAllTransactions() {
     this.supervisionOperationService
       .GetAllTransactions({
@@ -102,7 +106,8 @@ export class SuivieTraitementComponent implements OnInit {
       }, this.p)
       .subscribe({
         next: (response) => {
-          this.listTraitemants =  response['data']['data'].map((data) => {
+          this.listTraitemants =  response['data']['data']
+          .map((data) => {
             if (data?.statut === StatutTransaction.TARITER) {
               return {...data,current_date: data?.date_traitement}
             }else if (data?.statut === StatutTransaction.CLOTURER) {
@@ -310,23 +315,51 @@ export class SuivieTraitementComponent implements OnInit {
     }
   }
 
-  OnShowTraitement(data: any): void {
+  OnShowModalTraitement(data: any): void {
     this.IsLoading = true;
-    const modalRef = this.modalService.open(TraitementShowComponent, {
+    const modalRef = this.modalService.open(DemandeMasseComponent, {
       ariaLabelledBy: "modal-basic-title",
       backdrop: "static",
       keyboard: false,
       centered: true,
     });
-    modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
-    modalRef.componentInstance.resultTraitement.subscribe((res) => {
-      this.listTraitemants = res;
-    })    
-    modalRef.componentInstance.IsLoading.subscribe((res) => {
-      this.IsLoading = res;
+    // modalRef.componentInstance.tenant_code = this.selectedTenant.code;
+    modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
+    // modalRef.componentInstance.resultTraitement.subscribe((res) => { this.listTraitemants = res });
+    modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res; 
       modalRef.componentInstance.IsLoadData = !res;
-    })    
+    });
   }
+
+  OnShowTraitement(data: any, paramUrl: string): void {
+    this.router.navigate([SEARCH], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        view: paramUrl,
+        // tenant: this.selectedTenant.nom_tenant,
+        // code: this.selectedTenant.code,
+        request: data?.numero_demande,
+      },
+    });
+  }
+
+  // OnShowTraitement(data: any): void {
+  //   this.IsLoading = true;
+  //   const modalRef = this.modalService.open(TraitementShowComponent, {
+  //     ariaLabelledBy: "modal-basic-title",
+  //     backdrop: "static",
+  //     keyboard: false,
+  //     centered: true,
+  //   });
+  //   modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
+  //   modalRef.componentInstance.resultTraitement.subscribe((res) => {
+  //     this.listTraitemants = res;
+  //   })    
+  //   modalRef.componentInstance.IsLoading.subscribe((res) => {
+  //     this.IsLoading = res;
+  //     modalRef.componentInstance.IsLoadData = !res;
+  //   })    
+  // }
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
   }
