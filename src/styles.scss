@@ -6,6 +6,10 @@
     width: 100%;
 }
 
+.text-orange {
+    color: #ff6600;
+}
+
 label {
     color: #2f2f3b;
 }
@@ -49,7 +53,7 @@ label {
     transform-style: preserve-3d;
 }
 .justificatif-container {
-    padding: 1rem 0;
+    // padding: 1rem 0;
     display: flex;
     gap: 2rem;
     justify-content: center;

@@ -1,3 +1,4 @@
+import { DemandeMasseComponent } from './feature/demande-masse/demande-masse.component';
 import { ShowMessageRecieveComponent } from './feature/show-message-recieve/show-message-recieve.component';
 import { ShowMessageSenderComponent } from './feature/show-message-sender/show-message-sender.component';
 import { MessageFormComponent } from './feature/message-form/message-form.component';
@@ -49,6 +50,7 @@ import { AlarmesComponent } from './ui/alarmes/alarmes.component';
 import { SuivieTraitementComponent } from './ui/suivie-traitement/suivie-traitement.component';
 import { PerformancesComponent } from './ui/performances/performances.component';
 import { MessagerieComponent } from './ui/messagerie/messagerie.component';
+import { DetailsSuivieTraitementComponent } from './ui/suivie-traitement/details-suivie-traitement/details-suivie-traitement.component';
 
 @NgModule({
     imports: [
@@ -83,7 +85,8 @@ import { MessagerieComponent } from './ui/messagerie/messagerie.component';
         DynamicDialogModule,
         PaginatorModule,
         NgxPaginationModule,
-        ProgressSpinnerModule
+        ProgressSpinnerModule,
+        RadioButtonModule 
     ],
     declarations: [
         SuivieTraitementComponent,
@@ -101,7 +104,9 @@ import { MessagerieComponent } from './ui/messagerie/messagerie.component';
         RecipientWrapperComponent,
         MessageFormComponent,
         ShowMessageSenderComponent,
-        ShowMessageRecieveComponent
+        ShowMessageRecieveComponent,
+        DetailsSuivieTraitementComponent,
+        DemandeMasseComponent
     ],
     providers: [EditableRow, SupervisionOperationService]
 })

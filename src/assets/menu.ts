@@ -91,8 +91,8 @@ export var menuJson = [
         children: [
             {
                 path: `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
-                title: "Activations mobiles",
-                label: "Activations mobiles",
+                title: "Abonnement mobiles",
+                label: "Abonnement mobiles",
                 data: "9-1-0-activations-mobile",
                 pack: ApplicationType.MONITORING,
                 type: "link"

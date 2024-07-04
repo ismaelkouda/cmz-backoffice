@@ -1,0 +1,199 @@
+<p-table
+    [ngClass]="['native_table table']"
+    [value]="listPatrimoines"
+    dataKey="id"
+    selectionMode="single"
+    [(selection)]="itemCatreSim"
+>
+    <ng-template pTemplate="header">
+        <tr>
+            <th class="text-center">#</th>
+            <th>{{ firstLevelLibelle }}</th>
+            <th>{{ secondLevelLibelle }}</th>
+            <th class="text-center">Zone Trafic</th>
+            <th class="text-center">{{ thirdLevelLibelle }}</th>
+            <th class="text-center">MSISDN</th>
+            <th class="text-center">IMSI</th>
+            <th class="text-center">Usage</th>
+            <th class="text-center">Emplacement</th>
+            <th>Statut</th>
+            <th class="text-center" [style]="{ width: '3rem' }">Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-data>
+        <tr [pSelectableRow]="data">
+            <td class="text-center">{{ rowIndex + pargination?.offset }}</td>
+            <td>{{ data?.niveau_uns_nom }}</td>
+            <td>{{ data?.niveau_deux_nom }}</td>
+            <td
+                (click)="
+                    data.adresse_geographique
+                        ? copyData(data.adresse_geographique)
+                        : null
+                "
+                style="cursor: pointer"
+            >
+                {{ data?.adresse_geographique }}
+            </td>
+            <td>{{ data?.niveau_trois_nom }}</td>
+            <td
+                (click)="copyData(data.msisdn)"
+                style="cursor: pointer"
+                class="px-2"
+            >
+                {{ data.msisdn }}
+            </td>
+            <td
+                (click)="copyData(data.imsi)"
+                style="cursor: pointer"
+                class="px-2"
+            >
+                {{ data?.imsi ? data?.imsi : 'N/A' }}
+            </td>
+            <td>{{ data?.nom_usage }}</td>
+            <td>{{ data?.point_emplacement }}</td>
+            <td>
+                <span
+                    [ngStyle]="{ 'font-size': '16px' }"
+                    class="badge"
+                    [ngClass]="{
+                        'badge-success': data.statut === 'actif',
+                        'badge-dark': data.statut === 'suspendu',
+                        'badge-danger': data.statut === 'resilié'
+                    }"
+                >
+                    {{ data.statut }}
+                </span>
+            </td>
+            <td class="td-actions">
+                <button
+                    pButton
+                    icon="pi pi-map-marker"
+                    [disabled]="
+                        data.statut === 'inactif' ||
+                        (!data?.latitude &&
+                            !data?.longitude &&
+                            !data?.site_reseau)
+                    "
+                    pTooltip="Localisation"
+                    tooltipPosition="top"
+                    (click)="showDialog('map', data)"
+                    class="p-button-success"
+                ></button>
+                <button
+                    pButton
+                    icon="pi pi-qrcode"
+                    [pTooltip]="data.qrcode ? 'Scaner' : ''"
+                    tooltipPosition="top"
+                    (click)="OnShowQr(data)"
+                    [class]="
+                        data.qrcode
+                            ? 'p-button-help'
+                            : 'p-button-help p-button-outlined'
+                    "
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    icon="pi pi-eye"
+                    class="p-button-dark"
+                    pTooltip="Voir"
+                    tooltipPosition="top"
+                    (click)="onShowForm(data)"
+                ></button>
+                <div ngbDropdown *ngIf="mappingService.IsAction()">
+                    <button
+                        type="button"
+                        class="btn btn-dark btn-sm"
+                        ngbDropdownToggle
+                    >
+                        Choisir
+                    </button>
+                    <div ngbDropdownMenu>
+                        <button ngbDropdownItem (click)="onEditForm(data)">
+                            Modifier
+                        </button>
+                        <button
+                            ngbDropdownItem
+                            (click)="onTransactionForm(data, swap)"
+                            *ngIf="
+                                applicationType === patrimoineType &&
+                                data.statut === 'actif'
+                            "
+                        >
+                            SIM Swap
+                        </button>
+                        <button
+                            ngbDropdownItem
+                            (click)="onTransactionForm(data, resiliation)"
+                            *ngIf="data.statut === 'suspendu'"
+                        >
+                            Résilier
+                        </button>
+                        <button
+                            ngbDropdownItem
+                            (click)="onTransactionForm(data, activation)"
+                            *ngIf="data.statut === 'suspendu'"
+                        >
+                            Réactiver
+                        </button>
+                        <button
+                            ngbDropdownItem
+                            (click)="onTransactionForm(data, suspension)"
+                            *ngIf="data.statut === 'actif'"
+                        >
+                            Suspendre
+                        </button>
+                        <button
+                            ngbDropdownItem
+                            (click)="onTransactionForm(data, formule)"
+                            *ngIf="data.statut === 'actif'"
+                        >
+                            Changer la formule
+                        </button>
+                        <button
+                            ngbDropdownItem
+                            (click)="onTransactionForm(data, volume)"
+                            *ngIf="
+                                applicationType === patrimoineType &&
+                                data.statut === 'actif'
+                            "
+                        >
+                            Volume Data
+                        </button>
+                        <button
+                            ngbDropdownItem
+                            (click)="onDotationForm(data)"
+                            *ngIf="
+                                applicationType === patrimoineType &&
+                                data.statut === 'actif'
+                            "
+                        >
+                            Dotation
+                        </button>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog
+    header="[{{ carte.title }}]"
+    [(visible)]="carte.display"
+    position="bottom-right"
+    (onHide)="hideDialog('map')"
+    [style]="{ width: '100%' }"
+    (onMaximize)="onDialogMaximized($event)"
+    [modal]="true"
+    [responsive]="true"
+    [maximizable]="true"
+    [draggable]="false"
+    [resizable]="false"
+>
+    <ng-template pTemplate="content" class="mt-4">
+        <div class="mt-4">
+            <div #parcelleMap></div>
+        </div>
+    </ng-template>
+</p-dialog>

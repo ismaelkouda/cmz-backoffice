@@ -1,4 +1,9 @@
+import { DESTRUCTION } from "dns";
+
 export const enum EndPointUrl {
+    GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_numeroDemande_DETAILS = "supervision-operations/demandes-services/{numeroDemande}/details",
+    POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_IDENTIFICATIONS_SIMS = 'supervision-operations/traitements-suivis/identifications-sims',
+    POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_CLOTURER_DEMANDE_SERVICE = 'supervision-operations/traitements-suivis/cloturer-demande-service',
     GET_ALL_TRANSACTIONS = 'supervision-operations/traitements-suivis/all?page={page}',
     GET_DETAIL_TRANSACTION = 'gestion-transactions/details-transaction',
     GET_ALL_PRISE_EN_CHARGE = 'supervision-operations/prise-en-charge/all?page={page}',

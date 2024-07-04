@@ -60,45 +60,27 @@ export class CarteFilterComponent implements OnInit {
     }
 
     async GetAllFirstLevel() {
-        this.response = await handle(
-            () => this.settingService.GetAllFirstLevelSimple({}),
-            this.toastrService,
-            this.loadingBar
-        );
+        this.response = await handle(() => this.settingService.GetAllFirstLevelSimple({}), this.toastrService, this.loadingBar);
         this.handleSuccessfulFirstLevel(this.response);
     }
 
     async GetAllThirdLevel() {
-        this.response = await handle(
-            () => this.settingService.GetAllThirdSimple({}),
-            this.toastrService,
-            this.loadingBar
-        );
+        this.response = await handle(() => this.settingService.GetAllThirdSimple({}), this.toastrService, this.loadingBar);
         this.handleSuccessfulThirdLevel(this.response);
     }
 
     async GetAllUsages() {
-        this.response = await handle(
-            () => this.patrimoineService.GetAllUsages({}),
-            this.toastrService,
-            this.loadingBar
-        );
+        this.response = await handle(() => this.patrimoineService.GetAllUsages({}), this.toastrService, this.loadingBar);
         this.handleSuccessfulUsages(this.response);
     }
 
     async GetAllFormules() {
-        this.response = await handle(
-            () => this.settingService.GetAllFormules({}),
-            this.toastrService,
-            this.loadingBar
-        );
+        this.response = await handle(() => this.settingService.GetAllFormules({}), this.toastrService, this.loadingBar);
         this.handleSuccessfulFormules(this.response);
     }
 
     private handleSuccessfulFirstLevel(response): void {
-        this.listFirstLeveDatas = response['data'].map((element) => {
-            return { ...element, fullName: `${element.nom}` };
-        });
+        this.listFirstLeveDatas = response['data'].map((element) => { return { ...element, fullName: `${element.nom}` } });
     }
 
     private handleSuccessfulThirdLevel(response): void {
@@ -117,15 +99,15 @@ export class CarteFilterComponent implements OnInit {
         this.formFilter = this.fb.group({
             niveau_un_uuid: [null],
             niveau_deux_uuid: [null],
-            niveau_trois_uuid: [null],
-            formule_uuid: [null],
-            usage_id: [null],
+            statut: [history?.state?.statut],
             msisdn: [null],
             imsi: [null],
-            zone_trafic: [null],
             adresse_ip: [null],
+            usage_id: [null],
             apn: [null],
-            statut: [history?.state?.statut],
+            niveau_trois_uuid: [null],
+            formule_uuid: [null],
+            zone_trafic: [null],
             point_emplacement: [null],
         });
     }
@@ -133,10 +115,7 @@ export class CarteFilterComponent implements OnInit {
     public onChangeFirstLvel(uuid: any) {
         this.listSecondLevelDatas = [];
         this.listFirstLeveDatas.find((element) => {
-            if (element.uuid === uuid) {
-                this.listSecondLevelDatas =
-                    this.listCommuneService.getListCommune(element);
-            }
+            if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
         });
     }
 

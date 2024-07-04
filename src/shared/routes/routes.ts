@@ -1,4 +1,5 @@
 import { Routes } from "@angular/router";
+export const SEARCH = "search";
 
 
 export const DASHBOARD = 'dashboard';
@@ -49,7 +50,7 @@ export const content: Routes = [
 
 
       subModule: [
-        'Activations',
+        'Abonnement',
         'Suspensions',
         'Résiliations',
         'Changements de Formules'

@@ -1,3 +1,4 @@
+import { FormMasseComponent } from './components/form-masse/form-masse.component';
 import { ParginationComponent } from 'src/shared/components/pargination/pargination.component';
 import { TransactionMasseComponent } from './components/transaction-masse/transaction-masse.component';
 import { PatrimoineHeaderComponent } from './components/patrimoine-header/patrimoine-header.component';
@@ -87,7 +88,8 @@ import { PaginatorModule } from 'primeng/paginator';
     FormatNumberPipe,
     TableFilterPipe,
     TableFilterPipe,
-    ParginationComponent
+    ParginationComponent,
+    FormMasseComponent
   ],
   imports: [
     CommonModule,
@@ -138,7 +140,9 @@ import { PaginatorModule } from 'primeng/paginator';
     FormatNumberPipe,
     TableFilterPipe,
     TablebuttonHeaderComponent,
-    ParginationComponent
+    ParginationComponent,
+    RadioButtonModule,
+    FormMasseComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 

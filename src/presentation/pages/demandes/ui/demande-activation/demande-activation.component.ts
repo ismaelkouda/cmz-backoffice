@@ -24,7 +24,7 @@ export class DemandeActivationComponent implements OnInit {
   public currentObject: any;
   public typeDemande: string;
   public currentOperation: string = OperationTransaction.ACTIVATION;
-  public title = 'Demande activation - Système de Gestion de Collecte Centralisée';
+  public title = 'Demande abonnement - Système de Gestion de Collecte Centralisée';
 
   constructor(
     public settingService: SettingService,

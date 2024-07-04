@@ -315,7 +315,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                 return 'Achat de Services';
             }
             case 'activation-en-masse': {
-                return 'Activation en masse de SIM';
+                return 'Abonnement en masse de SIM';
             }
             case OperationTransaction.ACTIVATION: {
                 return 'Activation de SIM';

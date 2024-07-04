@@ -1,3 +1,4 @@
+import { DetailsSuivieTraitementComponent } from './ui/suivie-traitement/details-suivie-traitement/details-suivie-traitement.component';
 import { MessagerieComponent } from './ui/messagerie/messagerie.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -31,6 +32,10 @@ const routes: Routes = [
             {
                 path: SUIVIE_TRAITEMENT_ROUTE,
                 component: SuivieTraitementComponent,
+            },
+            {
+              path: SUIVIE_TRAITEMENT_ROUTE + "/:request",
+              component: DetailsSuivieTraitementComponent,
             },
             {
                 path: PRISE_EN_CHARGE_ROUTE,
