@@ -262,7 +262,7 @@
                                     </div>
                                 </fieldset>
 
-                                <fieldset *ngIf="displayFieldsetIdentification === 'cloturer'">
+                                <fieldset *ngIf="action === 'cloturer'">
                                     <legend><strong>Traitement</strong></legend>
                                     <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
                                         <div class="block-checked">
@@ -303,10 +303,9 @@
                                     </div>
                                 </fieldset>
 
-                                <fieldset style="margin-top: 2.5rem" *ngIf="
-                                        displayFieldsetIdentification ===
-                                        'traiter'
-                                    ">
+                                <br>
+
+                                <fieldset *ngIf="action === 'traiter'">
                                     <legend [ngStyle]="{ width: '100%' }">
                                         <b>Demandes</b>
                                     </legend>

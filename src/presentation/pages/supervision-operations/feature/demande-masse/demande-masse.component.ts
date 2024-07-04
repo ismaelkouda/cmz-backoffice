@@ -32,7 +32,7 @@ export class DemandeMasseComponent implements OnInit {
     public firstLevelLibelle: string;
     public secondLevelLibelle: string;
     public thirdLevelLibelle: string;
-    public displayFieldsetIdentification: 'traiter' | 'cloturer';
+    public action: 'traiter' | 'cloturer';
     public listTypeJustificatif: Array<any> = [];
     public sourceStockOrangeSim: string;
     public selectedStockSim: string;
@@ -55,8 +55,6 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('this.demande', this.demande)
-        console.log('this.demande?.statut === this.stateTraite', this.demande?.statut === this.stateTraite)
         // this.GetFormules();
         this.GetSupervisionOperationsDemandesServicesDetails();
         this.initFormTraitementMasse();
@@ -101,14 +99,13 @@ export class DemandeMasseComponent implements OnInit {
     private updateFormForTraiteState(): void {
         const operationControl = this.formTraitementMasse.get('operation');
         operationControl?.patchValue('traiter');
-        this.displayFieldsetIdentification = 'traiter';
+        this.action = 'traiter';
         this.isRequiredFieldsetTraiter('traiter');
         this.isRequiredFieldsetDemande('traiter');
     }
 
     private handleOperationChange(value: 'traiter' | 'cloturer'): void {
-        console.log('Operation value changed to:', value);
-        this.displayFieldsetIdentification = value;
+        this.action = value;
         this.isRequiredFieldsetTraiter(value);
         this.isRequiredFieldsetDemande(value);
     }

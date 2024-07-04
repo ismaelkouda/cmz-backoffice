@@ -221,10 +221,11 @@
                             <td class="td-actions">
                                 <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir"
                                     tooltipPosition="top" (click)="OnShowTraitement(data, 'details')"></button>
-                                <button pButton icon="pi pi-sync" pTooltip="Traiter" tooltipPosition="top"
-                                    (click)="OnShowModalTraitement(data)" class="p-button-secondary"></button>
+                                <!-- <button pButton icon="pi pi-sync" pTooltip="Traiter" tooltipPosition="top"
+                                    (click)="OnShowModalTraitement(data, 'traiter')" class="p-button-secondary"></button>
                                 <button pButton icon="pi pi-check-circle" pTooltip="Cloturer" tooltipPosition="top"
-                                (click)="OnShowModalTraitement(data)" [disabled]="data.statut === stateTraite" class="p-button-success"></button>
+                                    (click)="OnShowModalTraitement(data, 'cloturer')"
+                                    class="p-button-success"></button> -->
                             </td>
                         </tr>
                     </tbody>

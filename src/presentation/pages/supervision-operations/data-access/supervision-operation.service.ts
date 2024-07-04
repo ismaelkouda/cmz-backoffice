@@ -27,6 +27,10 @@ export class SupervisionOperationService {
     const url: string = (<string>EndPointUrl.GET_ALL_DEMANDES).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  PostSupervisionOperationsTraitementsSuivisTransactions(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_TRANSACTIONS_PAGE).replace('{page}', page);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   GetAllTransactions(data, page): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_TRANSACTIONS).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
