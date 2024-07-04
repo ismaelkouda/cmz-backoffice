@@ -315,7 +315,7 @@ export class SuivieTraitementComponent implements OnInit {
     }
   }
 
-  OnShowModalTraitement(data: any): void {
+  OnShowModalTraitement(data: any, typeAction: 'traiter' | 'cloturer'): void {
     this.IsLoading = true;
     const modalRef = this.modalService.open(DemandeMasseComponent, {
       ariaLabelledBy: "modal-basic-title",
@@ -323,7 +323,7 @@ export class SuivieTraitementComponent implements OnInit {
       keyboard: false,
       centered: true,
     });
-    // modalRef.componentInstance.tenant_code = this.selectedTenant.code;
+    modalRef.componentInstance.action = typeAction;
     modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
     // modalRef.componentInstance.resultTraitement.subscribe((res) => { this.listTraitemants = res });
     modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res; 

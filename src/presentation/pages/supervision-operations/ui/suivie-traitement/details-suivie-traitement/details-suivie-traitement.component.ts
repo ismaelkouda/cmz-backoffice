@@ -35,7 +35,7 @@ export class DetailsSuivieTraitementComponent implements OnInit {
   public offset: any;
   public p: number = 1;
   public page: number = 1;
-  public selectedTypeOperation: any;
+  // public selectedTypeOperation: any;
   public selectedTransaction: any;
   public selectedStatut: any;
   public selectedTraitement: any;
@@ -63,6 +63,8 @@ export class DetailsSuivieTraitementComponent implements OnInit {
   public title =
     "Details Suivi & Traitements - Système de Gestion de Collecte Centralisée";
   public requestNumber: string;
+  // A Upprimer plus tart
+  public ListTypeOperation = [{'libelle': 'Activation', 'code': 'activation'}]
 
   constructor(
     private settingService: SettingService,
@@ -109,7 +111,7 @@ export class DetailsSuivieTraitementComponent implements OnInit {
       return;
     }
     const data = {
-      operation: this.selectedTypeOperation,
+      // operation: this.selectedTypeOperation,
       transaction: this.selectedTransaction,
       numero_demande: this.requestNumber,
       statut: this.selectedStatut,
@@ -120,7 +122,7 @@ export class DetailsSuivieTraitementComponent implements OnInit {
       date_fin: this.selectDateEnd,
     };
     this.supervisionOperationService
-      .GetAllTransactions(data, this.p)
+      .PostSupervisionOperationsTraitementsSuivisTransactions(data, this.p)
       .subscribe({
         next: (response) => {
           this.listTraitemants = response["data"]["data"].map((data) => {
@@ -155,7 +157,7 @@ export class DetailsSuivieTraitementComponent implements OnInit {
   }
   OnRefresh() {
     if (this.selectedTenant) {
-      this.selectedTypeOperation = null;
+      // this.selectedTypeOperation = null;
       this.selectedTransaction = null;
       this.selectedStatut = null;
       this.selectedTraitement = null;
@@ -170,7 +172,7 @@ export class DetailsSuivieTraitementComponent implements OnInit {
       this.loadingBar.start();
       setTimeout(() => {
         this.listTraitemants.splice(0, this.listTraitemants.length);
-        this.selectedTypeOperation = null;
+        // this.selectedTypeOperation = null;
         this.selectedTransaction = null;
         this.selectedStatut = null;
         this.selectedTraitement = null;
