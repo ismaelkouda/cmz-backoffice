@@ -9,6 +9,8 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { handle } from 'src/shared/functions/api.function';
 import { Justificatif } from 'src/shared/enum/Justificatif.enum';
+import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
+import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 
 @Component({
     selector: 'app-demande-masse',
@@ -18,6 +20,7 @@ import { Justificatif } from 'src/shared/enum/Justificatif.enum';
 
 export class DemandeMasseComponent implements OnInit {
     public formTraitementMasse: FormGroup;
+    @Input() vue: string;
     @Input() IsLoadData;
     @Input() demande;
     @Output() IsLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -34,6 +37,9 @@ export class DemandeMasseComponent implements OnInit {
     public sourceStockOrangeSim: string;
     public selectedStockSim: string;
     public croixRougeCommentaire: boolean;
+    public stateTraite: string = StatutTransaction.TARITER;
+    public stateSoumis: string = StatutTransaction.SOUMIS;
+    public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
 
     constructor(private supervisionOperationService: SupervisionOperationService, private toastrService: ToastrService,
         private loadingBarService: LoadingBarService, private activeModal: NgbActiveModal, private mappingService: MappingService,
@@ -50,6 +56,7 @@ export class DemandeMasseComponent implements OnInit {
 
     ngOnInit() {
         console.log('this.demande', this.demande)
+        console.log('this.demande?.statut === this.stateTraite', this.demande?.statut === this.stateTraite)
         // this.GetFormules();
         this.GetSupervisionOperationsDemandesServicesDetails();
         this.initFormTraitementMasse();
@@ -57,29 +64,60 @@ export class DemandeMasseComponent implements OnInit {
         this.IsRecuPaiement();
     }
 
+    //
+
     public initFormTraitementMasse(): void {
         this.formTraitementMasse = this.fb.group({
-            operation: [, Validators.required],
-            niveau_uns_uuid: [{ value: this.listDemandes?.niveau_uns_nom, disabled: true }],
-            niveau_deux_uuid: [{ value: this.listDemandes?.niveau_deux_nom, disabled: true }],
-            niveau_trois_uuid: [{ value: this.listDemandes?.niveau_trois_nom, disabled: true }],
+            operation: this.createFormControl(null, Validators.required, this.isTraiteState()),
+            niveau_uns_uuid: this.createFormControl(this.listDemandes?.niveau_uns_nom, null, true),
+            niveau_deux_uuid: this.createFormControl(this.listDemandes?.niveau_deux_nom, null, true),
+            niveau_trois_uuid: this.createFormControl(this.listDemandes?.niveau_trois_nom, null, true),
             numero_demande: [this.demande?.numero_demande],
-            formule_uuid: [{ value: this.listDemandes?.formule, disabled: true }, this.listDemandes?.formule_uuid, Validators.required],
-            usage_id: [{ value: this.listDemandes?.usage_nom, disabled: true }],
-            description: [{ value: this.listDemandes?.description, disabled: true }],
+            formule_uuid: this.createFormControl(this.listDemandes?.formule, Validators.required, true),
+            usage_id: this.createFormControl(this.listDemandes?.usage_nom, null, true),
+            description: this.createFormControl(this.listDemandes?.description, null, true),
             accepte: [null],
             commentaire: [''],
             sims_file: [null],
         });
-        this.formTraitementMasse.get('operation').valueChanges.subscribe((value: 'traiter' | 'cloturer') => {
-            this.displayFieldsetIdentification = value;
-            this.isRequiredFieldsetTraiter(value);
-            this.isRequiredFieldsetDemande(value);
-        });
-        this.formTraitementMasse.get('accepte').valueChanges.subscribe((value: 'oui' | 'non') => {
-            this.isRequiredCommenatire(value);
-        });
+
+        if (this.isTraiteState()) {
+            this.updateFormForTraiteState();
+        }
+
+        this.formTraitementMasse.get('operation')?.valueChanges.subscribe(this.handleOperationChange.bind(this));
+
+        this.formTraitementMasse.get('accepte')?.valueChanges.subscribe(this.handleAccepteChange.bind(this));
     }
+
+    private createFormControl(initialValue: any, validator: any = null, isDisabled: boolean = false): any {
+        return [{ value: initialValue, disabled: isDisabled }, validator].filter(v => v !== null);
+    }
+
+    private isTraiteState(): boolean {
+        return this.demande?.statut === this.stateTraite;
+    }
+
+    private updateFormForTraiteState(): void {
+        const operationControl = this.formTraitementMasse.get('operation');
+        operationControl?.patchValue('traiter');
+        this.displayFieldsetIdentification = 'traiter';
+        this.isRequiredFieldsetTraiter('traiter');
+        this.isRequiredFieldsetDemande('traiter');
+    }
+
+    private handleOperationChange(value: 'traiter' | 'cloturer'): void {
+        console.log('Operation value changed to:', value);
+        this.displayFieldsetIdentification = value;
+        this.isRequiredFieldsetTraiter(value);
+        this.isRequiredFieldsetDemande(value);
+    }
+
+    private handleAccepteChange(value: 'oui' | 'non'): void {
+        this.isRequiredCommenatire(value);
+    }
+
+    //
 
     private isRequiredFieldsetDemande(value: 'traiter' | 'cloturer') {
         this.isRequiredFieldsetAccepte(value)
@@ -112,9 +150,16 @@ export class DemandeMasseComponent implements OnInit {
             this.formTraitementMasse.get("accepte").setValidators([Validators.required]);
         } else {
             this.formTraitementMasse.get("accepte").clearValidators();
-            this.formTraitementMasse.get("accepte").disabled;
+            this.formTraitementMasse.get("accepte").disabled; 
         }
         this.formTraitementMasse.get("accepte").updateValueAndValidity();
+    }
+
+    public getLabelForm() {
+        if (this.demande.statut === this.stateSoumis || this.demande.traitement === this.treatmenEntente) {
+            return "Modifier";
+        }
+        return "Enregistrer";
     }
 
     async GetSupervisionOperationsDemandesServicesDetails(dataToSend = this.demande?.numero_demande): Promise<void> {
@@ -129,7 +174,7 @@ export class DemandeMasseComponent implements OnInit {
     //     this.listFormules = this.response?.data;
     // }
 
-    async onSaveDemandes(dataToSend:{}): Promise<void> {
+    async onSaveDemandes(dataToSend: {}): Promise<void> {
         switch (this.formTraitementMasse.value.operation) {
             case 'traiter':
                 dataToSend = { sims_file: this.formTraitementMasse.value.sims_file, numero_demande: this.listDemandes?.numero_demande };
@@ -141,7 +186,7 @@ export class DemandeMasseComponent implements OnInit {
                 dataToSend = { accepte: this.formTraitementMasse.value.accepte, numero_demande: this.listDemandes?.numero_demande, commentaire: this.formTraitementMasse?.value?.commentaire };
                 this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
                 if (this.response?.error) this.successfulOnSaveDemandes(this.response);
-            break;
+                break;
         }
 
     }

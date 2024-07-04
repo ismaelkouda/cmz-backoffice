@@ -160,7 +160,9 @@
                         </th>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let data of listTraitemants | paginate
+                        <tr *ngFor="
+                                let data of listTraitemants
+                                    | paginate
                                         : {
                                               itemsPerPage: recordsPerPage,
                                               currentPage: p,
@@ -179,11 +181,15 @@
                             <td>{{ data?.nb_demande_soumises ?? 'N/A' }}</td>
                             <td>{{ data?.nb_demande_traitees ?? 'N/A' }}</td>
                             <td class="text-center">
-                                <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
-                                    [class.badge-dark]="data?.statut === stateSoumis"
-                                    [class.badge-warning]="data?.statut === 'en-traitement'"
-                                    [class.badge-primary]="data?.statut === stateTraite"
-                                    [class.badge-success]="data?.statut === stateCloture">
+                                <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-dark]="
+                                        data?.statut === stateSoumis
+                                    " [class.badge-warning]="
+                                        data?.statut === 'en-traitement'
+                                    " [class.badge-info]="
+                                        data?.statut === stateTraite
+                                    " [class.badge-success]="
+                                        data?.statut === stateCloture
+                                    ">
                                     {{ data.statut }}
                                 </span>
                             </td>
@@ -217,8 +223,8 @@
                                     tooltipPosition="top" (click)="OnShowTraitement(data, 'details')"></button>
                                 <button pButton icon="pi pi-sync" pTooltip="Traiter" tooltipPosition="top"
                                     (click)="OnShowModalTraitement(data)" class="p-button-secondary"></button>
-                                <!-- <button pButton icon="pi pi-check-circle" pTooltip="Cloturer" tooltipPosition="top"
-                                        (click)="OnShowModalTraitement(data)" class="p-button-secondary"></button> -->
+                                <button pButton icon="pi pi-check-circle" pTooltip="Cloturer" tooltipPosition="top"
+                                (click)="OnShowModalTraitement(data)" [disabled]="data.statut === stateTraite" class="p-button-success"></button>
                             </td>
                         </tr>
                     </tbody>
