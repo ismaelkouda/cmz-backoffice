@@ -39,6 +39,10 @@ export class SupervisionOperationService {
     const url: string = (<string>EndPointUrl.POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_IDENTIFICATIONS_SIMS);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_CLOTURER_DEMANDE_SERVICE);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   GetDetailTransaction(data): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_DETAIL_TRANSACTION);
     return this.http.post(`${this.baseUrl}${url}`, data);

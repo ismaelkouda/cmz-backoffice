@@ -1,167 +1,167 @@
 :host ::ng-deep {
-  .p-paginator {
-    .p-paginator-current {
-      margin-left: auto;
-    }
-  }
-
-  .p-progressbar {
-    height: 0.5rem;
-    background-color: #d8dadc;
-
-    .p-progressbar-value {
-      background-color: #607d8b;
-    }
-  }
-
-  .table-header {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .p-calendar .p-datepicker {
-    min-width: 25rem;
-
-    td {
-      font-weight: 400;
-    }
-  }
-
-  .p-datatable.p-datatable-customers {
-    .p-datatable-header {
-      padding: 1rem;
-      text-align: left;
-      font-size: 1.5rem;
-    }
-
     .p-paginator {
-      padding: 1rem;
+        .p-paginator-current {
+            margin-left: auto;
+        }
     }
 
-    .p-datatable-thead > tr > th {
-      text-align: left;
+    .p-progressbar {
+        height: 0.5rem;
+        background-color: #d8dadc;
+
+        .p-progressbar-value {
+            background-color: #607d8b;
+        }
     }
 
-    .p-datatable-tbody > tr > td {
-      cursor: auto;
+    .table-header {
+        display: flex;
+        justify-content: space-between;
     }
 
-    .p-dropdown-label:not(.p-placeholder) {
-      text-transform: uppercase;
+    .p-calendar .p-datepicker {
+        min-width: 25rem;
+
+        td {
+            font-weight: 400;
+        }
     }
-  }
 
-  /* Responsive */
-  .p-datatable-customers .p-datatable-tbody > tr > td .p-column-title {
-    display: none;
-  }
+    .p-datatable.p-datatable-customers {
+        .p-datatable-header {
+            padding: 1rem;
+            text-align: left;
+            font-size: 1.5rem;
+        }
 
-  .pos__top {
-    position: absolute !important;
-    top: -16% !important;
-    right: 0% !important;
-  }
+        .p-paginator {
+            padding: 1rem;
+        }
 
-  .pos__left__button {
-    margin-left: -1%;
-  }
+        .p-datatable-thead > tr > th {
+            text-align: left;
+        }
 
-  .pos__table {
-    margin-top: 5%;
-  }
+        .p-datatable-tbody > tr > td {
+            cursor: auto;
+        }
 
-  .mt-3 {
-    margin-top: -3% !important;
-  }
+        .p-dropdown-label:not(.p-placeholder) {
+            text-transform: uppercase;
+        }
+    }
 
-  .mt-4x {
-    margin-top: 4% !important;
-  }
+    /* Responsive */
+    .p-datatable-customers .p-datatable-tbody > tr > td .p-column-title {
+        display: none;
+    }
 
-  .mt-10x {
-    margin-top: 10% !important;
-  }
+    .pos__top {
+        position: absolute !important;
+        top: -16% !important;
+        right: 0% !important;
+    }
 
-  .mt-2 {
-    margin-top: 4% !important;
-  }
+    .pos__left__button {
+        margin-left: -1%;
+    }
 
-  .fs__23 {
-    font-size: 23px !important;
-  }
+    .pos__table {
+        margin-top: 5%;
+    }
 
-  .pos__left {
-    margin-left: -1%;
-  }
+    .mt-3 {
+        margin-top: -3% !important;
+    }
+
+    .mt-4x {
+        margin-top: 4% !important;
+    }
+
+    .mt-10x {
+        margin-top: 10% !important;
+    }
+
+    .mt-2 {
+        margin-top: 4% !important;
+    }
+
+    .fs__23 {
+        font-size: 23px !important;
+    }
+
+    .pos__left {
+        margin-left: -1%;
+    }
 }
 
 .filter-wrapper {
-  display: flex;
-  gap: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
 }
 .iframe__constainer {
-  margin-top: 10px;
-  appearance: none;
-  -webkit-appearance: none;
+    margin-top: 10px;
+    appearance: none;
+    -webkit-appearance: none;
 
-  width: 100%;
-  border: none;
-  height: 90vh;
+    width: 100%;
+    border: none;
+    height: 90vh;
 }
 
 @media screen and (max-width: 960px) {
-  :host ::ng-deep {
-    .p-datatable {
-      &.p-datatable-customers {
-        .p-datatable-thead > tr > th,
-        .p-datatable-tfoot > tr > td {
-          display: none !important;
-        }
+    :host ::ng-deep {
+        .p-datatable {
+            &.p-datatable-customers {
+                .p-datatable-thead > tr > th,
+                .p-datatable-tfoot > tr > td {
+                    display: none !important;
+                }
 
-        .p-datatable-tbody > tr {
-          border-bottom: 1px solid var(--layer-2);
+                .p-datatable-tbody > tr {
+                    border-bottom: 1px solid var(--layer-2);
 
-          > td {
-            text-align: left;
-            display: block;
-            border: 0 none !important;
-            width: 100% !important;
-            float: left;
-            clear: left;
-            border: 0 none;
+                    > td {
+                        text-align: left;
+                        display: block;
+                        border: 0 none !important;
+                        width: 100% !important;
+                        float: left;
+                        clear: left;
+                        border: 0 none;
 
-            .p-column-title {
-              padding: 0.4rem;
-              min-width: 30%;
-              display: inline-block;
-              margin: -0.4rem 1rem -0.4rem -0.4rem;
-              font-weight: bold;
+                        .p-column-title {
+                            padding: 0.4rem;
+                            min-width: 30%;
+                            display: inline-block;
+                            margin: -0.4rem 1rem -0.4rem -0.4rem;
+                            font-weight: bold;
+                        }
+
+                        .p-progressbar {
+                            margin-top: 0.5rem;
+                        }
+                    }
+                }
             }
-
-            .p-progressbar {
-              margin-top: 0.5rem;
-            }
-          }
         }
-      }
     }
-  }
 }
 
 .cursor-pointer {
-  cursor: pointer !important;
+    cursor: pointer !important;
 }
 
 :host ::ng-deep {
-  .p-calendar {
-    position: relative;
-    display: inline-flex;
-    max-width: 100%;
-    width: 21rem !important;
-  }
+    .p-calendar {
+        position: relative;
+        display: inline-flex;
+        max-width: 100%;
+        width: 21rem !important;
+    }
 }
 
 .seach_and_btns {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }

@@ -59,7 +59,7 @@ export class DemandeMasseComponent implements OnInit {
 
     public initFormTraitementMasse(): void {
         this.formTraitementMasse = this.fb.group({
-            operation: [,Validators.required],
+            operation: [, Validators.required],
             niveau_uns_uuid: [{ value: this.listDemandes?.niveau_uns_nom, disabled: true }],
             niveau_deux_uuid: [{ value: this.listDemandes?.niveau_deux_nom, disabled: true }],
             niveau_trois_uuid: [{ value: this.listDemandes?.niveau_trois_nom, disabled: true }],
@@ -129,9 +129,21 @@ export class DemandeMasseComponent implements OnInit {
     //     this.listFormules = this.response?.data;
     // }
 
-    async onSaveDemandes(dataToSend = this.formTraitementMasse.value.operation === 'traiter' ? { sims_file: this.formTraitementMasse.value.sims_file, numero_demande: this.listDemandes?.numero_demande } : {}): Promise<void> {
-            this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisIdentificationsSims(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
-            if(this.response?.error) this.successfulOnSaveDemandes(this.response);
+    async onSaveDemandes(dataToSend:{}): Promise<void> {
+        switch (this.formTraitementMasse.value.operation) {
+            case 'traiter':
+                dataToSend = { sims_file: this.formTraitementMasse.value.sims_file, numero_demande: this.listDemandes?.numero_demande };
+                this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisIdentificationsSims(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
+                if (this.response?.error) this.successfulOnSaveDemandes(this.response);
+                break;
+
+            case 'cloturer':
+                dataToSend = { accepte: this.formTraitementMasse.value.accepte, numero_demande: this.listDemandes?.numero_demande, commentaire: this.formTraitementMasse?.value?.commentaire };
+                this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
+                if (this.response?.error) this.successfulOnSaveDemandes(this.response);
+            break;
+        }
+
     }
     private successfulOnSaveDemandes(response) {
         this.toastrService.success(response?.message);

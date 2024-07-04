@@ -1,249 +1,438 @@
 <div class="container-fluid">
-  <app-breadcrumb [title]="'Suivi des opérations'" [active_item]="'Details demande'"></app-breadcrumb>
-  <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
-    <div class="card-body">
-      <div class="forms-feature-header">
-        <div>
-          <h4>
-            <b>
-              Details demande
-              <span class="text-orange">{{ requestNumber }}</span>
-            </b>
-          </h4>
-        </div>
-        <div class="d-flex gap-3">
-          <div>
-            <p-button (click)="onCloseDetailsTreatment()" [label]="'Fermer'" styleClass="p-button-danger">
-            </p-button>
-          </div>
-        </div>
-      </div>
-      <div class="row filter_wrapper">
-        <div class="col-md-2">
-          <div class="form-group">
-            <label><b>Type opération</b></label>
-            <p-dropdown [options]="listOperations" [filter]="true" filterBy="nom,code" [showClear]="true"
-              [(ngModel)]="selectedTypeOperation" placeholder="Opération">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>{{ data }}</div>
+    <app-breadcrumb
+        [title]="'Suivi des opérations'"
+        [active_item]="'Details demande'"
+    ></app-breadcrumb>
+    <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
+        <div class="card-body">
+            <div class="forms-feature-header">
+                <div>
+                    <h4>
+                        <b>
+                            Details demande
+                            <span class="text-orange">{{ requestNumber }}</span>
+                        </b>
+                    </h4>
                 </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label><b>Statut</b> </label>
-            <p-dropdown [options]="listStatutTransactions" (onChange)="OnChangeStatut($event)" [showClear]="true"
-              [(ngModel)]="selectedStatut" placeholder="Statut">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>{{ data | titlecase }}</div>
+                <div class="d-flex gap-3">
+                    <div>
+                        <p-button
+                            (click)="onCloseDetailsTreatment()"
+                            [label]="'Fermer'"
+                            styleClass="p-button-danger"
+                        >
+                        </p-button>
+                    </div>
                 </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label><b>Traitement</b> </label>
-            <p-dropdown [options]="listTraitementTransactions" [filter]="true" filterBy="libele" [showClear]="true"
-              [(ngModel)]="selectedTraitement" placeholder="Traitement" name="libele">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>{{ data | titlecase }}</div>
+            </div>
+            <div class="row filter_wrapper">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label><b>Type opération</b></label>
+                        <p-dropdown
+                            [options]="listOperations"
+                            [filter]="true"
+                            filterBy="nom,code"
+                            [showClear]="true"
+                            [(ngModel)]="selectedTypeOperation"
+                            placeholder="Opération"
+                        >
+                            <ng-template let-data pTemplate="item">
+                                <div class="country-item">
+                                    <div>{{ data }}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
                 </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label><b>Statut</b> </label>
+                        <p-dropdown
+                            [options]="listStatutTransactions"
+                            (onChange)="OnChangeStatut($event)"
+                            [showClear]="true"
+                            [(ngModel)]="selectedStatut"
+                            placeholder="Statut"
+                        >
+                            <ng-template let-data pTemplate="item">
+                                <div class="country-item">
+                                    <div>{{ data | titlecase }}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label><b>Traitement</b> </label>
+                        <p-dropdown
+                            [options]="listTraitementTransactions"
+                            [filter]="true"
+                            filterBy="libele"
+                            [showClear]="true"
+                            [(ngModel)]="selectedTraitement"
+                            placeholder="Traitement"
+                            name="libele"
+                        >
+                            <ng-template let-data pTemplate="item">
+                                <div class="country-item">
+                                    <div>{{ data | titlecase }}</div>
+                                </div>
+                            </ng-template>
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>
+                            <b>MSISDN</b>
+                        </label>
+                        <input
+                            placeholder="Numéro"
+                            [(ngModel)]="selectedSim"
+                            type="text"
+                            pInputText
+                        />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label>
+                            <b>IMSI</b>
+                        </label>
+                        <input
+                            placeholder="IMSI"
+                            [(ngModel)]="selectedimsi"
+                            type="text"
+                            pInputText
+                        />
+                    </div>
+                </div>
+                <div
+                    class="p-0"
+                    [ngStyle]="{ width: '4rem' }"
+                    *ngIf="!secondFilter"
+                >
+                    <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
+                    <p-button
+                        styleClass="p-button-success"
+                        icon="pi pi-filter"
+                        (click)="onFilter()"
+                        [disabled]="isFilter()"
+                    ></p-button>
+                </div>
+                <div class="p-0" [ngStyle]="{ width: '4rem' }">
+                    <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
+                    <p-button
+                        *ngIf="!secondFilter"
+                        (click)="showSecondFilter()"
+                        styleClass="p-button-dark"
+                        icon="pi pi-plus"
+                    ></p-button>
+                    <p-button
+                        *ngIf="secondFilter"
+                        (click)="showSecondFilter()"
+                        styleClass="p-button-dark"
+                        icon="pi pi-minus"
+                    ></p-button>
+                </div>
+            </div>
+            <!--------------------Second-------------Filter--------->
+            <div
+                class="row filter_wrapper"
+                style="padding-top: 0.7rem"
+                *ngIf="secondFilter"
+            >
+                <div class="col-md-2">
+                    <label class="block"><b>Date début</b></label>
+                    <p-calendar
+                        [(ngModel)]="filterDateStart"
+                        [showIcon]="true"
+                        (ngModelChange)="changeDateStart($event)"
+                        dateFormat="dd-mm-yy"
+                        [showButtonBar]="true"
+                    ></p-calendar>
+                </div>
+                <div class="col-md-2">
+                    <label class="block"><b>Date fin</b></label>
+                    <p-calendar
+                        [(ngModel)]="filterDateEnd"
+                        [showIcon]="true"
+                        [showClear]="true"
+                        (ngModelChange)="changeDateEnd($event)"
+                        dateFormat="dd-mm-yy"
+                        [showButtonBar]="true"
+                    ></p-calendar>
+                </div>
+                <div class="p-0" [ngStyle]="{ width: '4rem' }">
+                    <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
+                    <p-button
+                        styleClass="p-button-success"
+                        icon="pi pi-filter"
+                        (click)="onFilter()"
+                        [disabled]="isFilter()"
+                    ></p-button>
+                </div>
+            </div>
+            <hr />
+            <div class="table_content_wrapper">
+                <div class="table_actions_wrapper">
+                    <button
+                        pButton
+                        label="Rafraichir"
+                        (click)="OnRefresh()"
+                        icon="pi pi-refresh"
+                        class="p-button-secondary"
+                    ></button>
+                    <button
+                        pButton
+                        label="Exporter"
+                        (click)="OnExportExcel()"
+                        icon="pi pi-download"
+                        [disabled]="disableAction()"
+                        class="p-button-helf"
+                    ></button>
+                </div>
+                <div class="d-flex gap-3">
+                    <div class="table_header">
+                        <app-table-header
+                            [count]="listTraitemants"
+                            [legende]="'derniers traitements'"
+                            [page]="page"
+                            [totalPage]="totalPage"
+                        ></app-table-header>
+                    </div>
+                </div>
+                <table [ngClass]="['native_table table']">
+                    <thead>
+                        <tr>
+                            <th
+                                class="text-center"
+                                [style]="{ width: '1.5rem' }"
+                            >
+                                #
+                            </th>
+                            <th
+                                class="text-center"
+                                [ngStyle]="{ width: '7rem' }"
+                            >
+                                Date/Heure
+                            </th>
+                            <th
+                                class="text-center"
+                                [ngStyle]="{ width: '200px' }"
+                            >
+                                N° Demande
+                            </th>
+                            <th class="text-center">Service</th>
+                            <!-- <th class="text-center">Rapport</th> -->
+                            <!-- <th class="text-center" [ngStyle]="{ width: '13rem' }">Détails Rapport</th> -->
+                            <th class="text-center">Statut</th>
+                            <th class="text-center">Traitement</th>
+                            <th
+                                class="text-center"
+                                [ngStyle]="{ width: '150px' }"
+                                pTooltip="Date de traitement"
+                                tooltipPosition="top"
+                            >
+                                Date Traitement
+                            </th>
+                            <th
+                                class="text-center"
+                                pTooltip="Date de traitement"
+                                tooltipPosition="top"
+                            >
+                                Demandeur
+                            </th>
+                            <th class="text-center" [style]="{ width: '3rem' }">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="
+                                let transaction of listTraitemants
+                                    | paginate
+                                        : {
+                                              itemsPerPage: recordsPerPage,
+                                              currentPage: p,
+                                              totalPages: totalPage,
+                                              totalItems: totalRecords
+                                          };
+                                let i = index
+                            "
+                        >
+                            <td class="text-center">{{ this.offset + i }}</td>
+                            <td class="text-center">
+                                {{ transaction?.created_at }}
+                            </td>
+                            <td
+                                class="cursor-pointer text-center"
+                                (click)="
+                                    copyTransaction(transaction?.traitement)
+                                "
+                            >
+                                {{ transaction?.traitement }}
+                            </td>
+                            <td class="text-center">
+                                {{ formatTitle(transaction?.operation) }}
+                            </td>
+                            <!-- <td class="text-center">
+                                <span
+                                    [ngStyle]="{ 'font-size': '16px' }"
+                                    [class.text-white]="
+                                        getCodeRapport(
+                                            transaction?.code_rapport
+                                        ) === '200' ||
+                                        getCodeRapport(
+                                            transaction?.code_rapport
+                                        ) === 'false'
+                                    "
+                                    [class.badge-dark]="
+                                        getCodeRapport(
+                                            transaction?.code_rapport
+                                        ) === '100'
+                                    "
+                                    [class.badge-info]="
+                                        getCodeRapport(
+                                            transaction?.code_rapport
+                                        ) === '102'
+                                    "
+                                    [class.badge-success]="
+                                        getCodeRapport(
+                                            transaction?.code_rapport
+                                        ) === '200'
+                                    "
+                                    [class.badge-danger]="
+                                        getCodeRapport(
+                                            transaction?.code_rapport
+                                        ) === 'false'
+                                    "
+                                    class="badge"
+                                >
+                                    {{ transaction?.code_rapport }}
+                                </span>
+                            </td> -->
+                            <!-- <td class="cursor-pointer" [innerHTML]="truncateString(transaction?.message, 20)"
+                                (click)="showDialog(transaction)" pTooltip="cliquer pour voir" tooltipPosition="top">
+                            </td> -->
+                            <td class="text-center">
+                                <span
+                                    [ngStyle]="{ 'font-size': '16px' }"
+                                    class="badge"
+                                    [class.badge-dark]="
+                                        transaction?.statut === stateSoumis
+                                    "
+                                    [class.badge-info]="
+                                        transaction?.statut === stateTraite
+                                    "
+                                    [class.badge-success]="
+                                        transaction?.statut === stateCloture
+                                    "
+                                >
+                                    {{ transaction.statut }}
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <span
+                                    [ngStyle]="{ 'font-size': '16px' }"
+                                    class="badge"
+                                    [class.badge-dark]="
+                                        transaction?.traitement ===
+                                            treatmenEntente ||
+                                        transaction?.traitement ===
+                                            treatmenAcquiter
+                                    "
+                                    [class.badge-danger]="
+                                        transaction?.traitement ===
+                                            treatmenRejeter ||
+                                        transaction?.traitement ===
+                                            treatmenRefuser
+                                    "
+                                    [class.badge-warning]="
+                                        transaction?.traitement ===
+                                        treatmenCancel
+                                    "
+                                    [class.badge-info]="
+                                        transaction?.traitement ===
+                                        treatmenAccepter
+                                    "
+                                    [class.badge-success]="
+                                        transaction?.statut === stateCloture &&
+                                        transaction?.traitement ===
+                                            treatmenAccepter
+                                    "
+                                >
+                                    {{ transaction?.traitement }}
+                                </span>
+                            </td>
+                            <td>{{ transaction?.current_date }}</td>
+                            <td class="text-center">
+                                <span
+                                    >{{ transaction?.demandeur_nom }}
+                                    {{ transaction?.demandeur_prenoms }}</span
+                                >
+                            </td>
+                            <td class="td-actions">
+                                <button
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-eye"
+                                    class="p-button-dark"
+                                    pTooltip="Voir"
+                                    tooltipPosition="top"
+                                    (click)="OnShowTraitement(transaction)"
+                                ></button>
+                                <button
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-tag"
+                                    class="p-button-helf"
+                                    tooltipPosition="top"
+                                    (click)="HandleAcquiter(transaction)"
+                                    [disabled]="
+                                        transaction?.statut !== stateSoumis ||
+                                        transaction?.traitement !==
+                                            treatmenEntente
+                                    "
+                                    [pTooltip]="
+                                        transaction?.statut !== stateSoumis ||
+                                        transaction?.traitement !==
+                                            treatmenEntente
+                                            ? null
+                                            : 'Prendre'
+                                    "
+                                ></button>
+                                <button
+                                    pButton
+                                    icon="pi pi-book"
+                                    pTooltip="Journal"
+                                    tooltipPosition="top"
+                                    (click)="showJournal(transaction)"
+                                    class="p-button-success"
+                                ></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div [ngClass]="['pagination-controls']">
+                    <pagination-controls
+                        (pageChange)="onPageChange($event)"
+                        previousLabel=""
+                        nextLabel=""
+                    >
+                    </pagination-controls>
+                </div>
+            </div>
         </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>
-              <b>MSISDN</b>
-            </label>
-            <input placeholder="Numéro" [(ngModel)]="selectedSim" type="text" pInputText />
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>
-              <b>IMSI</b>
-            </label>
-            <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
-          </div>
-        </div>
-        <div class="p-0" [ngStyle]="{ width: '4rem' }" *ngIf="!secondFilter">
-          <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-          <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
-            [disabled]="isFilter()"></p-button>
-        </div>
-        <div class="p-0" [ngStyle]="{ width: '4rem' }">
-          <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-          <p-button *ngIf="!secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
-            icon="pi pi-plus"></p-button>
-          <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
-            icon="pi pi-minus"></p-button>
-        </div>
-      </div>
-      <!--------------------Second-------------Filter--------->
-      <div class="row filter_wrapper" style="padding-top: 0.7rem" *ngIf="secondFilter">
-        <div class="col-md-2">
-          <label class="block"><b>Date début</b></label>
-          <p-calendar [(ngModel)]="filterDateStart" [showIcon]="true" (ngModelChange)="changeDateStart($event)"
-            dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
-        </div>
-        <div class="col-md-2">
-          <label class="block"><b>Date fin</b></label>
-          <p-calendar [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
-            (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
-        </div>
-        <div class="p-0" [ngStyle]="{ width: '4rem' }">
-          <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-          <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
-            [disabled]="isFilter()"></p-button>
-        </div>
-      </div>
-      <hr />
-      <div class="table_content_wrapper">
-        <div class="table_actions_wrapper">
-          <button pButton label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
-            class="p-button-secondary"></button>
-          <button pButton label="Exporter" (click)="OnExportExcel()" icon="pi pi-download" [disabled]="disableAction()"
-            class="p-button-helf"></button>
-        </div>
-        <div class="d-flex gap-3">
-          <div class="table_header">
-            <app-table-header [count]="listTraitemants" [legende]="'derniers traitements'" [page]="page"
-              [totalPage]="totalPage"></app-table-header>
-          </div>
-        </div>
-        <table [ngClass]="['native_table table']">
-          <thead>
-            <tr>
-              <th class="text-center" [style]="{ width: '1.5rem' }">#</th>
-              <th class="text-center" [ngStyle]="{ width: '7rem' }">
-                Date/Heure
-              </th>
-              <th class="text-center" [ngStyle]="{ width: '200px' }">
-                N° Demande
-              </th>
-              <th class="text-center">Service</th>
-              <th class="text-center">Rapport</th>
-              <th class="text-center" [ngStyle]="{ width: '13rem' }">
-                Détails Rapport
-              </th>
-              <th class="text-center">Statut</th>
-              <th class="text-center">Traitement</th>
-              <th class="text-center" [ngStyle]="{ width: '150px' }" pTooltip="Date de traitement"
-                tooltipPosition="top">
-                <span>Date</span> <span class="ms-1">Traitement</span>
-              </th>
-              <th pTooltip="Date de traitement" tooltipPosition="top">
-                Demandeur
-              </th>
-              <th class="text-center" [style]="{ width: '3rem' }">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="
-                let transaction of listTraitemants
-                  | paginate
-                    : {
-                        itemsPerPage: recordsPerPage,
-                        currentPage: p,
-                        totalPages: totalPage,
-                        totalItems: totalRecords
-                      };
-                let i = index
-              ">
-              <td class="text-center">{{ this.offset + i }}</td>
-              <td class="text-center">{{ transaction?.created_at }}</td>
-              <td class="cursor-pointer text-center" (click)="copyTransaction(transaction.transaction)">
-                {{ transaction?.transaction }}
-              </td>
-              <td class="text-center">
-                {{ formatTitle(transaction?.operation) }}
-              </td>
-              <td class="text-center">
-                <span [ngStyle]="{ 'font-size': '16px' }" [class.text-white]="
-                    getCodeRapport(transaction?.code_rapport) === '200' ||
-                    getCodeRapport(transaction?.code_rapport) === 'false'
-                  " [class.badge-dark]="
-                    getCodeRapport(transaction?.code_rapport) === '100'
-                  " [class.badge-info]="
-                    getCodeRapport(transaction?.code_rapport) === '102'
-                  " [class.badge-success]="
-                    getCodeRapport(transaction?.code_rapport) === '200'
-                  " [class.badge-danger]="
-                    getCodeRapport(transaction?.code_rapport) === 'false'
-                  " class="badge">
-                  {{ transaction?.code_rapport }}
-                </span>
-              </td>
-              <td class="cursor-pointer" [innerHTML]="truncateString(transaction?.message, 20)"
-                (click)="showDialog(transaction)" pTooltip="cliquer pour voir" tooltipPosition="top"></td>
-              <td class="text-center">
-                <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
-                  [class.badge-dark]="transaction?.statut === stateSoumis"
-                  [class.badge-info]="transaction?.statut === stateTraite"
-                  [class.badge-success]="transaction?.statut === stateCloture">
-                  {{ transaction.statut }}
-                </span>
-              </td>
-              <td class="text-center">
-                <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-dark]="
-                    transaction?.traitement === treatmenEntente ||
-                    transaction?.traitement === treatmenAcquiter
-                  " [class.badge-danger]="
-                    transaction?.traitement === treatmenRejeter ||
-                    transaction?.traitement === treatmenRefuser
-                  " [class.badge-warning]="
-                    transaction?.traitement === treatmenCancel
-                  " [class.badge-info]="
-                    transaction?.traitement === treatmenAccepter
-                  " [class.badge-success]="
-                    transaction?.statut === stateCloture &&
-                    transaction?.traitement === treatmenAccepter
-                  ">
-                  {{ transaction.traitement }}
-                </span>
-              </td>
-              <td>{{ transaction?.current_date }}</td>
-              <td class="text-center">
-                <span>
-                  {{ transaction?.demandeur_nom }}
-                  {{ transaction?.demandeur_prenoms }}
-                </span>
-              </td>
-              <td class="td-actions">
-                <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"
-                  (click)="OnShowTraitement(transaction)"></button>
-                <button pButton pRipple icon="pi pi-tag" [disabled]="
-                    transaction.statut !== stateSoumis ||
-                    transaction.traitement !== treatmenEntente
-                  " class="p-button-helf" [pTooltip]="
-                    transaction.statut !== stateSoumis ||
-                    transaction.traitement !== treatmenEntente
-                      ? null
-                      : 'Prendre'
-                  " tooltipPosition="top" (click)="HandleAcquiter(transaction)"></button>
-                <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top"
-                  (click)="showJournal(transaction)" class="p-button-success"></button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div [ngClass]="['pagination-controls']">
-          <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
-          </pagination-controls>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 <div class="progress-spinner" *ngIf="IsLoading">
-  <p-progressSpinner [style]="{ width: '70px', height: '70px' }" strokeWidth="5"
-    styleClass="spinner"></p-progressSpinner>
+    <p-progressSpinner
+        [style]="{ width: '70px', height: '70px' }"
+        strokeWidth="5"
+        styleClass="spinner"
+    ></p-progressSpinner>
 </div>

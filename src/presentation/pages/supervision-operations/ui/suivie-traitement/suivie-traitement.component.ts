@@ -406,6 +406,6 @@ export class SuivieTraitementComponent implements OnInit {
       'Demandeur': `${item.demandeur_nom} ${item.demandeur_prenoms}`,
     }));
     this.excelService.exportAsExcelFile(data, 'Liste de suivi et traitements');
-  }
+  }
 }
 

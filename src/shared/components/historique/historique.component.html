@@ -1,0 +1,355 @@
+<div>
+    <div class="row d-flex align-items-end" [formGroup]="formFilter">
+        <div class="col-md-3">
+            <label class="block"
+                ><b>Date début <span class="text-danger">*</span></b></label
+            >
+            <p-calendar
+                [ngStyle]="{ width: '100%' }"
+                formControlName="date_debut"
+                [showIcon]="true"
+                [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+        <div class="col-md-3">
+            <label class="block"
+                ><b>Date fin <span class="text-danger">*</span></b></label
+            >
+            <p-calendar
+                [ngStyle]="{ width: '100%' }"
+                formControlName="date_fin"
+                [showIcon]="true"
+                placeholder="JJ-MM-AAAA"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+        <div class="col-md-3">
+            <label class="block"><b>Utilisateur </b></label>
+            <p-dropdown
+                [options]="listUsers"
+                formControlName="user_id"
+                optionLabel="fullName"
+                [filter]="true"
+                filterBy="fullName"
+                [showClear]="true"
+                placeholder="Selectionner l'utilisateur"
+                optionValue="id"
+            >
+            </p-dropdown>
+        </div>
+        <div class="col-md-1">
+            <label style="opacity: 0"><b></b>Actions</label>
+            <p-button
+                [style]="{ height: '60%' }"
+                styleClass="p-button-success"
+                icon="pi pi-filter"
+                (click)="pageCallback()"
+            >
+            </p-button>
+        </div>
+    </div>
+    <hr />
+    <div class="table_content_wrapper">
+        <app-table-button-header
+            (refresh)="pageCallback()"
+            (export)="OnExportExcel()"
+            [hiddenButtonOther]="true"
+        ></app-table-button-header>
+        <p-table
+            #dt
+            [value]="listHistoriques"
+            [rows]="10"
+            [paginator]="true"
+            [showCurrentPageReport]="true"
+            responsiveLayout="scroll"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données"
+            [globalFilterFields]="[
+                'created_at',
+                'event',
+                'action',
+                'ip',
+                'nom',
+                'prenoms'
+            ]"
+        >
+            <ng-template pTemplate="caption">
+                <div
+                    class="header-table mt-2"
+                    style="display: flex; justify-content: space-between"
+                >
+                    <app-table-title
+                        [count]="listHistoriques"
+                        [legende]="'Historiques'"
+                    ></app-table-title>
+                    <div>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input
+                                pInputText
+                                type="text"
+                                placeholder="Rechercher"
+                            />
+                        </span>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Operation</th>
+                    <th>Détails Operation</th>
+                    <th>Source [Utilisateur]</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </ng-template>
+            <ng-template let-i="rowIndex" pTemplate="body" let-historique>
+                <tr>
+                    <td class="text-center">{{ i + 1 }}</td>
+                    <td class="text-center">{{ historique?.created_at }}</td>
+                    <td class="text-center">
+                        {{ historique?.event ?? 'N/A' }}
+                    </td>
+                    <td>{{ historique?.action }}</td>
+                    <td>
+                        {{ historique?.ip }}
+                        {{
+                            historique?.user
+                                ? '[' +
+                                  historique?.user?.nom +
+                                  ' ' +
+                                  historique?.user?.prenoms +
+                                  ']'
+                                : ''
+                        }}
+                    </td>
+                    <td class="text-center">
+                        <button
+                            pButton
+                            pRipple
+                            label="Voir"
+                            class="p-button-dark"
+                            (click)="showHistorique(historique)"
+                        ></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<p-dialog
+    [(visible)]="display"
+    position="bottom-right"
+    (onHide)="hideDialog()"
+    [style]="{ width: '100%' }"
+    (onMaximize)="onDialogMaximized($event)"
+    [modal]="true"
+    [responsive]="true"
+    [maximizable]="true"
+    [draggable]="false"
+    [resizable]="false"
+>
+    <ng-template pTemplate="header">
+        <h3>
+            <b [style]="{ color: '#FFFFFF' }">Historique</b>
+        </h3>
+    </ng-template>
+    <ng-template pTemplate="content">
+        <div class="ressource_wrapper">
+            <div class="identification">
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>
+                                <b>Date/Heure</b>
+                            </label>
+                            <input
+                                type="text"
+                                [placeholder]="currentEvent?.created_at"
+                                [disabled]="true"
+                                pInputText
+                            />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>
+                                <b>Utilisateur</b>
+                            </label>
+                            <input
+                                type="text"
+                                [placeholder]="
+                                    currentEvent?.user.nom +
+                                    ' ' +
+                                    currentEvent?.user.prenoms
+                                "
+                                [disabled]="true"
+                                pInputText
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="row my-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>
+                                <b>Action</b>
+                            </label>
+                            <input
+                                type="text"
+                                [placeholder]="currentEvent?.action"
+                                [disabled]="true"
+                                pInputText
+                            />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>
+                                <b>Module</b>
+                            </label>
+                            <input
+                                type="text"
+                                [placeholder]="currentEvent?.module"
+                                [disabled]="true"
+                                pInputText
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>
+                                <b>Sous Module</b>
+                            </label>
+                            <input
+                                type="text"
+                                [placeholder]="currentEvent?.sous_module"
+                                [disabled]="true"
+                                pInputText
+                            />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>
+                                <b>Commentaire</b>
+                            </label>
+                            <input
+                                type="text"
+                                [placeholder]="currentEvent?.sous_module"
+                                [disabled]="true"
+                                pInputText
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div
+            class="table_wrapper"
+            *ngIf="
+                currentEvent?.event === 'Mise à jour' ||
+                currentEvent?.event === 'Évènement'
+            "
+        >
+            <table [ngClass]="['native_table table']">
+                <thead>
+                    <th style="width: 35rem">Champs</th>
+                    <th>Valeurs Avant</th>
+                    <th>Valeurs Après</th>
+                    <th class="text-center">Modification</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 0 !important">
+                            <tr style="display: flex; flex-direction: column">
+                                <td
+                                    style="
+                                        text-align: left;
+                                        text-transform: uppercase;
+                                        font-weight: bold;
+                                    "
+                                    *ngFor="
+                                        let item of this
+                                            .currentEventParseBeforeKeys
+                                    "
+                                >
+                                    {{ item }}
+                                </td>
+                            </tr>
+                        </td>
+                        <td style="padding: 0 !important">
+                            <tr style="display: flex; flex-direction: column">
+                                <td
+                                    style="
+                                        text-align: left;
+                                        text-transform: capitalize;
+                                        font-weight: 600;
+                                    "
+                                    *ngFor="
+                                        let item of this
+                                            .currentEventParseBeforeValues
+                                    "
+                                >
+                                    {{ item?.id ? item?.nom : item ?? 'N/A' }}
+                                </td>
+                            </tr>
+                        </td>
+                        <td style="padding: 0 !important">
+                            <tr style="display: flex; flex-direction: column">
+                                <td
+                                    style="
+                                        text-align: left;
+                                        text-transform: capitalize;
+                                        font-weight: 600;
+                                    "
+                                    *ngFor="
+                                        let item of this
+                                            .currentEventParseAfterValues
+                                    "
+                                >
+                                    {{
+                                        item?.item?.id
+                                            ? item?.item?.nom
+                                            : item?.item ?? 'N/A'
+                                    }}
+                                </td>
+                            </tr>
+                        </td>
+                        <td style="padding: 0 !important">
+                            <tr style="display: flex; flex-direction: column">
+                                <td
+                                    style="
+                                        text-align: left;
+                                        text-transform: capitalize;
+                                        font-weight: 600;
+                                        text-align: center;
+                                    "
+                                    *ngFor="
+                                        let item of this
+                                            .currentEventParseAfterValues
+                                    "
+                                >
+                                    <span *ngIf="!item?.isIdentique"
+                                        ><strong>Oui</strong></span
+                                    >
+                                    <span *ngIf="item?.isIdentique"
+                                        ><strong>-</strong></span
+                                    >
+                                </td>
+                            </tr>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-template>
+</p-dialog>

@@ -868,6 +868,7 @@
                                     optionLabel="nom"
                                     [placeholder]="firstLevelLibelle"
                                     optionValue="uuid"
+                                    [showClear]="true"
                                 >
                                 </p-dropdown>
                             </div>
@@ -886,6 +887,7 @@
                                     optionLabel="nom"
                                     [placeholder]="secondLevelLibelle"
                                     optionValue="uuid"
+                                    [showClear]="true"
                                 >
                                 </p-dropdown>
                             </div>
@@ -904,6 +906,7 @@
                                     optionLabel="nom"
                                     [placeholder]="thirdLevelLibelle"
                                     optionValue="uuid"
+                                    [showClear]="true"
                                 >
                                 </p-dropdown>
                             </div>
@@ -923,6 +926,7 @@
                                     optionLabel="nom_usage"
                                     placeholder="usage"
                                     optionValue="id"
+                                    [showClear]="true"
                                 >
                                 </p-dropdown>
                             </div>
@@ -1068,7 +1072,10 @@
                                         color: #000;
                                     "
                                     (change)="
-                                        onChangeFile($event.target.files, 'recu')
+                                        onChangeFile(
+                                            $event.target.files,
+                                            'recu'
+                                        )
                                     "
                                     accept="image/png,image/jpeg"
                                 />
@@ -1109,8 +1116,16 @@
                     label="Soumettre"
                     class="p-button-success"
                     [disabled]="
-                        !adminForm || !selectedPiece || !selectedRecuPaiement ||
+                        !adminForm ||
+                        !selectedPiece ||
+                        !selectedRecuPaiement ||
                         !selectedDescription ||
+                        ! adminForm.value.nb_demandes ||
+                        ! adminForm.value.niveau_un_uuid ||
+                        ! adminForm.value.niveau_deux_uuid ||
+                        ! adminForm.value.niveau_trois_uuid ||
+                        ! adminForm.value.usage_id ||
+                        ! adminForm.value.formule_uuid ||
                         listDemandes?.length === 0
                     "
                     (click)="handleSaveMasse()"

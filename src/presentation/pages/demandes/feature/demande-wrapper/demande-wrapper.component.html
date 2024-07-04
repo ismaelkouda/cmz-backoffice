@@ -202,6 +202,7 @@
                 </td>
                 <td class="td-actions">
                     <button
+                    [disabled]="!data?.nb_demande_traitees && data?.nb_demande_traitees !== 0"
                         pButton
                         icon="pi pi-eye"
                         pTooltip="Voir"

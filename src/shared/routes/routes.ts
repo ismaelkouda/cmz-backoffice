@@ -50,7 +50,7 @@ export const content: Routes = [
 
 
       subModule: [
-        'Activations',
+        'Abonnement',
         'Suspensions',
         'Résiliations',
         'Changements de Formules'

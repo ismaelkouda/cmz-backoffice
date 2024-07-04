@@ -121,43 +121,24 @@
         </div>
     </div>
     <!--------------------Second-------------Filter--------->
-<<<<<<< HEAD
-    <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
-      <div class="col-md-2">
-        <div class="form-group">
-          <label>
-            <b>APN</b>
-          </label>
-          <input placeholder="apn" formControlName="apn" type="text" pInputText />
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="form-group">
-          <label>
-            <b>Usage</b>
-          </label>
-          <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage" [showClear]="true"
-            [placeholder]="'Usage'" optionValue="id">
-          </p-dropdown>
-=======
+    <<<<<<< HEAD
     <div
         class="row filter_wrapper"
         style="padding-top: 0.7rem"
         *ngIf="secondFilter"
     >
-        <div class="col-md-1">
+        <div class="col-md-2">
             <div class="form-group">
                 <label>
                     <b>APN</b>
                 </label>
                 <input
-                    placeholder="APN"
+                    placeholder="apn"
                     formControlName="apn"
                     type="text"
                     pInputText
                 />
             </div>
->>>>>>> 4d0e54fe812e31718615938be9ee250567f0fcc7
         </div>
         <div class="col-md-2">
             <div class="form-group">
@@ -173,75 +154,112 @@
                     optionValue="id"
                 >
                 </p-dropdown>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <label>
-                    <b>Formule</b>
-                </label>
-                <p-dropdown
-                    [options]="listFormule"
-                    formControlName="formule_uuid"
-                    optionLabel="nom"
-                    [showClear]="true"
-                    [placeholder]="'Formule'"
-                    optionValue="uuid"
+                =======
+                <div
+                    class="row filter_wrapper"
+                    style="padding-top: 0.7rem"
+                    *ngIf="secondFilter"
                 >
-                </p-dropdown>
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            <label>
+                                <b>APN</b>
+                            </label>
+                            <input
+                                placeholder="APN"
+                                formControlName="apn"
+                                type="text"
+                                pInputText
+                            />
+                        </div>
+                        >>>>>>> 4d0e54fe812e31718615938be9ee250567f0fcc7
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>
+                                <b>Usage</b>
+                            </label>
+                            <p-dropdown
+                                [options]="listUsages"
+                                formControlName="usage_id"
+                                optionLabel="nom_usage"
+                                [showClear]="true"
+                                [placeholder]="'Usage'"
+                                optionValue="id"
+                            >
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>
+                                <b>Formule</b>
+                            </label>
+                            <p-dropdown
+                                [options]="listFormule"
+                                formControlName="formule_uuid"
+                                optionLabel="nom"
+                                [showClear]="true"
+                                [placeholder]="'Formule'"
+                                optionValue="uuid"
+                            >
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>
+                                <b>{{ thirdLevelLibelle }}</b>
+                            </label>
+                            <p-dropdown
+                                [options]="listThirdLevelDatas"
+                                formControlName="niveau_trois_uuid"
+                                optionLabel="nom"
+                                [showClear]="true"
+                                [placeholder]="thirdLevelLibelle"
+                                optionValue="uuid"
+                            >
+                            </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>
+                                <b>Nom Emplacement</b>
+                            </label>
+                            <input
+                                placeholder="Emplacement"
+                                formControlName="point_emplacement"
+                                type="text"
+                                pInputText
+                            />
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>
+                                <b>Zone Trafic</b>
+                            </label>
+                            <input
+                                placeholder="zone"
+                                formControlName="zone_trafic"
+                                type="text"
+                                pInputText
+                            />
+                        </div>
+                    </div>
+                    <div
+                        class="p-0 d-flex align-items-end justify-content-end"
+                        [ngStyle]="{ width: '4rem' }"
+                    >
+                        <p-button
+                            styleClass="p-button-success"
+                            icon="pi pi-filter"
+                            (click)="onFilter()"
+                        ></p-button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <label>
-                    <b>{{ thirdLevelLibelle }}</b>
-                </label>
-                <p-dropdown
-                    [options]="listThirdLevelDatas"
-                    formControlName="niveau_trois_uuid"
-                    optionLabel="nom"
-                    [showClear]="true"
-                    [placeholder]="thirdLevelLibelle"
-                    optionValue="uuid"
-                >
-                </p-dropdown>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <label>
-                    <b>Nom Emplacement</b>
-                </label>
-                <input
-                    placeholder="Emplacement"
-                    formControlName="point_emplacement"
-                    type="text"
-                    pInputText
-                />
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
-                <label>
-                    <b>Zone Trafic</b>
-                </label>
-                <input
-                    placeholder="zone"
-                    formControlName="zone_trafic"
-                    type="text"
-                    pInputText
-                />
-            </div>
-        </div>
-        <div
-            class="p-0 d-flex align-items-end justify-content-end"
-            [ngStyle]="{ width: '4rem' }"
-        >
-            <p-button
-                styleClass="p-button-success"
-                icon="pi pi-filter"
-                (click)="onFilter()"
-            ></p-button>
         </div>
     </div>
 </div>

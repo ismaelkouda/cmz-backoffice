@@ -73,7 +73,7 @@
             </div>
             <div>
                 <p-tabView (onChange)="handleChangeTabviewIndex($event)">
-                    <p-tabPanel header="DEMANDES ACTIVATIONS">
+                    <p-tabPanel header="DEMANDES ABONNEMENT">
                         <app-rapport-transaction
                             *ngIf="currentTabsIndex === 0"
                             (rapport)="OnPushRapport($event)"

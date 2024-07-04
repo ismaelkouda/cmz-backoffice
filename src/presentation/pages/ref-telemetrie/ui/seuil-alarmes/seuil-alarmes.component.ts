@@ -45,6 +45,7 @@ export class SeuilAlarmesComponent implements OnInit {
 
 
   handleChangeTabviewIndex(e) {
+    console.log('e', e)
     this.currentTabsIndex = e.index;
   }
 
