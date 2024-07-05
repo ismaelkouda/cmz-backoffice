@@ -40,6 +40,8 @@ export class DemandeMasseComponent implements OnInit {
     public stateTraite: string = StatutTransaction.TARITER;
     public stateSoumis: string = StatutTransaction.SOUMIS;
     public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
+    public stateCloture: string = StatutTransaction.CLOTURER;
+    public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
 
     constructor(private supervisionOperationService: SupervisionOperationService, private toastrService: ToastrService,
         private loadingBarService: LoadingBarService, private activeModal: NgbActiveModal, private mappingService: MappingService,
@@ -157,6 +159,17 @@ export class DemandeMasseComponent implements OnInit {
             return "Modifier";
         }
         return "Enregistrer";
+    }
+
+    public displayButtonForm() {
+        if (this.demande?.statut === this.stateCloture || this.demande?.statut !== 'en-traitement') {
+            console.log('this.demande?.statut === this.stateCloture', this.demande?.statut === this.stateCloture)
+            console.log('this.demande?.statut', this.demande?.statut)
+            return true;
+        }
+        console.log('this.demande?.statut === this.stateCloture', this.demande?.statut === this.stateCloture)
+            console.log('this.demande?.statut', this.demande?.statut)
+        return false;
     }
 
     async GetSupervisionOperationsDemandesServicesDetails(dataToSend = this.demande?.numero_demande): Promise<void> {
