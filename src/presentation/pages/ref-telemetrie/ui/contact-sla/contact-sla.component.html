@@ -271,6 +271,10 @@
                             </p-tabPanel>
                         </p-tabView>
                     </div>
+                    <div [hidden]="initialView">
+                        <app-contact-form [currentObject]="currentObject" (currentContact)="pushListProfils($event)" 
+                            (formsView)="pushStatutView($event)"></app-contact-form>
+                    </div>
                 </div>
             </div>
         </div>
