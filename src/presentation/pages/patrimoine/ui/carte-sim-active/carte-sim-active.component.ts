@@ -219,6 +219,20 @@ export class CarteSimActiveComponent implements OnInit {
   onMarkItemCarteSim(data) {
     this.itemCatreSim = data;
   }
+  
+  public OnShowQr(data) {
+    this.onMarkItemCarteSim(data);
+    if (data.qrcode) {
+      const modalRef = this.modalService.open(QrModalComponent, {
+        ariaLabelledBy: "modal-basic-title",
+        keyboard: false,
+        centered: true,
+      });
+      modalRef.componentInstance.qr = data;
+    } else {
+      Swal.fire("PATRIMOINE SIM", "Aucun QRCode enregistré", "info");
+    }
+  }
 
   public onMapReady() {
     var traficIcon = L.icon({
