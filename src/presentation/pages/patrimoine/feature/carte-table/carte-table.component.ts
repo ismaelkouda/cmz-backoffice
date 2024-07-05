@@ -43,8 +43,7 @@ export class CarteTableComponent {
     public display: boolean = false;
 
     constructor(public toastrService: ToastrService, private clipboardApi: ClipboardService,
-                private modalService: NgbModal,
-    ) {}
+                private modalService: NgbModal) {}
     
   copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
