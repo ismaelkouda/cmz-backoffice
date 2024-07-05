@@ -50,7 +50,7 @@
                                         <th class="text-center">#</th>
                                         <th>{{ firstLevelLibelle }}</th>
                                         <th>{{ secondLevelLibelle }}</th>
-                                        <th class="text-center">Zone Trafic</th>
+                                        <th class="text-center">APN</th>
                                         <th class="text-center">
                                             {{ thirdLevelLibelle }}
                                         </th>
@@ -78,18 +78,7 @@
                                         </td>
                                         <td>{{ data?.niveau_uns_nom }}</td>
                                         <td>{{ data?.niveau_deux_nom }}</td>
-                                        <td
-                                            (click)="
-                                                data.adresse_geographique
-                                                    ? copyData(
-                                                          data.adresse_geographique
-                                                      )
-                                                    : null
-                                            "
-                                            style="cursor: pointer"
-                                        >
-                                            {{ data?.adresse_geographique }}
-                                        </td>
+                                        <td>{{ data?.apn }}</td>
                                         <td>{{ data?.niveau_trois_nom }}</td>
                                         <td>{{ data?.point_emplacement }}</td>
                                         <td
