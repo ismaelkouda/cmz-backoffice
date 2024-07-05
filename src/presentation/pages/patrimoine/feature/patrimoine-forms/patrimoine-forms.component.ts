@@ -108,9 +108,9 @@ export class PatrimoineFormsComponent implements OnInit {
       statut: [''],
       msisdn: [''],
       date_id_reseau: [''],
-      apnni_reseau: [''],
+      apn: [''],
       site_reseau: [''],
-      adresse_ip_reseau: ['']
+      adresse_ip: ['']
       /*
        0704842695
       */
@@ -237,9 +237,9 @@ export class PatrimoineFormsComponent implements OnInit {
 
     //Trafic Controls
     this.adminForm.get('date_id_reseau').patchValue(this.currentObject?.date_id_reseau);
-    this.adminForm.get('apnni_reseau').patchValue(this.currentObject?.apnni_reseau);
+    this.adminForm.get('apn').patchValue(this.currentObject?.apn);
     this.adminForm.get('site_reseau').patchValue(this.currentObject?.site_reseau);
-    this.adminForm.get('adresse_ip_reseau').patchValue(this.currentObject?.adresse_ip_reseau);
+    this.adminForm.get('adresse_ip').patchValue(this.currentObject?.adresse_ip);
 
 
     //Disabled Controls
@@ -248,9 +248,9 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.get('msisdn').disable();
     this.adminForm.get('formule').disable();
     this.adminForm.get('date_id_reseau').disable();
-    this.adminForm.get('apnni_reseau').disable();
+    this.adminForm.get('apn').disable();
     this.adminForm.get('site_reseau').disable();
-    this.adminForm.get('adresse_ip_reseau').disable();
+    this.adminForm.get('adresse_ip').disable();
 
     if (this.currentData.show) {
       this.adminForm.disable()
