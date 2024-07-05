@@ -51,13 +51,13 @@
                                         <th>{{ firstLevelLibelle }}</th>
                                         <th>{{ secondLevelLibelle }}</th>
                                         <th class="text-center">APN</th>
+                                        <th class="text-center">Adresse IP</th>
                                         <th class="text-center">
                                             {{ thirdLevelLibelle }}
                                         </th>
                                         <th class="text-center">Emplacement</th>
                                         <th class="text-center">MSISDN</th>
                                         <th class="text-center">IMSI</th>
-                                        <th class="text-center">Usage</th>
                                         <th>Statut</th>
                                         <th
                                             class="text-center"
@@ -79,6 +79,7 @@
                                         <td>{{ data?.niveau_uns_nom }}</td>
                                         <td>{{ data?.niveau_deux_nom }}</td>
                                         <td>{{ data?.apn }}</td>
+                                        <td>{{ data?.adresse_ip }}</td>
                                         <td>{{ data?.niveau_trois_nom }}</td>
                                         <td>{{ data?.point_emplacement }}</td>
                                         <td
@@ -97,7 +98,6 @@
                                                 data?.imsi ? data?.imsi : 'N/A'
                                             }}
                                         </td>
-                                        <td>{{ data?.nom_usage }}</td>
                                         <td>
                                             <span
                                                 [ngStyle]="{
