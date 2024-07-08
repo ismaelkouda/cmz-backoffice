@@ -19,9 +19,9 @@ export class DemandeActivationComponent implements OnInit {
   public listTransactions: Array<any> = [];
   public initialView: boolean = true;
   public formsView: boolean = false;
+  public currentObject: any;
   public transactionId: string;
   public showView: boolean = false;
-  public currentObject: any;
   public typeDemande: string;
   public currentOperation: string = OperationTransaction.ACTIVATION;
   public title = 'Demande abonnement - Système de Gestion de Collecte Centralisée';
@@ -45,8 +45,15 @@ export class DemandeActivationComponent implements OnInit {
     }
   }
   public pushStatutView(event: boolean): void {    
+    console.log('eventstatus', event)
     this.formsView = event;
     this.initialView = !event;
+  }
+  public pushCurrentObject(event: any): void {    
+    console.log('event252424', event)
+    this.formsView = event;
+    this.initialView = !event;
+    this.currentObject = event; 
   }
   public pushStatutShowView(event: boolean): void {    
     this.showView = event;

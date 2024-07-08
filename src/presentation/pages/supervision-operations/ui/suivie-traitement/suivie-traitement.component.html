@@ -342,7 +342,7 @@
                                     tooltipPosition="top"
                                     (click)="OnShowTraitement(data, 'details')"
                                 ></button>
-                                <!-- <button
+                                <button
                                     pButton
                                     icon="pi pi-sync"
                                     [pTooltip]="
@@ -364,11 +364,12 @@
                                     icon="pi pi-check-circle"
                                     pTooltip="Cloturer"
                                     tooltipPosition="top"
+                                    [disabled]="data?.statut === stateSoumis"
                                     (click)="
                                         OnShowModalTraitement(data, 'cloturer')
                                     "
                                     class="p-button-success"
-                                ></button> -->
+                                ></button>
                             </td>
                         </tr>
                     </tbody>
