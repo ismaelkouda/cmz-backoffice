@@ -9,6 +9,7 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShowMessageSenderComponent } from '../show-message-sender/show-message-sender.component';
 import { ExcelService } from 'src/shared/services/excel.service';
+import { ModalParams } from 'src/shared/constants/modalParams.contant';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -188,12 +189,7 @@ OnDownloadMessage(data){
     this.secondFilter = !this.secondFilter;
   }
   OnShowMessage(data: any): void {
-    const modalRef = this.modalService.open(ShowMessageSenderComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });    
+    const modalRef = this.modalService.open(ShowMessageSenderComponent, ModalParams);    
     modalRef.componentInstance.transaction = {...data};
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
       this.listMessages = res

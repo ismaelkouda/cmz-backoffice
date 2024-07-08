@@ -16,6 +16,7 @@ import { SettingService } from "src/shared/services/setting.service";
 import { SUPERVISION_OPERATIONS } from "../../../../../../shared/routes/routes";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SUIVIE_TRAITEMENT_ROUTE } from "src/presentation/pages/supervision-operations/supervision-operations-routing.module";
+import { ModalParams } from "src/shared/constants/modalParams.contant";
 const Swal = require("sweetalert2");
 
 @Component({
@@ -287,12 +288,7 @@ export class DetailsSuivieTraitementComponent implements OnInit {
 
   OnShowTraitement(data: any): void {
     this.IsLoading = true;
-    const modalRef = this.modalService.open(TraitementShowComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
+    const modalRef = this.modalService.open(TraitementShowComponent, ModalParams);
     modalRef.componentInstance.transaction = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
     modalRef.componentInstance.resultTraitement.subscribe((res) => { this.listTraitemants = res; });
     modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res; 
@@ -302,12 +298,7 @@ export class DetailsSuivieTraitementComponent implements OnInit {
   }
 
   showJournal(data: Object): void {
-    const modalRef = this.modalService.open(JournalComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
+    const modalRef = this.modalService.open(JournalComponent, ModalParams);
     modalRef.componentInstance.transaction = {
       ...data,
       tenant_code: this.selectedTenant.code,

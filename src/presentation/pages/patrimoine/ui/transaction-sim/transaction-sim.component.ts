@@ -13,6 +13,7 @@ import { ExcelService } from 'src/shared/services/excel.service';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { Title } from '@angular/platform-browser';
+import { ModalParams } from 'src/shared/constants/modalParams.contant';
 
 @Component({
   selector: 'app-transaction-sim',
@@ -193,12 +194,7 @@ export class TransactionSimComponent implements OnInit {
     this.filterDateEnd = null
   }
   showJournal(data: Object): void {
-    const modalRef = this.modalService.open(JournalComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
+    const modalRef = this.modalService.open(JournalComponent, ModalParams);
     modalRef.componentInstance.transaction = data;
     modalRef.componentInstance.type = data['ouvrage'];
   }
@@ -240,12 +236,7 @@ export class TransactionSimComponent implements OnInit {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
   OnShowTraitement(data: Object): void {
-    const modalRef = this.modalService.open(TransactionShowComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
+    const modalRef = this.modalService.open(TransactionShowComponent, ModalParams);
     modalRef.componentInstance.transaction = data;
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
       this.listTransactions = res

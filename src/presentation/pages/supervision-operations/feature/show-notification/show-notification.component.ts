@@ -12,6 +12,7 @@ import { TransactionShowComponent } from 'src/shared/components/transaction-show
 import { MappingService } from 'src/shared/services/mapping.service';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { ModalParams } from 'src/shared/constants/modalParams.contant';
 
 @Component({
   selector: 'app-show-notification',
@@ -178,12 +179,7 @@ export class ShowNotificationComponent implements OnInit {
   }
 
   showJournal(data: Object): void {
-    const modalRef = this.modalService.open(JournalComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
+    const modalRef = this.modalService.open(JournalComponent, ModalParams);
     modalRef.componentInstance.transaction = data;
     modalRef.componentInstance.type = data['ouvrage'];
   }
@@ -199,12 +195,7 @@ export class ShowNotificationComponent implements OnInit {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
   OnShowTraitement(data: Object): void {
-    const modalRef = this.modalService.open(TransactionShowComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
+    const modalRef = this.modalService.open(TransactionShowComponent, ModalParams);
     modalRef.componentInstance.transaction = data;
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
       this.listTransactions = res

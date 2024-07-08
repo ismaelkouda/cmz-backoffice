@@ -1,7 +1,9 @@
 export function FormatFormData(data: { [key: string]: any }) {
-    const dataToSend = new FormData;
+    const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
-        dataToSend.append(key, value)
+        if (value !== undefined && value !== null) {
+            formData.append(key, value);
+        }
     }
-    return dataToSend; 
-} 
+    return formData;
+}

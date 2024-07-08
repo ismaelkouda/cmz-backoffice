@@ -12,6 +12,7 @@ import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enu
 import * as moment from 'moment';
 import { ExcelService } from 'src/shared/services/excel.service';
 import { Title } from '@angular/platform-browser';
+import { ModalParams } from 'src/shared/constants/modalParams.contant';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -290,12 +291,7 @@ export class ContentieuxComponent implements OnInit {
 
   OnShowTraitement(data: any): void {
     this.IsLoading = true;
-    const modalRef = this.modalService.open(TraitementShowComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
+    const modalRef = this.modalService.open(TraitementShowComponent, ModalParams);
     modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
       this.listTraitemants = res;

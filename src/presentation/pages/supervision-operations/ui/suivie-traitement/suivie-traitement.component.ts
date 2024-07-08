@@ -14,6 +14,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SEARCH } from 'src/shared/routes/routes';
 import { DemandeMasseComponent } from '../../feature/demande-masse/demande-masse.component';
+import { ModalParams } from 'src/shared/constants/modalParams.contant';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -317,12 +318,7 @@ export class SuivieTraitementComponent implements OnInit {
 
   OnShowModalTraitement(data: any, typeAction: 'traiter' | 'cloturer'): void {
     this.IsLoading = true;
-    const modalRef = this.modalService.open(DemandeMasseComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
+    const modalRef = this.modalService.open(DemandeMasseComponent, ModalParams);
     modalRef.componentInstance.action = typeAction;
     modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
     // modalRef.componentInstance.resultTraitement.subscribe((res) => { this.listTraitemants = res });
