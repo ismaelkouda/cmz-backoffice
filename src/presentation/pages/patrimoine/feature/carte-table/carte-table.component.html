@@ -1,10 +1,5 @@
-<p-table
-    [ngClass]="['native_table table']"
-    [value]="listPatrimoines"
-    dataKey="id"
-    selectionMode="single"
-    [(selection)]="itemCatreSim"
->
+<p-table [ngClass]="['native_table table']" [value]="listPatrimoines" dataKey="id"
+    selectionMode="single" [(selection)]="selectedTabCarteSim">
     <ng-template pTemplate="header">
         <tr>
             <th class="text-center">#</th>

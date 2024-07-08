@@ -1,3 +1,4 @@
+import { ModalParams } from './../../../../../shared/constants/modalParams.contant';
 import { MapService } from './../../../../../shared/services/map.service';
 import { Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,8 +9,8 @@ const Swal = require('sweetalert2');
 import * as L from 'leaflet';
 
 @Component({
-    selector: 'app-carte-table',
-    templateUrl: './carte-table.component.html'
+  selector: 'app-carte-table',
+  templateUrl: './carte-table.component.html'
 })
 
 export class CarteTableComponent {
@@ -32,42 +33,38 @@ export class CarteTableComponent {
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
     attribution: 'PATRIMOINE SIM-MAP',
   })
-    carte = new MapService();
-    @Input() firstLevelLibelle: string;
-    @Input() secondLevelLibelle: string;
-    @Input() thirdLevelLibelle: string;
-    @Input() listPatrimoines;
-    public response: any = {};
-    @Input() pargination;
-    public itemCatreSim: {};
-    public display: boolean = false;
+  carte = new MapService();
+  @Input() firstLevelLibelle: string;
+  @Input() secondLevelLibelle: string;
+  @Input() thirdLevelLibelle: string;
+  @Input() listPatrimoines;
+  public response: any = {};
+  @Input() pargination;
+  public selectedTabCarteSim: {};
+  public display: boolean = false;
 
-    constructor(public toastrService: ToastrService, private clipboardApi: ClipboardService,
-                private modalService: NgbModal) {}
-    
-  copyData(data: any): void {
+  constructor(public toastrService: ToastrService, private clipboardApi: ClipboardService,
+    private modalService: NgbModal) { }
+
+  public copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
-  public OnShowQr(data) {
-    this.onMarkItemCarteSim(data);
+  public OnShowQr(data): void {
+    this.onSelectedTabCarteSim(data);
     if (data.qrcode) {
-      const modalRef = this.modalService.open(QrModalComponent, {
-        ariaLabelledBy: "modal-basic-title",
-        keyboard: false,
-        centered: true,
-      });
+      const modalRef = this.modalService.open(QrModalComponent, ModalParams)
       modalRef.componentInstance.qr = data;
     } else {
       Swal.fire("PATRIMOINE SIM", "Aucun QRCode enregistré", "info");
     }
   }
-  public onDialogMaximized(event) {
+  public onDialogMaximized(event): void {
     // event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
-  
-  public showDialog(data, composant) {
-    this.onMarkItemCarteSim(data);
+
+  public showDialog(data, composant): void {
+    this.onSelectedTabCarteSim(data);
     // switch (data) {
     //   case "map": {
     //     this.display = true;
@@ -99,9 +96,9 @@ export class CarteTableComponent {
     // }
   }
 
-  onMarkItemCarteSim(data) {
-    this.itemCatreSim = data;
+  private onSelectedTabCarteSim(data): void {
+    this.selectedTabCarteSim = data;
   }
 
-  hideDialog(type) {}
+  hideDialog(type): void {  }
 }
