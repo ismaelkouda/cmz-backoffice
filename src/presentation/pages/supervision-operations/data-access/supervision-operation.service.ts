@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { EndPointUrl } from './api.enum';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-
+const Swal = require("sweetalert2");
 @Injectable({
   providedIn: 'root'
 })
@@ -45,6 +45,29 @@ export class SupervisionOperationService {
   }
   PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(data): Observable<any> {
     const url: string = (<string>EndPointUrl.POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_CLOTURER_DEMANDE_SERVICE);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+  async showPassword(data: Object): Promise<any> {
+    await Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    }).fire({
+      icon: "warning",
+      html: `${data}`,
+      confirmButtonColor: "#F07427",
+      confirmButtonText: "ok",
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        return result.isConfirmed;
+      }
+    });
+  }
+  PostSupervisionOperationsTraitementsSuivisAbandonnerDemandeService(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_ABANDONNER_DEMANDE_SERVICE);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
   GetDetailTransaction(data): Observable<any> {

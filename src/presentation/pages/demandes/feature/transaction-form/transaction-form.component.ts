@@ -137,6 +137,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        console.log('this.formsView', this.formsView)
+        console.log('this.typeDemande', this.typeDemande)
+        console.log('this.currentObject', this.currentObject)
         this.siteKey = environment.recaptcha.siteKey;
         this.isFilter();
         this.initForm();
@@ -204,30 +207,30 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
 
     public initForm(): void {
         this.adminForm = this.fb.group({
-            niveau_un_uuid: ['', [Validators.required]],
-            niveau_deux_uuid: ['', [Validators.required]],
-            niveau_trois_uuid: ['', [Validators.required]],
-            usage_id: ['', [Validators.required]],
-            nb_demandes: ['', [Validators.required]],
+            niveau_un_uuid: [this.currentObject ? this.currentObject.niveau_un_uuid : '', [Validators.required]],
+            niveau_deux_uuid: [this.currentObject ? this.currentObject.niveau_deux_uuid : '', [Validators.required]],
+            niveau_trois_uuid: [this.currentObject ? this.currentObject.niveau_trois_uuid : '', [Validators.required]],
+            usage_id: [this.currentObject ? this.currentObject.usage_id : '', [Validators.required]],
+            nb_demandes: [this.currentObject ? this.currentObject.nb_demandes : '', [Validators.required]],
             point_emplacement: [
-                '',
-                this.typeDemande === 'simple' ? [Validators.required] : [],
+                this.currentObject ? this.currentObject.point_emplacement : '',
+                this.typeDemande === 'simple' || 'modifier' ? [Validators.required] : [],
             ],
             adresse_geographique: [
-                '',
-                this.typeDemande === 'simple' ? [Validators.required] : [],
+                this.currentObject ? this.currentObject.adresse_geographique : '',
+                this.typeDemande === 'simple' || 'modifier' ? [Validators.required] : [],
             ],
-            longitude: [''],
-            latitude: [''],
+            longitude: [this.currentObject ? this.currentObject.longitude : ''],
+            latitude: [this.currentObject ? this.currentObject.latitude : ''],
             adresse_email: [
                 '',
-                this.typeDemande === 'simple' ? [Validators.email] : [],
+                this.typeDemande === 'simple' || 'modifier' ? [Validators.email] : [],
             ],
             imsi: [''],
             statut: [''],
             statut_contrat: [''],
-            formule_uuid: ['', [Validators.required]],
-            description: ['', [Validators.required]],
+            formule_uuid: [this.currentObject ? this.currentObject.formule_uuid : '', [Validators.required]],
+            description: [this.currentObject ? this.currentObject.description : '', [Validators.required]],
             msisdn: [''],
             code_pin: [''],
             username: [''],
@@ -495,7 +498,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                 justificatif: this.selectedPiece,
                 formule_uuid: this.selectedFormule,
             });
-            baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`;
+            baseUrl = this.typeDemande === 'modifier' ? `${this.baseUrl}${EndPointUrl.MODIFICATION_DEMANDE}`: `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}` ;
         }
         this.httpClient.post(`${baseUrl}`, data).subscribe({
             next: (res: any) => {
