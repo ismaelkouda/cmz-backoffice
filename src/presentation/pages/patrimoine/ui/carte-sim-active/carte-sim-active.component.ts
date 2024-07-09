@@ -20,6 +20,7 @@ import { Title } from '@angular/platform-browser';
 import { handle } from 'src/shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { Pargination } from 'src/shared/table/pargination';
+import { ModalParams } from 'src/shared/constants/modalParams.contant';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -223,11 +224,7 @@ export class CarteSimActiveComponent implements OnInit {
   public OnShowQr(data) {
     this.onMarkItemCarteSim(data);
     if (data.qrcode) {
-      const modalRef = this.modalService.open(QrModalComponent, {
-        ariaLabelledBy: "modal-basic-title",
-        keyboard: false,
-        centered: true,
-      });
+      const modalRef = this.modalService.open(QrModalComponent, ModalParams);
       modalRef.componentInstance.qr = data;
     } else {
       Swal.fire("PATRIMOINE SIM", "Aucun QRCode enregistré", "info");

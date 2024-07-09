@@ -28,6 +28,7 @@ export class DemandeWrapperComponent implements OnInit {
   @Output() formsView = new EventEmitter();
   @Output() typeDemande = new EventEmitter<string>();
   @Output() transactionId = new EventEmitter();
+  @Output() currentObject = new EventEmitter();
 
   public listStatuts: Array<any> = [];
   public selectedTransaction: string;
@@ -36,7 +37,6 @@ export class DemandeWrapperComponent implements OnInit {
   public listUsers: Array<any> = [];
   public listTraitementTransactions: Array<any> = [];
   public initialView: boolean = true;
-  public currentObject: any;
   public selectedSim: string;
   public selectedimsi: string;
   public selectedStatut: string;
@@ -220,10 +220,11 @@ export class DemandeWrapperComponent implements OnInit {
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
-  public onInitForm(type: string): void {    
+  public onInitForm(type: string, data:any = null): void {    
     this.formsView.emit(true);
     this.typeDemande.emit(type);
-    this.currentObject = undefined;    
+    if(data) this.currentObject.emit(data);
+    console.log('this.currentObject', this.currentObject)
   }
 
   OnShowTraitement(data: any): void {

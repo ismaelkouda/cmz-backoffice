@@ -5,6 +5,11 @@
     border-color: #ced4da !important;
 }
 
+textarea {
+    resize: none;
+    height: 75%;
+}
+
 .modal-content {
     width: 100vw !important;
     height: 100vh !important;

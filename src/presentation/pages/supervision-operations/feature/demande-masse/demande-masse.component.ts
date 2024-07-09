@@ -11,6 +11,7 @@ import { handle } from 'src/shared/functions/api.function';
 import { Justificatif } from 'src/shared/enum/Justificatif.enum';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
+const Swal = require('sweetalert2');
 
 @Component({
     selector: 'app-demande-masse',
@@ -188,19 +189,68 @@ export class DemandeMasseComponent implements OnInit {
         switch (this.formTraitementMasse.value.operation) {
             case 'traiter':
                 dataToSend = { sims_file: this.formTraitementMasse.value.sims_file, numero_demande: this.listDemandes?.numero_demande };
-                this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisIdentificationsSims(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
-                if (this.response?.error) this.successfulOnSaveDemandes(this.response);
+                const decisionTraiter = await this.supervisionOperationService.showPassword('Traiter');
+                if(decisionTraiter) this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisIdentificationsSims(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
+                if (this.response?.error) this.successHandle(this.response);
                 break;
 
             case 'cloturer':
                 dataToSend = { accepte: this.formTraitementMasse.value.accepte, numero_demande: this.listDemandes?.numero_demande, commentaire: this.formTraitementMasse?.value?.commentaire };
-                this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
-                if (this.response?.error) this.successfulOnSaveDemandes(this.response);
+                const decisionCloture = await this.supervisionOperationService.showPassword('Cloturer');
+                if(decisionCloture) this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
+                if (this.response?.error) this.successHandle(this.response);
                 break;
         }
 
     }
-    private successfulOnSaveDemandes(response) {
+    onSaveDemands() {
+
+    }
+    // async onLetDownDemands(dataToSend = {numero_demande: this.listDemandes?.numero_demande}): Promise<void> {
+    //     this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisAbandonnerDemandeService(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
+    //     if (this.response?.error) this.successHandle(this.response);
+    // }
+
+    onLetDownDemands(dataToSend = {numero_demande: this.listDemandes?.numero_demande}) {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: 'btn btn-success',
+              cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false,
+          })
+          swalWithBootstrapButtons.fire({
+            title: "Vous etes sur le point d'adandonner la demande",
+            input: 'text',
+            inputPlaceholder: 'Ex: azerty',
+            inputAttributes: {
+              autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            cancelButtonText: "Annuler&nbsp;",
+            confirmButtonText: "Confirmer",
+            showLoaderOnConfirm: true,
+            preConfirm: async (commentaire) => {
+                try {
+                    this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisAbandonnerDemandeService({...dataToSend, commentaire: commentaire}), this.toastrService, this.loadingBarService)
+                    if (!this.response.ok) {
+                        return Swal.showValidationMessage(`${JSON.stringify(await this.response.json())}`);
+                      }
+                      return this.response.message.json();
+                } catch(error) {
+                    console.log('error', error)
+                    Swal.showValidationMessage(`Une erreur sert produit`);
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+          }).then((result) => {
+            if (result.isConfirmed) {
+                this.successHandle(this.response);
+            }
+          })
+    }
+
+    private successHandle(response) {
         this.toastrService.success(response?.message);
         this.handleCloseModal();
         this.IsLoading.emit(false);

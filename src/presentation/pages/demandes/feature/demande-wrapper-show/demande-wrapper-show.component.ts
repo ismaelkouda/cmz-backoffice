@@ -12,6 +12,7 @@ import { ExcelService } from 'src/shared/services/excel.service';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
+import { ModalParams } from 'src/shared/constants/modalParams.contant';
 
 @Component({
   selector: 'app-demande-wrapper-show',
@@ -180,12 +181,7 @@ export class DemandeWrapperShowComponent implements OnInit {
   }
 
   showJournal(data: Object): void {
-    const modalRef = this.modalService.open(JournalComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
+    const modalRef = this.modalService.open(JournalComponent, ModalParams);
     modalRef.componentInstance.transaction = data;
     modalRef.componentInstance.type = data['ouvrage'];
   }
@@ -202,12 +198,7 @@ export class DemandeWrapperShowComponent implements OnInit {
   }
   OnShowTraitement(data: any): void {
     this.IsLoading = true;
-    const modalRef = this.modalService.open(TransactionShowComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
+    const modalRef = this.modalService.open(TransactionShowComponent, ModalParams);
     modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
       this.listTransactions = res

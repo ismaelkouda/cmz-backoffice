@@ -10,6 +10,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ShowMessageRecieveComponent } from '../show-message-recieve/show-message-recieve.component';
 import { ExcelService } from 'src/shared/services/excel.service';
+import { ModalParams } from 'src/shared/constants/modalParams.contant';
 
 @Component({
   selector: 'app-recipient-wrapper',
@@ -144,12 +145,7 @@ export class RecipientWrapperComponent implements OnInit {
     this.clipboardApi.copyFromContent(data);
   }
   OnShowMessage(data: any): void {
-    const modalRef = this.modalService.open(ShowMessageRecieveComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });    
+    const modalRef = this.modalService.open(ShowMessageRecieveComponent, ModalParams);    
     modalRef.componentInstance.transaction = {...data};
     modalRef.componentInstance.IsRead.subscribe(() => {
       this.GetAllMessagesRecieve()

@@ -12,6 +12,7 @@
                             [selectedOperation]="currentOperation"
                             [wrapperLabel]="'Demande Abonnement'"
                             (formsView)="pushStatutView($event)"
+                            (currentObject)="pushCurrentObject($event)"
                             (transactionId)="pushTransactionId($event)"
                             (typeDemande)="pushTypeDemande($event)"
                             [listTransactions]="listTransactions"
