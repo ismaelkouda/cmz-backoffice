@@ -269,7 +269,7 @@
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
                                         color: #000;
-                                    " (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                                    " (change)="onChangeFile($event.target.files, 'justificatif')" accept="image/png,image/jpeg" />
                             </div>
                         </div>
                     </div>
@@ -421,7 +421,7 @@
                                     border: 1px solid #000;
                                     border-radius: 0.3rem;
                                     color: #000;
-                                " (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                                " (change)="onChangeFile($event.target.files, 'justificatif')" accept="image/png,image/jpeg" />
                         </div>
                     </div>
                 </div>
@@ -474,7 +474,7 @@
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
                                         color: #000;
-                                    " (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                                    " (change)="onChangeFile($event.target.files, 'justificatif')" accept="image/png,image/jpeg" />
                             </div>
                         </div>
                     </div>
@@ -524,7 +524,7 @@
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
                                         color: #000;
-                                    " (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
+                                    " (change)="onChangeFile($event.target.files, 'justificatif')" accept="image/png,image/jpeg" />
                             </div>
                         </div>
                     </div>
@@ -537,7 +537,7 @@
                     label="Soumettre" class="p-button-success" [disabled]="IsFormFomSIMValidate()"
                     (click)="handleSaveNewTransaction()"></button>
                 <button pButton *ngIf="selectedActionValue === activation" style="float: right; margin-top: 1rem"
-                    label="Soumettre" class="p-button-success" [disabled]="!adminForm.valid || !selectedPiece"
+                    label="Soumettre" class="p-button-success" [disabled]="!selectedPiece"
                     (click)="handleSaveNewTransaction()"></button>
             </div>
         </div>
