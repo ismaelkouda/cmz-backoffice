@@ -1,28 +1,39 @@
-<div style="height: 80vh;" class="d-flex justify-content-center align-items-center" *ngIf="spinnerTable">
-  <div class="spinner-border text-danger" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
+<div
+    style="height: 80vh"
+    class="d-flex justify-content-center align-items-center"
+    *ngIf="spinnerTable"
+>
+    <div class="spinner-border text-danger" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
 </div>
 <div class="progress-spinner" *ngIf="spinnerNextPage">
-  <p-progressSpinner class="posCenter" [style]="{width: '40px', height: '50px'}" styleClass="custom-spinner" 
-                    strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
-  </p-progressSpinner>
+    <p-progressSpinner
+        class="posCenter"
+        [style]="{ width: '40px', height: '50px' }"
+        styleClass="custom-spinner"
+        strokeWidth="8"
+        fill="#EEEEEE"
+        animationDuration=".5s"
+    >
+    </p-progressSpinner>
 </div>
 <ng-template pTemplate="emptymessage">
-  <tr *ngIf="listItems?.length <= 0 && !spinnerTable">
-      <td class="posRelative" colspan="15">
-          <span class="posCenter">
-              Aucune donnée disponible
-          </span>
-      </td>
-  </tr>
-  <tr *ngIf="spinnerTable">
-      <td class="posRelative" colspan="15">
-        <div style="height: 80vh;" class="d-flex justify-content-center align-items-center">
-          <div class="spinner-border text-danger" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </div>
-      </td>
-  </tr>
+    <tr *ngIf="listItems?.length <= 0 && !spinnerTable">
+        <td class="posRelative" colspan="15">
+            <span class="posCenter"> Aucune donnée disponible </span>
+        </td>
+    </tr>
+    <tr *ngIf="spinnerTable">
+        <td class="posRelative" colspan="15">
+            <div
+                style="height: 80vh"
+                class="d-flex justify-content-center align-items-center"
+            >
+                <div class="spinner-border text-danger" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </td>
+    </tr>
 </ng-template>

@@ -1,5 +1,10 @@
-<p-table [ngClass]="['native_table table']" [value]="listCartesSim" dataKey="id" selectionMode="single"
-    [(selection)]="selectedTableCarteSim">
+<p-table
+    [ngClass]="['native_table table']"
+    [value]="listCartesSim"
+    dataKey="id"
+    selectionMode="single"
+    [(selection)]="selectedTableCarteSim"
+>
     <ng-template pTemplate="header">
         <tr>
             <th class="text-center">#</th>
@@ -24,63 +29,130 @@
             <td>{{ data?.adresse_ip }}</td>
             <td>{{ data?.niveau_trois_nom }}</td>
             <td>{{ data?.point_emplacement }}</td>
-            <td (click)="copyData(data, 'msisdn')" class="px-2 cursor-pointer">{{ data.msisdn }}</td>
-            <td (click)="copyData(data, 'imsi')" class="px-2 cursor-pointer">{{data?.imsi ? data?.imsi : 'N/A'}}
+            <td (click)="copyData(data, 'msisdn')" class="px-2 cursor-pointer">
+                {{ data.msisdn }}
+            </td>
+            <td (click)="copyData(data, 'imsi')" class="px-2 cursor-pointer">
+                {{ data?.imsi ? data?.imsi : 'N/A' }}
             </td>
             <td class="text-center">
-                <span [ngStyle]="{'font-size': '16px'}" class="badge"
+                <span
+                    [ngStyle]="{ 'font-size': '16px' }"
+                    class="badge"
                     [class.badge-success]="data.statut === 'actif'"
                     [class.badge-dark]="data.statut === 'suspendu'"
-                    [class.badge-danger]="data.statut === 'resilié'">
+                    [class.badge-danger]="data.statut === 'resilié'"
+                >
                     {{ data.statut }}
                 </span>
             </td>
             <td class="td-actions">
-                <button pButton icon="pi pi-map-marker" class="p-button-success"
-                    [disabled]="data.statut === 'inactif' ||  (!data?.latitude && !data?.longitude && !data?.site_reseau)"
-                    pTooltip="Localisation" tooltipPosition="top" (click)="onShowDialog(data)">
-                </button>
-                <button pButton icon="pi pi-qrcode" [pTooltip]="data.qrcode ? 'Scaner' : ''" tooltipPosition="top"
+                <button
+                    pButton
+                    icon="pi pi-map-marker"
+                    class="p-button-success"
+                    [disabled]="
+                        data.statut === 'inactif' ||
+                        (!data?.latitude &&
+                            !data?.longitude &&
+                            !data?.site_reseau)
+                    "
+                    pTooltip="Localisation"
+                    tooltipPosition="top"
+                    (click)="onShowDialog(data)"
+                ></button>
+                <button
+                    pButton
+                    icon="pi pi-qrcode"
+                    [pTooltip]="data.qrcode ? 'Scaner' : ''"
+                    tooltipPosition="top"
                     (click)="OnShowQr(data)"
-                    [class]="data.qrcode ? 'p-button-help' : 'p-button-help p-button-outlined'">
-                </button>
-                <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"
-                    (click)="onShowForm(data, 'details')">
-                </button>
+                    [class]="
+                        data.qrcode
+                            ? 'p-button-help'
+                            : 'p-button-help p-button-outlined'
+                    "
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    icon="pi pi-eye"
+                    class="p-button-dark"
+                    pTooltip="Voir"
+                    tooltipPosition="top"
+                    (click)="onShowForm(data, 'details')"
+                ></button>
                 <div ngbDropdown>
-                    <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>
+                    <button
+                        type="button"
+                        class="btn btn-dark btn-sm"
+                        ngbDropdownToggle
+                    >
                         Choisir
                     </button>
                     <div ngbDropdownMenu>
-                        <button ngbDropdownItem (click)="onShowForm(data, 'editer')">
+                        <button
+                            ngbDropdownItem
+                            (click)="onShowForm(data, 'editer')"
+                        >
                             Modifier
                         </button>
-                        <button ngbDropdownItem (click)="onTransactionForm(data, swap)"
-                            *ngIf="applicationType === patrimoineType && data.statut === 'actif'">
+                        <button
+                            ngbDropdownItem
+                            (click)="onTransactionForm(data, swap)"
+                            *ngIf="
+                                applicationType === patrimoineType &&
+                                data.statut === 'actif'
+                            "
+                        >
                             SIM Swap
                         </button>
-                        <button ngbDropdownItem (click)="onTransactionForm(data, resiliation)"
-                            *ngIf="data.statut === 'suspendu'">
+                        <button
+                            ngbDropdownItem
+                            (click)="onTransactionForm(data, resiliation)"
+                            *ngIf="data.statut === 'suspendu'"
+                        >
                             Résilier
                         </button>
-                        <button ngbDropdownItem (click)="onTransactionForm(data, activation)"
-                            *ngIf="data.statut === 'suspendu'">
+                        <button
+                            ngbDropdownItem
+                            (click)="onTransactionForm(data, activation)"
+                            *ngIf="data.statut === 'suspendu'"
+                        >
                             Réactiver
                         </button>
-                        <button ngbDropdownItem (click)="onTransactionForm(data, suspension)"
-                            *ngIf="data.statut ==='actif'">
+                        <button
+                            ngbDropdownItem
+                            (click)="onTransactionForm(data, suspension)"
+                            *ngIf="data.statut === 'actif'"
+                        >
                             Suspendre
                         </button>
-                        <button ngbDropdownItem (click)="onTransactionForm(data, formule)"
-                            *ngIf="data.statut === 'actif'">
+                        <button
+                            ngbDropdownItem
+                            (click)="onTransactionForm(data, formule)"
+                            *ngIf="data.statut === 'actif'"
+                        >
                             Changer la formule
                         </button>
-                        <button ngbDropdownItem (click)="onTransactionForm(data, volume)"
-                            *ngIf="applicationType === patrimoineType && data.statut === 'actif'">
+                        <button
+                            ngbDropdownItem
+                            (click)="onTransactionForm(data, volume)"
+                            *ngIf="
+                                applicationType === patrimoineType &&
+                                data.statut === 'actif'
+                            "
+                        >
                             Volume Data
                         </button>
-                        <button ngbDropdownItem (click)="onDotationForm(data)"
-                            *ngIf="applicationType === patrimoineType && data.statut === 'actif'">
+                        <button
+                            ngbDropdownItem
+                            (click)="onDotationForm(data)"
+                            *ngIf="
+                                applicationType === patrimoineType &&
+                                data.statut === 'actif'
+                            "
+                        >
                             Dotation
                         </button>
                     </div>
@@ -88,7 +160,10 @@
             </td>
         </tr>
     </ng-template>
-    <app-spinner [spinnerTable]="spinner" [listItems]="listCartesSim"></app-spinner>
+    <app-spinner
+        [spinnerTable]="spinner"
+        [listItems]="listCartesSim"
+    ></app-spinner>
 </p-table>
 
 <!-- <p-dialog header="[{{carte.title}}]" (onHide)="hideDialog('map')" [(visible)]="carte.display"

@@ -158,7 +158,9 @@
             <th class="text-center" [style]="{ width: '14rem' }">N° demande</th>
             <th class="text-center" [style]="{ width: '4rem' }"># Lignes</th>
             <th class="text-center" [style]="{ width: '4rem' }"># Traitées</th>
-            <th class="text-center" [style]="{ width: '4rem' }"># Identifiées</th>
+            <th class="text-center" [style]="{ width: '4rem' }">
+                # Identifiées
+            </th>
             <th class="text-center" [style]="{ width: '3rem' }">Statut</th>
             <th class="text-center" [style]="{ width: '4rem' }">Demandeur</th>
             <th class="text-center" [style]="{ width: '3rem' }">Actions</th>
@@ -221,8 +223,14 @@
                         class="p-button-secondary"
                         (click)="onInitForm('modifier', data)"
                     ></button>
-                    <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top" 
-                      (click)="showJournal(data)" class="p-button-success"></button>
+                    <button
+                        pButton
+                        icon="pi pi-book"
+                        pTooltip="Journal"
+                        tooltipPosition="top"
+                        (click)="showJournal(data)"
+                        class="p-button-success"
+                    ></button>
                 </td>
             </tr>
         </tbody>

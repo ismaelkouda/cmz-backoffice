@@ -1,6 +1,8 @@
 <div #modal class="modal-content" *ngIf="IsLoadData">
     <div>
-        <div class="modal-header" style="
+        <div
+            class="modal-header"
+            style="
                 background-color: #569c5b;
                 color: #fff;
                 align-items: center;
@@ -8,14 +10,23 @@
                 padding: 0.2rem 1rem;
                 display: flex;
                 justify-content: space-between;
-            ">
+            "
+        >
             <h4 class="modal-title pl-3" style="margin: 0">
                 Détails
-                <strong class="cursor-pointer" (click)="copyTransaction(demande.numero_demande)">
+                <strong
+                    class="cursor-pointer"
+                    (click)="copyTransaction(demande.numero_demande)"
+                >
                     [{{ demande.numero_demande }}]
                 </strong>
             </h4>
-            <button type="button" class="close" aria-label="Close" (click)="handleCloseModal()">
+            <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="handleCloseModal()"
+            >
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -66,12 +77,26 @@
                         </div>
                     </div> -->
                     <div class="d-flex gap-2 no-wrap">
-                        <button pButton pRipple label="Abandonner" (click)="onLetDownDemands()"
+                        <button
+                            pButton
+                            pRipple
+                            label="Abandonner"
+                            (click)="onLetDownDemands()"
                             class="p-button-warning w-100"
-                            *ngIf="demande.statut === 'en-traitement' && action !== 'cloturer'"></button>
-                        <button pButton pRipple [label]="getLabelForm()" [disabled]="formTraitementMasse.invalid"
-                            (click)="onSaveDemandes()" class="btn btn-success w-100"
-                            *ngIf="demande?.statut !== 'en-traitement'"></button>
+                            *ngIf="
+                                demande.statut === 'en-traitement' &&
+                                action !== 'cloturer'
+                            "
+                        ></button>
+                        <button
+                            pButton
+                            pRipple
+                            [label]="getLabelForm()"
+                            [disabled]="formTraitementMasse.invalid"
+                            (click)="onSaveDemandes()"
+                            class="btn btn-success w-100"
+                            *ngIf="demande?.statut !== 'en-traitement'"
+                        ></button>
                     </div>
 
                     <div>
@@ -81,42 +106,49 @@
                             </legend>
                             <div class="d-flex flex-column gap-2">
                                 <div>
-                                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"
+                                        ><strong>Matricule&nbsp;:&nbsp;</strong>
                                         {{
-                                        listDemandes?.demandeur_matricule ??
-                                        'N/A'
+                                            listDemandes?.demandeur_matricule ??
+                                                'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"
+                                        ><strong
+                                            >Nom complet&nbsp;:&nbsp;</strong
+                                        >
                                         {{
-                                        listDemandes?.demandeur_nom ?? 'N/A'
+                                            listDemandes?.demandeur_nom ?? 'N/A'
                                         }}
                                         {{
-                                        listDemandes?.demandeur_prenoms ??
-                                        'N/A'
-                                        }}
-                                    </span>
-                                </div>
-                                <div>
-                                    <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>
-                                        {{
-                                        listDemandes?.demandeur_contacts ??
-                                        'N/A'
+                                            listDemandes?.demandeur_prenoms ??
+                                                'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"
+                                        ><strong>Contact&nbsp;:&nbsp;</strong>
                                         {{
-                                        listDemandes?.demandeur_email ??
-                                        'N/A'
+                                            listDemandes?.demandeur_contacts ??
+                                                'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"
+                                        ><strong>Email&nbsp;:&nbsp;</strong>
+                                        {{
+                                            listDemandes?.demandeur_email ??
+                                                'N/A'
+                                        }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30"
+                                        ><strong>Date&nbsp;:&nbsp;</strong>
                                         {{ listDemandes?.created_at }}
                                     </span>
                                 </div>
@@ -131,48 +163,51 @@
                             </legend>
                             <div class="d-flex flex-column gap-2">
                                 <div>
-                                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"
+                                        ><strong>Matricule&nbsp;:&nbsp;</strong>
                                         {{
-                                        listDemandes?.intervenant
-                                        ?.matricule ?? 'N/A'
+                                            listDemandes?.intervenant
+                                                ?.matricule ?? 'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"
+                                        ><strong
+                                            >Nom complet&nbsp;:&nbsp;</strong
+                                        >
                                         {{
-                                        listDemandes?.intervenant?.nom ??
-                                        'N/A'
+                                            listDemandes?.intervenant?.nom ??
+                                                'N/A'
                                         }}
                                         {{
-                                        listDemandes?.intervenant
-                                        ?.prenoms ?? 'N/A'
-                                        }}
-                                    </span>
-                                </div>
-                                <div>
-                                    <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>
-                                        {{
-                                        listDemandes?.intervenant
-                                        ?.contacts ?? 'N/A'
+                                            listDemandes?.intervenant
+                                                ?.prenoms ?? 'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"
+                                        ><strong>Contact&nbsp;:&nbsp;</strong>
                                         {{
-                                        listDemandes?.intervenant?.email ??
-                                        'N/A'
+                                            listDemandes?.intervenant
+                                                ?.contacts ?? 'N/A'
+                                        }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30"
+                                        ><strong>Email&nbsp;:&nbsp;</strong>
+                                        {{
+                                            listDemandes?.intervenant?.email ??
+                                                'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
                                     <span class="mb-0 fs__30">
                                         <strong>Date&nbsp;:&nbsp;</strong>
-                                        {{
-                                        listDemandes?.traite_a ??
-                                        'N/A'
-                                        }}
+                                        {{ listDemandes?.traite_a ?? 'N/A' }}
                                     </span>
                                 </div>
                             </div>
@@ -182,49 +217,63 @@
 
                 <div class="col-lg-10">
                     <div class="col-lg-12">
-                        <!-- <div role="alert" style="
-                                display: flex;
-                                justify-content: space-between;
-                            ">
+                        <div role="alert" style="display: flex; justify-content: space-between;"
+                            [ngClass]="OnGetRapportCodeStyle(listDemandes)">
                             <div>
-                                <strong class="wrapper-header">Reception :
+                                <strong class="wrapper-header">Reception{{listDemandes?.traitement === treatmenAccepter}} :
+                                  {{ listDemandes?.acquitte_a ? "Réçu" : '' }}
+                                  [{{ listDemandes?.acquitte_a ?? "-- : --" }}]
                                 </strong>
-                            </div>
+                              </div>
                             <div>
                                 <strong class="wrapper-header">Traitement :
+                                    {{ listDemandes?.traitement ?? "N/A" }} 
+                                    [{{ listDemandes?.cloture_a ? "Cloturé" : "" }}]
                                 </strong>
                             </div>
                             <div>
                                 <strong class="wrapper-header">Clôture :
+                                    {{ listDemandes?.cloture_a ?? "-- : --" }}
                                 </strong>
                             </div>
-                        </div> -->
+                        </div>
                         <div class="row">
                             <h4 class="col-md-7 wrapper-header">
-                                <strong>Activation de SIM
-                                    <span style="
+                                <strong
+                                    >{{listDemandes?.operation === "activation" ? "Abonnement Mobile" : ""}}
+                                    <span
+                                        style="
                                             color: #549b3d;
                                             font-weight: bold;
-                                        "><span> 'N/A' </span></span>
+                                        "
+                                        ><span> 'N/A' </span></span
+                                    >
                                 </strong>
                             </h4>
-                            <div class="col-md-5 wrapper-header" style="
+                            <div
+                                class="col-md-5 wrapper-header"
+                                style="
                                     display: flex;
                                     justify-content: end;
                                     font-size: 20px;
-                                ">
+                                "
+                            >
                                 Date mise à jour :&nbsp;
-                                <b><span>{{
+                                <b
+                                    ><span>{{
                                         listDemandes.updated_at ?? 'N/A'
-                                        }}</span></b>
+                                    }}</span></b
+                                >
                             </div>
                         </div>
 
-                        <hr style="
+                        <hr
+                            style="
                                 position: relative;
                                 top: -0.2rem;
                                 margin-top: -0.8rem;
-                            " />
+                            "
+                        />
 
                         <div>
                             <div>
@@ -236,12 +285,18 @@
                                                     <b>Stock SIM/OCI</b>
                                                 </legend>
                                                 <div class="text-wrapper">
-                                                    <input type="text" style="
+                                                    <input
+                                                        type="text"
+                                                        style="
                                                             font-size: 13.5px !important;
                                                             font-weight: bold !important;
-                                                        " pInputText [value]="
+                                                        "
+                                                        pInputText
+                                                        [value]="
                                                             sourceStockOrangeSim
-                                                        " [disabled]="true" />
+                                                        "
+                                                        [disabled]="true"
+                                                    />
                                                 </div>
                                             </fieldset>
                                         </div>
@@ -254,35 +309,68 @@
                                     </legend>
                                     <div class="d-flex gap-2">
                                         <div class="width-100">
-                                            <label><b>{{
+                                            <label
+                                                ><b>{{
                                                     firstLevelLibelle
-                                                    }}</b></label>
-                                            <input type="text" pInputText formControlName="niveau_uns_uuid" />
+                                                }}</b></label
+                                            >
+                                            <input
+                                                type="text"
+                                                pInputText
+                                                formControlName="niveau_uns_uuid"
+                                            />
                                         </div>
                                         <div class="width-100">
-                                            <label><b>{{
+                                            <label
+                                                ><b>{{
                                                     secondLevelLibelle
-                                                    }}</b></label>
-                                            <input type="text" pInputText formControlName="niveau_deux_uuid" />
+                                                }}</b></label
+                                            >
+                                            <input
+                                                type="text"
+                                                pInputText
+                                                formControlName="niveau_deux_uuid"
+                                            />
                                         </div>
                                         <div class="width-100">
-                                            <label><b>{{
+                                            <label
+                                                ><b>{{
                                                     thirdLevelLibelle
-                                                    }}</b></label>
-                                            <input type="text" pInputText formControlName="niveau_trois_uuid" />
+                                                }}</b></label
+                                            >
+                                            <input
+                                                type="text"
+                                                pInputText
+                                                formControlName="niveau_trois_uuid"
+                                            />
                                         </div>
                                         <div class="width-100">
                                             <label><b>Usage</b></label>
-                                            <input type="text" pInputText formControlName="usage_id" />
+                                            <input
+                                                type="text"
+                                                pInputText
+                                                formControlName="usage_id"
+                                            />
                                         </div>
                                         <div class="width-100">
-                                            <label><b>Formule destination<span class="text-danger">*</span></b></label>
+                                            <label
+                                                ><b
+                                                    >Formule destination<span
+                                                        class="text-danger"
+                                                        >*</span
+                                                    ></b
+                                                ></label
+                                            >
                                             <!-- <p-dropdown [options]="listFormules" formControlName="formule_uuid"
                                                 optionLabel="nom" optionValue="uuid"
                                                 placeholder="Sélectionner la formule de destination"
                                                 [showClear]="true" name="formule_uuid">
                                             </p-dropdown> -->
-                                            <input type="text" pInputText formControlName="formule_uuid" />
+                                            <input
+                                                type="text"
+                                                pInputText
+                                                formControlName="formule_uuid"
+                                            />
                                         </div>
                                     </div>
                                 </fieldset>
@@ -290,23 +378,51 @@
                                     <legend>Informations demande</legend>
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <label for="commentaire"><strong>Description</strong></label>
-                                            <textarea name="commentaire" formControlName="description"
-                                                class="form-control" rows="2" style="width: 100%; margin-top: 0%;">
+                                            <label for="commentaire"
+                                                ><strong
+                                                    >Description</strong
+                                                ></label
+                                            >
+                                            <textarea
+                                                name="commentaire"
+                                                formControlName="description"
+                                                class="form-control"
+                                                rows="2"
+                                                style="
+                                                    width: 100%;
+                                                    margin-top: 0%;
+                                                "
+                                            >
                                             </textarea>
                                         </div>
                                         <div class="col-md-2 pb-2">
-                                            <label for="commentaire"><strong>Jutificatif</strong></label>
-                                            <div class="d-flex justify-content-start align-items-center h-100">
+                                            <label for="commentaire"
+                                                ><strong
+                                                    >Jutificatif</strong
+                                                ></label
+                                            >
+                                            <div
+                                                class="d-flex justify-content-start align-items-center h-100"
+                                            >
                                                 <div *ngIf="IsJustificatif()">
-                                                    <button pButton pRipple label="Télécharger"
-                                                        icon="pi pi-download" class="p-button-success"
-                                                        (click)="downloadFile()">
-                                                    </button>
+                                                    <button
+                                                        pButton
+                                                        pRipple
+                                                        label="Télécharger"
+                                                        icon="pi pi-download"
+                                                        class="p-button-success"
+                                                        (click)="downloadFile()"
+                                                    ></button>
                                                 </div>
                                                 <div class="justificatif-error">
-                                                    <span class="" *ngIf="!IsJustificatif()">
-                                                        Aucun justificatif pour cette transaction
+                                                    <span
+                                                        class=""
+                                                        *ngIf="
+                                                            !IsJustificatif()
+                                                        "
+                                                    >
+                                                        Aucun justificatif pour
+                                                        cette transaction
                                                     </span>
                                                 </div>
                                             </div>
@@ -332,17 +448,35 @@
                                             </fieldset> -->
                                         </div>
                                         <div class="col-md-2 pb-2">
-                                            <label for="commentaire"><strong>Reçu paiement</strong></label>
-                                            <div class="d-flex justify-content-start align-items-center h-100">
+                                            <label for="commentaire"
+                                                ><strong
+                                                    >Reçu paiement</strong
+                                                ></label
+                                            >
+                                            <div
+                                                class="d-flex justify-content-start align-items-center h-100"
+                                            >
                                                 <div *ngIf="IsRecuPaiement()">
-                                                    <button pButton pRipple label="Télécharger"
-                                                        icon="pi pi-download" class="p-button-success"
-                                                        (click)="downloadRecuPaiement()">
-                                                    </button>
+                                                    <button
+                                                        pButton
+                                                        pRipple
+                                                        label="Télécharger"
+                                                        icon="pi pi-download"
+                                                        class="p-button-success"
+                                                        (click)="
+                                                            downloadRecuPaiement()
+                                                        "
+                                                    ></button>
                                                 </div>
                                                 <div class="justificatif-error">
-                                                    <span class="" *ngIf="!IsRecuPaiement()">
-                                                        Aucun recu de paiement pour cette transaction
+                                                    <span
+                                                        class=""
+                                                        *ngIf="
+                                                            !IsRecuPaiement()
+                                                        "
+                                                    >
+                                                        Aucun recu de paiement
+                                                        pour cette transaction
                                                     </span>
                                                 </div>
                                             </div>
@@ -369,52 +503,103 @@
                                         </div>
                                     </div>
                                 </fieldset>
-                                <fieldset *ngIf="
+                                <fieldset
+                                    *ngIf="
                                         action === 'cloturer' &&
                                         demande?.statut !== stateCloture
-                                    ">
+                                    "
+                                >
                                     <legend><strong>Traitement</strong></legend>
-                                    <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
+                                    <div
+                                        class="wrapper-evaluation"
+                                        style="display: flex; gap: 1rem"
+                                    >
                                         <div class="block-checked">
-                                            <div style="margin-left: 8%" class="ml-3">
-                                                <span for="accepte" style="
+                                            <div
+                                                style="margin-left: 8%"
+                                                class="ml-3"
+                                            >
+                                                <span
+                                                    for="accepte"
+                                                    style="
                                                         font-size: 23px;
                                                         margin-left: 5%;
                                                         font-weight: 800;
-                                                    ">
-                                                    Accepté<span class="text-danger">*</span>?
+                                                    "
+                                                >
+                                                    Accepté<span
+                                                        class="text-danger"
+                                                        >*</span
+                                                    >?
                                                 </span>
                                                 <div class="wrapper-check">
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="demande"
-                                                            value="oui" id="infosLigne" formControlName="accepte" />
-                                                        <label class="form-check-label" for="oui" style="
+                                                    <div
+                                                        class="form-check form-check-inline"
+                                                    >
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            name="demande"
+                                                            value="oui"
+                                                            id="infosLigne"
+                                                            formControlName="accepte"
+                                                        />
+                                                        <label
+                                                            class="form-check-label"
+                                                            for="oui"
+                                                            style="
                                                                 width: auto !important;
-                                                            ">
+                                                            "
+                                                        >
                                                             Oui
                                                         </label>
                                                     </div>
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="demande"
-                                                            value="non" id="infosLigne" formControlName="accepte" />
-                                                        <label class="form-check-label" for="non" style="
+                                                    <div
+                                                        class="form-check form-check-inline"
+                                                    >
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            name="demande"
+                                                            value="non"
+                                                            id="infosLigne"
+                                                            formControlName="accepte"
+                                                        />
+                                                        <label
+                                                            class="form-check-label"
+                                                            for="non"
+                                                            style="
                                                                 width: auto !important;
-                                                            ">Non
+                                                            "
+                                                            >Non
                                                         </label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div style="width: 100%">
-                                            <label for="commentaire"><strong>Commentaire<span class="text-danger"
+                                            <label for="commentaire"
+                                                ><strong
+                                                    >Commentaire<span
+                                                        class="text-danger"
                                                         [hidden]="
                                                             !croixRougeCommentaire
-                                                        ">*</span></strong></label>
-                                            <textarea name="commentaire" formControlName="commentaire"
-                                                class="form-control" rows="2" style="
+                                                        "
+                                                        >*</span
+                                                    ></strong
+                                                ></label
+                                            >
+                                            <textarea
+                                                name="commentaire"
+                                                formControlName="commentaire"
+                                                class="form-control"
+                                                rows="2"
+                                                style="
                                                     width: 100%;
                                                     margin-top: 0%;
-                                                " placeholder="Entrer un commentaire">
+                                                "
+                                                placeholder="Entrer un commentaire"
+                                            >
                                             </textarea>
                                         </div>
                                     </div>
@@ -422,20 +607,26 @@
 
                                 <br />
 
-                                <fieldset *ngIf="
+                                <fieldset
+                                    *ngIf="
                                         action === 'traiter' &&
                                         demande?.statut !== stateCloture
-                                    ">
+                                    "
+                                >
                                     <legend [ngStyle]="{ width: '100%' }">
                                         <b>Demandes</b>
                                     </legend>
                                     <div class="row">
-                                        <app-form-masse class="col-md-9 d-flex align-items-end" [fileModel]="fileModel"
+                                        <app-form-masse
+                                            class="col-md-9 d-flex align-items-end"
+                                            [fileModel]="fileModel"
                                             (dataToSend)="
                                                 pushCurrentArrayForm($event)
-                                            " [currentArrayHeaders]="
+                                            "
+                                            [currentArrayHeaders]="
                                                 currentArrayHeaders
-                                            ">
+                                            "
+                                        >
                                         </app-form-masse>
                                     </div>
                                 </fieldset>
