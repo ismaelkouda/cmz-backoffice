@@ -1,0 +1,457 @@
+<div class="container-fluid" *ngIf="!spinner">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="row" style="width: 100%; margin-top: -1rem">
+                        <div [ngClass]="{
+                            'col-md-12': currentTabsIndex === 1,
+                            'col-md-9': currentTabsIndex !== 1}">
+                            <div class="forms-feature-header mb-4">
+                                <div class="forms-feature-header__button" [ngStyle]="{ display: 'flex', gap: '1rem' }">
+                                    <div [ngStyle]="{ position: 'absolute', right: '-22%' }"
+                                        *ngIf="currentView === 'editer'">
+                                        <p-button label="Modifier" [disabled]="!carteSimForm.valid"
+                                            styleClass="p-button-success" (click)="onUpdateCarteSim()"></p-button>
+                                    </div>
+                                    <div [ngStyle]="{ position: 'absolute', right: '-32%' }">
+                                        <p-button label="Fermer" styleClass="p-button-danger"
+                                            (click)="onCloseView()"></p-button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr *ngIf="currentView === 'details'" />
+                            <!--------------------------FORMS-------------------------->
+                            <div *ngIf="currentView === 'editer'" style="margin-top: 3rem">
+                                <div [formGroup]="carteSimForm" novalidate>
+                                    <fieldset>
+                                        <legend [ngStyle]="{ width: '12rem' }">
+                                            <b>Informations SIM</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>IMSI</b>
+                                                    </label>
+                                                    <input type="text" formControlName="imsi" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>MSISDN</b>
+                                                    </label>
+                                                    <input type="text" formControlName="msisdn" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Formule</b>
+                                                    </label>
+                                                    <input type="text" formControlName="formule" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Statut Contrat</b>
+                                                    </label>
+                                                    <app-statut-contrat
+                                                        [statut]="carteSimSelectedDetails?.statut"></app-statut-contrat>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend [ngStyle]="{ width: '18rem' }">
+                                            <b>Informations d'identification</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><b>{{ firstLevelLibelle}}<span
+                                                                class="text-danger">*</span></b></label>
+                                                    <p-dropdown [options]="listDR" formControlName="direction_regionale"
+                                                        optionLabel="nom" optionValue="uuid"
+                                                        [placeholder]="firstLevelLibelle">
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><b>{{ secondLevelLibelle }}<span
+                                                                class="text-danger">*</span></b></label>
+                                                    <p-dropdown [options]="listExploitations"
+                                                        formControlName="exploitation" optionLabel="nom"
+                                                        optionValue="uuid" [placeholder]="secondLevelLibelle">
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><b>{{ thirdLevelLibelle }}<span
+                                                                class="text-danger">*</span></b></label>
+                                                    <p-dropdown [options]="listActivites" formControlName="zone"
+                                                        optionLabel="nom" optionValue="uuid"
+                                                        [placeholder]="thirdLevelLibelle">
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Nom Emplacement</b>
+                                                    </label>
+                                                    <input type="text" formControlName="point_emplacement" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><b>Usage<span class="text-danger">*</span></b></label>
+                                                    <p-dropdown [options]="listUsage" formControlName="usage"
+                                                        optionLabel="nom_usage" optionValue="id">
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Adresse mail Notification</b>
+                                                    </label>
+                                                    <input type="text" formControlName="adresse_email" pInputText />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label><b>Adresse géographique<span
+                                                                class="text-danger">*</span></b></label>
+                                                    <input type="text" formControlName="adresse_geographique"
+                                                        pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Latitude</b>
+                                                    </label>
+                                                    <input type="text" formControlName="latitude" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Longitude</b>
+                                                    </label>
+                                                    <input type="text" formControlName="longitude" pInputText />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend [ngStyle]="{ width: '12rem' }">
+                                            <b>Informations Réseau</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Date Trafic</b>
+                                                    </label>
+                                                    <input type="text" formControlName="date_id_reseau" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>APN</b>
+                                                    </label>
+                                                    <input type="text" formControlName="apnni_reseau" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Adresse IP</b>
+                                                    </label>
+                                                    <input type="text" formControlName="adresse_ip_reseau" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Site Trafic</b>
+                                                    </label>
+                                                    <input type="text" formControlName="site_reseau" pInputText />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div *ngIf="currentView === 'details'">
+                                <p-tabView (onChange)="handleChangeTabviewIndex($event)">
+                                    <p-tabPanel header="IDENTIFICATION">
+                                        <div *ngIf="currentTabsIndex === 0">
+                                            <div [formGroup]="carteSimForm" novalidate>
+                                                <fieldset>
+                                                    <legend [ngStyle]="{ width: '12rem' }">
+                                                        <b>Informations SIM</b>
+                                                    </legend>
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>IMSI</b>
+                                                                </label>
+                                                                <input type="text" formControlName="imsi" pInputText />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>MSISDN</b>
+                                                                </label>
+                                                                <input type="text" formControlName="msisdn"
+                                                                    pInputText />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>Formule</b>
+                                                                </label>
+                                                                <input type="text" formControlName="formule"
+                                                                    pInputText />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>Statut Contrat</b>
+                                                                </label>
+                                                                <app-statut-contrat
+                                                                    [statut]="carteSimSelectedDetails?.statut"></app-statut-contrat>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                                <fieldset>
+                                                    <legend [ngStyle]="{ width: '18rem' }">
+                                                        <b>Informations d'identification</b>
+                                                    </legend>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label><b>{{ firstLevelLibelle }}<span
+                                                                            class="text-danger">*</span></b></label>
+                                                                <input type="text" formControlName="direction_regionale"
+                                                                    pInputText />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>{{ secondLevelLibelle
+                                                                        }}<span class="text-danger">*</span></b>
+                                                                </label>
+                                                                <input type="text" formControlName="exploitation"
+                                                                    pInputText />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>{{ thirdLevelLibelle
+                                                                        }}<span class="text-danger">*</span></b>
+                                                                </label>
+                                                                <input type="text" formControlName="zone" pInputText />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>Nom Emplacement</b>
+                                                                </label>
+                                                                <input type="text" formControlName="point_emplacement"
+                                                                    pInputText />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>Usage<span class="text-danger">*</span></b>
+                                                                </label>
+                                                                <input type="text" formControlName="usage" pInputText />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>Adresse mail Notification</b>
+                                                                </label>
+                                                                <input type="text" formControlName="adresse_email"
+                                                                    pInputText />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>Adresse géographique<span
+                                                                            class="text-danger">*</span></b>
+                                                                </label>
+                                                                <input type="text"
+                                                                    formControlName="adresse_geographique" pInputText />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>Latitude</b>
+                                                                </label>
+                                                                <input type="text" formControlName="latitude"
+                                                                    pInputText />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>Longitude</b>
+                                                                </label>
+                                                                <input type="text" formControlName="longitude"
+                                                                    pInputText />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                                <fieldset>
+                                                    <legend [ngStyle]="{ width: '12rem' }">
+                                                        <b>Informations Réseau</b>
+                                                    </legend>
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>Date Trafic</b>
+                                                                </label>
+                                                                <input type="text" formControlName="date_id_reseau"
+                                                                    pInputText />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>APN</b>
+                                                                </label>
+                                                                <input type="text" formControlName="apn" pInputText />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>Adresse IP</b>
+                                                                </label>
+                                                                <input type="text" formControlName="adresse_ip"
+                                                                    pInputText />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="form-group">
+                                                                <label>
+                                                                    <b>Site Trafic</b>
+                                                                </label>
+                                                                <input type="text" formControlName="site_reseau"
+                                                                    pInputText />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </p-tabPanel>
+                                    <p-tabPanel header="HISTORIQUE">
+                                        <app-historique *ngIf="currentTabsIndex === 1" [modele]="'sims'"
+                                            [modele_id]="carteSimSelected.id">
+                                        </app-historique>
+                                    </p-tabPanel>
+                                </p-tabView>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="margin-top: 6.4rem" [hidden]="currentTabsIndex == 1">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="label"><b>MSISDN</b></label>
+                                    <div class="box-card">
+                                        <span class="valeur">
+                                            <span>{{getFormattedMsisdn(carteSimSelectedDetails) | async}}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="label"><b>Solde Data (Go)</b></label>
+                                    <div class="box-card">
+                                        <span class="valeur">
+                                            <span>{{carteSimSelectedDetails['solde_actuel_go'] ?? 0 | formatNumber: 2}}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <div class="form-group">
+                                    <label class="label"><b>{{ carteSimSelectedDetails['solde_data_updated_at'] }}</b><br /></label>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-4" *ngIf="applicationType === patrimoineType">
+                                <div class="form-group">
+                                    <label class="label" style="line-height: 1.3 !important"><b class="mt-1">Solde Dotation (Go)</b></label>
+                                    <div class="box-card">
+                                        <span class="valeur">
+                                            <span>{{ carteSimSelectedDetails['solde_dotation'] ?? 0 | formatNumber: 2 }}</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <div *ngIf="currentView === 'details' && carteSimSelectedDetails['statut'] === 'actif'">
+                                    <button pButton pRipple label="Rafraîchir Solde Data" icon="pi pi-refresh"
+                                        class="p-button-warning" [style]="{ fontSize: '20px' }" style="width: 384px"
+                                        (click)="handleRefreshData(carteSimSelectedDetails)">
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3" *ngIf="mappingService.IsAction()">
+                                <div *ngIf="currentView === 'details' && carteSimSelectedDetails?.statut === 'suspendu'">
+                                    <button pButton pRipple label="Réactiver la SIM" icon="pi pi-power-off"
+                                        class="p-button-success" [style]="{ fontSize: '20px' }"
+                                        (click)="onTransactionForm(carteSimSelectedDetails, activation)"
+                                        style="width: 384px">
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-3" *ngIf="currentView === 'details'">
+                                <img width="200" style="max-width: fit-content; position: absolute; left: 26%"
+                                    [src]="minioUrl + carteSimSelectedDetails?.qrcode" alt="QR Illustration" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-spinner [spinnerNextPage]="spinner"></app-spinner>

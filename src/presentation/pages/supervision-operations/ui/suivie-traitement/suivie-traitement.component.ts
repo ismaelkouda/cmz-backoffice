@@ -15,6 +15,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SEARCH } from 'src/shared/routes/routes';
 import { DemandeMasseComponent } from '../../feature/demande-masse/demande-masse.component';
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
+import { SuivieTraitementFilterStateService } from '../../data-access/suivie-traitement-filter-state.service';
+import { JournalComponent } from 'src/shared/components/journal/journal.component';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -73,7 +75,8 @@ export class SuivieTraitementComponent implements OnInit {
     private excelService: ExcelService,
     private titleService: Title,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private suivieTraitementFilterStateService: SuivieTraitementFilterStateService
   ) {
     this.titleService.setTitle(`${this.title}`);
     this.listOperations = this.mappingService.listOperationTraitementVue;
@@ -100,11 +103,13 @@ export class SuivieTraitementComponent implements OnInit {
   }
  
   public GetAllTransactions() {
+    const data = {
+      ...(this.historie?.statut ? { statut: this.selectedStatut } : {}),
+      ...(this.historie?.traitement ? { traitement: this.selectedTraitement } : {})
+    }
+    this.suivieTraitementFilterStateService.setFilterState(data);
     this.supervisionOperationService
-      .GetAllTransactions({
-        ...(this.historie?.statut ? { statut: this.selectedStatut } : {}),
-        ...(this.historie?.traitement ? { traitement: this.selectedTraitement } : {})
-      }, this.p)
+      .GetAllTransactions(data, this.p)
       .subscribe({
         next: (response) => {
           this.listTraitemants =  response['data']['data']
@@ -146,6 +151,7 @@ export class SuivieTraitementComponent implements OnInit {
       date_debut: this.selectDateStart,
       date_fin: this.selectDateEnd,
     };
+    this.suivieTraitementFilterStateService.setFilterState(data);
     this.supervisionOperationService
       .GetAllTransactions(data, this.p)
       .subscribe({
@@ -316,17 +322,6 @@ export class SuivieTraitementComponent implements OnInit {
     }
   }
 
-  OnShowModalTraitement(data: any, typeAction: 'traiter' | 'cloturer'): void {
-    this.IsLoading = true;
-    const modalRef = this.modalService.open(DemandeMasseComponent, ModalParams);
-    modalRef.componentInstance.action = typeAction;
-    modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
-    // modalRef.componentInstance.resultTraitement.subscribe((res) => { this.listTraitemants = res });
-    modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res; 
-      modalRef.componentInstance.IsLoadData = !res;
-    });
-  }
-
   OnShowTraitement(data: any, paramUrl: string): void {
     this.router.navigate([SEARCH], {
       relativeTo: this.activatedRoute,
@@ -337,6 +332,21 @@ export class SuivieTraitementComponent implements OnInit {
         request: data?.numero_demande,
       },
     });
+  }
+
+  showJournal(data: Object): void {
+    const modalRef = this.modalService.open(JournalComponent, ModalParams);
+    modalRef.componentInstance.numero_demande = data['numero_demande'];
+    modalRef.componentInstance.typeJournal = "demandes-services";
+  }
+
+  OnShowModalTraitement(data: any, typeAction: 'traiter' | 'cloturer'): void {
+    this.IsLoading = true;
+    const modalRef = this.modalService.open(DemandeMasseComponent, ModalParams);
+    modalRef.componentInstance.action = typeAction;
+    modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
+    modalRef.componentInstance.resultTraitement = this.supervisionOperationService.GetAllTransactions(this.suivieTraitementFilterStateService.getFilterState(), this.p);
+    modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res;  modalRef.componentInstance.IsLoadData = !res });
   }
 
   // OnShowTraitement(data: any): void {

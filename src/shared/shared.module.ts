@@ -1,3 +1,4 @@
+import { SpinnerComponent } from './components/spinner/spinner.component';
 import { FormMasseComponent } from './components/form-masse/form-masse.component';
 import { ParginationComponent } from 'src/shared/components/pargination/pargination.component';
 import { TransactionMasseComponent } from './components/transaction-masse/transaction-masse.component';
@@ -58,6 +59,7 @@ import { PasswordModule } from 'primeng/password';
 import { TraitementShowComponent } from './components/traitement-show/traitement-show.component';
 import { BadgeModule } from 'primeng/badge';
 import { PaginatorModule } from 'primeng/paginator';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -89,7 +91,8 @@ import { PaginatorModule } from 'primeng/paginator';
     TableFilterPipe,
     TableFilterPipe,
     ParginationComponent,
-    FormMasseComponent
+    FormMasseComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
@@ -112,6 +115,7 @@ import { PaginatorModule } from 'primeng/paginator';
     RadioButtonModule,
     PasswordModule,
     PaginatorModule,
+    ProgressSpinnerModule
   ],
   providers: [NavService, LayoutService, DecimalPipe],
   exports: [
@@ -142,7 +146,9 @@ import { PaginatorModule } from 'primeng/paginator';
     TablebuttonHeaderComponent,
     ParginationComponent,
     RadioButtonModule,
-    FormMasseComponent
+    FormMasseComponent,
+    SpinnerComponent,
+    ProgressSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 

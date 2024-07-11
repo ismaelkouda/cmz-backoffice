@@ -4,30 +4,39 @@
             <div>
                 <h3 class="current-transaction-label">
                     <b>
-                        <span>Demande</span><span *ngIf="selectedActionValue" class="mx-2">|</span><span
-                            *ngIf="selectedActionValue">{{
+                        <span>Demande</span
+                        ><span *ngIf="selectedActionValue" class="mx-2">|</span
+                        ><span *ngIf="selectedActionValue">{{
                             formatTitle(selectedActionValue)
-                            }}</span>
-                        <span class="current_values" *ngIf="
+                        }}</span>
+                        <span
+                            class="current_values"
+                            *ngIf="
                                 selectedActionValue !== activation &&
                                 selectedActionValue &&
                                 typeDemande === 'simple'
-                            ">[{{
-                            getFormattedMsisdn(
-                            currentPatrimoine?.msisdn ?? '0000000000'
-                            )
-                            }}]</span>
+                            "
+                            >[{{
+                                getFormattedMsisdn(
+                                    currentPatrimoine?.msisdn ?? '0000000000'
+                                )
+                            }}]</span
+                        >
                     </b>
                 </h3>
             </div>
-            <div class="d-flex gap-2" style="margin-top: -0.5rem" *ngIf="selectedActionValue === volume">
+            <div
+                class="d-flex gap-2"
+                style="margin-top: -0.5rem"
+                *ngIf="selectedActionValue === volume"
+            >
                 <div class="box-card">
                     <span class="title">Dotation Data (Go) :</span>
                     <span class="valeur">
                         <span>{{
                             currentPatrimoine?.solde_dotation ?? 0
-                            | formatNumber: 2
-                            }}</span>
+                                | formatNumber: 2
+                        }}</span>
                     </span>
                 </div>
                 <div class="box-card">
@@ -35,47 +44,87 @@
                     <span class="valeur">
                         <span>{{
                             currentPatrimoine?.solde_actuel_go ?? 0
-                            | formatNumber: 2
-                            }}</span>
+                                | formatNumber: 2
+                        }}</span>
                     </span>
                 </div>
             </div>
         </div>
         <div class="forms-feature-header__button">
             <div>
-                <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+                <p-button
+                    label="Fermer"
+                    styleClass="p-button-danger"
+                    (click)="close()"
+                ></p-button>
             </div>
         </div>
     </div>
     <!-----------------------------TRANSACTION SAMPLE-------------------------------->
     <div *ngIf="typeDemande === 'simple'">
         <!------------------------------ACTIVATION--------FORMS-------------------------------->
-        <div class="activation-forms" *ngIf="selectedActionValue === activation">
+        <div
+            class="activation-forms"
+            *ngIf="selectedActionValue === activation"
+        >
             <fieldset style="margin-top: 2.5rem" *ngIf="!historie">
                 <legend [ngStyle]="{ width: '100%' }">
                     <b>Source Stock SIM</b>
                 </legend>
-                <div style="display: flex; gap: 2rem" *ngIf="applicationType === patrimoineType">
+                <div
+                    style="display: flex; gap: 2rem"
+                    *ngIf="applicationType === patrimoineType"
+                >
                     <div class="trans-radio d-flex gap-3">
-                        <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
-                            (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
-                        <label [for]="sourceStock" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
+                        <p-radioButton
+                            name="valeur"
+                            [value]="sourceStock"
+                            [(ngModel)]="sourceValue"
+                            (onClick)="selectedSource(sourceStock)"
+                            [inputId]="sourceStock"
+                        ></p-radioButton>
+                        <label [for]="sourceStock" style="margin-top: 0.9rem"
+                            >Stock SIM/Tenant</label
+                        >
                     </div>
                     <div class="trans-radio d-flex gap-3">
-                        <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
-                            (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
-                        <label [for]="sourceOrange" style="margin-top: 0.9rem">Stock SIM/OCI</label>
+                        <p-radioButton
+                            name="valeur"
+                            [value]="sourceOrange"
+                            [(ngModel)]="sourceValue"
+                            (onClick)="selectedSource(sourceOrange)"
+                            [inputId]="sourceOrange"
+                        ></p-radioButton>
+                        <label [for]="sourceOrange" style="margin-top: 0.9rem"
+                            >Stock SIM/OCI</label
+                        >
                     </div>
                 </div>
-                <div class="text-wrapper" *ngIf="applicationType === patrimoineType">
-                    <input [value]="
+                <div
+                    class="text-wrapper"
+                    *ngIf="applicationType === patrimoineType"
+                >
+                    <input
+                        [value]="
                             sourceValue === 'stock'
                                 ? sourceStockTenantSim
                                 : sourceStockOrangeSim
-                        " type="text" [disabled]="true" pInputText />
+                        "
+                        type="text"
+                        [disabled]="true"
+                        pInputText
+                    />
                 </div>
-                <div class="text-wrapper" *ngIf="applicationType !== patrimoineType">
-                    <input [value]="sourceStockOrangeSim" type="text" [disabled]="true" pInputText />
+                <div
+                    class="text-wrapper"
+                    *ngIf="applicationType !== patrimoineType"
+                >
+                    <input
+                        [value]="sourceStockOrangeSim"
+                        type="text"
+                        [disabled]="true"
+                        pInputText
+                    />
                 </div>
             </fieldset>
             <div [formGroup]="adminForm" novalidate>
@@ -90,7 +139,11 @@
                                 <label>
                                     <b>IMSI</b>
                                 </label>
-                                <input type="text" formControlName="imsi" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="imsi"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -98,7 +151,11 @@
                                 <label>
                                     <b>MSISDN</b>
                                 </label>
-                                <input type="text" formControlName="msisdn" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="msisdn"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -106,8 +163,16 @@
                                 <label>
                                     <b>Statut Contrat</b>
                                 </label>
-                                <input *ngIf="!historie" type="text" formControlName="statut" pInputText />
-                                <app-statut-contrat *ngIf="historie" [statut]="statut_contrat"></app-statut-contrat>
+                                <input
+                                    *ngIf="!historie"
+                                    type="text"
+                                    formControlName="statut"
+                                    pInputText
+                                />
+                                <app-statut-contrat
+                                    *ngIf="historie"
+                                    [statut]="statut_contrat"
+                                ></app-statut-contrat>
                             </div>
                         </div>
                     </div>
@@ -121,12 +186,20 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>{{ firstLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{ firstLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <p-dropdown [options]="listDirections" formControlName="niveau_un_uuid"
-                                    optionLabel="nom" [placeholder]="firstLevelLibelle" [filter]="true" filterBy="nom"
-                                    optionValue="uuid">
+                                <p-dropdown
+                                    [options]="listDirections"
+                                    formControlName="niveau_un_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="firstLevelLibelle"
+                                    [filter]="true"
+                                    filterBy="nom"
+                                    optionValue="uuid"
+                                >
                                     <ng-template let-data pTemplate="item">
                                         <div class="country-item">
                                             <div>
@@ -140,12 +213,20 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>{{ secondLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{ secondLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <p-dropdown [options]="listExploitations" formControlName="niveau_deux_uuid"
-                                    optionLabel="nom" [placeholder]="secondLevelLibelle" [filter]="true" filterBy="nom"
-                                    optionValue="uuid">
+                                <p-dropdown
+                                    [options]="listExploitations"
+                                    formControlName="niveau_deux_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="secondLevelLibelle"
+                                    [filter]="true"
+                                    filterBy="nom"
+                                    optionValue="uuid"
+                                >
                                     <ng-template let-data pTemplate="item">
                                         <div class="country-item">
                                             <div>
@@ -159,12 +240,20 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>{{ thirdLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{ thirdLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <p-dropdown [options]="listActivites" formControlName="niveau_trois_uuid"
-                                    optionLabel="nom" [placeholder]="thirdLevelLibelle" [filter]="true" filterBy="nom"
-                                    optionValue="uuid">
+                                <p-dropdown
+                                    [options]="listActivites"
+                                    formControlName="niveau_trois_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="thirdLevelLibelle"
+                                    [filter]="true"
+                                    filterBy="nom"
+                                    optionValue="uuid"
+                                >
                                     <ng-template let-data pTemplate="item">
                                         <div class="country-item">
                                             <div>
@@ -180,19 +269,34 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Nom Emplacement
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Nom Emplacement
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="text" formControlName="point_emplacement" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="point_emplacement"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Usage<span class="text-danger">*</span></b>
+                                    <b
+                                        >Usage<span class="text-danger"
+                                            >*</span
+                                        ></b
+                                    >
                                 </label>
-                                <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage"
-                                    placeholder="usage" optionValue="id">
+                                <p-dropdown
+                                    [options]="listUsages"
+                                    formControlName="usage_id"
+                                    optionLabel="nom_usage"
+                                    placeholder="usage"
+                                    optionValue="id"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
@@ -201,7 +305,11 @@
                                 <label>
                                     <b>Adresse mail</b>
                                 </label>
-                                <input type="text" formControlName="adresse_email" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="adresse_email"
+                                    pInputText
+                                />
                             </div>
                         </div>
                     </div>
@@ -209,9 +317,18 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Adresse géographique<span class="text-danger">*</span></b>
+                                    <b
+                                        >Adresse géographique<span
+                                            class="text-danger"
+                                            >*</span
+                                        ></b
+                                    >
                                 </label>
-                                <input type="text" formControlName="adresse_geographique" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="adresse_geographique"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -219,7 +336,11 @@
                                 <label>
                                     <b>Latitude</b>
                                 </label>
-                                <input type="text" formControlName="latitude" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="latitude"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -227,7 +348,11 @@
                                 <label>
                                     <b>Longitude</b>
                                 </label>
-                                <input type="text" formControlName="longitude" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="longitude"
+                                    pInputText
+                                />
                             </div>
                         </div>
                     </div>
@@ -241,30 +366,52 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Formule destination<span class="text-danger">*</span></b>
+                                    <b
+                                        >Formule destination<span
+                                            class="text-danger"
+                                            >*</span
+                                        ></b
+                                    >
                                 </label>
-                                <p-dropdown [options]="listFormules" formControlName="formule_uuid" optionLabel="nom"
-                                    [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid"
-                                    [filter]="true" filterBy="nom">
+                                <p-dropdown
+                                    [options]="listFormules"
+                                    formControlName="formule_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="'Formule destination'"
+                                    [showClear]="true"
+                                    optionValue="uuid"
+                                    [filter]="true"
+                                    filterBy="nom"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Description
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Description
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="text" formControlName="description" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="description"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Justificatif
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Justificatif
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="file" style="
+                                <input
+                                    type="file"
+                                    style="
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
@@ -276,13 +423,15 @@
                 </fieldset>
             </div>
         </div>
-        <div *ngIf="
+        <div
+            *ngIf="
                 selectedActionValue === swap ||
                 selectedActionValue === resiliation ||
                 selectedActionValue === suspension ||
                 selectedActionValue === formule ||
                 selectedActionValue === volume
-            ">
+            "
+        >
             <fieldset style="margin-top: 2.5rem">
                 <legend [ngStyle]="{ width: '100%' }">
                     <b>Informations de la SIM</b>
@@ -294,29 +443,58 @@
                                 <label>
                                     <div class="d-flex gap-5">
                                         <div class="trans-radio d-flex gap-3">
-                                            <p-radioButton name="valeur" value="IMSI" [(ngModel)]="radioValue"
-                                                (onClick)="changeItem($event)" inputId="imsi"></p-radioButton>
-                                            <label for="imsi" style="
+                                            <p-radioButton
+                                                name="valeur"
+                                                value="IMSI"
+                                                [(ngModel)]="radioValue"
+                                                (onClick)="changeItem($event)"
+                                                inputId="imsi"
+                                            ></p-radioButton>
+                                            <label
+                                                for="imsi"
+                                                style="
                                                     margin-top: 0.8rem;
                                                     font-size: 0.8rem;
-                                                ">IMSI</label>
+                                                "
+                                                >IMSI</label
+                                            >
                                         </div>
                                         <div class="trans-radio d-flex gap-3">
-                                            <p-radioButton name="valeur" value="MSISDN" [(ngModel)]="radioValue"
-                                                (onClick)="changeItem($event)" inputId="msisdn"></p-radioButton>
-                                            <label for="msisdn" style="
+                                            <p-radioButton
+                                                name="valeur"
+                                                value="MSISDN"
+                                                [(ngModel)]="radioValue"
+                                                (onClick)="changeItem($event)"
+                                                inputId="msisdn"
+                                            ></p-radioButton>
+                                            <label
+                                                for="msisdn"
+                                                style="
                                                     margin-top: 0.8rem;
                                                     font-size: 0.8rem;
-                                                ">MSISDN</label>
+                                                "
+                                                >MSISDN</label
+                                            >
                                         </div>
                                     </div>
                                 </label>
                                 <div class="d-flex gap-2">
-                                    <input placeholder="Saisir le numéro" [(ngModel)]="selectedValue" type="text"
-                                        pInputText />
-                                    <button pButton pRipple label="Verifier" (click)="onVerify()"
-                                        [disabled]="isFilter()" style="padding: 0 2rem 0 1rem" icon="pi pi-sync"
-                                        class="p-button-success"></button>
+                                    <input
+                                        placeholder="Saisir le numéro"
+                                        [(ngModel)]="selectedValue"
+                                        type="text"
+                                        pInputText
+                                    />
+                                    <button
+                                        pButton
+                                        pRipple
+                                        label="Verifier"
+                                        (click)="onVerify()"
+                                        [disabled]="isFilter()"
+                                        style="padding: 0 2rem 0 1rem"
+                                        icon="pi pi-sync"
+                                        class="p-button-success"
+                                    ></button>
                                 </div>
                             </div>
                         </div>
@@ -330,8 +508,12 @@
                                 <label>
                                     <b>MSIDN</b>
                                 </label>
-                                <input type="text" [(ngModel)]="currentPatrimoine.msisdn" [disabled]="true"
-                                    pInputText />
+                                <input
+                                    type="text"
+                                    [(ngModel)]="currentPatrimoine.msisdn"
+                                    [disabled]="true"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div>
@@ -339,7 +521,12 @@
                                 <label>
                                     <b>IMSI</b>
                                 </label>
-                                <input type="text" [(ngModel)]="currentPatrimoine.imsi" [disabled]="true" pInputText />
+                                <input
+                                    type="text"
+                                    [(ngModel)]="currentPatrimoine.imsi"
+                                    [disabled]="true"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div>
@@ -347,8 +534,12 @@
                                 <label>
                                     <b>Formule</b>
                                 </label>
-                                <input type="text" [(ngModel)]="currentPatrimoine.formule" [disabled]="true"
-                                    pInputText />
+                                <input
+                                    type="text"
+                                    [(ngModel)]="currentPatrimoine.formule"
+                                    [disabled]="true"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div>
@@ -356,10 +547,17 @@
                                 <label>
                                     <b>Statut Contrat</b>
                                 </label>
-                                <input *ngIf="!currentPatrimoine?.statut" type="text"
-                                    [(ngModel)]="currentPatrimoine.statut" pInputText [disabled]="true" />
-                                <app-statut-contrat *ngIf="currentPatrimoine?.statut"
-                                    [statut]="currentPatrimoine?.statut"></app-statut-contrat>
+                                <input
+                                    *ngIf="!currentPatrimoine?.statut"
+                                    type="text"
+                                    [(ngModel)]="currentPatrimoine.statut"
+                                    pInputText
+                                    [disabled]="true"
+                                />
+                                <app-statut-contrat
+                                    *ngIf="currentPatrimoine?.statut"
+                                    [statut]="currentPatrimoine?.statut"
+                                ></app-statut-contrat>
                             </div>
                         </div>
                         <div>
@@ -367,9 +565,14 @@
                                 <label>
                                     <b>Nom Emplacement</b>
                                 </label>
-                                <input type="text" [(ngModel)]="
+                                <input
+                                    type="text"
+                                    [(ngModel)]="
                                         currentPatrimoine.point_emplacement
-                                    " [disabled]="true" pInputText />
+                                    "
+                                    [disabled]="true"
+                                    pInputText
+                                />
                             </div>
                         </div>
                     </div>
@@ -380,18 +583,35 @@
                     <b>Détails de la demande</b>
                 </legend>
                 <!----------------------------RESILIER----SUSPENSION----FORMULE-------------------------------->
-                <div class="row p-1" *ngIf="
+                <div
+                    class="row p-1"
+                    *ngIf="
                         selectedActionValue === resiliation ||
                         selectedActionValue === suspension ||
                         selectedActionValue === formule
-                    ">
-                    <div class="col-md-4" *ngIf="selectedActionValue === formule">
+                    "
+                >
+                    <div
+                        class="col-md-4"
+                        *ngIf="selectedActionValue === formule"
+                    >
                         <div class="form-group">
                             <label>
-                                <b>Formule destination<span class="text-danger">*</span></b>
+                                <b
+                                    >Formule destination<span
+                                        class="text-danger"
+                                        >*</span
+                                    ></b
+                                >
                             </label>
-                            <p-dropdown [options]="listFormules" [(ngModel)]="selectedFormule" optionLabel="nom"
-                                [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
+                            <p-dropdown
+                                [options]="listFormules"
+                                [(ngModel)]="selectedFormule"
+                                optionLabel="nom"
+                                [placeholder]="'Formule destination'"
+                                [showClear]="true"
+                                optionValue="uuid"
+                            >
                                 <ng-template let-data pTemplate="item">
                                     <div class="country-item">
                                         <div>
@@ -405,10 +625,17 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>
-                                <b>Description
-                                    <span class="text-danger">*</span></b>
+                                <b
+                                    >Description
+                                    <span class="text-danger">*</span></b
+                                >
                             </label>
-                            <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
+                            <input
+                                type="text"
+                                [disabled]="isVerify()"
+                                [(ngModel)]="selectedDescription"
+                                pInputText
+                            />
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -416,7 +643,9 @@
                             <label>
                                 <b>Justificatif</b>
                             </label>
-                            <input type="file" style="
+                            <input
+                                type="file"
+                                style="
                                     padding: 0.6rem;
                                     border: 1px solid #000;
                                     border-radius: 0.3rem;
@@ -430,14 +659,32 @@
                     <div class="row">
                         <div style="display: flex; gap: 2rem">
                             <div class="trans-radio d-flex gap-3">
-                                <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
-                                    (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
-                                <label [for]="sourceStock" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
+                                <p-radioButton
+                                    name="valeur"
+                                    [value]="sourceStock"
+                                    [(ngModel)]="sourceValue"
+                                    (onClick)="selectedSource(sourceStock)"
+                                    [inputId]="sourceStock"
+                                ></p-radioButton>
+                                <label
+                                    [for]="sourceStock"
+                                    style="margin-top: 0.9rem"
+                                    >Stock SIM/Tenant</label
+                                >
                             </div>
                             <div class="trans-radio d-flex gap-3">
-                                <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
-                                    (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
-                                <label [for]="sourceOrange" style="margin-top: 0.9rem">Stock SIM/OCI</label>
+                                <p-radioButton
+                                    name="valeur"
+                                    [value]="sourceOrange"
+                                    [(ngModel)]="sourceValue"
+                                    (onClick)="selectedSource(sourceOrange)"
+                                    [inputId]="sourceOrange"
+                                ></p-radioButton>
+                                <label
+                                    [for]="sourceOrange"
+                                    style="margin-top: 0.9rem"
+                                    >Stock SIM/OCI</label
+                                >
                             </div>
                         </div>
                     </div>
@@ -446,22 +693,33 @@
                             <label style="opacity: 0">
                                 <b> <span class="text-danger">*</span></b>
                             </label>
-                            <input [value]="
+                            <input
+                                [value]="
                                     sourceValue === 'stock'
                                         ? sourceStockTenantSim
                                         : sourceStockOrangeSim
-                                " type="text" [disabled]="true" pInputText />
+                                "
+                                type="text"
+                                [disabled]="true"
+                                pInputText
+                            />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Description
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Description
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription"
-                                    pInputText />
+                                <input
+                                    type="text"
+                                    [disabled]="isVerify()"
+                                    [(ngModel)]="selectedDescription"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -469,7 +727,9 @@
                                 <label>
                                     <b>Justificatif</b>
                                 </label>
-                                <input type="file" style="
+                                <input
+                                    type="file"
+                                    style="
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
@@ -487,11 +747,16 @@
                                 <label style="opacity: 0; height: 0">
                                     <b> <span class="text-danger">*</span></b>
                                 </label>
-                                <input [value]="
+                                <input
+                                    [value]="
                                         sourceValue === 'stock'
                                             ? sourceSoldeDotation
                                             : sourceSoldeDotationOrange
-                                    " type="text" [disabled]="true" pInputText />
+                                    "
+                                    type="text"
+                                    [disabled]="true"
+                                    pInputText
+                                />
                             </div>
                         </div>
                     </div>
@@ -499,10 +764,17 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>
-                                    <b>Volume (Go)
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Volume (Go)
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="number" [disabled]="isVerify()" [(ngModel)]="selectedVolume" pInputText />
+                                <input
+                                    type="number"
+                                    [disabled]="isVerify()"
+                                    [(ngModel)]="selectedVolume"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-5">
@@ -510,8 +782,12 @@
                                 <label>
                                     <b>Description</b>
                                 </label>
-                                <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription"
-                                    pInputText />
+                                <input
+                                    type="text"
+                                    [disabled]="isVerify()"
+                                    [(ngModel)]="selectedDescription"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-5">
@@ -519,7 +795,9 @@
                                 <label>
                                     <b>Justificatif</b>
                                 </label>
-                                <input type="file" style="
+                                <input
+                                    type="file"
+                                    style="
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
@@ -545,7 +823,10 @@
     <!-----------------------------TRANSACTION MASSE-------------------------------->
     <div *ngIf="typeDemande === 'masse'">
         <!------------------------------ACTIVATION--------FORMS-------------------------------->
-        <div class="activation-forms" *ngIf="this.router.url === '/demandes/activation'">
+        <div
+            class="activation-forms"
+            *ngIf="this.router.url === '/demandes/activation'"
+        >
             <div [formGroup]="adminForm" novalidate>
                 <!------------------INFOS---------IDENTIFICATION----------------->
                 <fieldset *ngIf="!historie">
@@ -555,47 +836,99 @@
                     <div class="row">
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label><b>{{ firstLevelLibelle
-                                        }}<span class="text-danger">*</span></b></label>
-                                <p-dropdown [options]="listDirections" formControlName="niveau_un_uuid"
-                                    optionLabel="nom" [placeholder]="firstLevelLibelle" optionValue="uuid"
-                                    [showClear]="true">
+                                <label
+                                    ><b
+                                        >{{ firstLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    ></label
+                                >
+                                <p-dropdown
+                                    [options]="listDirections"
+                                    formControlName="niveau_un_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="firstLevelLibelle"
+                                    optionValue="uuid"
+                                    [showClear]="true"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label><b>{{ secondLevelLibelle
-                                        }}<span class="text-danger">*</span></b></label>
-                                <p-dropdown [options]="listExploitations" formControlName="niveau_deux_uuid"
-                                    optionLabel="nom" [placeholder]="secondLevelLibelle" optionValue="uuid"
-                                    [showClear]="true">
+                                <label
+                                    ><b
+                                        >{{ secondLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    ></label
+                                >
+                                <p-dropdown
+                                    [options]="listExploitations"
+                                    formControlName="niveau_deux_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="secondLevelLibelle"
+                                    optionValue="uuid"
+                                    [showClear]="true"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label><b>{{ thirdLevelLibelle
-                                        }}<span class="text-danger">*</span></b></label>
-                                <p-dropdown [options]="listActivites" formControlName="niveau_trois_uuid"
-                                    optionLabel="nom" [placeholder]="thirdLevelLibelle" optionValue="uuid"
-                                    [showClear]="true">
+                                <label
+                                    ><b
+                                        >{{ thirdLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    ></label
+                                >
+                                <p-dropdown
+                                    [options]="listActivites"
+                                    formControlName="niveau_trois_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="thirdLevelLibelle"
+                                    optionValue="uuid"
+                                    [showClear]="true"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label><b>Usage<span class="text-danger">*</span></b></label>
-                                <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage"
-                                    placeholder="usage" optionValue="id" [showClear]="true">
+                                <label
+                                    ><b
+                                        >Usage<span class="text-danger"
+                                            >*</span
+                                        ></b
+                                    ></label
+                                >
+                                <p-dropdown
+                                    [options]="listUsages"
+                                    formControlName="usage_id"
+                                    optionLabel="nom_usage"
+                                    placeholder="usage"
+                                    optionValue="id"
+                                    [showClear]="true"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label><b>Formule destination<span class="text-danger">*</span></b></label>
-                                <p-dropdown [options]="listFormules" formControlName="formule_uuid" optionLabel="nom"
-                                    [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
+                                <label
+                                    ><b
+                                        >Formule destination<span
+                                            class="text-danger"
+                                            >*</span
+                                        ></b
+                                    ></label
+                                >
+                                <p-dropdown
+                                    [options]="listFormules"
+                                    formControlName="formule_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="'Formule destination'"
+                                    [showClear]="true"
+                                    optionValue="uuid"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
@@ -609,80 +942,123 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>{{ firstLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{ firstLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="text" formControlName="niveau_un_uuid" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="niveau_un_uuid"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>{{ secondLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{ secondLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="text" formControlName="niveau_deux_uuid" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="niveau_deux_uuid"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>{{ thirdLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{ thirdLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="text" formControlName="niveau_trois_uuid" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="niveau_trois_uuid"
+                                    pInputText
+                                />
                             </div>
                         </div>
                     </div>
                 </fieldset>
 
-                <fieldset style="margin-top: 2.5rem" *ngIf="selectedActionValue">
+                <fieldset
+                    style="margin-top: 2.5rem"
+                    *ngIf="selectedActionValue"
+                >
                     <legend [ngStyle]="{ width: '100%' }">
                         <b>Demandes</b>
                     </legend>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label><b>Nombre</b><span class="text-danger">*</span></label>
-                                <input placeholder="nombre" formControlName="nb_demandes" type="number" pInputText />
+                                <label
+                                    ><b>Nombre</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    placeholder="nombre"
+                                    formControlName="nb_demandes"
+                                    type="number"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Justificatif
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Justificatif
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="file" style="
+                                <input
+                                    type="file"
+                                    style="
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
                                         color: #000;
-                                    " (change)="
+                                    "
+                                    (change)="
                                         onChangeFile(
                                             $event.target.files,
                                             'justificatif'
                                         )
-                                    " accept="image/png,image/jpeg" />
+                                    "
+                                    accept="image/png,image/jpeg"
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Reçu de paiement
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Reçu de paiement
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="file" style="
+                                <input
+                                    type="file"
+                                    style="
                                         padding: 0.6rem;
                                         border: 1px solid;
                                         border-radius: 0.3rem;
                                         color: #000;
-                                    " (change)="
+                                    "
+                                    (change)="
                                         onChangeFile(
                                             $event.target.files,
                                             'recu'
                                         )
-                                    " accept="image/png,image/jpeg" />
+                                    "
+                                    accept="image/png,image/jpeg"
+                                />
                             </div>
                         </div>
                     </div>
@@ -697,10 +1073,16 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>
-                                <b>Description
-                                    <span class="text-danger">*</span></b>
+                                <b
+                                    >Description
+                                    <span class="text-danger">*</span></b
+                                >
                             </label>
-                            <input type="text" [(ngModel)]="selectedDescription" pInputText />
+                            <input
+                                type="text"
+                                [(ngModel)]="selectedDescription"
+                                pInputText
+                            />
                         </div>
                     </div>
                 </div>
@@ -708,7 +1090,11 @@
         </div>
         <div class="submit-form">
             <div>
-                <button pButton style="float: right; margin-top: 1rem" label="Soumettre" class="p-button-success"
+                <button
+                    pButton
+                    style="float: right; margin-top: 1rem"
+                    label="Soumettre"
+                    class="p-button-success"
                     [disabled]="
                         !adminForm ||
                         !selectedPiece ||
@@ -721,7 +1107,9 @@
                         !adminForm.value.usage_id ||
                         !adminForm.value.formule_uuid ||
                         listDemandes?.length === 0
-                    " (click)="handleSaveMasse()"></button>
+                    "
+                    (click)="handleSaveMasse()"
+                ></button>
             </div>
         </div>
     </div>
@@ -733,30 +1121,39 @@
             <div>
                 <h3 class="current-transaction-label">
                     <b>
-                        <span>Demande</span><span *ngIf="selectedActionValue" class="mx-2">|</span><span
-                            *ngIf="selectedActionValue">{{
+                        <span>Demande</span
+                        ><span *ngIf="selectedActionValue" class="mx-2">|</span
+                        ><span *ngIf="selectedActionValue">{{
                             formatTitle(selectedActionValue)
-                            }}</span>
-                        <span class="current_values" *ngIf="
+                        }}</span>
+                        <span
+                            class="current_values"
+                            *ngIf="
                                 selectedActionValue !== activation &&
                                 selectedActionValue &&
                                 typeDemande === 'simple'
-                            ">[{{
-                            getFormattedMsisdn(
-                            currentPatrimoine?.msisdn ?? '0000000000'
-                            )
-                            }}]</span>
+                            "
+                            >[{{
+                                getFormattedMsisdn(
+                                    currentPatrimoine?.msisdn ?? '0000000000'
+                                )
+                            }}]</span
+                        >
                     </b>
                 </h3>
             </div>
-            <div class="d-flex gap-2" style="margin-top: -0.5rem" *ngIf="selectedActionValue === volume">
+            <div
+                class="d-flex gap-2"
+                style="margin-top: -0.5rem"
+                *ngIf="selectedActionValue === volume"
+            >
                 <div class="box-card">
                     <span class="title">Dotation Data (Go) :</span>
                     <span class="valeur">
                         <span>{{
                             currentPatrimoine?.solde_dotation ?? 0
-                            | formatNumber: 2
-                            }}</span>
+                                | formatNumber: 2
+                        }}</span>
                     </span>
                 </div>
                 <div class="box-card">
@@ -764,47 +1161,87 @@
                     <span class="valeur">
                         <span>{{
                             currentPatrimoine?.solde_actuel_go ?? 0
-                            | formatNumber: 2
-                            }}</span>
+                                | formatNumber: 2
+                        }}</span>
                     </span>
                 </div>
             </div>
         </div>
         <div class="forms-feature-header__button">
             <div>
-                <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+                <p-button
+                    label="Fermer"
+                    styleClass="p-button-danger"
+                    (click)="close()"
+                ></p-button>
             </div>
         </div>
     </div>
     <!-----------------------------TRANSACTION SAMPLE-------------------------------->
-    <div >
+    <div>
         <!------------------------------ACTIVATION--------FORMS-------------------------------->
-        <div class="activation-forms" *ngIf="selectedActionValue === activation">
+        <div
+            class="activation-forms"
+            *ngIf="selectedActionValue === activation"
+        >
             <fieldset style="margin-top: 2.5rem" *ngIf="!historie">
                 <legend [ngStyle]="{ width: '100%' }">
                     <b>Source Stock SIM</b>
                 </legend>
-                <div style="display: flex; gap: 2rem" *ngIf="applicationType === patrimoineType">
+                <div
+                    style="display: flex; gap: 2rem"
+                    *ngIf="applicationType === patrimoineType"
+                >
                     <div class="trans-radio d-flex gap-3">
-                        <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
-                            (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
-                        <label [for]="sourceStock" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
+                        <p-radioButton
+                            name="valeur"
+                            [value]="sourceStock"
+                            [(ngModel)]="sourceValue"
+                            (onClick)="selectedSource(sourceStock)"
+                            [inputId]="sourceStock"
+                        ></p-radioButton>
+                        <label [for]="sourceStock" style="margin-top: 0.9rem"
+                            >Stock SIM/Tenant</label
+                        >
                     </div>
                     <div class="trans-radio d-flex gap-3">
-                        <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
-                            (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
-                        <label [for]="sourceOrange" style="margin-top: 0.9rem">Stock SIM/OCI</label>
+                        <p-radioButton
+                            name="valeur"
+                            [value]="sourceOrange"
+                            [(ngModel)]="sourceValue"
+                            (onClick)="selectedSource(sourceOrange)"
+                            [inputId]="sourceOrange"
+                        ></p-radioButton>
+                        <label [for]="sourceOrange" style="margin-top: 0.9rem"
+                            >Stock SIM/OCI</label
+                        >
                     </div>
                 </div>
-                <div class="text-wrapper" *ngIf="applicationType === patrimoineType">
-                    <input [value]="
+                <div
+                    class="text-wrapper"
+                    *ngIf="applicationType === patrimoineType"
+                >
+                    <input
+                        [value]="
                             sourceValue === 'stock'
                                 ? sourceStockTenantSim
                                 : sourceStockOrangeSim
-                        " type="text" [disabled]="true" pInputText />
+                        "
+                        type="text"
+                        [disabled]="true"
+                        pInputText
+                    />
                 </div>
-                <div class="text-wrapper" *ngIf="applicationType !== patrimoineType">
-                    <input [value]="sourceStockOrangeSim" type="text" [disabled]="true" pInputText />
+                <div
+                    class="text-wrapper"
+                    *ngIf="applicationType !== patrimoineType"
+                >
+                    <input
+                        [value]="sourceStockOrangeSim"
+                        type="text"
+                        [disabled]="true"
+                        pInputText
+                    />
                 </div>
             </fieldset>
             <div [formGroup]="adminForm" novalidate>
@@ -819,7 +1256,11 @@
                                 <label>
                                     <b>IMSI</b>
                                 </label>
-                                <input type="text" formControlName="imsi" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="imsi"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -827,7 +1268,11 @@
                                 <label>
                                     <b>MSISDN</b>
                                 </label>
-                                <input type="text" formControlName="msisdn" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="msisdn"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -835,8 +1280,16 @@
                                 <label>
                                     <b>Statut Contrat</b>
                                 </label>
-                                <input *ngIf="!historie" type="text" formControlName="statut" pInputText />
-                                <app-statut-contrat *ngIf="historie" [statut]="statut_contrat"></app-statut-contrat>
+                                <input
+                                    *ngIf="!historie"
+                                    type="text"
+                                    formControlName="statut"
+                                    pInputText
+                                />
+                                <app-statut-contrat
+                                    *ngIf="historie"
+                                    [statut]="statut_contrat"
+                                ></app-statut-contrat>
                             </div>
                         </div>
                     </div>
@@ -850,12 +1303,20 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>{{ firstLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{ firstLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <p-dropdown [options]="listDirections" formControlName="niveau_un_uuid"
-                                    optionLabel="nom" [placeholder]="firstLevelLibelle" [filter]="true" filterBy="nom"
-                                    optionValue="uuid">
+                                <p-dropdown
+                                    [options]="listDirections"
+                                    formControlName="niveau_un_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="firstLevelLibelle"
+                                    [filter]="true"
+                                    filterBy="nom"
+                                    optionValue="uuid"
+                                >
                                     <ng-template let-data pTemplate="item">
                                         <div class="country-item">
                                             <div>
@@ -869,12 +1330,20 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>{{ secondLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{ secondLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <p-dropdown [options]="listExploitations" formControlName="niveau_deux_uuid"
-                                    optionLabel="nom" [placeholder]="secondLevelLibelle" [filter]="true" filterBy="nom"
-                                    optionValue="uuid">
+                                <p-dropdown
+                                    [options]="listExploitations"
+                                    formControlName="niveau_deux_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="secondLevelLibelle"
+                                    [filter]="true"
+                                    filterBy="nom"
+                                    optionValue="uuid"
+                                >
                                     <ng-template let-data pTemplate="item">
                                         <div class="country-item">
                                             <div>
@@ -888,12 +1357,20 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>{{ thirdLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{ thirdLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <p-dropdown [options]="listActivites" formControlName="niveau_trois_uuid"
-                                    optionLabel="nom" [placeholder]="thirdLevelLibelle" [filter]="true" filterBy="nom"
-                                    optionValue="uuid">
+                                <p-dropdown
+                                    [options]="listActivites"
+                                    formControlName="niveau_trois_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="thirdLevelLibelle"
+                                    [filter]="true"
+                                    filterBy="nom"
+                                    optionValue="uuid"
+                                >
                                     <ng-template let-data pTemplate="item">
                                         <div class="country-item">
                                             <div>
@@ -909,19 +1386,34 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Nom Emplacement
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Nom Emplacement
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="text" formControlName="point_emplacement" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="point_emplacement"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Usage<span class="text-danger">*</span></b>
+                                    <b
+                                        >Usage<span class="text-danger"
+                                            >*</span
+                                        ></b
+                                    >
                                 </label>
-                                <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage"
-                                    placeholder="usage" optionValue="id">
+                                <p-dropdown
+                                    [options]="listUsages"
+                                    formControlName="usage_id"
+                                    optionLabel="nom_usage"
+                                    placeholder="usage"
+                                    optionValue="id"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
@@ -930,7 +1422,11 @@
                                 <label>
                                     <b>Adresse mail</b>
                                 </label>
-                                <input type="text" formControlName="adresse_email" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="adresse_email"
+                                    pInputText
+                                />
                             </div>
                         </div>
                     </div>
@@ -938,9 +1434,18 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Adresse géographique<span class="text-danger">*</span></b>
+                                    <b
+                                        >Adresse géographique<span
+                                            class="text-danger"
+                                            >*</span
+                                        ></b
+                                    >
                                 </label>
-                                <input type="text" formControlName="adresse_geographique" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="adresse_geographique"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -948,7 +1453,11 @@
                                 <label>
                                     <b>Latitude</b>
                                 </label>
-                                <input type="text" formControlName="latitude" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="latitude"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -956,7 +1465,11 @@
                                 <label>
                                     <b>Longitude</b>
                                 </label>
-                                <input type="text" formControlName="longitude" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="longitude"
+                                    pInputText
+                                />
                             </div>
                         </div>
                     </div>
@@ -970,30 +1483,52 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Formule destination<span class="text-danger">*</span></b>
+                                    <b
+                                        >Formule destination<span
+                                            class="text-danger"
+                                            >*</span
+                                        ></b
+                                    >
                                 </label>
-                                <p-dropdown [options]="listFormules" formControlName="formule_uuid" optionLabel="nom"
-                                    [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid"
-                                    [filter]="true" filterBy="nom">
+                                <p-dropdown
+                                    [options]="listFormules"
+                                    formControlName="formule_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="'Formule destination'"
+                                    [showClear]="true"
+                                    optionValue="uuid"
+                                    [filter]="true"
+                                    filterBy="nom"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Description
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Description
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="text" formControlName="description" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="description"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Justificatif
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Justificatif
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="file" style="
+                                <input
+                                    type="file"
+                                    style="
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
@@ -1005,13 +1540,15 @@
                 </fieldset>
             </div>
         </div>
-        <div *ngIf="
+        <div
+            *ngIf="
                 selectedActionValue === swap ||
                 selectedActionValue === resiliation ||
                 selectedActionValue === suspension ||
                 selectedActionValue === formule ||
                 selectedActionValue === volume
-            ">
+            "
+        >
             <fieldset style="margin-top: 2.5rem">
                 <legend [ngStyle]="{ width: '100%' }">
                     <b>Informations de la SIM</b>
@@ -1023,29 +1560,58 @@
                                 <label>
                                     <div class="d-flex gap-5">
                                         <div class="trans-radio d-flex gap-3">
-                                            <p-radioButton name="valeur" value="IMSI" [(ngModel)]="radioValue"
-                                                (onClick)="changeItem($event)" inputId="imsi"></p-radioButton>
-                                            <label for="imsi" style="
+                                            <p-radioButton
+                                                name="valeur"
+                                                value="IMSI"
+                                                [(ngModel)]="radioValue"
+                                                (onClick)="changeItem($event)"
+                                                inputId="imsi"
+                                            ></p-radioButton>
+                                            <label
+                                                for="imsi"
+                                                style="
                                                     margin-top: 0.8rem;
                                                     font-size: 0.8rem;
-                                                ">IMSI</label>
+                                                "
+                                                >IMSI</label
+                                            >
                                         </div>
                                         <div class="trans-radio d-flex gap-3">
-                                            <p-radioButton name="valeur" value="MSISDN" [(ngModel)]="radioValue"
-                                                (onClick)="changeItem($event)" inputId="msisdn"></p-radioButton>
-                                            <label for="msisdn" style="
+                                            <p-radioButton
+                                                name="valeur"
+                                                value="MSISDN"
+                                                [(ngModel)]="radioValue"
+                                                (onClick)="changeItem($event)"
+                                                inputId="msisdn"
+                                            ></p-radioButton>
+                                            <label
+                                                for="msisdn"
+                                                style="
                                                     margin-top: 0.8rem;
                                                     font-size: 0.8rem;
-                                                ">MSISDN</label>
+                                                "
+                                                >MSISDN</label
+                                            >
                                         </div>
                                     </div>
                                 </label>
                                 <div class="d-flex gap-2">
-                                    <input placeholder="Saisir le numéro" [(ngModel)]="selectedValue" type="text"
-                                        pInputText />
-                                    <button pButton pRipple label="Verifier" (click)="onVerify()"
-                                        [disabled]="isFilter()" style="padding: 0 2rem 0 1rem" icon="pi pi-sync"
-                                        class="p-button-success"></button>
+                                    <input
+                                        placeholder="Saisir le numéro"
+                                        [(ngModel)]="selectedValue"
+                                        type="text"
+                                        pInputText
+                                    />
+                                    <button
+                                        pButton
+                                        pRipple
+                                        label="Verifier"
+                                        (click)="onVerify()"
+                                        [disabled]="isFilter()"
+                                        style="padding: 0 2rem 0 1rem"
+                                        icon="pi pi-sync"
+                                        class="p-button-success"
+                                    ></button>
                                 </div>
                             </div>
                         </div>
@@ -1059,8 +1625,12 @@
                                 <label>
                                     <b>MSIDN</b>
                                 </label>
-                                <input type="text" [(ngModel)]="currentPatrimoine.msisdn" [disabled]="true"
-                                    pInputText />
+                                <input
+                                    type="text"
+                                    [(ngModel)]="currentPatrimoine.msisdn"
+                                    [disabled]="true"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div>
@@ -1068,7 +1638,12 @@
                                 <label>
                                     <b>IMSI</b>
                                 </label>
-                                <input type="text" [(ngModel)]="currentPatrimoine.imsi" [disabled]="true" pInputText />
+                                <input
+                                    type="text"
+                                    [(ngModel)]="currentPatrimoine.imsi"
+                                    [disabled]="true"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div>
@@ -1076,8 +1651,12 @@
                                 <label>
                                     <b>Formule</b>
                                 </label>
-                                <input type="text" [(ngModel)]="currentPatrimoine.formule" [disabled]="true"
-                                    pInputText />
+                                <input
+                                    type="text"
+                                    [(ngModel)]="currentPatrimoine.formule"
+                                    [disabled]="true"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div>
@@ -1085,10 +1664,17 @@
                                 <label>
                                     <b>Statut Contrat</b>
                                 </label>
-                                <input *ngIf="!currentPatrimoine?.statut" type="text"
-                                    [(ngModel)]="currentPatrimoine.statut" pInputText [disabled]="true" />
-                                <app-statut-contrat *ngIf="currentPatrimoine?.statut"
-                                    [statut]="currentPatrimoine?.statut"></app-statut-contrat>
+                                <input
+                                    *ngIf="!currentPatrimoine?.statut"
+                                    type="text"
+                                    [(ngModel)]="currentPatrimoine.statut"
+                                    pInputText
+                                    [disabled]="true"
+                                />
+                                <app-statut-contrat
+                                    *ngIf="currentPatrimoine?.statut"
+                                    [statut]="currentPatrimoine?.statut"
+                                ></app-statut-contrat>
                             </div>
                         </div>
                         <div>
@@ -1096,9 +1682,14 @@
                                 <label>
                                     <b>Nom Emplacement</b>
                                 </label>
-                                <input type="text" [(ngModel)]="
+                                <input
+                                    type="text"
+                                    [(ngModel)]="
                                         currentPatrimoine.point_emplacement
-                                    " [disabled]="true" pInputText />
+                                    "
+                                    [disabled]="true"
+                                    pInputText
+                                />
                             </div>
                         </div>
                     </div>
@@ -1109,18 +1700,35 @@
                     <b>Détails de la demande</b>
                 </legend>
                 <!----------------------------RESILIER----SUSPENSION----FORMULE-------------------------------->
-                <div class="row p-1" *ngIf="
+                <div
+                    class="row p-1"
+                    *ngIf="
                         selectedActionValue === resiliation ||
                         selectedActionValue === suspension ||
                         selectedActionValue === formule
-                    ">
-                    <div class="col-md-4" *ngIf="selectedActionValue === formule">
+                    "
+                >
+                    <div
+                        class="col-md-4"
+                        *ngIf="selectedActionValue === formule"
+                    >
                         <div class="form-group">
                             <label>
-                                <b>Formule destination<span class="text-danger">*</span></b>
+                                <b
+                                    >Formule destination<span
+                                        class="text-danger"
+                                        >*</span
+                                    ></b
+                                >
                             </label>
-                            <p-dropdown [options]="listFormules" [(ngModel)]="selectedFormule" optionLabel="nom"
-                                [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
+                            <p-dropdown
+                                [options]="listFormules"
+                                [(ngModel)]="selectedFormule"
+                                optionLabel="nom"
+                                [placeholder]="'Formule destination'"
+                                [showClear]="true"
+                                optionValue="uuid"
+                            >
                                 <ng-template let-data pTemplate="item">
                                     <div class="country-item">
                                         <div>
@@ -1134,10 +1742,17 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>
-                                <b>Description
-                                    <span class="text-danger">*</span></b>
+                                <b
+                                    >Description
+                                    <span class="text-danger">*</span></b
+                                >
                             </label>
-                            <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription" pInputText />
+                            <input
+                                type="text"
+                                [disabled]="isVerify()"
+                                [(ngModel)]="selectedDescription"
+                                pInputText
+                            />
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -1145,7 +1760,9 @@
                             <label>
                                 <b>Justificatif</b>
                             </label>
-                            <input type="file" style="
+                            <input
+                                type="file"
+                                style="
                                     padding: 0.6rem;
                                     border: 1px solid #000;
                                     border-radius: 0.3rem;
@@ -1159,14 +1776,32 @@
                     <div class="row">
                         <div style="display: flex; gap: 2rem">
                             <div class="trans-radio d-flex gap-3">
-                                <p-radioButton name="valeur" [value]="sourceStock" [(ngModel)]="sourceValue"
-                                    (onClick)="selectedSource(sourceStock)" [inputId]="sourceStock"></p-radioButton>
-                                <label [for]="sourceStock" style="margin-top: 0.9rem">Stock SIM/Tenant</label>
+                                <p-radioButton
+                                    name="valeur"
+                                    [value]="sourceStock"
+                                    [(ngModel)]="sourceValue"
+                                    (onClick)="selectedSource(sourceStock)"
+                                    [inputId]="sourceStock"
+                                ></p-radioButton>
+                                <label
+                                    [for]="sourceStock"
+                                    style="margin-top: 0.9rem"
+                                    >Stock SIM/Tenant</label
+                                >
                             </div>
                             <div class="trans-radio d-flex gap-3">
-                                <p-radioButton name="valeur" [value]="sourceOrange" [(ngModel)]="sourceValue"
-                                    (onClick)="selectedSource(sourceOrange)" [inputId]="sourceOrange"></p-radioButton>
-                                <label [for]="sourceOrange" style="margin-top: 0.9rem">Stock SIM/OCI</label>
+                                <p-radioButton
+                                    name="valeur"
+                                    [value]="sourceOrange"
+                                    [(ngModel)]="sourceValue"
+                                    (onClick)="selectedSource(sourceOrange)"
+                                    [inputId]="sourceOrange"
+                                ></p-radioButton>
+                                <label
+                                    [for]="sourceOrange"
+                                    style="margin-top: 0.9rem"
+                                    >Stock SIM/OCI</label
+                                >
                             </div>
                         </div>
                     </div>
@@ -1175,22 +1810,33 @@
                             <label style="opacity: 0">
                                 <b> <span class="text-danger">*</span></b>
                             </label>
-                            <input [value]="
+                            <input
+                                [value]="
                                     sourceValue === 'stock'
                                         ? sourceStockTenantSim
                                         : sourceStockOrangeSim
-                                " type="text" [disabled]="true" pInputText />
+                                "
+                                type="text"
+                                [disabled]="true"
+                                pInputText
+                            />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Description
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Description
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription"
-                                    pInputText />
+                                <input
+                                    type="text"
+                                    [disabled]="isVerify()"
+                                    [(ngModel)]="selectedDescription"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -1198,7 +1844,9 @@
                                 <label>
                                     <b>Justificatif</b>
                                 </label>
-                                <input type="file" style="
+                                <input
+                                    type="file"
+                                    style="
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
@@ -1216,11 +1864,16 @@
                                 <label style="opacity: 0; height: 0">
                                     <b> <span class="text-danger">*</span></b>
                                 </label>
-                                <input [value]="
+                                <input
+                                    [value]="
                                         sourceValue === 'stock'
                                             ? sourceSoldeDotation
                                             : sourceSoldeDotationOrange
-                                    " type="text" [disabled]="true" pInputText />
+                                    "
+                                    type="text"
+                                    [disabled]="true"
+                                    pInputText
+                                />
                             </div>
                         </div>
                     </div>
@@ -1228,10 +1881,17 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>
-                                    <b>Volume (Go)
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Volume (Go)
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="number" [disabled]="isVerify()" [(ngModel)]="selectedVolume" pInputText />
+                                <input
+                                    type="number"
+                                    [disabled]="isVerify()"
+                                    [(ngModel)]="selectedVolume"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-5">
@@ -1239,8 +1899,12 @@
                                 <label>
                                     <b>Description</b>
                                 </label>
-                                <input type="text" [disabled]="isVerify()" [(ngModel)]="selectedDescription"
-                                    pInputText />
+                                <input
+                                    type="text"
+                                    [disabled]="isVerify()"
+                                    [(ngModel)]="selectedDescription"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-5">
@@ -1248,7 +1912,9 @@
                                 <label>
                                     <b>Justificatif</b>
                                 </label>
-                                <input type="file" style="
+                                <input
+                                    type="file"
+                                    style="
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
@@ -1262,22 +1928,49 @@
         </div>
         <div class="submit-form" *ngIf="selectedActionValue">
             <div>
-                <button pButton *ngIf="selectedActionValue !== activation" style="float: right; margin-top: 1rem"
-                    label="Soumettre" class="p-button-success" [disabled]="IsFormFomSIMValidate()"
-                    (click)="handleSaveNewTransaction()"></button>
-                <button pButton *ngIf="selectedActionValue === activation && typeDemande !== 'modifier'" style="float: right; margin-top: 1rem"
-                    label="Soumettre" class="p-button-success" [disabled]="!adminForm.valid || !selectedPiece"
-                    (click)="handleSaveNewTransaction()"></button>
-                    <button pButton *ngIf="selectedActionValue === activation && typeDemande === 'modifier'" style="float: right; margin-top: 1rem"
-                    label="Modifier" class="p-button-success" [disabled]="!adminForm.valid || !selectedPiece"
-                    (click)="handleSaveNewTransaction()"></button>
+                <button
+                    pButton
+                    *ngIf="selectedActionValue !== activation"
+                    style="float: right; margin-top: 1rem"
+                    label="Soumettre"
+                    class="p-button-success"
+                    [disabled]="IsFormFomSIMValidate()"
+                    (click)="handleSaveNewTransaction()"
+                ></button>
+                <button
+                    pButton
+                    *ngIf="
+                        selectedActionValue === activation &&
+                        typeDemande !== 'modifier'
+                    "
+                    style="float: right; margin-top: 1rem"
+                    label="Soumettre"
+                    class="p-button-success"
+                    [disabled]="!adminForm.valid || !selectedPiece"
+                    (click)="handleSaveNewTransaction()"
+                ></button>
+                <button
+                    pButton
+                    *ngIf="
+                        selectedActionValue === activation &&
+                        typeDemande === 'modifier'
+                    "
+                    style="float: right; margin-top: 1rem"
+                    label="Modifier"
+                    class="p-button-success"
+                    [disabled]="!adminForm.valid || !selectedPiece"
+                    (click)="handleSaveNewTransaction()"
+                ></button>
             </div>
         </div>
     </div>
     <!-----------------------------TRANSACTION MASSE-------------------------------->
     <div *ngIf="typeDemande === 'masse'">
         <!------------------------------ACTIVATION--------FORMS-------------------------------->
-        <div class="activation-forms" *ngIf="this.router.url === '/demandes/activation'">
+        <div
+            class="activation-forms"
+            *ngIf="this.router.url === '/demandes/activation'"
+        >
             <div [formGroup]="adminForm" novalidate>
                 <!------------------INFOS---------IDENTIFICATION----------------->
                 <fieldset *ngIf="!historie">
@@ -1287,47 +1980,99 @@
                     <div class="row">
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label><b>{{ firstLevelLibelle
-                                        }}<span class="text-danger">*</span></b></label>
-                                <p-dropdown [options]="listDirections" formControlName="niveau_un_uuid"
-                                    optionLabel="nom" [placeholder]="firstLevelLibelle" optionValue="uuid"
-                                    [showClear]="true">
+                                <label
+                                    ><b
+                                        >{{ firstLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    ></label
+                                >
+                                <p-dropdown
+                                    [options]="listDirections"
+                                    formControlName="niveau_un_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="firstLevelLibelle"
+                                    optionValue="uuid"
+                                    [showClear]="true"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label><b>{{ secondLevelLibelle
-                                        }}<span class="text-danger">*</span></b></label>
-                                <p-dropdown [options]="listExploitations" formControlName="niveau_deux_uuid"
-                                    optionLabel="nom" [placeholder]="secondLevelLibelle" optionValue="uuid"
-                                    [showClear]="true">
+                                <label
+                                    ><b
+                                        >{{ secondLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    ></label
+                                >
+                                <p-dropdown
+                                    [options]="listExploitations"
+                                    formControlName="niveau_deux_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="secondLevelLibelle"
+                                    optionValue="uuid"
+                                    [showClear]="true"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label><b>{{ thirdLevelLibelle
-                                        }}<span class="text-danger">*</span></b></label>
-                                <p-dropdown [options]="listActivites" formControlName="niveau_trois_uuid"
-                                    optionLabel="nom" [placeholder]="thirdLevelLibelle" optionValue="uuid"
-                                    [showClear]="true">
+                                <label
+                                    ><b
+                                        >{{ thirdLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    ></label
+                                >
+                                <p-dropdown
+                                    [options]="listActivites"
+                                    formControlName="niveau_trois_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="thirdLevelLibelle"
+                                    optionValue="uuid"
+                                    [showClear]="true"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label><b>Usage<span class="text-danger">*</span></b></label>
-                                <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage"
-                                    placeholder="usage" optionValue="id" [showClear]="true">
+                                <label
+                                    ><b
+                                        >Usage<span class="text-danger"
+                                            >*</span
+                                        ></b
+                                    ></label
+                                >
+                                <p-dropdown
+                                    [options]="listUsages"
+                                    formControlName="usage_id"
+                                    optionLabel="nom_usage"
+                                    placeholder="usage"
+                                    optionValue="id"
+                                    [showClear]="true"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label><b>Formule destination<span class="text-danger">*</span></b></label>
-                                <p-dropdown [options]="listFormules" formControlName="formule_uuid" optionLabel="nom"
-                                    [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
+                                <label
+                                    ><b
+                                        >Formule destination<span
+                                            class="text-danger"
+                                            >*</span
+                                        ></b
+                                    ></label
+                                >
+                                <p-dropdown
+                                    [options]="listFormules"
+                                    formControlName="formule_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="'Formule destination'"
+                                    [showClear]="true"
+                                    optionValue="uuid"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
@@ -1341,80 +2086,123 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>{{ firstLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{ firstLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="text" formControlName="niveau_un_uuid" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="niveau_un_uuid"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>{{ secondLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{ secondLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="text" formControlName="niveau_deux_uuid" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="niveau_deux_uuid"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>{{ thirdLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
+                                    <b
+                                        >{{ thirdLevelLibelle
+                                        }}<span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="text" formControlName="niveau_trois_uuid" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="niveau_trois_uuid"
+                                    pInputText
+                                />
                             </div>
                         </div>
                     </div>
                 </fieldset>
 
-                <fieldset style="margin-top: 2.5rem" *ngIf="selectedActionValue">
+                <fieldset
+                    style="margin-top: 2.5rem"
+                    *ngIf="selectedActionValue"
+                >
                     <legend [ngStyle]="{ width: '100%' }">
                         <b>Demandes</b>
                     </legend>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label><b>Nombre</b><span class="text-danger">*</span></label>
-                                <input placeholder="nombre" formControlName="nb_demandes" type="number" pInputText />
+                                <label
+                                    ><b>Nombre</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    placeholder="nombre"
+                                    formControlName="nb_demandes"
+                                    type="number"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Justificatif
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Justificatif
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="file" style="
+                                <input
+                                    type="file"
+                                    style="
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
                                         color: #000;
-                                    " (change)="
+                                    "
+                                    (change)="
                                         onChangeFile(
                                             $event.target.files,
                                             'justificatif'
                                         )
-                                    " accept="image/png,image/jpeg" />
+                                    "
+                                    accept="image/png,image/jpeg"
+                                />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>
-                                    <b>Reçu de paiement
-                                        <span class="text-danger">*</span></b>
+                                    <b
+                                        >Reçu de paiement
+                                        <span class="text-danger">*</span></b
+                                    >
                                 </label>
-                                <input type="file" style="
+                                <input
+                                    type="file"
+                                    style="
                                         padding: 0.6rem;
                                         border: 1px solid;
                                         border-radius: 0.3rem;
                                         color: #000;
-                                    " (change)="
+                                    "
+                                    (change)="
                                         onChangeFile(
                                             $event.target.files,
                                             'recu'
                                         )
-                                    " accept="image/png,image/jpeg" />
+                                    "
+                                    accept="image/png,image/jpeg"
+                                />
                             </div>
                         </div>
                     </div>
@@ -1429,10 +2217,16 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>
-                                <b>Description
-                                    <span class="text-danger">*</span></b>
+                                <b
+                                    >Description
+                                    <span class="text-danger">*</span></b
+                                >
                             </label>
-                            <input type="text" [(ngModel)]="selectedDescription" pInputText />
+                            <input
+                                type="text"
+                                [(ngModel)]="selectedDescription"
+                                pInputText
+                            />
                         </div>
                     </div>
                 </div>

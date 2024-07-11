@@ -12,7 +12,7 @@
         "
     >
         <h4 class="modal-title">
-            Journal <strong>{{ transaction.transaction }}</strong>
+            Journal <strong>{{ transaction ?? numero_demande }}</strong>
         </h4>
         <button
             type="button"
@@ -24,82 +24,73 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+    
     <div class="modal-body">
         <p-table
-            #dt
-            [value]="listJournal"
-            [rows]="10"
-            [paginator]="true"
-            responsiveLayout="scroll"
-            [rowHover]="true"
-            dataKey="id"
-            currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-          données"
-            [showCurrentPageReport]="true"
+          #dt
+          [value]="listJournal"
+          [rows]="10"
+          [paginator]="true"
+          responsiveLayout="scroll"
+          [rowHover]="true"
+          dataKey="id"
+          currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+              données"
+          [showCurrentPageReport]="true"
         >
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>#</th>
-                    <th>Date/Heure</th>
-                    <th>Statut</th>
-                    <th>Traitement</th>
-                    <th>Date Traitement</th>
-                    <th>Utilisateur</th>
-                    <th>Description</th>
-                </tr>
-            </ng-template>
-            <ng-template let-i="rowIndex" pTemplate="body" let-journal>
-                <tr>
-                    <td class="text-center">{{ i + 1 }}</td>
-                    <td>{{ journal?.created_at }}</td>
-                    <td class="text-center">
-                        <span
-                            [ngStyle]="{ 'font-size': '14px' }"
-                            class="badge"
-                            [class.badge-dark]="journal?.statut === stateSoumis"
-                            [class.badge-info]="journal?.statut === stateTraite"
-                            [class.badge-success]="
-                                journal?.statut === stateCloture
-                            "
-                        >
-                            {{ journal?.statut }}
-                        </span>
-                    </td>
-                    <td class="text-center">
-                        <span
-                            [ngStyle]="{ 'font-size': '14px' }"
-                            class="badge"
-                            [class.badge-dark]="
-                                journal?.traitement === treatmenEntente ||
-                                journal?.traitement === treatmenAcquiter
-                            "
-                            [class.badge-danger]="
-                                journal?.traitement === treatmenRejeter ||
-                                journal?.traitement === treatmenRefuser
-                            "
-                            [class.badge-warning]="
-                                journal?.traitement === treatmenCancel
-                            "
-                            [class.badge-info]="
-                                journal?.traitement === treatmenAccepter
-                            "
-                            [class.badge-success]="
-                                journal?.statut === stateCloture &&
-                                journal?.traitement === treatmenAccepter
-                            "
-                        >
-                            {{ journal?.traitement }}
-                        </span>
-                    </td>
-                    <td>{{ journal?.date_heure }}</td>
-                    <td>
-                        {{ journal?.user?.nom }} {{ journal?.user?.prenoms }}
-                    </td>
-                    <td style="width: 23rem; text-align: start">
-                        {{ journal?.description }}
-                    </td>
-                </tr>
-            </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th>#</th>
+              <th>Date/Heure</th>
+              <th>Statut</th>
+              <th>Traitement</th>
+              <th>Date Traitement</th>
+              <th>Description</th>
+            </tr>
+          </ng-template>
+          <ng-template let-i="rowIndex" pTemplate="body" let-journal>
+            <tr>
+              <td class="text-center">{{ i + 1 }}</td>
+              <td>{{ journal?.created_at }}</td>
+              <td class="text-center">
+                <span
+                  [ngStyle]="{ 'font-size': '14px' }"
+                  class="badge"
+                  [class.badge-dark]="journal?.statut === stateSoumis"
+                  [class.badge-warning]="journal?.statut == 'en-traitement'"
+                  [class.badge-green]="journal?.statut === stateTraite"
+                  [class.badge-success]="journal?.statut === stateCloture">
+                  {{ journal?.statut }}
+                </span>
+              </td>
+              <td class="text-center">
+                <span
+                  [ngStyle]="{ 'font-size': '14px' }"
+                  class="badge"
+                  [class.badge-dark]="
+                    journal?.traitement === treatmenEntente ||
+                    journal?.traitement === treatmenAcquiter
+                  "
+                  [class.badge-danger]="
+                    journal?.traitement === treatmenRejeter ||
+                    journal?.traitement === treatmenRefuser
+                  "
+                  [class.badge-warning]="journal?.traitement === treatmenCancel"
+                  [class.badge-info]="journal?.traitement === treatmenAccepter"
+                  [class.badge-success]="
+                    journal?.statut === stateCloture &&
+                    journal?.traitement === treatmenAccepter
+                  "
+                >
+                  {{ journal?.traitement }}
+                </span>
+              </td>
+              <td>{{ journal?.date_heure }}</td>
+              <td style="width: 23rem; text-align: start">
+                {{ journal?.description }}
+              </td>
+            </tr>
+          </ng-template>
         </p-table>
-    </div>
+      </div>
 </div>

@@ -23,6 +23,11 @@ export class PatrimoineService {
     const url: string = (<string>EndPointUrl.GET_ALL_PATRIMOINES).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+
+
+
+
+  
   OnGetDetailSim(data): Observable<any> {
     const url: string = (<string>EndPointUrl.DETAILS_SIM).replace('{imsi}', data)
     return this.http.post(`${this.baseUrl}${url}`, {});
