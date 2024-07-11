@@ -415,10 +415,8 @@
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
-                                    "
-                                    (change)="onChangeFile($event.target.files)"
-                                    accept="image/png,image/jpeg"
-                                />
+                                        color: #000;
+                                    " (change)="onChangeFile($event.target.files, 'justificatif')" accept="image/png,image/jpeg" />
                             </div>
                         </div>
                     </div>
@@ -651,10 +649,8 @@
                                     padding: 0.6rem;
                                     border: 1px solid #000;
                                     border-radius: 0.3rem;
-                                "
-                                (change)="onChangeFile($event.target.files)"
-                                accept="image/png,image/jpeg"
-                            />
+                                    color: #000;
+                                " (change)="onChangeFile($event.target.files, 'justificatif')" accept="image/png,image/jpeg" />
                         </div>
                     </div>
                 </div>
@@ -737,10 +733,8 @@
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
-                                    "
-                                    (change)="onChangeFile($event.target.files)"
-                                    accept="image/png,image/jpeg"
-                                />
+                                        color: #000;
+                                    " (change)="onChangeFile($event.target.files, 'justificatif')" accept="image/png,image/jpeg" />
                             </div>
                         </div>
                     </div>
@@ -807,10 +801,8 @@
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
-                                    "
-                                    (change)="onChangeFile($event.target.files)"
-                                    accept="image/png,image/jpeg"
-                                />
+                                        color: #000;
+                                    " (change)="onChangeFile($event.target.files, 'justificatif')" accept="image/png,image/jpeg" />
                             </div>
                         </div>
                     </div>
@@ -819,24 +811,12 @@
         </div>
         <div class="submit-form" *ngIf="selectedActionValue">
             <div>
-                <button
-                    pButton
-                    *ngIf="selectedActionValue !== activation"
-                    style="float: right; margin-top: 1rem"
-                    label="Soumettre"
-                    class="p-button-success"
-                    [disabled]="IsFormFomSIMValidate()"
-                    (click)="handleSaveNewTransaction()"
-                ></button>
-                <button
-                    pButton
-                    *ngIf="selectedActionValue === activation"
-                    style="float: right; margin-top: 1rem"
-                    label="Soumettre"
-                    class="p-button-success"
-                    [disabled]="!adminForm.valid || !selectedPiece"
-                    (click)="handleSaveNewTransaction()"
-                ></button>
+                <button pButton *ngIf="selectedActionValue !== activation" style="float: right; margin-top: 1rem"
+                    label="Soumettre" class="p-button-success" [disabled]="IsFormFomSIMValidate()"
+                    (click)="handleSaveNewTransaction()"></button>
+                <button pButton *ngIf="selectedActionValue === activation" style="float: right; margin-top: 1rem"
+                    label="Soumettre" class="p-button-success" [disabled]="!selectedPiece"
+                    (click)="handleSaveNewTransaction()"></button>
             </div>
         </div>
     </div>
@@ -1552,10 +1532,8 @@
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
-                                    "
-                                    (change)="onChangeFile($event.target.files)"
-                                    accept="image/png,image/jpeg"
-                                />
+                                        color: #000;
+                                    " (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
                             </div>
                         </div>
                     </div>
@@ -1788,10 +1766,8 @@
                                     padding: 0.6rem;
                                     border: 1px solid #000;
                                     border-radius: 0.3rem;
-                                "
-                                (change)="onChangeFile($event.target.files)"
-                                accept="image/png,image/jpeg"
-                            />
+                                    color: #000;
+                                " (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
                         </div>
                     </div>
                 </div>
@@ -1874,10 +1850,8 @@
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
-                                    "
-                                    (change)="onChangeFile($event.target.files)"
-                                    accept="image/png,image/jpeg"
-                                />
+                                        color: #000;
+                                    " (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
                             </div>
                         </div>
                     </div>
@@ -1944,10 +1918,8 @@
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
-                                    "
-                                    (change)="onChangeFile($event.target.files)"
-                                    accept="image/png,image/jpeg"
-                                />
+                                        color: #000;
+                                    " (change)="onChangeFile($event.target.files)" accept="image/png,image/jpeg" />
                             </div>
                         </div>
                     </div>
@@ -2262,10 +2234,8 @@
         </div>
         <div class="submit-form">
             <div>
-                <button
-                    pButton
-                    style="float: right; margin-top: 1rem"
-                    label="Soumettre"
+                <button pButton style="float: right; margin-top: 1rem" 
+                    label="Soumettre" 
                     class="p-button-success"
                     [disabled]="
                         !adminForm ||
@@ -2279,9 +2249,8 @@
                         !adminForm.value.usage_id ||
                         !adminForm.value.formule_uuid ||
                         listDemandes?.length === 0
-                    "
-                    (click)="handleSaveMasse()"
-                ></button>
+                    " (click)="handleSaveMasse()">
+                </button>
             </div>
         </div>
     </div>
