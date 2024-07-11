@@ -1440,7 +1440,9 @@
         </div>
         <div class="submit-form">
             <div>
-                <button pButton style="float: right; margin-top: 1rem" label="Soumettre" class="p-button-success"
+                <button pButton style="float: right; margin-top: 1rem" 
+                    label="Soumettre" 
+                    class="p-button-success"
                     [disabled]="
                         !adminForm ||
                         !selectedPiece ||
@@ -1453,7 +1455,8 @@
                         !adminForm.value.usage_id ||
                         !adminForm.value.formule_uuid ||
                         listDemandes?.length === 0
-                    " (click)="handleSaveMasse()"></button>
+                    " (click)="handleSaveMasse()">
+                </button>
             </div>
         </div>
     </div>
