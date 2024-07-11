@@ -6,6 +6,8 @@ import { DotationServiceComponent } from './ui/dotation-service/dotation-service
 import { EtatSoldeComponent } from './ui/etat-solde/etat-solde.component';
 import { DownloadComponent } from './ui/download/download.component';
 import { CartographieComponent } from './ui/cartographie/cartographie.component';
+import { CartesSimComponent } from './ui/cartes-sim/cartes-sim.component';
+import { CarteSimFormComponent } from './feature/carte-sim/carte-sim-form/carte-sim-form.component';
 
 export const CARTES_SIM = 'cartes-sim';
 export const ETAT_SOLDE = 'etat-solde';
@@ -18,9 +20,17 @@ export const CARTOGRAPHIE = 'cartographie';
 const routes: Routes = [{ 
     path: "",
     children: [
+        // {
+        //     path: CARTES_SIM,
+        //     component: CarteSimActiveComponent
+        // }, 
         {
             path: CARTES_SIM,
-            component: CarteSimActiveComponent
+            component: CartesSimComponent
+        },
+        {
+            path: CARTES_SIM + "/:id",
+            component: CarteSimFormComponent
         },
         {
             path: CARTOGRAPHIE,

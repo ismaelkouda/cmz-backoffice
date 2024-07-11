@@ -127,6 +127,31 @@ export class CarteSimActiveComponent implements OnInit {
     this.pargination = new Pargination(response?.data?.p, response?.data?.to, response?.data?.last_page, response?.data?.total, response?.data?.per_page, response?.data?.current_page, (response?.data?.current_page - 1) * this.pargination?.per_page + 1);
   }
 
+  public OnExportExcel(): void {
+    const data = this.listPatrimoines.map((item: any) => ({
+      [this.firstLevelLibelle]: item?.niveau_uns_nom,
+      [this.secondLevelLibelle]: item?.niveau_deux_nom,
+      'Zone Trafic': item?.adresse_geographique,
+      [this.thirdLevelLibelle]: item?.niveau_trois_nom,
+      'MSISDN': item?.msisdn,
+      'IMSI': item?.imsi,
+      'Emplacement': item?.point_emplacement,
+      'Statut Contrat': item?.statut
+    }));
+    this.excelService.exportAsExcelFile(data, 'Liste des cartes SIM');
+  }
+
+
+
+
+
+
+
+
+
+  
+
+
   public suspensionForm(content, data) {
     this.currentOperation = { ...data, type: SimStatut.SUSPENDU };
     this.modalService.open(content);
@@ -343,20 +368,6 @@ export class CarteSimActiveComponent implements OnInit {
 
   public disableAction(): boolean {
     return (this.listPatrimoines === undefined || this.listPatrimoines?.length === 0) ? true : false
-  }
-
-  public OnExportExcel(): void {
-    const data = this.listPatrimoines.map((item: any) => ({
-      [this.firstLevelLibelle]: item?.niveau_uns_nom,
-      [this.secondLevelLibelle]: item?.niveau_deux_nom,
-      'Zone Trafic': item?.adresse_geographique,
-      [this.thirdLevelLibelle]: item?.niveau_trois_nom,
-      'MSISDN': item?.msisdn,
-      'IMSI': item?.imsi,
-      'Emplacement': item?.point_emplacement,
-      'Statut Contrat': item?.statut
-    }));
-    this.excelService.exportAsExcelFile(data, 'Liste des cartes SIM');
   }
 
 }

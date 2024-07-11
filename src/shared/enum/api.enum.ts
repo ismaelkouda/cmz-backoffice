@@ -4,7 +4,7 @@ export const enum EndPointUrl {
     UPDATE_USER = 'users/update',
     DELETE_USER = 'users/delete',
     GET_ALL_HISTORIQUE = 'historiques',
-    GET_ALL_JOURNAL = 'gestion-transactions/journal-evenements',
+    GET_ALL_JOURNAL = 'gestion-transactions/{typeJournal}/journal-evenements',
     GET_ALL_YEAR = 'gestion-campagnes/annees/all',
 
     //First Level EndPoints

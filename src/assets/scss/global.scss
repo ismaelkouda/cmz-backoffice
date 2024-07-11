@@ -10,6 +10,19 @@
 label {
     width: 100% !important;
 }
+/*debut: centrer les spinners et les messages des tableaux*/
+
+.posRelative {
+    position: relative;
+    height: 100px;
+  }
+  
+  .posCenter {
+    position: absolute;
+    left: 50%;
+  }
+  
+  /*fin: centrer les spinners et les messages des tableaux*/
 .form-error {
     color: #df0101 !important;
     font-weight: bold;
@@ -193,6 +206,11 @@ fieldset .row:not(:first-child) {
 
 .badge-danger {
     background-color: #dc3545 !important;
+    color: #fff;
+}
+
+.badge-warning {
+    background-color: #ffaa05 !important;
     color: #fff;
 }
 

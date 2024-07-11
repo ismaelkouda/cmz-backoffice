@@ -182,8 +182,8 @@ export class DemandeWrapperShowComponent implements OnInit {
 
   showJournal(data: Object): void {
     const modalRef = this.modalService.open(JournalComponent, ModalParams);
-    modalRef.componentInstance.transaction = data;
-    modalRef.componentInstance.type = data['ouvrage'];
+    modalRef.componentInstance.transaction = data['transaction'];
+    modalRef.componentInstance.typeJournal = "transactions"
   }
 
   copyData(data: any): void {

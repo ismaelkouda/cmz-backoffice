@@ -21,19 +21,18 @@ const Swal = require('sweetalert2');
 
 export class DemandeMasseComponent implements OnInit {
     public formTraitementMasse: FormGroup;
-    @Input() vue: string;
+    @Input() action: 'traiter' | 'cloturer';
     @Input() IsLoadData;
     @Input() demande;
     @Output() IsLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
     public response: any;
     public listDemandes: any;
     public fileModel = "src/assets/data/Modele-Traitement-Activation-En-Masse.xlsx";
-    public currentArrayHeaders = ['MSISDN', 'IMSI', 'ICCID', 'ADRESSE IP', 'APN'] as const;
+    public currentArrayHeaders = ['TRANSACTION', 'MSISDN', 'IMSI', 'ICCID', 'ADRESSE IP', 'APN', 'NOM EMPLACEMENT', 'ADRESSE EMAIL', 'ADRESSE GEO', 'LONGITUDE', 'LATITUDE'] as const;
     public listFormules: Array<any> = [];
     public firstLevelLibelle: string;
     public secondLevelLibelle: string;
     public thirdLevelLibelle: string;
-    public action: 'traiter' | 'cloturer';
     public listTypeJustificatif: Array<any> = [];
     public sourceStockOrangeSim: string;
     public selectedStockSim: string;
@@ -164,12 +163,8 @@ export class DemandeMasseComponent implements OnInit {
 
     public displayButtonForm() {
         if (this.demande?.statut === this.stateCloture || this.demande?.statut !== 'en-traitement') {
-            console.log('this.demande?.statut === this.stateCloture', this.demande?.statut === this.stateCloture)
-            console.log('this.demande?.statut', this.demande?.statut)
             return true;
         }
-        console.log('this.demande?.statut === this.stateCloture', this.demande?.statut === this.stateCloture)
-            console.log('this.demande?.statut', this.demande?.statut)
         return false;
     }
 

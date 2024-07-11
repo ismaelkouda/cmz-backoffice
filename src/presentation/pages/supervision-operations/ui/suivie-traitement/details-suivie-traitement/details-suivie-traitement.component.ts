@@ -258,6 +258,7 @@ export class DetailsSuivieTraitementComponent implements OnInit {
   }
 
   public showDialog(data: Object): void {
+    console.log('data', data)
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-success",
@@ -267,7 +268,7 @@ export class DetailsSuivieTraitementComponent implements OnInit {
     });
     swalWithBootstrapButtons.fire({
       icon: "info",
-      html: `<strong>Message</strong> : ${data["message"]} <br><br> <strong>Action</strong> : ${data["action"]}`,
+      html: `<strong>Message</strong> : ${data["message"]}</strong>`,
       confirmButtonColor: "#F07427",
       confirmButtonText: "ok",
     });
@@ -299,10 +300,8 @@ export class DetailsSuivieTraitementComponent implements OnInit {
 
   showJournal(data: Object): void {
     const modalRef = this.modalService.open(JournalComponent, ModalParams);
-    modalRef.componentInstance.transaction = {
-      ...data,
-      tenant_code: this.selectedTenant.code,
-    };
+    modalRef.componentInstance.transaction = data['transaction'];
+    modalRef.componentInstance.typeJournal = "transactions"
   }
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;

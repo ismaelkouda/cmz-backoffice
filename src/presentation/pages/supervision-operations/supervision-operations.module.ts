@@ -1,3 +1,4 @@
+import { SuivieTraitementFilterStateService } from './data-access/suivie-traitement-filter-state.service';
 import { DemandeMasseComponent } from './feature/demande-masse/demande-masse.component';
 import { ShowMessageRecieveComponent } from './feature/show-message-recieve/show-message-recieve.component';
 import { ShowMessageSenderComponent } from './feature/show-message-sender/show-message-sender.component';
@@ -41,7 +42,6 @@ import { SupervisionOperationService } from './data-access/supervision-operation
 import { SharedModule } from 'src/shared/shared.module';
 import { PaginatorModule } from 'primeng/paginator';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 //Components
@@ -85,7 +85,6 @@ import { DetailsSuivieTraitementComponent } from './ui/suivie-traitement/details
         DynamicDialogModule,
         PaginatorModule,
         NgxPaginationModule,
-        ProgressSpinnerModule,
         RadioButtonModule 
     ],
     declarations: [
@@ -108,7 +107,7 @@ import { DetailsSuivieTraitementComponent } from './ui/suivie-traitement/details
         DetailsSuivieTraitementComponent,
         DemandeMasseComponent
     ],
-    providers: [EditableRow, SupervisionOperationService]
+    providers: [EditableRow, SupervisionOperationService, SuivieTraitementFilterStateService]
 })
 export class SupervisionOperationsModule { }
 

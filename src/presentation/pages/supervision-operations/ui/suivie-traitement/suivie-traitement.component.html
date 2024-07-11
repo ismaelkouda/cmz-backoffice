@@ -337,9 +337,16 @@
                                     pButton
                                     pRipple
                                     icon="pi pi-eye"
+                                    [pTooltip]="
+                                        !data?.nb_demande_traitees
+                                            ? ''
+                                            : 'Voir'
+                                    "
                                     class="p-button-dark"
-                                    pTooltip="Voir"
                                     tooltipPosition="top"
+                                    [disabled]="
+                                        !data?.nb_demande_traitees
+                                    "
                                     (click)="OnShowTraitement(data, 'details')"
                                 ></button>
                                 <button
@@ -370,6 +377,8 @@
                                     "
                                     class="p-button-success"
                                 ></button>
+                                <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top" 
+                                  (click)="showJournal(data)" class="p-button-success"></button>
                             </td>
                         </tr>
                     </tbody>
