@@ -3,7 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import readXlsxFile from "read-excel-file";
 import Swal from 'sweetalert2';
 
-type MODEL_ENTETE_FILE = ['MSISDN', 'IMSI', 'ICCID', 'ADRESSE IP', 'APN'];
+type MODEL_ENTETE_FILE = ['TRANSACTION', 'MSISDN', 'IMSI', 'ICCID', 'ADRESSE IP', 'APN', 'NOM EMPLACEMENT', 'ADRESSE EMAIL', 'ADRESSE GEO', 'LONGITUDE', 'LATITUDE'];
 
 @Component({
     selector: 'app-form-masse',
@@ -145,6 +145,8 @@ export class FormMasseComponent {
     // Debut: Verification du fichier a upload
     checkFile() {
         const isFileCorrect = this.isArraySame(this.arrayHeaderExcelFile, this.currentArrayHeaders);
+        console.log('this.currentArrayHeaders', this.currentArrayHeaders)
+        console.log('this.arrayHeaderExcelFile', this.arrayHeaderExcelFile)
         if (isFileCorrect === false) {
             this.messageFileIsNotCorrect(`Structure du fichier incohérente`, 'error');
         } else {

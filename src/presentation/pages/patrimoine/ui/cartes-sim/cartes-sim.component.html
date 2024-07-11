@@ -1,0 +1,75 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <app-patrimoine-header [count]="listCartesSim" [legende]="'SIM'" [total]="this.pargination.total"></app-patrimoine-header>
+                    <app-carte-filter (filter)="pageCallback($event)" [firstLevelLibelle]="firstLevelLibelle" [secondLevelLibelle]="secondLevelLibelle" [thirdLevelLibelle]="thirdLevelLibelle"></app-carte-filter>
+                    <hr />
+                    <app-table-button-header (refresh)="pageCallback()" (export)="exportExcel()" [hiddenButtonOther]="true"></app-table-button-header>
+                    <!-- <app-table-header [count]="listCartesSim" [legende]="'SIM'" [pargination]="pargination"app-table-header> -->
+                        <br>
+                        <app-carte-sim-table [spinner]="spinner" [listCartesSim]="listCartesSim" (interfaceUser)="navigateByUrl($event)" [pargination]="pargination"
+                            [firstLevelLibelle]="firstLevelLibelle" [secondLevelLibelle]="secondLevelLibelle" [thirdLevelLibelle]="thirdLevelLibelle">
+                        </app-carte-sim-table>
+
+                    <app-pargination [pargination]="pargination" (pageChange)="onPageChange($event)"></app-pargination>
+                    <!-- <app-patrimoine-forms [currentData]="currentData" *ngIf="formsView"
+                        (formsView)="pushStatutView($event)"
+                        (listCartesSim)="pushListPatrimoines($event)"></app-patrimoine-forms> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <p-dialog header="Vue géographique" [(visible)]="display" position="bottom-right" (onHide)="hideDialog('map')"
+        [style]="{ width: '100%' }" (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true"
+        [maximizable]="true" [draggable]="false" [resizable]="false">
+        <ng-template pTemplate="content" class="mt-4">
+            <div class="mt-4">
+                <div #parcelleMap></div>
+            </div>
+        </ng-template>
+    </p-dialog>
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">
+                {{
+                currentData?.type === 'suspendu'
+                ? 'suspension'
+                : 'resiliation'
+                }}
+                de la carte SIM
+            </h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
+        </div>
+        <div class="modal-body" novalidate>
+            <div class="form-group">
+                <label>
+                    <b>MSNDN</b>
+                </label>
+                <input type="text" [ngStyle]="{ width: '100%' }" [placeholder]="currentData?.imsi" [disabled]="true"
+                    pInputText />
+            </div>
+            <br />
+            <div class="form-group">
+                <label>
+                    <b>Description</b>
+                </label>
+                <textarea class="form-control" [(ngModel)]="selectedDescription" rows="2"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div>
+                <button type="button" class="btn btn-hide" (click)="hideForm()">
+                    Fermer
+                </button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-save" [disabled]="!selectedDescription" (click)="OnChangeStatut()">
+                    Valider
+                </button>
+            </div>
+        </div>
+    </ng-template> -->
+</div>

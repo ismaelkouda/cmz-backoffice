@@ -11,9 +11,9 @@ import { SettingService } from "src/shared/services/setting.service";
   styleUrls: ["./journal.component.scss"],
 })
 export class JournalComponent implements OnInit {
-
-  @Input() transaction;
-  @Input() type;
+  @Input() typeJournal: "demandes-services" | "transactions";
+  @Input() transaction: string;
+  @Input() numero_demande: string;
   response: any;
   listJournal: Array<any> = [];
   public totalPage: 0;
@@ -51,20 +51,23 @@ export class JournalComponent implements OnInit {
  public  getAllJournal() {  
     this.settingsService
       .getAllJournal({
-        transaction: this.transaction.transaction,
-      }).subscribe({
+        transaction: this.transaction,
+        numero_demande: this.numero_demande,
+      }, this.typeJournal)
+      .subscribe({
         next: (response) => {          
-          this.listJournal =  response['data'].map((data) => {
-            if (data?.statut === StatutTransaction.TARITER) {
-              return {...data,user: data?.intervenant}
-            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
-              return {...data,user: data?.intervenant}
-            }else if (data?.statut === StatutTransaction.CLOTURER) {
-              return {...data,user: data?.demandeur}
-            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.EN_ENTENTE)) {
-              return {...data,user: data?.demandeur}
-            }
-          });          
+          this.listJournal =  response['data']
+          // .map((data) => {
+          //   if (data?.statut === StatutTransaction.TARITER) {
+          //     return {...data,user: data?.intervenant}
+          //   }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+          //     return {...data,user: data?.intervenant}
+          //   }else if (data?.statut === StatutTransaction.CLOTURER) {
+          //     return {...data,user: data?.demandeur}
+          //   }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.EN_ENTENTE)) {
+          //     return {...data,user: data?.demandeur}
+          //   }
+          // });          
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

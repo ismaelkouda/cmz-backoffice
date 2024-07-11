@@ -8,6 +8,7 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { handle } from 'src/shared/functions/api.function';
 import { SimStatut } from 'src/shared/enum/SimStatut.enum';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
+import { CarteSimStateService } from 'src/presentation/pages/patrimoine/data-access/carte-sim/carte-sim-state.service';
 
 @Component({
     selector: 'app-carte-filter',
@@ -35,14 +36,10 @@ export class CarteFilterComponent implements OnInit {
     private response: any = {};
     public listFormule: any = [];
 
-    constructor(
-        private fb: FormBuilder,
-        private listCommuneService: ListCommuneService,
-        public mappingService: MappingService,
-        public settingService: SettingService,
-        private toastrService: ToastrService,
-        private loadingBar: LoadingBarService,
-        private patrimoineService: PatrimoineService
+    constructor(private fb: FormBuilder, private listCommuneService: ListCommuneService,
+        public mappingService: MappingService, public settingService: SettingService,
+        private toastrService: ToastrService, private loadingBar: LoadingBarService,
+        private patrimoineService: PatrimoineService, private carteSimStateService: CarteSimStateService
     ) {
         this.listStatuts = [
             SimStatut.ACTIF,
@@ -51,32 +48,32 @@ export class CarteFilterComponent implements OnInit {
         ];
     }
 
-    async ngOnInit(): Promise<void> {
+    ngOnInit(): void {
         this.initFormFilter();
-        await this.GetAllFirstLevel();
-        await this.GetAllThirdLevel();
-        await this.GetAllUsages();
-        await this.GetAllFormules();
+        this.GetAllFirstLevel();
+        this.GetAllThirdLevel();
+        this.GetAllUsages();
+        this.GetAllFormules();
     }
 
     async GetAllFirstLevel() {
         this.response = await handle(() => this.settingService.GetAllFirstLevelSimple({}), this.toastrService, this.loadingBar);
-        this.handleSuccessfulFirstLevel(this.response);
+        if(this.response?.data) this.handleSuccessfulFirstLevel(this.response);
     }
 
     async GetAllThirdLevel() {
         this.response = await handle(() => this.settingService.GetAllThirdSimple({}), this.toastrService, this.loadingBar);
-        this.handleSuccessfulThirdLevel(this.response);
+        if(this.response?.data) this.handleSuccessfulThirdLevel(this.response);
     }
 
     async GetAllUsages() {
         this.response = await handle(() => this.patrimoineService.GetAllUsages({}), this.toastrService, this.loadingBar);
-        this.handleSuccessfulUsages(this.response);
+        if(this.response?.data) this.handleSuccessfulUsages(this.response);
     }
 
     async GetAllFormules() {
         this.response = await handle(() => this.settingService.GetAllFormules({}), this.toastrService, this.loadingBar);
-        this.handleSuccessfulFormules(this.response);
+        if(this.response?.data) this.handleSuccessfulFormules(this.response);
     }
 
     private handleSuccessfulFirstLevel(response): void {
@@ -96,19 +93,21 @@ export class CarteFilterComponent implements OnInit {
     }
 
     public initFormFilter() {
+        const filterState = this.carteSimStateService.getFilterState();
+        console.log('filterState', filterState)
         this.formFilter = this.fb.group({
-            niveau_un_uuid: [null],
-            niveau_deux_uuid: [null],
-            statut: [history?.state?.statut],
-            msisdn: [null],
-            imsi: [null],
-            adresse_ip: [null],
-            usage_id: [null],
-            apn: [null],
-            niveau_trois_uuid: [null],
-            formule_uuid: [null],
-            zone_trafic: [null],
-            point_emplacement: [null],
+            niveau_un_uuid: [filterState?.niveau_un_uuid ?? null],
+            niveau_deux_uuid: [filterState?.niveau_deux_uuid ?? null],
+            statut: [filterState?.statut ?? history?.state?.statut],
+            msisdn: [filterState?.msisdn ?? null],
+            imsi: [filterState?.imsi ?? null],
+            adresse_ip: [filterState?.adresse_ip ?? null],
+            usage_id: [filterState?.usage_id ?? null],
+            apn: [filterState?.apn ?? null],
+            niveau_trois_uuid: [filterState?.niveau_trois_uuid ?? null],
+            formule_uuid: [filterState?.formule_uuid ?? null],
+            zone_trafic: [filterState?.zone_trafic ?? null],
+            point_emplacement: [filterState?.point_emplacement ?? null],
         });
     }
 
@@ -125,5 +124,6 @@ export class CarteFilterComponent implements OnInit {
 
     public onFilter() {
         this.filter.emit(this.formFilter.value);
+        this.carteSimStateService.setFilterState(this.formFilter.value);
     }
 }

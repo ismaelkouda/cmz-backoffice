@@ -37,8 +37,18 @@ import { DotationFormComponent } from './feature/dotation-form/dotation-form.com
 import { GroupeFormComponent } from './feature/groupe-form/groupe-form.component';
 import { CarteComponent } from './feature/carte/carte.component';
 import { CarteFilterComponent } from 'src/presentation/pages/patrimoine/feature/carte-filter/carte-filter.component';
-import { CarteTableComponent } from 'src/presentation/pages/patrimoine/feature/carte-table/carte-table.component';
 import { EtatSoldeFilterComponent } from 'src/presentation/pages/patrimoine/feature/etat-solde-filter/etat-solde-filter.component';
+
+//Component
+import { CarteSimTableComponent } from 'src/presentation/pages/patrimoine/feature/carte-sim/carte-sim-table/carte-sim-table.component';
+import { CartesSimComponent } from 'src/presentation/pages/patrimoine/ui/cartes-sim/cartes-sim.component';
+import { CarteSimFormComponent } from 'src/presentation/pages/patrimoine/feature/carte-sim/carte-sim-form/carte-sim-form.component';
+//Services
+import { PatrimoinesService } from "src/presentation/pages/patrimoine/data-access/patrimoines.service";
+import { CarteSimStateService } from 'src/presentation/pages/patrimoine/data-access/carte-sim/carte-sim-state.service';
+import { CarteSimApiStateService } from "src/presentation/pages/patrimoine/data-access/carte-sim/carte-sim-api-state.service";
+//Module
+
 
 @NgModule({
     imports: [
@@ -59,7 +69,7 @@ import { EtatSoldeFilterComponent } from 'src/presentation/pages/patrimoine/feat
         NgxPaginationModule,
         InputMaskModule,
         PasswordModule,
-        RadioButtonModule,
+        RadioButtonModule, 
         NgxCaptchaModule,
         CalendarModule,
         CheckboxModule
@@ -78,8 +88,14 @@ import { EtatSoldeFilterComponent } from 'src/presentation/pages/patrimoine/feat
         AlarmeColorComponent,
         CarteComponent,
         CarteFilterComponent,
-        CarteTableComponent,
-        EtatSoldeFilterComponent
+        EtatSoldeFilterComponent,
+
+
+
+        CarteSimTableComponent,
+        CartesSimComponent,
+        CarteSimFormComponent
     ],
+    providers: [PatrimoinesService, CarteSimStateService, CarteSimApiStateService]
 })
 export class PatrimoineModule { }

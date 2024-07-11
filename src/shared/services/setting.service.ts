@@ -41,8 +41,8 @@ export class SettingService {
         const url: string = <string>EndPointUrl.GET_ALL_HISTORIQUE;
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
-    getAllJournal(data): Observable<any> {
-        const url: string = <string>EndPointUrl.GET_ALL_JOURNAL;
+    getAllJournal(data, typeJournal): Observable<any> {
+        const url: string = <string>EndPointUrl.GET_ALL_JOURNAL.replace('{typeJournal}', typeJournal);
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
 

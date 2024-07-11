@@ -210,6 +210,17 @@ export class DemandeWrapperComponent implements OnInit {
       );
   }
 
+  showJournal(data: Object): void {
+    const modalRef = this.modalService.open(JournalComponent, {
+      ariaLabelledBy: "modal-basic-title",
+      backdrop: "static",
+      keyboard: false,
+      centered: true,
+    });
+    modalRef.componentInstance.numero_demande = data['numero_demande'];
+    modalRef.componentInstance.typeJournal = "demandes-services"
+  }
+
   copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
