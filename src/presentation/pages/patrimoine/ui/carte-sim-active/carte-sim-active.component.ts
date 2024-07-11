@@ -267,8 +267,8 @@ export class CarteSimActiveComponent implements OnInit {
       iconSize: [45, 45],
       iconAnchor: [17, 17],
     });
-    var osmLayer = this.OpenStreetMap
     this.map = new L.Map('map');
+    var osmLayer = this.OpenStreetMap
     this.map.setView(new L.LatLng(this.currentComposant?.longitude ?? this.currentComposant?.long_reseau, this.currentComposant?.latitude ?? this.currentComposant?.lat_reseau), 18);
     this.map.options.minZoom = 12;
 

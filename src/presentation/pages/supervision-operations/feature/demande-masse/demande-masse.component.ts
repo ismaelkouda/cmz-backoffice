@@ -42,6 +42,8 @@ export class DemandeMasseComponent implements OnInit {
     public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
     public stateCloture: string = StatutTransaction.CLOTURER;
     public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
+    public treatmenRejeter: string = TraitementTransaction.REJETER;
+    public treatmenRefuser: string = TraitementTransaction.REFUSER;
 
     constructor(private supervisionOperationService: SupervisionOperationService, private toastrService: ToastrService,
         private loadingBarService: LoadingBarService, private activeModal: NgbActiveModal, private mappingService: MappingService,
@@ -171,6 +173,7 @@ export class DemandeMasseComponent implements OnInit {
     async GetSupervisionOperationsDemandesServicesDetails(dataToSend = this.demande?.numero_demande): Promise<void> {
         this.response = await handle(() => this.supervisionOperationService.GetSupervisionOperationsDemandesServicesDetails(dataToSend), this.toastrService, this.loadingBarService);
         this.listDemandes = this.response?.data;
+        console.log('this.listDemandes', this.listDemandes)
         this.initFormTraitementMasse();
         this.IsLoading.emit(false);
     }
@@ -256,12 +259,12 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     public OnGetRapportCodeStyle(code: any): string {
-        if (code.includes("100")) {
-            return "style100";
-        } else if (code.includes("200")) {
-            return "style200";
-        } else {
+        if (this.listDemandes?.traitement === this.treatmenRejeter || this.listDemandes?.traitement === this.treatmenRefuser) {
             return "styledefault";
+        } else if (this.listDemandes?.traitement === this.treatmenAccepter) {
+            return "style200";
+        } else if (this.listDemandes?.cloture_a === this.stateTraite) {
+            return "style100";
         }
     }
 

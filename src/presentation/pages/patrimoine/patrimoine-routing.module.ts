@@ -20,14 +20,14 @@ export const CARTOGRAPHIE = 'cartographie';
 const routes: Routes = [{ 
     path: "",
     children: [
-        // {
-        //     path: CARTES_SIM,
-        //     component: CarteSimActiveComponent
-        // }, 
         {
             path: CARTES_SIM,
-            component: CartesSimComponent
-        },
+            component: CarteSimActiveComponent
+        }, 
+        // {
+        //     path: CARTES_SIM,
+        //     component: CartesSimComponent
+        // },
         {
             path: CARTES_SIM + "/:id",
             component: CarteSimFormComponent
