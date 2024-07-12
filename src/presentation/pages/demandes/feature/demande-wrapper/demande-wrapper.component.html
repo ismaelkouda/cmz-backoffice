@@ -207,7 +207,6 @@
                 </td>
                 <td class="td-actions">
                     <button
-                        [disabled]="!data?.nb_demande_traitees"
                         pButton
                         icon="pi pi-eye"
                         pTooltip="Voir"
@@ -229,7 +228,7 @@
                         pTooltip="Journal"
                         tooltipPosition="top"
                         (click)="showJournal(data)"
-                        class="p-button-success"
+                        class="p-button-primary"
                     ></button>
                 </td>
             </tr>

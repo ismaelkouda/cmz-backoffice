@@ -46,6 +46,7 @@ export class ContactSlaComponent implements OnInit {
     .subscribe({
       next: (response) => {
         this.currentContact = response['data']
+        console.info(this.currentContact);
       },
       error: (error) => {
         this.toastrService.error(error.error.message);

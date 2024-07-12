@@ -1,3 +1,8 @@
 *td {
     padding: 0.6rem !important;
 }
+:host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #FF6600;
+    border-color: #FF6600;
+    color: #000000;
+  }

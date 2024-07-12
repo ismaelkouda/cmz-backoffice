@@ -1,6 +1,9 @@
-<div class="modal-content">
+<div class="modal-content let-modal" #activeModal>
+    <div class="modal-header">
+        <h4 class="modal-title">{{qr.msisdn}}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+    </div>
     <div class="modal-body">
-        <div class="row">
             <!-- Map -->
             <div
                 class="preloader-scan col-sm-12 col-md-12 col-lg-12"
@@ -16,6 +19,5 @@
                     <div class="laser"></div>
                 </div>
             </div>
-        </div>
     </div>
 </div>

@@ -110,7 +110,7 @@ export class PatrimoineFormsComponent implements OnInit {
       date_id_reseau: [''],
       apn: [''],
       site_reseau: [''],
-      adresse_ip: ['']
+      adresse_ip: []
       /*
        0704842695
       */

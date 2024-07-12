@@ -247,6 +247,7 @@ export class CarteSimActiveComponent implements OnInit {
   }
   
   public OnShowQr(data) {
+    console.log('data', data)
     this.onMarkItemCarteSim(data);
     if (data.qrcode) {
       const modalRef = this.modalService.open(QrModalComponent, ModalParams);
@@ -267,8 +268,8 @@ export class CarteSimActiveComponent implements OnInit {
       iconSize: [45, 45],
       iconAnchor: [17, 17],
     });
-    this.map = new L.Map('map');
     var osmLayer = this.OpenStreetMap
+    this.map = new L.Map('map');
     this.map.setView(new L.LatLng(this.currentComposant?.longitude ?? this.currentComposant?.long_reseau, this.currentComposant?.latitude ?? this.currentComposant?.lat_reseau), 18);
     this.map.options.minZoom = 12;
 

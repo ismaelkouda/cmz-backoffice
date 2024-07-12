@@ -20,6 +20,8 @@ export class PatrimoineHeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.count
+    console.log('this.count', this.count)
   }
 
 }

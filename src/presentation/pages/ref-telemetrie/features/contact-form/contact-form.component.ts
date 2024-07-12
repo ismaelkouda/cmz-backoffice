@@ -94,9 +94,11 @@ export class ContactFormComponent implements OnInit {
     })
   }
   public onFormPachValues(): void {
+    
     this.adminForm.get('gestionnaire_tenant_id').patchValue(this.currentObject?.gestionnaire_tenant_id);
+    console.log('this.currentObject', this.currentObject)
     this.adminForm.get('escalade_tenant_id').patchValue(this.currentObject?.escalade_tenant_id);
-    this.adminForm.get('email_diffusion_tenant').patchValue(this.currentObject?.email_diffusion_tenant);
+    this.adminForm.get('email_diffusion_tenant').patchValue(this.currentObject?.email_admin_tenant);
   }
 
   OnChangeGestionnaire() {    
