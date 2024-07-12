@@ -42,7 +42,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
-    SupervisionOperationsModule,
     ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

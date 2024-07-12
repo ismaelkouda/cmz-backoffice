@@ -17,8 +17,6 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { EditableRow, TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
@@ -62,8 +60,6 @@ import { DetailsSuivieTraitementComponent } from './ui/suivie-traitement/details
         ReactiveFormsModule,
         NgbModule,
         SharedModule,
-        AngularMultiSelectModule,
-        Ng2SearchPipeModule,
         InputTextModule,
         ToolbarModule,
         ButtonModule,
