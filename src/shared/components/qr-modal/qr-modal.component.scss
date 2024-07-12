@@ -2,6 +2,14 @@
     z-index: 1200 !important;
 }
 
+.btn-close {
+    background-color: #FF6600 !important;
+}
+
+[aria-label] {
+    color: white;
+}
+
 .preloader-scan .laser {
     width: 80%;
     margin-left: -80%;

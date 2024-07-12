@@ -44,6 +44,8 @@ export class DemandeMasseComponent implements OnInit {
     public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
     public treatmenRejeter: string = TraitementTransaction.REJETER;
     public treatmenRefuser: string = TraitementTransaction.REFUSER;
+    public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
+    public treatmenCancel: string = TraitementTransaction.ABANDONNER;
 
     constructor(private supervisionOperationService: SupervisionOperationService, private toastrService: ToastrService,
         private loadingBarService: LoadingBarService, private activeModal: NgbActiveModal, private mappingService: MappingService,
@@ -263,7 +265,9 @@ export class DemandeMasseComponent implements OnInit {
             return "styledefault";
         } else if (this.listDemandes?.traitement === this.treatmenAccepter) {
             return "style200";
-        } else if (this.listDemandes?.cloture_a === this.stateTraite) {
+        } else if (this.listDemandes?.traitement === this.treatmenCancel) {
+            return "styleOrange";
+        } else if (this.listDemandes?.traitement === this.treatmenAcquiter) {
             return "style100";
         }
     }

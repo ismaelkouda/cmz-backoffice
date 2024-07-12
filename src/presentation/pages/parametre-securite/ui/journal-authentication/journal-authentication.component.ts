@@ -4,6 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { SettingService } from 'src/shared/services/setting.service';
 import { ParametreSecuriteService } from '../../data-access/parametre-securite.service';
 import { Title } from '@angular/platform-browser';
+import { handle } from 'src/shared/functions/api.function';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
   selector: 'app-journal-authentication',
@@ -11,8 +13,8 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./journal-authentication.component.scss']
 })
 export class JournalAuthenticationComponent implements OnInit {
-
-  public listNotifications: Array<any> = [];
+  private response: any;
+  public listNotifications: Array<any>;
   public listUsers: Array<any> = [];
   public selectedUser: any;
   public filterDateStart: Date;
@@ -31,7 +33,8 @@ export class JournalAuthenticationComponent implements OnInit {
     private toastrService: ToastrService,
     private settingService: SettingService,
     private toastService: ToastrService,
-    private titleService: Title
+    private titleService: Title,
+    private loadingBarService: LoadingBarService
   ) {
     this.titleService.setTitle(`${this.title}`);
   }
@@ -51,21 +54,16 @@ export class JournalAuthenticationComponent implements OnInit {
     this.GetAllJournal()
   }
 
-  GetAllJournal() {
-    this.parametreSecuriteService
-      .GetAllJournal({})
-      .subscribe(
-        (response: any) => {
-          const datas = response['data'];
-          this.listNotifications = datas.map((item) => {
-            const parseData = JSON.parse(item.data);            
-           return {...item, data: parseData};
-          })   
-        },
-        (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      );
+  async GetAllJournal(): Promise<void> {
+    this.response = await handle(() => this.parametreSecuriteService.GetAllJournal({}), this.toastrService, this.loadingBarService);
+    if(this.response) this.handleSuccessfulJournal(this.response);
+  }
+  private handleSuccessfulJournal(response: any): void {
+    this.listNotifications = response.data.map((item) => {
+      const parseData = JSON.parse(item.data);            
+     return {...item, data: parseData};
+    })  
+    console.log('this.listNotifications', this.listNotifications)
   }
   onFilter() {
     if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
