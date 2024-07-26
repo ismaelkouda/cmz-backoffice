@@ -18,6 +18,7 @@ import { DemandeMasseComponent } from '../../feature/demande-masse/demande-masse
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
 import { SuivieTraitementFilterStateService } from '../../data-access/suivie-traitement-filter-state.service';
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
+import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -27,6 +28,7 @@ const Swal = require('sweetalert2');
 })
 export class SuivieTraitementComponent implements OnInit {
   public BADGE_ETAT = BADGE_ETAT;
+  public BADGE_ETAPE = BADGE_ETAPE;
   public listTraitemants: Array<any> = [];
   public listOperations: Array<any> = [];
   public listStatutTransactions: Array<any> = [];
