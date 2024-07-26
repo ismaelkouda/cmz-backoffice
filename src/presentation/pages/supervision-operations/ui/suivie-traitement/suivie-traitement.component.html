@@ -284,16 +284,16 @@
                                     [ngStyle]="{ 'font-size': '16px' }"
                                     class="badge"
                                     [class.badge-dark]="
-                                        data?.statut === BADGE_ETAT.soumission
+                                        data?.statut === BADGE_ETAPE.SOUMISSION
                                     "
                                     [class.badge-warning]="
-                                        data?.statut === BADGE_ETAT.traitement
+                                        data?.statut === BADGE_ETAPE.TRAITEMENT
                                     "
                                     [class.badge-success]="
-                                        data?.statut === BADGE_ETAT.finalisation
+                                        data?.statut === BADGE_ETAPE.FINALISATEUR
                                     "
                                     [class.badge-green]="
-                                        data?.statut === BADGE_ETAT.cloture
+                                        data?.statut === BADGE_ETAPE.CLOTURE
                                     "
                                 >
                                     {{ data?.statut }}
@@ -304,39 +304,39 @@
                                     [ngStyle]="{ 'font-size': '16px' }"
                                     class="badge"
                                     [class.badge-dark]="
-                                        data?.traitement === treatmenAcquiter
+                                        data?.traitement === BADGE_ETAT.RECU
                                     "
                                     [class.badge-dark-2]="
                                         data?.statut ===
-                                            BADGE_ETAT.soumission &&
-                                        data?.traitement === treatmenEntente
+                                        BADGE_ETAPE.SOUMISSION &&
+                                        data?.traitement === BADGE_ETAT.EN_ATTENTE
                                     "
                                     [class.badge-warning]="
                                         data?.statut ===
-                                            BADGE_ETAT.traitement &&
-                                        data?.traitement === treatmenPartiel
+                                        BADGE_ETAPE.TRAITEMENT &&
+                                        data?.traitement === BADGE_ETAT.PARTIEL
                                     "
                                     [class.badge-warning-2]="
-                                        data?.statut === BADGE_ETAT.cloture &&
-                                        data?.traitement === treatmenCancel
+                                        data?.statut === BADGE_ETAPE.CLOTURE &&
+                                        data?.traitement === BADGE_ETAT.ABANDONNE
                                     "
                                     [class.badge-info]="
                                         data?.statut ===
-                                            BADGE_ETAT.traitement &&
-                                        data?.traitement === treatmenTotal
+                                        BADGE_ETAPE.TRAITEMENT &&
+                                        data?.traitement === BADGE_ETAT.TOTAL
                                     "
                                     [class.badge-green]="
                                         data?.statut ===
-                                            BADGE_ETAT.finalisation &&
-                                        data?.traitement === BADGE_ETAT.cloture
+                                        BADGE_ETAPE.FINALISATEUR &&
+                                        data?.traitement === BADGE_ETAT.CLOTURE
                                     "
                                     [class.badge-danger]="
-                                        data?.traitement === treatmenRejeter ||
+                                        data?.traitement === BADGE_ETAT.REJETE ||
                                         data?.traitement === treatmenRefuser
                                     "
                                     [class.badge-success]="
                                         data?.statut === stateCloture &&
-                                        data?.traitement === treatmenAccepter
+                                        data?.traitement === BADGE_ETAT.ACCEPTE
                                     "
                                 >
                                     {{ data.traitement }}

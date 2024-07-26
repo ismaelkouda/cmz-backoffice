@@ -242,6 +242,10 @@
                             data?.statut === BADGE_ETAPE.CLOTURE &&
                             data?.traitement === BADGE_ETAT.ACCEPTE
                         "
+                        [class.badge-danger]="
+                            data?.statut === BADGE_ETAPE.TRAITEMENT &&
+                            data?.traitement === BADGE_ETAT.REJETE
+                        "
                     >
                         {{ data.traitement }}
                     </span>

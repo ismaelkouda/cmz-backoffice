@@ -257,14 +257,14 @@
                             data?.traitement === treatmenRefuser
                         "
                         [class.badge-warning]="
-                            data?.traitement === treatmenCancel
+                            data?.traitement === BADGE_ETAT.ABANDONNE
                         "
                         [class.badge-info]="
-                            data?.traitement === treatmenAccepter
+                            data?.traitement === BADGE_ETAT.ACCEPTE
                         "
                         [class.badge-success]="
                             data?.statut === stateCloture &&
-                            data?.traitement === treatmenAccepter
+                            data?.traitement === BADGE_ETAT.ACCEPTE
                         "
                     >
                         {{ data.traitement }}
