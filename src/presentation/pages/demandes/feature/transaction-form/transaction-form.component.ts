@@ -226,17 +226,27 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                 '',
                 this.typeDemande === 'simple' || 'modifier' ? [Validators.email] : [],
             ],
-            imsi: [''],
+            imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
             statut: [''],
             statut_contrat: [''],
             formule_uuid: [this.currentObject ? this.currentObject.formule_uuid : '', [Validators.required]],
             description: [this.currentObject ? this.currentObject.description : '', [Validators.required]],
-            msisdn: [''],
+            msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
             code_pin: [''],
             username: [''],
             site: [''],
             adresse_ip: [''],
             proxy: [''],
+        });
+        this.adminForm.get("msisdn").valueChanges.subscribe((value) => {
+          if (value && value.length > 10) {
+            this.adminForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+          }
+        });
+        this.adminForm.get("imsi").valueChanges.subscribe((value) => {
+          if (value && value.length > 15) {
+            this.adminForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+          }
         });
     }
 

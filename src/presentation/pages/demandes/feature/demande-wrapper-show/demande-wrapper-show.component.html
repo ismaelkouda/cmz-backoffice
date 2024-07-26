@@ -249,11 +249,11 @@
                         [ngStyle]="{ 'font-size': '16px' }"
                         class="badge"
                         [class.badge-dark]="
-                            data?.traitement === treatmenEntente ||
-                            data?.traitement === treatmenAcquiter
+                            data?.traitement === BADGE_ETAT.EN_ATTENTE ||
+                            data?.traitement === BADGE_ETAT.RECU
                         "
                         [class.badge-danger]="
-                            data?.traitement === treatmenRejeter ||
+                            data?.traitement === BADGE_ETAT.REJETE ||
                             data?.traitement === treatmenRefuser
                         "
                         [class.badge-warning]="

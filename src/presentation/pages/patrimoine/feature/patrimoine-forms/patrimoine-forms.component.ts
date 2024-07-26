@@ -104,9 +104,9 @@ export class PatrimoineFormsComponent implements OnInit {
       latitude: [''],
       adresse_email: ['', [Validators.email]],
       formule: [''],
-      imsi: [''],
-      statut: [''],
-      msisdn: [''],
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      statut: [""],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       date_id_reseau: [''],
       apn: [''],
       site_reseau: [''],
@@ -114,6 +114,16 @@ export class PatrimoineFormsComponent implements OnInit {
       /*
        0704842695
       */
+    });
+    this.adminForm.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.adminForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.adminForm.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.adminForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
     });
   }
 

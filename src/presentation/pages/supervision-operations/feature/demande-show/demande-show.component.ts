@@ -1,3 +1,4 @@
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +11,8 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { Router } from '@angular/router';
 import { SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
 import { NOTIFY_ROUTE } from '../../supervision-operations-routing.module';
+import { EncodingDataService } from 'src/shared/services/encoding-data.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-demande-show',
@@ -55,14 +58,13 @@ export class DemandeShowComponent implements OnInit {
   public sourceSoldeDotation: string
   public sourceSoldeDotationOrange: string
 
-
   constructor(
     private fb: FormBuilder,
     private activeModal: NgbActiveModal,
     private toastrService: ToastrService,
     private supervisionOperationService: SupervisionOperationService,
     private mappingService: MappingService,
-    private router: Router
+    private router: Router,
 
   ) {
     Object.values(Justificatif).forEach(item => {
@@ -209,8 +211,8 @@ export class DemandeShowComponent implements OnInit {
   /*@@@@@@@@@@@@@@@@@@@@@@Volume Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitVolumeForm() {
     this.volumeForm = this.fb.group({
-      imsi: [''],
-      msisdn: [''],
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       statut_contrat: [''],
       point_emplacement: [],
       bac_a_pioche: [''],
@@ -218,6 +220,16 @@ export class DemandeShowComponent implements OnInit {
       volume_data_accepte: [''],
       volume_data_accepte_comment: ['']
     })
+    this.volumeForm.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.volumeForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.volumeForm.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.volumeForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
+    });
   }
   OnShowVolumeForm() {
     this.volumeForm.get('imsi').patchValue(this.detailTransaction?.imsi);
@@ -241,8 +253,8 @@ export class DemandeShowComponent implements OnInit {
   /*@@@@@@@@@@@@@@@@@@@@@@Swap Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitSwapForm() {
     this.swapForm = this.fb.group({
-      imsi: [''],
-      msisdn: [''],
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       statut_contrat: [''],
       point_emplacement: [''],
       bac_a_pioche: [''],
@@ -250,6 +262,16 @@ export class DemandeShowComponent implements OnInit {
       swap_accepte: [''],
       swap_accepte_comment: ['']
     })
+    this.swapForm.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.swapForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.swapForm.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.swapForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
+    });
   }
   OnShowSwapForm() {
     this.swapForm.get('imsi').patchValue(this.detailTransaction?.imsi);
@@ -273,14 +295,24 @@ export class DemandeShowComponent implements OnInit {
   /*@@@@@@@@@@@@@@@@@@@@@@Resiliation Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitResiliationForm() {
     this.resiliationForm = this.fb.group({
-      imsi: [''],
-      msisdn: [''],
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       statut_contrat: [''],
       point_emplacement: [],
       description: [''],
       resiliation_accepte: [''],
       resiliation_accepte_comment: ['']
     })
+    this.resiliationForm.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.resiliationForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.resiliationForm.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.resiliationForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
+    });
   }
   OnShowResiliationForm() {
     this.resiliationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
@@ -299,14 +331,24 @@ export class DemandeShowComponent implements OnInit {
   /*@@@@@@@@@@@@@@@@@@@@@@Suspension Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitSuspensionForm() {
     this.suspensionForm = this.fb.group({
-      imsi: [''],
-      msisdn: [''],
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       statut_contrat: [''],
       point_emplacement: [''],
       description: [''],
       suspension_accepte: [''],
       suspension_accepte_comment: ['']
     })
+    this.suspensionForm.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.suspensionForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.suspensionForm.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.suspensionForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
+    });
   }
   OnShowSuspensionForm() {
     this.suspensionForm.get('imsi').patchValue(this.detailTransaction?.imsi);
@@ -331,8 +373,8 @@ export class DemandeShowComponent implements OnInit {
       niveau_2: [''],
       niveau_3: [''],
       usage: [''],
-      imsi: [''],
-      msisdn: [''],
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       statut_contrat: [''],
       code_pin: [''],
       point_emplacement: [''],
@@ -344,6 +386,16 @@ export class DemandeShowComponent implements OnInit {
       activation_accepte: [''],
       activation_accepte_comment: ['']
     })
+    this.activationForm.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.activationForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.activationForm.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.activationForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
+    });
   }
   OnShowActivationForm() {
     this.activationForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);

@@ -1,3 +1,4 @@
+import { PasswordResetService } from './data-access/password-reset.service';
 import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -48,5 +49,6 @@ import { ForgotPasswordComponent } from './ui/forgot-password/forgot-password.co
     ForgotPasswordComponent,
     ResetPasswordComponent
   ],
+  providers: [PasswordResetService]
 })
 export class PasswordResetModule { }

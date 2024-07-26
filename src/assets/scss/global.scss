@@ -184,6 +184,11 @@ fieldset .row:not(:first-child) {
     color: #fff;
 }
 
+.badge-dark-2 {
+    background-color: #000 !important;
+    color: #fff;
+}
+
 .badge-primary {
     background-color: #13a6f4 !important;
     color: #fff;
@@ -210,6 +215,11 @@ fieldset .row:not(:first-child) {
 }
 
 .badge-warning {
+    background-color: #ffaa05 !important;
+    color: #fff;
+}
+
+.badge-warning-2 {
     background-color: #ffaa05 !important;
     color: #fff;
 }

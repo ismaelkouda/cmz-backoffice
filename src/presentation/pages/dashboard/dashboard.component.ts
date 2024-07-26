@@ -1,5 +1,5 @@
+import { DashboardService } from './data-access/dashboard.service';
 import { CARTES_SIM, ETAT_SOLDE } from './../patrimoine/patrimoine-routing.module';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
@@ -11,12 +11,23 @@ import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { SUIVIE_TRAITEMENT_ROUTE } from '../supervision-operations/supervision-operations-routing.module';
 import { Title } from '@angular/platform-browser';
+import { handle } from 'src/shared/functions/api.function';
+import { ToastrService } from 'ngx-toastr';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styles: [`
+    .col-md-3:hover {
+      transform: scale(1.1);
+    }
+    .col-md-3 {
+      transition: transform 0.5s;
+    }
+  `]
 })
+
 export class DashboardComponent implements OnInit {
 
   public dataResponse: any;
@@ -38,6 +49,7 @@ export class DashboardComponent implements OnInit {
   public applicationType: string;
   public patrimoineType: string;
   public appName: string;
+  public response: any;
 
 
   simIcon = '../../../assets/svg/sim_loc_noir_white.png';
@@ -48,11 +60,10 @@ export class DashboardComponent implements OnInit {
   simCrique = '../../../assets/svg/critique_white.png';
   public title = 'Tableau de bord - Système de Gestion de Collecte Centralisée';
 
-  constructor(
-    private http: HttpClient,
-    public mappingService: MappingService,
-    public router: Router,
-    private titleService: Title
+  constructor(public mappingService: MappingService,
+    public router: Router, private titleService: Title,
+    private dashboardService: DashboardService, private toastrService: ToastrService,
+    private loadingBarService: LoadingBarService
   ) {
     this.titleService.setTitle(`${this.title}`);
     this.baseUrl = this.mappingService.baseUrl
@@ -66,29 +77,25 @@ export class DashboardComponent implements OnInit {
     this.onDashboard();
   }
 
-  onDashboard() {
-    this.http.get(`${this.baseUrl}dashboard/statistiques`)
-      .subscribe({
-        next: (res) => {
-          this.dataResponse = res['data'];
-          this.countTotalSim = this.dataResponse?.total;
-          this.countSimActive = res['data'].actif;
-          this.countSimSuspendu = this.dataResponse?.suspendu;
-          this.countSimResilie = this.dataResponse?.resilie;
-          this.countAlarmeNormal = this.dataResponse?.['alarme_normal'];
-          this.countAlarmeMineure = this.dataResponse?.['alarme_mineur'];
-          this.countAlarmeMajeure = this.dataResponse?.['alarme_majeur'];
-          this.countAlarmeCritique = this.dataResponse?.['alarme_critique'];
-          this.countSoumis = this.dataResponse?.['nb_demandes_soumises'];
-          this.countTraiter = this.dataResponse?.['nb_demandes_traitees'];
-          this.countCloture = this.dataResponse?.['nb_demandes_cloturees'];
-          this.countAttente = this.dataResponse?.['nb_demandes_attentes'];
-          this.currrentDate = this.dataResponse?.['date_derniere_maj'];
-        },
-        error: (error) => {
-
-        }
-      })
+  async onDashboard(): Promise<void> {
+    this.response = await handle(() => this.dashboardService.GetDashboardStatistique(), this.toastrService, this.loadingBarService);
+    if(this.response) this.handleSuccessful(this.response);
+  }
+  private handleSuccessful(response: any): void {
+    this.dataResponse = response['data'];
+    this.countTotalSim = this.dataResponse?.total;
+    this.countSimActive = response['data'].actif;
+    this.countSimSuspendu = this.dataResponse?.suspendu;
+    this.countSimResilie = this.dataResponse?.resilie;
+    this.countAlarmeNormal = this.dataResponse?.['alarme_normal'];
+    this.countAlarmeMineure = this.dataResponse?.['alarme_mineur'];
+    this.countAlarmeMajeure = this.dataResponse?.['alarme_majeur'];
+    this.countAlarmeCritique = this.dataResponse?.['alarme_critique'];
+    this.countSoumis = this.dataResponse?.['nb_demandes_soumises'];
+    this.countTraiter = this.dataResponse?.['nb_demandes_traitees'];
+    this.countCloture = this.dataResponse?.['nb_demandes_cloturees'];
+    this.countAttente = this.dataResponse?.['nb_demandes_attentes'];
+    this.currrentDate = this.dataResponse?.['date_derniere_maj'];
   }
   public OnFilterByLegend(legend: string): void {
     switch (legend) {
@@ -103,8 +110,8 @@ export class DashboardComponent implements OnInit {
         this.router.navigateByUrl(`${PATRIMOINE}/${CARTES_SIM}`, { state: { statut: SimStatut.SUSPENDU } });
         break;
       case 'SIM Resiliées':
-          this.router.navigateByUrl(`${PATRIMOINE}/${CARTES_SIM}`, { state: { statut: SimStatut.RESILIE } });
-          break;
+        this.router.navigateByUrl(`${PATRIMOINE}/${CARTES_SIM}`, { state: { statut: SimStatut.RESILIE } });
+        break;
 
       // SOLDES ETAT SIM  
       case 'SIM Alarmes Normales':
@@ -115,7 +122,7 @@ export class DashboardComponent implements OnInit {
         break;
       case 'SIM Alarmes Majeures':
         this.router.navigateByUrl(`${PATRIMOINE}/${ETAT_SOLDE}`, { state: { statut: TypeAlarme.MAJEUR } });
-        break;  
+        break;
       case 'SIM Alarmes Critiques':
         this.router.navigateByUrl(`${PATRIMOINE}/${ETAT_SOLDE}`, { state: { statut: TypeAlarme.CRITIQUE } });
         break;
@@ -124,18 +131,18 @@ export class DashboardComponent implements OnInit {
 
       case '# Demandes Soumises':
         this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`);
-      break;
+        break;
       case '# Demandes en Attentes':
-        this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`, { state:{ statut: StatutTransaction.SOUMIS,traitement: TraitementTransaction.EN_ENTENTE}});
+        this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`, { state: { statut: StatutTransaction.SOUMIS, traitement: TraitementTransaction.EN_ENTENTE } });
         break;
       case '# Demandes Traitées':
-          this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`, { state: { statut: StatutTransaction.TARITER} });
+        this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`, { state: { statut: StatutTransaction.TARITER } });
         break;
       case '# Demandes Clôturées':
         this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`, { state: { statut: StatutTransaction.CLOTURER } });
-        break;  
+        break;
 
-        default:
+      default:
         break;
     }
   }

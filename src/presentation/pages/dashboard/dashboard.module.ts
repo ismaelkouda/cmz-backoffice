@@ -4,6 +4,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { DashboardComponent } from './dashboard.component';
 import { ButtonModule } from 'primeng/button';
+import { DashboardService } from './data-access/dashboard.service'
 
 @NgModule({
   imports: [
@@ -15,5 +16,6 @@ import { ButtonModule } from 'primeng/button';
   declarations: [
     DashboardComponent,
   ],
+  providers: [DashboardService]
 })
 export class DashboardModule { }

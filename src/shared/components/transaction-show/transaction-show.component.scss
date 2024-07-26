@@ -19,6 +19,13 @@
 .form-container > :first-child {
     margin-top: 2rem;
 }
+
+.container-button-telecharger {
+    border: 2px solid #d0d3da;
+    border-radius: 5%;
+    height: 70%;
+}
+
 .form-container fieldset:not(:first-child) {
     margin-top: 2rem;
 }

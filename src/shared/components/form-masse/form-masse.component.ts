@@ -9,19 +9,31 @@ type MODEL_ENTETE_FILE = ['TRANSACTION', 'MSISDN', 'IMSI', 'ICCID', 'ADRESSE IP'
     selector: 'app-form-masse',
     templateUrl: './form-masse.component.html',
     styles: [`
+    .container-form-masse {
+        padding-left: 10px;
+    }
+    .title-file {
+        padding: 0;
+    }
+    .container-button-telecharger {
+        border: 2px solid #d0d3da;
+        border-radius: 5%;
+        height: 70%;
+    }
     .input_file {
         align-items: center;
         position: relative;
         display: flex;
         overflow: hidden;
         border: solid .5px rgba(0, 0, 0, .5);
+        width: 90%
     }
     input {
         width: 1px;
         height: 1px;
         z-index: 1;
     }
-    label {
+    label[for="file"] {
         position: static;
         z-index: 2;
         background-color: #e1e1e1;
@@ -57,14 +69,19 @@ export class FormMasseComponent {
     public currentFile: any;
     public fileName: any;
     public data: File;
+    @Output() downloadModel = new EventEmitter<void>();
+    public nombreLigneInExcelFile: number;
+    public excelFileIsCorrect: boolean;
 
     constructor(private toastrService: ToastrService) { }
 
     // Debut: ajout du fichier excel au formulaire
     onExcelFileChange(event: FileList) {
+        console.log('event', event)
         if (event.length != 0) {
             this.data = event[0]
             readXlsxFile(event[0]).then((rows) => {
+                console.log('rows', rows)
                 // debut: recuperer l'entete du fichier excel upload
                 this.arrayHeaderExcelFile = rows[0];
                 // fin: recuperer l'entete du fichier excel upload
@@ -74,6 +91,7 @@ export class FormMasseComponent {
                 // fin: recuperer tout le contenu (le corps du fichier) du fichier excel upload
 
                 this.arrayContentExcelFile.shift(); // suuprime le premier objet qui est l'entete du tableau
+                this.nombreLigneInExcelFile = this.arrayContentExcelFile.length;
 
                 this.fileName = event[0]?.name.slice(0, 33).padEnd(36, '.');
             });
@@ -96,20 +114,24 @@ export class FormMasseComponent {
      * @param arr2 le modele d'entete a respecter, il a été initialisé dans le constructor() du parent
      * @returns un message toastr ou un boolean(true) lorsqu'il y a une erreur; oubien un boolean(false) lorsqu'il n'y a pas d'erreur
      */
-    isArraySame(arr1: string[], arr2) {
-        if (arr1.length !== arr2.length) {
+    isArraySame(arr1: string[], arr2): boolean {
+        console.log('arr1', arr1)
+        if (!arr1 || arr1.length <= 0) {
+            this.toastrService.error('Fichier vide');
+            return false
+        } else if (arr1.length !== arr2.length) {
             this.toastrService.error('Nombre de colonne du fichier n\'est le bon');
             return false
         }
-
         for (let i = 0; i < arr1.length; i++) {
             if (arr1[i] !== arr2[i]) return false;
         }
+        return true;
     }
     // Fin: Verifier le fichier excel ajouté au formulaire est conforme au fichier qu'on attends
 
     // Debut: Message sweetAlert a afficher quand le fichier excel upload est incorrecte
-    messageFileIsNotCorrect(message: 'Structure du fichier incohérente'|'Structure du fichier cohérente', typeMessage: 'error'|'success') {
+    messageFileIsNotCorrect(message: string, typeMessage: 'error' | 'success') {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',
@@ -144,19 +166,23 @@ export class FormMasseComponent {
 
     // Debut: Verification du fichier a upload
     checkFile() {
-        const isFileCorrect = this.isArraySame(this.arrayHeaderExcelFile, this.currentArrayHeaders);
-        console.log('this.currentArrayHeaders', this.currentArrayHeaders)
-        console.log('this.arrayHeaderExcelFile', this.arrayHeaderExcelFile)
-        if (isFileCorrect === false) {
-            this.messageFileIsNotCorrect(`Structure du fichier incohérente`, 'error');
+        this.excelFileIsCorrect = this.isArraySame(this.arrayHeaderExcelFile, this.currentArrayHeaders);
+        if (this.excelFileIsCorrect === false) {
+            this.messageFileIsNotCorrect(`Le fichier soumis ne respecte pas la structure attendue. Veuillez télécharger le modèle et l'utiliser`, 'error');
         } else {
-            this.messageFileIsNotCorrect(`Structure du fichier cohérente`, 'success');
+            this.messageFileIsNotCorrect(`Structure du fichier cohérente ${this.nombreLigneInExcelFile} ligne(s) chargée(s)`, 'success');
             this.formatDataToSend();
         }
     }
     // Fin: Verification du fichier a upload
 
     downloadModelXls() {
-        window.open(this.fileModel, "_blank");
+        this.downloadModel.emit();
+        // window.open(this.fileModel, "_blank");
+    }
+
+    getButtonLabel(): string {
+        console.log('this.excelFileIsCorrect', this.excelFileIsCorrect)
+        return this.excelFileIsCorrect ? `${this.nombreLigneInExcelFile} ligne(s) chargée(s)` : 'Vérifier le fichier';
     }
 }

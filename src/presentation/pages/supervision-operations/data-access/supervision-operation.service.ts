@@ -18,6 +18,11 @@ export class SupervisionOperationService {
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
   }
 
+  GetGestionTransactionsDemandesServicesDownloadAbonnementsData(numeroDemande: string, tokenUser: string): any {
+    const url: string = <string>EndPointUrl.GET_GESTION_TRANSACTIONS_DEMANDES_SERVICES_numeroDemande_DOWNLOAD_ABONNEMENTS_DATA.replace('{numeroDemande}', numeroDemande).replace('{tokenUser}', tokenUser);
+    return `${this.baseUrl}${url}`;
+  }
+
   GetSupervisionOperationsDemandesServicesDetails(numeroDemande: string): Observable<any> {
     const url: string = <string>EndPointUrl.GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_numeroDemande_DETAILS.replace('{numeroDemande}', numeroDemande);
     return this.http.get(`${this.baseUrl}${url}`);

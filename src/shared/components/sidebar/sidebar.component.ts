@@ -6,6 +6,7 @@ import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import {  DASHBOARD, STRUCTURE_ORGANISATIONNELLE } from 'src/shared/routes/routes';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { FIRST_LEVEL_ROUTE, SECOND_LEVEL_ROUTE, THRID_LEVEL_ROUTE, USAGE_METIER } from 'src/presentation/pages/structure-niveau/structure-niveau-routing.module';
+import { LOGO_ORANGE } from 'src/shared/constants/logoOrange.constant';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,7 +15,7 @@ import { FIRST_LEVEL_ROUTE, SECOND_LEVEL_ROUTE, THRID_LEVEL_ROUTE, USAGE_METIER 
   encapsulation: ViewEncapsulation.None
 })
 export class SidebarComponent {
-
+  public LOGO_ORANGE = LOGO_ORANGE;
   public iconSidebar;
   public menuItems: Menu[];
   public filterArray: Array<any> = [];

@@ -66,14 +66,24 @@
                         </div>
                     </div> -->
                     <div class="d-flex gap-2 no-wrap">
-                        <button pButton pRipple label="Abandonner" (click)="onLetDownDemands()"
+                        <button pButton pRipple [label]="params.action" (click)="onLetDownDemands()"
                             class="p-button-warning w-100" *ngIf="
-                                demande.statut === 'en-traitement' &&
-                                action !== 'cloturer'
+                            params.vue === 'demande' &&
+                            params.action === 'Abandonner'
                             "></button>
-                        <button pButton pRipple [label]="getLabelForm()" [disabled]="formTraitementMasse.invalid"
-                            (click)="onSaveDemandes()" class="btn btn-success w-100"
-                            *ngIf="demande?.statut !== 'en-traitement'"></button>
+                        <!-- <button pButton pRipple label="Abandonner" (click)="onLetDownDemands()"
+                            class="p-button-warning w-100" *ngIf="
+                            demande.status === stateSoumis &&
+                            demande.traitement === treatmenEntente
+                            "></button> -->
+                        <button pButton pRipple [label]="params.action" [disabled]="formTraitementMasse.invalid"
+                            (click)="onSaveDemandes()" class="p-button-success w-100"
+                            *ngIf="
+                            (params.vue === 'demande' && params.action === 'Identifier') && canIdentify(listDemandes)"></button>
+                        <button pButton pRipple [label]="params.action" [disabled]="formTraitementMasse.invalid"
+                            (click)="onSaveTraitements()" class="p-button-success w-100" *ngIf="
+                            params.vue === 'traitement' && 
+                            params.action === 'Clôturer'"></button>
                     </div>
 
                     <div>
@@ -171,7 +181,60 @@
                                 <div>
                                     <span class="mb-0 fs__30">
                                         <strong>Date&nbsp;:&nbsp;</strong>
-                                        {{ listDemandes?.traite_a ?? 'N/A' }}
+                                        {{ listDemandes?.acquitte_a ?? 'N/A' }}
+                                    </span>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div>
+                        <fieldset>
+                            <legend>
+                                <strong>Finalisateur</strong>
+                            </legend>
+                            <div class="d-flex flex-column gap-2">
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>
+                                        {{
+                                        listDemandes?.finalisateur
+                                        ?.matricule ?? 'N/A'
+                                        }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>
+                                        {{
+                                        listDemandes?.finalisateur?.nom ??
+                                        'N/A'
+                                        }}
+                                        {{
+                                        listDemandes?.finalisateur
+                                        ?.prenoms ?? 'N/A'
+                                        }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30">
+                                        <sstrong>Contact&nbsp;:&nbsp;</sstrong>
+                                        {{
+                                        listDemandes?.finalisateur
+                                        ?.contacts ?? 'N/A'
+                                        }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>
+                                        {{
+                                        listDemandes?.finalisateur?.email ??
+                                        'N/A'
+                                        }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30">
+                                        <strong>Date&nbsp;:&nbsp;</strong>
+                                        {{ listDemandes?.finalise_a ?? 'N/A' }}
                                     </span>
                                 </div>
                             </div>
@@ -181,66 +244,53 @@
 
                 <div class="col-lg-10">
                     <div class="col-lg-12">
-                        <div role="alert" style="
-                                display: flex;
-                                justify-content: space-between;
-                            " [ngClass]="OnGetRapportCodeStyle(listDemandes)">
+                        <div role="alert" style="display: flex; justify-content: space-between;"
+                            [ngClass]="OnGetRapportCodeStyle(listDemandes)">
                             <div>
-                                <strong class="wrapper-header">Reception{{
-                                    listDemandes?.traitement ===
-                                    treatmenAccepter
+                                <strong class="wrapper-header">
+                                    {{BADGE_ETAT.soumission | capitalize}} : {{ listDemandes?.etat_soumission }}
+                                    <br>
+                                    Date : [{{listDemandes?.etat_soumission === 'abandonné' ? listDemandes?.cloture_a :
+                                    listDemandes?.created_at ?? '-- : --'}}]
+                                </strong>
+                            </div>
+                            <div>
+                                <strong class="wrapper-header">
+                                    {{BADGE_ETAT.traitement | capitalize}} : {{ listDemandes?.etat_traitement }}
+                                    <br>
+                                    Date : [{{listDemandes?.traite_a ?? '-- : --' }}]
+                                </strong>
+                            </div>
+                            <div>
+                                <strong class="wrapper-header">
+                                    {{BADGE_ETAT.finalisation | capitalize}} : {{ listDemandes?.etat_finalisation
                                     }}
-                                    :
-                                    {{ listDemandes?.acquitte_a ? 'Réçu' : '' }}
-                                    [{{
-                                    listDemandes?.acquitte_a ?? '-- : --'
-                                    }}]
+                                    <br>
+                                    Date : [{{listDemandes?.finalise_a ?? '-- : --' }}]
                                 </strong>
                             </div>
                             <div>
-                                <strong class="wrapper-header">Traitement :
-                                    {{ listDemandes?.traitement ?? 'N/A' }}
-                                    [{{
-                                    listDemandes?.traite_a ?? '-- : --'
-                                    }}]
-                                </strong>
-                            </div>
-                            <div>
-                                <strong class="wrapper-header">Clôture :
-                                    {{ listDemandes?.cloture_a ?? '-- : --' }}
+                                <strong class="wrapper-header">
+                                    <span class="text-capitalize">{{BADGE_ETAT.cloture}}</span> : {{
+                                    listDemandes?.etat_cloture }}
+                                    <br>
+                                    Date : [{{listDemandes?.cloture_a ?? '-- : --' }}]
                                 </strong>
                             </div>
                         </div>
                         <div class="row">
                             <h4 class="col-md-7 wrapper-header">
-                                <strong>{{
-                                    listDemandes?.operation === 'activation'
-                                    ? 'Abonnement Mobile'
-                                    : ''
-                                    }}
-                                    <span style="
-                                            color: #549b3d;
-                                            font-weight: bold;
-                                        "><span> 'N/A' </span></span>
+                                <strong>
+                                    {{ listDemandes?.operation === 'activation' ? 'Operation d\'identification' : '' }}
                                 </strong>
                             </h4>
-                            <div class="col-md-5 wrapper-header" style="
-                                    display: flex;
-                                    justify-content: end;
-                                    font-size: 20px;
-                                ">
-                                Date mise à jour :&nbsp;
-                                <b><span>{{
-                                        listDemandes.updated_at ?? 'N/A'
-                                        }}</span></b>
+                            <div class="col-md-5 wrapper-header"
+                                style="display: flex; justify-content: end; font-size: 20px;">
+                                Date mise à jour :&nbsp;<b><span>{{ listDemandes.updated_at ?? 'N/A' }}</span></b>
                             </div>
                         </div>
 
-                        <hr style="
-                                position: relative;
-                                top: -0.2rem;
-                                margin-top: -0.8rem;
-                            " />
+                        <hr style="position: relative; top: -0.2rem; margin-top: -0.8rem;" />
 
                         <div>
                             <div>
@@ -252,9 +302,8 @@
                                                     <b>Stock SIM/OCI</b>
                                                 </legend>
                                                 <div class="text-wrapper">
-                                                    <input type="text" pInputText [value]="
-                                                            sourceStockOrangeSim
-                                                        " [disabled]="true" />
+                                                    <input type="text" pInputText [value]="sourceStockOrangeSim"
+                                                        [disabled]="true" />
                                                 </div>
                                             </fieldset>
                                         </div>
@@ -267,21 +316,20 @@
                                     </legend>
                                     <div class="d-flex gap-2">
                                         <div class="width-100">
-                                            <label><b>{{
-                                                    firstLevelLibelle
-                                                    }}</b></label>
+                                            <label>
+                                                <b>{{ firstLevelLibelle }}</b></label>
                                             <input type="text" pInputText formControlName="niveau_uns_uuid" />
                                         </div>
                                         <div class="width-100">
-                                            <label><b>{{
-                                                    secondLevelLibelle
-                                                    }}</b></label>
+                                            <label>
+                                                <b>{{ secondLevelLibelle }}</b>
+                                            </label>
                                             <input type="text" pInputText formControlName="niveau_deux_uuid" />
                                         </div>
                                         <div class="width-100">
-                                            <label><b>{{
-                                                    thirdLevelLibelle
-                                                    }}</b></label>
+                                            <label>
+                                                <b>{{ thirdLevelLibelle }}</b>
+                                            </label>
                                             <input type="text" pInputText formControlName="niveau_trois_uuid" />
                                         </div>
                                         <div class="width-100">
@@ -302,19 +350,12 @@
                                 <fieldset>
                                     <legend>Informations demande</legend>
                                     <div class="row">
-                                        <div class="col-md-8">
+                                        <div class="col-md-2">
+                                            <label for="commentaire"><strong>Nombre de ligne</strong></label>
+                                            <input type="text" pInputText formControlName="nb_demande_soumises" />
+                                        </div>
+                                        <div class="col-md-6">
                                             <label for="commentaire"><strong>Description</strong></label>
-                                            <!-- <textarea
-                                                name="commentaire"
-                                                formControlName="description"
-                                                class="form-control"
-                                                rows="2"
-                                                style="
-                                                    width: 100%;
-                                                    margin-top: 0%;
-                                                "
-                                            >
-                                            </textarea> -->
                                             <input type="text" pInputText formControlName="description" />
                                         </div>
                                         <div class="col-md-2">
@@ -334,26 +375,6 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <!-- <fieldset>
-                                                <legend>
-                                                    <b>Jutificatif</b>
-                                                </legend>
-                                                <div class="justificatif-container">
-                                                    <div *ngIf="IsJustificatif()">
-                                                        <button pButton pRipple label="Télécharger"
-                                                            icon="pi pi-download" class="p-button-success" (click)="
-                                                                downloadFile()
-                                                            "></button>
-                                                    </div>
-                                                    <div class="justificatif-error">
-                                                        <span class="" *ngIf="
-                                                                !IsJustificatif()
-                                                            ">Aucun justificatif
-                                                            pour cette
-                                                            transaction</span>
-                                                    </div>
-                                                </div>
-                                            </fieldset> -->
                                         </div>
                                         <div class="col-md-2">
                                             <label for="commentaire"><strong>Reçu paiement</strong></label>
@@ -374,33 +395,36 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <!-- <fieldset>
-                                                <legend>
-                                                    <b>Reçu paiement</b>
-                                                </legend>
-                                                <div class="justificatif-container">
-                                                    <div *ngIf="IsRecuPaiement()">
-                                                        <button pButton pRipple label="Télécharger"
-                                                            icon="pi pi-download" class="p-button-success" (click)="
-                                                                downloadRecuPaiement()
-                                                            "></button>
-                                                    </div>
-                                                    <div class="justificatif-error">
-                                                        <span class="" *ngIf="
-                                                                !IsRecuPaiement()
-                                                            ">Aucun recu de
-                                                            paiement pour cette
-                                                            transaction</span>
-                                                    </div>
-                                                </div>
-                                            </fieldset> -->
                                         </div>
                                     </div>
                                 </fieldset>
+
+                                <!-- <fieldset>
+                                    <legend>
+                                        <strong>Commentaire</strong>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="commentaire"><strong>Commentaire clôture</strong></label>
+                                            <textarea name="commentaire" formControlName="commentaire_cloture"
+                                            class="form-control" rows="1" style="width: 100%; margin-top: 0%">
+                                            </textarea>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="commentaire"><strong>Commentaire traitement</strong></label>
+                                        <textarea name="commentaire" formControlName="commentaire_traitement"
+                                            class="form-control" rows="1" style="width: 100%; margin-top: 0%">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </fieldset> -->
+
                                 <fieldset *ngIf="
-                                        action === 'cloturer' &&
-                                        demande?.statut !== stateCloture
-                                    ">
+                                    params.vue === 'traitement' &&
+                                    params.action === 'Clôturer'">
                                     <legend><strong>Traitement</strong></legend>
                                     <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
                                         <div class="block-checked">
@@ -450,20 +474,16 @@
 
                                 <br />
 
-                                <fieldset *ngIf="
-                                        action === 'traiter' &&
-                                        demande?.statut !== stateCloture
-                                    ">
+                                <fieldset
+                                    *ngIf="(params.vue === 'demande' && params.action === 'Identifier') && canIdentify(listDemandes)">
                                     <legend [ngStyle]="{ width: '100%' }">
-                                        <b>Demandes</b>
+                                        <b>Identification des lignes</b>
                                     </legend>
                                     <div class="row">
                                         <app-form-masse class="col-md-9 d-flex align-items-end" [fileModel]="fileModel"
-                                            (dataToSend)="
-                                                pushCurrentArrayForm($event)
-                                            " [currentArrayHeaders]="
-                                                currentArrayHeaders
-                                            ">
+                                            (dataToSend)="pushCurrentArrayForm($event)"
+                                            [currentArrayHeaders]="currentArrayHeaders"
+                                            (downloadModel)="onDownloadModel($event)">
                                         </app-form-masse>
                                     </div>
                                 </fieldset>

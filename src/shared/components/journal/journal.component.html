@@ -40,40 +40,40 @@
         >
             <ng-template pTemplate="header">
                 <tr>
-                    <th>#</th>
-                    <th>Date/Heure</th>
-                    <th>Statut</th>
-                    <th>Traitement</th>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Date/Heure</th>
+                    <th class="text-center">Etape</th>
+                    <th>Etat</th>
                     <th>Date Traitement</th>
                     <th>Description</th>
+                    <th class="text-center"># Lignes</th>
                 </tr>
             </ng-template>
             <ng-template let-i="rowIndex" pTemplate="body" let-journal>
                 <tr>
                     <td class="text-center">{{ i + 1 }}</td>
-                    <td>{{ journal?.created_at }}</td>
-                    <td class="text-center">
-                        <span
-                            [ngStyle]="{ 'font-size': '14px' }"
-                            class="badge"
-                            [class.badge-dark]="journal?.statut === stateSoumis"
-                            [class.badge-warning]="
-                                journal?.statut == 'en-traitement'
-                            "
-                            [class.badge-green]="
-                                journal?.statut === stateTraite
-                            "
-                            [class.badge-success]="
-                                journal?.statut === stateCloture
-                            "
-                        >
+                    <td class="text-center">{{ journal?.created_at }}</td>
+                    <td class="text-center" [style]="{ width: '3rem' }">
+                        <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+                            [class.badge-dark]="journal?.statut === BADGE_ETAT.soumission"
+                            [class.badge-warning]="journal?.statut === BADGE_ETAT.traitement"
+                            [class.badge-success]="journal?.statut === BADGE_ETAT.finalisation"
+                            [class.badge-green]="journal?.statut === BADGE_ETAT.cloture">
                             {{ journal?.statut }}
                         </span>
                     </td>
                     <td class="text-center">
                         <span
-                            [ngStyle]="{ 'font-size': '14px' }"
-                            class="badge"
+                            [ngStyle]="{ 'font-size': '14px' }" class="badge"
+                            [class.badge-dark]="journal?.traitement === treatmenAcquiter"
+                            [class.badge-dark-2]="journal?.statut === BADGE_ETAT.soumission && journal?.traitement === treatmenEntente"
+                            [class.badge-warning]="journal?.statut === BADGE_ETAT.traitement && journal?.traitement === treatmenPartiel"
+                            [class.badge-warning-2]="journal?.statut === BADGE_ETAT.cloture && journal?.traitement === treatmenCancel"
+                            [class.badge-info]="journal?.statut === BADGE_ETAT.traitement && journal?.traitement === treatmenTotal"
+                            [class.badge-green]="journal?.statut === BADGE_ETAT.finalisation && journal?.traitement === BADGE_ETAT.cloture"
+                            [class.badge-danger]="journal?.traitement === treatmenRejeter || journal?.traitement === treatmenRefuser"
+                            [class.badge-success]="journal?.statut === stateCloture && journal?.traitement === treatmenAccepter"
+                            
                             [class.badge-dark]="
                                 journal?.traitement === treatmenEntente ||
                                 journal?.traitement === treatmenAcquiter
@@ -100,6 +100,7 @@
                     <td style="width: 23rem; text-align: start">
                         {{ journal?.description }}
                     </td>
+                    <td class="text-center">{{ journal?.nbre_element }}</td>
                 </tr>
             </ng-template>
         </p-table>

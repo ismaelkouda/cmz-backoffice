@@ -187,11 +187,11 @@ fieldset {
     margin-left: 5px;
     margin-right: 5px;
 }
-  
+
 .container-button-telecharger {
-  border: 2px solid #d0d3da;
-  border-radius: 5%;
-  height: 70%;
+    border: 2px solid #d0d3da;
+    border-radius: 5%;
+    height: 70%;
 }
 
 %messageAlert {
@@ -210,30 +210,38 @@ fieldset {
     }
 }
 
-.style100 {
+.detailsDemandeColorBlue {
     @extend %messageAlert;
     background-color: #e0f2f7;
     color: #01a9db;
     border-color: #e0f2f7;
-}
-.styleOrange {
-  @extend %messageAlert;
-  background-color: #FAEDC4;
-  color: #C79807;
-  border-color: #FAEDC4;
-}
-.style200 {
+  }
+
+  .detailsDemandeColorYellow {
     @extend %messageAlert;
-    background-color: #c8e6c9;
-    color: #256029;
-    border-color: #c8e6c9;
-}
-.styledefault {
+    background-color: #FAEDC4;
+    color: #C79807;
+    border-color: #FAEDC4;
+  }
+
+  .detailsDemandeColorRed {
     @extend %messageAlert;
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
-}
+  }
+
+  .detailsDemandeColorGreen {
+    @extend %messageAlert;
+    background-color: #c8e6c9;
+    color: #256029;
+    border-color: #c8e6c9;
+  }
+
+  .detailsDemandeColorBlack {
+      @extend %messageAlert;
+      background-color: #a4b0be; color: #000; border-color: #a4b0be;
+  }
 
 .neutre {
     background-color: white !important;

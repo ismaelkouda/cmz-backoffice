@@ -1,7 +1,7 @@
 import { SUIVIE_TRAITEMENT_ROUTE, CONTENCIEUX_ROUTE, DEMANDE_ROUTE } from './../../../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { TraitementTransaction } from '../../enum/TraitementTransaction.enum';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
@@ -394,8 +394,8 @@ export class TransactionShowComponent implements OnInit {
   /*@@@@@@@@@@@@@@@@@@@@@@Volume Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitVolumeForm() {
     this.volumeForm = this.fb.group({
-      imsi: [''],
-      msisdn: [''],
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       statut_contrat: [''],
       point_emplacement: [''],
       bac_a_pioche: [''],
@@ -425,8 +425,8 @@ export class TransactionShowComponent implements OnInit {
   /*@@@@@@@@@@@@@@@@@@@@@@Swap Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitSwapForm() {
     this.swapForm = this.fb.group({
-      imsi: [''],
-      msisdn: [''],
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       statut_contrat: [''],
       point_emplacement: [''],
       bac_a_pioche: [''],
@@ -434,6 +434,16 @@ export class TransactionShowComponent implements OnInit {
       swap_accepte: [''],
       swap_accepte_comment: ['']
     })
+    this.swapForm.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.swapForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.swapForm.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.swapForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
+    });
   }
   OnShowSwapForm() {
     this.swapForm.get('imsi').patchValue(this.detailTransaction?.imsi);
@@ -452,8 +462,8 @@ export class TransactionShowComponent implements OnInit {
   /*@@@@@@@@@@@@@@@@@@@@@@Resiliation Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitResiliationForm() {
     this.resiliationForm = this.fb.group({
-      imsi: [''],
-      msisdn: [''],
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       statut_contrat: [''],
       justificatif: [''],
       point_emplacement: [''],
@@ -461,6 +471,16 @@ export class TransactionShowComponent implements OnInit {
       resiliation_accepte: [''],
       resiliation_accepte_comment: ['']
     })
+    this.resiliationForm.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.resiliationForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.resiliationForm.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.resiliationForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
+    });
   }
   OnShowResiliationForm() {
     this.resiliationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
@@ -478,8 +498,8 @@ export class TransactionShowComponent implements OnInit {
   /*@@@@@@@@@@@@@@@@@@@@@@Suspension Data Forms Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitSuspensionForm() {
     this.suspensionForm = this.fb.group({
-      imsi: [''],
-      msisdn: [''],
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       statut_contrat: [''],
       justificatif: [''],
       point_emplacement: [''],
@@ -487,6 +507,16 @@ export class TransactionShowComponent implements OnInit {
       suspension_accepte: [''],
       suspension_accepte_comment: ['']
     })
+    this.suspensionForm.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.suspensionForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.suspensionForm.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.suspensionForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
+    });
   }
   OnShowSuspensionForm() {
     this.suspensionForm.get('imsi').patchValue(this.detailTransaction?.imsi);
@@ -514,8 +544,8 @@ export class TransactionShowComponent implements OnInit {
   }
     OnInitFormuleForm() {
       this.formuleForm = this.fb.group({
-        imsi: [''],
-        msisdn: [''],
+        imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+        msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
         formule: [''],
         statut_contrat: [''],
         justificatif: [''],
@@ -525,6 +555,16 @@ export class TransactionShowComponent implements OnInit {
         chg_formule_accepte: [''],
         chg_formule_accepte_comment: ['']
       })
+      this.formuleForm.get("msisdn").valueChanges.subscribe((value) => {
+        if (value && value.length > 10) {
+          this.formuleForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+        }
+      });
+      this.formuleForm.get("imsi").valueChanges.subscribe((value) => {
+        if (value && value.length > 15) {
+          this.formuleForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+        }
+      });
     }
     OnShowFormuleForm() {
       this.formuleForm.get('imsi').patchValue(this.detailTransaction?.imsi);
@@ -541,7 +581,7 @@ export class TransactionShowComponent implements OnInit {
   /*@@@@@@@@@@@@@@@@@@@ Activation Form Controls @@@@@@@@@@@@@@@@@*/
   OnInitActivationForm() {
     this.activationForm = this.fb.group({
-      bac_a_pioche: [''],
+      bac_a_pioche: ['true'],
       niveau_un_uuid: [''],
       niveau_deux_uuid: [''],
       niveau_trois_uuid: [''],
@@ -555,8 +595,8 @@ export class TransactionShowComponent implements OnInit {
       niveau_2: [''],
       niveau_3: [''],
       usage: [''],
-      imsi: [''],
-      msisdn: [''],
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       statut_contrat: [''],
       formule: [''],
       formule_uuid: [''],
@@ -566,11 +606,20 @@ export class TransactionShowComponent implements OnInit {
       activation_accepte: [''],
       activation_accepte_comment: [''],
     })
-
-
+    this.activationForm.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.activationForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.activationForm.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.activationForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
+    });
   }
+  
   OnShowActivationForm() {
-    this.activationForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
+    this.activationForm.get('bac_a_pioche').patchValue('true');
     this.activationForm.get('niveau_un_uuid').patchValue(this.detailTransaction?.niveau_un_uuid);
     this.activationForm.get('niveau_deux_uuid').patchValue(this.detailTransaction?.niveau_deux_uuid);
     this.activationForm.get('niveau_trois_uuid').patchValue(this.detailTransaction?.niveau_trois_uuid);

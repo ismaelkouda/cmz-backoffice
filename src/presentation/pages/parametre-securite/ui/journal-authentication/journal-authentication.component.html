@@ -1,7 +1,10 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb [title]="'Paramètres & Sécurité'" [active_item]="'Journal des accès'"></app-breadcrumb>
+            <app-breadcrumb
+                [title]="'Paramètres & Sécurité'"
+                [active_item]="'Journal des accès'"
+            ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
                     <!-- <div style="margin-top: -2rem !important" *ngIf="listNotifications">
@@ -10,22 +13,37 @@
                     <div class="row">
                         <div class="col-md-3">
                             <label class="block"><b>Date début</b></label>
-                            <p-calendar [ngStyle]="{ width: '100%' }" [(ngModel)]="filterDateStart" [showIcon]="true"
-                                (ngModelChange)="
-                                    changeDateStart($event)
-                                " [placeholder]="'JJ-MM-AAAA'" dateFormat="dd-mm-yy"></p-calendar>
+                            <p-calendar
+                                [ngStyle]="{ width: '100%' }"
+                                [(ngModel)]="filterDateStart"
+                                [showIcon]="true"
+                                (ngModelChange)="changeDateStart($event)"
+                                [placeholder]="'JJ-MM-AAAA'"
+                                dateFormat="dd-mm-yy"
+                            ></p-calendar>
                         </div>
                         <div class="col-md-3">
                             <label class="block"><b>Date fin</b></label>
-                            <p-calendar [ngStyle]="{ width: '100%' }" [(ngModel)]="filterDateEnd" [showIcon]="true"
-                                (ngModelChange)="changeDateEnd($event)" placeholder="JJ-MM-AAAA"
-                                dateFormat="dd-mm-yy"></p-calendar>
+                            <p-calendar
+                                [ngStyle]="{ width: '100%' }"
+                                [(ngModel)]="filterDateEnd"
+                                [showIcon]="true"
+                                (ngModelChange)="changeDateEnd($event)"
+                                placeholder="JJ-MM-AAAA"
+                                dateFormat="dd-mm-yy"
+                            ></p-calendar>
                         </div>
                         <div class="col-md-3">
                             <label class="block"><b>Utilisateur </b></label>
-                            <p-dropdown [options]="listUsers" [(ngModel)]="selectedUser" optionLabel="fullName"
-                                [filter]="true" filterBy="nom" [showClear]="true"
-                                placeholder="Selectionner l'utilisateur">
+                            <p-dropdown
+                                [options]="listUsers"
+                                [(ngModel)]="selectedUser"
+                                optionLabel="fullName"
+                                [filter]="true"
+                                filterBy="nom"
+                                [showClear]="true"
+                                placeholder="Selectionner l'utilisateur"
+                            >
                                 <ng-template let-data pTemplate="item">
                                     <div class="country-item">
                                         <div>{{ data.fullName }}</div>
@@ -35,36 +53,65 @@
                         </div>
                         <div class="col-md-1">
                             <label style="opacity: 0"><b></b>Actions</label>
-                            <p-button [style]="{ height: '60%' }" styleClass="p-button-success" icon="pi pi-filter"
-                                (click)="onFilter()" [disabled]="isFilter()"></p-button>
+                            <p-button
+                                [style]="{ height: '60%' }"
+                                styleClass="p-button-success"
+                                icon="pi pi-filter"
+                                (click)="onFilter()"
+                                [disabled]="isFilter()"
+                            ></p-button>
                         </div>
                     </div>
-                    <hr>
+                    <hr />
                     <div class="table_actions_wrapper">
-                        <app-table-button-header (refresh)="GetAllJournal()" [hiddenButtonExport]="true"
-                            [hiddenButtonOther]="true"></app-table-button-header>
+                        <app-table-button-header
+                            (refresh)="GetAllJournal()"
+                            [hiddenButtonExport]="true"
+                            [hiddenButtonOther]="true"
+                        ></app-table-button-header>
                     </div>
                     <div class="table_content_wrapper">
-                        <p-table #dt [value]="listNotifications" [rows]="10" [paginator]="true"
-                            [globalFilterFields]="['created_at', 'nom']" responsiveLayout="scroll" [rowHover]="true"
-                            dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                  données" [showCurrentPageReport]="true" [globalFilterFields]="[
+                        <p-table
+                            #dt
+                            [value]="listNotifications"
+                            [rows]="10"
+                            [paginator]="true"
+                            [globalFilterFields]="['created_at', 'nom']"
+                            responsiveLayout="scroll"
+                            [rowHover]="true"
+                            dataKey="id"
+                            currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+                  données"
+                            [showCurrentPageReport]="true"
+                            [globalFilterFields]="[
                                 'event',
                                 'action',
                                 'created_at',
                                 'data.username'
-                            ]">
+                            ]"
+                        >
                             <ng-template pTemplate="caption">
-
-                                <div class="d-flex justify-content-between w-100">
-                                    <app-table-header [count]="listNotifications"
-                                        [legende]="'accès'"></app-table-header>
+                                <div
+                                    class="d-flex justify-content-between w-100"
+                                >
+                                    <app-table-header
+                                        [count]="listNotifications"
+                                        [legende]="'accès'"
+                                    ></app-table-header>
                                     <div>
                                         <span class="p-input-icon-left">
                                             <i class="pi pi-search"></i>
-                                            <input pInputText type="text"
-                                                (input)="dt.filterGlobal($event.target.value, 'contains')"
-                                                placeholder="Recherche..." />
+                                            <input
+                                                pInputText
+                                                type="text"
+                                                (input)="
+                                                    dt.filterGlobal(
+                                                        $event.target.value,
+                                                        'contains'
+                                                    )
+                                                "
+                                                placeholder="Recherche..."
+                                            />
                                         </span>
                                     </div>
                                 </div>
@@ -72,8 +119,13 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th>#</th>
-                                    <th pSortableColumn="created_at" class="text-center">
-                                        Date<p-sortIcon field="created_at"></p-sortIcon>
+                                    <th
+                                        pSortableColumn="created_at"
+                                        class="text-center"
+                                    >
+                                        Date<p-sortIcon
+                                            field="created_at"
+                                        ></p-sortIcon>
                                     </th>
                                     <th class="text-center">Event</th>
                                     <th class="text-center">Action</th>
@@ -82,14 +134,18 @@
                                     </th>
                                 </tr>
                             </ng-template>
-                            <ng-template let-i="rowIndex" pTemplate="body" let-historique>
+                            <ng-template
+                                let-i="rowIndex"
+                                pTemplate="body"
+                                let-historique
+                            >
                                 <tr>
                                     <td class="text-center">{{ i + 1 }}</td>
                                     <td class="text-center">
                                         {{
-                                        historique?.created_at === null
-                                        ? 'N/A'
-                                        : historique?.created_at
+                                            historique?.created_at === null
+                                                ? 'N/A'
+                                                : historique?.created_at
                                         }}
                                     </td>
                                     <td class="text-center">
@@ -100,7 +156,7 @@
                                     </td>
                                     <td class="text-center">
                                         {{ historique?.ip }} [{{
-                                        historique?.data?.username
+                                            historique?.data?.username
                                         }}]
                                     </td>
                                 </tr>
