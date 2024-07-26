@@ -1,3 +1,4 @@
+import { BADGE_ETAT } from '../../../../../shared/constants/badge-etat.contant';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
@@ -25,7 +26,7 @@ const Swal = require('sweetalert2');
   styleUrls: ['./suivie-traitement.component.scss']
 })
 export class SuivieTraitementComponent implements OnInit {
-
+  public BADGE_ETAT = BADGE_ETAT;
   public listTraitemants: Array<any> = [];
   public listOperations: Array<any> = [];
   public listStatutTransactions: Array<any> = [];
@@ -61,6 +62,8 @@ export class SuivieTraitementComponent implements OnInit {
   public treatmenRejeter: string = TraitementTransaction.REJETER;
   public treatmenRefuser: string = TraitementTransaction.REFUSER;
   public treatmenCancel: string = TraitementTransaction.ABANDONNER;
+  public treatmenPartiel: string = TraitementTransaction.PARTIEL;
+  public treatmenTotal: string = TraitementTransaction.TOTAL;
   public historie: any;
   public IsLoading: boolean;
   public title = 'Suivi et traitements - Système de Gestion de Collecte Centralisée';
@@ -172,9 +175,9 @@ export class SuivieTraitementComponent implements OnInit {
           this.recordsPerPage = response['data'].per_page;
           this.page = response.data?.current_page;
           this.offset = (response['data'].current_page - 1) * this.recordsPerPage + 1;
-          this.listTraitemants.length === 0 ?
-            Swal.fire('PATRIMOINE SIM', 'Aucune donnée pour cet Tenant', 'error')
-            : ''
+          // this.listTraitemants.length === 0 ?
+          //   Swal.fire('PATRIMOINE SIM', 'Aucune donnée pour cet Tenant', 'error')
+          //   : ''
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -340,10 +343,14 @@ export class SuivieTraitementComponent implements OnInit {
     modalRef.componentInstance.typeJournal = "demandes-services";
   }
 
-  OnShowModalTraitement(data: any, typeAction: 'traiter' | 'cloturer'): void {
+  OnShowModalTraitement(data: any): void {
+    let action: string;
+    if (this.canClose(data)) {
+      action = "Clôturer";
+    }
     this.IsLoading = true;
     const modalRef = this.modalService.open(DemandeMasseComponent, ModalParams);
-    modalRef.componentInstance.action = typeAction;
+    modalRef.componentInstance.params = {vue: "traitement", action: action};
     modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
     modalRef.componentInstance.resultTraitement = this.supervisionOperationService.GetAllTransactions(this.suivieTraitementFilterStateService.getFilterState(), this.p);
     modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res;  modalRef.componentInstance.IsLoadData = !res });
@@ -412,6 +419,10 @@ export class SuivieTraitementComponent implements OnInit {
       'Demandeur': `${item.demandeur_nom} ${item.demandeur_prenoms}`,
     }));
     this.excelService.exportAsExcelFile(data, 'Liste de suivi et traitements');
+  }
+
+  public canClose(demande: any): boolean {
+    return demande.statut === "finalisation" && demande.etat_finalisation === "clôturé";
   }
 }
 

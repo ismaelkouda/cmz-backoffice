@@ -1,3 +1,4 @@
+import { SharedDataService } from './services/shared-data.service';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { FormMasseComponent } from './components/form-masse/form-masse.component';
 import { ParginationComponent } from 'src/shared/components/pargination/pargination.component';
@@ -24,6 +25,7 @@ import {
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslateModule } from "@ngx-translate/core";
 import { NgxPaginationModule } from "ngx-pagination";
+import { CapitalizePipe } from "./pipes/capitalize.pipe";
 
 // Components
 import { BreadcrumbComponent } from "./components/breadcrumb/breadcrumb.component";
@@ -92,7 +94,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     TableFilterPipe,
     ParginationComponent,
     FormMasseComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    CapitalizePipe
   ],
   imports: [
     CommonModule,
@@ -117,7 +120,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     PaginatorModule,
     ProgressSpinnerModule
   ],
-  providers: [NavService, LayoutService, DecimalPipe],
+  providers: [NavService, LayoutService, DecimalPipe, SharedDataService],
   exports: [
     NgbModule,
     FormsModule,
@@ -148,7 +151,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     RadioButtonModule,
     FormMasseComponent,
     SpinnerComponent,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    CapitalizePipe
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 

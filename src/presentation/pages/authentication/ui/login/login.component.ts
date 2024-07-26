@@ -1,6 +1,6 @@
-import { AuthenticationService } from './../../data-access/authentication.service';
-import { StoreLocaleService } from '../../../../../shared/services/store-locale.service';
-import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
+import { AuthenticationService } from 'src/presentation/pages/authentication/data-access/authentication.service';
+import { StoreLocaleService } from 'src/shared/services/store-locale.service';
+import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormGroup, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -38,10 +38,10 @@ export class LoginComponent implements OnInit {
   public LOGO_ORANGE = LOGO_ORANGE;
   private response: any = {};
 
-  constructor(private authService: AuthenticationService,
+  constructor(private authenticationService: AuthenticationService,
     private router: Router, private toastrService: ToastrService,
     private storage: EncodingDataService, private titleService: Title,
-    private storeLocaleService: StoreLocaleService, private loadingBar: LoadingBarService
+    private storeLocaleService: StoreLocaleService, private loadingBarService: LoadingBarService
   ) {
     this.titleService.setTitle(`${this.title}`);
     this.permissionsJson = menuJson;
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
 
   async onLogin() {
     this.loginForm.patchValue({ port: window.location.port })
-    this.response = await handle(() => this.authService.OnLogin(this.loginForm.value), this.toastrService, this.loadingBar);
+    this.response = await handle(() => this.authenticationService.OnLogin(this.loginForm.value), this.toastrService, this.loadingBarService);
     this.handleSuccessful(this.response);
   }
 

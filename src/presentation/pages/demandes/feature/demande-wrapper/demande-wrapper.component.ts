@@ -1,3 +1,5 @@
+import { BADGE_ETAPE } from './../../../../../shared/constants/badge-etape.constant';
+import { BADGE_ETAT } from '../../../../../shared/constants/badge-etat.contant';
 
 import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
@@ -12,6 +14,10 @@ import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enu
 import { ExcelService } from 'src/shared/services/excel.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { DemandeService } from '../../data-access/demande.service';
+import { DemandeMasseComponent } from 'src/presentation/pages/supervision-operations/feature/demande-masse/demande-masse.component';
+import { ModalParams } from 'src/shared/constants/modalParams.contant';
+import { DemandesFilterStateService } from '../../data-access/demandes-filter-state.service';
+import { SharedDataService } from 'src/shared/services/shared-data.service';
 
 @Component({
   selector: 'app-demande-wrapper',
@@ -19,7 +25,8 @@ import { DemandeService } from '../../data-access/demande.service';
   styleUrls: ['./demande-wrapper.component.scss']
 })
 export class DemandeWrapperComponent implements OnInit {
-
+  public BADGE_ETAT = BADGE_ETAT;
+  public BADGE_ETAPE = BADGE_ETAPE;
   public module: string;
   public subModule: string;
   @Input() selectedOperation: string;
@@ -54,15 +61,7 @@ export class DemandeWrapperComponent implements OnInit {
   public filterDateEnd: Date;
   public selectDateStart: any;
   public selectDateEnd: any;
-  public stateSoumis: string = StatutTransaction.SOUMIS;
-  public stateTraite: string = StatutTransaction.TARITER;
-  public stateCloture: string = StatutTransaction.CLOTURER;
-  public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
-  public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
-  public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
-  public treatmenRejeter: string = TraitementTransaction.REJETER;
-  public treatmenRefuser: string = TraitementTransaction.REFUSER;
-  public treatmenCancel: string = TraitementTransaction.ABANDONNER;
+  public IsLoading: boolean;
 
   constructor(
     public settingService: SettingService,
@@ -72,7 +71,9 @@ export class DemandeWrapperComponent implements OnInit {
     public mappingService: MappingService,
     private modalService: NgbModal,
     private route: ActivatedRoute,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private demandesFilterStateService: DemandesFilterStateService,
+    private sharedDataService: SharedDataService
 
   ) {
     this.listOperations = this.mappingService.listOperations
@@ -85,6 +86,9 @@ export class DemandeWrapperComponent implements OnInit {
   }
 
   ngOnInit() {    
+    this.sharedDataService.postPatrimoineSimDemandesServicesAll().subscribe(()=> {
+      this.GetAllTransactions();
+    })
     this.GetAllTransactions()
     this.isFilter();
     this.disableAction();
@@ -101,13 +105,30 @@ export class DemandeWrapperComponent implements OnInit {
     }
   }
 
+  OnShowModalTraitement(data: any): void {
+    let action: string;
+    if (data?.statut === this.BADGE_ETAPE.SOUMISSION && data.traitement === this.BADGE_ETAT.EN_ATTENTE) {
+      action = "Abandonner";
+    } else {
+      action = "Identifier";
+    }
+    this.IsLoading = true;
+    const modalRef = this.modalService.open(DemandeMasseComponent, ModalParams);
+    modalRef.componentInstance.params = {vue: "demande", action: action};
+    modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
+    modalRef.componentInstance.resultTraitement = this.demandeService.GetDemandeServiceByTransaction(this.demandesFilterStateService.getFilterState(), this.p);
+    modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res;  modalRef.componentInstance.IsLoadData = !res });
+  }
+
   public GetAllTransactions() {
+    const data = {
+      operation: this.selectedOperation,
+      ...(history.state?.statut ? { statut: history.state?.statut } : {}),
+      ...(history.state?.traitement ? { traitement: history.state?.traitement } : {})
+    }
+    this.demandesFilterStateService.setFilterState(data);
     this.demandeService
-      .GetDemandeServiceByTransaction({
-        operation: this.selectedOperation,
-        ...(history.state?.statut ? { statut: history.state?.statut } : {}),
-        ...(history.state?.traitement ? { traitement: history.state?.traitement } : {})
-      }, this.p)
+      .GetDemandeServiceByTransaction(data, this.p)
       .subscribe({
         next: (response) => {
           this.listTransactions =  response['data']['data'].map((data) => {
@@ -147,16 +168,18 @@ export class DemandeWrapperComponent implements OnInit {
       this.toastrService.error('Plage de date invalide');
       return;
     }
+    const data = {
+      numero_demande: this.selectedTransaction,
+      transaction: this.selectedTransactionShow,
+      operation: this.selectedOperation,
+      initie_par: this.currentUser?.id,
+      statut: this.selectedStatut,
+      date_debut: this.selectDateStart,
+      date_fin: this.selectDateEnd,
+    }
+    this.demandesFilterStateService.setFilterState(data);
     this.demandeService
-      .GetDemandeServiceByTransaction({
-        numero_demande: this.selectedTransaction,
-        transaction: this.selectedTransactionShow,
-        operation: this.selectedOperation,
-        initie_par: this.currentUser?.id,
-        statut: this.selectedStatut,
-        date_debut: this.selectDateStart,
-        date_fin: this.selectDateEnd,
-      }, this.p)
+      .GetDemandeServiceByTransaction(data, this.p)
       .subscribe({
         next: (response) => {
           this.listTransactions =  response['data']['data'].map((data) => {

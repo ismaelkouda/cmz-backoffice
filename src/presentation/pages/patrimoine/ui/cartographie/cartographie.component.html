@@ -8,81 +8,81 @@
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
-                        <div class="row filter_wrapper">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>
-                                        <b>{{ firstLevelLibelle }}</b>
-                                    </label>
-                                    <p-dropdown
-                                        [options]="listFirstLeveDatas"
-                                        optionLabel="fullName"
-                                        (onChange)="onChangeFirstLvel($event)"
-                                        [showClear]="true"
-                                        [filter]="true"
-                                        filterBy="fullName"
-                                        [placeholder]="firstLevelLibelle"
+                        <form
+                            [formGroup]="formFilter"
+                            (ngSubmit)="onSubmitFilterForm()"
+                        >
+                            <div class="row filter_wrapper">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label
+                                            ><b>{{
+                                                firstLevelLibelle
+                                            }}</b></label
+                                        >
+                                        <p-dropdown
+                                            [options]="listFirstLeveDatas"
+                                            optionLabel="fullName"
+                                            (onChange)="
+                                                onChangeFirstLvel($event.value)
+                                            "
+                                            [showClear]="true"
+                                            [filter]="true"
+                                            filterBy="fullName"
+                                            [placeholder]="firstLevelLibelle"
+                                            optionValue="uuid"
+                                            formControlName="niveau_un_uuid"
+                                            [ngStyle]="{ width: '100%' }"
+                                        >
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label
+                                            ><b>{{
+                                                secondLevelLibelle
+                                            }}</b></label
+                                        >
+                                        <p-dropdown
+                                            [options]="listSecondLevelDatas"
+                                            optionLabel="fullName"
+                                            [filter]="true"
+                                            [showClear]="true"
+                                            formControlName="niveau_deux_uuid"
+                                            [placeholder]="firstLevelLibelle"
+                                            optionValue="uuid"
+                                            [ngStyle]="{ width: '100%' }"
+                                        >
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Zone Trafic</b>
+                                        </label>
+                                        <input
+                                            placeholder="zone"
+                                            formControlName="zone_traffic"
+                                            type="text"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div [ngStyle]="{ width: 'auto' }">
+                                    <label [ngStyle]="{ opacity: '0' }"
+                                        >Actions</label
                                     >
-                                        <ng-template let-data pTemplate="item">
-                                            <div class="country-item">
-                                                <div>
-                                                    {{ data.fullName }}
-                                                </div>
-                                            </div>
-                                        </ng-template>
-                                    </p-dropdown>
+                                    <br />
+                                    <p-button
+                                        styleClass="p-button-success"
+                                        icon="pi pi-filter"
+                                        type="submit"
+                                    ></p-button>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>
-                                        <b>{{ secondLevelLibelle }}</b>
-                                    </label>
-                                    <p-dropdown
-                                        [options]="listSecondLevelDatas"
-                                        optionLabel="fullName"
-                                        optionLabel="fullName"
-                                        [filter]="true"
-                                        [showClear]="true"
-                                        [(ngModel)]="selectedExploitation"
-                                        [placeholder]="firstLevelLibelle"
-                                    >
-                                        <ng-template let-data pTemplate="item">
-                                            <div class="country-item">
-                                                <div>
-                                                    {{ data.fullName }}
-                                                </div>
-                                            </div>
-                                        </ng-template>
-                                    </p-dropdown>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>
-                                        <b>Zone Trafic</b>
-                                    </label>
-                                    <input
-                                        placeholder="zone"
-                                        [(ngModel)]="selectedZone"
-                                        type="text"
-                                        pInputText
-                                    />
-                                </div>
-                            </div>
-                            <div [ngStyle]="{ width: 'auto' }">
-                                <label [ngStyle]="{ opacity: '0' }"
-                                    >Actions</label
-                                >
-                                <br />
-                                <p-button
-                                    styleClass="p-button-success"
-                                    icon="pi pi-filter"
-                                    (click)="onFilter()"
-                                    [disabled]="isFilter()"
-                                ></p-button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

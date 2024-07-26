@@ -1,4 +1,4 @@
-<div class="container-fluid" *ngIf="!spinner">
+<div class="container-fluid" [hidden]="!spinner">
     <div class="row">
         <div class="col-sm-12">
             <app-breadcrumb
@@ -770,7 +770,7 @@
                                     <div class="box-card">
                                         <span class="valeur">
                                             <span>{{
-                                                carteSimSelectedDetails[
+                                                carteSimSelectedDetails?.[
                                                     'solde_dotation'
                                                 ] ?? 0 | formatNumber: 2
                                             }}</span>
@@ -782,7 +782,7 @@
                                 <div
                                     *ngIf="
                                         currentView === 'details' &&
-                                        carteSimSelectedDetails['statut'] ===
+                                        carteSimSelectedDetails?.['statut'] ===
                                             'actif'
                                     "
                                 >

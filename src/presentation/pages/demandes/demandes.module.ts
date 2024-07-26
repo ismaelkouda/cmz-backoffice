@@ -34,6 +34,9 @@ import { DemandeResiliationComponent } from './ui/demande-resiliation/demande-re
 import { TransactionFormComponent } from './feature/transaction-form/transaction-form.component';
 import { DemandeFormuleChangeComponent } from './ui/demande-formule-change/demande-formule-change.component';
 
+//services
+import { DemandesFilterStateService } from './data-access/demandes-filter-state.service';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -67,7 +70,8 @@ import { DemandeFormuleChangeComponent } from './ui/demande-formule-change/deman
         DemandeWrapperComponent,
         DemandeWrapperShowComponent,
         StatutDemandeComponent,
-        TransactionFormComponent
+        TransactionFormComponent,
     ],
+    providers: [DemandesFilterStateService]
 })
 export class DemandesModule { }

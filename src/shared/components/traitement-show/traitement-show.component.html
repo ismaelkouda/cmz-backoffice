@@ -270,16 +270,14 @@
                     style="display: flex; justify-content: space-between"
                 >
                     <div>
-                        <strong class="wrapper-header"
-                            >Reception :
+                        <strong class="wrapper-header">
+                            Reception :
                             {{
-                                detailTransaction?.rapport
-                                    ?.statut_acquittement ?? 'N/A'
-                            }}
-                            [{{
-                                detailTransaction?.rapport?.date_acquittement ??
-                                    '-- : --'
-                            }}]</strong
+                                [
+                                    detailTransaction?.rapport
+                                        ?.date_acquittement
+                                ] ?? '-- : --'
+                            }}</strong
                         >
                     </div>
                     <div>
@@ -296,16 +294,12 @@
                         >
                     </div>
                     <div>
-                        <strong class="wrapper-header"
-                            >Clôture :
+                        <strong class="wrapper-header">
+                            Clôture :
                             {{
-                                detailTransaction?.rapport?.statut_cloture ??
-                                    'N/A'
-                            }}
-                            [{{
-                                detailTransaction?.rapport?.date_cloture ??
+                                [detailTransaction?.rapport?.date_cloture] ??
                                     '-- : --'
-                            }}]</strong
+                            }}</strong
                         >
                     </div>
                 </div>
@@ -1777,8 +1771,8 @@
                             <legend>
                                 <b>Informations d'identification</b>
                             </legend>
-                            <div class="row">
-                                <div class="col-md-4">
+                            <div class="row pb-2">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>
                                             <b>{{ firstLevelLibelle }}</b>
@@ -1806,7 +1800,7 @@
                                         </p-dropdown>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>
                                             <b>{{ secondLevelLibelle }}</b>
@@ -1832,7 +1826,7 @@
                                         </p-dropdown>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>
                                             <b>{{ thirdLevelLibelle }}</b>
@@ -1856,9 +1850,7 @@
                                         </p-dropdown>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>
                                             <b>Usage</b>
@@ -1884,7 +1876,9 @@
                                         </p-dropdown>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                            </div>
+                            <div class="d-flex gap-2">
+                                <div class="width-100">
                                     <div class="form-group">
                                         <label>
                                             <b>Emplacement</b>
@@ -1896,7 +1890,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="width-100">
                                     <div class="form-group">
                                         <label>
                                             <b>Adresse mail</b>
@@ -1908,9 +1902,7 @@
                                         />
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
+                                <div class="width-100">
                                     <div class="form-group">
                                         <label>
                                             <b>Adresse géographique</b>
@@ -1922,7 +1914,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="width-100">
                                     <div class="form-group">
                                         <label>
                                             <b>Latitude</b>
@@ -1934,7 +1926,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="width-100">
                                     <div class="form-group">
                                         <label>
                                             <b>Longitude</b>
@@ -1948,72 +1940,125 @@
                                 </div>
                             </div>
                         </fieldset>
-                        <div>
+                        <fieldset>
+                            <legend>
+                                <b>Détails de la Transaction</b>
+                            </legend>
                             <div class="row">
-                                <div class="col-md-7">
-                                    <fieldset>
-                                        <legend>
-                                            <b>Détails de la Transaction</b>
-                                        </legend>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        <b
-                                                            >Formule de
-                                                            destination<span
-                                                                class="text-danger"
-                                                                >*</span
-                                                            ></b
-                                                        >
-                                                    </label>
-                                                    <p-dropdown
-                                                        [options]="listFormules"
-                                                        formControlName="formule_uuid"
-                                                        optionLabel="nom"
-                                                        [showClear]="true"
-                                                        placeholder="formule destination"
-                                                        optionValue="uuid"
-                                                    >
-                                                        <ng-template
-                                                            let-data
-                                                            pTemplate="item"
-                                                        >
-                                                            <div
-                                                                class="country-item"
-                                                            >
-                                                                <div>
-                                                                    {{
-                                                                        data.nom
-                                                                    }}
-                                                                </div>
-                                                            </div>
-                                                        </ng-template>
-                                                    </p-dropdown>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        <b
-                                                            >Description<span
-                                                                class="text-danger"
-                                                                >*</span
-                                                            ></b
-                                                        >
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="description"
-                                                        pInputText
-                                                    />
-                                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>
+                                            <b
+                                                >Description<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            >
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="description"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="commentaire"
+                                        ><strong>Jutificatif</strong></label
+                                    >
+                                    <div
+                                        class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                    >
+                                        <div *ngIf="IsJustificatif()">
+                                            <button
+                                                pButton
+                                                pRipple
+                                                label="Télécharger"
+                                                icon="pi pi-download"
+                                                class="p-button-success"
+                                                (click)="downloadFile()"
+                                            ></button>
+                                        </div>
+                                        <div class="justificatif-error">
+                                            <span
+                                                class=""
+                                                *ngIf="!IsJustificatif()"
+                                            >
+                                                Aucun justificatif pour cette
+                                                transaction
+                                            </span>
+                                        </div>
+                                        <div *ngIf="IsUpdate()">
+                                            <div>
+                                                <input
+                                                    type="file"
+                                                    style="
+                                                        padding: 0.6rem;
+                                                        border: 1px solid;
+                                                        border-radius: 0.3rem;
+                                                        color: #000;
+                                                    "
+                                                    (change)="
+                                                        onChangeFile(
+                                                            $event.target.files
+                                                        )
+                                                    "
+                                                    accept="image/png,image/jpeg"
+                                                />
                                             </div>
                                         </div>
-                                    </fieldset>
+                                    </div>
                                 </div>
-                                <div class="col-md-5">
-                                    <fieldset>
+                                <div class="col-md-3">
+                                    <label for="commentaire"
+                                        ><strong>Reçu paiement</strong></label
+                                    >
+                                    <div
+                                        class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                    >
+                                        <div *ngIf="IsRecuPaiement()">
+                                            <button
+                                                pButton
+                                                pRipple
+                                                label="Télécharger"
+                                                icon="pi pi-download"
+                                                class="p-button-success"
+                                                (click)="downloadRecuPaiement()"
+                                            ></button>
+                                        </div>
+                                        <div class="justificatif-error">
+                                            <span
+                                                class=""
+                                                *ngIf="!IsRecuPaiement()"
+                                            >
+                                                Aucun recu de paiement pour
+                                                cette transaction
+                                            </span>
+                                        </div>
+                                        <div *ngIf="IsUpdate()">
+                                            <div>
+                                                <input
+                                                    type="file"
+                                                    style="
+                                                        padding: 0.6rem;
+                                                        border: 1px solid;
+                                                        border-radius: 0.3rem;
+                                                        color: #000;
+                                                    "
+                                                    (change)="
+                                                        onChangeFile(
+                                                            $event.target.files
+                                                        )
+                                                    "
+                                                    accept="image/png,image/jpeg"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <!-- <fieldset>
                                         <legend>
                                             <b>Justificatif</b>
                                         </legend>
@@ -2057,49 +2102,34 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </fieldset>
-                                </div>
-                            </div>
-                        </div>
+                                    </fieldset> -->
                         <fieldset *ngIf="ShowAcceptedForm()">
                             <legend>
                                 <strong>Traitement</strong>
                             </legend>
-                            <div
-                                class="wrapper-evaluation"
-                                style="display: flex; gap: 1rem"
-                            >
-                                <div class="block-checked">
-                                    <div>
-                                        <div
-                                            class="wrapper-check"
-                                            style="
-                                                display: flex;
-                                                justify-content: center !important;
-                                                padding-top: 1.3rem;
-                                            "
-                                        >
-                                            <div
-                                                class="form-check form-check-inline"
+                            <div class="row">
+                                <div class="col-2 d-flex align-items-end">
+                                    <div
+                                        class="d-flex justify-content-center align-items-center container-button-telecharger width-100"
+                                    >
+                                        <div>
+                                            <span
+                                                class="badge table-header-wrapper text-white"
+                                                [class.badge-danger]="
+                                                    IsTraitement() ===
+                                                    treatmenRejeter
+                                                "
+                                                [class.badge-success]="
+                                                    IsTraitement() ===
+                                                    treatmenAccepter
+                                                "
                                             >
-                                                <span
-                                                    class="badge table-header-wrapper"
-                                                    [class.badge-danger]="
-                                                        IsTraitement() ===
-                                                        treatmenRejeter
-                                                    "
-                                                    [class.badge-success]="
-                                                        IsTraitement() ===
-                                                        treatmenAccepter
-                                                    "
-                                                >
-                                                    {{ IsTraitement() }}
-                                                </span>
-                                            </div>
+                                                {{ IsTraitement() }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                                <div style="width: 100%">
+                                <div class="col-10">
                                     <label for="commentaire"
                                         ><strong>Commentaire</strong></label
                                     >

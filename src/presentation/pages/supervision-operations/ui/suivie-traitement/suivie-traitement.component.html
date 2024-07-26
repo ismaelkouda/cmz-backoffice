@@ -284,19 +284,19 @@
                                     [ngStyle]="{ 'font-size': '16px' }"
                                     class="badge"
                                     [class.badge-dark]="
-                                        data?.statut === stateSoumis
+                                        data?.statut === BADGE_ETAT.soumission
                                     "
                                     [class.badge-warning]="
-                                        data?.statut === 'en-traitement'
-                                    "
-                                    [class.badge-green]="
-                                        data?.statut === stateTraite
+                                        data?.statut === BADGE_ETAT.traitement
                                     "
                                     [class.badge-success]="
-                                        data?.statut === stateCloture
+                                        data?.statut === BADGE_ETAT.finalisation
+                                    "
+                                    [class.badge-green]="
+                                        data?.statut === BADGE_ETAT.cloture
                                     "
                                 >
-                                    {{ data.statut }}
+                                    {{ data?.statut }}
                                 </span>
                             </td>
                             <td class="text-center">
@@ -304,18 +304,35 @@
                                     [ngStyle]="{ 'font-size': '16px' }"
                                     class="badge"
                                     [class.badge-dark]="
-                                        data?.traitement === treatmenEntente ||
                                         data?.traitement === treatmenAcquiter
+                                    "
+                                    [class.badge-dark-2]="
+                                        data?.statut ===
+                                            BADGE_ETAT.soumission &&
+                                        data?.traitement === treatmenEntente
+                                    "
+                                    [class.badge-warning]="
+                                        data?.statut ===
+                                            BADGE_ETAT.traitement &&
+                                        data?.traitement === treatmenPartiel
+                                    "
+                                    [class.badge-warning-2]="
+                                        data?.statut === BADGE_ETAT.cloture &&
+                                        data?.traitement === treatmenCancel
+                                    "
+                                    [class.badge-info]="
+                                        data?.statut ===
+                                            BADGE_ETAT.traitement &&
+                                        data?.traitement === treatmenTotal
+                                    "
+                                    [class.badge-green]="
+                                        data?.statut ===
+                                            BADGE_ETAT.finalisation &&
+                                        data?.traitement === BADGE_ETAT.cloture
                                     "
                                     [class.badge-danger]="
                                         data?.traitement === treatmenRejeter ||
                                         data?.traitement === treatmenRefuser
-                                    "
-                                    [class.badge-warning]="
-                                        data?.traitement === treatmenCancel
-                                    "
-                                    [class.badge-info]="
-                                        data?.traitement === treatmenAccepter
                                     "
                                     [class.badge-success]="
                                         data?.statut === stateCloture &&
@@ -361,18 +378,20 @@
                                         data?.traitement !== treatmenAccepter
                                     "
                                     class="p-button-secondary"
-                                ></button>
+                                ></button> -->
                                 <button
                                     pButton
                                     icon="pi pi-check-circle"
-                                    pTooltip="Cloturer"
-                                    tooltipPosition="top"
-                                    [disabled]="data?.statut === stateSoumis"
-                                    (click)="
-                                        OnShowModalTraitement(data, 'cloturer') 
+                                    [pTooltip]="
+                                        canClose(data)
+                                            ? 'Clôturer'
+                                            : 'Vous ne pouvez pas clôturer actuellement'
                                     "
+                                    tooltipPosition="top"
+                                    [disabled]="!canClose(data)"
+                                    (click)="OnShowModalTraitement(data)"
                                     class="p-button-success"
-                                ></button> -->
+                                ></button>
                                 <button
                                     pButton
                                     icon="pi pi-book"

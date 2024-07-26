@@ -1,132 +1,209 @@
-<!-- <div [formGroup]="formFilter">
-    
-    <div class="row filter_wrapper">
-        <div class="col-md-2">
-          <div class="form-group">
+<div [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="d-flex gap-1">
+        <div class="width-100">
             <label>
-              <b>Statut Alarme<span class="text-danger">*</span></b>
+                <b>Statut Alarme<span class="text-danger">*</span></b>
             </label>
-            <p-dropdown [options]="listAlarmes"[showClear]="true" [(ngModel)]="selectedAlarme" 
-                        [filter]="true" [placeholder]="'alarme'">
+            <p-dropdown
+                [options]="listAlarmes"
+                [showClear]="true"
+                [filter]="true"
+                [placeholder]="'alarme'"
+                formControlName="alarme"
+                [ngStyle]="{ width: '100%' }"
+            >
             </p-dropdown>
-          </div>
         </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>
-              <b>{{firstLevelLibelle}}</b>
-            </label>
-            <p-dropdown [options]="listFirstLeveDatas" optionLabel="fullName" (onChange)="onChangeFirstLvel($event)"
-                         [showClear]="true" [filter]="true" filterBy="fullName" 
-                         [(ngModel)]="selectedDirection" [placeholder]="firstLevelLibelle">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>
-                    {{data.fullName}}
-                  </div>
-                </div>
-              </ng-template>
+        <div class="width-100">
+            <label
+                ><b>{{ firstLevelLibelle }}</b></label
+            >
+            <p-dropdown
+                [options]="listFirstLeveDatas"
+                optionLabel="fullName"
+                (onChange)="onChangeFirstLvel($event.value)"
+                [showClear]="true"
+                [filter]="true"
+                filterBy="fullName"
+                [placeholder]="firstLevelLibelle"
+                optionValue="uuid"
+                formControlName="niveau_un_uuid"
+                [ngStyle]="{ width: '100%' }"
+            >
             </p-dropdown>
-          </div>
         </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>
-              <b>{{secondLevelLibelle}}</b>
-            </label>
-            <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" 
-                        optionLabel="fullName" [filter]="true" [showClear]="true"
-                        [(ngModel)]="selectedExploitation" [placeholder]="secondLevelLibelle">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>
-                    {{data.fullName}}
-                  </div>
-                </div>
-              </ng-template>
+        <div class="width-100">
+            <label
+                ><b>{{ secondLevelLibelle }}</b></label
+            >
+            <p-dropdown
+                [options]="listSecondLevelDatas"
+                optionLabel="fullName"
+                [filter]="true"
+                [showClear]="true"
+                formControlName="niveau_deux_uuid"
+                [placeholder]="firstLevelLibelle"
+                optionValue="uuid"
+                [ngStyle]="{ width: '100%' }"
+            >
             </p-dropdown>
-          </div>
         </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>
-              <b>{{thirdLevelLibelle}}</b>
-            </label>
-            <p-dropdown [options]="listThirdLevelDatas" [(ngModel)]="selectedUsage" 
-                        optionLabel="nom" [showClear]="true" [filter]="true"
-                        [placeholder]="thirdLevelLibelle" optionValue="uuid">
-              <ng-template let-data pTemplate="item">
-                <div class="country-item">
-                  <div>
-                    {{data.nom}}
-                  </div>
-                </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
+        <div class="width-80">
+            <label><b>MSISDN</b></label>
+            <input
+                placeholder="MSISDN"
+                formControlName="msisdn"
+                type="text"
+                pInputText
+                [ngStyle]="{ width: '100%' }"
+            />
         </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>
-              <b>MSISDN</b>
-            </label>
-            <input placeholder="Numéro" [(ngModel)]="selectedMsisdn" type="text" pInputText />
-          </div>
+        <div class="width-80">
+            <label><b>IMSI</b></label>
+            <input
+                placeholder="IMSI"
+                formControlName="imsi"
+                type="text"
+                pInputText
+                [ngStyle]="{ width: '100%' }"
+            />
         </div>
-        <div [ngStyle]="{width: 'auto'}" *ngIf="!secondFilter">
-          <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
-          <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
-            [disabled]="isFilter()"></p-button>
+        <div class="width-80">
+            <label><b>APN</b></label>
+            <input
+                placeholder="apn"
+                formControlName="apn"
+                type="text"
+                pInputText
+                [ngStyle]="{ width: '100%' }"
+            />
         </div>
-        <div [ngStyle]="{width: 'auto'}">
-          <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
-          <p-button *ngIf="!secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
-            icon="pi pi-plus"></p-button>
-          <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
-            icon="pi pi-minus"></p-button>
+        <div class="width-80">
+            <label><b>Adresse IP</b></label>
+            <input
+                placeholder="Adresse IP"
+                formControlName="adresse_ip"
+                type="text"
+                pInputText
+                [ngStyle]="{ width: '100%' }"
+            />
         </div>
-      </div>
+        <div [ngStyle]="{ width: 'auto' }" *ngIf="!secondFilter">
+            <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
+            <p-button
+                styleClass="p-button-success"
+                icon="pi pi-filter"
+            ></p-button>
+        </div>
+        <div [ngStyle]="{ width: 'auto' }">
+            <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
+            <p-button
+                *ngIf="!secondFilter"
+                (click)="showSecondFilter()"
+                styleClass="p-button-dark"
+                icon="pi pi-plus"
+            ></p-button>
+            <p-button
+                *ngIf="secondFilter"
+                (click)="showSecondFilter()"
+                styleClass="p-button-dark"
+                icon="pi pi-minus"
+            ></p-button>
+        </div>
+    </div>
 
-
-      <div class="row filter_wrapper" style="padding-top: 0.7rem;" *ngIf="secondFilter">
-        <div class="col-md-2">
-          <div class="form-group">
+    <div class="d-flex gap-1" style="padding-top: 0.7rem" *ngIf="secondFilter">
+        <div class="width-100">
+            <label><b>Usage</b></label>
+            <p-dropdown
+                [options]="listUsages"
+                formControlName="usage_id"
+                optionLabel="nom_usage"
+                [showClear]="true"
+                [placeholder]="'Usage'"
+                optionValue="id"
+                [ngStyle]="{ width: '100%' }"
+            >
+            </p-dropdown>
+        </div>
+        <div class="width-100">
+            <label><b>Formule</b></label>
+            <p-dropdown
+                [options]="listFormule"
+                formControlName="formule_uuid"
+                optionLabel="nom"
+                [showClear]="true"
+                [placeholder]="'Formule'"
+                optionValue="uuid"
+                [ngStyle]="{ width: '100%' }"
+            >
+            </p-dropdown>
+        </div>
+        <div class="width-100">
+            <label
+                ><b>{{ thirdLevelLibelle }}</b></label
+            >
+            <p-dropdown
+                [options]="listThirdLevelDatas"
+                formControlName="niveau_trois_uuid"
+                optionLabel="nom"
+                [showClear]="true"
+                [placeholder]="thirdLevelLibelle"
+                optionValue="uuid"
+                [ngStyle]="{ width: '100%' }"
+            >
+            </p-dropdown>
+        </div>
+        <div class="width-100">
+            <label><b>Nom Emplacement</b></label>
+            <input
+                placeholder="Emplacement"
+                formControlName="point_emplacement"
+                type="text"
+                pInputText
+                [ngStyle]="{ width: '100%' }"
+            />
+        </div>
+        <div class="width-100">
             <label>
-              <b>IMSI</b>
+                <b>Zone Trafic</b>
             </label>
-            <input placeholder="Imsi" [(ngModel)]="selectedImsi" type="text" pInputText />
-          </div>
+            <input
+                placeholder="zone"
+                formControlName="zone_trafic"
+                type="text"
+                pInputText
+                [ngStyle]="{ width: '100%' }"
+            />
         </div>
         <div class="col-md-2">
-          <div class="form-group">
-            <label>
-              <b>Zone Trafic</b>
-            </label>
-            <input placeholder="Zone trafic" [(ngModel)]="selectedZone" type="text" pInputText />
-          </div>
+            <label class="block"><b>Date début</b></label>
+            <p-calendar
+                [ngStyle]="{ width: '15rem' }"
+                formControlName="date_debut"
+                [showIcon]="true"
+                dateFormat="dd-mm-yy"
+                [locale]="fr"
+            ></p-calendar>
         </div>
         <div class="col-md-2">
-          <div class="form-group">
-            <label>
-              <b>Nom Emplacement</b>
-            </label>
-            <input placeholder="Emplacement" [(ngModel)]="selectedEmplacement" type="text" pInputText />
-          </div>
+            <label class="block"><b>Date fin </b></label>
+            <p-calendar
+                [ngStyle]="{ width: '15rem' }"
+                formControlName="date_fin"
+                [showIcon]="true"
+                dateFormat="dd-mm-yy"
+                [locale]="fr"
+            ></p-calendar>
         </div>
-        <div class="col-md-2">
-          <label class="block"><b>Date début</b></label>
-          <p-calendar [ngStyle]="{width: '15rem'}" [(ngModel)]="filterDateStart" [showIcon]="true"
-            (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy" [locale]="fr"></p-calendar>
+        <div
+            class="p-0 d-flex align-items-end justify-content-end"
+            [ngStyle]="{ width: '4rem' }"
+        >
+            <p-button
+                styleClass="p-button-success"
+                icon="pi pi-filter"
+            ></p-button>
         </div>
-        <div class="col-md-2">
-          <label class="block"><b>Date fin </b></label>
-          <p-calendar [ngStyle]="{width: '15rem'}" [(ngModel)]="filterDateEnd" [showIcon]="true"
-            (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [locale]="fr"></p-calendar>
-        </div>
-        <div class="p-0" [ngStyle]="{width: '4rem'}">
-          <label [ngStyle]="{'opacity':'0'}">Actions</label> <br>
-          <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
-            [disabled]="isFilter()"></p-button>
-        </div>
-      </div>
-</div> -->
+    </div>
+</div>

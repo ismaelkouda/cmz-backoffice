@@ -94,7 +94,7 @@ export class AdminFormComponent implements OnInit {
       .OnSaveUser(this.adminForm.value).subscribe({
         next: (response) => {
           this.GetAllUsers();
-          this.showPassword(response['message'])
+          // this.showPassword(response['message'])
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

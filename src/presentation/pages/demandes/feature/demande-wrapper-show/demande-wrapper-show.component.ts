@@ -13,6 +13,8 @@ import { TransactionShowComponent } from 'src/shared/components/transaction-show
 import { MappingService } from 'src/shared/services/mapping.service';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
+import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
+import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 
 @Component({
   selector: 'app-demande-wrapper-show',
@@ -21,7 +23,8 @@ import { ModalParams } from 'src/shared/constants/modalParams.contant';
 })
 
 export class DemandeWrapperShowComponent implements OnInit {
-
+  public BADGE_ETAT = BADGE_ETAT;
+  public BADGE_ETAPE = BADGE_ETAPE;
   public module: string;
   public subModule: string;
   @Input() selectedOperation: string;

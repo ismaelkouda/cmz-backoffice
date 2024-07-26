@@ -60,6 +60,7 @@ export class CartesSimComponent implements OnInit, OnDestroy {
   }
 
   async pageCallback(dataToSend: Object = {}, nbrPage: number = 1) {
+    this.carteSimStateService.setFilterState(dataToSend);
     this.response = await handle(() => this.patrimoinesService.PostPatrimoineSimSimsAllPage(dataToSend, nbrPage), this.toastrService, this.loadingBar);
     this.carteSimStateService.setFilterState(dataToSend);
     this.handleSuccessfulPageCallback(this.response);

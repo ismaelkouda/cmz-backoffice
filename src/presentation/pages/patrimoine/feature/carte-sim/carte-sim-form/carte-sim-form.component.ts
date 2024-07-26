@@ -92,12 +92,12 @@ export class CarteSimFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.initCarteSimForm();
         this.spinner = true;
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
             this.subModule = data.subModule[0];
         });
-        this.initCarteSimForm();
         this.getUrlParams();
     }
     private initCarteSimForm(): void {
@@ -112,13 +112,23 @@ export class CarteSimFormComponent implements OnInit {
             latitude: [null],
             adresse_email: [null, [Validators.email]],
             formule: [null],
-            imsi: [null],
+            imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
             statut: [null],
-            msisdn: [null],
+            msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
             date_id_reseau: [null],
             apn: [null],
             site_reseau: [null],
             adresse_ip: [null]
+        });
+        this.carteSimForm.get("msisdn").valueChanges.subscribe((value) => {
+          if (value && value.length > 10) {
+            this.carteSimForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+          }
+        });
+        this.carteSimForm.get("imsi").valueChanges.subscribe((value) => {
+          if (value && value.length > 15) {
+            this.carteSimForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+          }
         });
     }
     public getUrlParams(): void {
@@ -127,6 +137,7 @@ export class CarteSimFormComponent implements OnInit {
             this.carteSimSelectedId = params['id'];
             this.numberCurrentPage = params?.currentPage;
         });
+        console.log('this.carteSimSelectedId', this.carteSimSelectedId)
         this.pageCallback(this.carteSimStateService.getFilterState(), +this.numberCurrentPage);
         this.selectedTypeInterface(this.currentView)
     }
@@ -164,6 +175,7 @@ export class CarteSimFormComponent implements OnInit {
 
     async pageCallback(dataToSend: Object = {}, nbrPage: number = 1) {
         this.response = await handle(() => this.patrimoinesService.PostPatrimoineSimSimsAllPage(dataToSend, nbrPage), this.toastrService, this.loadingBar);
+        console.log('this.response', this.response)
         if (this.response) this.handleSuccessfulPageCallBack(this.response);
     }
     private handleSuccessfulPageCallBack(response: any): void {
@@ -171,7 +183,9 @@ export class CarteSimFormComponent implements OnInit {
         if (this.listCartesSim) this.getCarteSimSelected(this.listCartesSim);
     }
     private getCarteSimSelected(listCartesSim: Array<Object>): void {
+        console.log('listCartesSim', listCartesSim)
         this.carteSimSelected = listCartesSim.find((e) => e['id'] == this.carteSimSelectedId)
+        console.log('this.carteSimSelected', this.carteSimSelected)
         if (this.carteSimSelected) this.getCarteSimSelectedDetails(this.carteSimSelected['imsi']);
     }
     async getCarteSimSelectedDetails(carteSimSelectedImsi: string): Promise<any> {
@@ -220,8 +234,6 @@ export class CarteSimFormComponent implements OnInit {
     }
 
     public getFormattedMsisdn(value: Object): string {
-        this.carteSimSelectedDetails
-        console.log('this.carteSimSelectedDetails', this.carteSimSelectedDetails)
         console.log('value', value)
         if(value['msisdn']) {
             const msisdn = value['msisdn']; // Assurez-vous que msisdn est défini

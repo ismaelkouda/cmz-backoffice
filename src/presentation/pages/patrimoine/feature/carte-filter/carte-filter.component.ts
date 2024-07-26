@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from 'ngx-toastr';
 import { ListCommuneService } from 'src/shared/services/list-commune.service';
@@ -99,8 +99,8 @@ export class CarteFilterComponent implements OnInit {
             niveau_un_uuid: [filterState?.niveau_un_uuid ?? null],
             niveau_deux_uuid: [filterState?.niveau_deux_uuid ?? null],
             statut: [filterState?.statut ?? history?.state?.statut],
-            msisdn: [filterState?.msisdn ?? null],
-            imsi: [filterState?.imsi ?? null],
+            msisdn: [filterState?.msisdn ?? null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
+            imsi: [filterState?.imsi ?? null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
             adresse_ip: [filterState?.adresse_ip ?? null],
             usage_id: [filterState?.usage_id ?? null],
             apn: [filterState?.apn ?? null],
@@ -108,6 +108,16 @@ export class CarteFilterComponent implements OnInit {
             formule_uuid: [filterState?.formule_uuid ?? null],
             zone_trafic: [filterState?.zone_trafic ?? null],
             point_emplacement: [filterState?.point_emplacement ?? null],
+        });
+        this.formFilter.get("msisdn").valueChanges.subscribe((value) => {
+          if (value && value.length > 10) {
+            this.formFilter.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+          }
+        });
+        this.formFilter.get("imsi").valueChanges.subscribe((value) => {
+          if (value && value.length > 15) {
+            this.formFilter.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+          }
         });
     }
 
@@ -122,8 +132,7 @@ export class CarteFilterComponent implements OnInit {
         this.secondFilter = !this.secondFilter;
     }
 
-    public onFilter() {
+    public onSubmitFilterForm() {
         this.filter.emit(this.formFilter.value);
-        this.carteSimStateService.setFilterState(this.formFilter.value);
     }
 }

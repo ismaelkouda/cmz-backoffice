@@ -2,11 +2,11 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
-import { AuthenticationService } from 'src/presentation/pages/authentication/data-access/authentication.service';
 import { LOGO_ORANGE } from 'src/shared/constants/logoOrange.constant';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { handle } from "src/shared/functions/api.function";
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { PasswordResetService } from '../../data-access/password-reset.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -22,13 +22,13 @@ export class ForgotPasswordComponent {
   public LOGO_ORANGE = LOGO_ORANGE;
   private response: any = {};
 
-  constructor(private location: Location, private authenticationService: AuthenticationService,
+  constructor(private location: Location, private passwordResetService: PasswordResetService,
     private toastrService: ToastrService, private titleService: Title,
     private loadingBar: LoadingBarService
   ) { this.titleService.setTitle(`${this.title}`); }
 
-  async HandleForgotPassword() {
-    this.response = await handle(() => this.authenticationService.HandleForgotPassword(this.forgotPasswordForm.value), this.toastrService, this.loadingBar);
+  async onFormForgotPassword(): Promise<void> {
+    this.response = await handle(() => this.passwordResetService.HandleForgotPassword(this.forgotPasswordForm.value), this.toastrService, this.loadingBar);
     this.handleSuccessful(this.response);
   }
 

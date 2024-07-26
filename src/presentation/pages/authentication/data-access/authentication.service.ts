@@ -4,9 +4,8 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { EndPointUrl } from './api.enum';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
+
 export class AuthenticationService {
 
   public baseUrl: string;
@@ -21,16 +20,6 @@ export class AuthenticationService {
 
   OnLogin(data): Observable<any> {
     const url: string = (<string>EndPointUrl.AUTHENTICATION);
-    return this.http.post(`${this.baseUrl}${url}`, data);
-  }
-
-  HandleForgotPassword(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.FORGOT_PASSWORD);
-    return this.http.post(`${this.baseUrl}${url}`, data);
-  }
-
-  HandleResetPassword(data): Observable<any> {
-    const url: string = (<string>EndPointUrl.RESET_PASSWORD);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
 }

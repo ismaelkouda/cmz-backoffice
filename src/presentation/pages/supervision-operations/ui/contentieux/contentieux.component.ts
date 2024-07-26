@@ -145,9 +145,9 @@ export class ContentieuxComponent implements OnInit {
           this.recordsPerPage = response['data'].per_page;
           this.page = response.data?.current_page;
           this.offset = (response['data'].current_page - 1) * this.recordsPerPage + 1;
-          this.listTraitemants.length === 0 ?
-            Swal.fire('PATRIMOINE SIM', 'Aucune donnée pour cet Tenant', 'error')
-            : ''
+          // this.listTraitemants.length === 0 ?
+          //   Swal.fire('PATRIMOINE SIM', 'Aucune donnée pour cet Tenant', 'error')
+          //   : ''
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

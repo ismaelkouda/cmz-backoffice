@@ -1,4 +1,4 @@
-<div [formGroup]="formFilter">
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
     <div class="d-flex gap-1">
         <div class="width-100">
             <label
@@ -83,7 +83,7 @@
                 [ngStyle]="{ width: '100%' }"
             />
         </div>
-        <div class="width-50">
+        <div class="width-80">
             <label><b>Adresse IP</b></label>
             <input
                 placeholder="Adresse IP"
@@ -98,7 +98,7 @@
             <p-button
                 styleClass="p-button-success"
                 icon="pi pi-filter"
-                (click)="onFilter()"
+                type="submit"
             ></p-button>
         </div>
         <div [ngStyle]="{ width: 'auto' }">
@@ -189,8 +189,8 @@
             <p-button
                 styleClass="p-button-success"
                 icon="pi pi-filter"
-                (click)="onFilter()"
+                type="submit"
             ></p-button>
         </div>
     </div>
-</div>
+</form>

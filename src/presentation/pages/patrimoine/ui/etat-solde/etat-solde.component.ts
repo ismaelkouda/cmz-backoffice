@@ -11,6 +11,9 @@ import { SettingService } from 'src/shared/services/setting.service';
 import * as moment from 'moment';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { Title } from '@angular/platform-browser';
+import { ListCommuneService } from 'src/shared/services/list-commune.service';
+import { handle } from 'src/shared/functions/api.function';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -36,22 +39,19 @@ export class EtatSoldeComponent implements OnInit {
   public p: number = 1;
   public total: number = 0;
   public page: number
+  public formFilter: FormGroup;
   public listFirstLeveDatas: Array<any> = [];
   public listSecondLevelDatas: Array<any> = [];
   public listThirdLevelDatas: Array<any> = [];
-  public selectedAlarme: string;
-  public selectedMsisdn: string;
-  public selectedImsi: string
-  public selectedDirection: any;
-  public selectedExploitation: any;
+  public listUsages: Array<any> = [];
+  public listFormule: any = [];
+  private response: any;
   public selectedUsage: string;
   public selectedZone: string;
   public firstLevelLibelle: string;
   public secondLevelLibelle: string;
   public thirdLevelLibelle: string;
   public secondFilter: boolean = false;
-  public filterDateStart: Date;
-  public filterDateEnd: Date;
   public selectDateStart: any;
   public selectDateEnd: any;
   public selectedEmplacement: string
@@ -65,8 +65,10 @@ export class EtatSoldeComponent implements OnInit {
     private settingService: SettingService,
     private clipboardApi: ClipboardService,
     private excelService: ExcelService,
-    private loadingBar: LoadingBarService,
-    private titleService: Title
+    private loadingBarService: LoadingBarService,
+    private titleService: Title,
+    private listCommuneService: ListCommuneService,
+    private fb: FormBuilder,
   ) {
     this.titleService.setTitle(`${this.title}`);
     Object.values(TypeAlarme).forEach(item => {
@@ -76,30 +78,88 @@ export class EtatSoldeComponent implements OnInit {
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
   }
-
+  // if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
+  //   this.toastrService.error('Plage de date invalide');
+  //   return;
+  // }
   ngOnInit() {
+    this.initFormFilter();
+    this.GetAllUsages();
+    this.GetAllFormules();
     this.GetAllFirstLevel();
     this.GetAllThirdLevel();
-    this.isFilter();
     this.disableAction()
     this.route.data.subscribe((data) => {
       this.module = data.module;
       this.subModule = data.subModule[3];
     });
+  }
+
+  private initFormFilter() {
+    this.formFilter = this.fb.group({
+        alarme: [null, Validators.required],
+        niveau_un_uuid: null,
+        niveau_deux_uuid: null,
+        msisdn: [ null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
+        imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+        adresse_ip: null,
+        usage_id: null,
+        apn: null,
+        niveau_trois_uuid: null,
+        formule_uuid: null,
+        zone_trafic: null,
+        point_emplacement: null,
+        date_debut: null,
+        date_fin: null
+    });
+    this.formFilter.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.formFilter.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.formFilter.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.formFilter.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
+    });
+
     if (history.state?.statut) {
-      this.selectedAlarme = history.state?.statut;
+      this.formFilter.get("alarme").patchValue(history.state?.statut);
       this.GetAllEtats()
     }
+}
+
+  async GetAllUsages() {
+      this.response = await handle(() => this.patrimoineService.GetAllUsages({}), this.toastrService, this.loadingBarService);
+      if(this.response?.data) this.handleSuccessfulUsages(this.response);
+  }
+  
+  private handleSuccessfulUsages(response): void {
+    this.listUsages = response['data'];
+  }
+
+  async GetAllFormules() {
+      this.response = await handle(() => this.settingService.GetAllFormules({}), this.toastrService, this.loadingBarService);
+      if(this.response?.data) this.handleSuccessfulFormules(this.response);
+  }
+  
+  private handleSuccessfulFormules(response): void {
+    this.listFormule = response['data'];
   }
 
   public GetAllEtats(): void {
+    if (moment(this.formFilter.get('date_debut').value).isAfter(moment(this.formFilter.get('date_fin').value))) {
+      this.toastrService.error('Plage de date invalide');
+      return;
+    }
     this.patrimoineService
       .GetAllEtats({
-        ...(history.state?.statut ? { alarme: history.state?.statut } : {})
-      },this.p)
+        ...(history.state?.statut ? { alarme: history.state?.statut } : this.formFilter.value)
+      }, this.p)
       .subscribe({
         next: (response) => {
           this.listEtats = response.data.data;
+          console.log('this.listEtats', this.listEtats)
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
@@ -110,27 +170,6 @@ export class EtatSoldeComponent implements OnInit {
           this.toastrService.error(error.error.message);
         }
       })
-  }
-  public OnRefresh(){
-    this.loadingBar.start()
-    setTimeout(() => {
-      this.listEtats.splice(0, this.listEtats.length);
-      this.selectedAlarme = null
-      this.selectedDirection = null
-      this.selectedExploitation = null
-      this.selectedUsage = null
-      this.selectedMsisdn = null
-      this.selectedZone = null
-      this.selectedEmplacement = null
-      this.selectedImsi = null
-      this.selectDateStart = null
-      this.selectDateEnd = null
-      this.filterDateStart = null
-      this.filterDateEnd = null
-      this.totalRecords = 0;
-      this.secondFilter = false;
-      this.loadingBar.stop()
-    }, 1000);
   }
 
   public GetAllFirstLevel() {
@@ -148,10 +187,10 @@ export class EtatSoldeComponent implements OnInit {
       })
   }
 
-  onChangeFirstLvel(event: any) {
-    this.selectedDirection = event.value;
-    this.listSecondLevelDatas = this.selectedDirection?.niveaux_deux.map(element => {
-      return { ...element, fullName: `${element.nom}` }
+  onChangeFirstLvel(uuid: any) {
+    this.listSecondLevelDatas = [];
+    this.listFirstLeveDatas.find((element) => {
+        if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
     });
   }
   public GetAllThirdLevel() {
@@ -183,65 +222,22 @@ export class EtatSoldeComponent implements OnInit {
   }
   public onPageChange(event) {
     this.p = event;
-    if (this.isFilter()) {
-      this.GetAllEtats()
-    } else {
-      this.onFilter()
-    }
+    this.GetAllEtats();
   }
-  onFilter() {
-    if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {
-      this.toastrService.error('Plage de date invalide');
-      return;
-    }
-    this.patrimoineService
-      .GetAllEtats({
-        alarme: this.selectedAlarme,
-        niveau_un_uuid: this.selectedDirection?.uuid,
-        niveau_deux_uuid: this.selectedExploitation?.uuid,
-        niveau_trois_uuid: this.selectedUsage,
-        zone_trafic: this.selectedZone,
-        msisdn: this.selectedMsisdn,
-        imsi: this.selectedImsi,
-        point_emplacement: this.selectedEmplacement,
-        date_debut: this.selectDateStart,
-        date_fin: this.selectDateEnd,
-
-      },this.p)
-      .subscribe({
-        next: (response) => {
-          this.listEtats = response.data.data;
-          this.totalPage = response.data.last_page;
-          this.totalRecords = response.data.total;
-          this.recordsPerPage = response.data.per_page;
-          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1
-          this.total = response.data.total;
-          this.page = response.data?.current_page;
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
+  
   public disableAction(): boolean {
     return (this.listEtats === undefined || this.listEtats?.length === 0) ? true : false
   }
-  public isFilter(): boolean {
-    return (!this.selectedAlarme && !this.selectedMsisdn && !this.selectedImsi) ? true : false
-  }
-
   changeDateStart(e) {
-    if ( moment(this.filterDateStart).isValid()) {
-      this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
-    }else{
-      this.selectDateStart = null
+    const dateDebut = this.formFilter.get('date_debut').value;
+    if (moment(dateDebut).isValid()) {
+      this.formFilter.get('date_debut').patchValue(moment(dateDebut).format('YYYY-MM-DD'));
     }
   }
-  changeDateEnd(e) { 
-    if ( moment(this.filterDateEnd).isValid()) {
-      this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
-    }else{
-      this.selectDateEnd = null
+  changeDateEnd(e) {
+    const dateFin = this.formFilter.get('date_fin').value;
+    if (moment(dateFin).isValid()) {
+      this.formFilter.get('date_fin').patchValue(moment(dateFin).format('YYYY-MM-DD'));
     }
   }
   public OnExportExcel(): void {

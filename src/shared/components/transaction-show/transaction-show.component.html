@@ -1449,9 +1449,7 @@
                                                         >
                                                             <p-radioButton
                                                                 name="valeur"
-                                                                [value]="
-                                                                    'orangeci'
-                                                                "
+                                                                value="true"
                                                                 formControlName="bac_a_pioche"
                                                                 [inputId]="
                                                                     'orangeci'
@@ -1733,51 +1731,81 @@
                                 </div>
                             </fieldset>
                             <div class="row">
-                                <div class="col-md-8">
-                                    <fieldset>
-                                        <legend>
-                                            <b>Détails de la Transaction</b>
-                                        </legend>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        <b
-                                                            >Formule de
-                                                            destination<span
-                                                                class="text-danger"
-                                                                >*</span
-                                                            ></b
-                                                        >
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="formule"
-                                                        pInputText
-                                                    />
-                                                </div>
+                                <fieldset>
+                                    <legend>
+                                        <b>Détails de la Transaction</b>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>
+                                                    <b
+                                                        >Formule de
+                                                        destination<span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></b
+                                                    >
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    formControlName="formule"
+                                                    pInputText
+                                                />
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>
-                                                        <b
-                                                            >Description<span
-                                                                class="text-danger"
-                                                                >*</span
-                                                            ></b
-                                                        >
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="description"
-                                                        pInputText
-                                                    />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>
+                                                    <b
+                                                        >Description<span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></b
+                                                    >
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    formControlName="description"
+                                                    pInputText
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="commentaire"
+                                                ><strong
+                                                    >Jutificatif</strong
+                                                ></label
+                                            >
+                                            <div
+                                                class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                            >
+                                                <div *ngIf="IsJustificatif()">
+                                                    <button
+                                                        pButton
+                                                        pRipple
+                                                        label="Télécharger"
+                                                        icon="pi pi-download"
+                                                        class="p-button-success"
+                                                        (click)="downloadFile()"
+                                                    ></button>
+                                                </div>
+                                                <div class="justificatif-error">
+                                                    <span
+                                                        class=""
+                                                        *ngIf="
+                                                            !IsJustificatif()
+                                                        "
+                                                    >
+                                                        Aucun justificatif pour
+                                                        cette transaction
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
-                                    </fieldset>
-                                </div>
-                                <div class="col-md-4">
+                                    </div>
+                                </fieldset>
+                                <!-- <div class="col-md-4">
                                     <fieldset>
                                         <legend>
                                             <b>Justificatif</b>
@@ -1803,7 +1831,7 @@
                                             </div>
                                         </div>
                                     </fieldset>
-                                </div>
+                                </div> -->
                             </div>
                             <fieldset *ngIf="ShowAcceptedForm()">
                                 <legend>

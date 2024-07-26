@@ -250,7 +250,7 @@ export class CarteSimActiveComponent implements OnInit {
     console.log('data', data)
     this.onMarkItemCarteSim(data);
     if (data.qrcode) {
-      const modalRef = this.modalService.open(QrModalComponent, ModalParams);
+      const modalRef = this.modalService.open(QrModalComponent, {...ModalParams, backdrop: true, keyboard: true});
       modalRef.componentInstance.qr = data;
     } else {
       Swal.fire("PATRIMOINE SIM", "Aucun QRCode enregistré", "info");

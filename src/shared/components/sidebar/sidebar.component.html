@@ -1,17 +1,7 @@
 <!-- Page Sidebar Start-->
 <div class="logo-wrapper">
-    <img
-        class="img-fluid for-light"
-        width="200"
-        src="assets/images/logo/logo-orange-full.png"
-        alt=""
-    />
-    <img
-        class="img-fluid for-dark"
-        width="200"
-        src="assets/images/logo/logo-orange-full.png"
-        alt=""
-    />
+    <img class="img-fluid for-light" width="200" [src]="LOGO_ORANGE" alt="" />
+    <img class="img-fluid for-dark" width="200" [src]="LOGO_ORANGE" alt="" />
     <div class="back-btn" (click)="sidebarToggle()">
         <i class="fa fa-angle-left"></i>
     </div>

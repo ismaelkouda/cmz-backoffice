@@ -151,16 +151,16 @@
                     style="display: flex; justify-content: space-between"
                 >
                     <div>
-                        <strong class="wrapper-header"
-                            >Date d'envoi :
-                            {{ detailTransaction?.created_at ?? 'N/A' }}</strong
-                        >
+                        <strong class="wrapper-header">
+                            Date d'envoi :
+                            {{ [detailTransaction?.created_at] ?? 'N/A' }}
+                        </strong>
                     </div>
                     <div>
-                        <strong class="wrapper-header"
-                            >Date de lecture :
-                            {{ detailTransaction?.lu_a ?? 'N/A' }}</strong
-                        >
+                        <strong class="wrapper-header">
+                            Date de lecture :
+                            {{ [detailTransaction?.lu_a] ?? 'N/A' }}
+                        </strong>
                     </div>
                 </div>
                 <div

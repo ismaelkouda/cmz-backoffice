@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from 'src/presentation/pages/authentication/data-access/authentication.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
@@ -9,6 +8,7 @@ import { handle } from "src/shared/functions/api.function";
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { AUTH } from "src/shared/routes/full.routes";
 import { LOGIN } from "src/presentation/pages/authentication/authentication-routing.module";
+import { PasswordResetService } from '../../data-access/password-reset.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -16,21 +16,21 @@ import { LOGIN } from "src/presentation/pages/authentication/authentication-rout
 })
 
 export class ResetPasswordComponent implements OnInit {
-
   public passwordForm = new FormGroup({
     password: new FormControl('', Validators.required),
     confirm_password: new FormControl('', Validators.required),
   });
+  public submitted = false;
   public newPasswordValue: string;
   public confirmPasswordValue: string;
   public queryValue: any
   public title = 'Réinitialisation mot de passe - Système de Gestion de Collecte Centralisée';
   public LOGO_ORANGE = LOGO_ORANGE;
-  private response: any = {};
+  private response: any;
 
   constructor(private router: Router, private route: ActivatedRoute,
-    private authenticationService: AuthenticationService, private toastrService: ToastrService,
-    private titleService: Title, private loadingBar: LoadingBarService
+    private passwordResetService: PasswordResetService, private toastrService: ToastrService,
+    private titleService: Title, private loadingBarService: LoadingBarService
   ) { this.titleService.setTitle(`${this.title}`); }
 
   ngOnInit() {
@@ -56,18 +56,24 @@ export class ResetPasswordComponent implements OnInit {
       });
   }
 
-  async HandleResetPassword() {
-    this.response = await handle(() => this.authenticationService.HandleResetPassword({...this.passwordForm.value,...this.queryValue}), this.toastrService, this.loadingBar);
+  async onResetPassword() {
+    this.submitted = true;
+    if (this.passwordForm.invalid) return ;
+    this.response = await handle(() => this.passwordResetService.HandleResetPassword({...this.passwordForm.value,...this.queryValue}), this.toastrService, this.loadingBarService);
     this.handleSuccessful(this.response);
   }
 
   private handleSuccessful(response): void {
-    this.router.navigateByUrl(`/${AUTH}/${LOGIN}`)        
     this.toastrService.success(response.data.message);
+    this.redirectToLogin();
   }
 
   public onCancel() {
     this.passwordForm.reset()
+    this.redirectToLogin();
+  }
+
+  private redirectToLogin() {
     this.router.navigateByUrl(`/${AUTH}/${LOGIN}`)
   }
 }

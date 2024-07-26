@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
+import { BADGE_ETAT } from "src/shared/constants/badge-etat.contant";
 import { StatutTransaction } from "src/shared/enum/StatutTransaction.enum";
 import { TraitementTransaction } from "src/shared/enum/TraitementTransaction.enum";
 import { SettingService } from "src/shared/services/setting.service";
@@ -11,6 +12,7 @@ import { SettingService } from "src/shared/services/setting.service";
   styleUrls: ["./journal.component.scss"],
 })
 export class JournalComponent implements OnInit {
+  public BADGE_ETAT = BADGE_ETAT;
   @Input() typeJournal: "demandes-services" | "transactions";
   @Input() transaction: string;
   @Input() numero_demande: string;

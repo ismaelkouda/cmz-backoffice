@@ -166,9 +166,13 @@
                                                     <input
                                                         type="text"
                                                         [value]="
-                                                        currentContact?.nom_gestionnaire_tenant ? currentContact?.nom_gestionnaire_tenant : '' +
-                                                            ' ' +
-                                                            currentContact?.prenoms_gestionnaire_tenant? currentContact?.prenoms_gestionnaire_tenant : ''
+                                                            currentContact?.nom_gestionnaire_tenant
+                                                                ? currentContact?.nom_gestionnaire_tenant
+                                                                : '' +
+                                                                  ' ' +
+                                                                  currentContact?.prenoms_gestionnaire_tenant
+                                                                ? currentContact?.prenoms_gestionnaire_tenant
+                                                                : ''
                                                         "
                                                         [disabled]="true"
                                                         pInputText
@@ -229,9 +233,13 @@
                                                     <input
                                                         type="text"
                                                         [value]="
-                                                        currentContact.nom_escalade_tenant ? currentContact.nom_escalade_tenant : '' +
-                                                            '  ' +
-                                                            currentContact.prenoms_escalade_tenant ? currentContact.prenoms_escalade_tenant : ''
+                                                            currentContact.nom_escalade_tenant
+                                                                ? currentContact.nom_escalade_tenant
+                                                                : '' +
+                                                                  '  ' +
+                                                                  currentContact.prenoms_escalade_tenant
+                                                                ? currentContact.prenoms_escalade_tenant
+                                                                : ''
                                                         "
                                                         [disabled]="true"
                                                         pInputText
