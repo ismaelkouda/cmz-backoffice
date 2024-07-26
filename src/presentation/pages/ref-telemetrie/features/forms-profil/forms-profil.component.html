@@ -1,15 +1,21 @@
 <div>
-
-
     <div class="container_flex_space_between">
-
-        <div class="row filter_wrapper" [formGroup]="adminForm" style="width: 100%">
+        <div
+            class="row filter_wrapper"
+            [formGroup]="adminForm"
+            style="width: 100%"
+        >
             <div class="col-md-3">
                 <div class="form-group">
                     <label>
                         <b>Nom du profil<span class="text-danger">*</span></b>
                     </label>
-                    <input placeholder="Nom du Profil" formControlName="nom" type="text" pInputText />
+                    <input
+                        placeholder="Nom du Profil"
+                        formControlName="nom"
+                        type="text"
+                        pInputText
+                    />
                 </div>
             </div>
             <div class="col-md-4">
@@ -17,27 +23,53 @@
                     <label>
                         <b>Description<span class="text-danger">*</span></b>
                     </label>
-                    <input placeholder="Description du Profil" [ngStyle]="{
-                                height:
-                                    !this.currentObject?.show && this.currentObject
-                                        ? '3.5rem'
-                                        : 'inherit'
-                            }" formControlName="description" type="text" pInputText />
+                    <input
+                        placeholder="Description du Profil"
+                        [ngStyle]="{
+                            height:
+                                !this.currentObject?.show && this.currentObject
+                                    ? '3.5rem'
+                                    : 'inherit'
+                        }"
+                        formControlName="description"
+                        type="text"
+                        pInputText
+                    />
                 </div>
             </div>
         </div>
         <div>
             <div class="table_actions_wrapper pt-3">
                 <div *ngIf="!this.currentObject">
-                    <button pButton pRipple label="Soumettre" [disabled]="isValidate()" icon="pi pi-save"
-                        class="p-button-success" (click)="handleSaveProfilSupervision()"></button>
+                    <button
+                        pButton
+                        pRipple
+                        label="Soumettre"
+                        [disabled]="isValidate()"
+                        icon="pi pi-save"
+                        class="p-button-success"
+                        (click)="handleSaveProfilSupervision()"
+                    ></button>
                 </div>
                 <div *ngIf="this.currentObject">
-                    <button pButton pRipple label="Soumettre" [disabled]="this.currentObject?.show || isValidate()"
-                        icon="pi pi-save" class="p-button-success" (click)="handleUpdateProfilSupervision()"></button>
+                    <button
+                        pButton
+                        pRipple
+                        label="Soumettre"
+                        [disabled]="this.currentObject?.show || isValidate()"
+                        icon="pi pi-save"
+                        class="p-button-success"
+                        (click)="handleUpdateProfilSupervision()"
+                    ></button>
                 </div>
                 <div>
-                    <button pButton pRipple label="Fermer" (click)="close()" class="p-button-danger"></button>
+                    <button
+                        pButton
+                        pRipple
+                        label="Fermer"
+                        (click)="close()"
+                        class="p-button-danger"
+                    ></button>
                 </div>
             </div>
         </div>
@@ -132,23 +164,41 @@
     <hr />
 
     <div class="table_content_wrapper" *ngIf="currentObject === undefined">
-        <p-table #dt [value]="listTelemetries" [rows]="10" [paginator]="true" responsiveLayout="scroll"
-            [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                données" [showCurrentPageReport]="true" editMode="row">
+        <p-table
+            #dt
+            [value]="listTelemetries"
+            [rows]="10"
+            [paginator]="true"
+            responsiveLayout="scroll"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+                données"
+            [showCurrentPageReport]="true"
+            editMode="row"
+        >
             <ng-template pTemplate="caption">
                 <div class="table_header">
                     <div class="table_header__legende">
-                        <app-table-header [count]="listTelemetries" [legende]="'Seuils et Alarmes'"></app-table-header>
+                        <app-table-header
+                            [count]="listTelemetries"
+                            [legende]="'Seuils et Alarmes'"
+                        ></app-table-header>
                     </div>
                     <div class="table_header__input">
                         <span class="p-input-icon-left ml-auto">
                             <i class="pi pi-search"></i>
-                            <input pInputText type="text" (input)="
+                            <input
+                                pInputText
+                                type="text"
+                                (input)="
                                     dt1.filterGlobal(
                                         $event.target.value,
                                         'contains'
                                     )
-                                " placeholder="Recherche" />
+                                "
+                                placeholder="Recherche"
+                            />
                         </span>
                     </div>
                 </div>
@@ -165,7 +215,12 @@
                     <th style="width: 2rem" class="text-center">Actions</th>
                 </tr>
             </ng-template>
-            <ng-template let-i="rowIndex" pTemplate="body" let-editing="editing" let-data>
+            <ng-template
+                let-i="rowIndex"
+                pTemplate="body"
+                let-editing="editing"
+                let-data
+            >
                 <tr [pEditableRow]="data">
                     <td class="text-center">{{ i + 1 }}</td>
                     <td class="text-center">{{ data?.classification }}</td>
@@ -175,8 +230,13 @@
                     <td style="width: 4rem">
                         <p-cellEditor>
                             <ng-template pTemplate="input">
-                                <input class="text-center" pInputText type="number" [(ngModel)]="data.seuil"
-                                    #data.seuil="ngModel" />
+                                <input
+                                    class="text-center"
+                                    pInputText
+                                    type="number"
+                                    [(ngModel)]="data.seuil"
+                                    #data.seuil="ngModel"
+                                />
                             </ng-template>
                             <ng-template pTemplate="output">
                                 <span>{{ data.seuil }}</span>
@@ -186,30 +246,67 @@
                     <td style="width: 4rem">
                         <p-cellEditor>
                             <ng-template pTemplate="input">
-                                <p-inputSwitch trueValue="actif" falseValue="inactif" [(ngModel)]="data.statut"
-                                    #data.statut="ngModel"></p-inputSwitch>
+                                <p-inputSwitch
+                                    trueValue="actif"
+                                    falseValue="inactif"
+                                    [(ngModel)]="data.statut"
+                                    #data.statut="ngModel"
+                                ></p-inputSwitch>
                             </ng-template>
                             <ng-template pTemplate="output">
-                                <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="
+                                <span
+                                    [ngStyle]="{ 'font-size': '16px' }"
+                                    class="badge"
+                                    [class.badge-success]="
                                         data.statut === 'actif'
-                                    " [class.badge-danger]="
+                                    "
+                                    [class.badge-danger]="
                                         data.statut !== 'actif'
-                                    ">
+                                    "
+                                >
                                     {{ data.statut }}
                                 </span>
                             </ng-template>
                         </p-cellEditor>
                     </td>
                     <td class="td-actions">
-                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow pTooltip="Modifier"
-                            tooltipPosition="top" icon="pi pi-pencil" (click)="OnEditOneRowMetrique(data)"
-                            class="p-button-secondary"></button>
-                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow pTooltip="Sauvegarder"
-                            tooltipPosition="top" icon="pi pi-check" (click)="onRowEditMetriqueSave(data)"
-                            class="p-button-success"></button>
-                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow pTooltip="Fermer"
-                            tooltipPosition="top" icon="pi pi-times" (click)="onCancelRowMetrique(data, i)"
-                            class="p-button-danger" style="margin-left: 1rem"></button>
+                        <button
+                            *ngIf="!editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pInitEditableRow
+                            pTooltip="Modifier"
+                            tooltipPosition="top"
+                            icon="pi pi-pencil"
+                            (click)="OnEditOneRowMetrique(data)"
+                            class="p-button-secondary"
+                        ></button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pSaveEditableRow
+                            pTooltip="Sauvegarder"
+                            tooltipPosition="top"
+                            icon="pi pi-check"
+                            (click)="onRowEditMetriqueSave(data)"
+                            class="p-button-success"
+                        ></button>
+                        <button
+                            *ngIf="editing"
+                            pButton
+                            pRipple
+                            type="button"
+                            pCancelEditableRow
+                            pTooltip="Fermer"
+                            tooltipPosition="top"
+                            icon="pi pi-times"
+                            (click)="onCancelRowMetrique(data, i)"
+                            class="p-button-danger"
+                            style="margin-left: 1rem"
+                        ></button>
                     </td>
                 </tr>
             </ng-template>
@@ -218,24 +315,41 @@
     <p-tabView *ngIf="currentObject !== undefined">
         <p-tabPanel header="ALARMES">
             <div class="table_content_wrapper">
-                <p-table #dt [value]="listAffectations" [rows]="10" [paginator]="true" responsiveLayout="scroll"
-                    [rowHover]="true" dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-                    données" [showCurrentPageReport]="true" editMode="row">
+                <p-table
+                    #dt
+                    [value]="listAffectations"
+                    [rows]="10"
+                    [paginator]="true"
+                    responsiveLayout="scroll"
+                    [rowHover]="true"
+                    dataKey="id"
+                    currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+                    données"
+                    [showCurrentPageReport]="true"
+                    editMode="row"
+                >
                     <ng-template pTemplate="caption">
                         <div class="table_header">
                             <div class="table_header__legende">
-                                <app-table-header [count]="listAffectations"
-                                    [legende]="'Seuils et Alarmes'"></app-table-header>
+                                <app-table-header
+                                    [count]="listAffectations"
+                                    [legende]="'Seuils et Alarmes'"
+                                ></app-table-header>
                             </div>
                             <div class="table_header__input">
                                 <span class="p-input-icon-left ml-auto">
                                     <i class="pi pi-search"></i>
-                                    <input pInputText type="text" (input)="
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        (input)="
                                             dt1.filterGlobal(
                                                 $event.target.value,
                                                 'contains'
                                             )
-                                        " placeholder="Recherche" />
+                                        "
+                                        placeholder="Recherche"
+                                    />
                                 </span>
                             </div>
                         </div>
@@ -252,7 +366,12 @@
                             <th *ngIf="!currentObject.show">Action</th>
                         </tr>
                     </ng-template>
-                    <ng-template let-i="rowIndex" pTemplate="body" let-editing="editing" let-data>
+                    <ng-template
+                        let-i="rowIndex"
+                        pTemplate="body"
+                        let-editing="editing"
+                        let-data
+                    >
                         <tr [pEditableRow]="data">
                             <td class="text-center">{{ i + 1 }}</td>
                             <td class="text-center">
@@ -261,11 +380,19 @@
                             <td>{{ data?.description }}</td>
                             <td class="text-center">{{ data?.type_mesure }}</td>
                             <td class="text-center">{{ data?.unite }}</td>
-                            <td class="text-center" style="width: 4rem !important">
+                            <td
+                                class="text-center"
+                                style="width: 4rem !important"
+                            >
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <input class="text-center" pInputText type="number" [(ngModel)]="data.seuil"
-                                            #data.seuil="ngModel" />
+                                        <input
+                                            class="text-center"
+                                            pInputText
+                                            type="number"
+                                            [(ngModel)]="data.seuil"
+                                            #data.seuil="ngModel"
+                                        />
                                     </ng-template>
                                     <ng-template pTemplate="output">
                                         <span>{{ data.seuil }}</span>
@@ -275,31 +402,68 @@
                             <td style="width: 4rem">
                                 <p-cellEditor>
                                     <ng-template pTemplate="input">
-                                        <p-inputSwitch trueValue="actif" falseValue="inactif" [(ngModel)]="data.statut"
-                                            #data.statut="ngModel"></p-inputSwitch>
+                                        <p-inputSwitch
+                                            trueValue="actif"
+                                            falseValue="inactif"
+                                            [(ngModel)]="data.statut"
+                                            #data.statut="ngModel"
+                                        ></p-inputSwitch>
                                     </ng-template>
                                     <ng-template pTemplate="output">
-                                        <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-success]="
+                                        <span
+                                            [ngStyle]="{ 'font-size': '16px' }"
+                                            class="badge"
+                                            [class.badge-success]="
                                                 data.statut === 'actif'
-                                            " [class.badge-danger]="
+                                            "
+                                            [class.badge-danger]="
                                                 data.statut !== 'actif'
-                                            ">
+                                            "
+                                        >
                                             {{ data.statut }}
                                         </span>
                                     </ng-template>
                                 </p-cellEditor>
                             </td>
                             <td class="text-center" *ngIf="!currentObject.show">
-                                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow
-                                    pTooltip="Modifier" tooltipPosition="top" icon="pi pi-pencil"
-                                    (click)="OnEditOneRowMetrique(data)" class="p-button-secondary"></button>
-                                <button *ngIf="editing" [disabled]="currentObject.show" pButton pRipple type="button"
-                                    pSaveEditableRow pTooltip="Sauvegarder" tooltipPosition="top" icon="pi pi-check"
-                                    (click)="onRowEditMetriqueSave(data)" class="p-button-success"></button>
-                                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
-                                    pTooltip="Fermer" tooltipPosition="top" icon="pi pi-times"
-                                    (click)="onCancelRowMetrique(data, i)" class="p-button-danger"
-                                    style="margin-left: 1rem"></button>
+                                <button
+                                    *ngIf="!editing"
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    pInitEditableRow
+                                    pTooltip="Modifier"
+                                    tooltipPosition="top"
+                                    icon="pi pi-pencil"
+                                    (click)="OnEditOneRowMetrique(data)"
+                                    class="p-button-secondary"
+                                ></button>
+                                <button
+                                    *ngIf="editing"
+                                    [disabled]="currentObject.show"
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    pSaveEditableRow
+                                    pTooltip="Sauvegarder"
+                                    tooltipPosition="top"
+                                    icon="pi pi-check"
+                                    (click)="onRowEditMetriqueSave(data)"
+                                    class="p-button-success"
+                                ></button>
+                                <button
+                                    *ngIf="editing"
+                                    pButton
+                                    pRipple
+                                    type="button"
+                                    pCancelEditableRow
+                                    pTooltip="Fermer"
+                                    tooltipPosition="top"
+                                    icon="pi pi-times"
+                                    (click)="onCancelRowMetrique(data, i)"
+                                    class="p-button-danger"
+                                    style="margin-left: 1rem"
+                                ></button>
                             </td>
                         </tr>
                     </ng-template>
@@ -307,7 +471,10 @@
             </div>
         </p-tabPanel>
         <p-tabPanel header="HISTORIQUE">
-            <app-historique [module]="'REFERENTIEL TELEMETRIE'" [sous_module]="'PROFIL SUPERVISION'"></app-historique>
+            <app-historique
+                [module]="'REFERENTIEL TELEMETRIE'"
+                [sous_module]="'PROFIL SUPERVISION'"
+            ></app-historique>
         </p-tabPanel>
     </p-tabView>
 </div>

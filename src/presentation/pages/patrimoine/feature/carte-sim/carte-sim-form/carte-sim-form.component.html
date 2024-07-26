@@ -794,7 +794,11 @@
                                         class="p-button-warning"
                                         [style]="{ fontSize: '20px' }"
                                         style="width: 384px"
-                                        (click)="handleRefreshData(carteSimSelectedDetails)"
+                                        (click)="
+                                            handleRefreshData(
+                                                carteSimSelectedDetails
+                                            )
+                                        "
                                     ></button>
                                 </div>
                             </div>
@@ -802,7 +806,13 @@
                                 class="col-md-12 mt-3"
                                 *ngIf="mappingService.IsAction()"
                             >
-                                <div *ngIf="currentView === 'details' && carteSimSelectedDetails?.statut === 'suspendu'">
+                                <div
+                                    *ngIf="
+                                        currentView === 'details' &&
+                                        carteSimSelectedDetails?.statut ===
+                                            'suspendu'
+                                    "
+                                >
                                     <button
                                         pButton
                                         pRipple
@@ -810,7 +820,12 @@
                                         icon="pi pi-power-off"
                                         class="p-button-success"
                                         [style]="{ fontSize: '20px' }"
-                                        (click)="onTransactionForm(carteSimSelectedDetails, activation)"
+                                        (click)="
+                                            onTransactionForm(
+                                                carteSimSelectedDetails,
+                                                activation
+                                            )
+                                        "
                                         style="width: 384px"
                                     ></button>
                                 </div>

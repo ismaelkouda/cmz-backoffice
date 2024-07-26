@@ -215,33 +215,35 @@ fieldset {
     background-color: #e0f2f7;
     color: #01a9db;
     border-color: #e0f2f7;
-  }
+}
 
-  .detailsDemandeColorYellow {
+.detailsDemandeColorYellow {
     @extend %messageAlert;
-    background-color: #FAEDC4;
-    color: #C79807;
-    border-color: #FAEDC4;
-  }
+    background-color: #faedc4;
+    color: #c79807;
+    border-color: #faedc4;
+}
 
-  .detailsDemandeColorRed {
+.detailsDemandeColorRed {
     @extend %messageAlert;
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
-  }
+}
 
-  .detailsDemandeColorGreen {
+.detailsDemandeColorGreen {
     @extend %messageAlert;
     background-color: #c8e6c9;
     color: #256029;
     border-color: #c8e6c9;
-  }
+}
 
-  .detailsDemandeColorBlack {
-      @extend %messageAlert;
-      background-color: #a4b0be; color: #000; border-color: #a4b0be;
-  }
+.detailsDemandeColorBlack {
+    @extend %messageAlert;
+    background-color: #a4b0be;
+    color: #000;
+    border-color: #a4b0be;
+}
 
 .neutre {
     background-color: white !important;

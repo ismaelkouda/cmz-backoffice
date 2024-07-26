@@ -5,16 +5,37 @@
                 <h3>
                     <b>
                         <span>Affectation de SIM au profil</span>
-                        <span class="current_values">[{{ currentObject?.nom }}]</span>
+                        <span class="current_values"
+                            >[{{ currentObject?.nom }}]</span
+                        >
                     </b>
                 </h3>
             </div>
             <div class="table_actions_wrapper mt-0">
-                <button pButton pRipple label="Affecter" icon="pi pi-arrow-right" class="p-button-success"
-                    (click)="handleSaveAffectation()" [disabled]="checkconsumerList?.length === 0"></button>
-                <button pButton pRipple label="Rafraîchir" icon="pi pi-refresh" (click)="GetAllListAffectationBySim()"
-                    class="p-button-secondary"></button>
-                <button pButton pRipple label="Fermer" class="p-button-danger" (click)="close()"></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Affecter"
+                    icon="pi pi-arrow-right"
+                    class="p-button-success"
+                    (click)="handleSaveAffectation()"
+                    [disabled]="checkconsumerList?.length === 0"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Rafraîchir"
+                    icon="pi pi-refresh"
+                    (click)="GetAllListAffectationBySim()"
+                    class="p-button-secondary"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Fermer"
+                    class="p-button-danger"
+                    (click)="close()"
+                ></button>
             </div>
         </div>
         <div [formGroup]="formFilter">
@@ -23,92 +44,181 @@
                     <label>
                         <b>{{ firstLevelLibelle }}</b>
                     </label>
-                    <p-dropdown [options]="listFirstLeveDatas" optionLabel="fullName" (onChange)="onChangeFirstLvel($event.value)"
-                        [showClear]="true" [filter]="true" filterBy="fullName" [placeholder]="firstLevelLibelle"
-                        optionValue="uuid" formControlName="niveau_un_uuid" [ngStyle]="{ width: '100%' }">
+                    <p-dropdown
+                        [options]="listFirstLeveDatas"
+                        optionLabel="fullName"
+                        (onChange)="onChangeFirstLvel($event.value)"
+                        [showClear]="true"
+                        [filter]="true"
+                        filterBy="fullName"
+                        [placeholder]="firstLevelLibelle"
+                        optionValue="uuid"
+                        formControlName="niveau_un_uuid"
+                        [ngStyle]="{ width: '100%' }"
+                    >
                     </p-dropdown>
                 </div>
                 <div class="width-100">
                     <label>
                         <b>{{ secondLevelLibelle }}</b>
                     </label>
-                    <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" [filter]="true"
-                        formControlName="niveau_deux_uuid" optionValue="uuid" [showClear]="true"
-                        [placeholder]="secondLevelLibelle" [ngStyle]="{ width: '100%' }">
+                    <p-dropdown
+                        [options]="listSecondLevelDatas"
+                        optionLabel="fullName"
+                        [filter]="true"
+                        formControlName="niveau_deux_uuid"
+                        optionValue="uuid"
+                        [showClear]="true"
+                        [placeholder]="secondLevelLibelle"
+                        [ngStyle]="{ width: '100%' }"
+                    >
                     </p-dropdown>
                 </div>
                 <div class="width-80">
                     <label>
                         <b>MSISDN</b>
                     </label>
-                    <input placeholder="MSISDN" formControlName="msisdn" type="text" pInputText
-                        [ngStyle]="{ width: '100%' }" />
+                    <input
+                        placeholder="MSISDN"
+                        formControlName="msisdn"
+                        type="text"
+                        pInputText
+                        [ngStyle]="{ width: '100%' }"
+                    />
                 </div>
                 <div class="width-80">
                     <label>
                         <b>IMSI</b>
                     </label>
-                    <input placeholder="IMSI" formControlName="imsi" type="text" pInputText
-                        [ngStyle]="{ width: '100%' }" />
+                    <input
+                        placeholder="IMSI"
+                        formControlName="imsi"
+                        type="text"
+                        pInputText
+                        [ngStyle]="{ width: '100%' }"
+                    />
                 </div>
                 <div class="width-80">
                     <label><b>APN</b></label>
-                    <input placeholder="apn" formControlName="apn" type="text" pInputText
-                        [ngStyle]="{ width: '100%' }" />
+                    <input
+                        placeholder="apn"
+                        formControlName="apn"
+                        type="text"
+                        pInputText
+                        [ngStyle]="{ width: '100%' }"
+                    />
                 </div>
                 <div class="width-80">
                     <label><b>Adresse IP</b></label>
-                    <input placeholder="Adresse IP" formControlName="adresse_ip" type="text" pInputText
-                        [ngStyle]="{ width: '100%' }" />
+                    <input
+                        placeholder="Adresse IP"
+                        formControlName="adresse_ip"
+                        type="text"
+                        pInputText
+                        [ngStyle]="{ width: '100%' }"
+                    />
                 </div>
                 <div [ngStyle]="{ width: 'auto' }" *ngIf="!secondFilter">
                     <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-                    <p-button styleClass="p-button-success" icon="pi pi-filter"
-                        (click)="GetAllListAffectationBySim()"></p-button>
+                    <p-button
+                        styleClass="p-button-success"
+                        icon="pi pi-filter"
+                        (click)="GetAllListAffectationBySim()"
+                    ></p-button>
                 </div>
                 <div [ngStyle]="{ width: 'auto' }">
                     <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-                    <p-button *ngIf="!secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
-                        icon="pi pi-plus"></p-button>
-                    <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
-                        icon="pi pi-minus"></p-button>
+                    <p-button
+                        *ngIf="!secondFilter"
+                        (click)="showSecondFilter()"
+                        styleClass="p-button-dark"
+                        icon="pi pi-plus"
+                    ></p-button>
+                    <p-button
+                        *ngIf="secondFilter"
+                        (click)="showSecondFilter()"
+                        styleClass="p-button-dark"
+                        icon="pi pi-minus"
+                    ></p-button>
                 </div>
             </div>
-            <div class="d-flex gap-1" style="padding-top: 0.7rem" *ngIf="secondFilter">
+            <div
+                class="d-flex gap-1"
+                style="padding-top: 0.7rem"
+                *ngIf="secondFilter"
+            >
                 <div class="width-100">
                     <label><b>Usage</b></label>
-                    <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage" [showClear]="true"
-                        [placeholder]="'Usage'" optionValue="id" [ngStyle]="{ width: '100%' }">
+                    <p-dropdown
+                        [options]="listUsages"
+                        formControlName="usage_id"
+                        optionLabel="nom_usage"
+                        [showClear]="true"
+                        [placeholder]="'Usage'"
+                        optionValue="id"
+                        [ngStyle]="{ width: '100%' }"
+                    >
                     </p-dropdown>
                 </div>
                 <div class="width-100">
                     <label><b>Formule</b></label>
-                    <p-dropdown [options]="listFormule" formControlName="formule_uuid" optionLabel="nom" [showClear]="true"
-                        [placeholder]="'Formule'" optionValue="uuid" [ngStyle]="{ width: '100%' }">
+                    <p-dropdown
+                        [options]="listFormule"
+                        formControlName="formule_uuid"
+                        optionLabel="nom"
+                        [showClear]="true"
+                        [placeholder]="'Formule'"
+                        optionValue="uuid"
+                        [ngStyle]="{ width: '100%' }"
+                    >
                     </p-dropdown>
                 </div>
                 <div class="width-100">
-                    <label><b>{{ thirdLevelLibelle }}</b></label>
-                    <p-dropdown [options]="listThirdLevelDatas" formControlName="niveau_trois_uuid" optionLabel="nom"
-                        [showClear]="true" [placeholder]="thirdLevelLibelle" optionValue="uuid"
-                        [ngStyle]="{ width: '100%' }">
+                    <label
+                        ><b>{{ thirdLevelLibelle }}</b></label
+                    >
+                    <p-dropdown
+                        [options]="listThirdLevelDatas"
+                        formControlName="niveau_trois_uuid"
+                        optionLabel="nom"
+                        [showClear]="true"
+                        [placeholder]="thirdLevelLibelle"
+                        optionValue="uuid"
+                        [ngStyle]="{ width: '100%' }"
+                    >
                     </p-dropdown>
                 </div>
                 <div class="width-100">
                     <label><b>Nom Emplacement</b></label>
-                    <input placeholder="Emplacement" formControlName="point_emplacement" type="text" pInputText
-                        [ngStyle]="{ width: '100%' }" />
+                    <input
+                        placeholder="Emplacement"
+                        formControlName="point_emplacement"
+                        type="text"
+                        pInputText
+                        [ngStyle]="{ width: '100%' }"
+                    />
                 </div>
                 <div class="width-100">
                     <label>
                         <b>Zone Trafic</b>
                     </label>
-                    <input placeholder="zone" formControlName="zone_trafic" type="text" pInputText
-                        [ngStyle]="{ width: '100%' }" />
+                    <input
+                        placeholder="zone"
+                        formControlName="zone_trafic"
+                        type="text"
+                        pInputText
+                        [ngStyle]="{ width: '100%' }"
+                    />
                 </div>
-                <div class="p-0 d-flex align-items-end justify-content-end" [ngStyle]="{ width: '4rem' }">
-                    <p-button styleClass="p-button-success" icon="pi pi-filter"
-                        (click)="GetAllListAffectationBySim()"></p-button>
+                <div
+                    class="p-0 d-flex align-items-end justify-content-end"
+                    [ngStyle]="{ width: '4rem' }"
+                >
+                    <p-button
+                        styleClass="p-button-success"
+                        icon="pi pi-filter"
+                        (click)="GetAllListAffectationBySim()"
+                    ></p-button>
                 </div>
             </div>
         </div>
@@ -116,12 +226,19 @@
         <div class="table_content_wrapper">
             <div class="table_header mt-2">
                 <div class="table_header__legende">
-                    <app-table-header [count]="listAffectations" [legende]="'SIM Non Affectées au profil'" [page]="page"
-                        [totalPage]="totalPage"></app-table-header>
+                    <app-table-header
+                        [count]="listAffectations"
+                        [legende]="'SIM Non Affectées au profil'"
+                        [page]="page"
+                        [totalPage]="totalPage"
+                    ></app-table-header>
                 </div>
                 <div class="table_header__input"></div>
             </div>
-            <table [ngClass]="['native_table table']" style="margin-top: -0.2rem">
+            <table
+                [ngClass]="['native_table table']"
+                style="margin-top: -0.2rem"
+            >
                 <thead>
                     <th class="text-center">#</th>
                     <th>{{ firstLevelLibelle }}</th>
@@ -136,12 +253,16 @@
                     <th class="text-center">IMSI</th>
                     <th>Statut</th>
                     <th class="text-center">
-                        <p-checkbox [binary]="true" (click)="OnCheckAllConsumer()"
-                            [(ngModel)]="checkedAllConsumers"></p-checkbox>
+                        <p-checkbox
+                            [binary]="true"
+                            (click)="OnCheckAllConsumer()"
+                            [(ngModel)]="checkedAllConsumers"
+                        ></p-checkbox>
                     </th>
                 </thead>
                 <tbody>
-                    <tr *ngFor="
+                    <tr
+                        *ngFor="
                             let data of listAffectations
                                 | paginate
                                     : {
@@ -151,7 +272,8 @@
                                           totalItems: totalRecords
                                       };
                             let i = index
-                        ">
+                        "
+                    >
                         <td>{{ this.offset + i }}</td>
                         <td>{{ data.niveau_uns_nom }}</td>
                         <td>{{ data.niveau_deux_nom }}</td>
@@ -173,28 +295,39 @@
                             style="cursor: pointer"
                             class="px-2"
                         >
-                            {{
-                                data?.imsi ? data?.imsi : 'N/A'
-                            }}
+                            {{ data?.imsi ? data?.imsi : 'N/A' }}
                         </td>
                         <td>
-                            <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [ngClass]="{
+                            <span
+                                [ngStyle]="{ 'font-size': '16px' }"
+                                class="badge"
+                                [ngClass]="{
                                     'badge-success': data.statut === 'actif',
                                     'badge-dark': data.statut === 'suspendu',
                                     'badge-danger': data.statut === 'resilié'
-                                }">
+                                }"
+                            >
                                 {{ data.statut }}
                             </span>
                         </td>
                         <td>
-                            <p-checkbox name="groupname" [value]="data.id" [binary]="true" [(ngModel)]="data.checked"
-                                (click)="onCheckedOneConsumer(data)"></p-checkbox>
+                            <p-checkbox
+                                name="groupname"
+                                [value]="data.id"
+                                [binary]="true"
+                                [(ngModel)]="data.checked"
+                                (click)="onCheckedOneConsumer(data)"
+                            ></p-checkbox>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div [ngClass]="['pagination-controls']">
-                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                <pagination-controls
+                    (pageChange)="onPageChange($event)"
+                    previousLabel=""
+                    nextLabel=""
+                >
                 </pagination-controls>
             </div>
         </div>
