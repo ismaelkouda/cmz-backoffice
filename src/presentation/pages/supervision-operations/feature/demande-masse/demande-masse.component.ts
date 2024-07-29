@@ -15,6 +15,7 @@ import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { SharedDataService } from 'src/shared/services/shared-data.service';
 import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from 'src/shared/constants/swalWithBootstrapButtonsParams.constant';
+import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -25,6 +26,7 @@ const Swal = require('sweetalert2');
 
 export class DemandeMasseComponent implements OnInit {
     public BADGE_ETAT = BADGE_ETAT;
+    public BADGE_ETAPE = BADGE_ETAPE;
     public formTraitementMasse: FormGroup;
     @Input() params: { vue: "demande", action: "Abandonner" | "Identifier" } | { vue: "traitement", action: "Clôturer" };
     @Input() action: 'traiter' | 'cloturer' | 'Abandonner' | 'Traiter';
@@ -198,11 +200,6 @@ export class DemandeMasseComponent implements OnInit {
         this.IsLoading.emit(false);
     }
 
-    // async GetFormules(dataToSend = {}) {
-    //     this.response = await handle(() => this.settingService.GetAllFormules(dataToSend), this.toastrService, this.loadingBarService);
-    //     this.listFormules = this.response?.data;
-    // }
-
     async onSaveDemandes(dataToSend: {}): Promise<void> {
         dataToSend = { sims_file: this.formTraitementMasse.value.sims_file, numero_demande: this.listDemandes?.numero_demande };
         const htmlMessage = `Voulez-vous identifier la demande ?`;
@@ -211,22 +208,6 @@ export class DemandeMasseComponent implements OnInit {
             const response: any = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisIdentificationsSims(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
             if (response?.error) this.successHandle(response);
         }
-        // switch (this.formTraitementMasse.value.operation) {
-        //     case 'traiter':
-        //         dataToSend = { sims_file: this.formTraitementMasse.value.sims_file, numero_demande: this.listDemandes?.numero_demande };
-        //         const decisionTraiter = await this.supervisionOperationService.showPassword('Traiter');
-        //         if(decisionTraiter) this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisIdentificationsSims(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
-        //         if (this.response?.error) this.successHandle(this.response);
-        //         break;
-
-        //     case 'cloturer':
-        //         dataToSend = { accepte: this.formTraitementMasse.value.accepte, numero_demande: this.listDemandes?.numero_demande, commentaire: this.formTraitementMasse?.value?.commentaire };
-        //         const decisionCloture = await this.supervisionOperationService.showPassword('Cloturer');
-        //         if(decisionCloture) this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
-        //         if (this.response?.error) this.successHandle(this.response);
-        //         break;
-        // }
-
     }
     async onSaveTraitements(dataToSend: {}): Promise<void> {
         dataToSend = { accepte: this.formTraitementMasse.value.accepte, numero_demande: this.listDemandes?.numero_demande, commentaire: this.formTraitementMasse?.value?.commentaire };
@@ -237,10 +218,6 @@ export class DemandeMasseComponent implements OnInit {
             if (response?.error) this.successHandle(response);
         }
     }
-    // async onLetDownDemands(dataToSend = {numero_demande: this.listDemandes?.numero_demande}): Promise<void> {
-    //     this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisAbandonnerDemandeService(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
-    //     if (this.response?.error) this.successHandle(this.response);
-    // }
 
     onLetDownDemands(dataToSend = { numero_demande: this.listDemandes?.numero_demande }) {
         const swalWithBootstrapButtons = Swal.mixin({
@@ -337,15 +314,7 @@ export class DemandeMasseComponent implements OnInit {
 
     async onDownloadModel(): Promise<any> {
         const tokenUser = JSON.parse(this.storage.getData('user')).token;
-        // this.response = await handle(() => this.supervisionOperationService.GetGestionTransactionsDemandesServicesDownloadAbonnementsData(this.listDemandes.numero_demande, tokenUser), this.toastrService, this.loadingBarService);
-        // console.log('this.response', this.response.code)
-        // if (this.response?.error) this.successHandleDownloadModel(this.response);
-        console.log('this.supervisionOperationService.GetGestionTransactionsDemandesServicesDownloadAbonnementsData(this.listDemandes.numero_demande, tokenUser)', this.supervisionOperationService.GetGestionTransactionsDemandesServicesDownloadAbonnementsData(this.listDemandes.numero_demande, tokenUser))
         window.location.href = this.supervisionOperationService.GetGestionTransactionsDemandesServicesDownloadAbonnementsData(this.listDemandes.numero_demande, tokenUser);
-    }
-
-    private successHandleDownloadModel(response): void {
-        this.toastrService.success(response.message);
     }
 
     public canIdentify(demande: any): boolean {

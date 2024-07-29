@@ -306,7 +306,7 @@
                         >
                             <div>
                                 <strong class="wrapper-header">
-                                    {{ BADGE_ETAT.soumission | capitalize }} :
+                                    {{ BADGE_ETAPE.SOUMISSION | capitalize }} :
                                     {{ listDemandes?.etat_soumission }}
                                     <br />
                                     Date : [{{
@@ -320,7 +320,7 @@
                             </div>
                             <div>
                                 <strong class="wrapper-header">
-                                    {{ BADGE_ETAT.traitement | capitalize }} :
+                                    {{ BADGE_ETAPE.TRAITEMENT | capitalize }} :
                                     {{ listDemandes?.etat_traitement }}
                                     <br />
                                     Date : [{{
@@ -330,7 +330,7 @@
                             </div>
                             <div>
                                 <strong class="wrapper-header">
-                                    {{ BADGE_ETAT.finalisation | capitalize }} :
+                                    {{ BADGE_ETAPE.FINALISATEUR | capitalize }} :
                                     {{ listDemandes?.etat_finalisation }}
                                     <br />
                                     Date : [{{
@@ -341,7 +341,7 @@
                             <div>
                                 <strong class="wrapper-header">
                                     <span class="text-capitalize">{{
-                                        BADGE_ETAT.cloture
+                                        BADGE_ETAPE.CLOTURE
                                     }}</span>
                                     : {{ listDemandes?.etat_cloture }}
                                     <br />

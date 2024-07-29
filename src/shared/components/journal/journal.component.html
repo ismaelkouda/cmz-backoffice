@@ -58,16 +58,16 @@
                             [ngStyle]="{ 'font-size': '16px' }"
                             class="badge"
                             [class.badge-dark]="
-                                journal?.statut === BADGE_ETAT.soumission
+                                journal?.statut === BADGE_ETAPE.SOUMISSION
                             "
                             [class.badge-warning]="
-                                journal?.statut === BADGE_ETAT.traitement
+                                journal?.statut === BADGE_ETAPE.TRAITEMENT
                             "
                             [class.badge-success]="
-                                journal?.statut === BADGE_ETAT.finalisation
+                                journal?.statut === BADGE_ETAPE.FINALISATEUR
                             "
                             [class.badge-green]="
-                                journal?.statut === BADGE_ETAT.cloture
+                                journal?.statut === BADGE_ETAPE.CLOTURE
                             "
                         >
                             {{ journal?.statut }}
@@ -81,46 +81,46 @@
                                 journal?.traitement === treatmenAcquiter
                             "
                             [class.badge-dark-2]="
-                                journal?.statut === BADGE_ETAT.soumission &&
+                                journal?.statut === BADGE_ETAPE.SOUMISSION &&
                                 journal?.traitement === treatmenEntente
                             "
                             [class.badge-warning]="
-                                journal?.statut === BADGE_ETAT.traitement &&
+                                journal?.statut === BADGE_ETAPE.TRAITEMENT &&
                                 journal?.traitement === treatmenPartiel
                             "
                             [class.badge-warning-2]="
-                                journal?.statut === BADGE_ETAT.cloture &&
+                                journal?.statut === BADGE_ETAPE.cloture &&
                                 journal?.traitement === treatmenCancel
                             "
                             [class.badge-info]="
-                                journal?.statut === BADGE_ETAT.traitement &&
-                                journal?.traitement === treatmenTotal
+                                journal?.statut === BADGE_ETAPE.TRAITEMENT &&
+                                journal?.traitement === BADGE_ETAT.TOTAL
                             "
                             [class.badge-green]="
-                                journal?.statut === BADGE_ETAT.finalisation &&
-                                journal?.traitement === BADGE_ETAT.cloture
+                                journal?.statut === BADGE_ETAT.FINALISATEUR &&
+                                journal?.traitement === BADGE_ETAT.CLOTURE
                             "
                             [class.badge-danger]="
-                                journal?.traitement === treatmenRejeter ||
+                                journal?.traitement === BADGE_ETAT.REJETE ||
                                 journal?.traitement === treatmenRefuser
                             "
                             [class.badge-success]="
-                                journal?.statut === stateCloture &&
+                                journal?.statut === BADGE_ETAPE.CLOTURE &&
                                 journal?.traitement === treatmenAccepter
                             "
                             [class.badge-dark]="
-                                journal?.traitement === treatmenEntente ||
+                                journal?.traitement === BADGE_ETAT.EN_ATTENTE ||
                                 journal?.traitement === treatmenAcquiter
                             "
                             [class.badge-danger]="
-                                journal?.traitement === treatmenRejeter ||
+                                journal?.traitement === BADGE_ETAT.REJETE ||
                                 journal?.traitement === treatmenRefuser
                             "
                             [class.badge-warning]="
                                 journal?.traitement === treatmenCancel
                             "
                             [class.badge-info]="
-                                journal?.traitement === treatmenAccepter
+                                journal?.traitement === BADGE_ETAT.ACCEPTE
                             "
                             [class.badge-success]="
                                 journal?.statut === stateCloture &&

@@ -32,6 +32,6 @@
         sourceSoldeDotationOrange: 'Orange fera le dépôt du volume demandé sur le compte Data de la SIM. A l\'issue de l\'operation une facture sera générée'
     };
 
-    window.__env.currentEnv = window.__env.prod;
+    window.__env.currentEnv = window.__env.dev;
 
 }(this));
