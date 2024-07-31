@@ -206,28 +206,45 @@ export class DemandeMasseComponent implements OnInit {
         const result = await Swal.fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: htmlMessage })
         if (result.isConfirmed) {
             const response: any = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisIdentificationsSims(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
-            if (response?.error) this.successHandle(response);
+            if (response?.error === false) this.successHandle(response);
         }
     }
     async onSaveTraitements(dataToSend: {}): Promise<void> {
         dataToSend = { accepte: this.formTraitementMasse.value.accepte, numero_demande: this.listDemandes?.numero_demande, commentaire: this.formTraitementMasse?.value?.commentaire };
-        const htmlMessage = `Voulez-vous clôturer la demande ?`;
-        const result = await Swal.fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: htmlMessage });
-        if (result.isConfirmed) {
-            const response: any = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
-            if (response?.error) this.successHandle(response);
-        }
+        Swal.mixin({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.button}).fire({
+            title: "Vous êtes sur le point de clôturer la demande",
+            input: 'text',
+            inputPlaceholder: 'Ex: Commentez...',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            cancelButtonText: "Annuler        ",
+            confirmButtonText: "Confirmer",
+            showLoaderOnConfirm: true,
+            preConfirm: async (commentaire) => {
+                try {
+                    this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(FormatFormData({ ...dataToSend, commentaire: commentaire })), this.toastrService, this.loadingBarService)
+                    if (!this.response.ok) {
+                        // return Swal.showValidationMessage(`${JSON.stringify(await this.response.message)}`);
+                        if (!this.response?.error) this.successHandle(this.response)
+                    }
+                    // return this.response.message;
+                } catch (error) {
+                    console.log('error', error)
+                    Swal.showValidationMessage(`Une erreur s'est produite`);
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // this.successHandle(this.response);
+            }
+        })
     }
 
     onLetDownDemands(dataToSend = { numero_demande: this.listDemandes?.numero_demande }) {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger'
-            },
-            buttonsStyling: false,
-        })
-        swalWithBootstrapButtons.fire({
+        Swal.mixin({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.button}).fire({
             title: "Vous êtes sur le point d'abandonner la demande",
             input: 'text',
             inputPlaceholder: 'Ex: Commentez...',
@@ -263,7 +280,7 @@ export class DemandeMasseComponent implements OnInit {
         this.toastrService.success(response?.message);
         this.handleCloseModal();
         this.sharedDataService.sendPatrimoineSimDemandesServicesAll();
-        this.IsLoading.emit(false);
+        this.sharedDataService.sendPatrimoineSimTraitementsDemandesAll();
     }
 
     public handleCloseModal(): void {

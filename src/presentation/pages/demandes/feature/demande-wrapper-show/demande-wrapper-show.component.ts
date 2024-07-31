@@ -15,6 +15,8 @@ import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
 import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
+import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
+import { BADGE_TRAITEMENT } from 'src/shared/constants/badge-traitement.constant';
 
 @Component({
   selector: 'app-demande-wrapper-show',
@@ -25,6 +27,8 @@ import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 export class DemandeWrapperShowComponent implements OnInit {
   public BADGE_ETAT = BADGE_ETAT;
   public BADGE_ETAPE = BADGE_ETAPE;
+  public BADGE_TRAITEMENT = BADGE_TRAITEMENT;
+  public BADGE_STATUT = BADGE_STATUT;
   public module: string;
   public subModule: string;
   @Input() selectedOperation: string;

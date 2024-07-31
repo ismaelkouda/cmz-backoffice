@@ -1,27 +1,17 @@
 <div class="container-fluid">
-    <app-breadcrumb
-        [title]="'Suivi des opérations'"
-        [active_item]="'Suivi & Traitement'"
-    ></app-breadcrumb>
+    <app-breadcrumb [title]="'Suivi des opérations'" [active_item]="'Suivi & Traitement'"></app-breadcrumb>
     <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
         <div class="card-body">
             <div style="margin-top: -2rem !important">
-                <app-patrimoine-header
-                    [count]="listTraitemants"
-                    [legende]="'derniers traitements'"
-                    [total]="totalRecords"
-                ></app-patrimoine-header>
+                <app-patrimoine-header [count]="listTraitemants" [legende]="'derniers traitements'"
+                    [total]="totalRecords"></app-patrimoine-header>
             </div>
             <div class="row filter_wrapper">
                 <div class="col-md-2">
                     <div class="form-group">
                         <label><b>Type opération</b></label>
-                        <p-dropdown
-                            [options]="listOperations"
-                            [showClear]="true"
-                            [(ngModel)]="selectedTypeOperation"
-                            placeholder="Opération"
-                        >
+                        <p-dropdown [options]="listOperations" [showClear]="true" [(ngModel)]="selectedTypeOperation"
+                            placeholder="Opération">
                             <ng-template let-data pTemplate="item">
                                 <div class="country-item">
                                     <div>{{ data | titlecase }}</div>
@@ -35,24 +25,14 @@
                         <label>
                             <b>N° Demande</b>
                         </label>
-                        <input
-                            placeholder="Demande"
-                            [(ngModel)]="selectedTransaction"
-                            type="text"
-                            pInputText
-                        />
+                        <input placeholder="Demande" [(ngModel)]="selectedTransaction" type="text" pInputText />
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label><b>Statut</b> </label>
-                        <p-dropdown
-                            [options]="listStatutTransactions"
-                            (onChange)="OnChangeStatut($event)"
-                            [showClear]="true"
-                            [(ngModel)]="selectedStatut"
-                            placeholder="Statut"
-                        >
+                        <p-dropdown [options]="listStatutTransactions" (onChange)="OnChangeStatut($event)"
+                            [showClear]="true" [(ngModel)]="selectedStatut" placeholder="Statut">
                             <ng-template let-data pTemplate="item">
                                 <div class="country-item">
                                     <div>{{ data | titlecase }}</div>
@@ -64,15 +44,8 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label><b>Traitement</b> </label>
-                        <p-dropdown
-                            [options]="listTraitementTransactions"
-                            [filter]="true"
-                            filterBy="libele"
-                            [showClear]="true"
-                            [(ngModel)]="selectedTraitement"
-                            placeholder="Traitement"
-                            name="libele"
-                        >
+                        <p-dropdown [options]="listTraitementTransactions" [filter]="true" filterBy="libele"
+                            [showClear]="true" [(ngModel)]="selectedTraitement" placeholder="Traitement" name="libele">
                             <ng-template let-data pTemplate="item">
                                 <div class="country-item">
                                     <div>{{ data | titlecase }}</div>
@@ -83,15 +56,8 @@
                 </div>
                 <div class="col-md-2">
                     <label class="block"><b>Demandeur</b></label>
-                    <p-dropdown
-                        [options]="listUsers"
-                        [(ngModel)]="currentUser"
-                        optionLabel="fullName"
-                        [filter]="true"
-                        filterBy="fullName"
-                        [showClear]="true"
-                        placeholder="demandeur"
-                    >
+                    <p-dropdown [options]="listUsers" [(ngModel)]="currentUser" optionLabel="fullName" [filter]="true"
+                        filterBy="fullName" [showClear]="true" placeholder="demandeur">
                         <ng-template let-data pTemplate="item">
                             <div class="country-item">
                                 <div>{{ data.fullName }}</div>
@@ -99,52 +65,27 @@
                         </ng-template>
                     </p-dropdown>
                 </div>
-                <div
-                    class="p-0"
-                    [ngStyle]="{ width: '4rem' }"
-                    *ngIf="!secondFilter"
-                >
+                <div class="p-0" [ngStyle]="{ width: '4rem' }" *ngIf="!secondFilter">
                     <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-                    <p-button
-                        styleClass="p-button-success"
-                        icon="pi pi-filter"
-                        (click)="onFilter()"
-                        [disabled]="isFilter()"
-                    ></p-button>
+                    <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                        [disabled]="isFilter()"></p-button>
                 </div>
                 <div class="p-0" [ngStyle]="{ width: '4rem' }">
                     <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-                    <p-button
-                        *ngIf="!secondFilter"
-                        (click)="showSecondFilter()"
-                        styleClass="p-button-dark"
-                        icon="pi pi-plus"
-                    ></p-button>
-                    <p-button
-                        *ngIf="secondFilter"
-                        (click)="showSecondFilter()"
-                        styleClass="p-button-dark"
-                        icon="pi pi-minus"
-                    ></p-button>
+                    <p-button *ngIf="!secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+                        icon="pi pi-plus"></p-button>
+                    <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+                        icon="pi pi-minus"></p-button>
                 </div>
             </div>
             <!--------------------Second-------------Filter--------->
-            <div
-                class="row filter_wrapper"
-                style="padding-top: 0.7rem"
-                *ngIf="secondFilter"
-            >
+            <div class="row filter_wrapper" style="padding-top: 0.7rem" *ngIf="secondFilter">
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>
                             <b>MSISDN</b>
                         </label>
-                        <input
-                            placeholder="Numéro"
-                            [(ngModel)]="selectedSim"
-                            type="text"
-                            pInputText
-                        />
+                        <input placeholder="Numéro" [(ngModel)]="selectedSim" type="text" pInputText />
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -152,74 +93,39 @@
                         <label>
                             <b>IMSI</b>
                         </label>
-                        <input
-                            placeholder="IMSI"
-                            [(ngModel)]="selectedimsi"
-                            type="text"
-                            pInputText
-                        />
+                        <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText />
                     </div>
                 </div>
                 <div class="col-md-2">
                     <label class="block"><b>Date début</b></label>
-                    <p-calendar
-                        [(ngModel)]="filterDateStart"
-                        [showIcon]="true"
-                        (ngModelChange)="changeDateStart($event)"
-                        dateFormat="dd-mm-yy"
-                        [showButtonBar]="true"
-                    ></p-calendar>
+                    <p-calendar [(ngModel)]="filterDateStart" [showIcon]="true"
+                        (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy"
+                        [showButtonBar]="true"></p-calendar>
                 </div>
                 <div class="col-md-2">
                     <label class="block"><b>Date fin </b></label>
-                    <p-calendar
-                        [(ngModel)]="filterDateEnd"
-                        [showIcon]="true"
-                        [showClear]="true"
-                        (ngModelChange)="changeDateEnd($event)"
-                        dateFormat="dd-mm-yy"
-                        [showButtonBar]="true"
-                    ></p-calendar>
+                    <p-calendar [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+                        (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy"
+                        [showButtonBar]="true"></p-calendar>
                 </div>
                 <div class="p-0" [ngStyle]="{ width: '4rem' }">
                     <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-                    <p-button
-                        styleClass="p-button-success"
-                        icon="pi pi-filter"
-                        (click)="onFilter()"
-                        [disabled]="isFilter()"
-                    ></p-button>
+                    <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                        [disabled]="isFilter()"></p-button>
                 </div>
             </div>
             <hr />
             <div class="table_content_wrapper">
                 <div class="table_actions_wrapper pt-2">
-                    <button
-                        pButton
-                        pRipple
-                        label="Rafraîchir"
-                        (click)="OnRefresh()"
-                        icon="pi pi-refresh"
-                        class="p-button-secondary"
-                    ></button>
-                    <button
-                        pButton
-                        pRipple
-                        label="Exporter"
-                        (click)="OnExportExcel()"
-                        icon="pi pi-download"
-                        [disabled]="disableAction()"
-                        class="p-button-helf"
-                    ></button>
+                    <button pButton pRipple label="Rafraîchir" (click)="OnRefresh()" icon="pi pi-refresh"
+                        class="p-button-secondary"></button>
+                    <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download"
+                        [disabled]="disableAction()" class="p-button-helf"></button>
                 </div>
                 <div class="d-flex gap-3">
                     <div class="table_header__legende">
-                        <app-table-header
-                            [count]="listTraitemants"
-                            [legende]="'derniers traitements'"
-                            [page]="page"
-                            [totalPage]="totalPage"
-                        ></app-table-header>
+                        <app-table-header [count]="listTraitemants" [legende]="'derniers traitements'" [page]="page"
+                            [totalPage]="totalPage"></app-table-header>
                     </div>
                 </div>
                 <table [ngClass]="['native_table table']">
@@ -254,8 +160,7 @@
                         </th>
                     </thead>
                     <tbody>
-                        <tr
-                            *ngFor="
+                        <tr *ngFor="
                                 let data of listTraitemants
                                     | paginate
                                         : {
@@ -265,84 +170,37 @@
                                               totalItems: totalRecords
                                           };
                                 let i = index
-                            "
-                        >
+                            ">
                             <td>{{ this.offset + i }}</td>
                             <td style="text-align: left">
                                 {{ data?.created_at }}
                             </td>
-                            <td
-                                (click)="copyData(data.numero_demande)"
-                                style="cursor: pointer"
-                            >
+                            <td (click)="copyData(data.numero_demande)" style="cursor: pointer">
                                 {{ data?.numero_demande }}
                             </td>
                             <td>{{ data?.nb_demande_soumises ?? 'N/A' }}</td>
                             <td>{{ data?.nb_demande_traitees ?? 'N/A' }}</td>
                             <td class="text-center">
-                                <span
-                                    [ngStyle]="{ 'font-size': '16px' }"
-                                    class="badge"
-                                    [class.badge-dark]="
+                                <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-dark]="
                                         data?.statut === BADGE_ETAPE.SOUMISSION
-                                    "
-                                    [class.badge-warning]="
+                                    " [class.badge-warning]="
                                         data?.statut === BADGE_ETAPE.TRAITEMENT
-                                    "
-                                    [class.badge-success]="
+                                    " [class.badge-success]="
                                         data?.statut ===
-                                        BADGE_ETAPE.FINALISATEUR
-                                    "
-                                    [class.badge-green]="
-                                        data?.statut === BADGE_ETAPE.CLOTURE
-                                    "
-                                >
+                                        BADGE_ETAPE.FINALISATEUR || data?.statut === BADGE_ETAPE.CLOTURE
+                                    ">
                                     {{ data?.statut }}
                                 </span>
                             </td>
                             <td class="text-center">
-                                <span
-                                    [ngStyle]="{ 'font-size': '16px' }"
-                                    class="badge"
-                                    [class.badge-dark]="
-                                        data?.traitement === BADGE_ETAT.RECU
-                                    "
-                                    [class.badge-dark-2]="
-                                        data?.statut ===
-                                            BADGE_ETAPE.SOUMISSION &&
-                                        data?.traitement ===
-                                            BADGE_ETAT.EN_ATTENTE
-                                    "
-                                    [class.badge-warning]="
-                                        data?.statut ===
-                                            BADGE_ETAPE.TRAITEMENT &&
-                                        data?.traitement === BADGE_ETAT.PARTIEL
-                                    "
-                                    [class.badge-warning-2]="
-                                        data?.statut === BADGE_ETAPE.CLOTURE &&
-                                        data?.traitement ===
-                                            BADGE_ETAT.ABANDONNE
-                                    "
-                                    [class.badge-info]="
-                                        data?.statut ===
-                                            BADGE_ETAPE.TRAITEMENT &&
-                                        data?.traitement === BADGE_ETAT.TOTAL
-                                    "
-                                    [class.badge-green]="
-                                        data?.statut ===
-                                            BADGE_ETAPE.FINALISATEUR &&
-                                        data?.traitement === BADGE_ETAT.CLOTURE
-                                    "
-                                    [class.badge-danger]="
-                                        data?.traitement ===
-                                            BADGE_ETAT.REJETE ||
-                                        data?.traitement === treatmenRefuser
-                                    "
-                                    [class.badge-success]="
-                                        data?.statut === stateCloture &&
-                                        data?.traitement === BADGE_ETAT.ACCEPTE
-                                    "
-                                >
+                                <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+                                    [class.badge-dark]="data?.traitement === BADGE_ETAT.RECU || (data?.statut === BADGE_ETAPE.SOUMISSION && data?.traitement === BADGE_ETAT.EN_ATTENTE)"
+                                    [class.badge-warning]="data?.statut === BADGE_ETAPE.TRAITEMENT && (data?.traitement === BADGE_ETAT.PARTIEL || data?.traitement === BADGE_ETAT.EN_ATTENTE)"
+                                    [class.badge-warning-2]=" data?.statut === BADGE_ETAPE.CLOTURE && data?.traitement === BADGE_ETAT.ABANDONNE"
+                                    [class.badge-info]="data?.statut === BADGE_ETAPE.TRAITEMENT && data?.traitement === BADGE_ETAT.TOTAL"
+                                    [class.badge-green]="data?.statut === BADGE_ETAPE.FINALISATEUR && data?.traitement === BADGE_ETAT.CLOTURE"
+                                    [class.badge-danger]=" data?.traitement === BADGE_ETAT.REJETE || data?.traitement === BADGE_ETAT.REFUSE"
+                                    [class.badge-success]="data?.statut === BADGE_ETAPE.CLOTURE && data?.traitement === BADGE_ETAT.ACCEPTE">
                                     {{ data.traitement }}
                                 </span>
                             </td>
@@ -354,18 +212,11 @@
                                 {{ data?.demandeur_prenoms }}
                             </td>
                             <td class="td-actions">
-                                <button
-                                    pButton
-                                    pRipple
-                                    icon="pi pi-eye"
-                                    [pTooltip]="
+                                <button pButton pRipple icon="pi pi-folder-open" [pTooltip]="
                                         !data?.nb_demande_traitees ? '' : 'Voir'
-                                    "
-                                    class="p-button-dark"
-                                    tooltipPosition="top"
+                                    " class="p-button-dark" tooltipPosition="top"
                                     [disabled]="!data?.nb_demande_traitees"
-                                    (click)="OnShowTraitement(data, 'details')"
-                                ></button>
+                                    (click)="OnShowTraitement(data, 'details')"></button>
                                 <!-- <button
                                     pButton
                                     icon="pi pi-sync"
@@ -383,37 +234,18 @@
                                     "
                                     class="p-button-secondary"
                                 ></button> -->
-                                <button
-                                    pButton
-                                    icon="pi pi-check-circle"
-                                    [pTooltip]="
-                                        canClose(data)
-                                            ? 'Clôturer'
-                                            : 'Vous ne pouvez pas clôturer actuellement'
-                                    "
-                                    tooltipPosition="top"
-                                    [disabled]="!canClose(data)"
-                                    (click)="OnShowModalTraitement(data)"
-                                    class="p-button-success"
-                                ></button>
-                                <button
-                                    pButton
-                                    icon="pi pi-book"
-                                    pTooltip="Journal"
-                                    tooltipPosition="top"
-                                    (click)="showJournal(data)"
-                                    class="p-button-primary"
-                                ></button>
+                                <button pButton tooltipPosition="top" (click)="OnShowModalTraitement(data)"
+                                    [ngClass]="getStyleButtonTraitement(data).class"
+                                    [icon]="getStyleButtonTraitement(data).icon"
+                                    [pTooltip]="getStyleButtonTraitement(data).tooltip"></button>
+                                <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top"
+                                    (click)="showJournal(data)" class="p-button-primary"></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div [ngClass]="['pagination-controls']">
-                    <pagination-controls
-                        (pageChange)="onPageChange($event)"
-                        previousLabel=""
-                        nextLabel=""
-                    >
+                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
                     </pagination-controls>
                 </div>
             </div>
@@ -421,9 +253,6 @@
     </div>
 </div>
 <div class="progress-spinner" *ngIf="IsLoading">
-    <p-progressSpinner
-        [style]="{ width: '70px', height: '70px' }"
-        strokeWidth="5"
-        styleClass="spinner"
-    ></p-progressSpinner>
+    <p-progressSpinner [style]="{ width: '70px', height: '70px' }" strokeWidth="5"
+        styleClass="spinner"></p-progressSpinner>
 </div>

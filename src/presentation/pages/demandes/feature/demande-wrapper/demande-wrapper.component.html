@@ -1,9 +1,5 @@
 <div style="margin-top: -2rem !important">
-    <app-patrimoine-header
-        [count]="listTransactions"
-        [legende]="wrapperLabel"
-        [total]="totalRecords"
-    >
+    <app-patrimoine-header [count]="listTransactions" [legende]="wrapperLabel" [total]="totalRecords">
     </app-patrimoine-header>
 </div>
 <div class="row filter_wrapper">
@@ -12,12 +8,7 @@
             <label>
                 <b>N° demande</b>
             </label>
-            <input
-                placeholder="Demande"
-                [(ngModel)]="selectedTransaction"
-                type="text"
-                pInputText
-            />
+            <input placeholder="Demande" [(ngModel)]="selectedTransaction" type="text" pInputText />
         </div>
     </div>
     <div class="col-md-2">
@@ -25,12 +16,7 @@
             <label>
                 <b>Transaction</b>
             </label>
-            <input
-                placeholder="Transaction"
-                [(ngModel)]="selectedTransactionShow"
-                type="text"
-                pInputText
-            />
+            <input placeholder="Transaction" [(ngModel)]="selectedTransactionShow" type="text" pInputText />
         </div>
     </div>
     <div [style]="{ width: '13rem' }">
@@ -38,13 +24,8 @@
             <label>
                 <b>Statut</b>
             </label>
-            <p-dropdown
-                [options]="listStatuts"
-                [showClear]="true"
-                (onChange)="OnChangeStatut($event)"
-                [(ngModel)]="selectedStatut"
-                placeholder="Statut"
-            >
+            <p-dropdown [options]="listStatuts" [showClear]="true" (onChange)="OnChangeStatut($event)"
+                [(ngModel)]="selectedStatut" placeholder="Statut">
                 <ng-template let-data pTemplate="item">
                     <div class="country-item">
                         <div>
@@ -57,94 +38,41 @@
     </div>
     <div class="col-md-2">
         <label class="block"><b>Demandeur</b></label>
-        <p-dropdown
-            [options]="listUsers"
-            [(ngModel)]="currentUser"
-            optionLabel="fullName"
-            [filter]="true"
-            filterBy="fullName"
-            [showClear]="true"
-            placeholder="demandeur"
-        >
+        <p-dropdown [options]="listUsers" [(ngModel)]="currentUser" optionLabel="fullName" [filter]="true"
+            filterBy="fullName" [showClear]="true" placeholder="demandeur">
         </p-dropdown>
     </div>
     <div [ngStyle]="{ width: '14rem' }">
         <label class="block"><b>Date début</b></label>
-        <p-calendar
-            [(ngModel)]="filterDateStart"
-            [showIcon]="true"
-            (ngModelChange)="changeDateStart($event)"
-            dateFormat="dd-mm-yy"
-            [showButtonBar]="true"
-        ></p-calendar>
+        <p-calendar [(ngModel)]="filterDateStart" [showIcon]="true" (ngModelChange)="changeDateStart($event)"
+            dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
     </div>
     <div [ngStyle]="{ width: '14rem' }">
         <label class="block"><b>Date fin</b></label>
-        <p-calendar
-            [(ngModel)]="filterDateEnd"
-            [showIcon]="true"
-            [showClear]="true"
-            (ngModelChange)="changeDateEnd($event)"
-            dateFormat="dd-mm-yy"
-            [showButtonBar]="true"
-        ></p-calendar>
+        <p-calendar [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+            (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy" [showButtonBar]="true"></p-calendar>
     </div>
     <div class="p-0" [ngStyle]="{ width: '4rem' }">
         <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-        <p-button
-            styleClass="p-button-success ms-3"
-            icon="pi pi-filter"
-            (click)="onFilter()"
-            [disabled]="isFilter()"
-        ></p-button>
+        <p-button styleClass="p-button-success ms-3" icon="pi pi-filter" (click)="onFilter()"
+            [disabled]="isFilter()"></p-button>
     </div>
 </div>
 <hr />
 <div class="table_content_wrapper">
     <div class="table_actions_wrapper pt-2">
-        <button
-            *ngIf="mappingService.IsAction()"
-            pButton
-            pRipple
-            label="Demande Simple"
-            icon="pi pi-plus"
-            class="p-button-success"
-            (click)="onInitForm('simple')"
-        ></button>
-        <button
-            pButton
-            pRipple
-            label="Demande en masse"
-            *ngIf="mappingService.IsAction()"
-            icon="pi pi-plus"
-            class="p-button btn-dark"
-            (click)="onInitForm('masse')"
-        ></button>
-        <button
-            pButton
-            pRipple
-            label="Rafraîchir"
-            (click)="OnRefresh()"
-            icon="pi pi-refresh"
-            class="p-button-secondary"
-        ></button>
-        <button
-            pButton
-            pRipple
-            label="Exporter"
-            (click)="OnExportExcel()"
-            icon="pi pi-download"
-            [disabled]="disableAction()"
-            class="p-button-helf"
-        ></button>
+        <button *ngIf="mappingService.IsAction()" pButton pRipple label="Demande Simple" icon="pi pi-plus"
+            class="p-button-success" (click)="onInitForm('simple')"></button>
+        <button pButton pRipple label="Demande en masse" *ngIf="mappingService.IsAction()" icon="pi pi-plus"
+            class="p-button btn-dark" (click)="onInitForm('masse')"></button>
+        <button pButton pRipple label="Rafraîchir" (click)="OnRefresh()" icon="pi pi-refresh"
+            class="p-button-secondary"></button>
+        <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download"
+            [disabled]="disableAction()" class="p-button-helf"></button>
     </div>
     <div class="d-flex gap-3">
-        <app-table-header
-            [count]="listTransactions"
-            [legende]="wrapperLabel"
-            [page]="page"
-            [totalPage]="totalPage"
-        ></app-table-header>
+        <app-table-header [count]="listTransactions" [legende]="wrapperLabel" [page]="page"
+            [totalPage]="totalPage"></app-table-header>
         <div class="table_header__input"></div>
     </div>
     <table [ngClass]="['native_table table']">
@@ -165,8 +93,7 @@
             <th class="text-center" [style]="{ width: '3rem' }">Actions</th>
         </thead>
         <tbody>
-            <tr
-                *ngFor="
+            <tr *ngFor="
                     let data of listTransactions
                         | paginate
                             : {
@@ -176,14 +103,10 @@
                                   totalItems: totalRecords
                               };
                     let i = index
-                "
-            >
+                ">
                 <td>{{ this.offset + i }}</td>
                 <td style="text-align: left">{{ data?.created_at }}</td>
-                <td
-                    (click)="copyData(data.numero_demande)"
-                    style="cursor: pointer"
-                >
+                <td (click)="copyData(data.numero_demande)" style="cursor: pointer">
                     {{ data?.numero_demande }}
                 </td>
                 <td>{{ data?.nb_demande_soumises ?? 'N/A' }}</td>
@@ -192,61 +115,26 @@
                     <td>{{ data?.nb_demande_identifiees ?? 'N/A' }}</td>
                 </ng-container>
                 <td class="text-center" [style]="{ width: '3rem' }">
-                    <span
-                        [ngStyle]="{ 'font-size': '16px' }"
-                        class="badge"
-                        [class.badge-dark]="
+                    <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-dark]="
                             data?.statut === BADGE_ETAPE.SOUMISSION
-                        "
-                        [class.badge-warning]="
+                        " [class.badge-warning]="
                             data?.statut === BADGE_ETAPE.TRAITEMENT
-                        "
-                        [class.badge-success]="
-                            data?.statut === BADGE_ETAPE.FINALISATEUR
-                        "
-                        [class.badge-green]="
-                            data?.statut === BADGE_ETAPE.CLOTURE
-                        "
-                    >
-                        {{ data.statut }}
+                        " [class.badge-success]="
+                            data?.statut ===
+                            BADGE_ETAPE.FINALISATEUR || data?.statut === BADGE_ETAPE.CLOTURE
+                        ">
+                        {{ data?.statut }}
                     </span>
                 </td>
                 <td class="text-center">
-                    <span
-                        [ngStyle]="{ 'font-size': '16px' }"
-                        class="badge"
-                        [class.badge-dark]="
-                            data?.traitement === BADGE_ETAT.RECU
-                        "
-                        [class.badge-dark-2]="
-                            data?.statut === BADGE_ETAPE.SOUMISSION &&
-                            data?.traitement === BADGE_ETAT.EN_ATTENTE
-                        "
-                        [class.badge-warning]="
-                            data?.statut === BADGE_ETAPE.TRAITEMENT &&
-                            data?.traitement === BADGE_ETAT.PARTIEL
-                        "
-                        [class.badge-warning-2]="
-                            data?.statut === BADGE_ETAPE.CLOTURE &&
-                            data?.traitement === BADGE_ETAT.ABANDONNE
-                        "
-                        [class.badge-info]="
-                            data?.statut === BADGE_ETAPE.TRAITEMENT &&
-                            data?.traitement === BADGE_ETAT.TOTAL
-                        "
-                        [class.badge-green]="
-                            data?.statut === BADGE_ETAPE.FINALISATEUR &&
-                            data?.traitement === BADGE_ETAT.CLOTURE
-                        "
-                        [class.badge-success]="
-                            data?.statut === BADGE_ETAPE.CLOTURE &&
-                            data?.traitement === BADGE_ETAT.ACCEPTE
-                        "
-                        [class.badge-danger]="
-                            data?.statut === BADGE_ETAPE.TRAITEMENT &&
-                            data?.traitement === BADGE_ETAT.REJETE
-                        "
-                    >
+                    <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+                        [class.badge-dark]="data?.traitement === BADGE_ETAT.RECU || (data?.statut === BADGE_ETAPE.SOUMISSION && data?.traitement === BADGE_ETAT.EN_ATTENTE)"
+                        [class.badge-warning]="data?.statut === BADGE_ETAPE.TRAITEMENT && (data?.traitement === BADGE_ETAT.PARTIEL || data?.traitement === BADGE_ETAT.EN_ATTENTE)"
+                        [class.badge-warning-2]=" data?.statut === BADGE_ETAPE.CLOTURE && data?.traitement === BADGE_ETAT.ABANDONNE"
+                        [class.badge-info]="data?.statut === BADGE_ETAPE.TRAITEMENT && data?.traitement === BADGE_ETAT.TOTAL"
+                        [class.badge-green]="data?.statut === BADGE_ETAPE.FINALISATEUR && data?.traitement === BADGE_ETAT.CLOTURE"
+                        [class.badge-danger]=" data?.traitement === BADGE_ETAT.REJETE || data?.traitement === BADGE_ETAT.REFUSE"
+                        [class.badge-success]="data?.statut === BADGE_ETAPE.CLOTURE && data?.traitement === BADGE_ETAT.ACCEPTE">
                         {{ data.traitement }}
                     </span>
                 </td>
@@ -254,74 +142,31 @@
                     {{ data?.demandeur_nom }} {{ data?.demandeur_prenoms }}
                 </td>
                 <td class="td-actions">
-                    <button
-                        pButton
-                        icon="pi pi-eye"
-                        pTooltip="Voir"
-                        tooltipPosition="top"
-                        (click)="OnShowTraitement(data)"
-                        class="p-button-dark"
-                    ></button>
-                    <button
-                        pButton
-                        icon="pi pi-pencil"
-                        tooltipPosition="top"
-                        class="p-button-secondary"
-                        (click)="onInitForm('modifier', data)"
-                        [pTooltip]="
+                    <button pButton icon="pi pi-folder-open" pTooltip="Voir" tooltipPosition="top"
+                        (click)="OnShowTraitement(data)" class="p-button-dark"></button>
+                    <button pButton icon="pi pi-pencil" tooltipPosition="top" class="p-button-secondary"
+                        (click)="onInitForm('modifier', data)" [pTooltip]="
                             data?.statut === BADGE_ETAPE.SOUMISSION &&
                             data.traitement === BADGE_ETAT.EN_ATTENTE
                                 ? 'Editer'
                                 : 'Impossible d\'editer'
-                        "
-                        [disabled]="
+                        " [disabled]="
                             data?.statut === BADGE_ETAPE.SOUMISSION &&
                             data.traitement === BADGE_ETAT.EN_ATTENTE
                                 ? false
                                 : true
-                        "
-                    ></button>
-                    <button
-                        pButton
-                        tooltipPosition="top"
-                        (click)="OnShowModalTraitement(data)"
-                        [ngClass]="
-                            data?.statut === BADGE_ETAPE.SOUMISSION &&
-                            data.traitement === BADGE_ETAT.EN_ATTENTE
-                                ? 'p-button-danger'
-                                : 'p-button-success'
-                        "
-                        [icon]="
-                            data?.statut === BADGE_ETAPE.SOUMISSION &&
-                            data.traitement === BADGE_ETAT.EN_ATTENTE
-                                ? 'pi pi-times'
-                                : 'pi pi-check'
-                        "
-                        [pTooltip]="
-                            data?.statut === BADGE_ETAPE.SOUMISSION &&
-                            data.traitement === BADGE_ETAT.EN_ATTENTE
-                                ? 'Abandonner'
-                                : 'Identifier'
-                        "
-                    ></button>
-                    <button
-                        pButton
-                        icon="pi pi-book"
-                        pTooltip="Journal"
-                        tooltipPosition="top"
-                        (click)="showJournal(data)"
-                        class="p-button-primary"
-                    ></button>
+                        "></button>
+                    <button pButton tooltipPosition="top" (click)="OnShowModalTraitement(data)"
+                        [ngClass]="getStyleButtonTraitement(data).class" [icon]="getStyleButtonTraitement(data).icon"
+                        [pTooltip]="getStyleButtonTraitement(data).tooltip"></button>
+                    <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top"
+                        (click)="showJournal(data)" class="p-button-primary"></button>
                 </td>
             </tr>
         </tbody>
     </table>
     <div [ngClass]="['pagination-controls']">
-        <pagination-controls
-            (pageChange)="onPageChange($event)"
-            previousLabel=""
-            nextLabel=""
-        >
+        <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
         </pagination-controls>
     </div>
 </div>

@@ -237,38 +237,25 @@
                     <span
                         [ngStyle]="{ 'font-size': '16px' }"
                         class="badge"
-                        [class.badge-dark]="data?.statut === stateSoumis"
-                        [class.badge-info]="data?.statut === stateTraite"
-                        [class.badge-success]="data?.statut === stateCloture"
-                    >
+                        [class.badge-dark]="data?.statut === BADGE_ETAPE.SOUMISSION || data?.statut === BADGE_STATUT.SOUMIS" 
+                        [class.badge-warning]="data?.statut === BADGE_ETAPE.TRAITEMENT" 
+                        [class.badge-success]="data?.statut === BADGE_ETAPE.FINALISATEUR" 
+                        [class.badge-green]="data?.statut === BADGE_ETAPE.CLOTURE"
+                        [class.badge-info]="data?.statut === BADGE_STATUT.TRAITE"
+                        [class.badge-success]="data?.statut === BADGE_STATUT.CLOTURE">
                         {{ data.statut }}
                     </span>
                 </td>
                 <td>
-                    <span
-                        [ngStyle]="{ 'font-size': '16px' }"
-                        class="badge"
-                        [class.badge-dark]="
-                            data?.traitement === BADGE_ETAT.EN_ATTENTE ||
-                            data?.traitement === BADGE_ETAT.RECU
-                        "
-                        [class.badge-danger]="
-                            data?.traitement === BADGE_ETAT.REJETE ||
-                            data?.traitement === treatmenRefuser
-                        "
-                        [class.badge-warning]="
-                            data?.traitement === BADGE_ETAT.ABANDONNE
-                        "
-                        [class.badge-info]="
-                            data?.traitement === BADGE_ETAT.ACCEPTE
-                        "
-                        [class.badge-success]="
-                            data?.statut === stateCloture &&
-                            data?.traitement === BADGE_ETAT.ACCEPTE
-                        "
-                    >
-                        {{ data.traitement }}
-                    </span>
+                    <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+                            [class.badge-dark]="data?.traitement === BADGE_ETAT.RECU || data?.traitement === BADGE_ETAT.EN_ATTENTE"
+                            [class.badge-warning]="data?.traitement === BADGE_ETAT.PARTIEL || data?.traitement === BADGE_ETAT.ABANDONNE"
+                            [class.badge-danger]=" data?.traitement === BADGE_ETAT.REJETE || data?.traitement === BADGE_ETAT.REFUSE"
+                            [class.badge-success]="data?.statut === BADGE_ETAPE.CLOTURE || data?.traitement === BADGE_ETAT.ACCEPTE"
+                            [class.badge-info]="data?.traitement === BADGE_ETAT.TOTAL"
+                            >
+                            {{ data.traitement }}
+                        </span>
                 </td>
                 <td>
                     {{ data?.current_date }}
