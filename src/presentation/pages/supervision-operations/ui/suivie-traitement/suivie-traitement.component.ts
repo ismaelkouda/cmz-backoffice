@@ -424,5 +424,19 @@ export class SuivieTraitementComponent implements OnInit {
       return {class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande'};
     }
   }
+
+  public getDateTraitement(data: any): string {
+    if(data?.traitement === BADGE_ETAT.RECU || data?.statut === BADGE_ETAPE.SOUMISSION) {
+      return data?.acquitte_a;
+    } else if(data?.statut === BADGE_ETAPE.TRAITEMENT) {
+      return data?.traite_a;
+    } else if(data?.statut === BADGE_ETAPE.CLOTURE) {
+      return data?.cloture_a;
+    } else if(data?.statut === BADGE_ETAPE.FINALISATEUR) {
+      return data?.finalise_a;
+    } else {
+      "N/A"
+    }
+  }
 }
 

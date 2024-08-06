@@ -17,7 +17,6 @@ import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from 'src/shared/constants/swalWithBootstrapButtonsParams.constant';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 const Swal = require('sweetalert2');
-
 @Component({
     selector: 'app-demande-masse',
     templateUrl: './demande-masse.component.html',
@@ -25,6 +24,10 @@ const Swal = require('sweetalert2');
 })
 
 export class DemandeMasseComponent implements OnInit {
+    public formMasseLibelle = {etape_1: "Etape 1 : Cliquez pour télécharger le fichier conteant les SIMs activées par OCI",
+        etape_2: "Etape 2 : Importez le fichier téléchargé complété avec les infos d'identifications de chaque SIM",
+        etape_3: "Etape 3 : Vérifiez la cohérence et la complétude du fichier importé"
+    } as const;
     public BADGE_ETAT = BADGE_ETAT;
     public BADGE_ETAPE = BADGE_ETAPE;
     public formTraitementMasse: FormGroup;
@@ -92,11 +95,13 @@ export class DemandeMasseComponent implements OnInit {
             usage_id: this.createFormControl(this.listDemandes?.usage_nom, null, true),
             nb_demande_soumises: this.createFormControl(this.listDemandes?.nb_demande_soumises, null, true),
             description: this.createFormControl(this.listDemandes?.description, null, true),
+            operation: this.createFormControl(this.listDemandes?.operation, null, true),
             accepte: this.createFormControl(null, this.params.vue === 'traitement' ? Validators.required : null),
             commentaire: [this.commentairePatchValue()],
             sims_file: this.createFormControl(null, this.params.vue === 'demande' ? Validators.required : null),
-            // commentaire_cloture: this.createFormControl(this.listDemandes?.commentaire_cloture, null, true),
-            // commentaire_traitement: this.createFormControl(this.listDemandes?.commentaire_traitement, null, true),
+            commentaire_traitement: this.createFormControl(this.listDemandes?.commentaire_traitement, null, true),
+            commentaire_finalisation: this.createFormControl(this.listDemandes?.commentaire_finalisation, null, true),
+            commentaire_cloture: this.createFormControl(this.listDemandes?.commentaire_cloture, null, true),
         });
 
         if (this.isTraiteState()) {
@@ -211,36 +216,12 @@ export class DemandeMasseComponent implements OnInit {
     }
     async onSaveTraitements(dataToSend: {}): Promise<void> {
         dataToSend = { accepte: this.formTraitementMasse.value.accepte, numero_demande: this.listDemandes?.numero_demande, commentaire: this.formTraitementMasse?.value?.commentaire };
-        Swal.mixin({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.button}).fire({
-            title: "Vous êtes sur le point de clôturer la demande",
-            input: 'text',
-            inputPlaceholder: 'Ex: Commentez...',
-            inputAttributes: {
-                autocapitalize: 'off'
-            },
-            showCancelButton: true,
-            cancelButtonText: "Annuler        ",
-            confirmButtonText: "Confirmer",
-            showLoaderOnConfirm: true,
-            preConfirm: async (commentaire) => {
-                try {
-                    this.response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(FormatFormData({ ...dataToSend, commentaire: commentaire })), this.toastrService, this.loadingBarService)
-                    if (!this.response.ok) {
-                        // return Swal.showValidationMessage(`${JSON.stringify(await this.response.message)}`);
-                        if (!this.response?.error) this.successHandle(this.response)
-                    }
-                    // return this.response.message;
-                } catch (error) {
-                    console.log('error', error)
-                    Swal.showValidationMessage(`Une erreur s'est produite`);
-                }
-            },
-            allowOutsideClick: () => !Swal.isLoading()
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // this.successHandle(this.response);
-            }
-        })
+        const htmlMessage = `Voulez-vous clôturer la demande ?`;
+        const result = await Swal.fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: htmlMessage });
+        if (result.isConfirmed) {
+            const response: any = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
+            if (response?.error === false) this.successHandle(response);
+        }
     }
 
     onLetDownDemands(dataToSend = { numero_demande: this.listDemandes?.numero_demande }) {
@@ -288,13 +269,13 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     public OnGetRapportCodeStyle(data: any): string {
-        if (data?.etat_soumission === this.treatmenAcquiter && data?.etat_traitement !== "rejeté") {
+        if (data?.etat_soumission === BADGE_ETAT.RECU && (data?.etat_cloture !== BADGE_ETAT.REFUSE || data?.etat_cloture !== BADGE_ETAT.REJETE)) {
             return "detailsDemandeColorBlue";
-        } else if (data?.etat_soumission === "abandonné") {
+        } else if (data?.etat_soumission === BADGE_ETAT.ABANDONNE) {
             return "detailsDemandeColorYellow";
-        } else if (data?.etat_traitement === "rejeté") {
+        } else if (data?.etat_traitement === BADGE_ETAT.REJETE || data?.etat_cloture === BADGE_ETAT.REFUSE) {
             return "detailsDemandeColorRed";
-        } else if (data?.etat_traitement === "partiel" || data?.etat_traitement === "total") {
+        } else if (data?.etat_traitement === BADGE_ETAT.PARTIEL || data?.etat_traitement === BADGE_ETAT.TOTAL) {
             return "detailsDemandeColorGreen";
         } else {
             return "detailsDemandeColorBlack";

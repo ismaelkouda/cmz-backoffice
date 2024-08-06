@@ -1,7 +1,5 @@
 <div class="modal-content" *ngIf="IsLoadData">
-    <div
-        class="modal-header"
-        style="
+    <div class="modal-header" style="
             background-color: #569c5b;
             color: #fff;
             cursor: all-scroll;
@@ -9,23 +7,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-        "
-    >
+        ">
         <h4 class="modal-title pl-3">
             Détails
-            <strong
-                class="cursor-pointer text-center"
-                (click)="copyTransaction(transaction.transaction)"
-                >[{{ transaction?.transaction }}]</strong
-            >
+            <strong class="cursor-pointer text-center" (click)="copyTransaction(transaction.transaction)">[{{
+                transaction?.transaction }}]</strong>
         </h4>
-        <button
-            type="button"
-            class="close"
-            (click)="handleCloseModal()"
-            aria-label="Close"
-            style="margin-left: auto"
-        >
+        <button type="button" class="close" (click)="handleCloseModal()" aria-label="Close" style="margin-left: auto">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -40,52 +28,37 @@
                         </legend>
                         <div class="d-flex flex-column gap-2">
                             <div>
-                                <span class="mb-0 fs__30"
-                                    ><strong>Matricule&nbsp;:&nbsp;</strong
-                                    >{{
-                                        detailTransaction?.demandeur_matricule ??
-                                            'N/A'
-                                    }}</span
-                                >
+                                <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{
+                                    detailTransaction?.demandeur_matricule ??
+                                    'N/A'
+                                    }}</span>
                             </div>
                             <div>
-                                <span class="mb-0 fs__30"
-                                    ><strong>Nom complet&nbsp;:&nbsp;</strong
-                                    >{{
-                                        detailTransaction?.demandeur_nom ??
-                                            'N/A'
+                                <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>{{
+                                    detailTransaction?.demandeur_nom ??
+                                    'N/A'
                                     }}
                                     {{
-                                        detailTransaction?.demandeur_prenoms ??
-                                            'N/A'
-                                    }}</span
-                                >
+                                    detailTransaction?.demandeur_prenoms ??
+                                    'N/A'
+                                    }}</span>
                             </div>
                             <div>
-                                <span class="mb-0 fs__30"
-                                    ><strong>Contact&nbsp;:&nbsp;</strong
-                                    >{{
-                                        detailTransaction?.demandeur_contacts ??
-                                            'N/A'
-                                    }}</span
-                                >
+                                <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{
+                                    detailTransaction?.demandeur_contacts ??
+                                    'N/A'
+                                    }}</span>
                             </div>
                             <div>
-                                <span class="mb-0 fs__30"
-                                    ><strong>Email&nbsp;:&nbsp;</strong
-                                    >{{
-                                        detailTransaction?.demandeur_email ??
-                                            'N/A'
-                                    }}</span
-                                >
+                                <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{
+                                    detailTransaction?.demandeur_email ??
+                                    'N/A'
+                                    }}</span>
                             </div>
                             <div>
-                                <span class="mb-0 fs__30"
-                                    ><strong>Date&nbsp;:&nbsp;</strong
-                                    >{{
-                                        transaction?.created_at ?? 'N/A'
-                                    }}</span
-                                >
+                                <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{
+                                    transaction?.created_at ?? 'N/A'
+                                    }}</span>
                             </div>
                         </div>
                     </fieldset>
@@ -98,154 +71,198 @@
                         </legend>
                         <div class="d-flex flex-column gap-2">
                             <div>
-                                <span class="mb-0 fs__30"
-                                    ><strong>Matricule&nbsp;:&nbsp;</strong
-                                    >{{
-                                        detailTransaction?.intervenant
-                                            ?.matricule ?? 'N/A'
-                                    }}</span
-                                >
+                                <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>{{
+                                    detailTransaction?.intervenant
+                                    ?.matricule ?? 'N/A'
+                                    }}</span>
                             </div>
                             <div>
-                                <span class="mb-0 fs__30"
-                                    ><strong>Nom Complet&nbsp;:&nbsp;</strong
-                                    >{{
-                                        detailTransaction?.intervenant?.nom ??
-                                            'N/A'
+                                <span class="mb-0 fs__30"><strong>Nom Complet&nbsp;:&nbsp;</strong>{{
+                                    detailTransaction?.intervenant?.nom ??
+                                    'N/A'
                                     }}
                                     {{
-                                        detailTransaction?.intervenant
-                                            ?.prenoms ?? 'N/A'
-                                    }}</span
-                                >
+                                    detailTransaction?.intervenant
+                                    ?.prenoms ?? 'N/A'
+                                    }}</span>
                             </div>
                             <div>
-                                <span class="mb-0 fs__30"
-                                    ><strong>Contact&nbsp;:&nbsp;</strong
-                                    >{{
-                                        detailTransaction?.intervenant
-                                            ?.contacts ?? 'N/A'
-                                    }}</span
-                                >
+                                <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>{{
+                                    detailTransaction?.intervenant
+                                    ?.contacts ?? 'N/A'
+                                    }}</span>
                             </div>
                             <div>
-                                <span class="mb-0 fs__30"
-                                    ><strong>Email&nbsp;:&nbsp;</strong
-                                    >{{
-                                        detailTransaction?.intervenant?.email ??
-                                            'N/A'
-                                    }}</span
-                                >
+                                <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>{{
+                                    detailTransaction?.intervenant?.email ??
+                                    'N/A'
+                                    }}</span>
                             </div>
                             <div>
-                                <span class="mb-0 fs__30"
-                                    ><strong>Date&nbsp;:&nbsp;</strong
-                                    >{{
-                                        detailTransaction?.rapport
-                                            ?.date_traitement ??
-                                            detailTransaction?.rapport
-                                                ?.date_acquittement
-                                    }}</span
-                                >
+                                <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>{{
+                                    detailTransaction?.rapport
+                                    ?.date_traitement ??
+                                    detailTransaction?.rapport
+                                    ?.date_acquittement
+                                    }}</span>
                             </div>
                         </div>
                     </fieldset>
                               
                 </div>
+                <div>
+                    <fieldset>
+                        <legend>
+                            <strong>Finalisateur</strong>
+                        </legend>
+                        <div class="d-flex flex-column gap-2">
+                            <div>
+                                <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>
+                                    {{
+                                    detailTransaction?.finalisateur
+                                    ?.matricule ?? 'N/A'
+                                    }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>
+                                    {{
+                                    detailTransaction?.finalisateur?.nom ??
+                                    'N/A'
+                                    }}
+                                    {{
+                                    detailTransaction?.finalisateur
+                                    ?.prenoms ?? 'N/A'
+                                    }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30">
+                                    <sstrong>Contact&nbsp;:&nbsp;</sstrong>
+                                    {{
+                                    detailTransaction?.finalisateur
+                                    ?.contacts ?? 'N/A'
+                                    }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>
+                                    {{
+                                    detailTransaction?.finalisateur?.email ??
+                                    'N/A'
+                                    }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30">
+                                    <strong>Date&nbsp;:&nbsp;</strong>
+                                    {{ detailTransaction?.finalise_a ?? 'N/A' }}
+                                </span>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
             </div>
             <div class="col-lg-10">
+                <div [ngClass]="
+                        OnGetRapportCodeStyle(detailTransaction?.rapport?.code)
+                    " role="alert" style="display: flex; justify-content: space-between">
+                    <div>
+                        <strong class="wrapper-header">
+                            Reception :
+                            {{
+                            [
+                            detailTransaction?.rapport
+                            ?.date_acquittement
+                            ] ?? '-- : --'
+                            }}</strong>
+                    </div>
+                    <div>
+                        <strong class="wrapper-header">Traitement :
+                            {{
+                            detailTransaction?.rapport?.statut_traitement ??
+                            'N/A'
+                            }}
+                            [{{
+                            detailTransaction?.rapport?.date_traitement ??
+                            '-- : --'
+                            }}]</strong>
+                    </div>
+                    <div>
+                        <strong class="wrapper-header">
+                            Clôture :
+                            {{
+                            [detailTransaction?.rapport?.date_cloture] ??
+                            '-- : --'
+                            }}</strong>
+                    </div>
+                </div>
                 <div>
                     <div class="d-flex justify-content-between">
                         <div>
-                            <h4
-                                *ngIf="detailTransaction?.rapport"
-                                class="wrapper-header"
-                            >
-                                <strong
-                                    >{{
-                                        formatTitleOuvrage(
-                                            detailTransaction?.operation
-                                        )
+                            <h4 *ngIf="detailTransaction?.rapport" class="wrapper-header">
+                                <strong>{{
+                                    formatTitleOuvrage(
+                                    detailTransaction?.operation
+                                    )
                                     }}
-                                    <span
-                                        style="
+                                    <span style="
                                             color: #549b3d;
                                             font-weight: bold;
-                                        "
-                                    >
+                                        ">
                                         <span *ngIf="IsContentSim()">
                                             {{
-                                                detailTransaction?.point_emplacement ??
-                                                    'N/A'
+                                            detailTransaction?.point_emplacement ??
+                                            'N/A'
                                             }}
                                             [{{
-                                                detailTransaction?.msisdn ??
-                                                    'N/A'
-                                            }}] </span
-                                        >&nbsp;
-                                        <span
-                                            *ngIf="IsProvisionningTransaction()"
-                                        >
+                                            detailTransaction?.msisdn ??
+                                            'N/A'
+                                            }}] </span>&nbsp;
+                                        <span *ngIf="IsProvisionningTransaction()">
                                             {{
-                                                detailTransaction?.reference ??
-                                                    'N/A'
+                                            detailTransaction?.reference ??
+                                            'N/A'
                                             }}
                                             [{{
-                                                detailTransaction?.rapport
-                                                    ?.code ?? 'N/A'
-                                            }}] </span
-                                        >&nbsp;
+                                            detailTransaction?.rapport
+                                            ?.code ?? 'N/A'
+                                            }}] </span>&nbsp;
                                         <span *ngIf="IsAchatTransaction()">
                                             {{
-                                                detailTransaction?.numero_commande ??
-                                                    'N/A'
+                                            detailTransaction?.numero_commande ??
+                                            'N/A'
                                             }}
                                             [{{
-                                                detailTransaction?.rapport
-                                                    ?.code ?? 'N/A'
-                                            }}] </span
-                                        >&nbsp;
-                                        <span
-                                            *ngIf="
+                                            detailTransaction?.rapport
+                                            ?.code ?? 'N/A'
+                                            }}] </span>&nbsp;
+                                        <span *ngIf="
                                                 detailTransaction?.rapport
                                                     ?.identifiant
-                                            "
-                                            >[{{
-                                                detailTransaction?.rapport
-                                                    ?.identifiant ?? 'N/A'
-                                            }}]</span
-                                        >
+                                            ">[{{
+                                            detailTransaction?.rapport
+                                            ?.identifiant ?? 'N/A'
+                                            }}]</span>
                                     </span>
                                 </strong>
                             </h4>
                         </div>
                         <div class="wrapper-header" style="font-size: 20px">
-                            Statut :&nbsp;<b
-                                ><span>{{ detailTransaction?.statut }}</span></b
-                            >
+                            Statut :&nbsp;<b><span>{{ detailTransaction?.statut }}</span></b>
                         </div>
                         <div class="wrapper-header" style="font-size: 20px">
-                            Date de traitement :&nbsp;<b
-                                ><span>{{ IscurrentDate() ?? 'N/A' }}</span></b
-                            >
+                            Date de traitement :&nbsp;<b><span>{{ IscurrentDate() ?? 'N/A' }}</span></b>
                         </div>
                     </div>
-                    <hr
-                        style="
+                    <hr style="
                             position: relative;
                             top: -0.2rem;
                             margin-top: -0.8rem;
-                        "
-                    />
+                        " />
                     <!--------------LIGNE----------CREDIT------------FORMS----------------->
-                    <div
-                        *ngIf="transaction?.operation === operationLigneCredit"
-                        class="form-container"
-                    >
-                        <div
-                            [hidden]="filterTab !== 'first-item'"
-                            [formGroup]="ligneForm"
-                        >
+                    <div *ngIf="transaction?.operation === operationLigneCredit" class="form-container">
+                        <div [hidden]="filterTab !== 'first-item'" [formGroup]="ligneForm">
                             <fieldset>
                                 <legend>
                                     <strong>Information de Transaction</strong>
@@ -256,12 +273,8 @@
                                             <label>
                                                 <b>Montant</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="montant"
-                                                placeholder="montant"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="montant" placeholder="montant"
+                                                pInputText />
                                         </div>
                                     </div>
                                     <div class="col-md-2">
@@ -269,15 +282,9 @@
                                             <label>
                                                 <b>Type Justificatif</b>
                                             </label>
-                                            <p-dropdown
-                                                [options]="listTypeJustificatif"
-                                                formControlName="type_justificatif"
-                                                placeholder="Type"
-                                            >
-                                                <ng-template
-                                                    let-data
-                                                    pTemplate="item"
-                                                >
+                                            <p-dropdown [options]="listTypeJustificatif"
+                                                formControlName="type_justificatif" placeholder="Type">
+                                                <ng-template let-data pTemplate="item">
                                                     <div class="country-item">
                                                         <div>
                                                             {{ data }}
@@ -292,31 +299,20 @@
                                             <label>
                                                 <b>Description</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="description"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="description" pInputText />
                                         </div>
                                     </div>
                                 </div>
                                 <br />
                                 <div class="justificatif-container">
                                     <div *ngIf="IsJustificatif()">
-                                        <button
-                                            pButton
-                                            pRipple
-                                            label="Télécharger le justificatif"
-                                            icon="pi pi-download"
-                                            class="p-button-success"
-                                            (click)="downloadFile()"
-                                        ></button>
+                                        <button pButton pRipple label="Télécharger le justificatif"
+                                            icon="pi pi-download" class="p-button-success"
+                                            (click)="downloadFile()"></button>
                                     </div>
                                     <div class="justificatif-error">
-                                        <span class="" *ngIf="!IsJustificatif()"
-                                            >Aucun justificatif pour cette
-                                            transaction</span
-                                        >
+                                        <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette
+                                            transaction</span>
                                     </div>
                                 </div>
                             </fieldset>
@@ -324,80 +320,40 @@
                                 <legend>
                                     <strong>Traitement</strong>
                                 </legend>
-                                <div
-                                    class="wrapper-evaluation"
-                                    style="display: flex; gap: 1rem"
-                                >
+                                <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
                                     <div class="block-checked">
-                                        <div
-                                            style="margin-left: 8%"
-                                            class="ml-3"
-                                        >
-                                            <span
-                                                for="accepte"
-                                                style="
+                                        <div style="margin-left: 8%" class="ml-3">
+                                            <span for="accepte" style="
                                                     font-size: 23px;
                                                     margin-left: 5%;
                                                     font-weight: 800;
-                                                "
-                                                >Accepté ?
+                                                ">Accepté ?
                                             </span>
                                             <div class="wrapper-check">
-                                                <div
-                                                    class="form-check form-check-inline"
-                                                >
-                                                    <input
-                                                        formControlName="provisionning_accepte"
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        name="infosLigne"
-                                                        value="oui"
-                                                        id="infosLigne"
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="infosLigne"
-                                                        style="
+                                                <div class="form-check form-check-inline">
+                                                    <input formControlName="provisionning_accepte"
+                                                        class="form-check-input" type="radio" name="infosLigne"
+                                                        value="oui" id="infosLigne" />
+                                                    <label class="form-check-label" for="infosLigne" style="
                                                             width: auto !important;
-                                                        "
-                                                        >Oui</label
-                                                    >
+                                                        ">Oui</label>
                                                 </div>
-                                                <div
-                                                    class="form-check form-check-inline"
-                                                >
-                                                    <input
-                                                        formControlName="provisionning_accepte"
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        name="infosLigne"
-                                                        value="non"
-                                                        id="infosLigne"
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="infosLigne"
-                                                        style="
+                                                <div class="form-check form-check-inline">
+                                                    <input formControlName="provisionning_accepte"
+                                                        class="form-check-input" type="radio" name="infosLigne"
+                                                        value="non" id="infosLigne" />
+                                                    <label class="form-check-label" for="infosLigne" style="
                                                             width: auto !important;
-                                                        "
-                                                        >Non</label
-                                                    >
+                                                        ">Non</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div style="width: 100%">
-                                        <label for="commentaire"
-                                            ><strong>Commentaire</strong></label
-                                        >
-                                        <textarea
-                                            name="commentaire"
-                                            formControlName="provisionning_accepte_comment"
-                                            class="form-control"
-                                            rows="2"
-                                            style="width: 100%; margin-top: 0%"
-                                            placeholder="Entrer un commentaire"
-                                        >
+                                        <label for="commentaire"><strong>Commentaire</strong></label>
+                                        <textarea name="commentaire" formControlName="provisionning_accepte_comment"
+                                            class="form-control" rows="2" style="width: 100%; margin-top: 0%"
+                                            placeholder="Entrer un commentaire">
                                         </textarea>
                                     </div>
                                 </div>
@@ -405,14 +361,8 @@
                         </div>
                     </div>
                     <!--------------DEPOT----------VOLUME------------FORMS----------------->
-                    <div
-                        *ngIf="transaction?.operation === OperationVolumeData"
-                        class="form-container"
-                    >
-                        <div
-                            [hidden]="filterTab !== 'first-item'"
-                            [formGroup]="volumeForm"
-                        >
+                    <div *ngIf="transaction?.operation === OperationVolumeData" class="form-container">
+                        <div [hidden]="filterTab !== 'first-item'" [formGroup]="volumeForm">
                             <fieldset>
                                 <legend [ngStyle]="{ width: '100%' }">
                                     <b>Informations de Transaction</b>
@@ -423,11 +373,7 @@
                                             <label>
                                                 <b>MSIDN</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="msisdn"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="msisdn" pInputText />
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -435,11 +381,7 @@
                                             <label>
                                                 <b>IMSI</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="imsi"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="imsi" pInputText />
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -448,11 +390,9 @@
                                                 <b>Statut Contrat</b>
                                             </label>
                                             <!-- <input type="text" formControlName="statut_contrat" pInputText /> -->
-                                            <app-statut-contrat
-                                                [statut]="
+                                            <app-statut-contrat [statut]="
                                                     detailTransaction?.statut_contrat
-                                                "
-                                            ></app-statut-contrat>
+                                                "></app-statut-contrat>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -460,11 +400,7 @@
                                             <label>
                                                 <b>Emplacement</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="point_emplacement"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="point_emplacement" pInputText />
                                         </div>
                                     </div>
                                 </div>
@@ -487,22 +423,13 @@
                                         <div class="form-group">
                                             <label style="opacity: 0">
                                                 <b>
-                                                    <span class="text-danger"
-                                                        >*</span
-                                                    ></b
-                                                >
+                                                    <span class="text-danger">*</span></b>
                                             </label>
-                                            <input
-                                                [disabled]="true"
-                                                class="infos_text"
-                                                [value]="
+                                            <input [disabled]="true" class="infos_text" [value]="
                                                     sourceStock === 'stock'
                                                         ? sourceSoldeDotation
                                                         : sourceSoldeDotationOrange
-                                                "
-                                                type="text"
-                                                pInputText
-                                            />
+                                                " type="text" pInputText />
                                         </div>
                                     </div>
                                 </div>
@@ -510,35 +437,17 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>
-                                                <b
-                                                    >Voume (Go)<span
-                                                        class="text-danger"
-                                                        >*</span
-                                                    ></b
-                                                >
+                                                <b>Voume (Go)<span class="text-danger">*</span></b>
                                             </label>
-                                            <input
-                                                type="number"
-                                                formControlName="volume"
-                                                pInputText
-                                            />
+                                            <input type="number" formControlName="volume" pInputText />
                                         </div>
                                     </div>
                                     <div class="col-md-9">
                                         <div class="form-group">
                                             <label>
-                                                <b
-                                                    >Description<span
-                                                        class="text-danger"
-                                                        >*</span
-                                                    ></b
-                                                >
+                                                <b>Description<span class="text-danger">*</span></b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="description"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="description" pInputText />
                                         </div>
                                     </div>
                                 </div>
@@ -546,20 +455,13 @@
                                 <br />
                                 <div class="justificatif-container">
                                     <div *ngIf="IsJustificatif()">
-                                        <button
-                                            pButton
-                                            pRipple
-                                            label="Télécharger le justificatif"
-                                            icon="pi pi-download"
-                                            class="p-button-success"
-                                            (click)="downloadFile()"
-                                        ></button>
+                                        <button pButton pRipple label="Télécharger le justificatif"
+                                            icon="pi pi-download" class="p-button-success"
+                                            (click)="downloadFile()"></button>
                                     </div>
                                     <div class="justificatif-error">
-                                        <span class="" *ngIf="!IsJustificatif()"
-                                            >Aucun justificatif pour cette
-                                            transaction</span
-                                        >
+                                        <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette
+                                            transaction</span>
                                     </div>
                                 </div>
                             </fieldset>
@@ -567,80 +469,40 @@
                                 <legend>
                                     <strong>Traitement</strong>
                                 </legend>
-                                <div
-                                    class="wrapper-evaluation"
-                                    style="display: flex; gap: 1rem"
-                                >
+                                <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
                                     <div class="block-checked">
-                                        <div
-                                            style="margin-left: 8%"
-                                            class="ml-3"
-                                        >
-                                            <span
-                                                for="accepte"
-                                                style="
+                                        <div style="margin-left: 8%" class="ml-3">
+                                            <span for="accepte" style="
                                                     font-size: 23px;
                                                     margin-left: 5%;
                                                     font-weight: 800;
-                                                "
-                                                >Accepté ?
+                                                ">Accepté ?
                                             </span>
                                             <div class="wrapper-check">
-                                                <div
-                                                    class="form-check form-check-inline"
-                                                >
-                                                    <input
-                                                        formControlName="volume_data_accepte"
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        name="infosLigne"
-                                                        value="oui"
-                                                        id="infosLigne"
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="infosLigne"
-                                                        style="
+                                                <div class="form-check form-check-inline">
+                                                    <input formControlName="volume_data_accepte"
+                                                        class="form-check-input" type="radio" name="infosLigne"
+                                                        value="oui" id="infosLigne" />
+                                                    <label class="form-check-label" for="infosLigne" style="
                                                             width: auto !important;
-                                                        "
-                                                        >Oui</label
-                                                    >
+                                                        ">Oui</label>
                                                 </div>
-                                                <div
-                                                    class="form-check form-check-inline"
-                                                >
-                                                    <input
-                                                        formControlName="volume_data_accepte"
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        name="infosLigne"
-                                                        value="non"
-                                                        id="infosLigne"
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="infosLigne"
-                                                        style="
+                                                <div class="form-check form-check-inline">
+                                                    <input formControlName="volume_data_accepte"
+                                                        class="form-check-input" type="radio" name="infosLigne"
+                                                        value="non" id="infosLigne" />
+                                                    <label class="form-check-label" for="infosLigne" style="
                                                             width: auto !important;
-                                                        "
-                                                        >Non</label
-                                                    >
+                                                        ">Non</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div style="width: 100%">
-                                        <label for="commentaire"
-                                            ><strong>Commentaire</strong></label
-                                        >
-                                        <textarea
-                                            name="commentaire"
-                                            formControlName="volume_data_accepte_comment"
-                                            class="form-control"
-                                            rows="2"
-                                            style="width: 100%; margin-top: 0%"
-                                            placeholder="Entrer un commentaire"
-                                        >
+                                        <label for="commentaire"><strong>Commentaire</strong></label>
+                                        <textarea name="commentaire" formControlName="volume_data_accepte_comment"
+                                            class="form-control" rows="2" style="width: 100%; margin-top: 0%"
+                                            placeholder="Entrer un commentaire">
                                         </textarea>
                                     </div>
                                 </div>
@@ -648,14 +510,8 @@
                         </div>
                     </div>
                     <!--------------CHANGEMENT------------FORMS----------------->
-                    <div
-                        *ngIf="transaction?.operation === operationSwap"
-                        class="form-container"
-                    >
-                        <div
-                            [hidden]="filterTab !== 'first-item'"
-                            [formGroup]="swapForm"
-                        >
+                    <div *ngIf="transaction?.operation === operationSwap" class="form-container">
+                        <div [hidden]="filterTab !== 'first-item'" [formGroup]="swapForm">
                             <fieldset>
                                 <legend>
                                     <b>Informations sur la SIM</b>
@@ -666,11 +522,7 @@
                                             <label>
                                                 <b>MSIDN</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="msisdn"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="msisdn" pInputText />
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -678,11 +530,7 @@
                                             <label>
                                                 <b>IMSI</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="imsi"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="imsi" pInputText />
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -690,11 +538,9 @@
                                             <label>
                                                 <b>Statut Contrat</b>
                                             </label>
-                                            <app-statut-contrat
-                                                [statut]="
+                                            <app-statut-contrat [statut]="
                                                     detailTransaction?.statut_contrat
-                                                "
-                                            ></app-statut-contrat>
+                                                "></app-statut-contrat>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -702,90 +548,53 @@
                                             <label>
                                                 <b>Emplacement</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="point_emplacement"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="point_emplacement" pInputText />
                                         </div>
                                     </div>
                                 </div>
                             </fieldset>
                             <fieldset>
                                 <legend>
-                                    <b
-                                        >Source Stock SIM / Détails de la
-                                        Transaction</b
-                                    >
+                                    <b>Source Stock SIM / Détails de la
+                                        Transaction</b>
                                 </legend>
                                 <div class="d-flex gap-4">
                                     <div>
                                         <div class="d-flex gap-4">
-                                            <div
-                                                class="trans-radio d-flex gap-2"
-                                            >
-                                                <p-radioButton
-                                                    name="valeur"
-                                                    [value]="'stock'"
-                                                    formControlName="bac_a_pioche"
-                                                    [inputId]="'stock'"
-                                                ></p-radioButton>
-                                                <label
-                                                    [for]="'stock'"
-                                                    style="margin-top: 0.9rem"
-                                                    >Stock SIM/Tenant</label
-                                                >
+                                            <div class="trans-radio d-flex gap-2">
+                                                <p-radioButton name="valeur" [value]="'stock'"
+                                                    formControlName="bac_a_pioche" [inputId]="'stock'"></p-radioButton>
+                                                <label [for]="'stock'" style="margin-top: 0.9rem">Stock
+                                                    SIM/Tenant</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div>
                                         <div class="d-flex gap-4">
-                                            <div
-                                                class="trans-radio d-flex gap-2"
-                                            >
-                                                <p-radioButton
-                                                    name="valeur"
-                                                    [value]="'orangeci'"
+                                            <div class="trans-radio d-flex gap-2">
+                                                <p-radioButton name="valeur" [value]="'orangeci'"
                                                     formControlName="bac_a_pioche"
-                                                    [inputId]="'orangeci'"
-                                                ></p-radioButton>
-                                                <label
-                                                    [for]="'orangeci'"
-                                                    style="margin-top: 0.9rem"
-                                                    >Stock SIM/OCI</label
-                                                >
+                                                    [inputId]="'orangeci'"></p-radioButton>
+                                                <label [for]="'orangeci'" style="margin-top: 0.9rem">Stock
+                                                    SIM/OCI</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="text-wrapper mt-2">
-                                    <input
-                                        [value]="
+                                    <input [value]="
                                             sourceStockSwap === 'stock'
                                                 ? sourceStockTenantSim
                                                 : sourceStockOrangeSim
-                                        "
-                                        type="text"
-                                        [disabled]="true"
-                                        pInputText
-                                    />
+                                        " type="text" [disabled]="true" pInputText />
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>
-                                                <b
-                                                    >Description<span
-                                                        class="text-danger"
-                                                        >*</span
-                                                    ></b
-                                                >
+                                                <b>Description<span class="text-danger">*</span></b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="description"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="description" pInputText />
                                         </div>
                                     </div>
                                 </div>
@@ -793,20 +602,13 @@
                                 <br />
                                 <div class="justificatif-container">
                                     <div *ngIf="IsJustificatif()">
-                                        <button
-                                            pButton
-                                            pRipple
-                                            label="Télécharger le justificatif"
-                                            icon="pi pi-download"
-                                            class="p-button-success"
-                                            (click)="downloadFile()"
-                                        ></button>
+                                        <button pButton pRipple label="Télécharger le justificatif"
+                                            icon="pi pi-download" class="p-button-success"
+                                            (click)="downloadFile()"></button>
                                     </div>
                                     <div class="justificatif-error">
-                                        <span class="" *ngIf="!IsJustificatif()"
-                                            >Aucun justificatif pour cette
-                                            transaction</span
-                                        >
+                                        <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette
+                                            transaction</span>
                                     </div>
                                 </div>
                             </fieldset>
@@ -814,80 +616,38 @@
                                 <legend>
                                     <strong>Traitement</strong>
                                 </legend>
-                                <div
-                                    class="wrapper-evaluation"
-                                    style="display: flex; gap: 1rem"
-                                >
+                                <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
                                     <div class="block-checked">
-                                        <div
-                                            style="margin-left: 8%"
-                                            class="ml-3"
-                                        >
-                                            <span
-                                                for="accepte"
-                                                style="
+                                        <div style="margin-left: 8%" class="ml-3">
+                                            <span for="accepte" style="
                                                     font-size: 23px;
                                                     margin-left: 5%;
                                                     font-weight: 800;
-                                                "
-                                                >Accepté ?
+                                                ">Accepté ?
                                             </span>
                                             <div class="wrapper-check">
-                                                <div
-                                                    class="form-check form-check-inline"
-                                                >
-                                                    <input
-                                                        formControlName="swap_accepte"
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        name="infosLigne"
-                                                        value="oui"
-                                                        id="infosLigne"
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="infosLigne"
-                                                        style="
+                                                <div class="form-check form-check-inline">
+                                                    <input formControlName="swap_accepte" class="form-check-input"
+                                                        type="radio" name="infosLigne" value="oui" id="infosLigne" />
+                                                    <label class="form-check-label" for="infosLigne" style="
                                                             width: auto !important;
-                                                        "
-                                                        >Oui</label
-                                                    >
+                                                        ">Oui</label>
                                                 </div>
-                                                <div
-                                                    class="form-check form-check-inline"
-                                                >
-                                                    <input
-                                                        formControlName="swap_accepte"
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        name="infosLigne"
-                                                        value="non"
-                                                        id="infosLigne"
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="infosLigne"
-                                                        style="
+                                                <div class="form-check form-check-inline">
+                                                    <input formControlName="swap_accepte" class="form-check-input"
+                                                        type="radio" name="infosLigne" value="non" id="infosLigne" />
+                                                    <label class="form-check-label" for="infosLigne" style="
                                                             width: auto !important;
-                                                        "
-                                                        >Non</label
-                                                    >
+                                                        ">Non</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div style="width: 100%">
-                                        <label for="commentaire"
-                                            ><strong>Commentaire</strong></label
-                                        >
-                                        <textarea
-                                            name="commentaire"
-                                            formControlName="swap_accepte_comment"
-                                            class="form-control"
-                                            rows="2"
-                                            style="width: 100%; margin-top: 0%"
-                                            placeholder="Entrer un commentaire"
-                                        >
+                                        <label for="commentaire"><strong>Commentaire</strong></label>
+                                        <textarea name="commentaire" formControlName="swap_accepte_comment"
+                                            class="form-control" rows="2" style="width: 100%; margin-top: 0%"
+                                            placeholder="Entrer un commentaire">
                                         </textarea>
                                     </div>
                                 </div>
@@ -895,14 +655,8 @@
                         </div>
                     </div>
                     <!--------------RESILIATION------------FORMS----------------->
-                    <div
-                        *ngIf="transaction?.operation === OperationResiliation"
-                        class="form-container"
-                    >
-                        <div
-                            [hidden]="filterTab !== 'first-item'"
-                            [formGroup]="resiliationForm"
-                        >
+                    <div *ngIf="transaction?.operation === OperationResiliation" class="form-container">
+                        <div [hidden]="filterTab !== 'first-item'" [formGroup]="resiliationForm">
                             <fieldset>
                                 <legend>
                                     <b>Informations sur la SIM</b>
@@ -913,11 +667,7 @@
                                             <label>
                                                 <b>MSIDN</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="msisdn"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="msisdn" pInputText />
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -925,11 +675,7 @@
                                             <label>
                                                 <b>IMSI</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="imsi"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="imsi" pInputText />
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -937,12 +683,10 @@
                                             <label>
                                                 <b>Statut Contrat</b>
                                             </label>
-                                            <app-statut-contrat
-                                                [statut]="
+                                            <app-statut-contrat [statut]="
                                                     this.detailTransaction
                                                         ?.statut_contrat
-                                                "
-                                            ></app-statut-contrat>
+                                                "></app-statut-contrat>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -950,11 +694,7 @@
                                             <label>
                                                 <b>Emplacement</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="point_emplacement"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="point_emplacement" pInputText />
                                         </div>
                                     </div>
                                 </div>
@@ -966,38 +706,22 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <label>
-                                            <b
-                                                >Description<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></b
-                                            >
+                                            <b>Description<span class="text-danger">*</span></b>
                                         </label>
-                                        <input
-                                            type="text"
-                                            formControlName="description"
-                                            pInputText
-                                        />
+                                        <input type="text" formControlName="description" pInputText />
                                     </div>
                                 </div>
                                 <br />
                                 <br />
                                 <div class="justificatif-container">
                                     <div *ngIf="IsJustificatif()">
-                                        <button
-                                            pButton
-                                            pRipple
-                                            label="Télécharger le justificatif"
-                                            icon="pi pi-download"
-                                            class="p-button-success"
-                                            (click)="downloadFile()"
-                                        ></button>
+                                        <button pButton pRipple label="Télécharger le justificatif"
+                                            icon="pi pi-download" class="p-button-success"
+                                            (click)="downloadFile()"></button>
                                     </div>
                                     <div class="justificatif-error">
-                                        <span class="" *ngIf="!IsJustificatif()"
-                                            >Aucun justificatif pour cette
-                                            transaction</span
-                                        >
+                                        <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette
+                                            transaction</span>
                                     </div>
                                 </div>
                             </fieldset>
@@ -1005,50 +729,31 @@
                                 <legend>
                                     <strong>Traitement</strong>
                                 </legend>
-                                <div
-                                    class="wrapper-evaluation"
-                                    style="display: flex; gap: 1rem"
-                                >
+                                <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
                                     <div class="block-checked">
-                                        <div
-                                            class="wrapper-check"
-                                            style="
+                                        <div class="wrapper-check" style="
                                                 display: flex;
                                                 justify-content: center !important;
                                                 padding-top: 1.3rem;
-                                            "
-                                        >
-                                            <div
-                                                class="form-check form-check-inline"
-                                            >
-                                                <span
-                                                    class="badge table-header-wrapper"
-                                                    [class.badge-danger]="
+                                            ">
+                                            <div class="form-check form-check-inline">
+                                                <span class="badge table-header-wrapper" [class.badge-danger]="
                                                         IsTraitement() ===
                                                         treatmenRejeter
-                                                    "
-                                                    [class.badge-success]="
+                                                    " [class.badge-success]="
                                                         IsTraitement() ===
                                                         treatmenAccepter
-                                                    "
-                                                >
+                                                    ">
                                                     {{ IsTraitement() }}
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
                                     <div style="width: 100%">
-                                        <label for="commentaire"
-                                            ><strong>Commentaire</strong></label
-                                        >
-                                        <textarea
-                                            name="commentaire"
-                                            formControlName="resiliation_accepte_comment"
-                                            class="form-control"
-                                            rows="2"
-                                            style="width: 100%; margin-top: 0%"
-                                            placeholder="Entrer un commentaire"
-                                        >
+                                        <label for="commentaire"><strong>Commentaire</strong></label>
+                                        <textarea name="commentaire" formControlName="resiliation_accepte_comment"
+                                            class="form-control" rows="2" style="width: 100%; margin-top: 0%"
+                                            placeholder="Entrer un commentaire">
                                         </textarea>
                                     </div>
                                 </div>
@@ -1056,14 +761,8 @@
                         </div>
                     </div>
                     <!--------------SUSPENSION------------FORMS----------------->
-                    <div
-                        *ngIf="transaction?.operation === OperationSuspension"
-                        class="form-container"
-                    >
-                        <div
-                            [hidden]="filterTab !== 'first-item'"
-                            [formGroup]="suspensionForm"
-                        >
+                    <div *ngIf="transaction?.operation === OperationSuspension" class="form-container">
+                        <div [hidden]="filterTab !== 'first-item'" [formGroup]="suspensionForm">
                             <fieldset>
                                 <legend>
                                     <b>Informations sur la SIM</b>
@@ -1074,11 +773,7 @@
                                             <label>
                                                 <b>MSIDN</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="msisdn"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="msisdn" pInputText />
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -1086,11 +781,7 @@
                                             <label>
                                                 <b>IMSI</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="imsi"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="imsi" pInputText />
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -1098,11 +789,9 @@
                                             <label>
                                                 <b>Statut Contrat</b>
                                             </label>
-                                            <app-statut-contrat
-                                                [statut]="
+                                            <app-statut-contrat [statut]="
                                                     detailTransaction?.statut_contrat
-                                                "
-                                            ></app-statut-contrat>
+                                                "></app-statut-contrat>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -1110,11 +799,7 @@
                                             <label>
                                                 <b>Emplacement</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="point_emplacement"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="point_emplacement" pInputText />
                                         </div>
                                     </div>
                                 </div>
@@ -1126,37 +811,21 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <label>
-                                            <b
-                                                >Description<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></b
-                                            >
+                                            <b>Description<span class="text-danger">*</span></b>
                                         </label>
-                                        <input
-                                            type="text"
-                                            formControlName="description"
-                                            pInputText
-                                        />
+                                        <input type="text" formControlName="description" pInputText />
                                     </div>
                                 </div>
                                 <br />
                                 <div class="justificatif-container">
                                     <div *ngIf="IsJustificatif()">
-                                        <button
-                                            pButton
-                                            pRipple
-                                            label="Télécharger le justificatif"
-                                            icon="pi pi-download"
-                                            class="p-button-success"
-                                            (click)="downloadFile()"
-                                        ></button>
+                                        <button pButton pRipple label="Télécharger le justificatif"
+                                            icon="pi pi-download" class="p-button-success"
+                                            (click)="downloadFile()"></button>
                                     </div>
                                     <div class="justificatif-error">
-                                        <span class="" *ngIf="!IsJustificatif()"
-                                            >Aucun justificatif pour cette
-                                            transaction</span
-                                        >
+                                        <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette
+                                            transaction</span>
                                     </div>
                                 </div>
                             </fieldset>
@@ -1164,50 +833,31 @@
                                 <legend>
                                     <strong>Traitement</strong>
                                 </legend>
-                                <div
-                                    class="wrapper-evaluation"
-                                    style="display: flex; gap: 1rem"
-                                >
+                                <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
                                     <div class="block-checked">
-                                        <div
-                                            class="wrapper-check"
-                                            style="
+                                        <div class="wrapper-check" style="
                                                 display: flex;
                                                 justify-content: center !important;
                                                 padding-top: 1.3rem;
-                                            "
-                                        >
-                                            <div
-                                                class="form-check form-check-inline"
-                                            >
-                                                <span
-                                                    class="badge table-header-wrapper"
-                                                    [class.badge-danger]="
+                                            ">
+                                            <div class="form-check form-check-inline">
+                                                <span class="badge table-header-wrapper" [class.badge-danger]="
                                                         IsTraitement() ===
                                                         treatmenRejeter
-                                                    "
-                                                    [class.badge-success]="
+                                                    " [class.badge-success]="
                                                         IsTraitement() ===
                                                         treatmenAccepter
-                                                    "
-                                                >
+                                                    ">
                                                     {{ IsTraitement() }}
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
                                     <div style="width: 100%">
-                                        <label for="commentaire"
-                                            ><strong>Commentaire</strong></label
-                                        >
-                                        <textarea
-                                            name="commentaire"
-                                            formControlName="suspension_accepte_comment"
-                                            class="form-control"
-                                            rows="2"
-                                            style="width: 100%; margin-top: 0%"
-                                            placeholder="Entrer un commentaire"
-                                        >
+                                        <label for="commentaire"><strong>Commentaire</strong></label>
+                                        <textarea name="commentaire" formControlName="suspension_accepte_comment"
+                                            class="form-control" rows="2" style="width: 100%; margin-top: 0%"
+                                            placeholder="Entrer un commentaire">
                                         </textarea>
                                     </div>
                                 </div>
@@ -1215,14 +865,8 @@
                         </div>
                     </div>
                     <!--------------FORMULE------------FORMS----------------->
-                    <div
-                        *ngIf="transaction?.operation === OperationFormule"
-                        class="form-container"
-                    >
-                        <div
-                            [hidden]="filterTab !== 'first-item'"
-                            [formGroup]="formuleForm"
-                        >
+                    <div *ngIf="transaction?.operation === OperationFormule" class="form-container">
+                        <div [hidden]="filterTab !== 'first-item'" [formGroup]="formuleForm">
                             <fieldset>
                                 <legend [ngStyle]="{ width: '100%' }">
                                     <b>Informations sur la SIM</b>
@@ -1233,11 +877,7 @@
                                             <label>
                                                 <b>MSIDN</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="msisdn"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="msisdn" pInputText />
                                         </div>
                                     </div>
                                     <div>
@@ -1245,11 +885,7 @@
                                             <label>
                                                 <b>IMSI</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="imsi"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="imsi" pInputText />
                                         </div>
                                     </div>
                                     <div>
@@ -1257,11 +893,7 @@
                                             <label>
                                                 <b>Formule</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="formule"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="formule" pInputText />
                                         </div>
                                     </div>
                                     <div>
@@ -1269,11 +901,9 @@
                                             <label>
                                                 <b>Statut Contrat</b>
                                             </label>
-                                            <app-statut-contrat
-                                                [statut]="
+                                            <app-statut-contrat [statut]="
                                                     detailTransaction?.statut_contrat
-                                                "
-                                            ></app-statut-contrat>
+                                                "></app-statut-contrat>
                                         </div>
                                     </div>
                                     <div>
@@ -1281,11 +911,7 @@
                                             <label>
                                                 <b>Emplacement</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="point_emplacement"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="point_emplacement" pInputText />
                                         </div>
                                     </div>
                                 </div>
@@ -1297,24 +923,11 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <label>
-                                            <b
-                                                >Formule de destination<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></b
-                                            >
+                                            <b>Formule de destination<span class="text-danger">*</span></b>
                                         </label>
-                                        <p-dropdown
-                                            [options]="listFormules"
-                                            formControlName="formule_uuid"
-                                            optionLabel="nom"
-                                            [showClear]="true"
-                                            optionValue="uuid"
-                                        >
-                                            <ng-template
-                                                let-data
-                                                pTemplate="item"
-                                            >
+                                        <p-dropdown [options]="listFormules" formControlName="formule_uuid"
+                                            optionLabel="nom" [showClear]="true" optionValue="uuid">
+                                            <ng-template let-data pTemplate="item">
                                                 <div class="country-item">
                                                     <div>
                                                         {{ data.nom }}
@@ -1332,37 +945,21 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <label>
-                                            <b
-                                                >Description<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></b
-                                            >
+                                            <b>Description<span class="text-danger">*</span></b>
                                         </label>
-                                        <input
-                                            type="text"
-                                            formControlName="description"
-                                            pInputText
-                                        />
+                                        <input type="text" formControlName="description" pInputText />
                                     </div>
                                 </div>
                                 <br />
                                 <div class="justificatif-container">
                                     <div *ngIf="IsJustificatif()">
-                                        <button
-                                            pButton
-                                            pRipple
-                                            label="Télécharger le justificatif"
-                                            icon="pi pi-download"
-                                            class="p-button-success"
-                                            (click)="downloadFile()"
-                                        ></button>
+                                        <button pButton pRipple label="Télécharger le justificatif"
+                                            icon="pi pi-download" class="p-button-success"
+                                            (click)="downloadFile()"></button>
                                     </div>
                                     <div class="justificatif-error">
-                                        <span class="" *ngIf="!IsJustificatif()"
-                                            >Aucun justificatif pour cette
-                                            transaction</span
-                                        >
+                                        <span class="" *ngIf="!IsJustificatif()">Aucun justificatif pour cette
+                                            transaction</span>
                                     </div>
                                 </div>
                             </fieldset>
@@ -1370,50 +967,31 @@
                                 <legend>
                                     <strong>Traitement</strong>
                                 </legend>
-                                <div
-                                    class="wrapper-evaluation"
-                                    style="display: flex; gap: 1rem"
-                                >
+                                <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
                                     <div class="block-checked">
-                                        <div
-                                            class="wrapper-check"
-                                            style="
+                                        <div class="wrapper-check" style="
                                                 display: flex;
                                                 justify-content: center !important;
                                                 padding-top: 1.3rem;
-                                            "
-                                        >
-                                            <div
-                                                class="form-check form-check-inline"
-                                            >
-                                                <span
-                                                    class="badge table-header-wrapper"
-                                                    [class.badge-danger]="
+                                            ">
+                                            <div class="form-check form-check-inline">
+                                                <span class="badge table-header-wrapper" [class.badge-danger]="
                                                         IsTraitement() ===
                                                         treatmenRejeter
-                                                    "
-                                                    [class.badge-success]="
+                                                    " [class.badge-success]="
                                                         IsTraitement() ===
                                                         treatmenAccepter
-                                                    "
-                                                >
+                                                    ">
                                                     {{ IsTraitement() }}
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
                                     <div style="width: 100%">
-                                        <label for="commentaire"
-                                            ><strong>Commentaire</strong></label
-                                        >
-                                        <textarea
-                                            name="commentaire"
-                                            formControlName="chg_formule_accepte_comment"
-                                            class="form-control"
-                                            rows="2"
-                                            style="width: 100%; margin-top: 0%"
-                                            placeholder="Entrer un commentaire"
-                                        >
+                                        <label for="commentaire"><strong>Commentaire</strong></label>
+                                        <textarea name="commentaire" formControlName="chg_formule_accepte_comment"
+                                            class="form-control" rows="2" style="width: 100%; margin-top: 0%"
+                                            placeholder="Entrer un commentaire">
                                         </textarea>
                                     </div>
                                 </div>
@@ -1421,116 +999,88 @@
                         </div>
                     </div>
                     <!-------------ACTIVATION--------------FORMS--------------------------->
-                    <div
-                        *ngIf="transaction?.operation === operationActivation"
-                        class="form-container"
-                    >
-                        <div
-                            [hidden]="filterTab !== 'first-item'"
-                            [formGroup]="activationForm"
-                        >
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div *ngIf="transaction?.operation === operationActivation" class="form-container">
+                        <div [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
                             <div [style]="{ marginTop: '-2rem' }">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <fieldset
-                                            *ngIf="
+                                        <fieldset *ngIf="
                                                 bacPiocheActivation !==
                                                 'patrimoine'
-                                            "
-                                        >
+                                            ">
                                             <legend>
                                                 <b>Source Stock SIM</b>
                                             </legend>
                                             <div class="d-flex gap-4">
                                                 <div>
                                                     <div class="d-flex gap-4">
-                                                        <div
-                                                            class="trans-radio d-flex gap-3"
-                                                        >
-                                                            <p-radioButton
-                                                                name="valeur"
-                                                                value="true"
-                                                                formControlName="bac_a_pioche"
-                                                                [inputId]="
+                                                        <div class="trans-radio d-flex gap-3">
+                                                            <p-radioButton name="valeur" value="true"
+                                                                formControlName="bac_a_pioche" [inputId]="
                                                                     'orangeci'
-                                                                "
-                                                            ></p-radioButton>
-                                                            <label
-                                                                [for]="
+                                                                "></p-radioButton>
+                                                            <label [for]="
                                                                     'orangeci'
-                                                                "
-                                                                style="
+                                                                " style="
                                                                     margin-top: 0.9rem;
-                                                                "
-                                                                >Stock
-                                                                SIM/OCI</label
-                                                            >
+                                                                ">Stock
+                                                                SIM/OCI</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="text-wrapper mt-2">
-                                                <input
-                                                    [value]="
+                                                <input [value]="
                                                         bacPiocheActivation ===
                                                         'stock'
                                                             ? sourceStockTenantSim
                                                             : sourceStockOrangeSim
-                                                    "
-                                                    type="text"
-                                                    style="
+                                                    " type="text" style="
                                                         font-size: 13.5px !important;
                                                         font-weight: bold !important;
-                                                    "
-                                                    [disabled]="true"
-                                                    pInputText
-                                                />
+                                                    " [disabled]="true" pInputText />
                                             </div>
                                         </fieldset>
                                     </div>
-                                    <div
-                                        [ngClass]="
+                                    <div [ngClass]="
                                             bacPiocheActivation !== 'patrimoine'
                                                 ? 'col-md-6'
                                                 : 'col-md-12'
-                                        "
-                                    >
+                                        ">
                                         <fieldset>
                                             <legend>
                                                 <b>Informations SIM</b>
                                             </legend>
-                                            <div
-                                                class="row"
-                                                style="
+                                            <div class="row" style="
                                                     padding-top: 1.4rem !important;
-                                                "
-                                            >
-                                                <div
-                                                    [style]="{ width: '15rem' }"
-                                                >
+                                                ">
+                                                <div [style]="{ width: '15rem' }">
                                                     <div class="form-group">
                                                         <label>
                                                             <b>IMSI</b>
                                                         </label>
-                                                        <input
-                                                            type="text"
-                                                            formControlName="imsi"
-                                                            pInputText
-                                                        />
+                                                        <input type="text" formControlName="imsi" pInputText />
                                                     </div>
                                                 </div>
-                                                <div
-                                                    [style]="{ width: '12rem' }"
-                                                >
+                                                <div [style]="{ width: '12rem' }">
                                                     <div class="form-group">
                                                         <label>
                                                             <b>MSISDN</b>
                                                         </label>
-                                                        <input
-                                                            type="text"
-                                                            formControlName="msisdn"
-                                                            pInputText
-                                                        />
+                                                        <input type="text" formControlName="msisdn" pInputText />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5">
@@ -1538,16 +1088,11 @@
                                                         <label>
                                                             <b>Formule</b>
                                                         </label>
-                                                        <input
-                                                            type="text"
-                                                            style="
+                                                        <input type="text" style="
                                                                 font-size: 1.1rem;
                                                                 padding: 0.8rem
                                                                     0.5rem !important;
-                                                            "
-                                                            formControlName="formule"
-                                                            pInputText
-                                                        />
+                                                            " formControlName="formule" pInputText />
                                                     </div>
                                                 </div>
                                             </div>
@@ -1560,27 +1105,18 @@
                                     <b>Informations d'identification</b>
                                 </legend>
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>
                                                 <b>{{ firstLevelLibelle }}</b>
                                             </label>
-                                            <p-dropdown
-                                                [options]="listFirstLevel"
-                                                formControlName="niveau_un_uuid"
-                                                optionLabel="nom"
-                                                optionValue="uuid"
-                                                [filter]="true"
-                                                filterBy="nom"
-                                            >
-                                                <ng-template
-                                                    let-data
-                                                    pTemplate="item"
-                                                >
+                                            <p-dropdown [options]="listFirstLevel" formControlName="niveau_un_uuid"
+                                                optionLabel="nom" optionValue="uuid" [filter]="true" filterBy="nom">
+                                                <ng-template let-data pTemplate="item">
                                                     <div class="country-item">
                                                         <div>
                                                             {{ data.nom }} [{{
-                                                                data.code
+                                                            data.code
                                                             }}]
                                                         </div>
                                                     </div>
@@ -1588,23 +1124,14 @@
                                             </p-dropdown>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>
                                                 <b>{{ secondLevelLibelle }}</b>
                                             </label>
-                                            <p-dropdown
-                                                [options]="listSecondLevel"
-                                                formControlName="niveau_deux_uuid"
-                                                optionLabel="nom"
-                                                optionValue="uuid"
-                                                [filter]="true"
-                                                filterBy="nom"
-                                            >
-                                                <ng-template
-                                                    let-data
-                                                    pTemplate="item"
-                                                >
+                                            <p-dropdown [options]="listSecondLevel" formControlName="niveau_deux_uuid"
+                                                optionLabel="nom" optionValue="uuid" [filter]="true" filterBy="nom">
+                                                <ng-template let-data pTemplate="item">
                                                     <div class="country-item">
                                                         <div>
                                                             {{ data.nom }}
@@ -1614,21 +1141,14 @@
                                             </p-dropdown>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>
                                                 <b>{{ thirdLevelLibelle }}</b>
                                             </label>
-                                            <p-dropdown
-                                                [options]="listThirdLevel"
-                                                formControlName="niveau_trois_uuid"
-                                                optionLabel="nom"
-                                                optionValue="uuid"
-                                            >
-                                                <ng-template
-                                                    let-data
-                                                    pTemplate="item"
-                                                >
+                                            <p-dropdown [options]="listThirdLevel" formControlName="niveau_trois_uuid"
+                                                optionLabel="nom" optionValue="uuid">
+                                                <ng-template let-data pTemplate="item">
                                                     <div class="country-item">
                                                         <div>
                                                             {{ data.nom }}
@@ -1638,25 +1158,15 @@
                                             </p-dropdown>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>
                                                 <b>Usage</b>
                                             </label>
-                                            <p-dropdown
-                                                [options]="listUsages"
-                                                formControlName="usage_id"
-                                                optionLabel="nom_usage"
-                                                placeholder="Usage"
-                                                optionValue="id"
-                                                placeholder="Usage"
-                                            >
-                                                <ng-template
-                                                    let-data
-                                                    pTemplate="item"
-                                                >
+                                            <p-dropdown [options]="listUsages" formControlName="usage_id"
+                                                optionLabel="nom_usage" placeholder="Usage" optionValue="id"
+                                                placeholder="Usage">
+                                                <ng-template let-data pTemplate="item">
                                                     <div class="country-item">
                                                         <div>
                                                             {{ data.nom_usage }}
@@ -1666,71 +1176,52 @@
                                             </p-dropdown>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                </div>
+                                <div class="d-flex gap-2 no-wrap">
+                                    <div>
                                         <div class="form-group">
                                             <label>
                                                 <b>Emplacement</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="point_emplacement"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="point_emplacement" pInputText />
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div>
                                         <div class="form-group">
                                             <label>
                                                 <b>Adresse mail</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="adresse_email"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="adresse_email" pInputText />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
+                                    <div>
                                         <div class="form-group">
                                             <label>
                                                 <b>Adresse géographique</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="adresse_geographique"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="adresse_geographique" pInputText />
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div>
                                         <div class="form-group">
                                             <label>
                                                 <b>Latitude</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="latitude"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="latitude" pInputText />
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div>
                                         <div class="form-group">
                                             <label>
                                                 <b>Longitude</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                formControlName="longitude"
-                                                pInputText
-                                            />
+                                            <input type="text" formControlName="longitude" pInputText />
                                         </div>
                                     </div>
                                 </div>
                             </fieldset>
-                            <div class="row">
+
+                            <!-- <div class="row">
                                 <fieldset>
                                     <legend>
                                         <b>Détails de la Transaction</b>
@@ -1805,7 +1296,7 @@
                                         </div>
                                     </div>
                                 </fieldset>
-                                <!-- <div class="col-md-4">
+                                <div class="col-md-4">
                                     <fieldset>
                                         <legend>
                                             <b>Justificatif</b>
@@ -1831,7 +1322,7 @@
                                             </div>
                                         </div>
                                     </fieldset>
-                                </div> -->
+                                </div>
                             </div>
                             <fieldset *ngIf="ShowAcceptedForm()">
                                 <legend>
@@ -1884,29 +1375,32 @@
                                         </textarea>
                                     </div>
                                 </div>
-                            </fieldset>
+                            </fieldset> -->
                         </div>
                     </div>
-                    <div
-                        *ngIf="transaction?.operation === OperationAchat"
-                        class="form-container"
-                    >
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div *ngIf="transaction?.operation === OperationAchat" class="form-container">
                         <div [hidden]="filterTab !== 'first-item'">
                             <fieldset>
                                 <legend>
                                     <strong>Information de Transaction</strong>
                                 </legend>
-                                <div
-                                    class="panier-card"
-                                    *ngFor="
+                                <div class="panier-card" *ngFor="
                                         let prod of detailTransaction?.detail_commande
-                                    "
-                                >
+                                    ">
                                     <div class="panier-card__file">
-                                        <img
-                                            src="assets/images/unboxing.png"
-                                            alt=""
-                                        />
+                                        <img src="assets/images/unboxing.png" alt="" />
                                     </div>
                                     <div class="panier-card__infos">
                                         <div class="panier-card__infos--code">
@@ -1921,9 +1415,9 @@
                                     </div>
                                     <div class="panier-card__price">
                                         {{
-                                            pipeValue(
-                                                prod.montant_ht * prod.quantite
-                                            )
+                                        pipeValue(
+                                        prod.montant_ht * prod.quantite
+                                        )
                                         }}
                                         F
                                     </div>
@@ -1933,80 +1427,40 @@
                                 <legend>
                                     <strong>Traitement</strong>
                                 </legend>
-                                <div
-                                    class="wrapper-evaluation"
-                                    style="display: flex; gap: 1rem"
-                                >
+                                <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
                                     <div class="block-checked">
-                                        <div
-                                            style="margin-left: 8%"
-                                            class="ml-3"
-                                        >
-                                            <span
-                                                for="accepte"
-                                                style="
+                                        <div style="margin-left: 8%" class="ml-3">
+                                            <span for="accepte" style="
                                                     font-size: 23px;
                                                     margin-left: 5%;
                                                     font-weight: 800;
-                                                "
-                                                >Accepté ?
+                                                ">Accepté ?
                                             </span>
                                             <div class="wrapper-check">
-                                                <div
-                                                    class="form-check form-check-inline"
-                                                >
-                                                    <input
-                                                        formControlName="commmande_produit_accepte"
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        name="infosLigne"
-                                                        value="oui"
-                                                        id="infosLigne"
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="infosLigne"
-                                                        style="
+                                                <div class="form-check form-check-inline">
+                                                    <input formControlName="commmande_produit_accepte"
+                                                        class="form-check-input" type="radio" name="infosLigne"
+                                                        value="oui" id="infosLigne" />
+                                                    <label class="form-check-label" for="infosLigne" style="
                                                             width: auto !important;
-                                                        "
-                                                        >Oui</label
-                                                    >
+                                                        ">Oui</label>
                                                 </div>
-                                                <div
-                                                    class="form-check form-check-inline"
-                                                >
-                                                    <input
-                                                        formControlName="commmande_produit_accepte"
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        name="infosLigne"
-                                                        value="non"
-                                                        id="infosLigne"
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        for="infosLigne"
-                                                        style="
+                                                <div class="form-check form-check-inline">
+                                                    <input formControlName="commmande_produit_accepte"
+                                                        class="form-check-input" type="radio" name="infosLigne"
+                                                        value="non" id="infosLigne" />
+                                                    <label class="form-check-label" for="infosLigne" style="
                                                             width: auto !important;
-                                                        "
-                                                        >Non</label
-                                                    >
+                                                        ">Non</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div style="width: 100%">
-                                        <label for="commentaire"
-                                            ><strong>Commentaire</strong></label
-                                        >
-                                        <textarea
-                                            name="commentaire"
-                                            formControlName="commmande_produit_accepte_comment"
-                                            class="form-control"
-                                            rows="2"
-                                            style="width: 100%; margin-top: 0%"
-                                            placeholder="Entrer un commentaire"
-                                        >
+                                        <label for="commentaire"><strong>Commentaire</strong></label>
+                                        <textarea name="commentaire" formControlName="commmande_produit_accepte_comment"
+                                            class="form-control" rows="2" style="width: 100%; margin-top: 0%"
+                                            placeholder="Entrer un commentaire">
                                         </textarea>
                                     </div>
                                 </div>
@@ -2014,61 +1468,39 @@
                         </div>
                     </div>
                     <!-----------------------COMMENTAIRE----------CLOTURE--------------------------------->
-                    <fieldset
-                        *ngIf="
+                    <fieldset *ngIf="
                             detailTransaction?.rapport?.statut_traitement &&
                             detailTransaction?.rapport?.statut_cloture
-                        "
-                    >
+                        ">
                         <legend>
                             <strong>Clôture</strong>
                         </legend>
-                        <div
-                            class="wrapper-evaluation"
-                            style="display: flex; gap: 1rem"
-                        >
+                        <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
                             <div class="block-checked">
                                 <div>
                                     <div class="d-flex justify-content-center">
-                                        <span
-                                            for="accepte"
-                                            style="
+                                        <span for="accepte" style="
                                                 font-size: 23px;
                                                 font-weight: 800;
-                                            "
-                                            >Avis</span
-                                        >
+                                            ">Avis</span>
                                     </div>
-                                    <div
-                                        class="wrapper-check d-flex justify-content-center"
-                                    >
-                                        <img
-                                            [src]="
+                                    <div class="wrapper-check d-flex justify-content-center">
+                                        <img [src]="
                                                 mappingNotation(
                                                     this.detailTransaction
                                                         ?.rapport
                                                         ?.notation_cloture
                                                 )
-                                            "
-                                            width="30"
-                                            alt=""
-                                        />
+                                            " width="30" alt="" />
                                     </div>
                                 </div>
                             </div>
                             <div style="width: 100%">
-                                <label for="commentaire"
-                                    ><strong>Commentaire</strong></label
-                                >
-                                <input
-                                    type="text"
-                                    [disabled]="true"
-                                    [value]="
+                                <label for="commentaire"><strong>Commentaire</strong></label>
+                                <input type="text" [disabled]="true" [value]="
                                         detailTransaction?.rapport
                                             ?.notation_description
-                                    "
-                                    pInputText
-                                />
+                                    " pInputText />
                             </div>
                         </div>
                     </fieldset>

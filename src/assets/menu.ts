@@ -1,5 +1,5 @@
 import { CONTACT_SLA } from './../presentation/pages/ref-telemetrie/ref-telemetrie-routing.module';
-import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION, DEMANDE_RESILIATION, DEMANDE_FORMULE_CHANGE, DEMANDE_SWAPPING } from '../presentation/pages/demandes/demandes-routing.module';
+import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION, DEMANDE_RESILIATION, DEMANDE_FORMULE_CHANGE, DEMANDE_SWAPPING, DEMANDE_INTEGRATION } from '../presentation/pages/demandes/demandes-routing.module';
 import { CARTOGRAPHIE, DOWNLOAD_FILE } from './../presentation/pages/patrimoine/patrimoine-routing.module';
 import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE,CONTENCIEUX_ROUTE, NOTIFY_ROUTE, JOURNAL_TRANSACTION_ROUTE, MESSAGERIE_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { COURBE_MESSAGE, DETECTION_APPRO, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
@@ -91,9 +91,17 @@ export var menuJson = [
         children: [
             {
                 path: `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
-                title: "Abonnement mobiles",
-                label: "Abonnement mobiles",
+                title: "Abonnements mobiles",
+                label: "Abonnements mobiles",
                 data: "9-1-0-activations-mobile",
+                pack: ApplicationType.MONITORING,
+                type: "link"
+            },
+            {
+                path: `/${DEMANDE_SERVICE}/${DEMANDE_INTEGRATION}`,
+                title: "Intégrations mobiles",
+                label: "Intégrations mobiles",
+                data: "9-5-0-integrations-mobiles",
                 pack: ApplicationType.MONITORING,
                 type: "link"
             },

@@ -1,3 +1,8 @@
+import { FormDemandeIntegrationComponent } from './feature/demande-integration/form-demande-integration/form-demande-integration.component';
+import { DemandeIntegrationComponent } from './ui/demande-integration/demande-integration.component';
+import { TableDemandeIntegrationComponent } from './feature/demande-integration/table-demande-integration/table-demande-integration.component';
+import { FilterDemandeIntegrationComponent } from './feature/demande-integration/filter-demande-integration/filter-demande-integration.component';
+
 import { DemandeSwappingComponent } from './ui/demande-swapping/demande-swapping.component';
 import { StatutDemandeComponent } from './feature/statut-demande/statut-demande.component';
 import { DemandeWrapperShowComponent } from './feature/demande-wrapper-show/demande-wrapper-show.component';
@@ -34,8 +39,11 @@ import { DemandeResiliationComponent } from './ui/demande-resiliation/demande-re
 import { TransactionFormComponent } from './feature/transaction-form/transaction-form.component';
 import { DemandeFormuleChangeComponent } from './ui/demande-formule-change/demande-formule-change.component';
 
+
 //services
 import { DemandesFilterStateService } from './data-access/demandes-filter-state.service';
+import { DemandeIntegrationStateService } from './data-access/demande-integration/demande-integration-state.service';
+import { DemandeIntegrationApiStateService } from './data-access/demande-integration/demande-integration-api-state.service'
 
 @NgModule({
     imports: [
@@ -71,7 +79,8 @@ import { DemandesFilterStateService } from './data-access/demandes-filter-state.
         DemandeWrapperShowComponent,
         StatutDemandeComponent,
         TransactionFormComponent,
+        DemandeIntegrationComponent,FilterDemandeIntegrationComponent,TableDemandeIntegrationComponent,FormDemandeIntegrationComponent
     ],
-    providers: [DemandesFilterStateService]
+    providers: [DemandesFilterStateService, DemandeIntegrationStateService, DemandeIntegrationApiStateService]
 })
 export class DemandesModule { }

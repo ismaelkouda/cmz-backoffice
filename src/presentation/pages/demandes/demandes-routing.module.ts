@@ -5,12 +5,15 @@ import { DemandeActivationComponent } from './ui/demande-activation/demande-acti
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DemandeSwappingComponent } from './ui/demande-swapping/demande-swapping.component';
+import { DemandeIntegrationComponent } from './ui/demande-integration/demande-integration.component';
+import { FormDemandeIntegrationComponent } from './feature/demande-integration/form-demande-integration/form-demande-integration.component';
 
 export const DEMANDE_ACTIVATION = 'activation';
 export const DEMANDE_SUSPENSION = 'suspension';
 export const DEMANDE_RESILIATION = 'resiliation';
 export const DEMANDE_SWAPPING = 'changement-carte-sim';
 export const DEMANDE_FORMULE_CHANGE = 'changement-formule';
+export const DEMANDE_INTEGRATION = 'integration';
 
 
 const routes: Routes = [{
@@ -19,6 +22,14 @@ const routes: Routes = [{
         {
             path: DEMANDE_ACTIVATION,
             component: DemandeActivationComponent
+        },
+        {
+            path: DEMANDE_INTEGRATION,
+            component: DemandeIntegrationComponent
+        },
+        {
+          path: DEMANDE_INTEGRATION + "/:id",
+          component: FormDemandeIntegrationComponent,
         },
         {
             path: DEMANDE_SUSPENSION,

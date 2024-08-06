@@ -82,7 +82,7 @@
                                 params.action === 'Identifier' &&
                                 canIdentify(listDemandes)
                             "></button>
-                        <button pButton pRipple [label]="params.action" [disabled]="formTraitementMasse.invalid"
+                        <button pButton pRipple label="Soumettre" [disabled]="formTraitementMasse.invalid"
                             (click)="onSaveTraitements()" class="p-button-success w-100" *ngIf="
                                 params.vue === 'traitement' &&
                                 params.action === 'Clôturer'
@@ -185,6 +185,12 @@
                                     <span class="mb-0 fs__30">
                                         <strong>Date&nbsp;:&nbsp;</strong>
                                         {{ listDemandes?.acquitte_a ?? 'N/A' }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30">
+                                        <strong>Lignes&nbsp;:&nbsp;</strong>
+                                        {{ listDemandes?.nb_demande_traitees || 0 }} / {{ listDemandes?.nb_demande_soumises || 0 }}
                                     </span>
                                 </div>
                             </div>
@@ -357,7 +363,7 @@
                                                     }}</b></label>
                                             <input type="text" pInputText formControlName="niveau_uns_uuid" />
                                         </div>
-                                        <div class="width-100">
+                                        <div clafss="width-100">
                                             <label>
                                                 <b>{{ secondLevelLibelle }}</b>
                                             </label>
@@ -460,53 +466,61 @@
                                 </fieldset> -->
 
                                 <fieldset *ngIf="
-                                !(params.vue === 'traitement' &&
-                                params.action === 'Clôturer') && 
-                                !(params.vue === 'demande' &&
-                                params.action === 'Identifier' &&
-                                canIdentify(listDemandes)) &&
-                                !(params.vue === 'demande' &&
-                                params.action === 'Abandonner')
-                            ">
+                                        !(
+                                            params.vue === 'demande' &&
+                                            params.action === 'Identifier' &&
+                                            canIdentify(listDemandes)
+                                        ) &&
+                                        !(
+                                            params.vue === 'demande' &&
+                                            params.action === 'Abandonner'
+                                        )
+                                    ">
                                     <legend><strong>Traitement</strong></legend>
                                     <div class="d-flex gap-2 no-wrap">
-                                        <div style="width: 100%">
-                                            <label for="commentaire"><strong>Commentaire traitement</strong></label>
-                                            <textarea name="commentaire"
-                                                class="form-control" rows="2" style="
+                                        <div style="width: 100%" *ngIf="params.vue === 'traitement' && params.action === 'Clôturer' || 
+                                        !(params.vue === 'traitement' && params.action === 'Clôturer') &&
+                                        !(params.vue === 'demande' && params.action === 'Identifier' && canIdentify(listDemandes)) &&
+                                        !(params.vue === 'demande' && params.action === 'Abandonner')">
+                                            <label for="commentaire"><strong>Commentaire
+                                                    traitement</strong></label>
+                                            <textarea name="commentaire" class="form-control" rows="2" style="
                                                     width: 100%;
                                                     margin-top: 0%;
-                                                " placeholder="Commentairez...">
+                                                " formControlName="commentaire_traitement">
                                             </textarea>
                                         </div>
-                                        <div style="width: 100%">
-                                            <label for="commentaire"><strong>Commentaire finalisation</strong></label>
-                                            <textarea name="commentaire"
-                                                class="form-control" rows="2" style="
+                                        <div style="width: 100%" *ngIf="params.vue === 'traitement' && params.action === 'Clôturer' || 
+                                        !(params.vue === 'traitement' && params.action === 'Clôturer') &&
+                                        !(params.vue === 'demande' && params.action === 'Identifier' && canIdentify(listDemandes)) &&
+                                        !(params.vue === 'demande' && params.action === 'Abandonner')">
+                                            <label for="commentaire"><strong>Commentaire
+                                                    finalisation</strong></label>
+                                            <textarea name="commentaire" class="form-control" rows="2" style="
                                                     width: 100%;
                                                     margin-top: 0%;
-                                                " placeholder="Commentairez...">
+                                                " formControlName="commentaire_finalisation">
                                             </textarea>
                                         </div>
-                                        <div style="width: 100%">
+                                        <div style="width: 100%"  
+                                        *ngIf="!(params.vue === 'traitement' && params.action === 'Clôturer') &&
+                                        !(params.vue === 'demande' && params.action === 'Identifier' && canIdentify(listDemandes)) &&
+                                        !(params.vue === 'demande' && params.action === 'Abandonner')">
                                             <label for="commentaire"><strong>Commentaire clôture</strong></label>
-                                            <textarea name="commentaire"
-                                                class="form-control" rows="2" style="
+                                            <textarea name="commentaire" class="form-control" rows="2" style="
                                                     width: 100%;
                                                     margin-top: 0%;
-                                                " placeholder="Commentairez...">
+                                                " formControlName="commentaire_cloture">
                                             </textarea>
                                         </div>
                                     </div>
                                 </fieldset>
 
-
-
                                 <fieldset *ngIf="
                                         params.vue === 'traitement' &&
                                         params.action === 'Clôturer'
                                     ">
-                                    <legend><strong>Traitement</strong></legend>
+                                    <legend><strong>Clôture</strong></legend>
                                     <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
                                         <div class="block-checked">
                                             <div style="margin-left: 8%" class="ml-3">
@@ -625,13 +639,10 @@
                                     </legend>
                                     <div class="row">
                                         <app-form-masse class="col-md-9 d-flex align-items-end" [fileModel]="fileModel"
-                                            (dataToSend)="
-                                                pushCurrentArrayForm($event)
-                                            " [currentArrayHeaders]="
-                                                currentArrayHeaders
-                                            " (downloadModel)="
-                                                onDownloadModel($event)
-                                            ">
+                                            (dataToSend)="pushCurrentArrayForm($event)" 
+                                            [currentArrayHeaders]="currentArrayHeaders" 
+                                            (downloadModel)="onDownloadModel($event)"
+                                            [formMasseLibelle]="formMasseLibelle">
                                         </app-form-masse>
                                     </div>
                                 </fieldset>

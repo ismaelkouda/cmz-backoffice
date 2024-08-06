@@ -1,7 +1,24 @@
 :host ::ng-deep .p-inputnumber {
     width: 21.6rem !important;
 }
-
+.style100 {
+    @extend %messageAlert;
+    background-color: #e0f2f7;
+    color: #01a9db;
+    border-color: #e0f2f7;
+}
+.style200 {
+    @extend %messageAlert;
+    background-color: #c8e6c9;
+    color: #256029;
+    border-color: #c8e6c9;
+}
+.styledefault {
+    @extend %messageAlert;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
 .modal-content {
     width: 100vw !important;
     height: 100vh !important;

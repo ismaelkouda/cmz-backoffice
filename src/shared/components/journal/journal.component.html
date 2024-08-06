@@ -1,5 +1,7 @@
 <div class="modal-content">
-    <div class="modal-header" style="
+    <div
+        class="modal-header"
+        style="
             background-color: #569c5b;
             color: #fff;
             cursor: all-scroll;
@@ -7,19 +9,35 @@
             justify-content: space-between;
             align-items: center;
             padding: 0.2rem 1rem;
-        ">
+        "
+    >
         <h4 class="modal-title">
             Journal <strong>{{ transaction ?? numero_demande }}</strong>
         </h4>
-        <button type="button" class="close" (click)="closeModal()" aria-label="Close" style="margin-left: auto">
+        <button
+            type="button"
+            class="close"
+            (click)="closeModal()"
+            aria-label="Close"
+            style="margin-left: auto"
+        >
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
     <div>
-        <p-table #dt [value]="listJournal" [rows]="10" [paginator]="true" responsiveLayout="scroll" [rowHover]="true"
-            dataKey="id" currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
-              données" [showCurrentPageReport]="true">
+        <p-table
+            #dt
+            [value]="listJournal"
+            [rows]="10"
+            [paginator]="true"
+            responsiveLayout="scroll"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+              données"
+            [showCurrentPageReport]="true"
+        >
             <ng-template pTemplate="header">
                 <tr>
                     <th class="text-center">#</th>
@@ -36,23 +54,54 @@
                     <td class="text-center">{{ i + 1 }}</td>
                     <td class="text-center">{{ journal?.created_at }}</td>
                     <td class="text-center" [style]="{ width: '3rem' }">
-                        <span [ngStyle]="{ 'font-size': '16px' }" class="badge" 
-                            [class.badge-dark]="journal?.statut === BADGE_ETAPE.SOUMISSION || journal?.statut === BADGE_STATUT.SOUMIS" 
-                            [class.badge-warning]="journal?.statut === BADGE_ETAPE.TRAITEMENT" 
-                            [class.badge-success]="journal?.statut === BADGE_ETAPE.FINALISATEUR || journal?.statut === BADGE_STATUT.CLOTURE" 
-                            [class.badge-green]="journal?.statut === BADGE_ETAPE.CLOTURE"
-                            [class.badge-info]="journal?.statut === BADGE_STATUT.TRAITE">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            class="badge"
+                            [class.badge-dark]="
+                                journal?.statut === BADGE_ETAPE.SOUMISSION ||
+                                journal?.statut === BADGE_STATUT.SOUMIS
+                            "
+                            [class.badge-warning]="
+                                journal?.statut === BADGE_ETAPE.TRAITEMENT
+                            "
+                            [class.badge-success]="
+                                journal?.statut === BADGE_ETAPE.FINALISATEUR ||
+                                journal?.statut === BADGE_STATUT.CLOTURE
+                            "
+                            [class.badge-green]="
+                                journal?.statut === BADGE_ETAPE.CLOTURE
+                            "
+                            [class.badge-info]="
+                                journal?.statut === BADGE_STATUT.TRAITE
+                            "
+                        >
                             {{ journal?.statut }}
                         </span>
                     </td>
                     <td class="text-center">
-                        <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
-                            [class.badge-dark]="journal?.traitement === BADGE_ETAT.RECU || journal?.traitement === BADGE_ETAT.EN_ATTENTE"
-                            [class.badge-warning]="journal?.traitement === BADGE_ETAT.PARTIEL || journal?.traitement === BADGE_ETAT.ABANDONNE"
-                            [class.badge-danger]=" journal?.traitement === BADGE_ETAT.REJETE || journal?.traitement === BADGE_ETAT.REFUSE"
-                            [class.badge-success]="journal?.traitement === BADGE_ETAT.CLOTURE || journal?.traitement === BADGE_ETAT.ACCEPTE"
-                            [class.badge-info]="journal?.traitement === BADGE_ETAT.TOTAL"
-                            >
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            class="badge"
+                            [class.badge-dark]="
+                                journal?.traitement === BADGE_ETAT.RECU ||
+                                journal?.traitement === BADGE_ETAT.EN_ATTENTE
+                            "
+                            [class.badge-warning]="
+                                journal?.traitement === BADGE_ETAT.PARTIEL ||
+                                journal?.traitement === BADGE_ETAT.ABANDONNE
+                            "
+                            [class.badge-danger]="
+                                journal?.traitement === BADGE_ETAT.REJETE ||
+                                journal?.traitement === BADGE_ETAT.REFUSE
+                            "
+                            [class.badge-success]="
+                                journal?.traitement === BADGE_ETAT.CLOTURE ||
+                                journal?.traitement === BADGE_ETAT.ACCEPTE
+                            "
+                            [class.badge-info]="
+                                journal?.traitement === BADGE_ETAT.TOTAL
+                            "
+                        >
                             {{ journal.traitement }}
                         </span>
                     </td>

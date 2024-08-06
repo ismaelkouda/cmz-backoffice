@@ -58,6 +58,7 @@ type MODEL_ENTETE_FILE = ['TRANSACTION', 'MSISDN', 'IMSI', 'ICCID', 'ADRESSE IP'
 })
 
 export class FormMasseComponent {
+    @Input() formMasseLibelle: any;
     @Output() dataToSend: EventEmitter<{}> = new EventEmitter<{}>();
     @Input() currentArrayHeaders: MODEL_ENTETE_FILE;
     public arrayHeaderExcelFile: Array<any> = [];
@@ -77,11 +78,9 @@ export class FormMasseComponent {
 
     // Debut: ajout du fichier excel au formulaire
     onExcelFileChange(event: FileList) {
-        console.log('event', event)
         if (event.length != 0) {
             this.data = event[0]
             readXlsxFile(event[0]).then((rows) => {
-                console.log('rows', rows)
                 // debut: recuperer l'entete du fichier excel upload
                 this.arrayHeaderExcelFile = rows[0];
                 // fin: recuperer l'entete du fichier excel upload
@@ -115,7 +114,6 @@ export class FormMasseComponent {
      * @returns un message toastr ou un boolean(true) lorsqu'il y a une erreur; oubien un boolean(false) lorsqu'il n'y a pas d'erreur
      */
     isArraySame(arr1: string[], arr2): boolean {
-        console.log('arr1', arr1)
         if (!arr1 || arr1.length <= 0) {
             this.toastrService.error('Fichier vide');
             return false
@@ -182,7 +180,6 @@ export class FormMasseComponent {
     }
 
     getButtonLabel(): string {
-        console.log('this.excelFileIsCorrect', this.excelFileIsCorrect)
         return this.excelFileIsCorrect ? `${this.nombreLigneInExcelFile} ligne(s) chargée(s)` : 'Vérifier le fichier';
     }
 }

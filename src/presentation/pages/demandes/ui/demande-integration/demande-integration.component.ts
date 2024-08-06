@@ -1,0 +1,123 @@
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { LoadingBarService } from "@ngx-loading-bar/core";
+import { ToastrService } from "ngx-toastr";
+import { Subscription } from "rxjs";
+import { handle } from "src/shared/functions/api.function";
+import { SEARCH } from "src/shared/routes/routes";
+import { ExcelService } from "src/shared/services/excel.service";
+import { MappingService } from "src/shared/services/mapping.service";
+import { Pargination } from "src/shared/table/pargination";
+import { SupervisionOperationService } from "src/presentation/pages/supervision-operations/data-access/supervision-operation.service";
+import { DemandeIntegrationStateService } from "../../data-access/demande-integration/demande-integration-state.service";
+import { DemandeIntegrationApiStateService } from "../../data-access/demande-integration/demande-integration-api-state.service";
+type TYPEVIEW = "editer" | "détails" | "ajouter";
+
+@Component({
+    selector: "app-demande-integration",
+    templateUrl: "./demande-integration.component.html"
+})
+
+export class DemandeIntegrationComponent implements OnInit {
+    private response: any = {};
+    public firstLevelLibelle: string;
+    public secondLevelLibelle: string;
+    public thirdLevelLibelle: string;
+    public pargination = new Pargination(1, 50, 0, 0, 0, 1, 0);
+    public module: string;
+    public subModule: string;
+    private subscriptionListDemandesIntegrations: Subscription;
+    public listDemandesIntegrations: Array<Object>;
+    public spinner: boolean = false;
+    public dataToSend: string;
+
+    constructor(private activatedRoute: ActivatedRoute, private supervisionOperationService: SupervisionOperationService,
+        private toastrService: ToastrService, private loadingBarService: LoadingBarService,
+        private router: Router, public mappingService: MappingService,
+        private excelService: ExcelService, private demandeIntegrationStateService: DemandeIntegrationStateService,
+        private demandeIntegrationApiStateService: DemandeIntegrationApiStateService) {
+        this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
+        this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+        this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+    }
+
+    ngOnInit(): void {
+        this.initPage();
+        console.log('this.demandeIntegrationStateService.getTableState()', this.demandeIntegrationStateService.getTableState())
+        if (this.demandeIntegrationStateService.getTableState().length > 0) {
+            this.listDemandesIntegrations = this.demandeIntegrationStateService.getTableState();
+            this.pargination = this.demandeIntegrationStateService.getParginateState();
+        } else {
+            this.subscriptionListDemandesIntegrations = this.demandeIntegrationApiStateService.setListDemandeIntegration().subscribe(() => {
+                this.pageCallback();
+            });
+            this.pageCallback();
+            this.spinner = true;
+        }
+    }
+
+    async pageCallback(dataToSend: Object = {}, nbrPage: number = 1) {
+        this.demandeIntegrationStateService.setFilterState(dataToSend);
+        this.dataToSend = this.demandeIntegrationStateService.generateQueryStringFromObject(dataToSend);
+        this.response = await handle(() => this.supervisionOperationService.GetAllTransactions(dataToSend, nbrPage), this.toastrService, this.loadingBarService);
+        this.handleSuccessfulPageCallback(this.response);
+    }
+
+    private handleSuccessfulPageCallback(response): void {
+        this.listDemandesIntegrations = response.data.data;
+        this.demandeIntegrationStateService.setTableItemSelectedState(null);
+        this.spinner = false;
+        this.pargination = new Pargination(response?.data?.p, response?.data?.to, response?.data?.last_page, response?.data?.total, response?.data?.per_page, response?.data?.current_page, (response?.data?.current_page - 1) * this.pargination?.per_page + 1);
+        this.demandeIntegrationStateService.setParginateState(this.pargination);
+    }
+
+    public onPageChange(event: number) {
+        this.pageCallback(this.demandeIntegrationStateService.getFilterState(), event + 1);
+    }
+
+    public navigateByUrl(data: { data: null | Object, paramUrl: TYPEVIEW }): void {
+        if (data.paramUrl === "ajouter") {
+            this.router.navigate([SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl } });
+        } else if (data.paramUrl === "editer" || data.paramUrl === "détails") {
+            this.router.navigate([SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl, page: this.pargination?.currentPage, filter: this.dataToSend, id: data.data["id"] } });
+        }
+    }
+
+    private initPage(): void {
+        // this.subscriptionRouter = this.router.events.pipe(
+        //     filter(event => event instanceof NavigationEnd)
+        // ).subscribe((event: NavigationEnd) => {
+        //     if (!event.urlAfterRedirects.includes('cartes-sim')) {
+        //         this.resetState();
+        //     }
+        // });
+        this.activatedRoute.data.subscribe((data) => {
+            this.module = data.module;
+            this.subModule = data.subModule[0];
+        });
+    }
+
+    private resetState(): void {
+        // this.demandeIntegrationStateService.setFilterState(null);
+        // this.demandeIntegrationStateService.setParginateState(null);
+        // this.demandeIntegrationStateService.setTableItemSelectedState(null);
+        // this.demandeIntegrationStateService.setTableState(null);
+        // this.subscriptionRouter.unsubscribe();
+    }
+
+    public exportExcel(): void {
+        // const data = this.listDemandesIntegrations.map((item: any) => ({
+        //     'Date demande': item?.created_at,
+        //     'N° demande': item?.numero_demande,
+        //     '# Lignes': item?.nb_demande_soumises,
+        //     '# Traitées': item?.nb_demande_traitees,
+        //     'Statut': item?.statut,
+        //     'Demandeur': `${item?.demandeur_nom} ${item?.demandeur_prenoms}`
+        // }));
+        // this.excelService.exportAsExcelFile(data, `Liste des demandes [${this.selectedOperation}]`);
+    }
+
+    ngOnDestroy(): void {
+        if (this.subscriptionListDemandesIntegrations) this.subscriptionListDemandesIntegrations.unsubscribe();
+    }
+}
