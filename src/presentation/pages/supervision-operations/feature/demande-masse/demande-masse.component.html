@@ -1,8 +1,6 @@
 <div #modal class="modal-content" *ngIf="IsLoadData">
     <div>
-        <div
-            class="modal-header"
-            style="
+        <div class="modal-header" style="
                 background-color: #569c5b;
                 color: #fff;
                 align-items: center;
@@ -10,23 +8,14 @@
                 padding: 0.2rem 1rem;
                 display: flex;
                 justify-content: space-between;
-            "
-        >
+            ">
             <h4 class="modal-title pl-3" style="margin: 0">
                 Détails
-                <strong
-                    class="cursor-pointer"
-                    (click)="copyTransaction(demande.numero_demande)"
-                >
+                <strong class="cursor-pointer" (click)="copyTransaction(demande.numero_demande)">
                     [{{ demande.numero_demande }}]
                 </strong>
             </h4>
-            <button
-                type="button"
-                class="close"
-                aria-label="Close"
-                (click)="handleCloseModal()"
-            >
+            <button type="button" class="close" aria-label="Close" (click)="handleCloseModal()">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -77,47 +66,27 @@
                         </div>
                     </div> -->
                     <div class="d-flex gap-2 no-wrap">
-                        <button
-                            pButton
-                            pRipple
-                            [label]="params.action"
-                            (click)="onLetDownDemands()"
-                            class="p-button-warning w-100"
-                            *ngIf="
+                        <button pButton pRipple [label]="params.action" (click)="onLetDownDemands()"
+                            class="p-button-warning w-100" *ngIf="
                                 params.vue === 'demande' &&
                                 params.action === 'Abandonner'
-                            "
-                        ></button>
+                            "></button>
                         <!-- <button pButton pRipple label="Abandonner" (click)="onLetDownDemands()"
                             class="p-button-warning w-100" *ngIf="
                             demande.status === stateSoumis &&
                             demande.traitement === treatmenEntente
                             "></button> -->
-                        <button
-                            pButton
-                            pRipple
-                            [label]="params.action"
-                            [disabled]="formTraitementMasse.invalid"
-                            (click)="onSaveDemandes()"
-                            class="p-button-success w-100"
-                            *ngIf="
+                        <button pButton pRipple [label]="params.action" [disabled]="formTraitementMasse.invalid"
+                            (click)="onSaveDemandes()" class="p-button-success w-100" *ngIf="
                                 params.vue === 'demande' &&
                                 params.action === 'Identifier' &&
                                 canIdentify(listDemandes)
-                            "
-                        ></button>
-                        <button
-                            pButton
-                            pRipple
-                            [label]="params.action"
-                            [disabled]="formTraitementMasse.invalid"
-                            (click)="onSaveTraitements()"
-                            class="p-button-success w-100"
-                            *ngIf="
+                            "></button>
+                        <button pButton pRipple label="Soumettre" [disabled]="formTraitementMasse.invalid"
+                            (click)="onSaveTraitements()" class="p-button-success w-100" *ngIf="
                                 params.vue === 'traitement' &&
                                 params.action === 'Clôturer'
-                            "
-                        ></button>
+                            "></button>
                     </div>
 
                     <div>
@@ -127,49 +96,42 @@
                             </legend>
                             <div class="d-flex flex-column gap-2">
                                 <div>
-                                    <span class="mb-0 fs__30"
-                                        ><strong>Matricule&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>
                                         {{
-                                            listDemandes?.demandeur_matricule ??
-                                                'N/A'
+                                        listDemandes?.demandeur_matricule ??
+                                        'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"
-                                        ><strong
-                                            >Nom complet&nbsp;:&nbsp;</strong
-                                        >
+                                    <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>
                                         {{
-                                            listDemandes?.demandeur_nom ?? 'N/A'
+                                        listDemandes?.demandeur_nom ?? 'N/A'
                                         }}
                                         {{
-                                            listDemandes?.demandeur_prenoms ??
-                                                'N/A'
+                                        listDemandes?.demandeur_prenoms ??
+                                        'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"
-                                        ><strong>Contact&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>
                                         {{
-                                            listDemandes?.demandeur_contacts ??
-                                                'N/A'
+                                        listDemandes?.demandeur_contacts ??
+                                        'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"
-                                        ><strong>Email&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>
                                         {{
-                                            listDemandes?.demandeur_email ??
-                                                'N/A'
+                                        listDemandes?.demandeur_email ??
+                                        'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"
-                                        ><strong>Date&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"><strong>Date&nbsp;:&nbsp;</strong>
                                         {{ listDemandes?.created_at }}
                                     </span>
                                 </div>
@@ -184,44 +146,38 @@
                             </legend>
                             <div class="d-flex flex-column gap-2">
                                 <div>
-                                    <span class="mb-0 fs__30"
-                                        ><strong>Matricule&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>
                                         {{
-                                            listDemandes?.intervenant
-                                                ?.matricule ?? 'N/A'
+                                        listDemandes?.intervenant
+                                        ?.matricule ?? 'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"
-                                        ><strong
-                                            >Nom complet&nbsp;:&nbsp;</strong
-                                        >
+                                    <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>
                                         {{
-                                            listDemandes?.intervenant?.nom ??
-                                                'N/A'
+                                        listDemandes?.intervenant?.nom ??
+                                        'N/A'
                                         }}
                                         {{
-                                            listDemandes?.intervenant
-                                                ?.prenoms ?? 'N/A'
+                                        listDemandes?.intervenant
+                                        ?.prenoms ?? 'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"
-                                        ><strong>Contact&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"><strong>Contact&nbsp;:&nbsp;</strong>
                                         {{
-                                            listDemandes?.intervenant
-                                                ?.contacts ?? 'N/A'
+                                        listDemandes?.intervenant
+                                        ?.contacts ?? 'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"
-                                        ><strong>Email&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>
                                         {{
-                                            listDemandes?.intervenant?.email ??
-                                                'N/A'
+                                        listDemandes?.intervenant?.email ??
+                                        'N/A'
                                         }}
                                     </span>
                                 </div>
@@ -229,6 +185,12 @@
                                     <span class="mb-0 fs__30">
                                         <strong>Date&nbsp;:&nbsp;</strong>
                                         {{ listDemandes?.acquitte_a ?? 'N/A' }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="mb-0 fs__30">
+                                        <strong>Lignes&nbsp;:&nbsp;</strong>
+                                        {{ listDemandes?.nb_demande_traitees || 0 }} / {{ listDemandes?.nb_demande_soumises || 0 }}
                                     </span>
                                 </div>
                             </div>
@@ -242,26 +204,22 @@
                             </legend>
                             <div class="d-flex flex-column gap-2">
                                 <div>
-                                    <span class="mb-0 fs__30"
-                                        ><strong>Matricule&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>
                                         {{
-                                            listDemandes?.finalisateur
-                                                ?.matricule ?? 'N/A'
+                                        listDemandes?.finalisateur
+                                        ?.matricule ?? 'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"
-                                        ><strong
-                                            >Nom complet&nbsp;:&nbsp;</strong
-                                        >
+                                    <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>
                                         {{
-                                            listDemandes?.finalisateur?.nom ??
-                                                'N/A'
+                                        listDemandes?.finalisateur?.nom ??
+                                        'N/A'
                                         }}
                                         {{
-                                            listDemandes?.finalisateur
-                                                ?.prenoms ?? 'N/A'
+                                        listDemandes?.finalisateur
+                                        ?.prenoms ?? 'N/A'
                                         }}
                                     </span>
                                 </div>
@@ -269,17 +227,16 @@
                                     <span class="mb-0 fs__30">
                                         <sstrong>Contact&nbsp;:&nbsp;</sstrong>
                                         {{
-                                            listDemandes?.finalisateur
-                                                ?.contacts ?? 'N/A'
+                                        listDemandes?.finalisateur
+                                        ?.contacts ?? 'N/A'
                                         }}
                                     </span>
                                 </div>
                                 <div>
-                                    <span class="mb-0 fs__30"
-                                        ><strong>Email&nbsp;:&nbsp;</strong>
+                                    <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>
                                         {{
-                                            listDemandes?.finalisateur?.email ??
-                                                'N/A'
+                                        listDemandes?.finalisateur?.email ??
+                                        'N/A'
                                         }}
                                     </span>
                                 </div>
@@ -296,57 +253,54 @@
 
                 <div class="col-lg-10">
                     <div class="col-lg-12">
-                        <div
-                            role="alert"
-                            style="
+                        <div role="alert" style="
                                 display: flex;
                                 justify-content: space-between;
-                            "
-                            [ngClass]="OnGetRapportCodeStyle(listDemandes)"
-                        >
+                            " [ngClass]="OnGetRapportCodeStyle(listDemandes)">
                             <div>
                                 <strong class="wrapper-header">
-                                    {{ BADGE_ETAT.soumission | capitalize }} :
+                                    {{ BADGE_ETAPE.SOUMISSION | capitalize }} :
                                     {{ listDemandes?.etat_soumission }}
                                     <br />
                                     Date : [{{
-                                        listDemandes?.etat_soumission ===
-                                        'abandonné'
-                                            ? listDemandes?.cloture_a
-                                            : listDemandes?.created_at ??
-                                              '-- : --'
+                                    listDemandes?.etat_soumission ===
+                                    'abandonné'
+                                    ? listDemandes?.cloture_a
+                                    : listDemandes?.created_at ??
+                                    '-- : --'
                                     }}]
                                 </strong>
                             </div>
                             <div>
                                 <strong class="wrapper-header">
-                                    {{ BADGE_ETAT.traitement | capitalize }} :
+                                    {{ BADGE_ETAPE.TRAITEMENT | capitalize }} :
                                     {{ listDemandes?.etat_traitement }}
                                     <br />
                                     Date : [{{
-                                        listDemandes?.traite_a ?? '-- : --'
+                                    listDemandes?.traite_a ?? '-- : --'
                                     }}]
                                 </strong>
                             </div>
                             <div>
                                 <strong class="wrapper-header">
-                                    {{ BADGE_ETAT.finalisation | capitalize }} :
+                                    {{ BADGE_ETAPE.FINALISATEUR | capitalize }}
+                                    :
                                     {{ listDemandes?.etat_finalisation }}
                                     <br />
                                     Date : [{{
-                                        listDemandes?.finalise_a ?? '-- : --'
+                                    listDemandes?.finalise_a ?? '-- : --'
                                     }}]
                                 </strong>
                             </div>
                             <div>
                                 <strong class="wrapper-header">
                                     <span class="text-capitalize">{{
-                                        BADGE_ETAT.cloture
-                                    }}</span>
+                                        BADGE_ETAPE.CLOTURE
+                                        }}</span>
                                     : {{ listDemandes?.etat_cloture }}
                                     <br />
                                     Date : [{{
-                                        listDemandes?.cloture_a ?? '-- : --'
+                                    listDemandes?.cloture_a ?? '-- : --'
                                     }}]
                                 </strong>
                             </div>
@@ -355,35 +309,28 @@
                             <h4 class="col-md-7 wrapper-header">
                                 <strong>
                                     {{
-                                        listDemandes?.operation === 'activation'
-                                            ? "Operation d'identification"
-                                            : ''
+                                    listDemandes?.operation === 'activation'
+                                    ? "Operation d'identification"
+                                    : ''
                                     }}
                                 </strong>
                             </h4>
-                            <div
-                                class="col-md-5 wrapper-header"
-                                style="
+                            <div class="col-md-5 wrapper-header" style="
                                     display: flex;
                                     justify-content: end;
                                     font-size: 20px;
-                                "
-                            >
-                                Date mise à jour :&nbsp;<b
-                                    ><span>{{
+                                ">
+                                Date mise à jour :&nbsp;<b><span>{{
                                         listDemandes.updated_at ?? 'N/A'
-                                    }}</span></b
-                                >
+                                        }}</span></b>
                             </div>
                         </div>
 
-                        <hr
-                            style="
+                        <hr style="
                                 position: relative;
                                 top: -0.2rem;
                                 margin-top: -0.8rem;
-                            "
-                        />
+                            " />
 
                         <div>
                             <div>
@@ -395,14 +342,9 @@
                                                     <b>Stock SIM/OCI</b>
                                                 </legend>
                                                 <div class="text-wrapper">
-                                                    <input
-                                                        type="text"
-                                                        pInputText
-                                                        [value]="
+                                                    <input type="text" pInputText [value]="
                                                             sourceStockOrangeSim
-                                                        "
-                                                        [disabled]="true"
-                                                    />
+                                                        " [disabled]="true" />
                                                 </div>
                                             </fieldset>
                                         </div>
@@ -418,61 +360,33 @@
                                             <label>
                                                 <b>{{
                                                     firstLevelLibelle
-                                                }}</b></label
-                                            >
-                                            <input
-                                                type="text"
-                                                pInputText
-                                                formControlName="niveau_uns_uuid"
-                                            />
+                                                    }}</b></label>
+                                            <input type="text" pInputText formControlName="niveau_uns_uuid" />
                                         </div>
-                                        <div class="width-100">
+                                        <div clafss="width-100">
                                             <label>
                                                 <b>{{ secondLevelLibelle }}</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                pInputText
-                                                formControlName="niveau_deux_uuid"
-                                            />
+                                            <input type="text" pInputText formControlName="niveau_deux_uuid" />
                                         </div>
                                         <div class="width-100">
                                             <label>
                                                 <b>{{ thirdLevelLibelle }}</b>
                                             </label>
-                                            <input
-                                                type="text"
-                                                pInputText
-                                                formControlName="niveau_trois_uuid"
-                                            />
+                                            <input type="text" pInputText formControlName="niveau_trois_uuid" />
                                         </div>
                                         <div class="width-100">
                                             <label><b>Usage</b></label>
-                                            <input
-                                                type="text"
-                                                pInputText
-                                                formControlName="usage_id"
-                                            />
+                                            <input type="text" pInputText formControlName="usage_id" />
                                         </div>
                                         <div class="width-100">
-                                            <label
-                                                ><b
-                                                    >Formule destination<span
-                                                        class="text-danger"
-                                                        >*</span
-                                                    ></b
-                                                ></label
-                                            >
+                                            <label><b>Formule destination<span class="text-danger">*</span></b></label>
                                             <!-- <p-dropdown [options]="listFormules" formControlName="formule_uuid"
                                                 optionLabel="nom" optionValue="uuid"
                                                 placeholder="Sélectionner la formule de destination"
                                                 [showClear]="true" name="formule_uuid">
                                             </p-dropdown> -->
-                                            <input
-                                                type="text"
-                                                pInputText
-                                                formControlName="formule_uuid"
-                                            />
+                                            <input type="text" pInputText formControlName="formule_uuid" />
                                         </div>
                                     </div>
                                 </fieldset>
@@ -480,55 +394,25 @@
                                     <legend>Informations demande</legend>
                                     <div class="row">
                                         <div class="col-md-2">
-                                            <label for="commentaire"
-                                                ><strong
-                                                    >Nombre de ligne</strong
-                                                ></label
-                                            >
-                                            <input
-                                                type="text"
-                                                pInputText
-                                                formControlName="nb_demande_soumises"
-                                            />
+                                            <label for="commentaire"><strong>Nombre de ligne</strong></label>
+                                            <input type="text" pInputText formControlName="nb_demande_soumises" />
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="commentaire"
-                                                ><strong
-                                                    >Description</strong
-                                                ></label
-                                            >
-                                            <input
-                                                type="text"
-                                                pInputText
-                                                formControlName="description"
-                                            />
+                                            <label for="commentaire"><strong>Description</strong></label>
+                                            <input type="text" pInputText formControlName="description" />
                                         </div>
                                         <div class="col-md-2">
-                                            <label for="commentaire"
-                                                ><strong
-                                                    >Jutificatif</strong
-                                                ></label
-                                            >
+                                            <label for="commentaire"><strong>Jutificatif</strong></label>
                                             <div
-                                                class="d-flex justify-content-center align-items-center container-button-telecharger"
-                                            >
+                                                class="d-flex justify-content-center align-items-center container-button-telecharger">
                                                 <div *ngIf="IsJustificatif()">
-                                                    <button
-                                                        pButton
-                                                        pRipple
-                                                        label="Télécharger"
-                                                        icon="pi pi-download"
-                                                        class="p-button-success"
-                                                        (click)="downloadFile()"
-                                                    ></button>
+                                                    <button pButton pRipple label="Télécharger" icon="pi pi-download"
+                                                        class="p-button-success" (click)="downloadFile()"></button>
                                                 </div>
                                                 <div class="justificatif-error">
-                                                    <span
-                                                        class=""
-                                                        *ngIf="
+                                                    <span class="" *ngIf="
                                                             !IsJustificatif()
-                                                        "
-                                                    >
+                                                        ">
                                                         Aucun justificatif pour
                                                         cette transaction
                                                     </span>
@@ -536,33 +420,19 @@
                                             </div>
                                         </div>
                                         <div class="col-md-2">
-                                            <label for="commentaire"
-                                                ><strong
-                                                    >Reçu paiement</strong
-                                                ></label
-                                            >
+                                            <label for="commentaire"><strong>Reçu paiement</strong></label>
                                             <div
-                                                class="d-flex justify-content-center align-items-center container-button-telecharger"
-                                            >
+                                                class="d-flex justify-content-center align-items-center container-button-telecharger">
                                                 <div *ngIf="IsRecuPaiement()">
-                                                    <button
-                                                        pButton
-                                                        pRipple
-                                                        label="Télécharger"
-                                                        icon="pi pi-download"
-                                                        class="p-button-success"
-                                                        (click)="
+                                                    <button pButton pRipple label="Télécharger" icon="pi pi-download"
+                                                        class="p-button-success" (click)="
                                                             downloadRecuPaiement()
-                                                        "
-                                                    ></button>
+                                                        "></button>
                                                 </div>
                                                 <div class="justificatif-error">
-                                                    <span
-                                                        class=""
-                                                        *ngIf="
+                                                    <span class="" *ngIf="
                                                             !IsRecuPaiement()
-                                                        "
-                                                    >
+                                                        ">
                                                         Aucun recu de paiement
                                                         pour cette transaction
                                                     </span>
@@ -595,103 +465,163 @@
                                     </div>
                                 </fieldset> -->
 
-                                <fieldset
-                                    *ngIf="
+                                <fieldset *ngIf="
+                                        !(
+                                            params.vue === 'demande' &&
+                                            params.action === 'Identifier' &&
+                                            canIdentify(listDemandes)
+                                        ) &&
+                                        !(
+                                            params.vue === 'demande' &&
+                                            params.action === 'Abandonner'
+                                        )
+                                    ">
+                                    <legend><strong>Traitement</strong></legend>
+                                    <div class="d-flex gap-2 no-wrap">
+                                        <div style="width: 100%" *ngIf="params.vue === 'traitement' && params.action === 'Clôturer' || 
+                                        !(params.vue === 'traitement' && params.action === 'Clôturer') &&
+                                        !(params.vue === 'demande' && params.action === 'Identifier' && canIdentify(listDemandes)) &&
+                                        !(params.vue === 'demande' && params.action === 'Abandonner')">
+                                            <label for="commentaire"><strong>Commentaire
+                                                    traitement</strong></label>
+                                            <textarea name="commentaire" class="form-control" rows="2" style="
+                                                    width: 100%;
+                                                    margin-top: 0%;
+                                                " formControlName="commentaire_traitement">
+                                            </textarea>
+                                        </div>
+                                        <div style="width: 100%" *ngIf="params.vue === 'traitement' && params.action === 'Clôturer' || 
+                                        !(params.vue === 'traitement' && params.action === 'Clôturer') &&
+                                        !(params.vue === 'demande' && params.action === 'Identifier' && canIdentify(listDemandes)) &&
+                                        !(params.vue === 'demande' && params.action === 'Abandonner')">
+                                            <label for="commentaire"><strong>Commentaire
+                                                    finalisation</strong></label>
+                                            <textarea name="commentaire" class="form-control" rows="2" style="
+                                                    width: 100%;
+                                                    margin-top: 0%;
+                                                " formControlName="commentaire_finalisation">
+                                            </textarea>
+                                        </div>
+                                        <div style="width: 100%"  
+                                        *ngIf="!(params.vue === 'traitement' && params.action === 'Clôturer') &&
+                                        !(params.vue === 'demande' && params.action === 'Identifier' && canIdentify(listDemandes)) &&
+                                        !(params.vue === 'demande' && params.action === 'Abandonner')">
+                                            <label for="commentaire"><strong>Commentaire clôture</strong></label>
+                                            <textarea name="commentaire" class="form-control" rows="2" style="
+                                                    width: 100%;
+                                                    margin-top: 0%;
+                                                " formControlName="commentaire_cloture">
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset *ngIf="
                                         params.vue === 'traitement' &&
                                         params.action === 'Clôturer'
-                                    "
-                                >
-                                    <legend><strong>Traitement</strong></legend>
-                                    <div
-                                        class="wrapper-evaluation"
-                                        style="display: flex; gap: 1rem"
-                                    >
+                                    ">
+                                    <legend><strong>Clôture</strong></legend>
+                                    <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
                                         <div class="block-checked">
-                                            <div
-                                                style="margin-left: 8%"
-                                                class="ml-3"
-                                            >
-                                                <span
-                                                    for="accepte"
-                                                    style="
+                                            <div style="margin-left: 8%" class="ml-3">
+                                                <span for="accepte" style="
                                                         font-size: 23px;
                                                         margin-left: 5%;
                                                         font-weight: 800;
-                                                    "
-                                                >
-                                                    Accepté<span
-                                                        class="text-danger"
-                                                        >*</span
-                                                    >?
+                                                    ">
+                                                    Accepté<span class="text-danger">*</span>?
                                                 </span>
                                                 <div class="wrapper-check">
-                                                    <div
-                                                        class="form-check form-check-inline"
-                                                    >
-                                                        <input
-                                                            class="form-check-input"
-                                                            type="radio"
-                                                            name="demande"
-                                                            value="oui"
-                                                            id="infosLigne"
-                                                            formControlName="accepte"
-                                                        />
-                                                        <label
-                                                            class="form-check-label"
-                                                            for="oui"
-                                                            style="
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="demande"
+                                                            value="oui" id="infosLigne" formControlName="accepte" />
+                                                        <label class="form-check-label" for="oui" style="
                                                                 width: auto !important;
-                                                            "
-                                                        >
+                                                            ">
                                                             Oui
                                                         </label>
                                                     </div>
-                                                    <div
-                                                        class="form-check form-check-inline"
-                                                    >
-                                                        <input
-                                                            class="form-check-input"
-                                                            type="radio"
-                                                            name="demande"
-                                                            value="non"
-                                                            id="infosLigne"
-                                                            formControlName="accepte"
-                                                        />
-                                                        <label
-                                                            class="form-check-label"
-                                                            for="non"
-                                                            style="
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="demande"
+                                                            value="non" id="infosLigne" formControlName="accepte" />
+                                                        <label class="form-check-label" for="non" style="
                                                                 width: auto !important;
-                                                            "
-                                                            >Non
+                                                            ">Non
                                                         </label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="block-checked" style="
+                                                width: 15rem;
+                                                padding: 0 0.5rem 0.5rem 0.5rem;
+                                            ">
+                                            <div class="ml-3">
+                                                <div class="wrapper-check">
+                                                    <div style="
+                                                            display: flex;
+                                                            flex-direction: column;
+                                                        ">
+                                                        <div>
+                                                            <label for="infosLigne" style="
+                                                                    margin-left: 0 !important;
+                                                                ">
+                                                                <img src="assets/images/icones/smile.png" width="22"
+                                                                    alt="" />
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <input class="form-check-input" type="radio"
+                                                                name="infosLigne" value="content" id="infosLigne" />
+                                                        </div>
+                                                    </div>
+                                                    <div style="
+                                                            display: flex;
+                                                            flex-direction: column;
+                                                        ">
+                                                        <div>
+                                                            <label for="infosLigne" style="
+                                                                    margin-left: 0 !important;
+                                                                ">
+                                                                <img src="assets/images/icones/confused.png" width="22"
+                                                                    alt="" />
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <input class="form-check-input" type="radio"
+                                                                name="infosLigne" value="neutre" id="infosLigne" />
+                                                        </div>
+                                                    </div>
+                                                    <div style="
+                                                            display: flex;
+                                                            flex-direction: column;
+                                                        ">
+                                                        <div>
+                                                            <label for="infosLigne" style="
+                                                                    margin-left: 0 !important;
+                                                                ">
+                                                                <img src="assets/images/icones/sad.png" width="22"
+                                                                    alt="" />
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <input class="form-check-input" type="radio"
+                                                                name="infosLigne" value="mécontent" id="infosLigne" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div style="width: 100%">
-                                            <label for="commentaire"
-                                                ><strong
-                                                    >Commentaire<span
-                                                        class="text-danger"
+                                            <label for="commentaire"><strong>Commentaire<span class="text-danger"
                                                         [hidden]="
                                                             !croixRougeCommentaire
-                                                        "
-                                                        >*</span
-                                                    ></strong
-                                                ></label
-                                            >
-                                            <textarea
-                                                name="commentaire"
-                                                formControlName="commentaire"
-                                                class="form-control"
-                                                rows="2"
-                                                style="
+                                                        ">*</span></strong></label>
+                                            <textarea name="commentaire" formControlName="commentaire"
+                                                class="form-control" rows="2" style="
                                                     width: 100%;
                                                     margin-top: 0%;
-                                                "
-                                                placeholder="Entrer un commentaire"
-                                            >
+                                                " placeholder="Entrer un commentaire">
                                             </textarea>
                                         </div>
                                     </div>
@@ -699,30 +629,20 @@
 
                                 <br />
 
-                                <fieldset
-                                    *ngIf="
+                                <fieldset *ngIf="
                                         params.vue === 'demande' &&
                                         params.action === 'Identifier' &&
                                         canIdentify(listDemandes)
-                                    "
-                                >
+                                    " class="padding-bottom-lignes">
                                     <legend [ngStyle]="{ width: '100%' }">
                                         <b>Identification des lignes</b>
                                     </legend>
                                     <div class="row">
-                                        <app-form-masse
-                                            class="col-md-9 d-flex align-items-end"
-                                            [fileModel]="fileModel"
-                                            (dataToSend)="
-                                                pushCurrentArrayForm($event)
-                                            "
-                                            [currentArrayHeaders]="
-                                                currentArrayHeaders
-                                            "
-                                            (downloadModel)="
-                                                onDownloadModel($event)
-                                            "
-                                        >
+                                        <app-form-masse class="col-md-9 d-flex align-items-end" [fileModel]="fileModel"
+                                            (dataToSend)="pushCurrentArrayForm($event)" 
+                                            [currentArrayHeaders]="currentArrayHeaders" 
+                                            (downloadModel)="onDownloadModel($event)"
+                                            [formMasseLibelle]="formMasseLibelle">
                                         </app-form-masse>
                                     </div>
                                 </fieldset>

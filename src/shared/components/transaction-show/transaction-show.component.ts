@@ -328,6 +328,15 @@ export class TransactionShowComponent implements OnInit {
       })
   }
 
+  public OnGetRapportCodeStyle(code: any): string {    
+    if (code.includes('100')) {
+      return 'style100';
+    } else if (code.includes('200')) {
+      return 'style200';
+    }else {
+      return 'styledefault';
+    }
+  }
 
   public GetAllAchats() {
     this.provisionningService

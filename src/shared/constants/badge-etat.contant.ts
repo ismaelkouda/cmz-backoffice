@@ -6,5 +6,6 @@ export const BADGE_ETAT = {
     REJETE: "rejeté",
     TOTAL: "total",
     PARTIEL: "partiel",
-    CLOTURE: "clôturé"
+    CLOTURE: "clôturé",
+    REFUSE: "refusé"
 }

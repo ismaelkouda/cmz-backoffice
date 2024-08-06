@@ -1,7 +1,7 @@
 import { BADGE_ETAPE } from './../../../../../shared/constants/badge-etape.constant';
 import { BADGE_ETAT } from '../../../../../shared/constants/badge-etat.contant';
 
-import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { SettingService } from 'src/shared/services/setting.service';
@@ -77,16 +77,16 @@ export class DemandeWrapperComponent implements OnInit {
 
   ) {
     this.listOperations = this.mappingService.listOperations
-      Object.values(StatutTransaction).forEach(item => {
-        this.listStatuts.push(item);
-      });
-      Object.values(TraitementTransaction).forEach(item => {
-        this.listTraitementTransactions.push(item);
-      });        
+    Object.values(StatutTransaction).forEach(item => {
+      this.listStatuts.push(item);
+    });
+    Object.values(TraitementTransaction).forEach(item => {
+      this.listTraitementTransactions.push(item);
+    });
   }
 
-  ngOnInit() {    
-    this.sharedDataService.postPatrimoineSimDemandesServicesAll().subscribe(()=> {
+  ngOnInit() {
+    this.sharedDataService.postPatrimoineSimDemandesServicesAll().subscribe(() => {
       this.GetAllTransactions();
     })
     this.GetAllTransactions()
@@ -100,7 +100,7 @@ export class DemandeWrapperComponent implements OnInit {
     if (history.state.patrimoine) {
       this.onInitForm('simple')
     }
-    if (history.state?.statut  || history.state?.traitement) {
+    if (history.state?.statut || history.state?.traitement) {
       this.selectedStatut = history.state?.statut
     }
   }
@@ -114,10 +114,10 @@ export class DemandeWrapperComponent implements OnInit {
     }
     this.IsLoading = true;
     const modalRef = this.modalService.open(DemandeMasseComponent, ModalParams);
-    modalRef.componentInstance.params = {vue: "demande", action: action};
+    modalRef.componentInstance.params = { vue: "demande", action: action };
     modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
     modalRef.componentInstance.resultTraitement = this.demandeService.GetDemandeServiceByTransaction(this.demandesFilterStateService.getFilterState(), this.p);
-    modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res;  modalRef.componentInstance.IsLoadData = !res });
+    modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res; modalRef.componentInstance.IsLoadData = !res });
   }
 
   public GetAllTransactions() {
@@ -131,15 +131,15 @@ export class DemandeWrapperComponent implements OnInit {
       .GetDemandeServiceByTransaction(data, this.p)
       .subscribe({
         next: (response) => {
-          this.listTransactions =  response['data']['data'].map((data) => {
+          this.listTransactions = response['data']['data'].map((data) => {
             if (data?.statut === StatutTransaction.TARITER) {
-              return {...data,current_date: data?.date_traitement}
-            }else if (data?.statut === StatutTransaction.CLOTURER) {
-              return {...data,current_date: data?.date_cloture}
-            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
-              return {...data,current_date: data?.date_acquittement}
-            } else{
-              return {...data,current_date: 'N/A'}
+              return { ...data, current_date: data?.date_traitement }
+            } else if (data?.statut === StatutTransaction.CLOTURER) {
+              return { ...data, current_date: data?.date_cloture }
+            } else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return { ...data, current_date: data?.date_acquittement }
+            } else {
+              return { ...data, current_date: 'N/A' }
             }
           });
           this.totalPage = response.data.last_page;
@@ -153,7 +153,7 @@ export class DemandeWrapperComponent implements OnInit {
         }
       })
   }
-  
+
   public onPageChange(event) {
     this.p = event;
     if (this.isFilter()) {
@@ -182,15 +182,15 @@ export class DemandeWrapperComponent implements OnInit {
       .GetDemandeServiceByTransaction(data, this.p)
       .subscribe({
         next: (response) => {
-          this.listTransactions =  response['data']['data'].map((data) => {
+          this.listTransactions = response['data']['data'].map((data) => {
             if (data?.statut === StatutTransaction.TARITER) {
-              return {...data,current_date: data?.date_traitement}
-            }else if (data?.statut === StatutTransaction.CLOTURER) {
-              return {...data,current_date: data?.date_cloture}
-            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
-              return {...data,current_date: data?.date_acquittement}
-            } else{
-              return {...data,current_date: 'N/A'}
+              return { ...data, current_date: data?.date_traitement }
+            } else if (data?.statut === StatutTransaction.CLOTURER) {
+              return { ...data, current_date: data?.date_cloture }
+            } else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return { ...data, current_date: data?.date_acquittement }
+            } else {
+              return { ...data, current_date: 'N/A' }
             }
           });
           this.totalPage = response.data.last_page;
@@ -204,7 +204,7 @@ export class DemandeWrapperComponent implements OnInit {
         }
       })
   }
-  public OnRefresh(){
+  public OnRefresh() {
     this.p = 1;
     this.GetAllTransactions()
     this.selectedTransaction = null
@@ -254,51 +254,51 @@ export class DemandeWrapperComponent implements OnInit {
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
-  public onInitForm(type: string, data:any = null): void {    
+  public onInitForm(type: string, data: any = null): void {
     this.formsView.emit(true);
     this.typeDemande.emit(type);
-    if(data) this.currentObject.emit(data);
+    if (data) this.currentObject.emit(data);
     console.log('this.currentObject', this.currentObject)
   }
 
   OnShowTraitement(data: any): void {
-     this.transactionId.emit(data)
+    this.transactionId.emit(data)
   }
   changeDateStart(e) {
-    if ( moment(this.filterDateStart).isValid()) {
+    if (moment(this.filterDateStart).isValid()) {
       this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
-    }else{
+    } else {
       this.selectDateStart = null
     }
   }
-  changeDateEnd(e) { 
-    if ( moment(this.filterDateEnd).isValid()) {
+  changeDateEnd(e) {
+    if (moment(this.filterDateEnd).isValid()) {
       this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
-    }else{
+    } else {
       this.selectDateEnd = null
     }
   }
-  public OnChangeStatut(event){
+  public OnChangeStatut(event) {
     const currentStatut = event.value
     if (currentStatut === StatutTransaction.SOUMIS) {
-      this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
+      this.listTraitementTransactions.splice(0, this.listTraitementTransactions.length);
       this.listTraitementTransactions = [
         TraitementTransaction.EN_ENTENTE,
         TraitementTransaction.ACQUITER
       ]
-    }else if (currentStatut === StatutTransaction.TARITER) {
-      this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
+    } else if (currentStatut === StatutTransaction.TARITER) {
+      this.listTraitementTransactions.splice(0, this.listTraitementTransactions.length);
       this.listTraitementTransactions = [
         TraitementTransaction.ACCEPTER,
         TraitementTransaction.REJETER
       ]
-    }else if (currentStatut === StatutTransaction.CLOTURER) {
-      this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
+    } else if (currentStatut === StatutTransaction.CLOTURER) {
+      this.listTraitementTransactions.splice(0, this.listTraitementTransactions.length);
       this.listTraitementTransactions = [
         TraitementTransaction.REFUSER,
         TraitementTransaction.ACCEPTER
       ]
-    }else{
+    } else {
       Object.values(TraitementTransaction).forEach(item => {
         this.listTraitementTransactions.push(item);
       });
@@ -318,8 +318,18 @@ export class DemandeWrapperComponent implements OnInit {
       '# Traitées': item?.nb_demande_traitees,
       'Statut': item?.statut,
       'Demandeur': `${item?.demandeur_nom} ${item?.demandeur_prenoms}`
-     }));
+    }));
     this.excelService.exportAsExcelFile(data, `Liste des demandes [${this.selectedOperation}]`);
-  }
+  }
+
+  public getStyleButtonTraitement(data: any): Object {
+    if (data?.statut === BADGE_ETAPE.SOUMISSION && data.traitement === BADGE_ETAT.EN_ATTENTE) {
+      return {class: 'p-button-danger', icon: 'pi pi-times', tooltip: 'Abandonner'};
+    } else if (data?.statut === BADGE_ETAPE.FINALISATEUR || data?.statut === BADGE_ETAPE.CLOTURE) {
+      return {class: 'p-button-success', icon: 'pi pi-check', tooltip: 'Identifier'};
+    } else {
+      return {class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande'};
+    }
+  }
 
 }

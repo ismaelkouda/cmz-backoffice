@@ -1,7 +1,9 @@
 <!-- DEBUT: formulaire ajout en masse dans le module 'Operation d'identification' -->
 <div class="row width-100 container-form-masse">
     <div class="col-md-4">
-        <label class="title-file">Etape 1</label>
+        <label class="title-file"
+            >{{formMasseLibelle?.etape_1}}</label
+        >
         <div
             class="d-flex align-items-center justify-content-center container-button-telecharger"
         >
@@ -16,14 +18,14 @@
         </div>
     </div>
     <div class="col-md-4">
-        <label class="title-file">Etape 2</label>
+        <label class="title-file">{{formMasseLibelle?.etape_2}}</label>
         <div
             class="d-flex align-items-center justify-content-center container-button-telecharger"
         >
             <div class="input_file h-70">
                 <label for="file">
                     <img src="assets/images/excel.png" width="50" />
-                    <span [hidden]="fileName"><b>Spécifier le fichier</b></span>
+                    <span [hidden]="fileName"><b>Spécifiez le fichier</b></span>
                     <span [hidden]="!fileName"
                         ><b>{{ fileName }}</b></span
                     >
@@ -39,7 +41,9 @@
         </div>
     </div>
     <div class="col-md-4">
-        <label class="title-file">Etape 3</label>
+        <label class="title-file"
+            >{{formMasseLibelle?.etape_3}}</label
+        >
         <div
             class="d-flex align-items-center justify-content-center container-button-telecharger"
         >

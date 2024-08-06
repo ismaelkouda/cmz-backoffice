@@ -11,10 +11,10 @@
 
     // DEV Config
     window.__env.dev = {
-        // apiUrl: 'http://10.212.134.200:8003/api/v1/',
-        // fileUrl: 'http://10.212.134.200:8003/',
-        apiUrl: "http://10.10.0.30:8003/api/v1/",
-        fileUrl: "http://10.10.0.30:8003/", 
+        apiUrl: 'http://10.10.0.200:12200/api/v1/',
+        fileUrl: 'http://10.10.0.200:12200/',
+        // apiUrl: "http://10.10.0.30:8003/api/v1/",
+        // fileUrl: "http://10.10.0.30:8003/", 
         // apiUrl: "https://osim-monitoring.orange.ci:12014/api/v1/",
         // fileUrl: "https://osim-monitoring.orange.ci:12014/", 
         environmentDeployment: 'DEV',
@@ -32,6 +32,6 @@
         sourceSoldeDotationOrange: 'Orange fera le dépôt du volume demandé sur le compte Data de la SIM. A l\'issue de l\'operation une facture sera générée'
     };
 
-    window.__env.currentEnv = window.__env.prod;
+    window.__env.currentEnv = window.__env.dev;
 
 }(this));

@@ -202,13 +202,11 @@
                             data?.statut === BADGE_ETAPE.TRAITEMENT
                         "
                         [class.badge-success]="
-                            data?.statut === BADGE_ETAPE.FINALISATEUR
-                        "
-                        [class.badge-green]="
+                            data?.statut === BADGE_ETAPE.FINALISATEUR ||
                             data?.statut === BADGE_ETAPE.CLOTURE
                         "
                     >
-                        {{ data.statut }}
+                        {{ data?.statut }}
                     </span>
                 </td>
                 <td class="text-center">
@@ -216,15 +214,14 @@
                         [ngStyle]="{ 'font-size': '16px' }"
                         class="badge"
                         [class.badge-dark]="
-                            data?.traitement === BADGE_ETAT.RECU
-                        "
-                        [class.badge-dark-2]="
-                            data?.statut === BADGE_ETAPE.SOUMISSION &&
-                            data?.traitement === BADGE_ETAT.EN_ATTENTE
+                            data?.traitement === BADGE_ETAT.RECU ||
+                            (data?.statut === BADGE_ETAPE.SOUMISSION &&
+                                data?.traitement === BADGE_ETAT.EN_ATTENTE)
                         "
                         [class.badge-warning]="
                             data?.statut === BADGE_ETAPE.TRAITEMENT &&
-                            data?.traitement === BADGE_ETAT.PARTIEL
+                            (data?.traitement === BADGE_ETAT.PARTIEL ||
+                                data?.traitement === BADGE_ETAT.EN_ATTENTE)
                         "
                         [class.badge-warning-2]="
                             data?.statut === BADGE_ETAPE.CLOTURE &&
@@ -238,13 +235,13 @@
                             data?.statut === BADGE_ETAPE.FINALISATEUR &&
                             data?.traitement === BADGE_ETAT.CLOTURE
                         "
+                        [class.badge-danger]="
+                            data?.traitement === BADGE_ETAT.REJETE ||
+                            data?.traitement === BADGE_ETAT.REFUSE
+                        "
                         [class.badge-success]="
                             data?.statut === BADGE_ETAPE.CLOTURE &&
                             data?.traitement === BADGE_ETAT.ACCEPTE
-                        "
-                        [class.badge-danger]="
-                            data?.statut === BADGE_ETAPE.TRAITEMENT &&
-                            data?.traitement === BADGE_ETAT.REJETE
                         "
                     >
                         {{ data.traitement }}
@@ -256,7 +253,7 @@
                 <td class="td-actions">
                     <button
                         pButton
-                        icon="pi pi-eye"
+                        icon="pi pi-folder-open"
                         pTooltip="Voir"
                         tooltipPosition="top"
                         (click)="OnShowTraitement(data)"
@@ -285,24 +282,9 @@
                         pButton
                         tooltipPosition="top"
                         (click)="OnShowModalTraitement(data)"
-                        [ngClass]="
-                            data?.statut === BADGE_ETAPE.SOUMISSION &&
-                            data.traitement === BADGE_ETAT.EN_ATTENTE
-                                ? 'p-button-danger'
-                                : 'p-button-success'
-                        "
-                        [icon]="
-                            data?.statut === BADGE_ETAPE.SOUMISSION &&
-                            data.traitement === BADGE_ETAT.EN_ATTENTE
-                                ? 'pi pi-times'
-                                : 'pi pi-check'
-                        "
-                        [pTooltip]="
-                            data?.statut === BADGE_ETAPE.SOUMISSION &&
-                            data.traitement === BADGE_ETAT.EN_ATTENTE
-                                ? 'Abandonner'
-                                : 'Identifier'
-                        "
+                        [ngClass]="getStyleButtonTraitement(data).class"
+                        [icon]="getStyleButtonTraitement(data).icon"
+                        [pTooltip]="getStyleButtonTraitement(data).tooltip"
                     ></button>
                     <button
                         pButton

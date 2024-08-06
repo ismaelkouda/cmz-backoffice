@@ -19,6 +19,7 @@ import { ModalParams } from 'src/shared/constants/modalParams.contant';
 import { SuivieTraitementFilterStateService } from '../../data-access/suivie-traitement-filter-state.service';
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
+import { SharedDataService } from 'src/shared/services/shared-data.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -55,17 +56,6 @@ export class SuivieTraitementComponent implements OnInit {
   public selectDateStart: any;
   public selectDateEnd: any;
   public currentUser: any;
-  public stateSoumis: string = StatutTransaction.SOUMIS;
-  public stateTraite: string = StatutTransaction.TARITER;
-  public stateCloture: string = StatutTransaction.CLOTURER;
-  public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
-  public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
-  public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
-  public treatmenRejeter: string = TraitementTransaction.REJETER;
-  public treatmenRefuser: string = TraitementTransaction.REFUSER;
-  public treatmenCancel: string = TraitementTransaction.ABANDONNER;
-  public treatmenPartiel: string = TraitementTransaction.PARTIEL;
-  public treatmenTotal: string = TraitementTransaction.TOTAL;
   public historie: any;
   public IsLoading: boolean;
   public title = 'Suivi et traitements - Système de Gestion de Collecte Centralisée';
@@ -81,7 +71,8 @@ export class SuivieTraitementComponent implements OnInit {
     private titleService: Title,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private suivieTraitementFilterStateService: SuivieTraitementFilterStateService
+    private suivieTraitementFilterStateService: SuivieTraitementFilterStateService,
+    private sharedDataService: SharedDataService
   ) {
     this.titleService.setTitle(`${this.title}`);
     this.listOperations = this.mappingService.listOperationTraitementVue;
@@ -104,6 +95,10 @@ export class SuivieTraitementComponent implements OnInit {
       this.selectedStatut = this.historie?.statut;
       this.selectedTraitement = this.historie?.traitement;
     }
+    this.sharedDataService.postPatrimoineSimTraitementsDemandesAll().subscribe(()=> {
+      this.onFilter();
+    })
+    this.onFilter();
     this.GetAllTransactions();
   }
  
@@ -227,7 +222,6 @@ export class SuivieTraitementComponent implements OnInit {
     this.GetAllTransactions();
     this.secondFilter = false;
   }
-
   public OnChangeStatut(event){
     const currentStatut = event.value
     if (currentStatut === StatutTransaction.SOUMIS) {
@@ -302,7 +296,6 @@ export class SuivieTraitementComponent implements OnInit {
       return "false";
     }
   }
-
   public showDialog(data: Object): void {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -318,7 +311,6 @@ export class SuivieTraitementComponent implements OnInit {
       confirmButtonText: "ok",
     });
   }
-
   public truncateString(str: string, num: number = 20): string {
     if (str.length > num) {
       return str.slice(0, num) + "...";
@@ -326,7 +318,6 @@ export class SuivieTraitementComponent implements OnInit {
       return str;
     }
   }
-
   OnShowTraitement(data: any, paramUrl: string): void {
     this.router.navigate([SEARCH], {
       relativeTo: this.activatedRoute,
@@ -338,7 +329,6 @@ export class SuivieTraitementComponent implements OnInit {
       },
     });
   }
-
   showJournal(data: Object): void {
     const modalRef = this.modalService.open(JournalComponent, ModalParams);
     modalRef.componentInstance.numero_demande = data['numero_demande'];
@@ -423,8 +413,30 @@ export class SuivieTraitementComponent implements OnInit {
     this.excelService.exportAsExcelFile(data, 'Liste de suivi et traitements');
   }
 
-  public canClose(demande: any): boolean {
-    return demande.statut === "finalisation" && demande.etat_finalisation === "clôturé";
+  public canClose(data: any): boolean {
+    return data?.statut === BADGE_ETAPE.FINALISATEUR && data.etat_finalisation === BADGE_ETAT.CLOTURE;
+  }
+
+  public getStyleButtonTraitement(data: any): Object {
+    if (this.canClose(data)) {
+      return {class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'Clôturer'};
+    } else {
+      return {class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande'};
+    }
+  }
+
+  public getDateTraitement(data: any): string {
+    if(data?.traitement === BADGE_ETAT.RECU || data?.statut === BADGE_ETAPE.SOUMISSION) {
+      return data?.acquitte_a;
+    } else if(data?.statut === BADGE_ETAPE.TRAITEMENT) {
+      return data?.traite_a;
+    } else if(data?.statut === BADGE_ETAPE.CLOTURE) {
+      return data?.cloture_a;
+    } else if(data?.statut === BADGE_ETAPE.FINALISATEUR) {
+      return data?.finalise_a;
+    } else {
+      "N/A"
+    }
   }
 }
 

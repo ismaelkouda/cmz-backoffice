@@ -290,9 +290,8 @@
                                         data?.statut === BADGE_ETAPE.TRAITEMENT
                                     "
                                     [class.badge-success]="
-                                        data?.statut === BADGE_ETAPE.FINALISATEUR
-                                    "
-                                    [class.badge-green]="
+                                        data?.statut ===
+                                            BADGE_ETAPE.FINALISATEUR ||
                                         data?.statut === BADGE_ETAPE.CLOTURE
                                     "
                                 >
@@ -304,38 +303,42 @@
                                     [ngStyle]="{ 'font-size': '16px' }"
                                     class="badge"
                                     [class.badge-dark]="
-                                        data?.traitement === BADGE_ETAT.RECU
-                                    "
-                                    [class.badge-dark-2]="
-                                        data?.statut ===
-                                        BADGE_ETAPE.SOUMISSION &&
-                                        data?.traitement === BADGE_ETAT.EN_ATTENTE
+                                        data?.traitement === BADGE_ETAT.RECU ||
+                                        (data?.statut ===
+                                            BADGE_ETAPE.SOUMISSION &&
+                                            data?.traitement ===
+                                                BADGE_ETAT.EN_ATTENTE)
                                     "
                                     [class.badge-warning]="
                                         data?.statut ===
-                                        BADGE_ETAPE.TRAITEMENT &&
-                                        data?.traitement === BADGE_ETAT.PARTIEL
+                                            BADGE_ETAPE.TRAITEMENT &&
+                                        (data?.traitement ===
+                                            BADGE_ETAT.PARTIEL ||
+                                            data?.traitement ===
+                                                BADGE_ETAT.EN_ATTENTE)
                                     "
                                     [class.badge-warning-2]="
                                         data?.statut === BADGE_ETAPE.CLOTURE &&
-                                        data?.traitement === BADGE_ETAT.ABANDONNE
+                                        data?.traitement ===
+                                            BADGE_ETAT.ABANDONNE
                                     "
                                     [class.badge-info]="
                                         data?.statut ===
-                                        BADGE_ETAPE.TRAITEMENT &&
+                                            BADGE_ETAPE.TRAITEMENT &&
                                         data?.traitement === BADGE_ETAT.TOTAL
                                     "
                                     [class.badge-green]="
                                         data?.statut ===
-                                        BADGE_ETAPE.FINALISATEUR &&
+                                            BADGE_ETAPE.FINALISATEUR &&
                                         data?.traitement === BADGE_ETAT.CLOTURE
                                     "
                                     [class.badge-danger]="
-                                        data?.traitement === BADGE_ETAT.REJETE ||
-                                        data?.traitement === treatmenRefuser
+                                        data?.traitement ===
+                                            BADGE_ETAT.REJETE ||
+                                        data?.traitement === BADGE_ETAT.REFUSE
                                     "
                                     [class.badge-success]="
-                                        data?.statut === stateCloture &&
+                                        data?.statut === BADGE_ETAPE.CLOTURE &&
                                         data?.traitement === BADGE_ETAT.ACCEPTE
                                     "
                                 >
@@ -343,7 +346,7 @@
                                 </span>
                             </td>
                             <td class="text-center">
-                                {{ data.traite_a }}
+                                {{ getDateTraitement(data) }}
                             </td>
                             <td class="text-center">
                                 {{ data?.demandeur_nom }}
@@ -353,7 +356,7 @@
                                 <button
                                     pButton
                                     pRipple
-                                    icon="pi pi-eye"
+                                    icon="pi pi-folder-open"
                                     [pTooltip]="
                                         !data?.nb_demande_traitees ? '' : 'Voir'
                                     "
@@ -381,16 +384,15 @@
                                 ></button> -->
                                 <button
                                     pButton
-                                    icon="pi pi-check-circle"
-                                    [pTooltip]="
-                                        canClose(data)
-                                            ? 'Clôturer'
-                                            : 'Vous ne pouvez pas clôturer actuellement'
-                                    "
                                     tooltipPosition="top"
-                                    [disabled]="!canClose(data)"
                                     (click)="OnShowModalTraitement(data)"
-                                    class="p-button-success"
+                                    [ngClass]="
+                                        getStyleButtonTraitement(data).class
+                                    "
+                                    [icon]="getStyleButtonTraitement(data).icon"
+                                    [pTooltip]="
+                                        getStyleButtonTraitement(data).tooltip
+                                    "
                                 ></button>
                                 <button
                                     pButton

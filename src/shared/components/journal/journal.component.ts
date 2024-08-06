@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from "ngx-toastr";
+import { BADGE_ETAPE } from "src/shared/constants/badge-etape.constant";
 import { BADGE_ETAT } from "src/shared/constants/badge-etat.contant";
+import { BADGE_TRAITEMENT } from "src/shared/constants/badge-traitement.constant";
+import { BADGE_STATUT } from "src/shared/constants/badge-statut.constant";
 import { StatutTransaction } from "src/shared/enum/StatutTransaction.enum";
 import { TraitementTransaction } from "src/shared/enum/TraitementTransaction.enum";
 import { SettingService } from "src/shared/services/setting.service";
@@ -13,6 +16,9 @@ import { SettingService } from "src/shared/services/setting.service";
 })
 export class JournalComponent implements OnInit {
   public BADGE_ETAT = BADGE_ETAT;
+  public BADGE_ETAPE = BADGE_ETAPE;
+  public BADGE_TRAITEMENT = BADGE_TRAITEMENT;
+  public BADGE_STATUT = BADGE_STATUT;
   @Input() typeJournal: "demandes-services" | "transactions";
   @Input() transaction: string;
   @Input() numero_demande: string;
@@ -23,15 +29,6 @@ export class JournalComponent implements OnInit {
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
-  public stateSoumis: string = StatutTransaction.SOUMIS;
-  public stateTraite: string = StatutTransaction.TARITER;
-  public stateCloture: string = StatutTransaction.CLOTURER;
-  public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
-  public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
-  public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
-  public treatmenRejeter: string = TraitementTransaction.REJETER;
-  public treatmenRefuser: string = TraitementTransaction.REFUSER;
-  public treatmenCancel: string = TraitementTransaction.ABANDONNER;
   constructor(
     private activeModal: NgbActiveModal,
     private settingsService: SettingService,

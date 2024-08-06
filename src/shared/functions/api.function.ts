@@ -9,7 +9,7 @@ export async function handle(allFn: () => Observable<any>, toastrService: Toastr
                 loadingBar.stop();
                 toastrService.error(this.response.message);
         } else {
-            loadingBar.stop();
+            loadingBar.complete();
             return res;
         }
     } catch (err) {

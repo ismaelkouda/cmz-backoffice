@@ -85,7 +85,7 @@
                         Information de Transaction
                     </li>
                 </ul>
-                <div class="submit-wrapper" *ngIf="mappingService.IsAction()">
+                <!-- <div class="submit-wrapper" *ngIf="mappingService.IsAction()">
                     <button
                         pButton
                         pRipple
@@ -111,7 +111,7 @@
                         label="Enregistrer"
                         class="p-button-success w-100"
                     ></button>
-                </div>
+                </div> -->
                 <!-- <fieldset *ngIf="IsContencieutRouter()">
           <legend>
             <strong>Decision</strong>
@@ -258,6 +258,58 @@
                         </div>
                     </fieldset>
                               
+                </div>
+                <div>
+                    <fieldset>
+                        <legend>
+                            <strong>Finalisateur</strong>
+                        </legend>
+                        <div class="d-flex flex-column gap-2">
+                            <div>
+                                <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>
+                                    {{
+                                    detailTransaction?.finalisateur
+                                    ?.matricule ?? 'N/A'
+                                    }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>
+                                    {{
+                                    detailTransaction?.finalisateur?.nom ??
+                                    'N/A'
+                                    }}
+                                    {{
+                                    detailTransaction?.finalisateur
+                                    ?.prenoms ?? 'N/A'
+                                    }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30">
+                                    <sstrong>Contact&nbsp;:&nbsp;</sstrong>
+                                    {{
+                                    detailTransaction?.finalisateur
+                                    ?.contacts ?? 'N/A'
+                                    }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>
+                                    {{
+                                    detailTransaction?.finalisateur?.email ??
+                                    'N/A'
+                                    }}
+                                </span>
+                            </div>
+                            <div>
+                                <span class="mb-0 fs__30">
+                                    <strong>Date&nbsp;:&nbsp;</strong>
+                                    {{ detailTransaction?.finalise_a ?? 'N/A' }}
+                                </span>
+                            </div>
+                        </div>
+                    </fieldset>
                 </div>
             </div>
             <!--------------------MODAL----------BODY---------->
@@ -1633,6 +1685,11 @@
                     </div>
                 </div>
                 <!-------------ACTIVATION--------------FORMS--------------------------->
+
+
+
+
+
                 <div
                     *ngIf="transaction?.operation === operationActivation"
                     class="form-container"
@@ -1651,7 +1708,7 @@
                                         "
                                     >
                                         <legend [ngStyle]="{ width: '100%' }">
-                                            <b>Source Stock SIM</b>
+                                            <b>Source Stock SIMqdsfd</b>
                                         </legend>
                                         <div class="d-flex gap-4">
                                             <div
@@ -1940,7 +1997,11 @@
                                 </div>
                             </div>
                         </fieldset>
-                        <fieldset>
+
+
+
+
+                        <!-- <fieldset>
                             <legend>
                                 <b>Détails de la Transaction</b>
                             </legend>
@@ -2057,7 +2118,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </fieldset>
+                        
+                        </fieldset> -->
+
+
                         <!-- <fieldset>
                                         <legend>
                                             <b>Justificatif</b>
@@ -2103,7 +2167,9 @@
                                             </div>
                                         </div>
                                     </fieldset> -->
-                        <fieldset *ngIf="ShowAcceptedForm()">
+                        
+                        
+                        <!-- <fieldset *ngIf="ShowAcceptedForm()">
                             <legend>
                                 <strong>Traitement</strong>
                             </legend>
@@ -2140,9 +2206,18 @@
                                     />
                                 </div>
                             </div>
-                        </fieldset>
+                        </fieldset> -->
+
+
+
                     </div>
                 </div>
+
+
+
+
+
+                
                 <div
                     *ngIf="transaction?.operation === OperationAchat"
                     class="form-container"
@@ -2288,7 +2363,8 @@
                         </fieldset>
                     </div>
                 </div>
-                <div *ngIf="IsCloture()">
+
+                <!-- <div *ngIf="IsCloture()">
                     <fieldset>
                         <legend>
                             <strong>Message Clôture</strong>
@@ -2494,7 +2570,8 @@
                             </div>
                         </div>
                     </fieldset>
-                </div>
+                </div> -->
+
                 <fieldset
                     *ngIf="
                         detailTransaction?.rapport?.statut_traitement &&
