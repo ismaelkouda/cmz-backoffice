@@ -137,9 +137,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        console.log('this.formsView', this.formsView)
-        console.log('this.typeDemande', this.typeDemande)
-        console.log('this.currentObject', this.currentObject)
         this.siteKey = environment.recaptcha.siteKey;
         this.isFilter();
         this.initForm();

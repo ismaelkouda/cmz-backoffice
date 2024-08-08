@@ -266,22 +266,24 @@
                         </legend>
                         <div class="d-flex flex-column gap-2">
                             <div>
-                                <span class="mb-0 fs__30"><strong>Matricule&nbsp;:&nbsp;</strong>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Matricule&nbsp;:&nbsp;</strong>
                                     {{
-                                    detailTransaction?.finalisateur
-                                    ?.matricule ?? 'N/A'
+                                        detailTransaction?.finalisateur
+                                            ?.matricule ?? 'N/A'
                                     }}
                                 </span>
                             </div>
                             <div>
-                                <span class="mb-0 fs__30"><strong>Nom complet&nbsp;:&nbsp;</strong>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Nom complet&nbsp;:&nbsp;</strong>
                                     {{
-                                    detailTransaction?.finalisateur?.nom ??
-                                    'N/A'
+                                        detailTransaction?.finalisateur?.nom ??
+                                            'N/A'
                                     }}
                                     {{
-                                    detailTransaction?.finalisateur
-                                    ?.prenoms ?? 'N/A'
+                                        detailTransaction?.finalisateur
+                                            ?.prenoms ?? 'N/A'
                                     }}
                                 </span>
                             </div>
@@ -289,16 +291,17 @@
                                 <span class="mb-0 fs__30">
                                     <sstrong>Contact&nbsp;:&nbsp;</sstrong>
                                     {{
-                                    detailTransaction?.finalisateur
-                                    ?.contacts ?? 'N/A'
+                                        detailTransaction?.finalisateur
+                                            ?.contacts ?? 'N/A'
                                     }}
                                 </span>
                             </div>
                             <div>
-                                <span class="mb-0 fs__30"><strong>Email&nbsp;:&nbsp;</strong>
+                                <span class="mb-0 fs__30"
+                                    ><strong>Email&nbsp;:&nbsp;</strong>
                                     {{
-                                    detailTransaction?.finalisateur?.email ??
-                                    'N/A'
+                                        detailTransaction?.finalisateur
+                                            ?.email ?? 'N/A'
                                     }}
                                 </span>
                             </div>
@@ -1686,10 +1689,6 @@
                 </div>
                 <!-------------ACTIVATION--------------FORMS--------------------------->
 
-
-
-
-
                 <div
                     *ngIf="transaction?.operation === operationActivation"
                     class="form-container"
@@ -1998,9 +1997,6 @@
                             </div>
                         </fieldset>
 
-
-
-
                         <!-- <fieldset>
                             <legend>
                                 <b>Détails de la Transaction</b>
@@ -2121,7 +2117,6 @@
                         
                         </fieldset> -->
 
-
                         <!-- <fieldset>
                                         <legend>
                                             <b>Justificatif</b>
@@ -2167,8 +2162,7 @@
                                             </div>
                                         </div>
                                     </fieldset> -->
-                        
-                        
+
                         <!-- <fieldset *ngIf="ShowAcceptedForm()">
                             <legend>
                                 <strong>Traitement</strong>
@@ -2207,17 +2201,9 @@
                                 </div>
                             </div>
                         </fieldset> -->
-
-
-
                     </div>
                 </div>
 
-
-
-
-
-                
                 <div
                     *ngIf="transaction?.operation === OperationAchat"
                     class="form-container"

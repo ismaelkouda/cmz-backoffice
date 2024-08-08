@@ -5,14 +5,12 @@
 
             <div class="card">
                 <div class="card-body">
-
-
                     <div>
                         <div class="forms-feature-header">
                             <div class="d-flex gap-2">
                                 <div>
                                     <h3 class="current-transaction-label">
-                                        <b><span>Demande&nbsp;|&nbsp;Intégrations en masse de SIM</span></b>
+                                        <b>Demande&nbsp;|&nbsp;Intégrations en masse de SIM</b>
                                     </h3>
                                 </div>
                             </div>
@@ -23,33 +21,27 @@
                             </div>
                         </div>
 
-
-                        <div>
-
+                        <div *ngIf="view == 'ajouter'">
                             <form [formGroup]="demandeIntegrationForm" (ngSubmit)="onSubmitDmandeIntegrationForm()">
                                 <!------------------INFOS---------IDENTIFICATION----------------->
                                 <fieldset>
-                                    <legend [ngStyle]="{ width: '18rem' }">
-                                        <b>Informations d'identification</b>
-                                    </legend>
+                                    <legend [ngStyle]="{ width: '18rem' }"><b>Informations d'identification</b></legend>
                                     <div class="row">
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label><b>{{ firstLevelLibelle }}<span class="text-danger">*</span></b></label>
-                                                <p-dropdown [options]="listFirstLeveDatas" formControlName="niveau_un_uuid"
-                                                    optionLabel="fullName" [filter]="true" [placeholder]="firstLevelLibelle"
-                                                    optionValue="uuid" [showClear]="true" (onChange)="onChangeFirstLvel($event.value)"
-                                                    filterBy="fullName" [ngStyle]="{ width: '100%' }">
+                                                <p-dropdown [options]="listFirstLeveDatas" formControlName="niveau_un_uuid" optionLabel="fullName"
+                                                    [filter]="true" [placeholder]="firstLevelLibelle" optionValue="uuid" [showClear]="true" 
+                                                    (onChange)="onChangeFirstLvel($event.value)" filterBy="fullName" [ngStyle]="{width: '100%'}">
                                                 </p-dropdown>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
-                                                <label><b>{{ secondLevelLibelle
-                                                        }}<span class="text-danger">*</span></b></label>
-                                                <p-dropdown [options]="listSecondLevelDatas" formControlName="niveau_deux_uuid"
-                                                    optionLabel="fullName" [filter]="true" [placeholder]="secondLevelLibelle"
-                                                    optionValue="uuid" [showClear]="true" filterBy="fullName" [ngStyle]="{ width: '100%' }">
+                                                <label><b>{{ secondLevelLibelle }}<span class="text-danger">*</span></b></label>
+                                                <p-dropdown [options]="listSecondLevelDatas" formControlName="niveau_deux_uuid" optionLabel="fullName"
+                                                    [filter]="true" [placeholder]="secondLevelLibelle" optionValue="uuid" [showClear]="true" filterBy="fullName"
+                                                    [ngStyle]="{width: '100%'}">
                                                 </p-dropdown>
                                             </div>
                                         </div>
@@ -57,26 +49,39 @@
                                             <div class="form-group">
                                                 <label><b>{{ thirdLevelLibelle
                                                         }}<span class="text-danger">*</span></b></label>
-                                                <p-dropdown [options]="listThirdLevelDatas" formControlName="niveau_trois_uuid"
-                                                    optionLabel="fullName" [filter]="true" [placeholder]="thirdLevelLibelle"
-                                                    optionValue="uuid" [showClear]="true" filterBy="fullName" [ngStyle]="{ width: '100%' }">
+                                                <p-dropdown [options]="
+                                                        listThirdLevelDatas
+                                                    " formControlName="niveau_trois_uuid" optionLabel="fullName"
+                                                    [filter]="true" [placeholder]="
+                                                        thirdLevelLibelle
+                                                    " optionValue="uuid" [showClear]="true" filterBy="fullName"
+                                                    [ngStyle]="{
+                                                        width: '100%'
+                                                    }">
                                                 </p-dropdown>
                                             </div>
                                         </div>
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label><b>Usage<span class="text-danger">*</span></b></label>
-                                                <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage"
-                                                    placeholder="usage" optionValue="id" [showClear]="true" [ngStyle]="{ width: '100%' }">
+                                                <p-dropdown [options]="listUsages" formControlName="usage_id"
+                                                    optionLabel="nom_usage" placeholder="usage" optionValue="id"
+                                                    [showClear]="true" [ngStyle]="{
+                                                        width: '100%'
+                                                    }">
                                                 </p-dropdown>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label><b>Formule destination<span class="text-danger">*</span></b></label>
-                                                <p-dropdown [options]="listFormules" formControlName="formule_uuid" optionLabel="nom"
-                                                    [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid"
-                                                    [ngStyle]="{ width: '100%' }">
+                                                <label><b>Formule
+                                                        destination<span class="text-danger">*</span></b></label>
+                                                <p-dropdown [options]="listFormules" formControlName="formule_uuid"
+                                                    optionLabel="nom" [placeholder]="
+                                                        'Formule destination'
+                                                    " [showClear]="true" optionValue="uuid" [ngStyle]="{
+                                                        width: '100%'
+                                                    }">
                                                 </p-dropdown>
                                             </div>
                                         </div>
@@ -90,18 +95,26 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label><b>Montant de la formule/SIM<span class="text-danger">*</span></b></label>
-                                                <input placeholder="Montant de la formule" formControlName="montant_formule" type="number"
-                                                    pInputText />
+                                                <label><b>Montant de la
+                                                        formule/SIM<span class="text-danger">*</span></b></label>
+                                                <input placeholder="Montant de la formule"
+                                                    formControlName="montant_formule" type="number" pInputText />
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="commentaire"><strong>Réçu paiement<span class="text-danger">*</span></strong></label>
-                                            <div class="d-flex justify-content-center align-items-center container-button-telecharger">
+                                            <label for="commentaire"><strong>Réçu paiement<span
+                                                        class="text-danger">*</span></strong></label>
+                                            <div
+                                                class="d-flex justify-content-center align-items-center container-button-telecharger">
                                                 <div>
-                                                    <input type="file"
-                                                        style="padding: 0.6rem; border: 1px solid; border-radius: 0.3rem; color: #000;"
-                                                        (change)="onChangeFile($event)" accept="image/png,image/jpeg" />
+                                                    <input type="file" style="
+                                                            padding: 0.6rem;
+                                                            border: 1px solid;
+                                                            border-radius: 0.3rem;
+                                                            color: #000;
+                                                        " (change)="
+                                                            onChangeFile($event)
+                                                        " accept="image/png,image/jpeg" />
                                                 </div>
                                             </div>
                                         </div>
@@ -114,10 +127,15 @@
                                     </legend>
                                     <div class="row">
                                         <app-form-masse class="col-md-12 d-flex align-items-end" [fileModel]="fileModel"
-                                            (dataToSend)="pushCurrentArrayForm($event)" 
-                                            [currentArrayHeaders]="currentArrayHeaders" 
-                                            (downloadModel)="onDownloadModel($event)"
-                                            [formMasseLibelle]="formMasseLibelle">
+                                            (dataToSend)="
+                                                pushCurrentArrayForm($event)
+                                            " [currentArrayHeaders]="
+                                                currentArrayHeaders
+                                            " (downloadModel)="
+                                                onDownloadModel($event)
+                                            " [formMasseLibelle]="
+                                                formMasseLibelle
+                                            ">
                                         </app-form-masse>
                                     </div>
                                 </fieldset>
@@ -140,17 +158,280 @@
                                 </fieldset>
                                 <div class="submit-form">
                                     <div>
-                                        <button type="submit" pButton style="float: right; margin-top: 1rem" label="Soumettre"
-                                            class="p-button-success">
+                                        <button type="submit" pButton style="float: right; margin-top: 1rem;" 
+                                            [disabled]="demandeIntegrationForm.invalid" label="Soumettre" class="p-button-success">
                                         </button>
                                     </div>
                                 </div>
                             </form>
-
                         </div>
+
+
+                        <div *ngIf="view == 'editer'">
+                            <form [formGroup]="demandeIntegrationForm" (ngSubmit)="onSubmitDmandeIntegrationForm()">
+                                <!------------------INFOS---------IDENTIFICATION----------------->
+                                <fieldset>
+                                    <legend [ngStyle]="{ width: '18rem' }"><b>Informations d'identification</b></legend>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label><b>{{ firstLevelLibelle }}<span class="text-danger">*</span></b></label>
+                                                <p-dropdown [options]="listFirstLeveDatas" formControlName="niveau_un_uuid" optionLabel="fullName"
+                                                    [filter]="true" [placeholder]="firstLevelLibelle" optionValue="uuid" [showClear]="true" 
+                                                    (onChange)="onChangeFirstLvel($event.value)" filterBy="fullName" [ngStyle]="{width: '100%'}">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label><b>{{ secondLevelLibelle }}<span class="text-danger">*</span></b></label>
+                                                <p-dropdown [options]="listSecondLevelDatas" formControlName="niveau_deux_uuid" optionLabel="fullName"
+                                                    [filter]="true" [placeholder]="secondLevelLibelle" optionValue="uuid" [showClear]="true" filterBy="fullName"
+                                                    [ngStyle]="{width: '100%'}">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label><b>{{ thirdLevelLibelle
+                                                        }}<span class="text-danger">*</span></b></label>
+                                                <p-dropdown [options]="
+                                                        listThirdLevelDatas
+                                                    " formControlName="niveau_trois_uuid" optionLabel="fullName"
+                                                    [filter]="true" [placeholder]="
+                                                        thirdLevelLibelle
+                                                    " optionValue="uuid" [showClear]="true" filterBy="fullName"
+                                                    [ngStyle]="{
+                                                        width: '100%'
+                                                    }">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label><b>Usage<span class="text-danger">*</span></b></label>
+                                                <p-dropdown [options]="listUsages" formControlName="usage_id"
+                                                    optionLabel="nom_usage" placeholder="usage" optionValue="id"
+                                                    [showClear]="true" [ngStyle]="{
+                                                        width: '100%'
+                                                    }">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label><b>Formule
+                                                        destination<span class="text-danger">*</span></b></label>
+                                                <p-dropdown [options]="listFormules" formControlName="formule_uuid"
+                                                    optionLabel="nom" [placeholder]="
+                                                        'Formule destination'
+                                                    " [showClear]="true" optionValue="uuid" [ngStyle]="{
+                                                        width: '100%'
+                                                    }">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset style="margin-top: 2.5rem">
+                                    <legend [ngStyle]="{ width: '100%' }">
+                                        <b>Demandes</b>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><b>Montant de la
+                                                        formule/SIM<span class="text-danger">*</span></b></label>
+                                                <input placeholder="Montant de la formule"
+                                                    formControlName="montant_formule" type="number" pInputText />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="commentaire"><strong>Réçu paiement<span
+                                                        class="text-danger">*</span></strong></label>
+                                            <div
+                                                class="d-flex justify-content-center align-items-center container-button-telecharger">
+                                                <div>
+                                                    <input type="file" style="
+                                                            padding: 0.6rem;
+                                                            border: 1px solid;
+                                                            border-radius: 0.3rem;
+                                                            color: #000;
+                                                        " (change)="
+                                                            onChangeFile($event)
+                                                        " accept="image/png,image/jpeg" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset style="margin-top: 2.5rem" class="padding-bottom-lignes">
+                                    <legend [ngStyle]="{ width: '100%' }">
+                                        <b>Identification des lignes</b>
+                                    </legend>
+                                    <div class="row">
+                                        <app-form-masse class="col-md-12 d-flex align-items-end" [fileModel]="fileModel"
+                                            (dataToSend)="
+                                                pushCurrentArrayForm($event)
+                                            " [currentArrayHeaders]="
+                                                currentArrayHeaders
+                                            " (downloadModel)="
+                                                onDownloadModel($event)
+                                            " [formMasseLibelle]="
+                                                formMasseLibelle
+                                            ">
+                                        </app-form-masse>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset style="margin-top: 2.5rem">
+                                    <legend [ngStyle]="{ width: '100%' }">
+                                        <b>Détails de la Demande</b>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    <b>Description
+                                                        <span class="text-danger">*</span></b>
+                                                </label>
+                                                <input type="text" formControlName="description" pInputText />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="submit-form">
+                                    <div>
+                                        <button type="submit" pButton style="float: right; margin-top: 1rem;" 
+                                        [disabled]="demandeIntegrationForm.invalid" label="Modifier" class="p-button-success"></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+
+                        <div *ngIf="view == 'détails'">
+                            <form [formGroup]="demandeIntegrationForm">
+
+                                <fieldset>
+                                    <legend [ngStyle]="{ width: '18rem' }"><b>Informations d'identification</b></legend>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label><b>{{ firstLevelLibelle }}</b></label>
+                                                <input type="text" formControlName="niveau_un_uuid" pInputText [ngStyle]="{width: '100%'}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label><b>{{ secondLevelLibelle }}</b></label>
+                                                <input type="text" formControlName="niveau_deux_uuid" pInputText [ngStyle]="{width: '100%'}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label><b>{{ thirdLevelLibelle }}</b></label>
+                                                <input type="text" formControlName="niveau_trois_uuid" pInputText [ngStyle]="{width: '100%'}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label><b>Usage</b></label>
+                                                <input type="text" formControlName="usage_id" pInputText [ngStyle]="{width: '100%'}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label><b>Formule destination</b></label>
+                                                <input type="text" formControlName="formule_uuid" pInputText [ngStyle]="{width: '100%'}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset style="margin-top: 2.5rem">
+                                    <legend [ngStyle]="{ width: '100%' }">
+                                        <b>Demandes</b>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label><b>Montant de la formule/SIM</b></label>
+                                                <input type="text" formControlName="montant_formule" pInputText [ngStyle]="{width: '100%'}"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="commentaire"><strong>Réçu paiement</strong></label>
+                                            <div
+                                                class="d-flex justify-content-center align-items-center container-button-telecharger">
+                                                <div>
+                                                    <button pButton pRipple label="Voir le Réçu de paiement"
+                                                        icon="pi pi-eye" class="p-button-success" (click)="onSeeFile('recuPaimentFile')"
+                                                    ></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset style="margin-top: 2.5rem" class="padding-bottom-lignes">
+                                    <legend [ngStyle]="{ width: '100%' }">
+                                        <b>Identification des lignes</b>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="title-file">Voir le model</label>
+                                            <div class="d-flex align-items-center justify-content-center container-button-telecharger">
+                                                <button pButton pRipple class="p-button-success" icon="pi pi-eye"
+                                                    (click)="onSeeFile('modelFile')" label="Voir le model">
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="commentaire"><strong>Fichier d'identification</strong></label>
+                                            <div
+                                                class="d-flex justify-content-center align-items-center container-button-telecharger">
+                                                <div>
+                                                    <button pButton pRipple label="Voir le fichier d'identification" icon="pi pi-eye"
+                                                        class="p-button-success" (click)="onSeeFile('identificationFile')">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <app-form-masse class="col-md-12 d-flex align-items-end" [fileModel]="fileModel"
+                                            (dataToSend)="
+                                                pushCurrentArrayForm($event)
+                                            " [currentArrayHeaders]="
+                                                currentArrayHeaders
+                                            " (downloadModel)="
+                                                onDownloadModel($event)
+                                            " [formMasseLibelle]="
+                                                formMasseLibelle
+                                            ">
+                                        </app-form-masse> -->
+                                    </div>
+                                </fieldset>
+
+                                <fieldset style="margin-top: 2.5rem">
+                                    <legend [ngStyle]="{ width: '100%' }">
+                                        <b>Détails de la Demande</b>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label><b>Description</b></label>
+                                                <input type="text" formControlName="description" pInputText [ngStyle]="{width: '100%'}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                
+                            </form>
+                        </div>
+
                     </div>
-
-
                 </div>
             </div>
         </div>

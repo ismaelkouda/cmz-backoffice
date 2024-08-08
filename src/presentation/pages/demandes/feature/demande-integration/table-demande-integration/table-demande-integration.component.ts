@@ -7,7 +7,7 @@ import { BADGE_ETAPE } from "src/shared/constants/badge-etape.constant";
 import { BADGE_ETAT } from "src/shared/constants/badge-etat.contant";
 import { DemandeIntegrationStateService } from "../../../data-access/demande-integration/demande-integration-state.service";
 
-type TYPEFORM = "détails" | "edit" | "traitement";
+type TYPEFORM = "détails" | "editer" | "traitement";
 
 @Component({
     selector: "app-table-demande-integration",
@@ -68,6 +68,8 @@ export class TableDemandeIntegrationComponent {
         switch (type) {
             case "page":
                 this.interfaceUser.emit({ data: data, paramUrl: action });
+                // garder l'etat du tableau
+                this.demandeIntegrationStateService.setTableState(this.listDemandesIntegrations);
                 break;
 
             case "modal":

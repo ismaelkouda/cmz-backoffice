@@ -1,16 +1,18 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { LoadingBarService } from "@ngx-loading-bar/core";
 import { ToastrService } from "ngx-toastr";
 import { Subscription } from "rxjs";
 import { handle } from "src/shared/functions/api.function";
-import { SEARCH } from "src/shared/routes/routes";
+import { DEMANDE_SERVICE, SEARCH } from "src/shared/routes/routes";
 import { ExcelService } from "src/shared/services/excel.service";
 import { MappingService } from "src/shared/services/mapping.service";
 import { Pargination } from "src/shared/table/pargination";
 import { SupervisionOperationService } from "src/presentation/pages/supervision-operations/data-access/supervision-operation.service";
 import { DemandeIntegrationStateService } from "../../data-access/demande-integration/demande-integration-state.service";
 import { DemandeIntegrationApiStateService } from "../../data-access/demande-integration/demande-integration-api-state.service";
+import { DEMANDE_INTEGRATION } from "../../demandes-routing.module";
+
 type TYPEVIEW = "editer" | "détails" | "ajouter";
 
 @Component({
@@ -39,12 +41,19 @@ export class DemandeIntegrationComponent implements OnInit {
         this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
         this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
         this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                console.log('event', event.url)
+                if (!event.url.includes(`/${DEMANDE_SERVICE}/${DEMANDE_INTEGRATION}`)) {
+                    this.demandeIntegrationStateService.removeAllDemandeIntegrationState();
+                }
+            }
+        });
     }
 
     ngOnInit(): void {
         this.initPage();
-        console.log('this.demandeIntegrationStateService.getTableState()', this.demandeIntegrationStateService.getTableState())
-        if (this.demandeIntegrationStateService.getTableState().length > 0) {
+        if (this.demandeIntegrationStateService.getTableItemSelectedState()) {
             this.listDemandesIntegrations = this.demandeIntegrationStateService.getTableState();
             this.pargination = this.demandeIntegrationStateService.getParginateState();
         } else {
@@ -56,15 +65,15 @@ export class DemandeIntegrationComponent implements OnInit {
         }
     }
 
-    async pageCallback(dataToSend: Object = {}, nbrPage: number = 1) {
+    async pageCallback(dataToSend: Object = {operation: "integration"}, nbrPage: number = 1) {
         this.demandeIntegrationStateService.setFilterState(dataToSend);
         this.dataToSend = this.demandeIntegrationStateService.generateQueryStringFromObject(dataToSend);
-        this.response = await handle(() => this.supervisionOperationService.GetAllTransactions(dataToSend, nbrPage), this.toastrService, this.loadingBarService);
-        this.handleSuccessfulPageCallback(this.response);
+        const response: any = await handle(() => this.supervisionOperationService.GetAllTransactions(dataToSend, nbrPage), this.toastrService, this.loadingBarService);
+        if(response?.error === false) this.handleSuccessfulPageCallback(response);
     }
 
-    private handleSuccessfulPageCallback(response): void {
-        this.listDemandesIntegrations = response.data.data;
+    private handleSuccessfulPageCallback(response: any): void {
+        this.listDemandesIntegrations = response?.data?.data;
         this.demandeIntegrationStateService.setTableItemSelectedState(null);
         this.spinner = false;
         this.pargination = new Pargination(response?.data?.p, response?.data?.to, response?.data?.last_page, response?.data?.total, response?.data?.per_page, response?.data?.current_page, (response?.data?.current_page - 1) * this.pargination?.per_page + 1);

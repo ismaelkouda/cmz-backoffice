@@ -24,7 +24,7 @@ const Swal = require('sweetalert2');
 })
 
 export class DemandeMasseComponent implements OnInit {
-    public formMasseLibelle = {etape_1: "Etape 1 : Cliquez pour télécharger le fichier conteant les SIMs activées par OCI",
+    public formMasseLibelle = {etape_1: "Cliquez pour télécharger le fichier conteant les SIMs activées par OCI",
         etape_2: "Etape 2 : Importez le fichier téléchargé complété avec les infos d'identifications de chaque SIM",
         etape_3: "Etape 3 : Vérifiez la cohérence et la complétude du fichier importé"
     } as const;

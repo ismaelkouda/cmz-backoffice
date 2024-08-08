@@ -4,6 +4,7 @@ import { LoadingBarService } from "@ngx-loading-bar/core";
 import { ToastrService } from "ngx-toastr";
 import { handle } from "src/shared/functions/api.function";
 import { SettingService } from "src/shared/services/setting.service";
+import * as moment from 'moment';
 
 @Component({
     selector: "app-filter-demande-integration",
@@ -46,6 +47,14 @@ export class FilterDemandeIntegrationComponent implements OnInit {
     }
 
     public onSubmitFilterForm(): void {
-        this.filter.emit(this.filterForm.value);
+        const date_debut = moment(this.filterForm.get("date_debut").value).isValid() ? this.filterForm.get("date_debut").value : null;
+        const date_fin = moment(this.filterForm.get("date_fin").value).isValid() ? this.filterForm.get("date_fin").value : null;
+        if ((date_debut && date_fin)) {
+            if (moment(date_debut).isAfter(moment(date_fin))) {
+                this.toastrService.error('Plage de date invalide');
+                return;
+            }
+        }
+        this.filter.emit({ ...this.filterForm.value, date_debut: date_debut ? moment(date_debut).format('YYYY-MM-DD') : null, date_fin: date_fin ? moment(date_fin).format('YYYY-MM-DD') : null });
     }
 }

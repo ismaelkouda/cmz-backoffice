@@ -58,6 +58,13 @@ export class DemandeIntegrationStateService {
         return this.parginateState;
     }
 
+    removeAllDemandeIntegrationState() {
+        this.encodingDataService.removeData("filterState");
+        this.encodingDataService.removeData("tableState");
+        this.encodingDataService.removeData("tableItemSelectedState");
+        this.encodingDataService.removeData("parginateState");
+    }
+
     /**
      * Génère une chaîne de requête à partir d'un objet.
      * 

@@ -15,7 +15,6 @@ import { SupervisionOperationService } from "src/presentation/pages/supervision-
 import { DemandeIntegrationStateService } from "../../../data-access/demande-integration/demande-integration-state.service";
 
 type TYPEVIEW = "editer" | "détails" | "ajouter";
-interface TYPEPARAMSINURL { view: TYPEVIEW, page: number, id: number, filter: Object };
 
 @Component({
     selector: "app-form-demande-integration",
@@ -41,10 +40,9 @@ interface TYPEPARAMSINURL { view: TYPEVIEW, page: number, id: number, filter: Ob
 })
 
 export class FormDemandeIntegrationComponent implements OnInit {
-    public paramsInUrl: TYPEPARAMSINURL;
-    public view: string;
+    public view: TYPEVIEW;
     public page: number;
-    public id: number; 
+    public id: number;
     public filter: Object;
     public formMasseLibelle = {
         etape_1: "Etape 1 : Etape 1 : Cliquez pour télécharger le fichier modèle en et remplissez tous les champs obligatoires",
@@ -65,6 +63,8 @@ export class FormDemandeIntegrationComponent implements OnInit {
     public listFormules: Array<any> = [];
     public listUsages: Array<any> = [];
     public demandeIntegrationForm: FormGroup;
+    private listDemandesIntegrations: Array<Object>;
+    public demandesIntegrationSelected: Object;
 
     constructor(private router: Router, private fb: FormBuilder,
         public mappingService: MappingService, private listCommuneService: ListCommuneService,
@@ -91,29 +91,25 @@ export class FormDemandeIntegrationComponent implements OnInit {
 
     private getParamsInUrl(): void {
         this.activatedRoute.queryParams.subscribe((params: Object) => {
-            console.log('params', params?.["view"])
             this.view = params?.["view"];
-            console.log('this.view', this.view)
             this.page = params?.["page"];
             this.id = params?.["id"];
             this.filter = this.demandeIntegrationStateService.parseQueryStringToObject(params?.["filter"]);
         });
-        switch (this.paramsInUrl?.view) {
+        switch (this.view) {
             case "ajouter":
 
                 break;
 
             case "détails":
-                // const numero_current_page = this.demandeIntegrationStateService.getParginateState().currentPage;
-                // const data_filter = this.demandeIntegrationStateService.getFilterState();
-                // const data_selected = this.demandeIntegrationStateService.setTableItemSelectedState(data.data);
+                this.pageCallback(this.filter, this.page);
+                this.demandeIntegrationForm.disable();
                 break;
 
             case "editer":
-
+                this.pageCallback(this.filter, this.page);
                 break;
         }
-        console.log('this.paramsInUrl', this.paramsInUrl)
     }
 
     async pageCallback(dataToSend: Object = {}, nbrPage: number = 1) {
@@ -121,32 +117,74 @@ export class FormDemandeIntegrationComponent implements OnInit {
         this.handleSuccessfulPageCallback(this.response);
     }
 
-    private handleSuccessfulPageCallback(response: any): void {}
+    private handleSuccessfulPageCallback(response: any): void {
+        this.listDemandesIntegrations = response.data.data;
+        this.getDemandeIntegrationSelected(this.listDemandesIntegrations)
+    }
+
+    private getDemandeIntegrationSelected(listDemandesIntegrations: Array<Object>): void {
+        this.demandesIntegrationSelected = listDemandesIntegrations.find((demandeIntegration) => demandeIntegration?.["id"] == this.id);
+        this.patchValueDmandeIntegrationForm();
+    }
 
     private initDmandeIntegrationForm(): void {
-        const filterState = this.demandeIntegrationStateService.getFilterState();
         this.demandeIntegrationForm = this.fb.group({
-            niveau_un_uuid: this.createFormControl(filterState?.niveau_un_uuid, Validators.required, false),
-            niveau_deux_uuid: this.createFormControl(filterState?.niveau_deux_uuid, Validators.required, false),
-            niveau_trois_uuid: this.createFormControl(filterState?.niveau_trois_uuid, Validators.required, false),
-            usage_id: this.createFormControl(filterState?.usage_id, Validators.required, false),
-            formule_uuid: this.createFormControl(filterState?.formule_uuid, Validators.required, false),
+            niveau_un_uuid: this.createFormControl(this.demandesIntegrationSelected?.["niveau_un_uuid"], Validators.required, false),
+            niveau_deux_uuid: this.createFormControl(this.demandesIntegrationSelected?.["niveau_deux_uuid"], Validators.required, false),
+            niveau_trois_uuid: this.createFormControl(this.demandesIntegrationSelected?.["niveau_trois_uuid"], Validators.required, false),
+            usage_id: this.createFormControl(this.demandesIntegrationSelected?.["usage_id"], Validators.required, false),
+            formule_uuid: this.createFormControl(this.demandesIntegrationSelected?.["formule_uuid"], Validators.required, false),
             operation: this.createFormControl('integration', null, false),
-            montant_formule: this.createFormControl(filterState?.montant_formule, Validators.required, false),
-            file: this.createFormControl(filterState?.file, Validators.required, false),
-            description: this.createFormControl(filterState?.description, Validators.required, false),
-            sims_file: this.createFormControl(filterState?.sims_file, Validators.required, false),
+            montant_formule: this.createFormControl(this.demandesIntegrationSelected?.["montant_formule"], Validators.required, false),
+            file: this.createFormControl(this.demandesIntegrationSelected?.["file"], Validators.required, false),
+            description: this.createFormControl(this.demandesIntegrationSelected?.["description"], Validators.required, false),
+            sims_file: this.createFormControl(this.demandesIntegrationSelected?.["sims_file"], Validators.required, false),
         });
+        this.onChangeFirstLvel(this.demandesIntegrationSelected?.["niveau_un_uuid"]);
     }
 
     private createFormControl(initialValue: any, validator: any = null, isDisabled: boolean = false): any {
         return [{ value: initialValue, disabled: isDisabled }, validator].filter(v => v !== null);
     }
 
+    private patchValueDmandeIntegrationForm(): void {
+        this.demandeIntegrationForm.patchValue({
+            niveau_un_uuid: this.view === "editer" ? this.demandesIntegrationSelected?.["niveau_un_uuid"] : this.demandesIntegrationSelected?.["niveau_un"],
+            niveau_deux_uuid: this.view === "editer" ? this.demandesIntegrationSelected?.["niveau_deux_uuid"] : this.demandesIntegrationSelected?.["niveau_deux"],
+            niveau_trois_uuid: this.view === "editer" ? this.demandesIntegrationSelected?.["niveau_trois_uuid"] : this.demandesIntegrationSelected?.["niveau_trois"],
+            usage_id: this.view === "editer" ? this.demandesIntegrationSelected?.["usage_id"] : this.demandesIntegrationSelected?.["usage_id"],
+            formule_uuid: this.view === "editer" ? this.demandesIntegrationSelected?.["formule_uuid"] : this.demandesIntegrationSelected?.["formule"],
+            operation: 'integration',
+            montant_formule: this.demandesIntegrationSelected?.["montant_formule"],
+            file: this.demandesIntegrationSelected?.["file"],
+            description: this.demandesIntegrationSelected?.["description"],
+            sims_file: this.demandesIntegrationSelected?.["sims_file"],
+        })
+    }
+
+    public onChangeFile(file: any) {
+        if (file) this.demandeIntegrationForm.patchValue({ file: file });
+    }
+
+    public pushCurrentArrayForm(file_upload: any) {
+        if (file_upload) this.demandeIntegrationForm.patchValue({ sims_file: file_upload.sims_file });
+    }
+
     async onSubmitDmandeIntegrationForm(): Promise<void> {
-        if (this.demandeIntegrationForm.valid) {
-            const response: any = await handle(() => this.patrimoineService.OnChangeStatut(FormatFormData(this.demandeIntegrationForm.value)), this.toastrService, this.loadingBarService);
-            if (response?.error === false) this.handleSuccessfulDmandeIntegrationForm(this.response);
+        switch (this.view) {
+            case "ajouter":
+                if (this.demandeIntegrationForm.valid) {
+                    const response: any = await handle(() => this.patrimoineService.OnChangeStatut(FormatFormData(this.demandeIntegrationForm.value)), this.toastrService, this.loadingBarService);
+                    if (response?.error === false) this.handleSuccessfulDmandeIntegrationForm(response);
+                }
+                break;
+
+            case "editer":
+                if (this.demandeIntegrationForm.valid) {
+                    // const response: any = await handle(() => this.patrimoineService.OnChangeStatut(FormatFormData(this.demandeIntegrationForm.value)), this.toastrService, this.loadingBarService);
+                    // if (response?.error === false) this.handleSuccessfulDmandeIntegrationForm(response);
+                }
+                break;
         }
     }
 
@@ -198,17 +236,25 @@ export class FormDemandeIntegrationComponent implements OnInit {
         });
     }
 
-    public onChangeFile(file: any) {
-        if (file) this.demandeIntegrationForm.patchValue({ file: file });
-    }
-
-    public pushCurrentArrayForm(file_upload: any) {
-        if (file_upload) this.demandeIntegrationForm.patchValue({ sims_file: file_upload.sims_file });
-    }
-
     async onDownloadModel(event: any): Promise<any> {
         // const tokenUser = JSON.parse(this.storage.getData('user')).token;
         // window.location.href = this.supervisionOperationService.GetGestionTransactionsDemandesServicesDownloadAbonnementsData(this.listDemandes.numero_demande, tokenUser);
+    }
+
+    async onSeeFile(typeFile: "recuPaimentFile" | "identificationFile" | "modelFile"): Promise<void> {
+        switch (typeFile) {
+            case "recuPaimentFile":
+
+                break;
+
+            case "identificationFile":
+
+                break;
+
+            case "modelFile":
+
+                break;
+        }
     }
 
     public closeInterface(): void {

@@ -1,26 +1,46 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+            <app-breadcrumb
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
-                    <app-patrimoine-header [count]="listCartesSim" [legende]="'SIM'"
-                        [total]="this.pargination.total"></app-patrimoine-header>
-                    <app-carte-filter (filter)="pageCallback($event)" [firstLevelLibelle]="firstLevelLibelle"
+                    <app-patrimoine-header
+                        [count]="listCartesSim"
+                        [legende]="'SIM'"
+                        [total]="this.pargination.total"
+                    ></app-patrimoine-header>
+                    <app-carte-filter
+                        (filter)="pageCallback($event)"
+                        [firstLevelLibelle]="firstLevelLibelle"
                         [secondLevelLibelle]="secondLevelLibelle"
-                        [thirdLevelLibelle]="thirdLevelLibelle"></app-carte-filter>
+                        [thirdLevelLibelle]="thirdLevelLibelle"
+                    ></app-carte-filter>
                     <hr />
-                    <app-table-button-header (refresh)="pageCallback()" (export)="exportExcel()"
-                        [hiddenButtonOther]="true"></app-table-button-header>
+                    <app-table-button-header
+                        (refresh)="pageCallback()"
+                        (export)="exportExcel()"
+                        [hiddenButtonOther]="true"
+                    ></app-table-button-header>
                     <!-- <app-table-header [count]="listCartesSim" [legende]="'SIM'" [pargination]="pargination"app-table-header> -->
                     <br />
-                    <app-carte-sim-table [spinner]="spinner" [listCartesSim]="listCartesSim"
-                        (interfaceUser)="navigateByUrl($event)" [pargination]="pargination"
-                        [firstLevelLibelle]="firstLevelLibelle" [secondLevelLibelle]="secondLevelLibelle"
-                        [thirdLevelLibelle]="thirdLevelLibelle">
+                    <app-carte-sim-table
+                        [spinner]="spinner"
+                        [listCartesSim]="listCartesSim"
+                        (interfaceUser)="navigateByUrl($event)"
+                        [pargination]="pargination"
+                        [firstLevelLibelle]="firstLevelLibelle"
+                        [secondLevelLibelle]="secondLevelLibelle"
+                        [thirdLevelLibelle]="thirdLevelLibelle"
+                    >
                     </app-carte-sim-table>
 
-                    <app-pargination [pargination]="pargination" (pageChange)="onPageChange($event)"></app-pargination>
+                    <app-pargination
+                        [pargination]="pargination"
+                        (pageChange)="onPageChange($event)"
+                    ></app-pargination>
                     <!-- <app-patrimoine-forms [currentData]="currentData" *ngIf="formsView"
                         (formsView)="pushStatutView($event)"
                         (listCartesSim)="pushListPatrimoines($event)"></app-patrimoine-forms> -->

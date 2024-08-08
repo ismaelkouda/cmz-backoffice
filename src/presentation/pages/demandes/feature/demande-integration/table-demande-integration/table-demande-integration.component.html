@@ -1,15 +1,17 @@
 <p-table #dt [value]="listDemandesIntegrations" responsiveLayout="scroll" [rowHover]="true" dataKey="id"
-    selectionMode="single" [(selection)]="selectedDemandeIntegration" [scrollable]="true"
-    [globalFilterFields]="['created_at', 'numero_demande', 'nb_demande_soumises', 'nb_demande_traitees', 'statut', 'traitement', 'demandeur_nom','demandeur_prenoms']">
+    selectionMode="single" [(selection)]="selectedDemandeIntegration" [scrollable]="true" 
+    [globalFilterFields]="['created_at','numero_demande','nb_demande_soumises','nb_demande_traitees','statut','traitement','demandeur_nom','demandeur_prenoms']">
     <ng-template pTemplate="caption">
         <div class="d-flex justify-content-between">
-            <app-table-header [count]="listDemandesIntegrations" [legende]="'Demandes Intégrations'" [page]="pargination?.currentPage" [totalPage]="pargination?.last_page">
+            <app-table-header [count]="listDemandesIntegrations" [legende]="'Demandes Intégrations'"
+                [page]="pargination?.currentPage" [totalPage]="pargination?.last_page">
             </app-table-header>
             <div>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
-                        placeholder="Recherche..." />
+                    <input pInputText type="text" (input)="
+                            dt.filterGlobal($event.target.value, 'contains')
+                        " placeholder="Recherche..." />
                 </span>
             </div>
         </div>
@@ -29,18 +31,28 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowIndex="rowIndex" let-demande>
         <tr [pSelectableRow]="demande">
-            <td class="numero_tableau_width centrer_td_th">{{ rowIndex + pargination?.offset }}</td>
+            <td class="numero_tableau_width centrer_td_th">
+                {{ rowIndex + pargination?.offset }}
+            </td>
             <td class="date_width centrer_td_th">{{ demande?.created_at }}</td>
-            <td class="numero_demande_width cursor-pointer" (click)="copyData(demande, 'numero_demande')">{{ demande?.numero_demande }}</td>
-            <td class="lignes_traitees_width centrer_td_th">{{ demande?.nb_demande_soumises ?? 'N/A' }}</td>
-            <td class="lignes_traitees_width centrer_td_th">{{ demande?.nb_demande_traitees ?? 'N/A' }}</td>
+            <td class="numero_demande_width cursor-pointer" (click)="copyData(demande, 'numero_demande')">
+                {{ demande?.numero_demande }}
+            </td>
+            <td class="lignes_traitees_width centrer_td_th">
+                {{ demande?.nb_demande_soumises ?? 'N/A' }}
+            </td>
+            <td class="lignes_traitees_width centrer_td_th">
+                {{ demande?.nb_demande_traitees ?? 'N/A' }}
+            </td>
             <td class="badge_width centrer_td_th">
-                <span [class]="'badge_size badge '+getStatutBadge(demande.statut)">
+                <span [class]="
+                        'badge_size badge ' + getStatutBadge(demande.statut)
+                    ">
                     {{ demande?.statut }}
                 </span>
             </td>
             <td class="badge_width centrer_td_th">
-                <span [class]="'badge_size badge '+getTraitementBadge(demande)">
+                <span [class]="'badge_size badge ' + getTraitementBadge(demande)">
                     {{ demande?.traitement }}
                 </span>
             </td>
@@ -49,34 +61,28 @@
             </td>
             <td class="actions_width">
                 <button pButton icon="pi pi-folder-open" pTooltip="Voir" tooltipPosition="top"
-                    (click)="onAction(demande, 'détails', 'page')" class="p-button-dark">
-                </button>
+                    (click)="onAction(demande, 'détails', 'page')" class="p-button-dark"></button>
                 <button pButton icon="pi pi-pencil" tooltipPosition="top" class="p-button-secondary"
-                    (click)="onAction(demande, 'edit', 'page')"
-                    [pTooltip]="isDisableEditButton() ? 'Editer' : 'Impossible d\'editer'"
-                    [disabled]="isDisableEditButton() ? false : true">
-                </button>
-                <button pButton tooltipPosition="top" (click)="onAction(demande, 'traitement', 'modal')"
+                    (click)="onAction(demande, 'editer', 'page')" 
+                    [pTooltip]="isDisableEditButton() ? 'Editer' : 'Impossible d\'editer'" 
+                    [disabled]="isDisableEditButton() ? false : false"></button>
+                <button pButton tooltipPosition="top" (click)="onAction(demande, 'détails', 'page')"
                     [ngClass]="getStyleButtonTraitement(demande).class" [icon]="getStyleButtonTraitement(demande).icon"
-                    [pTooltip]="getStyleButtonTraitement(demande).tooltip">
-                </button>
-                <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top" (click)="showJournal(demande)"
-                    class="p-button-primary">
-                </button>
+                    [pTooltip]="getStyleButtonTraitement(demande).tooltip"></button>
+                <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top"
+                    (click)="showJournal(demande)" class="p-button-primary"></button>
             </td>
         </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
         <tr *ngIf="listDemandesIntegrations?.length <= 0 && !spinner">
             <td class="posRelative" colspan="15">
-                <span class="posCenter">
-                    Aucune donnée disponible
-                </span>
+                <span class="posCenter"> Aucune donnée disponible </span>
             </td>
         </tr>
         <tr *ngIf="spinner">
             <td class="posRelative" colspan="15">
-                <p-progressSpinner class="posCenter" [style]="{width: '40px', height: '50px'}"
+                <p-progressSpinner class="posCenter" [style]="{ width: '40px', height: '50px' }"
                     styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
                 </p-progressSpinner>
             </td>
