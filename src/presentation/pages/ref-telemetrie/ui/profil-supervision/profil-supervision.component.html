@@ -154,20 +154,10 @@
                                                     'font-size': '16px'
                                                 }"
                                                 class="badge"
-                                                [class.badge-dark]="
-                                                    data?.statut ===
-                                                    statutAttente
-                                                "
-                                                [class.badge-warning]="
-                                                    data?.statut === 'suspendu'
-                                                "
-                                                [class.badge-info]="
-                                                    data?.statut ===
-                                                    statutEncours
-                                                "
-                                                [class.badge-success]="
-                                                    data?.statut === statutActif
-                                                "
+                                                [class.badge-dark]="data?.statut === 'suspendu' && data?.statut === statutInactif && data?.statut === statutActif"
+                                                [class.badge-warning]="data?.statut === 'suspendu'"
+                                                [class.badge-danger]="data?.statut ===statutInactif"
+                                                [class.badge-success]="data?.statut === statutActif"
                                             >
                                                 {{ data?.statut }}
                                             </span>
@@ -179,26 +169,19 @@
                                             <button
                                                 pButton
                                                 pRipple
-                                                [pTooltip]="
-                                                    data?.statut ===
-                                                    statutAttente
+                                                [pTooltip]="!data.is_deployed
                                                         ? 'Deployer'
                                                         : ''
                                                 "
                                                 icon="pi pi-bolt"
                                                 tooltipPosition="top"
                                                 label="Deployer"
-                                                [class]="
-                                                    data?.statut !==
-                                                    statutAttente
+                                                [class]="data.is_deployed
                                                         ? 'p-button-outlined'
                                                         : '' + 'p-button-help'
                                                 "
                                                 (click)="OnDeploy(data)"
-                                                [disabled]="
-                                                    data?.statut !==
-                                                    statutAttente
-                                                "
+                                                [disabled]="data.is_deployed"
                                             ></button>
                                         </td>
                                         <td class="td-actions">

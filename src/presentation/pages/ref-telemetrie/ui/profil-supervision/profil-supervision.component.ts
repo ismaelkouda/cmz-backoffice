@@ -24,7 +24,8 @@ export class ProfilSupervisionComponent implements OnInit {
   public selectedImsi: string;
   public statutAttente: string = DeployStatut.EN_ATTENTE;
   public statutEncours: string = DeployStatut.EN_COURS;
-  public statutActif: string = DeployStatut.ACTIF
+  public statutActif: string = DeployStatut.ACTIF;
+  public statutInactif: string = DeployStatut.INACTIF;
   public title = 'Profils supervision - Système de Gestion de Collecte Centralisée';
 
   constructor(
