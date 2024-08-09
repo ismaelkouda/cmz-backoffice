@@ -3,6 +3,8 @@ export enum OperationTransaction {
     SUSPENSION = 'suspension',
     SWAP = 'swap',
     ACTIVATION = 'activation',
+    INTEGRATION = 'integration',
+    INTEGRATION_EN_MASSE = 'integration-en-masse',
     VOLUME_DATA = 'volume-data',
     PROVISIONNING = 'provisionning',
     ACHAT_SERVICE = 'achat-service',

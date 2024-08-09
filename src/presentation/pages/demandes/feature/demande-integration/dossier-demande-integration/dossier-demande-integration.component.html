@@ -3,36 +3,51 @@
         <div class="col-sm-12">
             <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
 
-            <!-- <div class="card">
+            <div class="card">
                 <div class="card-body">
-                    <app-patrimoine-header [count]="listDemandesIntegrations" [legende]="'SIM'"
-                        [total]="this.pargination?.total">
-                    </app-patrimoine-header>
+                    
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex">
+                            <div class="current-transaction-label d-flex gap-2">
+                                <div [style]="{ marginTop: '-0.5rem' }">
+                                    Demande d'integration
+                                </div>
+                                <div [style]="{ marginTop: '-1rem' }" class="current_values">
+                                    [{{ numero_demande }}]
+                                </div>
+                                <div [style]="{ marginTop: '-0.5rem' }">
+                                    <app-statut-demande
+                                        [statut]="statut"
+                                    ></app-statut-demande>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <p-button label="Fermer" styleClass="p-button-danger" (click)="closeView()"></p-button>
+                        </div>
+                    </div>
+                    <br>
 
-                    <app-filter-demande-integration (filter)="pageCallback($event)"
-                        [firstLevelLibelle]="firstLevelLibelle" [secondLevelLibelle]="secondLevelLibelle"
-                        [thirdLevelLibelle]="thirdLevelLibelle">
-                    </app-filter-demande-integration>
+                    <app-filter-dossier-demande-integration (filter)="pageCallback($event)">
+                    </app-filter-dossier-demande-integration>
 
                     <hr />
                     <div class="table_content_wrapper">
-                        <app-table-button-header (refresh)="pageCallback()" (export)="exportExcel()" (other)="
-                            navigateByUrl({ data: null, paramUrl: 'ajouter' })
-                        " [labelOther]="'Integrations en masse'" [iconOther]="'pi pi-plus'">
+                        <app-table-button-header (refresh)="pageCallback()" (export)="exportExcel()" [hiddenButtonOther]="true">
                         </app-table-button-header>
                     </div>
 
                     <br />
 
-                    <app-table-demande-integration [spinner]="spinner"
-                        [listDemandesIntegrations]="listDemandesIntegrations" (interfaceUser)="navigateByUrl($event)"
-                        [pargination]="pargination" [firstLevelLibelle]="firstLevelLibelle"
-                        [secondLevelLibelle]="secondLevelLibelle" [thirdLevelLibelle]="thirdLevelLibelle">
-                    </app-table-demande-integration>
+                    <app-table-dossier-demande-integration [spinner]="spinner"
+                        [listLignesIntegrations]="listLignesIntegrations"
+                        [pargination]="pargination">
+                    </app-table-dossier-demande-integration>
 
-                    <app-pargination [pargination]="pargination" (pageChange)="onPageChange($event)"></app-pargination>
+                    <!-- <app-pargination [pargination]="pargination" (pageChange)="onPageChange($event)"></app-pargination>
+                     -->
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>

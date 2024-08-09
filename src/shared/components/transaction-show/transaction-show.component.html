@@ -15,7 +15,7 @@
             Détails
             <strong
                 class="cursor-pointer text-center"
-                (click)="copyTransaction(transaction.transaction)"
+                (click)="copyTransaction(transaction?.transaction)"
                 >[{{ transaction?.transaction }}]</strong
             >
         </h4>
@@ -1519,7 +1519,7 @@
                     <!-------------ACTIVATION--------------FORMS--------------------------->
 
                     <div
-                        *ngIf="transaction?.operation === operationActivation"
+                        *ngIf="transaction?.operation === operationActivation || transaction?.operation === operationIntegration"
                         class="form-container"
                     >
                         <div
@@ -1527,8 +1527,8 @@
                             [formGroup]="activationForm"
                         >
                             <div [style]="{ marginTop: '-2rem' }">
-                                <div class="row">
-                                    <div class="col-md-6">
+                                <div class="d-flex gap-2 width-100">
+                                    <div *ngIf="transaction?.operation !== operationIntegration">
                                         <fieldset
                                             *ngIf="
                                                 bacPiocheActivation !==
@@ -1585,19 +1585,13 @@
                                             </div>
                                         </fieldset>
                                     </div>
-                                    <div
-                                        [ngClass]="
-                                            bacPiocheActivation !== 'patrimoine'
-                                                ? 'col-md-6'
-                                                : 'col-md-12'
-                                        "
-                                    >
+                                    <div class="width-100">
                                         <fieldset>
                                             <legend>
                                                 <b>Informations SIM</b>
                                             </legend>
                                             <div
-                                                class="row"
+                                                class="d-flex gap-2"
                                                 style="
                                                     padding-top: 1.4rem !important;
                                                 "
@@ -1762,6 +1756,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <br>
                                 <div class="d-flex gap-2 no-wrap">
                                     <div>
                                         <div class="form-group">

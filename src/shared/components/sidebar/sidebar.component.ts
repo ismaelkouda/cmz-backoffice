@@ -154,6 +154,8 @@ export class SidebarComponent {
       }
       if (menuItem.children) {
         menuItem.children.filter(submenuItems => {
+          console.log('submenuItems', submenuItems)
+          console.log('item', item)
           if (submenuItems.children && submenuItems.children.includes(item)) {
             menuItem.active = true;
             submenuItems.active = true;

@@ -6,7 +6,7 @@
     selectionMode="single"
     [(selection)]="selectedDemandeIntegration"
     [ngClass]="['native_table table']"
-    [rows]="50" 
+    [rows]="50"
     [globalFilterFields]="[
         'created_at',
         'numero_demande',
@@ -51,7 +51,7 @@
             <th class="text-center"># Traitées</th>
             <th class="text-center">Etape</th>
             <th class="text-center">Etat</th>
-            <th>Demandeur</th>
+            <th class="text-center">Demandeur</th>
             <th class="text-center">Actions</th>
         </tr>
     </ng-template>
@@ -89,7 +89,7 @@
                     {{ demande?.traitement }}
                 </span>
             </td>
-            <td>
+            <td class="text-center">
                 {{ demande?.demandeur_nom }} {{ demande?.demandeur_prenoms }}
             </td>
             <td class="td-actions">

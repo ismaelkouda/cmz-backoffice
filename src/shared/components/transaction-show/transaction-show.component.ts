@@ -33,6 +33,7 @@ export class TransactionShowComponent implements OnInit {
   public listTraitemants: Array<any> = [];
   public operationLigneCredit: string = OperationTransaction.PROVISIONNING;
   public operationActivation: string = OperationTransaction.ACTIVATION
+  public operationIntegration: string = OperationTransaction.INTEGRATION;
   public operationSwap: string = OperationTransaction.SWAP
   public OperationResiliation: string = OperationTransaction.RESILIATION
   public OperationSuspension: string = OperationTransaction.SUSPENSION
@@ -145,7 +146,9 @@ export class TransactionShowComponent implements OnInit {
           }else if (this.detailTransaction?.operation === OperationTransaction.CHANGEMENT_FORMULE) {
             this.GetAllFormules()
             this.OnShowFormuleForm();
-          }else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION) {
+          }else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION || 
+            this.detailTransaction?.operation === OperationTransaction.INTEGRATION
+          ) {
             this.GetFirstLevel();   
             this.GetSecondLevel();
             this.GetThirdLevel();
@@ -179,6 +182,9 @@ export class TransactionShowComponent implements OnInit {
     switch (operation) {
       case OperationTransaction.ACTIVATION: {
         return this.activationForm.get('activation_accepte_comment').value;
+      }
+      case OperationTransaction.INTEGRATION: {
+        return this.activationForm.get('integration_accepte_comment').value;
       }
       case OperationTransaction.SWAP: {
         return this.swapForm.get('swap_accepte_comment').value;
@@ -725,6 +731,9 @@ export class TransactionShowComponent implements OnInit {
       case OperationTransaction.ACTIVATION: {
         return "Activation de SIM";
       }
+      case OperationTransaction.INTEGRATION: {
+        return "Integration de SIM";
+      }
       case OperationTransaction.SWAP: {
         return "Changement de SIM";
       }
@@ -748,6 +757,7 @@ export class TransactionShowComponent implements OnInit {
   public IsContentSim(): boolean {
     return (
       this.transaction?.operation === OperationTransaction.ACTIVATION  ||
+      this.transaction?.operation === OperationTransaction.INTEGRATION  ||
       this.transaction?.operation === OperationTransaction.RESILIATION ||
       this.transaction?.operation === OperationTransaction.SUSPENSION ||
       this.transaction?.operation === OperationTransaction.SWAP ||

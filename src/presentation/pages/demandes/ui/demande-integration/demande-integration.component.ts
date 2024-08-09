@@ -12,8 +12,9 @@ import { SupervisionOperationService } from "src/presentation/pages/supervision-
 import { DemandeIntegrationStateService } from "../../data-access/demande-integration/demande-integration-state.service";
 import { DemandeIntegrationApiStateService } from "../../data-access/demande-integration/demande-integration-api-state.service";
 import { DEMANDE_INTEGRATION, DEMANDE_INTEGRATION_DOSSIER, DEMANDE_INTEGRATION_FORM } from "../../demandes-routing.module";
+import { DemandeService } from "../../data-access/demande.service";
 
-type TYPEVIEW = "editer" | "détails" | "ajouter" | "dossier" ;
+type TYPEVIEW = "editer" | "détails" | "ajouter" | "dossier";
 
 @Component({
     selector: "app-demande-integration",
@@ -37,7 +38,8 @@ export class DemandeIntegrationComponent implements OnInit {
         private toastrService: ToastrService, private loadingBarService: LoadingBarService,
         private router: Router, public mappingService: MappingService,
         private excelService: ExcelService, private demandeIntegrationStateService: DemandeIntegrationStateService,
-        private demandeIntegrationApiStateService: DemandeIntegrationApiStateService) {
+        private demandeIntegrationApiStateService: DemandeIntegrationApiStateService,
+        private demandeService: DemandeService) {
         this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
         this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
         this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
@@ -65,11 +67,11 @@ export class DemandeIntegrationComponent implements OnInit {
         }
     }
 
-    async pageCallback(dataToSend: Object = {operation: "integration"}, nbrPage: number = 1) {
+    async pageCallback(dataToSend: Object = { operation: "integration" }, nbrPage: number = 1) {
         this.demandeIntegrationStateService.setFilterState(dataToSend);
         this.dataToSend = this.demandeIntegrationStateService.generateQueryStringFromObject(dataToSend);
-        const response: any = await handle(() => this.supervisionOperationService.GetAllTransactions(dataToSend, nbrPage), this.toastrService, this.loadingBarService);
-        if(response?.error === false) this.handleSuccessfulPageCallback(response);
+        const response: any = await handle(() => this.demandeService.GetDemandeServiceByTransaction(dataToSend, nbrPage), this.toastrService, this.loadingBarService);
+        if (response?.error === false) this.handleSuccessfulPageCallback(response);
     }
 
     private handleSuccessfulPageCallback(response: any): void {
@@ -86,11 +88,11 @@ export class DemandeIntegrationComponent implements OnInit {
 
     public navigateByUrl(data: { data: null | Object, paramUrl: TYPEVIEW }): void {
         if (data.paramUrl === "ajouter") {
-            this.router.navigate([DEMANDE_INTEGRATION_FORM+"/"+SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl } });
+            this.router.navigate([DEMANDE_INTEGRATION_FORM + "/" + SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl } });
         } else if (data.paramUrl === "editer" || data.paramUrl === "détails") {
-            this.router.navigate([DEMANDE_INTEGRATION_FORM+"/"+SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl, page: this.pargination?.currentPage, filter: this.dataToSend, id: data.data["id"] } });
+            this.router.navigate([DEMANDE_INTEGRATION_FORM + "/" + SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl, page: this.pargination?.currentPage, filter: this.dataToSend, id: data.data["id"] } });
         } else if (data.paramUrl === "dossier") {
-            this.router.navigate([DEMANDE_INTEGRATION_DOSSIER+"/"+SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl, page: this.pargination?.currentPage, filter: this.dataToSend, id: data.data["id"] } });
+            this.router.navigate([DEMANDE_INTEGRATION_DOSSIER + "/" + SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl, page: this.pargination?.currentPage, filter: this.dataToSend, id: data.data["id"], numero_demande: data.data["numero_demande"], tenant_code: this.mappingService.tenant.tenant_code, statut: data.data["statut"] } });
         }
     }
 

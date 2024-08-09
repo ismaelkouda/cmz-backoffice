@@ -13,6 +13,7 @@ import { ToastrService } from "ngx-toastr";
 import { FormatFormData } from "src/shared/functions/formatFormData.function";
 import { SupervisionOperationService } from "src/presentation/pages/supervision-operations/data-access/supervision-operation.service";
 import { DemandeIntegrationStateService } from "../../../data-access/demande-integration/demande-integration-state.service";
+import { OperationTransaction } from "src/shared/enum/OperationTransaction.enum";
 
 type TYPEVIEW = "editer" | "détails" | "ajouter";
 
@@ -40,6 +41,7 @@ type TYPEVIEW = "editer" | "détails" | "ajouter";
 })
 
 export class FormDemandeIntegrationComponent implements OnInit {
+    public INTEGRATION_EN_MASSE: string = OperationTransaction.INTEGRATION_EN_MASSE;
     public view: TYPEVIEW;
     public page: number;
     public id: number;
@@ -49,7 +51,7 @@ export class FormDemandeIntegrationComponent implements OnInit {
         etape_2: "Etape 2 : Importez le fichier téléchargé complété avec les infos d'identifications de chaque SIM",
         etape_3: "Etape 3 : Vérifiez la cohérence et la complétude du fichier importé"
     } as const;
-    public currentArrayHeaders = ['TRANSACTION', 'MSISDN', 'IMSI', 'ICCID', 'ADRESSE IP', 'APN', 'NOM EMPLACEMENT', 'ADRESSE EMAIL', 'ADRESSE GEO', 'LONGITUDE', 'LATITUDE'] as const;
+    public currentArrayHeaders = ['MSISDN*', 'IMSI', 'ICCID', 'NOM EMPLACEMENT*', 'ADRESSE EMAIL', 'ADRESSE GEO', 'LONGITUDE', 'LATITUDE'] as const;
     public fileModel = "src/assets/data/Modele-Traitement-Activation-En-Masse.xlsx";
     private response: any;
     public module: string;
@@ -134,9 +136,9 @@ export class FormDemandeIntegrationComponent implements OnInit {
             niveau_trois_uuid: this.createFormControl(this.demandesIntegrationSelected?.["niveau_trois_uuid"], Validators.required, false),
             usage_id: this.createFormControl(this.demandesIntegrationSelected?.["usage_id"], Validators.required, false),
             formule_uuid: this.createFormControl(this.demandesIntegrationSelected?.["formule_uuid"], Validators.required, false),
-            operation: this.createFormControl('integration', null, false),
+            operation: this.createFormControl(this.INTEGRATION_EN_MASSE, null, false),
             montant_formule: this.createFormControl(this.demandesIntegrationSelected?.["montant_formule"], Validators.required, false),
-            file: this.createFormControl(this.demandesIntegrationSelected?.["file"], Validators.required, false),
+            recu_paiement: this.createFormControl(this.demandesIntegrationSelected?.["recu_paiement"], Validators.required, false),
             description: this.createFormControl(this.demandesIntegrationSelected?.["description"], Validators.required, false),
             sims_file: this.createFormControl(this.demandesIntegrationSelected?.["sims_file"], Validators.required, false),
         });
@@ -155,19 +157,20 @@ export class FormDemandeIntegrationComponent implements OnInit {
             formule_uuid: this.view === "editer" ? this.demandesIntegrationSelected?.["formule_uuid"] : this.demandesIntegrationSelected?.["formule"],
             operation: 'integration',
             montant_formule: this.demandesIntegrationSelected?.["montant_formule"],
-            file: this.demandesIntegrationSelected?.["file"],
+            recu_paiement: this.demandesIntegrationSelected?.["recu_paiement"],
             description: this.demandesIntegrationSelected?.["description"],
             sims_file: this.demandesIntegrationSelected?.["sims_file"],
         })
         this.onChangeFirstLvel(this.demandesIntegrationSelected?.["niveau_un_uuid"]);
     }
 
-    public onChangeFile(file: any) {
-        if (file) this.demandeIntegrationForm.patchValue({ file: file });
+    public onChangeFile(file: FileList) {
+        if (file) this.demandeIntegrationForm.get("recu_paiement").patchValue(file.item(0));
     }
 
     public pushCurrentArrayForm(file_upload: any) {
-        if (file_upload) this.demandeIntegrationForm.patchValue({ sims_file: file_upload.sims_file });
+        console.log('file_upload', file_upload)
+        if (file_upload) this.demandeIntegrationForm.get("sims_file").patchValue(file_upload.sims_file);
     }
 
     async onSubmitDmandeIntegrationForm(): Promise<void> {
