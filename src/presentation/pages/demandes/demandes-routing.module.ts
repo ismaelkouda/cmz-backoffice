@@ -7,6 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DemandeSwappingComponent } from './ui/demande-swapping/demande-swapping.component';
 import { DemandeIntegrationComponent } from './ui/demande-integration/demande-integration.component';
 import { FormDemandeIntegrationComponent } from './feature/demande-integration/form-demande-integration/form-demande-integration.component';
+import { DossierDemandeIntegrationComponent } from './feature/demande-integration/dossier-demande-integration/dossier-demande-integration.component';
 
 export const DEMANDE_ACTIVATION = 'activation';
 export const DEMANDE_SUSPENSION = 'suspension';
@@ -14,6 +15,8 @@ export const DEMANDE_RESILIATION = 'resiliation';
 export const DEMANDE_SWAPPING = 'changement-carte-sim';
 export const DEMANDE_FORMULE_CHANGE = 'changement-formule';
 export const DEMANDE_INTEGRATION = 'integration';
+export const DEMANDE_INTEGRATION_FORM = 'form';
+export const DEMANDE_INTEGRATION_DOSSIER = 'dossier';
 
 
 const routes: Routes = [{
@@ -25,11 +28,24 @@ const routes: Routes = [{
         },
         {
             path: DEMANDE_INTEGRATION,
-            component: DemandeIntegrationComponent
-        },
-        {
-          path: DEMANDE_INTEGRATION + "/:id",
-          component: FormDemandeIntegrationComponent,
+            children: [
+                {
+                    path: '',
+                    component: DemandeIntegrationComponent,
+                },
+                {
+                    path: DEMANDE_INTEGRATION_FORM + "/:id",
+                    component: FormDemandeIntegrationComponent,
+                },
+                {
+                    path: DEMANDE_INTEGRATION_DOSSIER + "/:id",
+                    component: DossierDemandeIntegrationComponent,
+                },
+                {
+                    path: '', 
+                    redirectTo: DEMANDE_INTEGRATION,
+                }
+            ]
         },
         {
             path: DEMANDE_SUSPENSION,
@@ -48,7 +64,12 @@ const routes: Routes = [{
             component: DemandeFormuleChangeComponent
         },
     ]
-}];
+},
+{
+    path: '**',
+    redirectTo: DEMANDE_ACTIVATION
+}
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

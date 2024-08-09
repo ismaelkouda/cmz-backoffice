@@ -6,8 +6,10 @@ import { JournalComponent } from "src/shared/components/journal/journal.componen
 import { BADGE_ETAPE } from "src/shared/constants/badge-etape.constant";
 import { BADGE_ETAT } from "src/shared/constants/badge-etat.contant";
 import { DemandeIntegrationStateService } from "../../../data-access/demande-integration/demande-integration-state.service";
+import { DemandeMasseComponent } from "src/presentation/pages/supervision-operations/feature/demande-masse/demande-masse.component";
+import { ModalParams } from "src/shared/constants/modalParams.contant";
 
-type TYPEFORM = "détails" | "editer" | "traitement";
+type TYPEFORM = "détails" | "editer" | "traitement" | "dossier" ;
 
 @Component({
     selector: "app-table-demande-integration",
@@ -27,9 +29,10 @@ export class TableDemandeIntegrationComponent {
     selectedDemandeIntegration: Object;
     BADGE_ETAPE = BADGE_ETAPE;
     BADGE_ETAT = BADGE_ETAT;
+    public IsLoading: boolean;
 
     constructor(private toastrService: ToastrService, private clipboardService: ClipboardService,
-        private ngbModal: NgbModal, private demandeIntegrationStateService: DemandeIntegrationStateService) { }
+        private ngbModal: NgbModal, private demandeIntegrationStateService: DemandeIntegrationStateService,) { }
 
     public copyData(data: Object, libelle: "numero_demande"): void {
         this.toastrService.success('Copié dans le presse papier');
@@ -71,7 +74,7 @@ export class TableDemandeIntegrationComponent {
                 // garder l'etat du tableau
                 this.demandeIntegrationStateService.setTableState(this.listDemandesIntegrations);
                 break;
-
+                
             case "modal":
                 this.onOpenModal(data, action);
                 break;
@@ -113,6 +116,21 @@ export class TableDemandeIntegrationComponent {
         this.demandeIntegrationStateService.setTableItemSelectedState(selectedDemandeIntegration);
     }
 
+    OnShowModalTraitement(data: any): void {
+        console.log('data', data)
+      let action: string;
+      if (data?.statut === this.BADGE_ETAPE.SOUMISSION && data.traitement === this.BADGE_ETAT.EN_ATTENTE) {
+        action = "Abandonner";
+      } else {
+        action = "Identifier";
+      }
+      this.IsLoading = true;
+      const modalRef = this.ngbModal.open(DemandeMasseComponent, ModalParams);
+      modalRef.componentInstance.params = { vue: "demande", action: action };
+      modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
+      modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res; modalRef.componentInstance.IsLoadData = !res });
+    }
+
     showJournal(data: Object): void {
         this.selectDemandeIntegration(data);
         const modalRef = this.ngbModal.open(JournalComponent, {
@@ -122,7 +140,7 @@ export class TableDemandeIntegrationComponent {
             centered: true,
         });
         modalRef.componentInstance.numero_demande = data['numero_demande'];
-        modalRef.componentInstance.typeJournal = "integrations"
+        modalRef.componentInstance.typeJournal = "demandes-services"
     }
 
 }

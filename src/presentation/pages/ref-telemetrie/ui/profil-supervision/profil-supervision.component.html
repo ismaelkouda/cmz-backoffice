@@ -154,10 +154,23 @@
                                                     'font-size': '16px'
                                                 }"
                                                 class="badge"
-                                                [class.badge-dark]="data?.statut === 'suspendu' && data?.statut === statutInactif && data?.statut === statutActif"
-                                                [class.badge-warning]="data?.statut === 'suspendu'"
-                                                [class.badge-danger]="data?.statut ===statutInactif"
-                                                [class.badge-success]="data?.statut === statutActif"
+                                                [class.badge-dark]="
+                                                    data?.statut ===
+                                                        'suspendu' &&
+                                                    data?.statut ===
+                                                        statutInactif &&
+                                                    data?.statut === statutActif
+                                                "
+                                                [class.badge-warning]="
+                                                    data?.statut === 'suspendu'
+                                                "
+                                                [class.badge-danger]="
+                                                    data?.statut ===
+                                                    statutInactif
+                                                "
+                                                [class.badge-success]="
+                                                    data?.statut === statutActif
+                                                "
                                             >
                                                 {{ data?.statut }}
                                             </span>
@@ -169,14 +182,16 @@
                                             <button
                                                 pButton
                                                 pRipple
-                                                [pTooltip]="!data.is_deployed
+                                                [pTooltip]="
+                                                    !data.is_deployed
                                                         ? 'Deployer'
                                                         : ''
                                                 "
                                                 icon="pi pi-bolt"
                                                 tooltipPosition="top"
                                                 label="Deployer"
-                                                [class]="data.is_deployed
+                                                [class]="
+                                                    data.is_deployed
                                                         ? 'p-button-outlined'
                                                         : '' + 'p-button-help'
                                                 "

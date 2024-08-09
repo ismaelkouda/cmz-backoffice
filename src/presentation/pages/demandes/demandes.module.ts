@@ -44,6 +44,7 @@ import { DemandeFormuleChangeComponent } from './ui/demande-formule-change/deman
 import { DemandesFilterStateService } from './data-access/demandes-filter-state.service';
 import { DemandeIntegrationStateService } from './data-access/demande-integration/demande-integration-state.service';
 import { DemandeIntegrationApiStateService } from './data-access/demande-integration/demande-integration-api-state.service'
+import { DossierDemandeIntegrationComponent } from "./feature/demande-integration/dossier-demande-integration/dossier-demande-integration.component";
 
 @NgModule({
     imports: [
@@ -79,7 +80,7 @@ import { DemandeIntegrationApiStateService } from './data-access/demande-integra
         DemandeWrapperShowComponent,
         StatutDemandeComponent,
         TransactionFormComponent,
-        DemandeIntegrationComponent,FilterDemandeIntegrationComponent,TableDemandeIntegrationComponent,FormDemandeIntegrationComponent
+        DemandeIntegrationComponent,FilterDemandeIntegrationComponent,TableDemandeIntegrationComponent,FormDemandeIntegrationComponent, DossierDemandeIntegrationComponent
     ],
     providers: [DemandesFilterStateService, DemandeIntegrationStateService, DemandeIntegrationApiStateService]
 })

@@ -16,9 +16,9 @@
                 Détails
                 <strong
                     class="cursor-pointer"
-                    (click)="copyTransaction(demande.numero_demande)"
+                    (click)="copyTransaction(listDemandes.numero_demande)"
                 >
-                    [{{ demande.numero_demande }}]
+                    [{{ listDemandes.numero_demande }}]
                 </strong>
             </h4>
             <button
@@ -90,8 +90,8 @@
                         ></button>
                         <!-- <button pButton pRipple label="Abandonner" (click)="onLetDownDemands()"
                             class="p-button-warning w-100" *ngIf="
-                            demande.status === stateSoumis &&
-                            demande.traitement === treatmenEntente
+                            listDemandes.status === stateSoumis &&
+                            listDemandes.traitement === treatmenEntente
                             "></button> -->
                         <button
                             pButton
@@ -441,7 +441,7 @@
                                                 formControlName="niveau_uns_uuid"
                                             />
                                         </div>
-                                        <div clafss="width-100">
+                                        <div class="width-100">
                                             <label>
                                                 <b>{{ secondLevelLibelle }}</b>
                                             </label>
@@ -537,7 +537,7 @@
                                                         (click)="downloadFile()"
                                                     ></button>
                                                 </div>
-                                                <div class="justificatif-error">
+                                                <div class="justificatif-error text-center">
                                                     <span
                                                         class=""
                                                         *ngIf="
@@ -571,7 +571,7 @@
                                                         "
                                                     ></button>
                                                 </div>
-                                                <div class="justificatif-error">
+                                                <div class="justificatif-error text-center">
                                                     <span
                                                         class=""
                                                         *ngIf="

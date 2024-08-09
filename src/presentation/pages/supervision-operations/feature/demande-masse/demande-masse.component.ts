@@ -24,7 +24,8 @@ const Swal = require('sweetalert2');
 })
 
 export class DemandeMasseComponent implements OnInit {
-    public formMasseLibelle = {etape_1: "Cliquez pour télécharger le fichier conteant les SIMs activées par OCI",
+    public formMasseLibelle = {
+        etape_1: "Cliquez pour télécharger le fichier conteant les SIMs activées par OCI",
         etape_2: "Etape 2 : Importez le fichier téléchargé complété avec les infos d'identifications de chaque SIM",
         etape_3: "Etape 3 : Vérifiez la cohérence et la complétude du fichier importé"
     } as const;
@@ -75,10 +76,9 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('this.params', this.params)
+        this.initFormTraitementMasse();
         // this.GetFormules();
         this.GetSupervisionOperationsDemandesServicesDetails();
-        this.initFormTraitementMasse();
         this.IsJustificatif();
         this.IsRecuPaiement();
     }
@@ -90,7 +90,7 @@ export class DemandeMasseComponent implements OnInit {
             niveau_uns_uuid: this.createFormControl(this.listDemandes?.niveau_uns_nom, null, true),
             niveau_deux_uuid: this.createFormControl(this.listDemandes?.niveau_deux_nom, null, true),
             niveau_trois_uuid: this.createFormControl(this.listDemandes?.niveau_trois_nom, null, true),
-            numero_demande: [this.demande?.numero_demande],
+            numero_demande: [this.listDemandes?.numero_demande],
             formule_uuid: this.createFormControl(this.listDemandes?.formule, Validators.required, true),
             usage_id: this.createFormControl(this.listDemandes?.usage_nom, null, true),
             nb_demande_soumises: this.createFormControl(this.listDemandes?.nb_demande_soumises, null, true),
@@ -115,10 +115,10 @@ export class DemandeMasseComponent implements OnInit {
     private commentairePatchValue(): string | null {
         switch (this.params.action) {
             case "Abandonner":
-                return this.demande?.commentaire_cloture;
+                return this.listDemandes?.commentaire_cloture;
 
             case "Clôturer":
-                return this.demande?.commentaire_cloture;
+                return this.listDemandes?.commentaire_cloture;
 
             default:
                 return null;
@@ -130,7 +130,7 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     private isTraiteState(): boolean {
-        return this.demande?.statut === this.stateTraite;
+        return this.listDemandes?.statut === this.stateTraite;
     }
 
     private updateFormForTraiteState(): void {
@@ -184,20 +184,21 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     public getLabelForm() {
-        if (this.demande.statut === this.stateSoumis || this.demande.traitement === this.treatmenEntente) {
+        if (this.listDemandes.statut === this.stateSoumis || this.listDemandes.traitement === this.treatmenEntente) {
             return "Modifier";
         }
         return "Enregistrer";
     }
 
     public displayButtonForm() {
-        if (this.demande?.statut === this.stateCloture || this.demande?.statut !== 'en-traitement') {
+        if (this.listDemandes?.statut === this.stateCloture || this.listDemandes?.statut !== 'en-traitement') {
             return true;
         }
         return false;
     }
 
     async GetSupervisionOperationsDemandesServicesDetails(dataToSend = this.demande?.numero_demande): Promise<void> {
+        console.log('this.demande?.numero_demande', this.demande?.numero_demande)
         this.response = await handle(() => this.supervisionOperationService.GetSupervisionOperationsDemandesServicesDetails(dataToSend), this.toastrService, this.loadingBarService);
         this.listDemandes = this.response?.data;
         console.log('this.listDemandes', this.listDemandes)
@@ -312,10 +313,10 @@ export class DemandeMasseComponent implements OnInit {
 
     async onDownloadModel(): Promise<any> {
         const tokenUser = JSON.parse(this.storage.getData('user')).token;
-        window.location.href = this.supervisionOperationService.GetGestionTransactionsDemandesServicesDownloadAbonnementsData(this.listDemandes.numero_demande, tokenUser);
+        window.location.href = this.supervisionOperationService.GetGestionTransactionsDemandesServicesDownloadAbonnementsData(this.listDemandes?.numero_demande, tokenUser);
     }
 
     public canIdentify(demande: any): boolean {
-        return (demande.etat_traitement === "partiel" || demande.etat_traitement === "total") && demande.etat_finalisation === "clôturé";
+        return (demande?.etat_traitement === "partiel" || demande?.etat_traitement === "total") && demande?.etat_finalisation === "clôturé";
     }
 }

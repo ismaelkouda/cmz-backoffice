@@ -19,7 +19,7 @@ export class JournalComponent implements OnInit {
   public BADGE_ETAPE = BADGE_ETAPE;
   public BADGE_TRAITEMENT = BADGE_TRAITEMENT;
   public BADGE_STATUT = BADGE_STATUT;
-  @Input() typeJournal: "demandes-services" | "transactions";
+  @Input() typeJournal: "demandes-services" | "transactions" | "integrations";
   @Input() transaction: string;
   @Input() numero_demande: string;
   response: any;

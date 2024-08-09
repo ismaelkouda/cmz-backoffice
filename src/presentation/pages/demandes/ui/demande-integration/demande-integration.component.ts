@@ -11,9 +11,9 @@ import { Pargination } from "src/shared/table/pargination";
 import { SupervisionOperationService } from "src/presentation/pages/supervision-operations/data-access/supervision-operation.service";
 import { DemandeIntegrationStateService } from "../../data-access/demande-integration/demande-integration-state.service";
 import { DemandeIntegrationApiStateService } from "../../data-access/demande-integration/demande-integration-api-state.service";
-import { DEMANDE_INTEGRATION } from "../../demandes-routing.module";
+import { DEMANDE_INTEGRATION, DEMANDE_INTEGRATION_DOSSIER, DEMANDE_INTEGRATION_FORM } from "../../demandes-routing.module";
 
-type TYPEVIEW = "editer" | "détails" | "ajouter";
+type TYPEVIEW = "editer" | "détails" | "ajouter" | "dossier" ;
 
 @Component({
     selector: "app-demande-integration",
@@ -86,9 +86,11 @@ export class DemandeIntegrationComponent implements OnInit {
 
     public navigateByUrl(data: { data: null | Object, paramUrl: TYPEVIEW }): void {
         if (data.paramUrl === "ajouter") {
-            this.router.navigate([SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl } });
+            this.router.navigate([DEMANDE_INTEGRATION_FORM+"/"+SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl } });
         } else if (data.paramUrl === "editer" || data.paramUrl === "détails") {
-            this.router.navigate([SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl, page: this.pargination?.currentPage, filter: this.dataToSend, id: data.data["id"] } });
+            this.router.navigate([DEMANDE_INTEGRATION_FORM+"/"+SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl, page: this.pargination?.currentPage, filter: this.dataToSend, id: data.data["id"] } });
+        } else if (data.paramUrl === "dossier") {
+            this.router.navigate([DEMANDE_INTEGRATION_DOSSIER+"/"+SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl, page: this.pargination?.currentPage, filter: this.dataToSend, id: data.data["id"] } });
         }
     }
 

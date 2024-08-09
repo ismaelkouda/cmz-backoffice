@@ -1,4 +1,3 @@
-import { DemandeService } from './../../data-access/demande.service';
 import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';

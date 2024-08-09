@@ -68,7 +68,7 @@ export class FormMasseComponent {
     @Input() typeOuvrage: any;
     @Input() displayModalAjoutEnMasse: boolean;
     public currentFile: any;
-    public fileName: any;
+    public fileName: string;
     public data: File;
     @Output() downloadModel = new EventEmitter<void>();
     public nombreLigneInExcelFile: number;

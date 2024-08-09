@@ -1,12 +1,12 @@
 <p-table
     #dt
     [value]="listDemandesIntegrations"
-    responsiveLayout="scroll"
     [rowHover]="true"
     dataKey="id"
     selectionMode="single"
     [(selection)]="selectedDemandeIntegration"
-    [scrollable]="true"
+    [ngClass]="['native_table table']"
+    [rows]="50" 
     [globalFilterFields]="[
         'created_at',
         'numero_demande',
@@ -44,36 +44,36 @@
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
-            <th class="numero_tableau_width centrer_td_th">#</th>
-            <th class="date_width centrer_td_th">Date Demande</th>
-            <th class="numero_demande_width">N° demande</th>
-            <th class="centrer_td_th lignes_traitees_width"># Lignes</th>
-            <th class="centrer_td_th lignes_traitees_width"># Traitées</th>
-            <th class="centrer_td_th">Etape</th>
-            <th class="centrer_td_th">Etat</th>
-            <th class="centrer_td_th">Demandeur</th>
-            <th class="centrer_td_th actions_width">Actions</th>
+            <th class="text-center">#</th>
+            <th class="text-center">Date Demande</th>
+            <th class="text-center">N° demande</th>
+            <th class="text-center"># Lignes</th>
+            <th class="text-center"># Traitées</th>
+            <th class="text-center">Etape</th>
+            <th class="text-center">Etat</th>
+            <th>Demandeur</th>
+            <th class="text-center">Actions</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowIndex="rowIndex" let-demande>
         <tr [pSelectableRow]="demande">
-            <td class="numero_tableau_width centrer_td_th">
+            <td class="text-center">
                 {{ rowIndex + pargination?.offset }}
             </td>
-            <td class="date_width centrer_td_th">{{ demande?.created_at }}</td>
+            <td class="text-center">{{ demande?.created_at }}</td>
             <td
-                class="numero_demande_width cursor-pointer"
+                class="cursor-pointer text-center"
                 (click)="copyData(demande, 'numero_demande')"
             >
                 {{ demande?.numero_demande }}
             </td>
-            <td class="lignes_traitees_width centrer_td_th">
+            <td class="text-center">
                 {{ demande?.nb_demande_soumises ?? 'N/A' }}
             </td>
-            <td class="lignes_traitees_width centrer_td_th">
+            <td class="text-center">
                 {{ demande?.nb_demande_traitees ?? 'N/A' }}
             </td>
-            <td class="badge_width centrer_td_th">
+            <td class="text-center">
                 <span
                     [class]="
                         'badge_size badge ' + getStatutBadge(demande.statut)
@@ -82,23 +82,23 @@
                     {{ demande?.statut }}
                 </span>
             </td>
-            <td class="badge_width centrer_td_th">
+            <td class="text-center">
                 <span
                     [class]="'badge_size badge ' + getTraitementBadge(demande)"
                 >
                     {{ demande?.traitement }}
                 </span>
             </td>
-            <td class="demandeur_width centrer_td_th">
+            <td>
                 {{ demande?.demandeur_nom }} {{ demande?.demandeur_prenoms }}
             </td>
-            <td class="actions_width">
+            <td class="td-actions">
                 <button
                     pButton
                     icon="pi pi-folder-open"
                     pTooltip="Voir"
                     tooltipPosition="top"
-                    (click)="onAction(demande, 'détails', 'page')"
+                    (click)="onAction(demande, 'dossier', 'page')"
                     class="p-button-dark"
                 ></button>
                 <button
@@ -117,7 +117,7 @@
                 <button
                     pButton
                     tooltipPosition="top"
-                    (click)="onAction(demande, 'détails', 'page')"
+                    (click)="OnShowModalTraitement(demande)"
                     [ngClass]="getStyleButtonTraitement(demande).class"
                     [icon]="getStyleButtonTraitement(demande).icon"
                     [pTooltip]="getStyleButtonTraitement(demande).tooltip"

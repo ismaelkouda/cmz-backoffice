@@ -45,7 +45,7 @@ export class FormDemandeIntegrationComponent implements OnInit {
     public id: number;
     public filter: Object;
     public formMasseLibelle = {
-        etape_1: "Etape 1 : Etape 1 : Cliquez pour télécharger le fichier modèle en et remplissez tous les champs obligatoires",
+        etape_1: "Etape 1 : Cliquez pour télécharger le fichier modèle en et remplissez tous les champs obligatoires",
         etape_2: "Etape 2 : Importez le fichier téléchargé complété avec les infos d'identifications de chaque SIM",
         etape_3: "Etape 3 : Vérifiez la cohérence et la complétude du fichier importé"
     } as const;
@@ -140,7 +140,6 @@ export class FormDemandeIntegrationComponent implements OnInit {
             description: this.createFormControl(this.demandesIntegrationSelected?.["description"], Validators.required, false),
             sims_file: this.createFormControl(this.demandesIntegrationSelected?.["sims_file"], Validators.required, false),
         });
-        this.onChangeFirstLvel(this.demandesIntegrationSelected?.["niveau_un_uuid"]);
     }
 
     private createFormControl(initialValue: any, validator: any = null, isDisabled: boolean = false): any {
@@ -160,6 +159,7 @@ export class FormDemandeIntegrationComponent implements OnInit {
             description: this.demandesIntegrationSelected?.["description"],
             sims_file: this.demandesIntegrationSelected?.["sims_file"],
         })
+        this.onChangeFirstLvel(this.demandesIntegrationSelected?.["niveau_un_uuid"]);
     }
 
     public onChangeFile(file: any) {
