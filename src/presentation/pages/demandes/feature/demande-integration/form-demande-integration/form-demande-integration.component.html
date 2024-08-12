@@ -239,7 +239,10 @@
                                                             color: #000;
                                                         "
                                                         (change)="
-                                                            onChangeFile($event.target.files)
+                                                            onChangeFile(
+                                                                $event.target
+                                                                    .files
+                                                            )
                                                         "
                                                         accept="image/png,image/jpeg"
                                                     />

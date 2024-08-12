@@ -1,5 +1,13 @@
-<p-table #dt [value]="listLignesIntegrations" [rowHover]="true" dataKey="transaction" selectionMode="single"
-    [(selection)]="selectedLignesIntegrations" [ngClass]="['native_table table']" [rows]="50" [globalFilterFields]="[
+<p-table
+    #dt
+    [value]="listLignesIntegrations"
+    [rowHover]="true"
+    dataKey="transaction"
+    selectionMode="single"
+    [(selection)]="selectedLignesIntegrations"
+    [ngClass]="['native_table table']"
+    [rows]="50"
+    [globalFilterFields]="[
         'created_at',
         'numero_demande',
         'nb_demande_soumises',
@@ -8,18 +16,28 @@
         'traitement',
         'demandeur_nom',
         'demandeur_prenoms'
-    ]">
+    ]"
+>
     <ng-template pTemplate="caption">
         <div class="d-flex justify-content-between">
-            <app-table-header [count]="listLignesIntegrations" [legende]="'Demandes Intégrations'"
-                [page]="pargination?.currentPage" [totalPage]="pargination?.last_page">
+            <app-table-header
+                [count]="listLignesIntegrations"
+                [legende]="'Demandes Intégrations'"
+                [page]="pargination?.currentPage"
+                [totalPage]="pargination?.last_page"
+            >
             </app-table-header>
             <div>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="
                             dt.filterGlobal($event.target.value, 'contains')
-                        " placeholder="Recherche..." />
+                        "
+                        placeholder="Recherche..."
+                    />
                 </span>
             </div>
         </div>
@@ -33,9 +51,7 @@
             <th class="text-center">IMSI</th>
             <th class="text-center">Statut</th>
             <th class="text-center">Traitement</th>
-            <th class="text-center">
-                Date Traitement
-            </th>
+            <th class="text-center">Date Traitement</th>
             <th class="text-center" [style]="{ width: '3rem' }">Actions</th>
         </tr>
     </ng-template>
@@ -43,46 +59,73 @@
         <tr [pSelectableRow]="demande">
             <td class="text-center">{{ rowIndex + pargination?.offset }}</td>
             <td class="text-center">{{ demande?.created_at }}</td>
-            <td class="cursor-pointer text-center" (click)="copyData(demande, 'transaction')">{{ demande?.transaction }}
+            <td
+                class="cursor-pointer text-center"
+                (click)="copyData(demande, 'transaction')"
+            >
+                {{ demande?.transaction }}
             </td>
-            <td class="cursor-pointer text-center" (click)="demande?.msisdn ? copyData(demande, 'msisdn') : null">
-                {{demande?.msisdn ?? 'N/A' }}</td>
-                <td class="cursor-pointer text-center" (click)="demande?.imsi ? copyData(demande, 'imsi') : null">{{
-                    demande?.imsi ?? 'N/A' }}</td>
+            <td
+                class="cursor-pointer text-center"
+                (click)="demande?.msisdn ? copyData(demande, 'msisdn') : null"
+            >
+                {{ demande?.msisdn ?? 'N/A' }}
+            </td>
+            <td
+                class="cursor-pointer text-center"
+                (click)="demande?.imsi ? copyData(demande, 'imsi') : null"
+            >
+                {{ demande?.imsi ?? 'N/A' }}
+            </td>
             <td class="text-center">
-                <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-dark]="
-                            demande?.statut === BADGE_ETAPE.SOUMISSION ||
-                            demande?.statut === BADGE_STATUT.SOUMIS
-                        " [class.badge-warning]="
-                            demande?.statut === BADGE_ETAPE.TRAITEMENT
-                        " [class.badge-success]="
-                            demande?.statut === BADGE_ETAPE.FINALISATEUR
-                        " [class.badge-green]="
-                            demande?.statut === BADGE_ETAPE.CLOTURE
-                        " [class.badge-info]="
-                            demande?.statut === BADGE_STATUT.TRAITE
-                        " [class.badge-success]="
-                            demande?.statut === BADGE_STATUT.CLOTURE
-                        ">
+                <span
+                    [ngStyle]="{ 'font-size': '16px' }"
+                    class="badge"
+                    [class.badge-dark]="
+                        demande?.statut === BADGE_ETAPE.SOUMISSION ||
+                        demande?.statut === BADGE_STATUT.SOUMIS
+                    "
+                    [class.badge-warning]="
+                        demande?.statut === BADGE_ETAPE.TRAITEMENT
+                    "
+                    [class.badge-success]="
+                        demande?.statut === BADGE_ETAPE.FINALISATEUR
+                    "
+                    [class.badge-green]="
+                        demande?.statut === BADGE_ETAPE.CLOTURE
+                    "
+                    [class.badge-info]="demande?.statut === BADGE_STATUT.TRAITE"
+                    [class.badge-success]="
+                        demande?.statut === BADGE_STATUT.CLOTURE
+                    "
+                >
                     {{ demande?.statut }}
                 </span>
             </td>
             <td class="text-center">
-                <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-dark]="
-                            demande?.traitement === BADGE_ETAT.RECU ||
-                            demande?.traitement === BADGE_ETAT.EN_ATTENTE
-                        " [class.badge-warning]="
-                            demande?.traitement === BADGE_ETAT.PARTIEL ||
-                            demande?.traitement === BADGE_ETAT.ABANDONNE
-                        " [class.badge-danger]="
-                            demande?.traitement === BADGE_ETAT.REJETE ||
-                            demande?.traitement === BADGE_ETAT.REFUSE
-                        " [class.badge-success]="
-                            demande?.statut === BADGE_ETAPE.CLOTURE ||
-                            demande?.traitement === BADGE_ETAT.ACCEPTE
-                        " [class.badge-info]="
-                            demande?.traitement === BADGE_ETAT.TOTAL
-                        ">
+                <span
+                    [ngStyle]="{ 'font-size': '16px' }"
+                    class="badge"
+                    [class.badge-dark]="
+                        demande?.traitement === BADGE_ETAT.RECU ||
+                        demande?.traitement === BADGE_ETAT.EN_ATTENTE
+                    "
+                    [class.badge-warning]="
+                        demande?.traitement === BADGE_ETAT.PARTIEL ||
+                        demande?.traitement === BADGE_ETAT.ABANDONNE
+                    "
+                    [class.badge-danger]="
+                        demande?.traitement === BADGE_ETAT.REJETE ||
+                        demande?.traitement === BADGE_ETAT.REFUSE
+                    "
+                    [class.badge-success]="
+                        demande?.statut === BADGE_ETAPE.CLOTURE ||
+                        demande?.traitement === BADGE_ETAT.ACCEPTE
+                    "
+                    [class.badge-info]="
+                        demande?.traitement === BADGE_ETAT.TOTAL
+                    "
+                >
                     {{ demande?.traitement }}
                 </span>
             </td>
@@ -90,10 +133,22 @@
                 {{ demande?.current_date ?? 'N/A' }}
             </td>
             <td class="td-actions">
-                <button pButton icon="pi pi-eye" pTooltip="Voir" tooltipPosition="top" (click)="OnShowTraitement(demande)"
-                    class="p-button-dark"></button>
-                <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top" (click)="showJournal(demande)"
-                    class="p-button-primary"></button>
+                <button
+                    pButton
+                    icon="pi pi-eye"
+                    pTooltip="Voir"
+                    tooltipPosition="top"
+                    (click)="OnShowTraitement(demande)"
+                    class="p-button-dark"
+                ></button>
+                <button
+                    pButton
+                    icon="pi pi-book"
+                    pTooltip="Journal"
+                    tooltipPosition="top"
+                    (click)="showJournal(demande)"
+                    class="p-button-primary"
+                ></button>
             </td>
         </tr>
     </ng-template>
@@ -105,8 +160,14 @@
         </tr>
         <tr *ngIf="spinner">
             <td class="posRelative" colspan="15">
-                <p-progressSpinner class="posCenter" [style]="{ width: '40px', height: '50px' }"
-                    styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
                 </p-progressSpinner>
             </td>
         </tr>

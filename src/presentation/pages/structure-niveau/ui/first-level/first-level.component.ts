@@ -156,7 +156,7 @@ export class FirstLevelComponent implements OnInit {
     this.initialView = !event;
   }
   public pushListProfils(event: any): void {
-    this.listFirstLevelDatas = event;
+    this.listFirstLevelDatas = event?.data;
   }
   handleChangeTabviewIndex(e) {
     this.currentTabsIndex = e.index;

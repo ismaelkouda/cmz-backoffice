@@ -126,7 +126,7 @@ export class FormDemandeIntegrationComponent implements OnInit {
 
     private getDemandeIntegrationSelected(listDemandesIntegrations: Array<Object>): void {
         this.demandesIntegrationSelected = listDemandesIntegrations.find((demandeIntegration) => demandeIntegration?.["id"] == this.id);
-        this.patchValueDmandeIntegrationForm();
+        this.patchValueDmandeIntegrationForm(this.demandesIntegrationSelected);
     }
 
     private initDmandeIntegrationForm(): void {
@@ -148,13 +148,13 @@ export class FormDemandeIntegrationComponent implements OnInit {
         return [{ value: initialValue, disabled: isDisabled }, validator].filter(v => v !== null);
     }
 
-    private patchValueDmandeIntegrationForm(): void {
+    private patchValueDmandeIntegrationForm(demandesIntegrationSelected: Object): void {
         this.demandeIntegrationForm.patchValue({
-            niveau_un_uuid: this.view === "editer" ? this.demandesIntegrationSelected?.["niveau_un_uuid"] : this.demandesIntegrationSelected?.["niveau_un"],
-            niveau_deux_uuid: this.view === "editer" ? this.demandesIntegrationSelected?.["niveau_deux_uuid"] : this.demandesIntegrationSelected?.["niveau_deux"],
-            niveau_trois_uuid: this.view === "editer" ? this.demandesIntegrationSelected?.["niveau_trois_uuid"] : this.demandesIntegrationSelected?.["niveau_trois"],
-            usage_id: this.view === "editer" ? this.demandesIntegrationSelected?.["usage_id"] : this.demandesIntegrationSelected?.["usage_id"],
-            formule_uuid: this.view === "editer" ? this.demandesIntegrationSelected?.["formule_uuid"] : this.demandesIntegrationSelected?.["formule"],
+            niveau_un_uuid: this.view === "editer" ? demandesIntegrationSelected?.["niveau_un_uuid"] : demandesIntegrationSelected?.["niveau_un"],
+            niveau_deux_uuid: this.view === "editer" ? demandesIntegrationSelected?.["niveau_deux_uuid"] : demandesIntegrationSelected?.["niveau_deux"],
+            niveau_trois_uuid: this.view === "editer" ? demandesIntegrationSelected?.["niveau_trois_uuid"] : demandesIntegrationSelected?.["niveau_trois"],
+            usage_id: this.view === "editer" ? demandesIntegrationSelected?.["usage_id"] : demandesIntegrationSelected?.["usage_id"],
+            formule_uuid: this.view === "editer" ? demandesIntegrationSelected?.["formule_uuid"] : demandesIntegrationSelected?.["formule"],
             operation: 'integration',
             montant_formule: this.demandesIntegrationSelected?.["montant_formule"],
             recu_paiement: this.demandesIntegrationSelected?.["recu_paiement"],

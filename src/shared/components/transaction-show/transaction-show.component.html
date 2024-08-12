@@ -1519,7 +1519,10 @@
                     <!-------------ACTIVATION--------------FORMS--------------------------->
 
                     <div
-                        *ngIf="transaction?.operation === operationActivation || transaction?.operation === operationIntegration"
+                        *ngIf="
+                            transaction?.operation === operationActivation ||
+                            transaction?.operation === operationIntegration
+                        "
                         class="form-container"
                     >
                         <div
@@ -1528,7 +1531,12 @@
                         >
                             <div [style]="{ marginTop: '-2rem' }">
                                 <div class="d-flex gap-2 width-100">
-                                    <div *ngIf="transaction?.operation !== operationIntegration">
+                                    <div
+                                        *ngIf="
+                                            transaction?.operation !==
+                                            operationIntegration
+                                        "
+                                    >
                                         <fieldset
                                             *ngIf="
                                                 bacPiocheActivation !==
@@ -1756,7 +1764,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <br>
+                                <br />
                                 <div class="d-flex gap-2 no-wrap">
                                     <div>
                                         <div class="form-group">

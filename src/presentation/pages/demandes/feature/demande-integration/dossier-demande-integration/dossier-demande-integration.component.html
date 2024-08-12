@@ -1,18 +1,23 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+            <app-breadcrumb
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
 
             <div class="card">
                 <div class="card-body">
-                    
                     <div class="d-flex justify-content-between">
                         <div class="d-flex">
                             <div class="current-transaction-label d-flex gap-2">
                                 <div [style]="{ marginTop: '-0.5rem' }">
                                     Demande d'integration
                                 </div>
-                                <div [style]="{ marginTop: '-1rem' }" class="current_values">
+                                <div
+                                    [style]="{ marginTop: '-1rem' }"
+                                    class="current_values"
+                                >
                                     [{{ numero_demande }}]
                                 </div>
                                 <div [style]="{ marginTop: '-0.5rem' }">
@@ -23,25 +28,37 @@
                             </div>
                         </div>
                         <div>
-                            <p-button label="Fermer" styleClass="p-button-danger" (click)="closeView()"></p-button>
+                            <p-button
+                                label="Fermer"
+                                styleClass="p-button-danger"
+                                (click)="closeView()"
+                            ></p-button>
                         </div>
                     </div>
-                    <br>
+                    <br />
 
-                    <app-filter-dossier-demande-integration (filter)="pageCallback($event)">
+                    <app-filter-dossier-demande-integration
+                        (filter)="pageCallback($event)"
+                    >
                     </app-filter-dossier-demande-integration>
 
                     <hr />
                     <div class="table_content_wrapper">
-                        <app-table-button-header (refresh)="pageCallback()" (export)="exportExcel()" [hiddenButtonOther]="true">
+                        <app-table-button-header
+                            (refresh)="pageCallback()"
+                            (export)="exportExcel()"
+                            [hiddenButtonOther]="true"
+                        >
                         </app-table-button-header>
                     </div>
 
                     <br />
 
-                    <app-table-dossier-demande-integration [spinner]="spinner"
+                    <app-table-dossier-demande-integration
+                        [spinner]="spinner"
                         [listLignesIntegrations]="listLignesIntegrations"
-                        [pargination]="pargination">
+                        [pargination]="pargination"
+                    >
                     </app-table-dossier-demande-integration>
 
                     <!-- <app-pargination [pargination]="pargination" (pageChange)="onPageChange($event)"></app-pargination>
