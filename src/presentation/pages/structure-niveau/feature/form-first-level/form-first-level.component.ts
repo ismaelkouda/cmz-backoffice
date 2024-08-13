@@ -140,8 +140,7 @@ export class FormFirstLevelComponent implements OnInit {
   public initForm(): void {
     this.adminForm = this.fb.group({
       nom: ['', [
-        Validators.required,
-        FormValidator.cannotContainSpace
+        Validators.required
       ]],
       code: ['', [
         Validators.required,
