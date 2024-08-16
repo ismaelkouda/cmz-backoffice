@@ -27,6 +27,7 @@ const Swal = require('sweetalert2');
   templateUrl: './suivie-traitement.component.html',
   styleUrls: ['./suivie-traitement.component.scss']
 })
+
 export class SuivieTraitementComponent implements OnInit {
   public BADGE_ETAT = BADGE_ETAT;
   public BADGE_ETAPE = BADGE_ETAPE;

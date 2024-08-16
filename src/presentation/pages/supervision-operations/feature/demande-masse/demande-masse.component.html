@@ -252,7 +252,7 @@
                     <div>
                         <fieldset>
                             <legend>
-                                <strong>Finalisateur</strong>
+                                <strong>Finalisation</strong>
                             </legend>
                             <div class="d-flex flex-column gap-2">
                                 <div>
@@ -367,14 +367,11 @@
                             </div>
                         </div>
                         <div class="row">
-                            <h4 class="col-md-7 wrapper-header">
-                                <strong>
-                                    {{
-                                        listDemandes?.operation === 'activation'
-                                            ? "Operation d'identification"
-                                            : ''
-                                    }}
-                                </strong>
+                            <h4 class="col-md-7 wrapper-header" *ngIf="listDemandes?.operation === 'activation'">
+                                <strong>Operation d'identification&nbsp;{{listDemandes?.numero_demande}}</strong>
+                            </h4>
+                            <h4 class="col-md-7 wrapper-header" *ngIf="listDemandes?.operation === 'integration'">
+                                <strong>Operation d'integration&nbsp;{{listDemandes?.numero_demande}}</strong>
                             </h4>
                             <div
                                 class="col-md-5 wrapper-header"
@@ -402,7 +399,7 @@
 
                         <div>
                             <div>
-                                <div [style]="{ marginTop: '-1rem' }">
+                                <!-- <div [style]="{ marginTop: '-1rem' }">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <fieldset>
@@ -422,7 +419,7 @@
                                             </fieldset>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <fieldset>
                                     <legend>
@@ -506,6 +503,16 @@
                                                 formControlName="nb_demande_soumises"
                                             />
                                         </div>
+                                        <div class="col-md-2" *ngIf="listDemandes?.operation === 'integration'">
+                                            <div class="form-group">
+                                                <label><b>Montant de la
+                                                        formule/SIM</b></label>
+                                                <input type="text" formControlName="montant_formule" pInputText
+                                                    [ngStyle]="{
+                                                        width: '100%'
+                                                    }" />
+                                            </div>
+                                        </div>
                                         <div class="col-md-6">
                                             <label for="commentaire"
                                                 ><strong
@@ -518,7 +525,7 @@
                                                 formControlName="description"
                                             />
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" *ngIf="listDemandes?.operation === 'activation'">
                                             <label for="commentaire"
                                                 ><strong
                                                     >Jutificatif</strong
@@ -546,12 +553,12 @@
                                                             !IsJustificatif()
                                                         "
                                                     >
-                                                        Aucun justificatif pour
-                                                        cette transaction
+                                                    <b class="disabled-piece-jointe">Aucune pièce jointe</b>
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="col-md-2">
                                             <label for="commentaire"
                                                 ><strong
@@ -582,8 +589,7 @@
                                                             !IsRecuPaiement()
                                                         "
                                                     >
-                                                        Aucun recu de paiement
-                                                        pour cette transaction
+                                                    <b class="disabled-piece-jointe">Aucune pièce jointe</b>
                                                     </span>
                                                 </div>
                                             </div>

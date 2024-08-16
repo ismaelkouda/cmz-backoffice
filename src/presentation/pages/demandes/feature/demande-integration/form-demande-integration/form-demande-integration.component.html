@@ -33,8 +33,8 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label><b>
-                                                        {{ firstLevelLibelle }}<span
-                                                            class="text-danger">*</span></b></label>
+                                                        {{ firstLevelLibelle
+                                                        }}<span class="text-danger">*</span></b></label>
                                                 <p-dropdown [options]="
                                                         listFirstLeveDatas
                                                     " formControlName="niveau_un_uuid" optionLabel="fullName"
@@ -151,15 +151,10 @@
                                     </legend>
                                     <div class="row">
                                         <app-form-masse class="col-md-12 d-flex align-items-end" [fileModel]="fileModel"
-                                            (dataToSend)="
-                                                pushCurrentArrayForm($event)
-                                            " [currentArrayHeaders]="
-                                                currentArrayHeaders
-                                            " (downloadModel)="
-                                                onDownloadModel($event)
-                                            " [formMasseLibelle]="
-                                                formMasseLibelle
-                                            ">
+                                            (dataToSend)="pushCurrentArrayForm($event)"
+                                            [currentArrayHeaders]="currentArrayHeaders"
+                                            (downloadModel)="onDownloadModel($event)"
+                                            [formMasseLibelle]="formMasseLibelle">
                                         </app-form-masse>
                                     </div>
                                 </fieldset>

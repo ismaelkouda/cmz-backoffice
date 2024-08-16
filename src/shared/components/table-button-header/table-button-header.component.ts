@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
         <div>
 
             <button *ngIf="!hiddenButtonOther" (click)="onOther()" pButton pRipple
-                [label]="labelOther" [icon]="iconOther" class="p-button-success margin-right-5">
+                [label]="labelOther" [icon]="iconOther" [class]="'margin-right-5 p-button-'+colorOther">
             </button>
 
             <button *ngIf="!hiddenButtonRefresh" (click)="onRefresh()" pButton
@@ -31,6 +31,7 @@ export class TablebuttonHeaderComponent {
     @Input() hiddenButtonOther: boolean;
     @Input() labelOther: string;
     @Input() iconOther: string;
+    @Input() colorOther: string;
 
     onRefresh() {
         this.refresh.emit();

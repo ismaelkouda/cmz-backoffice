@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import { handle } from "src/shared/functions/api.function";
 import { SettingService } from "src/shared/services/setting.service";
 import * as moment from 'moment';
+import { SimStatut } from "src/shared/enum/SimStatut.enum";
 
 @Component({
     selector: "app-filter-demande-integration",
@@ -17,7 +18,7 @@ export class FilterDemandeIntegrationComponent implements OnInit {
     @Input() firstLevelLibelle: string;
     @Input() secondLevelLibelle: string;
     @Input() thirdLevelLibelle: string;
-    public filterForm: FormGroup;
+    public filterForm: FormGroup; 
     public listStatuts: Array<any>;
     public listUsers: Array<any>;
 
@@ -25,6 +26,11 @@ export class FilterDemandeIntegrationComponent implements OnInit {
         private toastrService: ToastrService, private loadingBarService: LoadingBarService) { }
 
     ngOnInit(): void {
+        this.listStatuts = [
+            SimStatut.ACTIF,
+            SimStatut.SUSPENDU,
+            SimStatut.RESILIE,
+        ];
         this.initFilterForm();
         this.GetAllUsers();
     }
@@ -32,6 +38,7 @@ export class FilterDemandeIntegrationComponent implements OnInit {
     public initFilterForm() {
         // const filterState = this.carteSimStateService.getFilterState();
         this.filterForm = this.fb.group({
+            operation: ["integration"],
             initie_par: [null],
             numero_demande: [null],
             transaction: [null],

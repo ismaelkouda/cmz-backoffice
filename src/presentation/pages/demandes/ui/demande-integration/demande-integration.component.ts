@@ -10,9 +10,9 @@ import { MappingService } from "src/shared/services/mapping.service";
 import { Pargination } from "src/shared/table/pargination";
 import { SupervisionOperationService } from "src/presentation/pages/supervision-operations/data-access/supervision-operation.service";
 import { DemandeIntegrationStateService } from "../../data-access/demande-integration/demande-integration-state.service";
-import { DemandeIntegrationApiStateService } from "../../data-access/demande-integration/demande-integration-api-state.service";
 import { DEMANDE_INTEGRATION, DEMANDE_INTEGRATION_DOSSIER, DEMANDE_INTEGRATION_FORM } from "../../demandes-routing.module";
 import { DemandeService } from "../../data-access/demande.service";
+import { SharedDataService } from "src/shared/services/shared-data.service";
 
 type TYPEVIEW = "editer" | "détails" | "ajouter" | "dossier";
 
@@ -38,7 +38,7 @@ export class DemandeIntegrationComponent implements OnInit {
         private toastrService: ToastrService, private loadingBarService: LoadingBarService,
         private router: Router, public mappingService: MappingService,
         private excelService: ExcelService, private demandeIntegrationStateService: DemandeIntegrationStateService,
-        private demandeIntegrationApiStateService: DemandeIntegrationApiStateService,
+        private sharedDataService: SharedDataService,
         private demandeService: DemandeService) {
         this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
         this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
@@ -59,7 +59,7 @@ export class DemandeIntegrationComponent implements OnInit {
             this.listDemandesIntegrations = this.demandeIntegrationStateService.getTableState();
             this.pargination = this.demandeIntegrationStateService.getParginateState();
         } else {
-            this.subscriptionListDemandesIntegrations = this.demandeIntegrationApiStateService.setListDemandeIntegration().subscribe(() => {
+            this.subscriptionListDemandesIntegrations = this.sharedDataService.postPatrimoineSimDemandeIntegrationsAll().subscribe(() => {
                 this.pageCallback();
             });
             this.pageCallback();

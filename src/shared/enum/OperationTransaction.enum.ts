@@ -4,6 +4,7 @@ export enum OperationTransaction {
     SWAP = 'swap',
     ACTIVATION = 'activation',
     INTEGRATION = 'integration',
+    ACTIVATION_EN_MASSE = 'activation-en-masse',
     INTEGRATION_EN_MASSE = 'integration-en-masse',
     VOLUME_DATA = 'volume-data',
     PROVISIONNING = 'provisionning',

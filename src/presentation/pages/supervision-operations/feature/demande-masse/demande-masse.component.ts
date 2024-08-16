@@ -16,6 +16,7 @@ import { SharedDataService } from 'src/shared/services/shared-data.service';
 import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from 'src/shared/constants/swalWithBootstrapButtonsParams.constant';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
+import { OperationTransaction } from "src/shared/enum/OperationTransaction.enum";
 const Swal = require('sweetalert2');
 @Component({
     selector: 'app-demande-masse',
@@ -50,6 +51,7 @@ export class DemandeMasseComponent implements OnInit {
     public sourceStockOrangeSim: string;
     public selectedStockSim: string;
     public croixRougeCommentaire: boolean;
+    public ACTIVATION_EN_MASSE = OperationTransaction.ACTIVATION_EN_MASSE;
     public stateTraite: string = StatutTransaction.TARITER;
     public stateSoumis: string = StatutTransaction.SOUMIS;
     public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
@@ -94,6 +96,7 @@ export class DemandeMasseComponent implements OnInit {
             formule_uuid: this.createFormControl(this.listDemandes?.formule, Validators.required, true),
             usage_id: this.createFormControl(this.listDemandes?.usage_nom, null, true),
             nb_demande_soumises: this.createFormControl(this.listDemandes?.nb_demande_soumises, null, true),
+            montant_formule: this.createFormControl(this.listDemandes?.montant_formule, null, true),
             description: this.createFormControl(this.listDemandes?.description, null, true),
             operation: this.createFormControl(this.listDemandes?.operation, null, true),
             accepte: this.createFormControl(null, this.params.vue === 'traitement' ? Validators.required : null),
@@ -246,7 +249,6 @@ export class DemandeMasseComponent implements OnInit {
                     }
                     // return this.response.message;
                 } catch (error) {
-                    console.log('error', error)
                     Swal.showValidationMessage(`Une erreur s'est produite`);
                 }
             },
@@ -263,6 +265,7 @@ export class DemandeMasseComponent implements OnInit {
         this.handleCloseModal();
         this.sharedDataService.sendPatrimoineSimDemandesServicesAll();
         this.sharedDataService.sendPatrimoineSimTraitementsDemandesAll();
+        this.sharedDataService.sendPatrimoineSimDemandeIntegrationsAll();
     }
 
     public handleCloseModal(): void {
@@ -313,7 +316,7 @@ export class DemandeMasseComponent implements OnInit {
 
     async onDownloadModel(): Promise<any> {
         const tokenUser = JSON.parse(this.storage.getData('user')).token;
-        window.location.href = this.supervisionOperationService.GetGestionTransactionsDemandesServicesDownloadAbonnementsData(this.listDemandes?.numero_demande, tokenUser);
+        this.supervisionOperationService.GetSupervisionOperationsTraitementsSuivisDownloadModeleData(this.ACTIVATION_EN_MASSE, this.listDemandes?.["numero_demande"], tokenUser);
     }
 
     public canIdentify(demande: any): boolean {

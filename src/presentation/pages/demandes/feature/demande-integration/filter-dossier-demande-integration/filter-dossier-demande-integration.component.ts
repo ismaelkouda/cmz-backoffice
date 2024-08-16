@@ -5,6 +5,9 @@ import { Component, EventEmitter, OnInit, Output } from "@angular/core";
 import { MappingService } from 'src/shared/services/mapping.service';
 // import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import * as moment from 'moment';
+import { SimStatut } from 'src/shared/enum/SimStatut.enum';
+import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
+import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 
 @Component({
     selector: "app-filter-dossier-demande-integration",
@@ -21,7 +24,7 @@ export class FilterDossierDemandeIntegrationComponent implements OnInit {
 
     constructor(private fb: FormBuilder, private mappingService: MappingService,
         private toastrService: ToastrService) {
-        this.mappingService.listOperations
+        this.listOperations = this.mappingService.listOperations
         // Object.values(StatutTransaction).forEach(item => {
         //     this.listStatuts.push(item);
         // });

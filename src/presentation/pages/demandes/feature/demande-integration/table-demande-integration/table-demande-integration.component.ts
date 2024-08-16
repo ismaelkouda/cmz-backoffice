@@ -104,7 +104,8 @@ export class TableDemandeIntegrationComponent {
     public getStyleButtonTraitement(data: any): Object {
         if (data?.statut === BADGE_ETAPE.SOUMISSION && data.traitement === BADGE_ETAT.EN_ATTENTE) {
             return { class: 'p-button-danger', icon: 'pi pi-times', tooltip: 'Abandonner' };
-        } else if (data?.statut === BADGE_ETAPE.FINALISATEUR || data?.statut === BADGE_ETAPE.CLOTURE) {
+        } else if ((data?.statut === BADGE_ETAPE.FINALISATEUR || data?.statut === BADGE_ETAPE.CLOTURE) && 
+            !(data?.statut === BADGE_ETAPE.CLOTURE && data.traitement === BADGE_ETAT.ABANDONNE)) {
             return { class: 'p-button-success', icon: 'pi pi-check', tooltip: 'Identifier' };
         } else {
             return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande' };

@@ -2,7 +2,7 @@ import { DESTRUCTION } from "dns";
 
 export const enum EndPointUrl {
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_ABANDONNER_DEMANDE_SERVICE = 'supervision-operations/traitements-suivis/abandonner-demande-service',
-    GET_GESTION_TRANSACTIONS_DEMANDES_SERVICES_numeroDemande_DOWNLOAD_ABONNEMENTS_DATA = "gestion-transactions/demandes-services/{numeroDemande}/download-abonnements-data?token={tokenUser}",
+    GET_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_DOWNLOAD_MODELE_DATA = "supervision-operations/traitements-suivis/download-modele-data?operation={operation}&numeroDemande={numeroDemande}&token={tokenUser}",
     GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_numeroDemande_DETAILS = "supervision-operations/demandes-services/{numeroDemande}/details",
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_IDENTIFICATIONS_SIMS = 'supervision-operations/traitements-suivis/identifications-sims',
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_CLOTURER_DEMANDE_SERVICE = 'supervision-operations/traitements-suivis/cloturer-demande-service',

@@ -9,6 +9,7 @@ export class SharedDataService {
    */
   private patrimoineSimDemandesServicesAll = new Subject<void>();
   private patrimoineSimTraitementsDemandesServicesAll = new Subject<void>();
+  private patrimoineSimDemandeIntegrationServicesAll = new Subject<void>();
 
   sendPatrimoineSimDemandesServicesAll() {
     this.patrimoineSimDemandesServicesAll.next();
@@ -21,6 +22,12 @@ export class SharedDataService {
   }
   postPatrimoineSimTraitementsDemandesAll(): Observable<void> {
     return this.patrimoineSimTraitementsDemandesServicesAll.asObservable();
+  }
+  sendPatrimoineSimDemandeIntegrationsAll() {
+    this.patrimoineSimDemandeIntegrationServicesAll.next();
+  }
+  postPatrimoineSimDemandeIntegrationsAll(): Observable<void> {
+    return this.patrimoineSimDemandeIntegrationServicesAll.asObservable();
   }
   
 }

@@ -44,7 +44,6 @@ import { DemandeFormuleChangeComponent } from './ui/demande-formule-change/deman
 //services
 import { DemandesFilterStateService } from './data-access/demandes-filter-state.service';
 import { DemandeIntegrationStateService } from './data-access/demande-integration/demande-integration-state.service';
-import { DemandeIntegrationApiStateService } from './data-access/demande-integration/demande-integration-api-state.service'
 import { DossierDemandeIntegrationComponent } from "./feature/demande-integration/dossier-demande-integration/dossier-demande-integration.component";
 import { TableDossierDemandeIntegration } from "./feature/demande-integration/table-dossier-demande-integration/table-dossier-demande-integration.component";
 
@@ -84,6 +83,6 @@ import { TableDossierDemandeIntegration } from "./feature/demande-integration/ta
         TransactionFormComponent,
         DemandeIntegrationComponent,FilterDemandeIntegrationComponent,TableDemandeIntegrationComponent,FormDemandeIntegrationComponent, DossierDemandeIntegrationComponent, FilterDossierDemandeIntegrationComponent, TableDossierDemandeIntegration
     ],
-    providers: [DemandesFilterStateService, DemandeIntegrationStateService, DemandeIntegrationApiStateService]
+    providers: [DemandesFilterStateService, DemandeIntegrationStateService]
 })
 export class DemandesModule { }

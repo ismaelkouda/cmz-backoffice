@@ -83,7 +83,6 @@ export class FormMasseComponent {
             readXlsxFile(event[0]).then((rows) => {
                 // debut: recuperer l'entete du fichier excel upload
                 this.arrayHeaderExcelFile = rows[0];
-                console.log('this.arrayHeaderExcelFile', this.arrayHeaderExcelFile)
                 // fin: recuperer l'entete du fichier excel upload
 
                 // debut: recuperer tout le contenu (le corps du fichier) du fichier excel upload
@@ -166,8 +165,6 @@ export class FormMasseComponent {
     // Debut: Verification du fichier a upload
     checkFile() {
         this.excelFileIsCorrect = this.isArraySame(this.arrayHeaderExcelFile, this.currentArrayHeaders);
-        console.log('this.currentArrayHeaders', this.currentArrayHeaders)
-        console.log('this.arrayHeaderExcelFile', this.arrayHeaderExcelFile)
         if (this.excelFileIsCorrect === false) {
             this.messageFileIsNotCorrect(`Le fichier soumis ne respecte pas la structure attendue. Veuillez télécharger le modèle et l'utiliser`, 'error');
         } else {

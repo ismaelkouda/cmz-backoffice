@@ -257,12 +257,11 @@
                             </div>
                         </div>
                     </fieldset>
-                              
                 </div>
                 <div>
                     <fieldset>
                         <legend>
-                            <strong>Finalisateur</strong>
+                            <strong>Finalisation</strong>
                         </legend>
                         <div class="d-flex flex-column gap-2">
                             <div>
@@ -503,8 +502,7 @@
                                 </div>
                                 <div class="justificatif-error">
                                     <span class="" *ngIf="!IsJustificatif()"
-                                        >Aucun justificatif pour cette
-                                        transaction</span
+                                        ><b class="disabled-piece-jointe">Aucune pièce jointe</b></span
                                     >
                                 </div>
                                 <div *ngIf="IsUpdate()">
@@ -751,8 +749,7 @@
                                 </div>
                                 <div class="justificatif-error">
                                     <span class="" *ngIf="!IsJustificatif()"
-                                        >Aucun justificatif pour cette
-                                        transaction</span
+                                        >A<b class="disabled-piece-jointe">Aucune pièce jointe</b></span
                                     >
                                 </div>
                                 <div *ngIf="IsUpdate()">
@@ -946,7 +943,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div>
+                                <!-- <div>
                                     <div class="d-flex gap-4">
                                         <div class="trans-radio d-flex gap-3">
                                             <p-radioButton
@@ -962,7 +959,7 @@
                                             >
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="text-wrapper mt-2">
                                 <input
@@ -1009,8 +1006,7 @@
                                 </div>
                                 <div class="justificatif-error">
                                     <span class="" *ngIf="!IsJustificatif()"
-                                        >Aucun justificatif pour cette
-                                        transaction</span
+                                        >A<b class="disabled-piece-jointe">Aucune pièce jointe</b></span
                                     >
                                 </div>
                                 <div *ngIf="IsUpdate()">
@@ -1214,8 +1210,7 @@
                                 </div>
                                 <div class="justificatif-error">
                                     <span class="" *ngIf="!IsJustificatif()"
-                                        >Aucun justificatif pour cette
-                                        transaction</span
+                                        >A<b class="disabled-piece-jointe">Aucune pièce jointe</b></span
                                     >
                                 </div>
                                 <div *ngIf="IsUpdate()">
@@ -1390,8 +1385,7 @@
                                 </div>
                                 <div class="justificatif-error">
                                     <span class="" *ngIf="!IsJustificatif()"
-                                        >Aucun justificatif pour cette
-                                        transaction</span
+                                        >A<b class="disabled-piece-jointe">Aucune pièce jointe</b></span
                                     >
                                 </div>
                                 <div *ngIf="IsUpdate()">
@@ -1610,8 +1604,7 @@
                                 </div>
                                 <div class="justificatif-error">
                                     <span class="" *ngIf="!IsJustificatif()"
-                                        >Aucun justificatif pour cette
-                                        transaction</span
+                                        >A<b class="disabled-piece-jointe">Aucune pièce jointe</b></span
                                     >
                                 </div>
                                 <div *ngIf="IsUpdate()">
@@ -2041,8 +2034,7 @@
                                                 class=""
                                                 *ngIf="!IsJustificatif()"
                                             >
-                                                Aucun justificatif pour cette
-                                                transaction
+                                                <b class="disabled-piece-jointe">Aucune pièce jointe</b>
                                             </span>
                                         </div>
                                         <div *ngIf="IsUpdate()">
@@ -2088,8 +2080,7 @@
                                                 class=""
                                                 *ngIf="!IsRecuPaiement()"
                                             >
-                                                Aucun recu de paiement pour
-                                                cette transaction
+                                                <b class="disabled-piece-jointe">Aucune pièce jointe</b>
                                             </span>
                                         </div>
                                         <div *ngIf="IsUpdate()">
@@ -2136,8 +2127,7 @@
                                                 <span
                                                     class=""
                                                     *ngIf="!IsJustificatif()"
-                                                    >Aucun justificatif pour
-                                                    cette transaction</span
+                                                    ><b class="disabled-piece-jointe">Aucune pièce jointe</b></span
                                                 >
                                             </div>
                                             <div *ngIf="IsUpdate()">

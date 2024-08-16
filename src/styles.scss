@@ -114,7 +114,14 @@ label {
         }
     }
 }
-
+.disabled-piece-jointe {
+    background: #fafafa !important;
+    opacity: 1 !important;
+    color: #000 !important;
+    font-weight: 800;
+    font-size: 19.5px;
+    overflow: visible !important;
+}
 input[type='text']:disabled,
 input[type='email']:disabled,
 input[type='number']:disabled,

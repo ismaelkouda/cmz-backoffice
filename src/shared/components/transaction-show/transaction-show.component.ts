@@ -12,10 +12,13 @@ import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access
 import { ClipboardService } from 'ngx-clipboard';
 import { Justificatif } from 'src/shared/enum/Justificatif.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
-import {  Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { OPERATION_PROVISIONNING, PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
 import { COMMANDE_SIM, LIGNE_CREDIT } from 'src/presentation/pages/provisionning/provisionning-routing.module';
 import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
+import { handle } from 'src/shared/functions/api.function';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+import { ListCommuneService } from 'src/shared/services/list-commune.service';
 @Component({
   selector: 'app-transaction-show',
   templateUrl: './transaction-show.component.html',
@@ -55,6 +58,7 @@ export class TransactionShowComponent implements OnInit {
   public suspensionForm: FormGroup;
   public formuleForm: FormGroup;
   public activationForm: FormGroup;
+  public integrationForm: FormGroup;
   public adminForm: FormGroup;
   public achatForm: FormGroup;
   public currentFile: any;
@@ -70,6 +74,7 @@ export class TransactionShowComponent implements OnInit {
 
 
   constructor(
+    private listCommuneService: ListCommuneService,
     private fb: FormBuilder,
     private activeModal: NgbActiveModal,
     private toastrService: ToastrService,
@@ -79,19 +84,20 @@ export class TransactionShowComponent implements OnInit {
     private clipboardApi: ClipboardService,
     private mappingService: MappingService,
     private provisionningService: ProvisionningService,
-    private router: Router
+    private router: Router,
+    private loadingBarService: LoadingBarService
   ) {
     Object.values(Justificatif).forEach(item => {
       this.listTypeJustificatif.push(item);
     });
-    this.fileUrl = this.mappingService.fileUrl;  
+    this.fileUrl = this.mappingService.fileUrl;
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
     this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
-    this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim,
-    this.sourceSoldeDotation = this.mappingService.sourceSoldeDotation,
-    this.sourceSoldeDotationOrange = this.mappingService.sourceSoldeDotationOrange
+      this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim,
+      this.sourceSoldeDotation = this.mappingService.sourceSoldeDotation,
+      this.sourceSoldeDotationOrange = this.mappingService.sourceSoldeDotationOrange
   }
 
   ngOnInit() {
@@ -104,6 +110,7 @@ export class TransactionShowComponent implements OnInit {
     this.OnInitSuspensionForm();
     this.OnInitFormuleForm()
     this.OnInitActivationForm();
+    this.OnInitIntegrationForm();
     this.OnInitAchatForm();
     this.isAccepteForms();
     this.IsTraitement()
@@ -118,7 +125,7 @@ export class TransactionShowComponent implements OnInit {
     this.IsContentSim()
     this.ShowAcceptedForm()
     this.IsProvisionningTransaction()
-    this.IsAchatTransaction()    
+    this.IsAchatTransaction()
     this.IscurrentDate()
   }
 
@@ -127,7 +134,7 @@ export class TransactionShowComponent implements OnInit {
       .GetDetailTransaction({
         transaction: this.transaction?.transaction,
         operation: this.transaction?.operation,
-        model_id: this.transaction?.model_id,        
+        model_id: this.transaction?.model_id,
         tenant_id: this.transaction?.tenant_id
       })
       .subscribe({
@@ -143,21 +150,22 @@ export class TransactionShowComponent implements OnInit {
             this.OnShowResiliationForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.SUSPENSION) {
             this.OnShowSuspensionForm();
-          }else if (this.detailTransaction?.operation === OperationTransaction.CHANGEMENT_FORMULE) {
+          } else if (this.detailTransaction?.operation === OperationTransaction.CHANGEMENT_FORMULE) {
             this.GetAllFormules()
             this.OnShowFormuleForm();
-          }else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION || 
+          } else if (this.detailTransaction?.operation === OperationTransaction.ACTIVATION ||
             this.detailTransaction?.operation === OperationTransaction.INTEGRATION
           ) {
-            this.GetFirstLevel();   
-            this.GetSecondLevel();
+            this.GetAllFirstLevel();
             this.GetThirdLevel();
             this.GetAllUsages();
             this.OnShowActivationForm();
+            this.OnShowIntegrationForm();
           } else if (this.detailTransaction?.operation === OperationTransaction.ACHAT_SERVICE) {
             this.OnShowAchatForm();
           }
           this.activationForm.disable();
+          this.integrationForm.disable();
           this.ligneForm.disable();
           this.volumeForm.disable();
           this.swapForm.disable();
@@ -166,7 +174,7 @@ export class TransactionShowComponent implements OnInit {
           this.formuleForm.disable();
           this.IsLoading.emit(false);
         },
-        error: (error) => {          
+        error: (error) => {
           this.handleCloseModal();
           this.IsLoading.emit(false);
           this.toastrService.error(error.error.message);
@@ -184,7 +192,7 @@ export class TransactionShowComponent implements OnInit {
         return this.activationForm.get('activation_accepte_comment').value;
       }
       case OperationTransaction.INTEGRATION: {
-        return this.activationForm.get('integration_accepte_comment').value;
+        return this.integrationForm.get('integration_accepte_comment').value;
       }
       case OperationTransaction.SWAP: {
         return this.swapForm.get('swap_accepte_comment').value;
@@ -201,7 +209,7 @@ export class TransactionShowComponent implements OnInit {
       case OperationTransaction.VOLUME_DATA: {
         return this.volumeForm.get('volume_data_accepte_comment').value;
       }
-      case OperationTransaction.ACHAT_SERVICE: {        
+      case OperationTransaction.ACHAT_SERVICE: {
         return this.achatForm.get('commmande_produit_accepte_comment').value;
       }
       case OperationTransaction.PROVISIONNING: {
@@ -227,39 +235,39 @@ export class TransactionShowComponent implements OnInit {
     }
   }
 
-  OnFeebackTransaction(){
-     if (this.router.url === `/${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`) {
-        return this.GetAllTraitement()
-     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX_ROUTE}`){
+  OnFeebackTransaction() {
+    if (this.router.url === `/${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`) {
+      return this.GetAllTraitement()
+    } else if (this.router.url === `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX_ROUTE}`) {
       return this.GetAllContencieux()
-     }else if(this.router.url === `/${PATRIMOINE}/${''}`){
+    } else if (this.router.url === `/${PATRIMOINE}/${''}`) {
       return this.GetAllTransactions()
-     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${DEMANDE_ROUTE}`){
+    } else if (this.router.url === `/${SUPERVISION_OPERATIONS}/${DEMANDE_ROUTE}`) {
       return this.GetAllDemandes()
-     }else if(this.router.url === `/${OPERATION_PROVISIONNING}/${COMMANDE_SIM}`){
+    } else if (this.router.url === `/${OPERATION_PROVISIONNING}/${COMMANDE_SIM}`) {
       return this.GetAllAchats()
-     }else if(this.router.url === `/${OPERATION_PROVISIONNING}/${LIGNE_CREDIT}`){
+    } else if (this.router.url === `/${OPERATION_PROVISIONNING}/${LIGNE_CREDIT}`) {
       return this.GetAllLigneCredits()
-     }else if(this.router.url === `/${SUPERVISION_OPERATIONS}/${LIGNE_CREDIT}`){
+    } else if (this.router.url === `/${SUPERVISION_OPERATIONS}/${LIGNE_CREDIT}`) {
       return this.GetAllLigneCredits()
-     }
+    }
   }
   public GetAllTraitement() {
     this.supervisionOperationService
       .GetAllTransactions({}, 1)
       .subscribe({
         next: (response) => {
-          this.listTraitemants =  response['data']['data'].map((data) => {
+          this.listTraitemants = response['data']['data'].map((data) => {
             if (data?.statut === StatutTransaction.TARITER) {
-              return {...data,current_date: data?.date_traitement}
-            }else if (data?.statut === StatutTransaction.CLOTURER) {
-              return {...data,current_date: data?.date_cloture}
-            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
-              return {...data,current_date: data?.date_acquittement}
-            }else{
-              return {...data,current_date: 'N/A'}
-            } 
-          });          
+              return { ...data, current_date: data?.date_traitement }
+            } else if (data?.statut === StatutTransaction.CLOTURER) {
+              return { ...data, current_date: data?.date_cloture }
+            } else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return { ...data, current_date: data?.date_acquittement }
+            } else {
+              return { ...data, current_date: 'N/A' }
+            }
+          });
           this.resultTraitement.emit(this.listTraitemants);
           this.activeModal.close();
         },
@@ -273,17 +281,17 @@ export class TransactionShowComponent implements OnInit {
       .GetAllTransactions({}, 1)
       .subscribe({
         next: (response) => {
-          this.listTraitemants =  response['data']['data'].map((data) => {
+          this.listTraitemants = response['data']['data'].map((data) => {
             if (data?.statut === StatutTransaction.TARITER) {
-              return {...data,current_date: data?.date_traitement}
-            }else if (data?.statut === StatutTransaction.CLOTURER) {
-              return {...data,current_date: data?.date_cloture}
-            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
-              return {...data,current_date: data?.date_acquittement}
-            }else{
-              return {...data,current_date: 'N/A'}
-            } 
-          });          
+              return { ...data, current_date: data?.date_traitement }
+            } else if (data?.statut === StatutTransaction.CLOTURER) {
+              return { ...data, current_date: data?.date_cloture }
+            } else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return { ...data, current_date: data?.date_acquittement }
+            } else {
+              return { ...data, current_date: 'N/A' }
+            }
+          });
           this.resultTraitement.emit(this.listTraitemants);
           this.activeModal.close();
         },
@@ -296,11 +304,11 @@ export class TransactionShowComponent implements OnInit {
     this.patrimoineService
       .GetAllTransactions({
         statut: StatutTransaction.SOUMIS,
-        traitement: TraitementTransaction.EN_ENTENTE      
+        traitement: TraitementTransaction.EN_ENTENTE
       }, 1)
       .subscribe({
         next: (response) => {
-          this.listTraitemants =  response['data']['data'];
+          this.listTraitemants = response['data']['data'];
           this.resultTraitement.emit(this.listTraitemants);
           this.activeModal.close();
         },
@@ -314,17 +322,17 @@ export class TransactionShowComponent implements OnInit {
       .GetAllContencieux({})
       .subscribe({
         next: (response) => {
-          this.listTraitemants =  response['data']['data'].map((data) => {
+          this.listTraitemants = response['data']['data'].map((data) => {
             if (data?.statut === StatutTransaction.TARITER) {
-              return {...data,current_date: data?.date_traitement}
-            }else if (data?.statut === StatutTransaction.CLOTURER) {
-              return {...data,current_date: data?.date_cloture}
-            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
-              return {...data,current_date: data?.date_acquittement}
-            }else{
-              return {...data,current_date: 'N/A'}
-            } 
-          });          
+              return { ...data, current_date: data?.date_traitement }
+            } else if (data?.statut === StatutTransaction.CLOTURER) {
+              return { ...data, current_date: data?.date_cloture }
+            } else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return { ...data, current_date: data?.date_acquittement }
+            } else {
+              return { ...data, current_date: 'N/A' }
+            }
+          });
           this.resultTraitement.emit(this.listTraitemants);
           this.activeModal.close();
         },
@@ -334,12 +342,12 @@ export class TransactionShowComponent implements OnInit {
       })
   }
 
-  public OnGetRapportCodeStyle(code: any): string {    
+  public OnGetRapportCodeStyle(code: any): string {
     if (code.includes('100')) {
       return 'style100';
     } else if (code.includes('200')) {
       return 'style200';
-    }else {
+    } else {
       return 'styledefault';
     }
   }
@@ -359,7 +367,7 @@ export class TransactionShowComponent implements OnInit {
   }
   public GetAllLigneCredits() {
     this.provisionningService
-      .GetAllLigneCredits({},1)
+      .GetAllLigneCredits({}, 1)
       .subscribe({
         next: (response) => {
           this.resultTraitement.emit(response['data']['data']);
@@ -374,8 +382,11 @@ export class TransactionShowComponent implements OnInit {
     this.filterTab = status;
     return this.filterTab
   }
-  public pipeValue(number: any) {
-    return new Intl.NumberFormat('fr-FR').format(number);
+  public pipeValue(detailTransaction: any, propiete: "montant_formule") {
+    if(propiete === "montant_formule") {
+      const formatFCA= (new Intl.NumberFormat('fr-FR').format(detailTransaction?.["montant_formule"])+" CFA");
+     return formatFCA; 
+    }
   }
   /*@@@@@@@@@@@ Ligne Form Controls @@@@@@@@@@@@@@@@@@@*/
   OnInitLigneForm() {
@@ -398,11 +409,11 @@ export class TransactionShowComponent implements OnInit {
   downloadFile() {
     if (!this.detailTransaction?.justificatif) {
       this.toastrService.warning('Pas de justificatif pour cette operation')
-    }else{
-          window.open(this.fileUrl + this.detailTransaction?.justificatif)
+    } else {
+      window.open(this.fileUrl + this.detailTransaction?.justificatif)
     }
   }
-  IsJustificatif(): boolean{
+  IsJustificatif(): boolean {
     return (this.detailTransaction?.justificatif) ? true : false
   }
 
@@ -550,53 +561,126 @@ export class TransactionShowComponent implements OnInit {
       .GetAllFormules({})
       .subscribe({
         next: (response) => {
-          this.listFormules = response['data'];          
+          this.listFormules = response['data'];
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
         }
       })
   }
-    OnInitFormuleForm() {
-      this.formuleForm = this.fb.group({
-        imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
-        msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
-        formule: [''],
-        statut_contrat: [''],
-        justificatif: [''],
-        point_emplacement: [''],
-        formule_uuid: [''],
-        description: [''],
-        chg_formule_accepte: [''],
-        chg_formule_accepte_comment: ['']
-      })
-      this.formuleForm.get("msisdn").valueChanges.subscribe((value) => {
-        if (value && value.length > 10) {
-          this.formuleForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
-        }
-      });
-      this.formuleForm.get("imsi").valueChanges.subscribe((value) => {
-        if (value && value.length > 15) {
-          this.formuleForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
-        }
-      });
-    }
-    OnShowFormuleForm() {
-      this.formuleForm.get('imsi').patchValue(this.detailTransaction?.imsi);
-      this.formuleForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
-      this.formuleForm.get('formule').patchValue(this.detailTransaction?.formule);
-      this.formuleForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
-      this.formuleForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
-      this.formuleForm.get('formule_uuid').patchValue(this.detailTransaction?.formule_uuid);
-      this.formuleForm.get('description').patchValue(this.detailTransaction?.description);
-      this.formuleForm.get('chg_formule_accepte').patchValue(this.detailTransaction?.rapport?.chg_formule_accepte);
-      this.formuleForm.get('chg_formule_accepte_comment').patchValue(this.detailTransaction?.rapport?.chg_formule_accepte_comment);
-    }
-
+  OnInitFormuleForm() {
+    this.formuleForm = this.fb.group({
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
+      formule: [''],
+      montant_formule: [''],
+      statut_contrat: [''],
+      justificatif: [''],
+      point_emplacement: [''],
+      formule_uuid: [''],
+      description: [''],
+      chg_formule_accepte: [''],
+      chg_formule_accepte_comment: ['']
+    })
+    this.formuleForm.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.formuleForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.formuleForm.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.formuleForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
+    });
+  }
+  OnShowFormuleForm() {
+    this.formuleForm.get('imsi').patchValue(this.detailTransaction?.imsi);
+    this.formuleForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+    this.formuleForm.get('formule').patchValue(this.detailTransaction?.formule);
+    this.formuleForm.get('montant_formule').patchValue(this.detailTransaction?.montant_formule);
+    this.formuleForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
+    this.formuleForm.get('point_emplacement').patchValue(this.detailTransaction?.point_emplacement);
+    this.formuleForm.get('formule_uuid').patchValue(this.detailTransaction?.formule_uuid);
+    this.formuleForm.get('description').patchValue(this.detailTransaction?.description);
+    this.formuleForm.get('chg_formule_accepte').patchValue(this.detailTransaction?.rapport?.chg_formule_accepte);
+    this.formuleForm.get('chg_formule_accepte_comment').patchValue(this.detailTransaction?.rapport?.chg_formule_accepte_comment);
+  }
+  /*@@@@@@@@@@@@@@@@@@@ Integration Form Controls @@@@@@@@@@@@@@@@@*/
+  OnInitIntegrationForm() {
+    this.integrationForm = this.fb.group({
+      niveau_un_uuid: [this.createFormControl(null, Validators.required, true)],
+      niveau_deux_uuid: [this.createFormControl(null, Validators.required, true)],
+      niveau_trois_uuid: [this.createFormControl(null, Validators.required, true)],
+      usage_id: [this.createFormControl(null, Validators.required, true)],
+      iccid: [this.createFormControl(null, Validators.required, true)],
+      point_emplacement: [this.createFormControl(null, Validators.required, true)],
+      adresse_email: [this.createFormControl(null, Validators.required, true)],
+      adresse_geographique: [this.createFormControl(null, Validators.required, true)],
+      latitude: [this.createFormControl(null, Validators.required, true)],
+      longitude: [this.createFormControl(null, Validators.required, true)],
+      niveau_1: [this.createFormControl(null, Validators.required, true)],
+      niveau_2: [this.createFormControl(null, Validators.required, true)],
+      niveau_3: [this.createFormControl(null, Validators.required, true)],
+      usage: [this.createFormControl(null, Validators.required, true)],
+      imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+      msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
+      montant_formule: [this.createFormControl(null, Validators.required, true)],
+      statut_contrat: [this.createFormControl(null, Validators.required, true)],
+      formule: [this.createFormControl(null, Validators.required, true)],
+      formule_uuid: [this.createFormControl(null, Validators.required, true)],
+      code_pin: [this.createFormControl(null, Validators.required, true)],
+      email: [this.createFormControl(null, Validators.required, true)],
+      description: [this.createFormControl(null, Validators.required, true)],
+      integration_accepte: [this.createFormControl(null, Validators.required, true)],
+      integration_accepte_comment: [this.createFormControl(null, Validators.required, true)],
+    })
+    this.integrationForm.get("msisdn").valueChanges.subscribe((value) => {
+      if (value && value.length > 10) {
+        this.integrationForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+      }
+    });
+    this.integrationForm.get("imsi").valueChanges.subscribe((value) => {
+      if (value && value.length > 15) {
+        this.integrationForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+      }
+    });
+  }
+  private createFormControl(initialValue: any = null, validator: any = null, isDisabled: boolean = false): any {
+      return [{ value: initialValue, disabled: isDisabled }, validator].filter(v => v !== null);
+  }
+  OnShowIntegrationForm() {
+    this.integrationForm.patchValue({
+      niveau_un_uuid: [this.detailTransaction?.niveau_un_uuid],
+      niveau_deux_uuid: [this.detailTransaction?.niveau_deux_uuid],
+      niveau_trois_uuid: [this.detailTransaction?.niveau_trois_uuid],
+      usage_id: [this.detailTransaction?.usage_id],
+      point_emplacement: [this.detailTransaction?.point_emplacement],
+      adresse_email: [this.detailTransaction?.adresse_email],
+      adresse_geographique: [this.detailTransaction?.adresse_geographique],
+      latitude: [this.detailTransaction?.latitude],
+      longitude: [this.detailTransaction?.longitude],
+      niveau_1: [this.detailTransaction?.niveau_1],
+      niveau_2: [this.detailTransaction?.niveau_2],
+      niveau_3: [this.detailTransaction?.niveau_3],
+      usage: [this.detailTransaction?.usage],
+      imsi: [this.detailTransaction?.imsi],
+      msisdn: [this.detailTransaction?.msisdn],
+      montant_formule: [this.pipeValue(this.detailTransaction, "montant_formule")],
+      iccid: [this.detailTransaction?.iccid],
+      statut_contrat: [this.detailTransaction?.statut_contrat],
+      formule: [this.detailTransaction?.formule],
+      formule_uuid: [this.detailTransaction?.formule_uuid],
+      code_pin: [this.detailTransaction?.code_pin],
+      email: [this.detailTransaction?.email],
+      description: [this.detailTransaction?.description],
+      integration_accepte: [this.detailTransaction?.integration_accepte],
+      integration_accepte_comment: [this.detailTransaction?.integration_accepte_comment],
+    })
+  }
   /*@@@@@@@@@@@@@@@@@@@ Activation Form Controls @@@@@@@@@@@@@@@@@*/
   OnInitActivationForm() {
     this.activationForm = this.fb.group({
-      bac_a_pioche: ['true'],
+      bac_a_pioche: ["true"],
       niveau_un_uuid: [''],
       niveau_deux_uuid: [''],
       niveau_trois_uuid: [''],
@@ -632,7 +716,7 @@ export class TransactionShowComponent implements OnInit {
       }
     });
   }
-  
+
   OnShowActivationForm() {
     this.activationForm.get('bac_a_pioche').patchValue('true');
     this.activationForm.get('niveau_un_uuid').patchValue(this.detailTransaction?.niveau_un_uuid);
@@ -678,30 +762,24 @@ export class TransactionShowComponent implements OnInit {
     }
   }
 
-  public GetFirstLevel() {
-    this.settingService
-      .GetAllFirstLevelSimple({})
-      .subscribe({
-        next: (response) => {
-          this.listFirstLevel = response['data']
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
+
+
+  async GetAllFirstLevel() {
+    const response: any = await handle(() => this.settingService.GetAllFirstLevelSimple({}), this.toastrService, this.loadingBarService);
+    if (response?.data) this.handleSuccessfulFirstLevel(response);
   }
-  public GetSecondLevel() {
-    this.settingService
-      .GetAllSecondLevelSimple({})
-      .subscribe({
-        next: (response) => {
-          this.listSecondLevel = response['data']
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
+
+  private handleSuccessfulFirstLevel(response): void {
+      this.listFirstLevel = response['data'].map((element) => { return { ...element, fullName: `${element.nom}` } });
   }
+
+  public onChangeFirstLvel(uuid: any) {
+      this.listSecondLevel = [];
+      this.listFirstLevel.find((element) => {
+          if (element.uuid === uuid)  this.listSecondLevel = this.listCommuneService.getListCommune(element);
+      });
+  }
+
   public GetThirdLevel(): void {
     this.settingService
       .GetAllThirdSimple({})
@@ -756,12 +834,12 @@ export class TransactionShowComponent implements OnInit {
   }
   public IsContentSim(): boolean {
     return (
-      this.transaction?.operation === OperationTransaction.ACTIVATION  ||
-      this.transaction?.operation === OperationTransaction.INTEGRATION  ||
+      this.transaction?.operation === OperationTransaction.ACTIVATION ||
+      this.transaction?.operation === OperationTransaction.INTEGRATION ||
       this.transaction?.operation === OperationTransaction.RESILIATION ||
       this.transaction?.operation === OperationTransaction.SUSPENSION ||
       this.transaction?.operation === OperationTransaction.SWAP ||
-      this.transaction?.operation === OperationTransaction.VOLUME_DATA 
+      this.transaction?.operation === OperationTransaction.VOLUME_DATA
     ) ? true : false
   }
   public ShowAcceptedForm(): boolean {
@@ -780,10 +858,10 @@ export class TransactionShowComponent implements OnInit {
   }
   public IsTraitement(): string {
     if (!this.isAccepteForms()) {
-       return TraitementTransaction.ACCEPTER
-    }else if (this.isAccepteForms()){
+      return TraitementTransaction.ACCEPTER
+    } else if (this.isAccepteForms()) {
       return TraitementTransaction.REJETER
-    }else{
+    } else {
       return ""
     }
   }
@@ -823,11 +901,11 @@ export class TransactionShowComponent implements OnInit {
   public IscurrentDate(): string {
     if (this.transaction?.statut === StatutTransaction.TARITER) {
       return this.detailTransaction?.rapport?.date_traitement
-    }else if (this.transaction?.statut === StatutTransaction.CLOTURER) {
+    } else if (this.transaction?.statut === StatutTransaction.CLOTURER) {
       return this.detailTransaction?.rapport?.date_cloture
-    }else if ((this.transaction?.traitement === StatutTransaction.SOUMIS) && (this.transaction?.traitement === TraitementTransaction.ACQUITER)) {
+    } else if ((this.transaction?.traitement === StatutTransaction.SOUMIS) && (this.transaction?.traitement === TraitementTransaction.ACQUITER)) {
       return this.detailTransaction?.rapport?.date_acquittement
-    }    
+    }
   }
 
   public copyTransaction(data: any): void {
@@ -839,4 +917,4 @@ export class TransactionShowComponent implements OnInit {
   }
 }
 
-  //this.baseUrl = this.envService.apiUrl;
+//this.baseUrl = this.envService.apiUrl;

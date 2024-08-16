@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <app-patrimoine-header
                         [count]="listDemandesIntegrations"
-                        [legende]="'SIM'"
+                        [legende]="'demandes d\'integration'"
                         [total]="this.pargination?.total"
                     >
                     </app-patrimoine-header>
@@ -36,6 +36,7 @@
                             "
                             [labelOther]="'Integrations en masse'"
                             [iconOther]="'pi pi-plus'"
+                            [colorOther]="'dark'"
                         >
                         </app-table-button-header>
                     </div>

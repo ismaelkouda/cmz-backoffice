@@ -14,6 +14,8 @@ import { FormatFormData } from "src/shared/functions/formatFormData.function";
 import { SupervisionOperationService } from "src/presentation/pages/supervision-operations/data-access/supervision-operation.service";
 import { DemandeIntegrationStateService } from "../../../data-access/demande-integration/demande-integration-state.service";
 import { OperationTransaction } from "src/shared/enum/OperationTransaction.enum";
+import { EncodingDataService } from "src/shared/services/encoding-data.service";
+import { SharedDataService } from "src/shared/services/shared-data.service";
 
 type TYPEVIEW = "editer" | "détails" | "ajouter";
 
@@ -47,8 +49,8 @@ export class FormDemandeIntegrationComponent implements OnInit {
     public id: number;
     public filter: Object;
     public formMasseLibelle = {
-        etape_1: "Etape 1 : Cliquez pour télécharger le fichier modèle en et remplissez tous les champs obligatoires",
-        etape_2: "Etape 2 : Importez le fichier téléchargé complété avec les infos d'identifications de chaque SIM",
+        etape_1: "Etape 1 : Cliquez pour télécharger le fichier modèle puis remplissez tous les champs obligatoires",
+        etape_2: "Etape 2 : Cliquez pour importez le fichier de SIMs que vous avez téléchargé et renseigné",
         etape_3: "Etape 3 : Vérifiez la cohérence et la complétude du fichier importé"
     } as const;
     public currentArrayHeaders = ['MSISDN*', 'IMSI', 'ICCID', 'NOM EMPLACEMENT*', 'ADRESSE EMAIL', 'ADRESSE GEO', 'LONGITUDE', 'LATITUDE'] as const;
@@ -73,7 +75,8 @@ export class FormDemandeIntegrationComponent implements OnInit {
         public settingService: SettingService, private patrimoineService: PatrimoineService,
         private toastrService: ToastrService, private loadingBarService: LoadingBarService,
         private activatedRoute: ActivatedRoute, private supervisionOperationService: SupervisionOperationService,
-        private demandeIntegrationStateService: DemandeIntegrationStateService,) {
+        private demandeIntegrationStateService: DemandeIntegrationStateService, private storage: EncodingDataService,
+        private sharedDataService: SharedDataService) {
         this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
         this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
         this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
@@ -86,7 +89,6 @@ export class FormDemandeIntegrationComponent implements OnInit {
         this.GetAllThirdLevel();
         this.GetAllUsages();
         this.GetAllFormules();
-        console.log('this.demandeIntegrationStateService.getParginateState()', this.demandeIntegrationStateService.getParginateState())
         // Recuperation des paramètres situer dans l'url
         this.getParamsInUrl();
     }
@@ -213,6 +215,7 @@ export class FormDemandeIntegrationComponent implements OnInit {
 
     private handleSuccessfulDmandeIntegrationForm(response): void {
         this.toastrService.success(response?.message);
+        this.sharedDataService.sendPatrimoineSimDemandeIntegrationsAll();
         this.closeInterface();
     }
 
@@ -240,8 +243,8 @@ export class FormDemandeIntegrationComponent implements OnInit {
     }
 
     async onDownloadModel(event: any): Promise<any> {
-        // const tokenUser = JSON.parse(this.storage.getData('user')).token;
-        // window.location.href = this.supervisionOperationService.GetGestionTransactionsDemandesServicesDownloadAbonnementsData(this.listDemandes.numero_demande, tokenUser);
+        const tokenUser = JSON.parse(this.storage.getData('user')).token;
+        window.location.href = this.supervisionOperationService.GetSupervisionOperationsTraitementsSuivisDownloadModeleData(this.INTEGRATION_EN_MASSE, this.listDemandesIntegrations?.["numero_demande"], tokenUser);
     }
 
     async onSeeFile(typeFile: "recuPaimentFile" | "identificationFile" | "modelFile"): Promise<void> {
