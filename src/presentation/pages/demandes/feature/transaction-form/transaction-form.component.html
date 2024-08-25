@@ -4,7 +4,7 @@
             <div>
                 <h3 class="current-transaction-label">
                     <b>
-                        <span>Demande d'Abonnement de SIM</span>
+                        <span *ngIf="typeDemande === 'simple'">Demande d'Abonnement de SIM</span>
                         <!-- <span *ngIf="selectedActionValue" class="mx-2">|</span
                         ><span *ngIf="selectedActionValue">{{
                             formatTitle(selectedActionValue)
@@ -23,6 +23,24 @@
                             }}]</span
                         >
                     </b>
+                    <span *ngIf="typeDemande === 'masse'">Demande d'Abonnement en masse de SIMs</span>
+                        <!-- <span *ngIf="selectedActionValue" class="mx-2">|</span
+                        ><span *ngIf="selectedActionValue">{{
+                            formatTitle(selectedActionValue)
+                        }}</span> -->
+                        <span
+                            class="current_values"
+                            *ngIf="
+                                selectedActionValue !== activation &&
+                                selectedActionValue &&
+                                typeDemande === 'simple'
+                            "
+                            >[{{
+                                getFormattedMsisdn(
+                                    currentPatrimoine?.msisdn ?? '0000000000'
+                                )
+                            }}]</span
+                        >
                 </h3>
             </div>
             <div

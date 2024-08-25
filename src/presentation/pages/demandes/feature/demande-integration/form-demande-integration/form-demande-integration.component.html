@@ -151,10 +151,15 @@
                                     </legend>
                                     <div class="row">
                                         <app-form-masse class="col-md-12 d-flex align-items-end" [fileModel]="fileModel"
-                                            (dataToSend)="pushCurrentArrayForm($event)"
-                                            [currentArrayHeaders]="currentArrayHeaders"
-                                            (downloadModel)="onDownloadModel($event)"
-                                            [formMasseLibelle]="formMasseLibelle">
+                                            (dataToSend)="
+                                                pushCurrentArrayForm($event)
+                                            " [currentArrayHeaders]="
+                                                currentArrayHeaders
+                                            " (downloadModel)="
+                                                onDownloadModel($event)
+                                            " [formMasseLibelle]="
+                                                formMasseLibelle
+                                            ">
                                         </app-form-masse>
                                     </div>
                                 </fieldset>
@@ -518,6 +523,7 @@
                                 </fieldset>
                             </form>
                         </div>
+                        
                     </div>
                 </div>
             </div>
