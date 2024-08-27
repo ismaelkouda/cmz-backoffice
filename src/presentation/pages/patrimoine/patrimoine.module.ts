@@ -48,7 +48,7 @@ import { PatrimoinesService } from "src/presentation/pages/patrimoine/data-acces
 import { CarteSimStateService } from 'src/presentation/pages/patrimoine/data-access/carte-sim/carte-sim-state.service';
 import { CarteSimApiStateService } from "src/presentation/pages/patrimoine/data-access/carte-sim/carte-sim-api-state.service";
 //Module
-
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
     imports: [
@@ -72,7 +72,8 @@ import { CarteSimApiStateService } from "src/presentation/pages/patrimoine/data-
         RadioButtonModule, 
         NgxCaptchaModule,
         CalendarModule,
-        CheckboxModule
+        CheckboxModule,
+        FileUploadModule
     ],
     declarations: [
         CarteSimActiveComponent,

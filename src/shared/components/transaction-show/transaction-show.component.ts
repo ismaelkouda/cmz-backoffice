@@ -37,6 +37,7 @@ export class TransactionShowComponent implements OnInit {
   public operationLigneCredit: string = OperationTransaction.PROVISIONNING;
   public operationActivation: string = OperationTransaction.ACTIVATION
   public operationIntegration: string = OperationTransaction.INTEGRATION;
+  public operationIdentification : string = OperationTransaction.IDENTIFICATION
   public operationSwap: string = OperationTransaction.SWAP
   public OperationResiliation: string = OperationTransaction.RESILIATION
   public OperationSuspension: string = OperationTransaction.SUSPENSION
@@ -812,6 +813,9 @@ export class TransactionShowComponent implements OnInit {
       case OperationTransaction.INTEGRATION: {
         return "Integration de SIM";
       }
+      case OperationTransaction.IDENTIFICATION: {
+        return "Identification de SIM";
+      }
       case OperationTransaction.SWAP: {
         return "Changement de SIM";
       }
@@ -835,6 +839,7 @@ export class TransactionShowComponent implements OnInit {
   public IsContentSim(): boolean {
     return (
       this.transaction?.operation === OperationTransaction.ACTIVATION ||
+      this.transaction?.operation === OperationTransaction.IDENTIFICATION  ||
       this.transaction?.operation === OperationTransaction.INTEGRATION ||
       this.transaction?.operation === OperationTransaction.RESILIATION ||
       this.transaction?.operation === OperationTransaction.SUSPENSION ||

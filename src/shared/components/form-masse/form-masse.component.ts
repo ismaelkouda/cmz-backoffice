@@ -74,6 +74,8 @@ export class FormMasseComponent {
     public nombreLigneInExcelFile: number;
     public excelFileIsCorrect: boolean;
 
+    @Input() libelleFile: any;
+
     constructor(private toastrService: ToastrService) { }
 
     // Debut: ajout du fichier excel au formulaire

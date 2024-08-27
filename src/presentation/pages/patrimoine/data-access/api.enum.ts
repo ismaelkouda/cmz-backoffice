@@ -18,7 +18,7 @@ export const enum EndPointUrl {
     POST_PATRIMOINE_SIM_ETATS_DES_SOLDES_ACTUALISATION_SIMPLE = 'patrimoine-sim/etats-des-soldes/actualisation-simple',
 
 
-
+    CHANGE_STATUT_IDENTIFICATION = 'patrimoine-sim/transactions/sur-sim',
 
 
 

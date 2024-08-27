@@ -25,5 +25,6 @@ export const enum EndPointUrl {
     DETAIL_MESSAGE_SENDER = 'messagerie/boite-envoi/details',
     DETAIL_MESSAGE_RECIEVE = 'messagerie/boite-reception/details',
     DOWNLOAD_MESSAGE = 'messagerie/boite-reception/telecharger',
+    GET_ALL_DEMANDES_IDENTIFICATION = 'patrimoine-sim/demandes-services/all'
 }
 

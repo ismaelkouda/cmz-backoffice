@@ -54,4 +54,5 @@ export class PatrimoinesService {
         const url: string = (<string>EndPointUrl.POST_PARAMETRES_SECURITE_NIVEAU_TROIS_SIMPLE)
         return this.httpClient.post(`${this.baseUrl}${url}`, data);
       }
+      
 }

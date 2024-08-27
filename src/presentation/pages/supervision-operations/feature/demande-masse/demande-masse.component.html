@@ -178,7 +178,7 @@
                     </div>
 
                     <div>
-                        <fieldset>
+                        <fieldset *ngIf="listDemandes?.operation !==OperationIdentification">
                             <legend>
                                 <strong>Homologation</strong>
                             </legend>
@@ -250,7 +250,7 @@
                     </div>
 
                     <div>
-                        <fieldset>
+                        <fieldset *ngIf="listDemandes?.operation !==OperationIdentification">
                             <legend>
                                 <strong>Finalisation</strong>
                             </legend>
@@ -442,7 +442,7 @@
                                         <b>Informations d'identification</b>
                                     </legend>
                                     <div class="d-flex gap-2">
-                                        <div class="width-100">
+                                        <div class="width-50">
                                             <label>
                                                 <b>{{
                                                     firstLevelLibelle
@@ -464,7 +464,7 @@
                                                 formControlName="niveau_deux_uuid"
                                             />
                                         </div>
-                                        <div class="width-100">
+                                        <div class="width-50">
                                             <label>
                                                 <b>{{ thirdLevelLibelle }}</b>
                                             </label>
@@ -474,7 +474,7 @@
                                                 formControlName="niveau_trois_uuid"
                                             />
                                         </div>
-                                        <div class="width-100">
+                                        <div class="width-50">
                                             <label><b>Usage</b></label>
                                             <input
                                                 type="text"
@@ -482,7 +482,7 @@
                                                 formControlName="usage_id"
                                             />
                                         </div>
-                                        <div class="width-100">
+                                        <div class="width-50">
                                             <label
                                                 ><b
                                                     >Formule destination<span
@@ -522,8 +522,8 @@
                                         <div
                                             class="col-md-2"
                                             *ngIf="
-                                                listDemandes?.operation ===
-                                                'integration'
+                                                listDemandes?.operation !==
+                                                'OperationIdentification'
                                             "
                                         >
                                             <div class="form-group">
@@ -599,7 +599,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-2">
+                                        <div class="col-md-2" *ngIf="listDemandes?.operation !==OperationIdentification">
                                             <label for="commentaire"
                                                 ><strong
                                                     >Reçu paiement</strong

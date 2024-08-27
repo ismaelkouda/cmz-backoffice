@@ -25,6 +25,12 @@ export class PatrimoineService {
   }
 
 
+  OnChangeStatutIdentification(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.CHANGE_STATUT_IDENTIFICATION);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+
+
 
 
   

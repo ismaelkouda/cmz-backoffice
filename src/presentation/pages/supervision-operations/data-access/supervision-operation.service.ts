@@ -162,4 +162,8 @@ export class SupervisionOperationService {
     const url: string = (<string>EndPointUrl.DOWNLOAD_MESSAGE);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  GetAllDemandeIdentification(data, page){
+    const url: string = (<string>EndPointUrl.GET_ALL_DEMANDES_IDENTIFICATION).replace('{page}', page);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
 }

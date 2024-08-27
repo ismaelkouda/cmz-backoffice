@@ -12,6 +12,8 @@ import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum'
 import { DEMANDE_ACTIVATION } from 'src/presentation/pages/demandes/demandes-routing.module';
 const Swal = require('sweetalert2');
 
+import { EnvService } from 'src/shared/services/env.service';
+
 @Component({
   selector: 'app-patrimoine-forms',
   templateUrl: './patrimoine-forms.component.html',
@@ -49,6 +51,11 @@ export class PatrimoineFormsComponent implements OnInit {
   public activation: string = OperationTransaction.ACTIVATION;
   public currentTabsIndex: number = 0;
 
+  uploadedImages: { [key: string]: string } = {};
+  imageURLs: { [key: string]: string } = {};
+  tempImages: { [key: string]: string } = {};
+  public fileurl : string;
+
   constructor(
     private fb: FormBuilder,
     private settingService: SettingService,
@@ -56,7 +63,8 @@ export class PatrimoineFormsComponent implements OnInit {
     private patrimoineService: PatrimoineService,
     public mappingService: MappingService,
     private storage: EncodingDataService,
-    private router: Router
+    private router: Router,
+    private envService : EnvService,
   ) {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
@@ -94,21 +102,24 @@ export class PatrimoineFormsComponent implements OnInit {
   }
   public initForm(): void {
     this.adminForm = this.fb.group({
-      direction_regionale: ['', [Validators.required]],
-      exploitation: [''],
-      zone: ['', [Validators.required]],
+      niveau_un_uuid: ['', [Validators.required]],
+      niveau_deux_uuid: [''],
+      niveau_trois_uuid: ['', [Validators.required]],
       usage: ['', [Validators.required]],
       point_emplacement: [''],
       adresse_geographique: [''],
       longitude: [''],
       latitude: [''],
+      photo_carte_recto: [''],
+      photo_carte_verso: [''],
+      photo_physique: [''],
       adresse_email: ['', [Validators.email]],
       formule: [''],
       imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
       statut: [""],
       msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       date_id_reseau: [''],
-      apn: [''],
+      apnni_reseau: [''],
       site_reseau: [''],
       adresse_ip: []
       /*
@@ -210,9 +221,9 @@ export class PatrimoineFormsComponent implements OnInit {
   }
 
   onGetDrValueChanges() {
-    return this.adminForm.get('direction_regionale').valueChanges.subscribe((value) => {
+    return this.adminForm.get('niveau_un_uuid').valueChanges.subscribe((value) => {
       this.getAllExploitation(value);
-    });
+    });
   }
 
   OnRefreshValues(){
@@ -225,14 +236,14 @@ export class PatrimoineFormsComponent implements OnInit {
 
     //Identification Controls
     if (this.currentData?.show) {      
-      this.adminForm.get('direction_regionale').patchValue(this.currentObject?.niveau_uns_nom);
-      this.adminForm.get('exploitation').patchValue(this.currentObject?.niveau_deux_nom);
-      this.adminForm.get('zone').patchValue(this.currentObject?.niveau_trois_nom);
+      this.adminForm.get('niveau_un_uuid').patchValue(this.currentObject?.niveau_uns_nom);
+      this.adminForm.get('niveau_deux_uuid').patchValue(this.currentObject?.niveau_deux_nom);
+      this.adminForm.get('niveau_trois_uuid').patchValue(this.currentObject?.niveau_trois_nom);
       this.adminForm.get('usage').patchValue(this.currentObject?.nom_usage);
     }else{
-      this.adminForm.get('direction_regionale').patchValue(this.currentObject?.niveau_un_uuid);
-      this.adminForm.get('exploitation').patchValue(this.currentObject?.niveau_deux_uuid);
-      this.adminForm.get('zone').patchValue(this.currentObject?.niveau_trois_uuid);
+      this.adminForm.get('niveau_un_uuid').patchValue(this.currentObject?.niveau_un_uuid);
+      this.adminForm.get('niveau_deux_uuid').patchValue(this.currentObject?.niveau_deux_uuid);
+      this.adminForm.get('niveau_trois_uuid').patchValue(this.currentObject?.niveau_trois_uuid);
       this.adminForm.get('usage').patchValue(this.currentObject?.usage?.id);
     }
     this.adminForm.get('imsi').patchValue(this.currentObject?.imsi);
@@ -247,10 +258,19 @@ export class PatrimoineFormsComponent implements OnInit {
 
     //Trafic Controls
     this.adminForm.get('date_id_reseau').patchValue(this.currentObject?.date_id_reseau);
-    this.adminForm.get('apn').patchValue(this.currentObject?.apn);
+    this.adminForm.get('apnni_reseau').patchValue(this.currentObject?.apn)
     this.adminForm.get('site_reseau').patchValue(this.currentObject?.site_reseau);
     this.adminForm.get('adresse_ip').patchValue(this.currentObject?.adresse_ip);
-
+    //Set image URLs
+    if (this.currentObject?.photo_carte_recto) {
+      this.imageURLs['recto'] = this.currentObject.photo_carte_recto;
+    }
+    if (this.currentObject?.photo_carte_verso) {
+      this.imageURLs['verso'] = this.currentObject.photo_carte_verso;
+    }
+    if (this.currentObject?.photo_physique) {
+      this.imageURLs['physique'] = this.currentObject.photo_physique;
+    }
 
     //Disabled Controls
     this.adminForm.get('statut').disable();
@@ -261,32 +281,53 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.get('apn').disable();
     this.adminForm.get('site_reseau').disable();
     this.adminForm.get('adresse_ip').disable();
-
+    this.adminForm.get('apnni_reseau').disable();
     if (this.currentData.show) {
       this.adminForm.disable()
       this.statutContrat()
     }
   }
   handleUpdateCampagne() {
-    this.adminForm.get('direction_regionale').disable();
-    this.adminForm.get('exploitation').disable();
-    this.patrimoineService
-      .UpdatePatrimoine({
-        ...this.adminForm.value,
-        sim_id: this.currentObject?.id,
-        niveau_un_uuid: this.adminForm.get('direction_regionale').value,
-        niveau_deux_uuid: this.adminForm.get('exploitation').value,
-        niveau_trois_uuid: this.adminForm.get('zone').value,
-        usage_id: this.adminForm.get('usage').value,
-      }).subscribe({
-        next: (response) => {
-          this.toastrService.success(response.message);
-          this.GetAllPatrimoines();
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
+    const formData = new FormData();    
+  
+    // Désactivez les contrôles du formulaire
+    this.adminForm.get('niveau_un_uuid')?.disable();
+    this.adminForm.get('exploitation')?.disable();
+  
+    // Ajoutez les champs du formulaire au FormData
+    Object.keys(this.adminForm.controls).forEach(key => {
+      const control = this.adminForm.get(key);
+      if (control && control.value) {
+        formData.append(key, control.value);
+      }
+    });
+  
+    // Ajoutez les images au FormData
+    if (this.uploadedImages['recto']) {
+      formData.append('photo_carte_recto', this.uploadedImages['recto']);
+    }
+    if (this.uploadedImages['verso']) {
+      formData.append('photo_carte_verso', this.uploadedImages['verso']);
+    }
+    if (this.uploadedImages['physique']) {
+      formData.append('photo_physique', this.uploadedImages['physique']);
+    }
+  
+    // Ajoutez le champ sim_id au FormData
+    if (this.currentObject?.id) {
+      formData.append('sim_id', this.currentObject.id);
+    }
+  
+    // Envoyez les données au service
+    this.patrimoineService.UpdatePatrimoine(formData).subscribe({
+      next: (response) => {
+        this.toastrService.success(response.message);
+        this.GetAllPatrimoines();
+      },
+      error: (error) => {
+        this.toastrService.error(error.error.message);
+      }
+    });
   }
   public onTransactionForm(data: any,operation: string): void {
     this.router.navigateByUrl(
@@ -323,5 +364,29 @@ export class PatrimoineFormsComponent implements OnInit {
   public handleChangeTabviewIndex(e) {
     this.currentTabsIndex = e.index;
   }
+
+  getImageSrc(type: string): string {
+    if (this.tempImages[type]) {
+        return this.tempImages[type];
+    } else if (this.imageURLs[type]) {
+        return this.fileurl + this.imageURLs[type];
+    }
+    return '';
+  }
+  
+  onUpload(event: any, type: string) {
+    if (event.files && event.files.length > 0) {
+        const file = event.files[0];
+        
+        this.tempImages[type] = URL.createObjectURL(file);
+        this.uploadedImages[type] = file;
+    }
+  }
+  
+  
+  
+    getImageUrl(file: File): string {
+      return URL.createObjectURL(file);
+    }
 
 }      

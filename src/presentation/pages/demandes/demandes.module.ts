@@ -46,6 +46,9 @@ import { DemandesFilterStateService } from './data-access/demandes-filter-state.
 import { DemandeIntegrationStateService } from './data-access/demande-integration/demande-integration-state.service';
 import { DossierDemandeIntegrationComponent } from "./feature/demande-integration/dossier-demande-integration/dossier-demande-integration.component";
 import { TableDossierDemandeIntegration } from "./feature/demande-integration/table-dossier-demande-integration/table-dossier-demande-integration.component";
+import { DemandeIdentificationComponent } from './ui/demande-identification/demande-identification/demande-identification.component';
+import { FormDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/form-demande-identification/form-demande-identification.component';
+import { ManagementDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/management-demande-identification/management-demande-identification.component';
 
 @NgModule({
     imports: [
@@ -81,6 +84,9 @@ import { TableDossierDemandeIntegration } from "./feature/demande-integration/ta
         DemandeWrapperShowComponent,
         StatutDemandeComponent,
         TransactionFormComponent,
+        DemandeIdentificationComponent,
+        FormDemandeIdentificationComponent,
+        ManagementDemandeIdentificationComponent,
         DemandeIntegrationComponent,FilterDemandeIntegrationComponent,TableDemandeIntegrationComponent,FormDemandeIntegrationComponent, DossierDemandeIntegrationComponent, FilterDossierDemandeIntegrationComponent, TableDossierDemandeIntegration
     ],
     providers: [DemandesFilterStateService, DemandeIntegrationStateService]

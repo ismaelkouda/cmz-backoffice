@@ -1,0 +1,139 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+
+            <div class="card">
+                <div class="card-body">
+
+
+                    <div>
+                        <div class="forms-feature-header">
+                            <div class="d-flex gap-2">
+                                <div>
+                                    <h3 class="current-transaction-label">
+                                        <b><span>Demande&nbsp;|&nbsp;Identification en masse de SIM</span></b>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="forms-feature-header__button">
+                                <div>
+                                    <p-button label="Fermer" styleClass="p-button-danger" (click)="closeInterface()"></p-button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div>
+
+                            <form [formGroup]="demandeIdentificationForm" (ngSubmit)="onSubmitDmandeIntegrationForm()">
+                                <!------------------INFOS---------IDENTIFICATION----------------->
+                                <fieldset>
+                                    <legend [ngStyle]="{ width: '18rem' }">
+                                        <b>Informations d'identification</b>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label><b>{{ firstLevelLibelle }}<span class="text-danger">*</span></b></label>
+                                                <p-dropdown [options]="listFirstLeveDatas" formControlName="niveau_un_uuid"
+                                                    optionLabel="fullName" [filter]="true" [placeholder]="firstLevelLibelle"
+                                                    optionValue="uuid" [showClear]="true" (onChange)="onChangeFirstLvel($event.value)"
+                                                    filterBy="fullName" [ngStyle]="{ width: '100%' }">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label><b>{{ secondLevelLibelle
+                                                        }}<span class="text-danger">*</span></b></label>
+                                                <p-dropdown [options]="listSecondLevelDatas" formControlName="niveau_deux_uuid"
+                                                    optionLabel="fullName" [filter]="true" [placeholder]="secondLevelLibelle"
+                                                    optionValue="uuid" [showClear]="true" filterBy="fullName" [ngStyle]="{ width: '100%' }">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label><b>{{ thirdLevelLibelle
+                                                        }}<span class="text-danger">*</span></b></label>
+                                                <p-dropdown [options]="listThirdLevelDatas" formControlName="niveau_trois_uuid"
+                                                    optionLabel="fullName" [filter]="true" [placeholder]="thirdLevelLibelle"
+                                                    optionValue="uuid" [showClear]="true" filterBy="fullName" [ngStyle]="{ width: '100%' }">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label><b>Usage<span class="text-danger">*</span></b></label>
+                                                <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage"
+                                                    placeholder="usage" optionValue="id" [showClear]="true" [ngStyle]="{ width: '100%' }">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label><b>Formule destination<span class="text-danger">*</span></b></label>
+                                                <p-dropdown [options]="listFormules" formControlName="formule_uuid" optionLabel="nom"
+                                                    [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid"
+                                                    [ngStyle]="{ width: '100%' }">
+                                                </p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <fieldset style="margin-top: 2.5rem" class="padding-bottom-lignes">
+                                    <legend [ngStyle]="{ width: '100%' }">
+                                        <b>Identification des lignes</b>
+                                    </legend>
+                                    <div class="row">
+                                        <app-form-masse class="col-md-12 d-flex align-items-end" [fileModel]="fileModel"
+                                            (dataToSend)="pushCurrentArrayForm($event)" 
+                                            [currentArrayHeaders]="currentArrayHeaders" 
+                                            (downloadModel)="onDownloadModel($event)"
+                                            [formMasseLibelle]="formMasseLibelle"
+                                            [libelleFile]="libelleFile"
+                                            >
+                                        </app-form-masse>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset style="margin-top: 2.5rem">
+                                    <legend [ngStyle]="{ width: '100%' }">
+                                        <b>Détails de la Demande</b>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>
+                                                    <b>Description
+                                                        <span class="text-danger">*</span></b>
+                                                </label>
+                                                <input type="text" formControlName="description" pInputText />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                <div class="submit-form">
+                                    <div>
+                                        <button 
+                                            type="submit" 
+                                            pButton style="float: right; margin-top: 1rem" 
+                                            label="Soumettre"
+                                            class="p-button-success"
+                                            [disabled]="!demandeIdentificationForm.valid"
+                                        >
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

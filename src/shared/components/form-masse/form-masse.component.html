@@ -11,7 +11,7 @@
                 class="p-button-success"
                 icon="pi pi-download"
                 (click)="downloadModelXls()"
-                label="Télécharger les lignes traitées"
+                [label]="libelleFile.file1"
             ></button>
         </div>
     </div>
@@ -23,7 +23,7 @@
             <div class="input_file h-70">
                 <label for="file">
                     <img src="assets/images/excel.png" width="50" />
-                    <span [hidden]="fileName"><b>Spécifiez le fichier</b></span>
+                    <span [hidden]="fileName"><b>{{ libelleFile.file2 }}</b></span>
                     <span [hidden]="!fileName"
                         ><b>{{ fileName }}</b></span
                     >
