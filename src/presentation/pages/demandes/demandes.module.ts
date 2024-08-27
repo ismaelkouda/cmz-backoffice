@@ -1,3 +1,7 @@
+import { TableDossierDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/table-dossier-demande-identification/table-dossier-demande-identification.component';
+import { FilterDossierDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/filter-dossier-demande-identification/filter-dossier-demande-identification.component';
+import { FilterDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/filter-demande-identification/filter-demande-identification.component';
+import { TableDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/table-demande-identification/table-demande-identification.component';
 import { FilterDossierDemandeIntegrationComponent } from './feature/demande-integration/filter-dossier-demande-integration/filter-dossier-demande-integration.component';
 import { FormDemandeIntegrationComponent } from './feature/demande-integration/form-demande-integration/form-demande-integration.component';
 import { DemandeIntegrationComponent } from './ui/demande-integration/demande-integration.component';
@@ -86,7 +90,11 @@ import { ManagementDemandeIdentificationComponent } from './feature/demande-iden
         TransactionFormComponent,
         DemandeIdentificationComponent,
         FormDemandeIdentificationComponent,
+        FilterDossierDemandeIdentificationComponent,
+        FilterDemandeIdentificationComponent,
+        TableDossierDemandeIdentificationComponent,
         ManagementDemandeIdentificationComponent,
+        TableDemandeIdentificationComponent,
         DemandeIntegrationComponent,FilterDemandeIntegrationComponent,TableDemandeIntegrationComponent,FormDemandeIntegrationComponent, DossierDemandeIntegrationComponent, FilterDossierDemandeIntegrationComponent, TableDossierDemandeIntegration
     ],
     providers: [DemandesFilterStateService, DemandeIntegrationStateService]

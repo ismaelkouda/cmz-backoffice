@@ -1,46 +1,87 @@
-<form [formGroup]="filterForm" (ngSubmit)="onSubmitFilterForm()" class="d-flex gap-2">
+<form
+    [formGroup]="filterForm"
+    (ngSubmit)="onSubmitFilterForm()"
+    class="d-flex gap-2"
+>
     <div class="width-100">
         <label>
             <b>N° demande</b>
         </label>
-        <input placeholder="Demande" formControlName="numero_demande" type="text" pInputText
-            [ngStyle]="{ minWidth: '100%' }" />
+        <input
+            placeholder="Demande"
+            formControlName="numero_demande"
+            type="text"
+            pInputText
+            [ngStyle]="{ minWidth: '100%' }"
+        />
     </div>
     <div class="width-100">
         <label>
             <b>Transaction</b>
         </label>
-        <input placeholder="Transaction" formControlName="transaction" type="text" pInputText
-            [ngStyle]="{ minWidth: '100%' }" />
+        <input
+            placeholder="Transaction"
+            formControlName="transaction"
+            type="text"
+            pInputText
+            [ngStyle]="{ minWidth: '100%' }"
+        />
     </div>
     <div class="width-100">
-        <div class="form-g
-        roup">
+        <div class="form-g roup">
             <label>
                 <b>Statut</b>
             </label>
-            <p-dropdown [options]="listStatuts" [showClear]="true" formControlName="statut" placeholder="Statut">
+            <p-dropdown
+                [options]="listStatuts"
+                [showClear]="true"
+                formControlName="statut"
+                placeholder="Statut"
+            >
             </p-dropdown>
         </div>
     </div>
     <div class="width-100">
         <label class="block"><b>Demandeur</b></label>
-        <p-dropdown [options]="listUsers" formControlName="initie_par" optionLabel="fullName" [filter]="true"
-            filterBy="fullName" [showClear]="true" placeholder="demandeur" [ngStyle]="{ minWidth: '100%' }">
+        <p-dropdown
+            [options]="listUsers"
+            formControlName="initie_par"
+            optionLabel="fullName"
+            [filter]="true"
+            filterBy="fullName"
+            [showClear]="true"
+            placeholder="demandeur"
+            [ngStyle]="{ minWidth: '100%' }"
+        >
         </p-dropdown>
     </div>
     <div class="width-15">
         <label class="block"><b>Date début</b></label>
-        <p-calendar formControlName="date_debut" [showIcon]="true" dateFormat="dd-mm-yy"
-            [showButtonBar]="true"></p-calendar>
+        <p-calendar
+            formControlName="date_debut"
+            [showIcon]="true"
+            dateFormat="dd-mm-yy"
+            [showButtonBar]="true"
+        ></p-calendar>
     </div>
     <div class="width-15">
         <label class="block"><b>Date fin</b></label>
-        <p-calendar formControlName="date_fin" [showIcon]="true" [showClear]="true" dateFormat="dd-mm-yy"
-            [showButtonBar]="true"></p-calendar>
+        <p-calendar
+            formControlName="date_fin"
+            [showIcon]="true"
+            [showClear]="true"
+            dateFormat="dd-mm-yy"
+            [showButtonBar]="true"
+        ></p-calendar>
     </div>
     <div class="p-0" [ngStyle]="{ width: '4rem' }">
         <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-        <button pButton pRipple type="submit" class="p-button-success" icon="pi pi-filter"></button>
+        <button
+            pButton
+            pRipple
+            type="submit"
+            class="p-button-success"
+            icon="pi pi-filter"
+        ></button>
     </div>
 </form>

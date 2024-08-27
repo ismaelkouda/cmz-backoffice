@@ -1,11 +1,11 @@
+import { JournalComponent } from 'src/shared/components/journal/journal.component';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
-import { DemandeIntegrationStateService } from '../../../data-access/demande-integration/demande-integration-state.service';
+import { DemandeIntegrationStateService } from '../../../../data-access/demande-integration/demande-integration-state.service';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
-import { JournalComponent } from 'src/shared/components/journal/journal.component';
 import { Router } from '@angular/router';
 import { DemandeMasseComponent } from 'src/presentation/pages/supervision-operations/feature/demande-masse/demande-masse.component';
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
@@ -43,7 +43,7 @@ export class TableDemandeIdentificationComponent {
         this.clipboardService.copyFromContent(data?.[libelle]);
     }
 
-    public getStatutBadge(statut: string): string {
+    public getStatutBadge(statut: string): any {
         switch (statut) {
             case BADGE_ETAPE.SOUMISSION: return "badge-dark";
             case BADGE_ETAPE.TRAITEMENT: return "badge-warning";

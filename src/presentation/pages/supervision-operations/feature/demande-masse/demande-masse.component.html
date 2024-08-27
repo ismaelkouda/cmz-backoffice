@@ -178,7 +178,12 @@
                     </div>
 
                     <div>
-                        <fieldset *ngIf="listDemandes?.operation !==OperationIdentification">
+                        <fieldset
+                            *ngIf="
+                                listDemandes?.operation !==
+                                OperationIdentification
+                            "
+                        >
                             <legend>
                                 <strong>Homologation</strong>
                             </legend>
@@ -250,7 +255,12 @@
                     </div>
 
                     <div>
-                        <fieldset *ngIf="listDemandes?.operation !==OperationIdentification">
+                        <fieldset
+                            *ngIf="
+                                listDemandes?.operation !==
+                                OperationIdentification
+                            "
+                        >
                             <legend>
                                 <strong>Finalisation</strong>
                             </legend>
@@ -599,7 +609,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-2" *ngIf="listDemandes?.operation !==OperationIdentification">
+                                        <div
+                                            class="col-md-2"
+                                            *ngIf="
+                                                listDemandes?.operation !==
+                                                OperationIdentification
+                                            "
+                                        >
                                             <label for="commentaire"
                                                 ><strong
                                                     >Reçu paiement</strong

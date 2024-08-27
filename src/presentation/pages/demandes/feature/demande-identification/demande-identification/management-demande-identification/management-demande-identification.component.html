@@ -1,18 +1,23 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+            <app-breadcrumb
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
 
             <div class="card">
                 <div class="card-body">
-                    
                     <div class="d-flex justify-content-between">
                         <div class="d-flex">
                             <div class="current-transaction-label d-flex gap-2">
                                 <div [style]="{ marginTop: '-0.5rem' }">
                                     Demande d'identification
                                 </div>
-                                <div [style]="{ marginTop: '-1rem' }" class="current_values">
+                                <div
+                                    [style]="{ marginTop: '-1rem' }"
+                                    class="current_values"
+                                >
                                     [{{ numero_demande }}]
                                 </div>
                                 <div [style]="{ marginTop: '-0.5rem' }">
@@ -23,29 +28,36 @@
                             </div>
                         </div>
                         <div>
-                            <p-button label="Fermer" styleClass="p-button-danger" (click)="closeView()"></p-button>
+                            <p-button
+                                label="Fermer"
+                                styleClass="p-button-danger"
+                                (click)="closeView()"
+                            ></p-button>
                         </div>
                     </div>
-                    <br>
-                    <app-filter-dossier-demande-identification (filter)="pageCallback($event)">
-
+                    <br />
+                    <app-filter-dossier-demande-identification
+                        (filter)="pageCallback($event)"
+                    >
                     </app-filter-dossier-demande-identification>
 
                     <hr />
                     <div class="table_content_wrapper">
-                        <app-table-button-header (refresh)="pageCallback()" (export)="exportExcel()" [hiddenButtonOther]="true">
+                        <app-table-button-header
+                            (refresh)="pageCallback()"
+                            (export)="exportExcel()"
+                            [hiddenButtonOther]="true"
+                        >
                         </app-table-button-header>
                     </div>
 
                     <br />
 
-                    
-                    <app-table-dossier-demande-identification 
+                    <app-table-dossier-demande-identification
                         [spinner]="spinner"
                         [listLignesIdentification]="listLignesIdentification"
                         [pargination]="pargination"
                     >
-
                     </app-table-dossier-demande-identification>
 
                     <!-- <app-pargination [pargination]="pargination" (pageChange)="onPageChange($event)"></app-pargination>
