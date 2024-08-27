@@ -54,24 +54,6 @@ export class CarteSimActiveComponent implements OnInit {
 
   @ViewChild('parcelleMap') parcelleMap: ElementRef;
 
-  OpenStreetMap: L.TileLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'PATRIMOINE SIM-MAP',
-    detectRetina: false,
-    maxNativeZoom: 19,
-    maxZoom: 23,
-    minZoom: 12,
-    noWrap: false,
-    opacity: 1,
-    subdomains: 'abc',
-    tms: false,
-  })
-  satelite: L.TileLayer = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-    maxZoom: 23,
-    minZoom: 10,
-    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-    attribution: 'PATRIMOINE SIM-MAP',
-  })
-
   public firstLevelLibelle: string;
   public secondLevelLibelle: string;
   public thirdLevelLibelle: string;
@@ -247,7 +229,6 @@ export class CarteSimActiveComponent implements OnInit {
   }
   
   public OnShowQr(data) {
-    console.log('data', data)
     this.onMarkItemCarteSim(data);
     if (data.qrcode) {
       const modalRef = this.modalService.open(QrModalComponent, {...ModalParams, backdrop: true, keyboard: true});
@@ -268,22 +249,41 @@ export class CarteSimActiveComponent implements OnInit {
       iconSize: [45, 45],
       iconAnchor: [17, 17],
     });
-    var osmLayer = this.OpenStreetMap
+    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      osmLayer = new L.TileLayer(osmUrl, { attribution: 'CARTE SIM', detectRetina: false, maxNativeZoom: 19, maxZoom: 23, minZoom: 12, noWrap: false, opacity: 1, subdomains: 'abc', tms: false });
     this.map = new L.Map('map');
     this.map.setView(new L.LatLng(this.currentComposant?.longitude ?? this.currentComposant?.long_reseau, this.currentComposant?.latitude ?? this.currentComposant?.lat_reseau), 18);
     this.map.options.minZoom = 12;
 
+    const openstreetmap = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: 'PATRIMOINE SIM-MAP',
+      detectRetina: false,
+      maxNativeZoom: 19,
+      maxZoom: 23,
+      minZoom: 12,
+      noWrap: false,
+      opacity: 1,
+      subdomains: 'abc',
+      tms: false,
+    }).addTo(this.map)
+    const googlemap = new L.TileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+      maxZoom: 23,
+      minZoom: 10,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      attribution: 'PATRIMOINE SIM-MAP',
+    })
     var traficPoint = L.marker([this.currentComposant?.longitude ?? this.currentComposant?.long_reseau, this.currentComposant?.latitude ?? this.currentComposant?.lat_reseau])
       .setIcon(traficIcon)
       .bindPopup(
         "<div>" + "" +
-        "<strong>Numero SIM :</strong>" + "<span>" + this.currentComposant?.msisdn + "</span>" + "<br>" +
+        "<strong>Numéro SIM :</strong>" + "<span>" + this.currentComposant?.msisdn + "</span>" + "<br>" +
         "<strong>" + this.firstLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_uns_nom + "</span>" + "<br>" +
         "<strong>" + this.secondLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_deux_nom + "</span>" + "<br>" +
         "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
-        "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.point_emplacement + "</span>" + "<br>" +
-        "<strong>Statut :</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
-        "<strong>Coordonnées GPS :</strong>" + "<span>" + this.currentComposant?.longitude + "," + this.currentComposant?.latitude + "</span>" + "<br>" +
+        "<strong>" + "Type d'emplacement :" + "</strong>" + "<span>" + `${this.currentComposant?.type_emplacement ?? ""}` + "</span>" + "<br>" +
+        "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + `${this.currentComposant?.point_emplacement ?? ""}` + "</span>" + "<br>" +
+        "<strong>Statut :</strong>" + "<span>" + `${this.currentComposant?.statut ?? ""}` + "</span>" + "<br>" +
+        "<strong>Coordonnées GPS :</strong>" + "<span>" + `${this.currentComposant?.longitude ?? ""}` + "," + `${this.currentComposant?.latitude ?? ""}` + "</span>" + "<br>" +
         "</div>"
       ).openPopup();
 
@@ -291,14 +291,17 @@ export class CarteSimActiveComponent implements OnInit {
       .setIcon(networkIcon)
       .bindPopup(
         "<div>" + "" +
-        "<strong>Numero SIM :</strong>" + "<span>" + this.currentComposant?.msisdn + "</span>" + "<br>" +
+        "<strong>Numéro SIM :</strong>" + "<span>" + this.currentComposant?.msisdn + "</span>" + "<br>" +
         "<strong>" + this.firstLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_uns_nom + "</span>" + "<br>" +
         "<strong>" + this.secondLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_deux_nom + "</span>" + "<br>" +
         "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
-        "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + this.currentComposant?.point_emplacement + "</span>" + "<br>" +
-        "<strong>" + "Date Trafic :" + "</strong>" + "<span>" + this.currentComposant?.date_id + "</span>" + "<br>" +
-        "<strong>Statut :</strong>" + "<span>" + this.currentComposant?.statut + "</span>" + "<br>" +
-        "<strong>Coordonnées GPS :</strong>" + "<span>" + this.currentComposant?.long_reseau + "," + this.currentComposant?.lat_reseau + "</span>" + "<br>" +
+        "<strong>" + "Type d'emplacement :" + "</strong>" + "<span>" + `${this.currentComposant?.type_emplacement ?? ""}` + "</span>" + "<br>" +
+        "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + `${this.currentComposant?.point_emplacement ?? ""}` + "</span>" + "<br>" +
+        "<strong>" + "Geoloc :" + "</strong>" + "<span>" + this.currentComposant?.adresse_geographique + "</span>" + "<br>" +
+        "<strong>" + "Quartier :" + "</strong>" + "<span>" + `${this.currentComposant?.quartier ?? ""}` + "</span>" + "<br>" +
+        "<strong>" + "Statut :" + "</strong>" + "<span>" + `${this.currentComposant?.statut ?? ""}` + "</span>" + "<br>" +
+        "<strong>" + "Date Trafic :" + "</strong>" + "<span>" + `${this.currentComposant?.date_id ?? ""}` + "</span>" + "<br>" +
+        "<strong>" + "Coordonnées GPS :" + "</strong>" + "<span>" + `${this.currentComposant?.long_reseau ?? ""}` + "," + `${this.currentComposant?.lat_reseau ?? ""}` + "</span>" + "<br>" +
         "</div>"
       ).openPopup();
 
@@ -306,8 +309,8 @@ export class CarteSimActiveComponent implements OnInit {
     reseauPoint.addTo(this.map);
     this.map.addLayer(osmLayer);
     var baseMaps = {
-      'OpenStreetMap': this.OpenStreetMap.addTo(this.map),
-      'Satellite': this.satelite
+      'OpenStreetMap': openstreetmap,
+      'Satellite': googlemap
     }
     var layerGeoJson = {
       "<span style='font-weight:bold;'><b>Position déclarée</b></span><span><img src='assets/svg/sim_loc_noir.svg' style='width: 10px; margin-left: 20px;'/></span>": traficPoint,
@@ -316,33 +319,34 @@ export class CarteSimActiveComponent implements OnInit {
     L.control.layers(baseMaps, layerGeoJson, { collapsed: false }).addTo(this.map);
   }
   public showDialog(data, composant) {
+    console.log('composant', composant)
     this.onMarkItemCarteSim(data);
     switch (data) {
       case "map": {
         this.display = true;
         this.onDialogMaximized(true);
         this.currentComposant = composant;
-        this.OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: 'PATRIMOINE SIM-MAP',
-          detectRetina: false,
-          maxNativeZoom: 19,
-          maxZoom: 23,
-          minZoom: 12,
-          noWrap: false,
-          opacity: 1,
-          subdomains: 'abc',
-          tms: false,
-        })
-        this.satelite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-          maxZoom: 23,
-          minZoom: 10,
-          subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-          attribution: 'PATRIMOINE SIM-MAP',
-        })
+        // this.OpenStreetMap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //   attribution: 'PATRIMOINE SIM-MAP',
+        //   detectRetina: false,
+        //   maxNativeZoom: 19,
+        //   maxZoom: 23,
+        //   minZoom: 12,
+        //   noWrap: false,
+        //   opacity: 1,
+        //   subdomains: 'abc',
+        //   tms: false,
+        // })
+        // this.satelite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        //   maxZoom: 23,
+        //   minZoom: 10,
+        //   subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        //   attribution: 'PATRIMOINE SIM-MAP',
+        // })
         setTimeout(() => {
           this.parcelleMap.nativeElement.innerHTML = "<div id='map' style='height: 45vw'></div>";
           this.onMapReady();
-        }, 1000);
+        }, 1500);
         break;
       }
     }

@@ -125,11 +125,10 @@
                                                 pButton
                                                 icon="pi pi-map-marker"
                                                 [disabled]="
-                                                    data.statut === 'inactif' ||
-                                                    (!data?.latitude &&
-                                                        !data?.longitude &&
-                                                        !data?.site_reseau)
+                                                data.statut === 'inactif' ||
+                                                (!data.latitude && !data.longitude)
                                                 "
+
                                                 pTooltip="Localisation"
                                                 tooltipPosition="top"
                                                 (click)="
