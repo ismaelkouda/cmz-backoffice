@@ -10,9 +10,9 @@ import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { DEMANDE_SERVICE } from 'src/shared/routes/routes';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { DEMANDE_ACTIVATION } from 'src/presentation/pages/demandes/demandes-routing.module';
-const Swal = require('sweetalert2');
-
 import { EnvService } from 'src/shared/services/env.service';
+
+const Swal = require('sweetalert2');
 
 @Component({
   selector: 'app-patrimoine-forms',
@@ -25,6 +25,13 @@ export class PatrimoineFormsComponent implements OnInit {
   @Output() listPatrimoines = new EventEmitter();
   @Output() formsView = new EventEmitter();
   public currentObject: any;
+
+
+  uploadedImages: { [key: string]: string } = {};
+  imageURLs: { [key: string]: string } = {};
+  tempImages: { [key: string]: string } = {};
+
+
   public listDirectionRegionales: Array<any> = [];
   public listExploitations: Array<any> = [];
   public listUsage: Array<any> = [];
@@ -32,6 +39,7 @@ export class PatrimoineFormsComponent implements OnInit {
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
+  public fileurl : string;
   public offset: any;
   public p: number = 1;
   public display: boolean = true;
@@ -51,20 +59,15 @@ export class PatrimoineFormsComponent implements OnInit {
   public activation: string = OperationTransaction.ACTIVATION;
   public currentTabsIndex: number = 0;
 
-  uploadedImages: { [key: string]: string } = {};
-  imageURLs: { [key: string]: string } = {};
-  tempImages: { [key: string]: string } = {};
-  public fileurl : string;
-
   constructor(
     private fb: FormBuilder,
     private settingService: SettingService,
+    private envService : EnvService,
     private toastrService: ToastrService,
     private patrimoineService: PatrimoineService,
     public mappingService: MappingService,
     private storage: EncodingDataService,
-    private router: Router,
-    private envService : EnvService,
+    private router: Router
   ) {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
@@ -74,20 +77,21 @@ export class PatrimoineFormsComponent implements OnInit {
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
     this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
+    this.fileurl = this.envService.fileUrl;
   }
 
   ngOnInit() {
-    this.OnGetDetailSim()  
+    this.OnGetDetailSim()
     this.initForm();
-  if (!this.currentData?.show) {
-    this.onGetDrValueChanges()
-    this.getAllDirectionRegionales();
-    this.GetAllUsages();
-    this.getAllZones();    
-  }  
-    this.OnRefreshValues() ;
+    if (!this.currentData?.show) {
+      this.onGetDrValueChanges()
+      this.getAllDirectionRegionales();
+      this.GetAllUsages();
+      this.getAllZones();
+    }
+    this.OnRefreshValues();
   }
-  public statutContrat(){
+  public statutContrat() {
     this.mappingService.statutContrat(this.currentData?.statut)
   }
   public close(): void {
@@ -107,12 +111,14 @@ export class PatrimoineFormsComponent implements OnInit {
       niveau_trois_uuid: ['', [Validators.required]],
       usage: ['', [Validators.required]],
       point_emplacement: [''],
+      direction_regionale: [''],
       adresse_geographique: [''],
       longitude: [''],
       latitude: [''],
+      zone:[''],
       photo_carte_recto: [''],
       photo_carte_verso: [''],
-      photo_physique: [''],
+      photo_physique: [''],
       adresse_email: ['', [Validators.email]],
       formule: [''],
       imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
@@ -121,7 +127,8 @@ export class PatrimoineFormsComponent implements OnInit {
       date_id_reseau: [''],
       apnni_reseau: [''],
       site_reseau: [''],
-      adresse_ip: []
+      adresse_ip: [],
+      exploitation:['']
       /*
        0704842695
       */
@@ -138,12 +145,40 @@ export class PatrimoineFormsComponent implements OnInit {
     });
   }
 
+
+getImageSrc(type: string): string {
+  if (this.tempImages[type]) {
+      return this.tempImages[type];
+  } else if (this.imageURLs[type]) {
+      return this.fileurl + this.imageURLs[type];
+  }
+  return '';
+}
+
+onUpload(event: any, type: string) {
+  if (event.files && event.files.length > 0) {
+      const file = event.files[0];
+      
+      this.tempImages[type] = URL.createObjectURL(file);
+      this.uploadedImages[type] = file;
+  }
+}
+
+
+
+  getImageUrl(file: File): string {
+    return URL.createObjectURL(file);
+  }
+  
+  
+
   public OnGetDetailSim(): void {
     this.patrimoineService
       .OnGetDetailSim(this.currentData?.imsi)
       .subscribe({
         next: (response) => {
-          this.currentObject = response['data'];          
+          console.log("Retour APi", response['data']);
+          this.currentObject = response['data'];
           this.onFormPachValues();
         },
         error: (error) => {
@@ -223,10 +258,10 @@ export class PatrimoineFormsComponent implements OnInit {
   onGetDrValueChanges() {
     return this.adminForm.get('niveau_un_uuid').valueChanges.subscribe((value) => {
       this.getAllExploitation(value);
-    });
+    });
   }
 
-  OnRefreshValues(){
+  OnRefreshValues() {
     this.mappingService.volumeDataGlobal$.subscribe((res: any) => {
       this.soldeGlobal = res
     });
@@ -235,12 +270,12 @@ export class PatrimoineFormsComponent implements OnInit {
   public onFormPachValues(): void {
 
     //Identification Controls
-    if (this.currentData?.show) {      
+    if (this.currentData?.show) {
       this.adminForm.get('niveau_un_uuid').patchValue(this.currentObject?.niveau_uns_nom);
       this.adminForm.get('niveau_deux_uuid').patchValue(this.currentObject?.niveau_deux_nom);
       this.adminForm.get('niveau_trois_uuid').patchValue(this.currentObject?.niveau_trois_nom);
       this.adminForm.get('usage').patchValue(this.currentObject?.nom_usage);
-    }else{
+    } else {
       this.adminForm.get('niveau_un_uuid').patchValue(this.currentObject?.niveau_un_uuid);
       this.adminForm.get('niveau_deux_uuid').patchValue(this.currentObject?.niveau_deux_uuid);
       this.adminForm.get('niveau_trois_uuid').patchValue(this.currentObject?.niveau_trois_uuid);
@@ -258,19 +293,22 @@ export class PatrimoineFormsComponent implements OnInit {
 
     //Trafic Controls
     this.adminForm.get('date_id_reseau').patchValue(this.currentObject?.date_id_reseau);
-    this.adminForm.get('apnni_reseau').patchValue(this.currentObject?.apn)
+    this.adminForm.get('apnni_reseau').patchValue(this.currentObject?.apn);
     this.adminForm.get('site_reseau').patchValue(this.currentObject?.site_reseau);
     this.adminForm.get('adresse_ip').patchValue(this.currentObject?.adresse_ip);
-    //Set image URLs
-    if (this.currentObject?.photo_carte_recto) {
-      this.imageURLs['recto'] = this.currentObject.photo_carte_recto;
-    }
-    if (this.currentObject?.photo_carte_verso) {
-      this.imageURLs['verso'] = this.currentObject.photo_carte_verso;
-    }
-    if (this.currentObject?.photo_physique) {
-      this.imageURLs['physique'] = this.currentObject.photo_physique;
-    }
+
+     // Set image URLs
+     
+  if (this.currentObject?.photo_carte_recto) {
+    this.imageURLs['recto'] = this.currentObject.photo_carte_recto;
+  }
+  if (this.currentObject?.photo_carte_verso) {
+    this.imageURLs['verso'] = this.currentObject.photo_carte_verso;
+  }
+  if (this.currentObject?.photo_physique) {
+    this.imageURLs['physique'] = this.currentObject.photo_physique;
+  }
+
 
     //Disabled Controls
     this.adminForm.get('statut').disable();
@@ -278,10 +316,11 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.get('msisdn').disable();
     this.adminForm.get('formule').disable();
     this.adminForm.get('date_id_reseau').disable();
-    this.adminForm.get('apn').disable();
+    this.adminForm.get('apnni_reseau').disable();
     this.adminForm.get('site_reseau').disable();
     this.adminForm.get('adresse_ip').disable();
-    this.adminForm.get('apnni_reseau').disable();
+    this.adminForm.get('point_emplacement').disable();
+
     if (this.currentData.show) {
       this.adminForm.disable()
       this.statutContrat()
@@ -326,13 +365,15 @@ export class PatrimoineFormsComponent implements OnInit {
       },
       error: (error) => {
         this.toastrService.error(error.error.message);
-      }
-    });
+      }
+    });
   }
-  public onTransactionForm(data: any,operation: string): void {
+  
+  
+  public onTransactionForm(data: any, operation: string): void {
     this.router.navigateByUrl(
       `${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
-      { state: {patrimoine: data,operation: operation} }
+      { state: { patrimoine: data, operation: operation } }
     );
   }
   public handleRefreshData(data: any): void {
@@ -347,46 +388,23 @@ export class PatrimoineFormsComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.patrimoineService
-        .handleRefreshData({
-          msisdn: data?.msisdn,
-        }).subscribe(
-          (response: any) => {
-            this.toastrService.success(response.message);
-            this.close()
-          },
-          (error) => {
-            this.toastrService.error(error.error.message);
-          }
-        )
+          .handleRefreshData({
+            msisdn: data?.msisdn,
+          }).subscribe(
+            (response: any) => {
+              this.toastrService.success(response.message);
+              this.close()
+            },
+            (error) => {
+              this.toastrService.error(error.error.message);
+            }
+          )
       }
     });
   }
   public handleChangeTabviewIndex(e) {
+    console.log("content currentTabs :", this.currentTabsIndex )
     this.currentTabsIndex = e.index;
   }
-
-  getImageSrc(type: string): string {
-    if (this.tempImages[type]) {
-        return this.tempImages[type];
-    } else if (this.imageURLs[type]) {
-        return this.fileurl + this.imageURLs[type];
-    }
-    return '';
-  }
-  
-  onUpload(event: any, type: string) {
-    if (event.files && event.files.length > 0) {
-        const file = event.files[0];
-        
-        this.tempImages[type] = URL.createObjectURL(file);
-        this.uploadedImages[type] = file;
-    }
-  }
-  
-  
-  
-    getImageUrl(file: File): string {
-      return URL.createObjectURL(file);
-    }
 
 }      

@@ -17,6 +17,7 @@
         // fileUrl: "http://10.10.0.30:8003/", 
         // apiUrl: "http://10.10.0.64:8001/api/v1/",
         // fileUrl: "http://10.10.0.64:8001/", 
+
         // apiUrl: "https://osim-monitoring.orange.ci:12014/api/v1/",
         // fileUrl: "https://osim-monitoring.orange.ci:12014/", 
         environmentDeployment: 'DEV',

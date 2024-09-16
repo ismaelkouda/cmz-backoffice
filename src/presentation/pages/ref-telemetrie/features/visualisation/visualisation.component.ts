@@ -28,6 +28,7 @@ export class VisualisationComponent implements OnInit {
   public listFirstLeveDatas: Array<any> = [];
   public listThirdLevelDatas: Array<any> = [];
   public listUsages: Array<any> = [];
+  public listAPN : Array<any> = [];
   public listFormule: any = [];
   public display: boolean = false;
   public listAffectations: any[] = [];
@@ -68,6 +69,7 @@ export class VisualisationComponent implements OnInit {
 
   ngOnInit() {
     this.initFormFilter();
+    this.onChangeAPNValue();
     this.GetAllFirstLevel();
     this.GetAllThirdLevel();
     this.GetAllUsages();
@@ -111,6 +113,17 @@ public onChangeFirstLvel(uuid: any) {
     this.listFirstLeveDatas.find((element) => {
         if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
     });
+}
+
+public onChangeAPNValue() {
+  this.settingService.GetAllAPN({}).subscribe({
+      next: (response) => {
+          this.listAPN = response["data"];
+      },
+      error: (error) => {
+          this.toastrService.error(error.message);
+      },
+  })
 }
 
 async GetAllFirstLevel() {
