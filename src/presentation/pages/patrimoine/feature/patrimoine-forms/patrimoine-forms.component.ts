@@ -111,9 +111,11 @@ export class PatrimoineFormsComponent implements OnInit {
       niveau_trois_uuid: ['', [Validators.required]],
       usage: ['', [Validators.required]],
       point_emplacement: [''],
+      direction_regionale: [''],
       adresse_geographique: [''],
       longitude: [''],
       latitude: [''],
+      zone:[''],
       photo_carte_recto: [''],
       photo_carte_verso: [''],
       photo_physique: [''],
@@ -125,7 +127,8 @@ export class PatrimoineFormsComponent implements OnInit {
       date_id_reseau: [''],
       apnni_reseau: [''],
       site_reseau: [''],
-      adresse_ip: []
+      adresse_ip: [],
+      exploitation:['']
       /*
        0704842695
       */
@@ -316,6 +319,7 @@ onUpload(event: any, type: string) {
     this.adminForm.get('apnni_reseau').disable();
     this.adminForm.get('site_reseau').disable();
     this.adminForm.get('adresse_ip').disable();
+    this.adminForm.get('point_emplacement').disable();
 
     if (this.currentData.show) {
       this.adminForm.disable()
@@ -399,8 +403,7 @@ onUpload(event: any, type: string) {
     });
   }
   public handleChangeTabviewIndex(e) {
-    console.log('Current Tab Index:', e.index);
-    console.log('Form Group:', this.adminForm);
+    console.log("content currentTabs :", this.currentTabsIndex )
     this.currentTabsIndex = e.index;
   }
 

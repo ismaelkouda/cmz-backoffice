@@ -28,6 +28,7 @@ export class AffectationSimComponent implements OnInit {
   public checkedAllConsumers: boolean = false;
   public checkconsumerList: any[] = [];
   public listFirstLeveDatas: Array<any> = [];
+  public listAPN: Array<any> = [];
   public listSecondLevelDatas: Array<any> = [];
   public listUsages: Array<any> = [];
   public listThirdLevelDatas: Array<any> = [];
@@ -61,6 +62,7 @@ export class AffectationSimComponent implements OnInit {
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
   }
   ngOnInit() {
+    this.onChangeAPNValue();
     this.initFormFilter();
     this.GetAllUsages();
     this.GetAllFormules();
@@ -108,6 +110,18 @@ export class AffectationSimComponent implements OnInit {
         }
       })
   }
+
+  public onChangeAPNValue() {
+    this.settingService.GetAllAPN({}).subscribe({
+        next: (response) => {
+            this.listAPN = response["data"];
+            console.log("detail data", response["data"]);
+        },
+        error: (error) => {
+            this.toastrService.error(error.message);
+        },
+    })
+}
 
   async GetAllUsages() {
       this.response = await handle(() => this.patrimoineService.GetAllUsages({}), this.toastrService, this.loadingBarService);

@@ -30,6 +30,7 @@ export class CarteFilterComponent implements OnInit {
     public formFilter: FormGroup;
     public listFirstLeveDatas: Array<any> = [];
     public listSecondLevelDatas: Array<any> = [];
+    public listAPN: Array<any> = [];
     public listStatuts: Array<any> = [];
     public listThirdLevelDatas: Array<any> = [];
     public listUsages: Array<any> = [];
@@ -54,26 +55,27 @@ export class CarteFilterComponent implements OnInit {
         this.GetAllThirdLevel();
         this.GetAllUsages();
         this.GetAllFormules();
+        this.onChangeAPNValue();
     }
 
     async GetAllFirstLevel() {
         this.response = await handle(() => this.settingService.GetAllFirstLevelSimple({}), this.toastrService, this.loadingBar);
-        if(this.response?.data) this.handleSuccessfulFirstLevel(this.response);
+        if (this.response?.data) this.handleSuccessfulFirstLevel(this.response);
     }
 
     async GetAllThirdLevel() {
         this.response = await handle(() => this.settingService.GetAllThirdSimple({}), this.toastrService, this.loadingBar);
-        if(this.response?.data) this.handleSuccessfulThirdLevel(this.response);
+        if (this.response?.data) this.handleSuccessfulThirdLevel(this.response);
     }
 
     async GetAllUsages() {
         this.response = await handle(() => this.patrimoineService.GetAllUsages({}), this.toastrService, this.loadingBar);
-        if(this.response?.data) this.handleSuccessfulUsages(this.response);
+        if (this.response?.data) this.handleSuccessfulUsages(this.response);
     }
 
     async GetAllFormules() {
         this.response = await handle(() => this.settingService.GetAllFormules({}), this.toastrService, this.loadingBar);
-        if(this.response?.data) this.handleSuccessfulFormules(this.response);
+        if (this.response?.data) this.handleSuccessfulFormules(this.response);
     }
 
     private handleSuccessfulFirstLevel(response): void {
@@ -110,22 +112,33 @@ export class CarteFilterComponent implements OnInit {
             point_emplacement: [filterState?.point_emplacement ?? null],
         });
         this.formFilter.get("msisdn").valueChanges.subscribe((value) => {
-          if (value && value.length > 10) {
-            this.formFilter.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
-          }
+            if (value && value.length > 10) {
+                this.formFilter.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+            }
         });
         this.formFilter.get("imsi").valueChanges.subscribe((value) => {
-          if (value && value.length > 15) {
-            this.formFilter.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
-          }
+            if (value && value.length > 15) {
+                this.formFilter.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+            }
         });
     }
 
     public onChangeFirstLvel(uuid: any) {
         this.listSecondLevelDatas = [];
         this.listFirstLeveDatas.find((element) => {
-            if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
+            if (element.uuid === uuid) this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
         });
+    }
+
+    public onChangeAPNValue() {
+        this.settingService.GetAllAPN({}).subscribe({
+            next: (response) => {
+                this.listAPN = response["data"];
+            },
+            error: (error) => {
+                this.toastrService.error(error.message);
+            },
+        })
     }
 
     public showSecondFilter() {
