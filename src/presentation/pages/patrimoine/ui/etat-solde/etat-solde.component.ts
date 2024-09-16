@@ -32,6 +32,7 @@ export class EtatSoldeComponent implements OnInit {
   public currentObject: any;
   public listAlarmes: any[] = [];
   public listEtats: any[] = [];
+  public listAPN : any[] = [];
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
@@ -88,6 +89,7 @@ export class EtatSoldeComponent implements OnInit {
     this.GetAllFormules();
     this.GetAllFirstLevel();
     this.GetAllThirdLevel();
+    this.onChangeAPNValue();
     this.disableAction()
     this.route.data.subscribe((data) => {
       this.module = data.module;
@@ -137,6 +139,17 @@ export class EtatSoldeComponent implements OnInit {
   private handleSuccessfulUsages(response): void {
     this.listUsages = response['data'];
   }
+
+  public onChangeAPNValue() {
+    this.settingService.GetAllAPN({}).subscribe({
+        next: (response) => {
+            this.listAPN = response["data"];
+        },
+        error: (error) => {
+            this.toastrService.error(error.message);
+        },
+    })
+}
 
   async GetAllFormules() {
       this.response = await handle(() => this.settingService.GetAllFormules({}), this.toastrService, this.loadingBarService);

@@ -75,14 +75,20 @@
         </div>
         <div class="width-80">
             <label><b>APN</b></label>
-            <input
-                placeholder="apn"
-                formControlName="apn"
-                type="text"
-                pInputText
-                [ngStyle]="{ width: '100%' }"
-            />
-        </div>
+            <p-dropdown
+            [options]="listAPN"
+            [showClear]="true"
+            formControlName="apn"
+            optionLabel="apn"
+            optionValue="apn"
+            >
+              <ng-template let-data pTemplate="item" [ngStyle]="{ width: '100%' }">
+                <div class="country-item">
+                  <div>{{ data.apn | titlecase }}</div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
         <div class="width-80">
             <label><b>Adresse IP</b></label>
             <input

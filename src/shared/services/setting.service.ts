@@ -213,4 +213,9 @@ export class SettingService {
         const url: string = <string>EndPointUrl.GET_ALL_FORMULES;
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
+
+    GetAllAPN(data): Observable<any> {
+        const url: string = <string>EndPointUrl.GET_ALL_APN;
+        return this.http.get(`${this.baseUrl}${url}`, data);
+    }
 }

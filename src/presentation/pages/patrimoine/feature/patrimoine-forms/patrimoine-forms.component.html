@@ -2,10 +2,10 @@
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Modifier SIM</h2>
+                <h2>{{ currentData?.show ? 'Detail SIM' : 'Modifier SIM' }}</h2>
                 <div>
-                    <p-button [label]="currentObject === undefined ? 'Enregistrer' : 'Modifier'"
-                        [disabled]="!adminForm.valid" styleClass="p-button-success mr-2"
+                    <p-button  *ngIf="!currentData?.show"   [label]="currentObject === undefined ? 'Enregistrer' : 'Modifier'"
+                        [disabled]="!adminForm.valid " styleClass="p-button-success mr-2"
                         (click)="handleUpdateCampagne()"></p-button>&nbsp;
 
                     <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
@@ -52,7 +52,7 @@
 
                                 <fieldset>
                                     <legend>Informations d'identification</legend>
-                                    <div class="row">
+                                    <div class="row" >
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>
@@ -236,8 +236,7 @@
                                                 (onSelect)="onUpload($event, 'verso')"
                                                 styleClass="w-100 mb-2 custom-file-upload"></p-fileUpload>
                                             <div *ngIf="getImageSrc('verso')" class="mt-2">
-                                                <img [src]="getImageSrc('verso')" alt="Photo verso"
-                                                    class="img-fluid">
+                                                <img [src]="getImageSrc('verso')" alt="Photo verso" class="img-fluid">
                                             </div>
                                         </div>
                                     </div>
@@ -267,11 +266,256 @@
             <div *ngIf="currentData?.show">
                 <p-tabView (onChange)="handleChangeTabviewIndex($event)" styleClass="w-100">
                     <p-tabPanel header="IDENTIFICATION">
-                        <!-- Contenu pour l'affichage des données... -->
+                        <div *ngIf="currentTabsIndex === 0">
+                            <div class="row">
+                                <div class="col-md-9"[formGroup]="adminForm" novalidate>
+                                    <fieldset>
+                                        <legend [ngStyle]="{ width: '12rem' }">
+                                            <b>Informations SIM</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>IMSI</b>
+                                                    </label>
+                                                    <input type="text" formControlName="imsi" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>MSISDN</b>
+                                                    </label>
+                                                    <input type="text" formControlName="msisdn" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Formule</b>
+                                                    </label>
+                                                    <input type="text" formControlName="formule" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Statut Contrat</b>
+                                                    </label>
+                                                    <app-statut-contrat
+                                                        [statut]="currentObject?.statut"></app-statut-contrat>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend [ngStyle]="{ width: '18rem' }">
+                                            <b>Informations d'identification</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>{{ firstLevelLibelle
+                                                            }}<span class="text-danger">*</span></b>
+                                                    </label>
+                                                    <input type="text" formControlName="direction_regionale"  pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>{{ secondLevelLibelle
+                                                            }}<span class="text-danger">*</span></b>
+                                                    </label>
+                                                    <input type="text" formControlName="exploitation" pInputText  />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>{{ thirdLevelLibelle
+                                                            }}<span class="text-danger">*</span></b>
+                                                    </label>
+                                                    <input type="text" formControlName="zone" pInputText  />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Nom Emplacement</b>
+                                                    </label>
+                                                    <input type="text" formControlName="point_emplacement" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Usage<span class="text-danger">*</span></b>
+                                                    </label>
+                                                    <input type="text" formControlName="usage" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Adresse mail Notification</b>
+                                                    </label>
+                                                    <input type="text" formControlName="adresse_email" pInputText />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Adresse géographique<span class="text-danger">*</span></b>
+                                                    </label>
+                                                    <input type="text" formControlName="adresse_geographique" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Latitude</b>
+                                                    </label>
+                                                    <input type="text" formControlName="latitude" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Longitude</b>
+                                                    </label>
+                                                    <input type="text" formControlName="longitude" pInputText />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend [ngStyle]="{ width: '12rem' }">
+                                            <b>Informations Réseau</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Date Trafic</b>
+                                                    </label>
+                                                    <input type="text" formControlName="date_id_reseau" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>APN</b>
+                                                    </label>
+                                                    <input type="text" formControlName="apn" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Adresse IP</b>
+                                                    </label>
+                                                    <input type="text" formControlName="adresse_ip" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Site Trafic</b>
+                                                    </label>
+                                                    <input type="text" formControlName="site_reseau" pInputText />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-3"  [hidden]="currentTabsIndex == 1">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="label">
+                                                <b>MSISDN</b>
+                                            </label>
+                                            <div class="box-card">
+                                                <span class="valeur">
+                                                    <span>{{
+                                                        getFormattedMsisdn(currentObject?.msisdn)
+                                                        }}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="label">
+                                                <b>Solde Data (Go)</b>
+                                            </label>
+                                            <div class="box-card">
+                                                <span class="valeur">
+                                                    <span>{{
+                                                        currentObject?.solde_actuel_go ?? 0
+                                                        | formatNumber: 2
+                                                        }}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        <div class="form-group">
+                                            <label class="label">
+                                                <b>{{ currentObject?.solde_data_updated_at }}</b><br />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-4" *ngIf="applicationType === patrimoineType">
+                                        <div class="form-group">
+                                            <label class="label" style="line-height: 1.3 !important">
+                                                <b class="mt-1">Solde Dotation (Go)</b>
+                                            </label>
+                                            <div class="box-card">
+                                                <span class="valeur">
+                                                    <span>{{
+                                                        currentObject?.solde_dotation ?? 0 | formatNumber: 2
+                                                        }}</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        <div *ngIf="currentData?.show && currentObject?.statut === 'actif'">
+                                            <button pButton pRipple label="Rafraîchir Solde Data" icon="pi pi-refresh"
+                                                class="p-button-warning" [style]="{ fontSize: '20px' }" style="width: 384px"
+                                                (click)="handleRefreshData(currentObject)"></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3" *ngIf="mappingService.IsAction()">
+                                        <div *ngIf="
+                                            currentData?.show && currentObject?.statut === 'suspendu'
+                                        ">
+                                            <button pButton pRipple label="Réactiver la SIM" icon="pi pi-power-off"
+                                                class="p-button-success" [style]="{ fontSize: '20px' }"
+                                                (click)="onTransactionForm(currentObject, activation)"
+                                                style="width: 384px"></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3" *ngIf="currentData?.show">
+                                        <img width="200" style="max-width: fit-content; position: absolute; left: 26%"
+                                            [src]="minioUrl + currentObject?.qrcode" alt="QR Illustration" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
                     </p-tabPanel>
                     <p-tabPanel header="HISTORIQUE">
-                        <app-historique *ngIf="currentTabsIndex === 1" [modele]="'sims'"
-                            [modele_id]="currentData.id"></app-historique>
+                        <app-historique *ngIf="currentTabsIndex === 1" [modele]="'sims'" [modele_id]="currentData.id">
+                        </app-historique>
                     </p-tabPanel>
                 </p-tabView>
             </div>
