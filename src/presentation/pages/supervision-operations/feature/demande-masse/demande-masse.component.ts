@@ -26,9 +26,13 @@ const Swal = require('sweetalert2');
 
 export class DemandeMasseComponent implements OnInit {
     public formMasseLibelle = {
-        etape_1: "Cliquez pour télécharger le fichier conteant les SIMs activées par OCI",
+        etape_1: "Cliquez pour télécharger le fichier contenant les SIMs activées par OCI",
         etape_2: "Etape 2 : Importez le fichier téléchargé complété avec les infos d'identifications de chaque SIM",
         etape_3: "Etape 3 : Vérifiez la cohérence et la complétude du fichier importé"
+    } as const;
+    public libelleFile = {
+        file1: "Télécharger le modèle",
+        file2:"Charger le fichier"
     } as const;
     public BADGE_ETAT = BADGE_ETAT;
     public BADGE_ETAPE = BADGE_ETAPE;
@@ -61,6 +65,7 @@ export class DemandeMasseComponent implements OnInit {
     public treatmenRefuser: string = TraitementTransaction.REFUSER;
     public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
     public treatmenCancel: string = TraitementTransaction.ABANDONNER;
+    public OperationIdentification : string = OperationTransaction.IDENTIFICATION;
 
     constructor(private supervisionOperationService: SupervisionOperationService, private toastrService: ToastrService,
         private loadingBarService: LoadingBarService, private activeModal: NgbActiveModal, private mappingService: MappingService,
