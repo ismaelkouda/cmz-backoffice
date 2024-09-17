@@ -69,6 +69,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     public currentRecaptcha: string;
     //Operations Transaction
     public activation: string = OperationTransaction.ACTIVATION;
+    public activationMasse: string = OperationTransaction.ACTIVATION_EN_MASSE;
     public suspension: string = OperationTransaction.SUSPENSION;
     public formule: string = OperationTransaction.CHANGEMENT_FORMULE;
     public resiliation: string = OperationTransaction.RESILIATION;
@@ -85,7 +86,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     public selectedImsi: string;
     public selectedDescription: string;
     public selectedPiece: any;
-    public selectedRecuPaiement: any;
     public selectedFormule: any;
     public selectedMsisdn: string;
     public selectedDirection: any;
@@ -139,7 +139,11 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.siteKey = environment.recaptcha.siteKey;
         this.isFilter();
-        this.initForm();
+        if (this.typeDemande === "simple") {
+            this.initFormSimple();
+        } else if(this.typeDemande === "masse") {
+            this.initFormMasse();
+        }
         this.IsFormFomSIMValidate();
         this.isVerify();
         this.IsPatrimoineType();
@@ -202,47 +206,82 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         return this.applicationType === this.patrimoineType ? true : false;
     }
 
-    public initForm(): void {
+    public initFormMasse(): void {
         this.adminForm = this.fb.group({
+            operation: this.activationMasse,
             niveau_un_uuid: [this.currentObject ? this.currentObject.niveau_un_uuid : '', [Validators.required]],
             niveau_deux_uuid: [this.currentObject ? this.currentObject.niveau_deux_uuid : '', [Validators.required]],
             niveau_trois_uuid: [this.currentObject ? this.currentObject.niveau_trois_uuid : '', [Validators.required]],
             usage_id: [this.currentObject ? this.currentObject.usage_id : '', [Validators.required]],
             nb_demandes: [this.currentObject ? this.currentObject.nb_demandes : '', [Validators.required]],
-            point_emplacement: [
-                this.currentObject ? this.currentObject.point_emplacement : '',
-                this.typeDemande === 'simple' || 'modifier' ? [Validators.required] : [],
-            ],
-            adresse_geographique: [
-                this.currentObject ? this.currentObject.adresse_geographique : '',
-                this.typeDemande === 'simple' || 'modifier' ? [Validators.required] : [],
-            ],
+            formule_uuid: [this.currentObject ? this.currentObject.formule_uuid : '', [Validators.required]],
+            description: [this.currentObject ? this.currentObject.description : '', [Validators.required]],
+            type_paiement: [null, Validators.required],
+            recu_paiement: [null],
+            justificatif: [null, Validators.required]
+        });
+        const typePaiementControl = this.adminForm.get("type_paiement");
+        const recuPaiementControl = this.adminForm.get("recu_paiement");
+        typePaiementControl.valueChanges.subscribe((value) => {
+            if (value === "immédiat") {
+                recuPaiementControl.setValidators([Validators.required]);
+            } else {
+                recuPaiementControl.clearValidators();
+                recuPaiementControl.reset();
+            }
+            recuPaiementControl.updateValueAndValidity();
+        });
+    }
+
+    public initFormSimple(): void {
+        this.adminForm = this.fb.group({
+            operation: this.activation,
+            niveau_un_uuid: [this.currentObject ? this.currentObject.niveau_un_uuid : '', [Validators.required]],
+            niveau_deux_uuid: [this.currentObject ? this.currentObject.niveau_deux_uuid : '', [Validators.required]],
+            niveau_trois_uuid: [this.currentObject ? this.currentObject.niveau_trois_uuid : '', [Validators.required]],
+            usage_id: [this.currentObject ? this.currentObject.usage_id : '', [Validators.required]],
+            nb_demandes: [this.currentObject ? this.currentObject.nb_demandes : '', [Validators.required]],
+            point_emplacement: [this.currentObject ? this.currentObject.point_emplacement : '', [Validators.required]],
+            adresse_geographique: [this.currentObject ? this.currentObject.adresse_geographique : '', [Validators.required],],
             longitude: [this.currentObject ? this.currentObject.longitude : ''],
             latitude: [this.currentObject ? this.currentObject.latitude : ''],
-            adresse_email: [
-                '',
-                this.typeDemande === 'simple' || 'modifier' ? [Validators.email] : [],
-            ],
-            imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+            adresse_email: [null, Validators.email],
+            imsi: [null ,Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)],
             statut: [''],
             statut_contrat: [''],
             formule_uuid: [this.currentObject ? this.currentObject.formule_uuid : '', [Validators.required]],
             description: [this.currentObject ? this.currentObject.description : '', [Validators.required]],
-            msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
+            msisdn: [null, Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)],
             code_pin: [''],
             username: [''],
             site: [''],
             adresse_ip: [''],
             proxy: [''],
+            type_paiement: [null, Validators.required],
+            recu_paiement: [null],
+            justificatif: [null, Validators.required]
         });
-        this.adminForm.get("msisdn").valueChanges.subscribe((value) => {
+        const typePaiementControl = this.adminForm.get("type_paiement");
+        const recuPaiementControl = this.adminForm.get("recu_paiement");
+        const msisdnControl = this.adminForm.get("msisdn");
+        const imsiControl = this.adminForm.get("imsi");
+        typePaiementControl.valueChanges.subscribe((value) => {
+            if (value === "immédiat") {
+                recuPaiementControl.setValidators([Validators.required]);
+            } else {
+                recuPaiementControl.clearValidators();
+                recuPaiementControl.reset();
+            }
+            recuPaiementControl.updateValueAndValidity();
+        });
+        msisdnControl.valueChanges.subscribe((value) => {
           if (value && value.length > 10) {
-            this.adminForm.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
+            msisdnControl.setValue(value.slice(0, 10), { emitEvent: false });
           }
         });
-        this.adminForm.get("imsi").valueChanges.subscribe((value) => {
+        imsiControl.valueChanges.subscribe((value) => {
           if (value && value.length > 15) {
-            this.adminForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
+            imsiControl.setValue(value.slice(0, 15), { emitEvent: false });
           }
         });
     }
@@ -437,10 +476,12 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         this.selectedVolume = null;
         this.selectedDescription = null;
     }
-    public onChangeFile(file: FileList, type: string) {
-        type === 'justificatif'
-            ? (this.selectedPiece = file.item(0))
-            : (this.selectedRecuPaiement = file.item(0));
+    public onChangeFile(file: FileList, type: "justificatif"|"recu-paiement") {
+        switch (type) {
+            case "justificatif" : this.adminForm.patchValue({justificatif : file.item(0)}); break;
+        
+            case "recu-paiement" : this.adminForm.patchValue({recu_paiement : file.item(0)}) ; break;
+        }
     }
     public handleSaveNewTransaction() {
         let baseUrl;
@@ -479,6 +520,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                             : 'patrimoine',
                 };
             }
+            console.log('this.adminForm.value', this.adminForm.value)
             data = formDataBuilder({
                 ...adminData,
                 operation: this.selectedActionValue,
@@ -521,31 +563,31 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         let baseUrl;
         let data;
         if (this.router.url === `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`) {
-            this.adminForm.patchValue({
-                niveau_un_uuid: this.adminForm.get('niveau_un_uuid').value,
-                niveau_deux_uuid: this.adminForm.get('niveau_deux_uuid').value,
-                niveau_trois_uuid:
-                    this.adminForm.get('niveau_trois_uuid').value,
-                statut_contrat: this.adminForm.get('statut').value,
-                formule_uuid: this.adminForm.get('formule_uuid').value,
-                usage_id: this.adminForm.get('usage_id').value,
-                nb_demandes: this.adminForm.get('nb_demandes').value,
-            });
+            // this.adminForm.patchValue({
+            //     niveau_un_uuid: this.adminForm.get('niveau_un_uuid').value,
+            //     niveau_deux_uuid: this.adminForm.get('niveau_deux_uuid').value,
+            //     niveau_trois_uuid: this.adminForm.get('niveau_trois_uuid').value,
+            //     statut_contrat: this.adminForm.get('statut').value,
+            //     formule_uuid: this.adminForm.get('formule_uuid').value,
+            //     usage_id: this.adminForm.get('usage_id').value,
+            //     nb_demandes: this.adminForm.get('nb_demandes').value,
+            // });
+            console.log('this.adminForm 11111', this.adminForm.value)
             //Disable Our Controls
-            this.adminForm.get('point_emplacement').disable();
-            this.adminForm.get('adresse_geographique').disable();
-            this.adminForm.get('longitude').disable();
-            this.adminForm.get('latitude').disable();
-            this.adminForm.get('adresse_email').disable();
-            this.adminForm.get('imsi').disable();
-            this.adminForm.get('msisdn').disable();
-            this.adminForm.get('code_pin').disable();
-            this.adminForm.get('username').disable();
-            this.adminForm.get('site').disable();
-            this.adminForm.get('statut').disable();
-            this.adminForm.get('statut_contrat').disable();
-            this.adminForm.get('adresse_ip').disable();
-            this.adminForm.get('proxy').disable();
+            // this.adminForm.get('point_emplacement').disable();
+            // this.adminForm.get('adresse_geographique').disable();
+            // this.adminForm.get('longitude').disable();
+            // this.adminForm.get('latitude').disable();
+            // this.adminForm.get('adresse_email').disable();
+            // this.adminForm.get('imsi').disable();
+            // this.adminForm.get('msisdn').disable();
+            // this.adminForm.get('code_pin').disable();
+            // this.adminForm.get('username').disable();
+            // this.adminForm.get('site').disable();
+            // this.adminForm.get('statut').disable();
+            // this.adminForm.get('statut_contrat').disable();
+            // this.adminForm.get('adresse_ip').disable();
+            // this.adminForm.get('proxy').disable();
             let adminData;
             if (this.applicationType === ApplicationType.MONITORING) {
                 adminData = {
@@ -566,17 +608,19 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                             : 'patrimoine',
                 };
             }
-            data = formDataBuilder({
-                ...adminData,
-                operation: this.selectedActionValue,
-                justificatif: this.selectedPiece,
-                recu_paiement: this.selectedRecuPaiement,
-                description: this.selectedDescription,
-                demandes: this.listDemandes,
-            });
+            console.log('this.adminForm 2222', this.adminForm.value)
+            // data = formDataBuilder({
+            //     ...adminData,
+            //     operation: this.selectedActionValue,
+            //     justificatif: this.selectedPiece,
+            //     description: this.selectedDescription,
+            //     demandes: this.listDemandes,
+            // });
             baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`;
         }
-        this.httpClient.post(`${baseUrl}`, data).subscribe({
+        
+        console.log('this.adminForm 3333', this.adminForm.value)
+        this.httpClient.post(`${baseUrl}`, formDataBuilder(this.adminForm.value)).subscribe({
             next: (res: any) => {
                 this.GetAllTransactions();
                 this.toastrService.success(res.message);
