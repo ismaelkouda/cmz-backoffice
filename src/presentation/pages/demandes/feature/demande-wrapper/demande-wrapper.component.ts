@@ -258,7 +258,6 @@ export class DemandeWrapperComponent implements OnInit {
     this.formsView.emit(true);
     this.typeDemande.emit(type);
     if (data) this.currentObject.emit(data);
-    console.log('this.currentObject', this.currentObject)
   }
 
   OnShowTraitement(data: any): void {

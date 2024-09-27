@@ -74,7 +74,7 @@ export class FormMasseComponent {
     public nombreLigneInExcelFile: number;
     public excelFileIsCorrect: boolean;
 
-    @Input() libelleFile: any;
+    @Input() libelleFile: any;
 
     constructor(private toastrService: ToastrService) { }
 

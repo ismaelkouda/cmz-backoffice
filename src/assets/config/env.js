@@ -8,7 +8,7 @@
         environmentDeployment: 'PROD',
         enableDebug: false
     };
-
+ 
     // DEV Config
     window.__env.dev = {
         apiUrl: 'http://10.10.0.200:12200/api/v1/',
