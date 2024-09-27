@@ -1,135 +1,263 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+            <app-breadcrumb
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
                         <div style="margin-top: -2rem !important">
-                            <app-patrimoine-header [count]="listEtats" [legende]="'solde'"
-                                [total]="total"></app-patrimoine-header>
+                            <app-patrimoine-header
+                                [count]="listEtats"
+                                [legende]="'solde'"
+                                [total]="total"
+                            ></app-patrimoine-header>
                         </div>
                         <div [formGroup]="formFilter">
                             <div class="d-flex gap-1">
                                 <div class="width-100">
                                     <label>
-                                        <b>Statut Alarme<span class="text-danger">*</span></b>
+                                        <b
+                                            >Statut Alarme<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></b
+                                        >
                                     </label>
-                                    <p-dropdown [options]="listAlarmes" [showClear]="true" [filter]="true"
-                                        [placeholder]="'alarme'" formControlName="alarme" [ngStyle]="{ width: '100%' }">
+                                    <p-dropdown
+                                        [options]="listAlarmes"
+                                        [showClear]="true"
+                                        [filter]="true"
+                                        [placeholder]="'alarme'"
+                                        formControlName="alarme"
+                                        [ngStyle]="{ width: '100%' }"
+                                    >
                                     </p-dropdown>
                                 </div>
                                 <div class="width-100">
-                                    <label><b>{{ firstLevelLibelle }}</b></label>
-                                    <p-dropdown [options]="listFirstLeveDatas" optionLabel="fullName" (onChange)="
+                                    <label
+                                        ><b>{{ firstLevelLibelle }}</b></label
+                                    >
+                                    <p-dropdown
+                                        [options]="listFirstLeveDatas"
+                                        optionLabel="fullName"
+                                        (onChange)="
                                             onChangeFirstLvel($event.value)
-                                        " [showClear]="true" [filter]="true" filterBy="fullName"
-                                        [placeholder]="firstLevelLibelle" optionValue="uuid"
-                                        formControlName="niveau_un_uuid" [ngStyle]="{ width: '100%' }">
+                                        "
+                                        [showClear]="true"
+                                        [filter]="true"
+                                        filterBy="fullName"
+                                        [placeholder]="firstLevelLibelle"
+                                        optionValue="uuid"
+                                        formControlName="niveau_un_uuid"
+                                        [ngStyle]="{ width: '100%' }"
+                                    >
                                     </p-dropdown>
                                 </div>
                                 <div class="width-100">
-                                    <label><b>{{ secondLevelLibelle }}</b></label>
-                                    <p-dropdown [options]="listSecondLevelDatas" optionLabel="fullName" [filter]="true"
-                                        [showClear]="true" formControlName="niveau_deux_uuid"
-                                        [placeholder]="firstLevelLibelle" optionValue="uuid"
-                                        [ngStyle]="{ width: '100%' }">
+                                    <label
+                                        ><b>{{ secondLevelLibelle }}</b></label
+                                    >
+                                    <p-dropdown
+                                        [options]="listSecondLevelDatas"
+                                        optionLabel="fullName"
+                                        [filter]="true"
+                                        [showClear]="true"
+                                        formControlName="niveau_deux_uuid"
+                                        [placeholder]="firstLevelLibelle"
+                                        optionValue="uuid"
+                                        [ngStyle]="{ width: '100%' }"
+                                    >
                                     </p-dropdown>
                                 </div>
                                 <div class="width-80">
                                     <label><b>MSISDN</b></label>
-                                    <input placeholder="MSISDN" formControlName="msisdn" type="text" pInputText
-                                        [ngStyle]="{ width: '100%' }" />
+                                    <input
+                                        placeholder="MSISDN"
+                                        formControlName="msisdn"
+                                        type="text"
+                                        pInputText
+                                        [ngStyle]="{ width: '100%' }"
+                                    />
                                 </div>
                                 <div class="width-80">
                                     <label><b>IMSI</b></label>
-                                    <input placeholder="IMSI" formControlName="imsi" type="text" pInputText
-                                        [ngStyle]="{ width: '100%' }" />
+                                    <input
+                                        placeholder="IMSI"
+                                        formControlName="imsi"
+                                        type="text"
+                                        pInputText
+                                        [ngStyle]="{ width: '100%' }"
+                                    />
                                 </div>
                                 <div class="width-80">
                                     <label><b>APN</b></label>
                                     <p-dropdown
-                                    [options]="listAPN"
-                                    [showClear]="true"
-                                    formControlName="apn"
-                                    optionLabel="apn"
-                                    optionValue="apn"
+                                        [options]="listAPN"
+                                        [showClear]="true"
+                                        formControlName="apn"
+                                        optionLabel="apn"
+                                        optionValue="apn"
                                     >
-                                      <ng-template let-data pTemplate="item" [ngStyle]="{ width: '100%' }">
-                                        <div class="country-item">
-                                          <div>{{ data.apn | titlecase }}</div>
-                                        </div>
-                                      </ng-template>
+                                        <ng-template
+                                            let-data
+                                            pTemplate="item"
+                                            [ngStyle]="{ width: '100%' }"
+                                        >
+                                            <div class="country-item">
+                                                <div>
+                                                    {{ data.apn | titlecase }}
+                                                </div>
+                                            </div>
+                                        </ng-template>
                                     </p-dropdown>
-                                  </div>
+                                </div>
                                 <div class="width-80">
                                     <label><b>Adresse IP</b></label>
-                                    <input placeholder="Adresse IP" formControlName="adresse_ip" type="text" pInputText
-                                        [ngStyle]="{ width: '100%' }" />
+                                    <input
+                                        placeholder="Adresse IP"
+                                        formControlName="adresse_ip"
+                                        type="text"
+                                        pInputText
+                                        [ngStyle]="{ width: '100%' }"
+                                    />
                                 </div>
-                                <div [ngStyle]="{ width: 'auto' }" *ngIf="!secondFilter">
-                                    <label [ngStyle]="{ opacity: '0' }">Actions</label>
+                                <div
+                                    [ngStyle]="{ width: 'auto' }"
+                                    *ngIf="!secondFilter"
+                                >
+                                    <label [ngStyle]="{ opacity: '0' }"
+                                        >Actions</label
+                                    >
                                     <br />
-                                    <p-button styleClass="p-button-success" icon="pi pi-filter"
-                                        (click)="GetAllEtats()"></p-button>
+                                    <p-button
+                                        styleClass="p-button-success"
+                                        icon="pi pi-filter"
+                                        (click)="GetAllEtats()"
+                                    ></p-button>
                                 </div>
                                 <div [ngStyle]="{ width: 'auto' }">
-                                    <label [ngStyle]="{ opacity: '0' }">Actions</label>
+                                    <label [ngStyle]="{ opacity: '0' }"
+                                        >Actions</label
+                                    >
                                     <br />
-                                    <p-button *ngIf="!secondFilter" (click)="showSecondFilter()"
-                                        styleClass="p-button-dark" icon="pi pi-plus"></p-button>
-                                    <p-button *ngIf="secondFilter" (click)="showSecondFilter()"
-                                        styleClass="p-button-dark" icon="pi pi-minus"></p-button>
+                                    <p-button
+                                        *ngIf="!secondFilter"
+                                        (click)="showSecondFilter()"
+                                        styleClass="p-button-dark"
+                                        icon="pi pi-plus"
+                                    ></p-button>
+                                    <p-button
+                                        *ngIf="secondFilter"
+                                        (click)="showSecondFilter()"
+                                        styleClass="p-button-dark"
+                                        icon="pi pi-minus"
+                                    ></p-button>
                                 </div>
                             </div>
-                            <div class="d-flex gap-1" style="padding-top: 0.7rem" *ngIf="secondFilter">
+                            <div
+                                class="d-flex gap-1"
+                                style="padding-top: 0.7rem"
+                                *ngIf="secondFilter"
+                            >
                                 <div class="width-100">
                                     <label><b>Usage</b></label>
-                                    <p-dropdown [options]="listUsages" formControlName="usage_id"
-                                        optionLabel="nom_usage" [showClear]="true" [placeholder]="'Usage'"
-                                        optionValue="id" [ngStyle]="{ width: '100%' }">
+                                    <p-dropdown
+                                        [options]="listUsages"
+                                        formControlName="usage_id"
+                                        optionLabel="nom_usage"
+                                        [showClear]="true"
+                                        [placeholder]="'Usage'"
+                                        optionValue="id"
+                                        [ngStyle]="{ width: '100%' }"
+                                    >
                                     </p-dropdown>
                                 </div>
                                 <div class="width-100">
                                     <label><b>Formule</b></label>
-                                    <p-dropdown [options]="listFormule" formControlName="formule_uuid" optionLabel="nom"
-                                        [showClear]="true" [placeholder]="'Formule'" optionValue="uuid"
-                                        [ngStyle]="{ width: '100%' }">
+                                    <p-dropdown
+                                        [options]="listFormule"
+                                        formControlName="formule_uuid"
+                                        optionLabel="nom"
+                                        [showClear]="true"
+                                        [placeholder]="'Formule'"
+                                        optionValue="uuid"
+                                        [ngStyle]="{ width: '100%' }"
+                                    >
                                     </p-dropdown>
                                 </div>
                                 <div class="width-100">
-                                    <label><b>{{ thirdLevelLibelle }}</b></label>
-                                    <p-dropdown [options]="listThirdLevelDatas" formControlName="niveau_trois_uuid"
-                                        optionLabel="nom" [showClear]="true" [placeholder]="thirdLevelLibelle"
-                                        optionValue="uuid" [ngStyle]="{ width: '100%' }">
+                                    <label
+                                        ><b>{{ thirdLevelLibelle }}</b></label
+                                    >
+                                    <p-dropdown
+                                        [options]="listThirdLevelDatas"
+                                        formControlName="niveau_trois_uuid"
+                                        optionLabel="nom"
+                                        [showClear]="true"
+                                        [placeholder]="thirdLevelLibelle"
+                                        optionValue="uuid"
+                                        [ngStyle]="{ width: '100%' }"
+                                    >
                                     </p-dropdown>
                                 </div>
                                 <div class="width-100">
                                     <label><b>Nom Emplacement</b></label>
-                                    <input placeholder="Emplacement" formControlName="point_emplacement" type="text"
-                                        pInputText [ngStyle]="{ width: '100%' }" />
+                                    <input
+                                        placeholder="Emplacement"
+                                        formControlName="point_emplacement"
+                                        type="text"
+                                        pInputText
+                                        [ngStyle]="{ width: '100%' }"
+                                    />
                                 </div>
                                 <div class="width-100">
                                     <label>
                                         <b>Zone Trafic</b>
                                     </label>
-                                    <input placeholder="zone" formControlName="zone_trafic" type="text" pInputText
-                                        [ngStyle]="{ width: '100%' }" />
+                                    <input
+                                        placeholder="zone"
+                                        formControlName="zone_trafic"
+                                        type="text"
+                                        pInputText
+                                        [ngStyle]="{ width: '100%' }"
+                                    />
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="block"><b>Date début</b></label>
-                                    <p-calendar [ngStyle]="{ width: '15rem' }" formControlName="date_debut"
-                                        [showIcon]="true" dateFormat="dd-mm-yy" [locale]="fr"></p-calendar>
+                                    <label class="block"
+                                        ><b>Date début</b></label
+                                    >
+                                    <p-calendar
+                                        [ngStyle]="{ width: '15rem' }"
+                                        formControlName="date_debut"
+                                        [showIcon]="true"
+                                        dateFormat="dd-mm-yy"
+                                        [locale]="fr"
+                                    ></p-calendar>
                                 </div>
                                 <div class="col-md-2">
-                                    <label class="block"><b>Date fin </b></label>
-                                    <p-calendar [ngStyle]="{ width: '15rem' }" formControlName="date_fin"
-                                        [showIcon]="true" dateFormat="dd-mm-yy" [locale]="fr"></p-calendar>
+                                    <label class="block"
+                                        ><b>Date fin </b></label
+                                    >
+                                    <p-calendar
+                                        [ngStyle]="{ width: '15rem' }"
+                                        formControlName="date_fin"
+                                        [showIcon]="true"
+                                        dateFormat="dd-mm-yy"
+                                        [locale]="fr"
+                                    ></p-calendar>
                                 </div>
-                                <div class="p-0 d-flex align-items-end justify-content-end"
-                                    [ngStyle]="{ width: '4rem' }">
-                                    <p-button styleClass="p-button-success" icon="pi pi-filter"
-                                        (click)="GetAllEtats()"></p-button>
+                                <div
+                                    class="p-0 d-flex align-items-end justify-content-end"
+                                    [ngStyle]="{ width: '4rem' }"
+                                >
+                                    <p-button
+                                        styleClass="p-button-success"
+                                        icon="pi pi-filter"
+                                        (click)="GetAllEtats()"
+                                    ></p-button>
                                 </div>
                             </div>
                         </div>
@@ -142,19 +270,32 @@
 
                         <hr />
                         <div class="table_actions_wrapper">
-                            <app-table-button-header (refresh)="GetAllEtats()" (export)="OnExportExcel()"
-                                [hiddenButtonOther]="true">
+                            <app-table-button-header
+                                (refresh)="GetAllEtats()"
+                                (export)="OnExportExcel()"
+                                [hiddenButtonOther]="true"
+                            >
                             </app-table-button-header>
                         </div>
                         <div class="table_content_wrapper">
                             <div class="d-flex gap-2">
-                                <app-table-header [count]="listEtats" [legende]="'SIM'" [page]="page"
-                                    [totalPage]="totalPage"></app-table-header>
-                                <div class="d-flex" style="margin-top: 1.1rem" *ngIf="listEtats?.length">
+                                <app-table-header
+                                    [count]="listEtats"
+                                    [legende]="'SIM'"
+                                    [page]="page"
+                                    [totalPage]="totalPage"
+                                ></app-table-header>
+                                <div
+                                    class="d-flex"
+                                    style="margin-top: 1.1rem"
+                                    *ngIf="listEtats?.length"
+                                >
                                     <div class="table-header-wrapper me-2">
                                         en Alarme
                                     </div>
-                                    <app-alarme-color [alarme]="listEtats[0]?.alarme"></app-alarme-color>
+                                    <app-alarme-color
+                                        [alarme]="listEtats[0]?.alarme"
+                                    ></app-alarme-color>
                                 </div>
                             </div>
                             <table [ngClass]="['native_table table']">
@@ -173,7 +314,8 @@
                                     <th class="text-center">Date Solde</th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="
+                                    <tr
+                                        *ngFor="
                                             let data of listEtats
                                                 | paginate
                                                     : {
@@ -185,7 +327,8 @@
                                                               totalRecords
                                                       };
                                             let i = index
-                                        ">
+                                        "
+                                    >
                                         <td>{{ this.offset + i }}</td>
                                         <td>{{ data?.niveau_uns_nom }}</td>
                                         <td>{{ data?.niveau_deux_nom }}</td>
@@ -193,24 +336,35 @@
                                         <td class="text-center">
                                             {{ data?.apn }}
                                         </td>
-                                        <td class="text-center" (click)="
+                                        <td
+                                            class="text-center"
+                                            (click)="
                                                 copyData(
                                                     data?.point_emplacement
                                                 )
-                                            " style="cursor: pointer">
+                                            "
+                                            style="cursor: pointer"
+                                        >
                                             {{ data?.point_emplacement }}
                                         </td>
-                                        <td class="text-center" (click)="copyData(data?.msisdn)"
-                                            style="cursor: pointer">
+                                        <td
+                                            class="text-center"
+                                            (click)="copyData(data?.msisdn)"
+                                            style="cursor: pointer"
+                                        >
                                             {{ data?.msisdn }}
                                         </td>
-                                        <td class="text-center" (click)="copyData(data?.imsi)" style="cursor: pointer">
+                                        <td
+                                            class="text-center"
+                                            (click)="copyData(data?.imsi)"
+                                            style="cursor: pointer"
+                                        >
                                             {{ data?.imsi }}
                                         </td>
                                         <td class="text-center">
                                             {{
-                                            data?.solde_actuel_go
-                                            | formatNumber: 2
+                                                data?.solde_actuel_go
+                                                    | formatNumber: 2
                                             }}
                                         </td>
                                         <td class="text-center">
@@ -220,13 +374,21 @@
                                 </tbody>
                             </table>
                             <div [ngClass]="['pagination-controls']">
-                                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                                <pagination-controls
+                                    (pageChange)="onPageChange($event)"
+                                    previousLabel=""
+                                    nextLabel=""
+                                >
                                 </pagination-controls>
                             </div>
                         </div>
                     </div>
-                    <app-groupe-form [currentObject]="currentObject" *ngIf="formsView"
-                        (formsView)="pushStatutView($event)" (listProfils)="pushListProfils($event)">
+                    <app-groupe-form
+                        [currentObject]="currentObject"
+                        *ngIf="formsView"
+                        (formsView)="pushStatutView($event)"
+                        (listProfils)="pushListProfils($event)"
+                    >
                     </app-groupe-form>
                 </div>
             </div>

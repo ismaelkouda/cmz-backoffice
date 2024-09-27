@@ -101,19 +101,23 @@
                 <div class="width-80">
                     <label><b>APN</b></label>
                     <p-dropdown
-                    [options]="listAPN"
-                    [showClear]="true"
-                    formControlName="apn"
-                    optionLabel="apn"
-                    optionValue="apn"
+                        [options]="listAPN"
+                        [showClear]="true"
+                        formControlName="apn"
+                        optionLabel="apn"
+                        optionValue="apn"
                     >
-                      <ng-template let-data pTemplate="item" [ngStyle]="{ width: '100%' }">
-                        <div class="country-item">
-                          <div>{{ data.apn | titlecase }}</div>
-                        </div>
-                      </ng-template>
+                        <ng-template
+                            let-data
+                            pTemplate="item"
+                            [ngStyle]="{ width: '100%' }"
+                        >
+                            <div class="country-item">
+                                <div>{{ data.apn | titlecase }}</div>
+                            </div>
+                        </ng-template>
                     </p-dropdown>
-                  </div>
+                </div>
                 <div class="width-80">
                     <label><b>Adresse IP</b></label>
                     <input
