@@ -172,12 +172,14 @@ export class EtatSoldeComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listEtats = response.data.data;
-          console.log('this.listEtats', this.listEtats)
+          console.log('liste des etats', this.listEtats)
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
+          this.page = response.data.current_page;
           this.recordsPerPage = response.data.per_page;
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
           this.total = response.data.total;
+          console.log('liste des totaux', this.totalPage);
         },
         error: (error) => {
           this.toastrService.error(error.error.message);
@@ -237,6 +239,8 @@ export class EtatSoldeComponent implements OnInit {
     this.p = event;
     this.GetAllEtats();
   }
+
+ 
   
   public disableAction(): boolean {
     return (this.listEtats === undefined || this.listEtats?.length === 0) ? true : false

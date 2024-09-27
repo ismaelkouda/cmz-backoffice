@@ -2,9 +2,13 @@
     <div class="row">
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>{{ currentData?.show ? 'Detail SIM' : 'Modifier SIM' }}</h2>
+                <h2>
+                    {{ currentData?.show ? 'Visualisation de la SIM ' : 'Mise à jour des infos de la SIM ' }}
+                    <span style="color: #ff6600;">[{{ currentObject?.msisdn }}]</span>
+                </h2>
                 <div>
-                    <p-button  *ngIf="!currentData?.show"   [label]="currentObject === undefined ? 'Enregistrer' : 'Modifier'"
+                    <p-button *ngIf="!currentData?.show"
+                        [label]="currentObject === undefined ? 'Enregistrer' : 'Modifier'"
                         [disabled]="!adminForm.valid " styleClass="p-button-success mr-2"
                         (click)="handleUpdateCampagne()"></p-button>&nbsp;
 
@@ -52,7 +56,7 @@
 
                                 <fieldset>
                                     <legend>Informations d'identification</legend>
-                                    <div class="row" >
+                                    <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>
@@ -217,6 +221,20 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
+                                            <p-fileUpload mode="basic" chooseLabel="Choisir photo supplémentaire"
+                                                accept="image/*"
+                                                [chooseLabel]="imageURLs['physique'] ? 'Modifier photo physique' : 'Choisir photo physique'"
+                                                [chooseIcon]="imageURLs['physique'] ? 'pi pi-pencil' : 'pi pi-plus'"
+                                                [auto]="true" (onSelect)="onUpload($event, 'physique')"
+                                                styleClass="w-100 mb-2 custom-file-upload"></p-fileUpload>
+                                            <div *ngIf="getImageSrc('physique')" class="mt-2">
+                                                <img [src]="getImageSrc('physique')" alt="Photo supplémentaire"
+                                                    class="img-fluid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
                                             <p-fileUpload mode="basic"
                                                 [chooseLabel]="imageURLs['recto'] ? 'Modifier photo recto' : 'Choisir photo recto'"
                                                 [chooseIcon]="imageURLs['recto'] ? 'pi pi-pencil' : 'pi pi-plus'"
@@ -240,20 +258,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <p-fileUpload mode="basic" chooseLabel="Choisir photo supplémentaire"
-                                                accept="image/*"
-                                                [chooseLabel]="imageURLs['physique'] ? 'Modifier photo physique' : 'Choisir photo physique'"
-                                                [chooseIcon]="imageURLs['physique'] ? 'pi pi-pencil' : 'pi pi-plus'"
-                                                [auto]="true" (onSelect)="onUpload($event, 'physique')"
-                                                styleClass="w-100 mb-2 custom-file-upload"></p-fileUpload>
-                                            <div *ngIf="getImageSrc('physique')" class="mt-2">
-                                                <img [src]="getImageSrc('physique')" alt="Photo supplémentaire"
-                                                    class="img-fluid">
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
 
 
@@ -268,7 +273,7 @@
                     <p-tabPanel header="IDENTIFICATION">
                         <div *ngIf="currentTabsIndex === 0">
                             <div class="row">
-                                <div class="col-md-9"[formGroup]="adminForm" novalidate>
+                                <div class="col-md-9" [formGroup]="adminForm" novalidate>
                                     <fieldset>
                                         <legend [ngStyle]="{ width: '12rem' }">
                                             <b>Informations SIM</b>
@@ -320,7 +325,8 @@
                                                         <b>{{ firstLevelLibelle
                                                             }}<span class="text-danger">*</span></b>
                                                     </label>
-                                                    <input type="text" formControlName="direction_regionale"  pInputText />
+                                                    <input type="text" formControlName="direction_regionale"
+                                                        pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -329,7 +335,7 @@
                                                         <b>{{ secondLevelLibelle
                                                             }}<span class="text-danger">*</span></b>
                                                     </label>
-                                                    <input type="text" formControlName="exploitation" pInputText  />
+                                                    <input type="text" formControlName="exploitation" pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -338,7 +344,7 @@
                                                         <b>{{ thirdLevelLibelle
                                                             }}<span class="text-danger">*</span></b>
                                                     </label>
-                                                    <input type="text" formControlName="zone" pInputText  />
+                                                    <input type="text" formControlName="zone" pInputText />
                                                 </div>
                                             </div>
                                         </div>
@@ -374,7 +380,8 @@
                                                     <label>
                                                         <b>Adresse géographique<span class="text-danger">*</span></b>
                                                     </label>
-                                                    <input type="text" formControlName="adresse_geographique" pInputText />
+                                                    <input type="text" formControlName="adresse_geographique"
+                                                        pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -435,7 +442,7 @@
                                         </div>
                                     </fieldset>
                                 </div>
-                                <div class="col-md-3"  [hidden]="currentTabsIndex == 1">
+                                <div class="col-md-3" [hidden]="currentTabsIndex == 1">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="label">
@@ -490,7 +497,8 @@
                                     <div class="col-md-12 mt-3">
                                         <div *ngIf="currentData?.show && currentObject?.statut === 'actif'">
                                             <button pButton pRipple label="Rafraîchir Solde Data" icon="pi pi-refresh"
-                                                class="p-button-warning" [style]="{ fontSize: '20px' }" style="width: 384px"
+                                                class="p-button-warning" [style]="{ fontSize: '20px' }"
+                                                style="width: 384px"
                                                 (click)="handleRefreshData(currentObject)"></button>
                                         </div>
                                     </div>
@@ -510,11 +518,73 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
+                        </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="PHOTOS">
+                        <div *ngIf="currentTabsIndex === 1">
+                            <fieldset>
+                                <legend>Photos</legend>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                           <!-- <p-fileUpload [disabled]="true" mode="basic"
+                                                chooseLabel="Choisir photo supplémentaire" accept="image/*"
+                                                [chooseLabel]="imageURLs['physique'] ? 'Modifier photo physique' : 'Choisir photo physique'"
+                                                [chooseIcon]="imageURLs['physique'] ? 'pi pi-pencil' : 'pi pi-plus'"
+                                                [auto]="true" (onSelect)="onUpload($event, 'physique')"
+                                                styleClass="w-100 mb-2 custom-file-upload">
+                                            </p-fileUpload>-->
+                                            <div *ngIf="getImageSrc('physique'); else noImagePhysique" class="mt-2">
+                                                <img [src]="getImageSrc('physique')" alt="Photo supplémentaire"
+                                                    class="img-fluid">
+                                            </div>
+                                            <ng-template #noImagePhysique>
+                                                <p>Aucune photo physique</p>
+                                              </ng-template> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                           <!-- <p-fileUpload [disabled]="true" mode="basic"
+                                                [chooseLabel]="imageURLs['recto'] ? 'Modifier photo recto' : 'Choisir photo recto'"
+                                                [chooseIcon]="imageURLs['recto'] ? 'pi pi-pencil' : 'pi pi-plus'"
+                                                accept="image/*" [auto]="true" (onSelect)="onUpload($event, 'recto')"
+                                                styleClass="w-100 mb-2 custom-file-upload"></p-fileUpload>-->
+                                                <div *ngIf="getImageSrc('recto'); else noImageRecto" class="mt-2">
+                                                    <img [src]="getImageSrc('recto')" alt="Photo recto" class="img-fluid">
+                                                  </div>
+                                                  
+                                                  <ng-template #noImageRecto>
+                                                    <p>Aucune photo recto</p>
+                                                  </ng-template>                                                  
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                           <!-- <p-fileUpload [disabled]="true" mode="basic"
+                                                chooseLabel="Choisir photo verso" accept="image/*" [auto]="true"
+                                                [chooseLabel]="imageURLs['verso'] ? 'Modifier photo verso' : 'Choisir photo verso'"
+                                                [chooseIcon]="imageURLs['verso'] ? 'pi pi-pencil' : 'pi pi-plus'"
+                                                (onSelect)="onUpload($event, 'verso')"
+                                                styleClass="w-100 mb-2 custom-file-upload"></p-fileUpload>-->
+                                            <div *ngIf="getImageSrc('verso'); else noImageVerso" class="mt-2">
+                                                <img [src]="getImageSrc('verso')" alt="Photo verso" class="img-fluid">
+                                            </div>
+                                            <ng-template #noImageVerso>
+                                                <p>Aucune photo verso</p>
+                                              </ng-template> 
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </fieldset>
                         </div>
                     </p-tabPanel>
                     <p-tabPanel header="HISTORIQUE">
-                        <app-historique *ngIf="currentTabsIndex === 1" [modele]="'sims'" [modele_id]="currentData.id">
+                        <app-historique *ngIf="currentTabsIndex === 2" [modele]="'sims'" [modele_id]="currentData.id">
                         </app-historique>
                     </p-tabPanel>
                 </p-tabView>

@@ -19,6 +19,7 @@ export class ProfilSupervisionComponent implements OnInit {
   public affectationView: boolean = false;
   public visualisationView: boolean = false;
   public currentObject: any;
+  public total:number = 0;
   public listProfils: any[] = [];
   public selectedMsisdn: string;
   public selectedImsi: string;
@@ -50,6 +51,7 @@ export class ProfilSupervisionComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listProfils = response['data'];
+          this.total = response['data'].length;
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

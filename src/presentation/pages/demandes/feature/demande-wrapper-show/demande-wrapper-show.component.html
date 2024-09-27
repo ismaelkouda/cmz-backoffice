@@ -1,15 +1,18 @@
 <div style="display: flex; justify-content: space-between">
     <div class="current-transaction-label d-flex gap-2">
         <div [style]="{ marginTop: '-0.5rem' }">
-            Demande d'Abonnement de SIM
+            Demande d'Abonnement mobile
         </div>
         <div [style]="{ marginTop: '-1rem' }" class="current_values">
             [{{ transactionId.numero_demande }}]
         </div>
         <div [style]="{ marginTop: '-0.5rem' }">
-            <app-statut-demande
-                [statut]="transactionId.statut"
-            ></app-statut-demande>
+            <div class="row" style="display: ruby-text; align-items: center;">
+                statut | <app-statut-demande [statut]="transactionId.statut"></app-statut-demande>
+            </div>
+            
+            
+            
         </div>
     </div>
     <div [style]="{ marginTop: '-1rem' }">
