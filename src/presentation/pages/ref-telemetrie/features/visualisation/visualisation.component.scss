@@ -8,7 +8,7 @@
     color: white;
     font-size: 20px; // ajustez la taille de la croix si nécessaire
     padding: 0.5rem;
-    border-radius: 50%; // rend le bouton rond
+    border-radius: 30%; // rend le bouton rond
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,10 +18,8 @@
     }
 }
 
-:host ::ng-deep .modal-dialog {
-    position: relative;
-    width: auto;
-    pointer-events: none;
-    margin: 330px auto !important;
+:host ::ng-deep .modal.fade .modal-dialog {
+    top: 50% !important;
+    margin: 400px auto !important;
 }
 

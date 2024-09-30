@@ -249,7 +249,7 @@ private handleSuccessfulThirdLevel(response): void {
   }
   openForm(content) {
     this.GetAllProfilSupervisions();
-    this.modalService.open(content);
+    this.modalService.open(content, {centered:true});
   }
   hideForm() {
     this.modalService.dismissAll();
