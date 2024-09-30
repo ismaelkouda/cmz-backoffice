@@ -1,3 +1,27 @@
 *td {
     padding: 0.6rem !important;
 }
+
+.custom-close-btn {
+    background-color: red;
+    border: none; // retirez la bordure si nécessaire
+    color: white;
+    font-size: 20px; // ajustez la taille de la croix si nécessaire
+    padding: 0.5rem;
+    border-radius: 50%; // rend le bouton rond
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background-color: darkred; // couleur au survol
+    }
+}
+
+:host ::ng-deep .modal-dialog {
+    position: relative;
+    width: auto;
+    pointer-events: none;
+    margin: 330px auto !important;
+}
+
