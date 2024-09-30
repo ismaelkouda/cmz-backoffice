@@ -18,11 +18,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   </div>
   `,
   styles: [`
-    :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
-      background: #FF6600;
-      border-color: #FF6600;
-      color: #000000;
-    }
   `]
 })
 export class ParginationComponent {
