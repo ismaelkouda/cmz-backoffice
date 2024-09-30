@@ -1,13 +1,14 @@
-
 <div>
-    <div class="container_flex_space_between mb-3" style="margin-top: -1rem !important">
-                <span class="table-header-wrapper">
-                    <b>Liste des SIM affectés au profil
-                        <span class="current_values"
-                            >[{{ currentObject?.nom }}]</span
-                        >
-                    </b>
-                </span>
+    <div
+        class="container_flex_space_between mb-3"
+        style="margin-top: -1rem !important"
+    >
+        <span class="table-header-wrapper">
+            <b
+                >Liste des SIM affectés au profil
+                <span class="current_values">[{{ currentObject?.nom }}]</span>
+            </b>
+        </span>
         <div class="table_actions_wrapper mt-0">
             <div class="table_actions_wrapper mt-0">
                 <button
@@ -233,10 +234,7 @@
                     [totalPage]="totalPage"
                 ></app-table-header>
             </div>
-            <div
-                class="table_actions_wrapper my-4"
-                style="height: fit-content"
-            >
+            <div class="table_actions_wrapper my-4" style="height: fit-content">
                 <button
                     pButton
                     pRipple
@@ -259,10 +257,7 @@
                 ></button>
             </div>
         </div>
-        <table
-            [ngClass]="['native_table table']"
-            style="margin-top: -0.2rem"
-        >
+        <table [ngClass]="['native_table table']" style="margin-top: -0.2rem">
             <thead>
                 <th class="text-center">#</th>
                 <th>{{ firstLevelLibelle }}</th>

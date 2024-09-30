@@ -1,22 +1,23 @@
-
 <div>
-    <div class="container_flex_space_between mb-3" style="margin-top: -1rem !important">
-                <span class="table-header-wrapper">
-                    <b>Réaffectation du Profil
-                        <span class="current_values"
-                            >[{{ currentObject?.nom }}]</span
-                        >
-                    </b>
-                </span>
+    <div
+        class="container_flex_space_between mb-3"
+        style="margin-top: -1rem !important"
+    >
+        <span class="table-header-wrapper">
+            <b
+                >Réaffectation du Profil
+                <span class="current_values">[{{ currentObject?.nom }}]</span>
+            </b>
+        </span>
         <div class="table_actions_wrapper mt-0">
             <div class="table_actions_wrapper mt-0">
                 <button
-                pButton
-                pRipple
-                label="Fermer"
-                class="p-button-danger"
-                (click)="close()"
-            ></button>
+                    pButton
+                    pRipple
+                    label="Fermer"
+                    class="p-button-danger"
+                    (click)="close()"
+                ></button>
             </div>
         </div>
     </div>
@@ -95,10 +96,7 @@
                     <th>Prénom</th>
                     <th>Contact</th>
                     <th>Nom de Connexion</th>
-                    <th
-                        class="text-center"
-                        *ngIf="mappingService.IsAction()"
-                    >
+                    <th class="text-center" *ngIf="mappingService.IsAction()">
                         <p-checkbox
                             [binary]="true"
                             (click)="OnCheckAllConsumer()"
@@ -114,10 +112,7 @@
                     <td>{{ data.prenoms }}</td>
                     <td>{{ data.contact }}</td>
                     <td>{{ data.email }}</td>
-                    <td
-                        class="text-center"
-                        *ngIf="mappingService.IsAction()"
-                    >
+                    <td class="text-center" *ngIf="mappingService.IsAction()">
                         <p-checkbox
                             name="groupname"
                             [value]="data.id"
