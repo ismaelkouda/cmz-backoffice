@@ -90,7 +90,16 @@ export class DemandeMasseComponent implements OnInit {
         this.IsRecuPaiement();
     }
 
-    //
+
+    
+    public truncateString(str: string, maxLength: number = 20): string {
+        if (str && str.length > maxLength) {
+          return str.substring(0, maxLength) + '...';
+        }
+        return str || '';
+      }
+    
+
 
     public initFormTraitementMasse(): void {
         this.formTraitementMasse = this.fb.group({
@@ -98,7 +107,7 @@ export class DemandeMasseComponent implements OnInit {
             niveau_deux_uuid: this.createFormControl(this.listDemandes?.niveau_deux_nom, null, true),
             niveau_trois_uuid: this.createFormControl(this.listDemandes?.niveau_trois_nom, null, true),
             numero_demande: [this.listDemandes?.numero_demande],
-            formule_uuid: this.createFormControl(this.listDemandes?.formule, Validators.required, true),
+            formule_uuid: this.createFormControl(this.truncateString(this.listDemandes?.formule), Validators.required, true),
             usage_id: this.createFormControl(this.listDemandes?.usage_nom, null, true),
             nb_demande_soumises: this.createFormControl(this.listDemandes?.nb_demande_soumises, null, true),
             montant_formule: this.createFormControl(this.listDemandes?.montant_formule, null, true),
