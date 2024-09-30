@@ -309,6 +309,7 @@
                         tooltipPosition="top"
                         (click)="showJournal(data)"
                         class="p-button-primary"
+                        [disabled]="!isJournalAvailable"
                     ></button>
                 </td>
             </tr>
