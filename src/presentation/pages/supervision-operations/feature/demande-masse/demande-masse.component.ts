@@ -107,18 +107,23 @@ export class DemandeMasseComponent implements OnInit {
             accepte: this.createFormControl(null, this.params.vue === 'traitement' ? Validators.required : null),
             commentaire: [this.commentairePatchValue()],
             sims_file: this.createFormControl(null, this.params.vue === 'demande' ? Validators.required : null),
-            commentaire_traitement: this.createFormControl(this.listDemandes?.commentaire_traitement, null, true),
+            commentaire_traitement: this.createFormControl(this.getNonNullValue(this.listDemandes?.commentaire_traitement), null, true), 
             commentaire_finalisation: this.createFormControl(this.listDemandes?.commentaire_finalisation, null, true),
             commentaire_cloture: this.createFormControl(this.listDemandes?.commentaire_cloture, null, true),
         });
-
+    
         if (this.isTraiteState()) {
             this.updateFormForTraiteState();
         }
-
-
+    
         this.formTraitementMasse.get('accepte')?.valueChanges.subscribe(this.handleAccepteChange.bind(this));
     }
+    
+    // Nouvelle méthode pour gérer les valeurs null ou 'null'
+    private getNonNullValue(value: any): string {
+        return value === 'null' || value === null || value === undefined ? '' : value;
+    }
+    
 
     private commentairePatchValue(): string | null {
         switch (this.params.action) {
