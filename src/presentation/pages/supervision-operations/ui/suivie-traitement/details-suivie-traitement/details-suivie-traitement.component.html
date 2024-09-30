@@ -1,26 +1,19 @@
 <div class="container-fluid">
-    <app-breadcrumb
-        [title]="'Suivi des opérations'"
-        [active_item]="'Details demande'"
-    ></app-breadcrumb>
+    <app-breadcrumb [title]="'Suivi des opérations'" [active_item]="'Details demande'"></app-breadcrumb>
     <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
         <div class="card-body">
-            <div class="forms-feature-header">
-                <div>
-                    <h4>
-                        <b>
-                            Details demande
-                            <span class="text-orange">{{ requestNumber }}</span>
-                        </b>
-                    </h4>
-                </div>
-                <div class="d-flex gap-3">
-                    <div>
-                        <p-button
-                            (click)="onCloseDetailsTreatment()"
-                            [label]="'Fermer'"
-                            styleClass="p-button-danger"
+            <div class="container_flex_space_between mb-3" style="margin-top: -1rem !important">
+                <span class="table-header-wrapper">
+                    <b><span>Details demande</span>
+                        <span class="current_values"
+                            >[{{ requestNumber }}]</span
                         >
+                    </b>
+                </span>
+
+                <div class="table_actions_wrapper mt-0">
+                    <div>
+                        <p-button (click)="onCloseDetailsTreatment()" [label]="'Fermer'" styleClass="p-button-danger">
                         </p-button>
                     </div>
                 </div>
@@ -37,14 +30,9 @@
                 <div class="width-100">
                     <div class="form-group">
                         <label><b>Statut</b> </label>
-                        <p-dropdown
-                            [options]="listStatutTransactions"
-                            (onChange)="OnChangeStatut($event)"
-                            [showClear]="true"
-                            [(ngModel)]="selectedStatut"
-                            placeholder="Statut"
-                            [style]="{ width: '100%' }"
-                        >
+                        <p-dropdown [options]="listStatutTransactions" (onChange)="OnChangeStatut($event)"
+                            [showClear]="true" [(ngModel)]="selectedStatut" placeholder="Statut"
+                            [style]="{ width: '100%' }">
                             <ng-template let-data pTemplate="item">
                                 <div class="country-item">
                                     <div>{{ data | titlecase }}</div>
@@ -56,16 +44,9 @@
                 <div class="width-100">
                     <div class="form-group">
                         <label><b>Traitement</b> </label>
-                        <p-dropdown
-                            [options]="listTraitementTransactions"
-                            [filter]="true"
-                            filterBy="libele"
-                            [style]="{ width: '100%' }"
-                            [showClear]="true"
-                            [(ngModel)]="selectedTraitement"
-                            placeholder="Traitement"
-                            name="libele"
-                        >
+                        <p-dropdown [options]="listTraitementTransactions" [filter]="true" filterBy="libele"
+                            [style]="{ width: '100%' }" [showClear]="true" [(ngModel)]="selectedTraitement"
+                            placeholder="Traitement" name="libele">
                             <ng-template let-data pTemplate="item">
                                 <div class="country-item">
                                     <div>{{ data | titlecase }}</div>
@@ -79,13 +60,8 @@
                         <label>
                             <b>MSISDN</b>
                         </label>
-                        <input
-                            placeholder="Numéro"
-                            [(ngModel)]="selectedSim"
-                            type="text"
-                            pInputText
-                            [style]="{ width: '100%' }"
-                        />
+                        <input placeholder="Numéro" [(ngModel)]="selectedSim" type="text" pInputText
+                            [style]="{ width: '100%' }" />
                     </div>
                 </div>
                 <div class="width-100">
@@ -93,44 +69,26 @@
                         <label>
                             <b>IMSI</b>
                         </label>
-                        <input
-                            placeholder="IMSI"
-                            [(ngModel)]="selectedimsi"
-                            type="text"
-                            pInputText
-                            [style]="{ width: '100%' }"
-                        />
+                        <input placeholder="IMSI" [(ngModel)]="selectedimsi" type="text" pInputText
+                            [style]="{ width: '100%' }" />
                     </div>
                 </div>
                 <div class="col-md-2">
                     <label><b>Date début</b></label>
-                    <p-calendar
-                        [(ngModel)]="filterDateStart"
-                        [showIcon]="true"
-                        (ngModelChange)="changeDateStart($event)"
-                        dateFormat="dd-mm-yy"
-                        [showButtonBar]="true"
-                    ></p-calendar>
+                    <p-calendar [(ngModel)]="filterDateStart" [showIcon]="true"
+                        (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy"
+                        [showButtonBar]="true"></p-calendar>
                 </div>
                 <div class="col-md-2">
                     <label><b>Date fin</b></label>
-                    <p-calendar
-                        [(ngModel)]="filterDateEnd"
-                        [showIcon]="true"
-                        [showClear]="true"
-                        (ngModelChange)="changeDateEnd($event)"
-                        dateFormat="dd-mm-yy"
-                        [showButtonBar]="true"
-                    ></p-calendar>
+                    <p-calendar [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+                        (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy"
+                        [showButtonBar]="true"></p-calendar>
                 </div>
                 <div class="p-0" [ngStyle]="{ width: '4rem' }">
                     <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-                    <p-button
-                        styleClass="p-button-success"
-                        icon="pi pi-filter"
-                        (click)="onFilter()"
-                        [disabled]="isFilter()"
-                    ></p-button>
+                    <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                        [disabled]="isFilter()"></p-button>
                 </div>
                 <!-- <div class="p-0" [ngStyle]="{ width: '4rem' }" *ngIf="!secondFilter">
                     <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
@@ -151,76 +109,41 @@
             <hr /> -->
             <div class="table_content_wrapper">
                 <div class="table_actions_wrapper">
-                    <button
-                        pButton
-                        label="Rafraichir"
-                        (click)="OnRefresh()"
-                        icon="pi pi-refresh"
-                        class="p-button-secondary"
-                    ></button>
-                    <button
-                        pButton
-                        label="Exporter"
-                        (click)="OnExportExcel()"
-                        icon="pi pi-download"
-                        [disabled]="disableAction()"
-                        class="p-button-helf"
-                    ></button>
+                    <button pButton label="Rafraichir" (click)="OnRefresh()" icon="pi pi-refresh"
+                        class="p-button-secondary"></button>
+                    <button pButton label="Exporter" (click)="OnExportExcel()" icon="pi pi-download"
+                        [disabled]="disableAction()" class="p-button-helf"></button>
                 </div>
                 <div class="d-flex gap-3">
                     <div class="table_header">
-                        <app-table-header
-                            [count]="listTraitemants"
-                            [legende]="'derniers traitements'"
-                            [page]="page"
-                            [totalPage]="totalPage"
-                        ></app-table-header>
+                        <app-table-header [count]="listTraitemants" [legende]="'derniers traitements'" [page]="page"
+                            [totalPage]="totalPage"></app-table-header>
                     </div>
                 </div>
                 <table [ngClass]="['native_table table']">
                     <thead>
                         <tr>
-                            <th
-                                class="text-center"
-                                [style]="{ width: '1.5rem' }"
-                            >
+                            <th class="text-center" [style]="{ width: '1.5rem' }">
                                 #
                             </th>
-                            <th
-                                class="text-center"
-                                [ngStyle]="{ width: '7rem' }"
-                            >
+                            <th class="text-center" [ngStyle]="{ width: '7rem' }">
                                 Date/Heure
                             </th>
-                            <th
-                                class="text-center"
-                                [ngStyle]="{ width: '200px' }"
-                            >
+                            <th class="text-center" [ngStyle]="{ width: '200px' }">
                                 N° Demande
                             </th>
                             <th class="text-center">Service</th>
                             <th class="text-center">Rapport</th>
-                            <th
-                                class="text-center"
-                                [ngStyle]="{ width: '13rem' }"
-                            >
+                            <th class="text-center" [ngStyle]="{ width: '13rem' }">
                                 Détails Rapport
                             </th>
                             <th class="text-center">Statut</th>
                             <th class="text-center">Traitement</th>
-                            <th
-                                class="text-center"
-                                [ngStyle]="{ width: '150px' }"
-                                pTooltip="Date de traitement"
-                                tooltipPosition="top"
-                            >
+                            <th class="text-center" [ngStyle]="{ width: '150px' }" pTooltip="Date de traitement"
+                                tooltipPosition="top">
                                 Date Traitement
                             </th>
-                            <th
-                                class="text-center"
-                                pTooltip="Date de traitement"
-                                tooltipPosition="top"
-                            >
+                            <th class="text-center" pTooltip="Date de traitement" tooltipPosition="top">
                                 Demandeur
                             </th>
                             <th class="text-center" [style]="{ width: '3rem' }">
@@ -229,8 +152,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr
-                            *ngFor="
+                        <tr *ngFor="
                                 let transaction of listTraitemants
                                     | paginate
                                         : {
@@ -240,135 +162,95 @@
                                               totalItems: totalRecords
                                           };
                                 let i = index
-                            "
-                        >
+                            ">
                             <td class="text-center">{{ this.offset + i }}</td>
                             <td class="text-center">
                                 {{ transaction?.created_at }}
                             </td>
-                            <td
-                                class="cursor-pointer text-center"
-                                (click)="
+                            <td class="cursor-pointer text-center" (click)="
                                     copyTransaction(transaction?.transaction)
-                                "
-                            >
+                                ">
                                 {{ transaction?.transaction }}
                             </td>
                             <td class="text-center">
                                 {{ formatTitle(transaction?.operation) }}
                             </td>
                             <td class="text-center">
-                                <span
-                                    [ngStyle]="{ 'font-size': '16px' }"
-                                    [class.text-white]="
+                                <span [ngStyle]="{ 'font-size': '16px' }" [class.text-white]="
                                         getCodeRapport(
                                             transaction?.code_rapport
                                         ) === '200' ||
                                         getCodeRapport(
                                             transaction?.code_rapport
                                         ) === 'false'
-                                    "
-                                    [class.badge-dark]="
+                                    " [class.badge-dark]="
                                         getCodeRapport(
                                             transaction?.code_rapport
                                         ) === '100'
-                                    "
-                                    [class.badge-info]="
+                                    " [class.badge-info]="
                                         getCodeRapport(
                                             transaction?.code_rapport
                                         ) === '102'
-                                    "
-                                    [class.badge-success]="
+                                    " [class.badge-success]="
                                         getCodeRapport(
                                             transaction?.code_rapport
                                         ) === '200'
-                                    "
-                                    [class.badge-danger]="
+                                    " [class.badge-danger]="
                                         getCodeRapport(
                                             transaction?.code_rapport
                                         ) === 'false'
-                                    "
-                                    class="badge"
-                                >
+                                    " class="badge">
                                     {{ transaction?.code_rapport }}
                                 </span>
                             </td>
-                            <td
-                                class="cursor-pointer"
-                                [innerHTML]="
+                            <td class="cursor-pointer" [innerHTML]="
                                     truncateString(transaction?.message, 20)
-                                "
-                                (click)="showDialog(transaction)"
-                                pTooltip="cliquer pour voir"
-                                tooltipPosition="top"
-                            ></td>
+                                " (click)="showDialog(transaction)" pTooltip="cliquer pour voir" tooltipPosition="top">
+                            </td>
                             <td class="text-center">
-                                <span
-                                    [ngStyle]="{ 'font-size': '16px' }"
-                                    class="badge"
-                                    [class.badge-dark]="
+                                <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-dark]="
                                         transaction?.statut === stateSoumis
-                                    "
-                                    [class.badge-info]="
+                                    " [class.badge-info]="
                                         transaction?.statut === stateTraite
-                                    "
-                                    [class.badge-success]="
+                                    " [class.badge-success]="
                                         transaction?.statut === stateCloture
-                                    "
-                                >
+                                    ">
                                     {{ transaction.statut }}
                                 </span>
                             </td>
                             <td class="text-center">
-                                <span
-                                    [ngStyle]="{ 'font-size': '16px' }"
-                                    class="badge"
-                                    [class.badge-dark]="
+                                <span [ngStyle]="{ 'font-size': '16px' }" class="badge" [class.badge-dark]="
                                         transaction?.traitement ===
                                             treatmenEntente ||
                                         transaction?.traitement ===
                                             treatmenAcquiter
-                                    "
-                                    [class.badge-danger]="
+                                    " [class.badge-danger]="
                                         transaction?.traitement ===
                                             treatmenRejeter ||
                                         transaction?.traitement ===
                                             treatmenRefuser
-                                    "
-                                    [class.badge-warning]="
+                                    " [class.badge-warning]="
                                         transaction?.traitement ===
                                         treatmenCancel
-                                    "
-                                    [class.badge-info]="
+                                    " [class.badge-info]="
                                         transaction?.traitement ===
                                         treatmenAccepter
-                                    "
-                                    [class.badge-success]="
+                                    " [class.badge-success]="
                                         transaction?.statut === stateCloture &&
                                         transaction?.traitement ===
                                             treatmenAccepter
-                                    "
-                                >
+                                    ">
                                     {{ transaction?.traitement }}
                                 </span>
                             </td>
                             <td>{{ transaction?.current_date }}</td>
                             <td class="text-center">
-                                <span
-                                    >{{ transaction?.demandeur_nom }}
-                                    {{ transaction?.demandeur_prenoms }}</span
-                                >
+                                <span>{{ transaction?.demandeur_nom }}
+                                    {{ transaction?.demandeur_prenoms }}</span>
                             </td>
                             <td class="td-actions">
-                                <button
-                                    pButton
-                                    pRipple
-                                    icon="pi pi-eye"
-                                    class="p-button-dark"
-                                    pTooltip="Voir"
-                                    tooltipPosition="top"
-                                    (click)="OnShowTraitement(transaction)"
-                                ></button>
+                                <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir"
+                                    tooltipPosition="top" (click)="OnShowTraitement(transaction)"></button>
                                 <!-- <button
                                     pButton
                                     pRipple
@@ -389,24 +271,14 @@
                                             : 'Prendre'
                                     "
                                 ></button> -->
-                                <button
-                                    pButton
-                                    icon="pi pi-book"
-                                    pTooltip="Journal"
-                                    tooltipPosition="top"
-                                    (click)="showJournal(transaction)"
-                                    class="p-button-primary"
-                                ></button>
+                                <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top"
+                                    (click)="showJournal(transaction)" class="p-button-primary"></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div [ngClass]="['pagination-controls']">
-                    <pagination-controls
-                        (pageChange)="onPageChange($event)"
-                        previousLabel=""
-                        nextLabel=""
-                    >
+                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
                     </pagination-controls>
                 </div>
             </div>
@@ -414,9 +286,6 @@
     </div>
 </div>
 <div class="progress-spinner" *ngIf="IsLoading">
-    <p-progressSpinner
-        [style]="{ width: '70px', height: '70px' }"
-        strokeWidth="5"
-        styleClass="spinner"
-    ></p-progressSpinner>
+    <p-progressSpinner [style]="{ width: '70px', height: '70px' }" strokeWidth="5"
+        styleClass="spinner"></p-progressSpinner>
 </div>
