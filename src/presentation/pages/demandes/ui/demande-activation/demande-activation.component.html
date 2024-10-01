@@ -10,7 +10,7 @@
                     <div *ngIf="initialView">
                         <app-demande-wrapper
                             [selectedOperation]="currentOperation"
-                            [wrapperLabel]="'demandes Abonnement'"
+                            [wrapperLabel]="'demandes Abonnements mobile'"
                             (formsView)="pushStatutView($event)"
                             (currentObject)="pushCurrentObject($event)"
                             (transactionId)="pushTransactionId($event)"
@@ -22,7 +22,7 @@
                         <app-demande-wrapper-show
                             [transactionId]="transactionId"
                             [selectedOperation]="currentOperation"
-                            [wrapperLabel]="'Demandes Abonnement'"
+                            [wrapperLabel]="'Demandes Abonnement mobile'"
                             (showView)="pushStatutShowView($event)"
                         ></app-demande-wrapper-show>
                     </div>

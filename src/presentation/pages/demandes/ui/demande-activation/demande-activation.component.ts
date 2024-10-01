@@ -65,6 +65,7 @@ export class DemandeActivationComponent implements OnInit {
   }
   public pushTransactionId(event: string): void { 
     if (event) {      
+      console.log("i see the event ", event); 
       this.transactionId = event;
       this.showView = true;
       this.initialView = false;

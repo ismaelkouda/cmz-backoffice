@@ -90,7 +90,16 @@ export class DemandeMasseComponent implements OnInit {
         this.IsRecuPaiement();
     }
 
-    //
+
+    
+    public truncateString(str: string, maxLength: number = 20): string {
+        if (str && str.length > maxLength) {
+          return str.substring(0, maxLength) + '...';
+        }
+        return str || '';
+      }
+    
+
 
     public initFormTraitementMasse(): void {
         this.formTraitementMasse = this.fb.group({
@@ -98,7 +107,7 @@ export class DemandeMasseComponent implements OnInit {
             niveau_deux_uuid: this.createFormControl(this.listDemandes?.niveau_deux_nom, null, true),
             niveau_trois_uuid: this.createFormControl(this.listDemandes?.niveau_trois_nom, null, true),
             numero_demande: [this.listDemandes?.numero_demande],
-            formule_uuid: this.createFormControl(this.listDemandes?.formule, Validators.required, true),
+            formule_uuid: this.createFormControl(this.truncateString(this.listDemandes?.formule), Validators.required, true),
             usage_id: this.createFormControl(this.listDemandes?.usage_nom, null, true),
             nb_demande_soumises: this.createFormControl(this.listDemandes?.nb_demande_soumises, null, true),
             montant_formule: this.createFormControl(this.listDemandes?.montant_formule, null, true),
@@ -107,18 +116,23 @@ export class DemandeMasseComponent implements OnInit {
             accepte: this.createFormControl(null, this.params.vue === 'traitement' ? Validators.required : null),
             commentaire: [this.commentairePatchValue()],
             sims_file: this.createFormControl(null, this.params.vue === 'demande' ? Validators.required : null),
-            commentaire_traitement: this.createFormControl(this.listDemandes?.commentaire_traitement, null, true),
+            commentaire_traitement: this.createFormControl(this.getNonNullValue(this.listDemandes?.commentaire_traitement), null, true), 
             commentaire_finalisation: this.createFormControl(this.listDemandes?.commentaire_finalisation, null, true),
             commentaire_cloture: this.createFormControl(this.listDemandes?.commentaire_cloture, null, true),
         });
-
+    
         if (this.isTraiteState()) {
             this.updateFormForTraiteState();
         }
-
-
+    
         this.formTraitementMasse.get('accepte')?.valueChanges.subscribe(this.handleAccepteChange.bind(this));
     }
+    
+    // Nouvelle méthode pour gérer les valeurs null ou 'null'
+    private getNonNullValue(value: any): string {
+        return value === 'null' || value === null || value === undefined ? '' : value;
+    }
+    
 
     private commentairePatchValue(): string | null {
         switch (this.params.action) {

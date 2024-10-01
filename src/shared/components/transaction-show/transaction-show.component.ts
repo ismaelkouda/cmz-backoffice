@@ -183,6 +183,12 @@ export class TransactionShowComponent implements OnInit {
       })
   }
 
+  public truncateText(text: string, length: number): string {
+    if (!text) return '';
+    return text.length > length ? text.substring(0, length) + '...' : text;
+}
+
+
   copyData(data: any): void {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);

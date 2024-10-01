@@ -8,10 +8,10 @@
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
-                        <div style="margin-top: -2rem !important">
+                        <div style="margin-top: -1rem !important; margin-bottom: 1.5rem !important;">
                             <app-patrimoine-header
                                 [count]="listTransactions"
-                                [legende]="'demande'"
+                                [legende]="'dossiers en attente de clôture'"
                                 [total]="totalRecords"
                             ></app-patrimoine-header>
                         </div>
