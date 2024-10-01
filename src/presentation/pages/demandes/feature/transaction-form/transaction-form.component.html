@@ -880,7 +880,7 @@
                     style="float: right; margin-top: 1rem"
                     label="Soumettre"
                     class="p-button-success"
-                    [disabled]="!selectedPiece"
+                    [disabled]="adminForm.valid ||!selectedPiece"
                     (click)="handleSaveNewTransaction()"
                 ></button>
             </div>
@@ -1079,7 +1079,7 @@
                             <div class="form-group">
                                 <label>
                                     <b
-                                        >Justificatif
+                                        >Courrier ou Justificatif
                                         <span class="text-danger">*</span></b
                                     >
                                 </label>
@@ -1141,7 +1141,7 @@
                                             class="form-check-label"
                                             for="immédiat"
                                             style="width: auto !important"
-                                            >Immediat</label
+                                            >immédiat</label
                                         >
                                     </div>
                                 </div>
@@ -1174,7 +1174,7 @@
                                 <input
                                     *ngIf="
                                         adminForm.get('type_paiement').value ===
-                                        'immediat'
+                                        'immédiat'
                                     "
                                     type="file"
                                     (change)="

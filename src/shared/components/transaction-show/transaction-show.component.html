@@ -1539,7 +1539,7 @@
                                         <fieldset *ngIf="
                                         bacPiocheActivation !==
                                         'patrimoine'
-                                    ">
+                                    " style="padding-bottom: 1.2rem;">
                                             <legend>
                                                 <b>Source Stock SIM</b>
                                             </legend>
@@ -1550,17 +1550,12 @@
                                                 "
                                             >
                                                 <div
-                                                    [style]="{ width: '15rem' }"
+                                                    [style]="{ width: '100%' }"
                                                 >
                                                     <div class="form-group">
                                                         <label for="" style="opacity: 0;">test</label>
                                                         <input
-                                                    [value]="
-                                                        bacPiocheActivation ===
-                                                        'stock'
-                                                            ? sourceStockTenantSim
-                                                            : sourceStockOrangeSim
-                                                    "
+                                                        [value]="truncateText(bacPiocheActivation === 'stock' ? sourceStockTenantSim : sourceStockOrangeSim, 50)"
                                                     type="text"
                                                     style="
                                                         font-size: 13.5px !important;
@@ -1568,6 +1563,8 @@
                                                     "
                                                     [disabled]="true"
                                                     pInputText
+                                                    pTooltip="{{ bacPiocheActivation === 'stock' ? sourceStockTenantSim : sourceStockOrangeSim }}"
+
                                                 />
                                                     </div>
                                                 </div>
