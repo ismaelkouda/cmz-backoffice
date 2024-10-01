@@ -171,7 +171,10 @@
                                                     data?.statut === statutActif
                                                 "
                                                 [class.badge-warning]="
-                                                    data?.statut === 'suspendu'
+                                                    data?.statut ===
+                                                        'suspendu' ||
+                                                    data?.statut ===
+                                                        'en-attente'
                                                 "
                                                 [class.badge-danger]="
                                                     data?.statut ===
