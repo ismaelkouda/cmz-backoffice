@@ -101,6 +101,8 @@ export class CarteSimActiveComponent implements OnInit {
 
   async pageCallback(dataToSend = {}, nbrPage: number = 1) {
     this.response = await handle(() => this.patrimoineService.GetAllPatrimoines(dataToSend, nbrPage), this.toastrService, this.loadingBar);
+    this.totalPage = this.response?.data?.last_page;
+    this.page = nbrPage;
     this.handleSuccessfulPageCallback(this.response);
   }
 
@@ -279,7 +281,7 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>Numéro SIM :</strong>" + "<span>" + this.currentComposant?.msisdn + "</span>" + "<br>" +
         "<strong>" + this.firstLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_uns_nom + "</span>" + "<br>" +
         "<strong>" + this.secondLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_deux_nom + "</span>" + "<br>" +
-        "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
+        //"<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
         "<strong>" + "Type d'emplacement :" + "</strong>" + "<span>" + `${this.currentComposant?.type_emplacement ?? ""}` + "</span>" + "<br>" +
         "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + `${this.currentComposant?.point_emplacement ?? ""}` + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + `${this.currentComposant?.statut ?? ""}` + "</span>" + "<br>" +
@@ -294,7 +296,7 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>Numéro SIM :</strong>" + "<span>" + this.currentComposant?.msisdn + "</span>" + "<br>" +
         "<strong>" + this.firstLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_uns_nom + "</span>" + "<br>" +
         "<strong>" + this.secondLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_deux_nom + "</span>" + "<br>" +
-        "<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
+        //"<strong>" + this.thirdLevelLibelle + " :</strong>" + "<span>" + this.currentComposant?.niveau_trois_nom + "</span>" + "<br>" +
         "<strong>" + "Type d'emplacement :" + "</strong>" + "<span>" + `${this.currentComposant?.type_emplacement ?? ""}` + "</span>" + "<br>" +
         "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + `${this.currentComposant?.point_emplacement ?? ""}` + "</span>" + "<br>" +
         "<strong>" + "Geoloc :" + "</strong>" + "<span>" + this.currentComposant?.adresse_geographique + "</span>" + "<br>" +

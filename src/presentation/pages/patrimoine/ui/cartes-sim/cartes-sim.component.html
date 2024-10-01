@@ -7,11 +7,12 @@
             ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
-                    <app-patrimoine-header
-                        [count]="listCartesSim"
-                        [legende]="'SIM'"
-                        [total]="this.pargination.total"
-                    ></app-patrimoine-header>
+                        <app-patrimoine-header
+                            [count]="listCartesSim"
+                            [legende]="'SIM'"
+                            [total]="this.pargination.total"
+                        ></app-patrimoine-header>
+                    
                     <app-carte-filter
                         (filter)="pageCallback($event)"
                         [firstLevelLibelle]="firstLevelLibelle"

@@ -5,9 +5,12 @@
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
-                        <div style="margin-top: -2rem !important">
-                            <app-patrimoine-header [count]="listPatrimoines" [legende]="'SIM'"
-                                [total]="pargination.total"></app-patrimoine-header>
+                        <div style="margin-top: -1rem !important; margin-bottom: 1.5rem !important;">
+                            <app-patrimoine-header
+                                [count]="listPatrimoines"
+                                [legende]="'cartes SIM'"
+                                [total]="pargination.total"
+                            ></app-patrimoine-header>
                         </div>
                         <app-carte-filter (filter)="filter($event)" [firstLevelLibelle]="firstLevelLibelle"
                             [secondLevelLibelle]="secondLevelLibelle"
