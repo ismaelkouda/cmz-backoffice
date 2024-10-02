@@ -61,7 +61,30 @@
                                 </div>
                             </div>
                             <hr />
-                            <p-table
+                            <div class="table_content_wrapper">
+                                <div class ="d-flex justify-content-between">
+                                    <div >
+                                        <button
+                                            pButton
+                                            pRipple
+                                            label="Rafraîchir"
+                                            (click)="OnRefresh()"
+                                            icon="pi pi-refresh"
+                                            class="p-button-secondary"
+                                        ></button>
+                                    </div>
+                                    <ng-container *ngIf="seuilCritique >= 1 ; else sup1">
+                                        <div class="danger-alert" role="alert">
+                                            <strong>Attention ! Vous avez {{seuilCritique}} {{ seuilCritique == 1 ? "SIM qui n'a pas été affectée à un profil" : "SIMs qui n'ont pas été affectées à un profil" }}</strong>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #sup1>
+                                        <div class="infos-alert" role="alert">
+                                            <strong>Tout va bien ! Toutes les SIM ont été affectées à des profils</strong>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                                <p-table
                                 #dt
                                 [value]="listProfils"
                                 [rows]="10"
@@ -73,16 +96,16 @@
                                 [globalFilterFields]="['nom', 'description']"
                                 [showCurrentPageReport]="true"
                             >
-                                <ng-template pTemplate="caption">
+                              <ng-template pTemplate="caption">
                                     <div class="table_header">
-                                        <div class="d-flex gap-3 mb-2">
+                                        <div >
                                             <app-table-header
                                                 [count]="listProfils"
                                                 [legende]="'Profils'"
                                                 [page]="page"
                                                 [totalPage]="totalPage"
                                             ></app-table-header>
-                                            <div class="pt-2">
+                                           <!-- <div class="pt-2">
                                                 <button
                                                     pButton
                                                     pRipple
@@ -91,7 +114,7 @@
                                                     icon="pi pi-refresh"
                                                     class="p-button-secondary"
                                                 ></button>
-                                            </div>
+                                            </div>-->
                                         </div>
                                         <div class="table_header__input">
                                             <span
@@ -112,7 +135,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                </ng-template>
+                                </ng-template> 
                                 <ng-template pTemplate="header">
                                     <tr>
                                         <th class="text-center">#</th>
@@ -278,6 +301,8 @@
                                     </tr>
                                 </ng-template>
                             </p-table>
+                            </div>
+                            
                         </div>
                     </div>
                     <app-forms-profil
