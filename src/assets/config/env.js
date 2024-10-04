@@ -11,14 +11,17 @@
  
     // DEV Config
     window.__env.dev = {
-        apiUrl: 'http://10.10.0.200:12200/api/v1/',
-        fileUrl: 'http://10.10.0.200:12200/',
+        //apiUrl: 'http://10.10.0.200:12200/api/v1/',
+        //fileUrl: 'http://10.10.0.200:12200/',
         //apiUrl: "http://10.10.0.30:8003/api/v1/",
         //fileUrl: "http://10.10.0.30:8003/", 
-        //apiUrl: "http://10.10.0.64:8001/api/v1/",
-        //fileUrl: "http://10.10.0.64:8001/",
-        // apiUrl: "https://osim-monitoring.orange.ci:12014/api/v1/",
-        // fileUrl: "https://osim-monitoring.orange.ci:12014/", 
+        apiUrl: "http://10.10.0.64:8001/api/v1/",
+        fileUrl: "http://10.10.0.64:8001/",
+        //apiUrl:"https://gs2e-osim.orange.ci:12300/api/v1/",
+        //fileUrl:"https://gs2e-osim.orange.ci:12300/",
+
+         //apiUrl: "https://osim-monitoring.orange.ci:12014/api/v1/",
+         //fileUrl: "https://osim-monitoring.orange.ci:12014/", 
         environmentDeployment: 'DEV',
         enableDebug: true
     };

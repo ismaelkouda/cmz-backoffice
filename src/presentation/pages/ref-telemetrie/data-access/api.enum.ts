@@ -4,6 +4,8 @@ export const enum EndPointUrl {
     SAVE_PROFIL_SUPERVISION = 'profil-supervision/profils/store',
     GET_METRIQUES_BY_PROFIL = 'profil-supervision/profils/{id}/metriques',
     GET_ALL_PROFILS_SUPERVISION = 'profil-supervision/profils/all',
+    GET_ALL_ALERT_PREVENTION = 'profil-supervision/profils/total-sim-sans-profil',
+
     ACTIVATE_PROFIL = 'profil-supervision/profils/{id}/activer',
     DISABLE_PROFIL = 'profil-supervision/profils/{id}/desactiver',
     GET_LIST_AFFECTATION_BY_SIM = 'profil-supervision/profils/sims?page={page}',

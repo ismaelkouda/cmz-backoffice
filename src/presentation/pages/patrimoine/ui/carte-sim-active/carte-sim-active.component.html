@@ -93,14 +93,20 @@
                                             </span>
                                         </td>
                                         <td class="td-actions">
-                                            <button pButton icon="pi pi-map-marker" [disabled]="
-                                                    data.statut === 'inactif' ||
-                                                    (!data.latitude &&
-                                                        !data.longitude)
-                                                " pTooltip="Localisation" tooltipPosition="top" (click)="
-                                                    showDialog('map', data)
-                                                " class="p-button-success"></button>
-                                            <button pButton icon="pi pi-qrcode" [pTooltip]="
+                                            <button
+                                                pButton
+                                                icon="pi pi-map-marker"
+                                                pTooltip="Localisation"
+                                                tooltipPosition="top"
+                                                (click)="showDialog('map', data)"
+                                                class="p-button-success"
+                                                [disabled]="!hasLocation(data)"
+                                            ></button>
+
+                                            <button
+                                                pButton
+                                                icon="pi pi-qrcode"
+                                                [pTooltip]="
                                                     data.qrcode ? 'Scaner' : ''
                                                 " tooltipPosition="top" (click)="OnShowQr(data)" [class]="
                                                     data.qrcode

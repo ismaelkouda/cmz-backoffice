@@ -124,8 +124,8 @@ export class PatrimoineFormsComponent implements OnInit {
       imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
       statut: [""],
       msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
-      date_id_reseau: [''],
-      apnni_reseau: [''],
+      date_trafic: [''],
+      apn: [''],
       site_reseau: [''],
       adresse_ip: [],
       exploitation:['']
@@ -146,14 +146,22 @@ export class PatrimoineFormsComponent implements OnInit {
   }
 
 
-getImageSrc(type: string): string {
-  if (this.tempImages[type]) {
+  getImageSrc(type: string): string {
+    if (this.tempImages[type]) {
       return this.tempImages[type];
-  } else if (this.imageURLs[type]) {
-      return this.fileurl + this.imageURLs[type];
+    } else if (this.imageURLs[type]) {
+      // Assurez-vous que "fileurl" et "imageURLs[type]" n'ont pas de répétitions de chemin
+      const fullImageUrl = this.imageURLs[type].startsWith('http') 
+        ? this.imageURLs[type] 
+        : this.fileurl + this.imageURLs[type];
+  
+      // Supprime les répétitions de chemin comme "patrimoinesim/patrimoinesim"
+      return fullImageUrl.replace(/(patrimoinesim\/)+/, 'patrimoinesim/');
+    }
+    return '';
   }
-  return '';
-}
+  
+  
 
 onUpload(event: any, type: string) {
   if (event.files && event.files.length > 0) {
@@ -292,8 +300,8 @@ onUpload(event: any, type: string) {
     this.adminForm.get('formule').patchValue(this.currentObject?.formule);
 
     //Trafic Controls
-    this.adminForm.get('date_id_reseau').patchValue(this.currentObject?.date_id_reseau);
-    this.adminForm.get('apnni_reseau').patchValue(this.currentObject?.apn);
+    this.adminForm.get('date_trafic').patchValue(this.currentObject?.date_localisation);
+    this.adminForm.get('apn').patchValue(this.currentObject?.apn);
     this.adminForm.get('site_reseau').patchValue(this.currentObject?.site_reseau);
     this.adminForm.get('adresse_ip').patchValue(this.currentObject?.adresse_ip);
 
@@ -315,8 +323,8 @@ onUpload(event: any, type: string) {
     this.adminForm.get('imsi').disable();
     this.adminForm.get('msisdn').disable();
     this.adminForm.get('formule').disable();
-    this.adminForm.get('date_id_reseau').disable();
-    this.adminForm.get('apnni_reseau').disable();
+    this.adminForm.get('date_trafic').disable();
+    this.adminForm.get('apn').disable();
     this.adminForm.get('site_reseau').disable();
     this.adminForm.get('adresse_ip').disable();
     this.adminForm.get('point_emplacement').disable();
