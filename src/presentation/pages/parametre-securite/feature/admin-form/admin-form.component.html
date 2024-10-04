@@ -1,31 +1,32 @@
 <div>
-    <div class="forms-feature-header">
-        <div>
-            <h4>
-                <b *ngIf="currentObject === undefined">
-                    <span>Formulaire d'ajout Utilisateur</span>
-                </b>
-                <b *ngIf="currentObject !== undefined && !currentObject?.show">
-                    <span>Modification d'utilisateur</span>
-                    <span class="current_values"
-                        >[{{ currentObject?.nom }}
-                        {{ currentObject?.prenoms }}]</span
-                    >
-                </b>
-                <b *ngIf="currentObject?.show">
-                    <span>Visualisation d'utilisateur</span>
-                    <span class="current_values"
-                        >[{{ currentObject?.nom }}
-                        {{ currentObject?.prenoms }}]</span
-                    >
-                </b>
-            </h4>
-        </div>
-        <div
-            class="forms-feature-header__button"
-            [ngStyle]="{ display: 'flex', gap: '1rem' }"
-        >
-            <div *ngIf="!currentObject?.show">
+    <div
+        class="container_flex_space_between mb-3"
+        style="margin-top: -1rem !important"
+    >
+        <span class="table-header-wrapper">
+            <b *ngIf="currentObject === undefined">
+                Formulaire d'ajout Utilisateur
+            </b>
+            <b *ngIf="currentObject !== undefined && !currentObject?.show">
+                Modification d'utilisateur
+                <span class="current_values"
+                    >[{{ currentObject?.nom }}
+                    {{ currentObject?.prenoms }}]</span
+                >
+            </b>
+            <b *ngIf="currentObject?.show">
+                Visualisation d'utilisateur
+                <span class="current_values"
+                    >[{{ currentObject?.nom }}
+                    {{ currentObject?.prenoms }}]</span
+                >
+            </b>
+        </span>
+        <div class="table_actions_wrapper mt-0">
+            <div
+                *ngIf="!currentObject?.show"
+                class="table_actions_wrapper mt-0"
+            >
                 <p-button
                     label="Enregistrer"
                     [label]="
@@ -36,7 +37,7 @@
                     (click)="!currentObject ? handleSave() : handleUpdate()"
                 ></p-button>
             </div>
-            <div>
+            <div class="table_actions_wrapper mt-0">
                 <p-button
                     label="Fermer"
                     styleClass="p-button-danger"

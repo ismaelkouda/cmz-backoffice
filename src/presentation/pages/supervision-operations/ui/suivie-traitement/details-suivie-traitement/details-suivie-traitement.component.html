@@ -5,16 +5,20 @@
     ></app-breadcrumb>
     <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
         <div class="card-body">
-            <div class="forms-feature-header">
-                <div>
-                    <h4>
-                        <b>
-                            Details demande
-                            <span class="text-orange">{{ requestNumber }}</span>
-                        </b>
-                    </h4>
-                </div>
-                <div class="d-flex gap-3">
+            <div
+                class="container_flex_space_between mb-3"
+                style="margin-top: -1rem !important"
+            >
+                <span class="table-header-wrapper">
+                    <b
+                        ><span>Details demande</span>
+                        <span class="current_values"
+                            >[{{ requestNumber }}]</span
+                        >
+                    </b>
+                </span>
+
+                <div class="table_actions_wrapper mt-0">
                     <div>
                         <p-button
                             (click)="onCloseDetailsTreatment()"
