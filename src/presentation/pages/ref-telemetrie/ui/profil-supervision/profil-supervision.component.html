@@ -75,7 +75,7 @@
                                     </div>
                                     <ng-container *ngIf="seuilCritique >= 1 ; else sup1">
                                         <div class="danger-alert" role="alert">
-                                            <strong>Attention ! Vous avez {{seuilCritique}} {{ seuilCritique == 1 ? "SIM qui n'a pas été affectée à un profil" : "SIMs qui n'ont pas été affectées à un profil" }}</strong>
+                                            <strong>Attention !  {{seuilCritique}} {{ seuilCritique == 1 ? "SIM qui n'a pas été affectée " : "SIMs  n'ont  affectées" }}</strong>
                                         </div>
                                     </ng-container>
                                     <ng-template #sup1>

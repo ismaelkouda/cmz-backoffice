@@ -146,14 +146,22 @@ export class PatrimoineFormsComponent implements OnInit {
   }
 
 
-getImageSrc(type: string): string {
-  if (this.tempImages[type]) {
+  getImageSrc(type: string): string {
+    if (this.tempImages[type]) {
       return this.tempImages[type];
-  } else if (this.imageURLs[type]) {
-      return this.fileurl + this.imageURLs[type];
+    } else if (this.imageURLs[type]) {
+      // Assurez-vous que "fileurl" et "imageURLs[type]" n'ont pas de répétitions de chemin
+      const fullImageUrl = this.imageURLs[type].startsWith('http') 
+        ? this.imageURLs[type] 
+        : this.fileurl + this.imageURLs[type];
+  
+      // Supprime les répétitions de chemin comme "patrimoinesim/patrimoinesim"
+      return fullImageUrl.replace(/(patrimoinesim\/)+/, 'patrimoinesim/');
+    }
+    return '';
   }
-  return '';
-}
+  
+  
 
 onUpload(event: any, type: string) {
   if (event.files && event.files.length > 0) {
