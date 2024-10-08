@@ -43,6 +43,7 @@ export class SidebarComponent {
     this.data = this.mappingService.currentPermissions
    
     this.data = JSON.parse(this.storage.getData('current_menu') || null);
+    
     this.data?.unshift({
       title: "Tableau de bord",
       icon: "home",

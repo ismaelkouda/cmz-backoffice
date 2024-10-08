@@ -1,20 +1,34 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+            <app-breadcrumb
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
                         <div style="margin-top: -2rem !important">
-                            <app-patrimoine-header [count]="listPatrimoines" [legende]="'SIM'"
-                                [total]="pargination.total"></app-patrimoine-header>
+                            <app-patrimoine-header
+                                [count]="listPatrimoines"
+                                [legende]="'SIM'"
+                                [total]="pargination.total"
+                            ></app-patrimoine-header>
                         </div>
-                        <app-carte-filter (filter)="filter($event)" [firstLevelLibelle]="firstLevelLibelle"
+                        <app-carte-filter
+                            (filter)="filter($event)"
+                            [firstLevelLibelle]="firstLevelLibelle"
                             [secondLevelLibelle]="secondLevelLibelle"
-                            [thirdLevelLibelle]="thirdLevelLibelle"></app-carte-filter>
+                            [thirdLevelLibelle]="thirdLevelLibelle"
+                        ></app-carte-filter>
                         <hr />
-                        <p-table [ngClass]="['native_table table']" [value]="listPatrimoines" dataKey="id"
-                            selectionMode="single" [(selection)]="itemCatreSim" [globalFilterFields]="[
+                        <p-table
+                            [ngClass]="['native_table table']"
+                            [value]="listPatrimoines"
+                            dataKey="id"
+                            selectionMode="single"
+                            [(selection)]="itemCatreSim"
+                            [globalFilterFields]="[
                                 'niveau_uns_nom',
                                 'niveau_deux_nom',
                                 'apn',
@@ -25,21 +39,36 @@
                                 'imsi',
                                 'statut',
                                 'latitude'
-                            ]">
+                            ]"
+                        >
                             <ng-template pTemplate="caption">
-                                <div style="display: flex; justify-content: space-between" class="header-table mb-1">
-                                    <app-table-button-header (refresh)="pageCallback()" (export)="OnExportExcel()"
-                                        [hiddenButtonOther]="true">
+                                <div
+                                    style="
+                                        display: flex;
+                                        justify-content: space-between;
+                                    "
+                                    class="header-table mb-1"
+                                >
+                                    <app-table-button-header
+                                        (refresh)="pageCallback()"
+                                        (export)="OnExportExcel()"
+                                        [hiddenButtonOther]="true"
+                                    >
                                     </app-table-button-header>
                                     <div>
                                         <span class="p-input-icon-left">
                                             <i class="pi pi-search"></i>
-                                            <input pInputText type="text" (input)="
+                                            <input
+                                                pInputText
+                                                type="text"
+                                                (input)="
                                                     dt.filterGlobal(
                                                         $event.target.value,
                                                         'contains'
                                                     )
-                                                " placeholder="Recherche..." />
+                                                "
+                                                placeholder="Recherche..."
+                                            />
                                         </span>
                                     </div>
                                 </div>
@@ -58,12 +87,19 @@
                                     <th class="text-center">MSISDN</th>
                                     <th class="text-center">IMSI</th>
                                     <th>Statut</th>
-                                    <th class="text-center" [style]="{ width: '3rem' }">
+                                    <th
+                                        class="text-center"
+                                        [style]="{ width: '3rem' }"
+                                    >
                                         Actions
                                     </th>
                                 </tr>
                             </ng-template>
-                            <ng-template pTemplate="body" let-rowIndex="rowIndex" let-data>
+                            <ng-template
+                                pTemplate="body"
+                                let-rowIndex="rowIndex"
+                                let-data
+                            >
                                 <tr [pSelectableRow]="data">
                                     <td class="text-center">
                                         {{ rowIndex + pargination?.offset }}
@@ -76,123 +112,201 @@
                                     <td>{{ data?.adresse_ip }}</td>
                                     <td>{{ data?.niveau_trois_nom }}</td>
                                     <td>{{ data?.point_emplacement }}</td>
-                                    <td (click)="copyData(data.msisdn)" style="cursor: pointer" class="px-2">
+                                    <td
+                                        (click)="copyData(data.msisdn)"
+                                        style="cursor: pointer"
+                                        class="px-2"
+                                    >
                                         {{ data.msisdn }}
                                     </td>
-                                    <td (click)="copyData(data.imsi)" style="cursor: pointer" class="px-2">
+                                    <td
+                                        (click)="copyData(data.imsi)"
+                                        style="cursor: pointer"
+                                        class="px-2"
+                                    >
                                         {{ data?.imsi ? data?.imsi : 'N/A' }}
                                     </td>
                                     <td>
-                                        <span [ngStyle]="{
+                                        <span
+                                            [ngStyle]="{
                                                 'font-size': '16px'
-                                            }" class="badge" [ngClass]="{
+                                            }"
+                                            class="badge"
+                                            [ngClass]="{
                                                 'badge-success':
                                                     data.statut === 'actif',
                                                 'badge-dark':
                                                     data.statut === 'suspendu',
                                                 'badge-danger':
                                                     data.statut === 'resilié'
-                                            }">
+                                            }"
+                                        >
                                             {{ data.statut }}
                                         </span>
                                     </td>
                                     <td class="td-actions">
-                                        <button pButton icon="pi pi-map-marker" [disabled]="
+                                        <button
+                                            pButton
+                                            icon="pi pi-map-marker"
+                                            [disabled]="
                                                 data.statut === 'inactif' ||
                                                 (!data.latitude &&
                                                     !data.longitude)
-                                            " pTooltip="Localisation" tooltipPosition="top"
-                                            (click)="showDialog('map', data)" class="p-button-success"></button>
-                                        <button pButton icon="pi pi-qrcode" [pTooltip]="
+                                            "
+                                            pTooltip="Localisation"
+                                            tooltipPosition="top"
+                                            (click)="showDialog('map', data)"
+                                            class="p-button-success"
+                                        ></button>
+                                        <button
+                                            pButton
+                                            icon="pi pi-qrcode"
+                                            [pTooltip]="
                                                 data.qrcode ? 'Scaner' : ''
-                                            " tooltipPosition="top" (click)="OnShowQr(data)" [class]="
+                                            "
+                                            tooltipPosition="top"
+                                            (click)="OnShowQr(data)"
+                                            [class]="
                                                 data.qrcode
                                                     ? 'p-button-help'
                                                     : 'p-button-help p-button-outlined'
-                                            "></button>
-                                        <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir"
-                                            tooltipPosition="top" (click)="onShowForm(data)"></button>
-                                        <div ngbDropdown *ngIf="mappingService.IsAction()">
-                                            <button type="button" class="btn btn-dark btn-sm" ngbDropdownToggle>
+                                            "
+                                        ></button>
+                                        <button
+                                            pButton
+                                            pRipple
+                                            icon="pi pi-eye"
+                                            class="p-button-dark"
+                                            pTooltip="Voir"
+                                            tooltipPosition="top"
+                                            (click)="onShowForm(data)"
+                                        ></button>
+                                        <div
+                                            ngbDropdown
+                                            *ngIf="mappingService.IsAction()"
+                                        >
+                                            <button
+                                                type="button"
+                                                class="btn btn-dark btn-sm"
+                                                ngbDropdownToggle
+                                            >
                                                 Choisir
                                             </button>
                                             <div ngbDropdownMenu>
-                                                <button ngbDropdownItem (click)="onEditForm(data)">
+                                                <button
+                                                    ngbDropdownItem
+                                                    (click)="onEditForm(data)"
+                                                >
                                                     Modifier
                                                 </button>
-                                                <button hidden ngbDropdownItem (click)="
+                                                <button
+                                                    hidden
+                                                    ngbDropdownItem
+                                                    (click)="
                                                         onTransactionForm(
                                                             data,
                                                             swap
                                                         )
-                                                    " *ngIf="
+                                                    "
+                                                    *ngIf="
                                                         applicationType ===
                                                             patrimoineType &&
                                                         data.statut === 'actif'
-                                                    ">
+                                                    "
+                                                >
                                                     SIM Swap
                                                 </button>
-                                                <button hidden ngbDropdownItem (click)="
+                                                <button
+                                                    hidden
+                                                    ngbDropdownItem
+                                                    (click)="
                                                         onTransactionForm(
                                                             data,
                                                             resiliation
                                                         )
-                                                    " *ngIf="
+                                                    "
+                                                    *ngIf="
                                                         data.statut ===
                                                         'suspendu'
-                                                    ">
+                                                    "
+                                                >
                                                     Résilier
                                                 </button>
-                                                <button hidden ngbDropdownItem (click)="
+                                                <button
+                                                    hidden
+                                                    ngbDropdownItem
+                                                    (click)="
                                                         onTransactionForm(
                                                             data,
                                                             activation
                                                         )
-                                                    " *ngIf="
+                                                    "
+                                                    *ngIf="
                                                         data.statut ===
                                                         'suspendu'
-                                                    ">
+                                                    "
+                                                >
                                                     Réactiver
                                                 </button>
-                                                <button hidden ngbDropdownItem (click)="
+                                                <button
+                                                    hidden
+                                                    ngbDropdownItem
+                                                    (click)="
                                                         onTransactionForm(
                                                             data,
                                                             suspension
                                                         )
-                                                    " *ngIf="
+                                                    "
+                                                    *ngIf="
                                                         data.statut === 'actif'
-                                                    ">
+                                                    "
+                                                >
                                                     Suspendre
                                                 </button>
-                                                <button hidden ngbDropdownItem (click)="
+                                                <button
+                                                    hidden
+                                                    ngbDropdownItem
+                                                    (click)="
                                                         onTransactionForm(
                                                             data,
                                                             formule
                                                         )
-                                                    " *ngIf="
+                                                    "
+                                                    *ngIf="
                                                         data.statut === 'actif'
-                                                    ">
+                                                    "
+                                                >
                                                     Changer la formule
                                                 </button>
-                                                <button hidden ngbDropdownItem (click)="
+                                                <button
+                                                    hidden
+                                                    ngbDropdownItem
+                                                    (click)="
                                                         onTransactionForm(
                                                             data,
                                                             volume
                                                         )
-                                                    " *ngIf="
+                                                    "
+                                                    *ngIf="
                                                         applicationType ===
                                                             patrimoineType &&
                                                         data.statut === 'actif'
-                                                    ">
+                                                    "
+                                                >
                                                     Volume Data
                                                 </button>
-                                                <button hidden ngbDropdownItem (click)="
+                                                <button
+                                                    hidden
+                                                    ngbDropdownItem
+                                                    (click)="
                                                         onDotationForm(data)
-                                                    " *ngIf="
+                                                    "
+                                                    *ngIf="
                                                         applicationType ===
                                                             patrimoineType &&
                                                         data.statut === 'actif'
-                                                    ">
+                                                    "
+                                                >
                                                     Dotation
                                                 </button>
                                             </div>
@@ -201,23 +315,38 @@
                                 </tr>
                             </ng-template>
                         </p-table>
-                        <app-pargination [pargination]="pargination"
-                            (pageChange)="onPageChange($event)"></app-pargination>
+                        <app-pargination
+                            [pargination]="pargination"
+                            (pageChange)="onPageChange($event)"
+                        ></app-pargination>
                         <!-- <div [ngClass]="['pagination-controls']">
                 <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
                 </pagination-controls>
               </div> -->
                     </div>
-                    <app-patrimoine-forms [currentData]="currentData" *ngIf="formsView"
+                    <app-patrimoine-forms
+                        [currentData]="currentData"
+                        *ngIf="formsView"
                         (formsView)="pushStatutView($event)"
-                        (listPatrimoines)="pushListPatrimoines($event)"></app-patrimoine-forms>
+                        (listPatrimoines)="pushListPatrimoines($event)"
+                    ></app-patrimoine-forms>
                 </div>
             </div>
         </div>
     </div>
-    <p-dialog header="Vue géographique" [(visible)]="display" position="bottom-right" (onHide)="hideDialog('map')"
-        [style]="{ width: '100%' }" (onMaximize)="onDialogMaximized($event)" [modal]="true" [responsive]="true"
-        [maximizable]="true" [draggable]="false" [resizable]="false">
+    <p-dialog
+        header="Vue géographique"
+        [(visible)]="display"
+        position="bottom-right"
+        (onHide)="hideDialog('map')"
+        [style]="{ width: '100%' }"
+        (onMaximize)="onDialogMaximized($event)"
+        [modal]="true"
+        [responsive]="true"
+        [maximizable]="true"
+        [draggable]="false"
+        [resizable]="false"
+    >
         <ng-template pTemplate="content" class="mt-4">
             <div class="mt-4">
                 <div #parcelleMap></div>
@@ -228,28 +357,42 @@
         <div class="modal-header">
             <h4 class="modal-title" id="modal-basic-title">
                 {{
-                currentData?.type === 'suspendu'
-                ? 'suspension'
-                : 'resiliation'
+                    currentData?.type === 'suspendu'
+                        ? 'suspension'
+                        : 'resiliation'
                 }}
                 de la carte SIM
             </h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
+            <button
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+                (click)="hideForm()"
+            ></button>
         </div>
         <div class="modal-body" novalidate>
             <div class="form-group">
                 <label>
                     <b>MSNDN</b>
                 </label>
-                <input type="text" [ngStyle]="{ width: '100%' }" [placeholder]="currentData?.imsi" [disabled]="true"
-                    pInputText />
+                <input
+                    type="text"
+                    [ngStyle]="{ width: '100%' }"
+                    [placeholder]="currentData?.imsi"
+                    [disabled]="true"
+                    pInputText
+                />
             </div>
             <br />
             <div class="form-group">
                 <label>
                     <b>Description</b>
                 </label>
-                <textarea class="form-control" [(ngModel)]="selectedDescription" rows="2"></textarea>
+                <textarea
+                    class="form-control"
+                    [(ngModel)]="selectedDescription"
+                    rows="2"
+                ></textarea>
             </div>
         </div>
         <div class="modal-footer">
@@ -259,7 +402,12 @@
                 </button>
             </div>
             <div>
-                <button type="button" class="btn btn-save" [disabled]="!selectedDescription" (click)="OnChangeStatut()">
+                <button
+                    type="button"
+                    class="btn btn-save"
+                    [disabled]="!selectedDescription"
+                    (click)="OnChangeStatut()"
+                >
                     Valider
                 </button>
             </div>
