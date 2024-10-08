@@ -1,16 +1,17 @@
 <div>
     <span class="table-header-wrapper">
-        <b >
+        <b>
             Liste des&nbsp;<span style="color: #ff6600">{{ total }}</span
             >&nbsp;<span>{{ total <= 1 ? legende : legende + 's' }}</span
             >&nbsp;
-           <!-- <span>{{
+            <!-- <span>{{
                 count?.length <= 1 ? 'mise à jour au' : 'mises à jour au'
             }}</span
             &nbsp;
             <span style="text-decoration: underline">{{ currentDate }}</span>-->
-            <span *ngIf="showDate" style="text-decoration: underline">{{ currentDate }}</span>
-
+            <span *ngIf="showDate" style="text-decoration: underline">{{
+                currentDate
+            }}</span>
         </b>
         <!--<b *ngIf="count?.length === 0 || !count">
             Aucun résultat au

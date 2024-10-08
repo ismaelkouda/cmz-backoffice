@@ -1533,13 +1533,15 @@
                             [formGroup]="activationForm"
                         >
                             <div [style]="{ marginTop: '-2rem' }">
-                                <div class="row" >
-
+                                <div class="row">
                                     <div class="col-md-3">
-                                        <fieldset *ngIf="
-                                        bacPiocheActivation !==
-                                        'patrimoine'
-                                    " style="padding-bottom: 1.2rem;">
+                                        <fieldset
+                                            *ngIf="
+                                                bacPiocheActivation !==
+                                                'patrimoine'
+                                            "
+                                            style="padding-bottom: 1.2rem"
+                                        >
                                             <legend>
                                                 <b>Source Stock SIM</b>
                                             </legend>
@@ -1553,27 +1555,41 @@
                                                     [style]="{ width: '100%' }"
                                                 >
                                                     <div class="form-group">
-                                                        <label for="" style="opacity: 0;">test</label>
+                                                        <label
+                                                            for=""
+                                                            style="opacity: 0"
+                                                            >test</label
+                                                        >
                                                         <input
-                                                        [value]="truncateText(bacPiocheActivation === 'stock' ? sourceStockTenantSim : sourceStockOrangeSim, 50)"
-                                                    type="text"
-                                                    style="
-                                                        font-size: 13.5px !important;
-                                                        font-weight: bold !important;
-                                                    "
-                                                    [disabled]="true"
-                                                    pInputText
-                                                    pTooltip="{{ bacPiocheActivation === 'stock' ? sourceStockTenantSim : sourceStockOrangeSim }}"
-
-                                                />
+                                                            [value]="
+                                                                truncateText(
+                                                                    bacPiocheActivation ===
+                                                                        'stock'
+                                                                        ? sourceStockTenantSim
+                                                                        : sourceStockOrangeSim,
+                                                                    50
+                                                                )
+                                                            "
+                                                            type="text"
+                                                            style="
+                                                                font-size: 13.5px !important;
+                                                                font-weight: bold !important;
+                                                            "
+                                                            [disabled]="true"
+                                                            pInputText
+                                                            pTooltip="{{
+                                                                bacPiocheActivation ===
+                                                                'stock'
+                                                                    ? sourceStockTenantSim
+                                                                    : sourceStockOrangeSim
+                                                            }}"
+                                                        />
                                                     </div>
                                                 </div>
-                                                
-                                                
                                             </div>
                                         </fieldset>
                                     </div>
-                                    
+
                                     <div class="col-md-9">
                                         <fieldset>
                                             <legend>
@@ -1585,10 +1601,7 @@
                                                     padding-top: 1.4rem !important;
                                                 "
                                             >
-                                                <div
-                                                    
-                                                    class="col-md-4"
-                                                >
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>
                                                             <b>IMSI</b>
@@ -1600,9 +1613,7 @@
                                                         />
                                                     </div>
                                                 </div>
-                                                <div
-                                                    class="col-md-4"
-                                                >
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>
                                                             <b>MSISDN</b>
