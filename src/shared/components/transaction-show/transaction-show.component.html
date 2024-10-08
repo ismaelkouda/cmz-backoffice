@@ -1533,58 +1533,15 @@
                             [formGroup]="activationForm"
                         >
                             <div [style]="{ marginTop: '-2rem' }">
-                                <div class="d-flex gap-2 width-100">
-                                    <div>
-                                        <fieldset
-                                            *ngIf="
-                                                bacPiocheActivation !==
-                                                'patrimoine'
-                                            "
-                                        >
+                                <div class="row" >
+
+                                    <div class="col-md-3">
+                                        <fieldset *ngIf="
+                                        bacPiocheActivation !==
+                                        'patrimoine'
+                                    " style="padding-bottom: 1.2rem;">
                                             <legend>
                                                 <b>Source Stock SIM</b>
-                                            </legend>
-                                            <!-- <div class="d-flex gap-4">
-                                                <div>
-                                                    <div class="d-flex gap-4">
-                                                        <div class="trans-radio d-flex gap-3">
-                                                            <p-radioButton name="valeur" value="true"
-                                                                formControlName="bac_a_pioche" [inputId]="
-                                                                    'orangeci'
-                                                                "></p-radioButton>
-                                                            <label [for]="
-                                                                    'orangeci'
-                                                                " style="
-                                                                    margin-top: 0.9rem;
-                                                                ">Stock
-                                                                SIM/OCI</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
-                                            <div class="text-wrapper mt-2">
-                                                <input
-                                                    [value]="
-                                                        bacPiocheActivation ===
-                                                        'stock'
-                                                            ? sourceStockTenantSim
-                                                            : sourceStockOrangeSim
-                                                    "
-                                                    type="text"
-                                                    style="
-                                                        font-size: 13.5px !important;
-                                                        font-weight: bold !important;
-                                                    "
-                                                    [disabled]="true"
-                                                    pInputText
-                                                />
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                    <div class="width-100">
-                                        <fieldset>
-                                            <legend>
-                                                <b>Informations SIM</b>
                                             </legend>
                                             <div
                                                 class="d-flex gap-2"
@@ -1593,7 +1550,44 @@
                                                 "
                                             >
                                                 <div
-                                                    [style]="{ width: '15rem' }"
+                                                    [style]="{ width: '100%' }"
+                                                >
+                                                    <div class="form-group">
+                                                        <label for="" style="opacity: 0;">test</label>
+                                                        <input
+                                                        [value]="truncateText(bacPiocheActivation === 'stock' ? sourceStockTenantSim : sourceStockOrangeSim, 50)"
+                                                    type="text"
+                                                    style="
+                                                        font-size: 13.5px !important;
+                                                        font-weight: bold !important;
+                                                    "
+                                                    [disabled]="true"
+                                                    pInputText
+                                                    pTooltip="{{ bacPiocheActivation === 'stock' ? sourceStockTenantSim : sourceStockOrangeSim }}"
+
+                                                />
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    
+                                    <div class="col-md-9">
+                                        <fieldset>
+                                            <legend>
+                                                <b>Informations SIM</b>
+                                            </legend>
+                                            <div
+                                                class="row"
+                                                style="
+                                                    padding-top: 1.4rem !important;
+                                                "
+                                            >
+                                                <div
+                                                    
+                                                    class="col-md-4"
                                                 >
                                                     <div class="form-group">
                                                         <label>
@@ -1607,7 +1601,7 @@
                                                     </div>
                                                 </div>
                                                 <div
-                                                    [style]="{ width: '12rem' }"
+                                                    class="col-md-4"
                                                 >
                                                     <div class="form-group">
                                                         <label>
@@ -1620,7 +1614,7 @@
                                                         />
                                                     </div>
                                                 </div>
-                                                <div>
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>
                                                             <b>Formule</b>
@@ -1753,8 +1747,8 @@
                                     </div>
                                 </div>
                                 <br />
-                                <div class="d-flex gap-2 no-wrap">
-                                    <div>
+                                <div class="row">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>
                                                 <b>Emplacement</b>
@@ -1766,7 +1760,7 @@
                                             />
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>
                                                 <b>Adresse mail</b>
@@ -1778,7 +1772,7 @@
                                             />
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>
                                                 <b>Adresse géographique</b>
@@ -1790,7 +1784,7 @@
                                             />
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>
                                                 <b>Latitude</b>
@@ -1802,7 +1796,9 @@
                                             />
                                         </div>
                                     </div>
-                                    <div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>
                                                 <b>Longitude</b>

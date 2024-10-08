@@ -14,6 +14,10 @@ export class SeuilAlarmesComponent implements OnInit {
   public listTelemetries: Array<any> = [];
   public clonedMetrique: { [s: string]: any } = {};
   public currentMetrique: any;
+  public page: number = 0;
+  public totalPage: 0;
+  public totalRecords: 0;
+  public recordsPerPage: 0;
   public globalMetriquesEditRow: Array<any> = [];
   public currentTabsIndex: number = 0;
   public title = 'Seuil alarmes - Système de Gestion de Collecte Centralisée';
@@ -36,6 +40,11 @@ export class SeuilAlarmesComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listTelemetries = response['data'];
+          console.log("indicateur data", response.data);
+          this.totalPage = response.data.last_page;
+          this.totalRecords = response.data.total;
+          this.recordsPerPage = response.data.per_page;
+          this.page = response.data?.current_page;
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

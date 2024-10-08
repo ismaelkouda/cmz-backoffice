@@ -33,6 +33,11 @@ export class TelemetrieService {
     const url: string = (<string>EndPointUrl.GET_ALL_PROFILS_SUPERVISION);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+
+  GetAllPrevention(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_ALL_ALERT_PREVENTION);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   handleActivateProfil(data): Observable<any> {
     const url: string = (<string>EndPointUrl.ACTIVATE_PROFIL).replace('{id}', data)
     return this.http.put(`${this.baseUrl}${url}`, {});

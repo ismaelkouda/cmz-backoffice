@@ -9,6 +9,7 @@ import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 export class StatutDemandeComponent implements OnInit {
 
   @Input() statut: any = 'actif';
+
   @Input() badge: any = '';
   public stateSoumis: string = StatutTransaction.SOUMIS;
   public stateTraite: string = 'en-traitement';

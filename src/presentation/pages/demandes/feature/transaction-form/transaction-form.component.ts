@@ -236,22 +236,22 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     public initFormSimple(): void {
         this.adminForm = this.fb.group({
             operation: this.activation,
-            niveau_un_uuid: [this.currentObject ? this.currentObject.niveau_un_uuid : '', [Validators.required]],
-            niveau_deux_uuid: [this.currentObject ? this.currentObject.niveau_deux_uuid : '', [Validators.required]],
-            niveau_trois_uuid: [this.currentObject ? this.currentObject.niveau_trois_uuid : '', [Validators.required]],
-            usage_id: [this.currentObject ? this.currentObject.usage_id : '', [Validators.required]],
-            nb_demandes: [this.currentObject ? this.currentObject.nb_demandes : '', [Validators.required]],
-            point_emplacement: [this.currentObject ? this.currentObject.point_emplacement : '', [Validators.required]],
-            adresse_geographique: [this.currentObject ? this.currentObject.adresse_geographique : '', [Validators.required],],
-            longitude: [this.currentObject ? this.currentObject.longitude : ''],
-            latitude: [this.currentObject ? this.currentObject.latitude : ''],
+            niveau_un_uuid: [this.currentObject?.niveau_un_uuid || '', [Validators.required]],
+            niveau_deux_uuid: [this.currentObject?.niveau_deux_uuid || '', [Validators.required]],
+            niveau_trois_uuid: [this.currentObject?.niveau_trois_uuid || '', [Validators.required]],
+            usage_id: [this.currentObject?.usage_id || '', [Validators.required]],
+            nb_demandes: [this.currentObject?.nb_demandes || '', [Validators.required]],
+            point_emplacement: [this.currentObject?.point_emplacement || '', [Validators.required]],
+            adresse_geographique: [this.currentObject?.adresse_geographique || '', [Validators.required]],
+            longitude: [this.currentObject?.longitude || ''],
+            latitude: [this.currentObject?.latitude || ''],
             adresse_email: [null, Validators.email],
-            imsi: [null ,Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)],
+            imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
             statut: [''],
             statut_contrat: [''],
-            formule_uuid: [this.currentObject ? this.currentObject.formule_uuid : '', [Validators.required]],
-            description: [this.currentObject ? this.currentObject.description : '', [Validators.required]],
-            msisdn: [null, Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)],
+            formule_uuid: [this.currentObject?.formule_uuid || '', [Validators.required]],
+            description: [this.currentObject?.description || '', [Validators.required]],
+            msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
             code_pin: [''],
             username: [''],
             site: [''],
@@ -261,30 +261,35 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             recu_paiement: [null],
             justificatif: [null, Validators.required]
         });
+    
         const typePaiementControl = this.adminForm.get("type_paiement");
         const recuPaiementControl = this.adminForm.get("recu_paiement");
         const msisdnControl = this.adminForm.get("msisdn");
         const imsiControl = this.adminForm.get("imsi");
+    
         typePaiementControl.valueChanges.subscribe((value) => {
             if (value === "immédiat") {
                 recuPaiementControl.setValidators([Validators.required]);
             } else {
                 recuPaiementControl.clearValidators();
-                recuPaiementControl.reset();
+                recuPaiementControl.reset(); 
             }
-            recuPaiementControl.updateValueAndValidity();
+            recuPaiementControl.updateValueAndValidity(); 
         });
+    
         msisdnControl.valueChanges.subscribe((value) => {
-          if (value && value.length > 10) {
-            msisdnControl.setValue(value.slice(0, 10), { emitEvent: false });
-          }
+            if (value && value.length > 10) {
+                msisdnControl.setValue(value.slice(0, 10), { emitEvent: false });
+            }
         });
+    
         imsiControl.valueChanges.subscribe((value) => {
-          if (value && value.length > 15) {
-            imsiControl.setValue(value.slice(0, 15), { emitEvent: false });
-          }
+            if (value && value.length > 15) {
+                imsiControl.setValue(value.slice(0, 15), { emitEvent: false });
+            }
         });
     }
+    
 
     get statut_contrat() {
         return this.adminForm.get('statut').value;
@@ -476,13 +481,26 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         this.selectedVolume = null;
         this.selectedDescription = null;
     }
-    public onChangeFile(file: FileList, type: "justificatif"|"recu-paiement") {
-        switch (type) {
-            case "justificatif" : this.adminForm.patchValue({justificatif : file.item(0)}); break;
-        
-            case "recu-paiement" : this.adminForm.patchValue({recu_paiement : file.item(0)}) ; break;
+    public onChangeFile(file: FileList, type: "justificatif" | "recu-paiement") {
+        const selectedFile = file.item(0);
+        if (selectedFile) {
+            // Mettez à jour le selectedPiece pour que le bouton soit activé
+            this.selectedPiece = selectedFile; 
+    
+            switch (type) {
+                case "justificatif":
+                    this.adminForm.patchValue({ justificatif: selectedFile });
+                    break;
+                case "recu-paiement":
+                    this.adminForm.patchValue({ recu_paiement: selectedFile });
+                    break;
+            }
+            this.adminForm.get(type === "justificatif" ? "justificatif" : "recu_paiement").updateValueAndValidity();
+        } else {
+            this.selectedPiece = null; // Réinitialiser selectedPiece si aucun fichier n'est sélectionné
         }
     }
+    
     public handleSaveNewTransaction() {
         let baseUrl;
         let data;

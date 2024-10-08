@@ -8,12 +8,13 @@
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
-                        <div style="margin-top: -2rem !important">
+                        <div style="margin-top: -1rem !important; margin-bottom: 1.5rem !important;">
                             <app-patrimoine-header
-                                [count]="listEtats"
-                                [legende]="'solde'"
-                                [total]="total"
-                            ></app-patrimoine-header>
+                                 [count]="listEtats" 
+                                 [legende]="'cartes SIM avec leurs solde'"
+                                 [showDate]="true"
+                                [total]="total">
+                            </app-patrimoine-header>
                         </div>
                         <div [formGroup]="formFilter">
                             <div class="d-flex gap-1">
@@ -270,26 +271,15 @@
 
                         <hr />
                         <div class="table_actions_wrapper">
-                            <app-table-button-header
-                                (refresh)="GetAllEtats()"
-                                (export)="OnExportExcel()"
-                                [hiddenButtonOther]="true"
-                            >
+                            <app-table-button-header (refresh)="GetAllEtats()" (export)="OnExportExcel()"
+                                [hiddenButtonOther]="true" >
                             </app-table-button-header>
                         </div>
                         <div class="table_content_wrapper">
                             <div class="d-flex gap-2">
-                                <app-table-header
-                                    [count]="listEtats"
-                                    [legende]="'SIM'"
-                                    [page]="page"
-                                    [totalPage]="totalPage"
-                                ></app-table-header>
-                                <div
-                                    class="d-flex"
-                                    style="margin-top: 1.1rem"
-                                    *ngIf="listEtats?.length"
-                                >
+                                <app-table-header [count]="listEtats"  [page]="page"
+                                    [totalPage]="totalPage"></app-table-header>
+                                <div class="d-flex" style="margin-top: 1.1rem" *ngIf="listEtats?.length">
                                     <div class="table-header-wrapper me-2">
                                         en Alarme
                                     </div>

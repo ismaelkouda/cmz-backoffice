@@ -25,6 +25,7 @@ export class DownloadComponent implements OnInit {
   public listFiles: Array<any> = [];
   public totalPage: 0;
   public totalRecords: 0;
+  public total: number = 0;
   public recordsPerPage: 0;
   public offset: any;
   public p: number = 1;
@@ -49,12 +50,15 @@ export class DownloadComponent implements OnInit {
 
   async pageCallback(nbrPage: number = 1) {
     this.response = await handle(() => this.patrimoineService.GetAllDownlaod(nbrPage), this.toastrService, this.loadingBar);
+    this.totalPage = this.response?.data?.last_page;
+    this.page = nbrPage;
+    this.total = this.response?.data?.total;
     this.handleSuccessfulPageCallback(this.response);
   }
 
   private handleSuccessfulPageCallback(response): void {
     this.listFiles = response.data.data;
-    this.pargination = new Pargination(response?.data?.p, response?.data?.to, response?.data?.last_page, response?.data?.total, response?.data?.per_page, response?.data?.current_page, (response?.data?.current_page - 1) * this.pargination?.per_page + 1);
+    this.pargination = new Pargination(response?.data?.p, response?.data?.to, response?.data?.last_page, response?.total, response?.data?.per_page, response?.data?.current_page, (response?.data?.current_page - 1) * this.pargination?.per_page + 1);
   }
 
   public onPageChange(event: number) {

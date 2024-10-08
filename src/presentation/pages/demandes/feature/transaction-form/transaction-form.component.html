@@ -87,7 +87,7 @@
         <!------------------------------ACTIVATION--------FORMS-------------------------------->
         <div
             class="activation-forms"
-            *ngIf="selectedActionValue === activation"
+            *ngIf="this.router.url === '/demandes/activation'"
         >
             <fieldset style="margin-top: 2.5rem" *ngIf="!historie">
                 <legend [ngStyle]="{ width: '100%' }">
@@ -380,9 +380,12 @@
                     </div>
                 </fieldset>
                 <!------------------INFOS---------TRANSACTION----------------->
-                <fieldset style="margin-top: 2.5rem">
+                <fieldset
+                    style="margin-top: 2.5rem"
+                    *ngIf="selectedActionValue"
+                >
                     <legend [ngStyle]="{ width: '100%' }">
-                        <b>Détails de la Demande</b>
+                        <b>Demandes</b>
                     </legend>
                     <div class="row">
                         <div class="col-md-4">
@@ -412,22 +415,7 @@
                             <div class="form-group">
                                 <label>
                                     <b
-                                        >Description
-                                        <span class="text-danger">*</span></b
-                                    >
-                                </label>
-                                <input
-                                    type="text"
-                                    formControlName="description"
-                                    pInputText
-                                />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>
-                                    <b
-                                        >Justificatif
+                                        >Courrier ou Justificatif
                                         <span class="text-danger">*</span></b
                                     >
                                 </label>
@@ -449,8 +437,117 @@
                                 />
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="d-flex">
+                                <div>
+                                    <b
+                                    style="color: black;"
+                                        >Type de paiement
+                                        <span class="text-danger">*</span></b
+                                    >
+                                </div>
+                                <span>&nbsp;:&nbsp;</span>
+                                <div class="wrapper-check">
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="demande"
+                                            value="différé"
+                                            id="différé"
+                                            formControlName="type_paiement"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="différé"
+                                            style="width: auto !important"
+                                            >Différé</label
+                                        >
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="demande"
+                                            value="immédiat"
+                                            id="immédiat"
+                                            formControlName="type_paiement"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="immédiat"
+                                            style="width: auto !important"
+                                            >immédiat</label
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                style="
+                                    padding: 0.6rem;
+                                    border: 1px solid #000;
+                                    border-radius: 0.3rem;
+                                    color: #000;
+                                "
+                            >
+                                <span
+                                    class="payment-info"
+                                    *ngIf="
+                                        adminForm.get('type_paiement').value ===
+                                        null
+                                    "
+                                >
+                                    <span>N/A</span>
+                                </span>
+                                <span
+                                    *ngIf="
+                                        adminForm.get('type_paiement').value ===
+                                        'différé'
+                                    "
+                                    >Le paiement sera rattaché à la
+                                    facture</span
+                                >
+                                <input
+                                    *ngIf="
+                                        adminForm.get('type_paiement').value ===
+                                        'immédiat'
+                                    "
+                                    type="file"
+                                    (change)="
+                                        onChangeFile(
+                                            $event.target.files,
+                                            'recu-paiement'
+                                        )
+                                    "
+                                    accept="image/png,image/jpeg"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </fieldset>
+                <fieldset style="margin-top: 2.5rem">
+                    <legend [ngStyle]="{ width: '100%' }">
+                        <b>Détails de la Demande</b>
+                    </legend>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>
+                                    <b
+                                        >Description
+                                        <span class="text-danger">*</span></b
+                                    >
+                                </label>
+                                <input
+                                    type="text"
+                                    formControlName="description"
+                                    pInputText
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+               
             </div>
         </div>
         <div
@@ -880,7 +977,7 @@
                     style="float: right; margin-top: 1rem"
                     label="Soumettre"
                     class="p-button-success"
-                    [disabled]="!selectedPiece"
+                    [disabled]="adminForm.valid ||!selectedPiece"
                     (click)="handleSaveNewTransaction()"
                 ></button>
             </div>
@@ -1079,7 +1176,7 @@
                             <div class="form-group">
                                 <label>
                                     <b
-                                        >Justificatif
+                                        >Courrier ou Justificatif
                                         <span class="text-danger">*</span></b
                                     >
                                 </label>
@@ -1105,7 +1202,8 @@
                             <div class="d-flex">
                                 <div>
                                     <b
-                                        >Justificatif
+                                    style="color: black;"
+                                        >Type de paiement
                                         <span class="text-danger">*</span></b
                                     >
                                 </div>
@@ -1140,7 +1238,7 @@
                                             class="form-check-label"
                                             for="immédiat"
                                             style="width: auto !important"
-                                            >Immédiat</label
+                                            >immédiat</label
                                         >
                                     </div>
                                 </div>
@@ -2281,7 +2379,11 @@
                             <div class="form-group">
                                 <label>
                                     <b
-                                        >Justificatif
+                                    style="
+                                    
+                                        color: #000;
+                                    "
+                                        >Type de paiement
                                         <span class="text-danger">*</span></b
                                     >
                                 </label>

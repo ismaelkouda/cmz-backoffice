@@ -35,6 +35,8 @@ export class DemandeWrapperShowComponent implements OnInit {
   @Input() wrapperLabel: string;
   @Output() showView = new EventEmitter();
   public IsLoading: boolean;
+  public isJournalAvailable: boolean = false;
+
   public selectedTransaction: string;
   public listTransactions: Array<any> = [];
   public listOperations: Array<any> = [];
@@ -73,7 +75,8 @@ export class DemandeWrapperShowComponent implements OnInit {
     private clipboardApi: ClipboardService,
     private mappingService: MappingService,
     private modalService: NgbModal,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private settingsService:SettingService
 
   ) {
     this.listOperations = this.mappingService.listOperations
@@ -184,6 +187,27 @@ export class DemandeWrapperShowComponent implements OnInit {
   }
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
+  }
+
+  checkJournalAvailability(data: any): void {
+    if (!data || !data.transaction) {
+      this.isJournalAvailable = false;
+      return;
+    }
+    this.settingsService
+      .getAllJournal({
+        transaction: data.transaction,
+        numero_demande: data.numero_demande,
+      }, "transactions")
+      .subscribe({
+        next: (response) => {
+          const listJournal = response['data'];
+          this.isJournalAvailable = listJournal && listJournal.length > 0;
+        },
+        error: () => {
+          this.isJournalAvailable = false;
+        }
+      });
   }
 
   showJournal(data: Object): void {

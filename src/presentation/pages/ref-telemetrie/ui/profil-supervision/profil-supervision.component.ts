@@ -19,6 +19,8 @@ export class ProfilSupervisionComponent implements OnInit {
   public affectationView: boolean = false;
   public visualisationView: boolean = false;
   public currentObject: any;
+  public total:number = 0;
+  public seuilCritique: number;
   public listProfils: any[] = [];
   public selectedMsisdn: string;
   public selectedImsi: string;
@@ -40,7 +42,8 @@ export class ProfilSupervisionComponent implements OnInit {
 
   ngOnInit() {
     this.GetAllProfilSupervision();
-    this.isFilter()
+    this.isFilter();
+    this.GetAllAlertPrevention();
   }
 
 
@@ -50,6 +53,22 @@ export class ProfilSupervisionComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.listProfils = response['data'];
+          this.total = response['data'].length;
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+
+  public GetAllAlertPrevention(): void {
+    this.telemetrieService
+      .GetAllPrevention({})
+      .subscribe({
+        next: (response) => {
+          console.log("Alert prevention", response);
+          this.seuilCritique = response.data;
+          console.log("content seuilCritique :", this.seuilCritique);
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

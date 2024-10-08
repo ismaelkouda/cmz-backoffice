@@ -8,10 +8,12 @@
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
-                        <div
-                            class="table_actions_wrapper"
-                            style="margin-top: -1rem !important"
-                        >
+                        <div style="margin-top: -1rem !important; margin-bottom: 1.5rem !important;">
+                            <app-patrimoine-header [count]="listFiles" [legende]="'bases de données des SIM'"
+                                [total]="total"></app-patrimoine-header>
+                        </div>
+                        <hr />
+                        <div class="table_actions_wrapper">
                             <app-table-button-header
                                 (refresh)="pageCallback()"
                                 [hiddenButtonExport]="true"
