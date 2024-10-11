@@ -248,7 +248,7 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     onLetDownDemands(dataToSend = { numero_demande: this.listDemandes?.numero_demande }) {
-        Swal.mixin({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.button}).fire({
+        Swal.mixin({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass}).fire({
             title: "Vous êtes sur le point d'abandonner la demande",
             input: 'text',
             inputPlaceholder: 'Ex: Commentez...',

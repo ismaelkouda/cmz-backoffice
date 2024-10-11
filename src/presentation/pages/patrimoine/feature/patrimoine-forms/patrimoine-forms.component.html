@@ -4,45 +4,30 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2>
                     {{
-                        currentData?.show
-                            ? 'Visualisation de la SIM '
-                            : 'Mise à jour des infos de la SIM '
+                    currentData?.show
+                    ? 'Visualisation de la SIM '
+                    : 'Mise à jour des infos de la SIM '
                     }}
-                    <span style="color: #ff6600"
-                        >[{{ currentObject?.msisdn }}]</span
-                    >
+                    <span style="color: #ff6600">[{{ currentObject?.msisdn }}]</span>
                 </h2>
                 <div>
-                    <p-button
-                        *ngIf="!currentData?.show"
-                        [label]="
+                    <p-button *ngIf="!currentData?.show" [label]="
                             currentObject === undefined
                                 ? 'Enregistrer'
                                 : 'Modifier'
-                        "
-                        [disabled]="!adminForm.valid"
-                        styleClass="p-button-success mr-2"
-                        (click)="handleUpdateCampagne()"
-                    ></p-button
-                    >&nbsp;
+                        " [disabled]="!adminForm.valid" styleClass="p-button-success mr-2"
+                        (click)="handleUpdateCampagne()"></p-button>&nbsp;
 
-                    <p-button
-                        label="Fermer"
-                        styleClass="p-button-danger"
-                        (click)="close()"
-                    ></p-button>
+                    <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
                 </div>
             </div>
 
             <hr *ngIf="!currentData?.show" />
 
             <div *ngIf="!currentData?.show">
-                <p-tabView
-                    (onChange)="handleChangeTabviewIndex($event)"
-                    styleClass="w-100"
-                >
+                <p-tabView (onChange)="currentTabsIndex = $event.index" styleClass="w-100">
                     <p-tabPanel header="IDENTIFICATION">
-                        <div *ngIf="currentTabsIndex === 0">
+                        <div>
                             <form [formGroup]="adminForm" novalidate>
                                 <fieldset>
                                     <legend>Informations SIM</legend>
@@ -50,48 +35,27 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><b>IMSI</b></label>
-                                                <input
-                                                    type="text"
-                                                    formControlName="imsi"
-                                                    pInputText
-                                                    class="w-100"
-                                                />
+                                                <input type="text" formControlName="imsi" pInputText class="w-100" />
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><b>MSISDN</b></label>
-                                                <input
-                                                    type="text"
-                                                    formControlName="msisdn"
-                                                    pInputText
-                                                    class="w-100"
-                                                />
+                                                <input type="text" formControlName="msisdn" pInputText class="w-100" />
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><b>Formule</b></label>
-                                                <input
-                                                    type="text"
-                                                    formControlName="formule"
-                                                    pInputText
-                                                    class="w-100"
-                                                />
+                                                <input type="text" formControlName="formule" pInputText class="w-100" />
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label
-                                                    ><b
-                                                        >Statut Contrat</b
-                                                    ></label
-                                                >
-                                                <app-statut-contrat
-                                                    [statut]="
+                                                <label><b>Statut Contrat</b></label>
+                                                <app-statut-contrat [statut]="
                                                         currentObject?.statut
-                                                    "
-                                                ></app-statut-contrat>
+                                                    "></app-statut-contrat>
                                             </div>
                                         </div>
                                     </div>
@@ -105,32 +69,17 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>
-                                                    <b
-                                                        >{{ firstLevelLibelle
-                                                        }}<span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></b
-                                                    >
+                                                    <b>{{ firstLevelLibelle
+                                                        }}<span class="text-danger">*</span></b>
                                                 </label>
-                                                <p-dropdown
-                                                    [options]="
+                                                <p-dropdown [options]="
                                                         listDirectionRegionales
-                                                    "
-                                                    formControlName="niveau_un_uuid"
-                                                    optionLabel="nom"
-                                                    optionValue="uuid"
-                                                    [placeholder]="
+                                                    " formControlName="niveau_un_uuid" optionLabel="nom"
+                                                    optionValue="uuid" [placeholder]="
                                                         firstLevelLibelle
-                                                    "
-                                                >
-                                                    <ng-template
-                                                        let-data
-                                                        pTemplate="item"
-                                                    >
-                                                        <div
-                                                            class="country-item"
-                                                        >
+                                                    ">
+                                                    <ng-template let-data pTemplate="item">
+                                                        <div class="country-item">
                                                             <div>
                                                                 {{ data.nom }}
                                                             </div>
@@ -142,32 +91,17 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>
-                                                    <b
-                                                        >{{ secondLevelLibelle
-                                                        }}<span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></b
-                                                    >
+                                                    <b>{{ secondLevelLibelle
+                                                        }}<span class="text-danger">*</span></b>
                                                 </label>
-                                                <p-dropdown
-                                                    [options]="
+                                                <p-dropdown [options]="
                                                         listExploitations
-                                                    "
-                                                    formControlName="niveau_deux_uuid"
-                                                    optionLabel="nom"
-                                                    optionValue="uuid"
-                                                    [placeholder]="
+                                                    " formControlName="niveau_deux_uuid" optionLabel="nom"
+                                                    optionValue="uuid" [placeholder]="
                                                         secondLevelLibelle
-                                                    "
-                                                >
-                                                    <ng-template
-                                                        let-data
-                                                        pTemplate="item"
-                                                    >
-                                                        <div
-                                                            class="country-item"
-                                                        >
+                                                    ">
+                                                    <ng-template let-data pTemplate="item">
+                                                        <div class="country-item">
                                                             <div>
                                                                 {{ data.nom }}
                                                             </div>
@@ -179,30 +113,16 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>
-                                                    <b
-                                                        >{{ thirdLevelLibelle
-                                                        }}<span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></b
-                                                    >
+                                                    <b>{{ thirdLevelLibelle
+                                                        }}<span class="text-danger">*</span></b>
                                                 </label>
-                                                <p-dropdown
-                                                    [options]="listActivites"
-                                                    formControlName="niveau_trois_uuid"
-                                                    optionLabel="nom"
-                                                    optionValue="uuid"
-                                                    [placeholder]="
+                                                <p-dropdown [options]="listActivites"
+                                                    formControlName="niveau_trois_uuid" optionLabel="nom"
+                                                    optionValue="uuid" [placeholder]="
                                                         thirdLevelLibelle
-                                                    "
-                                                >
-                                                    <ng-template
-                                                        let-data
-                                                        pTemplate="item"
-                                                    >
-                                                        <div
-                                                            class="country-item"
-                                                        >
+                                                    ">
+                                                    <ng-template let-data pTemplate="item">
+                                                        <div class="country-item">
                                                             <div>
                                                                 {{ data.nom }}
                                                             </div>
@@ -218,39 +138,21 @@
                                                 <label>
                                                     <b>Nom Emplacement</b>
                                                 </label>
-                                                <input
-                                                    type="text"
-                                                    formControlName="point_emplacement"
-                                                    pInputText
-                                                />
+                                                <input type="text" formControlName="point_emplacement" pInputText />
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>
-                                                    <b
-                                                        >Usage<span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></b
-                                                    >
+                                                    <b>Usage<span class="text-danger">*</span></b>
                                                 </label>
-                                                <p-dropdown
-                                                    [options]="listUsage"
-                                                    formControlName="usage"
-                                                    optionLabel="nom_usage"
-                                                    optionValue="id"
-                                                >
-                                                    <ng-template
-                                                        let-data
-                                                        pTemplate="item"
-                                                    >
-                                                        <div
-                                                            class="country-item"
-                                                        >
+                                                <p-dropdown [options]="listUsage" formControlName="usage"
+                                                    optionLabel="nom_usage" optionValue="id">
+                                                    <ng-template let-data pTemplate="item">
+                                                        <div class="country-item">
                                                             <div>
                                                                 {{
-                                                                    data.nom_usage
+                                                                data.nom_usage
                                                                 }}
                                                             </div>
                                                         </div>
@@ -261,16 +163,10 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>
-                                                    <b
-                                                        >Adresse mail
-                                                        Notification</b
-                                                    >
+                                                    <b>Adresse mail
+                                                        Notification</b>
                                                 </label>
-                                                <input
-                                                    type="text"
-                                                    formControlName="adresse_email"
-                                                    pInputText
-                                                />
+                                                <input type="text" formControlName="adresse_email" pInputText />
                                             </div>
                                         </div>
                                     </div>
@@ -278,19 +174,10 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>
-                                                    <b
-                                                        >Adresse
-                                                        géographique<span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        ></b
-                                                    >
+                                                    <b>Adresse
+                                                        géographique<span class="text-danger">*</span></b>
                                                 </label>
-                                                <input
-                                                    type="text"
-                                                    formControlName="adresse_geographique"
-                                                    pInputText
-                                                />
+                                                <input type="text" formControlName="adresse_geographique" pInputText />
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -298,11 +185,7 @@
                                                 <label>
                                                     <b>Latitude</b>
                                                 </label>
-                                                <input
-                                                    type="text"
-                                                    formControlName="latitude"
-                                                    pInputText
-                                                />
+                                                <input type="text" formControlName="latitude" pInputText />
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -310,11 +193,7 @@
                                                 <label>
                                                     <b>Longitude</b>
                                                 </label>
-                                                <input
-                                                    type="text"
-                                                    formControlName="longitude"
-                                                    pInputText
-                                                />
+                                                <input type="text" formControlName="longitude" pInputText />
                                             </div>
                                         </div>
                                     </div>
@@ -325,50 +204,30 @@
                                     <div class="row">
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label
-                                                    ><b>Date Trafic</b></label
-                                                >
-                                                <input
-                                                    type="text"
-                                                    formControlName="date_id_reseau"
-                                                    pInputText
-                                                    class="w-100"
-                                                />
+                                                <label><b>Date Trafic</b></label>
+                                                <input type="text" formControlName="date_id_reseau" pInputText
+                                                    class="w-100" />
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><b>APN</b></label>
-                                                <input
-                                                    type="text"
-                                                    formControlName="apnni_reseau"
-                                                    pInputText
-                                                    class="w-100"
-                                                />
+                                                <input type="text" formControlName="apnni_reseau" pInputText
+                                                    class="w-100" />
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><b>Adresse IP</b></label>
-                                                <input
-                                                    type="text"
-                                                    formControlName="adresse_ip"
-                                                    pInputText
-                                                    class="w-100"
-                                                />
+                                                <input type="text" formControlName="adresse_ip" pInputText
+                                                    class="w-100" />
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <label
-                                                    ><b>Site Trafic</b></label
-                                                >
-                                                <input
-                                                    type="text"
-                                                    formControlName="site_reseau"
-                                                    pInputText
-                                                    class="w-100"
-                                                />
+                                                <label><b>Site Trafic</b></label>
+                                                <input type="text" formControlName="site_reseau" pInputText
+                                                    class="w-100" />
                                             </div>
                                         </div>
                                     </div>
@@ -377,110 +236,100 @@
                         </div>
                     </p-tabPanel>
                     <p-tabPanel header="PHOTOS">
-                        <div *ngIf="currentTabsIndex === 1">
+                        <div>
                             <fieldset>
                                 <legend>Photos</legend>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <p-fileUpload
-                                                mode="basic"
-                                                chooseLabel="Choisir photo supplémentaire"
-                                                accept="image/*"
-                                                [chooseLabel]="
+                                            <p-fileUpload mode="basic" chooseLabel="Choisir photo supplémentaire"
+                                                accept="image/*" [chooseLabel]="
                                                     imageURLs['physique']
                                                         ? 'Modifier photo physique'
                                                         : 'Choisir photo physique'
-                                                "
-                                                [chooseIcon]="
+                                                " [chooseIcon]="
                                                     imageURLs['physique']
                                                         ? 'pi pi-pencil'
                                                         : 'pi pi-plus'
-                                                "
-                                                [auto]="true"
-                                                (onSelect)="
+                                                " [auto]="true" (onSelect)="
                                                     onUpload($event, 'physique')
-                                                "
-                                                styleClass="w-100 mb-2 custom-file-upload"
-                                            ></p-fileUpload>
-                                            <div
-                                                *ngIf="getImageSrc('physique')"
-                                                class="mt-2"
-                                            >
-                                                <img
-                                                    [src]="
+                                                " styleClass="w-100 mb-2 custom-file-upload"></p-fileUpload>
+                                            <div *ngIf="getImageSrc('physique')" class="mt-2">
+                                                <img [src]="
                                                         getImageSrc('physique')
-                                                    "
-                                                    alt="Photo supplémentaire"
-                                                    class="img-fluid"
-                                                />
+                                                    " alt="Photo supplémentaire" class="img-fluid" />
                                             </div>
+
+                                            <!-- <p-fileUpload name="myfile[]"
+                                                url="https://www.primefaces.org/cdn/api/upload.php" [multiple]="false"
+                                                accept="image/*" (onUpload)="onTemplatedUpload()"
+                                                (onSelect)="onSelectedFiles($event, 'physique')"
+                                                chooseLabel="{{ imageURLs['physique'] ? 'Modifier photo physique' : 'Choisir photo physique' }}"
+                                                [chooseIcon]="imageURLs['physique'] ? 'pi pi-pencil' : 'pi pi-plus'"
+                                                styleClass="w-100 mb-2 custom-file-upload">
+                                                <ng-template pTemplate="header" let-files let-chooseCallback="chooseCallback" let-clearCallback="clearCallback" let-uploadCallback="uploadCallback">
+                                                    <div class="flex flex-wrap justify-content-between align-items-center flex-1 gap-2">
+                                                        <div class="flex gap-2">
+                                                            <p-button (onSelect)="onSelectedFiles($event, 'physique')" icon="pi pi-images" [rounded]="true" [outlined]="true" />
+                                                            <p-button (onClick)="uploadEvent(uploadCallback)" icon="pi pi-cloud-upload" [rounded]="true" [outlined]="true" severity="success" [disabled]="!files || files.length === 0" />
+                                                            <p-button (onClick)="clearCallback()" icon="pi pi-times" [rounded]="true" [outlined]="true" severity="danger" [disabled]="!files || files.length === 0" />
+                                                        </div>
+                                                        <p-progressBar [value]="totalSizePercent" [showValue]="false" styleClass="md:w-20rem h-1rem w-full md:ml-auto" [ngClass]="{ 'exceeded-progress-bar': totalSizePercent > 100 }">
+                                                            <span class="white-space-nowrap">{{ totalSize }}B / 1Mb</span>
+                                                        </p-progressBar>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template pTemplate="content" let-files let-removeFileCallback="removeFileCallback" let-removeUploadedFileCallback="removeUploadedFileCallback">
+                                                    <div *ngIf="uploadedFiles?.length > 0">
+                                                        <h5>Pending</h5>
+                                                        <div class="flex flex-wrap p-0 sm:p-5 gap-5">
+                                                            <div *ngFor="let file of uploadedFiles; let i = index" class="card m-0 px-6 flex flex-column border-1 surface-border align-items-center gap-3">
+                                                                <div>
+                                                                    <img role="presentation" [alt]="file.name" [src]="file.objectURL" width="100" height="50" />
+                                                                </div>
+                                                                <span class="font-semibold">{{ file.name }}</span>
+                                                                <div>{{ formatSize(file.size) }}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </p-fileUpload> -->
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <p-fileUpload
-                                                mode="basic"
-                                                [chooseLabel]="
+                                            <p-fileUpload mode="basic" [chooseLabel]="
                                                     imageURLs['recto']
                                                         ? 'Modifier photo recto'
                                                         : 'Choisir photo recto'
-                                                "
-                                                [chooseIcon]="
+                                                " [chooseIcon]="
                                                     imageURLs['recto']
                                                         ? 'pi pi-pencil'
                                                         : 'pi pi-plus'
-                                                "
-                                                accept="image/*"
-                                                [auto]="true"
-                                                (onSelect)="
+                                                " accept="image/*" [auto]="true" (onSelect)="
                                                     onUpload($event, 'recto')
-                                                "
-                                                styleClass="w-100 mb-2 custom-file-upload"
-                                            ></p-fileUpload>
-                                            <div
-                                                *ngIf="getImageSrc('recto')"
-                                                class="mt-2"
-                                            >
-                                                <img
-                                                    [src]="getImageSrc('recto')"
-                                                    alt="Photo recto"
-                                                    class="img-fluid"
-                                                />
+                                                " styleClass="w-100 mb-2 custom-file-upload"></p-fileUpload>
+                                            <div *ngIf="getImageSrc('recto')" class="mt-2">
+                                                <img [src]="getImageSrc('recto')" alt="Photo recto" class="img-fluid" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <p-fileUpload
-                                                mode="basic"
-                                                chooseLabel="Choisir photo verso"
-                                                accept="image/*"
-                                                [auto]="true"
-                                                [chooseLabel]="
+                                            <p-fileUpload mode="basic" chooseLabel="Choisir photo verso"
+                                                accept="image/*" [auto]="true" [chooseLabel]="
                                                     imageURLs['verso']
                                                         ? 'Modifier photo verso'
                                                         : 'Choisir photo verso'
-                                                "
-                                                [chooseIcon]="
+                                                " [chooseIcon]="
                                                     imageURLs['verso']
                                                         ? 'pi pi-pencil'
                                                         : 'pi pi-plus'
-                                                "
-                                                (onSelect)="
+                                                " (onSelect)="
                                                     onUpload($event, 'verso')
-                                                "
-                                                styleClass="w-100 mb-2 custom-file-upload"
-                                            ></p-fileUpload>
-                                            <div
-                                                *ngIf="getImageSrc('verso')"
-                                                class="mt-2"
-                                            >
-                                                <img
-                                                    [src]="getImageSrc('verso')"
-                                                    alt="Photo verso"
-                                                    class="img-fluid"
-                                                />
+                                                " styleClass="w-100 mb-2 custom-file-upload"></p-fileUpload>
+                                            <div *ngIf="getImageSrc('verso')" class="mt-2">
+                                                <img [src]="getImageSrc('verso')" alt="Photo verso" class="img-fluid" />
                                             </div>
                                         </div>
                                     </div>
@@ -492,18 +341,89 @@
             </div>
 
             <div *ngIf="currentData?.show">
-                <p-tabView
-                    (onChange)="handleChangeTabviewIndex($event)"
-                    styleClass="w-100"
-                >
+                <p-tabView (onChange)="currentTabsIndex = $event.index" styleClass="w-100">
                     <p-tabPanel header="IDENTIFICATION">
-                        <div *ngIf="currentTabsIndex === 0">
+                        <div>
                             <div class="row">
-                                <div
-                                    class="col-md-9"
-                                    [formGroup]="adminForm"
-                                    novalidate
-                                >
+                                <div class="col-md-9" [formGroup]="adminForm" novalidate>
+                                    <fieldset>
+                                        <legend [ngStyle]="{ width: '12rem' }">
+                                            <b>Informations du propriétaire</b>
+                                        </legend>
+                                        <div class="d-flex gap-2">
+                                            <div>
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Type de personne</b>
+                                                    </label>
+                                                    <input type="text" formControlName="type_personne" pInputText />
+                                                </div>
+                                            </div>
+                                            <ng-container
+                                                *ngIf="currentObject?.type_personne === 'physique'; else personneMoralField1">
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label><b>Nom</b></label>
+                                                        <input type="text" formControlName="nom" pInputText />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label><b>Prénoms</b></label>
+                                                        <input type="text" formControlName="prenoms" pInputText />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <b>Nature de la pièce</b>
+                                                        </label>
+                                                        <input type="text" formControlName="nature_piece" pInputText />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <b>Numéro de la pièce</b>
+                                                        </label>
+                                                        <input type="text" formControlName="numero_piece" pInputText />
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #personneMoralField1>
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label><b>Denomination</b></label>
+                                                        <input type="text" formControlName="denomination" pInputText />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label><b>Raison social</b></label>
+                                                        <input type="text" formControlName="raison_social" pInputText />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <b>Nature du document</b>
+                                                        </label>
+                                                        <input type="text" formControlName="nature_document"
+                                                            pInputText />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <b>Numéro du document</b>
+                                                        </label>
+                                                        <input type="text" formControlName="numero_document"
+                                                            pInputText />
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </div>
+                                    </fieldset>
                                     <fieldset>
                                         <legend [ngStyle]="{ width: '12rem' }">
                                             <b>Informations SIM</b>
@@ -514,11 +434,7 @@
                                                     <label>
                                                         <b>IMSI</b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="imsi"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="imsi" pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -526,11 +442,7 @@
                                                     <label>
                                                         <b>MSISDN</b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="msisdn"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="msisdn" pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -538,11 +450,7 @@
                                                     <label>
                                                         <b>Formule</b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="formule"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="formule" pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -550,11 +458,9 @@
                                                     <label>
                                                         <b>Statut Contrat</b>
                                                     </label>
-                                                    <app-statut-contrat
-                                                        [statut]="
+                                                    <app-statut-contrat [statut]="
                                                             currentObject?.statut
-                                                        "
-                                                    ></app-statut-contrat>
+                                                        "></app-statut-contrat>
                                                 </div>
                                             </div>
                                         </div>
@@ -567,58 +473,32 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b
-                                                            >{{
-                                                                firstLevelLibelle
-                                                            }}<span
-                                                                class="text-danger"
-                                                                >*</span
-                                                            ></b
-                                                        >
+                                                        <b>{{
+                                                            firstLevelLibelle
+                                                            }}<span class="text-danger">*</span></b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="direction_regionale"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="direction_regionale"
+                                                        pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b
-                                                            >{{
-                                                                secondLevelLibelle
-                                                            }}<span
-                                                                class="text-danger"
-                                                                >*</span
-                                                            ></b
-                                                        >
+                                                        <b>{{
+                                                            secondLevelLibelle
+                                                            }}<span class="text-danger">*</span></b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="exploitation"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="exploitation" pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b
-                                                            >{{
-                                                                thirdLevelLibelle
-                                                            }}<span
-                                                                class="text-danger"
-                                                                >*</span
-                                                            ></b
-                                                        >
+                                                        <b>{{
+                                                            thirdLevelLibelle
+                                                            }}<span class="text-danger">*</span></b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="zone"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="zone" pInputText />
                                                 </div>
                                             </div>
                                         </div>
@@ -628,43 +508,24 @@
                                                     <label>
                                                         <b>Nom Emplacement</b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="point_emplacement"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="point_emplacement" pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b
-                                                            >Usage<span
-                                                                class="text-danger"
-                                                                >*</span
-                                                            ></b
-                                                        >
+                                                        <b>Usage<span class="text-danger">*</span></b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="usage"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="usage" pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b
-                                                            >Adresse mail
-                                                            Notification</b
-                                                        >
+                                                        <b>Adresse mail
+                                                            Notification</b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="adresse_email"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="adresse_email" pInputText />
                                                 </div>
                                             </div>
                                         </div>
@@ -672,19 +533,11 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b
-                                                            >Adresse
-                                                            géographique<span
-                                                                class="text-danger"
-                                                                >*</span
-                                                            ></b
-                                                        >
+                                                        <b>Adresse
+                                                            géographique<span class="text-danger">*</span></b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="adresse_geographique"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="adresse_geographique"
+                                                        pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -692,11 +545,7 @@
                                                     <label>
                                                         <b>Latitude</b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="latitude"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="latitude" pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -704,11 +553,7 @@
                                                     <label>
                                                         <b>Longitude</b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="longitude"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="longitude" pInputText />
                                                 </div>
                                             </div>
                                         </div>
@@ -723,11 +568,7 @@
                                                     <label>
                                                         <b>Date Trafic</b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="date_trafic"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="date_trafic" pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -735,11 +576,7 @@
                                                     <label>
                                                         <b>APN</b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="apn"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="apn" pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -747,11 +584,7 @@
                                                     <label>
                                                         <b>Adresse IP</b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="adresse_ip"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="adresse_ip" pInputText />
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -759,20 +592,13 @@
                                                     <label>
                                                         <b>Site Trafic</b>
                                                     </label>
-                                                    <input
-                                                        type="text"
-                                                        formControlName="site_reseau"
-                                                        pInputText
-                                                    />
+                                                    <input type="text" formControlName="site_reseau" pInputText />
                                                 </div>
                                             </div>
                                         </div>
                                     </fieldset>
                                 </div>
-                                <div
-                                    class="col-md-3"
-                                    [hidden]="currentTabsIndex == 1"
-                                >
+                                <div class="col-md-3" [hidden]="currentTabsIndex == 1">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="label">
@@ -782,9 +608,9 @@
                                                 <span class="valeur">
                                                     <span>{{
                                                         getFormattedMsisdn(
-                                                            currentObject?.msisdn
+                                                        currentObject?.msisdn
                                                         )
-                                                    }}</span>
+                                                        }}</span>
                                                 </span>
                                             </div>
                                         </div>
@@ -799,8 +625,8 @@
                                                 <span class="valeur">
                                                     <span>{{
                                                         currentObject?.solde_actuel_go ??
-                                                            0 | formatNumber: 2
-                                                    }}</span>
+                                                        0 | formatNumber: 2
+                                                        }}</span>
                                                 </span>
                                             </div>
                                         </div>
@@ -810,139 +636,86 @@
                                             <label class="label">
                                                 <b>{{
                                                     currentObject?.solde_data_updated_at
-                                                }}</b
-                                                ><br />
+                                                    }}</b><br />
                                             </label>
                                         </div>
                                     </div>
-                                    <div
-                                        class="col-md-12 mt-4"
-                                        *ngIf="
+                                    <div class="col-md-12 mt-4" *ngIf="
                                             applicationType === patrimoineType
-                                        "
-                                    >
+                                        ">
                                         <div class="form-group">
-                                            <label
-                                                class="label"
-                                                style="
+                                            <label class="label" style="
                                                     line-height: 1.3 !important;
-                                                "
-                                            >
-                                                <b class="mt-1"
-                                                    >Solde Dotation (Go)</b
-                                                >
+                                                ">
+                                                <b class="mt-1">Solde Dotation (Go)</b>
                                             </label>
                                             <div class="box-card">
                                                 <span class="valeur">
                                                     <span>{{
                                                         currentObject?.solde_dotation ??
-                                                            0 | formatNumber: 2
-                                                    }}</span>
+                                                        0 | formatNumber: 2
+                                                        }}</span>
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12 mt-3">
-                                        <div
-                                            *ngIf="
+                                        <div *ngIf="
                                                 currentData?.show &&
                                                 currentObject?.statut ===
                                                     'actif'
-                                            "
-                                        >
-                                            <button
-                                                pButton
-                                                pRipple
-                                                label="Rafraîchir Solde Data"
-                                                icon="pi pi-refresh"
-                                                class="p-button-warning"
-                                                [style]="{ fontSize: '20px' }"
-                                                style="width: 384px"
-                                                (click)="
+                                            ">
+                                            <button pButton pRipple label="Rafraîchir Solde Data" icon="pi pi-refresh"
+                                                class="p-button-warning" [style]="{ fontSize: '20px' }"
+                                                style="width: 384px" (click)="
                                                     handleRefreshData(
                                                         currentObject
                                                     )
-                                                "
-                                            ></button>
+                                                "></button>
                                         </div>
                                     </div>
-                                    <div
-                                        class="col-md-12 mt-3"
-                                        *ngIf="mappingService.IsAction()"
-                                    >
-                                        <div
-                                            *ngIf="
+                                    <div class="col-md-12 mt-3" *ngIf="mappingService.IsAction()">
+                                        <div *ngIf="
                                                 currentData?.show &&
                                                 currentObject?.statut ===
                                                     'suspendu'
-                                            "
-                                        >
-                                            <button
-                                                pButton
-                                                pRipple
-                                                label="Réactiver la SIM"
-                                                icon="pi pi-power-off"
-                                                class="p-button-success"
-                                                [style]="{ fontSize: '20px' }"
-                                                (click)="
+                                            ">
+                                            <button pButton pRipple label="Réactiver la SIM" icon="pi pi-power-off"
+                                                class="p-button-success" [style]="{ fontSize: '20px' }" (click)="
                                                     onTransactionForm(
                                                         currentObject,
                                                         activation
                                                     )
-                                                "
-                                                style="width: 384px"
-                                            ></button>
+                                                " style="width: 384px"></button>
                                         </div>
                                     </div>
-                                    <div
-                                        class="col-md-12 mt-3"
-                                        *ngIf="currentData?.show"
-                                    >
-                                        <img
-                                            width="200"
-                                            style="
+                                    <div class="col-md-12 mt-3" *ngIf="currentData?.show">
+                                        <img width="200" style="
                                                 max-width: fit-content;
                                                 position: absolute;
                                                 left: 26%;
-                                            "
-                                            [src]="
+                                            " [src]="
                                                 minioUrl + currentObject?.qrcode
-                                            "
-                                            alt="QR Illustration"
-                                        />
+                                            " alt="QR Illustration" />
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </p-tabPanel>
                     <p-tabPanel header="PHOTOS">
-                        <div *ngIf="currentTabsIndex === 1">
+                        <div>
                             <fieldset>
                                 <legend>Photos</legend>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <!-- <p-fileUpload [disabled]="true" mode="basic"
-                                                chooseLabel="Choisir photo supplémentaire" accept="image/*"
-                                                [chooseLabel]="imageURLs['physique'] ? 'Modifier photo physique' : 'Choisir photo physique'"
-                                                [chooseIcon]="imageURLs['physique'] ? 'pi pi-pencil' : 'pi pi-plus'"
-                                                [auto]="true" (onSelect)="onUpload($event, 'physique')"
-                                                styleClass="w-100 mb-2 custom-file-upload">
-                                            </p-fileUpload>-->
-                                            <div
-                                                *ngIf="
+                                            <div *ngIf="
                                                     getImageSrc('physique');
                                                     else noImagePhysique
-                                                "
-                                                class="mt-2"
-                                            >
-                                                <img
-                                                    [src]="
+                                                " class="mt-2">
+                                                <img [src]="
                                                         getImageSrc('physique')
-                                                    "
-                                                    alt="Photo supplémentaire"
-                                                    class="img-fluid"
-                                                />
+                                                    " alt="Photo supplémentaire" class="img-fluid" />
                                             </div>
                                             <ng-template #noImagePhysique>
                                                 <p>Aucune photo physique</p>
@@ -951,23 +724,11 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <!-- <p-fileUpload [disabled]="true" mode="basic"
-                                                [chooseLabel]="imageURLs['recto'] ? 'Modifier photo recto' : 'Choisir photo recto'"
-                                                [chooseIcon]="imageURLs['recto'] ? 'pi pi-pencil' : 'pi pi-plus'"
-                                                accept="image/*" [auto]="true" (onSelect)="onUpload($event, 'recto')"
-                                                styleClass="w-100 mb-2 custom-file-upload"></p-fileUpload>-->
-                                            <div
-                                                *ngIf="
+                                            <div *ngIf="
                                                     getImageSrc('recto');
                                                     else noImageRecto
-                                                "
-                                                class="mt-2"
-                                            >
-                                                <img
-                                                    [src]="getImageSrc('recto')"
-                                                    alt="Photo recto"
-                                                    class="img-fluid"
-                                                />
+                                                " class="mt-2">
+                                                <img [src]="getImageSrc('recto')" alt="Photo recto" class="img-fluid" />
                                             </div>
 
                                             <ng-template #noImageRecto>
@@ -977,24 +738,11 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <!-- <p-fileUpload [disabled]="true" mode="basic"
-                                                chooseLabel="Choisir photo verso" accept="image/*" [auto]="true"
-                                                [chooseLabel]="imageURLs['verso'] ? 'Modifier photo verso' : 'Choisir photo verso'"
-                                                [chooseIcon]="imageURLs['verso'] ? 'pi pi-pencil' : 'pi pi-plus'"
-                                                (onSelect)="onUpload($event, 'verso')"
-                                                styleClass="w-100 mb-2 custom-file-upload"></p-fileUpload>-->
-                                            <div
-                                                *ngIf="
+                                            <div *ngIf="
                                                     getImageSrc('verso');
                                                     else noImageVerso
-                                                "
-                                                class="mt-2"
-                                            >
-                                                <img
-                                                    [src]="getImageSrc('verso')"
-                                                    alt="Photo verso"
-                                                    class="img-fluid"
-                                                />
+                                                " class="mt-2">
+                                                <img [src]="getImageSrc('verso')" alt="Photo verso" class="img-fluid" />
                                             </div>
                                             <ng-template #noImageVerso>
                                                 <p>Aucune photo verso</p>
@@ -1006,11 +754,7 @@
                         </div>
                     </p-tabPanel>
                     <p-tabPanel header="HISTORIQUE">
-                        <app-historique
-                            *ngIf="currentTabsIndex === 2"
-                            [modele]="'sims'"
-                            [modele_id]="currentData.id"
-                        >
+                        <app-historique *ngIf="currentTabsIndex === 2" [modele]="'sims'" [modele_id]="currentData.id">
                         </app-historique>
                     </p-tabPanel>
                 </p-tabView>

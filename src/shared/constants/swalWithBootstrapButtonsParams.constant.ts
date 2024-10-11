@@ -1,11 +1,9 @@
 export const SWALWITHBOOTSTRAPBUTTONSPARAMS = {
-  button: {
-    customClass: {
-      confirmButton: "btn btn-success",
-      cancelButton: "btn btn-danger",
-    },
-    buttonsStyling: false,
+  customClass: {
+    confirmButton: "btn btn-success",
+    cancelButton: "btn btn-danger",
   },
+  buttonsStyling: false,
   message: {
     title: "En êtes vous sûr ?",
     html: `htmlMessage.`,

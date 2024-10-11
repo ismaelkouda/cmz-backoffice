@@ -184,7 +184,7 @@ export class TransactionShowComponent implements OnInit {
   }
 
   public truncateText(text: string, length: number): string {
-    if (!text) return '';
+    if (!text || text.length > length) return '';
     return text.length > length ? text.substring(0, length) + '...' : text;
 }
 

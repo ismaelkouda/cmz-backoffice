@@ -190,10 +190,10 @@ export class DemandeWrapperShowComponent implements OnInit {
   }
 
   checkJournalAvailability(data: any): void {
-    if (!data || !data.transaction) {
-      this.isJournalAvailable = false;
-      return;
-    }
+    // if (!data || !data.transaction) {
+    //   this.isJournalAvailable = false;
+    //   return;
+    // }
     this.settingsService
       .getAllJournal({
         transaction: data.transaction,
@@ -202,10 +202,10 @@ export class DemandeWrapperShowComponent implements OnInit {
       .subscribe({
         next: (response) => {
           const listJournal = response['data'];
-          this.isJournalAvailable = listJournal && listJournal.length > 0;
+          // this.isJournalAvailable = listJournal && listJournal.length > 0;
         },
         error: () => {
-          this.isJournalAvailable = false;
+          // this.isJournalAvailable = false;
         }
       });
   }
@@ -293,5 +293,37 @@ export class DemandeWrapperShowComponent implements OnInit {
      }));
     this.excelService.exportAsExcelFile(data, `Liste des lignes de la demande [${this.transactionId.numero_demande}]`);
   }
+
+
+public getStatutBadge(statut: string): string {
+  if(statut === BADGE_ETAPE.SOUMISSION || statut === BADGE_STATUT.SOUMIS) {
+      return "badge-dark";
+  } else if(statut === BADGE_ETAPE.TRAITEMENT) {
+      return "badge-warning";
+  } else if(statut === BADGE_ETAPE.FINALISATEUR || statut === BADGE_ETAPE.CLOTURE || statut === BADGE_STATUT.CLOTURE) {
+      return "badge-success";
+  } else if(statut === BADGE_STATUT.TRAITE) {
+      return "badge-info";
+  }
+}
+
+
+
+public getTraitementBadge(dossier: any): string {
+  if (dossier?.traitement === BADGE_ETAT.RECU || (dossier?.statut === BADGE_ETAPE.SOUMISSION && dossier?.traitement === BADGE_ETAT.EN_ATTENTE) || (dossier?.statut === BADGE_ETAPE.TRAITEMENT && dossier?.traitement === BADGE_ETAT.EN_ATTENTE)) {
+      return "badge-dark";
+  } else if ((dossier?.statut === BADGE_ETAPE.TRAITEMENT && (dossier?.traitement === BADGE_ETAT.PARTIEL || dossier?.traitement === BADGE_ETAT.EN_ATTENTE)) ||
+      (dossier?.statut === BADGE_ETAPE.CLOTURE && dossier?.traitement === BADGE_ETAT.ABANDONNE)) {
+      return "badge-warning";
+  } else if (dossier?.statut === BADGE_ETAPE.TRAITEMENT && dossier?.traitement === BADGE_ETAT.TOTAL) {
+      return "badge-info";
+  } else if ((dossier?.statut === BADGE_ETAPE.FINALISATEUR && dossier?.traitement === BADGE_ETAT.CLOTURE) ||
+      (dossier?.statut === BADGE_ETAPE.CLOTURE && dossier?.traitement === BADGE_ETAT.ACCEPTE) || 
+      (dossier?.statut === BADGE_ETAPE.FINALISATEUR && dossier?.traitement === BADGE_ETAT.PARTIEL)) {
+      return "badge-success";
+  } else if (dossier?.traitement === BADGE_ETAT.REJETE || dossier?.traitement === BADGE_ETAT.REFUSE) {
+      return "badge-danger";
+  }
+}
 
 }

@@ -306,54 +306,14 @@
                                 pTooltip="cliquer pour voir"
                                 tooltipPosition="top"
                             ></td>
-                            <td class="text-center">
-                                <span
-                                    [ngStyle]="{ 'font-size': '16px' }"
-                                    class="badge"
-                                    [class.badge-dark]="
-                                        transaction?.statut === stateSoumis
-                                    "
-                                    [class.badge-info]="
-                                        transaction?.statut === stateTraite
-                                    "
-                                    [class.badge-success]="
-                                        transaction?.statut === stateCloture
-                                    "
-                                >
-                                    {{ transaction.statut }}
+                            <td class="text-center" [style]="{ width: '3rem' }">
+                                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getStatutBadge(transaction?.statut)">
+                                    {{ transaction?.statut === 'traiter' ? 'Complet' : transaction?.statut }}
                                 </span>
                             </td>
                             <td class="text-center">
-                                <span
-                                    [ngStyle]="{ 'font-size': '16px' }"
-                                    class="badge"
-                                    [class.badge-dark]="
-                                        transaction?.traitement ===
-                                            treatmenEntente ||
-                                        transaction?.traitement ===
-                                            treatmenAcquiter
-                                    "
-                                    [class.badge-danger]="
-                                        transaction?.traitement ===
-                                            treatmenRejeter ||
-                                        transaction?.traitement ===
-                                            treatmenRefuser
-                                    "
-                                    [class.badge-warning]="
-                                        transaction?.traitement ===
-                                        treatmenCancel
-                                    "
-                                    [class.badge-info]="
-                                        transaction?.traitement ===
-                                        treatmenAccepter
-                                    "
-                                    [class.badge-success]="
-                                        transaction?.statut === stateCloture &&
-                                        transaction?.traitement ===
-                                            treatmenAccepter
-                                    "
-                                >
-                                    {{ transaction?.traitement }}
+                                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getTraitementBadge(transaction)">
+                                    {{ transaction.traitement }}
                                 </span>
                             </td>
                             <td>{{ transaction?.current_date }}</td>

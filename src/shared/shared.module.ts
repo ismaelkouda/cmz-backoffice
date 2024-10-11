@@ -153,7 +153,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     SpinnerComponent,
     ProgressSpinnerModule,
     CapitalizePipe,
-    CalendarModule
+    CalendarModule,
+    ButtonModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 

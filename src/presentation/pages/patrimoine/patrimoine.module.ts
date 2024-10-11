@@ -25,6 +25,7 @@ import { PasswordModule } from 'primeng/password';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
+import { BadgeModule } from 'primeng/badge';
 
 //Components
 import { CarteSimActiveComponent } from './ui/carte-sim-active/carte-sim-active.component';
@@ -73,7 +74,8 @@ import { FileUploadModule } from 'primeng/fileupload';
         NgxCaptchaModule,
         CalendarModule,
         CheckboxModule,
-        FileUploadModule
+        FileUploadModule,
+        BadgeModule
     ],
     declarations: [
         CarteSimActiveComponent,

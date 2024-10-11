@@ -59,12 +59,12 @@ export class ResetPasswordComponent implements OnInit {
   async onResetPassword() {
     this.submitted = true;
     if (this.passwordForm.invalid) return ;
-    this.response = await handle(() => this.passwordResetService.HandleResetPassword({...this.passwordForm.value,...this.queryValue}), this.toastrService, this.loadingBarService);
-    this.handleSuccessful(this.response);
+    const response: any = await handle(() => this.passwordResetService.HandleResetPassword({...this.passwordForm.value,...this.queryValue}), this.toastrService, this.loadingBarService);
+    if (response.error === false) this.handleSuccessful(response);
   }
 
-  private handleSuccessful(response): void {
-    this.toastrService.success(response.data.message);
+  private handleSuccessful(response: any): void {
+    this.toastrService.success(response.message);
     this.redirectToLogin();
   }
 

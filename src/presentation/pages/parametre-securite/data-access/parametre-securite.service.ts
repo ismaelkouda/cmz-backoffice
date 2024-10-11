@@ -75,4 +75,8 @@ export class ParametreSecuriteService {
     const url: string = (<string>EndPointUrl.DISABLE_USER).replace('{id}', data)
     return this.http.put(`${this.baseUrl}${url}`, {});
   }
+  handleChangePassword(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.USER_PROFILES_CHANGE_PASSWORD)
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
 }

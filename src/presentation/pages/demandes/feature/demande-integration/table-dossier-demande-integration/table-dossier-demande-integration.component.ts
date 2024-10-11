@@ -32,26 +32,34 @@ export class TableDossierDemandeIntegration {
         this.clipboardService.copyFromContent(data?.[libelle]);
     }
 
-
+    
     public getStatutBadge(statut: string): string {
-        switch (statut) {
-            case BADGE_ETAPE.SOUMISSION: return "badge-dark";
-            case BADGE_ETAPE.TRAITEMENT: return "badge-warning";
-            case BADGE_ETAPE.FINALISATEUR:
-            case BADGE_ETAPE.CLOTURE: return "badge-success";
+        if(statut === BADGE_ETAPE.SOUMISSION || statut === BADGE_STATUT.SOUMIS) {
+            return "badge-dark";
+        } else if(statut === BADGE_ETAPE.TRAITEMENT) {
+            return "badge-warning";
+        } else if(statut === BADGE_ETAPE.FINALISATEUR || statut === BADGE_ETAPE.CLOTURE || statut === BADGE_STATUT.CLOTURE) {
+            return "badge-success";
+        } else if(statut === BADGE_STATUT.TRAITE) {
+            return "badge-info";
         }
     }
 
-    public getTraitementBadge(data: Object): string {
-        if (data?.['traitement'] === BADGE_ETAT.RECU || (data?.['statut'] === BADGE_ETAPE.SOUMISSION && data?.['traitement'] === BADGE_ETAT.EN_ATTENTE)) {
+    
+
+    public getTraitementBadge(dossier: any): string {
+        if (dossier?.traitement === BADGE_ETAT.RECU || (dossier?.statut === BADGE_ETAPE.SOUMISSION && dossier?.traitement === BADGE_ETAT.EN_ATTENTE) || (dossier?.statut === BADGE_ETAPE.TRAITEMENT && dossier?.traitement === BADGE_ETAT.EN_ATTENTE)) {
             return "badge-dark";
-        } else if ((data?.['statut'] === BADGE_ETAPE.TRAITEMENT && (data?.['traitement'] === BADGE_ETAT.PARTIEL || data?.['traitement'] === BADGE_ETAT.EN_ATTENTE)) || (data?.['statut'] === BADGE_ETAPE.CLOTURE && data?.['traitement'] === BADGE_ETAT.ABANDONNE)) {
+        } else if ((dossier?.statut === BADGE_ETAPE.TRAITEMENT && (dossier?.traitement === BADGE_ETAT.PARTIEL || dossier?.traitement === BADGE_ETAT.EN_ATTENTE)) ||
+            (dossier?.statut === BADGE_ETAPE.CLOTURE && dossier?.traitement === BADGE_ETAT.ABANDONNE)) {
             return "badge-warning";
-        } else if (data?.['statut'] === BADGE_ETAPE.TRAITEMENT && data?.['traitement'] === BADGE_ETAT.TOTAL) {
+        } else if (dossier?.statut === BADGE_ETAPE.TRAITEMENT && dossier?.traitement === BADGE_ETAT.TOTAL) {
             return "badge-info";
-        } else if ((data?.['statut'] === BADGE_ETAPE.FINALISATEUR && data?.['traitement'] === BADGE_ETAT.CLOTURE) || (data?.['statut'] === BADGE_ETAPE.CLOTURE && data?.['traitement'] === BADGE_ETAT.ACCEPTE)) {
+        } else if ((dossier?.statut === BADGE_ETAPE.FINALISATEUR && dossier?.traitement === BADGE_ETAT.CLOTURE) ||
+            (dossier?.statut === BADGE_ETAPE.CLOTURE && dossier?.traitement === BADGE_ETAT.ACCEPTE) || 
+            (dossier?.statut === BADGE_ETAPE.FINALISATEUR && dossier?.traitement === BADGE_ETAT.PARTIEL)) {
             return "badge-success";
-        } else if (data?.['traitement'] === BADGE_ETAT.REJETE || data?.['traitement'] === BADGE_ETAT.REFUSE) {
+        } else if (dossier?.traitement === BADGE_ETAT.REJETE || dossier?.traitement === BADGE_ETAT.REFUSE) {
             return "badge-danger";
         }
     }

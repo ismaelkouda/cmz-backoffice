@@ -20,6 +20,7 @@ import { SuivieTraitementFilterStateService } from '../../data-access/suivie-tra
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { SharedDataService } from 'src/shared/services/shared-data.service';
+import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -198,6 +199,37 @@ export class SuivieTraitementComponent implements OnInit {
         }
       );
   }
+
+
+  public getStatutBadge(statut: string): string {
+    if(statut === BADGE_ETAPE.SOUMISSION || statut === BADGE_STATUT.SOUMIS) {
+        return "badge-dark";
+    } else if(statut === BADGE_ETAPE.TRAITEMENT) {
+        return "badge-warning";
+    } else if(statut === BADGE_ETAPE.FINALISATEUR || statut === BADGE_ETAPE.CLOTURE || statut === BADGE_STATUT.CLOTURE) {
+        return "badge-success";
+    } else if(statut === BADGE_STATUT.TRAITE) {
+        return "badge-info";
+    }
+}
+
+
+public getTraitementBadge(dossier: any): string {
+  if (dossier?.traitement === BADGE_ETAT.RECU || (dossier?.statut === BADGE_ETAPE.SOUMISSION && dossier?.traitement === BADGE_ETAT.EN_ATTENTE) || (dossier?.statut === BADGE_ETAPE.TRAITEMENT && dossier?.traitement === BADGE_ETAT.EN_ATTENTE)) {
+      return "badge-dark";
+  } else if ((dossier?.statut === BADGE_ETAPE.TRAITEMENT && (dossier?.traitement === BADGE_ETAT.PARTIEL || dossier?.traitement === BADGE_ETAT.EN_ATTENTE)) ||
+      (dossier?.statut === BADGE_ETAPE.CLOTURE && dossier?.traitement === BADGE_ETAT.ABANDONNE)) {
+      return "badge-warning";
+  } else if (dossier?.statut === BADGE_ETAPE.TRAITEMENT && dossier?.traitement === BADGE_ETAT.TOTAL) {
+      return "badge-info";
+  } else if ((dossier?.statut === BADGE_ETAPE.FINALISATEUR && dossier?.traitement === BADGE_ETAT.CLOTURE) ||
+      (dossier?.statut === BADGE_ETAPE.CLOTURE && dossier?.traitement === BADGE_ETAT.ACCEPTE) || 
+      (dossier?.statut === BADGE_ETAPE.FINALISATEUR && dossier?.traitement === BADGE_ETAT.PARTIEL)) {
+      return "badge-success";
+  } else if (dossier?.traitement === BADGE_ETAT.REJETE || dossier?.traitement === BADGE_ETAT.REFUSE) {
+      return "badge-danger";
+  }
+}
   public onPageChange(event) {
     this.p = event;
     if (this.isFilter()) {
