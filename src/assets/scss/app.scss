@@ -18,24 +18,22 @@
 @import 'vendors/todo';
 
 /* Leaflet Map */
-@import '~leaflet/dist/leaflet.css';
+@import 'leaflet/dist/leaflet.css';
 
 /* Ngx-owl-carousel-o */
 
 @import '../../../node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.carousel.scss';
 @import '../../../node_modules/ngx-owl-carousel-o/lib/styles/scss/owl.theme.default.scss';
-// @import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
-// @import '~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+// @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+// @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
 
 /* Toastr */
-
-@import '/node_modules/ngx-toastr/toastr.css';
 // Ngx-Tabset
-@import '/node_modules/ngx-tabset/ngx-tabset.scss';
+@import '../../../node_modules/ngx-tabset/ngx-tabset.scss';
 
 // overlay
 @import '@angular/cdk/overlay-prebuilt.css';
-@import '~@ng-select/ng-select/themes/default.theme.css';
+@import '@ng-select/ng-select/themes/default.theme.css';
 @import 'swiper/scss';
 @import 'swiper/scss/navigation';
 @import 'swiper/scss/pagination';
@@ -44,7 +42,7 @@
 	*** Theme Scss ***
 -----------------------*/
 
-@import '~animate.css/animate.min.css';
+@import 'animate.css/animate.min.css';
 @import '/node_modules/bootstrap/scss/bootstrap';
 @import '../scss/vendors/themify.scss';
 @import 'style';
