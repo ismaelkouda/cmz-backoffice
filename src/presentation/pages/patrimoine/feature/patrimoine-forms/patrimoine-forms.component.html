@@ -1023,6 +1023,7 @@
                                     </div>
                                     <div class="col-md-12 mt-3">
                                         <div
+                                            class="text-center"
                                             *ngIf="
                                                 currentData?.show &&
                                                 currentObject?.statut ===
@@ -1034,9 +1035,8 @@
                                                 pRipple
                                                 label="Rafraîchir Solde Data"
                                                 icon="pi pi-refresh"
-                                                class="p-button-warning"
+                                                class="p-button-warning w-100"
                                                 [style]="{ fontSize: '20px' }"
-                                                style="width: 384px"
                                                 (click)="
                                                     handleRefreshData(
                                                         currentObject
@@ -1078,7 +1078,7 @@
                                         *ngIf="currentData?.show"
                                     >
                                         <img
-                                            width="200"
+                                            class="w-100"
                                             style="
                                                 max-width: fit-content;
                                                 position: absolute;
