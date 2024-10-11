@@ -401,7 +401,7 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.get('imsi').disable();
     this.adminForm.get('msisdn').disable();
     this.adminForm.get('formule').disable();
-    this.adminForm.get('date_trafic').disable();
+    // this.adminForm.get('date_trafic').disable();
     this.adminForm.get('apn').disable();
     this.adminForm.get('site_reseau').disable();
     this.adminForm.get('adresse_ip').disable();
