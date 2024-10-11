@@ -8,16 +8,20 @@
         </div>
         <div [style]="{ marginTop: '-0.5rem' }">
             <div>
-                <span [ngStyle]="{width: 'fit-content','font-size': '16px'}"
-                    [class]="'badge '+getStatutBadge(transactionId?.statut)">{{ transactionId.statut }}
+                <span
+                    [ngStyle]="{ width: 'fit-content', 'font-size': '16px' }"
+                    [class]="'badge ' + getStatutBadge(transactionId?.statut)"
+                    >{{ transactionId.statut }}
                     <!-- <app-statut-demande
                         [statut]="transactionId.statut"
                         [badge]="transactionId.badge"
                     ></app-statut-demande> -->
                 </span>
                 |
-                <span [ngStyle]="{width: 'fit-content','font-size': '16px'}"
-                    [class]="'badge ' + getTraitementBadge(transactionId)">
+                <span
+                    [ngStyle]="{ width: 'fit-content', 'font-size': '16px' }"
+                    [class]="'badge ' + getTraitementBadge(transactionId)"
+                >
                     {{ transactionId.traitement }}
                 </span>
             </div>

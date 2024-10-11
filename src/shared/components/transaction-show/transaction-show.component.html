@@ -1534,7 +1534,7 @@
                         >
                             <div [style]="{ marginTop: '-2rem' }">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <!-- <div class="col-md-3">
                                         <fieldset
                                             *ngIf="
                                                 bacPiocheActivation !==
@@ -1588,9 +1588,9 @@
                                                 </div>
                                             </div>
                                         </fieldset>
-                                    </div>
+                                    </div> -->
 
-                                    <div class="col-md-9">
+                                    <div class="col-md-12">
                                         <fieldset>
                                             <legend>
                                                 <b>Informations SIM</b>
@@ -1601,19 +1601,7 @@
                                                     padding-top: 1.4rem !important;
                                                 "
                                             >
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label>
-                                                            <b>IMSI</b>
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            formControlName="imsi"
-                                                            pInputText
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md">
                                                     <div class="form-group">
                                                         <label>
                                                             <b>MSISDN</b>
@@ -1625,22 +1613,54 @@
                                                         />
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md">
                                                     <div class="form-group">
                                                         <label>
-                                                            <b>Formule</b>
+                                                            <b>IMSI</b>
                                                         </label>
                                                         <input
                                                             type="text"
-                                                            style="
-                                                                font-size: 1.1rem;
-                                                                padding: 0.8rem
-                                                                    0.5rem !important;
-                                                            "
-                                                            formControlName="formule"
+                                                            formControlName="imsi"
                                                             pInputText
                                                         />
                                                     </div>
+                                                </div>
+                                                <div class="col-md">
+                                                    <label><b>ICCID</b></label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="iccid"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                                <div class="col-md">
+                                                    <label><b>APN</b></label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="apn"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                                <div class="col-md">
+                                                    <label><b>Adresse IP</b></label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="adresse_ip"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                                <div class="col-md">
+                                                    <label
+                                                        ><b
+                                                            >Formule
+                                                            destination</b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="formule"
+                                                        pInputText
+                                                    />
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -1759,7 +1779,7 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md">
                                         <div class="form-group">
                                             <label>
                                                 <b>Emplacement</b>
@@ -1771,7 +1791,7 @@
                                             />
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md">
                                         <div class="form-group">
                                             <label>
                                                 <b>Adresse mail</b>
@@ -1783,7 +1803,7 @@
                                             />
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md">
                                         <div class="form-group">
                                             <label>
                                                 <b>Adresse géographique</b>
@@ -1795,7 +1815,7 @@
                                             />
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md">
                                         <div class="form-group">
                                             <label>
                                                 <b>Latitude</b>
@@ -1807,9 +1827,7 @@
                                             />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md">
                                         <div class="form-group">
                                             <label>
                                                 <b>Longitude</b>
