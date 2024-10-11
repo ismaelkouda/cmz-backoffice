@@ -293,7 +293,7 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>" + "Type d'emplacement :" + "</strong>" + "<span>" + `${this.currentComposant?.niveau_trois_nom ?? ""}` + "</span>" + "<br>" +
         "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + `${this.currentComposant?.point_emplacement ?? ""}` + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + `${this.currentComposant?.statut ?? ""}` + "</span>" + "<br>" +
-        "<strong>Coordonnées GPS :</strong>" + "<span>" + `${this.currentComposant?.longitude ?? ""}` + "," + `${this.currentComposant?.latitude ?? ""}` + "</span>" + "<br>" +
+        "<strong>Coordonnées GPS :</strong>" + "<span>" + `${this.currentComposant?.longitude ?? ""}` + `${this.currentComposant?.longitude ? "," : ""}` + `${this.currentComposant?.latitude ?? ""}` + "</span>" + "<br>" +
         "</div>"
       ).openPopup();
 
@@ -313,7 +313,7 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>Quartier :</strong>" + "<span>" + `${this.currentComposant?.quartier ?? ""}` + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + `${this.currentComposant?.statut ?? ""}` + "</span>" + "<br>" +
         "<strong>Date Trafic :</strong>" + "<span>" + `${this.currentComposant?.date_localisation ?? ""}` + "</span>" + "<br>" +
-        "<strong>Coordonnées GPS :</strong>" + "<span>" + `${this.currentComposant?.long_reseau ?? ""}` + "," + `${this.currentComposant?.lat_reseau ?? ""}` + "</span>" + "<br>" +
+        "<strong>Coordonnées GPS :</strong>" + "<span>" + `${this.currentComposant?.long_reseau ?? ""}` + `${this.currentComposant?.long_reseau ? "," : ""}` + `${this.currentComposant?.lat_reseau ?? ""}` + "</span>" + "<br>" +
         "</div>"
       ).openPopup();
 
