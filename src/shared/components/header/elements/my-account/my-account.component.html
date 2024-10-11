@@ -1,5 +1,10 @@
 <div class="media profile-media">
-    <img class="b-r-10" src="assets/images/dashboard/profile.png" width="35" alt="" />
+    <img
+        class="b-r-10"
+        src="assets/images/dashboard/profile.png"
+        width="35"
+        alt=""
+    />
     <div class="media-body">
         <span>{{ currentUser?.nom }} {{ currentUser?.prenoms }}</span>
         <p class="mb-0 font-roboto">
@@ -25,27 +30,53 @@
             <h4 class="modal-title" id="modal-basic-title">
                 Modification Mot de passe
             </h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="hideForm()"></button>
+            <button
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+                (click)="hideForm()"
+            ></button>
         </div>
         <div class="modal-body" novalidate>
             <div class="form-group mb-4">
                 <label>
                     <b>Ancien Mot de passe</b>
                 </label>
-                <p-password formControlName="old_password" [feedback]="false" [toggleMask]="true"
-                    styleClass="p-password p-component p-inputwrapper p-input-icon-right"></p-password>
+                <p-password
+                    formControlName="old_password"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+                ></p-password>
             </div>
             <div class="form-group mb-4">
                 <label>
                     <b>Nouveau Mot de passe</b>
                 </label>
-                <p-password formControlName="new_password" [feedback]="false" [toggleMask]="true"
-                    styleClass="p-password p-component p-inputwrapper p-input-icon-right"></p-password>
+                <p-password
+                    formControlName="new_password"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+                ></p-password>
                 <ng-container
-                    *ngIf="submitted && (passwordForm.get('new_password')?.errors && !passwordForm.get('new_password_confirmation')?.hasError('invalidPassword'))">
-                    <span class="fs-6 lh-1 text-danger fst-italic font-italic"
-                        *ngIf="passwordForm.get('new_password')?.invalid || passwordForm.get('new_password')?.errors['required']">
-                        Une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial.
+                    *ngIf="
+                        submitted &&
+                        passwordForm.get('new_password')?.errors &&
+                        !passwordForm
+                            .get('new_password_confirmation')
+                            ?.hasError('invalidPassword')
+                    "
+                >
+                    <span
+                        class="fs-6 lh-1 text-danger fst-italic font-italic"
+                        *ngIf="
+                            passwordForm.get('new_password')?.invalid ||
+                            passwordForm.get('new_password')?.errors['required']
+                        "
+                    >
+                        Une lettre majuscule, une lettre minuscule, un chiffre
+                        et un caractère spécial.
                     </span>
                 </ng-container>
             </div>
@@ -53,12 +84,30 @@
                 <label>
                     <b>Confirmer nouveau mot de passe</b>
                 </label>
-                <p-password formControlName="new_password_confirmation" [feedback]="false" [toggleMask]="true"
-                    styleClass="p-password p-component p-inputwrapper p-input-icon-right"></p-password>
+                <p-password
+                    formControlName="new_password_confirmation"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+                ></p-password>
                 <ng-container
-                    *ngIf="submitted && (passwordForm.get('new_password_confirmation')?.errors && !passwordForm.get('new_password_confirmation')?.hasError('invalidPassword'))">
-                    <span class="fs-6 lh-1 text-danger fst-italic font-italic"
-                        *ngIf="passwordForm.get('new_password_confirmation')?.invalid || passwordForm.get('new_password_confirmation')?.errors['required']">
+                    *ngIf="
+                        submitted &&
+                        passwordForm.get('new_password_confirmation')?.errors &&
+                        !passwordForm
+                            .get('new_password_confirmation')
+                            ?.hasError('invalidPassword')
+                    "
+                >
+                    <span
+                        class="fs-6 lh-1 text-danger fst-italic font-italic"
+                        *ngIf="
+                            passwordForm.get('new_password_confirmation')
+                                ?.invalid ||
+                            passwordForm.get('new_password_confirmation')
+                                ?.errors['required']
+                        "
+                    >
                         Doit etre identique au nouveau mot de passe.
                     </span>
                 </ng-container>
@@ -72,8 +121,13 @@
                 </button>
             </div>
             <div>
-                <button type="button" class="btn btn-save" (click)="handleUpdatePassword()" 
-                    [disabled]="passwordForm.invalid">Valider
+                <button
+                    type="button"
+                    class="btn btn-save"
+                    (click)="handleUpdatePassword()"
+                    [disabled]="passwordForm.invalid"
+                >
+                    Valider
                 </button>
             </div>
         </div>
@@ -83,7 +137,12 @@
 <ng-template #accountV let-modal [formGroup]="accountForm">
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Mon Compte</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="hideFormAccount()"></button>
+        <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="hideFormAccount()"
+        ></button>
     </div>
     <div class="modal-body" novalidate>
         <div class="form-group mb-3">
@@ -125,12 +184,21 @@
     </div>
     <div class="modal-footer">
         <div>
-            <button type="button" class="btn btn-hide" (click)="hideFormAccount()">
+            <button
+                type="button"
+                class="btn btn-hide"
+                (click)="hideFormAccount()"
+            >
                 Fermer
             </button>
         </div>
         <div>
-            <button type="button" class="btn btn-save" (click)="handleUpdateAdmin()" [disabled]="!accountForm.valid">
+            <button
+                type="button"
+                class="btn btn-save"
+                (click)="handleUpdateAdmin()"
+                [disabled]="!accountForm.valid"
+            >
                 Valider
             </button>
         </div>

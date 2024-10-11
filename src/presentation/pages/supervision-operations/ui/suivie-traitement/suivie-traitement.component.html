@@ -283,12 +283,26 @@
                             <td>{{ data?.nb_demande_soumises ?? 'N/A' }}</td>
                             <td>{{ data?.nb_demande_traitees ?? 'N/A' }}</td>
                             <td class="text-center" [style]="{ width: '3rem' }">
-                                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getStatutBadge(data?.statut)">
-                                    {{ data?.statut === 'traiter' ? 'Complet' : data?.statut }}
+                                <span
+                                    [ngStyle]="{ 'font-size': '16px' }"
+                                    [class]="
+                                        'badge ' + getStatutBadge(data?.statut)
+                                    "
+                                >
+                                    {{
+                                        data?.statut === 'traiter'
+                                            ? 'Complet'
+                                            : data?.statut
+                                    }}
                                 </span>
                             </td>
                             <td class="text-center">
-                                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getTraitementBadge(data)">
+                                <span
+                                    [ngStyle]="{ 'font-size': '16px' }"
+                                    [class]="
+                                        'badge ' + getTraitementBadge(data)
+                                    "
+                                >
                                     {{ data.traitement }}
                                 </span>
                             </td>

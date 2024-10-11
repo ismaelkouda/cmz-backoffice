@@ -307,12 +307,28 @@
                                 tooltipPosition="top"
                             ></td>
                             <td class="text-center" [style]="{ width: '3rem' }">
-                                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getStatutBadge(transaction?.statut)">
-                                    {{ transaction?.statut === 'traiter' ? 'Complet' : transaction?.statut }}
+                                <span
+                                    [ngStyle]="{ 'font-size': '16px' }"
+                                    [class]="
+                                        'badge ' +
+                                        getStatutBadge(transaction?.statut)
+                                    "
+                                >
+                                    {{
+                                        transaction?.statut === 'traiter'
+                                            ? 'Complet'
+                                            : transaction?.statut
+                                    }}
                                 </span>
                             </td>
                             <td class="text-center">
-                                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getTraitementBadge(transaction)">
+                                <span
+                                    [ngStyle]="{ 'font-size': '16px' }"
+                                    [class]="
+                                        'badge ' +
+                                        getTraitementBadge(transaction)
+                                    "
+                                >
                                     {{ transaction.traitement }}
                                 </span>
                             </td>
