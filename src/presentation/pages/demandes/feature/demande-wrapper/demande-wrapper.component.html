@@ -150,7 +150,9 @@
     <table [ngClass]="['native_table table']">
         <thead>
             <th class="text-center" [style]="{ width: '2rem' }">#</th>
-            <th class="text-center" [style]="{ width: '10rem' }">Date Demande</th>
+            <th class="text-center" [style]="{ width: '10rem' }">
+                Date Demande
+            </th>
             <th class="text-center" [style]="{ width: '14rem' }">N° Dossier</th>
             <th class="text-center" [style]="{ width: '4rem' }"># Lignes</th>
             <th class="text-center" [style]="{ width: '4rem' }"># Traitées</th>
@@ -179,7 +181,9 @@
                 "
             >
                 <td>{{ this.offset + i }}</td>
-                <td class="text-center" style="text-align: left">{{ data?.created_at }}</td>
+                <td class="text-center" style="text-align: left">
+                    {{ data?.created_at }}
+                </td>
                 <td
                     (click)="copyData(data.numero_demande)"
                     style="cursor: pointer"

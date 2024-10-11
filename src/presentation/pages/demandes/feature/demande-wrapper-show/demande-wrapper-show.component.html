@@ -7,65 +7,17 @@
             [{{ transactionId.numero_demande }}]
         </div>
         <div [style]="{ marginTop: '-0.5rem' }">
-            <div class="row" style="display: ruby-text; align-items: center">
-                <span
-                    [ngStyle]="{ width: 'fit-content', 'font-size': '3px' }"
-                    class="badge"
-                    [class.badge-dark]="
-                        transactionId?.traitement === BADGE_ETAT.RECU ||
-                        (transactionId?.statut === BADGE_ETAPE.SOUMISSION &&
-                            transactionId?.traitement === BADGE_ETAT.EN_ATTENTE)
-                    "
-                    [class.badge-warning]="
-                        transactionId?.statut === BADGE_ETAPE.TRAITEMENT &&
-                        (transactionId?.traitement === BADGE_ETAT.PARTIEL ||
-                            transactionId?.traitement === BADGE_ETAT.EN_ATTENTE)
-                    "
-                    [class.badge-warning-2]="
-                        transactionId?.statut === BADGE_ETAPE.CLOTURE &&
-                        transactionId?.traitement === BADGE_ETAT.ABANDONNE
-                    "
-                    [class.badge-info]="
-                        transactionId?.statut === BADGE_ETAPE.TRAITEMENT &&
-                        transactionId?.traitement === BADGE_ETAT.TOTAL
-                    "
-                    [class.badge-green]="
-                        transactionId?.statut === BADGE_ETAPE.FINALISATEUR &&
-                        transactionId?.traitement === BADGE_ETAT.CLOTURE
-                    "
-                    [class.badge-danger]="
-                        transactionId?.traitement === BADGE_ETAT.REJETE ||
-                        transactionId?.traitement === BADGE_ETAT.REFUSE
-                    "
-                    [class.badge-success]="
-                        transactionId?.statut === BADGE_ETAPE.CLOTURE &&
-                        transactionId?.traitement === BADGE_ETAT.ACCEPTE
-                    "
-                >
-                    <app-statut-demande
+            <div>
+                <span [ngStyle]="{width: 'fit-content','font-size': '16px'}"
+                    [class]="'badge '+getStatutBadge(transactionId?.statut)">{{ transactionId.statut }}
+                    <!-- <app-statut-demande
                         [statut]="transactionId.statut"
                         [badge]="transactionId.badge"
-                    ></app-statut-demande>
+                    ></app-statut-demande> -->
                 </span>
                 |
-                <span
-                    [ngStyle]="{
-                        width: 'fit-content',
-                        'font-size': '19px',
-                        padding: ' 6px 2px 10px 2px'
-                    }"
-                    class="badge"
-                    [class.badge-dark]="
-                        transactionId?.statut === BADGE_ETAPE.SOUMISSION
-                    "
-                    [class.badge-warning]="
-                        transactionId?.statut === BADGE_ETAPE.TRAITEMENT
-                    "
-                    [class.badge-success]="
-                        transactionId?.statut === BADGE_ETAPE.FINALISATEUR ||
-                        transactionId?.statut === BADGE_ETAPE.CLOTURE
-                    "
-                >
+                <span [ngStyle]="{width: 'fit-content','font-size': '16px'}"
+                    [class]="'badge ' + getTraitementBadge(transactionId)">
                     {{ transactionId.traitement }}
                 </span>
             </div>
