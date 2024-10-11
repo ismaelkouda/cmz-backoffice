@@ -20,6 +20,7 @@
   "compilerOptions": {
     "allowJs": true,
     "target": "ES2022",
+    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "emitDecoratorMetadata": true,
