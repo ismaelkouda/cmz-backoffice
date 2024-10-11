@@ -12,6 +12,8 @@ export class PatrimoineHeaderComponent implements OnInit {
   @Input() legende: string;
   @Input() total: number;
   @Input() showDate: boolean = false;
+  @Input() showListe: boolean = true;
+  @Input() showTotal: boolean = true;
   currentDate: string
 
   constructor() {

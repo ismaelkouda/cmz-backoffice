@@ -322,54 +322,54 @@ export class DemandeWrapperComponent implements OnInit {
     this.excelService.exportAsExcelFile(data, `Liste des demandes [${this.selectedOperation}]`);
   }
 
-  // public getStyleButtonTraitement(data: any): Object {
-  //   if (data?.statut === BADGE_ETAPE.SOUMISSION && data.traitement === BADGE_ETAT.EN_ATTENTE) {
-  //     return {class: 'p-button-danger', icon: 'pi pi-times', tooltip: 'Abandonner'};
-  //   } else if (data?.statut === BADGE_ETAPE.FINALISATEUR || data?.statut === BADGE_ETAPE.CLOTURE) {
-  //     return {class: 'p-button-success', icon: 'pi pi-check', tooltip: 'Identifier'};
-  //   } else {
-  //     return {class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande'};
-  //   }
-  // }
-  public getStyleButtonTraitement(dossier: any): Object {
-      switch (dossier?.statut) {
-
-          case BADGE_ETAPE.SOUMISSION:
-              if (dossier?.traitement === BADGE_ETAT.RECU) {
-                  return { class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'Traiter', isViewMode: 'voir' };
-              }
-          break;
-
-          case BADGE_ETAPE.TRAITEMENT:
-              if (dossier?.traitement === BADGE_ETAT.EN_ATTENTE) {
-                  return { class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'Traiter', isViewMode: {traiter: 'traiter', finaliser: '' }};
-              } else if (dossier?.traitement === BADGE_ETAT.PARTIEL) {
-                  return { class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'Traiter', isViewMode: {traiter: 'traiter', finaliser: 'finaliser' }};
-              } else if (dossier?.traitement === BADGE_ETAT.TOTAL) {
-                  return { class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'Finaliser', isViewMode: {traiter: '', finaliser: 'finaliser' } };
-              } else if (dossier?.traitement === BADGE_ETAT.REJETE) {
-                  return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande', isViewMode: {traiter: '', finaliser: '' } };
-              }
-          break;
-
-          case BADGE_ETAPE.FINALISATEUR:
-              if (dossier?.traitement === BADGE_ETAT.PARTIEL) {
-                  return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande', isViewMode: '' };
-              } else if (dossier?.traitement === BADGE_ETAT.CLOTURE) {
-                  return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande', isViewMode: '' };
-              }
-          break;
-
-          case BADGE_ETAPE.CLOTURE:
-              if (dossier?.traitement === BADGE_ETAT.ACCEPTE) {
-                  return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande', isViewMode: '' };
-              } else if (dossier?.traitement === BADGE_ETAT.REFUSE) {
-                  return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande', isViewMode: '' };
-              }
-          break;
-      }
-
+  public getStyleButtonTraitement(data: any): Object {
+    if (data?.statut === BADGE_ETAPE.SOUMISSION && data.traitement === BADGE_ETAT.EN_ATTENTE) {
+      return {class: 'p-button-danger', icon: 'pi pi-times', tooltip: 'Abandonner'};
+    } else if (data?.statut === BADGE_ETAPE.FINALISATEUR || data?.statut === BADGE_ETAPE.CLOTURE) {
+      return {class: 'p-button-success', icon: 'pi pi-check', tooltip: 'Identifier'};
+    } else {
+      return {class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande'};
+    }
   }
+  // public getStyleButtonTraitement(dossier: any): Object {
+  //     switch (dossier?.statut) {
+
+  //         case BADGE_ETAPE.SOUMISSION:
+  //             if (dossier?.traitement === BADGE_ETAT.RECU) {
+  //                 return { class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'Traiter', isViewMode: 'voir' };
+  //             }
+  //         break;
+
+  //         case BADGE_ETAPE.TRAITEMENT:
+  //             if (dossier?.traitement === BADGE_ETAT.EN_ATTENTE) {
+  //                 return { class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'Traiter', isViewMode: {traiter: 'traiter', finaliser: '' }};
+  //             } else if (dossier?.traitement === BADGE_ETAT.PARTIEL) {
+  //                 return { class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'Traiter', isViewMode: {traiter: 'traiter', finaliser: 'finaliser' }};
+  //             } else if (dossier?.traitement === BADGE_ETAT.TOTAL) {
+  //                 return { class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'Finaliser', isViewMode: {traiter: '', finaliser: 'finaliser' } };
+  //             } else if (dossier?.traitement === BADGE_ETAT.REJETE) {
+  //                 return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande', isViewMode: {traiter: '', finaliser: '' } };
+  //             }
+  //         break;
+
+  //         case BADGE_ETAPE.FINALISATEUR:
+  //             if (dossier?.traitement === BADGE_ETAT.PARTIEL) {
+  //                 return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande', isViewMode: '' };
+  //             } else if (dossier?.traitement === BADGE_ETAT.CLOTURE) {
+  //                 return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande', isViewMode: '' };
+  //             }
+  //         break;
+
+  //         case BADGE_ETAPE.CLOTURE:
+  //             if (dossier?.traitement === BADGE_ETAT.ACCEPTE) {
+  //                 return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande', isViewMode: '' };
+  //             } else if (dossier?.traitement === BADGE_ETAT.REFUSE) {
+  //                 return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande', isViewMode: '' };
+  //             }
+  //         break;
+  //     }
+
+  // }
 
   public getStatutBadge(statut: string): string {
     if(statut === BADGE_ETAPE.SOUMISSION || statut === BADGE_STATUT.SOUMIS) {

@@ -6,17 +6,29 @@
     <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
         <div class="card-body">
             <div
-                class="container_flex_space_between mb-3"
-                style="margin-top: -1rem !important"
+                class="d-flex justify-content-between mb-3"
+                style="
+                    margin-top: -1rem !important;
+                    margin-bottom: 1.5rem !important;
+                "
             >
-                <span class="table-header-wrapper">
-                    <b
-                        ><span>Details demande</span>
-                        <span class="current_values"
-                            >[{{ requestNumber }}]</span
-                        >
-                    </b>
-                </span>
+                <div class="d-flex">
+                    <app-patrimoine-header
+                        [showListe]="false"
+                        [showTotal]="false"
+                        [count]="listTraitemants"
+                        [legende]="'Details demande'"
+                        [total]="totalRecords"
+                    >
+                    </app-patrimoine-header>
+                    <span class="table-header-wrapper">
+                        <b>
+                            <span class="current_values"
+                                >[{{ requestNumber }}]</span
+                            >
+                        </b>
+                    </span>
+                </div>
 
                 <div class="table_actions_wrapper mt-0">
                     <div>
@@ -133,7 +145,6 @@
                         styleClass="p-button-success"
                         icon="pi pi-filter"
                         (click)="onFilter()"
-                        [disabled]="isFilter()"
                     ></p-button>
                 </div>
                 <!-- <div class="p-0" [ngStyle]="{ width: '4rem' }" *ngIf="!secondFilter">

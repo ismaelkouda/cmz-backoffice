@@ -1,9 +1,11 @@
 <div>
     <span class="table-header-wrapper">
         <b>
-            Liste des&nbsp;<span style="color: #ff6600">{{ total }}</span
-            >&nbsp;<span>{{ total <= 1 ? legende : legende + 's' }}</span
-            >&nbsp;
+            <span *ngIf="showListe">Liste des&nbsp;</span>
+            <span *ngIf="showTotal" style="color: #ff6600"
+                >{{ total }}&nbsp;</span
+            >
+            <span>{{ total <= 1 ? legende : legende + 's' }}&nbsp;</span>
             <!-- <span>{{
                 count?.length <= 1 ? 'mise à jour au' : 'mises à jour au'
             }}</span

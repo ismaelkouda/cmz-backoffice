@@ -96,7 +96,7 @@ export class DetailsSuivieTraitementComponent implements OnInit {
 
   ngOnInit() {
     this.GetAllTenants();
-    this.isFilter();
+    // this.isFilter();
     this.route.queryParams.subscribe((params) => {
       this.requestNumber = params["request"];
     });
@@ -387,9 +387,9 @@ public getTraitementBadge(dossier: any): string {
   public disableAction(): boolean {
     return this.listTraitemants === undefined || this.listTraitemants?.length === 0 ? true : false;
   }
-  public isFilter(): boolean {
-    return !this.selectedTenant ? true : false;
-  }
+  // public isFilter(): boolean {
+  //   return !this.selectedTenant ? true : false;
+  // }
   public OnExportExcel(): void {
     const data = this.listTraitemants.map((item: any) => ({
       "Date création": item?.created_at,
