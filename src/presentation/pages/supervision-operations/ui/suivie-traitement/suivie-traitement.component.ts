@@ -435,7 +435,7 @@ public getTraitementBadge(dossier: any): string {
   public OnExportExcel(): void {
     const data = this.listTraitemants.map((item: any) => ({
       'Date création': item?.created_at,
-      'N° demande': item?.transaction,
+      'N° Dossier': item?.transaction,
       'Service': item?.operation,
       'Rapport': item?.code_rapport,
       'Statut': item?.statut,

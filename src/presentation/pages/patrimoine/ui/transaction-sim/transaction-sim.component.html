@@ -8,7 +8,12 @@
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
-                        <div style="margin-top: -2rem !important">
+                        <div
+                            style="
+                                margin-top: -1rem !important;
+                                margin-bottom: 1.5rem !important;
+                            "
+                        >
                             <app-patrimoine-header
                                 [count]="listTransactions"
                                 [legende]="'demandes de service'"
@@ -40,7 +45,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>
-                                        <b>N° Demande</b>
+                                        <b>N° Dossier</b>
                                     </label>
                                     <input
                                         placeholder="Demande"
@@ -248,7 +253,7 @@
                                         class="text-center"
                                         [style]="{ width: '10rem' }"
                                     >
-                                        N° Demande
+                                        N° Dossier
                                     </th>
                                     <th class="text-center">Type Service</th>
                                     <th

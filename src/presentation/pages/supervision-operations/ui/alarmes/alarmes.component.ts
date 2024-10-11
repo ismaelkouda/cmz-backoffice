@@ -266,7 +266,7 @@ export class AlarmesComponent implements OnInit {
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
       'Date création': item?.created_at,
-      'N° demande': item?.transaction,
+      'N° Dossier': item?.transaction,
       'Service': item?.operation,
       'IMSI': item?.imsi,
       'MSISDN': item?.msisdn,

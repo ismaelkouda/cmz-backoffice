@@ -90,7 +90,7 @@ export class DemandeIdentificationComponent {
     public exportExcel(): void {
         // const data = this.listDemandesIntegrations.map((item: any) => ({
         //     'Date demande': item?.created_at,
-        //     'N° demande': item?.numero_demande,
+        //     'N° Dossier': item?.numero_demande,
         //     '# Lignes': item?.nb_demande_soumises,
         //     '# Traitées': item?.nb_demande_traitees,
         //     'Statut': item?.statut,

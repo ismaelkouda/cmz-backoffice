@@ -237,7 +237,7 @@ export class RapportTransactionComponent implements OnInit {
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
       'Date': item?.created_at,
-      'N° demande': item?.transaction,
+      'N° Dossier': item?.transaction,
       'MSISDN': item?.msisdn,
       'Demandeur': `${item?.demandeur_nom} ${item?.demandeur_prenoms}`,
       'Statut': item?.statut,
