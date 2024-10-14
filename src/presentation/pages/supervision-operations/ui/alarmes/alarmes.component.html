@@ -1,24 +1,17 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb
-                [title]="'Suivi des opérations'"
-                [active_item]="'file d \'attente'"
-            ></app-breadcrumb>
+            <app-breadcrumb [title]="'Suivi des opérations'" [active_item]="'file d \'attente'"></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
-                        <div
-                            style="
+                        <div style="
                                 margin-top: -1rem !important;
                                 margin-bottom: 1.5rem !important;
-                            "
-                        >
-                            <app-patrimoine-header
-                                [count]="listTransactions"
+                            ">
+                            <app-patrimoine-header [count]="listTransactions"
                                 [legende]="'dossiers en attente de clôture'"
-                                [total]="totalRecords"
-                            ></app-patrimoine-header>
+                                [total]="totalRecords"></app-patrimoine-header>
                         </div>
                         <div class="row filter_wrapper">
                             <div class="col-md-2">
@@ -26,12 +19,8 @@
                                     <label>
                                         <b>Type demande</b>
                                     </label>
-                                    <p-dropdown
-                                        [options]="listOperations"
-                                        [showClear]="true"
-                                        [(ngModel)]="selectedOperation"
-                                        placeholder="Type Demande"
-                                    >
+                                    <p-dropdown [options]="listOperations" [showClear]="true"
+                                        [(ngModel)]="selectedOperation" placeholder="Type Demande">
                                         <ng-template let-data pTemplate="item">
                                             <div class="country-item">
                                                 <div>
@@ -47,15 +36,34 @@
                                     <label>
                                         <b>N° Dossier</b>
                                     </label>
-                                    <input
-                                        placeholder="Demande"
-                                        [(ngModel)]="selectedTransaction"
-                                        type="text"
-                                        pInputText
-                                    />
+                                    <input placeholder="Demande" [(ngModel)]="selectedTransaction" type="text"
+                                        pInputText />
                                 </div>
                             </div>
                             <div class="col-md-2">
+                                <label><b>Statut</b> </label>
+                                <p-dropdown [options]="listStatuts" [showClear]="true"
+                                    [(ngModel)]="selectedStatut" placeholder="Statut">
+                                    <ng-template let-data pTemplate="item">
+                                        <div class="country-item">
+                                            <div>{{ data | titlecase }}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+                            <div class="col-md-2">
+                                <label><b>Traitement</b> </label>
+                                <p-dropdown [options]="listTraitements" [filter]="true" filterBy="libele"
+                                    [showClear]="true" [(ngModel)]="selectedTraitement" placeholder="Traitement"
+                                    name="libele">
+                                    <ng-template let-data pTemplate="item">
+                                        <div class="country-item">
+                                            <div>{{ data | titlecase }}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+                            <!-- <div class="col-md-2">
                                 <div class="form-group">
                                     <label>
                                         <b>IMSI</b>
@@ -80,18 +88,11 @@
                                         pInputText
                                     />
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col-md-2">
                                 <label class="block"><b>Demandeur</b></label>
-                                <p-dropdown
-                                    [options]="listUsers"
-                                    [(ngModel)]="currentUser"
-                                    optionLabel="fullName"
-                                    [filter]="true"
-                                    filterBy="fullName"
-                                    [showClear]="true"
-                                    placeholder="demandeur"
-                                >
+                                <p-dropdown [options]="listUsers" [(ngModel)]="currentUser" optionLabel="fullName"
+                                    [filter]="true" filterBy="fullName" [showClear]="true" placeholder="demandeur">
                                     <ng-template let-data pTemplate="item">
                                         <div class="country-item">
                                             <div>{{ data.fullName }}</div>
@@ -99,136 +100,73 @@
                                     </ng-template>
                                 </p-dropdown>
                             </div>
-                            <div
-                                class="p-0"
-                                [ngStyle]="{ width: '4rem' }"
-                                *ngIf="!secondFilter"
-                            >
-                                <label [ngStyle]="{ opacity: '0' }"
-                                    >Actions</label
-                                >
+                            <div class="p-0" [ngStyle]="{ width: '4rem' }" *ngIf="!secondFilter">
+                                <label [ngStyle]="{ opacity: '0' }">Actions</label>
                                 <br />
-                                <p-button
-                                    styleClass="p-button-success"
-                                    icon="pi pi-filter"
-                                    (click)="onFilter()"
-                                    [disabled]="isFilter()"
-                                ></p-button>
+                                <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                                    [disabled]="isFilter()"></p-button>
                             </div>
                             <div class="p-0" [ngStyle]="{ width: '4rem' }">
-                                <label [ngStyle]="{ opacity: '0' }"
-                                    >Actions</label
-                                >
+                                <label [ngStyle]="{ opacity: '0' }">Actions</label>
                                 <br />
-                                <p-button
-                                    *ngIf="!secondFilter"
-                                    (click)="showSecondFilter()"
-                                    styleClass="p-button-dark"
-                                    icon="pi pi-plus"
-                                ></p-button>
-                                <p-button
-                                    *ngIf="secondFilter"
-                                    (click)="showSecondFilter()"
-                                    styleClass="p-button-dark"
-                                    icon="pi pi-minus"
-                                ></p-button>
+                                <p-button *ngIf="!secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+                                    icon="pi pi-plus"></p-button>
+                                <p-button *ngIf="secondFilter" (click)="showSecondFilter()" styleClass="p-button-dark"
+                                    icon="pi pi-minus"></p-button>
                             </div>
                         </div>
                         <!--------------------Second-------------Filter--------->
-                        <div
-                            class="row filter_wrapper"
-                            style="padding-top: 0.7rem"
-                            *ngIf="secondFilter"
-                        >
+                        <div class="row filter_wrapper" style="padding-top: 0.7rem" *ngIf="secondFilter">
                             <div class="col-md-2">
                                 <label class="block"><b>Date début</b></label>
-                                <p-calendar
-                                    [(ngModel)]="filterDateStart"
-                                    [showIcon]="true"
-                                    (ngModelChange)="changeDateStart($event)"
-                                    dateFormat="dd-mm-yy"
-                                    [showButtonBar]="true"
-                                ></p-calendar>
+                                <p-calendar [(ngModel)]="filterDateStart" [showIcon]="true"
+                                    (ngModelChange)="changeDateStart($event)" dateFormat="dd-mm-yy"
+                                    [showButtonBar]="true"></p-calendar>
                             </div>
                             <div class="col-md-2">
                                 <label class="block"><b>Date fin </b></label>
-                                <p-calendar
-                                    [(ngModel)]="filterDateEnd"
-                                    [showIcon]="true"
-                                    [showClear]="true"
-                                    (ngModelChange)="changeDateEnd($event)"
-                                    dateFormat="dd-mm-yy"
-                                    [showButtonBar]="true"
-                                ></p-calendar>
+                                <p-calendar [(ngModel)]="filterDateEnd" [showIcon]="true" [showClear]="true"
+                                    (ngModelChange)="changeDateEnd($event)" dateFormat="dd-mm-yy"
+                                    [showButtonBar]="true"></p-calendar>
                             </div>
                             <div class="p-0" [ngStyle]="{ width: '4rem' }">
-                                <label [ngStyle]="{ opacity: '0' }"
-                                    >Actions</label
-                                >
+                                <label [ngStyle]="{ opacity: '0' }">Actions</label>
                                 <br />
-                                <p-button
-                                    styleClass="p-button-success"
-                                    icon="pi pi-filter"
-                                    (click)="onFilter()"
-                                    [disabled]="isFilter()"
-                                ></p-button>
+                                <p-button styleClass="p-button-success" icon="pi pi-filter" (click)="onFilter()"
+                                    [disabled]="isFilter()"></p-button>
                             </div>
                         </div>
                         <hr />
                         <div class="table_content_wrapper">
                             <div class="table_actions_wrapper pt-2">
-                                <button
-                                    pButton
-                                    pRipple
-                                    label="Rafraîchir"
-                                    (click)="OnRefresh()"
-                                    icon="pi pi-refresh"
-                                    class="p-button-secondary"
-                                ></button>
-                                <button
-                                    pButton
-                                    pRipple
-                                    label="Exporter"
-                                    (click)="OnExportExcel()"
-                                    icon="pi pi-download"
-                                    [disabled]="disableAction()"
-                                    class="p-button-helf"
-                                ></button>
+                                <button pButton pRipple label="Rafraîchir" (click)="OnRefresh()" icon="pi pi-refresh"
+                                    class="p-button-secondary"></button>
+                                <button pButton pRipple label="Exporter" (click)="OnExportExcel()" icon="pi pi-download"
+                                    [disabled]="disableAction()" class="p-button-helf"></button>
                             </div>
                             <div class="d-flex gap-3">
                                 <div class="table_header__legende">
-                                    <app-table-header
-                                        [count]="listTransactions"
-                                        [legende]="'demandes'"
-                                        [page]="page"
-                                        [totalPage]="totalPage"
-                                    ></app-table-header>
+                                    <app-table-header [count]="listTransactions" [legende]="'demandes'" [page]="page"
+                                        [totalPage]="totalPage"></app-table-header>
                                 </div>
                             </div>
                             <table [ngClass]="['native_table table']">
                                 <thead>
                                     <th class="text-center">#</th>
                                     <th>Date / Heure</th>
-                                    <th
-                                        class="text-center"
-                                        [style]="{ width: '10rem' }"
-                                    >
+                                    <th class="text-center" [style]="{ width: '10rem' }">
                                         N° Dossier
                                     </th>
                                     <th class="text-center">Type demande</th>
                                     <th class="text-center">IMSI</th>
                                     <th class="text-center">MSISDN</th>
                                     <th class="text-center">Demandeur</th>
-                                    <th
-                                        class="text-center"
-                                        [style]="{ width: '3rem' }"
-                                    >
+                                    <th class="text-center" [style]="{ width: '3rem' }">
                                         Actions
                                     </th>
                                 </thead>
                                 <tbody>
-                                    <tr
-                                        *ngFor="
+                                    <tr *ngFor="
                                             let data of listTransactions
                                                 | paginate
                                                     : {
@@ -240,68 +178,46 @@
                                                               totalRecords
                                                       };
                                             let i = index
-                                        "
-                                    >
+                                        ">
                                         <td>{{ this.offset + i }}</td>
                                         <td style="text-align: left">
                                             {{ data?.created_at }}
                                         </td>
-                                        <td
-                                            (click)="copyData(data.transaction)"
-                                            style="cursor: pointer"
-                                        >
+                                        <td (click)="copyData(data.transaction)" style="cursor: pointer">
                                             {{ data?.transaction }}
                                         </td>
                                         <td>
                                             {{ formatTitle(data?.operation) }}
                                         </td>
                                         <td>
-                                            <span
-                                                (click)="
+                                            <span (click)="
                                                     data?.imsi
                                                         ? copyData(data.imsi)
                                                         : null
-                                                "
-                                                style="cursor: pointer"
-                                                >{{ data?.imsi ?? 'N/A' }}</span
-                                            >
+                                                " style="cursor: pointer">{{ data?.imsi ?? 'N/A' }}</span>
                                         </td>
                                         <td>
-                                            <span
-                                                (click)="
+                                            <span (click)="
                                                     data?.msisdn
                                                         ? copyData(data.msisdn)
                                                         : null
-                                                "
-                                                style="cursor: pointer"
-                                                >{{
-                                                    data?.msisdn ?? 'N/A'
-                                                }}</span
-                                            >
+                                                " style="cursor: pointer">{{
+                                                data?.msisdn ?? 'N/A'
+                                                }}</span>
                                         </td>
                                         <td class="text-center">
                                             {{ data?.demandeur_nom }}
                                             {{ data?.demandeur_prenoms }}
                                         </td>
                                         <td class="td-actions">
-                                            <button
-                                                pButton
-                                                pRipple
-                                                label="Voir"
-                                                icon="pi pi-eye"
-                                                class="p-button-dark"
-                                                (click)="OnShowTraitement(data)"
-                                            ></button>
+                                            <button pButton pRipple label="Voir" icon="pi pi-eye" class="p-button-dark"
+                                                (click)="OnShowTraitement(data)"></button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div [ngClass]="['pagination-controls']">
-                                <pagination-controls
-                                    (pageChange)="onPageChange($event)"
-                                    previousLabel=""
-                                    nextLabel=""
-                                >
+                                <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
                                 </pagination-controls>
                             </div>
                         </div>
@@ -312,9 +228,6 @@
     </div>
 </div>
 <div class="progress-spinner" *ngIf="IsLoading">
-    <p-progressSpinner
-        [style]="{ width: '70px', height: '70px' }"
-        strokeWidth="5"
-        styleClass="spinner"
-    ></p-progressSpinner>
+    <p-progressSpinner [style]="{ width: '70px', height: '70px' }" strokeWidth="5"
+        styleClass="spinner"></p-progressSpinner>
 </div>

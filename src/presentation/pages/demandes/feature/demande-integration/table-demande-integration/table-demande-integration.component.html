@@ -74,11 +74,7 @@
                 {{ demande?.nb_demande_traitees ?? 'N/A' }}
             </td>
             <td class="text-center">
-                <span
-                    [class]="
-                        'badge_size badge ' + getStatutBadge(demande)
-                    "
-                >
+                <span [class]="'badge_size badge ' + getStatutBadge(demande)">
                     {{ demande?.statut }}
                 </span>
             </td>

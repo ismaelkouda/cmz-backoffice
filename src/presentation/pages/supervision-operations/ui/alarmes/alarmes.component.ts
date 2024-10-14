@@ -23,6 +23,7 @@ export class AlarmesComponent implements OnInit {
   public module: string;
   public subModule: string;
   public listTransactions: Array<any> = [];
+  public listTraitements: Array<any> = [];
   public listOperations: Array<any> = [];
   public listStatuts: Array<any> = [];
   public listUsers: Array<any> = [];
@@ -34,6 +35,7 @@ export class AlarmesComponent implements OnInit {
   public selectedOperation: string;
   public selectedTransaction: string;
   public selectedStatut: string;
+  public selectedTraitement: string;
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
@@ -75,6 +77,9 @@ export class AlarmesComponent implements OnInit {
     this.listOperations = this.mappingService.listOperations
       Object.values(StatutTransaction).forEach(item => {
         this.listStatuts.push(item);
+      });
+      Object.values(TraitementTransaction).forEach((item) => {
+          this.listTraitements.push(item);
       });
   }
 
@@ -119,6 +124,8 @@ export class AlarmesComponent implements OnInit {
         operation: this.selectedOperation,
         transaction: this.selectedTransaction,
         msisdn: this.selectedSim,
+        statut: this.selectedStatut,
+        traitement: this.selectedTraitement,
         imsi: this.selectedimsi,
         initie_par: this.currentUser?.id,
         date_debut: this.selectDateStart,
@@ -261,7 +268,7 @@ export class AlarmesComponent implements OnInit {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
   public isFilter(): boolean {
-    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction && !this.currentUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
+    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTraitement && !this.selectedTransaction && !this.currentUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
