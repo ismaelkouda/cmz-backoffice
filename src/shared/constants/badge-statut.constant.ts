@@ -1,5 +1,11 @@
 export const BADGE_STATUT = {
-    CLOTURE: "clôturé",
-    TRAITE: "traité",
+    REJETE: "rejeté",
     SOUMIS: "soumis",
+    REFUSE: "refusé",
+    TRAITE: "traité",
+    NON_TRAITE: "non-traité",
+    CLOTURE: "clôturé",
+    NON_CLOTURE: "non-clôturé",
+    ACCEPTE: "accepté",
+    ABANDONNE: "abandonné",
 }

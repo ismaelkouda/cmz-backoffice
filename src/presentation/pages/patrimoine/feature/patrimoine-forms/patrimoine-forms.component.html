@@ -45,6 +45,152 @@
                         <div>
                             <form [formGroup]="adminForm" novalidate>
                                 <fieldset>
+                                    <legend [ngStyle]="{ width: '12rem' }">
+                                        <b>Informations du propriétaire</b>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <div class="form-group">
+                                                <label>
+                                                    <b>Type de personne</b>
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    formControlName="type_personne"
+                                                    pInputText
+                                                />
+                                            </div>
+                                        </div>
+                                        <ng-container
+                                            *ngIf="
+                                                currentObject?.type_personne ===
+                                                    'physique';
+                                                else personneMoralField1
+                                            "
+                                        >
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b>Nom</b></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="nom"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >Prénoms</b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="prenoms"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b
+                                                            >Nature de la
+                                                            pièce</b
+                                                        >
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="nature_piece"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b
+                                                            >Numéro de la
+                                                            pièce</b
+                                                        >
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="numero_piece"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        <ng-template #personneMoralField1>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >Denomination</b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="denomination"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >Raison
+                                                            social</b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="raison_social"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b
+                                                            >Nature du
+                                                            document</b
+                                                        >
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="nature_document"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b
+                                                            >Numéro du
+                                                            document</b
+                                                        >
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="numero_document"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </fieldset>
+
+
+                                <fieldset>
                                     <legend>Informations SIM</legend>
                                     <div class="row">
                                         <div class="col-md-3">

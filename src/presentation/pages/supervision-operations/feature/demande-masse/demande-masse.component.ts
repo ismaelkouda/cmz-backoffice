@@ -298,7 +298,7 @@ export class DemandeMasseComponent implements OnInit {
             return "detailsDemandeColorYellow";
         } else if (data?.etat_traitement === BADGE_ETAT.REJETE || data?.etat_cloture === BADGE_ETAT.REFUSE) {
             return "detailsDemandeColorRed";
-        } else if (data?.etat_traitement === BADGE_ETAT.PARTIEL || data?.etat_traitement === BADGE_ETAT.TOTAL) {
+        } else if (data?.etat_traitement === BADGE_ETAT.PARTIEL || data?.etat_traitement === BADGE_ETAT.CLOTURE) {
             return "detailsDemandeColorGreen";
         } else {
             return "detailsDemandeColorBlack";

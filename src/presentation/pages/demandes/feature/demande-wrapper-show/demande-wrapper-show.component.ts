@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { SettingService } from 'src/shared/services/setting.service';
@@ -76,20 +76,21 @@ export class DemandeWrapperShowComponent implements OnInit {
     private mappingService: MappingService,
     private modalService: NgbModal,
     private excelService: ExcelService,
-    private settingsService:SettingService
+    private settingsService: SettingService
 
   ) {
     this.listOperations = this.mappingService.listOperations
-      Object.values(StatutTransaction).forEach(item => {
-        this.listStatuts.push(item);
-      });
-      Object.values(TraitementTransaction).forEach(item => {
-        this.listTraitementTransactions.push(item);
-      });  
+    Object.values(StatutTransaction).forEach(item => {
+      this.listStatuts.push(item);
+    });
+    Object.values(TraitementTransaction).forEach(item => {
+      this.listTraitementTransactions.push(item);
+    });
   }
 
   ngOnInit() {
-    if (this.transactionId) {      
+    console.log('this.transactionId', this.transactionId)
+    if (this.transactionId) {
       this.GetAllTransactions()
     }
     this.isFilter();
@@ -104,15 +105,15 @@ export class DemandeWrapperShowComponent implements OnInit {
       }, this.p)
       .subscribe({
         next: (response) => {
-          this.listTransactions =  response['data']['data'].map((data) => {
+          this.listTransactions = response['data']['data'].map((data) => {
             if (data?.statut === StatutTransaction.TARITER) {
-              return {...data,current_date: data?.date_traitement}
-            }else if (data?.statut === StatutTransaction.CLOTURER) {
-              return {...data,current_date: data?.date_cloture}
-            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
-              return {...data,current_date: data?.date_acquittement}
-            } else{
-              return {...data,current_date: 'N/A'}
+              return { ...data, current_date: data?.date_traitement }
+            } else if (data?.statut === StatutTransaction.CLOTURER) {
+              return { ...data, current_date: data?.date_cloture }
+            } else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return { ...data, current_date: data?.date_acquittement }
+            } else {
+              return { ...data, current_date: 'N/A' }
             }
           });
           this.totalPage = response.data.last_page;
@@ -126,7 +127,7 @@ export class DemandeWrapperShowComponent implements OnInit {
         }
       })
   }
-  
+
   public onPageChange(event) {
     this.p = event;
     this.onFilter()
@@ -149,15 +150,15 @@ export class DemandeWrapperShowComponent implements OnInit {
       }, this.p)
       .subscribe({
         next: (response) => {
-          this.listTransactions =  response['data']['data'].map((data) => {
+          this.listTransactions = response['data']['data'].map((data) => {
             if (data?.statut === StatutTransaction.TARITER) {
-              return {...data,current_date: data?.date_traitement}
-            }else if (data?.statut === StatutTransaction.CLOTURER) {
-              return {...data,current_date: data?.date_cloture}
-            }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
-              return {...data,current_date: data?.date_acquittement}
-            } else{
-              return {...data,current_date: 'N/A'}
+              return { ...data, current_date: data?.date_traitement }
+            } else if (data?.statut === StatutTransaction.CLOTURER) {
+              return { ...data, current_date: data?.date_cloture }
+            } else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+              return { ...data, current_date: data?.date_acquittement }
+            } else {
+              return { ...data, current_date: 'N/A' }
             }
           });
           this.totalPage = response.data.last_page;
@@ -171,7 +172,7 @@ export class DemandeWrapperShowComponent implements OnInit {
         }
       })
   }
-  public OnRefresh(){
+  public OnRefresh() {
     this.p = 1;
     this.GetAllTransactions();
     this.selectedTransaction = null
@@ -229,50 +230,50 @@ export class DemandeWrapperShowComponent implements OnInit {
   OnShowTraitement(data: any): void {
     this.IsLoading = true;
     const modalRef = this.modalService.open(TransactionShowComponent, ModalParams);
-    modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
+    modalRef.componentInstance.transaction = { ...data, current_date: data.current_date, IsLoading: this.IsLoading };
     modalRef.componentInstance.resultTraitement.subscribe((res) => {
       this.listTransactions = res
     })
     modalRef.componentInstance.IsLoading.subscribe((res) => {
       this.IsLoading = res;
       modalRef.componentInstance.IsLoadData = !res;
-    }) 
+    })
   }
   changeDateStart(e) {
-    if ( moment(this.filterDateStart).isValid()) {
+    if (moment(this.filterDateStart).isValid()) {
       this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
-    }else{
+    } else {
       this.selectDateStart = null
     }
   }
-  changeDateEnd(e) { 
-    if ( moment(this.filterDateEnd).isValid()) {
+  changeDateEnd(e) {
+    if (moment(this.filterDateEnd).isValid()) {
       this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
-    }else{
+    } else {
       this.selectDateEnd = null
     }
   }
-  public OnChangeStatut(event){
+  public OnChangeStatut(event) {
     const currentStatut = event.value
     if (currentStatut === StatutTransaction.SOUMIS) {
-      this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
+      this.listTraitementTransactions.splice(0, this.listTraitementTransactions.length);
       this.listTraitementTransactions = [
         TraitementTransaction.EN_ENTENTE,
         TraitementTransaction.ACQUITER
       ]
-    }else if (currentStatut === StatutTransaction.TARITER) {
-      this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
+    } else if (currentStatut === StatutTransaction.TARITER) {
+      this.listTraitementTransactions.splice(0, this.listTraitementTransactions.length);
       this.listTraitementTransactions = [
         TraitementTransaction.ACCEPTER,
         TraitementTransaction.REJETER
       ]
-    }else if (currentStatut === StatutTransaction.CLOTURER) {
-      this.listTraitementTransactions.splice(0,this.listTraitementTransactions.length);
+    } else if (currentStatut === StatutTransaction.CLOTURER) {
+      this.listTraitementTransactions.splice(0, this.listTraitementTransactions.length);
       this.listTraitementTransactions = [
         TraitementTransaction.REFUSER,
         TraitementTransaction.ACCEPTER
       ]
-    }else{
+    } else {
       Object.values(TraitementTransaction).forEach(item => {
         this.listTraitementTransactions.push(item);
       });
@@ -290,40 +291,115 @@ export class DemandeWrapperShowComponent implements OnInit {
       'Statut': item?.statut,
       'Traitement': item?.traitement,
       'Date Traitement': item?.current_date
-     }));
-    this.excelService.exportAsExcelFile(data, `Liste des lignes de la demande [${this.transactionId.numero_demande}]`);
-  }
-
-
-public getStatutBadge(statut: string): string {
-  if(statut === BADGE_ETAPE.SOUMISSION || statut === BADGE_STATUT.SOUMIS) {
-      return "badge-dark";
-  } else if(statut === BADGE_ETAPE.TRAITEMENT) {
-      return "badge-warning";
-  } else if(statut === BADGE_ETAPE.FINALISATEUR || statut === BADGE_ETAPE.CLOTURE || statut === BADGE_STATUT.CLOTURE) {
-      return "badge-success";
-  } else if(statut === BADGE_STATUT.TRAITE) {
-      return "badge-info";
+    }));
+    this.excelService.exportAsExcelFile(data, `Liste_lignes_demande_${this.transactionId.numero_demande}`);
   }
-}
 
+  public getEtapeBadge(data: any): string {
+    switch (data?.statut) {
+      case BADGE_ETAPE.SOUMISSION:
+        return "badge-dark";
 
+      case BADGE_ETAPE.TRAITEMENT:
+        return "badge-warning";
 
-public getTraitementBadge(dossier: any): string {
-  if (dossier?.traitement === BADGE_ETAT.RECU || (dossier?.statut === BADGE_ETAPE.SOUMISSION && dossier?.traitement === BADGE_ETAT.EN_ATTENTE) || (dossier?.statut === BADGE_ETAPE.TRAITEMENT && dossier?.traitement === BADGE_ETAT.EN_ATTENTE)) {
-      return "badge-dark";
-  } else if ((dossier?.statut === BADGE_ETAPE.TRAITEMENT && (dossier?.traitement === BADGE_ETAT.PARTIEL || dossier?.traitement === BADGE_ETAT.EN_ATTENTE)) ||
-      (dossier?.statut === BADGE_ETAPE.CLOTURE && dossier?.traitement === BADGE_ETAT.ABANDONNE)) {
-      return "badge-warning";
-  } else if (dossier?.statut === BADGE_ETAPE.TRAITEMENT && dossier?.traitement === BADGE_ETAT.TOTAL) {
-      return "badge-info";
-  } else if ((dossier?.statut === BADGE_ETAPE.FINALISATEUR && dossier?.traitement === BADGE_ETAT.CLOTURE) ||
-      (dossier?.statut === BADGE_ETAPE.CLOTURE && dossier?.traitement === BADGE_ETAT.ACCEPTE) || 
-      (dossier?.statut === BADGE_ETAPE.FINALISATEUR && dossier?.traitement === BADGE_ETAT.PARTIEL)) {
-      return "badge-success";
-  } else if (dossier?.traitement === BADGE_ETAT.REJETE || dossier?.traitement === BADGE_ETAT.REFUSE) {
-      return "badge-danger";
+      case BADGE_ETAPE.FINALISATEUR:
+        return "badge-info";
+
+      case BADGE_ETAPE.CLOTURE:
+        return "badge-success";
+    }
   }
-}
+
+  public getStatutBadge(data: any): string {
+    console.log('data', data)
+    switch (data?.statut) {
+      case BADGE_STATUT.SOUMIS:
+        return "badge-dark";
+
+      case BADGE_STATUT.TRAITE:
+        return "badge-success";
+
+      case BADGE_STATUT.CLOTURE:
+        return "badge-success";
+    }
+  }
+
+  public getEtatBadge(data: any): string {
+    switch (data?.statut) {
+      case BADGE_ETAPE.SOUMISSION:
+        if (data?.traitement === BADGE_ETAT.RECU || data?.traitement === BADGE_ETAT.EN_ATTENTE) {
+          return "badge-dark";
+        }
+        break;
+
+      case BADGE_ETAPE.TRAITEMENT:
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_ETAT.COMPLET) {
+          return "badge-danger";
+        }
+        break;
+
+      case BADGE_ETAPE.FINALISATEUR:
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_ETAT.CLOTURE) {
+          return "badge-success";
+        }
+        break;
+
+      case BADGE_ETAPE.CLOTURE:
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_ETAT.CLOTURE) {
+          return "badge-success";
+        }
+        if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
+          return "badge-danger";
+        }
+        break;
+    }
+  }
+
+  public getTraitementBadge(data: any): string {
+    switch (data?.statut) {
+      case BADGE_STATUT.SOUMIS:
+        if (data?.traitement === BADGE_TRAITEMENT.RECU || data?.traitement === BADGE_TRAITEMENT.EN_ATTENTE) {
+          return "badge-dark";
+        }
+        break;
+
+      case BADGE_STATUT.TRAITE:
+        if (data?.traitement === BADGE_TRAITEMENT.ACCEPTE) {
+          return "badge-success";
+        }
+        if (data?.traitement === BADGE_TRAITEMENT.REFUSE) {
+          return "badge-danger";
+        }
+        if(data?.traitement  === BADGE_TRAITEMENT.REJETE) {
+          return "badge-danger";
+        }
+        break;
+
+      case BADGE_STATUT.CLOTURE:
+        if (data?.traitement === BADGE_TRAITEMENT.ACCEPTE) {
+          return "badge-success";
+        }
+        if (data?.traitement === BADGE_TRAITEMENT.ABANDONNE) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_TRAITEMENT.REFUSE) {
+          return "badge-danger";
+        }
+        if(data?.traitement  === BADGE_TRAITEMENT.REJETE) {
+          return "badge-danger";
+        }
+        break;
+    }
+  }
 
 }

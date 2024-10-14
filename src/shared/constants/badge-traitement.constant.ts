@@ -1,7 +1,10 @@
 export const BADGE_TRAITEMENT = {
     EN_ATTENTE: "en-attente",
     RECU: "reçu",
-    ACCEPTE: "accepté",
     ABANDONNE: "abandonné",
-    REFUSE: "refusé"
+    ACCEPTE: "accepté",
+    REFUSE: "refusé",
+    REJETE: "rejeté",
+    TRAITE: "traité",
+    NON_TRAITE: "non-traité"
 }

@@ -324,11 +324,11 @@ export class DemandeWrapperComponent implements OnInit {
 
   public getStyleButtonTraitement(data: any): Object {
     if (data?.statut === BADGE_ETAPE.SOUMISSION && data.traitement === BADGE_ETAT.EN_ATTENTE) {
-      return {class: 'p-button-danger', icon: 'pi pi-times', tooltip: 'Abandonner'};
-    } else if (data?.statut === BADGE_ETAPE.FINALISATEUR || data?.statut === BADGE_ETAPE.CLOTURE) {
-      return {class: 'p-button-success', icon: 'pi pi-check', tooltip: 'Identifier'};
+      return { class: 'p-button-danger', icon: 'pi pi-times', tooltip: 'Abandonner' };
+    } else if (data?.statut === BADGE_ETAPE.FINALISATEUR) {
+      return { class: 'p-button-success', icon: 'pi pi-check', tooltip: 'Identifier' };
     } else {
-      return {class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande'};
+      return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande' };
     }
   }
   // public getStyleButtonTraitement(dossier: any): Object {
@@ -371,33 +371,61 @@ export class DemandeWrapperComponent implements OnInit {
 
   // }
 
-  public getStatutBadge(statut: string): string {
-    if(statut === BADGE_ETAPE.SOUMISSION || statut === BADGE_STATUT.SOUMIS) {
-        return "badge-dark";
-    } else if(statut === BADGE_ETAPE.TRAITEMENT) {
-        return "badge-warning";
-    } else if(statut === BADGE_ETAPE.FINALISATEUR || statut === BADGE_ETAPE.CLOTURE || statut === BADGE_STATUT.CLOTURE) {
-        return "badge-success";
-    } else if(statut === BADGE_STATUT.TRAITE) {
-        return "badge-info";
-    }
-}
 
-public getTraitementBadge(dossier: any): string {
-    if (dossier?.traitement === BADGE_ETAT.RECU || (dossier?.statut === BADGE_ETAPE.SOUMISSION && dossier?.traitement === BADGE_ETAT.EN_ATTENTE) || (dossier?.statut === BADGE_ETAPE.TRAITEMENT && dossier?.traitement === BADGE_ETAT.EN_ATTENTE)) {
+  public getEtapeBadge(data: any): string {
+    switch (data?.statut) {
+      case BADGE_ETAPE.SOUMISSION:
         return "badge-dark";
-    } else if ((dossier?.statut === BADGE_ETAPE.TRAITEMENT && (dossier?.traitement === BADGE_ETAT.PARTIEL || dossier?.traitement === BADGE_ETAT.EN_ATTENTE)) ||
-        (dossier?.statut === BADGE_ETAPE.CLOTURE && dossier?.traitement === BADGE_ETAT.ABANDONNE)) {
+
+      case BADGE_ETAPE.TRAITEMENT:
         return "badge-warning";
-    } else if (dossier?.statut === BADGE_ETAPE.TRAITEMENT && dossier?.traitement === BADGE_ETAT.TOTAL) {
+
+      case BADGE_ETAPE.FINALISATEUR:
         return "badge-info";
-    } else if ((dossier?.statut === BADGE_ETAPE.FINALISATEUR && dossier?.traitement === BADGE_ETAT.CLOTURE) ||
-        (dossier?.statut === BADGE_ETAPE.CLOTURE && dossier?.traitement === BADGE_ETAT.ACCEPTE) || 
-        (dossier?.statut === BADGE_ETAPE.FINALISATEUR && dossier?.traitement === BADGE_ETAT.PARTIEL)) {
+
+      case BADGE_ETAPE.CLOTURE:
         return "badge-success";
-    } else if (dossier?.traitement === BADGE_ETAT.REJETE || dossier?.traitement === BADGE_ETAT.REFUSE) {
-        return "badge-danger";
     }
-}
+  }
+
+  public getEtatBadge(data: any): string {
+    switch (data?.statut) {
+      case BADGE_ETAPE.SOUMISSION:
+        if (data?.traitement === BADGE_ETAT.RECU || data?.traitement === BADGE_ETAT.EN_ATTENTE) {
+          return "badge-dark";
+        }
+        break;
+
+      case BADGE_ETAPE.TRAITEMENT:
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_ETAT.COMPLET) {
+          return "badge-danger";
+        }
+        break;
+
+      case BADGE_ETAPE.FINALISATEUR:
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_ETAT.CLOTURE) {
+          return "badge-success";
+        }
+        break;
+
+      case BADGE_ETAPE.CLOTURE:
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_ETAT.CLOTURE) {
+          return "badge-success";
+        }
+        if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
+          return "badge-danger";
+        }
+        break;
+    }
+  }
 
 }

@@ -10,7 +10,7 @@
             <div>
                 <span
                     [ngStyle]="{ width: 'fit-content', 'font-size': '16px' }"
-                    [class]="'badge ' + getStatutBadge(transactionId?.statut)"
+                    [class]="'badge ' + getEtapeBadge(transactionId)"
                     >{{ transactionId.statut }}
                     <!-- <app-statut-demande
                         [statut]="transactionId.statut"
@@ -20,7 +20,7 @@
                 |
                 <span
                     [ngStyle]="{ width: 'fit-content', 'font-size': '16px' }"
-                    [class]="'badge ' + getTraitementBadge(transactionId)"
+                    [class]="'badge ' + getEtatBadge(transactionId)"
                 >
                     {{ transactionId.traitement }}
                 </span>
@@ -251,7 +251,7 @@
                 <td class="text-center" [style]="{ width: '3rem' }">
                     <span
                         [ngStyle]="{ 'font-size': '16px' }"
-                        [class]="'badge ' + getStatutBadge(data?.statut)"
+                        [class]="'badge ' + getStatutBadge(data)"
                     >
                         {{
                             data?.statut === 'traiter'
