@@ -139,6 +139,15 @@ export const content: Routes = [
     data: {
       module: 'Structure Organisationnelle',
     }
-  }
+  },
+  {
+    path: '',
+    redirectTo: DASHBOARD,
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: DASHBOARD,
+  },
 
 ];

@@ -9,18 +9,11 @@
                 <div class="card-body">
                     <div [hidden]="!initialView">
                         <div
-                            style="
-                                margin-top: -1rem !important;
-                                margin-bottom: 1.5rem !important;
-                            "
+                        style="margin-top: -2rem !important"
                         >
-                            <app-patrimoine-header
-                                [count]="listEtats"
-                                [legende]="'cartes SIM avec leurs solde'"
-                                [showDate]="true"
-                                [total]="total"
-                            >
-                            </app-patrimoine-header>
+                            <app-patrimoine-header [displayDate]="true" [count]="listEtats" [total]="total"
+                        [legendePluriel]="'cartes SIM avec leurs solde'" [legendeSingulier]="'carte SIM avec leurs solde'">
+                    </app-patrimoine-header>
                         </div>
                         <div [formGroup]="formFilter">
                             <div class="d-flex gap-1">
@@ -104,6 +97,7 @@
                                     <p-dropdown
                                         [options]="listAPN"
                                         [showClear]="true"
+                                        placeholder="apn"
                                         formControlName="apn"
                                         optionLabel="apn"
                                         optionValue="apn"

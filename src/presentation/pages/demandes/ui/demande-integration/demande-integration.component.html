@@ -9,16 +9,10 @@
             <div class="card">
                 <div class="card-body">
                     <div
-                        style="
-                            margin-top: -1rem !important;
-                            margin-bottom: 1.5rem !important;
-                        "
-                    >
-                        <app-patrimoine-header
-                            [count]="listDemandesIntegrations"
-                            [legende]="'demandes d\'integration'"
-                            [total]="this.pargination?.total"
-                        >
+                    style="margin-top: -2rem !important">
+                        
+                        <app-patrimoine-header [displayDate]="false" [count]="listDemandesIntegrations" [total]="pargination?.total"
+                            [legendePluriel]="'demandes d\'integration'" [legendeSingulier]="'demande d\'integration'">
                         </app-patrimoine-header>
                     </div>
 

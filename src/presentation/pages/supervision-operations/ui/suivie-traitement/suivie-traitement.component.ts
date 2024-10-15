@@ -221,7 +221,7 @@ public getTraitementBadge(dossier: any): string {
       (dossier?.statut === BADGE_ETAPE.CLOTURE && dossier?.traitement === BADGE_ETAT.ABANDONNE)) {
       return "badge-warning";
   } else if (dossier?.statut === BADGE_ETAPE.TRAITEMENT && dossier?.traitement === BADGE_ETAT.COMPLET) {
-      return "badge-info";
+      return "badge-primary";
   } else if ((dossier?.statut === BADGE_ETAPE.FINALISATEUR && dossier?.traitement === BADGE_ETAT.CLOTURE) ||
       (dossier?.statut === BADGE_ETAPE.CLOTURE && dossier?.traitement === BADGE_ETAT.ACCEPTE) || 
       (dossier?.statut === BADGE_ETAPE.FINALISATEUR && dossier?.traitement === BADGE_ETAT.PARTIEL)) {

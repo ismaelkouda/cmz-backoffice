@@ -66,9 +66,7 @@ export class ProfilSupervisionComponent implements OnInit {
       .GetAllPrevention({})
       .subscribe({
         next: (response) => {
-          console.log("Alert prevention", response);
           this.seuilCritique = response.data;
-          console.log("content seuilCritique :", this.seuilCritique);
         },
         error: (error) => {
           this.toastrService.error(error.error.message);

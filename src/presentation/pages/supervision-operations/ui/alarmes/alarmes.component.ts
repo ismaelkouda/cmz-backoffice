@@ -12,6 +12,10 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { Title } from '@angular/platform-browser';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { DemandeMasseComponent } from '../../feature/demande-masse/demande-masse.component';
+import { ModalParams } from 'src/shared/constants/modalParams.contant';
+import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
+import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 
 @Component({
   selector: 'app-alarmes',
@@ -233,22 +237,96 @@ export class AlarmesComponent implements OnInit {
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
   }
+    
+  public getEtapeBadge(data: any): string {
+      switch (data?.statut) {
+        case BADGE_ETAPE.SOUMISSION:
+          return "badge-dark";
+      
+          case BADGE_ETAPE.TRAITEMENT:
+            return "badge-warning";
+      
+            case BADGE_ETAPE.FINALISATEUR:
+              return "badge-info";
+  
+          case BADGE_ETAPE.CLOTURE:
+            return "badge-success";
+      }
+  }
+  
+  public getEtatBadge(data: any): string {
+    switch (data?.statut) {
+      case BADGE_ETAPE.SOUMISSION:
+        if(data?.traitement  === BADGE_ETAT.RECU || data?.traitement  === BADGE_ETAT.EN_ATTENTE) {
+          return "badge-dark";
+        }
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        break;
+    
+        case BADGE_ETAPE.TRAITEMENT:
+          if(data?.traitement  === BADGE_ETAT.PARTIEL) {
+            return "badge-warning";
+          }
+          if(data?.traitement  === BADGE_ETAT.COMPLET) {
+            return "badge-primary";
+          }
+        break;
+    
+        case BADGE_ETAPE.FINALISATEUR:
+          if(data?.traitement  === BADGE_ETAT.PARTIEL) {
+            return "badge-warning";
+          }
+          if(data?.traitement  === BADGE_ETAT.CLOTURE) {
+            return "badge-success";
+          }
+
+          if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
+            return "badge-danger";
+          }
+        break;
+  
+        case BADGE_ETAPE.CLOTURE:
+          if(data?.traitement  === BADGE_ETAT.PARTIEL) {
+            return "badge-warning";
+          }
+          if(data?.traitement  === BADGE_ETAT.CLOTURE) {
+            return "badge-success";
+          }
+
+          if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
+            return "badge-danger";
+          }
+        break;
+    }
+  }
   OnShowTraitement(data: any): void {
+    // this.IsLoading = true;
+    // const modalRef = this.modalService.open(TransactionShowComponent, {
+    //   ariaLabelledBy: "modal-basic-title",
+    //   backdrop: "static",
+    //   keyboard: false,
+    //   centered: true,
+    // });
+    // modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
+    // modalRef.componentInstance.resultTraitement.subscribe((res) => {
+    //   this.listTransactions = res
+    // })
+    // modalRef.componentInstance.IsLoading.subscribe((res) => {
+    //   this.IsLoading = res;
+    //   modalRef.componentInstance.IsLoadData = !res;
+    // })   
+    // let action: string;
+    // if (this.canClose(data)) {
+    //   action = "Clôturer";
+    // }
     this.IsLoading = true;
-    const modalRef = this.modalService.open(TransactionShowComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
-    modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
-    modalRef.componentInstance.resultTraitement.subscribe((res) => {
-      this.listTransactions = res
-    })
-    modalRef.componentInstance.IsLoading.subscribe((res) => {
-      this.IsLoading = res;
-      modalRef.componentInstance.IsLoadData = !res;
-    })    
+    const modalRef = this.modalService.open(DemandeMasseComponent, ModalParams);
+    modalRef.componentInstance.params = {vue: "traitement"};
+    modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
+    modalRef.componentInstance.resultTraitement = this.supervisionOperationService.GetAllDemandes({}, this.p);
+    modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res;  modalRef.componentInstance.IsLoadData = !res }); 
   }
   changeDateStart(e) {
     if ( moment(this.filterDateStart).isValid()) {

@@ -1,132 +1,70 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb
-                [title]="'Réferentiel Supervision'"
-                [active_item]="'Profils de supervision'"
-            ></app-breadcrumb>
+            <app-breadcrumb [title]="'Réferentiel Supervision'"
+                [active_item]="'Profils de supervision'"></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
-                        <div
-                            style="
-                                margin-top: -1rem !important;
-                                margin-bottom: 1.5rem !important;
-                            "
-                        >
-                            <app-patrimoine-header
-                                [count]="listProfils"
-                                [legende]="' profils de supervision'"
-                                [total]="total"
-                            ></app-patrimoine-header>
+                        <div style="margin-top: -2rem !important">
+                            <app-patrimoine-header [displayDate]="false" [count]="listProfils" [total]="total"
+                                [legendePluriel]="'profils de supervision'"
+                                [legendeSingulier]="'profil de supervision'">
+                            </app-patrimoine-header>
                         </div>
                         <div class="table_content_wrapper">
                             <div class="row filter_wrapper">
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label>
-                                            <b
-                                                >MSISDN<span class="text-danger"
-                                                    >*</span
-                                                ></b
-                                            >
+                                            <b>MSISDN<span class="text-danger">*</span></b>
                                         </label>
-                                        <input
-                                            placeholder="msisdn"
-                                            [(ngModel)]="selectedMsisdn"
-                                            type="text"
-                                            pInputText
-                                        />
+                                        <input placeholder="msisdn" [(ngModel)]="selectedMsisdn" type="text"
+                                            pInputText />
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label>
-                                            <b
-                                                >IMSI<span class="text-danger"
-                                                    >*</span
-                                                ></b
-                                            >
+                                            <b>IMSI<span class="text-danger">*</span></b>
                                         </label>
-                                        <input
-                                            placeholder="imsi"
-                                            [(ngModel)]="selectedImsi"
-                                            type="text"
-                                            pInputText
-                                        />
+                                        <input placeholder="imsi" [(ngModel)]="selectedImsi" type="text" pInputText />
                                     </div>
                                 </div>
                                 <div class="col-md-1">
-                                    <p-button
-                                        styleClass="p-button-success filter-button"
-                                        icon="pi pi-filter"
-                                        [disabled]="isFilter()"
-                                        (click)="onFilter()"
-                                    ></p-button>
+                                    <p-button styleClass="p-button-success filter-button" icon="pi pi-filter"
+                                        [disabled]="isFilter()" (click)="onFilter()"></p-button>
                                 </div>
                             </div>
                             <hr />
                             <div class="table_content_wrapper">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <button
-                                            pButton
-                                            pRipple
-                                            label="Rafraîchir"
-                                            (click)="OnRefresh()"
-                                            icon="pi pi-refresh"
-                                            class="p-button-secondary"
-                                        ></button>
+                                        <button pButton pRipple label="Rafraîchir" (click)="OnRefresh()"
+                                            icon="pi pi-refresh" class="p-button-secondary"></button>
                                     </div>
-                                    <ng-container
-                                        *ngIf="seuilCritique >= 1; else sup1"
-                                    >
-                                        <div class="danger-alert" role="alert">
-                                            <strong
-                                                >Attention !
-                                                {{ seuilCritique }}
-                                                {{
-                                                    seuilCritique == 1
-                                                        ? "SIM qui n'a pas été affectée "
-                                                        : 'SIMs non affectées'
-                                                }}</strong
-                                            >
-                                        </div>
-                                    </ng-container>
-                                    <ng-template #sup1>
-                                        <div class="infos-alert" role="alert">
-                                            <strong
-                                                >Tout va bien ! Toutes les SIM
-                                                ont été affectées à des
-                                                profils</strong
-                                            >
-                                        </div>
-                                    </ng-template>
+                                    <div *ngIf="seuilCritique >= 1" class="danger-alert" role="alert">
+                                        <strong>Attention !
+                                            {{ seuilCritique }}
+                                            {{
+                                            seuilCritique == 1
+                                            ? "SIM qui n'a pas été affectée "
+                                            : 'SIMs non affectées'
+                                            }}</strong>
+                                    </div>
                                 </div>
-                                <p-table
-                                    #dt
-                                    [value]="listProfils"
-                                    [rows]="10"
-                                    [paginator]="true"
-                                    responsiveLayout="scroll"
-                                    [rowHover]="true"
-                                    dataKey="id"
+                                <p-table #dt [value]="listProfils" [rows]="10" [paginator]="true"
+                                    responsiveLayout="scroll" [rowHover]="true" dataKey="id"
                                     currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données"
                                     [globalFilterFields]="[
                                         'nom',
                                         'description'
-                                    ]"
-                                    [showCurrentPageReport]="true"
-                                >
+                                    ]" [showCurrentPageReport]="true">
                                     <ng-template pTemplate="caption">
                                         <div class="table_header">
                                             <div>
-                                                <app-table-header
-                                                    [count]="listProfils"
-                                                    [legende]="'Profils'"
-                                                    [page]="page"
-                                                    [totalPage]="totalPage"
-                                                ></app-table-header>
+                                                <app-table-header [count]="listProfils" [legende]="'Profils'"
+                                                    [page]="page" [totalPage]="totalPage"></app-table-header>
                                                 <!-- <div class="pt-2">
                                                 <button
                                                     pButton
@@ -139,22 +77,15 @@
                                             </div>-->
                                             </div>
                                             <div class="table_header__input">
-                                                <span
-                                                    class="p-input-icon-left ml-auto"
-                                                >
+                                                <span class="p-input-icon-left ml-auto">
                                                     <i class="pi pi-search"></i>
-                                                    <input
-                                                        pInputText
-                                                        type="text"
-                                                        (input)="
+                                                    <input pInputText type="text" (input)="
                                                             dt.filterGlobal(
                                                                 $event.target
                                                                     .value,
                                                                 'contains'
                                                             )
-                                                        "
-                                                        placeholder="Recherche"
-                                                    />
+                                                        " placeholder="Recherche" />
                                                 </span>
                                             </div>
                                         </div>
@@ -168,21 +99,15 @@
                                             <th>Date de modification</th>
                                             <th># SIM Affectés</th>
                                             <th>Statut</th>
-                                            <th
-                                                *ngIf="
+                                            <th *ngIf="
                                                     mappingService.IsAction()
-                                                "
-                                            >
+                                                ">
                                                 Deploiement
                                             </th>
                                             <th class="text-center">Actions</th>
                                         </tr>
                                     </ng-template>
-                                    <ng-template
-                                        let-i="rowIndex"
-                                        pTemplate="body"
-                                        let-data
-                                    >
+                                    <ng-template let-i="rowIndex" pTemplate="body" let-data>
                                         <tr>
                                             <td class="text-center">
                                                 {{ i + 1 }}
@@ -192,147 +117,88 @@
                                             <td>{{ data?.created_at }}</td>
                                             <td>{{ data?.updated_at }}</td>
                                             <td class="text-center">
-                                                <button
-                                                    pButton
-                                                    pRipple
-                                                    pTooltip="Visualiser"
-                                                    tooltipPosition="top"
+                                                <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
                                                     label="Visualiser ({{
                                                         data?.sims_count
-                                                    }})"
-                                                    class="p-button"
-                                                    (click)="
+                                                    }})" class="p-button" (click)="
                                                         onViewVisualisation(
                                                             data
                                                         )
-                                                    "
-                                                    [disabled]="
+                                                    " [disabled]="
                                                         data?.sims_count === 0
-                                                    "
-                                                ></button>
+                                                    "></button>
                                             </td>
                                             <td class="text-center">
-                                                <span
-                                                    [ngStyle]="{
+                                                <span [ngStyle]="{
                                                         'font-size': '16px'
-                                                    }"
-                                                    class="badge"
-                                                    [class.badge-dark]="
+                                                    }" class="badge" [class.badge-dark]="
                                                         data?.statut ===
                                                             'suspendu' &&
                                                         data?.statut ===
                                                             statutInactif &&
                                                         data?.statut ===
                                                             statutActif
-                                                    "
-                                                    [class.badge-warning]="
+                                                    " [class.badge-warning]="
                                                         data?.statut ===
                                                             'suspendu' ||
                                                         data?.statut ===
                                                             'en-attente'
-                                                    "
-                                                    [class.badge-danger]="
+                                                    " [class.badge-danger]="
                                                         data?.statut ===
                                                         statutInactif
-                                                    "
-                                                    [class.badge-success]="
+                                                    " [class.badge-success]="
                                                         data?.statut ===
                                                         statutActif
-                                                    "
-                                                >
+                                                    ">
                                                     {{ data?.statut }}
                                                 </span>
                                             </td>
-                                            <td
-                                                class="text-center"
-                                                *ngIf="
+                                            <td class="text-center" *ngIf="
                                                     mappingService.IsAction()
-                                                "
-                                            >
-                                                <button
-                                                    pButton
-                                                    pRipple
-                                                    [pTooltip]="
+                                                ">
+                                                <button pButton pRipple [pTooltip]="
                                                         !data.is_deployed
                                                             ? 'Deployer'
                                                             : ''
-                                                    "
-                                                    icon="pi pi-bolt"
-                                                    tooltipPosition="top"
-                                                    label="Deployer"
-                                                    [class]="
+                                                    " icon="pi pi-bolt" tooltipPosition="top" label="Deployer" [class]="
                                                         data.is_deployed
                                                             ? 'p-button-outlined'
                                                             : '' +
                                                               'p-button-help'
-                                                    "
-                                                    (click)="OnDeploy(data)"
-                                                    [disabled]="
+                                                    " (click)="OnDeploy(data)" [disabled]="
                                                         data.is_deployed
-                                                    "
-                                                ></button>
+                                                    "></button>
                                             </td>
                                             <td class="td-actions">
-                                                <p-button
-                                                    icon="pi pi-eye"
-                                                    styleClass="p-button-dark"
-                                                    pTooltip="Voir"
-                                                    tooltipPosition="top"
-                                                    (click)="onShowForm(data)"
-                                                ></p-button>
-                                                <button
-                                                    pButton
-                                                    pRipple
-                                                    *ngIf="
+                                                <p-button icon="pi pi-eye" styleClass="p-button-dark" pTooltip="Voir"
+                                                    tooltipPosition="top" (click)="onShowForm(data)"></p-button>
+                                                <button pButton pRipple *ngIf="
                                                         mappingService.IsAction()
-                                                    "
-                                                    icon="pi pi-pencil"
-                                                    class="p-button-secondary"
-                                                    pTooltip="Editer"
-                                                    tooltipPosition="top"
-                                                    (click)="onEditForm(data)"
-                                                    [disabled]="
+                                                    " icon="pi pi-pencil" class="p-button-secondary" pTooltip="Editer"
+                                                    tooltipPosition="top" (click)="onEditForm(data)" [disabled]="
                                                         data?.statut ===
                                                         'inactif'
-                                                    "
-                                                ></button>
-                                                <button
-                                                    pButton
-                                                    pRipple
-                                                    *ngIf="
+                                                    "></button>
+                                                <button pButton pRipple *ngIf="
                                                         mappingService.IsAction()
-                                                    "
-                                                    icon="pi pi-arrow-right"
-                                                    (click)="
+                                                    " icon="pi pi-arrow-right" (click)="
                                                         onViewAffection(data)
-                                                    "
-                                                    class="p-button-dark"
-                                                    pTooltip="Affecter"
-                                                    tooltipPosition="top"
+                                                    " class="p-button-dark" pTooltip="Affecter" tooltipPosition="top"
                                                     [disabled]="
                                                         data?.statut ===
                                                         'inactif'
-                                                    "
-                                                ></button>
-                                                <button
-                                                    pButton
-                                                    pRipple
-                                                    *ngIf="
+                                                    "></button>
+                                                <button pButton pRipple *ngIf="
                                                         mappingService.IsAction()
-                                                    "
-                                                    [ngClass]="
+                                                    " [ngClass]="
                                                         data?.statut === 'actif'
                                                             ? 'p-button-warning'
                                                             : 'p-button-success'
-                                                    "
-                                                    icon="pi pi-power-off"
-                                                    [pTooltip]="
+                                                    " icon="pi pi-power-off" [pTooltip]="
                                                         data?.statut === 'actif'
                                                             ? 'Désactiver'
                                                             : 'Activer'
-                                                    "
-                                                    tooltipPosition="top"
-                                                    (click)="
+                                                    " tooltipPosition="top" (click)="
                                                         data?.statut === 'actif'
                                                             ? handleDisableProfil(
                                                                   data
@@ -340,8 +206,7 @@
                                                             : handleActivateProfil(
                                                                   data
                                                               )
-                                                    "
-                                                ></button>
+                                                    "></button>
                                             </td>
                                         </tr>
                                     </ng-template>
@@ -349,25 +214,15 @@
                             </div>
                         </div>
                     </div>
-                    <app-forms-profil
-                        [currentObject]="currentObject"
-                        *ngIf="formsView"
-                        (formsView)="pushStatutView($event)"
-                        (listProfils)="pushListProfils($event)"
-                    >
+                    <app-forms-profil [currentObject]="currentObject" *ngIf="formsView"
+                        (formsView)="pushStatutView($event)" (listProfils)="pushListProfils($event)">
                     </app-forms-profil>
-                    <app-affectation-sim
-                        [currentObject]="currentObject"
-                        *ngIf="affectationView"
+                    <app-affectation-sim [currentObject]="currentObject" *ngIf="affectationView"
                         (affectationView)="pushAffectationView($event)"
-                        (listProfils)="pushListProfils($event)"
-                    ></app-affectation-sim>
-                    <app-visualisation
-                        [currentObject]="currentObject"
-                        *ngIf="visualisationView"
+                        (listProfils)="pushListProfils($event)"></app-affectation-sim>
+                    <app-visualisation [currentObject]="currentObject" *ngIf="visualisationView"
                         (visualisationView)="pushVisualisationView($event)"
-                        (listProfils)="pushListProfils($event)"
-                    ></app-visualisation>
+                        (listProfils)="pushListProfils($event)"></app-visualisation>
                 </div>
             </div>
         </div>

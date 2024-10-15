@@ -55,7 +55,6 @@ export class DemandeMasseComponent implements OnInit {
     public sourceStockOrangeSim: string;
     public selectedStockSim: string;
     public croixRougeCommentaire: boolean;
-    public ACTIVATION_EN_MASSE = OperationTransaction.ACTIVATION_EN_MASSE;
     public stateTraite: string = StatutTransaction.TARITER;
     public stateSoumis: string = StatutTransaction.SOUMIS;
     public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
@@ -65,7 +64,7 @@ export class DemandeMasseComponent implements OnInit {
     public treatmenRefuser: string = TraitementTransaction.REFUSER;
     public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
     public treatmenCancel: string = TraitementTransaction.ABANDONNER;
-    public OperationIdentification : string = OperationTransaction.IDENTIFICATION;
+    public TYPE_FORM = OperationTransaction;
 
     constructor(private supervisionOperationService: SupervisionOperationService, private toastrService: ToastrService,
         private loadingBarService: LoadingBarService, private activeModal: NgbActiveModal, private mappingService: MappingService,
@@ -86,8 +85,6 @@ export class DemandeMasseComponent implements OnInit {
         this.initFormTraitementMasse();
         // this.GetFormules();
         this.GetSupervisionOperationsDemandesServicesDetails();
-        this.IsJustificatif();
-        this.IsRecuPaiement();
     }
 
 
@@ -309,33 +306,39 @@ export class DemandeMasseComponent implements OnInit {
         this.formTraitementMasse.get("sims_file").patchValue(file_upload.sims_file);
     }
 
-    public downloadFile() {
-        if (!this.listDemandes?.justificatif) {
-            this.toastrService.warning("Pas de justificatif pour cette operation");
-        } else {
-            window.open(this.fileUrl + this.listDemandes?.justificatif);
+    public downloadFile(typeFile: 'justificatif' | 'recu-paiement') {
+        // if (!this.listDemandes?.justificatif) {
+        //     this.toastrService.warning("Pas de justificatif pour cette operation");
+        // } else {
+        //     window.open(this.listDemandes?.justificatif);
+        // }
+        switch (typeFile) {
+            case 'justificatif':
+                window.open(this.listDemandes?.justificatif);
+                break;
+
+            case 'recu-paiement':
+                window.open(this.listDemandes?.recu_paiement);
+                break;
         }
     }
 
-    public IsJustificatif(): boolean {
+    public displayBoutonJustificatif(): boolean {
         return this.listDemandes?.justificatif ? true : false;
     }
 
-    public downloadRecuPaiement() {
-        if (!this.listDemandes?.recu_paiement) {
-            this.toastrService.warning("Pas de recu de paiement pour cette operation");
-        } else {
-            window.open(this.fileUrl + this.listDemandes?.recu_paiement);
-        }
-    }
-
-    public IsRecuPaiement(): boolean {
-        return this.listDemandes?.recu_paiement ? true : false;
+    public displayBoutonRecuPaiement(): boolean {
+        return this.listDemandes?.type_paiement === "différé" ? true : false;
     }
 
     async onDownloadModel(): Promise<any> {
         const tokenUser = JSON.parse(this.storage.getData('user')).token;
-        this.supervisionOperationService.GetSupervisionOperationsTraitementsSuivisDownloadModeleData(this.ACTIVATION_EN_MASSE, this.listDemandes?.["numero_demande"], tokenUser);
+        if (this.listDemandes.operation === this.TYPE_FORM.ACTIVATION) {
+            window.location.href = this.supervisionOperationService.GetSupervisionOperationsTraitementsSuivisDownloadModeleData(this.TYPE_FORM.ACTIVATION_EN_MASSE, this.listDemandes?.["numero_demande"], tokenUser);
+        } else {
+            // window.location.href = this.supervisionOperationService.GetGestionTransactionsTraitementsServicesDownloadAbonnementsData(this.listDemandes.numero_demande, tokenUser);
+        }
+
     }
 
     public canIdentify(demande: any): boolean {

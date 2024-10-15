@@ -331,6 +331,9 @@ export class DemandeWrapperShowComponent implements OnInit {
         if (data?.traitement === BADGE_ETAT.RECU || data?.traitement === BADGE_ETAT.EN_ATTENTE) {
           return "badge-dark";
         }
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
         break;
 
       case BADGE_ETAPE.TRAITEMENT:
@@ -338,7 +341,7 @@ export class DemandeWrapperShowComponent implements OnInit {
           return "badge-warning";
         }
         if (data?.traitement === BADGE_ETAT.COMPLET) {
-          return "badge-danger";
+          return "badge-primary";
         }
         break;
 

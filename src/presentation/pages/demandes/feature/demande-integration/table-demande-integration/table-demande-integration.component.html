@@ -74,15 +74,15 @@
                 {{ demande?.nb_demande_traitees ?? 'N/A' }}
             </td>
             <td class="text-center">
-                <span [class]="'badge_size badge ' + getStatutBadge(demande)">
+                <span [class]="'badge_size badge ' + getEtapeBadge(demande)">
                     {{ demande?.statut }}
                 </span>
             </td>
             <td class="text-center">
                 <span
-                    [class]="'badge_size badge ' + getTraitementBadge(demande)"
+                    [class]="'badge_size badge ' + getEtatBadge(demande)"
                 >
-                    {{ demande?.traitement }}
+                {{ demande.traitement ===  BADGE_ETAT.COMPLET ? 'complet' : demande.traitement}}
                 </span>
             </td>
             <td class="text-center">

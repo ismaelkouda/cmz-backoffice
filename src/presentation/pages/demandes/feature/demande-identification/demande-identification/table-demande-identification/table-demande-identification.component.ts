@@ -45,7 +45,7 @@ export class TableDemandeIdentificationComponent {
     }
 
   
-    public getStatutBadge(data: any): string {
+    public getEtapeBadge(data: any): string {
         switch (data?.statut) {
           case BADGE_ETAPE.SOUMISSION:
             return "badge-dark";
@@ -61,11 +61,14 @@ export class TableDemandeIdentificationComponent {
         }
     }
     
-    public getTraitementBadge(data: any): string {
+    public getEtatBadge(data: any): string {
       switch (data?.statut) {
         case BADGE_ETAPE.SOUMISSION:
           if(data?.traitement  === BADGE_ETAT.RECU || data?.traitement  === BADGE_ETAT.EN_ATTENTE) {
             return "badge-dark";
+          }
+          if (data?.traitement === BADGE_ETAT.PARTIEL) {
+            return "badge-warning";
           }
           break;
       
@@ -74,7 +77,7 @@ export class TableDemandeIdentificationComponent {
               return "badge-warning";
             }
             if(data?.traitement  === BADGE_ETAT.COMPLET) {
-              return "badge-danger";
+              return "badge-primary";
             }
           break;
       

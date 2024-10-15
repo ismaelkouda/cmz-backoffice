@@ -7,17 +7,11 @@
             ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
-                    <div
-                        style="
-                            margin-top: -1rem !important;
-                            margin-bottom: 1.5rem !important;
-                        "
+                    <div style="margin-top: -2rem !important"
                     >
-                        <app-patrimoine-header
-                            [count]="listCartesSim"
-                            [legende]="'SIM'"
-                            [total]="this.pargination.total"
-                        ></app-patrimoine-header>
+                        <app-patrimoine-header [displayDate]="false" [count]="listCartesSim" [total]="pargination?.total"
+                            [legendePluriel]="'SIM'" [legendeSingulier]="'SIM'">
+                        </app-patrimoine-header>
                     </div>
                     <app-carte-filter
                         (filter)="pageCallback($event)"

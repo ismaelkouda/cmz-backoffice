@@ -6,16 +6,11 @@
     <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
         <div class="card-body">
             <div
-                style="
-                    margin-top: -1rem !important;
-                    margin-bottom: 1.5rem !important;
-                "
+            style="margin-top: -2rem !important"
             >
-                <app-patrimoine-header
-                    [count]="listTraitemants"
-                    [legende]="'dossiers en traitement'"
-                    [total]="totalRecords"
-                ></app-patrimoine-header>
+                <app-patrimoine-header [displayDate]="false" [count]="listTraitemants" [total]="totalRecords"
+                        [legendePluriel]="'dossiers en traitement'" [legendeSingulier]="'dossier en traitement'">
+                    </app-patrimoine-header>
             </div>
             <div class="row filter_wrapper">
                 <div class="col-md-2">
@@ -303,7 +298,8 @@
                                         'badge ' + getTraitementBadge(data)
                                     "
                                 >
-                                    {{ data.traitement }}
+                                    
+                {{ data.traitement ===  BADGE_ETAT.COMPLET ? 'complet' : data.traitement}}
                                 </span>
                             </td>
                             <td class="text-center">
