@@ -1,127 +1,71 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb
-                [title]="'Paramètres & Sécurité'"
-                [active_item]="'Utilisateurs'"
-            ></app-breadcrumb>
+            <app-breadcrumb [title]="'Paramètres & Sécurité'" [active_item]="'Utilisateurs'"></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
-                        <p-tabView
-                            (onChange)="handleChangeTabviewIndex($event)"
-                        >
+                        <p-tabView (onChange)="handleChangeTabviewIndex($event)">
                             <p-tabPanel header="UTILISATEURS">
                                 <div class="d-flex justify-content-between">
                                     <div class="d-flex gap-2">
-                                        <button
-                                            pButton
-                                            pRipple
-                                            *ngIf="mappingService.IsAction()"
-                                            label="Ajout utilisateur"
-                                            icon="pi pi-plus"
-                                            (click)="onInitForm()"
+                                        <button pButton pRipple *ngIf="mappingService.IsAction()"
+                                            label="Ajout utilisateur" icon="pi pi-plus" (click)="onInitForm()"
                                             [disabled]="
                                                 this.listUsers.length >=
                                                 nb_max_users
-                                            "
-                                            class="p-button-success"
-                                        ></button>
-                                        <button
-                                            pButton
-                                            pRipple
-                                            label="Rafraîchir"
-                                            (click)="GetAllUsers()"
-                                            icon="pi pi-refresh"
-                                            class="p-button-secondary"
-                                        ></button>
-                                        <button
-                                            pButton
-                                            pRipple
-                                            label="Exporter"
-                                            icon="pi pi-download"
-                                            class="p-button-helf"
-                                            [disabled]="disableAction()"
-                                            (click)="OnExportExcel()"
-                                        ></button>
+                                            " class="p-button-success"></button>
+                                        <button pButton pRipple label="Rafraîchir" (click)="GetAllUsers()"
+                                            icon="pi pi-refresh" class="p-button-secondary"></button>
+                                        <button pButton pRipple label="Exporter" icon="pi pi-download"
+                                            class="p-button-helf" [disabled]="disableAction()"
+                                            (click)="OnExportExcel()"></button>
                                     </div>
-                                    <div
-                                        class="danger-alert"
-                                        role="alert"
-                                        *ngIf="
+                                    <div class="danger-alert" role="alert" *ngIf="
                                             this.listUsers.length >=
                                             nb_max_users
-                                        "
-                                    >
+                                        ">
                                         <strong>
                                             {{ alerteMessage }}
                                         </strong>
                                     </div>
-                                    <div
-                                        class="infos-alert"
-                                        role="alert"
-                                        *ngIf="
+                                    <div class="infos-alert" role="alert" *ngIf="
                                             this.listUsers.length < nb_max_users
-                                        "
-                                    >
+                                        ">
                                         <strong>
                                             {{ maximumMessage }}
                                         </strong>
                                     </div>
                                 </div>
                                 <div class="table_content_wrapper">
-                                    <p-table
-                                        #dt
-                                        [value]="listUsers"
-                                        [rows]="50"
-                                        [paginator]="true"
-                                        [rowHover]="true"
+                                    <p-table #dt [value]="listUsers" [rows]="50" [paginator]="true" [rowHover]="true"
                                         dataKey="id"
                                         currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données"
-                                        [showCurrentPageReport]="true"
-                                        [globalFilterFields]="[
+                                        [showCurrentPageReport]="true" [globalFilterFields]="[
                                             'nom',
                                             'prenoms',
                                             'code',
                                             'email',
                                             'contacts'
-                                        ]"
-                                    >
+                                        ]">
                                         <ng-template pTemplate="caption">
                                             <div class="table_header">
-                                                <div
-                                                    class="table_header__legende"
-                                                >
-                                                    <app-table-header
-                                                        [count]="listUsers"
-                                                        [legende]="
+                                                <div class="table_header__legende">
+                                                    <app-table-header [count]="listUsers" [legende]="
                                                             'Utilisateurs'
-                                                        "
-                                                    ></app-table-header>
+                                                        "></app-table-header>
                                                 </div>
-                                                <div
-                                                    class="table_header__input"
-                                                    style="margin-top: 1rem"
-                                                >
-                                                    <span
-                                                        class="p-input-icon-left ml-auto"
-                                                    >
-                                                        <i
-                                                            class="pi pi-search"
-                                                        ></i>
-                                                        <input
-                                                            pInputText
-                                                            type="text"
-                                                            (input)="
+                                                <div class="table_header__input" style="margin-top: 1rem">
+                                                    <span class="p-input-icon-left ml-auto">
+                                                        <i class="pi pi-search"></i>
+                                                        <input pInputText type="text" (input)="
                                                                 dt.filterGlobal(
                                                                     $event
                                                                         .target
                                                                         .value,
                                                                     'contains'
                                                                 )
-                                                            "
-                                                            placeholder="Recherche"
-                                                        />
+                                                            " placeholder="Recherche" />
                                                     </span>
                                                 </div>
                                             </div>
@@ -136,50 +80,37 @@
                                                 <th>Nom de connexion</th>
                                                 <th>Contact</th>
                                                 <th>Statut</th>
-                                                <th
-                                                    [style]="{ width: '15rem' }"
-                                                >
+                                                <th [style]="{ width: '15rem' }">
                                                     MAJ
                                                 </th>
-                                                <th
-                                                    [style]="{ width: '15rem' }"
-                                                >
+                                                <th [style]="{ width: '15rem' }">
                                                     Date
                                                 </th>
                                                 <th>Action</th>
                                             </tr>
                                         </ng-template>
-                                        <ng-template
-                                            let-i="rowIndex"
-                                            pTemplate="body"
-                                            let-data
-                                        >
+                                        <ng-template let-i="rowIndex" pTemplate="body" let-data>
                                             <tr>
                                                 <td class="text-center">
                                                     {{ i + 1 }}
                                                 </td>
                                                 <td>
-                                                    <span
-                                                        [ngStyle]="{
+                                                    <span [ngStyle]="{
                                                             'font-size': '16px'
-                                                        }"
-                                                        class="badge"
-                                                        [class.badge-success]="
+                                                        }" class="badge" [class.badge-success]="
                                                             data?.profil_user
                                                                 ?.nom
-                                                        "
-                                                        [class.badge-warning]="
+                                                        " [class.badge-warning]="
                                                             !data?.profil_user
                                                                 ?.nom
-                                                        "
-                                                    >
+                                                        ">
                                                         {{
-                                                            data?.profil_user
-                                                                ?.nom
-                                                                ? data
-                                                                      ?.profil_user
-                                                                      ?.nom
-                                                                : 'Non Affecté'
+                                                        data?.profil_user
+                                                        ?.nom
+                                                        ? data
+                                                        ?.profil_user
+                                                        ?.nom
+                                                        : 'Non Affecté'
                                                         }}
                                                     </span>
                                                 </td>
@@ -194,55 +125,38 @@
                                                 </td>
                                                 <td>
                                                     {{
-                                                        data?.username ?? 'N/A'
+                                                    data?.username ?? 'N/A'
                                                     }}
                                                 </td>
                                                 <td>
                                                     {{
-                                                        data?.contacts ?? 'N/A'
+                                                    data?.contacts ?? 'N/A'
                                                     }}
                                                 </td>
                                                 <td class="text-center">
-                                                    <span
-                                                        [ngStyle]="{
-                                                            'font-size': '16px'
-                                                        }"
-                                                        class="badge"
-                                                        [class.badge-success]="
-                                                            data.statut ===
-                                                            'actif'
-                                                        "
-                                                        [class.badge-danger]="
-                                                            data.statut !==
-                                                            'actif'
-                                                        "
-                                                    >
-                                                        {{ data.statut }}
-                                                    </span>
+                                                  <span [ngStyle]="{ 'font-size': '16px' }" class="badge"
+                                                    [class.badge-success]="data.statut === 'actif'"
+                                                    [class.badge-danger]="data.statut == 'inactif'">
+                                                    {{ data.statut }}
+                                                  </span>
                                                 </td>
                                                 <td>
                                                     {{
-                                                        data?.updated_at ??
-                                                            'N/A'
+                                                    data?.updated_at ??
+                                                    'N/A'
                                                     }}
                                                 </td>
                                                 <td>
                                                     {{
-                                                        data?.created_at ??
-                                                            'N/A'
+                                                    data?.created_at ??
+                                                    'N/A'
                                                     }}
                                                 </td>
                                                 <td class="td-actions">
-                                                    <button
-                                                        pButton
-                                                        icon="pi pi-eye"
-                                                        pTooltip="Voir"
-                                                        tooltipPosition="top"
-                                                        (click)="
+                                                    <button pButton icon="pi pi-eye" pTooltip="Voir"
+                                                        tooltipPosition="top" (click)="
                                                             onShowForm(data)
-                                                        "
-                                                        class="p-button-dark"
-                                                    ></button>
+                                                        " class="p-button-dark"></button>
                                                     <!-- <button pButton pRipple *ngIf="
                                                             mappingService.IsAction()
                                                         " icon="pi pi-pencil" pTooltip="Editer" tooltipPosition="top"
@@ -283,99 +197,72 @@
                                                         (click)="OnDelete(data)" tooltipPosition="top"></button> -->
 
                                                     <div ngbDropdown>
-                                                        <button
-                                                            type="button"
-                                                            class="btn btn-dark btn-sm"
-                                                            ngbDropdownToggle
-                                                        >
+                                                        <button type="button" class="btn btn-dark btn-sm"
+                                                            ngbDropdownToggle>
                                                             Choisir
                                                         </button>
-                                                        <div
-                                                            ngbDropdownMenu
-                                                            class="container-dropdownMenu"
-                                                        >
-                                                            <button
-                                                                ngbDropdownItem
-                                                                (click)="
+                                                        <div ngbDropdownMenu class="container-dropdownMenu">
+                                                            <button ngbDropdownItem (click)="
                                                                     onEditForm(
                                                                         data
                                                                     )
-                                                                "
-                                                                *ngIf="
+                                                                " *ngIf="
                                                                     mappingService.IsAction()
-                                                                "
-                                                            >
+                                                                ">
                                                                 Modifier
                                                             </button>
-                                                            <button
-                                                                ngbDropdownItem
-                                                                (click)="
+                                                            <button ngbDropdownItem (click)="
                                                                     handleDisableUser(
                                                                         data
                                                                     )
-                                                                "
-                                                                *ngIf="
+                                                                " *ngIf="
                                                                     data.statut ===
                                                                         'actif' &&
                                                                     !(
                                                                         data?.username ===
                                                                         principalUsername
                                                                     )
-                                                                "
-                                                            >
+                                                                ">
                                                                 Désactiver
                                                             </button>
-                                                            <button
-                                                                ngbDropdownItem
-                                                                (click)="
+                                                            <button ngbDropdownItem (click)="
                                                                     handleActivateUser(
                                                                         data
                                                                     )
-                                                                "
-                                                                *ngIf="
+                                                                " *ngIf="
                                                                     data.statut ===
                                                                         'inactif' &&
                                                                     !(
                                                                         data?.username ===
                                                                         principalUsername
                                                                     )
-                                                                "
-                                                            >
+                                                                ">
                                                                 Activer
                                                             </button>
-                                                            <button
-                                                                ngbDropdownItem
-                                                                (click)="
+                                                            <button ngbDropdownItem (click)="
                                                                     OnDelete(
                                                                         data
                                                                     )
-                                                                "
-                                                                *ngIf="
+                                                                " *ngIf="
                                                                     !(
                                                                         data?.username ===
                                                                         principalUsername
                                                                     )
-                                                                "
-                                                                style="
+                                                                " style="
                                                                     color: red;
-                                                                "
-                                                            >
+                                                                ">
                                                                 Supprimer
                                                             </button>
-                                                            <button
-                                                                ngbDropdownItem
-                                                                (click)="
+                                                            <button ngbDropdownItem (click)="
                                                                     onChangePassword(
                                                                         data
                                                                     )
-                                                                "
-                                                                *ngIf="
+                                                                " *ngIf="
                                                                     !(
                                                                         data?.username ===
                                                                         principalUsername
                                                                     )
-                                                                "
-                                                            >
+                                                                ">
                                                                 Mot de passe
                                                             </button>
                                                         </div>
@@ -387,19 +274,13 @@
                                 </div>
                             </p-tabPanel>
                             <p-tabPanel header="HISTORIQUE">
-                                <app-historique
-                                    *ngIf="currentTabsIndex === 1"
-                                    [sous_module]="'PROFIL USER'"
-                                ></app-historique>
+                                <app-historique *ngIf="currentTabsIndex === 1"
+                                    [sous_module]="'PROFIL USER'"></app-historique>
                             </p-tabPanel>
                         </p-tabView>
                     </div>
-                    <app-admin-form
-                        [currentObject]="currentObject"
-                        *ngIf="formsView"
-                        (formsView)="pushStatutView($event)"
-                        (listUsers)="pushListDatas($event)"
-                    ></app-admin-form>
+                    <app-admin-form [currentObject]="currentObject" *ngIf="formsView"
+                        (formsView)="pushStatutView($event)" (listUsers)="pushListDatas($event)"></app-admin-form>
                 </div>
             </div>
         </div>

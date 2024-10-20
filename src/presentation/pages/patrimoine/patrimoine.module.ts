@@ -26,6 +26,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { BadgeModule } from 'primeng/badge';
+import { ImageModule } from 'primeng/image';
 
 //Components
 import { CarteSimActiveComponent } from './ui/carte-sim-active/carte-sim-active.component';
@@ -49,7 +50,6 @@ import { PatrimoinesService } from "src/presentation/pages/patrimoine/data-acces
 import { CarteSimStateService } from 'src/presentation/pages/patrimoine/data-access/carte-sim/carte-sim-state.service';
 import { CarteSimApiStateService } from "src/presentation/pages/patrimoine/data-access/carte-sim/carte-sim-api-state.service";
 //Module
-import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
     imports: [
@@ -74,8 +74,8 @@ import { FileUploadModule } from 'primeng/fileupload';
         NgxCaptchaModule,
         CalendarModule,
         CheckboxModule,
-        FileUploadModule,
-        BadgeModule
+        BadgeModule,
+        ImageModule
     ],
     declarations: [
         CarteSimActiveComponent,

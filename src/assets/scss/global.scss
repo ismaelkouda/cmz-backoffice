@@ -133,8 +133,9 @@ fieldset {
         border-radius: 5px;
         position: relative;
         margin-top: -2rem;
-        width: 16rem !important;
-        min-width: 12rem !important;
+        // width: 16rem !important;
+        // min-width: 12rem !important;
+        width: fit-content;
     }
 }
 

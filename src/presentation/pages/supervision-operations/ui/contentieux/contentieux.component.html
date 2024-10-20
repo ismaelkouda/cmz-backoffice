@@ -5,12 +5,15 @@
     ></app-breadcrumb>
     <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
         <div class="card-body">
-            <div
-            style="margin-top: -2rem !important"
-            >
-                <app-patrimoine-header [displayDate]="false" [count]="listTraitemants" [total]="totalRecords"
-                        [legendePluriel]="'dossiers en réclamations'" [legendeSingulier]="'dossiers en réclamations'">
-                    </app-patrimoine-header>
+            <div style="margin-top: -2rem !important">
+                <app-patrimoine-header
+                    [displayDate]="false"
+                    [count]="listTraitemants"
+                    [total]="totalRecords"
+                    [legendePluriel]="'dossiers en réclamations'"
+                    [legendeSingulier]="'dossiers en réclamations'"
+                >
+                </app-patrimoine-header>
             </div>
             <div class="row filter_wrapper">
                 <div class="col-md-2">

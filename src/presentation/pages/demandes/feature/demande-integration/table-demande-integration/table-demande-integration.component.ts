@@ -96,8 +96,13 @@ export class TableDemandeIntegrationComponent {
             if(data?.traitement  === BADGE_ETAT.CLOTURE) {
               return "badge-success";
             }
-
             if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
+              return "badge-danger";
+            }
+            if (data?.traitement === BADGE_ETAT.ACCEPTE) {
+              return "badge-success";
+            }
+            if (data?.traitement === BADGE_ETAT.REFUSE) {
               return "badge-danger";
             }
           break;

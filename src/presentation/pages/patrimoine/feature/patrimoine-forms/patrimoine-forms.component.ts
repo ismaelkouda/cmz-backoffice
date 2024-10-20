@@ -1,3 +1,6 @@
+import { NatureDocument } from './../../../../../shared/enum/NatureDocument.enum';
+import { NaturePiece } from './../../../../../shared/enum/NaturePiece.enum';
+import { TypePersonne } from './../../../../../shared/enum/TypePersonnes.enum';
 import { ApplicationType } from './../../../../../shared/enum/ApplicationType.enum';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,9 +15,11 @@ import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum'
 import { DEMANDE_ACTIVATION } from 'src/presentation/pages/demandes/demandes-routing.module';
 import { EnvService } from 'src/shared/services/env.service';
 import { PrimeNGConfig } from 'primeng/api';
-
 const Swal = require('sweetalert2');
-
+interface UploadEvent {
+  originalEvent: Event;
+  files: File[];
+}
 @Component({
   selector: 'app-patrimoine-forms',
   templateUrl: './patrimoine-forms.component.html',
@@ -27,11 +32,9 @@ export class PatrimoineFormsComponent implements OnInit {
   @Output() formsView = new EventEmitter();
   public currentObject: any;
 
-
   uploadedImages: { [key: string]: string } = {};
   imageURLs: { [key: string]: string } = {};
   tempImages: { [key: string]: string } = {};
-
 
   public listDirectionRegionales: Array<any> = [];
   public listExploitations: Array<any> = [];
@@ -61,11 +64,19 @@ export class PatrimoineFormsComponent implements OnInit {
   public currentTabsIndex: number = 0;
   public fileName: any;
 
-  files = [];
+  filesPhysique = [];
+  filesRecto = [];
+  filesVerso = [];
+
   totalSize: number = 0;
   totalSizePercent: number = 0;
   private config: PrimeNGConfig;
   fileSizeUnits: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  public listeTypePersonne: Array<any> = [];
+  public listeNaturePiece: Array<any> = [];
+  public listeNatureDocument: Array<any> = [];
+  public displayPhysiquePersonne: boolean = true;
+  uploadedFiles: any[] = [];
   constructor(
     private fb: FormBuilder,
     private settingService: SettingService,
@@ -79,12 +90,22 @@ export class PatrimoineFormsComponent implements OnInit {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
-    this.minioUrl = this.mappingService.minioUrl;
+    // this.minioUrl = this.mappingService.minioUrl;
+    this.minioUrl = this.envService.fileUrl;
     const data = JSON.parse(this.storage.getData('user'))
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
     this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
     this.fileurl = this.envService.fileUrl;
+    Object.values(TypePersonne).forEach((item) => {
+      this.listeTypePersonne.push(item);
+    });
+    Object.values(NaturePiece).forEach((item) => {
+      this.listeNaturePiece.push(item);
+    });
+    Object.values(NatureDocument).forEach((item) => {
+      this.listeNatureDocument.push(item);
+    });
   }
 
   ngOnInit() {
@@ -97,6 +118,42 @@ export class PatrimoineFormsComponent implements OnInit {
       this.getAllZones();
     }
     this.OnRefreshValues();
+  }
+  onSelectedFiles(event, typeFile: 'physique'|'recto' | 'verso') {
+    console.log('event', event.files[0])
+    switch (typeFile) {
+      case 'physique':
+        this.filesPhysique = event.currentFiles;
+        console.log('this.filesPhysique', this.filesPhysique[0])
+        break;
+
+      case 'recto':
+        this.filesRecto = event.currentFiles;
+        break;
+
+      case 'verso':
+        this.filesVerso = event.currentFiles;
+    }
+  }
+
+  onRemoveTemplatingFile(event: Event, file: any, removeFileCallback: Function, index: number, typeFile: 'physique'|'recto' | 'verso'): void {
+    switch (typeFile) {
+      case 'physique':
+        this.filesPhysique.splice(index, 1);
+        break;
+
+      case 'recto':
+        this.filesRecto.splice(index, 1);
+        break;
+
+      case 'verso':
+        this.filesVerso.splice(index, 1);
+    }
+  }
+  onUpload(event: UploadEvent) {
+    for (let file of event.files) {
+      this.uploadedFiles.push(file);
+    }
   }
   public statutContrat() {
     this.mappingService.statutContrat(this.currentData?.statut)
@@ -112,30 +169,27 @@ export class PatrimoineFormsComponent implements OnInit {
     return formattedMsisdn;
   }
   public initForm(): void {
+    console.log('this.currentData', this.currentData)
     this.adminForm = this.fb.group({
-      type_personne: [''],
-      nom: [''],
-      prenoms: [''],
-      nature_piece: [''],
-      denomination: [''],
-      raison_social: [''],
-      nature_document: [''],
-      numero_piece: [''],
-      numero_document: [''],
+      type_personne: [this.currentData?.type_personne],
+      nom: [this.currentData?.nom],
+      prenoms: [this.currentData?.prenoms],
+      nature_piece: [this.currentData?.nature_piece],
+      numero_piece: [this.currentData?.numero_piece],
       niveau_un_uuid: ['', [Validators.required]],
-      niveau_deux_uuid: [''],
+      niveau_deux_uuid: ['', [Validators.required]],
       niveau_trois_uuid: ['', [Validators.required]],
-      usage: ['', [Validators.required]],
+      usage_id: ['', [Validators.required]],
       point_emplacement: [''],
       direction_regionale: [''],
-      adresse_geographique: [''],
+      adresse_geographique: ['', [Validators.required]],
       longitude: [''],
       latitude: [''],
       zone: [''],
       photo_carte_recto: [''],
       photo_carte_verso: [''],
       photo_physique: [''],
-      adresse_email: ['', [Validators.email]],
+      adresse_email: ['', [Validators.email, Validators.required]],
       formule: [''],
       imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
       statut: [""],
@@ -158,6 +212,19 @@ export class PatrimoineFormsComponent implements OnInit {
       if (value && value.length > 15) {
         this.adminForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
       }
+    });
+
+    const typePersonneControl = this.adminForm.get('type_personne');
+    const gererValidationTypePersonne = (value: string) => {
+      if (value === TypePersonne.PHYSIQUE) {
+        this.displayPhysiquePersonne = true;
+      } else {
+        this.displayPhysiquePersonne = false;
+      }
+    };
+    gererValidationTypePersonne(typePersonneControl?.value);
+    typePersonneControl?.valueChanges.subscribe((value) => {
+      gererValidationTypePersonne(value);
     });
   }
 
@@ -214,7 +281,7 @@ export class PatrimoineFormsComponent implements OnInit {
 
 
 
-  onUpload(event: any, type: string): void {
+  onUploadTest(event: any, type: string): void {
     const file = event.files[0]; // Get the uploaded file
 
     if (file) {
@@ -352,20 +419,16 @@ export class PatrimoineFormsComponent implements OnInit {
       this.adminForm.get('prenoms').patchValue(this.currentObject?.prenoms);
       this.adminForm.get('nature_piece').patchValue(this.currentObject?.nature_piece);
       this.adminForm.get('numero_piece').patchValue(this.currentObject?.numero_piece);
-      this.adminForm.get('denomination').patchValue(this.currentObject?.denomination);
-      this.adminForm.get('raison_social').patchValue(this.currentObject?.raison_social);
-      this.adminForm.get('nature_document').patchValue(this.currentObject?.nature_document);
-      this.adminForm.get('numero_document').patchValue(this.currentObject?.numero_document);
 
       this.adminForm.get('niveau_un_uuid').patchValue(this.currentObject?.niveau_uns_nom);
       this.adminForm.get('niveau_deux_uuid').patchValue(this.currentObject?.niveau_deux_nom);
       this.adminForm.get('niveau_trois_uuid').patchValue(this.currentObject?.niveau_trois_nom);
-      this.adminForm.get('usage').patchValue(this.currentObject?.nom_usage);
+      this.adminForm.get('usage_id').patchValue(this.currentObject?.nom_usage);
     } else {
       this.adminForm.get('niveau_un_uuid').patchValue(this.currentObject?.niveau_un_uuid);
       this.adminForm.get('niveau_deux_uuid').patchValue(this.currentObject?.niveau_deux_uuid);
       this.adminForm.get('niveau_trois_uuid').patchValue(this.currentObject?.niveau_trois_uuid);
-      this.adminForm.get('usage').patchValue(this.currentObject?.usage?.id);
+      this.adminForm.get('usage_id').patchValue(this.currentObject?.usage?.id);
     }
     this.adminForm.get('imsi').patchValue(this.currentObject?.imsi);
     this.adminForm.get('msisdn').patchValue(this.currentObject?.msisdn);
@@ -405,7 +468,6 @@ export class PatrimoineFormsComponent implements OnInit {
     this.adminForm.get('apn').disable();
     this.adminForm.get('site_reseau').disable();
     this.adminForm.get('adresse_ip').disable();
-    this.adminForm.get('point_emplacement').disable();
 
     if (this.currentData.show) {
       this.adminForm.disable()
@@ -428,14 +490,14 @@ export class PatrimoineFormsComponent implements OnInit {
     });
 
     // Ajoutez les images au FormData
-    if (this.uploadedImages['recto']) {
-      formData.append('photo_carte_recto', this.uploadedImages['recto']);
+    if (this.filesPhysique) {
+      formData.append('photo_carte_recto', this.filesPhysique[0]);
     }
-    if (this.uploadedImages['verso']) {
-      formData.append('photo_carte_verso', this.uploadedImages['verso']);
+    if (this.filesVerso) {
+      formData.append('photo_carte_verso', this.filesVerso[0]);
     }
-    if (this.uploadedImages['physique']) {
-      formData.append('photo_physique', this.uploadedImages['physique']);
+    if (this.filesRecto) {
+      formData.append('photo_physique', this.filesRecto[0]);
     }
 
     // Ajoutez le champ sim_id au FormData

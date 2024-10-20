@@ -8,12 +8,17 @@
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
-                        <div
-                        style="margin-top: -2rem !important"
-                        >
-                            <app-patrimoine-header [displayDate]="true" [count]="listEtats" [total]="total"
-                        [legendePluriel]="'cartes SIM avec leurs solde'" [legendeSingulier]="'carte SIM avec leurs solde'">
-                    </app-patrimoine-header>
+                        <div style="margin-top: -2rem !important">
+                            <app-patrimoine-header
+                                [displayDate]="true"
+                                [count]="listEtats"
+                                [total]="total"
+                                [legendePluriel]="'cartes SIM avec leurs solde'"
+                                [legendeSingulier]="
+                                    'carte SIM avec leurs solde'
+                                "
+                            >
+                            </app-patrimoine-header>
                         </div>
                         <div [formGroup]="formFilter">
                             <div class="d-flex gap-1">

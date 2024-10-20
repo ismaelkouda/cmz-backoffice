@@ -337,9 +337,9 @@ export class ContentieuxComponent implements OnInit {
       'Service': item?.operation,
       'Rapport': item?.code_rapport,
       'Statut': item?.statut,
-      'Date Traitement': item?.current_date,
+      'Traitement': item?.traitement,
       'Demandeur': `${item.demandeur_nom} ${item.demandeur_prenoms}`,
-      'Intervenant': `${item.intervenant_nom} ${item.intervenant_prenoms}`,
+      'Date traitement': item?.current_date,
     }));
     this.excelService.exportAsExcelFile(data, 'Liste des réclamations');
   }

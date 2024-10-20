@@ -13,10 +13,17 @@
                 "
             >
                 <div class="d-flex">
-                    <app-patrimoine-header [displayDate]="false" [count]="listTraitemants" [total]="totalRecords"
-                        [legendePluriel]="'Details dossier'" [legendeSingulier]="'Details dossier'">
+                    <app-patrimoine-header
+                        [displayDate]="false"
+                        [count]="listTraitemants"
+                        [total]="totalRecords"
+                        [legendePluriel]="'Details dossier'"
+                        [legendeSingulier]="'Details dossier'"
+                    >
                     </app-patrimoine-header>
-                    <span class="table-header-wrapper d-flex align-items-center">
+                    <span
+                        class="table-header-wrapper d-flex align-items-center"
+                    >
                         <b>
                             <span class="current_values"
                                 >[{{ requestNumber }}]</span
@@ -164,7 +171,7 @@
                     <button
                         pButton
                         label="Rafraichir"
-                        (click)="OnRefresh()"
+                        (click)="onFilter()"
                         icon="pi pi-refresh"
                         class="p-button-secondary"
                     ></button>
@@ -337,7 +344,7 @@
                                     {{ transaction.traitement }}
                                 </span>
                             </td>
-                            <td>{{ transaction?.current_date }}</td>
+                            <td>{{ getDateTraitement(transaction) }}</td>
                             <td class="text-center">
                                 <span
                                     >{{ transaction?.demandeur_nom }}

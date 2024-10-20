@@ -218,11 +218,11 @@ export class ProfilSupervisionComponent implements OnInit {
   }
   public OnExportExcel(): void {
     const data = this.listProfils.map((item: any) => ({
-      'Nom': item?.nom,
-      'Description': item?.description,
+      'Nom du Profil': item?.nom,
+      'Description du Profil': item?.description,
       'Date de création': item?.created_at,
       'Date de modification': item?.updated_at,
-      'SIM affectés': item?.sims_count,
+      '# SIM affectés': item?.sims_count,
       'Statut': item?.statut
     }));
     this.excelService.exportAsExcelFile(data, 'Liste des Profils de supervisions');

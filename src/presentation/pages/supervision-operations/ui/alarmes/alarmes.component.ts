@@ -27,9 +27,7 @@ export class AlarmesComponent implements OnInit {
   public module: string;
   public subModule: string;
   public listTransactions: Array<any> = [];
-  public listTraitements: Array<any> = [];
   public listOperations: Array<any> = [];
-  public listStatuts: Array<any> = [];
   public listUsers: Array<any> = [];
   public initialView: boolean = true;
   public formsView: boolean = false;
@@ -38,8 +36,6 @@ export class AlarmesComponent implements OnInit {
   public selectedimsi: string;
   public selectedOperation: string;
   public selectedTransaction: string;
-  public selectedStatut: string;
-  public selectedTraitement: string;
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
@@ -78,13 +74,7 @@ export class AlarmesComponent implements OnInit {
 
   ) {
     this.titleService.setTitle(`${this.title}`);
-    this.listOperations = this.mappingService.listOperations
-      Object.values(StatutTransaction).forEach(item => {
-        this.listStatuts.push(item);
-      });
-      Object.values(TraitementTransaction).forEach((item) => {
-          this.listTraitements.push(item);
-      });
+    this.listOperations = this.mappingService.listOperations;
   }
 
   ngOnInit() {
@@ -126,10 +116,8 @@ export class AlarmesComponent implements OnInit {
     this.supervisionOperationService
       .GetAllDemandes({
         operation: this.selectedOperation,
-        transaction: this.selectedTransaction,
+        numero_demande: this.selectedTransaction,
         msisdn: this.selectedSim,
-        statut: this.selectedStatut,
-        traitement: this.selectedTraitement,
         imsi: this.selectedimsi,
         initie_par: this.currentUser?.id,
         date_debut: this.selectDateStart,
@@ -281,7 +269,6 @@ export class AlarmesComponent implements OnInit {
           if(data?.traitement  === BADGE_ETAT.CLOTURE) {
             return "badge-success";
           }
-
           if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
             return "badge-danger";
           }
@@ -294,8 +281,13 @@ export class AlarmesComponent implements OnInit {
           if(data?.traitement  === BADGE_ETAT.CLOTURE) {
             return "badge-success";
           }
-
           if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
+            return "badge-danger";
+          }
+          if (data?.traitement === BADGE_ETAT.ACCEPTE) {
+            return "badge-success";
+          }
+          if (data?.traitement === BADGE_ETAT.REFUSE) {
             return "badge-danger";
           }
         break;
@@ -346,15 +338,17 @@ export class AlarmesComponent implements OnInit {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
   public isFilter(): boolean {
-    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTraitement && !this.selectedTransaction && !this.currentUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
+    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedTransaction && !this.currentUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
       'Date création': item?.created_at,
-      'N° Dossier': item?.transaction,
-      'Service': item?.operation,
-      'IMSI': item?.imsi,
-      'MSISDN': item?.msisdn,
+      'Type Opération': item?.operation,
+      'N° Dossier': item?.numero_demande,
+      '# Cycles': item?.nb_cycle,
+      '# Lignes': item?.nb_demande_soumises,
+      'Etape': item?.statut,
+      'Traitement': item?.traitement,
       'Demandeur': `${item.demandeur_nom} ${item.demandeur_prenoms}`,
     }));
     this.excelService.exportAsExcelFile(data, "File d'attente");

@@ -22,7 +22,11 @@
                     [ngStyle]="{ width: 'fit-content', 'font-size': '16px' }"
                     [class]="'badge ' + getEtatBadge(transactionId)"
                 >
-                {{ transactionId.traitement ===  BADGE_ETAT.COMPLET ? 'complet' : transactionId.traitement}}
+                    {{
+                        transactionId.traitement === BADGE_ETAT.COMPLET
+                            ? 'complet'
+                            : transactionId.traitement
+                    }}
                 </span>
             </div>
         </div>

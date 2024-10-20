@@ -1,36 +1,60 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+            <app-breadcrumb
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
 
             <div class="card">
                 <div class="card-body">
                     <div style="margin-top: -2rem !important">
-                        <app-patrimoine-header [displayDate]="false" [count]="listDemandesIntegrations" [total]="pargination?.total"
-                            [legendePluriel]="'Demandes'" [legendeSingulier]="'Demande'">
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [count]="listDemandesIntegrations"
+                            [total]="pargination?.total"
+                            [legendePluriel]="'Demandes'"
+                            [legendeSingulier]="'Demande'"
+                        >
                         </app-patrimoine-header>
                     </div>
 
-                    <app-filter-demande-identification (filter)="pageCallback($event)"
-                        [firstLevelLibelle]="firstLevelLibelle" [secondLevelLibelle]="secondLevelLibelle"
-                        [thirdLevelLibelle]="thirdLevelLibelle"></app-filter-demande-identification>
+                    <app-filter-demande-identification
+                        (filter)="pageCallback($event)"
+                        [firstLevelLibelle]="firstLevelLibelle"
+                        [secondLevelLibelle]="secondLevelLibelle"
+                        [thirdLevelLibelle]="thirdLevelLibelle"
+                    ></app-filter-demande-identification>
 
                     <hr />
 
-                    <app-table-button-header (refresh)="pageCallback()" (export)="exportExcel()" (other)="
+                    <app-table-button-header
+                        (refresh)="pageCallback()"
+                        (export)="exportExcel()"
+                        (other)="
                             navigateByUrl({ data: null, paramUrl: 'ajouter' })
-                        " [labelOther]="'identification en masse'" [iconOther]="'pi pi-plus'">
+                        "
+                        [labelOther]="'identification en masse'"
+                        [iconOther]="'pi pi-plus'"
+                    >
                     </app-table-button-header>
 
                     <br />
 
-                    <app-table-demande-identification [spinner]="spinner"
-                        [listDemandesIntegrations]="listDemandesIntegrations" (interfaceUser)="navigateByUrl($event)"
-                        [pargination]="pargination" [firstLevelLibelle]="firstLevelLibelle"
+                    <app-table-demande-identification
+                        [spinner]="spinner"
+                        [listDemandesIntegrations]="listDemandesIntegrations"
+                        (interfaceUser)="navigateByUrl($event)"
+                        [pargination]="pargination"
+                        [firstLevelLibelle]="firstLevelLibelle"
                         [secondLevelLibelle]="secondLevelLibelle"
-                        [thirdLevelLibelle]="thirdLevelLibelle"></app-table-demande-identification>
+                        [thirdLevelLibelle]="thirdLevelLibelle"
+                    ></app-table-demande-identification>
 
-                    <app-pargination [pargination]="pargination" (pageChange)="onPageChange($event)"></app-pargination>
+                    <app-pargination
+                        [pargination]="pargination"
+                        (pageChange)="onPageChange($event)"
+                    ></app-pargination>
                 </div>
             </div>
         </div>

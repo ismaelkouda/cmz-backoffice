@@ -98,6 +98,28 @@ export var menuJson = [
                 type: "link"
             },
             {
+                path: `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
+                title: "Abonnements fixe",
+                label: "Abonnements fixe",
+                data: "9-7-0-activations-fixe",
+                pack: ApplicationType.MONITORING,
+                type: "link"
+            },{
+                path: `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
+                title: "Abonnements internet",
+                label: "Abonnements internet",
+                data: "9-8-0-activations-internet",
+                pack: ApplicationType.MONITORING,
+                type: "link"
+            },{
+                path: `/${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
+                title: "Abonnements ICT",
+                label: "Abonnements ICT",
+                data: "9-9-0-activations-ict",
+                pack: ApplicationType.MONITORING,
+                type: "link"
+            },
+            {
                 path: `/${DEMANDE_SERVICE}/${DEMANDE_INTEGRATION}`,
                 title: "Intégrations mobiles",
                 label: "Intégrations mobiles",

@@ -311,17 +311,24 @@ export class DemandeWrapperComponent implements OnInit {
     return (!this.selectedStatut && !this.selectedTransaction && !this.selectedTransactionShow) ? true : false
   }
   public OnExportExcel(): void {
-    const data = this.listTransactions.map((item: any) => ({
-      'Date demande': item?.created_at,
-      'N° Dossier': item?.numero_demande,
-      '# Lignes': item?.nb_demande_soumises,
-      '# Traitées': item?.nb_demande_traitees,
-      'Statut': item?.statut,
-      'Demandeur': `${item?.demandeur_nom} ${item?.demandeur_prenoms}`
-    }));
+    const data = this.listTransactions.map((item: any) => {
+      const identifiedLabel = this.wrapperLabel === "Demandes Abonnements" ? "# Identifiées" : "";
+      const identifiedValue = this.wrapperLabel === "Demandes Abonnements" ? item?.nb_demande_identifiees : "";
+  
+      return {
+        'Date demande': item?.created_at,
+        'N° Dossier': item?.numero_demande,
+        '# Lignes': item?.nb_demande_soumises,
+        '# Traitées': item?.nb_demande_traitees,
+        [identifiedLabel]: identifiedValue,
+        'Statut': item?.statut,
+        'Traitement': item?.traitement,
+        'Demandeur': `${item?.demandeur_nom} ${item?.demandeur_prenoms}`
+      };
+    });
+  
     this.excelService.exportAsExcelFile(data, `Liste des demandes [${this.selectedOperation}]`);
   }
-
   public getStyleButtonTraitement(data: any): Object {
     if (data?.statut === BADGE_ETAPE.SOUMISSION && data.traitement === BADGE_ETAT.EN_ATTENTE) {
       return { class: 'p-button-danger', icon: 'pi pi-times', tooltip: 'Abandonner' };
@@ -425,6 +432,12 @@ export class DemandeWrapperComponent implements OnInit {
           return "badge-success";
         }
         if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
+          return "badge-danger";
+        }
+        if (data?.traitement === BADGE_ETAT.ACCEPTE) {
+          return "badge-success";
+        }
+        if (data?.traitement === BADGE_ETAT.REFUSE) {
           return "badge-danger";
         }
         break;

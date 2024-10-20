@@ -329,6 +329,18 @@ public getTraitementBadge(data: any): string {
     });
   }
 
+  public getDateTraitement(data: any): string {
+    if(data?.traitement  === BADGE_TRAITEMENT.RECU || data?.traitement  === BADGE_TRAITEMENT.EN_ATTENTE) {
+      return data?.date_acquitement;
+    } else if(data?.statut === BADGE_STATUT.TRAITE) {
+      return data?.traitement;
+    } else if(data?.statut === BADGE_STATUT.CLOTURE) {
+      return data?.date_cloture;
+    } else {
+      "N/A"
+    }
+  }
+
   public truncateString(str: string, num: number = 20): string {
     if (str.length > num) {
       return str.slice(0, num) + "...";

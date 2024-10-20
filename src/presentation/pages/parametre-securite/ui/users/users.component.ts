@@ -196,11 +196,12 @@ export class UsersComponent implements OnInit {
     }
     public OnExportExcel(): void {
         const data = this.listUsers.map((item: any) => ({
+            Profil: item?.profil_user?.nom,
             Nom: item?.nom,
             Prénoms: item?.prenoms,
             Code: item?.code,
             'Nom de connexion': item?.username,
-            Contact: item?.contacts,
+            Contacts: item?.contacts,
             Statut: item?.statut,
             'Date Création': item?.created_at,
         }));

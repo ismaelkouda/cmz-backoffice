@@ -82,7 +82,11 @@
             </td>
             <td class="text-center">
                 <span [class]="'badge ' + getEtatBadge(demande)">
-                    {{ demande.traitement ===  BADGE_ETAT.COMPLET ? 'complet' : demande.traitement}}
+                    {{
+                        demande.traitement === BADGE_ETAT.COMPLET
+                            ? 'complet'
+                            : demande.traitement
+                    }}
                 </span>
             </td>
             <td class="text-center">

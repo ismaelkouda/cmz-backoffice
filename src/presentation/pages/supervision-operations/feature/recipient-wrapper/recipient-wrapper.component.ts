@@ -192,7 +192,7 @@ export class RecipientWrapperComponent implements OnInit {
   public OnExportExcel(): void {
     const data = this.listMessages.map((item: any) => ({
       'Date envoie': item?.created_at,
-      'Reference': item?.reference,
+      'Référence': item?.reference,
       'Sujet': item?.sujet,
       'Objet': item?.objet,
       'Statut': item?.statut,

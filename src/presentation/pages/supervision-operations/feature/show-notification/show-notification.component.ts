@@ -270,13 +270,13 @@ export class ShowNotificationComponent implements OnInit {
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
-      'N° transaction': item?.transaction,
-      'Type Transaction': item?.operation,
-      'Statut': item?.statut,
+      'Date Demande': item?.created_at,
+      'N° Dossier': item?.transaction,
+      'Date MAJ': item?.updated_at,
       'IMSI': item?.imsi,
       'MSISDN': item?.msisdn,
+      'Statut': item?.statut,
       'Traitement': item?.traitement,
-      'Date création': item?.created_at
     }));
     this.excelService.exportAsExcelFile(data, 'Liste des transactions');
   }

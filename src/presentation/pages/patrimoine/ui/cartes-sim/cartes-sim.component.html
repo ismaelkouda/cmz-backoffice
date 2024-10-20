@@ -7,10 +7,14 @@
             ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
-                    <div style="margin-top: -2rem !important"
-                    >
-                        <app-patrimoine-header [displayDate]="false" [count]="listCartesSim" [total]="pargination?.total"
-                            [legendePluriel]="'SIM'" [legendeSingulier]="'SIM'">
+                    <div style="margin-top: -2rem !important">
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [count]="listCartesSim"
+                            [total]="pargination?.total"
+                            [legendePluriel]="'SIM'"
+                            [legendeSingulier]="'SIM'"
+                        >
                         </app-patrimoine-header>
                     </div>
                     <app-carte-filter
