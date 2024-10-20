@@ -13,5 +13,6 @@ export const enum EndPointUrl {
     DISABLE_PROFIL = 'user-profiles/{id}/desactiver',
     ACTIVATE_USER = 'users/{id}/activer',
     DISABLE_USER = 'users/{id}/desactiver',
+    USER_PROFILES_CHANGE_PASSWORD = 'users/send-reset-password',
 }
 

@@ -333,13 +333,13 @@ export class ContentieuxComponent implements OnInit {
   public OnExportExcel(): void {
     const data = this.listTraitemants.map((item: any) => ({
       'Date création': item?.created_at,
-      'N° demande': item?.transaction,
+      'N° Dossier': item?.transaction,
       'Service': item?.operation,
       'Rapport': item?.code_rapport,
       'Statut': item?.statut,
-      'Date Traitement': item?.current_date,
+      'Traitement': item?.traitement,
       'Demandeur': `${item.demandeur_nom} ${item.demandeur_prenoms}`,
-      'Intervenant': `${item.intervenant_nom} ${item.intervenant_prenoms}`,
+      'Date traitement': item?.current_date,
     }));
     this.excelService.exportAsExcelFile(data, 'Liste des réclamations');
   }

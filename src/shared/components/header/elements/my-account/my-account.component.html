@@ -24,79 +24,114 @@
     </li>
 </ul>
 <!---------------------PASSWORD FORM----------------------------->
-<ng-template #passwordV let-modal [formGroup]="passwordForm">
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">
-            Modification Mot de passe
-        </h4>
-        <button
-            type="button"
-            class="btn-close"
-            aria-label="Close"
-            (click)="hideForm()"
-        ></button>
-    </div>
-    <div class="modal-body" novalidate>
-        <div class="form-group mb-4">
-            <label>
-                <b>Ancien Mot de passe</b>
-            </label>
-            <p-password
-                formControlName="actuel_password"
-                [feedback]="false"
-                [toggleMask]="true"
-                styleClass="p-password p-component p-inputwrapper p-input-icon-right"
-            ></p-password>
-        </div>
-        <div class="form-group mb-4">
-            <label>
-                <b>Nouveau Mot de passe</b>
-            </label>
-            <p-password
-                formControlName="nouveau_password"
-                [feedback]="false"
-                [toggleMask]="true"
-                styleClass="p-password p-component p-inputwrapper p-input-icon-right"
-            ></p-password>
-        </div>
-        <div class="form-group mb-3">
-            <label>
-                <b>Confirmer nouveau mot de passe</b>
-            </label>
-            <p-password
-                formControlName="confirm_password"
-                [feedback]="false"
-                [toggleMask]="true"
-                styleClass="p-password p-component p-inputwrapper p-input-icon-right"
-            ></p-password>
-        </div>
-        <span
-            class="form-error"
-            *ngIf="newPasswordValue !== confirmPasswordValue"
-            >Les deux mot de passe doivent être identiques</span
-        >
-    </div>
-
-    <div class="modal-footer">
-        <div>
-            <button type="button" class="btn btn-hide" (click)="hideForm()">
-                Fermer
-            </button>
-        </div>
-        <div>
+<ng-template #passwordV let-modal>
+    <form [formGroup]="passwordForm">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">
+                Modification Mot de passe
+            </h4>
             <button
                 type="button"
-                class="btn btn-save"
-                (click)="handleUpdatePassword()"
-                [disabled]="
-                    !passwordForm.valid ||
-                    newPasswordValue !== confirmPasswordValue
-                "
-            >
-                Valider
-            </button>
+                class="btn-close"
+                aria-label="Close"
+                (click)="hideForm()"
+            ></button>
         </div>
-    </div>
+        <div class="modal-body" novalidate>
+            <div class="form-group mb-4">
+                <label>
+                    <b>Ancien Mot de passe</b>
+                </label>
+                <p-password
+                    formControlName="old_password"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+                ></p-password>
+            </div>
+            <div class="form-group mb-4">
+                <label>
+                    <b>Nouveau Mot de passe</b>
+                </label>
+                <p-password
+                    formControlName="new_password"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+                ></p-password>
+                <ng-container
+                    *ngIf="
+                        submitted &&
+                        passwordForm.get('new_password')?.errors &&
+                        !passwordForm
+                            .get('new_password_confirmation')
+                            ?.hasError('invalidPassword')
+                    "
+                >
+                    <span
+                        class="fs-6 lh-1 text-danger fst-italic font-italic"
+                        *ngIf="
+                            passwordForm.get('new_password')?.invalid ||
+                            passwordForm.get('new_password')?.errors['required']
+                        "
+                    >
+                        Une lettre majuscule, une lettre minuscule, un chiffre
+                        et un caractère spécial.
+                    </span>
+                </ng-container>
+            </div>
+            <div class="form-group mb-3">
+                <label>
+                    <b>Confirmer nouveau mot de passe</b>
+                </label>
+                <p-password
+                    formControlName="new_password_confirmation"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+                ></p-password>
+                <ng-container
+                    *ngIf="
+                        submitted &&
+                        passwordForm.get('new_password_confirmation')?.errors &&
+                        !passwordForm
+                            .get('new_password_confirmation')
+                            ?.hasError('invalidPassword')
+                    "
+                >
+                    <span
+                        class="fs-6 lh-1 text-danger fst-italic font-italic"
+                        *ngIf="
+                            passwordForm.get('new_password_confirmation')
+                                ?.invalid ||
+                            passwordForm.get('new_password_confirmation')
+                                ?.errors['required']
+                        "
+                    >
+                        Doit etre identique au nouveau mot de passe.
+                    </span>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div>
+                <button type="button" class="btn btn-hide" (click)="hideForm()">
+                    Fermer
+                </button>
+            </div>
+            <div>
+                <button
+                    type="button"
+                    class="btn btn-save"
+                    (click)="handleUpdatePassword()"
+                    [disabled]="passwordForm.invalid"
+                >
+                    Valider
+                </button>
+            </div>
+        </div>
+    </form>
 </ng-template>
 <!---------------------ACCOUNT FORM----------------------------->
 <ng-template #accountV let-modal [formGroup]="accountForm">

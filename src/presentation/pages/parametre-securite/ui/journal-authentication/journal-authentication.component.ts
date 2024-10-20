@@ -63,7 +63,6 @@ export class JournalAuthenticationComponent implements OnInit {
       const parseData = JSON.parse(item.data);            
      return {...item, data: parseData};
     })  
-    console.log('this.listNotifications', this.listNotifications)
   }
   onFilter() {
     if (moment(this.selectDateStart).isAfter(moment(this.selectDateEnd))) {

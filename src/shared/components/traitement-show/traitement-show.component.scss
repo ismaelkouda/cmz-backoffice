@@ -17,6 +17,20 @@
     margin-top: -30rem;
 }
 
+:host ::ng-deep .p-fileupload .p-fileupload-content {
+    padding: inherit !important;
+}
+
+::ng-deep .p-button.p-fileupload-choose {
+    width: 100% !important;
+}
+
+:host ::ng-deep .p-button.p-button-icon-only {
+    color: red !important;
+    border-color: red !important;
+    background-color: white !important;
+}
+
 .form-container > :first-child {
     margin-top: 2rem;
 }

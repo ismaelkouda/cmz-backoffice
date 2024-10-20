@@ -8,6 +8,8 @@ import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enu
 import { MappingService } from 'src/shared/services/mapping.service';
 import * as moment from 'moment';
 import { Title } from '@angular/platform-browser';
+import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
+import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -159,6 +161,72 @@ export class PriseEnChargeComponent implements OnInit {
       })
   }
 
+  public getEtapeBadge(data: any): string {
+    switch (data?.statut) {
+      case BADGE_ETAPE.SOUMISSION:
+        return "badge-dark";
+
+      case BADGE_ETAPE.TRAITEMENT:
+        return "badge-warning";
+
+      case BADGE_ETAPE.FINALISATEUR:
+        return "badge-info";
+
+      case BADGE_ETAPE.CLOTURE:
+        return "badge-success";
+    }
+  }
+  public getEtatBadge(data: any): string {
+    switch (data?.statut) {
+      case BADGE_ETAPE.SOUMISSION:
+        if (data?.traitement === BADGE_ETAT.RECU || data?.traitement === BADGE_ETAT.EN_ATTENTE) {
+          return "badge-dark";
+        }
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        break;
+        
+      case BADGE_ETAPE.TRAITEMENT:
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_ETAT.COMPLET) {
+          return "badge-primary";
+        }
+        break;
+
+      case BADGE_ETAPE.FINALISATEUR:
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_ETAT.CLOTURE) {
+          return "badge-success";
+        }
+        if (data?.traitement === BADGE_ETAT.ABANDONNE) {
+          return "badge-danger";
+        }
+        break;
+
+      case BADGE_ETAPE.CLOTURE:
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_ETAT.CLOTURE) {
+          return "badge-success";
+        }
+        if (data?.traitement === BADGE_ETAT.ABANDONNE) {
+          return "badge-danger";
+        }
+        if (data?.traitement === BADGE_ETAT.ACCEPTE) {
+          return "badge-success";
+        }
+        if (data?.traitement === BADGE_ETAT.REFUSE) {
+          return "badge-danger";
+        }
+        break;
+    }
+  }
   public getCodeRapport(value: string): string {
     const code = value?.split("-");
     if (code[1] === "102") {

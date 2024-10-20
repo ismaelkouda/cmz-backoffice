@@ -75,6 +75,7 @@
                                                 menuItem.headTitle1 | translate
                                             }}
                                         </h6>
+                                        <!-- <p class="lan-2">{{ menuItem.headTitle2 | translate }}</p> -->
                                     </div>
 
                                     <label
@@ -92,7 +93,10 @@
                                         href="javascript:void(0)"
                                         class="sidebar-link sidebar-title"
                                         [class.link-nav]="!menuItem.children"
-                                        [ngClass]="{ active: menuItem.active }"
+                                        [ngClass]="{
+                                            active:
+                                                menuItem.active && !menuActive
+                                        }"
                                         *ngIf="menuItem.type === 'sub'"
                                         (click)="toggletNavActive(menuItem)"
                                     >
@@ -139,7 +143,7 @@
                                                         ? 'down'
                                                         : 'right'
                                                 }} pull-right"
-                                                *ngIf="menuItem.children"
+                                                *ngIf="!menuItem.children"
                                             ></i>
                                         </div>
                                     </a>
@@ -265,9 +269,6 @@
                                                     childrenItem.type === 'link'
                                                 "
                                                 routerLinkActive="active"
-                                                [routerLinkActiveOptions]="{
-                                                    exact: true
-                                                }"
                                             >
                                                 {{
                                                     childrenItem.title
@@ -432,14 +433,14 @@
                     </div>
                 </div>
             </div>
+            <div
+                class="right-arrow"
+                id="right-arrow"
+                [class.d-none]="rightArrowNone"
+                (click)="scrollToRight()"
+            >
+                <i [attr.data-feather]="'arrow-right'"></i>
+            </div>
         </ul>
-    </div>
-    <div
-        class="right-arrow"
-        id="right-arrow"
-        [class.d-none]="rightArrowNone"
-        (click)="scrollToRight()"
-    >
-        <i [attr.data-feather]="'arrow-right'"></i>
     </div>
 </nav>

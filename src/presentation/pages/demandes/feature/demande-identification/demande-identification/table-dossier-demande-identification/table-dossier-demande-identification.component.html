@@ -46,7 +46,7 @@
         <tr>
             <th class="text-center">#</th>
             <th class="text-center">Date Demande</th>
-            <th class="text-center">N° demande</th>
+            <th class="text-center">N° Dossier</th>
             <th class="text-center">MSISDN</th>
             <th class="text-center">IMSI</th>
             <th class="text-center">Statut</th>
@@ -77,56 +77,24 @@
             >
                 {{ demande?.imsi ?? 'N/A' }}
             </td>
-            <td class="text-center">
+            <td class="text-center" [style]="{ width: '3rem' }">
                 <span
                     [ngStyle]="{ 'font-size': '16px' }"
-                    class="badge"
-                    [class.badge-dark]="
-                        demande?.statut === BADGE_ETAPE.SOUMISSION ||
-                        demande?.statut === BADGE_STATUT.SOUMIS
-                    "
-                    [class.badge-warning]="
-                        demande?.statut === BADGE_ETAPE.TRAITEMENT
-                    "
-                    [class.badge-success]="
-                        demande?.statut === BADGE_ETAPE.FINALISATEUR
-                    "
-                    [class.badge-green]="
-                        demande?.statut === BADGE_ETAPE.CLOTURE
-                    "
-                    [class.badge-info]="demande?.statut === BADGE_STATUT.TRAITE"
-                    [class.badge-success]="
-                        demande?.statut === BADGE_STATUT.CLOTURE
-                    "
+                    [class]="'badge ' + getStatutBadge(demande)"
                 >
-                    {{ demande?.statut }}
+                    {{
+                        demande?.statut === 'traiter'
+                            ? 'Complet'
+                            : demande?.statut
+                    }}
                 </span>
             </td>
             <td class="text-center">
                 <span
                     [ngStyle]="{ 'font-size': '16px' }"
-                    class="badge"
-                    [class.badge-dark]="
-                        demande?.traitement === BADGE_ETAT.RECU ||
-                        demande?.traitement === BADGE_ETAT.EN_ATTENTE
-                    "
-                    [class.badge-warning]="
-                        demande?.traitement === BADGE_ETAT.PARTIEL ||
-                        demande?.traitement === BADGE_ETAT.ABANDONNE
-                    "
-                    [class.badge-danger]="
-                        demande?.traitement === BADGE_ETAT.REJETE ||
-                        demande?.traitement === BADGE_ETAT.REFUSE
-                    "
-                    [class.badge-success]="
-                        demande?.statut === BADGE_ETAPE.CLOTURE ||
-                        demande?.traitement === BADGE_ETAT.ACCEPTE
-                    "
-                    [class.badge-info]="
-                        demande?.traitement === BADGE_ETAT.TOTAL
-                    "
+                    [class]="'badge ' + getTraitementBadge(demande)"
                 >
-                    {{ demande?.traitement }}
+                    {{ demande.traitement }}
                 </span>
             </td>
             <td class="text-center">

@@ -95,21 +95,20 @@ export class CarteFilterComponent implements OnInit {
     }
 
     public initFormFilter() {
-        const filterState = this.carteSimStateService.getFilterState();
-        console.log('filterState', filterState)
+        // const filterState = this.carteSimStateService.getFilterState();
         this.formFilter = this.fb.group({
-            niveau_un_uuid: [filterState?.niveau_un_uuid ?? null],
-            niveau_deux_uuid: [filterState?.niveau_deux_uuid ?? null],
-            statut: [filterState?.statut ?? history?.state?.statut],
-            msisdn: [filterState?.msisdn ?? null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
-            imsi: [filterState?.imsi ?? null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
-            adresse_ip: [filterState?.adresse_ip ?? null],
-            usage_id: [filterState?.usage_id ?? null],
-            apn: [filterState?.apn ?? null],
-            niveau_trois_uuid: [filterState?.niveau_trois_uuid ?? null],
-            formule_uuid: [filterState?.formule_uuid ?? null],
-            zone_trafic: [filterState?.zone_trafic ?? null],
-            point_emplacement: [filterState?.point_emplacement ?? null],
+            niveau_un_uuid: [null],
+            niveau_deux_uuid: [null],
+            statut: [history?.state?.statut],
+            msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
+            imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+            adresse_ip: [null],
+            usage_id: [null],
+            apn: [null],
+            niveau_trois_uuid: [null],
+            formule_uuid: [null],
+            zone_trafic: [null],
+            point_emplacement: [null],
         });
         this.formFilter.get("msisdn").valueChanges.subscribe((value) => {
             if (value && value.length > 10) {
@@ -134,6 +133,7 @@ export class CarteFilterComponent implements OnInit {
         this.settingService.GetAllAPN({}).subscribe({
             next: (response) => {
                 this.listAPN = response["data"];
+                console.log('this.listAPN', this.listAPN)
             },
             error: (error) => {
                 this.toastrService.error(error.message);

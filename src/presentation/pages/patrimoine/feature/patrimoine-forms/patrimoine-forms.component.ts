@@ -1,3 +1,6 @@
+import { NatureDocument } from './../../../../../shared/enum/NatureDocument.enum';
+import { NaturePiece } from './../../../../../shared/enum/NaturePiece.enum';
+import { TypePersonne } from './../../../../../shared/enum/TypePersonnes.enum';
 import { ApplicationType } from './../../../../../shared/enum/ApplicationType.enum';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -11,9 +14,12 @@ import { DEMANDE_SERVICE } from 'src/shared/routes/routes';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { DEMANDE_ACTIVATION } from 'src/presentation/pages/demandes/demandes-routing.module';
 import { EnvService } from 'src/shared/services/env.service';
-
+import { PrimeNGConfig } from 'primeng/api';
 const Swal = require('sweetalert2');
-
+interface UploadEvent {
+  originalEvent: Event;
+  files: File[];
+}
 @Component({
   selector: 'app-patrimoine-forms',
   templateUrl: './patrimoine-forms.component.html',
@@ -26,11 +32,9 @@ export class PatrimoineFormsComponent implements OnInit {
   @Output() formsView = new EventEmitter();
   public currentObject: any;
 
-
   uploadedImages: { [key: string]: string } = {};
   imageURLs: { [key: string]: string } = {};
   tempImages: { [key: string]: string } = {};
-
 
   public listDirectionRegionales: Array<any> = [];
   public listExploitations: Array<any> = [];
@@ -39,7 +43,7 @@ export class PatrimoineFormsComponent implements OnInit {
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
-  public fileurl : string;
+  public fileurl: string;
   public offset: any;
   public p: number = 1;
   public display: boolean = true;
@@ -58,11 +62,25 @@ export class PatrimoineFormsComponent implements OnInit {
   public baseUrl: string;
   public activation: string = OperationTransaction.ACTIVATION;
   public currentTabsIndex: number = 0;
+  public fileName: any;
 
+  filesPhysique = [];
+  filesRecto = [];
+  filesVerso = [];
+
+  totalSize: number = 0;
+  totalSizePercent: number = 0;
+  private config: PrimeNGConfig;
+  fileSizeUnits: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  public listeTypePersonne: Array<any> = [];
+  public listeNaturePiece: Array<any> = [];
+  public listeNatureDocument: Array<any> = [];
+  public displayPhysiquePersonne: boolean = true;
+  uploadedFiles: any[] = [];
   constructor(
     private fb: FormBuilder,
     private settingService: SettingService,
-    private envService : EnvService,
+    private envService: EnvService,
     private toastrService: ToastrService,
     private patrimoineService: PatrimoineService,
     public mappingService: MappingService,
@@ -72,12 +90,22 @@ export class PatrimoineFormsComponent implements OnInit {
     this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
     this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
-    this.minioUrl = this.mappingService.minioUrl;
+    // this.minioUrl = this.mappingService.minioUrl;
+    this.minioUrl = this.envService.fileUrl;
     const data = JSON.parse(this.storage.getData('user'))
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
     this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
     this.fileurl = this.envService.fileUrl;
+    Object.values(TypePersonne).forEach((item) => {
+      this.listeTypePersonne.push(item);
+    });
+    Object.values(NaturePiece).forEach((item) => {
+      this.listeNaturePiece.push(item);
+    });
+    Object.values(NatureDocument).forEach((item) => {
+      this.listeNatureDocument.push(item);
+    });
   }
 
   ngOnInit() {
@@ -90,6 +118,42 @@ export class PatrimoineFormsComponent implements OnInit {
       this.getAllZones();
     }
     this.OnRefreshValues();
+  }
+  onSelectedFiles(event, typeFile: 'physique'|'recto' | 'verso') {
+    console.log('event', event.files[0])
+    switch (typeFile) {
+      case 'physique':
+        this.filesPhysique = event.currentFiles;
+        console.log('this.filesPhysique', this.filesPhysique[0])
+        break;
+
+      case 'recto':
+        this.filesRecto = event.currentFiles;
+        break;
+
+      case 'verso':
+        this.filesVerso = event.currentFiles;
+    }
+  }
+
+  onRemoveTemplatingFile(event: Event, file: any, removeFileCallback: Function, index: number, typeFile: 'physique'|'recto' | 'verso'): void {
+    switch (typeFile) {
+      case 'physique':
+        this.filesPhysique.splice(index, 1);
+        break;
+
+      case 'recto':
+        this.filesRecto.splice(index, 1);
+        break;
+
+      case 'verso':
+        this.filesVerso.splice(index, 1);
+    }
+  }
+  onUpload(event: UploadEvent) {
+    for (let file of event.files) {
+      this.uploadedFiles.push(file);
+    }
   }
   public statutContrat() {
     this.mappingService.statutContrat(this.currentData?.statut)
@@ -105,21 +169,27 @@ export class PatrimoineFormsComponent implements OnInit {
     return formattedMsisdn;
   }
   public initForm(): void {
+    console.log('this.currentData', this.currentData)
     this.adminForm = this.fb.group({
+      type_personne: [this.currentData?.type_personne],
+      nom: [this.currentData?.nom],
+      prenoms: [this.currentData?.prenoms],
+      nature_piece: [this.currentData?.nature_piece],
+      numero_piece: [this.currentData?.numero_piece],
       niveau_un_uuid: ['', [Validators.required]],
-      niveau_deux_uuid: [''],
+      niveau_deux_uuid: ['', [Validators.required]],
       niveau_trois_uuid: ['', [Validators.required]],
-      usage: ['', [Validators.required]],
+      usage_id: ['', [Validators.required]],
       point_emplacement: [''],
       direction_regionale: [''],
-      adresse_geographique: [''],
+      adresse_geographique: ['', [Validators.required]],
       longitude: [''],
       latitude: [''],
-      zone:[''],
+      zone: [''],
       photo_carte_recto: [''],
       photo_carte_verso: [''],
       photo_physique: [''],
-      adresse_email: ['', [Validators.email]],
+      adresse_email: ['', [Validators.email, Validators.required]],
       formule: [''],
       imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
       statut: [""],
@@ -128,7 +198,7 @@ export class PatrimoineFormsComponent implements OnInit {
       apn: [''],
       site_reseau: [''],
       adresse_ip: [],
-      exploitation:['']
+      exploitation: ['']
       /*
        0704842695
       */
@@ -143,42 +213,107 @@ export class PatrimoineFormsComponent implements OnInit {
         this.adminForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
       }
     });
+
+    const typePersonneControl = this.adminForm.get('type_personne');
+    const gererValidationTypePersonne = (value: string) => {
+      if (value === TypePersonne.PHYSIQUE) {
+        this.displayPhysiquePersonne = true;
+      } else {
+        this.displayPhysiquePersonne = false;
+      }
+    };
+    gererValidationTypePersonne(typePersonneControl?.value);
+    typePersonneControl?.valueChanges.subscribe((value) => {
+      gererValidationTypePersonne(value);
+    });
   }
 
+  // choose(event, callback) {
+  //   callback();
+  // }
 
-  getImageSrc(type: string): string {
-    if (this.tempImages[type]) {
-      return this.tempImages[type];
-    } else if (this.imageURLs[type]) {
-      // Assurez-vous que "fileurl" et "imageURLs[type]" n'ont pas de répétitions de chemin
-      const fullImageUrl = this.imageURLs[type].startsWith('http') 
-        ? this.imageURLs[type] 
-        : this.fileurl + this.imageURLs[type];
-  
-      // Supprime les répétitions de chemin comme "patrimoinesim/patrimoinesim"
-      return fullImageUrl.replace(/(patrimoinesim\/)+/, 'patrimoinesim/');
+  // onRemoveTemplatingFile(event, file, removeFileCallback, index) {
+  //     removeFileCallback(event, index);
+  //     this.totalSize -= parseInt(this.formatSize(file.size));
+  //     this.totalSizePercent = this.totalSize / 10;
+  // }
+
+  // onTemplatedUpload() {
+  //   // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
+  // }
+
+  // onSelectedFiles(event) {
+  //   this.files = event.currentFiles;
+  //   this.files.forEach((file) => {
+  //     this.totalSize += parseInt(this.formatSize(file.size));
+  //   });
+  //   this.totalSizePercent = this.totalSize / 10;
+  // }
+
+  // uploadEvent(callback) {
+  //   callback();
+  // }
+
+  // formatSize(bytes: number): string {
+  //   if (bytes === 0) return '0 Bytes';
+
+  //   const k = 1024;
+  //   const i = Math.floor(Math.log(bytes) / Math.log(k));
+  //   const dm = 2; // Decimal precision
+
+  //   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + this.fileSizeUnits[i];
+  // }
+
+  // getImageSrc(type: string): string {
+  //   if (this.tempImages[type]) {
+  //     return this.tempImages[type];
+  //   } else if (this.imageURLs[type]) {
+  //     // Assurez-vous que "fileurl" et "imageURLs[type]" n'ont pas de répétitions de chemin
+  //     const fullImageUrl = this.imageURLs[type].startsWith('http')
+  //       ? this.imageURLs[type]
+  //       : this.fileurl + this.imageURLs[type];
+
+  //     // Supprime les répétitions de chemin comme "patrimoinesim/patrimoinesim"
+  //     return fullImageUrl.replace(/(patrimoinesim\/)+/, 'patrimoinesim/');
+  //   }
+  //   return '';
+  // }
+
+
+
+  onUploadTest(event: any, type: string): void {
+    const file = event.files[0]; // Get the uploaded file
+
+    if (file) {
+      const reader = new FileReader();
+
+      // Load the file and convert it to a Base64 string
+      reader.onload = (e: any) => {
+        this.imageURLs[type] = e.target.result; // Set the image URL for the corresponding type
+        this.showToast('success', 'Image Upload', 'Image uploaded successfully');
+      };
+
+      reader.onerror = () => {
+        this.showToast('error', 'Image Upload', 'Failed to read the file');
+      };
+
+      reader.readAsDataURL(file); // Read the file as Base64
+    } else {
+      this.showToast('warn', 'Image Upload', 'No file selected');
     }
-    return '';
   }
-  
-  
 
-onUpload(event: any, type: string) {
-  if (event.files && event.files.length > 0) {
-      const file = event.files[0];
-      
-      this.tempImages[type] = URL.createObjectURL(file);
-      this.uploadedImages[type] = file;
+  // Return the image source URL for the given type
+  getImageSrc(type: string): string | null {
+    return this.imageURLs[type];
   }
-}
 
-
-
-  getImageUrl(file: File): string {
-    return URL.createObjectURL(file);
+  // Show toast notifications for feedback
+  private showToast(severity: string, summary: string, detail: string): void {
+    // this.messageService.add({ severity, summary, detail });
   }
-  
-  
+
+
 
   public OnGetDetailSim(): void {
     this.patrimoineService
@@ -279,15 +414,21 @@ onUpload(event: any, type: string) {
 
     //Identification Controls
     if (this.currentData?.show) {
+      this.adminForm.get('type_personne').patchValue(this.currentObject?.type_personne);
+      this.adminForm.get('nom').patchValue(this.currentObject?.nom);
+      this.adminForm.get('prenoms').patchValue(this.currentObject?.prenoms);
+      this.adminForm.get('nature_piece').patchValue(this.currentObject?.nature_piece);
+      this.adminForm.get('numero_piece').patchValue(this.currentObject?.numero_piece);
+
       this.adminForm.get('niveau_un_uuid').patchValue(this.currentObject?.niveau_uns_nom);
       this.adminForm.get('niveau_deux_uuid').patchValue(this.currentObject?.niveau_deux_nom);
       this.adminForm.get('niveau_trois_uuid').patchValue(this.currentObject?.niveau_trois_nom);
-      this.adminForm.get('usage').patchValue(this.currentObject?.nom_usage);
+      this.adminForm.get('usage_id').patchValue(this.currentObject?.nom_usage);
     } else {
       this.adminForm.get('niveau_un_uuid').patchValue(this.currentObject?.niveau_un_uuid);
       this.adminForm.get('niveau_deux_uuid').patchValue(this.currentObject?.niveau_deux_uuid);
       this.adminForm.get('niveau_trois_uuid').patchValue(this.currentObject?.niveau_trois_uuid);
-      this.adminForm.get('usage').patchValue(this.currentObject?.usage?.id);
+      this.adminForm.get('usage_id').patchValue(this.currentObject?.usage?.id);
     }
     this.adminForm.get('imsi').patchValue(this.currentObject?.imsi);
     this.adminForm.get('msisdn').patchValue(this.currentObject?.msisdn);
@@ -305,17 +446,17 @@ onUpload(event: any, type: string) {
     this.adminForm.get('site_reseau').patchValue(this.currentObject?.site_reseau);
     this.adminForm.get('adresse_ip').patchValue(this.currentObject?.adresse_ip);
 
-     // Set image URLs
-     
-  if (this.currentObject?.photo_carte_recto) {
-    this.imageURLs['recto'] = this.currentObject.photo_carte_recto;
-  }
-  if (this.currentObject?.photo_carte_verso) {
-    this.imageURLs['verso'] = this.currentObject.photo_carte_verso;
-  }
-  if (this.currentObject?.photo_physique) {
-    this.imageURLs['physique'] = this.currentObject.photo_physique;
-  }
+    // Set image URLs
+
+    if (this.currentObject?.photo_carte_recto) {
+      this.imageURLs['recto'] = this.currentObject.photo_carte_recto;
+    }
+    if (this.currentObject?.photo_carte_verso) {
+      this.imageURLs['verso'] = this.currentObject.photo_carte_verso;
+    }
+    if (this.currentObject?.photo_physique) {
+      this.imageURLs['physique'] = this.currentObject.photo_physique;
+    }
 
 
     //Disabled Controls
@@ -323,11 +464,10 @@ onUpload(event: any, type: string) {
     this.adminForm.get('imsi').disable();
     this.adminForm.get('msisdn').disable();
     this.adminForm.get('formule').disable();
-    this.adminForm.get('date_trafic').disable();
+    // this.adminForm.get('date_trafic').disable();
     this.adminForm.get('apn').disable();
     this.adminForm.get('site_reseau').disable();
     this.adminForm.get('adresse_ip').disable();
-    this.adminForm.get('point_emplacement').disable();
 
     if (this.currentData.show) {
       this.adminForm.disable()
@@ -335,12 +475,12 @@ onUpload(event: any, type: string) {
     }
   }
   handleUpdateCampagne() {
-    const formData = new FormData();    
-  
+    const formData = new FormData();
+
     // Désactivez les contrôles du formulaire
     this.adminForm.get('niveau_un_uuid')?.disable();
     this.adminForm.get('exploitation')?.disable();
-  
+
     // Ajoutez les champs du formulaire au FormData
     Object.keys(this.adminForm.controls).forEach(key => {
       const control = this.adminForm.get(key);
@@ -348,23 +488,23 @@ onUpload(event: any, type: string) {
         formData.append(key, control.value);
       }
     });
-  
+
     // Ajoutez les images au FormData
-    if (this.uploadedImages['recto']) {
-      formData.append('photo_carte_recto', this.uploadedImages['recto']);
+    if (this.filesPhysique) {
+      formData.append('photo_carte_recto', this.filesPhysique[0]);
     }
-    if (this.uploadedImages['verso']) {
-      formData.append('photo_carte_verso', this.uploadedImages['verso']);
+    if (this.filesVerso) {
+      formData.append('photo_carte_verso', this.filesVerso[0]);
     }
-    if (this.uploadedImages['physique']) {
-      formData.append('photo_physique', this.uploadedImages['physique']);
+    if (this.filesRecto) {
+      formData.append('photo_physique', this.filesRecto[0]);
     }
-  
+
     // Ajoutez le champ sim_id au FormData
     if (this.currentObject?.id) {
       formData.append('sim_id', this.currentObject.id);
     }
-  
+
     // Envoyez les données au service
     this.patrimoineService.UpdatePatrimoine(formData).subscribe({
       next: (response) => {
@@ -376,8 +516,8 @@ onUpload(event: any, type: string) {
       }
     });
   }
-  
-  
+
+
   public onTransactionForm(data: any, operation: string): void {
     this.router.navigateByUrl(
       `${DEMANDE_SERVICE}/${DEMANDE_ACTIVATION}`,
@@ -411,7 +551,7 @@ onUpload(event: any, type: string) {
     });
   }
   public handleChangeTabviewIndex(e) {
-    console.log("content currentTabs :", this.currentTabsIndex )
+    console.log("content currentTabs :", this.currentTabsIndex)
     this.currentTabsIndex = e.index;
   }
 

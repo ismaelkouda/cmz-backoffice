@@ -5,13 +5,15 @@
     ></app-breadcrumb>
     <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
         <div class="card-body">
-            <div style="margin-top: -1rem !important; margin-bottom: 1.5rem !important;">
-
+            <div style="margin-top: -2rem !important">
                 <app-patrimoine-header
+                    [displayDate]="false"
                     [count]="listTraitemants"
-                    [legende]="'dossiers en traitement'"
                     [total]="totalRecords"
-                ></app-patrimoine-header>
+                    [legendePluriel]="'dossiers en traitement'"
+                    [legendeSingulier]="'dossier en traitement'"
+                >
+                </app-patrimoine-header>
             </div>
             <div class="row filter_wrapper">
                 <div class="col-md-2">
@@ -34,7 +36,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>
-                            <b>N° Demande</b>
+                            <b>N° Dossier</b>
                         </label>
                         <input
                             placeholder="Demande"
@@ -228,7 +230,7 @@
                         </th>
                         <th [style]="{ width: '10rem' }">Date Demande</th>
                         <th class="text-center" [style]="{ width: '14rem' }">
-                            N° demande
+                            N° Dossier
                         </th>
                         <th class="text-center" [style]="{ width: '4rem' }">
                             # Lignes
@@ -237,10 +239,10 @@
                             # Traitées
                         </th>
                         <th class="text-center" [style]="{ width: '4rem' }">
-                            Statut
+                            Etape
                         </th>
                         <th class="text-center" [style]="{ width: '4rem' }">
-                            Traitement
+                            Etat
                         </th>
                         <th class="text-center" [style]="{ width: '4rem' }">
                             Date traitement
@@ -278,70 +280,14 @@
                             </td>
                             <td>{{ data?.nb_demande_soumises ?? 'N/A' }}</td>
                             <td>{{ data?.nb_demande_traitees ?? 'N/A' }}</td>
-                            <td class="text-center">
-                                <span
-                                    [ngStyle]="{ 'font-size': '16px' }"
-                                    class="badge"
-                                    [class.badge-dark]="
-                                        data?.statut === BADGE_ETAPE.SOUMISSION
-                                    "
-                                    [class.badge-warning]="
-                                        data?.statut === BADGE_ETAPE.TRAITEMENT
-                                    "
-                                    [class.badge-success]="
-                                        data?.statut ===
-                                            BADGE_ETAPE.FINALISATEUR ||
-                                        data?.statut === BADGE_ETAPE.CLOTURE
-                                    "
-                                >
-                                    {{ data?.statut }}
+                            <td class="text-center" [style]="{ width: '3rem' }">
+                                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getEtapeBadge(data)">
+                                    {{ data?.statut === 'traiter' ? 'Complet' : data?.statut }}
                                 </span>
                             </td>
                             <td class="text-center">
-                                <span
-                                    [ngStyle]="{ 'font-size': '16px' }"
-                                    class="badge"
-                                    [class.badge-dark]="
-                                        data?.traitement === BADGE_ETAT.RECU ||
-                                        (data?.statut ===
-                                            BADGE_ETAPE.SOUMISSION &&
-                                            data?.traitement ===
-                                                BADGE_ETAT.EN_ATTENTE)
-                                    "
-                                    [class.badge-warning]="
-                                        data?.statut ===
-                                            BADGE_ETAPE.TRAITEMENT &&
-                                        (data?.traitement ===
-                                            BADGE_ETAT.PARTIEL ||
-                                            data?.traitement ===
-                                                BADGE_ETAT.EN_ATTENTE)
-                                    "
-                                    [class.badge-warning-2]="
-                                        data?.statut === BADGE_ETAPE.CLOTURE &&
-                                        data?.traitement ===
-                                            BADGE_ETAT.ABANDONNE
-                                    "
-                                    [class.badge-info]="
-                                        data?.statut ===
-                                            BADGE_ETAPE.TRAITEMENT &&
-                                        data?.traitement === BADGE_ETAT.TOTAL
-                                    "
-                                    [class.badge-green]="
-                                        data?.statut ===
-                                            BADGE_ETAPE.FINALISATEUR &&
-                                        data?.traitement === BADGE_ETAT.CLOTURE
-                                    "
-                                    [class.badge-danger]="
-                                        data?.traitement ===
-                                            BADGE_ETAT.REJETE ||
-                                        data?.traitement === BADGE_ETAT.REFUSE
-                                    "
-                                    [class.badge-success]="
-                                        data?.statut === BADGE_ETAPE.CLOTURE &&
-                                        data?.traitement === BADGE_ETAT.ACCEPTE
-                                    "
-                                >
-                                    {{ data.traitement }}
+                                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getEtatBadge(data)">
+                                    {{ data.traitement ===  BADGE_ETAT.COMPLET ? 'complet' : data.traitement}}
                                 </span>
                             </td>
                             <td class="text-center">
@@ -352,18 +298,12 @@
                                 {{ data?.demandeur_prenoms }}
                             </td>
                             <td class="td-actions">
-                                <button
-                                    pButton
-                                    pRipple
-                                    icon="pi pi-folder-open"
-                                    [pTooltip]="
-                                        !data?.nb_demande_traitees ? '' : 'Voir'
-                                    "
-                                    class="p-button-dark"
-                                    tooltipPosition="top"
+                                <button pButton pRipple icon="pi pi-folder-open"
+                                    [pTooltip]="!data?.nb_demande_traitees ? '' : 'Voir'"
+                                    class="p-button-dark" tooltipPosition="top"
                                     [disabled]="!data?.nb_demande_traitees"
-                                    (click)="OnShowTraitement(data, 'details')"
-                                ></button>
+                                    (click)="OnShowTraitement(data, 'details')">
+                                </button>
                                 <!-- <button
                                     pButton
                                     icon="pi pi-sync"
@@ -381,26 +321,16 @@
                                     "
                                     class="p-button-secondary"
                                 ></button> -->
-                                <button
-                                    pButton
-                                    tooltipPosition="top"
+                                <button pButton tooltipPosition="top"
                                     (click)="OnShowModalTraitement(data)"
-                                    [ngClass]="
-                                        getStyleButtonTraitement(data).class
-                                    "
+                                    [ngClass]="getStyleButtonTraitement(data).class"
                                     [icon]="getStyleButtonTraitement(data).icon"
-                                    [pTooltip]="
-                                        getStyleButtonTraitement(data).tooltip
-                                    "
-                                ></button>
-                                <button
-                                    pButton
-                                    icon="pi pi-book"
-                                    pTooltip="Journal"
-                                    tooltipPosition="top"
-                                    (click)="showJournal(data)"
-                                    class="p-button-primary"
-                                ></button>
+                                    [pTooltip]="getStyleButtonTraitement(data).tooltip">
+                                </button>
+                                <button pButton icon="pi pi-book" pTooltip="Journal"
+                                    tooltipPosition="top" (click)="showJournal(data)"
+                                    class="p-button-primary">
+                                </button>
                             </td>
                         </tr>
                     </tbody>

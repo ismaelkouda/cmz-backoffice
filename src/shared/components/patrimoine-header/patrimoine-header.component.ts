@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import * as moment from 'moment';
 
 @Component({
@@ -6,23 +6,25 @@ import * as moment from 'moment';
   templateUrl: './patrimoine-header.component.html',
   styleUrls: ['./patrimoine-header.component.scss']
 })
-export class PatrimoineHeaderComponent implements OnInit {
+export class PatrimoineHeaderComponent {
 
   @Input() count: [];
   @Input() legende: string;
   @Input() total: number;
-  @Input() showDate: boolean = false;
   currentDate: string
+  @Input() showDate: boolean = false;
+  @Input() showListe: boolean = true;
+  @Input() showTotal: boolean = true;
+
+  @Input() legendeSingulier: string;
+  @Input() legendePluriel: string;
+  @Input() displayDate: boolean = true;
+  @Input() displayList: boolean = true;
 
   constructor() {
 
     const dateActuelle = moment();
     this.currentDate = dateActuelle.format('DD/MM/YYYY HH:mm:ss');
-  }
-
-  ngOnInit() {
-    this.count
-    console.log('this.count', this.count)
   }
 
 }

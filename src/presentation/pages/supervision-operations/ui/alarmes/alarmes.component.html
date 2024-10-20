@@ -8,12 +8,19 @@
             <div class="card">
                 <div class="card-body">
                     <div [hidden]="!initialView">
-                        <div style="margin-top: -1rem !important; margin-bottom: 1.5rem !important;">
+                        <div style="margin-top: -2rem !important">
                             <app-patrimoine-header
+                                [displayDate]="false"
                                 [count]="listTransactions"
-                                [legende]="'dossiers en attente de clôture'"
                                 [total]="totalRecords"
-                            ></app-patrimoine-header>
+                                [legendePluriel]="
+                                    'dossiers en attente de clôture'
+                                "
+                                [legendeSingulier]="
+                                    'dossier en attente de clôture'
+                                "
+                            >
+                            </app-patrimoine-header>
                         </div>
                         <div class="row filter_wrapper">
                             <div class="col-md-2">
@@ -40,7 +47,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>
-                                        <b>N° demande</b>
+                                        <b>N° Dossier</b>
                                     </label>
                                     <input
                                         placeholder="Demande"
@@ -50,7 +57,7 @@
                                     />
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <!-- <div class="col-md-2">
                                 <div class="form-group">
                                     <label>
                                         <b>IMSI</b>
@@ -75,13 +82,14 @@
                                         pInputText
                                     />
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col-md-2">
                                 <label class="block"><b>Demandeur</b></label>
                                 <p-dropdown
                                     [options]="listUsers"
                                     [(ngModel)]="currentUser"
                                     optionLabel="fullName"
+                                    optionValue="id"
                                     [filter]="true"
                                     filterBy="fullName"
                                     [showClear]="true"
@@ -94,47 +102,6 @@
                                     </ng-template>
                                 </p-dropdown>
                             </div>
-                            <div
-                                class="p-0"
-                                [ngStyle]="{ width: '4rem' }"
-                                *ngIf="!secondFilter"
-                            >
-                                <label [ngStyle]="{ opacity: '0' }"
-                                    >Actions</label
-                                >
-                                <br />
-                                <p-button
-                                    styleClass="p-button-success"
-                                    icon="pi pi-filter"
-                                    (click)="onFilter()"
-                                    [disabled]="isFilter()"
-                                ></p-button>
-                            </div>
-                            <div class="p-0" [ngStyle]="{ width: '4rem' }">
-                                <label [ngStyle]="{ opacity: '0' }"
-                                    >Actions</label
-                                >
-                                <br />
-                                <p-button
-                                    *ngIf="!secondFilter"
-                                    (click)="showSecondFilter()"
-                                    styleClass="p-button-dark"
-                                    icon="pi pi-plus"
-                                ></p-button>
-                                <p-button
-                                    *ngIf="secondFilter"
-                                    (click)="showSecondFilter()"
-                                    styleClass="p-button-dark"
-                                    icon="pi pi-minus"
-                                ></p-button>
-                            </div>
-                        </div>
-                        <!--------------------Second-------------Filter--------->
-                        <div
-                            class="row filter_wrapper"
-                            style="padding-top: 0.7rem"
-                            *ngIf="secondFilter"
-                        >
                             <div class="col-md-2">
                                 <label class="block"><b>Date début</b></label>
                                 <p-calendar
@@ -156,7 +123,11 @@
                                     [showButtonBar]="true"
                                 ></p-calendar>
                             </div>
-                            <div class="p-0" [ngStyle]="{ width: '4rem' }">
+                            <div
+                                class="p-0"
+                                [ngStyle]="{ width: '4rem' }"
+                                *ngIf="!secondFilter"
+                            >
                                 <label [ngStyle]="{ opacity: '0' }"
                                     >Actions</label
                                 >
@@ -203,16 +174,48 @@
                             <table [ngClass]="['native_table table']">
                                 <thead>
                                     <th class="text-center">#</th>
-                                    <th>Date / Heure</th>
+                                    <th
+                                        class="text-center"
+                                        [style]="{ width: '12rem' }"
+                                    >
+                                        Date / Heure
+                                    </th>
+                                    <th
+                                        class="text-center"
+                                        [style]="{ width: '16rem' }"
+                                    >
+                                        Type Opération
+                                    </th>
+                                    <th
+                                        class="text-center"
+                                        [style]="{ width: '12rem' }"
+                                    >
+                                        N° Dossier
+                                    </th>
                                     <th
                                         class="text-center"
                                         [style]="{ width: '10rem' }"
                                     >
-                                        N° Demande
+                                        # Cycles
                                     </th>
-                                    <th class="text-center">Type demande</th>
-                                    <th class="text-center">IMSI</th>
-                                    <th class="text-center">MSISDN</th>
+                                    <th
+                                        class="text-center"
+                                        [style]="{ width: '10rem' }"
+                                    >
+                                        # Lignes
+                                    </th>
+                                    <th
+                                        class="text-center"
+                                        [style]="{ width: '4rem' }"
+                                    >
+                                        Etape
+                                    </th>
+                                    <th
+                                        class="text-center"
+                                        [style]="{ width: '4rem' }"
+                                    >
+                                        Etat
+                                    </th>
                                     <th class="text-center">Demandeur</th>
                                     <th
                                         class="text-center"
@@ -224,7 +227,7 @@
                                 <tbody>
                                     <tr
                                         *ngFor="
-                                            let data of listTransactions
+                                            let dossier of listTransactions
                                                 | paginate
                                                     : {
                                                           itemsPerPage:
@@ -238,45 +241,71 @@
                                         "
                                     >
                                         <td>{{ this.offset + i }}</td>
-                                        <td style="text-align: left">
-                                            {{ data?.created_at }}
-                                        </td>
-                                        <td
-                                            (click)="copyData(data.transaction)"
-                                            style="cursor: pointer"
-                                        >
-                                            {{ data?.transaction }}
-                                        </td>
-                                        <td>
-                                            {{ formatTitle(data?.operation) }}
-                                        </td>
-                                        <td>
-                                            <span
-                                                (click)="
-                                                    data?.imsi
-                                                        ? copyData(data.imsi)
-                                                        : null
-                                                "
-                                                style="cursor: pointer"
-                                                >{{ data?.imsi ?? 'N/A' }}</span
-                                            >
-                                        </td>
-                                        <td>
-                                            <span
-                                                (click)="
-                                                    data?.msisdn
-                                                        ? copyData(data.msisdn)
-                                                        : null
-                                                "
-                                                style="cursor: pointer"
-                                                >{{
-                                                    data?.msisdn ?? 'N/A'
-                                                }}</span
-                                            >
+                                        <td class="text-center">
+                                            {{ dossier.created_at }}
                                         </td>
                                         <td class="text-center">
-                                            {{ data?.demandeur_nom }}
-                                            {{ data?.demandeur_prenoms }}
+                                            {{
+                                                formatTitle(dossier?.operation)
+                                            }}
+                                        </td>
+                                        <td
+                                            class="text-center"
+                                            (click)="
+                                                copyTransaction(
+                                                    dossier.numero_demande
+                                                )
+                                            "
+                                            style="
+                                                text-align: center;
+                                                cursor: pointer;
+                                            "
+                                        >
+                                            {{ dossier.numero_demande }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ dossier?.nb_cycle }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ dossier?.nb_demande_soumises }}
+                                        </td>
+                                        <td
+                                            class="text-center"
+                                            [style]="{ width: '3rem' }"
+                                        >
+                                            <span
+                                                [ngStyle]="{
+                                                    'font-size': '16px'
+                                                }"
+                                                [class]="
+                                                    'badge ' +
+                                                    getEtapeBadge(dossier)
+                                                "
+                                            >
+                                                {{ dossier?.statut }}
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span
+                                                [ngStyle]="{
+                                                    'font-size': '16px'
+                                                }"
+                                                [class]="
+                                                    'badge ' +
+                                                    getEtatBadge(dossier)
+                                                "
+                                            >
+                                                {{
+                                                    dossier.traitement ===
+                                                    BADGE_ETAT?.COMPLET
+                                                        ? 'complet'
+                                                        : dossier.traitement
+                                                }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {{ dossier?.demandeur_nom }}
+                                            {{ dossier?.demandeur_prenoms }}
                                         </td>
                                         <td class="td-actions">
                                             <button
@@ -285,7 +314,9 @@
                                                 label="Voir"
                                                 icon="pi pi-eye"
                                                 class="p-button-dark"
-                                                (click)="OnShowTraitement(data)"
+                                                (click)="
+                                                    OnShowTraitement(dossier)
+                                                "
                                             ></button>
                                         </td>
                                     </tr>

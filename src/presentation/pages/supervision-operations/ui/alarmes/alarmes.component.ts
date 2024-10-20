@@ -12,6 +12,10 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { Title } from '@angular/platform-browser';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
+import { DemandeMasseComponent } from '../../feature/demande-masse/demande-masse.component';
+import { ModalParams } from 'src/shared/constants/modalParams.contant';
+import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
+import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 
 @Component({
   selector: 'app-alarmes',
@@ -24,7 +28,6 @@ export class AlarmesComponent implements OnInit {
   public subModule: string;
   public listTransactions: Array<any> = [];
   public listOperations: Array<any> = [];
-  public listStatuts: Array<any> = [];
   public listUsers: Array<any> = [];
   public initialView: boolean = true;
   public formsView: boolean = false;
@@ -33,7 +36,6 @@ export class AlarmesComponent implements OnInit {
   public selectedimsi: string;
   public selectedOperation: string;
   public selectedTransaction: string;
-  public selectedStatut: string;
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
@@ -72,10 +74,7 @@ export class AlarmesComponent implements OnInit {
 
   ) {
     this.titleService.setTitle(`${this.title}`);
-    this.listOperations = this.mappingService.listOperations
-      Object.values(StatutTransaction).forEach(item => {
-        this.listStatuts.push(item);
-      });
+    this.listOperations = this.mappingService.listOperations;
   }
 
   ngOnInit() {
@@ -117,7 +116,7 @@ export class AlarmesComponent implements OnInit {
     this.supervisionOperationService
       .GetAllDemandes({
         operation: this.selectedOperation,
-        transaction: this.selectedTransaction,
+        numero_demande: this.selectedTransaction,
         msisdn: this.selectedSim,
         imsi: this.selectedimsi,
         initie_par: this.currentUser?.id,
@@ -226,22 +225,100 @@ export class AlarmesComponent implements OnInit {
   public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
   }
+    
+  public getEtapeBadge(data: any): string {
+      switch (data?.statut) {
+        case BADGE_ETAPE.SOUMISSION:
+          return "badge-dark";
+      
+          case BADGE_ETAPE.TRAITEMENT:
+            return "badge-warning";
+      
+            case BADGE_ETAPE.FINALISATEUR:
+              return "badge-info";
+  
+          case BADGE_ETAPE.CLOTURE:
+            return "badge-success";
+      }
+  }
+  
+  public getEtatBadge(data: any): string {
+    switch (data?.statut) {
+      case BADGE_ETAPE.SOUMISSION:
+        if(data?.traitement  === BADGE_ETAT.RECU || data?.traitement  === BADGE_ETAT.EN_ATTENTE) {
+          return "badge-dark";
+        }
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        break;
+    
+        case BADGE_ETAPE.TRAITEMENT:
+          if(data?.traitement  === BADGE_ETAT.PARTIEL) {
+            return "badge-warning";
+          }
+          if(data?.traitement  === BADGE_ETAT.COMPLET) {
+            return "badge-primary";
+          }
+        break;
+    
+        case BADGE_ETAPE.FINALISATEUR:
+          if(data?.traitement  === BADGE_ETAT.PARTIEL) {
+            return "badge-warning";
+          }
+          if(data?.traitement  === BADGE_ETAT.CLOTURE) {
+            return "badge-success";
+          }
+          if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
+            return "badge-danger";
+          }
+        break;
+  
+        case BADGE_ETAPE.CLOTURE:
+          if(data?.traitement  === BADGE_ETAT.PARTIEL) {
+            return "badge-warning";
+          }
+          if(data?.traitement  === BADGE_ETAT.CLOTURE) {
+            return "badge-success";
+          }
+          if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
+            return "badge-danger";
+          }
+          if (data?.traitement === BADGE_ETAT.ACCEPTE) {
+            return "badge-success";
+          }
+          if (data?.traitement === BADGE_ETAT.REFUSE) {
+            return "badge-danger";
+          }
+        break;
+    }
+  }
   OnShowTraitement(data: any): void {
+    // this.IsLoading = true;
+    // const modalRef = this.modalService.open(TransactionShowComponent, {
+    //   ariaLabelledBy: "modal-basic-title",
+    //   backdrop: "static",
+    //   keyboard: false,
+    //   centered: true,
+    // });
+    // modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
+    // modalRef.componentInstance.resultTraitement.subscribe((res) => {
+    //   this.listTransactions = res
+    // })
+    // modalRef.componentInstance.IsLoading.subscribe((res) => {
+    //   this.IsLoading = res;
+    //   modalRef.componentInstance.IsLoadData = !res;
+    // })   
+    // let action: string;
+    // if (this.canClose(data)) {
+    //   action = "Clôturer";
+    // }
     this.IsLoading = true;
-    const modalRef = this.modalService.open(TransactionShowComponent, {
-      ariaLabelledBy: "modal-basic-title",
-      backdrop: "static",
-      keyboard: false,
-      centered: true,
-    });
-    modalRef.componentInstance.transaction = {...data,current_date: data.current_date,IsLoading: this.IsLoading};
-    modalRef.componentInstance.resultTraitement.subscribe((res) => {
-      this.listTransactions = res
-    })
-    modalRef.componentInstance.IsLoading.subscribe((res) => {
-      this.IsLoading = res;
-      modalRef.componentInstance.IsLoadData = !res;
-    })    
+    const modalRef = this.modalService.open(DemandeMasseComponent, ModalParams);
+    modalRef.componentInstance.params = {vue: "traitement"};
+    modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
+    modalRef.componentInstance.resultTraitement = this.supervisionOperationService.GetAllDemandes({}, this.p);
+    modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res;  modalRef.componentInstance.IsLoadData = !res }); 
   }
   changeDateStart(e) {
     if ( moment(this.filterDateStart).isValid()) {
@@ -261,15 +338,17 @@ export class AlarmesComponent implements OnInit {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }
   public isFilter(): boolean {
-    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedStatut && !this.selectedTransaction && !this.currentUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
+    return (!this.selectedSim && !this.selectedimsi && !this.selectedOperation && !this.selectedTransaction && !this.currentUser && !this.selectDateStart && !this.selectDateEnd) ? true : false
   }
   public OnExportExcel(): void {
     const data = this.listTransactions.map((item: any) => ({
       'Date création': item?.created_at,
-      'N° demande': item?.transaction,
-      'Service': item?.operation,
-      'IMSI': item?.imsi,
-      'MSISDN': item?.msisdn,
+      'Type Opération': item?.operation,
+      'N° Dossier': item?.numero_demande,
+      '# Cycles': item?.nb_cycle,
+      '# Lignes': item?.nb_demande_soumises,
+      'Etape': item?.statut,
+      'Traitement': item?.traitement,
       'Demandeur': `${item.demandeur_nom} ${item.demandeur_prenoms}`,
     }));
     this.excelService.exportAsExcelFile(data, "File d'attente");

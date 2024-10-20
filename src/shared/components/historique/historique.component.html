@@ -53,11 +53,6 @@
     </div>
     <hr />
     <div class="table_content_wrapper">
-        <app-table-button-header
-            (refresh)="pageCallback()"
-            (export)="OnExportExcel()"
-            [hiddenButtonOther]="true"
-        ></app-table-button-header>
         <p-table
             #dt
             [value]="listHistoriques"
@@ -79,13 +74,14 @@
         >
             <ng-template pTemplate="caption">
                 <div
-                    class="header-table mt-2"
                     style="display: flex; justify-content: space-between"
+                    class="header-table mb-2"
                 >
-                    <app-table-title
-                        [count]="listHistoriques"
-                        [legende]="'Historiques'"
-                    ></app-table-title>
+                    <app-table-button-header
+                        (refresh)="pageCallback()"
+                        (export)="OnExportExcel()"
+                        [hiddenButtonOther]="true"
+                    ></app-table-button-header>
                     <div>
                         <span class="p-input-icon-left">
                             <i class="pi pi-search"></i>

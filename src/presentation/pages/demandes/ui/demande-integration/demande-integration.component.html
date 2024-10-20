@@ -8,12 +8,16 @@
 
             <div class="card">
                 <div class="card-body">
-                    <app-patrimoine-header
-                        [count]="listDemandesIntegrations"
-                        [legende]="'demandes d\'integration'"
-                        [total]="this.pargination?.total"
-                    >
-                    </app-patrimoine-header>
+                    <div style="margin-top: -2rem !important">
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [count]="listDemandesIntegrations"
+                            [total]="pargination?.total"
+                            [legendePluriel]="'demandes d\'integration'"
+                            [legendeSingulier]="'demande d\'integration'"
+                        >
+                        </app-patrimoine-header>
+                    </div>
 
                     <app-filter-demande-integration
                         (filter)="pageCallback($event)"

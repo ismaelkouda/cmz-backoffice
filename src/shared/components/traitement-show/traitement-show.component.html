@@ -46,7 +46,7 @@
                         (click)="filterItem('first-item')"
                         class="list-group-item cursor-pointer"
                     >
-                        Information de Transaction
+                        Information de la ligne
                     </li>
                 </ul>
                 <ul
@@ -82,37 +82,20 @@
                         (click)="filterItem('first-item')"
                         class="list-group-item cursor-pointer"
                     >
-                        Information de Transaction
+                        Information de la ligne
                     </li>
                 </ul>
-                <!-- <div class="submit-wrapper" *ngIf="mappingService.IsAction()">
+                <div class="submit-wrapper">
                     <button
-                        pButton
-                        pRipple
-                        label="Abandonner"
-                        *ngIf="IsCancel()"
-                        (click)="OnCancelTransaction()"
-                        class="p-button-warning w-100"
-                    ></button>
-                    <button
-                        *ngIf="IsUpdate()"
+                        
                         (click)="OnUpdateTransaction()"
                         pButton
                         pRipple
                         label="Enregistrer"
                         class="p-button-success w-100"
                     ></button>
-                    <button
-                        *ngIf="IsCloture()"
-                        (click)="OnCloseTransaction()"
-                        [disabled]="!selectedNotation || !selectedIsCloture"
-                        pButton
-                        pRipple
-                        label="Enregistrer"
-                        class="p-button-success w-100"
-                    ></button>
-                </div> -->
-                <!-- <fieldset *ngIf="IsContencieutRouter()">
+                </div>
+                <fieldset *ngIf="IsContencieutRouter()">
           <legend>
             <strong>Decision</strong>
           </legend>
@@ -139,11 +122,11 @@
               </textarea>
             </div>
           </div>
-        </fieldset> -->
+        </fieldset>
                 <div>
                     <fieldset>
                         <legend>
-                            <strong>Emission</strong>
+                            <strong>Création</strong>
                         </legend>
                         <div class="d-flex flex-column gap-2">
                             <div>
@@ -198,10 +181,10 @@
                     </fieldset>
                              
                 </div>
-                <div>
+                <!-- <div>
                     <fieldset>
                         <legend>
-                            <strong>Homologation</strong>
+                            <strong>Affectation</strong>
                         </legend>
                         <div class="d-flex flex-column gap-2">
                             <div>
@@ -261,7 +244,7 @@
                 <div>
                     <fieldset>
                         <legend>
-                            <strong>Finalisation</strong>
+                            <strong>Traitement</strong>
                         </legend>
                         <div class="d-flex flex-column gap-2">
                             <div>
@@ -312,42 +295,24 @@
                             </div>
                         </div>
                     </fieldset>
-                </div>
+                </div> -->
             </div>
             <!--------------------MODAL----------BODY---------->
             <div class="col-lg-10">
-                <div
-                    [ngClass]="
-                        OnGetRapportCodeStyle(detailTransaction?.rapport?.code)
-                    "
-                    role="alert"
-                    style="display: flex; justify-content: space-between"
-                >
+                <div [ngClass]="OnGetRapportCodeStyle(detailTransaction?.rapport?.code)"
+                    role="alert" style="display: flex; justify-content: space-between">
                     <div>
                         <strong class="wrapper-header">
-                            Reception :
-                            {{
-                                [
-                                    detailTransaction?.rapport
-                                        ?.date_acquittement
-                                ] ?? '-- : --'
-                            }}</strong
-                        >
+                            Reception : {{ [detailTransaction?.rapport ?.date_acquittement ] ?? '-- : --' }}
+                        </strong>
                     </div>
                     <div>
-                        <strong class="wrapper-header"
-                            >Traitement :
-                            {{
-                                detailTransaction?.rapport?.statut_traitement ??
-                                    'N/A'
-                            }}
-                            [{{
-                                detailTransaction?.rapport?.date_traitement ??
-                                    '-- : --'
-                            }}]</strong
-                        >
+                        <strong class="wrapper-header">
+                            Traitement : {{ detailTransaction?.rapport?.statut_traitement ?? 'N/A' }}
+                            [{{ detailTransaction?.rapport?.date_traitement ?? '-- : --' }}]
+                        </strong>
                     </div>
-                    <div>
+                    <!-- <div>
                         <strong class="wrapper-header">
                             Clôture :
                             {{
@@ -355,18 +320,15 @@
                                     '-- : --'
                             }}</strong
                         >
-                    </div>
+                    </div> -->
                 </div>
                 <div class="row">
                     <h4
                         *ngIf="detailTransaction?.rapport"
                         class="col-md-7 wrapper-header"
                     >
-                        <strong
-                            >{{
-                                formatTitleOuvrage(detailTransaction?.operation)
-                            }}
-                            <span style="color: #549b3d; font-weight: bold">
+                        <strong>{{formatTitleOuvrage(detailTransaction?.operation)}}
+                            <!-- <span style="color: #549b3d; font-weight: bold">
                                 <span *ngIf="IsContentSim()">
                                     {{
                                         detailTransaction?.point_emplacement ??
@@ -402,7 +364,7 @@
                                             ?.identifiant ?? 'N/A'
                                     }}]</span
                                 >
-                            </span>
+                            </span> -->
                         </strong>
                     </h4>
                     <div
@@ -436,7 +398,7 @@
                     >
                         <fieldset>
                             <legend>
-                                <strong>Information de Transaction</strong>
+                                <strong>Information de la ligne</strong>
                             </legend>
                             <div class="row">
                                 <div class="col-md-2">
@@ -620,7 +582,7 @@
                     >
                         <fieldset>
                             <legend>
-                                <b>Informations de Transaction</b>
+                                <b>Informations de ligne</b>
                             </legend>
                             <div class="row">
                                 <div class="col-md-3">
@@ -675,7 +637,7 @@
                         </fieldset>
                         <fieldset>
                             <legend>
-                                <b>Détails de la Transaction</b>
+                                <b>Détails de la ligne</b>
                             </legend>
                             <div class="row">
                                 <div style="margin-top: -1.8rem">
@@ -924,10 +886,7 @@
                         </fieldset>
                         <fieldset>
                             <legend>
-                                <b
-                                    >Source Stock SIM / Détails de la
-                                    Transaction</b
-                                >
+                                <b>Source Stock SIM / Détails de la la ligne</b>
                             </legend>
                             <div class="d-flex gap-4">
                                 <div>
@@ -1183,7 +1142,7 @@
                         </fieldset>
                         <fieldset>
                             <legend>
-                                <b>Détails de la Transaction</b>
+                                <b>Détails de la ligne</b>
                             </legend>
                             <div class="row">
                                 <div class="form-group">
@@ -1360,7 +1319,7 @@
                         </fieldset>
                         <fieldset>
                             <legend [ngStyle]="{ width: '100%' }">
-                                <b>Détails de la Transaction</b>
+                                <b>Détails de la ligne</b>
                             </legend>
                             <div class="row">
                                 <div class="form-group">
@@ -1581,7 +1540,7 @@
                         </fieldset>
                         <fieldset>
                             <legend>
-                                <b>Détails de la Transaction</b>
+                                <b>Détails de la ligne</b>
                             </legend>
                             <div class="row">
                                 <div class="form-group">
@@ -1698,13 +1657,10 @@
                     *ngIf="transaction?.operation === operationActivation"
                     class="form-container"
                 >
-                    <div
-                        [hidden]="filterTab !== 'first-item'"
-                        [formGroup]="activationForm"
-                    >
+                    <div [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
                         <div [style]="{ marginTop: '-2rem' }">
                             <div class="row">
-                                <div class="col-md-6">
+                                <!-- <div class="col-md-6">
                                     <fieldset
                                         *ngIf="
                                             bacPiocheActivation !==
@@ -1763,15 +1719,8 @@
                                             />
                                         </div>
                                     </fieldset>
-                                </div>
-                                <div
-                                    [ngClass]="
-                                        bacPiocheActivation !== 'patrimoine' &&
-                                        !IsNotMessage()
-                                            ? 'col-md-6'
-                                            : 'col-md-12'
-                                    "
-                                >
+                                </div> -->
+                                <div class="col-md-12">
                                     <fieldset>
                                         <legend>
                                             <b>Informations SIM</b>
@@ -1782,7 +1731,7 @@
                                                 padding-top: 1.4rem !important;
                                             "
                                         >
-                                            <div [style]="{ width: '15rem' }">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label>
                                                         <b>IMSI</b>
@@ -1794,7 +1743,7 @@
                                                     />
                                                 </div>
                                             </div>
-                                            <div [style]="{ width: '12rem' }">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label>
                                                         <b>MSISDN</b>
@@ -1806,10 +1755,37 @@
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="col-md-5">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b>Formule</b>
+                                                        <b>ICCID</b>
+                                                    </label>
+                                                    <input type="text" formControlName="iccid" pInputText
+                                                        [disabled]="true" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>APN</b>
+                                                    </label>
+                                                    <input type="text" formControlName="apn" pInputText
+                                                        [disabled]="true" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Adresse IP</b>
+                                                    </label>
+                                                    <input type="text" formControlName="adresse_ip" pInputText
+                                                        [disabled]="true" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Formule destination</b>
                                                     </label>
                                                     <input
                                                         type="text"
@@ -2001,10 +1977,121 @@
                                 </div>
                             </div>
                         </fieldset>
+                        
+                        <fieldset>
+                            <legend>
+                                <b>Informations Utilisateur/Bénéficiaire</b>
+                            </legend>
+                            <div class="row">
+                                <div class="col-md">
+                                    <label><b>Type de personne</b></label>
+                                    <p-dropdown [options]="listeTypePersonne" [showClear]="true"
+                                        formControlName="type_personne" placeholder="Type de personne">
+                                    </p-dropdown>
+                                </div>
+                                <ng-container *ngIf="displayPhysiquePersonne === true">
+                                    <div class="col-md">
+                                        <div class="form-group">
+                                            <label><b>Nom</b></label>
+                                            <input type="text" formControlName="nom" pInputText />
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-group">
+                                            <label><b>Prénoms</b></label>
+                                            <input type="text" formControlName="prenoms" pInputText />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md">
+                                        <label><b>Nature de la pièce</b></label>
+                                        <p-dropdown [options]="listeNaturePiece" [showClear]="true"
+                                            formControlName="nature_piece" placeholder="Nature de la pièce">
+                                        </p-dropdown>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-group">
+                                            <label>
+                                                <b>Numéro de la
+                                                    pièce</b>
+                                            </label>
+                                            <input type="text" formControlName="numero_piece" pInputText />
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="displayPhysiquePersonne === false">
+                                    <div class="col-md">
+                                        <div class="form-group">
+                                            <label><b>Denomination</b></label>
+                                            <input type="text" formControlName="nom" pInputText />
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-group">
+                                            <label><b>Raison social</b></label>
+                                            <input type="text" formControlName="prenoms" pInputText />
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <label><b>Nature du document</b></label>
+                                        <p-dropdown [options]="listeNatureDocument" [showClear]="true"
+                                            formControlName="nature_piece" placeholder="Nature du document">
+                                        </p-dropdown>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="form-group">
+                                            <label><b>Numéro du document</b></label>
+                                            <input type="text" formControlName="numero_piece" pInputText />
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend><b>Pièces-Photos</b></legend>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+
+                                        <div class="card">
+                                            <p-fileUpload (onSelect)="onSelectedFiles($event, 'physique')" (onRemove)="onRemoveFiles('physique')"
+                                                [showUploadButton]="false" [showCancelButton]="false" [chooseLabel]="'Choisir photo physique'"
+                                                url="https://www.primefaces.org/cdn/api/upload.php" [multiple]="false"
+                                                accept="image/*">
+                                            </p-fileUpload>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+
+                                        <div class="card">
+                                            <p-fileUpload (onSelect)="onSelectedFiles($event, 'recto')" (onRemove)="onRemoveFiles('recto')" 
+                                                [showUploadButton]="false" [showCancelButton]="false" [chooseLabel]="'Choisir pièce recto'"
+                                                url="https://www.primefaces.org/cdn/api/upload.php" [multiple]="false"
+                                                accept="image/*">
+                                            </p-fileUpload>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+
+                                        <div class="card">
+                                            <p-fileUpload (onSelect)="onSelectedFiles($event, 'verso')" (onRemove)="onRemoveFiles('verso')"
+                                                [showUploadButton]="false" [showCancelButton]="false" [chooseLabel]="'Choisir pièce verso'"
+                                                url="https://www.primefaces.org/cdn/api/upload.php" [multiple]="false">
+                                            </p-fileUpload>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
 
                         <!-- <fieldset>
                             <legend>
-                                <b>Détails de la Transaction</b>
+                                <b>Détails de la ligne</b>
                             </legend>
                             <div class="row">
                                 <div class="col-md-6">
@@ -2213,7 +2300,7 @@
                     <div [hidden]="filterTab !== 'first-item'">
                         <fieldset>
                             <legend>
-                                <strong>Information de Transaction</strong>
+                                <strong>Information de la N° ligne</strong>
                             </legend>
                             <div
                                 class="panier-card"

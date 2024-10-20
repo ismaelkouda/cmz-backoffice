@@ -10,10 +10,13 @@
                     <div [hidden]="!initialView">
                         <div style="margin-top: -2rem !important">
                             <app-patrimoine-header
+                                [displayDate]="false"
                                 [count]="listTransactions"
-                                [legende]="'demandes de service'"
                                 [total]="totalRecords"
-                            ></app-patrimoine-header>
+                                [legendePluriel]="'demandes de service'"
+                                [legendeSingulier]="'demandes de service'"
+                            >
+                            </app-patrimoine-header>
                         </div>
                         <div class="row filter_wrapper">
                             <div class="col-md-2">
@@ -40,7 +43,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>
-                                        <b>N° Demande</b>
+                                        <b>N° Dossier</b>
                                     </label>
                                     <input
                                         placeholder="Demande"
@@ -248,7 +251,7 @@
                                         class="text-center"
                                         [style]="{ width: '10rem' }"
                                     >
-                                        N° Demande
+                                        N° Dossier
                                     </th>
                                     <th class="text-center">Type Service</th>
                                     <th

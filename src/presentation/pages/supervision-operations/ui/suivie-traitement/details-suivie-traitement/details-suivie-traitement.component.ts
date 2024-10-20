@@ -17,6 +17,10 @@ import { SUPERVISION_OPERATIONS } from "../../../../../../shared/routes/routes";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SUIVIE_TRAITEMENT_ROUTE } from "src/presentation/pages/supervision-operations/supervision-operations-routing.module";
 import { ModalParams } from "src/shared/constants/modalParams.contant";
+import { BADGE_ETAPE } from "src/shared/constants/badge-etape.constant";
+import { BADGE_ETAT } from "src/shared/constants/badge-etat.contant";
+import { BADGE_STATUT } from "src/shared/constants/badge-statut.constant";
+import { BADGE_TRAITEMENT } from "src/shared/constants/badge-traitement.constant";
 const Swal = require("sweetalert2");
 
 @Component({
@@ -93,7 +97,7 @@ export class DetailsSuivieTraitementComponent implements OnInit {
 
   ngOnInit() {
     this.GetAllTenants();
-    this.isFilter();
+    // this.isFilter();
     this.route.queryParams.subscribe((params) => {
       this.requestNumber = params["request"];
     });
@@ -257,6 +261,57 @@ export class DetailsSuivieTraitementComponent implements OnInit {
     }
   }
 
+  
+  public getStatutBadge(data: any): string {
+    switch (data?.statut) {
+      case BADGE_STATUT.SOUMIS:
+        return "badge-dark";
+    
+        case BADGE_STATUT.TRAITE:
+          return "badge-success";
+
+        case BADGE_STATUT.CLOTURE:
+          return "badge-success";
+    }
+}
+
+public getTraitementBadge(data: any): string {
+  switch (data?.statut) {
+    case BADGE_STATUT.SOUMIS:
+      if(data?.traitement  === BADGE_TRAITEMENT.RECU || data?.traitement  === BADGE_TRAITEMENT.EN_ATTENTE) {
+        return "badge-dark";
+      }
+      break;
+  
+      case BADGE_STATUT.TRAITE:
+        if(data?.traitement  === BADGE_TRAITEMENT.ACCEPTE) {
+          return "badge-success";
+        }
+        if(data?.traitement  === BADGE_TRAITEMENT.REFUSE) {
+          return "badge-danger";
+        }
+        if(data?.traitement  === BADGE_TRAITEMENT.REJETE) {
+          return "badge-danger";
+        }
+      break;
+
+      case BADGE_STATUT.CLOTURE:
+        if(data?.traitement  === BADGE_TRAITEMENT.ACCEPTE) {
+          return "badge-success";
+        }
+        if(data?.traitement  === BADGE_TRAITEMENT.ABANDONNE) {
+          return "badge-warning";
+        }
+        if(data?.traitement  === BADGE_TRAITEMENT.REFUSE) {
+          return "badge-danger";
+        }
+        if(data?.traitement  === BADGE_TRAITEMENT.REJETE) {
+          return "badge-danger";
+        }
+      break;
+  }
+}
+
   public showDialog(data: Object): void {
     console.log('data', data)
     const swalWithBootstrapButtons = Swal.mixin({
@@ -272,6 +327,18 @@ export class DetailsSuivieTraitementComponent implements OnInit {
       confirmButtonColor: "#F07427",
       confirmButtonText: "ok",
     });
+  }
+
+  public getDateTraitement(data: any): string {
+    if(data?.traitement  === BADGE_TRAITEMENT.RECU || data?.traitement  === BADGE_TRAITEMENT.EN_ATTENTE) {
+      return data?.date_acquitement;
+    } else if(data?.statut === BADGE_STATUT.TRAITE) {
+      return data?.traitement;
+    } else if(data?.statut === BADGE_STATUT.CLOTURE) {
+      return data?.date_cloture;
+    } else {
+      "N/A"
+    }
   }
 
   public truncateString(str: string, num: number = 20): string {
@@ -352,13 +419,13 @@ export class DetailsSuivieTraitementComponent implements OnInit {
   public disableAction(): boolean {
     return this.listTraitemants === undefined || this.listTraitemants?.length === 0 ? true : false;
   }
-  public isFilter(): boolean {
-    return !this.selectedTenant ? true : false;
-  }
+  // public isFilter(): boolean {
+  //   return !this.selectedTenant ? true : false;
+  // }
   public OnExportExcel(): void {
     const data = this.listTraitemants.map((item: any) => ({
       "Date création": item?.created_at,
-      "N° demande": item?.transaction,
+      "N° Dossier": item?.transaction,
       Service: item?.operation,
       Rapport: item?.code_rapport,
       Statut: item?.statut,

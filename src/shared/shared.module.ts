@@ -62,6 +62,7 @@ import { TraitementShowComponent } from './components/traitement-show/traitement
 import { BadgeModule } from 'primeng/badge';
 import { PaginatorModule } from 'primeng/paginator';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @NgModule({
   declarations: [
@@ -118,7 +119,8 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     RadioButtonModule,
     PasswordModule,
     PaginatorModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    FileUploadModule
   ],
   providers: [NavService, LayoutService, DecimalPipe, SharedDataService],
   exports: [
@@ -153,7 +155,9 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     SpinnerComponent,
     ProgressSpinnerModule,
     CapitalizePipe,
-    CalendarModule
+    CalendarModule,
+    ButtonModule,
+    FileUploadModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 

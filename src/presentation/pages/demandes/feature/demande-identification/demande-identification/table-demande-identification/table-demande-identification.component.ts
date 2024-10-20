@@ -9,6 +9,7 @@ import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 import { Router } from '@angular/router';
 import { DemandeMasseComponent } from 'src/presentation/pages/supervision-operations/feature/demande-masse/demande-masse.component';
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
+import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
 
 
 
@@ -43,28 +44,77 @@ export class TableDemandeIdentificationComponent {
         this.clipboardService.copyFromContent(data?.[libelle]);
     }
 
-    public getStatutBadge(statut: string): any {
-        switch (statut) {
-            case BADGE_ETAPE.SOUMISSION: return "badge-dark";
-            case BADGE_ETAPE.TRAITEMENT: return "badge-warning";
-            case BADGE_ETAPE.FINALISATEUR:
-            case BADGE_ETAPE.CLOTURE: return "badge-success";
+  
+    public getEtapeBadge(data: any): string {
+        switch (data?.statut) {
+          case BADGE_ETAPE.SOUMISSION:
+            return "badge-dark";
+        
+            case BADGE_ETAPE.TRAITEMENT:
+              return "badge-warning";
+        
+              case BADGE_ETAPE.FINALISATEUR:
+                return "badge-info";
+    
+            case BADGE_ETAPE.CLOTURE:
+              return "badge-success";
         }
+    }
+    
+    public getEtatBadge(data: any): string {
+      switch (data?.statut) {
+        case BADGE_ETAPE.SOUMISSION:
+          if(data?.traitement  === BADGE_ETAT.RECU || data?.traitement  === BADGE_ETAT.EN_ATTENTE) {
+            return "badge-dark";
+          }
+          if (data?.traitement === BADGE_ETAT.PARTIEL) {
+            return "badge-warning";
+          }
+          break;
+      
+          case BADGE_ETAPE.TRAITEMENT:
+            if(data?.traitement  === BADGE_ETAT.PARTIEL) {
+              return "badge-warning";
+            }
+            if(data?.traitement  === BADGE_ETAT.COMPLET) {
+              return "badge-primary";
+            }
+          break;
+      
+          case BADGE_ETAPE.FINALISATEUR:
+            if(data?.traitement  === BADGE_ETAT.PARTIEL) {
+              return "badge-warning";
+            }
+            if(data?.traitement  === BADGE_ETAT.CLOTURE) {
+              return "badge-success";
+            }
+
+            if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
+              return "badge-danger";
+            }
+          break;
+    
+          case BADGE_ETAPE.CLOTURE:
+            if(data?.traitement  === BADGE_ETAT.PARTIEL) {
+              return "badge-warning";
+            }
+            if(data?.traitement  === BADGE_ETAT.CLOTURE) {
+              return "badge-success";
+            }
+            if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
+              return "badge-danger";
+            }
+            if (data?.traitement === BADGE_ETAT.ACCEPTE) {
+              return "badge-success";
+            }
+            if (data?.traitement === BADGE_ETAT.REFUSE) {
+              return "badge-danger";
+            }
+          break;
+      }
     }
 
-    public getTraitementBadge(data: Object): string {
-        if (data?.['traitement'] === BADGE_ETAT.RECU || (data?.['statut'] === BADGE_ETAPE.SOUMISSION && data?.['traitement'] === BADGE_ETAT.EN_ATTENTE)) {
-            return "badge-dark";
-        } else if ((data?.['statut'] === BADGE_ETAPE.TRAITEMENT && (data?.['traitement'] === BADGE_ETAT.PARTIEL || data?.['traitement'] === BADGE_ETAT.EN_ATTENTE)) || (data?.['statut'] === BADGE_ETAPE.CLOTURE && data?.['traitement'] === BADGE_ETAT.ABANDONNE)) {
-            return "badge-warning";
-        } else if (data?.['statut'] === BADGE_ETAPE.TRAITEMENT && data?.['traitement'] === BADGE_ETAT.TOTAL) {
-            return "badge-info";
-        } else if ((data?.['statut'] === BADGE_ETAPE.FINALISATEUR && data?.['traitement'] === BADGE_ETAT.CLOTURE) || (data?.['statut'] === BADGE_ETAPE.CLOTURE && data?.['traitement'] === BADGE_ETAT.ACCEPTE)) {
-            return "badge-success";
-        } else if (data?.['traitement'] === BADGE_ETAT.REJETE || data?.['traitement'] === BADGE_ETAT.REFUSE) {
-            return "badge-danger";
-        }
-    }
+
 
     public isDisableEditButton(data: Object): boolean {
         return data?.['statut'] === BADGE_ETAPE.SOUMISSION && data?.['traitement'] === BADGE_ETAT.EN_ATTENTE;

@@ -15,6 +15,9 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
 import { Router } from '@angular/router';
 import { PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
+import { TypePersonne } from 'src/shared/enum/TypePersonnes.enum';
+import { NaturePiece } from 'src/shared/enum/NaturePiece.enum';
+import { NatureDocument } from 'src/shared/enum/NatureDocument.enum';
 declare var require;
 const Swal = require("sweetalert2");
 
@@ -77,6 +80,13 @@ export class TraitementShowComponent implements OnInit {
   public sourceStockOrangeSim: string;
   public sourceSoldeDotation: string;
   public sourceSoldeDotationOrange: string
+  public displayPhysiquePersonne: boolean = true;
+  public listeTypePersonne: Array<any> = [];
+  public listeNaturePiece: Array<any> = [];
+  public listeNatureDocument: Array<any> = [];
+  public filesPhysique = [];
+  public filesRecto = [];
+  public filesVerso = [];
   public treatmenEntente: string = TraitementTransaction.EN_ENTENTE;
   public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
   public treatmenAccepter: string = TraitementTransaction.ACCEPTER;
@@ -98,6 +108,15 @@ export class TraitementShowComponent implements OnInit {
   ) {
     Object.values(Justificatif).forEach(item => {
       this.listTypeJustificatif.push(item);
+    });
+    Object.values(TypePersonne).forEach((item) => {
+      this.listeTypePersonne.push(item);
+    });
+    Object.values(NaturePiece).forEach((item) => {
+      this.listeNaturePiece.push(item);
+    });
+    Object.values(NatureDocument).forEach((item) => {
+      this.listeNatureDocument.push(item);
     });
     this.fileUrl = this.mappingService.fileUrl;  
     this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim,
@@ -592,6 +611,14 @@ export class TraitementShowComponent implements OnInit {
   OnInitActivationForm() {
     this.activationForm = this.fb.group({
       bac_a_pioche: [''],
+      type_personne: [],
+      nom: [],
+      prenoms: [],
+      nature_piece: [],
+      numero_piece: [],
+      photo_carte_recto: [],
+      photo_carte_verso: [],
+      photo_physique: [],
       niveau_un_uuid: [''],
       niveau_deux_uuid: [''],
       niveau_trois_uuid: [''],
@@ -607,6 +634,9 @@ export class TraitementShowComponent implements OnInit {
       usage: [''],
       imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
       msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
+      iccid: [],
+      apn: [],
+      adresse_ip: [],
       statut_contrat: [''],
       formule: [''],
       formule_uuid: [''],
@@ -627,14 +657,64 @@ export class TraitementShowComponent implements OnInit {
         this.activationForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
       }
     });
+    const typePersonneControl = this.activationForm.get('type_personne');
+    const gererValidationTypePersonne = (value: string) => {
+      if (value === TypePersonne.PHYSIQUE) {
+        this.displayPhysiquePersonne = true;
+      } else {
+        this.displayPhysiquePersonne = false;
+      }
+    };
+    gererValidationTypePersonne(typePersonneControl?.value);
+    typePersonneControl?.valueChanges.subscribe((value) => {
+      gererValidationTypePersonne(value);
+    });
+  }
+  onSelectedFiles(event, typeFile: 'physique'|'recto' | 'verso') {
+    console.log('event', event.files[0])
+    switch (typeFile) {
+      case 'physique':
+        this.filesPhysique = event.currentFiles;
+        break;
+
+      case 'recto':
+        this.filesRecto = event.currentFiles;
+        break;
+
+      case 'verso':
+        this.filesVerso = event.currentFiles;
+    }
+  }
+  onRemoveFiles(typeFile: 'physique'|'recto' | 'verso'): void {
+    switch (typeFile) {
+      case 'physique':
+        this.filesPhysique.splice(1);
+        break;
+
+      case 'recto':
+        this.filesRecto.splice(1);
+        break;
+
+      case 'verso':
+        this.filesVerso.splice(1);
+    }
   }
   OnShowActivationForm() {
+    this.activationForm.get('type_personne').patchValue(this.detailTransaction?.type_personne);
+    this.activationForm.get('nom').patchValue(this.detailTransaction?.nom);
+    this.activationForm.get('prenoms').patchValue(this.detailTransaction?.prenoms);
+    this.activationForm.get('nature_piece').patchValue(this.detailTransaction?.nature_piece);
+    this.activationForm.get('numero_piece').patchValue(this.detailTransaction?.numero_piece);
+
     this.activationForm.get('bac_a_pioche').patchValue(this.detailTransaction?.bac_a_pioche);
     this.activationForm.get('niveau_un_uuid').patchValue(this.detailTransaction?.niveau_un_uuid);
     this.activationForm.get('niveau_deux_uuid').patchValue(this.detailTransaction?.niveau_deux_uuid);
     this.activationForm.get('niveau_trois_uuid').patchValue(this.detailTransaction?.niveau_trois_uuid);
     this.activationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
     this.activationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
+    this.activationForm.get('iccid').patchValue(this.detailTransaction?.iccid);
+    this.activationForm.get('apn').patchValue(this.detailTransaction?.apn);
+    this.activationForm.get('adresse_ip').patchValue(this.detailTransaction?.adresse_ip);
     this.activationForm.get('formule').patchValue(this.detailTransaction?.formule);
     this.activationForm.get('formule_uuid').patchValue(this.detailTransaction?.formule_uuid);
     this.activationForm.get('statut_contrat').patchValue(this.detailTransaction?.statut_contrat);
@@ -650,6 +730,9 @@ export class TraitementShowComponent implements OnInit {
     this.activationForm.get('activation_accepte_comment').patchValue(this.detailTransaction?.rapport?.activation_accepte_comment);
     this.activationForm.get('msisdn').disable();
     this.activationForm.get('imsi').disable();
+    this.activationForm.get('iccid').disable();
+    this.activationForm.get('apn').disable();
+    this.activationForm.get('adresse_ip').disable();
     this.activationForm.get('statut_contrat').disable();
     this.activationForm.get('formule').disable();
     this.activationForm.get('code_pin').disable();
@@ -850,13 +933,14 @@ export class TraitementShowComponent implements OnInit {
     ) ? true : false
   }
   public IscurrentDate(): string {
-    if (this.transaction?.statut === StatutTransaction.TARITER) {
-      return this.detailTransaction?.rapport?.date_traitement
-    }else if (this.transaction?.statut === StatutTransaction.CLOTURER) {
-      return this.detailTransaction?.rapport?.date_cloture
-    }else if ((this.transaction?.traitement === StatutTransaction.SOUMIS) && (this.transaction?.traitement === TraitementTransaction.ACQUITER)) {
-      return this.detailTransaction?.rapport?.date_acquittement
-    }    
+    return this.detailTransaction?.rapport?.updated_at
+    // if (this.transaction?.statut === StatutTransaction.TARITER) {
+    //   return this.detailTransaction?.rapport?.date_traitement
+    // }else if (this.transaction?.statut === StatutTransaction.CLOTURER) {
+    //   return this.detailTransaction?.rapport?.date_cloture
+    // }else if ((this.transaction?.traitement === StatutTransaction.SOUMIS) && (this.transaction?.traitement === TraitementTransaction.ACQUITER)) {
+    //   return this.detailTransaction?.rapport?.date_acquittement
+    // }    
   }
   public OnUpdateTransaction(): void {
     Swal.fire({
@@ -882,6 +966,15 @@ export class TraitementShowComponent implements OnInit {
         else if (this.transaction?.operation === OperationTransaction.ACTIVATION) {
           this.activationForm.patchValue({
             justificatif: this.currentFile
+          })
+          this.activationForm.patchValue({
+            photo_physique: this.filesPhysique[0]
+          })
+          this.activationForm.patchValue({
+            photo_carte_recto: this.filesVerso[0]
+          })
+          this.activationForm.patchValue({
+            photo_carte_verso: this.filesRecto[0]
           })
         }else if (this.transaction?.operation === OperationTransaction.SUSPENSION) {
           this.suspensionForm.patchValue({
@@ -926,10 +1019,9 @@ export class TraitementShowComponent implements OnInit {
           ),
           transaction: this.transaction?.transaction,
           operation: this.transaction.operation,
-         // model_id: this.transaction.model_id
+         model_id: this.transaction.model_id
         }
-        this.supervisionOperationService
-          .OnUpdateTransaction((
+        this.patrimoineService.UpdatePatrimoine((
              this.transaction?.operation === OperationTransaction.VOLUME_DATA || 
              this.transaction?.operation === OperationTransaction.SWAP  || 
              this.transaction?.operation === OperationTransaction.RESILIATION || 

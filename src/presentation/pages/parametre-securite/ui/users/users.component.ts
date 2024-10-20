@@ -1,3 +1,4 @@
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { MappingService } from 'src/shared/services/mapping.service';
@@ -5,6 +6,8 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { ParametreSecuriteService } from '../../data-access/parametre-securite.service';
 import { Title } from '@angular/platform-browser';
 import { ExcelService } from 'src/shared/services/excel.service';
+import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from 'src/shared/constants/swalWithBootstrapButtonsParams.constant';
+import { handle } from 'src/shared/functions/api.function';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -28,6 +31,7 @@ export class UsersComponent implements OnInit {
     constructor(
         private settingService: SettingService,
         private toastrService: ToastrService,
+        private loadingBarService: LoadingBarService,
         public mappingService: MappingService,
         private titleService: Title,
         private excelService: ExcelService,
@@ -66,6 +70,24 @@ export class UsersComponent implements OnInit {
             this.currentObject = undefined;
         }
     }
+
+    public onChangePassword(data: Object): void {
+        const title = "Réinitialisation de mot de passe";
+        const htmlMessage = "L'utilisateur <u>{nom} {prenoms}</u> recevra <br> un mail de réinitialisation de son mot de passe";
+        Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass }).fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, title: title, html: htmlMessage.replace("{nom}", data["nom"]).replace("{prenoms}", data["prenoms"]) })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    handle(() => this.parametreSecuriteService.handleChangePassword({id: data?.["id"]}), this.toastrService, this.loadingBarService)
+                        .then((response: any) => {
+                            if (response.error === false) {
+                                this.toastrService.success(response.message);
+                                this.GetAllUsers();
+                            }
+                        });
+                }
+            });
+    }
+
     public handleActivateUser(data: any): void {
         Swal.fire({
             title: 'En êtes vous sûr ?',
@@ -174,11 +196,12 @@ export class UsersComponent implements OnInit {
     }
     public OnExportExcel(): void {
         const data = this.listUsers.map((item: any) => ({
+            Profil: item?.profil_user?.nom,
             Nom: item?.nom,
             Prénoms: item?.prenoms,
             Code: item?.code,
             'Nom de connexion': item?.username,
-            Contact: item?.contacts,
+            Contacts: item?.contacts,
             Statut: item?.statut,
             'Date Création': item?.created_at,
         }));

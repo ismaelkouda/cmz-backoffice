@@ -91,6 +91,7 @@
                     <p-dropdown
                         [options]="listAPN"
                         [showClear]="true"
+                        placeholder="apn"
                         formControlName="apn"
                         optionLabel="apn"
                         optionValue="apn"
@@ -350,7 +351,7 @@
         </div>
     </div>
 </div>
-<ng-template #content let-modal >
+<ng-template #content let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">Réafectation du SIM</h4>
         <button
@@ -360,7 +361,7 @@
             (click)="modal.dismiss('Cross click')"
         ></button>
     </div>
-    
+
     <div class="modal-body" novalidate>
         <div class="form-group">
             <label

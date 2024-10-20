@@ -211,7 +211,7 @@ export class GroupeSimComponent implements OnInit {
     const data = this.listProfils.map((item: any) => ({
       'Nom': item?.nom,
       'Description': item?.description,
-      'SIM Affectés': item?.sims_count,
+      '# SIM Affectés': item?.sims_count,
       'Statut': item?.statut,
       'Date création': item?.created_at,
       'Date MAJ	': item?.updated_at,

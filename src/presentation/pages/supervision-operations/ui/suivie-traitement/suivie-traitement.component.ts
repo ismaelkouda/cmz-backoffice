@@ -20,6 +20,7 @@ import { SuivieTraitementFilterStateService } from '../../data-access/suivie-tra
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { SharedDataService } from 'src/shared/services/shared-data.service';
+import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -143,7 +144,7 @@ export class SuivieTraitementComponent implements OnInit {
     }
     const data = {
       operation: this.selectedTypeOperation,
-      transaction: this.selectedTransaction,
+      numero_demande: this.selectedTransaction,
       statut: this.selectedStatut,
       traitement: this.selectedTraitement,
       initie_par: this.currentUser?.id,
@@ -197,6 +198,74 @@ export class SuivieTraitementComponent implements OnInit {
           this.toastrService.error(error.error.message);
         }
       );
+  }
+  
+  public getEtapeBadge(data: any): string {
+    switch (data?.statut) {
+      case BADGE_ETAPE.SOUMISSION:
+        return "badge-dark";
+
+      case BADGE_ETAPE.TRAITEMENT:
+        return "badge-warning";
+
+      case BADGE_ETAPE.FINALISATEUR:
+        return "badge-info";
+
+      case BADGE_ETAPE.CLOTURE:
+        return "badge-success";
+    }
+  }
+  public getEtatBadge(data: any): string {
+    switch (data?.statut) {
+      case BADGE_ETAPE.SOUMISSION:
+        if (data?.traitement === BADGE_ETAT.RECU || data?.traitement === BADGE_ETAT.EN_ATTENTE) {
+          return "badge-dark";
+        }
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        break;
+        
+      case BADGE_ETAPE.TRAITEMENT:
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_ETAT.COMPLET) {
+          return "badge-primary";
+        }
+        break;
+
+      case BADGE_ETAPE.FINALISATEUR:
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_ETAT.CLOTURE) {
+          return "badge-success";
+        }
+
+        if (data?.traitement === BADGE_ETAT.ABANDONNE) {
+          return "badge-danger";
+        }
+        break;
+
+      case BADGE_ETAPE.CLOTURE:
+        if (data?.traitement === BADGE_ETAT.PARTIEL) {
+          return "badge-warning";
+        }
+        if (data?.traitement === BADGE_ETAT.CLOTURE) {
+          return "badge-success";
+        }
+        if (data?.traitement === BADGE_ETAT.ABANDONNE) {
+          return "badge-danger";
+        }
+        if (data?.traitement === BADGE_ETAT.ACCEPTE) {
+          return "badge-success";
+        }
+        if (data?.traitement === BADGE_ETAT.REFUSE) {
+          return "badge-danger";
+        }
+        break;
+    }
   }
   public onPageChange(event) {
     this.p = event;
@@ -403,9 +472,9 @@ export class SuivieTraitementComponent implements OnInit {
   public OnExportExcel(): void {
     const data = this.listTraitemants.map((item: any) => ({
       'Date création': item?.created_at,
-      'N° demande': item?.transaction,
-      'Service': item?.operation,
-      'Rapport': item?.code_rapport,
+      'N° Dossier': item?.numero_demande,
+      'N° Lignes': item?.transaction,
+      '# Traitées': item?.nb_demande_traitees,
       'Statut': item?.statut,
       'Traitement': item?.traitement,
       'Date Traitement': item?.current_date,

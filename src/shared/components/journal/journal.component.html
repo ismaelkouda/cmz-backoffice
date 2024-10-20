@@ -98,14 +98,14 @@
                                 journal?.traitement === BADGE_ETAT.CLOTURE ||
                                 journal?.traitement === BADGE_ETAT.ACCEPTE
                             "
-                            [class.badge-info]="
-                                journal?.traitement === BADGE_ETAT.TOTAL
+                            [class.badge-primary]="
+                                journal?.traitement === BADGE_ETAT.COMPLET
                             "
                         >
                             {{ journal.traitement }}
                         </span>
                     </td>
-                    <td>{{ journal?.date_heure }}</td>
+                    <td class="text-center">{{ journal?.date_heure }}</td>
                     <td style="width: 23rem; text-align: start">
                         {{ journal?.description }}
                     </td>

@@ -6,17 +6,31 @@
     <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
         <div class="card-body">
             <div
-                class="container_flex_space_between mb-3"
-                style="margin-top: -1rem !important"
+                class="d-flex justify-content-between mb-3"
+                style="
+                    margin-top: -1rem !important;
+                    margin-bottom: 1.5rem !important;
+                "
             >
-                <span class="table-header-wrapper">
-                    <b
-                        ><span>Details demande</span>
-                        <span class="current_values"
-                            >[{{ requestNumber }}]</span
-                        >
-                    </b>
-                </span>
+                <div class="d-flex">
+                    <app-patrimoine-header
+                        [displayDate]="false"
+                        [count]="listTraitemants"
+                        [total]="totalRecords"
+                        [legendePluriel]="'Details dossier'"
+                        [legendeSingulier]="'Details dossier'"
+                    >
+                    </app-patrimoine-header>
+                    <span
+                        class="table-header-wrapper d-flex align-items-center"
+                    >
+                        <b>
+                            <span class="current_values"
+                                >[{{ requestNumber }}]</span
+                            >
+                        </b>
+                    </span>
+                </div>
 
                 <div class="table_actions_wrapper mt-0">
                     <div>
@@ -133,7 +147,6 @@
                         styleClass="p-button-success"
                         icon="pi pi-filter"
                         (click)="onFilter()"
-                        [disabled]="isFilter()"
                     ></p-button>
                 </div>
                 <!-- <div class="p-0" [ngStyle]="{ width: '4rem' }" *ngIf="!secondFilter">
@@ -158,7 +171,7 @@
                     <button
                         pButton
                         label="Rafraichir"
-                        (click)="OnRefresh()"
+                        (click)="onFilter()"
                         icon="pi pi-refresh"
                         class="p-button-secondary"
                     ></button>
@@ -200,7 +213,7 @@
                                 class="text-center"
                                 [ngStyle]="{ width: '200px' }"
                             >
-                                N° Demande
+                                N° Dossier
                             </th>
                             <th class="text-center">Service</th>
                             <th class="text-center">Rapport</th>
@@ -306,57 +319,32 @@
                                 pTooltip="cliquer pour voir"
                                 tooltipPosition="top"
                             ></td>
-                            <td class="text-center">
+                            <td class="text-center" [style]="{ width: '3rem' }">
                                 <span
                                     [ngStyle]="{ 'font-size': '16px' }"
-                                    class="badge"
-                                    [class.badge-dark]="
-                                        transaction?.statut === stateSoumis
-                                    "
-                                    [class.badge-info]="
-                                        transaction?.statut === stateTraite
-                                    "
-                                    [class.badge-success]="
-                                        transaction?.statut === stateCloture
+                                    [class]="
+                                        'badge ' + getStatutBadge(transaction)
                                     "
                                 >
-                                    {{ transaction.statut }}
+                                    {{
+                                        transaction?.statut === 'traiter'
+                                            ? 'Complet'
+                                            : transaction?.statut
+                                    }}
                                 </span>
                             </td>
                             <td class="text-center">
                                 <span
                                     [ngStyle]="{ 'font-size': '16px' }"
-                                    class="badge"
-                                    [class.badge-dark]="
-                                        transaction?.traitement ===
-                                            treatmenEntente ||
-                                        transaction?.traitement ===
-                                            treatmenAcquiter
-                                    "
-                                    [class.badge-danger]="
-                                        transaction?.traitement ===
-                                            treatmenRejeter ||
-                                        transaction?.traitement ===
-                                            treatmenRefuser
-                                    "
-                                    [class.badge-warning]="
-                                        transaction?.traitement ===
-                                        treatmenCancel
-                                    "
-                                    [class.badge-info]="
-                                        transaction?.traitement ===
-                                        treatmenAccepter
-                                    "
-                                    [class.badge-success]="
-                                        transaction?.statut === stateCloture &&
-                                        transaction?.traitement ===
-                                            treatmenAccepter
+                                    [class]="
+                                        'badge ' +
+                                        getTraitementBadge(transaction)
                                     "
                                 >
-                                    {{ transaction?.traitement }}
+                                    {{ transaction.traitement }}
                                 </span>
                             </td>
-                            <td>{{ transaction?.current_date }}</td>
+                            <td>{{ getDateTraitement(transaction) }}</td>
                             <td class="text-center">
                                 <span
                                     >{{ transaction?.demandeur_nom }}

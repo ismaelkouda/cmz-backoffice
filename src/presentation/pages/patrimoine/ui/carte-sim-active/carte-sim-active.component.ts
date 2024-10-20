@@ -115,12 +115,13 @@ export class CarteSimActiveComponent implements OnInit {
     const data = this.listPatrimoines.map((item: any) => ({
       [this.firstLevelLibelle]: item?.niveau_uns_nom,
       [this.secondLevelLibelle]: item?.niveau_deux_nom,
-      'Zone Trafic': item?.adresse_geographique,
+      'APN': item?.apn,
+      'Adresse IP': item?.adresse_ip,
       [this.thirdLevelLibelle]: item?.niveau_trois_nom,
+      'Emplacement': item?.point_emplacement,
       'MSISDN': item?.msisdn,
       'IMSI': item?.imsi,
-      'Emplacement': item?.point_emplacement,
-      'Statut Contrat': item?.statut
+      'Statut': item?.statut
     }));
     this.excelService.exportAsExcelFile(data, 'Liste des cartes SIM');
   }
@@ -293,7 +294,7 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>" + "Type d'emplacement :" + "</strong>" + "<span>" + `${this.currentComposant?.niveau_trois_nom ?? ""}` + "</span>" + "<br>" +
         "<strong>" + "Nom Emplacement :" + "</strong>" + "<span>" + `${this.currentComposant?.point_emplacement ?? ""}` + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + `${this.currentComposant?.statut ?? ""}` + "</span>" + "<br>" +
-        "<strong>Coordonnées GPS :</strong>" + "<span>" + `${this.currentComposant?.longitude ?? ""}` + "," + `${this.currentComposant?.latitude ?? ""}` + "</span>" + "<br>" +
+        "<strong>Coordonnées GPS :</strong>" + "<span>" + `${this.currentComposant?.longitude ?? ""}` + `${this.currentComposant?.longitude ? "," : ""}` + `${this.currentComposant?.latitude ?? ""}` + "</span>" + "<br>" +
         "</div>"
       ).openPopup();
 
@@ -313,7 +314,7 @@ export class CarteSimActiveComponent implements OnInit {
         "<strong>Quartier :</strong>" + "<span>" + `${this.currentComposant?.quartier ?? ""}` + "</span>" + "<br>" +
         "<strong>Statut :</strong>" + "<span>" + `${this.currentComposant?.statut ?? ""}` + "</span>" + "<br>" +
         "<strong>Date Trafic :</strong>" + "<span>" + `${this.currentComposant?.date_localisation ?? ""}` + "</span>" + "<br>" +
-        "<strong>Coordonnées GPS :</strong>" + "<span>" + `${this.currentComposant?.long_reseau ?? ""}` + "," + `${this.currentComposant?.lat_reseau ?? ""}` + "</span>" + "<br>" +
+        "<strong>Coordonnées GPS :</strong>" + "<span>" + `${this.currentComposant?.long_reseau ?? ""}` + `${this.currentComposant?.long_reseau ? "," : ""}` + `${this.currentComposant?.lat_reseau ?? ""}` + "</span>" + "<br>" +
         "</div>"
       ).openPopup();
 

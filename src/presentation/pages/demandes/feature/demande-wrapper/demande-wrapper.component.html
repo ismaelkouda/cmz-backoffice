@@ -1,8 +1,10 @@
-<div >
+<div style="margin-top: -2rem !important">
     <app-patrimoine-header
+        [displayDate]="false"
         [count]="listTransactions"
-        [legende]="wrapperLabel"
         [total]="totalRecords"
+        [legendePluriel]="wrapperLabel"
+        [legendeSingulier]="wrapperLabel"
     >
     </app-patrimoine-header>
 </div>
@@ -10,7 +12,7 @@
     <div class="col-md-2">
         <div class="form-group">
             <label>
-                <b>N° demande</b>
+                <b>N° Dossier</b>
             </label>
             <input
                 placeholder="Demande"
@@ -23,10 +25,10 @@
     <div class="col-md-2">
         <div class="form-group">
             <label>
-                <b>Transaction</b>
+                <b>N° Ligne</b>
             </label>
             <input
-                placeholder="Transaction"
+                placeholder="N° Ligne"
                 [(ngModel)]="selectedTransactionShow"
                 type="text"
                 pInputText
@@ -102,7 +104,8 @@
 <hr />
 <div class="table_content_wrapper">
     <div class="table_actions_wrapper pt-2">
-        <button *ngIf="mappingService.IsAction()"
+        <button
+            *ngIf="mappingService.IsAction()"
             pButton
             pRipple
             label="Demande Simple"
@@ -149,8 +152,10 @@
     <table [ngClass]="['native_table table']">
         <thead>
             <th class="text-center" [style]="{ width: '2rem' }">#</th>
-            <th [style]="{ width: '10rem' }">Date Demande</th>
-            <th class="text-center" [style]="{ width: '14rem' }">N° demande</th>
+            <th class="text-center" [style]="{ width: '10rem' }">
+                Date Demande
+            </th>
+            <th class="text-center" [style]="{ width: '14rem' }">N° Dossier</th>
             <th class="text-center" [style]="{ width: '4rem' }"># Lignes</th>
             <th class="text-center" [style]="{ width: '4rem' }"># Traitées</th>
             <ng-container *ngIf="wrapperLabel === 'Demandes Abonnements'">
@@ -178,7 +183,9 @@
                 "
             >
                 <td>{{ this.offset + i }}</td>
-                <td style="text-align: left">{{ data?.created_at }}</td>
+                <td class="text-center" style="text-align: left">
+                    {{ data?.created_at }}
+                </td>
                 <td
                     (click)="copyData(data.numero_demande)"
                     style="cursor: pointer"
@@ -193,57 +200,25 @@
                 <td class="text-center" [style]="{ width: '3rem' }">
                     <span
                         [ngStyle]="{ 'font-size': '16px' }"
-                        class="badge"
-                        [class.badge-dark]="
-                            data?.statut === BADGE_ETAPE.SOUMISSION
-                        "
-                        [class.badge-warning]="
-                            data?.statut === BADGE_ETAPE.TRAITEMENT
-                        "
-                        [class.badge-success]="
-                            data?.statut === BADGE_ETAPE.FINALISATEUR ||
-                            data?.statut === BADGE_ETAPE.CLOTURE
-                        "
+                        [class]="'badge ' + getEtapeBadge(data)"
                     >
-                        {{ data?.statut }}
+                        {{
+                            data?.statut === 'traiter'
+                                ? 'Complet'
+                                : data?.statut
+                        }}
                     </span>
                 </td>
                 <td class="text-center">
                     <span
                         [ngStyle]="{ 'font-size': '16px' }"
-                        class="badge"
-                        [class.badge-dark]="
-                            data?.traitement === BADGE_ETAT.RECU ||
-                            (data?.statut === BADGE_ETAPE.SOUMISSION &&
-                                data?.traitement === BADGE_ETAT.EN_ATTENTE)
-                        "
-                        [class.badge-warning]="
-                            data?.statut === BADGE_ETAPE.TRAITEMENT &&
-                            (data?.traitement === BADGE_ETAT.PARTIEL ||
-                                data?.traitement === BADGE_ETAT.EN_ATTENTE)
-                        "
-                        [class.badge-warning-2]="
-                            data?.statut === BADGE_ETAPE.CLOTURE &&
-                            data?.traitement === BADGE_ETAT.ABANDONNE
-                        "
-                        [class.badge-info]="
-                            data?.statut === BADGE_ETAPE.TRAITEMENT &&
-                            data?.traitement === BADGE_ETAT.TOTAL
-                        "
-                        [class.badge-green]="
-                            data?.statut === BADGE_ETAPE.FINALISATEUR &&
-                            data?.traitement === BADGE_ETAT.CLOTURE
-                        "
-                        [class.badge-danger]="
-                            data?.traitement === BADGE_ETAT.REJETE ||
-                            data?.traitement === BADGE_ETAT.REFUSE
-                        "
-                        [class.badge-success]="
-                            data?.statut === BADGE_ETAPE.CLOTURE &&
-                            data?.traitement === BADGE_ETAT.ACCEPTE
-                        "
+                        [class]="'badge ' + getEtatBadge(data)"
                     >
-                        {{ data.traitement }}
+                        {{
+                            data.traitement === BADGE_ETAT.COMPLET
+                                ? 'complet'
+                                : data.traitement
+                        }}
                     </span>
                 </td>
                 <td class="text-center">
@@ -285,6 +260,19 @@
                         [icon]="getStyleButtonTraitement(data).icon"
                         [pTooltip]="getStyleButtonTraitement(data).tooltip"
                     ></button>
+                    <!-- <button
+                        pButton
+                        tooltipPosition="top"
+                        (click)="
+                            OnShowModalTraitement(
+                                data,
+                                getStyleButtonTraitement(data)?.isViewMode
+                            )
+                        "
+                        [ngClass]="getStyleButtonTraitement(data)?.class"
+                        [icon]="getStyleButtonTraitement(data)?.icon"
+                        [pTooltip]="getStyleButtonTraitement(data)?.tooltip"
+                    ></button> -->
                     <button
                         pButton
                         icon="pi pi-book"

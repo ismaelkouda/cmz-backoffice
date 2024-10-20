@@ -5,12 +5,15 @@
     ></app-breadcrumb>
     <div class="card" [ngStyle]="{ 'border-radius': '10px' }">
         <div class="card-body">
-            <div style="margin-top: -1rem !important; margin-bottom: 1.5rem !important;">
+            <div style="margin-top: -2rem !important">
                 <app-patrimoine-header
+                    [displayDate]="false"
                     [count]="listTraitemants"
-                    [legende]="'dossiers en réclamations'"
                     [total]="totalRecords"
-                ></app-patrimoine-header>
+                    [legendePluriel]="'dossiers en réclamations'"
+                    [legendeSingulier]="'dossiers en réclamations'"
+                >
+                </app-patrimoine-header>
             </div>
             <div class="row filter_wrapper">
                 <div class="col-md-2">
@@ -33,7 +36,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label>
-                            <b>N° Demande</b>
+                            <b>N° Dossier</b>
                         </label>
                         <input
                             placeholder="Demande"
@@ -133,7 +136,7 @@
                         </th>
                         <th class="text-center">Date / Heure</th>
                         <th class="text-center" [ngStyle]="{ width: '200px' }">
-                            N° Demande
+                            N° Dossier
                         </th>
                         <th class="text-center">Service</th>
                         <th class="text-center">Rapport</th>

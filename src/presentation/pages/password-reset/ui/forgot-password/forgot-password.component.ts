@@ -15,9 +15,10 @@ import { PasswordResetService } from '../../data-access/password-reset.service';
 
 export class ForgotPasswordComponent {
   forgotPasswordForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email])
+    username: new FormControl('', [Validators.required, Validators.email])
   })
   isModal: boolean = false;
+  public submitted: boolean = false;
   public title = 'Mot de passe oublié - Système de Gestion de Collecte Centralisée';
   public LOGO_ORANGE = LOGO_ORANGE;
   private response: any = {};
@@ -28,18 +29,21 @@ export class ForgotPasswordComponent {
   ) { this.titleService.setTitle(`${this.title}`); }
 
   async onFormForgotPassword(): Promise<void> {
-    this.response = await handle(() => this.passwordResetService.HandleForgotPassword(this.forgotPasswordForm.value), this.toastrService, this.loadingBar);
-    this.handleSuccessful(this.response);
+    this.submitted = true;
+    if (this.forgotPasswordForm.valid) {
+      this.response = await handle(() => this.passwordResetService.HandleForgotPassword(this.forgotPasswordForm.value), this.toastrService, this.loadingBar);
+      this.handleSuccessful(this.response);
+    }
   }
 
   private handleSuccessful(response): void {
-    this.isModal = true 
+    this.isModal = true
     this.toastrService.success(response.message);
   }
 
-  handleOpen(){
+  handleOpen() {
     this.isModal = false
-  } 
+  }
   onCancel() {
     this.location.back()
   }

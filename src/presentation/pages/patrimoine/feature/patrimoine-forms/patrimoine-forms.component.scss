@@ -1,3 +1,19 @@
+::ng-deep .buttonDeleteFileUpload {
+    color: red !important;
+    border-color: red !important;
+    background-color: white !important;
+    font-weight: bolder;
+    font-size: larger;
+    .pi {
+        font-weight: bolder;
+        font-size: larger;
+    }
+}
+
+::ng-deep .p-button.p-fileupload-choose {
+    width: 100% !important;
+}
+
 .small-dashboard {
     display: flex;
     gap: 2rem;
@@ -14,7 +30,6 @@
     border: 2px solid #2c3e50;
     border-radius: 6px;
     height: 80px !important;
-    width: 384px !important;
     .title {
         span {
             color: black;

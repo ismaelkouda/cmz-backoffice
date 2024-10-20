@@ -8,6 +8,7 @@ import { TransactionShowComponent } from 'src/shared/components/transaction-show
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
+import { BADGE_TRAITEMENT } from 'src/shared/constants/badge-traitement.constant';
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
 
 @Component({
@@ -32,29 +33,54 @@ export class TableDossierDemandeIdentificationComponent {
         this.toastrService.success('Copié dans le presse papier');
         this.clipboardService.copyFromContent(data?.[libelle]);
     }
-
-
-    public getStatutBadge(statut: string): string {
-        switch (statut) {
-            case BADGE_ETAPE.SOUMISSION: return "badge-dark";
-            case BADGE_ETAPE.TRAITEMENT: return "badge-warning";
-            case BADGE_ETAPE.FINALISATEUR:
-            case BADGE_ETAPE.CLOTURE: return "badge-success";
+    public getStatutBadge(data: any): string {
+        switch (data?.statut) {
+          case BADGE_STATUT.SOUMIS:
+            return "badge-dark";
+        
+            case BADGE_STATUT.TRAITE:
+              return "badge-success";
+    
+            case BADGE_STATUT.CLOTURE:
+              return "badge-success";
         }
     }
-
-    public getTraitementBadge(data: Object): string {
-        if (data?.['traitement'] === BADGE_ETAT.RECU || (data?.['statut'] === BADGE_ETAPE.SOUMISSION && data?.['traitement'] === BADGE_ETAT.EN_ATTENTE)) {
+    
+    public getTraitementBadge(data: any): string {
+      switch (data?.statut) {
+        case BADGE_STATUT.SOUMIS:
+          if(data?.traitement  === BADGE_TRAITEMENT.RECU || data?.traitement  === BADGE_TRAITEMENT.EN_ATTENTE) {
             return "badge-dark";
-        } else if ((data?.['statut'] === BADGE_ETAPE.TRAITEMENT && (data?.['traitement'] === BADGE_ETAT.PARTIEL || data?.['traitement'] === BADGE_ETAT.EN_ATTENTE)) || (data?.['statut'] === BADGE_ETAPE.CLOTURE && data?.['traitement'] === BADGE_ETAT.ABANDONNE)) {
-            return "badge-warning";
-        } else if (data?.['statut'] === BADGE_ETAPE.TRAITEMENT && data?.['traitement'] === BADGE_ETAT.TOTAL) {
-            return "badge-info";
-        } else if ((data?.['statut'] === BADGE_ETAPE.FINALISATEUR && data?.['traitement'] === BADGE_ETAT.CLOTURE) || (data?.['statut'] === BADGE_ETAPE.CLOTURE && data?.['traitement'] === BADGE_ETAT.ACCEPTE)) {
-            return "badge-success";
-        } else if (data?.['traitement'] === BADGE_ETAT.REJETE || data?.['traitement'] === BADGE_ETAT.REFUSE) {
-            return "badge-danger";
-        }
+          }
+          break;
+      
+          case BADGE_STATUT.TRAITE:
+            if(data?.traitement  === BADGE_TRAITEMENT.ACCEPTE) {
+              return "badge-success";
+            }
+            if(data?.traitement  === BADGE_TRAITEMENT.REFUSE) {
+              return "badge-danger";
+            }
+            if(data?.traitement  === BADGE_TRAITEMENT.REJETE) {
+              return "badge-danger";
+            }
+          break;
+    
+          case BADGE_STATUT.CLOTURE:
+            if(data?.traitement  === BADGE_TRAITEMENT.ACCEPTE) {
+              return "badge-success";
+            }
+            if(data?.traitement  === BADGE_TRAITEMENT.ABANDONNE) {
+              return "badge-warning";
+            }
+            if(data?.traitement  === BADGE_TRAITEMENT.REFUSE) {
+              return "badge-danger";
+            }
+            if(data?.traitement  === BADGE_TRAITEMENT.REJETE) {
+              return "badge-danger";
+            }
+          break;
+      }
     }
     OnShowTraitement(data: any): void {
         this.selectedLignesIntegrations = data;

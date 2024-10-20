@@ -184,7 +184,7 @@ export class TransactionShowComponent implements OnInit {
   }
 
   public truncateText(text: string, length: number): string {
-    if (!text) return '';
+    if (!text || text.length > length) return '';
     return text.length > length ? text.substring(0, length) + '...' : text;
 }
 
@@ -701,6 +701,9 @@ export class TransactionShowComponent implements OnInit {
       niveau_2: [''],
       niveau_3: [''],
       usage: [''],
+      iccid: [''],
+      apn: [''],
+      adresse_ip: [''],
       imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
       msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
       statut_contrat: [''],
@@ -730,6 +733,9 @@ export class TransactionShowComponent implements OnInit {
     this.activationForm.get('niveau_deux_uuid').patchValue(this.detailTransaction?.niveau_deux_uuid);
     this.activationForm.get('niveau_trois_uuid').patchValue(this.detailTransaction?.niveau_trois_uuid);
     this.activationForm.get('imsi').patchValue(this.detailTransaction?.imsi);
+    this.activationForm.get('iccid').patchValue(this.detailTransaction?.iccid);
+    this.activationForm.get('apn').patchValue(this.detailTransaction?.apn);
+    this.activationForm.get('adresse_ip').patchValue(this.detailTransaction?.adresse_ip);
     this.activationForm.get('msisdn').patchValue(this.detailTransaction?.msisdn);
     this.activationForm.get('formule').patchValue(this.detailTransaction?.formule);
     this.activationForm.get('formule_uuid').patchValue(this.detailTransaction?.formule_uuid);
