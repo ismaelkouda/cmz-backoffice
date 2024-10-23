@@ -140,7 +140,7 @@ export class DemandeMasseComponent implements OnInit {
                 return this.listDemandes?.commentaire_cloture;
 
             default:
-                return null;
+                return '';
         }
     }
 
