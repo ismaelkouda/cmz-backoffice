@@ -242,8 +242,10 @@ export class SuivieTraitementComponent implements OnInit {
         if (data?.traitement === BADGE_ETAT.CLOTURE) {
           return "badge-success";
         }
-
-        if (data?.traitement === BADGE_ETAT.ABANDONNE) {
+        if (data?.traitement === BADGE_ETAT.COMPLET) {
+          return "badge-primary";
+        }
+        if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
           return "badge-danger";
         }
         break;

@@ -281,13 +281,27 @@
                             <td>{{ data?.nb_demande_soumises ?? 'N/A' }}</td>
                             <td>{{ data?.nb_demande_traitees ?? 'N/A' }}</td>
                             <td class="text-center" [style]="{ width: '3rem' }">
-                                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getEtapeBadge(data)">
-                                    {{ data?.statut === 'traiter' ? 'Complet' : data?.statut }}
+                                <span
+                                    [ngStyle]="{ 'font-size': '16px' }"
+                                    [class]="'badge ' + getEtapeBadge(data)"
+                                >
+                                    {{
+                                        data?.statut === 'traiter'
+                                            ? 'Complet'
+                                            : data?.statut
+                                    }}
                                 </span>
                             </td>
                             <td class="text-center">
-                                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getEtatBadge(data)">
-                                    {{ data.traitement ===  BADGE_ETAT.COMPLET ? 'complet' : data.traitement}}
+                                <span
+                                    [ngStyle]="{ 'font-size': '16px' }"
+                                    [class]="'badge ' + getEtatBadge(data)"
+                                >
+                                    {{
+                                        data.traitement === BADGE_ETAT.COMPLET
+                                            ? 'complet'
+                                            : data.traitement
+                                    }}
                                 </span>
                             </td>
                             <td class="text-center">
@@ -298,12 +312,18 @@
                                 {{ data?.demandeur_prenoms }}
                             </td>
                             <td class="td-actions">
-                                <button pButton pRipple icon="pi pi-folder-open"
-                                    [pTooltip]="!data?.nb_demande_traitees ? '' : 'Voir'"
-                                    class="p-button-dark" tooltipPosition="top"
+                                <button
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-folder-open"
+                                    [pTooltip]="
+                                        !data?.nb_demande_traitees ? '' : 'Voir'
+                                    "
+                                    class="p-button-dark"
+                                    tooltipPosition="top"
                                     [disabled]="!data?.nb_demande_traitees"
-                                    (click)="OnShowTraitement(data, 'details')">
-                                </button>
+                                    (click)="OnShowTraitement(data, 'details')"
+                                ></button>
                                 <!-- <button
                                     pButton
                                     icon="pi pi-sync"
@@ -321,16 +341,26 @@
                                     "
                                     class="p-button-secondary"
                                 ></button> -->
-                                <button pButton tooltipPosition="top"
+                                <button
+                                    pButton
+                                    tooltipPosition="top"
                                     (click)="OnShowModalTraitement(data)"
-                                    [ngClass]="getStyleButtonTraitement(data).class"
+                                    [ngClass]="
+                                        getStyleButtonTraitement(data).class
+                                    "
                                     [icon]="getStyleButtonTraitement(data).icon"
-                                    [pTooltip]="getStyleButtonTraitement(data).tooltip">
-                                </button>
-                                <button pButton icon="pi pi-book" pTooltip="Journal"
-                                    tooltipPosition="top" (click)="showJournal(data)"
-                                    class="p-button-primary">
-                                </button>
+                                    [pTooltip]="
+                                        getStyleButtonTraitement(data).tooltip
+                                    "
+                                ></button>
+                                <button
+                                    pButton
+                                    icon="pi pi-book"
+                                    pTooltip="Journal"
+                                    tooltipPosition="top"
+                                    (click)="showJournal(data)"
+                                    class="p-button-primary"
+                                ></button>
                             </td>
                         </tr>
                     </tbody>

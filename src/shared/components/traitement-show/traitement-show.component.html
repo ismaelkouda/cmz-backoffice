@@ -87,7 +87,6 @@
                 </ul>
                 <div class="submit-wrapper">
                     <button
-                        
                         (click)="OnUpdateTransaction()"
                         pButton
                         pRipple
@@ -96,33 +95,76 @@
                     ></button>
                 </div>
                 <fieldset *ngIf="IsContencieutRouter()">
-          <legend>
-            <strong>Decision</strong>
-          </legend>
-          <div class="wrapper-evaluation">
-            <div class="block-checked d-flex">
-              <div>
-                <div class="wrapper-check border-0">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" style="width: 20px !important;height: 20px !important" type="radio"
-                      name="infosLigne" value="oui" [(ngModel)]="regularType" (change)="handleChangeEvent($event)" id="infosLigne">
-                    <label class="form-check-label" style="font-size: 14px;margin-top: -1rem;" for="infosLigne">Acceptation Client</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" style="width: 20px !important;height: 20px !important" type="radio"
-                      name="infosLigne" value="non" [(ngModel)]="regularType" (change)="handleChangeEvent($event)" id="infosLigne">
-                    <label class="form-check-label" style="font-size: 14px;margin-top: -1rem;" for="infosLigne">Regularisation Orange</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div style="width: 100%;margin-top: 1rem;">
-              <textarea name="commentaire" class="form-control"
-                rows="2" [(ngModel)]="regaularMessage" [disabled]="true">
-              </textarea>
-            </div>
-          </div>
-        </fieldset>
+                    <legend>
+                        <strong>Decision</strong>
+                    </legend>
+                    <div class="wrapper-evaluation">
+                        <div class="block-checked d-flex">
+                            <div>
+                                <div class="wrapper-check border-0">
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input"
+                                            style="
+                                                width: 20px !important;
+                                                height: 20px !important;
+                                            "
+                                            type="radio"
+                                            name="infosLigne"
+                                            value="oui"
+                                            [(ngModel)]="regularType"
+                                            (change)="handleChangeEvent($event)"
+                                            id="infosLigne"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            style="
+                                                font-size: 14px;
+                                                margin-top: -1rem;
+                                            "
+                                            for="infosLigne"
+                                            >Acceptation Client</label
+                                        >
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input
+                                            class="form-check-input"
+                                            style="
+                                                width: 20px !important;
+                                                height: 20px !important;
+                                            "
+                                            type="radio"
+                                            name="infosLigne"
+                                            value="non"
+                                            [(ngModel)]="regularType"
+                                            (change)="handleChangeEvent($event)"
+                                            id="infosLigne"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            style="
+                                                font-size: 14px;
+                                                margin-top: -1rem;
+                                            "
+                                            for="infosLigne"
+                                            >Regularisation Orange</label
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 100%; margin-top: 1rem">
+                            <textarea
+                                name="commentaire"
+                                class="form-control"
+                                rows="2"
+                                [(ngModel)]="regaularMessage"
+                                [disabled]="true"
+                            >
+                            </textarea>
+                        </div>
+                    </div>
+                </fieldset>
                 <div>
                     <fieldset>
                         <legend>
@@ -299,17 +341,35 @@
             </div>
             <!--------------------MODAL----------BODY---------->
             <div class="col-lg-10">
-                <div [ngClass]="OnGetRapportCodeStyle(detailTransaction?.rapport?.code)"
-                    role="alert" style="display: flex; justify-content: space-between">
+                <div
+                    [ngClass]="
+                        OnGetRapportCodeStyle(detailTransaction?.rapport?.code)
+                    "
+                    role="alert"
+                    style="display: flex; justify-content: space-between"
+                >
                     <div>
                         <strong class="wrapper-header">
-                            Reception : {{ [detailTransaction?.rapport ?.date_acquittement ] ?? '-- : --' }}
+                            Reception :
+                            {{
+                                [
+                                    detailTransaction?.rapport
+                                        ?.date_acquittement
+                                ] ?? '-- : --'
+                            }}
                         </strong>
                     </div>
                     <div>
                         <strong class="wrapper-header">
-                            Traitement : {{ detailTransaction?.rapport?.statut_traitement ?? 'N/A' }}
-                            [{{ detailTransaction?.rapport?.date_traitement ?? '-- : --' }}]
+                            Traitement :
+                            {{
+                                detailTransaction?.rapport?.statut_traitement ??
+                                    'N/A'
+                            }}
+                            [{{
+                                detailTransaction?.rapport?.date_traitement ??
+                                    '-- : --'
+                            }}]
                         </strong>
                     </div>
                     <!-- <div>
@@ -327,7 +387,10 @@
                         *ngIf="detailTransaction?.rapport"
                         class="col-md-7 wrapper-header"
                     >
-                        <strong>{{formatTitleOuvrage(detailTransaction?.operation)}}
+                        <strong
+                            >{{
+                                formatTitleOuvrage(detailTransaction?.operation)
+                            }}
                             <!-- <span style="color: #549b3d; font-weight: bold">
                                 <span *ngIf="IsContentSim()">
                                     {{
@@ -1657,7 +1720,10 @@
                     *ngIf="transaction?.operation === operationActivation"
                     class="form-container"
                 >
-                    <div [hidden]="filterTab !== 'first-item'" [formGroup]="activationForm">
+                    <div
+                        [hidden]="filterTab !== 'first-item'"
+                        [formGroup]="activationForm"
+                    >
                         <div [style]="{ marginTop: '-2rem' }">
                             <div class="row">
                                 <!-- <div class="col-md-6">
@@ -1760,8 +1826,12 @@
                                                     <label>
                                                         <b>ICCID</b>
                                                     </label>
-                                                    <input type="text" formControlName="iccid" pInputText
-                                                        [disabled]="true" />
+                                                    <input
+                                                        type="text"
+                                                        formControlName="iccid"
+                                                        pInputText
+                                                        [disabled]="true"
+                                                    />
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -1769,8 +1839,12 @@
                                                     <label>
                                                         <b>APN</b>
                                                     </label>
-                                                    <input type="text" formControlName="apn" pInputText
-                                                        [disabled]="true" />
+                                                    <input
+                                                        type="text"
+                                                        formControlName="apn"
+                                                        pInputText
+                                                        [disabled]="true"
+                                                    />
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -1778,14 +1852,21 @@
                                                     <label>
                                                         <b>Adresse IP</b>
                                                     </label>
-                                                    <input type="text" formControlName="adresse_ip" pInputText
-                                                        [disabled]="true" />
+                                                    <input
+                                                        type="text"
+                                                        formControlName="adresse_ip"
+                                                        pInputText
+                                                        [disabled]="true"
+                                                    />
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b>Formule destination</b>
+                                                        <b
+                                                            >Formule
+                                                            destination</b
+                                                        >
                                                     </label>
                                                     <input
                                                         type="text"
@@ -1977,7 +2058,7 @@
                                 </div>
                             </div>
                         </fieldset>
-                        
+
                         <fieldset>
                             <legend>
                                 <b>Informations Utilisateur/Bénéficiaire</b>
@@ -1985,63 +2066,106 @@
                             <div class="row">
                                 <div class="col-md">
                                     <label><b>Type de personne</b></label>
-                                    <p-dropdown [options]="listeTypePersonne" [showClear]="true"
-                                        formControlName="type_personne" placeholder="Type de personne">
+                                    <p-dropdown
+                                        [options]="listeTypePersonne"
+                                        [showClear]="true"
+                                        formControlName="type_personne"
+                                        placeholder="Type de personne"
+                                    >
                                     </p-dropdown>
                                 </div>
-                                <ng-container *ngIf="displayPhysiquePersonne === true">
+                                <ng-container
+                                    *ngIf="displayPhysiquePersonne === true"
+                                >
                                     <div class="col-md">
                                         <div class="form-group">
                                             <label><b>Nom</b></label>
-                                            <input type="text" formControlName="nom" pInputText />
+                                            <input
+                                                type="text"
+                                                formControlName="nom"
+                                                pInputText
+                                            />
                                         </div>
                                     </div>
                                     <div class="col-md">
                                         <div class="form-group">
                                             <label><b>Prénoms</b></label>
-                                            <input type="text" formControlName="prenoms" pInputText />
+                                            <input
+                                                type="text"
+                                                formControlName="prenoms"
+                                                pInputText
+                                            />
                                         </div>
                                     </div>
 
                                     <div class="col-md">
                                         <label><b>Nature de la pièce</b></label>
-                                        <p-dropdown [options]="listeNaturePiece" [showClear]="true"
-                                            formControlName="nature_piece" placeholder="Nature de la pièce">
+                                        <p-dropdown
+                                            [options]="listeNaturePiece"
+                                            [showClear]="true"
+                                            formControlName="nature_piece"
+                                            placeholder="Nature de la pièce"
+                                        >
                                         </p-dropdown>
                                     </div>
                                     <div class="col-md">
                                         <div class="form-group">
                                             <label>
-                                                <b>Numéro de la
-                                                    pièce</b>
+                                                <b>Numéro de la pièce</b>
                                             </label>
-                                            <input type="text" formControlName="numero_piece" pInputText />
+                                            <input
+                                                type="text"
+                                                formControlName="numero_piece"
+                                                pInputText
+                                            />
                                         </div>
                                     </div>
                                 </ng-container>
-                                <ng-container *ngIf="displayPhysiquePersonne === false">
+                                <ng-container
+                                    *ngIf="displayPhysiquePersonne === false"
+                                >
                                     <div class="col-md">
                                         <div class="form-group">
                                             <label><b>Denomination</b></label>
-                                            <input type="text" formControlName="nom" pInputText />
+                                            <input
+                                                type="text"
+                                                formControlName="nom"
+                                                pInputText
+                                            />
                                         </div>
                                     </div>
                                     <div class="col-md">
                                         <div class="form-group">
                                             <label><b>Raison social</b></label>
-                                            <input type="text" formControlName="prenoms" pInputText />
+                                            <input
+                                                type="text"
+                                                formControlName="prenoms"
+                                                pInputText
+                                            />
                                         </div>
                                     </div>
                                     <div class="col-md">
                                         <label><b>Nature du document</b></label>
-                                        <p-dropdown [options]="listeNatureDocument" [showClear]="true"
-                                            formControlName="nature_piece" placeholder="Nature du document">
+                                        <p-dropdown
+                                            [options]="listeNatureDocument"
+                                            [showClear]="true"
+                                            formControlName="nature_piece"
+                                            placeholder="Nature du document"
+                                        >
                                         </p-dropdown>
                                     </div>
                                     <div class="col-md">
                                         <div class="form-group">
-                                            <label><b>Numéro du document</b></label>
-                                            <input type="text" formControlName="numero_piece" pInputText />
+                                            <label
+                                                ><b
+                                                    >Numéro du document</b
+                                                ></label
+                                            >
+                                            <input
+                                                type="text"
+                                                formControlName="numero_piece"
+                                                pInputText
+                                            />
                                         </div>
                                     </div>
                                 </ng-container>
@@ -2053,35 +2177,77 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-
                                         <div class="card">
-                                            <p-fileUpload (onSelect)="onSelectedFiles($event, 'physique')" (onRemove)="onRemoveFiles('physique')"
-                                                [showUploadButton]="false" [showCancelButton]="false" [chooseLabel]="'Choisir photo physique'"
-                                                url="https://www.primefaces.org/cdn/api/upload.php" [multiple]="false"
-                                                accept="image/*">
+                                            <p-fileUpload
+                                                (onSelect)="
+                                                    onSelectedFiles(
+                                                        $event,
+                                                        'physique'
+                                                    )
+                                                "
+                                                (onRemove)="
+                                                    onRemoveFiles('physique')
+                                                "
+                                                [showUploadButton]="false"
+                                                [showCancelButton]="false"
+                                                [chooseLabel]="
+                                                    'Choisir photo physique'
+                                                "
+                                                url="https://www.primefaces.org/cdn/api/upload.php"
+                                                [multiple]="false"
+                                                accept="image/*"
+                                            >
                                             </p-fileUpload>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-
                                         <div class="card">
-                                            <p-fileUpload (onSelect)="onSelectedFiles($event, 'recto')" (onRemove)="onRemoveFiles('recto')" 
-                                                [showUploadButton]="false" [showCancelButton]="false" [chooseLabel]="'Choisir pièce recto'"
-                                                url="https://www.primefaces.org/cdn/api/upload.php" [multiple]="false"
-                                                accept="image/*">
+                                            <p-fileUpload
+                                                (onSelect)="
+                                                    onSelectedFiles(
+                                                        $event,
+                                                        'recto'
+                                                    )
+                                                "
+                                                (onRemove)="
+                                                    onRemoveFiles('recto')
+                                                "
+                                                [showUploadButton]="false"
+                                                [showCancelButton]="false"
+                                                [chooseLabel]="
+                                                    'Choisir pièce recto'
+                                                "
+                                                url="https://www.primefaces.org/cdn/api/upload.php"
+                                                [multiple]="false"
+                                                accept="image/*"
+                                            >
                                             </p-fileUpload>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-
                                         <div class="card">
-                                            <p-fileUpload (onSelect)="onSelectedFiles($event, 'verso')" (onRemove)="onRemoveFiles('verso')"
-                                                [showUploadButton]="false" [showCancelButton]="false" [chooseLabel]="'Choisir pièce verso'"
-                                                url="https://www.primefaces.org/cdn/api/upload.php" [multiple]="false">
+                                            <p-fileUpload
+                                                (onSelect)="
+                                                    onSelectedFiles(
+                                                        $event,
+                                                        'verso'
+                                                    )
+                                                "
+                                                (onRemove)="
+                                                    onRemoveFiles('verso')
+                                                "
+                                                [showUploadButton]="false"
+                                                [showCancelButton]="false"
+                                                [chooseLabel]="
+                                                    'Choisir pièce verso'
+                                                "
+                                                url="https://www.primefaces.org/cdn/api/upload.php"
+                                                [multiple]="false"
+                                            >
                                             </p-fileUpload>
                                         </div>
                                     </div>

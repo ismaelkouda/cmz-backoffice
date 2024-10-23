@@ -17,8 +17,6 @@
         //fileUrl: "http://10.10.0.30:8003/", 
         apiUrl: "http://10.10.0.64:8001/api/v1/",
         fileUrl: "http://10.10.0.64:8001/",
-        // apiUrl: "http://10.10.0.60:8001/api/v1/",
-        // fileUrl: "http://10.10.0.60:8001/",
         //apiUrl:"https://gs2e-osim.orange.ci:12300/api/v1/",
         //fileUrl:"https://gs2e-osim.orange.ci:12300/",
 
