@@ -1,11 +1,18 @@
 export const BADGE_ETAT = {
-    EN_ATTENTE: "en-attente",
     RECU: "reçu",
+    EN_ATTENTE: "en-attente",
+    APPROUVE: "approuvé",
+    REJETE: "rejeté",
+    EN_COURS: "en-cours",
+    TERMINE: "terminé",
+    
     PARTIEL: "partiel",
-    COMPLET: "total",
+
+    EFFECTUE: "effectué",
     ACCEPTE: "accepté",
     REFUSE: "refusé",
+
+    COMPLET: "total",
     ABANDONNE: "abandonné",
-    REJETE: "rejeté",
     CLOTURE: "clôturé",
 }

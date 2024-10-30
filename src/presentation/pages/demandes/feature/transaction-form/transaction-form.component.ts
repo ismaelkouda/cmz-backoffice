@@ -209,9 +209,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     public initFormMasse(): void {
         this.adminForm = this.fb.group({
             operation: this.activationMasse,
-            niveau_un_uuid: [this.currentObject ? this.currentObject.niveau_un_uuid : '', [Validators.required]],
-            niveau_deux_uuid: [this.currentObject ? this.currentObject.niveau_deux_uuid : '', [Validators.required]],
-            niveau_trois_uuid: [this.currentObject ? this.currentObject.niveau_trois_uuid : '', [Validators.required]],
+            niveau_un_uuid: [this.currentObject ? this.currentObject.niveau_un_uuid : ''],
+            niveau_deux_uuid: [this.currentObject ? this.currentObject.niveau_deux_uuid : ''],
+            niveau_trois_uuid: [this.currentObject ? this.currentObject.niveau_trois_uuid : ''],
             usage_id: [this.currentObject ? this.currentObject.usage_id : '', [Validators.required]],
             nb_demandes: [this.currentObject ? this.currentObject.nb_demandes : '', [Validators.required]],
             formule_uuid: [this.currentObject ? this.currentObject.formule_uuid : '', [Validators.required]],

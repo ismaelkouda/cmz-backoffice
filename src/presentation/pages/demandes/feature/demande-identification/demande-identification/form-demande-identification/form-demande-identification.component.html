@@ -10,8 +10,8 @@
                             <div class="d-flex gap-2">
                                 <div>
                                     <h3 class="current-transaction-label">
-                                        <b><span>Demande d'identification
-                                                en masse de SIM</span></b>
+                                        <b><span>Demande d'identification en
+                                                masse de SIM</span></b>
                                     </h3>
                                 </div>
                             </div>
@@ -27,7 +27,7 @@
                             <form [formGroup]="demandeIdentificationForm" (ngSubmit)="onSubmitDmandeIntegrationForm()">
                                 <!------------------INFOS---------IDENTIFICATION----------------->
                                 <fieldset>
-                                    <legend [ngStyle]="{ width: '18rem' }">
+                                    <legend>
                                         <b>Informations d'identification</b>
                                     </legend>
                                     <div class="row">
@@ -112,7 +112,7 @@
                                         margin-top: 2.5rem;
                                         padding-bottom: 3rem;
                                     " class="padding-bottom-lignes">
-                                    <legend [ngStyle]="{ width: '100%' }">
+                                    <legend>
                                         <b>Identification des lignes</b>
                                     </legend>
                                     <div class="row">
@@ -130,17 +130,13 @@
                                     </div>
                                 </fieldset>
 
-                                <fieldset style="margin-top: 2.5rem">
-                                    <legend [ngStyle]="{ width: '100%' }">
+                                <fieldset>
+                                    <legend>
                                         <b>Détails de la Demande</b>
                                     </legend>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>
-                                                    <b>Description
-                                                        <span class="text-danger">*</span></b>
-                                                </label>
                                                 <input type="text" formControlName="description" pInputText />
                                             </div>
                                         </div>
