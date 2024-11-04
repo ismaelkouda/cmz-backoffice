@@ -15,4 +15,6 @@ export const BADGE_ETAT = {
     COMPLET: "total",
     ABANDONNE: "abandonné",
     CLOTURE: "clôturé",
+
+    AFFECTE: "affecté"
 }

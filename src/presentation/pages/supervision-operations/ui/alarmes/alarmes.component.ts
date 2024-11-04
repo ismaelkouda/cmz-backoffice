@@ -256,7 +256,7 @@ export class AlarmesComponent implements OnInit {
         break;
 
       case BADGE_ETAPE.CLOTURE:
-        if (data?.traitement === BADGE_ETAT.ACCEPTE) { return "badge-success"; }
+        if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
         if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
         break;
     }

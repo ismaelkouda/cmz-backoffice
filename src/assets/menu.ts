@@ -127,14 +127,14 @@ export var menuJson = [
                 pack: ApplicationType.MONITORING,
                 type: "link"
             },
-            {
-                path: `/${DEMANDE_SERVICE}/${DEMANDE_IDENTIFICATION}`,
-                title: "Identifications mobiles",
-                label: "Identifications mobiles",
-                data: "9-6-0-identifications-mobiles",
-                pack: ApplicationType.MONITORING,
-                type: "link"
-            },
+//             {
+//                 path: `/${DEMANDE_SERVICE}/${DEMANDE_IDENTIFICATION}`,
+//                 title: "Identifications mobiles",
+//                 label: "Identifications mobiles",
+//                 data: "9-6-0-identifications-mobiles",
+//                 pack: ApplicationType.MONITORING,
+//                 type: "link"
+//             },
             {
                 path: `/${DEMANDE_SERVICE}/${DEMANDE_SUSPENSION}`,
                 title: "Suspensions",

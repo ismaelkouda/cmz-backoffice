@@ -213,10 +213,10 @@ export class SuivieTraitementComponent implements OnInit {
     switch (data?.statut) {
       case BADGE_ETAPE.SOUMISSION:
         if (data?.traitement === BADGE_ETAT.EN_ATTENTE) return "badge-dark";
-        if (data?.traitement === BADGE_ETAT.PARTIEL) return "badge-warning";
-        if (data?.traitement === BADGE_ETAT.RECU) return "badge-dark";
-        if (data?.traitement === BADGE_ETAT.APPROUVE) return "badge-success";
         if (data?.traitement === BADGE_ETAT.REJETE) return "badge-danger";
+        if (data?.traitement === BADGE_ETAT.APPROUVE) return "badge-success";
+        if (data?.traitement === BADGE_ETAT.EN_COURS) return "badge-warning";
+        if (data?.traitement === BADGE_ETAT.RECU) return "badge-dark";
         break;
 
       case BADGE_ETAPE.TRAITEMENT:
@@ -230,7 +230,7 @@ export class SuivieTraitementComponent implements OnInit {
         break;
 
       case BADGE_ETAPE.CLOTURE:
-        if (data?.traitement === BADGE_ETAT.ACCEPTE) { return "badge-success"; }
+        if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
         if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
         break;
     }
