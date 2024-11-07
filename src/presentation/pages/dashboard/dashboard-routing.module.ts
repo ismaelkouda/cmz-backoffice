@@ -5,10 +5,10 @@ import { DASHBOARD } from "src/shared/routes/routes";
 
 const routes: Routes = [
   {
-    path: "",
+    path: DASHBOARD,
     component: DashboardComponent,
     data: { title: 'Tableau de bord' }
-  },,
+  },
   {
     path: '',
     redirectTo: DASHBOARD,

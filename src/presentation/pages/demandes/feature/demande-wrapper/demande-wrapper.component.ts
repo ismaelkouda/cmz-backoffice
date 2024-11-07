@@ -414,11 +414,14 @@ export class DemandeWrapperComponent implements OnInit {
       case BADGE_ETAPE.FINALISATEUR:
         if (data?.traitement === BADGE_ETAT.EN_ATTENTE) { return "badge-warning"; }
         if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-warning"; }
+        if (data?.traitement === BADGE_ETAT.LIVRE) { return "badge-primary"; }
         break;
 
       case BADGE_ETAPE.CLOTURE:
         if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
         if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
+        if (data?.traitement === BADGE_ETAT.ABANDONNE) { return "badge-warning"; }
+        if (data?.traitement === BADGE_ETAT.REJETE) { return "badge-danger"; }
         break;
     }
   }

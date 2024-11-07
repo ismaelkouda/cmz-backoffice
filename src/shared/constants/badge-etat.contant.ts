@@ -5,16 +5,17 @@ export const BADGE_ETAT = {
     REJETE: "rejeté",
     EN_COURS: "en-cours",
     TERMINE: "terminé",
+    LIVRE: "livré",
     
     PARTIEL: "partiel",
 
     EFFECTUE: "effectué",
-    ACCEPTE: "accepté",
     REFUSE: "refusé",
 
     COMPLET: "total",
     ABANDONNE: "abandonné",
     CLOTURE: "clôturé",
+
 
     AFFECTE: "affecté"
 }
