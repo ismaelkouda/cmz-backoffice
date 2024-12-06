@@ -53,6 +53,7 @@ export const enum EndPointUrl {
 
     GET_ALL_APN = 'patrimoine-sim/apn/all',
 
-
+    FORCE_VENTE_COMMERCIAL_ALL = "force-vente/commercial/all?page={page}",
+    POST_GESTION_TENANTS_PORTEFEUILLES_TENANT_ALL = "gestion-tenants/portefeuilles-tenant/all",
 
 }

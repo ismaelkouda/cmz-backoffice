@@ -15,8 +15,8 @@
         // fileUrl: 'http://10.10.0.200:12200/',
         //apiUrl: "http://10.10.0.30:8003/api/v1/",
         //fileUrl: "http://10.10.0.30:8003/", 
-        apiUrl: "http://10.10.0.64:8001/api/v1/",
-        fileUrl: "http://10.10.0.64:8001/",
+        apiUrl: "http://10.10.70.64:8001/api/v1/",
+        fileUrl: "http://10.10.70.64:8001/",
         //apiUrl:"https://gs2e-osim.orange.ci:12300/api/v1/",
         //fileUrl:"https://gs2e-osim.orange.ci:12300/",
 
@@ -30,6 +30,7 @@
         appTypePS: 'PATRIMOINE SIM',
         appTypeSM: 'SIM MONITORING'
     };
+    
     window.__env.messageApp = {
         sourceStockTenantSim: 'Le système utilisera une SIM blanche du Stock du Tenant',
         sourceStockOrangeSim: 'Orange fournira la SIM. A l\'issue de l\'operation, elle sera livrée au point de contact accompagnée d\'une facture',

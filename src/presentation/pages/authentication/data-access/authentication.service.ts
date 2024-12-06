@@ -10,11 +10,7 @@ export class AuthenticationService {
 
   public baseUrl: string;
 
-  constructor(
-    private http: HttpClient,
-    private envService: EnvService,
-
-  ) {
+  constructor(private http: HttpClient, private envService: EnvService) {
     this.baseUrl = this.envService.apiUrl
   }
 

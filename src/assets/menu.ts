@@ -1,3 +1,4 @@
+import { EQUIPEMENTS_CONNECTE, FILE_ATTENTE_ROUTE, PERSONNE_PHYSIQUE } from './../presentation/pages/gestion-identifications/gestion-identifications-routing.module';
 import { CONTACT_SLA } from './../presentation/pages/ref-telemetrie/ref-telemetrie-routing.module';
 import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION, DEMANDE_RESILIATION, DEMANDE_FORMULE_CHANGE, DEMANDE_SWAPPING, DEMANDE_INTEGRATION, DEMANDE_IDENTIFICATION } from '../presentation/pages/demandes/demandes-routing.module';
 import { CARTOGRAPHIE, DOWNLOAD_FILE } from './../presentation/pages/patrimoine/patrimoine-routing.module';
@@ -6,7 +7,7 @@ import { COURBE_MESSAGE, DETECTION_APPRO, PERFORMANCE_COLLECTE } from 'src/prese
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
 import { CARTES_SIM, DOTATION_SERVICES, ETAT_SOLDE, GROUPE_SIM } from "src/presentation/pages/patrimoine/patrimoine-routing.module";
 import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
-import { DEMANDE_SERVICE, OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SLA_DEMANDE_SERVICE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
+import { DEMANDE_SERVICE, GESTION_IDENTIFICATIONS, OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SLA_DEMANDE_SERVICE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
 import { VUE_GEOGRAPHIQUE } from 'src/presentation/pages/zone-trafic/zone-trafic-routing.module';
 import { JOURNAL_ATHENTICATION, PROFILS_HABILITATIONS, UTILISATEURS } from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
@@ -305,6 +306,41 @@ export var menuJson = [
                 pack: ApplicationType.MONITORING
             },
         ]
+    },
+    {
+      title: "Gestion des identifications",
+      label: "Gestion des identifications",
+      data: "10-0-0-gestion-identifications",
+      active: false,
+      statut: false,
+      icon: "airplay",
+      url: "assets/images/portail/icone_recherche_multicritere.webp",
+      path: `/${GESTION_IDENTIFICATIONS}/${FILE_ATTENTE_ROUTE}`,
+      routerLink: `/${GESTION_IDENTIFICATIONS}/${FILE_ATTENTE_ROUTE}`,
+      type: "sub",
+      children: [
+        {
+          path: `/${GESTION_IDENTIFICATIONS}/${FILE_ATTENTE_ROUTE}`,
+          title: "File d'attente",
+          label: "File d'attente",
+          data: "10-1-0-file-attente",
+          type: "link",
+        },
+        // {
+        //   path: `/${GESTION_IDENTIFICATIONS}/${PERSONNE_PHYSIQUE}`,
+        //   title: "Personnes physique",
+        //   label: "Personnes physique",
+        //   data: "10-2-0-personne-physique",
+        //   type: "link",
+        // },
+        // {
+        //   path: `/${GESTION_IDENTIFICATIONS}/${EQUIPEMENTS_CONNECTE}`,
+        //   title: "Equipements connecté",
+        //   label: "Traitements connecté",
+        //   data: "10-3-0-equipement-connecte",
+        //   type: "link",
+        // }
+      ],
     },
     {
         title: "Supervision des SIM",

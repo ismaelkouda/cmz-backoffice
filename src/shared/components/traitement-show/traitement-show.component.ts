@@ -15,7 +15,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { formDataBuilder } from 'src/shared/constants/formDataBuilder.constant';
 import { Router } from '@angular/router';
 import { PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
-import { TypePersonne } from 'src/shared/enum/TypePersonnes.enum';
+import { TypeUtilisateur } from 'src/shared/enum/TypeUtilisateur.enum';
 import { NaturePiece } from 'src/shared/enum/NaturePiece.enum';
 import { NatureDocument } from 'src/shared/enum/NatureDocument.enum';
 declare var require;
@@ -80,8 +80,8 @@ export class TraitementShowComponent implements OnInit {
   public sourceStockOrangeSim: string;
   public sourceSoldeDotation: string;
   public sourceSoldeDotationOrange: string
-  public displayPhysiquePersonne: boolean = true;
-  public listeTypePersonne: Array<any> = [];
+  public displayPersonne: boolean = true;
+  public listeTypeUtilisateur: Array<any> = [];
   public listeNaturePiece: Array<any> = [];
   public listeNatureDocument: Array<any> = [];
   public filesPhysique = [];
@@ -109,8 +109,8 @@ export class TraitementShowComponent implements OnInit {
     Object.values(Justificatif).forEach(item => {
       this.listTypeJustificatif.push(item);
     });
-    Object.values(TypePersonne).forEach((item) => {
-      this.listeTypePersonne.push(item);
+    Object.values(TypeUtilisateur).forEach((item) => {
+      this.listeTypeUtilisateur.push(item);
     });
     Object.values(NaturePiece).forEach((item) => {
       this.listeNaturePiece.push(item);
@@ -659,10 +659,10 @@ export class TraitementShowComponent implements OnInit {
     });
     const typePersonneControl = this.activationForm.get('type_personne');
     const gererValidationTypePersonne = (value: string) => {
-      if (value === TypePersonne.PHYSIQUE) {
-        this.displayPhysiquePersonne = true;
+      if (value === TypeUtilisateur.PERSONNE) {
+        this.displayPersonne = true;
       } else {
-        this.displayPhysiquePersonne = false;
+        this.displayPersonne = false;
       }
     };
     gererValidationTypePersonne(typePersonneControl?.value);

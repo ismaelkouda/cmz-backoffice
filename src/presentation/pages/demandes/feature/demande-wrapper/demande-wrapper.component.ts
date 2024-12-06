@@ -26,8 +26,10 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
   templateUrl: './demande-wrapper.component.html',
   styleUrls: ['./demande-wrapper.component.scss']
 })
+
 export class DemandeWrapperComponent implements OnInit {
-  public BADGE_ETAT = BADGE_ETAT;
+
+  public BADGE_ETAT = BADGE_ETAT; 
   public BADGE_ETAPE = BADGE_ETAPE;
   public module: string;
   public subModule: string;
@@ -65,27 +67,15 @@ export class DemandeWrapperComponent implements OnInit {
   public selectDateEnd: any;
   public IsLoading: boolean;
 
-  constructor(
-    public settingService: SettingService,
-    public demandeService: DemandeService,
-    public toastrService: ToastrService,
-    private clipboardApi: ClipboardService,
-    public mappingService: MappingService,
-    private modalService: NgbModal,
-    private route: ActivatedRoute,
-    private excelService: ExcelService,
+  constructor(public settingService: SettingService, public demandeService: DemandeService,
+    public toastrService: ToastrService, private clipboardApi: ClipboardService,
+    public mappingService: MappingService, private modalService: NgbModal,
+    private route: ActivatedRoute, private excelService: ExcelService,
     private demandesFilterStateService: DemandesFilterStateService,
-    private sharedDataService: SharedDataService,
-    private loadingBarService: LoadingBarService,
-
-  ) {
+    private sharedDataService: SharedDataService, private loadingBarService: LoadingBarService,) {
     this.listOperations = this.mappingService.listOperations
-    Object.values(StatutTransaction).forEach(item => {
-      this.listStatuts.push(item);
-    });
-    Object.values(TraitementTransaction).forEach(item => {
-      this.listTraitementTransactions.push(item);
-    });
+    Object.values(StatutTransaction).forEach(item => { this.listStatuts.push(item); });
+    Object.values(TraitementTransaction).forEach(item => { this.listTraitementTransactions.push(item); });
   }
 
   ngOnInit() {
@@ -210,6 +200,7 @@ export class DemandeWrapperComponent implements OnInit {
         }
       })
   }
+
   public OnRefresh() {
     this.p = 1;
     this.GetAllTransactions()
@@ -257,9 +248,11 @@ export class DemandeWrapperComponent implements OnInit {
     this.toastrService.success('Copié dans le presse papier');
     this.clipboardApi.copyFromContent(data);
   }
+
   public hideDialog(data) {
     this.display = false;
   }
+
   public onDialogMaximized(event) {
     event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
   }
@@ -272,6 +265,7 @@ export class DemandeWrapperComponent implements OnInit {
   OnShowTraitement(data: any): void {
     this.transactionId.emit(data)
   }
+
   changeDateStart(e) {
     if (moment(this.filterDateStart).isValid()) {
       this.selectDateStart = moment(this.filterDateStart).format('YYYY-MM-DD');
@@ -279,6 +273,7 @@ export class DemandeWrapperComponent implements OnInit {
       this.selectDateStart = null
     }
   }
+
   changeDateEnd(e) {
     if (moment(this.filterDateEnd).isValid()) {
       this.selectDateEnd = moment(this.filterDateEnd).format('YYYY-MM-DD');
@@ -312,6 +307,7 @@ export class DemandeWrapperComponent implements OnInit {
       });
     }
   }
+
   public disableAction(): boolean {
     return (this.listTransactions === undefined || this.listTransactions?.length === 0) ? true : false
   }

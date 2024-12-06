@@ -1,0 +1,39 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+
+    <div class="row">
+        <div class="col-md-2">
+            <label><b>N° Transaction</b> </label>
+            <input type="text" placeholder="N° Tâche" pInputText formControlName="transaction"
+                [style]="{ minWidth: '100%' }" />
+        </div>
+        <div class="col-md-2">
+            <label>
+                <b>MSISDN</b>
+            </label>
+            <input type="text" formControlName="msisdn" pInputText [style]="{ minWidth: '100%' }" />
+        </div>
+        <div class="col-md-2">
+            <label class="col-md-4">
+                <b>IMSI</b>
+            </label>
+            <input type="text" formControlName="imsi" pInputText [style]="{ minWidth: '100%' }" />
+        </div>
+        <div class="col-md-2">
+            <label class="block"><b>Date début</b></label>
+            <p-calendar formControlName="date_debut" [showIcon]="true" [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy">
+            </p-calendar>
+        </div>
+        <div class="col-md-2">
+            <label class="block"><b>Date fin </b></label>
+            <p-calendar formControlName="date_fin" [showIcon]="true" placeholder="JJ-MM-AAAA" dateFormat="dd-mm-yy">
+            </p-calendar>
+        </div>
+
+
+        <div class="filter-button">
+            <button pButton pRipple type="submit" class="p-button-success" icon="pi pi-filter"></button>
+        </div>
+    </div>
+
+</form>

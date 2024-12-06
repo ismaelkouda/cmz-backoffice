@@ -13,13 +13,29 @@ export class StatutContratComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    if (this.statut === 'actif') {
-      this.badge = 'success';
-    } else if (this.statut === 'suspendu') {
-      this.badge = 'dark';
-    } else if (this.statut === 'resilié') {
-      this.badge = 'danger';
+    console.log('this.statut', this.statut)
+    switch (this.statut) {
+      case 'actif':
+      case 'fiable':
+        this.badge = 'success';
+        break;
+    
+      case 'suspendu':
+        this.badge = 'dark';
+        break;
+
+        case 'resilié':
+          case 'non fiable':
+        this.badge = 'danger';
+        break;
     }
+    // if (this.statut === 'actif') {
+    //   this.badge = 'success';
+    // } else if (this.statut === 'suspendu') {
+    //   this.badge = 'dark';
+    // } else if (this.statut === 'resilié') {
+    //   this.badge = 'danger';
+    // }
   }
 
 }

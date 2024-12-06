@@ -97,7 +97,7 @@ import { CarteSimApiStateService } from "src/presentation/pages/patrimoine/data-
 
         CarteSimTableComponent,
         CartesSimComponent,
-        CarteSimFormComponent
+        CarteSimFormComponent,
     ],
     providers: [PatrimoinesService, CarteSimStateService, CarteSimApiStateService]
 })
