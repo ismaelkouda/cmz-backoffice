@@ -45,7 +45,7 @@ export class TableFileAttenteComponent {
   @Input() userRole: string;
   @Input() startedDay: string;
   public visibleForm: boolean = false;
-  public typeTraitement: { module: "personne-physique", traiter: boolean};
+  public typeTraitement: { module: "personne-physique", visualiser: boolean};
 
   constructor(public toastrService: ToastrService, private clipboardService: ClipboardService,
     private supervisionOperationService: SupervisionOperationService) { }
@@ -55,7 +55,7 @@ export class TableFileAttenteComponent {
     this.clipboardService.copyFromContent(demande);
   }
   public getStyleButtonTraitement(sim: any): Object|void {
-    return { class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'identifier', typeTraitement: { module: "file-attente", prendre: true } };
+    return { class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'identifier', typeTraitement: { module: "file-attente", visualiser: true } };
   }
 
   getTreatmentButtonStyle(dossier?: Dossier): any {
@@ -122,7 +122,7 @@ export class TableFileAttenteComponent {
     }
   }
 
-  OnShowModalTraitement(data: any, typeTraitement: { module: "personne-physique", traiter: boolean }): void {
+  OnShowModalTraitement(data: any, typeTraitement: { module: "personne-physique", visualiser: boolean }): void {
     this.onSelectTableSim(data);
     this.visibleForm = true;
     this.typeTraitement = typeTraitement;

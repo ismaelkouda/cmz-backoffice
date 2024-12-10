@@ -1,3 +1,4 @@
+import { TableTitleComponent } from './components/table-title/table-title.component';
 import { StatistiqueBoxComponent } from './components/statistique-box/statistique-box.component';
 import { SharedService } from 'src/shared/services/shared.service';
 import { SharedDataService } from './services/shared-data.service';
@@ -99,7 +100,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     FormMasseComponent,
     SpinnerComponent,
     CapitalizePipe,
-    StatistiqueBoxComponent
+    StatistiqueBoxComponent,
+    TableTitleComponent
   ],
   imports: [
     CommonModule,
@@ -161,7 +163,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     CalendarModule,
     ButtonModule,
     FileUploadModule,
-    StatistiqueBoxComponent
+    StatistiqueBoxComponent,
+    TableTitleComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 

@@ -23,7 +23,7 @@ import { handle } from 'src/shared/functions/api.function';
 export class FormIdentificationComponent implements OnInit {
 
     public loadingPage: boolean = true;
-    @Input() typeTraitement: { module: string, traiter: boolean, prendre: boolean };
+    @Input() typeTraitement: { module: string, identifier: boolean, visualiser: boolean };
     @Input() userRole: string;
     @Input() startedDay: string;
     @Input() simSelected: Object;
@@ -147,7 +147,7 @@ export class FormIdentificationComponent implements OnInit {
     }
 
     private disabledPrendreField(): boolean {
-        return (this.isStartWorkedDay() || this.typeTraitement?.prendre);
+        return (this.isStartWorkedDay() || this.typeTraitement?.visualiser);
     }
 
     public isStartWorkedDay(): boolean {

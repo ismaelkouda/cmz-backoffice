@@ -4,50 +4,36 @@
             <div>
                 <h3 class="current-transaction-label">
                     <b>
-                        <span
-                            class="current_values"
-                            *ngIf="
+                        <span class="current_values" *ngIf="
                                 selectedActionValue !== activation &&
                                 selectedActionValue &&
                                 typeDemande === 'simple'
-                            "
-                            >[{{
-                                getFormattedMsisdn(
-                                    currentPatrimoine?.msisdn ?? '0000000000'
-                                )
-                            }}]</span
-                        >
+                            ">[{{
+                            getFormattedMsisdn(
+                            currentPatrimoine?.msisdn ?? '0000000000'
+                            )
+                            }}]</span>
                     </b>
-                    <span *ngIf="typeDemande === 'masse'"
-                        >Demande d'Abonnement en masse de SIMs</span
-                    >
-                    <span
-                        class="current_values"
-                        *ngIf="
+                    <span *ngIf="typeDemande === 'masse'">Demande d'Abonnement en masse de SIMs</span>
+                    <span class="current_values" *ngIf="
                             selectedActionValue !== activation &&
                             selectedActionValue &&
                             typeDemande === 'simple'
-                        "
-                        >[{{
-                            getFormattedMsisdn(
-                                currentPatrimoine?.msisdn ?? '0000000000'
-                            )
-                        }}]</span
-                    >
+                        ">[{{
+                        getFormattedMsisdn(
+                        currentPatrimoine?.msisdn ?? '0000000000'
+                        )
+                        }}]</span>
                 </h3>
             </div>
-            <div
-                class="d-flex gap-2"
-                style="margin-top: -0.5rem"
-                *ngIf="selectedActionValue === volume"
-            >
+            <div class="d-flex gap-2" style="margin-top: -0.5rem" *ngIf="selectedActionValue === volume">
                 <div class="box-card">
                     <span class="title">Dotation Data (Go) :</span>
                     <span class="valeur">
                         <span>{{
                             currentPatrimoine?.solde_dotation ?? 0
-                                | formatNumber: 2
-                        }}</span>
+                            | formatNumber: 2
+                            }}</span>
                     </span>
                 </div>
                 <div class="box-card">
@@ -55,19 +41,15 @@
                     <span class="valeur">
                         <span>{{
                             currentPatrimoine?.solde_actuel_go ?? 0
-                                | formatNumber: 2
-                        }}</span>
+                            | formatNumber: 2
+                            }}</span>
                     </span>
                 </div>
             </div>
         </div>
         <div class="forms-feature-header__button">
             <div>
-                <p-button
-                    label="Fermer"
-                    styleClass="p-button-danger"
-                    (click)="close()"
-                ></p-button>
+                <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
             </div>
         </div>
     </div>
@@ -621,10 +603,7 @@
     </div> -->
 
     <div *ngIf="typeDemande === 'masse'">
-        <div
-            class="activation-forms"
-            *ngIf="this.router.url === '/demandes/activation'"
-        >
+        <div class="activation-forms" *ngIf="this.router.url === '/demandes/activation'">
             <div [formGroup]="adminForm" novalidate>
                 <!-- <fieldset *ngIf="historie">
                     <legend>
@@ -669,196 +648,121 @@
                             <div class="block-checked-stock-source">
                                 <div class="d-flex justify-content-between align-items-center wrapper-check">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="stock_source" 
-                                            value="mon_stock" id="mon_stock" disabled/>
-                                        <label class="form-check-label" for="mon_stock" style="width: auto !important;">
+                                        <input class="form-check-input" type="radio" name="stock_source"
+                                            value="mon_stock" id="mon_stock" disabled />
+                                        <label class="form-check-label" for="mon_stock" style="width: auto !important">
                                             <strong>Mon stock</strong>
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="stock_source" 
-                                            value="stock_orange" id="stock_orange" checked/>
-                                        <label class="form-check-label" for="stock_orange" style="width: auto !important;">
+                                        <input class="form-check-input" type="radio" name="stock_source"
+                                            value="stock_orange" id="stock_orange" checked />
+                                        <label class="form-check-label" for="stock_orange"
+                                            style="width: auto !important">
                                             <strong>Stock orange</strong>
                                         </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="alert alert-light col-md" role="alert" style="height: 4rem; margin-right: 14px;">
+                        <div class="alert alert-light col-md" role="alert" style="height: 4rem; margin-right: 14px">
                             <span class="fs-5">Orange fournira les cartes SIM</span>
-                          </div>
+                        </div>
                     </div>
                 </fieldset>
                 <fieldset *ngIf="selectedActionValue">
-                    
                     <legend><strong>Informations demande</strong></legend>
                     <div class="row">
                         <div class="col-md-1">
                             <div class="form-group">
-                                <label
-                                    ><b>Nombre</b
-                                    ><span class="text-danger">*</span></label
-                                >
-                                <input
-                                    placeholder="nombre"
-                                    formControlName="nb_demandes"
-                                    type="number"
-                                    pInputText
-                                />
+                                <label><b>Nombre</b><span class="text-danger">*</span></label>
+                                <input placeholder="nombre" formControlName="nb_demandes" type="number" pInputText />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label
-                                    ><b
-                                        >Usage<span class="text-danger"
-                                            >*</span
-                                        ></b
-                                    ></label
-                                >
-                                <p-dropdown
-                                    [options]="listUsages"
-                                    formControlName="usage_id"
-                                    optionLabel="nom_usage"
-                                    placeholder="usage"
-                                    optionValue="id"
-                                    [showClear]="true"
-                                >
+                                <label><b>Usage<span class="text-danger">*</span></b></label>
+                                <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage"
+                                    placeholder="usage" optionValue="id" [showClear]="true">
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label
-                                    ><b
-                                        >Formule d'abonnement<span
-                                            class="text-danger"
-                                            >*</span
-                                        ></b
-                                    ></label
-                                >
-                                <p-dropdown
-                                    [options]="listFormules"
-                                    formControlName="formule_uuid"
-                                    optionLabel="nom"
-                                    [placeholder]="'Formule destination'"
-                                    [showClear]="true"
-                                    optionValue="uuid"
-                                >
+                                <label><b>Formule d'abonnement<span class="text-danger">*</span></b></label>
+                                <p-dropdown [options]="listFormules" formControlName="formule_uuid" optionLabel="nom"
+                                    [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label>
-                                    <b
-                                        >Courrier ou Document
-                                        <span class="text-danger">*</span></b
-                                    >
+                                    <b>Courrier ou Document
+                                        <span class="text-danger">*</span></b>
                                 </label>
-                                <input
-                                    type="file"
-                                    style="
+                                <input type="file" style="
                                         padding: 0.6rem;
                                         border: 1px solid #000;
                                         border-radius: 0.3rem;
                                         color: #000;
-                                    "
-                                    (change)="
+                                    " (change)="
                                         onChangeFile(
                                             $event.target.files,
                                             'justificatif'
                                         )
-                                    "
-                                    accept="image/png,image/jpeg"
-                                />
+                                    " accept="image/png,image/jpeg" />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="d-flex">
                                 <div>
-                                    <b style="color: black"
-                                        >Paiement
-                                        <span class="text-danger">*</span></b
-                                    >
+                                    <b style="color: black">Paiement
+                                        <span class="text-danger">*</span></b>
                                 </div>
                                 <span>&nbsp;:&nbsp;</span>
                                 <div class="wrapper-check block-checked">
                                     <div class="form-check form-check-inline">
-                                        <input
-                                            class="form-check-input"
-                                            type="radio"
-                                            name="demande"
-                                            value="différé"
-                                            id="différé"
-                                            formControlName="type_paiement"
-                                        />
-                                        <label
-                                            class="form-check-label"
-                                            for="différé"
-                                            style="width: auto !important"
-                                            >Différé</label
-                                        >
+                                        <input class="form-check-input" type="radio" name="demande" value="différé"
+                                            id="différé" formControlName="type_paiement" />
+                                        <label class="form-check-label" for="différé"
+                                            style="width: auto !important">Différé</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input
-                                            class="form-check-input"
-                                            type="radio"
-                                            name="demande"
-                                            value="immédiat"
-                                            id="immédiat"
-                                            formControlName="type_paiement"
-                                        />
-                                        <label
-                                            class="form-check-label"
-                                            for="immédiat"
-                                            style="width: auto !important"
-                                            >immédiat</label
-                                        >
+                                        <input class="form-check-input" type="radio" name="demande" value="immédiat"
+                                            id="immédiat" formControlName="type_paiement" />
+                                        <label class="form-check-label" for="immédiat"
+                                            style="width: auto !important">immédiat</label>
                                     </div>
                                 </div>
                             </div>
-                            <div
-                                style="
+                            <div style="
                                     padding: 0.6rem;
                                     border: 1px solid #000;
                                     border-radius: 0.3rem;
                                     color: #000;
                                     height: 53px;
-                                "
-                            >
-                                <span
-                                    class="payment-info"
-                                    *ngIf="
+                                ">
+                                <span class="payment-info" *ngIf="
                                         adminForm.get('type_paiement').value ===
                                         null
-                                    "
-                                >
+                                    ">
                                     <span>N/A</span>
                                 </span>
-                                <span
-                                    *ngIf="
+                                <span *ngIf="
                                         adminForm.get('type_paiement').value ===
                                         'différé'
-                                    "
-                                    >Le paiement sera rattaché à la prochaine
-                                    facture</span
-                                >
-                                <input
-                                    *ngIf="
+                                    ">Le paiement sera rattaché à la prochaine
+                                    facture</span>
+                                <input *ngIf="
                                         adminForm.get('type_paiement').value ===
                                         'immédiat'
-                                    "
-                                    type="file"
-                                    (change)="
+                                    " type="file" (change)="
                                         onChangeFile(
                                             $event.target.files,
                                             'recu-paiement'
                                         )
-                                    "
-                                    accept="image/png,image/jpeg"
-                                />
+                                    " accept="image/png,image/jpeg" />
                             </div>
                         </div>
                     </div>
@@ -870,49 +774,28 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label
-                                    ><b>{{ firstLevelLibelle }}</b></label
-                                >
-                                <p-dropdown
-                                    [options]="listDirections"
-                                    formControlName="niveau_un_uuid"
-                                    optionLabel="nom"
-                                    [placeholder]="firstLevelLibelle"
-                                    optionValue="uuid"
-                                    [showClear]="true"
-                                >
+                                <label><b>{{ firstLevelLibelle }}</b></label>
+                                <p-dropdown [options]="listDirections" formControlName="niveau_un_uuid"
+                                    optionLabel="nom" [placeholder]="firstLevelLibelle" optionValue="uuid"
+                                    [showClear]="true">
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label
-                                    ><b>{{ secondLevelLibelle }}</b></label
-                                >
-                                <p-dropdown
-                                    [options]="listExploitations"
-                                    formControlName="niveau_deux_uuid"
-                                    optionLabel="nom"
-                                    [placeholder]="secondLevelLibelle"
-                                    optionValue="uuid"
-                                    [showClear]="true"
-                                >
+                                <label><b>{{ secondLevelLibelle }}</b></label>
+                                <p-dropdown [options]="listExploitations" formControlName="niveau_deux_uuid"
+                                    optionLabel="nom" [placeholder]="secondLevelLibelle" optionValue="uuid"
+                                    [showClear]="true">
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label
-                                    ><b>{{ thirdLevelLibelle }}</b></label
-                                >
-                                <p-dropdown
-                                    [options]="listActivites"
-                                    formControlName="niveau_trois_uuid"
-                                    optionLabel="nom"
-                                    [placeholder]="thirdLevelLibelle"
-                                    optionValue="uuid"
-                                    [showClear]="true"
-                                >
+                                <label><b>{{ thirdLevelLibelle }}</b></label>
+                                <p-dropdown [options]="listActivites" formControlName="niveau_trois_uuid"
+                                    optionLabel="nom" [placeholder]="thirdLevelLibelle" optionValue="uuid"
+                                    [showClear]="true">
                                 </p-dropdown>
                             </div>
                         </div>
@@ -925,12 +808,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <input
-                                    type="text"
-                                    formControlName="description"
-                                    pInputText
-                                    [ngStyle]="{ 'border-color': 'red' }"
-                                />
+                                <input type="text" formControlName="description" pInputText
+                                    [ngStyle]="{ 'border-color': 'red' }" />
                             </div>
                         </div>
                     </div>
@@ -939,14 +818,8 @@
         </div>
         <div class="submit-form">
             <div>
-                <button
-                    pButton
-                    style="float: right; margin-top: 1rem"
-                    label="Soumettre"
-                    class="p-button-success"
-                    [disabled]="adminForm.invalid"
-                    (click)="handleSaveMasse()"
-                ></button>
+                <button pButton style="float: right; margin-top: 1rem" label="Soumettre" class="p-button-success"
+                    [disabled]="adminForm.invalid" (click)="handleSaveMasse()"></button>
             </div>
         </div>
     </div>
