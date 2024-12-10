@@ -5,7 +5,6 @@
             <div class="card">
                 <div class="card-body">
                     <div *ngIf="!displayUrlErrorPage">
-
                         <div class="forms-feature-header">
                             <div>
                                 <h4>
@@ -26,8 +25,9 @@
                             <div class="d-flex gap-3">
                                 <div *ngIf="urlParamRef === 'editer'">
                                     <p-button label="Editer" styleClass="p-button-success"
-                                        (click)="handleUpdateCampagne()"
-                                        [class.p-disabled]="formUpdateCarteSim.invalid">
+                                        (click)="handleUpdateCampagne()" [class.p-disabled]="
+                                            formUpdateCarteSim.invalid
+                                        ">
                                     </p-button>
                                 </div>
                                 <div *ngIf="urlParamRef === 'identifier'">
@@ -46,58 +46,60 @@
                             <!-------------------------- Formulaire d'identification ------------------------------->
                             <div *ngIf="urlParamRef === 'identifier'" style="margin-top: 3rem">
                                 <form [formGroup]="formIdentifierCarteSim">
-
                                     <fieldset>
                                         <legend>
                                             <b>Utilisateur / Bénéficiaire</b>
                                         </legend>
                                         <div class="d-flex gap-4 mb-2">
-                                            <div class="d-flex align-items-end flex-wrap" style="width: fix-content;">
+                                            <div class="d-flex align-items-end flex-wrap" style="width: fix-content">
                                                 <div class="block-checked">
                                                     <div class="d-flex justify-content-between align-items-center wrapper-check"
-                                                        style="width: fix-content;">
-                                                        <div class="form-check form-check-inline"
-                                                            style="margin-left: 1rem;">
+                                                        style="
+                                                            width: fix-content;
+                                                        ">
+                                                        <div class="form-check form-check-inline" style="
+                                                                margin-left: 1rem;
+                                                            ">
                                                             <input class="form-check-input" type="radio"
                                                                 name="type_utilisateur" value="Personne" id="Personne"
                                                                 formControlName="type_personne" />
-                                                            <label class="form-check-label" for="Personne"
-                                                                style="width: auto !important"><strong>Personne physique</strong></label>
+                                                            <label class="form-check-label" for="Personne" style="
+                                                                    width: auto !important;
+                                                                "><strong>Personne
+                                                                    physique</strong></label>
                                                         </div>
                                                         <div class="form-check form-check-inline">
                                                             <input class="form-check-input" type="radio"
                                                                 name="type_utilisateur" value="Equipement"
                                                                 id="Equipement" formControlName="type_personne" />
-                                                            <label class="form-check-label" for="Equipement"
-                                                                style="width: auto !important"><strong>Equipement connectés</strong></label>
+                                                            <label class="form-check-label" for="Equipement" style="
+                                                                    width: auto !important;
+                                                                "><strong>Equipement
+                                                                    connectés</strong></label>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col-md d-flex align-items-center messageAlert" role="alert"
-                                                style="height: 4rem">
-                                                <ng-container *ngIf="displayPersonne; else equipementMessage">
+                                            <div class="col-md d-flex align-items-center container-button-telecharger"
+                                                style="
+                                                    height: 4rem;
+                                                    padding-left: 5px;
+                                                ">
+                                                <ng-container *ngIf="
+                                                        displayPersonne;
+                                                        else equipementMessage
+                                                    ">
                                                     <span class="fs-5">
-                                                        Les informations de la personne seront rattachées à la SIM
+                                                        Les informations de la
+                                                        personne seront
+                                                        rattachées à la SIM
                                                     </span>
                                                 </ng-container>
                                                 <ng-template #equipementMessage>
                                                     <span class="fs-5">
-                                                        Les informations de l'équipement seront rattachées à la SIM
-                                                    </span>
-                                                </ng-template>
-
-                                            </div> -->
-                                            <div
-                                                class="col-md d-flex align-items-center container-button-telecharger" style="height: 4rem; padding-left: 5px;">
-                                                <ng-container *ngIf="displayPersonne; else equipementMessage">
-                                                    <span class="fs-5">
-                                                        Les informations de la personne seront rattachées à la SIM
-                                                    </span>
-                                                </ng-container>
-                                                <ng-template #equipementMessage>
-                                                    <span class="fs-5">
-                                                        Les informations de l'équipement seront rattachées à la SIM
+                                                        Les informations de
+                                                        l'équipement seront
+                                                        rattachées à la SIM
                                                     </span>
                                                 </ng-template>
                                             </div>
@@ -110,7 +112,10 @@
                                                     formControlName="type_personne" placeholder="Type de personne">
                                                 </p-dropdown>
                                             </div> -->
-                                            <ng-container *ngIf="displayPersonne === true; else displayEquipement">
+                                            <ng-container *ngIf="
+                                                    displayPersonne === true;
+                                                    else displayEquipement
+                                                ">
                                                 <div class="col-md">
                                                     <div class="form-group">
                                                         <label><b>Nom<span class="text-danger">*</span></b></label>
@@ -125,10 +130,12 @@
                                                 </div>
 
                                                 <div class="col-md">
-                                                    <label><b>Nature de la pièce<span
-                                                                class="text-danger">*</span></b></label>
-                                                    <p-dropdown [options]="listeNaturePiece"
-                                                        formControlName="nature_piece" placeholder="Nature de la pièce">
+                                                    <label><b>Nature de la
+                                                            pièce<span class="text-danger">*</span></b></label>
+                                                    <p-dropdown [options]="
+                                                            listeNaturePiece
+                                                        " formControlName="nature_piece"
+                                                        placeholder="Nature de la pièce">
                                                     </p-dropdown>
                                                 </div>
                                                 <div class="col-md">
@@ -141,14 +148,19 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label><b>Date naissance<span class="text-danger">*</span></b></label>
-                                                    <p-calendar formControlName="date_naissance" [showIcon]="true" [placeholder]="'JJ-MM-AAAA'"
-                                                        dateFormat="dd-mm-yy">
-                                                    </p-calendar>
+                                                    <label><b>Date naissance<span
+                                                                class="text-danger">*</span></b></label>
+                                                    <!-- <p-calendar formControlName="date_naissance" [showIcon]="true"
+                                                        [placeholder]="
+                                                            'JJ-MM-AAAA'
+                                                        " dateFormat="dd-mm-yy" [editable]="true">
+                                                    </p-calendar> -->
+                                                    <input type="text" formControlName="date_naissance" pInputText />
                                                 </div>
                                                 <div class="col-md">
                                                     <div class="form-group">
-                                                        <label><b>Lieu de naissance<span class="text-danger">*</span></b></label>
+                                                        <label><b>Lieu de
+                                                                naissance<span class="text-danger">*</span></b></label>
                                                         <input type="text" formControlName="lieu_naissance" pInputText
                                                             class="w-100" />
                                                     </div>
@@ -157,41 +169,53 @@
                                             <ng-template #displayEquipement>
                                                 <div class="col-md">
                                                     <div class="form-group">
-                                                        <label><b>Types Emplacements<span
+                                                        <label><b>Types
+                                                                Emplacements<span
                                                                     class="text-danger">*</span></b></label>
                                                         <input type="text" formControlName="prenoms" pInputText />
                                                     </div>
                                                 </div>
                                                 <div class="col-md">
                                                     <div class="form-group">
-                                                        <label><b>Nom Emplacement<span
+                                                        <label><b>Nom
+                                                                Emplacement<span
                                                                     class="text-danger">*</span></b></label>
                                                         <input type="text" formControlName="nom" pInputText />
                                                     </div>
                                                 </div>
                                                 <div class="col-md">
                                                     <label><b>Type numéro<span class="text-danger">*</span></b></label>
-                                                    <p-dropdown [options]="listeNatureDocument" [showClear]="true"
-                                                        formControlName="nature_piece" placeholder="Nature du document">
+                                                    <p-dropdown [options]="
+                                                            listeNatureDocument
+                                                        " [showClear]="true" formControlName="nature_piece"
+                                                        placeholder="Nature du document">
                                                     </p-dropdown>
                                                 </div>
                                                 <div class="col-md">
                                                     <div class="form-group">
                                                         <label><b>Numéro
-                                                                {{formIdentifierCarteSim?.value?.nature_piece}}<span
-                                                                    class="text-danger">*</span></b></label>
+                                                                {{
+                                                                formIdentifierCarteSim
+                                                                ?.value
+                                                                ?.nature_piece
+                                                                }}<span class="text-danger">*</span></b></label>
                                                         <input type="text" formControlName="numero_piece" pInputText />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label><b>Date d'installation<span class="text-danger">*</span></b></label>
-                                                    <p-calendar formControlName="date_naissance" [showIcon]="true" [placeholder]="'JJ-MM-AAAA'"
-                                                        dateFormat="dd-mm-yy">
+                                                    <label><b>Date
+                                                            d'installation<span class="text-danger">*</span></b></label>
+                                                    <p-calendar formControlName="date_naissance" [showIcon]="true"
+                                                        [placeholder]="
+                                                            'JJ-MM-AAAA'
+                                                        " dateFormat="dd-mm-yy">
                                                     </p-calendar>
                                                 </div>
                                                 <div class="col-md">
                                                     <div class="form-group">
-                                                        <label><b>Lieu d'installation<span class="text-danger">*</span></b></label>
+                                                        <label><b>Lieu
+                                                                d'installation<span
+                                                                    class="text-danger">*</span></b></label>
                                                         <input type="text" formControlName="lieu_naissance" pInputText
                                                             class="w-100" />
                                                     </div>
@@ -249,31 +273,42 @@
                                     </fieldset>
 
                                     <fieldset>
-                                        <legend><b>Pièces & Photos</b></legend>
+                                        <legend><b>Photo & Pièces</b></legend>
                                         <div class="row">
-
                                             <div class="d-flex justify-content-end mb-2">
-                                                <p-button label="Analyser" styleClass="p-button-primary"
-                                                    (click)="handleVerifyPiecePhoto()" tooltipPosition="top"
-                                                    [disabled]="formIdentifierCarteSim.get('type_personne').value == TypeUtilisateur.Equipement"
-                                                    [pTooltip]="formIdentifierCarteSim.get('type_personne').value == TypeUtilisateur.Equipement ? 
-                                                                'Impossible de Analyser l\'equipement' : 'Analyser les pièces'">
+                                                <p-button label="Analyser" styleClass="p-button-primary" (click)="
+                                                        handleVerifyPiecePhoto()
+                                                    " tooltipPosition="top" [disabled]="
+                                                        formIdentifierCarteSim.get(
+                                                            'type_personne'
+                                                        ).value ==
+                                                        TypeUtilisateur.Equipement
+                                                    " [pTooltip]="
+                                                        formIdentifierCarteSim.get(
+                                                            'type_personne'
+                                                        ).value ==
+                                                        TypeUtilisateur.Equipement
+                                                            ? 'Impossible de Analyser l\'equipement'
+                                                            : 'Analyser les pièces'
+                                                    ">
                                                 </p-button>
                                             </div>
 
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="card">
-                                                        <p-fileUpload name="myfile[]" [showCancelButton]="false"
-                                                            url="https://www.primefaces.org/cdn/api/upload.php"
+                                                        <p-fileUpload name="myfile[]" [showCancelButton]="
+                                                                false
+                                                            " url="https://www.primefaces.org/cdn/api/upload.php"
                                                             [multiple]="false" accept="image/*" maxFileSize="5000000"
                                                             (onSelect)="
                                                                 onSelectedFiles(
                                                                     $event,
                                                                     'physique'
                                                                 )
-                                                            " [showUploadButton]="false"
-                                                            chooseLabel="Choisir photo physique">
+                                                            " [showUploadButton]="
+                                                                false
+                                                            " chooseLabel="Choisir photo physique">
                                                             <ng-template pTemplate="header" let-filesPhysique
                                                                 let-chooseCallback="chooseCallback">
                                                                 <div
@@ -291,7 +326,8 @@
                                                                         }">
                                                                         <span class="white-space-nowrap">{{
                                                                             totalSize
-                                                                            }}B /
+                                                                            }}B
+                                                                            /
                                                                             1Mb</span>
                                                                     </p-progressBar>
                                                                 </div>
@@ -299,29 +335,60 @@
                                                             <ng-template pTemplate="content" let-filesPhysique
                                                                 let-chooseCallback="chooseCallback"
                                                                 let-removeFileCallback="removeFileCallback">
-                                                                <div *ngIf="filesPhysique?.length > 0">
-                                                                    <div
-                                                                        *ngFor="let file of filesPhysique; let i = index">
-                                                                        <img role="presentation" [alt]="file.name"
-                                                                            class="img-fluid" [src]="file.objectURL"
-                                                                            style="position: relative; max-height: 550px;" />
+                                                                <div *ngIf="
+                                                                        filesPhysique?.length >
+                                                                        0
+                                                                    ">
+                                                                    <div *ngFor="
+                                                                            let file of filesPhysique;
+                                                                            let i = index
+                                                                        ">
+                                                                        <img role="presentation" [alt]="
+                                                                                file.name
+                                                                            " class="img-fluid" [src]="
+                                                                                file.objectURL
+                                                                            " style="
+                                                                                position: relative;
+                                                                                max-height: 550px;
+                                                                            " />
 
                                                                         <button icon="pi pi-trash"
                                                                             class="p-button-danger buttonDeleteFileUpload"
-                                                                            pButton pRipple style="position: absolute; right: 15px; border: none;
-                                                                            padding: 10px 10px; font-size: large;"
-                                                                            (click)="onRemoveTemplatingFile($event, file, removeFileCallback, i, 'physique')"
-                                                                            [outlined]="true" [rounded]="true"
-                                                                            pTooltip="Supprimer" tooltipPosition="top">
-                                                                        </button>
+                                                                            pButton pRipple style="
+                                                                                position: absolute;
+                                                                                right: 15px;
+                                                                                border: none;
+                                                                                padding: 10px
+                                                                                    10px;
+                                                                                font-size: large;
+                                                                            " (click)="
+                                                                                onRemoveTemplatingFile(
+                                                                                    $event,
+                                                                                    file,
+                                                                                    removeFileCallback,
+                                                                                    i,
+                                                                                    'physique'
+                                                                                )
+                                                                            " [outlined]="
+                                                                                true
+                                                                            " [rounded]="
+                                                                                true
+                                                                            " pTooltip="Supprimer"
+                                                                            tooltipPosition="top"></button>
                                                                     </div>
                                                                 </div>
-                                                                <div *ngIf="filesPhysique?.length <= 0">
-                                                                    <p-image
-                                                                        [src]="carteSimSelectedDetails?.photo_physique"
-                                                                        alt="Illustration photo physique"
-                                                                        style="width: 100%; max-height: 550px;"
-                                                                        [preview]="true"></p-image>
+                                                                <div *ngIf="
+                                                                        filesPhysique?.length <=
+                                                                        0
+                                                                    ">
+                                                                    <p-image [src]="
+                                                                            carteSimSelectedDetails?.photo_physique
+                                                                        " alt="Illustration photo physique" style="
+                                                                            width: 100%;
+                                                                            max-height: 550px;
+                                                                        " [preview]="
+                                                                            true
+                                                                        "></p-image>
                                                                 </div>
                                                             </ng-template>
                                                         </p-fileUpload>
@@ -331,16 +398,18 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="card">
-                                                        <p-fileUpload name="myfile[]" [showCancelButton]="false"
-                                                            url="https://www.primefaces.org/cdn/api/upload.php"
+                                                        <p-fileUpload name="myfile[]" [showCancelButton]="
+                                                                false
+                                                            " url="https://www.primefaces.org/cdn/api/upload.php"
                                                             [multiple]="false" accept="image/*" maxFileSize="5000000"
                                                             (onSelect)="
                                                                 onSelectedFiles(
                                                                     $event,
                                                                     'recto'
                                                                 )
-                                                            " [showUploadButton]="false"
-                                                            chooseLabel="Choisir pièce recto">
+                                                            " [showUploadButton]="
+                                                                false
+                                                            " chooseLabel="Choisir pièce recto">
                                                             <ng-template pTemplate="header" let-filesRecto
                                                                 let-chooseCallback="chooseCallback">
                                                                 <div
@@ -358,7 +427,8 @@
                                                                         }">
                                                                         <span class="white-space-nowrap">{{
                                                                             totalSize
-                                                                            }}B /
+                                                                            }}B
+                                                                            /
                                                                             1Mb</span>
                                                                     </p-progressBar>
                                                                 </div>
@@ -367,28 +437,60 @@
                                                             <ng-template pTemplate="content" let-filesRecto
                                                                 let-chooseCallback="chooseCallback"
                                                                 let-removeFileCallback="removeFileCallback">
-                                                                <div *ngIf="filesRecto?.length > 0">
-                                                                    <div *ngFor="let file of filesRecto; let i = index">
-                                                                        <img role="presentation" [alt]="file.name"
-                                                                            class="img-fluid" [src]="file.objectURL"
-                                                                            style="position: relative; max-height: 550px;" />
+                                                                <div *ngIf="
+                                                                        filesRecto?.length >
+                                                                        0
+                                                                    ">
+                                                                    <div *ngFor="
+                                                                            let file of filesRecto;
+                                                                            let i = index
+                                                                        ">
+                                                                        <img role="presentation" [alt]="
+                                                                                file.name
+                                                                            " class="img-fluid" [src]="
+                                                                                file.objectURL
+                                                                            " style="
+                                                                                position: relative;
+                                                                                max-height: 550px;
+                                                                            " />
 
                                                                         <button icon="pi pi-trash"
                                                                             class="p-button-danger buttonDeleteFileUpload"
-                                                                            pButton pRipple style="position: absolute; right: 15px; border: none;
-                                                                            padding: 10px 10px; font-size: large;"
-                                                                            (click)="onRemoveTemplatingFile($event, file, removeFileCallback, i, 'recto')"
-                                                                            [outlined]="true" [rounded]="true"
-                                                                            pTooltip="Supprimer" tooltipPosition="top">
-                                                                        </button>
+                                                                            pButton pRipple style="
+                                                                                position: absolute;
+                                                                                right: 15px;
+                                                                                border: none;
+                                                                                padding: 10px
+                                                                                    10px;
+                                                                                font-size: large;
+                                                                            " (click)="
+                                                                                onRemoveTemplatingFile(
+                                                                                    $event,
+                                                                                    file,
+                                                                                    removeFileCallback,
+                                                                                    i,
+                                                                                    'recto'
+                                                                                )
+                                                                            " [outlined]="
+                                                                                true
+                                                                            " [rounded]="
+                                                                                true
+                                                                            " pTooltip="Supprimer"
+                                                                            tooltipPosition="top"></button>
                                                                     </div>
                                                                 </div>
-                                                                <div *ngIf="filesRecto?.length <= 0">
-                                                                    <p-image
-                                                                        [src]="carteSimSelectedDetails?.photo_carte_recto"
-                                                                        alt="Illustration pièce recto"
-                                                                        style="width: 100%; max-height: 550px;"
-                                                                        [preview]="true">
+                                                                <div *ngIf="
+                                                                        filesRecto?.length <=
+                                                                        0
+                                                                    ">
+                                                                    <p-image [src]="
+                                                                            carteSimSelectedDetails?.photo_carte_recto
+                                                                        " alt="Illustration pièce recto" style="
+                                                                            width: 100%;
+                                                                            max-height: 550px;
+                                                                        " [preview]="
+                                                                            true
+                                                                        ">
                                                                     </p-image>
                                                                 </div>
                                                             </ng-template>
@@ -399,25 +501,36 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="card">
-                                                        <p-fileUpload name="myfile[]" [showCancelButton]="false"
-                                                            url="https://www.primefaces.org/cdn/api/upload.php"
+                                                        <p-fileUpload name="myfile[]" [showCancelButton]="
+                                                                false
+                                                            " url="https://www.primefaces.org/cdn/api/upload.php"
                                                             [multiple]="false" accept="image/*" maxFileSize="5000000"
                                                             (onSelect)="
                                                                 onSelectedFiles(
                                                                     $event,
                                                                     'verso'
                                                                 )
-                                                            " [showUploadButton]="false"
-                                                            chooseLabel="Choisir pièce verso">
+                                                            " [showUploadButton]="
+                                                                false
+                                                            " chooseLabel="Choisir pièce verso">
                                                             <ng-template pTemplate="header" let-filesVerso
                                                                 let-chooseCallback="chooseCallback">
                                                                 <div
                                                                     class="flex flex-wrap justify-content-between align-items-center flex-1 gap-2">
-                                                                    <p-progressBar [value]="totalSizePercent"
-                                                                        [showValue]="false"
+                                                                    <p-progressBar [value]="
+                                                                            totalSizePercent
+                                                                        " [showValue]="
+                                                                            false
+                                                                        "
                                                                         styleClass="md:w-20rem h-1rem w-full md:ml-auto"
-                                                                        [ngClass]="{'exceeded-progress-bar': totalSizePercent > 100}">
-                                                                        <span class="white-space-nowrap">{{totalSize}}B
+                                                                        [ngClass]="{
+                                                                            'exceeded-progress-bar':
+                                                                                totalSizePercent >
+                                                                                100
+                                                                        }">
+                                                                        <span class="white-space-nowrap">{{
+                                                                            totalSize
+                                                                            }}B
                                                                             /
                                                                             1Mb</span>
                                                                     </p-progressBar>
@@ -426,28 +539,60 @@
                                                             <ng-template pTemplate="content" let-filesVerso
                                                                 let-chooseCallback="chooseCallback"
                                                                 let-removeFileCallback="removeFileCallback">
-                                                                <div *ngIf="filesVerso?.length > 0">
-                                                                    <div *ngFor="let file of filesVerso; let i = index">
-                                                                        <img role="presentation" [alt]="file.name"
-                                                                            class="img-fluid" [src]="file.objectURL"
-                                                                            style="position: relative; max-height: 550px;" />
+                                                                <div *ngIf="
+                                                                        filesVerso?.length >
+                                                                        0
+                                                                    ">
+                                                                    <div *ngFor="
+                                                                            let file of filesVerso;
+                                                                            let i = index
+                                                                        ">
+                                                                        <img role="presentation" [alt]="
+                                                                                file.name
+                                                                            " class="img-fluid" [src]="
+                                                                                file.objectURL
+                                                                            " style="
+                                                                                position: relative;
+                                                                                max-height: 550px;
+                                                                            " />
 
                                                                         <button icon="pi pi-trash"
                                                                             class="p-button-danger buttonDeleteFileUpload"
-                                                                            pButton pRipple style="position: absolute; right: 15px; border: none; 
-                                                                            padding: 10px 10px; font-size: large;"
-                                                                            (click)="onRemoveTemplatingFile($event, file, removeFileCallback, i, 'verso')"
-                                                                            [outlined]="true" [rounded]="true"
-                                                                            pTooltip="Supprimer" tooltipPosition="top">
-                                                                        </button>
+                                                                            pButton pRipple style="
+                                                                                position: absolute;
+                                                                                right: 15px;
+                                                                                border: none;
+                                                                                padding: 10px
+                                                                                    10px;
+                                                                                font-size: large;
+                                                                            " (click)="
+                                                                                onRemoveTemplatingFile(
+                                                                                    $event,
+                                                                                    file,
+                                                                                    removeFileCallback,
+                                                                                    i,
+                                                                                    'verso'
+                                                                                )
+                                                                            " [outlined]="
+                                                                                true
+                                                                            " [rounded]="
+                                                                                true
+                                                                            " pTooltip="Supprimer"
+                                                                            tooltipPosition="top"></button>
                                                                     </div>
                                                                 </div>
-                                                                <div *ngIf="filesVerso?.length <= 0">
-                                                                    <p-image
-                                                                        [src]="carteSimSelectedDetails?.photo_carte_verso"
-                                                                        alt="Illustration pièce verso"
-                                                                        style="width: 100%; max-height: 550px;"
-                                                                        [preview]="true">
+                                                                <div *ngIf="
+                                                                        filesVerso?.length <=
+                                                                        0
+                                                                    ">
+                                                                    <p-image [src]="
+                                                                            carteSimSelectedDetails?.photo_carte_verso
+                                                                        " alt="Illustration pièce verso" style="
+                                                                            width: 100%;
+                                                                            max-height: 550px;
+                                                                        " [preview]="
+                                                                            true
+                                                                        ">
                                                                     </p-image>
                                                                 </div>
                                                             </ng-template>
@@ -470,7 +615,6 @@
                             <!-------------------------- Formulaire d'edition ------------------------------->
                             <div *ngIf="urlParamRef === 'editer'" style="margin-top: 3rem">
                                 <form [formGroup]="formUpdateCarteSim">
-
                                     <fieldset>
                                         <legend><b>Informations SIM</b></legend>
                                         <div class="row">
@@ -514,18 +658,26 @@
                                     </fieldset>
 
                                     <fieldset>
-                                        <legend><b>Informations d'identification</b></legend>
+                                        <legend>
+                                            <b>Informations d'affectation</b>
+                                        </legend>
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label><b>{{ firstLevelLibelle }}<span
-                                                                class="text-danger">*</span></b></label>
+                                                    <label><b>{{
+                                                            firstLevelLibelle
+                                                            }}<span class="text-danger">*</span></b></label>
                                                     <p-dropdown [options]="listDR" formControlName="niveau_un_uuid"
-                                                        optionLabel="nom" optionValue="uuid"
-                                                        [placeholder]="firstLevelLibelle">
+                                                        optionLabel="nom" optionValue="uuid" [placeholder]="
+                                                            firstLevelLibelle
+                                                        ">
                                                         <ng-template let-data pTemplate="item">
                                                             <div class="country-item">
-                                                                <div>{{ data.nom }}</div>
+                                                                <div>
+                                                                    {{
+                                                                    data.nom
+                                                                    }}
+                                                                </div>
                                                             </div>
                                                         </ng-template>
                                                     </p-dropdown>
@@ -533,14 +685,22 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label><b>{{ secondLevelLibelle }}<span
-                                                                class="text-danger">*</span></b></label>
-                                                    <p-dropdown [options]="listExploitations"
-                                                        formControlName="niveau_deux_uuid" optionLabel="nom"
-                                                        optionValue="uuid" [placeholder]="secondLevelLibelle">
+                                                    <label><b>{{
+                                                            secondLevelLibelle
+                                                            }}<span class="text-danger">*</span></b></label>
+                                                    <p-dropdown [options]="
+                                                            listExploitations
+                                                        " formControlName="niveau_deux_uuid" optionLabel="nom"
+                                                        optionValue="uuid" [placeholder]="
+                                                            secondLevelLibelle
+                                                        ">
                                                         <ng-template let-data pTemplate="item">
                                                             <div class="country-item">
-                                                                <div>{{ data.nom }}</div>
+                                                                <div>
+                                                                    {{
+                                                                    data.nom
+                                                                    }}
+                                                                </div>
                                                             </div>
                                                         </ng-template>
                                                     </p-dropdown>
@@ -548,14 +708,22 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label><b>{{ thirdLevelLibelle }}<span
-                                                                class="text-danger">*</span></b></label>
-                                                    <p-dropdown [options]="listActivites"
-                                                        formControlName="niveau_trois_uuid" optionLabel="nom"
-                                                        optionValue="uuid" [placeholder]="thirdLevelLibelle">
+                                                    <label><b>{{
+                                                            thirdLevelLibelle
+                                                            }}<span class="text-danger">*</span></b></label>
+                                                    <p-dropdown [options]="
+                                                            listActivites
+                                                        " formControlName="niveau_trois_uuid" optionLabel="nom"
+                                                        optionValue="uuid" [placeholder]="
+                                                            thirdLevelLibelle
+                                                        ">
                                                         <ng-template let-data pTemplate="item">
                                                             <div class="country-item">
-                                                                <div>{{ data.nom }}</div>
+                                                                <div>
+                                                                    {{
+                                                                    data.nom
+                                                                    }}
+                                                                </div>
                                                             </div>
                                                         </ng-template>
                                                     </p-dropdown>
@@ -577,7 +745,11 @@
                                                         placeholder="Selectionner l'usage">
                                                         <ng-template let-data pTemplate="item">
                                                             <div class="country-item">
-                                                                <div>{{ data.nom_usage }}</div>
+                                                                <div>
+                                                                    {{
+                                                                    data.nom_usage
+                                                                    }}
+                                                                </div>
                                                             </div>
                                                         </ng-template>
                                                     </p-dropdown>
@@ -586,8 +758,8 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b>Adresse mail Notification<span
-                                                                class="text-danger">*</span></b>
+                                                        <b>Adresse mail
+                                                            Notification<span class="text-danger">*</span></b>
                                                     </label>
                                                     <input type="text" formControlName="adresse_email" pInputText />
                                                 </div>
@@ -597,7 +769,8 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b>Adresse géographique<span class="text-danger">*</span></b>
+                                                        <b>Adresse
+                                                            géographique<span class="text-danger">*</span></b>
                                                     </label>
                                                     <input type="text" formControlName="adresse_geographique"
                                                         pInputText />
@@ -619,7 +792,9 @@
                                     </fieldset>
 
                                     <fieldset>
-                                        <legend><b>Informations Réseau</b></legend>
+                                        <legend>
+                                            <b>Informations Réseau</b>
+                                        </legend>
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <div class="form-group">
@@ -652,8 +827,10 @@
                                     </fieldset>
 
                                     <div class="forms-feature-footer">
-                                        <p-button [class.p-disabled]="formUpdateCarteSim.invalid" label="Editer"
-                                            styleClass="p-button-success" (click)="handleUpdateCampagne()">
+                                        <p-button [class.p-disabled]="
+                                                formUpdateCarteSim.invalid
+                                            " label="Editer" styleClass="p-button-success"
+                                            (click)="handleUpdateCampagne()">
                                         </p-button>
                                     </div>
                                 </form>
@@ -661,124 +838,27 @@
 
                             <!-------------------------- Formulaire des details ------------------------------->
 
-                            <div *ngIf="urlParamRef === 'détails'">
+                            <div *ngIf="urlParamRef === 'détails'" [formGroup]="formDetailsCarteSim">
                                 <p-tabView (onChange)="detailsCurrentTabPanelIndex = $event.index">
-                                    <p-tabPanel header="IDENTIFICATION">
+                                    <p-tabPanel header="INFORMATIONS">
                                         <div>
                                             <div class="row">
-                                                <div class="col-md-9" [formGroup]="formDetailsCarteSim" novalidate>
+                                                <div class="col-md-9" novalidate>
                                                     <fieldset>
-                                                        <legend>
-                                                            <b>Utilisateur / Bénéficiaire</b>
-                                                        </legend>
-                                                        <div class="d-flex gap-2">
-                                                            <div>
-                                                                <div class="form-group">
-                                                                    <label>
-                                                                        <b>Type Utilisateur</b>
-                                                                    </label>
-                                                                    <input type="text" formControlName="type_personne"
-                                                                        pInputText />
-                                                                </div>
-                                                            </div>
-                                                            <ng-container *ngIf="displayPersonne === true">
-                                                                <div>
-                                                                    <div class="form-group">
-                                                                        <label><b>Nom</b></label>
-                                                                        <input type="text" formControlName="nom"
-                                                                            pInputText />
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <div class="form-group">
-                                                                        <label><b>Prénoms</b></label>
-                                                                        <input type="text" formControlName="prenoms"
-                                                                            pInputText />
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <div class="form-group">
-                                                                        <label>
-                                                                            <b>Nature de la
-                                                                                pièce</b>
-                                                                        </label>
-                                                                        <input type="text"
-                                                                            formControlName="nature_piece" pInputText />
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <div class="form-group">
-                                                                        <label>
-                                                                            <b>Numéro de la
-                                                                                pièce</b>
-                                                                        </label>
-                                                                        <input type="text"
-                                                                            formControlName="numero_piece" pInputText />
-                                                                    </div>
-                                                                </div>
-                                                            </ng-container>
-                                                            <ng-container *ngIf="
-                                                        displayPersonne ===
-                                                        false
-                                                    ">
-                                                                <div>
-                                                                    <div class="form-group">
-                                                                        <label><b>Denomination</b></label>
-                                                                        <input type="text" formControlName="nom"
-                                                                            pInputText />
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <div class="form-group">
-                                                                        <label><b>Raison
-                                                                                social</b></label>
-                                                                        <input type="text" formControlName="prenoms"
-                                                                            pInputText />
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <div class="form-group">
-                                                                        <label>
-                                                                            <b>Nature du
-                                                                                document</b>
-                                                                        </label>
-                                                                        <input type="text"
-                                                                            formControlName="nature_piece" pInputText />
-                                                                    </div>
-                                                                </div>
-                                                                <div>
-                                                                    <div class="form-group">
-                                                                        <label>
-                                                                            <b>Numéro du
-                                                                                document</b>
-                                                                        </label>
-                                                                        <input type="text"
-                                                                            formControlName="numero_piece" pInputText />
-                                                                    </div>
-                                                                </div>
-                                                            </ng-container>
-                                                        </div>
-                                                    </fieldset>
-                                                    <fieldset>
-                                                        <legend>
-                                                            <b>Informations SIM</b>
-                                                        </legend>
+                                                        <legend><b>Informations SIM</b></legend>
                                                         <div class="row">
                                                             <div class="col-md-3">
                                                                 <div class="form-group">
                                                                     <label>
                                                                         <b>IMSI</b>
                                                                     </label>
-                                                                    <input type="text" formControlName="imsi"
-                                                                        pInputText />
+                                                                    <input type="text" formControlName="imsi" pInputText />
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
-                                                                    <label><b>ICCID<span
-                                                                                class="text-danger">*</span></b></label>
-                                                                    <input type="text" formControlName="iccid"
-                                                                        pInputText class="w-100" />
+                                                                    <label><b>ICCID</b></label>
+                                                                    <input type="text" formControlName="iccid" pInputText class="w-100" />
                                                                 </div>
                                                             </div>
                                                             <!-- <div class="col-md-2">
@@ -796,23 +876,17 @@
                                                                         <b>Formule</b>
                                                                     </label>
                                                                     <input type="text" formControlName="formule"
-                                                                        pInputText
-                                                                        [pTooltip]="carteSimSelectedDetails?.formule"
-                                                                        tooltipPosition="top" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <div class="form-group">
-                                                                    <label><b>Statut Contrat</b></label>
-                                                                    <app-statut-contrat
-                                                                        [statut]="carteSimSelectedDetails?.statut"></app-statut-contrat>
+                                                                        pInputText [pTooltip]="
+                                                                            carteSimSelectedDetails?.formule
+                                                                        " tooltipPosition="top" />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </fieldset>
                                                     <fieldset>
                                                         <legend>
-                                                            <b>Informations d'identification</b>
+                                                            <b>Informations
+                                                                d'affectation</b>
                                                         </legend>
                                                         <div class="row">
                                                             <div class="col-md-4">
@@ -848,7 +922,8 @@
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>
-                                                                        <b>Nom Emplacement</b>
+                                                                        <b>Nom
+                                                                            Emplacement</b>
                                                                     </label>
                                                                     <input type="text"
                                                                         formControlName="point_emplacement"
@@ -867,12 +942,14 @@
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>
-                                                                        <b>Adresse mail Notification</b>
+                                                                        <b>Adresse
+                                                                            mail
+                                                                            Notification</b>
                                                                     </label>
                                                                     <input type="text" formControlName="adresse_email"
-                                                                        pInputText
-                                                                        [pTooltip]="carteSimSelectedDetails?.adresse_email"
-                                                                        tooltipPosition="top" />
+                                                                        pInputText [pTooltip]="
+                                                                            carteSimSelectedDetails?.adresse_email
+                                                                        " tooltipPosition="top" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -880,7 +957,8 @@
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>
-                                                                        <b>Adresse géographique</b>
+                                                                        <b>Adresse
+                                                                            géographique</b>
                                                                     </label>
                                                                     <input type="text"
                                                                         formControlName="adresse_geographique"
@@ -909,13 +987,15 @@
                                                     </fieldset>
                                                     <fieldset>
                                                         <legend>
-                                                            <b>Informations Réseau</b>
+                                                            <b>Informations
+                                                                Réseau</b>
                                                         </legend>
                                                         <div class="row">
                                                             <div class="col-md-3">
                                                                 <div class="form-group">
                                                                     <label>
-                                                                        <b>Date Trafic</b>
+                                                                        <b>Date
+                                                                            Trafic</b>
                                                                     </label>
                                                                     <input type="text" formControlName="date_trafic"
                                                                         pInputText />
@@ -933,7 +1013,8 @@
                                                             <div class="col-md-3">
                                                                 <div class="form-group">
                                                                     <label>
-                                                                        <b>Adresse IP</b>
+                                                                        <b>Adresse
+                                                                            IP</b>
                                                                     </label>
                                                                     <input type="text" formControlName="adresse_ip"
                                                                         pInputText />
@@ -942,7 +1023,8 @@
                                                             <div class="col-md-3">
                                                                 <div class="form-group">
                                                                     <label>
-                                                                        <b>Site Trafic</b>
+                                                                        <b>Site
+                                                                            Trafic</b>
                                                                     </label>
                                                                     <input type="text" formControlName="site_reseau"
                                                                         pInputText />
@@ -972,13 +1054,17 @@
                                                     <div class="col-md-12">
                                                         <div class="form-group">
                                                             <label class="label">
-                                                                <b>Solde Data (Go)</b>
+                                                                <b>Solde Data
+                                                                    (Go)</b>
                                                             </label>
                                                             <div class="box-card">
                                                                 <span class="valeur">
-                                                                    <span>{{carteSimSelectedDetails?.solde_actuel_go ??
-                                                                        0 |
-                                                                        formatNumber: 2}}</span>
+                                                                    <span>{{
+                                                                        carteSimSelectedDetails?.solde_actuel_go ??
+                                                                        0
+                                                                        | formatNumber
+                                                                        : 2
+                                                                        }}</span>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -986,71 +1072,257 @@
                                                     <div class="col-md-12 mt-3">
                                                         <div class="form-group">
                                                             <label class="label">
-                                                                <b>{{carteSimSelectedDetails?.solde_data_updated_at}}</b><br />
+                                                                <b>{{
+                                                                    carteSimSelectedDetails?.solde_data_updated_at
+                                                                    }}</b><br />
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12 mt-4"
-                                                        *ngIf="applicationType === patrimoineType">
+                                                    <div class="col-md-12 mt-4">
                                                         <div class="form-group">
-                                                            <label class="label" style="line-height: 1.3 !important;">
-                                                                <b class="mt-1">Solde Dotation (Go)</b>
+                                                            <label><b>Statut
+                                                                    Contrat</b></label>
+                                                            <app-statut-contrat [statut]="
+                                                                    carteSimSelectedDetails?.statut
+                                                                "></app-statut-contrat>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 mt-4" *ngIf="
+                                                            applicationType ===
+                                                            patrimoineType
+                                                        ">
+                                                        <div class="form-group">
+                                                            <label class="label" style="
+                                                                    line-height: 1.3 !important;
+                                                                ">
+                                                                <b class="mt-1">Solde
+                                                                    Dotation
+                                                                    (Go)</b>
                                                             </label>
                                                             <div class="box-card">
                                                                 <span class="valeur">
-                                                                    <span>{{carteSimSelectedDetails?.solde_dotation ?? 0
-                                                                        |
-                                                                        formatNumber: 2}}</span>
+                                                                    <span>{{
+                                                                        carteSimSelectedDetails?.solde_dotation ??
+                                                                        0
+                                                                        | formatNumber
+                                                                        : 2
+                                                                        }}</span>
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 mt-3">
-                                                        <div class="text-center"
-                                                            *ngIf="carteSimSelectedDetails?.statut === 'actif'">
+                                                        <div class="text-center" *ngIf="
+                                                                carteSimSelectedDetails?.statut ===
+                                                                'actif'
+                                                            ">
                                                             <button pButton pRipple label="Rafraîchir Solde Data"
                                                                 icon="pi pi-refresh" class="p-button-warning w-100"
-                                                                [style]="{ fontSize: '20px' }"
-                                                                (click)="handleRefreshData(carteSimSelectedDetails)">
-                                                            </button>
+                                                                [style]="{
+                                                                    fontSize:
+                                                                        '20px'
+                                                                }" (click)="
+                                                                    handleRefreshData(
+                                                                        carteSimSelectedDetails
+                                                                    )
+                                                                "></button>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12 mt-3" *ngIf="mappingService.IsAction()">
-                                                        <div *ngIf="carteSimSelectedDetails?.statut === 'suspendu'">
+                                                    <div class="col-md-12 mt-3" *ngIf="
+                                                            mappingService.IsAction()
+                                                        ">
+                                                        <div *ngIf="
+                                                                carteSimSelectedDetails?.statut ===
+                                                                'suspendu'
+                                                            ">
                                                             <button pButton pRipple label="Réactiver la SIM"
-                                                                icon="pi pi-power-off" class="p-button-success"
-                                                                [style]="{ fontSize: '20px' }"
-                                                                (click)="onTransactionForm(carteSimSelectedDetails, activation)"
-                                                                style="width: 384px">
-                                                            </button>
+                                                                icon="pi pi-power-off" class="p-button-success" [style]="{
+                                                                    fontSize:
+                                                                        '20px'
+                                                                }" (click)="
+                                                                    onTransactionForm(
+                                                                        carteSimSelectedDetails,
+                                                                        activation
+                                                                    )
+                                                                " style="
+                                                                    width: 384px;
+                                                                "></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 mt-3">
                                                         <img class="w-100" style="
-                                                                max-width: fit-content;"
-                                                            [src]="carteSimSelectedDetails?.qrcode"
-                                                            alt="QR Illustration" />
+                                                                max-width: fit-content;
+                                                            " [src]="
+                                                                carteSimSelectedDetails?.qrcode
+                                                            " alt="QR Illustration" />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </p-tabPanel>
-                                    <p-tabPanel header="PIECE & PHOTOS">
+                                    <p-tabPanel header="IDENTIFICATION">
+                                        
+                                        <fieldset *ngIf="!carteSimSelectedDetails?.type_personne">
+                                            <legend>
+                                                <b>Utilisateur /
+                                                    Bénéficiaire [{{carteSimSelectedDetails?.type_personne}}]</b>
+                                            </legend>
+                                            <div class="d-flex gap-2">
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <b>Type
+                                                                Utilisateur</b>
+                                                        </label>
+                                                        <input type="text" formControlName="type_personne"
+                                                            pInputText />
+                                                    </div>
+                                                </div>
+                                                <ng-container *ngIf="
+                                                        carteSimSelectedDetails?.type_personne ===
+                                                        TypeUtilisateur.PERSONNE
+                                                    ">
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label><b>Nom</b></label>
+                                                            <input type="text" formControlName="nom"
+                                                                pInputText />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label><b>Prénoms</b></label>
+                                                            <input type="text" formControlName="prenoms"
+                                                                pInputText />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label>
+                                                                <b>Nature
+                                                                    de
+                                                                    la
+                                                                    pièce</b>
+                                                            </label>
+                                                            <input type="text"
+                                                                formControlName="nature_piece" pInputText />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label>
+                                                                <b>Numéro
+                                                                    de
+                                                                    la
+                                                                    pièce</b>
+                                                            </label>
+                                                            <input type="text"
+                                                                formControlName="numero_piece" pInputText />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label><b>Date naissance<span
+                                                                    class="text-danger">*</span></b></label>
+                                                        <input type="text" formControlName="date_naissance" pInputText
+                                                                class="w-100" />
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label><b>Lieu de
+                                                                    naissance<span class="text-danger">*</span></b></label>
+                                                            <input type="text" formControlName="lieu_naissance" pInputText
+                                                                class="w-100" />
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="
+                                                        carteSimSelectedDetails?.type_personne ===
+                                                        TypeUtilisateur.EQUIPEMENT
+                                                    ">
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label><b>Denomination</b></label>
+                                                            <input type="text" formControlName="nom"
+                                                                pInputText />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label><b>Raison
+                                                                    social</b></label>
+                                                            <input type="text" formControlName="prenoms"
+                                                                pInputText />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label>
+                                                                <b>Nature
+                                                                    du
+                                                                    document</b>
+                                                            </label>
+                                                            <input type="text"
+                                                                formControlName="nature_piece" pInputText />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label>
+                                                                <b>Numéro
+                                                                    du
+                                                                    document</b>
+                                                            </label>
+                                                            <input type="text"
+                                                                formControlName="numero_piece" pInputText />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label><b>Date
+                                                                d'installation<span class="text-danger">*</span></b></label>
+                                                        <input type="text" formControlName="date_naissance" pInputText
+                                                                class="w-100" />
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label><b>Lieu
+                                                                    d'installation<span
+                                                                        class="text-danger">*</span></b></label>
+                                                            <input type="text" formControlName="lieu_naissance" pInputText
+                                                                class="w-100" />
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </fieldset>
                                         <fieldset>
-                                            <legend><b>Pièces & Photos</b></legend>
+                                            <legend>
+                                                <b>Photo & Pièces</b>
+                                            </legend>
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <div class="text-center">
-                                                            <ng-container class="mt-2"
-                                                                *ngIf="carteSimSelectedDetails?.photo_physique; else noImagePhysique">
-                                                                <h3>Photo physique</h3>
-                                                                <p-image [src]="carteSimSelectedDetails?.photo_physique"
-                                                                    alt="Illustration photo physique"
-                                                                    style="width: 100%" [preview]="true"></p-image>
+                                                            <ng-container class="mt-2" *ngIf="
+                                                                    carteSimSelectedDetails?.photo_physique;
+                                                                    else noImagePhysique
+                                                                ">
+                                                                <h3>
+                                                                    Photo
+                                                                    physique
+                                                                </h3>
+                                                                <p-image [src]="
+                                                                        carteSimSelectedDetails?.photo_physique
+                                                                    " alt="Illustration photo physique" style="
+                                                                        width: 100%;
+                                                                    " [preview]="
+                                                                        true
+                                                                    "></p-image>
                                                             </ng-container>
                                                             <ng-template #noImagePhysique>
-                                                                <h3>Aucune photo physique</h3>
+                                                                <h3>
+                                                                    Aucune photo
+                                                                    physique
+                                                                </h3>
                                                             </ng-template>
                                                         </div>
                                                     </div>
@@ -1058,16 +1330,26 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <div class="text-center">
-                                                            <ng-container class="mt-2"
-                                                                *ngIf="carteSimSelectedDetails?.photo_carte_recto; else noImagePieceRecto">
-                                                                <h3>Pièce recto</h3>
-                                                                <p-image
-                                                                    [src]="carteSimSelectedDetails?.photo_carte_recto"
-                                                                    alt="Illustration pièce recto" style="width: 100%"
-                                                                    [preview]="true"></p-image>
+                                                            <ng-container class="mt-2" *ngIf="
+                                                                    carteSimSelectedDetails?.photo_carte_recto;
+                                                                    else noImagePieceRecto
+                                                                ">
+                                                                <h3>
+                                                                    Pièce recto
+                                                                </h3>
+                                                                <p-image [src]="
+                                                                        carteSimSelectedDetails?.photo_carte_recto
+                                                                    " alt="Illustration pièce recto" style="
+                                                                        width: 100%;
+                                                                    " [preview]="
+                                                                        true
+                                                                    "></p-image>
                                                             </ng-container>
                                                             <ng-template #noImagePieceRecto>
-                                                                <h3>Aucune pièce recto</h3>
+                                                                <h3>
+                                                                    Aucune pièce
+                                                                    recto
+                                                                </h3>
                                                             </ng-template>
                                                         </div>
                                                     </div>
@@ -1075,16 +1357,26 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <div class="text-center">
-                                                            <ng-container class="mt-2"
-                                                                *ngIf="carteSimSelectedDetails?.photo_carte_verso; else noImagePieceVerso">
-                                                                <h3>Pièce verso</h3>
-                                                                <p-image
-                                                                    [src]="carteSimSelectedDetails?.photo_carte_verso"
-                                                                    alt="Illustration pièce verso" style="width: 100%"
-                                                                    [preview]="true"></p-image>
+                                                            <ng-container class="mt-2" *ngIf="
+                                                                    carteSimSelectedDetails?.photo_carte_verso;
+                                                                    else noImagePieceVerso
+                                                                ">
+                                                                <h3>
+                                                                    Pièce verso
+                                                                </h3>
+                                                                <p-image [src]="
+                                                                        carteSimSelectedDetails?.photo_carte_verso
+                                                                    " alt="Illustration pièce verso" style="
+                                                                        width: 100%;
+                                                                    " [preview]="
+                                                                        true
+                                                                    "></p-image>
                                                             </ng-container>
                                                             <ng-template #noImagePieceVerso>
-                                                                <h3>Aucune pièce verso</h3>
+                                                                <h3>
+                                                                    Aucune pièce
+                                                                    verso
+                                                                </h3>
                                                             </ng-template>
                                                         </div>
                                                     </div>
@@ -1093,8 +1385,12 @@
                                         </fieldset>
                                     </p-tabPanel>
                                     <p-tabPanel header="HISTORIQUE">
-                                        <app-historique *ngIf="detailsCurrentTabPanelIndex === 2" [modele]="'sims'"
-                                            [modele_id]="carteSimSelectedDetails.id">
+                                        <app-historique *ngIf="
+                                                detailsCurrentTabPanelIndex ===
+                                                2
+                                            " [modele]="'sims'" [modele_id]="
+                                                carteSimSelectedDetails?.id
+                                            ">
                                         </app-historique>
                                     </p-tabPanel>
                                 </p-tabView>
@@ -1102,11 +1398,9 @@
                         </div>
 
                         <div *ngIf="loadingPage" class="d-flex justify-content-center align-items-center"
-                            style="height: 100vh;">
+                            style="height: 100vh">
                             <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
                         </div>
-
-
                     </div>
 
                     <div *ngIf="displayUrlErrorPage">

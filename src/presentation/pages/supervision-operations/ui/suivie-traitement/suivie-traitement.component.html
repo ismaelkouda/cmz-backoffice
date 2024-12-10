@@ -321,7 +321,7 @@
                                     "
                                     class="p-button-dark"
                                     tooltipPosition="top"
-                                    [disabled]="!data?.nb_demande_traitees"
+                                    [disabled]="!data?.nb_demande_traitees || (data.statut === BADGE_ETAPE.TRAITEMENT && data.traitement === BADGE_ETAT.TERMINE)"
                                     (click)="OnShowTraitement(data, 'details')"
                                 ></button>
                                 <!-- <button

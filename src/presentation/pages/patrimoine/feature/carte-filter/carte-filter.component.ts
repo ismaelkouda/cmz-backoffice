@@ -27,6 +27,7 @@ export class CarteFilterComponent implements OnInit {
     @Input() firstLevelLibelle: string;
     @Input() secondLevelLibelle: string;
     @Input() thirdLevelLibelle: string;
+    @Input() filterData: Object;
     public formFilter: FormGroup;
     public listFirstLeveDatas: Array<any> = [];
     public listSecondLevelDatas: Array<any> = [];
@@ -93,22 +94,27 @@ export class CarteFilterComponent implements OnInit {
     private handleSuccessfulFormules(response): void {
         this.listFormule = response['data'];
     }
+    // Reporting des services
+
+    // stock source de SIM
+    // stock local || stock Orange
+    // suivi des ventes
 
     public initFormFilter() {
         // const filterState = this.carteSimStateService.getFilterState();
         this.formFilter = this.fb.group({
-            niveau_un_uuid: [null],
-            niveau_deux_uuid: [null],
-            statut: [history?.state?.statut],
-            msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
-            imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
-            adresse_ip: [null],
-            usage_id: [null],
-            apn: [null],
-            niveau_trois_uuid: [null],
-            formule_uuid: [null],
-            zone_trafic: [null],
-            point_emplacement: [null],
+            niveau_un_uuid: [this.filterData?.['niveau_un_uuid'] ?? null],
+            niveau_deux_uuid: [this.filterData?.['niveau_deux_uuid'] ?? null],
+            statut: [this.filterData?.['statut'] ?? history?.state?.statut],
+            msisdn: [this.filterData?.['msisdn'] ?? null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
+            imsi: [this.filterData?.['imsi'] ?? null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+            adresse_ip: [this.filterData?.['adresse_ip'] ?? null],
+            usage_id: [this.filterData?.['usage_id'] ?? null],
+            apn: [this.filterData?.['apn'] ?? null],
+            niveau_trois_uuid: [this.filterData?.['niveau_trois_uuid'] ?? null],
+            formule_uuid: [this.filterData?.['formule_uuid'] ?? null],
+            zone_trafic: [this.filterData?.['zone_trafic'] ?? null],
+            point_emplacement: [this.filterData?.['point_emplacement'] ?? null],
         });
         this.formFilter.get("msisdn").valueChanges.subscribe((value) => {
             if (value && value.length > 10) {
