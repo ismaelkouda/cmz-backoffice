@@ -56,7 +56,9 @@ export class CartesSimComponent implements OnInit, OnDestroy {
     });
     // recuperation de la data du filtre et du numero de la page courrante lorsqu'on a fait un tour dans les details
     this.filterData = this.carteSimStateService.getFilterCarteSimState();
+    console.log('this.filterData', this.filterData)
     this.currentPage = this.carteSimStateService.getCurrentPageCarteSimState();
+    console.log('this.currentPage', this.currentPage)
     this.selectedCarteSim = this.carteSimStateService.getItemSelectedState();
     // si on a deja accedé, on recupere les donnees stocké dans "state" sinon on appele l'api
     this.spinner = true;
@@ -64,21 +66,27 @@ export class CartesSimComponent implements OnInit, OnDestroy {
 
   async pageCallback(dataToSend: Object = {}, nbrPage: string = "1") {
     const response: any = await handle(() => this.patrimoinesService.PostPatrimoineSimSimsAllPage(dataToSend, nbrPage), this.toastrService, this.loadingBar);
+    console.log('response', response)
     if (response.error === false) this.handleSuccessfulPageCallback(response);
   }
 
-  private handleSuccessfulPageCallback(response): void {
+  private handleSuccessfulPageCallback(response: any): void {
     this.listCartesSim = response.data.data;
-    this.spinner = false;
     this.pargination = new Pargination(response?.data?.p, response?.data?.to, response?.data?.last_page, response?.data?.total, response?.data?.per_page, response?.data?.current_page, (response?.data?.current_page - 1) * this.pargination?.per_page + 1);
+    console.log('this.pargination', this.pargination)
+    console.log('response.data', response.data?.last_page)
+    console.log('response.data?.last_page', response.data?.current_page)
+    this.spinner = false;
   }
 
   public filter(filterData: Object): void {
       this.filterData = filterData;
+      console.log('this.filterData', this.filterData)
       this.pageCallback(filterData);
   }
 
   public onPageChange(event: number) {
+    console.log('event', event)
     this.pageCallback(this.filterData, JSON.stringify(event + 1))
   }
 
@@ -99,7 +107,7 @@ export class CartesSimComponent implements OnInit, OnDestroy {
   public navigateByUrl(params: PageAction): void {
     const id = params.data ? params.data["msisdn"] : null;
     const ref = params.action;
-    const current_page = this.pargination?.["current_page"] || 1;
+    const current_page = this.pargination?.["currentPage"] || 1;
     const filter = this.carteSimStateService?.setFilterCarteSimState(this.filterData) ?? null;
     const queryParams = {ref,current_page,filter};
     let routePath: string = id;

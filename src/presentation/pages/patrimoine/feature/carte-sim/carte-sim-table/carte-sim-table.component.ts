@@ -17,7 +17,7 @@ type TYPECOPY = "msisdn" | "imsi";
     templateUrl: './carte-sim-table.component.html'
 })
 
-export class CarteSimTableComponent implements OnInit {
+export class CarteSimTableComponent {
     @Input() firstLevelLibelle: string;
     @Input() secondLevelLibelle: string;
     @Input() thirdLevelLibelle: string;
@@ -52,12 +52,7 @@ export class CarteSimTableComponent implements OnInit {
     })
 
     constructor(public toastrService: ToastrService, private clipboardService: ClipboardService,
-        private ngbModal: NgbModal, private carteSimStateService: CarteSimStateService) {}
-
-    ngOnInit(): void {
-        // this.selectedTableCarteSim = this.carteSimStateService.getTableItemSelectedState();
-        console.log('this.listCartesSim', this.listCartesSim)
-    }
+        private ngbModal: NgbModal) {}
 
     public copyData(selectCarteSim: Object, type: TYPECOPY): void { 
       this.toastrService.success('Copié dans le presse papier');

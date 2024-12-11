@@ -41,6 +41,7 @@ export class CarteSimFormComponent implements OnInit {
     public subModule: string;
     public urlParamRef: TYPEVIEW;
     public urlParamFilter: Object;
+    public urlParamCurrentPage: string;
     public urlParamId: string;
     public displayUrlErrorPage: boolean = false;
     public loadingPage: boolean = true;
@@ -110,7 +111,10 @@ export class CarteSimFormComponent implements OnInit {
     private getParamsInUrl(): void {
         this.activatedRoute.queryParams.subscribe((params: Object) => {
             this.urlParamRef = params?.["ref"];
+            this.urlParamCurrentPage = params?.["current_page"];
+            console.log('this.urlParamCurrentPage', this.urlParamCurrentPage)
             this.urlParamFilter = this.carteSimStateService.getFilterCarteSimState(params?.["filter"]);
+            console.log('this.urlParamFilter', this.urlParamFilter)
         });
         switch (this.urlParamRef) {
             case "editer": this.initFormUpdateCarteSim(); break;
@@ -124,19 +128,19 @@ export class CarteSimFormComponent implements OnInit {
         } else {
             switch (this.urlParamRef) {
                 case "détails":
-                    this.pageCallback(this.urlParamFilter);
+                    this.pageCallback(this.urlParamFilter, this.urlParamCurrentPage);
                     this.formDetailsCarteSim.disable();
                     break;
 
                 case "editer":
                 case "identifier":
-                    this.pageCallback(this.urlParamFilter);
+                    this.pageCallback(this.urlParamFilter, this.urlParamCurrentPage);
                     break;
             }
         }
     }
-    async pageCallback(urlParamFilter: Object = {}, nbrPage: string = "1") {
-        const response: any = await handle(() => this.patrimoinesService.PostPatrimoineSimSimsAllPage(urlParamFilter, nbrPage), this.toastrService, this.loadingBar);
+    async pageCallback(urlParamFilter: Object = {}, urlParamCurrentPage: string = "1") {
+        const response: any = await handle(() => this.patrimoinesService.PostPatrimoineSimSimsAllPage(urlParamFilter, urlParamCurrentPage), this.toastrService, this.loadingBar);
         if (response.error === false) this.handleSuccessfulPageCallback(response, urlParamFilter);
     }
 
@@ -158,6 +162,7 @@ export class CarteSimFormComponent implements OnInit {
     }
     
     async getCarteSimSelectedDetails(carteSimSelectedImsi: string): Promise<any> {
+        console.log('carteSimSelectedImsi', carteSimSelectedImsi)
         const response: any = await handle(() => this.patrimoinesService.PostPatrimoineSimSimsimsiDetails(carteSimSelectedImsi), this.toastrService, this.loadingBar);
         if (response) {
             this.carteSimSelectedDetails = response.data;
@@ -195,6 +200,7 @@ export class CarteSimFormComponent implements OnInit {
         if (carteSimSelectedDetails?.photo_physique) {
             this.imageURLs['physique'] = carteSimSelectedDetails.photo_physique ?? '';
         }
+        console.log('carteSimSelectedDetails?.date_naissance', carteSimSelectedDetails?.date_naissance)
     }
 
 
@@ -209,7 +215,7 @@ export class CarteSimFormComponent implements OnInit {
             niveau_deux_uuid: carteSimSelectedDetails?.niveau_deux_uuid,
             niveau_trois_uuid: carteSimSelectedDetails?.niveau_trois_uuid,
             point_emplacement: carteSimSelectedDetails?.point_emplacement,
-            usage_id: carteSimSelectedDetails?.usage?.id,
+            usage_id: carteSimSelectedDetails?.usage_id,
             adresse_email: carteSimSelectedDetails?.adresse_email,
             adresse_geographique: carteSimSelectedDetails?.adresse_geographique,
             longitude: carteSimSelectedDetails?.longitude,
@@ -225,14 +231,15 @@ export class CarteSimFormComponent implements OnInit {
     private patchValueFormDetailsCarteSim(carteSimSelectedDetails: any): void {
         this.formDetailsCarteSim.patchValue({
             sim_id: carteSimSelectedDetails?.id,
-            type_personne: carteSimSelectedDetails.type_personne,
-            nom: carteSimSelectedDetails.nom,
-            prenoms: carteSimSelectedDetails.prenoms,
-            nature_piece: carteSimSelectedDetails.nature_piece,
-            numero_piece: carteSimSelectedDetails.numero_piece,
+            type_personne: carteSimSelectedDetails?.type_personne,
+            nom: carteSimSelectedDetails?.nom,
+            prenoms: carteSimSelectedDetails?.prenoms,
+            nature_piece: carteSimSelectedDetails?.nature_piece,
+            numero_piece: carteSimSelectedDetails?.numero_piece,
             imsi: carteSimSelectedDetails?.imsi,
             iccid: carteSimSelectedDetails?.iccid,
             msisdn: carteSimSelectedDetails?.msisdn,
+            formule: carteSimSelectedDetails?.formule,
             date_naissance: carteSimSelectedDetails?.date_naissance,
             lieu_naissance: carteSimSelectedDetails?.lieu_naissance,
             niveau_un_uuid: carteSimSelectedDetails?.niveau_uns_nom,
@@ -303,7 +310,7 @@ export class CarteSimFormComponent implements OnInit {
     async handleSuccessfuVerifyCampagne(response: any): Promise<any> {
         this.toastrService.success(response?.message);
         this.formIdentifierCarteSim.patchValue({
-            type_personne: "Personne",
+            type_personne: TypeUtilisateur.PERSONNE,
             nom: response?.data?.nom,
             prenoms: response?.data?.prenoms,
             nature_piece: response?.data?.nature_piece,
@@ -312,6 +319,7 @@ export class CarteSimFormComponent implements OnInit {
             date_naissance: response?.data?.date_naissance,
         })
         this.isNoVerifyPiecesPhotos = false;
+        console.log('this.formIdentifierCarteSim', this.formIdentifierCarteSim.value)
         // this.closeInterface();
         // this.carteSimApiStateService.refreshListCartesSim();
     }
@@ -448,26 +456,33 @@ export class CarteSimFormComponent implements OnInit {
             numero_piece: null,
             date_naissance: null,
             lieu_naissance: null,
+
             imsi: null,
             iccid: null,
+            formule: null,
+
+            niveau_un_uuid: null,
+            niveau_deux_uuid: null,
+            niveau_trois_uuid: null,
+
+            point_emplacement: null,
+            usage_id: null,
+            adresse_email: null,
+
+            adresse_geographique: null,
+            longitude: null,
+            latitude: null,
+
+            date_trafic: null,
+            apn: null,
+            adresse_ip: null,
+            site_reseau: null,
+
             msisdn: null,
             photo_carte_recto: null,
             photo_carte_verso: null,
             photo_physique: null,
 
-            niveau_un_uuid: null,
-            niveau_deux_uuid: null,
-            niveau_trois_uuid: null,
-            point_emplacement: null,
-            usage_id: null,
-            adresse_email: null,
-            adresse_geographique: null,
-            longitude: null,
-            latitude: null,
-            date_trafic: null,
-            apn: null,
-            site_reseau: null,
-            adresse_ip: [],
         });
         const typePersonneControl = this.formIdentifierCarteSim?.get('type_personne');
         const gererValidationTypeUtilisateur = (value: string) => {

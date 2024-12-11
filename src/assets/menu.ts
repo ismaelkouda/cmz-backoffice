@@ -308,8 +308,8 @@ export var menuJson = [
         ]
     },
     {
-      title: "Gestion des identifications",
-      label: "Gestion des identifications",
+      title: "Suivi de l'identification",
+      label: "Suivi de l'identification",
       data: "10-0-0-gestion-identifications",
       active: false,
       statut: false,

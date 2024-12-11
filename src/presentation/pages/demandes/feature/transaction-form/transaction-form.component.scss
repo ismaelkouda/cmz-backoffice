@@ -43,3 +43,30 @@
     //   margin-left: 0.5rem;
     // }
 }
+.block-checked-stock-source {
+    height: 4rem;
+    border: 1px solid #d0d3da;
+    border-radius: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    input {
+        width: 25px;
+        height: 25px;
+        cursor: pointer !important;
+        border: 1px solid black;
+    }
+    label {
+        font-size: 1.25rem;
+        margin-left: 0.5rem;
+    }
+}
+.form-check-label,
+.form-check-inline {
+    margin-bottom: 0 !important;
+}
+.container-button-telecharger {
+    border: 2px solid #d0d3da;
+    border-radius: 5%;
+    height: 70%;
+}

@@ -1,47 +1,71 @@
 <div class="row" [formGroup]="formIdentification" *ngIf="!loadingPage">
-
-    <div class="col-lg-2 mt-2" style="border-right: 1px solid #D8D8D8;">
+    <div class="col-lg-2 mt-2" style="border-right: 1px solid #d8d8d8">
         <div class="list-group pl-3">
-
-            <button pButton pRipple class="p-button-success w-100 mb-3" label="Enregistrer"
+            <button
+                pButton
+                pRipple
+                class="p-button-success w-100 mb-3"
+                label="Enregistrer"
                 (click)="PostGestionIdentificationsFileAttentesTraiter()"
-                [disabled]="formIdentification.invalid || isStartWorkedDay()" *ngIf="typeTraitement?.traiter">
-            </button>
-            <button pButton pRipple class="p-button-primary w-100 mb-3" label="Prendre en charge"
-                (click)="PostSupervisionOperationsTraitementsSuivisPrendreDemandeService()"
-                [disabled]="isStartWorkedDay()" *ngIf="typeTraitement?.prendre">
-            </button>
-            <button pButton pRipple class="p-button-warning w-100" label="Libérer"
-                [pTooltip]="isStartWorkedDay() ? 'Veuillez démarrer votre journée' : ''" (click)="handleLiberer()"
+                [disabled]="formIdentification.invalid || isStartWorkedDay()"
+                *ngIf="typeTraitement?.traiter"
+            ></button>
+            <button
+                pButton
+                pRipple
+                class="p-button-primary w-100 mb-3"
+                label="Prendre en charge"
+                (click)="
+                    PostSupervisionOperationsTraitementsSuivisPrendreDemandeService()
+                "
                 [disabled]="isStartWorkedDay()"
-                *ngIf="typeTraitement?.traiter && sim?.statut === BADGE_ETAPE.SOUMISSION ">
-            </button>
+                *ngIf="typeTraitement?.prendre"
+            ></button>
+            <button
+                pButton
+                pRipple
+                class="p-button-warning w-100"
+                label="Libérer"
+                [pTooltip]="
+                    isStartWorkedDay() ? 'Veuillez démarrer votre journée' : ''
+                "
+                (click)="handleLiberer()"
+                [disabled]="isStartWorkedDay()"
+                *ngIf="
+                    typeTraitement?.traiter &&
+                    sim?.statut === BADGE_ETAPE.SOUMISSION
+                "
+            ></button>
         </div>
 
         <div>
             <fieldset>
                 <legend>
-                    <strong>{{BADGE_ETAPE.SOUMISSION | capitalize}}</strong>
+                    <strong>{{ BADGE_ETAPE.SOUMISSION | capitalize }}</strong>
                 </legend>
                 <div class="d-flex flex-column gap-2">
                     <div>
-                        <span class="mb-0 fs__13"><strong>Nom&nbsp;:&nbsp;</strong>
+                        <span class="mb-0 fs__13"
+                            ><strong>Nom&nbsp;:&nbsp;</strong>
                             {{sim?.["demandeur_nom"] ?? ""}}
                             {{sim?.["demandeur_prenoms"] ?? ""}}
                         </span>
                     </div>
                     <div>
-                        <span class="mb-0 fs__13"><strong>Contact&nbsp;:&nbsp;</strong>
+                        <span class="mb-0 fs__13"
+                            ><strong>Contact&nbsp;:&nbsp;</strong>
                             {{sim?.["demandeur_contacts"] ?? ""}}
                         </span>
                     </div>
                     <div>
-                        <span class="mb-0 fs__13"><strong>Email&nbsp;:&nbsp;</strong>
+                        <span class="mb-0 fs__13"
+                            ><strong>Email&nbsp;:&nbsp;</strong>
                             {{sim?.["demandeur_email"] ?? ""}}
                         </span>
                     </div>
                     <div>
-                        <span class="mb-0 fs__13"><strong>Date&nbsp;:&nbsp;</strong>
+                        <span class="mb-0 fs__13"
+                            ><strong>Date&nbsp;:&nbsp;</strong>
                             {{sim?.["created_at"] ?? ""}}
                         </span>
                     </div>
@@ -56,55 +80,65 @@
                 </legend>
                 <div class="d-flex flex-column gap-2">
                     <div>
-                        <span class="mb-0 fs__13"><strong>Nom&nbsp;:&nbsp;</strong>
+                        <span class="mb-0 fs__13"
+                            ><strong>Nom&nbsp;:&nbsp;</strong>
                             {{sim?.["intervenant"]?.nom ?? ""}}
                             {{sim?.["intervenant"]?.prenoms ?? ""}}
                         </span>
                     </div>
                     <div>
-                        <span class="mb-0 fs__13"><strong>Contact&nbsp;:&nbsp;</strong>
+                        <span class="mb-0 fs__13"
+                            ><strong>Contact&nbsp;:&nbsp;</strong>
                             {{sim?.["intervenant"]?.contacts ?? ""}}
                         </span>
                     </div>
                     <div>
-                        <span class="mb-0 fs__13"><strong>Email&nbsp;:&nbsp;</strong>
+                        <span class="mb-0 fs__13"
+                            ><strong>Email&nbsp;:&nbsp;</strong>
                             {{sim?.["intervenant"]?.email ?? ""}}
                         </span>
                     </div>
                     <div>
-                        <span class="mb-0 fs__13"><strong>Date&nbsp;:&nbsp;</strong>
+                        <span class="mb-0 fs__13"
+                            ><strong>Date&nbsp;:&nbsp;</strong>
                             {{sim?.["approuve_a"] ?? ""}}
                         </span>
                     </div>
                 </div>
             </fieldset>
         </div>
-
     </div>
 
     <div class="col-lg-10 mt-2">
-        <div [ngClass]="OnGetRapportCodeStyle(sim)" style="display: flex; justify-content: space-between" role="alert">
+        <div
+            [ngClass]="OnGetRapportCodeStyle(sim)"
+            style="display: flex; justify-content: space-between"
+            role="alert"
+        >
             <div>
-                <strong class="wrapper-header">Soumission :
-                    {{ (sim?.etat_soumission | titlecase) ?? "" }}
+                <strong class="wrapper-header"
+                    >Soumission :
+                    {{ (sim?.etat_soumission | titlecase) ?? '' }}
                     [{{
-                    sim?.etat_soumission === BADGE_ETAT.RECU ? sim?.acquitte_a :
-                    sim?.etat_soumission === BADGE_ETAT.EN_ATTENTE ? sim?.created_at :
-                    "-- : --"
+                        sim?.etat_soumission === BADGE_ETAT.RECU
+                            ? sim?.acquitte_a
+                            : sim?.etat_soumission === BADGE_ETAT.EN_ATTENTE
+                            ? sim?.created_at
+                            : '-- : --'
                     }}]
                 </strong>
             </div>
             <div>
-                <strong class="wrapper-header">Traitement :
-                    {{ sim?.etat_traitement ?? "" }}
-                    [{{ sim?.traite_a ?? "-- : --" }}]
+                <strong class="wrapper-header"
+                    >Traitement :
+                    {{ sim?.etat_traitement ?? '' }}
+                    [{{ sim?.traite_a ?? '-- : --' }}]
                 </strong>
             </div>
         </div>
         <div class="row">
             <h4 *ngIf="sim?.rapport" class="col-md-7 wrapper-header">
-                <strong>{{ getTitleForm(sim?.operation) }}
-                </strong>
+                <strong>{{ getTitleForm(sim?.operation) }} </strong>
             </h4>
             <!-- <div class="row">
                 <div class="d-flex justify-content-center align-items-center" style="height: 50px;">
@@ -112,7 +146,6 @@
                         placeholder="Commentaire Commercial" formControlName="commentaire_identification" />
                 </div>
             </div> -->
-
         </div>
 
         <hr style="position: relative; top: -0.2rem; margin-top: -0.8rem" />
@@ -129,49 +162,95 @@
                                 <label>
                                     <b>Type Utilisateur</b>
                                 </label>
-                                <input type="text" formControlName="type_personne" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="type_personne"
+                                    pInputText
+                                />
                             </div>
                         </div>
-                        <ng-container *ngIf="typeTraitement.module === 'file-attente'; else fieldsModuleTraitement">
+                        <ng-container
+                            *ngIf="
+                                typeTraitement.module === 'file-attente';
+                                else fieldsModuleTraitement
+                            "
+                        >
                             <ng-container *ngIf="displayPersonne === true">
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label><b>Nom</b></label>
-                                        <input type="text" formControlName="nom" pInputText />
+                                        <input
+                                            type="text"
+                                            formControlName="nom"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label><b>Prénoms</b></label>
-                                        <input type="text" formControlName="prenoms" pInputText />
+                                        <input
+                                            type="text"
+                                            formControlName="prenoms"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label>
-                                            <b>Nature de la
-                                                pièce</b>
+                                            <b>Nature de la pièce</b>
                                         </label>
-                                        <input type="text" formControlName="nature_piece" pInputText />
+                                        <input
+                                            type="text"
+                                            formControlName="nature_piece"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label>
-                                            <b>Numéro de la
-                                                pièce</b>
+                                            <b>Numéro de la pièce</b>
                                         </label>
-                                        <input type="text" formControlName="numero_piece" pInputText />
+                                        <input
+                                            type="text"
+                                            formControlName="numero_piece"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <label><b>Date naissance<span class="text-danger">*</span></b></label>
-                                    <input type="text" formControlName="date_naissance" pInputText />
+                                    <label
+                                        ><b
+                                            >Date naissance<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></b
+                                        ></label
+                                    >
+                                    <input
+                                        type="text"
+                                        formControlName="date_naissance"
+                                        pInputText
+                                    />
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
-                                        <label><b>Lieu de naissance<span class="text-danger">*</span></b></label>
-                                        <input type="text" formControlName="lieu_naissance" pInputText class="w-100" />
+                                        <label
+                                            ><b
+                                                >Lieu de naissance<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            formControlName="lieu_naissance"
+                                            pInputText
+                                            class="w-100"
+                                        />
                                     </div>
                                 </div>
                             </ng-container>
@@ -179,126 +258,297 @@
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label><b>Denomination</b></label>
-                                        <input type="text" formControlName="nom" pInputText />
+                                        <input
+                                            type="text"
+                                            formControlName="nom"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
-                                        <label><b>Raison
-                                                social</b></label>
-                                        <input type="text" formControlName="prenoms" pInputText />
+                                        <label><b>Raison social</b></label>
+                                        <input
+                                            type="text"
+                                            formControlName="prenoms"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label>
-                                            <b>Nature du
-                                                document</b>
+                                            <b>Nature du document</b>
                                         </label>
-                                        <input type="text" formControlName="nature_piece" pInputText />
+                                        <input
+                                            type="text"
+                                            formControlName="nature_piece"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label>
-                                            <b>Numéro du
-                                                document</b>
+                                            <b>Numéro du document</b>
                                         </label>
-                                        <input type="text" formControlName="numero_piece" pInputText />
+                                        <input
+                                            type="text"
+                                            formControlName="numero_piece"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <label><b>Date d'installation<span class="text-danger">*</span></b></label>
-                                    <input type="text" formControlName="date_naissance" pInputText />
+                                    <label
+                                        ><b
+                                            >Date d'installation<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></b
+                                        ></label
+                                    >
+                                    <input
+                                        type="text"
+                                        formControlName="date_naissance"
+                                        pInputText
+                                    />
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
-                                        <label><b>Lieu d'installation<span class="text-danger">*</span></b></label>
-                                        <input type="text" formControlName="lieu_naissance" pInputText class="w-100" />
+                                        <label
+                                            ><b
+                                                >Lieu d'installation<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            formControlName="lieu_naissance"
+                                            pInputText
+                                            class="w-100"
+                                        />
                                     </div>
                                 </div>
                             </ng-container>
                         </ng-container>
                         <ng-template #fieldsModuleTraitement>
-                            <ng-container *ngIf="displayPersonne === true; else displayEquipement">
+                            <ng-container
+                                *ngIf="
+                                    displayPersonne === true;
+                                    else displayEquipement
+                                "
+                            >
                                 <div class="col-md">
                                     <div class="form-group">
-                                        <label><b>Nom<span class="text-danger">*</span></b></label>
-                                        <input type="text" formControlName="nom" pInputText />
+                                        <label
+                                            ><b
+                                                >Nom<span class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            formControlName="nom"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
-                                        <label><b>Prénoms<span class="text-danger">*</span></b></label>
-                                        <input type="text" formControlName="prenoms" pInputText />
+                                        <label
+                                            ><b
+                                                >Prénoms<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            formControlName="prenoms"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
 
                                 <div class="col-md">
-                                    <label><b>Nature de la pièce<span class="text-danger">*</span></b></label>
-                                    <p-dropdown [options]="listeNaturePiece" formControlName="nature_piece"
-                                        placeholder="Nature de la pièce">
+                                    <label
+                                        ><b
+                                            >Nature de la pièce<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></b
+                                        ></label
+                                    >
+                                    <p-dropdown
+                                        [options]="listeNaturePiece"
+                                        formControlName="nature_piece"
+                                        placeholder="Nature de la pièce"
+                                    >
                                     </p-dropdown>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
                                         <label>
-                                            <b>Numéro de la
-                                                pièce<span class="text-danger">*</span></b>
+                                            <b
+                                                >Numéro de la pièce<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            >
                                         </label>
-                                        <input type="text" formControlName="numero_piece" pInputText />
+                                        <input
+                                            type="text"
+                                            formControlName="numero_piece"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <label><b>Date naissance<span class="text-danger">*</span></b></label>
-                                    <p-calendar formControlName="date_naissance" [showIcon]="true"
-                                        [placeholder]="'JJ-MM-AAAA'" dateFormat="dd-mm-yy">
+                                    <label
+                                        ><b
+                                            >Date naissance<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></b
+                                        ></label
+                                    >
+                                    <p-calendar
+                                        formControlName="date_naissance"
+                                        [showIcon]="true"
+                                        [placeholder]="'JJ-MM-AAAA'"
+                                        dateFormat="dd-mm-yy"
+                                    >
                                     </p-calendar>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
-                                        <label><b>Lieu de naissance<span class="text-danger">*</span></b></label>
-                                        <input type="text" formControlName="lieu_naissance" pInputText class="w-100" />
+                                        <label
+                                            ><b
+                                                >Lieu de naissance<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            formControlName="lieu_naissance"
+                                            pInputText
+                                            class="w-100"
+                                        />
                                     </div>
                                 </div>
                             </ng-container>
                             <ng-template #displayEquipement>
                                 <div class="col-md">
                                     <div class="form-group">
-                                        <label><b>Types Emplacements<span class="text-danger">*</span></b></label>
-                                        <input type="text" formControlName="prenoms" pInputText />
+                                        <label
+                                            ><b
+                                                >Types Emplacements<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            formControlName="prenoms"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
-                                        <label><b>Nom Emplacement<span class="text-danger">*</span></b></label>
-                                        <input type="text" formControlName="nom" pInputText />
+                                        <label
+                                            ><b
+                                                >Nom Emplacement<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            formControlName="nom"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md">
-                                    <label><b>Type numéro<span class="text-danger">*</span></b></label>
-                                    <p-dropdown [options]="listeNatureDocument" [showClear]="true"
-                                        formControlName="nature_piece" placeholder="Nature du document">
+                                    <label
+                                        ><b
+                                            >Type numéro<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></b
+                                        ></label
+                                    >
+                                    <p-dropdown
+                                        [options]="listeNatureDocument"
+                                        [showClear]="true"
+                                        formControlName="nature_piece"
+                                        placeholder="Nature du document"
+                                    >
                                     </p-dropdown>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
-                                        <label><b>Numéro
-                                                {{formIdentifierCarteSim?.value?.nature_piece}}<span
-                                                    class="text-danger">*</span></b></label>
-                                        <input type="text" formControlName="numero_piece" pInputText />
+                                        <label
+                                            ><b
+                                                >Numéro
+                                                {{
+                                                    formIdentifierCarteSim
+                                                        ?.value?.nature_piece
+                                                }}<span class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            formControlName="numero_piece"
+                                            pInputText
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <label><b>Date d'installation<span class="text-danger">*</span></b></label>
-                                    <p-calendar formControlName="date_naissance" [showIcon]="true"
-                                        [placeholder]="'JJ-MM-AAAA'" dateFormat="dd-mm-yy">
+                                    <label
+                                        ><b
+                                            >Date d'installation<span
+                                                class="text-danger"
+                                                >*</span
+                                            ></b
+                                        ></label
+                                    >
+                                    <p-calendar
+                                        formControlName="date_naissance"
+                                        [showIcon]="true"
+                                        [placeholder]="'JJ-MM-AAAA'"
+                                        dateFormat="dd-mm-yy"
+                                    >
                                     </p-calendar>
                                 </div>
                                 <div class="col-md">
                                     <div class="form-group">
-                                        <label><b>Lieu d'installation<span class="text-danger">*</span></b></label>
-                                        <input type="text" formControlName="lieu_naissance" pInputText class="w-100" />
+                                        <label
+                                            ><b
+                                                >Lieu d'installation<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            formControlName="lieu_naissance"
+                                            pInputText
+                                            class="w-100"
+                                        />
                                     </div>
                                 </div>
                             </ng-template>
@@ -310,13 +560,28 @@
                                 <label>
                                     <b>IMSI</b>
                                 </label>
-                                <input type="text" formControlName="imsi" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="imsi"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
-                                <label><b>ICCID<span class="text-danger">*</span></b></label>
-                                <input type="text" formControlName="iccid" pInputText class="w-100" />
+                                <label
+                                    ><b
+                                        >ICCID<span class="text-danger"
+                                            >*</span
+                                        ></b
+                                    ></label
+                                >
+                                <input
+                                    type="text"
+                                    formControlName="iccid"
+                                    pInputText
+                                    class="w-100"
+                                />
                             </div>
                         </div>
                         <div class="col-md">
@@ -324,33 +589,53 @@
                                 <label>
                                     <b>MSISDN</b>
                                 </label>
-                                <input type="text" formControlName="msisdn" pInputText />
+                                <input
+                                    type="text"
+                                    formControlName="msisdn"
+                                    pInputText
+                                />
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
                                 <label><b>Statut</b></label>
-                                <app-statut-contrat [statut]="sim?.['statut_sim']"></app-statut-contrat>
+                                <app-statut-contrat
+                                    [statut]="sim?.['statut_sim']"
+                                ></app-statut-contrat>
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
                                 <label><b>Identification</b></label>
-                                <app-statut-contrat [statut]="sim?.['identification_fiabilite']"></app-statut-contrat>
+                                <app-statut-contrat
+                                    [statut]="sim?.['identification_fiabilite']"
+                                ></app-statut-contrat>
                             </div>
                         </div>
                     </div>
                 </fieldset>
                 <fieldset>
-                    <legend><b>Pièces & Photos</b></legend>
+                    <legend><b>Photo & Pièces</b></legend>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <div class="text-center">
-                                    <ng-container class="mt-1" *ngIf="sim?.photo_physique; else noImagePhysique">
-                                        <h3 style="margin: 2px;">Photo physique</h3>
-                                        <p-image [src]="sim?.photo_physique" alt="Illustration photo physique"
-                                            style="width: 100%;" [preview]="true"></p-image>
+                                    <ng-container
+                                        class="mt-1"
+                                        *ngIf="
+                                            sim?.photo_physique;
+                                            else noImagePhysique
+                                        "
+                                    >
+                                        <h3 style="margin: 2px">
+                                            Photo physique
+                                        </h3>
+                                        <p-image
+                                            [src]="sim?.photo_physique"
+                                            alt="Illustration photo physique"
+                                            style="width: 100%"
+                                            [preview]="true"
+                                        ></p-image>
                                     </ng-container>
                                     <ng-template #noImagePhysique>
                                         <h3>Aucune photo physique</h3>
@@ -361,10 +646,20 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <div class="text-center">
-                                    <ng-container class="mt-1" *ngIf="sim?.photo_carte_recto; else noImagePieceRecto">
-                                        <h3 style="margin: 2px;">Pièce recto</h3>
-                                        <p-image [src]="sim?.photo_carte_recto" alt="Illustration pièce recto"
-                                            style="width: 100%;" [preview]="true"></p-image>
+                                    <ng-container
+                                        class="mt-1"
+                                        *ngIf="
+                                            sim?.photo_carte_recto;
+                                            else noImagePieceRecto
+                                        "
+                                    >
+                                        <h3 style="margin: 2px">Pièce recto</h3>
+                                        <p-image
+                                            [src]="sim?.photo_carte_recto"
+                                            alt="Illustration pièce recto"
+                                            style="width: 100%"
+                                            [preview]="true"
+                                        ></p-image>
                                     </ng-container>
                                     <ng-template #noImagePieceRecto>
                                         <h3>Aucune pièce recto</h3>
@@ -375,10 +670,20 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <div class="text-center">
-                                    <ng-container class="mt-1" *ngIf="sim?.photo_carte_verso; else noImagePieceVerso">
-                                        <h3 style="margin: 2px;">Pièce verso</h3>
-                                        <p-image [src]="sim?.photo_carte_verso" alt="Illustration pièce verso"
-                                            style="width: 100%" [preview]="true"></p-image>
+                                    <ng-container
+                                        class="mt-1"
+                                        *ngIf="
+                                            sim?.photo_carte_verso;
+                                            else noImagePieceVerso
+                                        "
+                                    >
+                                        <h3 style="margin: 2px">Pièce verso</h3>
+                                        <p-image
+                                            [src]="sim?.photo_carte_verso"
+                                            alt="Illustration pièce verso"
+                                            style="width: 100%"
+                                            [preview]="true"
+                                        ></p-image>
                                     </ng-container>
                                     <ng-template #noImagePieceVerso>
                                         <h3>Aucune pièce verso</h3>
@@ -389,8 +694,6 @@
                     </div>
                 </fieldset>
 
-
-
                 <fieldset *ngIf="sim?.statut === BADGE_ETAPE.TRAITEMENT">
                     <legend>
                         <strong>Identification</strong>
@@ -398,60 +701,103 @@
                     <div class="row">
                         <div class="col-2 d-flex align-items-end">
                             <div
-                                class="d-flex justify-content-center align-items-center container-button-telecharger width-100">
+                                class="d-flex justify-content-center align-items-center container-button-telecharger width-100"
+                            >
                                 <div>
-                                    <span class="badge table-header-wrapper text-white"
-                                        [ngClass]="sim?.traitement === BADGE_ETAT.ACCEPTE ? 'badge-success' : 'badge-danger'">
+                                    <span
+                                        class="badge table-header-wrapper text-white"
+                                        [ngClass]="
+                                            sim?.traitement ===
+                                            BADGE_ETAT.ACCEPTE
+                                                ? 'badge-success'
+                                                : 'badge-danger'
+                                        "
+                                    >
                                         {{ sim?.traitement }}
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-10">
-                            <input type="text" [disabled]="true" [value]="sim?.commentaire_traitement" pInputText />
+                            <input
+                                type="text"
+                                [disabled]="true"
+                                [value]="sim?.commentaire_traitement"
+                                pInputText
+                            />
                         </div>
                     </div>
                 </fieldset>
-
-
 
                 <fieldset *ngIf="typeTraitement?.traiter">
                     <legend><strong>Traitement</strong></legend>
                     <div class="row">
                         <div class="d-flex align-items-end col-md-3">
                             <div class="block-checked col-12">
-                                <div class="d-flex justify-content-between align-items-center wrapper-check">
+                                <div
+                                    class="d-flex justify-content-between align-items-center wrapper-check"
+                                >
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="approbation-check"
-                                            value="oui" id="oui" formControlName="accepte" />
-                                        <label class="form-check-label" for="oui"
-                                            style="width: auto !important"><strong>Oui</strong></label>
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="approbation-check"
+                                            value="oui"
+                                            id="oui"
+                                            formControlName="accepte"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="oui"
+                                            style="width: auto !important"
+                                            ><strong>Oui</strong></label
+                                        >
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="approbation-check"
-                                            value="non" id="non" formControlName="accepte" />
-                                        <label class="form-check-label" for="non"
-                                            style="width: auto !important"><strong>Non</strong></label>
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            name="approbation-check"
+                                            value="non"
+                                            id="non"
+                                            formControlName="accepte"
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="non"
+                                            style="width: auto !important"
+                                            ><strong>Non</strong></label
+                                        >
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-9">
-                            <textarea name="commentaire" formControlName="commentaire" class="form-control" rows="2"
-                                style="width: 100%; margin-top: 0%" placeholder="Entrer un commentaire"
-                                [ngStyle]="{'border-color': isRequiredCommentaire ? 'red' : ''}">
-                                </textarea>
+                            <textarea
+                                name="commentaire"
+                                formControlName="commentaire"
+                                class="form-control"
+                                rows="2"
+                                style="width: 100%; margin-top: 0%"
+                                placeholder="Entrer un commentaire"
+                                [ngStyle]="{
+                                    'border-color': isRequiredCommentaire
+                                        ? 'red'
+                                        : ''
+                                }"
+                            >
+                            </textarea>
                         </div>
                     </div>
                 </fieldset>
             </div>
         </div>
-
-
     </div>
-
 </div>
 
-<div class="d-flex justify-content-center align-items-center" *ngIf="loadingPage">
+<div
+    class="d-flex justify-content-center align-items-center"
+    *ngIf="loadingPage"
+>
     <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
 </div>
