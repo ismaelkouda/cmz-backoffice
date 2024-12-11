@@ -10,9 +10,9 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { SEARCH } from 'src/shared/routes/routes';
 import { filter, Subscription } from 'rxjs';
 import { CarteSimApiStateService } from 'src/presentation/pages/patrimoine/data-access/carte-sim/carte-sim-api-state.service';
-import { CARTES_SIM } from 'src/presentation/pages/patrimoine/patrimoine-routing.module';
 
-type TYPEPARAMURL = "editer" | "details";
+type PageAction = { 'data': Object, 'action': 'détails', 'view': 'page' } | { 'data': Object, 'action': 'editer', 'view': 'page' } | { 'data': Object, 'action': 'identifer', 'view': 'page' };
+
 @Component({
   selector: "app-cartes-sim",
   templateUrl: "./cartes-sim.component.html",
@@ -31,6 +31,11 @@ export class CartesSimComponent implements OnInit, OnDestroy {
   public listCartesSim: Array<Object>;
   public spinner: boolean = false;
 
+  
+  public filterData: Object;
+  public currentPage: string;
+  public selectedCarteSim: Object | null;
+
   constructor(public toastrService: ToastrService, private router: Router,
     private loadingBar: LoadingBarService, private patrimoinesService: PatrimoinesService,
     private carteSimStateService: CarteSimStateService, public mappingService: MappingService,
@@ -40,51 +45,41 @@ export class CartesSimComponent implements OnInit, OnDestroy {
     this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
   }
 
-  ngOnDestroy(): void {
-    if (this.subscriptionListCartesSim) this.subscriptionListCartesSim.unsubscribe();
-  }
-
   ngOnInit(): void {
-    this.initPage();
-    // si on a deja accedé, on recupere les donnees stocké dans "state" sinon on appele l'api
-    if (this.carteSimStateService.getTableState()) {
-      this.listCartesSim = this.carteSimStateService.getTableState();
-      this.pargination = this.carteSimStateService.getParginateState();
-    } else {
-      this.subscriptionListCartesSim = this.carteSimApiStateService.setListCartesSim().subscribe(() => {
-        this.pageCallback({ statut: history?.state?.statut });
-      });
+    this.subscriptionListCartesSim = this.carteSimApiStateService.setListCartesSim().subscribe(() => {
       this.pageCallback({ statut: history?.state?.statut });
-      this.spinner = true;
-    }
+    });
+    this.pageCallback({ statut: history?.state?.statut });
+    this.activatedRoute.data.subscribe((data) => {
+      this.module = data.module;
+      this.subModule = data.subModule[0];
+    });
+    // recuperation de la data du filtre et du numero de la page courrante lorsqu'on a fait un tour dans les details
+    this.filterData = this.carteSimStateService.getFilterCarteSimState();
+    this.currentPage = this.carteSimStateService.getCurrentPageCarteSimState();
+    this.selectedCarteSim = this.carteSimStateService.getItemSelectedState();
+    // si on a deja accedé, on recupere les donnees stocké dans "state" sinon on appele l'api
+    this.spinner = true;
   }
 
-  async pageCallback(dataToSend: Object = {}, nbrPage: number = 1) {
-    this.carteSimStateService.setFilterState(dataToSend);
-    this.response = await handle(() => this.patrimoinesService.PostPatrimoineSimSimsAllPage(dataToSend, nbrPage), this.toastrService, this.loadingBar);
-    this.carteSimStateService.setFilterState(dataToSend);
-    this.handleSuccessfulPageCallback(this.response);
+  async pageCallback(dataToSend: Object = {}, nbrPage: string = "1") {
+    const response: any = await handle(() => this.patrimoinesService.PostPatrimoineSimSimsAllPage(dataToSend, nbrPage), this.toastrService, this.loadingBar);
+    if (response.error === false) this.handleSuccessfulPageCallback(response);
   }
 
   private handleSuccessfulPageCallback(response): void {
     this.listCartesSim = response.data.data;
-    this.carteSimStateService.setTableState(this.listCartesSim);
-    this.carteSimStateService.setFilterState(null);
-    this.carteSimStateService.setTableItemSelectedState(null);
     this.spinner = false;
     this.pargination = new Pargination(response?.data?.p, response?.data?.to, response?.data?.last_page, response?.data?.total, response?.data?.per_page, response?.data?.current_page, (response?.data?.current_page - 1) * this.pargination?.per_page + 1);
-    this.carteSimStateService.setParginateState(this.pargination);
+  }
+
+  public filter(filterData: Object): void {
+      this.filterData = filterData;
+      this.pageCallback(filterData);
   }
 
   public onPageChange(event: number) {
-    this.pageCallback(this.carteSimStateService.getFilterState(), event + 1);
-  }
-
-  public navigateByUrl(data: { data: null | Object, paramUrl: TYPEPARAMURL }): void {
-    this.openOtherViewEquipeAdv(data);
-  }
-  private openOtherViewEquipeAdv(data: { data: null | Object, paramUrl: TYPEPARAMURL }): void {
-    this.router.navigate([SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl, id: data.data["id"], currentPage: this.pargination.currentPage } });
+    this.pageCallback(this.filterData, JSON.stringify(event + 1))
   }
 
   public exportExcel(): void {
@@ -101,25 +96,19 @@ export class CartesSimComponent implements OnInit, OnDestroy {
     //   this.excelService.exportAsExcelFile(data, 'Liste des cartes SIM');
   }
 
-  private resetState(): void {
-    this.carteSimStateService.setFilterState(null);
-    this.carteSimStateService.setParginateState(null);
-    this.carteSimStateService.setTableItemSelectedState(null);
-    this.carteSimStateService.setTableState(null);
-    this.subscriptionRouter.unsubscribe();
+  public navigateByUrl(params: PageAction): void {
+    const id = params.data ? params.data["msisdn"] : null;
+    const ref = params.action;
+    const current_page = this.pargination?.["current_page"] || 1;
+    const filter = this.carteSimStateService?.setFilterCarteSimState(this.filterData) ?? null;
+    const queryParams = {ref,current_page,filter};
+    let routePath: string = id;
+    // switch (params.action) {case "détails":routePath = `${id}`;break;}
+    this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams });
   }
 
-  private initPage(): void {
-    this.subscriptionRouter = this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      if (!event.urlAfterRedirects.includes('cartes-sim')) {
-        this.resetState();
-      }
-    });
-    this.activatedRoute.data.subscribe((data) => {
-      this.module = data.module;
-      this.subModule = data.subModule[0];
-    });
+  ngOnDestroy(): void {
+      // reinitialiser les données de tout les etats
+      this.carteSimStateService.clearCarteSim();
   }
 }

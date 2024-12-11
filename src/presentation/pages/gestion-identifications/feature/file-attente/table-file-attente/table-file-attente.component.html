@@ -1,0 +1,98 @@
+<p-table #dt [ngClass]="['native_table table']" [value]="listSim" [rowHover]="true" dataKey="id" selectionMode="single"
+    currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données" [(selection)]="selectedSim" [rows]="50"
+    [globalFilterFields]="['created_at','operation','numero_demande','nb_cycle','nb_demande_soumises','statut','traitement','demandeur_nom','demandeur_prenoms']">
+    <ng-template pTemplate="caption">
+        <div class="d-flex justify-content-between">
+            <div>
+                <app-table-title [count]="pargination?.total" [legendePluriel]="'SIM'" [perPage]="pargination.per_page"
+                    [legendeSingulier]="'SIM'" [page]="pargination.currentPage" [totalPage]="pargination.last_page">
+                </app-table-title>
+            </div>
+            <div>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Recherche..." />
+                </span>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th class="text-center" [style]="{ width: '2rem' }">#</th>
+            <th class="text-center" [style]="{ width: '8rem' }">Date / Heure</th>
+            <th class="text-center" [style]="{ width: '8rem' }">Type Utilisateur</th>
+            <th class="text-center" [style]="{ width: '12rem' }">N° Transaction</th>
+            <th class="text-center">MSISDN</th>
+            <th class="text-center">IMSI</th>
+            <th class="text-center" [style]="{ width: '8rem' }">Etape</th>
+            <th class="text-center">Etat</th>
+            <th class="text-center" [style]="{ width: '8rem' }">Date Etat</th>
+            <th class="text-center">Demandeur</th>
+            <th class="text-center" [style]="{ width: '3rem' }">Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-sim>
+        <tr [pSelectableRow]="sim">
+            <td class="text-center">{{ rowIndex + pargination?.offset }}</td>
+            <td class="text-center">{{ sim?.created_at }}</td>
+            <td class="text-center">{{ sim?.type_personne ?? "N/A" }}</td>
+            <td class="text-center" (click)="copyData(sim.transaction)" style="cursor: pointer; width: fit-content;">
+                {{ sim?.transaction }}
+            </td>
+            <td (click)="copyData(sim, 'msisdn')" class="px-2 cursor-pointer text-center">
+                {{ sim.msisdn }}
+            </td>
+            <td (click)="copyData(sim, 'imsi')" class="px-2 cursor-pointer text-center">
+                {{ sim?.imsi ? sim?.imsi : 'N/A' }}
+            </td>
+            <td class="text-center" [style]="{ width: '3rem' }">
+                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getEtapeBadge(sim)">
+                    {{ sim?.statut }}
+                </span>
+            </td>
+            <td class="text-center">
+                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getEtatBadge(sim)">
+                    {{ sim?.traitement }}
+                </span>
+            </td>
+            <td class="text-center">
+                {{ sim?.updated_at }}
+            </td>
+            <td class="text-center" style="width: 10rem;">
+                {{ sim?.demandeur_nom }} {{ sim?.demandeur_prenoms }}
+            </td>
+            <td class="td-actions">
+                <button pButton pRipple label="Voir" icon="pi pi-eye" class="p-button-dark"
+                    (click)="OnShowModalTraitement(sim, getStyleButtonTraitement(sim)?.typeTraitement)">
+                </button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr *ngIf="listSim?.length <= 0 && !spinner">
+            <td class="posRelative" colspan="15">
+                <span class="posCenter"> Aucune donnée disponible </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner">
+            <td class="posRelative" colspan="15">
+                <p-progressSpinner class="posCenter" [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+
+<p-dialog [header]="'Détails du dossier ['+selectedSim?.['numero_demande']+']'" [(visible)]="visibleForm"
+    (onHide)="hideDialog()" [modal]="true" [closable]="true" [style]="{'width': '100%', 'max-height': '100%'}"
+    [responsive]="true" [maximizable]="true" [draggable]="false" [resizable]="true">
+
+    <ng-template pTemplate="content">
+        <app-form-dossier [demande]="selectedSim" [typeTraitement]="typeTraitement"
+            (visibleFormDossier)="hideDialog()"></app-form-dossier>
+    </ng-template>
+
+</p-dialog>

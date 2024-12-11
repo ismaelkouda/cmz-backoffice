@@ -1,3 +1,5 @@
+import { StatistiqueBoxComponent } from './components/statistique-box/statistique-box.component';
+import { SharedService } from 'src/shared/services/shared.service';
 import { SharedDataService } from './services/shared-data.service';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { FormMasseComponent } from './components/form-masse/form-masse.component';
@@ -96,7 +98,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     ParginationComponent,
     FormMasseComponent,
     SpinnerComponent,
-    CapitalizePipe
+    CapitalizePipe,
+    StatistiqueBoxComponent
   ],
   imports: [
     CommonModule,
@@ -122,7 +125,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     ProgressSpinnerModule,
     FileUploadModule
   ],
-  providers: [NavService, LayoutService, DecimalPipe, SharedDataService],
+  providers: [NavService, LayoutService, DecimalPipe, SharedDataService, SharedService],
   exports: [
     NgbModule,
     FormsModule,
@@ -157,7 +160,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     CapitalizePipe,
     CalendarModule,
     ButtonModule,
-    FileUploadModule
+    FileUploadModule,
+    StatistiqueBoxComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 

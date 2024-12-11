@@ -8,7 +8,8 @@ import { QrModalComponent } from 'src/shared/components/qr-modal/qr-modal.compon
 import { CarteSimStateService } from 'src/presentation/pages/patrimoine/data-access/carte-sim/carte-sim-state.service';
 import * as L from 'leaflet';
 
-type TYPEFORM = "details" | "editer";
+type Action = PageAction;
+type PageAction = { data: Object, action: 'détails', view: 'page' }|{ data: Object, action: 'editer', view: 'page' }|{ data: Object, action: 'identifier', view: 'page' };
 type TYPECOPY = "msisdn" | "imsi";
 
 @Component({
@@ -23,7 +24,7 @@ export class CarteSimTableComponent implements OnInit {
     @Input() pargination;
     @Input() spinner: boolean;
     @Input() listCartesSim: Array<Object>;
-    @Output() interfaceUser = new EventEmitter<{data: Object, paramUrl: TYPEFORM}>();
+    @Output() interfaceUser = new EventEmitter<PageAction>();
     public selectedTableCarteSim: Object;
     public display: boolean = false;
     private isMaximized: boolean = false;
@@ -54,7 +55,7 @@ export class CarteSimTableComponent implements OnInit {
         private ngbModal: NgbModal, private carteSimStateService: CarteSimStateService) {}
 
     ngOnInit(): void {
-        this.selectedTableCarteSim = this.carteSimStateService.getTableItemSelectedState();
+        // this.selectedTableCarteSim = this.carteSimStateService.getTableItemSelectedState();
         console.log('this.listCartesSim', this.listCartesSim)
     }
 
@@ -69,6 +70,7 @@ export class CarteSimTableComponent implements OnInit {
     }
   
     public OnShowQr(selectCarteSim: Object) {
+      console.log('selectCarteSim', selectCarteSim?.["qrcode"])
       this.onSelectedTableCarteSim(selectCarteSim);
       if (selectCarteSim['qrcode']) {
         const modalRef = this.ngbModal.open(QrModalComponent, {...ModalParams, backdrop: true, keyboard: true});
@@ -78,14 +80,21 @@ export class CarteSimTableComponent implements OnInit {
       }
     }
 
-    public onShowForm(selectCarteSim: Object, typeForm: TYPEFORM): void {
-        this.carteSimStateService.setTableItemSelectedState(selectCarteSim);
-        this.onSelectedTableCarteSim(selectCarteSim);
-        this.interfaceUser.emit({ data: selectCarteSim, paramUrl: typeForm });
+    public onShowForm(params: Action): void {
+        this.onSelectedTableCarteSim(params.data);
+        if (params.view === 'page') {
+          switch (params.action) {
+            case "détails":
+              case "editer":
+                case "identifier":
+              this.interfaceUser.emit(params);
+              break;
+          }
+        }
     }
 
     public onShowDialog(typeDialog: "map", selectCarteSim: Object) {
-      this.carteSimStateService.setTableItemSelectedState(selectCarteSim);
+      // this.onSelectTableCarteSim(params.data);
       switch (typeDialog) {
         case "map": {
           this.display = true;

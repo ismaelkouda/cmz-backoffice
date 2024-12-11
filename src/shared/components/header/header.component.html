@@ -1,37 +1,24 @@
 <!-- Page Header Start-->
 <div class="page-header" [class.close_icon]="navServices.collapseSidebar">
     <div class="header-wrapper row m-0" *ngIf="statutLayout()">
-        <div
-            class="col col-12 horizontal-wrapper pl-0"
-            style="display: flex; justify-content: space-between"
-        >
+        <div class="col col-12 horizontal-wrapper pl-0" style="display: flex; justify-content: space-between">
             <div style="display: flex; gap: 1rem">
                 <div>
-                    <img
-                        class="img-fluid"
-                        [src]="logoTenant"
-                        style="height: 3rem; margin-top: 0rem"
-                        alt=""
-                    />
+                    <img class="img-fluid" [src]="logoTenant" style="height: 3rem; margin-top: 0rem" alt="" />
                 </div>
                 <div>
-                    <h3
-                        style="
+                    <h3 style="
                             font-weight: bold;
                             font-size: 24px;
                             position: relative;
-                        "
-                    >
+                        ">
                         <span class="legende">
                             <b>{{ appName }}</b>
                         </span>
                     </h3>
                 </div>
             </div>
-            <div
-                *ngIf="applicationType === patrimoineType"
-                style="display: flex; gap: 2rem"
-            >
+            <div *ngIf="applicationType === patrimoineType" style="display: flex; gap: 2rem">
                 <div class="box-card">
                     <span class="title">Solde Data Global (Go) :</span>
                     <span class="valeur">
@@ -60,21 +47,14 @@
                 <div>
                     <div class="d-flex gap-3">
                         <div>
-                            <img
-                                class="img-fluid"
-                                [src]="logoTenant"
-                                style="margin-top: 0rem"
-                                alt=""
-                            />
+                            <img class="img-fluid" [src]="logoTenant" style="margin-top: 0rem" alt="" />
                         </div>
                         <div>
-                            <h3
-                                style="
+                            <h3 style="
                                     font-weight: bold;
                                     font-size: 24px;
                                     position: relative;
-                                "
-                            >
+                                ">
                                 <span class="legende">
                                     <b>{{ appName }}</b>
                                 </span>
@@ -83,10 +63,7 @@
                     </div>
                 </div>
             </div>
-            <div
-                *ngIf="applicationType === patrimoineType"
-                style="display: flex; gap: 2rem"
-            >
+            <div *ngIf="applicationType === patrimoineType" style="display: flex; gap: 2rem">
                 <div class="box-card">
                     <span class="title">Solde Data Global (Go) :</span>
                     <span class="valeur">
@@ -102,19 +79,12 @@
             </div>
             <div class="d-flex gap-4 nav-right pull-right right-header p-2">
                 <div style="padding-top: 0.9rem">
-                    <i
-                        class="pi pi-bell text-3xl"
-                        *ngIf="countNotify > 0"
-                        pBadge
-                        [value]="countNotify"
-                        severity="danger"
-                        (click)="OnGoNotif()"
-                        style="
+                    <i class="pi pi-bell text-3xl" *ngIf="countNotify > 0" pBadge [value]="countNotify"
+                        severity="danger" (click)="OnGoNotif()" style="
                             font-size: 1.4rem;
                             line-height: 1.5;
                             cursor: pointer;
-                        "
-                    ></i>
+                        "></i>
                 </div>
                 <ul class="nav-menus">
                     <li class="profile-nav onhover-dropdown p-0">

@@ -5,14 +5,16 @@ export async function handle(allFn: () => Observable<any>, toastrService: Toastr
     loadingBar.start();
     try {
         const res = await allFn().toPromise();
+        console.log('res', res)
         if (res?.error) {
                 loadingBar.stop();
-                toastrService.error(this.response.message);
+                toastrService.error(res.message);
         } else {
             loadingBar.complete();
             return res;
         }
     } catch (err) {
-        toastrService.error(err.error.message);
+        loadingBar.complete();
+        // toastrService.error(err.error.message);
     }
 }

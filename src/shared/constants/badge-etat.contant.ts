@@ -6,6 +6,7 @@ export const BADGE_ETAT = {
     EN_COURS: "en-cours",
     TERMINE: "terminé",
     LIVRE: "livré",
+    ACCEPTE: "accepté",
     
     PARTIEL: "partiel",
 

@@ -177,6 +177,7 @@ export class CarteSimActiveComponent implements OnInit {
   }
 
   public onShowForm(data: any): void {
+    console.log('data test', data)
     this.onMarkItemCarteSim(data);
     this.initialView = false;
     this.formsView = true;

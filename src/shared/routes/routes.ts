@@ -1,3 +1,4 @@
+import { GestionIdentificationsModule } from './../../presentation/pages/gestion-identifications/gestion-identifications.module';
 import { Routes } from "@angular/router";
 export const SEARCH = "search";
 
@@ -17,7 +18,8 @@ export const SUPERVISION_SYSTEME = 'supervision-systeme';
 export const PARAMETRE_SECURITE = 'parametre-securite'
 export const OPERATIONS_SIM = 'operations-sim';
 export const STRUCTURE_ORGANISATIONNELLE = 'structure-organisationnelle'
-export const ADMIN_USER = 'user'
+export const ADMIN_USER = 'user';
+export const GESTION_IDENTIFICATIONS = 'gestion-identifications'
 
 
 export const content: Routes = [
@@ -25,6 +27,18 @@ export const content: Routes = [
     path: DASHBOARD,
     loadChildren: () => import("../../presentation/pages/dashboard/dashboard.module").then((m) => m.DashboardModule),
     data: { title: 'Tableau de bord' }
+  },
+  {
+    path: GESTION_IDENTIFICATIONS,
+    loadChildren: () => import("../../presentation/pages/gestion-identifications/gestion-identifications.module").then((m) => m.GestionIdentificationsModule),
+    data: {
+      module: 'Gestion d\'identifications',
+      subModule: [
+        'File d\'attente',
+        'Personnes physique',
+        'Equipements connecté'
+      ]
+    }
   },
   {
     path: PATRIMOINE,

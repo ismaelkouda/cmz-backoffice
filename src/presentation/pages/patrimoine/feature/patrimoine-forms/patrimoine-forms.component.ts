@@ -1,6 +1,6 @@
 import { NatureDocument } from './../../../../../shared/enum/NatureDocument.enum';
 import { NaturePiece } from './../../../../../shared/enum/NaturePiece.enum';
-import { TypePersonne } from './../../../../../shared/enum/TypePersonnes.enum';
+import { TypeUtilisateur } from './../../../../../shared/enum/TypeUtilisateur.enum';
 import { ApplicationType } from './../../../../../shared/enum/ApplicationType.enum';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -39,7 +39,7 @@ export class PatrimoineFormsComponent implements OnInit {
   public listDirectionRegionales: Array<any> = [];
   public listExploitations: Array<any> = [];
   public listUsage: Array<any> = [];
-  public listProfils: Array<any> = [];
+
   public totalPage: 0;
   public totalRecords: 0;
   public recordsPerPage: 0;
@@ -48,6 +48,7 @@ export class PatrimoineFormsComponent implements OnInit {
   public p: number = 1;
   public display: boolean = true;
   public isMaximized: boolean = false;
+
   public adminForm: FormGroup;
   public listActivites: Array<any> = [];
   public listDepartements: Array<any> = [];
@@ -72,10 +73,10 @@ export class PatrimoineFormsComponent implements OnInit {
   totalSizePercent: number = 0;
   private config: PrimeNGConfig;
   fileSizeUnits: string[] = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-  public listeTypePersonne: Array<any> = [];
+  public listeTypeUtilisateur: Array<any> = [];
   public listeNaturePiece: Array<any> = [];
   public listeNatureDocument: Array<any> = [];
-  public displayPhysiquePersonne: boolean = true;
+  public displayPersonne: boolean = false;
   uploadedFiles: any[] = [];
   constructor(
     private fb: FormBuilder,
@@ -97,8 +98,8 @@ export class PatrimoineFormsComponent implements OnInit {
     this.applicationType = this.mappingService.applicationType;
     this.patrimoineType = ApplicationType.PATRIMOINESIM;
     this.fileurl = this.envService.fileUrl;
-    Object.values(TypePersonne).forEach((item) => {
-      this.listeTypePersonne.push(item);
+    Object.values(TypeUtilisateur).forEach((item) => {
+      this.listeTypeUtilisateur.push(item);
     });
     Object.values(NaturePiece).forEach((item) => {
       this.listeNaturePiece.push(item);
@@ -119,7 +120,7 @@ export class PatrimoineFormsComponent implements OnInit {
     }
     this.OnRefreshValues();
   }
-  onSelectedFiles(event, typeFile: 'physique'|'recto' | 'verso') {
+  onSelectedFiles(event, typeFile: 'physique' | 'recto' | 'verso') {
     console.log('event', event.files[0])
     switch (typeFile) {
       case 'physique':
@@ -136,7 +137,7 @@ export class PatrimoineFormsComponent implements OnInit {
     }
   }
 
-  onRemoveTemplatingFile(event: Event, file: any, removeFileCallback: Function, index: number, typeFile: 'physique'|'recto' | 'verso'): void {
+  onRemoveTemplatingFile(event: Event, file: any, removeFileCallback: Function, index: number, typeFile: 'physique' | 'recto' | 'verso'): void {
     switch (typeFile) {
       case 'physique':
         this.filesPhysique.splice(index, 1);
@@ -161,6 +162,7 @@ export class PatrimoineFormsComponent implements OnInit {
   public close(): void {
     this.formsView.emit(false);
     this.adminForm.reset();
+    this.displayPersonne = false;
   }
 
   getFormattedMsisdn(value): string {
@@ -169,11 +171,10 @@ export class PatrimoineFormsComponent implements OnInit {
     return formattedMsisdn;
   }
   public initForm(): void {
-    console.log('this.currentData', this.currentData)
     this.adminForm = this.fb.group({
-      type_personne: [this.currentData?.type_personne],
-      nom: [this.currentData?.nom],
-      prenoms: [this.currentData?.prenoms],
+      type_personne: [this.currentData?.type_personne ?? TypeUtilisateur.PERSONNE],
+      nom: [this.currentData?.type_personne === TypeUtilisateur.PERSONNE ? this.currentData?.nom : this.currentData?.point_emplacement],
+      prenoms: [this.currentData?.type_personne === TypeUtilisateur.PERSONNE ? this.currentData?.prenoms : this.currentData?.niveau_trois_nom],
       nature_piece: [this.currentData?.nature_piece],
       numero_piece: [this.currentData?.numero_piece],
       niveau_un_uuid: ['', [Validators.required]],
@@ -213,18 +214,63 @@ export class PatrimoineFormsComponent implements OnInit {
         this.adminForm.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
       }
     });
-
+    const niveauTroisControl = this.adminForm.get('niveau_trois_uuid');
+    const pointEmplacementControl = this.adminForm?.get('point_emplacement');
     const typePersonneControl = this.adminForm.get('type_personne');
-    const gererValidationTypePersonne = (value: string) => {
-      if (value === TypePersonne.PHYSIQUE) {
-        this.displayPhysiquePersonne = true;
+    const gererValidationTypeUtilisateur = (value: string) => {
+      if (value === TypeUtilisateur.PERSONNE) {        
+        this.displayPersonne = true;
+        this.adminForm.get('nom').enable();
+        this.adminForm.get('prenoms').enable();
       } else {
-        this.displayPhysiquePersonne = false;
+        this.displayPersonne = false;
+        this.adminForm.get('nom').disable();
+        this.adminForm.get('prenoms').disable();
+        if (this.listActivites.length !== 0) {
+          const prenomsValue = this.listActivites.map(e => {
+            if (e.uuid === niveauTroisControl.value)
+              return e.nom;
+          })
+          this.adminForm.get('prenoms')?.setValue(prenomsValue?.filter((item) => item !== undefined));
+          this.adminForm.get('nom')?.setValue(pointEmplacementControl?.value);
+        }
       }
     };
-    gererValidationTypePersonne(typePersonneControl?.value);
+    gererValidationTypeUtilisateur(typePersonneControl?.value);
     typePersonneControl?.valueChanges.subscribe((value) => {
-      gererValidationTypePersonne(value);
+      gererValidationTypeUtilisateur(value);
+    });
+
+    //  renseigne le champs "Nom Emplacement" du fieldset "Informations Utilisateur/Bénéficiaire" celon la valeur selectionnée du champs "Types Emplacements" du fieldset "Nom Emplacement"
+
+    const gererValidationPointEmplacement = (value: string) => {
+      if (this.adminForm.get('type_personne').value === TypeUtilisateur.EQUIPEMENT) {
+        this.adminForm.get('nom').setValue(value);
+      } else {
+        this.adminForm.get('nom').reset();
+      }
+    };
+    gererValidationPointEmplacement(pointEmplacementControl?.value);
+    pointEmplacementControl?.valueChanges.subscribe((value) => {
+      gererValidationPointEmplacement(value);
+    });
+
+    //  renseigne le champs "Types Emplacements" du fieldset "Informations Utilisateur/Bénéficiaire" celon la valeur selectionnée du champs "Types Emplacements" du fieldset "Informations SIM"
+    const gererValidationNiveauTrois = (value: string) => {
+      if (this.adminForm.get('type_personne').value === TypeUtilisateur.EQUIPEMENT) {
+        if (this.listActivites.length !== 0) {
+          const prenomsValue = this.listActivites.map(e => {
+            if (e.uuid === value)
+              return e.nom;
+          })
+          this.adminForm.get('prenoms').setValue(prenomsValue.filter((item) => item !== undefined));
+        }
+      } else {
+      }
+    };
+    gererValidationNiveauTrois(niveauTroisControl?.value);
+    niveauTroisControl?.valueChanges.subscribe((value) => {
+      gererValidationNiveauTrois(value);
     });
   }
 
@@ -320,7 +366,6 @@ export class PatrimoineFormsComponent implements OnInit {
       .OnGetDetailSim(this.currentData?.imsi)
       .subscribe({
         next: (response) => {
-          console.log("Retour APi", response['data']);
           this.currentObject = response['data'];
           this.onFormPachValues();
         },
@@ -449,15 +494,14 @@ export class PatrimoineFormsComponent implements OnInit {
     // Set image URLs
 
     if (this.currentObject?.photo_carte_recto) {
-      this.imageURLs['recto'] = this.currentObject.photo_carte_recto;
+      this.imageURLs['recto'] = this.currentObject?.photo_carte_recto ?? '';
     }
     if (this.currentObject?.photo_carte_verso) {
-      this.imageURLs['verso'] = this.currentObject.photo_carte_verso;
+      this.imageURLs['verso'] = this.currentObject?.photo_carte_verso ?? '';
     }
     if (this.currentObject?.photo_physique) {
-      this.imageURLs['physique'] = this.currentObject.photo_physique;
+      this.imageURLs['physique'] = this.currentObject.photo_physique ?? '';
     }
-
 
     //Disabled Controls
     this.adminForm.get('statut').disable();
@@ -491,13 +535,13 @@ export class PatrimoineFormsComponent implements OnInit {
 
     // Ajoutez les images au FormData
     if (this.filesPhysique) {
-      formData.append('photo_carte_recto', this.filesPhysique[0]);
+      formData.append('photo_physique', this.filesPhysique[0] ?? '');
     }
     if (this.filesVerso) {
-      formData.append('photo_carte_verso', this.filesVerso[0]);
+      formData.append('photo_carte_verso', this.filesVerso[0] ?? '');
     }
     if (this.filesRecto) {
-      formData.append('photo_physique', this.filesRecto[0]);
+      formData.append('photo_carte_recto', this.filesRecto[0] ?? '');
     }
 
     // Ajoutez le champ sim_id au FormData
@@ -507,6 +551,48 @@ export class PatrimoineFormsComponent implements OnInit {
 
     // Envoyez les données au service
     this.patrimoineService.UpdatePatrimoine(formData).subscribe({
+      next: (response) => {
+        this.toastrService.success(response.message);
+        this.GetAllPatrimoines();
+      },
+      error: (error) => {
+        this.toastrService.error(error.error.message);
+      }
+    });
+  }
+  handleIdentifyCampagne() {
+    const formData = new FormData();
+
+    // Désactivez les contrôles du formulaire
+    this.adminForm.get('niveau_un_uuid')?.disable();
+    this.adminForm.get('exploitation')?.disable();
+
+    // Ajoutez les champs du formulaire au FormData
+    Object.keys(this.adminForm.controls).forEach(key => {
+      const control = this.adminForm.get(key);
+      if (control && control.value) {
+        formData.append(key, control.value);
+      }
+    });
+
+    // Ajoutez les images au FormData
+    if (this.filesPhysique) {
+      formData.append('photo_physique', this.filesPhysique[0] ?? '');
+    }
+    if (this.filesVerso) {
+      formData.append('photo_carte_verso', this.filesVerso[0] ?? '');
+    }
+    if (this.filesRecto) {
+      formData.append('photo_carte_recto', this.filesRecto[0] ?? '');
+    }
+
+    // Ajoutez le champ sim_id au FormData
+    if (this.currentObject?.id) {
+      formData.append('sim_id', this.currentObject.id);
+    }
+
+    // Envoyez les données au service
+    this.patrimoineService.IdentificationPatrimoine(formData).subscribe({
       next: (response) => {
         this.toastrService.success(response.message);
         this.GetAllPatrimoines();

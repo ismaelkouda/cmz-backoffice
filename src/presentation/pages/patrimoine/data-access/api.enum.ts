@@ -13,6 +13,8 @@ export const enum EndPointUrl {
     POST_PARAMETRES_SECURITE_NIVEAU_TROIS_SIMPLE = 'parametres-securite/niveau_trois/simple',
     GET_ALL_NIVEAUX_3_SIMPLE = 'parametres-securite/niveau_trois/simple',
     UPDATE_PATRIMOINE = 'patrimoine-sim/sims/update',
+    IDENTIFICATION_PATRIMOINE = 'gestion-identifications/identification',
+    IDENTIFICATION_PATRIMOINE_UPDATE = 'gestion-identifications/identification/update',
     POST_PATRIMOINE_SIM_SIMS_UPDATE = 'patrimoine-sim/sims/update',
     REFRESH_DATA = 'patrimoine-sim/etats-des-soldes/actualisation-simple',
     POST_PATRIMOINE_SIM_ETATS_DES_SOLDES_ACTUALISATION_SIMPLE = 'patrimoine-sim/etats-des-soldes/actualisation-simple',

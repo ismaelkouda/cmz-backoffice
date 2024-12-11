@@ -17,8 +17,8 @@ export class PatrimoinesService {
     const data = JSON.parse(this.storage.getData('user'))
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
   }
-    PostPatrimoineSimSimsAllPage(data: Object, page: number): Observable<any> {
-        const url: string = (<string>EndPointUrl.POST_PATRIMOINE_SIM_SIMS_ALL_PAGE).replace('{page}', JSON.stringify(page));
+    PostPatrimoineSimSimsAllPage(data: Object, page): Observable<any> {
+        const url: string = (<string>EndPointUrl.POST_PATRIMOINE_SIM_SIMS_ALL_PAGE).replace('{page}', page);
         return this.httpClient.post(`${this.baseUrl}${url}`, data);
       }
 

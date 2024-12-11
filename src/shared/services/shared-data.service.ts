@@ -29,5 +29,18 @@ export class SharedDataService {
   postPatrimoineSimDemandeIntegrationsAll(): Observable<void> {
     return this.patrimoineSimDemandeIntegrationServicesAll.asObservable();
   }
+
+
+    /**
+   * GESTION IDENTIFICATIONS => FILE ATTENTE
+   */
+    private gestionIdentificationFileAttente = new Subject<void>();
+
+    sendGestionIdentificationsFileAttente() {
+      this.gestionIdentificationFileAttente.next();
+    }
+    postGestionIdentificationsFileAttente(): Observable<void> {
+      return this.gestionIdentificationFileAttente.asObservable();
+    }
   
 }

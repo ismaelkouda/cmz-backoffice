@@ -1,9 +1,12 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EndPointUrl } from './api.enum';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 
+const httpOptions = {
+  headers: new HttpHeaders({ "Content-Type": "application/json" }),
+};
 @Injectable({
   providedIn: 'root'
 })
@@ -64,6 +67,18 @@ export class PatrimoineService {
   }
   UpdatePatrimoine(data): Observable<any> {
     const url: string = (<string>EndPointUrl.UPDATE_PATRIMOINE);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+  ProcessImagePatrimoine(data): Observable<any> {
+    // return this.http.post(`http://10.10.0.53:5000/process-image`, data);
+    return this.http.post(`http://10.10.0.200:48013/process-image`, data);
+  }
+  IdentificationPatrimoine(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.IDENTIFICATION_PATRIMOINE);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+  IdentificationPatrimoineUpdate(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.IDENTIFICATION_PATRIMOINE_UPDATE);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
 
