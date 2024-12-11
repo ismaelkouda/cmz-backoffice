@@ -442,82 +442,8 @@
                                         </div>
                                     </div>
                                 </div> -->
-
                                 <fieldset>
-                                    <legend>
-                                        <b>Informations d'identification</b>
-                                    </legend>
-                                    <div class="d-flex gap-2">
-                                        <div class="width-50">
-                                            <label>
-                                                <b>{{
-                                                    firstLevelLibelle
-                                                }}</b></label
-                                            >
-                                            <input
-                                                type="text"
-                                                pInputText
-                                                formControlName="niveau_uns_uuid"
-                                            />
-                                        </div>
-                                        <div class="width-100">
-                                            <label>
-                                                <b>{{ secondLevelLibelle }}</b>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                pInputText
-                                                formControlName="niveau_deux_uuid"
-                                            />
-                                        </div>
-                                        <div class="width-50">
-                                            <label>
-                                                <b>{{ thirdLevelLibelle }}</b>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                pInputText
-                                                formControlName="niveau_trois_uuid"
-                                            />
-                                        </div>
-                                        <div class="width-50">
-                                            <label><b>Usage</b></label>
-                                            <input
-                                                type="text"
-                                                pInputText
-                                                formControlName="usage_id"
-                                            />
-                                        </div>
-                                        <div class="width-50">
-                                            <label
-                                                ><b
-                                                    >Formule destination<span
-                                                        class="text-danger"
-                                                        >*</span
-                                                    ></b
-                                                ></label
-                                            >
-                                            <!-- <p-dropdown [options]="listFormules" formControlName="formule_uuid"
-                                                optionLabel="nom" optionValue="uuid"
-                                                placeholder="Sélectionner la formule de destination"
-                                                [showClear]="true" name="formule_uuid">
-                                            </p-dropdown> -->
-
-                                            <input
-                                                type="text"
-                                                pInputText
-                                                formControlName="formule_uuid"
-                                                pTooltip="{{
-                                                    formTraitementMasse.get(
-                                                        'formule_uuid'
-                                                    )?.value
-                                                }}"
-                                            />
-                                        </div>
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <legend>Informations demande</legend>
+                                    <legend>Demande</legend>
                                     <div class="row">
                                         <ng-container
                                             *ngIf="
@@ -525,7 +451,7 @@
                                                 TYPE_FORM.ACTIVATION
                                             "
                                         >
-                                            <div class="col-md-2">
+                                            <div class="col-md-1">
                                                 <label><b>Nombre</b></label>
                                                 <input
                                                     type="text"
@@ -555,19 +481,41 @@
                                                 />
                                             </div>
                                         </ng-container>
-                                        <div class="col-md-6">
-                                            <label for="commentaire"
-                                                ><strong
-                                                    >Description</strong
-                                                ></label
-                                            >
+                                        <div class="col-md-2">
+                                            <label><b>Usage</b></label>
                                             <input
                                                 type="text"
                                                 pInputText
-                                                formControlName="description"
+                                                formControlName="usage_id"
                                             />
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
+                                            <label
+                                                ><b
+                                                    >Formule destination<span
+                                                        class="text-danger"
+                                                        >*</span
+                                                    ></b
+                                                ></label
+                                            >
+                                            <!-- <p-dropdown [options]="listFormules" formControlName="formule_uuid"
+                                                optionLabel="nom" optionValue="uuid"
+                                                placeholder="Sélectionner la formule de destination"
+                                                [showClear]="true" name="formule_uuid">
+                                            </p-dropdown> -->
+
+                                            <input
+                                                type="text"
+                                                pInputText
+                                                formControlName="formule_uuid"
+                                                pTooltip="{{
+                                                    formTraitementMasse.get(
+                                                        'formule_uuid'
+                                                    )?.value
+                                                }}"
+                                            />
+                                        </div>
+                                        <div class="col-md-3">
                                             <label for="commentaire"
                                                 ><strong
                                                     >Courrier ou
@@ -611,7 +559,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <label for="commentaire"
                                                 ><strong
                                                     >Paiement</strong
@@ -655,6 +603,66 @@
                                                     </span>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset>
+                                    <legend>
+                                        <b>Informations d'affectation</b>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label>
+                                                <b>{{
+                                                    firstLevelLibelle
+                                                }}</b></label
+                                            >
+                                            <input
+                                                type="text"
+                                                pInputText
+                                                formControlName="niveau_uns_uuid"
+                                            />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>
+                                                <b>{{ secondLevelLibelle }}</b>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                pInputText
+                                                formControlName="niveau_deux_uuid"
+                                            />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>
+                                                <b>{{ thirdLevelLibelle }}</b>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                pInputText
+                                                formControlName="niveau_trois_uuid"
+                                            />
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset>
+                                    <legend>
+                                        <b>Détails de la Demande</b>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- <label for="commentaire"
+                                                ><strong
+                                                    >Description</strong
+                                                ></label
+                                            > -->
+                                            <input
+                                                type="text"
+                                                pInputText
+                                                formControlName="description"
+                                            />
                                         </div>
                                     </div>
                                 </fieldset>
@@ -1026,7 +1034,7 @@
                                     "
                                     class="padding-bottom-lignes"
                                 >
-                                    <legend [ngStyle]="{ width: '100%' }">
+                                    <legend>
                                         <b>Identification des lignes</b>
                                     </legend>
                                     <div class="row">

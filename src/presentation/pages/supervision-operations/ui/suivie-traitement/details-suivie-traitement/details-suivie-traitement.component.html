@@ -344,7 +344,13 @@
                                     {{ transaction.traitement }}
                                 </span>
                             </td>
-                            <td>{{ getDateTraitement(transaction) }}</td>
+                            <td>
+                                {{
+                                    (transaction.traitement === 'abandonné'
+                                        ? transaction?.date_cloture
+                                        : transaction?.date_traitement) ?? 'N/A'
+                                }}
+                            </td>
                             <td class="text-center">
                                 <span
                                     >{{ transaction?.demandeur_nom }}

@@ -19,6 +19,7 @@ import { ModalParams } from 'src/shared/constants/modalParams.contant';
 import { DemandesFilterStateService } from '../../data-access/demandes-filter-state.service';
 import { SharedDataService } from 'src/shared/services/shared-data.service';
 import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
   selector: 'app-demande-wrapper',
@@ -74,7 +75,8 @@ export class DemandeWrapperComponent implements OnInit {
     private route: ActivatedRoute,
     private excelService: ExcelService,
     private demandesFilterStateService: DemandesFilterStateService,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private loadingBarService: LoadingBarService,
 
   ) {
     this.listOperations = this.mappingService.listOperations
@@ -179,6 +181,7 @@ export class DemandeWrapperComponent implements OnInit {
       date_fin: this.selectDateEnd,
     }
     this.demandesFilterStateService.setFilterState(data);
+    this.loadingBarService.start();
     this.demandeService
       .GetDemandeServiceByTransaction(data, this.p)
       .subscribe({
@@ -194,6 +197,7 @@ export class DemandeWrapperComponent implements OnInit {
               return { ...data, current_date: 'N/A' }
             }
           });
+          this.loadingBarService.complete();
           this.totalPage = response.data.last_page;
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
@@ -201,6 +205,7 @@ export class DemandeWrapperComponent implements OnInit {
           this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
+          this.loadingBarService.stop();
           this.toastrService.error(error.error.message);
         }
       })
@@ -218,6 +223,7 @@ export class DemandeWrapperComponent implements OnInit {
     this.filterDateEnd = null
   }
   GetAllUsers() {
+    this.loadingBarService.start();
     this.settingService
       .getAllUsers({})
       .subscribe(
@@ -227,8 +233,10 @@ export class DemandeWrapperComponent implements OnInit {
             const data = { ...el, fullName: el.nom + ' ' + el.prenoms };
             return data;
           });
+          this.loadingBarService.complete();
         },
         (error) => {
+          this.loadingBarService.stop();
           this.toastrService.error(error.error.message);
         }
       );
@@ -314,7 +322,7 @@ export class DemandeWrapperComponent implements OnInit {
     const data = this.listTransactions.map((item: any) => {
       const identifiedLabel = this.wrapperLabel === "Demandes Abonnements" ? "# Identifiées" : "";
       const identifiedValue = this.wrapperLabel === "Demandes Abonnements" ? item?.nb_demande_identifiees : "";
-  
+
       return {
         'Date demande': item?.created_at,
         'N° Dossier': item?.numero_demande,
@@ -326,17 +334,17 @@ export class DemandeWrapperComponent implements OnInit {
         'Demandeur': `${item?.demandeur_nom} ${item?.demandeur_prenoms}`
       };
     });
-  
+
     this.excelService.exportAsExcelFile(data, `Liste des demandes [${this.selectedOperation}]`);
   }
   public getStyleButtonTraitement(data: any): Object {
-    if (data?.statut === BADGE_ETAPE.SOUMISSION && data.traitement === BADGE_ETAT.EN_ATTENTE) {
-      return { class: 'p-button-danger', icon: 'pi pi-times', tooltip: 'Abandonner' };
-    } else if (data?.statut === BADGE_ETAPE.FINALISATEUR) {
-      return { class: 'p-button-success', icon: 'pi pi-check', tooltip: 'Identifier' };
-    } else {
+    // if (data?.statut === BADGE_ETAPE.SOUMISSION && data.traitement === BADGE_ETAT.EN_ATTENTE) {
+    //   return { class: 'p-button-danger', icon: 'pi pi-times', tooltip: 'Abandonner' };
+    // } else if (data?.statut === BADGE_ETAPE.FINALISATEUR) {
+    //   return { class: 'p-button-success', icon: 'pi pi-check', tooltip: 'Identifier' };
+    // } else {
       return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande' };
-    }
+    // }
   }
   // public getStyleButtonTraitement(dossier: any): Object {
   //     switch (dossier?.statut) {
@@ -368,7 +376,7 @@ export class DemandeWrapperComponent implements OnInit {
   //         break;
 
   //         case BADGE_ETAPE.CLOTURE:
-  //             if (dossier?.traitement === BADGE_ETAT.ACCEPTE) {
+  //             if (dossier?.traitement === BADGE_ETAT.TERMINE) {
   //                 return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande', isViewMode: '' };
   //             } else if (dossier?.traitement === BADGE_ETAT.REFUSE) {
   //                 return { class: 'p-button-secondary', icon: 'pi pi-eye', tooltip: 'Détails demande', isViewMode: '' };
@@ -381,71 +389,39 @@ export class DemandeWrapperComponent implements OnInit {
 
   public getEtapeBadge(data: any): string {
     switch (data?.statut) {
-      case BADGE_ETAPE.SOUMISSION:
-        return "badge-dark";
-
-      case BADGE_ETAPE.TRAITEMENT:
-        return "badge-warning";
-
-      case BADGE_ETAPE.FINALISATEUR:
-        return "badge-info";
-
-      case BADGE_ETAPE.CLOTURE:
-        return "badge-success";
+      case BADGE_ETAPE.SOUMISSION: return "badge-dark";
+      case BADGE_ETAPE.TRAITEMENT: return "badge-warning";
+      case BADGE_ETAPE.FINALISATEUR: return "badge-info";
+      case BADGE_ETAPE.CLOTURE: return "badge-success";
     }
   }
 
   public getEtatBadge(data: any): string {
     switch (data?.statut) {
       case BADGE_ETAPE.SOUMISSION:
-        if (data?.traitement === BADGE_ETAT.RECU || data?.traitement === BADGE_ETAT.EN_ATTENTE) {
-          return "badge-dark";
-        }
-        if (data?.traitement === BADGE_ETAT.PARTIEL) {
-          return "badge-warning";
-        }
+        if (data?.traitement === BADGE_ETAT.EN_ATTENTE) return "badge-dark";
+        if (data?.traitement === BADGE_ETAT.APPROUVE) return "badge-success";
+        if (data?.traitement === BADGE_ETAT.REJETE) return "badge-danger";
+        if (data?.traitement === BADGE_ETAT.EN_COURS) return "badge-warning";
+        if (data?.traitement === BADGE_ETAT.RECU) return "badge-dark";
         break;
 
       case BADGE_ETAPE.TRAITEMENT:
-        if (data?.traitement === BADGE_ETAT.PARTIEL) {
-          return "badge-warning";
-        }
-        if (data?.traitement === BADGE_ETAT.COMPLET) {
-          return "badge-primary";
-        }
+        if (data?.traitement === BADGE_ETAT.EN_COURS) return "badge-warning";
+        if (data?.traitement === BADGE_ETAT.TERMINE) return "badge-success";
         break;
 
       case BADGE_ETAPE.FINALISATEUR:
-        if (data?.traitement === BADGE_ETAT.PARTIEL) {
-          return "badge-warning";
-        }
-        if (data?.traitement === BADGE_ETAT.CLOTURE) {
-          return "badge-success";
-        }
-        if (data?.traitement === BADGE_ETAT.COMPLET) {
-          return "badge-primary";
-        }
-        if (data?.traitement === BADGE_ETAT.ABANDONNE) {
-          return "badge-danger";
-        }
+        if (data?.traitement === BADGE_ETAT.EN_ATTENTE) { return "badge-warning"; }
+        if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-warning"; }
+        if (data?.traitement === BADGE_ETAT.LIVRE) { return "badge-primary"; }
         break;
 
       case BADGE_ETAPE.CLOTURE:
-        if (data?.traitement === BADGE_ETAT.PARTIEL) {
-          return "badge-warning";
-        }
-        if (data?.traitement === BADGE_ETAT.CLOTURE) {
-          return "badge-success";
-        }
-        if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
-          return "badge-danger";
-        }
-        if (data?.traitement === BADGE_ETAT.ACCEPTE) {
-          return "badge-success";
-        }
-        if (data?.traitement === BADGE_ETAT.REFUSE) {
-          return "badge-danger";
-        }
+        if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
+        if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
+        if (data?.traitement === BADGE_ETAT.ABANDONNE) { return "badge-warning"; }
+        if (data?.traitement === BADGE_ETAT.REJETE) { return "badge-danger"; }
         break;
     }
   }

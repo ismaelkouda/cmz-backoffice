@@ -227,72 +227,37 @@ export class AlarmesComponent implements OnInit {
   }
     
   public getEtapeBadge(data: any): string {
-      switch (data?.statut) {
-        case BADGE_ETAPE.SOUMISSION:
-          return "badge-dark";
-      
-          case BADGE_ETAPE.TRAITEMENT:
-            return "badge-warning";
-      
-            case BADGE_ETAPE.FINALISATEUR:
-              return "badge-info";
-  
-          case BADGE_ETAPE.CLOTURE:
-            return "badge-success";
-      }
+    switch (data?.statut) {
+      case BADGE_ETAPE.SOUMISSION: return "badge-dark";
+      case BADGE_ETAPE.TRAITEMENT: return "badge-warning";
+      case BADGE_ETAPE.FINALISATEUR: return "badge-info";
+      case BADGE_ETAPE.CLOTURE: return "badge-success";
+    }
   }
-  
+
   public getEtatBadge(data: any): string {
     switch (data?.statut) {
       case BADGE_ETAPE.SOUMISSION:
-        if(data?.traitement  === BADGE_ETAT.RECU || data?.traitement  === BADGE_ETAT.EN_ATTENTE) {
-          return "badge-dark";
-        }
-        if (data?.traitement === BADGE_ETAT.PARTIEL) {
-          return "badge-warning";
-        }
+        if (data?.traitement === BADGE_ETAT.EN_ATTENTE) return "badge-dark";
+        if (data?.traitement === BADGE_ETAT.PARTIEL) return "badge-warning";
+        if (data?.traitement === BADGE_ETAT.RECU) return "badge-dark";
+        if (data?.traitement === BADGE_ETAT.APPROUVE) return "badge-success";
+        if (data?.traitement === BADGE_ETAT.REJETE) return "badge-danger";
         break;
-    
-        case BADGE_ETAPE.TRAITEMENT:
-          if(data?.traitement  === BADGE_ETAT.PARTIEL) {
-            return "badge-warning";
-          }
-          if(data?.traitement  === BADGE_ETAT.COMPLET) {
-            return "badge-primary";
-          }
+
+      case BADGE_ETAPE.TRAITEMENT:
+        if (data?.traitement === BADGE_ETAT.EN_COURS) return "badge-warning";
+        if (data?.traitement === BADGE_ETAT.TERMINE) return "badge-success";
         break;
-    
-        case BADGE_ETAPE.FINALISATEUR:
-          if(data?.traitement  === BADGE_ETAT.PARTIEL) {
-            return "badge-warning";
-          }
-          if(data?.traitement  === BADGE_ETAT.CLOTURE) {
-            return "badge-success";
-          }
-          if (data?.traitement === BADGE_ETAT.COMPLET) {
-            return "badge-primary";
-          }
-          if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
-            return "badge-danger";
-          }
+
+      case BADGE_ETAPE.FINALISATEUR:
+        if (data?.traitement === BADGE_ETAT.EN_ATTENTE) { return "badge-warning"; }
+        if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-warning"; }
         break;
-  
-        case BADGE_ETAPE.CLOTURE:
-          if(data?.traitement  === BADGE_ETAT.PARTIEL) {
-            return "badge-warning";
-          }
-          if(data?.traitement  === BADGE_ETAT.CLOTURE) {
-            return "badge-success";
-          }
-          if(data?.traitement  === BADGE_ETAT.ABANDONNE) {
-            return "badge-danger";
-          }
-          if (data?.traitement === BADGE_ETAT.ACCEPTE) {
-            return "badge-success";
-          }
-          if (data?.traitement === BADGE_ETAT.REFUSE) {
-            return "badge-danger";
-          }
+
+      case BADGE_ETAPE.CLOTURE:
+        if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
+        if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
         break;
     }
   }
