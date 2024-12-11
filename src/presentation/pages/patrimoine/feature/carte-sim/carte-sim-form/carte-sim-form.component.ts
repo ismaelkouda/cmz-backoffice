@@ -112,9 +112,7 @@ export class CarteSimFormComponent implements OnInit {
         this.activatedRoute.queryParams.subscribe((params: Object) => {
             this.urlParamRef = params?.["ref"];
             this.urlParamCurrentPage = params?.["current_page"];
-            console.log('this.urlParamCurrentPage', this.urlParamCurrentPage)
             this.urlParamFilter = this.carteSimStateService.getFilterCarteSimState(params?.["filter"]);
-            console.log('this.urlParamFilter', this.urlParamFilter)
         });
         switch (this.urlParamRef) {
             case "editer": this.initFormUpdateCarteSim(); break;
@@ -160,7 +158,7 @@ export class CarteSimFormComponent implements OnInit {
             this.displayUrlErrorPage = true;
         }
     }
-    
+
     async getCarteSimSelectedDetails(carteSimSelectedImsi: string): Promise<any> {
         console.log('carteSimSelectedImsi', carteSimSelectedImsi)
         const response: any = await handle(() => this.patrimoinesService.PostPatrimoineSimSimsimsiDetails(carteSimSelectedImsi), this.toastrService, this.loadingBar);
@@ -168,9 +166,7 @@ export class CarteSimFormComponent implements OnInit {
             this.carteSimSelectedDetails = response.data;
             switch (this.urlParamRef) {
                 case "editer": this.patchValueFormUpdateCarteSim(response.data); break;
-
                 case "identifier": this.patchValueFormIdentifierCarteSim(response.data); break;
-
                 case "détails": this.patchValueFormDetailsCarteSim(response.data); break;
             }
         };
@@ -188,7 +184,7 @@ export class CarteSimFormComponent implements OnInit {
             imsi: carteSimSelectedDetails?.imsi,
             iccid: carteSimSelectedDetails?.iccid,
             msisdn: carteSimSelectedDetails?.msisdn,
-            date_naissance: carteSimSelectedDetails?.date_naissance,
+            date_naissance: new Date(carteSimSelectedDetails?.date_naissance),
             lieu_naissance: carteSimSelectedDetails?.lieu_naissance,
         });
         if (carteSimSelectedDetails?.photo_carte_recto) {
@@ -200,7 +196,6 @@ export class CarteSimFormComponent implements OnInit {
         if (carteSimSelectedDetails?.photo_physique) {
             this.imageURLs['physique'] = carteSimSelectedDetails.photo_physique ?? '';
         }
-        console.log('carteSimSelectedDetails?.date_naissance', carteSimSelectedDetails?.date_naissance)
     }
 
 
@@ -288,23 +283,18 @@ export class CarteSimFormComponent implements OnInit {
             preConfirm: async () => {
                 try {
                     const response: any = await handle(() => this.patrimoineService.ProcessImagePatrimoine(formData), this.toastrService, this.loadingBar);
-                    if (!response.ok) {
-                        // return Swal.showValidationMessage(`${JSON.stringify(await this.response.message)}`);
-                        if (!response?.error) {
-                            this.handleSuccessfuVerifyCampagne(response)
-                        };
+                    console.log('response', response)
+                    if (!response?.error) {
+                        this.handleSuccessfuVerifyCampagne(response)
+                    } else {
+                        return Swal.showValidationMessage(`${JSON.stringify(await response.error.message)}`);
                     }
-                    // return this.response.message;
                 } catch (error) {
                     console.log('error', error)
-                    Swal.showValidationMessage(`Une erreur s'est produite`);
+                    Swal.showValidationMessage(`${error.message}`);
                 }
             },
             allowOutsideClick: () => !Swal.isLoading()
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // this.successHandle(this.response);
-            }
         })
     }
     async handleSuccessfuVerifyCampagne(response: any): Promise<any> {
@@ -316,7 +306,7 @@ export class CarteSimFormComponent implements OnInit {
             nature_piece: response?.data?.nature_piece,
             numero_piece: response?.data?.numero_piece,
             lieu_naissance: response?.data?.lieu_naissance,
-            date_naissance: response?.data?.date_naissance,
+            date_naissance: response?.data?.date_naissance ?? new Date(response?.data?.date_naissance),
         })
         this.isNoVerifyPiecesPhotos = false;
         console.log('this.formIdentifierCarteSim', this.formIdentifierCarteSim.value)

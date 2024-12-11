@@ -5,37 +5,14 @@
                 pButton
                 pRipple
                 class="p-button-success w-100 mb-3"
-                label="Enregistrer"
-                (click)="PostGestionIdentificationsFileAttentesTraiter()"
-                [disabled]="formIdentification.invalid || isStartWorkedDay()"
-                *ngIf="typeTraitement?.traiter"
+                label="Identifier"
+                (click)="handleIdentifyCampagne()"
+                [disabled]="(isNoVerifyPiecesPhotos || formIdentifierCarteSim.invalid) && !(formIdentifierCarteSim.valid && carteSimSelectedDetails?.['is_identified'])"
+                *ngIf="typeTraitement?.identifier"
             ></button>
-            <button
-                pButton
-                pRipple
-                class="p-button-primary w-100 mb-3"
-                label="Prendre en charge"
-                (click)="
-                    PostSupervisionOperationsTraitementsSuivisPrendreDemandeService()
-                "
-                [disabled]="isStartWorkedDay()"
-                *ngIf="typeTraitement?.prendre"
-            ></button>
-            <button
-                pButton
-                pRipple
-                class="p-button-warning w-100"
-                label="Libérer"
-                [pTooltip]="
-                    isStartWorkedDay() ? 'Veuillez démarrer votre journée' : ''
-                "
-                (click)="handleLiberer()"
-                [disabled]="isStartWorkedDay()"
-                *ngIf="
-                    typeTraitement?.traiter &&
-                    sim?.statut === BADGE_ETAPE.SOUMISSION
-                "
-            ></button>
+            <button pButton pRipple class="p-button-danger w-100 mt-2" label="Annuler"
+            *ngIf="typeTraitement?.identifier">
+            </button>
         </div>
 
         <div>
@@ -73,7 +50,7 @@
             </fieldset>
         </div>
 
-        <div *ngIf="sim?.statut === BADGE_ETAPE.TRAITEMENT">
+        <!-- <div *ngIf="sim?.statut === BADGE_ETAPE.TRAITEMENT">
             <fieldset>
                 <legend>
                     <strong>Traitement</strong>
@@ -106,7 +83,7 @@
                     </div>
                 </div>
             </fieldset>
-        </div>
+        </div> -->
     </div>
 
     <div class="col-lg-10 mt-2">
@@ -116,12 +93,9 @@
             role="alert"
         >
             <div>
-                <strong class="wrapper-header"
-                    >Soumission :
-                    {{ (sim?.etat_soumission | titlecase) ?? '' }}
-                    [{{
-                        sim?.etat_soumission === BADGE_ETAT.RECU
-                            ? sim?.acquitte_a
+                <strong class="wrapper-header">
+                    Soumission : {{ (sim?.etat_soumission | titlecase) ?? '' }}
+                    [{{sim?.etat_soumission === BADGE_ETAT.RECU ? sim?.acquitte_a
                             : sim?.etat_soumission === BADGE_ETAT.EN_ATTENTE
                             ? sim?.created_at
                             : '-- : --'
@@ -138,14 +112,8 @@
         </div>
         <div class="row">
             <h4 *ngIf="sim?.rapport" class="col-md-7 wrapper-header">
-                <strong>{{ getTitleForm(sim?.operation) }} </strong>
+                <strong>Identification </strong>
             </h4>
-            <!-- <div class="row">
-                <div class="d-flex justify-content-center align-items-center" style="height: 50px;">
-                    <input class="input__field borderColor text-center fontSize" pInputText [style]="{minWidth: '100%'}"
-                        placeholder="Commentaire Commercial" formControlName="commentaire_identification" />
-                </div>
-            </div> -->
         </div>
 
         <hr style="position: relative; top: -0.2rem; margin-top: -0.8rem" />
@@ -171,8 +139,8 @@
                         </div>
                         <ng-container
                             *ngIf="
-                                typeTraitement.module === 'file-attente';
-                                else fieldsModuleTraitement
+                                typeTraitement.visualiser;
+                                else fieldsModuleIdentifier
                             "
                         >
                             <ng-container *ngIf="displayPersonne === true">
@@ -334,7 +302,7 @@
                                 </div>
                             </ng-container>
                         </ng-container>
-                        <ng-template #fieldsModuleTraitement>
+                        <ng-template #fieldsModuleIdentifier>
                             <ng-container
                                 *ngIf="
                                     displayPersonne === true;
@@ -694,7 +662,7 @@
                     </div>
                 </fieldset>
 
-                <fieldset *ngIf="sim?.statut === BADGE_ETAPE.TRAITEMENT">
+                <!-- <fieldset *ngIf="sim?.statut === BADGE_ETAPE.TRAITEMENT">
                     <legend>
                         <strong>Identification</strong>
                     </legend>
@@ -727,9 +695,9 @@
                             />
                         </div>
                     </div>
-                </fieldset>
+                </fieldset> -->
 
-                <fieldset *ngIf="typeTraitement?.traiter">
+                <!-- <fieldset *ngIf="typeTraitement?.identifier">
                     <legend><strong>Traitement</strong></legend>
                     <div class="row">
                         <div class="d-flex align-items-end col-md-3">
@@ -789,7 +757,7 @@
                             </textarea>
                         </div>
                     </div>
-                </fieldset>
+                </fieldset> -->
             </div>
         </div>
     </div>

@@ -80,11 +80,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md d-flex align-items-center container-button-telecharger"
-                                                style="
-                                                    height: 4rem;
-                                                    padding-left: 5px;
-                                                ">
+                                            <div class="alert alert-light col-md" role="alert" style="height: 4rem; margin-right: 14px">
                                                 <ng-container *ngIf="
                                                         displayPersonne;
                                                         else equipementMessage
@@ -148,14 +144,19 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label><b>Date naissance<span
-                                                                class="text-danger">*</span></b></label>
-                                                    <!-- <p-calendar formControlName="date_naissance" [showIcon]="true"
+                                                    <label
+                                                        ><b
+                                                            >Date naissance<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <p-calendar formControlName="date_naissance" [showIcon]="true"
                                                         [placeholder]="
                                                             'JJ-MM-AAAA'
-                                                        " dateFormat="dd-mm-yy" [editable]="true">
-                                                    </p-calendar> -->
-                                                    <input type="text" formControlName="date_naissance" pInputText />
+                                                        " dateFormat="dd-mm-yy">
+                                                    </p-calendar>
                                                 </div>
                                                 <div class="col-md">
                                                     <div class="form-group">
@@ -203,12 +204,23 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label><b>Date
-                                                            d'installation<span class="text-danger">*</span></b></label>
-                                                    <p-calendar formControlName="date_naissance" [showIcon]="true"
+                                                    <label
+                                                        ><b
+                                                            >Date
+                                                            d'installation<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <p-calendar
+                                                        formControlName="date_naissance"
+                                                        [showIcon]="true"
                                                         [placeholder]="
                                                             'JJ-MM-AAAA'
-                                                        " dateFormat="dd-mm-yy">
+                                                        "
+                                                        dateFormat="dd-mm-yy"
+                                                    >
                                                     </p-calendar>
                                                 </div>
                                                 <div class="col-md">
@@ -839,26 +851,34 @@
                             <!-------------------------- Formulaire des details ------------------------------->
 
                             <div *ngIf="urlParamRef === 'détails'" [formGroup]="formDetailsCarteSim">
-                                <p-tabView (onChange)="detailsCurrentTabPanelIndex = $event.index">
+                                <p-tabView (onChange)="
+                                        detailsCurrentTabPanelIndex =
+                                            $event.index
+                                    ">
                                     <p-tabPanel header="INFORMATIONS">
                                         <div>
                                             <div class="row">
                                                 <div class="col-md-9" novalidate>
                                                     <fieldset>
-                                                        <legend><b>Informations SIM</b></legend>
+                                                        <legend>
+                                                            <b>Informations
+                                                                SIM</b>
+                                                        </legend>
                                                         <div class="row">
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>
                                                                         <b>IMSI</b>
                                                                     </label>
-                                                                    <input type="text" formControlName="imsi" pInputText />
+                                                                    <input type="text" formControlName="imsi"
+                                                                        pInputText />
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label><b>ICCID</b></label>
-                                                                    <input type="text" formControlName="iccid" pInputText class="w-100" />
+                                                                    <input type="text" formControlName="iccid"
+                                                                        pInputText class="w-100" />
                                                                 </div>
                                                             </div>
                                                             <!-- <div class="col-md-2">
@@ -870,7 +890,7 @@
                                                                         pInputText />
                                                                 </div>
                                                             </div> -->
-                                                            <div class="col-md-3">
+                                                            <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>
                                                                         <b>Formule</b>
@@ -892,7 +912,9 @@
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>
-                                                                        <b>{{firstLevelLibelle}}</b>
+                                                                        <b>{{
+                                                                            firstLevelLibelle
+                                                                            }}</b>
                                                                     </label>
                                                                     <input type="text" formControlName="niveau_un_uuid"
                                                                         pInputText />
@@ -901,7 +923,9 @@
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>
-                                                                        <b>{{secondLevelLibelle}}</b>
+                                                                        <b>{{
+                                                                            secondLevelLibelle
+                                                                            }}</b>
                                                                     </label>
                                                                     <input type="text"
                                                                         formControlName="niveau_deux_uuid" pInputText />
@@ -910,7 +934,9 @@
                                                             <div class="col-md-4">
                                                                 <div class="form-group">
                                                                     <label>
-                                                                        <b>{{thirdLevelLibelle}}</b>
+                                                                        <b>{{
+                                                                            thirdLevelLibelle
+                                                                            }}</b>
                                                                     </label>
                                                                     <input type="text"
                                                                         formControlName="niveau_trois_uuid"
@@ -1161,11 +1187,9 @@
                                         </div>
                                     </p-tabPanel>
                                     <p-tabPanel header="IDENTIFICATION">
-                                        
-                                        <fieldset *ngIf="!carteSimSelectedDetails?.type_personne">
+                                        <fieldset>
                                             <legend>
-                                                <b>Utilisateur /
-                                                    Bénéficiaire [{{carteSimSelectedDetails?.type_personne}}]</b>
+                                                <b>Utilisateur / Bénéficiaire</b>
                                             </legend>
                                             <div class="d-flex gap-2">
                                                 <div>
@@ -1174,8 +1198,7 @@
                                                             <b>Type
                                                                 Utilisateur</b>
                                                         </label>
-                                                        <input type="text" formControlName="type_personne"
-                                                            pInputText />
+                                                        <input type="text" formControlName="type_personne" pInputText />
                                                     </div>
                                                 </div>
                                                 <ng-container *ngIf="
@@ -1185,53 +1208,48 @@
                                                     <div>
                                                         <div class="form-group">
                                                             <label><b>Nom</b></label>
-                                                            <input type="text" formControlName="nom"
-                                                                pInputText />
+                                                            <input type="text" formControlName="nom" pInputText />
                                                         </div>
                                                     </div>
                                                     <div>
                                                         <div class="form-group">
                                                             <label><b>Prénoms</b></label>
-                                                            <input type="text" formControlName="prenoms"
+                                                            <input type="text" formControlName="prenoms" pInputText />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label>
+                                                                <b>Nature de
+                                                                    la pièce</b>
+                                                            </label>
+                                                            <input type="text" formControlName="nature_piece"
                                                                 pInputText />
                                                         </div>
                                                     </div>
                                                     <div>
                                                         <div class="form-group">
                                                             <label>
-                                                                <b>Nature
-                                                                    de
-                                                                    la
-                                                                    pièce</b>
+                                                                <b>Numéro de
+                                                                    la pièce</b>
                                                             </label>
-                                                            <input type="text"
-                                                                formControlName="nature_piece" pInputText />
+                                                            <input type="text" formControlName="numero_piece"
+                                                                pInputText />
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <div class="form-group">
-                                                            <label>
-                                                                <b>Numéro
-                                                                    de
-                                                                    la
-                                                                    pièce</b>
-                                                            </label>
-                                                            <input type="text"
-                                                                formControlName="numero_piece" pInputText />
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <label><b>Date naissance<span
-                                                                    class="text-danger">*</span></b></label>
+                                                        <label><b>Date
+                                                                naissance<span class="text-danger">*</span></b></label>
                                                         <input type="text" formControlName="date_naissance" pInputText
-                                                                class="w-100" />
+                                                            class="w-100" />
                                                     </div>
                                                     <div>
                                                         <div class="form-group">
                                                             <label><b>Lieu de
-                                                                    naissance<span class="text-danger">*</span></b></label>
-                                                            <input type="text" formControlName="lieu_naissance" pInputText
-                                                                class="w-100" />
+                                                                    naissance<span
+                                                                        class="text-danger">*</span></b></label>
+                                                            <input type="text" formControlName="lieu_naissance"
+                                                                pInputText class="w-100" />
                                                         </div>
                                                     </div>
                                                 </ng-container>
@@ -1242,53 +1260,50 @@
                                                     <div>
                                                         <div class="form-group">
                                                             <label><b>Denomination</b></label>
-                                                            <input type="text" formControlName="nom"
-                                                                pInputText />
+                                                            <input type="text" formControlName="nom" pInputText />
                                                         </div>
                                                     </div>
                                                     <div>
                                                         <div class="form-group">
                                                             <label><b>Raison
                                                                     social</b></label>
-                                                            <input type="text" formControlName="prenoms"
+                                                            <input type="text" formControlName="prenoms" pInputText />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label>
+                                                                <b>Nature du
+                                                                    document</b>
+                                                            </label>
+                                                            <input type="text" formControlName="nature_piece"
                                                                 pInputText />
                                                         </div>
                                                     </div>
                                                     <div>
                                                         <div class="form-group">
                                                             <label>
-                                                                <b>Nature
-                                                                    du
+                                                                <b>Numéro du
                                                                     document</b>
                                                             </label>
-                                                            <input type="text"
-                                                                formControlName="nature_piece" pInputText />
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <div class="form-group">
-                                                            <label>
-                                                                <b>Numéro
-                                                                    du
-                                                                    document</b>
-                                                            </label>
-                                                            <input type="text"
-                                                                formControlName="numero_piece" pInputText />
+                                                            <input type="text" formControlName="numero_piece"
+                                                                pInputText />
                                                         </div>
                                                     </div>
                                                     <div>
                                                         <label><b>Date
-                                                                d'installation<span class="text-danger">*</span></b></label>
+                                                                d'installation<span
+                                                                    class="text-danger">*</span></b></label>
                                                         <input type="text" formControlName="date_naissance" pInputText
-                                                                class="w-100" />
+                                                            class="w-100" />
                                                     </div>
                                                     <div>
                                                         <div class="form-group">
                                                             <label><b>Lieu
                                                                     d'installation<span
                                                                         class="text-danger">*</span></b></label>
-                                                            <input type="text" formControlName="lieu_naissance" pInputText
-                                                                class="w-100" />
+                                                            <input type="text" formControlName="lieu_naissance"
+                                                                pInputText class="w-100" />
                                                         </div>
                                                     </div>
                                                 </ng-container>
