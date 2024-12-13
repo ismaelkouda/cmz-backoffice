@@ -94,11 +94,6 @@ export class CarteFilterComponent implements OnInit {
     private handleSuccessfulFormules(response): void {
         this.listFormule = response['data'];
     }
-    // Reporting des services
-
-    // stock source de SIM
-    // stock local || stock Orange
-    // suivi des ventes
 
     public initFormFilter() {
         // const filterState = this.carteSimStateService.getFilterState();

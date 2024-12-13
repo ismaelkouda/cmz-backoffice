@@ -184,7 +184,7 @@ export class CarteSimFormComponent implements OnInit {
             imsi: carteSimSelectedDetails?.imsi,
             iccid: carteSimSelectedDetails?.iccid,
             msisdn: carteSimSelectedDetails?.msisdn,
-            date_naissance: new Date(carteSimSelectedDetails?.date_naissance),
+            date_naissance: carteSimSelectedDetails?.date_naissance ? new Date(carteSimSelectedDetails?.date_naissance) : '',
             lieu_naissance: carteSimSelectedDetails?.lieu_naissance,
         });
         if (carteSimSelectedDetails?.photo_carte_recto) {
@@ -306,7 +306,7 @@ export class CarteSimFormComponent implements OnInit {
             nature_piece: response?.data?.nature_piece,
             numero_piece: response?.data?.numero_piece,
             lieu_naissance: response?.data?.lieu_naissance,
-            date_naissance: response?.data?.date_naissance ?? new Date(response?.data?.date_naissance),
+            date_naissance: response?.data?.date_naissance ? new Date(response?.data?.date_naissance) : '',
         })
         this.isNoVerifyPiecesPhotos = false;
         console.log('this.formIdentifierCarteSim', this.formIdentifierCarteSim.value)

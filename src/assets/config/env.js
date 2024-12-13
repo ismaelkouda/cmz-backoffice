@@ -3,6 +3,7 @@
 
     // PROD Config
     window.__env.prod = {
+        verifyIdentityDocumentUrl: 'https://osim-monitoring.orange.ci:8013/',
         apiUrl: 'https://gs2e-osim.orange.ci:12300/api/v1/',
         fileUrl: 'https://gs2e-osim.orange.ci:12300/',
         environmentDeployment: 'PROD',
@@ -11,6 +12,7 @@
  
     // DEV Config
     window.__env.dev = {
+        verifyIdentityDocumentUrl: 'http://10.10.0.200:48013/',
         // apiUrl: 'http://10.10.0.200:12200/api/v1/',
         // fileUrl: 'http://10.10.0.200:12200/',
         //apiUrl: "http://10.10.0.30:8003/api/v1/",

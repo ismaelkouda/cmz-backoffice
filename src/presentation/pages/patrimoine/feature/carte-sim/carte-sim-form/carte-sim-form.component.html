@@ -80,11 +80,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="alert alert-light col-md" role="alert" style="height: 4rem; margin-right: 14px">
-                                                <ng-container *ngIf="
-                                                        displayPersonne;
-                                                        else equipementMessage
-                                                    ">
+                                            <div class="alert alert-light col-md" role="alert"
+                                                style="height: 4rem; margin-right: 14px;">
+                                                <ng-container *ngIf="displayPersonne; else equipementMessage">
                                                     <span class="fs-5">
                                                         Les informations de la
                                                         personne seront
@@ -144,14 +142,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label
-                                                        ><b
-                                                            >Date naissance<span
-                                                                class="text-danger"
-                                                                >*</span
-                                                            ></b
-                                                        ></label
-                                                    >
+                                                    <label><b>Date naissance<span
+                                                                class="text-danger">*</span></b></label>
                                                     <p-calendar formControlName="date_naissance" [showIcon]="true"
                                                         [placeholder]="
                                                             'JJ-MM-AAAA'
@@ -204,23 +196,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label
-                                                        ><b
-                                                            >Date
-                                                            d'installation<span
-                                                                class="text-danger"
-                                                                >*</span
-                                                            ></b
-                                                        ></label
-                                                    >
-                                                    <p-calendar
-                                                        formControlName="date_naissance"
-                                                        [showIcon]="true"
+                                                    <label><b>Date
+                                                            d'installation<span class="text-danger">*</span></b></label>
+                                                    <p-calendar formControlName="date_naissance" [showIcon]="true"
                                                         [placeholder]="
                                                             'JJ-MM-AAAA'
-                                                        "
-                                                        dateFormat="dd-mm-yy"
-                                                    >
+                                                        " dateFormat="dd-mm-yy">
                                                     </p-calendar>
                                                 </div>
                                                 <div class="col-md">
@@ -1189,7 +1170,8 @@
                                     <p-tabPanel header="IDENTIFICATION">
                                         <fieldset>
                                             <legend>
-                                                <b>Utilisateur / Bénéficiaire</b>
+                                                <b>Utilisateur /
+                                                    Bénéficiaire</b>
                                             </legend>
                                             <div class="d-flex gap-2">
                                                 <div>

@@ -12,6 +12,7 @@ export class EnvService {
     public apiUrl: string;
     public fileUrl: string;
     public environmentDeployment: string;
+    public verifyIdentityDocumentUrl: string;
 
     public headerSettings = {
         appTypePS: '',
@@ -33,6 +34,7 @@ export class EnvService {
 
     private loadEnvironment(): void {
         const env = window.__env.currentEnv;
+        this.verifyIdentityDocumentUrl = env.verifyIdentityDocumentUrl;
         this.apiUrl = env.apiUrl;
         this.fileUrl = env.fileUrl;
         this.environmentDeployment = env.environmentDeployment;

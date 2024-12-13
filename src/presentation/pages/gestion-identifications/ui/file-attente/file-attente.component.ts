@@ -29,7 +29,7 @@ export class FileAttenteComponent implements OnInit {
     public filterData: Object;
     public currentPage: string;
     public statistiquesBox: Array<IStatistiquesBox> = [];
-
+    
     constructor(private toastrService: ToastrService, private loadingBarService: LoadingBarService,
         private activatedRoute: ActivatedRoute, private stateFileAttenteService: StateFileAttenteService,
         private gestionIdentificationsService: GestionIdentificationsService, private excelService: ExcelService,

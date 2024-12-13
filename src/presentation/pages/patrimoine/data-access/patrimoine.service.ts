@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EndPointUrl } from './api.enum';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
+import { EnvService } from 'src/shared/services/env.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ "Content-Type": "application/json" }),
@@ -70,8 +71,9 @@ export class PatrimoineService {
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
   ProcessImagePatrimoine(data): Observable<any> {
+    const url: string = new EnvService().verifyIdentityDocumentUrl;
     // return this.http.post(`http://10.10.0.53:5000/process-image`, data);
-    return this.http.post(`http://10.10.0.200:48013/process-image`, data);
+    return this.http.post(`${url}process-image`, data);
   }
   IdentificationPatrimoine(data): Observable<any> {
     const url: string = (<string>EndPointUrl.IDENTIFICATION_PATRIMOINE);

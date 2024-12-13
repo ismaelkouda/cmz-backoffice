@@ -37,6 +37,15 @@ import { DemandeService } from '../../data-access/demande.service';
     styleUrls: ['./transaction-form.component.scss'],
 })
 export class TransactionFormComponent implements OnInit, OnDestroy {
+    public formMasseLibelle = {
+        etape_1: "Etape 1 : Cliquez pour télécharger le fichier modèle",
+        etape_2: "Etape 2 : Importez le fichier modèle",
+        etape_3: "Etape 3 : Vérifiez le fichier importé"
+    } as const;
+    public libelleFile = {
+        file1: "Télécharger le modèle",
+        file2:"Charger le fichier"
+    } as const;
     public fileModel =
         '../../../../../assets/data/Modele-Activation-En-Masse.xlsx';
     public baseUrl: string;
@@ -208,6 +217,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
 
     public initFormMasse(): void {
         this.adminForm = this.fb.group({
+            source: "stock orange",
             operation: this.activationMasse,
             niveau_un_uuid: [this.currentObject ? this.currentObject.niveau_un_uuid : ''],
             niveau_deux_uuid: [this.currentObject ? this.currentObject.niveau_deux_uuid : ''],
@@ -289,7 +299,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             }
         });
     }
-    
 
     get statut_contrat() {
         return this.adminForm.get('statut').value;
@@ -362,7 +371,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             },
         });
     }
-
     public formatTitle(title: string) {
         switch (title) {
             case OperationTransaction.ACHAT_SERVICE: {
@@ -406,7 +414,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             },
         });
     }
-
     onGetDrValueChanges() {
         return this.adminForm
             .get('niveau_un_uuid')
@@ -475,6 +482,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                 },
             });
     }
+
     public changeItem(event: any) {
         this.currentPatrimoine = {};
         this.selectedValue = null;
@@ -500,7 +508,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             this.selectedPiece = null; // Réinitialiser selectedPiece si aucun fichier n'est sélectionné
         }
     }
-    
     public handleSaveNewTransaction() {
         let baseUrl;
         let data;
@@ -590,7 +597,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             //     usage_id: this.adminForm.get('usage_id').value,
             //     nb_demandes: this.adminForm.get('nb_demandes').value,
             // });
-            console.log('this.adminForm 11111', this.adminForm.value)
             //Disable Our Controls
             // this.adminForm.get('point_emplacement').disable();
             // this.adminForm.get('adresse_geographique').disable();
@@ -626,7 +632,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                             : 'patrimoine',
                 };
             }
-            console.log('this.adminForm 2222', this.adminForm.value)
             // data = formDataBuilder({
             //     ...adminData,
             //     operation: this.selectedActionValue,
@@ -637,7 +642,6 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`;
         }
         
-        console.log('this.adminForm 3333', this.adminForm.value)
         this.httpClient.post(`${baseUrl}`, formDataBuilder(this.adminForm.value)).subscribe({
             next: (res: any) => {
                 this.GetAllTransactions();
@@ -711,6 +715,11 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             !this.selectedDescription ? true : false;
             return !this.selectedDescription ? true : false;
         }
+    }
+
+    async onDownloadModel(): Promise<any> {
+        // const tokenUser = JSON.parse(this.storage.getData('user')).token;
+        // window.location.href = this.gestionStocksService.postGestionStocksDownloadModeleFile(STOCKAGE_NUMEROS, tokenUser);
     }
     public isFilter(): boolean {
         return !this.selectedValue ? true : false;
