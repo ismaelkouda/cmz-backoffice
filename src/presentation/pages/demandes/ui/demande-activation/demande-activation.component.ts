@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SettingService } from 'src/shared/services/setting.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { Title } from '@angular/platform-browser';
-
 @Component({
   selector: 'app-demande-activation',
   templateUrl: './demande-activation.component.html',
@@ -30,20 +29,21 @@ export class DemandeActivationComponent implements OnInit {
     public settingService: SettingService,
     public patrimoineService: PatrimoineService,
     public toastrService: ToastrService,
-    private route: ActivatedRoute,
-    private titleService: Title
+    private titleService: Title,
+    private activatedRoute: ActivatedRoute
   ) {
     this.titleService.setTitle(`${this.title}`);
   }
 
   ngOnInit() {
-    this.route.data.subscribe((data) => {
+    this.activatedRoute.data.subscribe((data) => {
       this.module = data.module;
       this.subModule = data.subModule[0];
     });
     if (history.state.patrimoine) {
     }
   }
+
   public pushStatutView(event: boolean): void {    
     console.log('eventstatus', event)
     this.formsView = event;

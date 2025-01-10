@@ -44,7 +44,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     } as const;
     public libelleFile = {
         file1: "Télécharger le modèle",
-        file2:"Charger le fichier"
+        file2: "Charger le fichier"
     } as const;
     public fileModel =
         '../../../../../assets/data/Modele-Activation-En-Masse.xlsx';
@@ -116,6 +116,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     public sourceStockOrangeSim: string;
     public sourceSoldeDotation: string;
     public sourceSoldeDotationOrange: string;
+    public currentOperation: string = OperationTransaction.ACTIVATION;
+    public coutUinitaire: number;
 
     constructor(
         private patrimoineService: PatrimoineService,
@@ -146,11 +148,12 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.GetCoutUnitaireOperation();
         this.siteKey = environment.recaptcha.siteKey;
         this.isFilter();
         if (this.typeDemande === "simple") {
             this.initFormSimple();
-        } else if(this.typeDemande === "masse") {
+        } else if (this.typeDemande === "masse") {
             this.initFormMasse();
         }
         this.IsFormFomSIMValidate();
@@ -201,6 +204,17 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             ];
         }
     }
+    public GetCoutUnitaireOperation(): void {
+        this.settingService.GetCoutUnitaireOperation(this.currentOperation).subscribe({
+            next: (response) => {
+                this.coutUinitaire = response['data'];
+                this.adminForm.get("prix_unitaire")?.patchValue(this.coutUinitaire)
+            },
+            error: (error) => {
+                this.toastrService.error(error.error.message);
+            },
+        });
+    }
 
     pushCurrentArrayForm(event) {
         this.listDemandes = event;
@@ -222,24 +236,49 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             niveau_un_uuid: [this.currentObject ? this.currentObject.niveau_un_uuid : ''],
             niveau_deux_uuid: [this.currentObject ? this.currentObject.niveau_deux_uuid : ''],
             niveau_trois_uuid: [this.currentObject ? this.currentObject.niveau_trois_uuid : ''],
-            usage_id: [this.currentObject ? this.currentObject.usage_id : '', [Validators.required]],
-            nb_demandes: [this.currentObject ? this.currentObject.nb_demandes : '', [Validators.required]],
-            formule_uuid: [this.currentObject ? this.currentObject.formule_uuid : '', [Validators.required]],
+            usage_id: [this.currentObject ? this.currentObject.usage_id : null, [Validators.required]],
+            nb_demandes: [this.currentObject ? this.currentObject.nb_demandes : null, [
+                Validators.required,
+                Validators.min(1),
+                Validators.pattern(/^\d+(\.\d{1,2})?$/)
+              ]],
+            formule_uuid: [this.currentObject ? this.currentObject.formule_uuid : null, [Validators.required]],
             description: [this.currentObject ? this.currentObject.description : '', [Validators.required]],
-            type_paiement: [null, Validators.required],
-            recu_paiement: [null],
+            prix_unitaire: [this.coutUinitaire],
+            montant: [this.currentObject ? this.currentObject?.montant : null],
+            // type_paiement: [null, Validators.required],
+            // recu_paiement: [null],
             justificatif: [null, Validators.required]
         });
-        const typePaiementControl = this.adminForm.get("type_paiement");
-        const recuPaiementControl = this.adminForm.get("recu_paiement");
-        typePaiementControl.valueChanges.subscribe((value) => {
-            if (value === "immédiat") {
-                recuPaiementControl.setValidators([Validators.required]);
+        // const typePaiementControl = this.adminForm.get("type_paiement");
+        // const recuPaiementControl = this.adminForm.get("recu_paiement");
+        // typePaiementControl.valueChanges.subscribe((value) => {
+        //     if (value === "immédiat") {
+        //         recuPaiementControl.setValidators([Validators.required]);
+        //     } else {
+        //         recuPaiementControl.clearValidators();
+        //         recuPaiementControl.reset();
+        //     }
+        //     recuPaiementControl.updateValueAndValidity();
+        // });
+        if(this.typeDemande === "paiement") { this.adminForm.disable() }
+        const nbDemandesControl = this.adminForm.get("nb_demandes");
+        const prixUnitaireControl = this.adminForm.get("prix_unitaire");
+        prixUnitaireControl.disable();
+        const montantControl = this.adminForm.get("montant");
+        montantControl.disable();
+        const gererMontantDemandes = (value: number) => {
+            if (nbDemandesControl.valid) {
+                const montantDemandes = value * prixUnitaireControl.value;
+                montantControl.setValue(montantDemandes)
             } else {
-                recuPaiementControl.clearValidators();
-                recuPaiementControl.reset();
+                montantControl.setValue(this.currentObject?.prix_unitaire)
             }
-            recuPaiementControl.updateValueAndValidity();
+            montantControl.updateValueAndValidity();
+        };
+        gererMontantDemandes(nbDemandesControl?.value);
+        nbDemandesControl?.valueChanges.subscribe((value) => {
+            gererMontantDemandes(value);
         });
     }
 
@@ -271,28 +310,28 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             recu_paiement: [null],
             justificatif: [null, Validators.required]
         });
-    
+
         const typePaiementControl = this.adminForm.get("type_paiement");
         const recuPaiementControl = this.adminForm.get("recu_paiement");
         const msisdnControl = this.adminForm.get("msisdn");
         const imsiControl = this.adminForm.get("imsi");
-    
+
         typePaiementControl.valueChanges.subscribe((value) => {
             if (value === "immédiat") {
                 recuPaiementControl.setValidators([Validators.required]);
             } else {
                 recuPaiementControl.clearValidators();
-                recuPaiementControl.reset(); 
+                recuPaiementControl.reset();
             }
-            recuPaiementControl.updateValueAndValidity(); 
+            recuPaiementControl.updateValueAndValidity();
         });
-    
+
         msisdnControl.valueChanges.subscribe((value) => {
             if (value && value.length > 10) {
                 msisdnControl.setValue(value.slice(0, 10), { emitEvent: false });
             }
         });
-    
+
         imsiControl.valueChanges.subscribe((value) => {
             if (value && value.length > 15) {
                 imsiControl.setValue(value.slice(0, 15), { emitEvent: false });
@@ -415,9 +454,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         });
     }
     onGetDrValueChanges() {
-        return this.adminForm
-            .get('niveau_un_uuid')
-            .valueChanges.subscribe((value) => {
+        return this.adminForm?.get('niveau_un_uuid')?.valueChanges.subscribe((value) => {
                 this.getAllExploitation(value);
             });
     }
@@ -493,8 +530,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         const selectedFile = file.item(0);
         if (selectedFile) {
             // Mettez à jour le selectedPiece pour que le bouton soit activé
-            this.selectedPiece = selectedFile; 
-    
+            this.selectedPiece = selectedFile;
+
             switch (type) {
                 case "justificatif":
                     this.adminForm.patchValue({ justificatif: selectedFile });
@@ -528,10 +565,10 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                 adminData = {
                     ...(this.historie
                         ? {
-                              ...this.adminForm.value,
-                              msisdn: this.currentPatrimoine?.msisdn,
-                              imsi: this.currentPatrimoine?.imsi,
-                          }
+                            ...this.adminForm.value,
+                            msisdn: this.currentPatrimoine?.msisdn,
+                            imsi: this.currentPatrimoine?.imsi,
+                        }
                         : this.adminForm.value),
                     bac_a_pioche: 'orangeci',
                 };
@@ -572,7 +609,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                 justificatif: this.selectedPiece,
                 formule_uuid: this.selectedFormule,
             });
-            baseUrl = this.typeDemande === 'modifier' ? `${this.baseUrl}${EndPointUrl.MODIFICATION_DEMANDE}`: `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}` ;
+            baseUrl = this.typeDemande === 'modifier' ? `${this.baseUrl}${EndPointUrl.MODIFICATION_DEMANDE}` : `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`;
         }
         this.httpClient.post(`${baseUrl}`, data).subscribe({
             next: (res: any) => {
@@ -641,7 +678,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             // });
             baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`;
         }
-        
+
         this.httpClient.post(`${baseUrl}`, formDataBuilder(this.adminForm.value)).subscribe({
             next: (res: any) => {
                 this.GetAllTransactions();

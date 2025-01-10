@@ -1,17 +1,19 @@
+import { TransactionShowComponent } from './components/transaction-show/transaction-show.component';
+import { ParginationComponent } from './components/pargination/pargination.component';
+import { SharedService } from './../shared/services/shared.service';
+import { TablebuttonHeaderComponent } from './components/table-button-header/table-button-header.component';
+import { StateFactureService } from './components/facture/data-access/state-facture.service';
 import { TableTitleComponent } from './components/table-title/table-title.component';
 import { StatistiqueBoxComponent } from './components/statistique-box/statistique-box.component';
-import { SharedService } from 'src/shared/services/shared.service';
 import { SharedDataService } from './services/shared-data.service';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { FormMasseComponent } from './components/form-masse/form-masse.component';
-import { ParginationComponent } from 'src/shared/components/pargination/pargination.component';
 import { TransactionMasseComponent } from './components/transaction-masse/transaction-masse.component';
 import { PatrimoineHeaderComponent } from './components/patrimoine-header/patrimoine-header.component';
 import { TabViewHeaderComponent } from './components/tab-view-header/tab-view-header.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
 import { StatutContratComponent } from './components/statut-contrat/statut-contrat.component';
 import { FormatNumberPipe } from './pipes/formatNumber.pipe';
-import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
 import { CountBoxComponent } from './components/count-box/count-box.component';
 import { StatBoxComponent } from './components/stat-box/stat-box.component';
@@ -40,7 +42,6 @@ import { LoaderComponent } from "./components/loader/loader.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { TapToTopComponent } from "./components/tap-to-top/tap-to-top.component";
 import { MyAccountComponent } from "./components/header/elements/my-account/my-account.component";
-import { TablebuttonHeaderComponent } from "src/shared/components/table-button-header/table-button-header.component";
 
 // Services
 import { LayoutService } from "./services/layout.service";
@@ -66,6 +67,8 @@ import { BadgeModule } from 'primeng/badge';
 import { PaginatorModule } from 'primeng/paginator';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FileUploadModule } from 'primeng/fileupload';
+import { FactureComponent } from './components/facture/facture.component';
+import { SpinnerTitleDetailsComponent } from './components/spinner-title-details/spinner-title-details.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +104,9 @@ import { FileUploadModule } from 'primeng/fileupload';
     SpinnerComponent,
     CapitalizePipe,
     StatistiqueBoxComponent,
-    TableTitleComponent
+    TableTitleComponent,
+    FactureComponent,
+    SpinnerTitleDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -127,7 +132,9 @@ import { FileUploadModule } from 'primeng/fileupload';
     ProgressSpinnerModule,
     FileUploadModule
   ],
-  providers: [NavService, LayoutService, DecimalPipe, SharedDataService, SharedService],
+  providers: [NavService, LayoutService, DecimalPipe, SharedDataService, SharedService,
+    StateFactureService
+  ],
   exports: [
     NgbModule,
     FormsModule,
@@ -164,7 +171,9 @@ import { FileUploadModule } from 'primeng/fileupload';
     ButtonModule,
     FileUploadModule,
     StatistiqueBoxComponent,
-    TableTitleComponent
+    TableTitleComponent,
+    FactureComponent,
+    SpinnerTitleDetailsComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 

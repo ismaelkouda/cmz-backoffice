@@ -72,8 +72,8 @@ export class PatrimoineService {
   }
   ProcessImagePatrimoine(data): Observable<any> {
     const url: string = new EnvService().verifyIdentityDocumentUrl;
-    // return this.http.post(`http://10.10.0.53:5000/process-image`, data);
     return this.http.post(`${url}process-image`, data);
+    // return this.http.post(`http://10.10.0.53:5000/process-image`, data);
   }
   IdentificationPatrimoine(data): Observable<any> {
     const url: string = (<string>EndPointUrl.IDENTIFICATION_PATRIMOINE);

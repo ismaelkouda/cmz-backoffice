@@ -1,6 +1,8 @@
-import { AuthenticationService } from 'src/presentation/pages/authentication/data-access/authentication.service';
-import { StoreLocaleService } from 'src/shared/services/store-locale.service';
-import { EncodingDataService } from 'src/shared/services/encoding-data.service';
+import { handle } from '../../../../../shared/functions/api.function';
+import { LOGO_ORANGE } from '../../../../../shared/constants/logoOrange.constant';
+import { REINITIALISATION } from '../../../../app-routing.module';
+import { menuJson } from './../../../../../assets/menu';
+import { AuthenticationService } from './../../data-access/authentication.service';
 import { Component, OnInit } from "@angular/core";
 import { Validators, FormGroup, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -9,13 +11,11 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 
 // @ts-ignore
 import { environment } from 'src/environments/environment.prod';
-import { menuJson } from 'src/assets/menu';
 import { FORGOT_PASSWORD } from '../../../password-reset/password-reset-routing.module';
-import { REINITIALISATION } from 'src/presentation/app-routing.module';
-import { DASHBOARD } from 'src/shared/routes/routes';
 import { Title } from '@angular/platform-browser';
-import { LOGO_ORANGE } from 'src/shared/constants/logoOrange.constant';
-import { handle } from "src/shared/functions/api.function";
+import { StoreLocaleService } from '../../../../../shared/services/store-locale.service';
+import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
+import { DASHBOARD } from '../../../../../shared/routes/routes';
 
 @Component({
   selector: "app-login",

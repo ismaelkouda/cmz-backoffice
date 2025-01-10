@@ -1,0 +1,75 @@
+<p-table #dt [value]="listProduits" [rowHover]="true" dataKey="transaction"
+    selectionMode="single" [(selection)]="selectedProduit" [rows]="50"
+    [globalFilterFields]="['created_at','transaction','msisdn','imsi','statut','traitement','statut','traitement','date_cloture','date_traitement','code_rapport']">
+    <ng-template pTemplate="caption">
+        <div class="d-flex justify-content-between">
+            <app-table-title [count]="pargination?.total" [legendePluriel]="'lignes du dossiers'" [perPage]="pargination.per_page"
+                [legendeSingulier]="'ligne du dossier'"  [page]="pargination.currentPage" [totalPage]="pargination.last_page">
+            </app-table-title>
+            <div>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Recherche..." />
+                </span>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th class="text-center" [style]="{ width: '1.5rem' }">#</th>
+            <th class="text-center">
+                Date/Heure
+            </th>
+            <th class="text-center">
+                N° Produit
+            </th>
+            <th class="text-center" [style]="{ width: '8rem' }">Etape</th>
+            <th class="text-center" [style]="{ width: '8rem' }">Etat</th>
+            <th class="text-center" pTooltip="Date de traitement" tooltipPosition="top">
+                <span>Date</span> <span class="ms-1">Etat</span>
+            </th>
+            <th class="text-center" [style]="{ width: '3rem' }">Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-produit>
+        <tr [pSelectableRow]="produit">
+            <td class="text-center">{{ rowIndex + pargination?.offset }}</td>
+            <td class="text-center">{{ produit?.created_at }}</td>
+            <td class="cursor-pointer text-center" (click)="copyData(produit.transaction)">
+                {{ produit?.numero_produit }}
+            </td>
+            <td class="text-center" [style]="{ width: '8rem' }">
+                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getEtapeBadge(produit)">
+                    {{ produit?.statut }}
+                </span>
+            </td>
+            <td class="text-center" [style]="{ width: '8rem' }">
+                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getEtatBadge(produit)">
+                    {{ produit.traitement }}
+                </span>
+            </td>
+            <td class="text-center" [style]="{ width: '8rem' }">{{ produit.updated_at ?? 'N/A'}}</td>
+            <td class="td-actions">
+                <button pButton pRipple icon="pi pi-eye" class="p-button-dark" pTooltip="Voir" tooltipPosition="top"
+                    (click)="OnShowTraitement(produit)"></button>
+                <button pButton icon="pi pi-book" pTooltip="Journal" tooltipPosition="top"
+                    (click)="showJournal(produit)" class="p-button-primary"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr *ngIf="listProduits?.length <= 0 && !spinner">
+            <td class="posRelative" colspan="15">
+                <span class="posCenter"> Aucune donnée disponible </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner">
+            <td class="posRelative" colspan="15">
+                <p-progressSpinner class="posCenter" [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

@@ -11,6 +11,7 @@ import { DemandeSwappingComponent } from './ui/demande-swapping/demande-swapping
 import { DemandeIntegrationComponent } from './ui/demande-integration/demande-integration.component';
 import { FormDemandeIntegrationComponent } from './feature/demande-integration/form-demande-integration/form-demande-integration.component';
 import { DossierDemandeIntegrationComponent } from './feature/demande-integration/dossier-demande-integration/dossier-demande-integration.component';
+import { FactureComponent } from '../../../shared/components/facture/facture.component';
 
 export const DEMANDE_ACTIVATION = 'activation';
 export const DEMANDE_SUSPENSION = 'suspension';
@@ -29,7 +30,20 @@ const routes: Routes = [{
     children: [
         {
             path: DEMANDE_ACTIVATION,
-            component: DemandeActivationComponent
+            children: [
+                {
+                    path: '',
+                    component: DemandeActivationComponent,
+                },
+                {
+                    path: ":id",
+                    component: FactureComponent,
+                },
+                {
+                  path: '**',
+                  redirectTo: '',
+                },
+            ]
         },
         {
             path: DEMANDE_INTEGRATION,

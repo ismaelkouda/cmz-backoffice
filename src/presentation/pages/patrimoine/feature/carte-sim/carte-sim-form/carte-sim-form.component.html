@@ -80,9 +80,14 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="alert alert-light col-md" role="alert"
-                                                style="height: 4rem; margin-right: 14px;">
-                                                <ng-container *ngIf="displayPersonne; else equipementMessage">
+                                            <div class="alert alert-light col-md" role="alert" style="
+                                                    height: 4rem;
+                                                    margin-right: 14px;
+                                                ">
+                                                <ng-container *ngIf="
+                                                        displayPersonne;
+                                                        else equipementMessage
+                                                    ">
                                                     <span class="fs-5">
                                                         Les informations de la
                                                         personne seront
@@ -187,11 +192,7 @@
                                                 <div class="col-md">
                                                     <div class="form-group">
                                                         <label><b>Numéro
-                                                                {{
-                                                                formIdentifierCarteSim
-                                                                ?.value
-                                                                ?.nature_piece
-                                                                }}<span class="text-danger">*</span></b></label>
+                                                                {{ formIdentifierCarteSim?.value?.nature_piece}}<span class="text-danger">*</span></b></label>
                                                         <input type="text" formControlName="numero_piece" pInputText />
                                                     </div>
                                                 </div>
@@ -270,7 +271,7 @@
                                         <div class="row">
                                             <div class="d-flex justify-content-end mb-2">
                                                 <p-button label="Analyser" styleClass="p-button-primary" (click)="
-                                                        handleVerifyPiecePhoto()
+                                                        handleAnalysePiecePhoto()
                                                     " tooltipPosition="top" [disabled]="
                                                         formIdentifierCarteSim.get(
                                                             'type_personne'

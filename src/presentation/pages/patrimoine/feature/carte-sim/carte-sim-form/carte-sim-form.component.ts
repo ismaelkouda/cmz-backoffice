@@ -266,7 +266,7 @@ export class CarteSimFormComponent implements OnInit {
             response.error === false ? this.handleSuccessfulSave(response) : "";
         }
     }
-    async handleVerifyPiecePhoto() {
+    async handleAnalysePiecePhoto() {
         const formData = new FormData();
         formData.append('photo_physique', this.filesPhysique[0] ?? '');
         formData.append('photo_carte_verso', this.filesVerso[0] ?? '');
@@ -285,7 +285,7 @@ export class CarteSimFormComponent implements OnInit {
                     const response: any = await handle(() => this.patrimoineService.ProcessImagePatrimoine(formData), this.toastrService, this.loadingBar);
                     console.log('response', response)
                     if (!response?.error) {
-                        this.handleSuccessfuVerifyCampagne(response)
+                        this.handleSuccessfulAnalysePiecePhoto(response);
                     } else {
                         return Swal.showValidationMessage(`${JSON.stringify(await response.error.message)}`);
                     }
@@ -296,6 +296,10 @@ export class CarteSimFormComponent implements OnInit {
             },
             allowOutsideClick: () => !Swal.isLoading()
         })
+    }
+    async handleSuccessfulAnalysePiecePhoto(response: any): Promise<void> {
+        const result = Swal.fire(`${response?.message}`);
+        this.handleSuccessfuVerifyCampagne(response)
     }
     async handleSuccessfuVerifyCampagne(response: any): Promise<any> {
         this.toastrService.success(response?.message);
@@ -309,7 +313,6 @@ export class CarteSimFormComponent implements OnInit {
             date_naissance: response?.data?.date_naissance ? new Date(response?.data?.date_naissance) : '',
         })
         this.isNoVerifyPiecesPhotos = false;
-        console.log('this.formIdentifierCarteSim', this.formIdentifierCarteSim.value)
         // this.closeInterface();
         // this.carteSimApiStateService.refreshListCartesSim();
     }

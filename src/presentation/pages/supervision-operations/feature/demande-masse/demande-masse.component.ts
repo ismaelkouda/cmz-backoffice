@@ -1,6 +1,5 @@
 import { FormatFormData } from 'src/shared/functions/formatFormData.function';
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { SupervisionOperationService } from "src/presentation/pages/supervision-operations/data-access/supervision-operation.service";
 import { ToastrService } from "ngx-toastr";
 import { LoadingBarService } from "@ngx-loading-bar/core";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +16,8 @@ import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from 'src/shared/constants/swalWithBootstrapButtonsParams.constant';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { OperationTransaction } from "src/shared/enum/OperationTransaction.enum";
+import { DemandesProduitsService } from '../../../demandes-produits/data-access/demandes-produits.service';
+import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
 const Swal = require('sweetalert2');
 @Component({
     selector: 'app-demande-masse',
@@ -37,7 +38,7 @@ export class DemandeMasseComponent implements OnInit {
     public BADGE_ETAT = BADGE_ETAT;
     public BADGE_ETAPE = BADGE_ETAPE;
     public formTraitementMasse: FormGroup;
-    @Input() params: { vue: "demande", action: "Abandonner" | "Identifier" } | { vue: "traitement", action: "Clôturer" };
+    @Input() params: { vue: "demande", action: "Abandonner" | "Identifier" } | { vue: "SIM blanche", action: "Abandonner" | "Identifier" } | { vue: "traitement", action: "Clôturer" };
     @Input() action: 'traiter' | 'cloturer' | 'Abandonner' | 'Traiter';
     @Input() IsLoadData;
     @Input() demande;
@@ -84,7 +85,11 @@ export class DemandeMasseComponent implements OnInit {
     ngOnInit() {
         this.initFormTraitementMasse();
         // this.GetFormules();
-        this.GetSupervisionOperationsDemandesServicesDetails();
+        if (this.params.vue === "SIM blanche") {
+            this.getAllProduits();
+        } else {
+            this.GetSupervisionOperationsDemandesServicesDetails();
+        }
     }
 
 
@@ -95,8 +100,6 @@ export class DemandeMasseComponent implements OnInit {
         }
         return str || '';
       }
-    
-
 
     public initFormTraitementMasse(): void {
         this.formTraitementMasse = this.fb.group({
@@ -106,16 +109,23 @@ export class DemandeMasseComponent implements OnInit {
             numero_demande: [this.listDemandes?.numero_demande],
             formule_uuid: this.createFormControl(this.truncateString(this.listDemandes?.formule), Validators.required, true),
             usage_id: this.createFormControl(this.listDemandes?.usage_nom, null, true),
-            nb_demande_soumises: this.createFormControl(this.listDemandes?.nb_demande_soumises, null, true),
             montant_formule: this.createFormControl(this.listDemandes?.montant_formule, null, true),
             description: this.createFormControl(this.listDemandes?.description, null, true),
-            operation: this.createFormControl(this.listDemandes?.operation, null, true),
-            accepte: this.createFormControl(null, this.params.vue === 'traitement' ? Validators.required : null),
+            accepte: this.createFormControl(this.listDemandes?.accepte, this.params.vue === 'traitement' ? Validators.required : null, false),
             commentaire: [this.commentairePatchValue()],
             sims_file: this.createFormControl(null, this.params.vue === 'demande' ? Validators.required : null),
             commentaire_traitement: this.createFormControl(this.getNonNullValue(this.listDemandes?.commentaire_traitement), null, true), 
             commentaire_finalisation: this.createFormControl(this.listDemandes?.commentaire_finalisation, null, true),
             commentaire_cloture: this.createFormControl(this.listDemandes?.commentaire_cloture, null, true),
+            notation_cloture: this.createFormControl(this.listDemandes?.notation_cloture, this.isRequireNotationCloture ? Validators.required : null, false),
+
+            operation: this.createFormControl(this.formatTitle(this.listDemandes?.operation), null, true),
+            nb_demande_soumises: this.createFormControl(this.params.vue === 'SIM blanche' ? this.listDemandes?.facture?.qte : this.listDemandes?.nb_demande_soumises, null, true),
+            prix_unitaire: this.createFormControl(this.listDemandes?.["facture"]?.["prix_unitaire"], null, true),
+            prix_ht: this.createFormControl(this.listDemandes?.["facture"]?.["prix_ht"], null, true),
+            prix_ttc: this.createFormControl(this.listDemandes?.["facture"]?.["prix_ttc"], null, true),
+
+            montant: this.createFormControl(this.listDemandes?.["montant"], null, true),
         });
     
         if (this.isTraiteState()) {
@@ -124,12 +134,23 @@ export class DemandeMasseComponent implements OnInit {
     
         this.formTraitementMasse.get('accepte')?.valueChanges.subscribe(this.handleAccepteChange.bind(this));
     }
+
+    get isRequireNotationCloture() {
+        return this.listDemandes?.statut === BADGE_ETAPE.FINALISATEUR && this.listDemandes?.traitement === BADGE_ETAT.EFFECTUE
+    } 
+
+    get asClosed(): boolean {
+        return this.listDemandes?.statut === BADGE_ETAPE.CLOTURE&& this.listDemandes?.traitement === BADGE_ETAT.TERMINE
+      }
     
     // Nouvelle méthode pour gérer les valeurs null ou 'null'
     private getNonNullValue(value: any): string {
         return value === 'null' || value === null || value === undefined ? '' : value;
     }
     
+    public formatTitle(title: string) {
+        return this.supervisionOperationService.HandleFormatTitle(title);
+    }
 
     private commentairePatchValue(): string | null {
         switch (this.params.action) {
@@ -216,11 +237,16 @@ export class DemandeMasseComponent implements OnInit {
         return false;
     }
 
+    async getAllProduits(dataToSend: Object = this.demande?.numero_commande) {
+        const response: any = await handle(() => this.supervisionOperationService.postCommandeProduitCommandesDetails(dataToSend), this.toastrService, this.loadingBarService);
+        this.listDemandes = response?.data;
+        this.initFormTraitementMasse();
+        this.IsLoading.emit(false);
+    }
+
     async GetSupervisionOperationsDemandesServicesDetails(dataToSend = this.demande?.numero_demande): Promise<void> {
-        console.log('this.demande?.numero_demande', this.demande?.numero_demande)
-        this.response = await handle(() => this.supervisionOperationService.GetSupervisionOperationsDemandesServicesDetails(dataToSend), this.toastrService, this.loadingBarService);
+        this.response = await handle(() => this.settingService.GetSupervisionOperationsDemandesServicesDetails(dataToSend), this.toastrService, this.loadingBarService);
         this.listDemandes = this.response?.data;
-        console.log('this.listDemandes', this.listDemandes)
         this.initFormTraitementMasse();
         this.IsLoading.emit(false);
     }
@@ -235,7 +261,7 @@ export class DemandeMasseComponent implements OnInit {
         }
     }
     async onSaveTraitements(dataToSend: {}): Promise<void> {
-        dataToSend = { accepte: this.formTraitementMasse.value.accepte, numero_demande: this.listDemandes?.numero_demande, commentaire: this.formTraitementMasse?.value?.commentaire };
+        dataToSend = { accepte: this.formTraitementMasse.value.accepte, numero_demande: this.listDemandes?.numero_demande, commentaire: this.formTraitementMasse?.value?.commentaire, notation_cloture: this.formTraitementMasse?.value?.notation_cloture };
         const htmlMessage = `Voulez-vous clôturer la demande ?`;
         const result = await Swal.fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: htmlMessage });
         if (result.isConfirmed) {

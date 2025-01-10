@@ -7,6 +7,7 @@ import { EncodingDataService } from './encoding-data.service';
 @Injectable({
     providedIn: 'root',
 })
+
 export class SettingService {
     public statutSubject = new BehaviorSubject(false);
     public statutSubject$ = this.statutSubject.asObservable();
@@ -214,8 +215,18 @@ export class SettingService {
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
 
+    GetCoutUnitaireOperation(typeOperation: string): Observable<any> {
+        const url: string = <string>EndPointUrl.GET_CONTRATS_SLA_ENGAGEMENTS_SLA.replace('{typeOperation}', typeOperation);
+        return this.http.post(`${this.baseUrl}${url}`, {});
+    }
+
     GetAllAPN(data): Observable<any> {
         const url: string = <string>EndPointUrl.GET_ALL_APN;
         return this.http.get(`${this.baseUrl}${url}`, data);
+    }
+
+    GetSupervisionOperationsDemandesServicesDetails(numeroDemande: string): Observable<any> {
+        const url: string = <string>EndPointUrl.GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_numeroDemande_DETAILS.replace('{numeroDemande}', numeroDemande);
+        return this.http.get(`${this.baseUrl}${url}`);
     }
 }

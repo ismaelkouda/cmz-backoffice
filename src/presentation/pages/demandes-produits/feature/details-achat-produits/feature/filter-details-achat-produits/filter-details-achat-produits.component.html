@@ -1,0 +1,50 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+
+    <div class="row">
+        <div class="col-md-3">
+            <label><b>N° Produit</b> </label>
+            <input type="text" placeholder="N° Produit" pInputText formControlName="numero_produit"
+                [style]="{ minWidth: '100%' }" />
+        </div>
+        <div class="col-md-2">
+            <label><b>Etape</b> </label>
+            <p-dropdown
+            emptyFilterMessage="Aucune correspondance" emptyMessage="Aucune donnée" [options]="listEtapeLigne" [showClear]="true" formControlName="statut"
+                placeholder="Statut">
+                <ng-template let-data pTemplate="item">
+                    <div class="country-item">
+                        <div>{{ data | titlecase }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="col-md-2">
+            <label><b>Etat</b> </label>
+            <p-dropdown
+            emptyFilterMessage="Aucune correspondance" emptyMessage="Aucune donnée" [options]="listEtatLigne" [filter]="true" filterBy="libele" [showClear]="true"
+                formControlName="traitement" placeholder="Traitement" name="libele">
+                <ng-template let-data pTemplate="item">
+                    <div class="country-item">
+                        <div>{{ data | titlecase }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="col-md-2">
+            <label class="block"><b>Date début</b></label>
+            <p-calendar formControlName="date_debut" [showIcon]="true" [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy">
+            </p-calendar>
+        </div>
+        <div class="col-md-2">
+            <label class="block"><b>Date fin </b></label>
+            <p-calendar formControlName="date_fin" [showIcon]="true" placeholder="JJ-MM-AAAA" dateFormat="dd-mm-yy">
+            </p-calendar>
+        </div>
+        <div class="filter-button">
+            <button pButton pRipple type="submit" class="p-button-success" icon="pi pi-filter"></button>
+        </div>
+
+    </div>
+
+</form>

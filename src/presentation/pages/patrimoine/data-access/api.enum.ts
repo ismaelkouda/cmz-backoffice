@@ -19,13 +19,7 @@ export const enum EndPointUrl {
     REFRESH_DATA = 'patrimoine-sim/etats-des-soldes/actualisation-simple',
     POST_PATRIMOINE_SIM_ETATS_DES_SOLDES_ACTUALISATION_SIMPLE = 'patrimoine-sim/etats-des-soldes/actualisation-simple',
 
-
     CHANGE_STATUT_IDENTIFICATION = 'patrimoine-sim/transactions/sur-sim',
-
-
-
-
-
     
     GET_ALL_CYCLES = 'patrimoine-sim/cycle-de-vie/all?page={page}',
     GET_ALL_ETAT_SOLDE = 'patrimoine-sim/sims/etat-sims?page={page}',

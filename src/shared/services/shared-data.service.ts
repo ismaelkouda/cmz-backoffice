@@ -42,5 +42,16 @@ export class SharedDataService {
     postGestionIdentificationsFileAttente(): Observable<void> {
       return this.gestionIdentificationFileAttente.asObservable();
     }
+    /**
+   * DEMANDES PRODUITS => ACHAT PRODUITS
+   */
+    private demandesProduitsAchatProduits = new Subject<void>();
+
+    sendDemandesProduitsAchatProduits() {
+      this.demandesProduitsAchatProduits.next();
+    }
+    postDemandesProduitsAchatProduits(): Observable<void> {
+      return this.demandesProduitsAchatProduits.asObservable();
+    }
   
 }

@@ -12,6 +12,8 @@ import { VUE_GEOGRAPHIQUE } from 'src/presentation/pages/zone-trafic/zone-trafic
 import { JOURNAL_ATHENTICATION, PROFILS_HABILITATIONS, UTILISATEURS } from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { RAPPORT_CONFORMITE, SLA_DASHBORD } from 'src/presentation/pages/sla-demande-service/sla-demande-service-routing.module';
+import { DEMANDE_PRODUITS } from '../shared/routes/routes';
+import { ACHAT_PRODUIT } from '../presentation/pages/demandes-produits/demandes-produits-routing.module';
 
 export var menuJson = [
     {
@@ -173,6 +175,29 @@ export var menuJson = [
         ]
     },
     {
+        title: "Commandes de produits",
+        label: "Commandes de produits",
+        data: "11-0-0-demandes-de-produits",
+        statut: false,
+        expanded: true,
+        icon: "pen-tool",
+        url: "assets/images/portail/icone_ps.png",
+        path: `/${DEMANDE_PRODUITS}/${ACHAT_PRODUIT}`,
+        routerLink: `/${DEMANDE_PRODUITS}/${ACHAT_PRODUIT}`,
+        type: "sub",
+        pack: ApplicationType.MONITORING,
+        children: [
+            {
+                path: `/${DEMANDE_PRODUITS}/${ACHAT_PRODUIT}`,
+                title: "SIM Blanches",
+                label: "SIM Blanches",
+                data: "11-1-0-achat-produit",
+                pack: ApplicationType.MONITORING,
+                type: "link"
+            },
+        ]
+    },
+    {
         title: "Réferentiel de supervision",
         label: "Réferentiel de supervision",
         data: "2-0-0-referentiel-telemetrie",
@@ -275,8 +300,8 @@ export var menuJson = [
             },
             {
                 path: `/${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`,
-                title: "Suivi et traitement",
-                label: "Suivi et traitement",
+                title: "Suivi et traitements",
+                label: "Suivi et traitements",
                 data: "4-2-0-suivi-traitement",
                 type: "link",
                 pack: ApplicationType.MONITORING

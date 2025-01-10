@@ -43,7 +43,7 @@ import { DemandeActivationComponent } from './ui/demande-activation/demande-acti
 import { DemandeResiliationComponent } from './ui/demande-resiliation/demande-resiliation.component';
 import { TransactionFormComponent } from './feature/transaction-form/transaction-form.component';
 import { DemandeFormuleChangeComponent } from './ui/demande-formule-change/demande-formule-change.component';
-
+import { TypePaiementComponent } from './feature/type-paiement/type-paiement.component';
 
 //services
 import { DemandesFilterStateService } from './data-access/demandes-filter-state.service';
@@ -54,6 +54,7 @@ import { TableDossierDemandeIntegration } from "./feature/demande-integration/ta
 // import { FormDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/form-demande-identification/form-demande-identification.component';
 // import { ManagementDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/management-demande-identification/management-demande-identification.component';
 
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 @NgModule({
     imports: [
         CommonModule,
@@ -77,8 +78,10 @@ import { TableDossierDemandeIntegration } from "./feature/demande-integration/ta
         NgxCaptchaModule,
         CalendarModule,
         CheckboxModule,
+        DynamicDialogModule
     ],
     declarations: [
+        TypePaiementComponent,
         DemandeActivationComponent,
         DemandeSuspensionComponent,
         DemandeResiliationComponent,

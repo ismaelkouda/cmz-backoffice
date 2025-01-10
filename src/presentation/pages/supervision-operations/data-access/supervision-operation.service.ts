@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { EndPointUrl } from './api.enum';
-import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
+import { OperationTransaction } from '../../../../shared/enum/OperationTransaction.enum';
 const Swal = require("sweetalert2");
 @Injectable({
   providedIn: 'root'
@@ -18,14 +18,22 @@ export class SupervisionOperationService {
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
   }
 
+  
+  postCommandeProduitCommandesDetails(numero_commande): Observable<any> {
+    const url: string = (<string>EndPointUrl.POST_COMMANDE_PRODUIT_COMMANDES_DETAILS).replace(
+      "{numero_commande}", numero_commande
+    );
+    return this.http.post(`${this.baseUrl}${url}`, {});
+  }
+
   GetSupervisionOperationsTraitementsSuivisDownloadModeleData(operation: string, numeroDemande: string = '', tokenUser: string): any {
     const url: string = <string>EndPointUrl.GET_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_DOWNLOAD_MODELE_DATA.replace('{operation}', operation).replace('{numeroDemande}', numeroDemande).replace('{tokenUser}', tokenUser);
     return `${this.baseUrl}${url}`;
   }
 
-  GetSupervisionOperationsDemandesServicesDetails(numeroDemande: string): Observable<any> {
-    const url: string = <string>EndPointUrl.GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_numeroDemande_DETAILS.replace('{numeroDemande}', numeroDemande);
-    return this.http.get(`${this.baseUrl}${url}`);
+  postGestionFacturePaiementsTransaction(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.GESTION_FACTURE_PAIMENTS_TRANSACTION);
+    return this.http.post(`${this.baseUrl}${url}`, data);
   }
 
   GetAllDemandes(data, page): Observable<any> {
@@ -125,6 +133,9 @@ export class SupervisionOperationService {
       }
       case 'provisionning': {
         return 'Ligne de Credit';
+      }
+      case OperationTransaction.SIM_BLANCHE: {
+        return 'SIM Blanche';
       }
       default:
         return 'N/A'

@@ -1,0 +1,94 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div *ngIf="!displayUrlErrorPage">
+                        <div class="d-flex justify-content-between mb-3">
+
+                            <div class="d-flex justify-content-between">
+                                <!-- <app-patrimoine-header [displayDate]="false" [displayList]="false"
+                                    [count]="listProduits" [total]="pargination?.total" [legendePluriel]="'Commandes'"
+                                    [legendeSingulier]="'Commandes'">
+                                </app-patrimoine-header> -->
+                                <span class="table-header-wrapper d-flex align-items-center">
+                                    <ng-container *ngIf="!isLoadingTitle; else loadingTitle">
+                                        <b>
+                                            <span>
+                                                Commandes {{selectedAchat?.["operation"]}}
+                                            </span>
+                                            <span class="text-orange fs-4">[{{selectedAchat?.["numero_commande"]}}]</span>&nbsp;
+                                            <span [class]="'badge ' + getEtapeBadge(selectedAchat)"
+                                                [ngStyle]="{ width: 'fit-content', 'font-size': '18px' }">{{selectedAchat?.['statut']}}
+                                            </span>
+                                            |
+                                            <span [class]="'badge ' + getEtatBadge(selectedAchat)"
+                                                [ngStyle]="{ width: 'fit-content', 'font-size': '18px' }">
+                                                {{selectedAchat?.['traitement']}}
+                                            </span>
+                                        </b>
+                                    </ng-container>
+                                    <ng-template #loadingTitle>
+                                        <app-spinner-title-details></app-spinner-title-details>
+                                    </ng-template>
+                                </span>
+                            </div>
+
+                            <div>
+                                <div>
+                                    <p-button (click)="onGoToBack()" [label]="'Fermer'" styleClass="p-button-danger">
+                                    </p-button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <div class="container-box">
+                                <app-taches-a-traiter-box *ngFor="let box of statistiquesBox" class="col-md"
+                                    [cardBgColor]="box?.['cardBgColor']"
+                                    [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'" [legend]="box?.['legend']"
+                                    [count]="box?.['count']" [legendColor]="box?.['legendColor'] ?? '#FFF'"
+                                    [countColor]="box?.['countColor'] ?? '#FFF'" [taux]="box?.['taux']">
+                                </app-taches-a-traiter-box>
+                            </div>
+
+                            <app-filter-details-achat-produits (filter)="filter($event)"
+                                [listEtapeLigne]="listEtapeLigne" [listEtatLigne]="listEtatLigne">
+                            </app-filter-details-achat-produits>
+
+                            <hr />
+
+                            <app-table-button-header (refresh)="getAllProduits()" (export)="onExportExcel()"
+                                [hiddenButtonOther]="true" [iconOther]="'pi pi-plus'">
+                            </app-table-button-header>
+
+                            <br>
+
+                            <app-table-details-achat-produits [spinner]="spinner" [pargination]="pargination"
+                                [listProduits]="listProduits" [selectedAchat]="selectedAchat">
+                            </app-table-details-achat-produits>
+
+                            <app-pargination [pargination]="pargination" (pageChange)="onPageChange($event)">
+                            </app-pargination>
+
+                        </div>
+                    </div>
+
+                    <div *ngIf="displayUrlErrorPage">
+                        <div>
+                            <div class="d-flex justify-content-end">
+                                <p-button label="Fermer" styleClass="p-button-danger" (click)="onGoToBack()"></p-button>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center text-danger">
+                            page not available
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

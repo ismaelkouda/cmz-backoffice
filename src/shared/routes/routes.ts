@@ -6,6 +6,7 @@ export const SEARCH = "search";
 export const DASHBOARD = 'dashboard';
 export const PATRIMOINE = 'patrimoine';
 export const DEMANDE_SERVICE = 'demandes';
+export const DEMANDE_PRODUITS = 'demandes-produits'
 export const REFERENTIEL_TELEMETRIE = 'ref-supervision';
 export const SUPERVISION_SIM = 'supervision-sim';
 export const SUPERVISION_OPERATIONS = 'operations';
@@ -68,6 +69,19 @@ export const content: Routes = [
         'Suspensions',
         'Résiliations',
         'Changements de Formules'
+      ]
+    }
+  },
+  {
+    
+    path: DEMANDE_PRODUITS,
+    loadChildren: () => import("../../presentation/pages/demandes-produits/demandes-produits.module").then((m) => m.DemandesProduitsModule),
+    data: {
+      module: 'Commande produits',
+
+
+      subModule: [
+        'SIM Blanche'
       ]
     }
   },

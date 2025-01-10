@@ -334,54 +334,50 @@ export class DemandeWrapperShowComponent implements OnInit {
     }
   }
 
+
+
+
+
   public getStatutBadge(data: any): string {
-    console.log('data', data)
     switch (data?.statut) {
-      case BADGE_STATUT.SOUMIS:
-        return "badge-dark";
-
-      case BADGE_STATUT.TRAITE:
-        return "badge-success";
-
-      case BADGE_STATUT.CLOTURE:
-        return "badge-success";
+      case BADGE_ETAPE.SOUMISSION: return "badge-dark";
+      case BADGE_ETAPE.TRAITEMENT: return "badge-warning";
+      case BADGE_ETAPE.FINALISATEUR: return "badge-info";
+      case BADGE_ETAPE.CLOTURE: return "badge-success";
+      default : return ""; 
     }
   }
 
   public getTraitementBadge(data: any): string {
     switch (data?.statut) {
-      case BADGE_STATUT.SOUMIS:
-        if (data?.traitement === BADGE_TRAITEMENT.RECU || data?.traitement === BADGE_TRAITEMENT.EN_ATTENTE) {
-          return "badge-dark";
-        }
+      case BADGE_ETAPE.SOUMISSION:
+        if (data?.traitement === BADGE_ETAT.EN_ATTENTE) return "badge-dark";
+        if (data?.traitement === BADGE_ETAT.AFFECTE) return "badge-dark";
+        if (data?.traitement === BADGE_ETAT.PARTIEL) return "badge-warning";
+        if (data?.traitement === BADGE_ETAT.RECU) return "badge-dark"; 
+        if (data?.traitement === BADGE_ETAT.APPROUVE) return "badge-success";
+        // if (data?.traitement === BADGE_ETAT.REJETE) return "badge-danger";
         break;
 
-      case BADGE_STATUT.TRAITE:
-        if (data?.traitement === BADGE_TRAITEMENT.ACCEPTE) {
-          return "badge-success";
-        }
-        if (data?.traitement === BADGE_TRAITEMENT.REFUSE) {
-          return "badge-danger";
-        }
-        if(data?.traitement  === BADGE_TRAITEMENT.REJETE) {
-          return "badge-danger";
-        }
+      case BADGE_ETAPE.TRAITEMENT:
+        if (data?.traitement === BADGE_ETAT.EN_COURS) return "badge-warning";
+        if (data?.traitement === BADGE_ETAT.REJETE) return "badge-danger";
+        if (data?.traitement === BADGE_ETAT.TERMINE) return "badge-success";
         break;
 
-      case BADGE_STATUT.CLOTURE:
-        if (data?.traitement === BADGE_TRAITEMENT.ACCEPTE) {
-          return "badge-success";
-        }
-        if (data?.traitement === BADGE_TRAITEMENT.ABANDONNE) {
-          return "badge-warning";
-        }
-        if (data?.traitement === BADGE_TRAITEMENT.REFUSE) {
-          return "badge-danger";
-        }
-        if(data?.traitement  === BADGE_TRAITEMENT.REJETE) {
-          return "badge-danger";
-        }
+      case BADGE_ETAPE.FINALISATEUR:
+        if (data?.traitement === BADGE_ETAT.EN_ATTENTE) { return "badge-warning"; }
+        if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-success"; }
         break;
+
+      case BADGE_ETAPE.CLOTURE:
+        if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
+        if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
+        if (data?.traitement === BADGE_ETAT.ABANDONNE) { return "badge-warning"; }
+        if (data?.traitement === BADGE_ETAT.REJETE) { return "badge-danger"; }
+        break;
+        
+    default : return ""; 
     }
   }
 
