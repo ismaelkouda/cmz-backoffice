@@ -1,49 +1,81 @@
 <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
-
-  <div class="row">
-    <div class="col-md-2">
-      <label>
-        <b>N° Dossier</b>
-      </label>
-      <input type="text" formControlName="numero_demande" pInputText [style]="{ minWidth: '100%' }" />
+    <div class="row">
+        <div class="col-md-2">
+            <label>
+                <b>N° Dossier</b>
+            </label>
+            <input
+                type="text"
+                formControlName="numero_demande"
+                pInputText
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+        <div [style]="{ width: '13rem' }">
+            <label><b>Etape</b> </label>
+            <p-dropdown
+                emptyFilterMessage="Aucune correspondance"
+                emptyMessage="Aucune donnée"
+                [options]="listEtapeDossier"
+                [showClear]="true"
+                formControlName="statut"
+                placeholder="Etape"
+            >
+                <ng-template let-data pTemplate="item">
+                    <div class="country-item">
+                        <div>{{ data | titlecase }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div [style]="{ width: '13rem' }">
+            <label><b>Etat</b> </label>
+            <p-dropdown
+                emptyFilterMessage="Aucune correspondance"
+                emptyMessage="Aucune donnée"
+                [options]="listEtatDossier"
+                [filter]="true"
+                filterBy="libele"
+                [showClear]="true"
+                formControlName="traitement"
+                placeholder="Traitement"
+                name="libele"
+            >
+                <ng-template let-data pTemplate="item">
+                    <div class="country-item">
+                        <div>{{ data | titlecase }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div style="width: 14rem">
+            <label><b>Date début</b></label>
+            <p-calendar
+                formControlName="date_debut"
+                [showIcon]="true"
+                [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+        <div style="width: 14rem">
+            <label><b>Date fin </b></label>
+            <p-calendar
+                formControlName="date_fin"
+                [showIcon]="true"
+                placeholder="JJ-MM-AAAA"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+        <div class="filter-button">
+            <button
+                pButton
+                pRipple
+                type="submit"
+                class="p-button-success"
+                icon="pi pi-filter"
+            ></button>
+        </div>
     </div>
-    <div [style]="{ width: '13rem' }">
-      <label><b>Etape</b> </label>
-      <p-dropdown emptyFilterMessage="Aucune correspondance" emptyMessage="Aucune donnée" [options]="listEtapeDossier"
-        [showClear]="true" formControlName="statut" placeholder="Etape">
-        <ng-template let-data pTemplate="item">
-          <div class="country-item">
-            <div>{{ data | titlecase }}</div>
-          </div>
-        </ng-template>
-      </p-dropdown>
-    </div>
-    <div [style]="{ width: '13rem' }">
-      <label><b>Etat</b> </label>
-      <p-dropdown emptyFilterMessage="Aucune correspondance" emptyMessage="Aucune donnée" [options]="listEtatDossier"
-        [filter]="true" filterBy="libele" [showClear]="true" formControlName="traitement" placeholder="Traitement"
-        name="libele">
-        <ng-template let-data pTemplate="item">
-          <div class="country-item">
-            <div>{{ data | titlecase }}</div>
-          </div>
-        </ng-template>
-      </p-dropdown>
-    </div>
-    <div style="width: 14rem;">
-      <label><b>Date début</b></label>
-      <p-calendar formControlName="date_debut" [showIcon]="true" [placeholder]="'JJ-MM-AAAA'" dateFormat="dd-mm-yy">
-      </p-calendar>
-    </div>
-    <div style="width: 14rem;">
-      <label><b>Date fin </b></label>
-      <p-calendar formControlName="date_fin" [showIcon]="true" placeholder="JJ-MM-AAAA" dateFormat="dd-mm-yy">
-      </p-calendar>
-    </div>
-    <div class="filter-button">
-      <button pButton pRipple type="submit" class="p-button-success" icon="pi pi-filter"></button>
-    </div>
-
-  </div>
-
 </form>

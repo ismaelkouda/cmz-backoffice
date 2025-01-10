@@ -1,7 +1,10 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+            <app-breadcrumb
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
                     <div>
@@ -15,8 +18,11 @@
                             </div>
                             <div class="forms-feature-header__button">
                                 <div>
-                                    <p-button label="Fermer" styleClass="p-button-danger"
-                                        (click)="onGoToBack()"></p-button>
+                                    <p-button
+                                        label="Fermer"
+                                        styleClass="p-button-danger"
+                                        (click)="onGoToBack()"
+                                    ></p-button>
                                 </div>
                             </div>
                         </div>
@@ -25,28 +31,60 @@
                                 <div class="activation-forms">
                                     <div [formGroup]="achatForm">
                                         <fieldset>
-                                            <legend><strong>Informations demande</strong></legend>
+                                            <legend>
+                                                <strong
+                                                    >Informations
+                                                    demande</strong
+                                                >
+                                            </legend>
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label><b>Nombre</b><span class="text-danger">*</span></label>
-                                                        <input placeholder="nombre" formControlName="nb_demandes"
-                                                            type="number" pInputText />
+                                                        <label
+                                                            ><b>Nombre</b
+                                                            ><span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></label
+                                                        >
+                                                        <input
+                                                            placeholder="nombre"
+                                                            formControlName="nb_demandes"
+                                                            type="number"
+                                                            pInputText
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>
-                                                            <b>Courrier ou Document
-                                                                <span class="text-danger">*</span></b>
+                                                            <b
+                                                                >Courrier ou
+                                                                Document
+                                                                <span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                ></b
+                                                            >
                                                         </label>
-                                                        <input type="file" style="
+                                                        <input
+                                                            type="file"
+                                                            style="
                                                                 padding: 0.6rem;
-                                                                border: 1px solid #000;
+                                                                border: 1px
+                                                                    solid #000;
                                                                 border-radius: 0.3rem;
-                                                                color: #000;"
-                                                            (change)="onChangeFile($event.target.files)"
-                                                            accept="image/png,image/jpeg" />
+                                                                color: #000;
+                                                            "
+                                                            (change)="
+                                                                onChangeFile(
+                                                                    $event
+                                                                        .target
+                                                                        .files
+                                                                )
+                                                            "
+                                                            accept="image/png,image/jpeg"
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
@@ -54,17 +92,32 @@
                                                         <label>
                                                             <b>PU (Fcfa)</b>
                                                         </label>
-                                                        <input formControlName="prix_unitaire" type="number" pInputText
-                                                            style="font-size: 15px !important;" />
+                                                        <input
+                                                            formControlName="prix_unitaire"
+                                                            type="number"
+                                                            pInputText
+                                                            style="
+                                                                font-size: 15px !important;
+                                                            "
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>
-                                                            <b>Montant (Fcfa)</b>
+                                                            <b
+                                                                >Montant
+                                                                (Fcfa)</b
+                                                            >
                                                         </label>
-                                                        <input formControlName="montant" type="number" pInputText
-                                                            style="font-size: 15px !important;" />
+                                                        <input
+                                                            formControlName="montant"
+                                                            type="number"
+                                                            pInputText
+                                                            style="
+                                                                font-size: 15px !important;
+                                                            "
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>
@@ -74,10 +127,19 @@
                                                 <b>Description de la Demande</b>
                                             </legend>
                                             <div class="row">
-                                                <div class="col-md-12 d-flex align-items-end">
-                                                    <input type="text" formControlName="description" pInputText
-                                                        [ngStyle]="{ 'border-color': 'red' }"
-                                                        placeholder="Commentez..." />
+                                                <div
+                                                    class="col-md-12 d-flex align-items-end"
+                                                >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="description"
+                                                        pInputText
+                                                        [ngStyle]="{
+                                                            'border-color':
+                                                                'red'
+                                                        }"
+                                                        placeholder="Commentez..."
+                                                    />
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -85,9 +147,19 @@
                                 </div>
                                 <div class="submit-form">
                                     <div>
-                                        <button pButton style="float: right; margin-top: 1rem" label="Soumettre"
-                                            class="p-button-success" [disabled]="achatForm.invalid"
-                                            (click)="onSubmitAchatProduitsForm()"></button>
+                                        <button
+                                            pButton
+                                            style="
+                                                float: right;
+                                                margin-top: 1rem;
+                                            "
+                                            label="Soumettre"
+                                            class="p-button-success"
+                                            [disabled]="achatForm.invalid"
+                                            (click)="
+                                                onSubmitAchatProduitsForm()
+                                            "
+                                        ></button>
                                     </div>
                                 </div>
                             </div>
@@ -157,11 +229,12 @@
                         </div>
 
                         <div *ngIf="displayUrlErrorPage">
-                            <div class="d-flex justify-content-center align-items-center text-danger">
+                            <div
+                                class="d-flex justify-content-center align-items-center text-danger"
+                            >
                                 page not available
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
