@@ -19,9 +19,9 @@ export class SupervisionOperationService {
   }
 
   
-  postCommandeProduitCommandesDetails(numero_commande): Observable<any> {
+  postCommandeProduitCommandesDetails(numero_demande): Observable<any> {
     const url: string = (<string>EndPointUrl.POST_COMMANDE_PRODUIT_COMMANDES_DETAILS).replace(
-      "{numero_commande}", numero_commande
+      "{numero_demande}", numero_demande
     );
     return this.http.post(`${this.baseUrl}${url}`, {});
   }

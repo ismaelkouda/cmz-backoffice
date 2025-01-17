@@ -4,50 +4,36 @@
             <div>
                 <h3 class="current-transaction-label">
                     <b>
-                        <span
-                            class="current_values"
-                            *ngIf="
+                        <span class="current_values" *ngIf="
                                 selectedActionValue !== activation &&
                                 selectedActionValue &&
                                 typeDemande === 'simple'
-                            "
-                            >[{{
-                                getFormattedMsisdn(
-                                    currentPatrimoine?.msisdn ?? '0000000000'
-                                )
-                            }}]</span
-                        >
+                            ">[{{
+                            getFormattedMsisdn(
+                            currentPatrimoine?.msisdn ?? '0000000000'
+                            )
+                            }}]</span>
                     </b>
-                    <span *ngIf="typeDemande === 'masse'"
-                        >Demande d'Abonnement en masse de carte SIM</span
-                    >
-                    <span
-                        class="current_values"
-                        *ngIf="
+                    <span *ngIf="typeDemande === 'masse'">Demande d'Abonnement en masse de carte SIM</span>
+                    <span class="current_values" *ngIf="
                             selectedActionValue !== activation &&
                             selectedActionValue &&
                             typeDemande === 'simple'
-                        "
-                        >[{{
-                            getFormattedMsisdn(
-                                currentPatrimoine?.msisdn ?? '0000000000'
-                            )
-                        }}]</span
-                    >
+                        ">[{{
+                        getFormattedMsisdn(
+                        currentPatrimoine?.msisdn ?? '0000000000'
+                        )
+                        }}]</span>
                 </h3>
             </div>
-            <div
-                class="d-flex gap-2"
-                style="margin-top: -0.5rem"
-                *ngIf="selectedActionValue === volume"
-            >
+            <div class="d-flex gap-2" style="margin-top: -0.5rem" *ngIf="selectedActionValue === volume">
                 <div class="box-card">
                     <span class="title">Dotation Data (Go) :</span>
                     <span class="valeur">
                         <span>{{
                             currentPatrimoine?.solde_dotation ?? 0
-                                | formatNumber: 2
-                        }}</span>
+                            | formatNumber: 2
+                            }}</span>
                     </span>
                 </div>
                 <div class="box-card">
@@ -55,19 +41,15 @@
                     <span class="valeur">
                         <span>{{
                             currentPatrimoine?.solde_actuel_go ?? 0
-                                | formatNumber: 2
-                        }}</span>
+                            | formatNumber: 2
+                            }}</span>
                     </span>
                 </div>
             </div>
         </div>
         <div class="forms-feature-header__button">
             <div>
-                <p-button
-                    label="Fermer"
-                    styleClass="p-button-danger"
-                    (click)="close()"
-                ></p-button>
+                <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
             </div>
         </div>
     </div>
@@ -621,10 +603,7 @@
     </div> -->
 
     <div *ngIf="typeDemande === 'masse'">
-        <div
-            class="activation-forms"
-            *ngIf="this.router.url === '/demandes/activation'"
-        >
+        <div class="activation-forms" *ngIf="this.router.url === '/demandes/activation'">
             <div [formGroup]="adminForm" novalidate>
                 <!-- <fieldset *ngIf="historie">
                     <legend>
@@ -698,50 +677,63 @@
                     </div>
                 </fieldset> -->
                 <fieldset>
-                    <legend>
-                        <b>Stock source de carte SIM</b>
-                    </legend>
-                    <div class="d-flex gap-4">
-                        <div
-                            class="d-flex align-items-end flex-wrap"
-                            style="padding-right: 0; width: 25%"
-                        >
+                    <legend><b>Stock source de carte SIM</b></legend>
+                    <div class="row"
+                        style="padding-right: 0; padding-left: 3px; display: flex; gap: 4px; flex-wrap: nowrap;">
+                        <div class="col-md-3 d-flex justify-content-around gap-2"
+                            style="border: 1px solid #ced4da; height: 3.6rem; border-radius: 6px;">
+                            <div
+                                class="d-flex align-items-center justify-content-around gap-2 form-check form-check-inline p-0 m-0">
+                                <input class="form-check-input" type="radio" name="stock_source" value="stock orange"
+                                    id="stock_orange" formControlName="source" #stock_orange
+                                    style="width: 25px; height: 25px;" />
+                                <label class="form-check-label fs-5" for="stock_orange" style="width: inherit;">
+                                    <strong>Stock orange</strong>
+                                </label>
+                            </div>
+                            <div
+                                class="d-flex align-items-center justify-content-around gap-2 form-check form-check-inline p-0 m-0">
+                                <input class="form-check-input" type="radio" name="stock_source" value="stock local"
+                                    id="mon_stock" formControlName="source" #mon_stock
+                                    style="width: 25px; height: 25px;" />
+                                <label class="form-check-label fs-5" for="mon_stock">
+                                    <strong>Mon stock</strong>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-9" style="padding-right: 10px" *ngIf="stock_orange.checked">
+                            <input type="text" pInputText value="Orange fournira les cartes SIM" disabled />
+                        </div>
+                        <div class="col-md-9" style="padding-right: 10px; display: flex; flex-wrap: nowrap; gap: 4px;"
+                            *ngIf="mon_stock.checked">
+                            <input type="text" pInputText
+                                value="L'abonnement sera effectué sur les cartes SIM en ma possession" disabled />
+                            <button pButton label="Lot" class="p-button-success" (click)="showDialog()"></button>
+                        </div>
+                    </div>
+                    <!-- <div class="d-flex gap-4">
+                        <div class="d-flex align-items-end flex-wrap" style="padding-right: 0; width: 25%">
                             <div class="block-checked-stock-source">
-                                <div
-                                    style="padding-left: 5px"
-                                    class="d-flex justify-content-between align-items-center wrapper-check"
-                                >
+                                <div style="padding-left: 5px"
+                                    class="d-flex justify-content-between 
+                                    align-items-center wrapper-check">
                                     <div class="form-check form-check-inline">
-                                        <input
-                                            class="form-check-input"
-                                            type="radio"
-                                            name="stock_source"
-                                            value="stock orange"
-                                            formControlName="source"
-                                            #stock_orange
+                                        <input class="form-check-input" type="radio"
+                                            name="stock_source" value="stock orange"
+                                            formControlName="source" #stock_orange 
                                         />
-                                        <label
-                                            class="form-check-label"
-                                            for="stock_orange"
-                                            style="width: auto !important"
-                                        >
+                                        <label class="form-check-label" for="stock_orange"
+                                            style="width: auto !important">
                                             <strong>Stock orange</strong>
                                         </label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input
-                                            class="form-check-input"
-                                            type="radio"
-                                            name="stock_source"
-                                            value="stock local"
-                                            formControlName="source"
-                                            #mon_stock
+                                        <input class="form-check-input" type="radio"
+                                            name="stock_source" value="stock local"
+                                            formControlName="source" #mon_stock
                                         />
-                                        <label
-                                            class="form-check-label"
-                                            for="mon_stock"
-                                            style="width: auto !important"
-                                        >
+                                        <label class="form-check-label" for="mon_stock"
+                                            style="width: auto !important">
                                             <strong>Mon stock</strong>
                                         </label>
                                     </div>
@@ -749,7 +741,7 @@
                             </div>
                         </div>
                         <div
-                            style="padding-left: 0; width: 70%"
+                            style="padding-left: 0; width: 75%"
                             *ngIf="stock_orange.checked"
                         >
                             <input
@@ -759,115 +751,45 @@
                                 disabled
                             />
                         </div>
-                        <div
-                            style="padding-left: 0; width: 70%"
-                            *ngIf="mon_stock.checked"
-                        >
-                            <input
-                                type="text"
-                                pInputText
+                        <div style="padding-left: 0; width: 65%;" *ngIf="mon_stock.checked">
+                            <input type="text" pInputText disabled
                                 value="L'abonnement sera effectué sur les cartes SIM en ma possession"
-                                disabled
                             />
+                            <button pButton label="Lot" class="p-button-success"></button>
                         </div>
-                    </div>
-                    <div class="row" *ngIf="mon_stock.checked">
-                        <app-form-masse
-                            style="padding-bottom: 10px !important"
-                            class="col-md-12 d-flex align-items-end"
-                            [typeOperation]="'demande-masse'"
-                            [fileModel]="fileModel"
-                            (dataToSend)="pushCurrentArrayForm($event)"
-                            [currentArrayHeaders]="currentArrayHeaders"
-                            (downloadModel)="onDownloadModel($event)"
-                            [formMasseLibelle]="formMasseLibelle"
-                            [libelleFile]="libelleFile"
-                        >
+                    </div> -->
+                    <!-- <div class="row" *ngIf="mon_stock.checked">
+                        <app-form-masse style="padding-bottom: 10px !important" class="col-md-12 d-flex align-items-end"
+                            [typeOperation]="'demande-masse'" [fileModel]="fileModel"
+                            (dataToSend)="pushCurrentArrayForm($event)" [currentArrayHeaders]="currentArrayHeaders"
+                            (downloadModel)="onDownloadModel($event)" [formMasseLibelle]="formMasseLibelle"
+                            [libelleFile]="libelleFile">
                         </app-form-masse>
-                    </div>
+                    </div> -->
                 </fieldset>
                 <fieldset *ngIf="selectedActionValue">
                     <legend><strong>Informations demande</strong></legend>
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md">
                             <div class="form-group">
-                                <label
-                                    ><b>Nombre</b
-                                    ><span class="text-danger">*</span></label
-                                >
-                                <input
-                                    placeholder="nombre"
-                                    formControlName="nb_demandes"
-                                    type="number"
-                                    pInputText
-                                />
+                                <label><b>Nombre</b><span class="text-danger">*</span></label>
+                                <input placeholder="nombre" formControlName="nb_demandes" type="number" pInputText />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label
-                                    ><b
-                                        >Usage<span class="text-danger"
-                                            >*</span
-                                        ></b
-                                    ></label
-                                >
-                                <p-dropdown
-                                    [options]="listUsages"
-                                    formControlName="usage_id"
-                                    optionLabel="nom_usage"
-                                    placeholder="usage"
-                                    optionValue="id"
-                                    [showClear]="true"
-                                >
+                                <label><b>Usage<span class="text-danger">*</span></b></label>
+                                <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage"
+                                    placeholder="usage" optionValue="id" [showClear]="true">
                                 </p-dropdown>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <div class="form-group">
-                                <label
-                                    ><b
-                                        >Formule d'abonnement<span
-                                            class="text-danger"
-                                            >*</span
-                                        ></b
-                                    ></label
-                                >
-                                <p-dropdown
-                                    [options]="listFormules"
-                                    formControlName="formule_uuid"
-                                    optionLabel="nom"
-                                    [placeholder]="'Formule destination'"
-                                    [showClear]="true"
-                                    optionValue="uuid"
-                                >
+                                <label><b>Formule d'abonnement<span class="text-danger">*</span></b></label>
+                                <p-dropdown [options]="listFormules" formControlName="formule_uuid" optionLabel="nom"
+                                    [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
                                 </p-dropdown>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>
-                                    <b
-                                        >Courrier ou Document
-                                        <span class="text-danger">*</span></b
-                                    >
-                                </label>
-                                <input
-                                    type="file"
-                                    style="
-                                        padding: 0.6rem;
-                                        border: 1px solid #000;
-                                        border-radius: 0.3rem;
-                                        color: #000;
-                                    "
-                                    (change)="
-                                        onChangeFile(
-                                            $event.target.files,
-                                            'justificatif'
-                                        )
-                                    "
-                                    accept="image/png,image/jpeg"
-                                />
                             </div>
                         </div>
                         <div class="col-md-1">
@@ -875,12 +797,34 @@
                                 <label>
                                     <b>PU (Fcfa)</b>
                                 </label>
-                                <input
-                                    formControlName="prix_unitaire"
-                                    type="number"
-                                    pInputText
-                                    style="font-size: 15px !important"
-                                />
+                                <input formControlName="prix_unitaire" type="number" pInputText
+                                    style="font-size: 15px !important" />
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label>
+                                    <b>Montant (Fcfa)</b>
+                                </label>
+                                <input formControlName="montant" type="number" pInputText
+                                    style="font-size: 15px !important" />
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>
+                                    <b>Courrier ou Document
+                                        <span class="text-danger">*</span></b>
+                                </label>
+                                <input type="file" style="padding: 0.6rem;border: 1px solid #000;
+                                        border-radius: 0.3rem;
+                                        color: #000;
+                                    " (change)="
+                                        onChangeFile(
+                                            $event.target.files,
+                                            'justificatif'
+                                        )
+                                    " accept="image/png,image/jpeg" />
                             </div>
                         </div>
                         <!-- <div class="col-md-4">
@@ -1031,27 +975,9 @@
                         <b>Description de la Demande</b>
                     </legend>
                     <div class="row">
-                        <div class="col-md-10 d-flex align-items-end">
-                            <input
-                                type="text"
-                                formControlName="description"
-                                pInputText
-                                [ngStyle]="{ 'border-color': 'red' }"
-                                placeholder="Commentez..."
-                            />
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>
-                                    <b>Montant (Fcfa)</b>
-                                </label>
-                                <input
-                                    formControlName="montant"
-                                    type="number"
-                                    pInputText
-                                    style="font-size: 15px !important"
-                                />
-                            </div>
+                        <div class="col-md-12 d-flex align-items-end">
+                            <input type="text" formControlName="description" pInputText
+                                [ngStyle]="{ 'border-color': 'red' }" placeholder="Commentez..." />
                         </div>
                     </div>
                 </fieldset>
@@ -1059,19 +985,114 @@
         </div>
         <div class="submit-form">
             <div>
-                <button
-                    pButton
-                    style="float: right; margin-top: 1rem"
-                    label="Soumettre"
-                    class="p-button-success"
-                    [disabled]="adminForm.invalid"
-                    (click)="handleSaveMasse()"
-                ></button>
+                <button pButton style="float: right; margin-top: 1rem" label="Soumettre" class="p-button-success"
+                    [disabled]="adminForm.invalid" (click)="handleSaveMasse()"></button>
             </div>
         </div>
     </div>
 </div>
+<!-- <p-dialog #dt header="Header" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"
+    [(visible)]="dialogVisible" [style]="{ width: '50vw' }" [contentStyle]="{ height: '150px' }"
+    [globalFilterFields]="['numero_demande',]">
+    <p-table [value]="listWhiteSimCard" [scrollable]="true" scrollHeight="flex" [tableStyle]="{ 'min-width': '50rem' }">
+        <div class="d-flex justify-content-between">
+            <div class="d-flex align-items-end">
+                <app-search-table [dt]="dt"></app-search-table>
+            </div>
+        </div>
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="text-center" [style]="{ width: '1.5rem' }">#</th>
+                <th>Référence</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowIndex="rowIndex" let-customer>
+            <tr>
+                <td class="text-center">{{rowIndex + 1}}</td>
+                <td class="text-center">{{ customer?.numero_demande }}</td>
+            </tr>
+        </ng-template>
 
+    </p-table>
+    <ng-template>
+        <button pButton label="Enregistrer" class="p-button-success" (click)="dialogVisible = false">
+        </button>
+    </ng-template>
+</p-dialog> -->
+<div class="card">
+    <p-dialog [header]="'Header '+[totalQuantite]" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"
+        id="dialogHeaderTableWhiteSimCard" [(visible)]="dialogVisible" [style]="{ width: '40vw' }"
+        [contentStyle]="{ height: '400px' }">
+        <p-table editMode="row" dataKey="id" #dt [value]="listWhiteSimCard" [scrollable]="true" scrollHeight="flex">
+            <!-- Caption: Zone de recherche -->
+            <ng-template pTemplate="caption">
+                <div class="d-flex justify-content-end">
+                    <app-search-table [dt]="dt"></app-search-table>
+                </div>
+            </ng-template>
+
+            <!-- En-tête du tableau -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center" [style]="{ width: '1.5rem' }">#</th>
+                    <th class="text-center">Référence</th>
+                    <th class="text-center">Nombre disponibles</th>
+                    <th class="text-center" [style]="{ width: '5rem' }">Actions</th>
+                </tr>
+            </ng-template>
+
+            <!-- Corps du tableau -->
+            <ng-template pTemplate="body" let-rowIndex="rowIndex" let-customer let-editing="editing">
+                <tr [pEditableRow]="customer" [editableRow]="editableRowIndex === rowIndex">
+                    <!-- Index de la ligne -->
+                    <td class="text-center" [style]="{ width: '1.5rem' }">{{ rowIndex + 1 }}</td>
+
+                    <td class="text-center">{{ customer?.numero_demande }}</td>
+
+                    <!-- Nombre disponibles (édition et affichage) -->
+                    <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <div class="d-flex gap-2">
+                                        <input pInputText type="number" [(ngModel)]="customer.nb_restants" />
+                                        <input pInputText type="number" [value]="initialNbRestants" disabled style="background-color: #f4f4f4;" />
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ customer?.nb_restants || 0 }}
+                                </ng-template>
+                            </p-cellEditor>                            
+                      </td>
+                
+
+                    <!-- Actions -->
+                    <td class="td-actions">
+                        <!-- Bouton pour modifier -->
+                        <button *ngIf="!editing"  pButton pRipple type="button" pInitEditableRow pTooltip="Modifier"
+                            tooltipPosition="top" icon="pi pi-pencil" (click)="editRow(customer, rowIndex)"
+                            class="p-button-secondary"></button>
+
+                        <!-- Bouton pour sauvegarder -->
+                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow pTooltip="Sauvegarder"
+                            tooltipPosition="top" icon="pi pi-check" (click)="saveRowEdit(customer)"
+                            class="p-button-success"></button>
+
+                        <!-- Bouton pour annuler -->
+                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow pTooltip="Fermer"
+                            tooltipPosition="top" icon="pi pi-times" (click)="cancelRowEdit(customer, rowIndex)"
+                            class="p-button-danger" style="margin-left: 1rem"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <div class="d-flex justify-content-end pt-3">
+                    <button pButton label="Enregistrer" class="p-button-success" (click)="HandleSaveLot()"></button>
+                </div>
+            </ng-template>
+
+        </p-table>
+    </p-dialog>
+</div>
 <!-- <div *ngIf="currentObject">
     <div class="forms-feature-header">
         <div class="d-flex gap-2">

@@ -8,6 +8,8 @@ import { CartographieComponent } from './ui/cartographie/cartographie.component'
 import { CartesSimComponent } from './ui/cartes-sim/cartes-sim.component';
 import { CarteSimFormComponent } from './feature/carte-sim/carte-sim-form/carte-sim-form.component';
 import { EtatSoldeComponent } from './ui/etat-solde/etat-solde.component';
+import { WhiteSimCardComponent } from './ui/white-sim-card/white-sim-card.component';
+import { WhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/white-sim-card-details.component';
 
 export const CARTES_SIM = 'cartes-sim';
 export const ETAT_SOLDE = 'etat-solde';
@@ -16,6 +18,7 @@ export const GROUPE_SIM = 'groupe-sim';
 export const DOTATION_SERVICES = 'dotation-services';
 export const DOWNLOAD_FILE = 'telechargements';
 export const CARTOGRAPHIE = 'cartographie';
+export const WHITE_SIM_CARD = 'white-sim-card';
 
 const routes: Routes = [
     { 
@@ -34,6 +37,23 @@ const routes: Routes = [
             component: CarteSimFormComponent
         },
         
+    ]
+},
+{
+    path: WHITE_SIM_CARD,
+    children: [
+        {
+            path: '',
+            component: WhiteSimCardComponent,
+        },
+        {
+            path: ":id",
+            component: WhiteSimCardDetailsComponent,
+        },
+        {
+          path: '**',
+          redirectTo: '',
+        },
     ]
 },
 {

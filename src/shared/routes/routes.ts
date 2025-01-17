@@ -21,6 +21,7 @@ export const OPERATIONS_SIM = 'operations-sim';
 export const STRUCTURE_ORGANISATIONNELLE = 'structure-organisationnelle'
 export const ADMIN_USER = 'user';
 export const GESTION_IDENTIFICATIONS = 'gestion-identifications'
+export const COMPTABILITE = 'comptabilite'
 
 
 export const content: Routes = [
@@ -98,6 +99,16 @@ export const content: Routes = [
   {
     path: SUPERVISION_OPERATIONS,
     loadChildren: () => import('../../presentation/pages/supervision-operations/supervision-operations.module').then((m) => m.SupervisionOperationsModule),
+  },
+  {
+    path: COMPTABILITE,
+    loadChildren: () => import('../../presentation/pages/comptabilite/comptabilite.module').then((m) => m.ComptabiliteModule),
+    data: {
+      module: "Comptabilité",
+      subModule: [
+        "Facture"
+      ]
+    }
   },
   {
     path: ZONE_TRAFIC,

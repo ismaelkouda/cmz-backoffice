@@ -1,0 +1,41 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()" class="d-flex gap-2 no-wrap">
+
+    <div class="col-md">
+        <label><b>Référence du lot</b></label>
+        <input placeholder="reference" formControlName="reference" type="text" pInputText
+            [ngStyle]="{ width: '100%' }" />
+    </div>
+
+    <div class="col-md">
+        <label><b>IMSI</b></label>
+        <input type="text" formControlName="imsi" pInputText [ngStyle]="{ width: '100%' }" />
+    </div>
+    <div class="col-md">
+        <label><b>ICCID</b></label>
+        <input type="text" formControlName="iccid" pInputText [ngStyle]="{ width: '100%' }" />
+    </div>
+
+    <div class="col-md">
+        <label><b>Statut</b> </label>
+        <p-dropdown [options]="listStatus" [showClear]="true" formControlName="statut" placeholder="Statut"
+            optionValue="code" optionLabel="libelle" [ngStyle]="{ width: '100%' }"
+            emptyFilterMessage="Aucune correspondance" emptyMessage="Aucune donnée">
+        </p-dropdown>
+    </div>
+
+    <div class="col-md-2">
+        <label class="block"><b>Chargé du</b></label>
+        <p-calendar formControlName="date_debut" [showIcon]="true" [placeholder]="'JJ-MM-AAAA'" dateFormat="dd-mm-yy">
+        </p-calendar>
+    </div>
+
+    <div class="col-md-2">
+        <label class="block"><b>Au</b></label>
+        <p-calendar formControlName="date_fin" [showIcon]="true" placeholder="JJ-MM-AAAA" dateFormat="dd-mm-yy">
+        </p-calendar>
+    </div>
+
+    <div class="d-flex align-items-end" [ngStyle]="{ width: '4rem' }">
+        <button pButton pRipple type="submit" class="p-button-success" icon="pi pi-filter"></button>
+    </div>
+</form>

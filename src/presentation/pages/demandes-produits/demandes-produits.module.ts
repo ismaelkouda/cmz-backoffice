@@ -12,22 +12,7 @@ import { DemandesProduitsRoutingModule } from './demandes-produits-routing.modul
 import { SharedModule } from 'src/shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TableAchatProduitsComponent } from './feature/table-achat-produits/table-achat-produits.component';
-import { TableModule } from 'primeng/table';
-import { DropdownModule } from 'primeng/dropdown';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TabViewModule } from 'primeng/tabview';
-import { DialogModule } from 'primeng/dialog';
-import { TooltipModule } from 'primeng/tooltip';
-import { InputMaskModule } from 'primeng/inputmask';
-import { PasswordModule } from 'primeng/password';
-import { RadioButtonModule } from 'primeng/radiobutton';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { CalendarModule } from 'primeng/calendar';
-import { CheckboxModule } from 'primeng/checkbox';
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormAchatProduitsComponent } from './feature/form-achat-produits/form-achat-produits.component';
 import { CommonModule } from '@angular/common';
@@ -43,24 +28,9 @@ import { DetailsAchatProduitsComponent } from './feature/details-achat-produits/
     FilterDetailsAchatProduitsComponent,
     TableDetailsAchatProduits,
     ],
-    imports: [  CommonModule, DemandesProduitsRoutingModule, SharedModule, NgxPaginationModule, TableModule,
-                DropdownModule,
-                ButtonModule,
-                TableModule,
-                InputTextModule,
-                InputNumberModule,
-                InputTextareaModule,
-                TabViewModule,
-                DialogModule,
-                TooltipModule,
+    imports: [  CommonModule, SharedModule, DemandesProduitsRoutingModule, SharedModule, NgxPaginationModule,
                 NgxPaginationModule,
-                InputMaskModule,
-                PasswordModule,
-                RadioButtonModule,
                 NgxCaptchaModule,
-                CalendarModule,
-                CheckboxModule,
-                DynamicDialogModule,
                 FormsModule, ReactiveFormsModule
             ],
     providers: [DemandesProduitsService, 

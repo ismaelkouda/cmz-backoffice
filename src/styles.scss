@@ -378,10 +378,10 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     position: relative !important;
     top: 10px !important;
 }
-
-.p-dialog .p-dialog-content {
-    height: 100vh !important;
-}
+.body > div
+// .p-dialog .p-dialog-content {
+//     height: 100vh !important;
+// }
 
 .leaflet-tooltip-site {
     position: absolute;

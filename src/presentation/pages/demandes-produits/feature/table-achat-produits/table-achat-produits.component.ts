@@ -97,7 +97,7 @@ export class TableAchatProduitsComponent {
 
     public showJournal(selectedAchat: Object): void {
         const modalRef = this.ngbModal.open(JournalComponent, ModalParams);
-        modalRef.componentInstance.numero_demande = selectedAchat['numero_commande'];
+        modalRef.componentInstance.numero_demande = selectedAchat['numero_demande'];
         modalRef.componentInstance.libelleModule = "commandes-produits";
     }
 

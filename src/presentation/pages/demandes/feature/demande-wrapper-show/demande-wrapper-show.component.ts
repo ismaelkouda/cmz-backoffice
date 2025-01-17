@@ -89,7 +89,6 @@ export class DemandeWrapperShowComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('this.transactionId', this.transactionId)
     if (this.transactionId) {
       this.GetAllTransactions()
     }

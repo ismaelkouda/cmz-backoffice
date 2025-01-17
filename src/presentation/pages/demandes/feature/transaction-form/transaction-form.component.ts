@@ -30,6 +30,8 @@ import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access
 import { Router } from '@angular/router';
 import { DEMANDE_SERVICE } from 'src/shared/routes/routes';
 import { DemandeService } from '../../data-access/demande.service';
+import { handle } from '../../../../../shared/functions/api.function';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
     selector: 'app-transaction-form',
@@ -118,6 +120,15 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     public sourceSoldeDotationOrange: string;
     public currentOperation: string = OperationTransaction.ACTIVATION;
     public coutUinitaire: number;
+    public dialogVisible: boolean = false;
+    public listWhiteSimCard: Array<any> = []
+    public cloneListWhiteSimCard: Array<any> = []
+    public currentMetrique: any;
+    public clonedMetrique: { [s: string]: any } = {};
+    public globalMetriquesEditRow: Array<any> = [];
+    public editableRowIndex: number | null = null;
+    public totalQuantite: number = 0;
+    public initialNbRestants: number;  // Variable pour la valeur initiale
 
     constructor(
         private patrimoineService: PatrimoineService,
@@ -128,7 +139,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         private router: Router,
         private mappingService: MappingService,
         private storage: EncodingDataService,
-        private fb: FormBuilder
+        private loadingBarService: LoadingBarService,
+        private fb: FormBuilder,
     ) {
         const data = JSON.parse(this.storage.getData('user'));
         this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`;
@@ -148,6 +160,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.getSimCartonSimBlancheDisponibles();
         this.GetCoutUnitaireOperation();
         this.siteKey = environment.recaptcha.siteKey;
         this.isFilter();
@@ -204,6 +217,90 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             ];
         }
     }
+    showDialog() {
+        this.dialogVisible = true;
+    }
+    editRow(item: any, rowIndex: number): void {
+        console.log('Début de l’édition pour', item);
+        this.initialNbRestants = item.nb_restants;
+        this.editableRowIndex = rowIndex;
+        this.clonedMetrique[item.id] = { ...item };
+    }
+
+    saveRowEdit(metrique: any): void {
+        const originalMetrique = this.clonedMetrique[metrique.id];
+        console.log('État original avant sauvegarde', originalMetrique);
+
+        const updatedData = {
+            carton_id: originalMetrique.id,
+            quantite: metrique.nb_restants ?? originalMetrique.nb_restants,
+        };
+
+        console.log('Données à sauvegarder', updatedData);
+
+        // Vérifie si la ligne est déjà dans les modifications globales
+        const existsInEditRow = this.globalMetriquesEditRow.some(
+            (row) => row.carton_id === updatedData.carton_id
+        );
+
+        if (!existsInEditRow) {
+            this.globalMetriquesEditRow.push(updatedData);
+            this.toastrService.success('Modification ajoutée avec succès.');
+        } else {
+            const index = this.globalMetriquesEditRow.findIndex(
+                (row) => row.carton_id === updatedData.carton_id
+            );
+            this.globalMetriquesEditRow[index] = updatedData;
+            this.toastrService.info('Modification mise à jour.');
+        }
+
+        delete this.clonedMetrique[metrique.id]; // Supprime la sauvegarde temporaire
+        console.log('Modifications globales après sauvegarde', this.globalMetriquesEditRow);
+        this.totalQuantite = this.globalMetriquesEditRow.reduce((sum, item) => sum + item.quantite, 0);
+        this.editableRowIndex = null;
+    }
+
+    cancelRowEdit(customer: any, rowIndex: number): void {
+        console.log('Annulation des modifications pour', customer);
+        customer.nb_restants = this.initialNbRestants;
+        this.listWhiteSimCard[rowIndex] = this.clonedMetrique[customer.id];
+        delete this.clonedMetrique[customer.id];
+
+        // Supprime la ligne de la liste des modifications globales
+        this.globalMetriquesEditRow = this.globalMetriquesEditRow.filter(
+            (row) => row.carton_id !== customer.id
+        );
+        this.editableRowIndex = null;
+        console.log('État des modifications après annulation', this.globalMetriquesEditRow);
+        // this.totalQuantite = this.globalMetriquesEditRow.reduce((sum, item) => sum + item.quantite, 0);
+    }
+    public HandleSaveLot() {
+        this.dialogVisible = false
+        console.log('[...this.globalMetriquesEditRow]', [...this.globalMetriquesEditRow])
+        // this.contratSlaService
+        //   .HandleUpdateContrat({
+        //     engagements_sla: [...this.globalMetriquesEditRow],
+        //   })
+        //   .subscribe({
+        //     next: (response) => {
+        //       this.GetAllContratSlaEngagementsSlaServices();
+        //       this.GetAllContratSlaEngagementsSlaProduits();
+        //       this.toastrService.success(response.message);
+        //     },
+        //     error: (error) => {
+        //       this.toastrService.error(error.error.message);
+        //     },
+        //   });
+    }
+    public IsValidate(): boolean {
+        return this.globalMetriquesEditRow.length === 0 ? true : false;
+    }
+    async getSimCartonSimBlancheDisponibles() {
+        const response: any = await handle<any>(() => this.patrimoineService.PostPatrimoineSimCartonSimBlancheDisponibles({}), this.toastrService, this.loadingBarService);
+        if (response && response?.error === false) {
+            this.listWhiteSimCard = response.data;
+        };
+    }
     public GetCoutUnitaireOperation(): void {
         this.settingService.GetCoutUnitaireOperation(this.currentOperation).subscribe({
             next: (response) => {
@@ -241,7 +338,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                 Validators.required,
                 Validators.min(1),
                 Validators.pattern(/^\d+(\.\d{1,2})?$/)
-              ]],
+            ]],
             formule_uuid: [this.currentObject ? this.currentObject.formule_uuid : null, [Validators.required]],
             description: [this.currentObject ? this.currentObject.description : '', [Validators.required]],
             prix_unitaire: [this.coutUinitaire],
@@ -261,14 +358,14 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         //     }
         //     recuPaiementControl.updateValueAndValidity();
         // });
-        if(this.typeDemande === "paiement") { this.adminForm.disable() }
+        if (this.typeDemande === "paiement") { this.adminForm.disable() }
         const nbDemandesControl = this.adminForm.get("nb_demandes");
         const prixUnitaireControl = this.adminForm.get("prix_unitaire");
-        prixUnitaireControl.disable();
+        prixUnitaireControl?.disable();
         const montantControl = this.adminForm.get("montant");
-        montantControl.disable();
+        montantControl?.disable();
         const gererMontantDemandes = (value: number) => {
-            if (nbDemandesControl.valid) {
+            if (nbDemandesControl?.valid) {
                 const montantDemandes = value * prixUnitaireControl.value;
                 montantControl.setValue(montantDemandes)
             } else {
@@ -455,8 +552,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     }
     onGetDrValueChanges() {
         return this.adminForm?.get('niveau_un_uuid')?.valueChanges.subscribe((value) => {
-                this.getAllExploitation(value);
-            });
+            this.getAllExploitation(value);
+        });
     }
     public getAllExploitation(data: string) {
         this.settingService
@@ -540,7 +637,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                     this.adminForm.patchValue({ recu_paiement: selectedFile });
                     break;
             }
-            this.adminForm.get(type === "justificatif" ? "justificatif" : "recu_paiement").updateValueAndValidity();
+            this.adminForm.get(type === "justificatif" ? "justificatif" : "recu_paiement")?.updateValueAndValidity();
         } else {
             this.selectedPiece = null; // Réinitialiser selectedPiece si aucun fichier n'est sélectionné
         }
@@ -669,17 +766,10 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                             : 'patrimoine',
                 };
             }
-            // data = formDataBuilder({
-            //     ...adminData,
-            //     operation: this.selectedActionValue,
-            //     justificatif: this.selectedPiece,
-            //     description: this.selectedDescription,
-            //     demandes: this.listDemandes,
-            // });
             baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`;
         }
 
-        this.httpClient.post(`${baseUrl}`, formDataBuilder(this.adminForm.value)).subscribe({
+        this.httpClient.post(`${baseUrl}`, formDataBuilder({...this.adminForm.value, stockages: JSON.stringify([...this.globalMetriquesEditRow])})).subscribe({
             next: (res: any) => {
                 this.GetAllTransactions();
                 this.toastrService.success(res.message);

@@ -3,23 +3,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdministrationRoutingModule } from './administration-routing.module';
 
-
-//Modules Primeng
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TabViewModule } from 'primeng/tabview';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { CheckboxModule } from 'primeng/checkbox';
-import { DialogModule } from 'primeng/dialog';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { TooltipModule } from 'primeng/tooltip';
-import { CalendarModule } from 'primeng/calendar';
-import { RadioButtonModule } from 'primeng/radiobutton';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { MultiSelectModule } from 'primeng/multiselect';
 
 //Components
 import { VentesComponent } from './ui/ventes/ventes.component';
@@ -39,21 +24,8 @@ import { AffectationMembreComponent } from './features/affectation-membre/affect
         CommonModule,
         SharedModule,
         AdministrationRoutingModule,
-        DropdownModule,
-        ButtonModule,
-        TableModule,
-        InputTextModule,
-        InputNumberModule,
-        InputTextareaModule,
-        TabViewModule,
-        CheckboxModule,
-        DialogModule,
         NgxPaginationModule,
-        TooltipModule,
-        CalendarModule,
-        RadioButtonModule,
         NgxCaptchaModule,
-        MultiSelectModule
     ],
     declarations: [
         VentesComponent,

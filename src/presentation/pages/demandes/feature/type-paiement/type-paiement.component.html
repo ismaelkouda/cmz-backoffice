@@ -18,11 +18,7 @@
                     class="cursor-pointer"
                     (click)="copyTransaction(detailsDemande?.numero_demande)"
                 >
-                    [{{
-                        params.vue === 'SIM blanche'
-                            ? detailsDemande?.numero_commande
-                            : detailsDemande?.numero_demande
-                    }}]
+                    [{{ detailsDemande?.numero_demande }}]
                 </strong>
             </h4>
             <button
@@ -238,10 +234,7 @@
                                 <strong
                                     >{{
                                         formatTitle(detailsDemande?.operation)
-                                    }}&nbsp;{{
-                                        this.params.vue === 'SIM blanche'
-                                            ? detailsDemande?.numero_commande
-                                            : detailsDemande?.numero_demande
+                                    }}&nbsp;{{detailsDemande?.numero_demande
                                     }}</strong
                                 >
                             </h4>

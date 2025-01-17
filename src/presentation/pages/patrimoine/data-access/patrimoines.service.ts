@@ -1,8 +1,8 @@
+import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EncodingDataService } from 'src/shared/services/encoding-data.service'
-import { EndPointUrl } from 'src/presentation/pages/patrimoine/data-access/api.enum';  
+import { EndPointUrl } from './api.enum';
 
 @Injectable()
 
@@ -16,6 +16,14 @@ export class PatrimoinesService {
   ) {
     const data = JSON.parse(this.storage.getData('user'))
     this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`
+  }
+  PostPatrimoineSimCartonSimBlancheDetailsPage(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_DETAILS_PAGE).replace('{page}', page)
+    return this.httpClient.post(`${this.baseUrl}${url}`, data);
+  }
+  PostPatrimoineSimCartonSimBlancheAllPage(data: Object, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_PAGE).replace('{page}', page);
+    return this.httpClient.post(`${this.baseUrl}${url}`, data);
   }
     PostPatrimoineSimSimsAllPage(data: Object, page): Observable<any> {
         const url: string = (<string>EndPointUrl.POST_PATRIMOINE_SIM_SIMS_ALL_PAGE).replace('{page}', page);

@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { StateAchatProduitsService } from '../../data-access/achat-produits/state-achat-produits.service';
 import { DETAILS, FACTURE, FORM } from '../../demandes-produits-routing.module';
 import { BADGE_ETAT } from '../../../../../shared/constants/badge-etat.contant';
+import { DemandeService } from '../../../demandes/data-access/demande.service';
 
 type PageAction = { 'data': Object, 'action': 'ajouter', 'view': 'page' } | { 'data': Object, 'action': 'détails', 'view': 'page' } | { 'data': Object, 'action': 'facture', 'view': 'page' };
 
@@ -38,7 +39,7 @@ export class AchatProduitsComponent implements OnInit, OnDestroy {
     public listEtatDossier: Array<string> = etat_values;
 
     constructor(private activatedRoute: ActivatedRoute, private router: Router,
-        private sharedDataService: SharedDataService, private excelService: ExcelService,
+        private sharedDataService: SharedDataService, public demandeService: DemandeService,
         private demandesProduitsService: DemandesProduitsService, private stateAchatProduitsService: StateAchatProduitsService,
         private toastrService: ToastrService, private loadingBarService: LoadingBarService,) {
         Object.values(TYPE_PRODUITS).forEach((item) => { this.listTypeProduits.push(item); });
@@ -60,7 +61,7 @@ export class AchatProduitsComponent implements OnInit, OnDestroy {
     }
 
     async pageCallback(dataToSend: Object = {}, nbrPage: string = "1"): Promise<any> {
-        const response: any = await handle(() => this.demandesProduitsService.postCommandeProduitCommandesAll(dataToSend, nbrPage), this.toastrService, this.loadingBarService);
+        const response: any = await handle(() => this.demandeService.GetDemandeServiceByTransaction({...dataToSend, operation: "SIM blanche"}, nbrPage), this.toastrService, this.loadingBarService);
         if (response.error === false) this.handleSuccessfulPageCallback(response);
     }
     private handleSuccessfulPageCallback(response: any): void {
@@ -91,7 +92,7 @@ export class AchatProduitsComponent implements OnInit, OnDestroy {
     }
 
     public navigateByUrl(params: PageAction): void {
-        const id = params.data ? params.data["numero_commande"] : null;
+        const id = params.data ? params.data["numero_demande"] : null;
         const ref = params.action;
         const operation = params.data?.["operation"];
         const current_page = this.pargination?.["current_page"] || 1;

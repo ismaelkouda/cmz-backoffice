@@ -62,7 +62,6 @@ export class FactureComponent {
         public demandeService: DemandeService, private stateFactureService: StateFactureService,
         private excelService: ExcelService, private sharedDataService: SharedDataService,
         private settingService: SettingService, private mappingService: MappingService,
-        private router: Router,
         private supervisionOperationService: SupervisionOperationService, private demandesProduitsService: DemandesProduitsService) {
         this.logoTenant = LOGO_ORANGE;
         this.tenant = this.mappingService.tenant
@@ -113,7 +112,7 @@ export class FactureComponent {
 
     private getDemandeSelected(listFacture: Array<Object>): void {
         if (this.urlParamOperation === "SIM blanche") {
-            this.demandeSelected = listFacture.find((facture) => facture?.["numero_commande"] == this.urlParamId);
+            this.demandeSelected = listFacture.find((facture) => facture?.["numero_demande"] == this.urlParamId);
         } else {
             this.demandeSelected = listFacture.find((facture) => facture?.["id"] == this.urlParamId);
         }
@@ -127,7 +126,7 @@ export class FactureComponent {
             this.displayUrlErrorPage = true;
         }
     }
-    async postCommandeProduitCommandesDetails(dataToSend = this.demandeSelected?.["numero_commande"]) {
+    async postCommandeProduitCommandesDetails(dataToSend = this.demandeSelected?.["numero_demande"]) {
         const response: any = await handle(() => this.supervisionOperationService.postCommandeProduitCommandesDetails(dataToSend), this.toastrService, this.loadingBarService);
         if (response.error === false) this.handleSuccessfulPostGestionStocksDetailsFacture(response);
     }
@@ -199,7 +198,6 @@ export class FactureComponent {
     }
 
     public isApproved(): boolean {
-        console.log('this.detailsFacture?.["facture"]?.etat_facture', this.detailsFacture?.["facture"]?.etat_facture)
         return this.detailsFacture?.["facture"]?.etat_facture === BADGE_ETAT.APPROUVE;
     }
 

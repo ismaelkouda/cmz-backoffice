@@ -193,34 +193,34 @@ export class DemandeMasseComponent implements OnInit {
 
     private isRequiredFieldsetTraiter(value: 'traiter' | 'cloturer') {
         if (value === 'traiter') {
-            this.formTraitementMasse.get("sims_file").setValidators([Validators.required]);
+            this.formTraitementMasse.get("sims_file")?.setValidators([Validators.required]);
         } else {
-            this.formTraitementMasse.get("sims_file").clearValidators();
-            this.formTraitementMasse.get("sims_file").disabled;
+            this.formTraitementMasse.get("sims_file")?.clearValidators();
+            this.formTraitementMasse.get("sims_file")?.disabled;
         }
-        this.formTraitementMasse.get("sims_file").updateValueAndValidity();
+        this.formTraitementMasse.get("sims_file")?.updateValueAndValidity();
     }
 
     private isRequiredCommenatire(value: 'oui' | 'non') {
         if (value === 'non') {
             this.croixRougeCommentaire = true;
-            this.formTraitementMasse.get("commentaire").setValidators([Validators.required]);
+            this.formTraitementMasse.get("commentaire")?.setValidators([Validators.required]);
         } else {
             this.croixRougeCommentaire = false;
-            this.formTraitementMasse.get("commentaire").clearValidators();
-            this.formTraitementMasse.get("commentaire").disabled;
+            this.formTraitementMasse.get("commentaire")?.clearValidators();
+            this.formTraitementMasse.get("commentaire")?.disabled;
         }
-        this.formTraitementMasse.get("commentaire").updateValueAndValidity();
+        this.formTraitementMasse.get("commentaire")?.updateValueAndValidity();
     }
 
     private isRequiredFieldsetAccepte(value: 'traiter' | 'cloturer') {
         if (value === 'cloturer') {
-            this.formTraitementMasse.get("accepte").setValidators([Validators.required]);
+            this.formTraitementMasse.get("accepte")?.setValidators([Validators.required]);
         } else {
-            this.formTraitementMasse.get("accepte").clearValidators();
-            this.formTraitementMasse.get("accepte").disabled;
+            this.formTraitementMasse.get("accepte")?.clearValidators();
+            this.formTraitementMasse.get("accepte")?.disabled;
         }
-        this.formTraitementMasse.get("accepte").updateValueAndValidity();
+        this.formTraitementMasse.get("accepte")?.updateValueAndValidity();
     }
 
     public getLabelForm() {
@@ -237,7 +237,7 @@ export class DemandeMasseComponent implements OnInit {
         return false;
     }
 
-    async getAllProduits(dataToSend: Object = this.demande?.numero_commande) {
+    async getAllProduits(dataToSend: Object = this.demande?.numero_demande) {
         const response: any = await handle(() => this.supervisionOperationService.postCommandeProduitCommandesDetails(dataToSend), this.toastrService, this.loadingBarService);
         this.listDemandes = response?.data;
         this.initFormTraitementMasse();
@@ -329,7 +329,7 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     public pushCurrentArrayForm(file_upload) {
-        this.formTraitementMasse.get("sims_file").patchValue(file_upload.sims_file);
+        this.formTraitementMasse.get("sims_file")?.patchValue(file_upload.sims_file);
     }
 
     public downloadFile(typeFile: 'justificatif' | 'recu-paiement') {

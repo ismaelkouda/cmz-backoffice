@@ -16,9 +16,7 @@
                 Détails
                 <strong class="cursor-pointer">
                     [{{
-                        this.params.vue === 'SIM blanche'
-                            ? listDemandes.numero_commande
-                            : listDemandes.numero_demande
+                        listDemandes.numero_demande
                     }}]
                 </strong>
             </h4>
@@ -372,10 +370,7 @@
                                 <strong
                                     >{{
                                         formatTitle(listDemandes?.operation)
-                                    }}&nbsp;{{
-                                        this.params.vue === 'SIM blanche'
-                                            ? listDemandes?.numero_commande
-                                            : listDemandes?.numero_demande
+                                    }}&nbsp;{{listDemandes?.numero_demande
                                     }}</strong
                                 >
                             </h4>
@@ -670,50 +665,6 @@
                                                 }}"
                                             />
                                         </div>
-                                        <div class="col-md">
-                                            <label for="commentaire"
-                                                ><strong
-                                                    >Courrier ou
-                                                    Document</strong
-                                                ></label
-                                            >
-                                            <div
-                                                class="d-flex justify-content-center align-items-center container-button-telecharger"
-                                            >
-                                                <div
-                                                    *ngIf="
-                                                        displayBoutonJustificatif()
-                                                    "
-                                                >
-                                                    <button
-                                                        pButton
-                                                        pRipple
-                                                        label="Télécharger"
-                                                        icon="pi pi-download"
-                                                        class="p-button-success"
-                                                        (click)="
-                                                            downloadFile(
-                                                                'justificatif'
-                                                            )
-                                                        "
-                                                    ></button>
-                                                </div>
-                                                <div class="justificatif-error">
-                                                    <span
-                                                        class=""
-                                                        *ngIf="
-                                                            !displayBoutonJustificatif()
-                                                        "
-                                                    >
-                                                        <b
-                                                            class="disabled-piece-jointe"
-                                                            >Aucune pièce
-                                                            jointe</b
-                                                        >
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="col-md-3">
                                             <label for="commentaire"
                                                 ><strong
@@ -755,6 +706,50 @@
                                                                 )
                                                             "
                                                         ></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <label for="commentaire"
+                                                ><strong
+                                                    >Courrier ou
+                                                    Document</strong
+                                                ></label
+                                            >
+                                            <div
+                                                class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                            >
+                                                <div
+                                                    *ngIf="
+                                                        displayBoutonJustificatif()
+                                                    "
+                                                >
+                                                    <button
+                                                        pButton
+                                                        pRipple
+                                                        label="Télécharger"
+                                                        icon="pi pi-download"
+                                                        class="p-button-success"
+                                                        (click)="
+                                                            downloadFile(
+                                                                'justificatif'
+                                                            )
+                                                        "
+                                                    ></button>
+                                                </div>
+                                                <div class="justificatif-error">
+                                                    <span
+                                                        class=""
+                                                        *ngIf="
+                                                            !displayBoutonJustificatif()
+                                                        "
+                                                    >
+                                                        <b
+                                                            class="disabled-piece-jointe"
+                                                            >Aucune pièce
+                                                            jointe</b
+                                                        >
                                                     </span>
                                                 </div>
                                             </div>

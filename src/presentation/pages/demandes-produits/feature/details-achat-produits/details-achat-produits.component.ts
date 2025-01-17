@@ -12,6 +12,9 @@ import { ExcelService } from '../../../../../shared/services/excel.service';
 import { Pargination } from '../../../../../shared/table/pargination';
 import { StateAchatProduitsService } from '../../data-access/achat-produits/state-achat-produits.service';
 import { handle } from '../../../../../shared/functions/api.function';
+import { DemandeService } from '../../../demandes/data-access/demande.service';
+import { MappingService } from '../../../../../shared/services/mapping.service';
+import { PatrimoineService } from '../../../patrimoine/data-access/patrimoine.service';
 
 type TYPEVIEW = "détails";
 const TYPEVIEW_VALUES: TYPEVIEW[] = ["détails"];
@@ -34,6 +37,7 @@ export class DetailsAchatProduitsComponent implements OnInit {
     public urlParamId: string;
     public urlParamFilter: Object;
     public urlParamCurrentPage: string;
+    public urlParamOperation: string;
     public filterData: Object;
 
     public listProduits: Array<Object>;
@@ -42,6 +46,7 @@ export class DetailsAchatProduitsComponent implements OnInit {
     public displayUrlErrorPage: boolean = false;
     public listEtapeLigne: Array<any> = [];
     public listEtatLigne: Array<any> = [];
+    public listOperations: Array<any> = [];
     public statistiquesBox: Array<IStatistiquesBox> = [];
 
     public isLoadingTitle: boolean = true;
@@ -51,9 +56,11 @@ export class DetailsAchatProduitsComponent implements OnInit {
 
     constructor(public toastrService: ToastrService, private loadingBarService: LoadingBarService,
         private demandesProduitsService: DemandesProduitsService, private activatedRoute: ActivatedRoute,
-        private excelService: ExcelService,
+        private excelService: ExcelService, private demandeService: DemandeService,
+        private mappingService: MappingService, public patrimoineService: PatrimoineService,
         private stateAchatProduitsService: StateAchatProduitsService, private location: Location) {
         Object.values(TYPE_PRODUITS).forEach((item) => { this.listTypeProduits.push(item); });
+        this.listOperations = this.mappingService.listOperations
     }
 
     ngOnInit(): void {
@@ -69,9 +76,10 @@ export class DetailsAchatProduitsComponent implements OnInit {
         this.activatedRoute.queryParams.subscribe((params: Object) => {
             this.urlParamRef = params?.["ref"];
             this.urlParamCurrentPage = params?.["urlParamCurrentPage"];
+            this.urlParamOperation = params?.["operation"];
             this.urlParamFilter = this.stateAchatProduitsService.getFilterAchatProduitsState(params?.["filter"]);
         });
-        this.urlParamId = this.activatedRoute.snapshot.paramMap.get('numero_commande');
+        this.urlParamId = this.activatedRoute.snapshot.paramMap.get('numero_demande');
         
         if (!this.urlParamId || !this.urlParamRef) {
             this.displayUrlErrorPage = true;
@@ -82,7 +90,7 @@ export class DetailsAchatProduitsComponent implements OnInit {
     }
 
     async pageCallback(urlParamFilter = {}, urlParamCurrentPage: string = "1"): Promise<any> {
-        const response: any = await handle(() => this.demandesProduitsService.postCommandeProduitCommandesAll(urlParamFilter, urlParamCurrentPage), this.toastrService, this.loadingBarService);
+        const response: any = await handle(() => this.demandeService.GetDemandeServiceByTransaction(urlParamFilter, urlParamCurrentPage), this.toastrService, this.loadingBarService);
         if (response.error === false) this.handleSuccessfulPageCallback(response);
     }
     private handleSuccessfulPageCallback(response: Object): void {
@@ -90,7 +98,7 @@ export class DetailsAchatProduitsComponent implements OnInit {
         this.getDossierSelected(listAchatProduits);
     }
     private getDossierSelected(listAchatProduits: Array<Object>): void {
-        this.selectedAchat = listAchatProduits.find((dossier) => dossier['numero_commande'] == this.urlParamId);
+        this.selectedAchat = listAchatProduits.find((dossier) => dossier['numero_demande'] == this.urlParamId);
         if (this.selectedAchat) {
             // this.sharedDataService.postGestionStocksDetailsCartesSim().subscribe(() => {
             //     this.postGestionStocksDetailsCartesSim({...this.filterData, id: this.selectedCarteSim?.["id"]});
@@ -103,14 +111,13 @@ export class DetailsAchatProduitsComponent implements OnInit {
     }
 
     async getAllProduits(dataToSend: Object = this.filterData, nbrPage: string = "1") {
-        const response: any = await handle(() => this.demandesProduitsService.postCommandeProduitTransactionAll({...dataToSend, numero_commande: this.selectedAchat?.["numero_commande"]}, nbrPage), this.toastrService, this.loadingBarService);
+        const response: any = await handle(() => this.patrimoineService.GetAllTransactions({...dataToSend, numero_demande: this.selectedAchat?.["numero_demande"], operation: this.urlParamOperation, tenant_code: this.mappingService.tenant.tenant_code}, nbrPage), this.toastrService, this.loadingBarService);
         if (response.error === false) this.handleSuccessfulGetAllDemandes(response);
     }
 
     private handleSuccessfulGetAllDemandes(response: any): void {
         this.getTchesBoxValues(response?.["data"]);
         this.listProduits = response?.["data"]?.["data"]?.["data"];
-        console.log('response["data"]["data"]', response?.["data"]?.["data"])
         this.isLoadingTitle = false;
         this.pargination = new Pargination(response?.data?.data?.p, response?.data?.data?.to, response?.data?.data?.last_page, response?.data?.data?.total, response?.data?.data?.per_page, response?.data?.data?.current_page, (response?.data?.data?.current_page - 1) * this.pargination?.per_page + 1);
         this.spinner = false;

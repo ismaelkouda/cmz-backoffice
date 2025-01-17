@@ -63,16 +63,16 @@
             <td class="text-center">{{ achat?.created_at }}</td>
             <td
                 class="text-center"
-                (click)="copyData(achat.numero_commande)"
+                (click)="copyData(achat.numero_demande)"
                 style="cursor: pointer"
             >
-                {{ achat?.numero_commande }}
+                {{ achat?.numero_demande }}
             </td>
             <td class="text-center">
-                {{ achat?.nb_commande_soumises ?? 'N/A' }}
+                {{ achat?.nb_demande_soumises ?? 'N/A' }}
             </td>
             <td class="text-center">
-                {{ achat?.nb_commande_traitees ?? 'N/A' }}
+                {{ achat?.nb_demande_traitees ?? 'N/A' }}
             </td>
             <td class="text-center" [style]="{ width: '3rem' }">
                 <span

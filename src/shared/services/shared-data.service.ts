@@ -4,6 +4,19 @@ import { Observable, Subject } from "rxjs";
 @Injectable({ providedIn: "root" })
 
 export class SharedDataService {
+  
+  /**
+   * PATRIMOINE => WHITE SIM CARD
+   */
+  private patrimoineWhiteSimCard = new Subject<void>();
+
+  sendPatrimoineWhiteSimCard() {
+    this.patrimoineWhiteSimCard.next();
+  }
+  postPatrimoineWhiteSimCard(): Observable<void> {
+    return this.patrimoineWhiteSimCard.asObservable();
+  }
+
   /**
    * TENANTS SIM
    */
@@ -52,6 +65,17 @@ export class SharedDataService {
     }
     postDemandesProduitsAchatProduits(): Observable<void> {
       return this.demandesProduitsAchatProduits.asObservable();
+    }
+    /**
+   * COMPTABILITE
+   */
+    private comptabiliteFacture = new Subject<void>();
+
+    sendComptabiliteFacture() {
+      this.comptabiliteFacture.next();
+    }
+    postComptabiliteFacture(): Observable<void> {
+      return this.comptabiliteFacture.asObservable();
     }
   
 }

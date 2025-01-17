@@ -2,7 +2,7 @@ import { DESTRUCTION } from "dns";
 
 export const enum EndPointUrl {
     
-    POST_COMMANDE_PRODUIT_COMMANDES_DETAILS = "commande-produit/commandes/{numero_commande}/details",
+    POST_COMMANDE_PRODUIT_COMMANDES_DETAILS = "commande-produit/commandes/{numero_demande}/details",
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_ABANDONNER_DEMANDE_SERVICE = 'supervision-operations/traitements-suivis/abandonner-demande-service',
     GET_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_DOWNLOAD_MODELE_DATA = "supervision-operations/traitements-suivis/download-modele-data?operation={operation}&numeroDemande={numeroDemande}&token={tokenUser}",
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_IDENTIFICATIONS_SIMS = 'supervision-operations/traitements-suivis/identifications-sims',

@@ -36,11 +36,12 @@
                                                     detailsFacture?.facture
                                                 )?.value
                                             }}
-                                            | Montant :
-                                            {{
-                                                detailsFacture?.facture?.prix_ht
-                                            }}
-                                        </span>
+                                        </span>&nbsp; [Montant :<span class="text-orange"
+                                        >
+                                        {{
+                                            detailsFacture?.facture?.prix_ttc
+                                        }} Fcfa</span
+                                    >]
                                     </b>
                                 </h4>
                                 <div class="forms-feature-header__button">
@@ -459,7 +460,7 @@
                                                         }}
                                                     </td>
                                                 </tr>
-                                                <tr
+                                                <tr class="tr_montant"
                                                     style="
                                                         border-color: transparent;
                                                     "
@@ -480,7 +481,7 @@
                                                         }}
                                                     </td>
                                                 </tr>
-                                                <tr
+                                                <tr class="tr_montant"
                                                     style="
                                                         border-color: transparent;
                                                     "
@@ -504,7 +505,7 @@
                                                         }}
                                                     </td>
                                                 </tr>
-                                                <tr
+                                                <tr class="tr_montant"
                                                     style="
                                                         border-color: transparent;
                                                     "

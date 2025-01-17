@@ -1,7 +1,7 @@
-import { EQUIPEMENTS_CONNECTE, FILE_ATTENTE_ROUTE, PERSONNE_PHYSIQUE } from './../presentation/pages/gestion-identifications/gestion-identifications-routing.module';
+import { FILE_ATTENTE_ROUTE } from './../presentation/pages/gestion-identifications/gestion-identifications-routing.module';
 import { CONTACT_SLA } from './../presentation/pages/ref-telemetrie/ref-telemetrie-routing.module';
 import { DEMANDE_ACTIVATION, DEMANDE_SUSPENSION, DEMANDE_RESILIATION, DEMANDE_FORMULE_CHANGE, DEMANDE_SWAPPING, DEMANDE_INTEGRATION, DEMANDE_IDENTIFICATION } from '../presentation/pages/demandes/demandes-routing.module';
-import { CARTOGRAPHIE, DOWNLOAD_FILE } from './../presentation/pages/patrimoine/patrimoine-routing.module';
+import { DOWNLOAD_FILE, WHITE_SIM_CARD } from './../presentation/pages/patrimoine/patrimoine-routing.module';
 import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE,CONTENCIEUX_ROUTE, NOTIFY_ROUTE, JOURNAL_TRANSACTION_ROUTE, MESSAGERIE_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import { COURBE_MESSAGE, DETECTION_APPRO, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
@@ -12,8 +12,9 @@ import { VUE_GEOGRAPHIQUE } from 'src/presentation/pages/zone-trafic/zone-trafic
 import { JOURNAL_ATHENTICATION, PROFILS_HABILITATIONS, UTILISATEURS } from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { RAPPORT_CONFORMITE, SLA_DASHBORD } from 'src/presentation/pages/sla-demande-service/sla-demande-service-routing.module';
-import { DEMANDE_PRODUITS } from '../shared/routes/routes';
+import { COMPTABILITE, DEMANDE_PRODUITS } from '../shared/routes/routes';
 import { ACHAT_PRODUIT } from '../presentation/pages/demandes-produits/demandes-produits-routing.module';
+import { FACTURE } from '../presentation/pages/comptabilite/comptabilite-routing.module';
 
 export var menuJson = [
     {
@@ -34,6 +35,14 @@ export var menuJson = [
                 title: "Cartes SIM",
                 label: "Cartes SIM",
                 data: "1-1-0-cartes-sim",
+                pack: ApplicationType.MONITORING,
+                type: "link"
+            },
+            {
+                path: `/${PATRIMOINE}/${WHITE_SIM_CARD}`,
+                title: "Cartes SIM Blanches",
+                label: "Cartes SIM Blanches",
+                data: "1-8-0-cartes-sim-blanche",
                 pack: ApplicationType.MONITORING,
                 type: "link"
             },
@@ -175,9 +184,9 @@ export var menuJson = [
         ]
     },
     {
-        title: "Commandes de produits",
-        label: "Commandes de produits",
-        data: "11-0-0-demandes-de-produits",
+        title: "Commande de produits",
+        label: "Commande de produits",
+        data: "11-0-0-demande-de-produits",
         statut: false,
         expanded: true,
         icon: "pen-tool",
@@ -191,7 +200,7 @@ export var menuJson = [
                 path: `/${DEMANDE_PRODUITS}/${ACHAT_PRODUIT}`,
                 title: "SIM Blanches",
                 label: "SIM Blanches",
-                data: "11-1-0-achat-produit",
+                data: "11-1-0-sim-blanche",
                 pack: ApplicationType.MONITORING,
                 type: "link"
             },
@@ -400,6 +409,28 @@ export var menuJson = [
                 title: "Détection Appro. Data",
                 label: "Détection Appro. Data",
                 data: "5-3-0-detection-appro",
+                type: "link",
+                pack: ApplicationType.MONITORING,
+            }
+        ]
+    },
+    {
+        title: "Comptabilité",
+        label: "Comptabilité",
+        data: "12-0-0-comptabilite",
+        statut: false,
+        icon: "activity",
+        url: "assets/images/portail/graph.png",
+        type: "sub",
+        pack: ApplicationType.MONITORING,
+        path: `/${COMPTABILITE}/${FACTURE}`,
+        routerLink: `/${COMPTABILITE}/${FACTURE}`,
+        children: [
+            {
+                path: `/${COMPTABILITE}/${FACTURE}`,
+                title: "Facture",
+                label: "Facture",
+                data: "12-1-0-facture",
                 type: "link",
                 pack: ApplicationType.MONITORING,
             }

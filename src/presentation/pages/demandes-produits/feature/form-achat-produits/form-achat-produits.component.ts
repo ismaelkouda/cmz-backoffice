@@ -154,7 +154,7 @@ export class FormAchatProduitsComponent implements OnInit {
     }
 
     private getAchatSelected(listAchatProduits: Array<Object>): void {
-        this.achatSelected = listAchatProduits.find((achat) => achat?.["numero_commande"] == this.urlParamId);
+        this.achatSelected = listAchatProduits.find((achat) => achat?.["numero_demande"] == this.urlParamId);
         if (this.achatSelected) {
             this.patchValueAchatProduitsForm(this.achatSelected);
         } else {

@@ -57,7 +57,7 @@ export class TypePaiementComponent implements OnInit {
     public initFormTypePaiement(): void {
         this.formTypePaiement = this.fb.group({
             source: this.createFormControl(this.detailsDemande?.["source"], null, true),
-            numero_demande: this.createFormControl(this.params.vue === "SIM blanche" ? this.detailsDemande?.["numero_commande"] : this.detailsDemande?.["numero_demande"], null, false),
+            numero_demande: this.createFormControl(this.detailsDemande?.["numero_demande"], null, false),
             operation: this.createFormControl(this.detailsDemande?.["operation"], null, true),
             niveau_uns_uuid: this.createFormControl(this.detailsDemande?.["niveau_uns_nom"], null, true),
             niveau_deux_uuid: this.createFormControl(this.detailsDemande?.["niveau_deux_nom"], null, true),
@@ -125,8 +125,7 @@ export class TypePaiementComponent implements OnInit {
         }
     }
 
-    async postCommandeProduitCommandesDetails(dataToSend = this.demandeSelected?.["numero_commande"]) {
-        console.log('this.demandeSelected?.["numero_commande"]', this.demandeSelected)
+    async postCommandeProduitCommandesDetails(dataToSend = this.demandeSelected?.["numero_demande"]) {
         const response: any = await handle(() => this.supervisionOperationService.postCommandeProduitCommandesDetails(dataToSend), this.toastrService, this.loadingBarService);
         this.detailsDemande = response?.data;
         this.initFormTypePaiement();
@@ -140,7 +139,7 @@ export class TypePaiementComponent implements OnInit {
     }
     async postTraitementsSuivisPaiementDemandeService(dataToSend = { ...this.formTypePaiement.value }): Promise<void> {
         const htmlMessage = this.formTypePaiement.get("type_paiement")?.value == "immédiat" ?
-            `Le recu de paiement sera rattaché à la facture <span style="color: #ff6600;"><strong>${this.params.vue === "SIM blanche" ? this.demandeSelected["numero_commande"] : this.demandeSelected["numero_demande"]}</strong></span> !` :
+            `Le recu de paiement sera rattaché à la facture <span style="color: #ff6600;"><strong>${this.demandeSelected["numero_demande"]}</strong></span> !` :
             `Paiement différé !`;
         const result = await Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass })
             .fire({

@@ -1,3 +1,5 @@
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { EditableRow, TableModule } from "primeng/table";
 // import { TableDossierDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/table-dossier-demande-identification/table-dossier-demande-identification.component';
 // import { FilterDossierDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/filter-dossier-demande-identification/filter-dossier-demande-identification.component';
 // import { FilterDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/filter-demande-identification/filter-demande-identification.component';
@@ -18,20 +20,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxCaptchaModule } from 'ngx-captcha';
 
 //Modules Primeng
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TabViewModule } from 'primeng/tabview';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { DialogModule } from "primeng/dialog";
-import { TooltipModule } from 'primeng/tooltip';
-import { InputMaskModule } from 'primeng/inputmask';
-import { PasswordModule } from 'primeng/password';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { CalendarModule } from 'primeng/calendar';
-import { CheckboxModule } from 'primeng/checkbox';
 import { DemandesRoutingModule } from './demandes-routing.module';
 import { SharedModule } from 'src/shared/shared.module';
 
@@ -54,31 +42,23 @@ import { TableDossierDemandeIntegration } from "./feature/demande-integration/ta
 // import { FormDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/form-demande-identification/form-demande-identification.component';
 // import { ManagementDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/management-demande-identification/management-demande-identification.component';
 
-import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { TagModule } from 'primeng/tag';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 @NgModule({
     imports: [
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
-        DemandesRoutingModule,
-        DropdownModule,
-        ButtonModule,
         TableModule,
+        InputSwitchModule,
+        TagModule,
+        ButtonModule,
         InputTextModule,
-        InputNumberModule,
-        InputTextareaModule,
-        TabViewModule,
-        DialogModule,
-        TooltipModule,
+        DemandesRoutingModule,
         NgxPaginationModule,
-        InputMaskModule,
-        PasswordModule,
-        RadioButtonModule,
         NgxCaptchaModule,
-        CalendarModule,
-        CheckboxModule,
-        DynamicDialogModule
     ],
     declarations: [
         TypePaiementComponent,
@@ -98,8 +78,8 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
         // TableDossierDemandeIdentificationComponent,
         // ManagementDemandeIdentificationComponent,
         // TableDemandeIdentificationComponent,
-        DemandeIntegrationComponent,FilterDemandeIntegrationComponent,TableDemandeIntegrationComponent,FormDemandeIntegrationComponent, DossierDemandeIntegrationComponent, FilterDossierDemandeIntegrationComponent, TableDossierDemandeIntegration
+        DemandeIntegrationComponent, FilterDemandeIntegrationComponent, TableDemandeIntegrationComponent, FormDemandeIntegrationComponent, DossierDemandeIntegrationComponent, FilterDossierDemandeIntegrationComponent, TableDossierDemandeIntegration
     ],
-    providers: [DemandesFilterStateService, DemandeIntegrationStateService]
+    providers: [DemandesFilterStateService, DemandeIntegrationStateService, EditableRow]
 })
 export class DemandesModule { }

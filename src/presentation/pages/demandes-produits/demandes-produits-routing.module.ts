@@ -29,7 +29,7 @@ const routes: Routes = [
                 component: FactureComponent,
             },
             {
-                path: DETAILS+"/:numero_commande",
+                path: DETAILS+"/:numero_demande",
                 component: DetailsAchatProduitsComponent,
             },
             {

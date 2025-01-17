@@ -1,0 +1,12 @@
+<div class="stat_box" [ngStyle]="{
+    backgroundColor: cardBgColor,
+    border: '1px solid' + cardBorderColor
+  }">
+  <div class="d-flex flex-column w-100 justify-content-between">
+    <div class="d-flex justify-content-between">
+      <h1 [ngStyle]="{ color: countColor }">{{ pipeValue(count) }}</h1>
+      <h2 *ngIf="taux" [ngStyle]="{ color: countColor }" class="pt-1">{{ taux }}%</h2>
+    </div>
+    <h4 [ngStyle]="{ color: legendColor }">{{ legend }}</h4>
+  </div>
+</div>

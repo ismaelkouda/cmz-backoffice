@@ -11,22 +11,6 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 
 
 //Modules Primeng
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TabViewModule } from 'primeng/tabview';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { DialogModule } from "primeng/dialog";
-import { TooltipModule } from 'primeng/tooltip';
-import { InputMaskModule } from 'primeng/inputmask';
-import { PasswordModule } from 'primeng/password';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { CalendarModule } from 'primeng/calendar';
-import { CheckboxModule } from 'primeng/checkbox';
-import { BadgeModule } from 'primeng/badge';
-import { ImageModule } from 'primeng/image';
 
 //Components
 import { CarteSimActiveComponent } from './ui/carte-sim-active/carte-sim-active.component';
@@ -49,6 +33,13 @@ import { CarteSimFormComponent } from 'src/presentation/pages/patrimoine/feature
 import { PatrimoinesService } from "src/presentation/pages/patrimoine/data-access/patrimoines.service";
 import { CarteSimStateService } from 'src/presentation/pages/patrimoine/data-access/carte-sim/carte-sim-state.service';
 import { CarteSimApiStateService } from "src/presentation/pages/patrimoine/data-access/carte-sim/carte-sim-api-state.service";
+import { StateWhiteSimCardService } from './data-access/white-sim-card/state-approbation.service';
+import { WhiteSimCardComponent } from './ui/white-sim-card/white-sim-card.component';
+import { FilterWhiteSimCardComponent } from './feature/white-sim-card/filter-white-sim-card/filter-white-sim-card.component';
+import { TableWhiteSimCardComponent } from './feature/white-sim-card/table-white-sim-card/table-white-sim-card.component';
+import { WhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/white-sim-card-details.component';
+import { TableWhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/features/table-white-sim-card-details/table-white-sim-card-details.component';
+import { FilterWhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/features/filter-white-sim-card-details/filter-white-sim-card-details.component';
 //Module
 
 @NgModule({
@@ -58,26 +49,11 @@ import { CarteSimApiStateService } from "src/presentation/pages/patrimoine/data-
         FormsModule,
         SharedModule,
         PatrimoineRoutingModule,
-        DropdownModule,
-        ButtonModule,
-        TableModule,
-        InputTextModule,
-        InputNumberModule,
-        InputTextareaModule,
-        TabViewModule,
-        DialogModule,
-        TooltipModule,
         NgxPaginationModule,
-        InputMaskModule,
-        PasswordModule,
-        RadioButtonModule, 
         NgxCaptchaModule,
-        CalendarModule,
-        CheckboxModule,
-        BadgeModule,
-        ImageModule
     ],
     declarations: [
+        WhiteSimCardComponent, FilterWhiteSimCardComponent, TableWhiteSimCardComponent, WhiteSimCardDetailsComponent, TableWhiteSimCardDetailsComponent, FilterWhiteSimCardDetailsComponent,
         CarteSimActiveComponent,
         GroupeSimComponent,
         DotationServiceComponent,
@@ -99,6 +75,8 @@ import { CarteSimApiStateService } from "src/presentation/pages/patrimoine/data-
         CartesSimComponent,
         CarteSimFormComponent,
     ],
-    providers: [PatrimoinesService, CarteSimStateService, CarteSimApiStateService]
+    providers: [PatrimoinesService, CarteSimStateService, CarteSimApiStateService,
+        StateWhiteSimCardService
+    ]
 })
 export class PatrimoineModule { }

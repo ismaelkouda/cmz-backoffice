@@ -52,7 +52,7 @@ import { CarouselModule } from "ngx-owl-carousel-o";
 import { SwiperModule } from "swiper/angular";
 
 //Primeng Modules
-import { TableModule } from 'primeng/table';
+import { EditableRow, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputTextModule } from 'primeng/inputtext';
@@ -69,16 +69,21 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FileUploadModule } from 'primeng/fileupload';
 import { FactureComponent } from './components/facture/facture.component';
 import { SpinnerTitleDetailsComponent } from './components/spinner-title-details/spinner-title-details.component';
+import { BoxContainerComponent } from './components/box-container/box-container.component';
+import { PrimengModule } from './primeng.module';
+import { SearchTableComponent } from './components/search-table/search-table.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
+    SearchTableComponent,
     SidebarComponent,
     ContentComponent,
     BreadcrumbComponent,
     TraitementShowComponent,
     TransactionShowComponent,
+    BoxContainerComponent,
     FullComponent,
     LoaderComponent,
     StatBoxComponent,
@@ -110,6 +115,7 @@ import { SpinnerTitleDetailsComponent } from './components/spinner-title-details
   ],
   imports: [
     CommonModule,
+    PrimengModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
@@ -137,12 +143,15 @@ import { SpinnerTitleDetailsComponent } from './components/spinner-title-details
   ],
   exports: [
     NgbModule,
+    PrimengModule,
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
     LoaderComponent,
+    SearchTableComponent,
     StatBoxComponent,
     CountBoxComponent,
+    BoxContainerComponent,
     BreadcrumbComponent,
     TraitementShowComponent,
     TransactionShowComponent,

@@ -62,6 +62,11 @@ export class PatrimoineService {
     const url: string = (<string>EndPointUrl.VERIFY_PATRIMOINE);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  
+  PostPatrimoineSimCartonSimBlancheDisponibles(data: Object): Observable<any> {
+    const url: string = (<string>EndPointUrl.POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_DISPONIBLES);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   OnVerifyGroupe(data): Observable<any> {
     const url: string = (<string>EndPointUrl.VERIFY_GROUPE);
     return this.http.post(`${this.baseUrl}${url}`, data);

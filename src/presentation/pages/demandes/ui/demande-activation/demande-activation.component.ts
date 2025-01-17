@@ -45,12 +45,10 @@ export class DemandeActivationComponent implements OnInit {
   }
 
   public pushStatutView(event: boolean): void {    
-    console.log('eventstatus', event)
     this.formsView = event;
     this.initialView = !event;
   }
   public pushCurrentObject(event: any): void {    
-    console.log('event252424', event)
     this.formsView = event;
     this.initialView = !event;
     this.currentObject = event; 
