@@ -27,8 +27,10 @@ import { TreeModule } from "primeng/tree";
 import { ImageModule } from 'primeng/image';
 import { SkeletonModule } from 'primeng/skeleton';
 import { SliderModule } from 'primeng/slider';
+// import { SharedModule } from "primeng/api";
 import { FileUploadModule } from 'primeng/fileupload';
-import { SharedModule } from "primeng/api";
+import { TagModule } from 'primeng/tag';
+import { MessageModule } from 'primeng/message';
 
 @NgModule({
     imports: [
@@ -61,7 +63,9 @@ import { SharedModule } from "primeng/api";
         SkeletonModule,
         SliderModule,
         FileUploadModule,
-        SharedModule
+        // SharedModule,
+        TagModule,
+        MessageModule
     ],
     exports: [
         PaginatorModule,
@@ -93,7 +97,9 @@ import { SharedModule } from "primeng/api";
         SkeletonModule,
         SliderModule,
         FileUploadModule,
-        SharedModule
+        // SharedModule,
+        TagModule,
+        MessageModule
     ],
     providers: [EditableRow]
 })

@@ -13,6 +13,7 @@ import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SettingService } from '../../../../../shared/services/setting.service';
 import { DemandesProduitsService } from '../../../demandes-produits/data-access/demandes-produits.service';
+import { SharedService } from '../../../../../shared/services/shared.service';
 const Swal = require("sweetalert2");
 
 @Component({
@@ -22,7 +23,7 @@ const Swal = require("sweetalert2");
 })
 
 export class TypePaiementComponent implements OnInit {
-    @Input() params: { vue: "abonnement", action: "Abandonner" | "Identifier" } | { vue: "SIM blanche", action: "Clôturer" };
+    @Input() params: { vue: "abonnement", action: "Abandonner" | "Identifier" } | { vue: "SIM blanches", action: "Clôturer" };
     @Input() action: 'traiter' | 'cloturer' | 'Abandonner' | 'Traiter';
     @Input() IsLoadData;
     @Input() demandeSelected;
@@ -35,14 +36,19 @@ export class TypePaiementComponent implements OnInit {
     constructor(private toastrService: ToastrService, private loadingBarService: LoadingBarService,
         private fb: FormBuilder, private sharedDataService: SharedDataService,
         private supervisionOperationService: SupervisionOperationService,
-        private activeModal: NgbActiveModal, private settingService: SettingService
+        private activeModal: NgbActiveModal, private sharedService: SharedService
     ) { }
 
     ngOnInit(): void {
-        if (this.params.vue === "SIM blanche") {
+        if (this.params.vue === "SIM blanches") {
             this.postCommandeProduitCommandesDetails();
         } else {
-            this.GetSupervisionOperationsDemandesServicesDetails();
+            this.sharedService.fetchDetailsDemand(this.demandeSelected["numero_demande"]);
+            this.sharedService.getDetailsDemand().subscribe((value) => {
+                this.detailsDemande = value;
+                this.initFormTypePaiement();
+                this.IsLoading.emit(false);
+            });
         }
         this.getTitleForm;
     }
@@ -131,12 +137,12 @@ export class TypePaiementComponent implements OnInit {
         this.initFormTypePaiement();
         this.IsLoading.emit(false);
     }
-    async GetSupervisionOperationsDemandesServicesDetails(dataToSend = this.demandeSelected["numero_demande"]): Promise<void> {
-        const response: any = await handle(() => this.settingService.GetSupervisionOperationsDemandesServicesDetails(dataToSend), this.toastrService, this.loadingBarService);
-        this.detailsDemande = response?.data;
-        this.initFormTypePaiement();
-        this.IsLoading.emit(false);
-    }
+    // async GetSupervisionOperationsDemandesServicesDetails(dataToSend = this.demandeSelected["numero_demande"]): Promise<void> {
+    //     const response: any = await handle(() => this.settingService.GetSupervisionOperationsDemandesServicesDetails(dataToSend), this.toastrService, this.loadingBarService);
+    //     this.detailsDemande = response?.data;
+    //     this.initFormTypePaiement();
+    //     this.IsLoading.emit(false);
+    // }
     async postTraitementsSuivisPaiementDemandeService(dataToSend = { ...this.formTypePaiement.value }): Promise<void> {
         const htmlMessage = this.formTypePaiement.get("type_paiement")?.value == "immédiat" ?
             `Le recu de paiement sera rattaché à la facture <span style="color: #ff6600;"><strong>${this.demandeSelected["numero_demande"]}</strong></span> !` :

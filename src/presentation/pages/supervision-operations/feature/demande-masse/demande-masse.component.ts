@@ -18,6 +18,8 @@ import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { OperationTransaction } from "src/shared/enum/OperationTransaction.enum";
 import { DemandesProduitsService } from '../../../demandes-produits/data-access/demandes-produits.service';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
+import { getRapportCodeStyle } from '../../../../../shared/functions/rapport-code-style.function';
+import { BADGE_STAUT_PAIEMENT } from '../../../../../shared/constants/badge-statut-paiement';
 const Swal = require('sweetalert2');
 @Component({
     selector: 'app-demande-masse',
@@ -38,7 +40,7 @@ export class DemandeMasseComponent implements OnInit {
     public BADGE_ETAT = BADGE_ETAT;
     public BADGE_ETAPE = BADGE_ETAPE;
     public formTraitementMasse: FormGroup;
-    @Input() params: { vue: "demande", action: "Abandonner" | "Identifier" } | { vue: "SIM blanche", action: "Abandonner" | "Identifier" } | { vue: "traitement", action: "Clôturer" };
+    @Input() params: { vue: "activation", action: "Abandonner" | "Identifier" } | { vue: "SIM blanche", action: "Abandonner" | "Identifier" } | { vue: "traitement", action: "Clôturer" };
     @Input() action: 'traiter' | 'cloturer' | 'Abandonner' | 'Traiter';
     @Input() IsLoadData;
     @Input() demande;
@@ -66,6 +68,7 @@ export class DemandeMasseComponent implements OnInit {
     public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
     public treatmenCancel: string = TraitementTransaction.ABANDONNER;
     public TYPE_FORM = OperationTransaction;
+    public BADGE_STAUT_PAIEMENT= BADGE_STAUT_PAIEMENT;
 
     constructor(private supervisionOperationService: SupervisionOperationService, private toastrService: ToastrService,
         private loadingBarService: LoadingBarService, private activeModal: NgbActiveModal, private mappingService: MappingService,
@@ -107,13 +110,13 @@ export class DemandeMasseComponent implements OnInit {
             niveau_deux_uuid: this.createFormControl(this.listDemandes?.niveau_deux_nom, null, true),
             niveau_trois_uuid: this.createFormControl(this.listDemandes?.niveau_trois_nom, null, true),
             numero_demande: [this.listDemandes?.numero_demande],
-            formule_uuid: this.createFormControl(this.truncateString(this.listDemandes?.formule), Validators.required, true),
+            formule_uuid: this.createFormControl(this.listDemandes?.formule, Validators.required, true),
             usage_id: this.createFormControl(this.listDemandes?.usage_nom, null, true),
             montant_formule: this.createFormControl(this.listDemandes?.montant_formule, null, true),
             description: this.createFormControl(this.listDemandes?.description, null, true),
-            accepte: this.createFormControl(this.listDemandes?.accepte, this.params.vue === 'traitement' ? Validators.required : null, false),
+            accepte: this.createFormControl(this.listDemandes?.etat_cloture, this.params.vue === 'traitement' ? Validators.required : null, false),
             commentaire: [this.commentairePatchValue()],
-            sims_file: this.createFormControl(null, this.params.vue === 'demande' ? Validators.required : null),
+            sims_file: this.createFormControl(null, this.params.vue === "activation" ? Validators.required : null),
             commentaire_traitement: this.createFormControl(this.getNonNullValue(this.listDemandes?.commentaire_traitement), null, true), 
             commentaire_finalisation: this.createFormControl(this.listDemandes?.commentaire_finalisation, null, true),
             commentaire_cloture: this.createFormControl(this.listDemandes?.commentaire_cloture, null, true),
@@ -245,10 +248,10 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     async GetSupervisionOperationsDemandesServicesDetails(dataToSend = this.demande?.numero_demande): Promise<void> {
-        this.response = await handle(() => this.settingService.GetSupervisionOperationsDemandesServicesDetails(dataToSend), this.toastrService, this.loadingBarService);
-        this.listDemandes = this.response?.data;
-        this.initFormTraitementMasse();
-        this.IsLoading.emit(false);
+        // this.response = await handle(() => this.settingService.GetSupervisionOperationsDemandesServicesDetails(dataToSend), this.toastrService, this.loadingBarService);
+        // this.listDemandes = this.response?.data;
+        // this.initFormTraitementMasse();
+        // this.IsLoading.emit(false);
     }
 
     async onSaveDemandes(dataToSend: {}): Promise<void> {
@@ -315,37 +318,23 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     public OnGetRapportCodeStyle(data: any): string {
-        if (data?.etat_soumission === BADGE_ETAT.RECU && (data?.etat_cloture !== BADGE_ETAT.REFUSE || data?.etat_cloture !== BADGE_ETAT.REJETE)) {
-            return "detailsDemandeColorBlue";
-        } else if (data?.etat_soumission === BADGE_ETAT.ABANDONNE) {
-            return "detailsDemandeColorYellow";
-        } else if (data?.etat_traitement === BADGE_ETAT.REJETE || data?.etat_cloture === BADGE_ETAT.REFUSE) {
-            return "detailsDemandeColorRed";
-        } else if (data?.etat_traitement === BADGE_ETAT.PARTIEL || data?.etat_traitement === BADGE_ETAT.CLOTURE) {
-            return "detailsDemandeColorGreen";
-        } else {
-            return "detailsDemandeColorBlack";
-        }
+        return getRapportCodeStyle(data)
     }
 
     public pushCurrentArrayForm(file_upload) {
         this.formTraitementMasse.get("sims_file")?.patchValue(file_upload.sims_file);
     }
 
-    public downloadFile(typeFile: 'justificatif' | 'recu-paiement') {
-        // if (!this.listDemandes?.justificatif) {
-        //     this.toastrService.warning("Pas de justificatif pour cette operation");
-        // } else {
-        //     window.open(this.listDemandes?.justificatif);
-        // }
-        switch (typeFile) {
-            case 'justificatif':
-                window.open(this.listDemandes?.justificatif);
-                break;
+    public downloadFile(typeFile: 'justificatif' | 'recu_paiement') {
+        const File: Record<'justificatif' | 'recu_paiement', string> = {
+            'justificatif': this.listDemandes?.justificatif,
+            'recu_paiement': this.listDemandes?.recu_paiement,
+        }
 
-            case 'recu-paiement':
-                window.open(this.listDemandes?.recu_paiement);
-                break;
+        if (File[typeFile]) {
+            window.open(File[typeFile], '_blank');
+        } else {
+            this.toastrService.warning("Type non deffini " + typeFile);
         }
     }
 
@@ -364,7 +353,6 @@ export class DemandeMasseComponent implements OnInit {
         } else {
             // window.location.href = this.supervisionOperationService.GetGestionTransactionsTraitementsServicesDownloadAbonnementsData(this.listDemandes.numero_demande, tokenUser);
         }
-
     }
 
     public canIdentify(demande: any): boolean {

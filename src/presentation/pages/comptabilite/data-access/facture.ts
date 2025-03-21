@@ -1,4 +1,4 @@
-import { Paginate } from "../../../../shared/interfaces/api-response";
+import { Paginate } from "../../../../shared/interfaces/paginate";
 
 export interface Facture {
     id: number;

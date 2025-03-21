@@ -76,21 +76,13 @@ export class TableExportExcelFileService {
     FileSaver.saveAs(data, `${fileName}_export_${new Date().getTime()}${EXCEL_EXTENSION}`);
   }
 }
-
-/**
- * Interface for table configuration.
- */
 export interface TableConfig {
   cols: TableColumn[];
   globalFilterFields: string[];
 }
-
-/**
- * Interface for table columns.
- */
 interface TableColumn {
-  field: string;  // Field in the data object
-  header: string; // Header displayed in the Excel file
-  class?: string; // Optional CSS class
-  width?: string; // Optional column width
+  field: string;
+  header: string;
+  class?: string;
+  width?: string;
 }

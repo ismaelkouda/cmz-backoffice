@@ -26,6 +26,16 @@ export class SettingService {
         const url: string = <string>EndPointUrl.GET_ALL_USERS;
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
+
+    postParametresSecuriteFormeJuridiqueAll(data): Observable<any> {
+        const url: string = <string>EndPointUrl.PARAMETRES_SECURITE_FORME_JURIDIQUES_ALL;
+        return this.http.post(`${this.baseUrl}${url}`, data);
+    }
+
+    postParametresSecuriteRegimesEntrepriseAll(data): Observable<any> {
+        const url: string = <string>EndPointUrl.PARAMETRES_SECURITE_REGIMES_ENTREPRISE_ALL;
+        return this.http.post(`${this.baseUrl}${url}`, data);
+    }
     OnSaveUser(data): Observable<any> {
         const url: string = <string>EndPointUrl.SAVE_USER;
         return this.http.post(`${this.baseUrl}${url}`, data);
@@ -38,12 +48,23 @@ export class SettingService {
         const url: string = <string>EndPointUrl.DELETE_USER;
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
-    getHistoriques(data): Observable<any> {
-        const url: string = <string>EndPointUrl.GET_ALL_HISTORIQUE;
+    getHistoriques(data, nbrPage: string = '1'): Observable<any> {
+        const url: string = <string>EndPointUrl.GET_ALL_HISTORIQUE.replace('{page}', nbrPage);
+        return this.http.post(`${this.baseUrl}${url}`, data);
+    }
+    getDetailsHistoriques(data): Observable<any> {
+        const url: string = <string>EndPointUrl.GET_ALL_DETAILS_HISTORIQUE;
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
     getAllJournal(data, typeJournal): Observable<any> {
         const url: string = <string>EndPointUrl.GET_ALL_JOURNAL.replace('{typeJournal}', typeJournal);
+        return this.http.post(`${this.baseUrl}${url}`, data);
+    }
+    getAllSimBlancheJournal(data, page): Observable<any> {
+        const url: string = <string>EndPointUrl.GET_ALL_SIM_BLANCHE_JOURNAL.replace(
+            "{page}",
+            page
+          );
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
 
@@ -223,10 +244,5 @@ export class SettingService {
     GetAllAPN(data): Observable<any> {
         const url: string = <string>EndPointUrl.GET_ALL_APN;
         return this.http.get(`${this.baseUrl}${url}`, data);
-    }
-
-    GetSupervisionOperationsDemandesServicesDetails(numeroDemande: string): Observable<any> {
-        const url: string = <string>EndPointUrl.GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_numeroDemande_DETAILS.replace('{numeroDemande}', numeroDemande);
-        return this.http.get(`${this.baseUrl}${url}`);
     }
 }

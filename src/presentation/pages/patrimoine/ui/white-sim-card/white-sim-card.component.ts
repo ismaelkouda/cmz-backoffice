@@ -1,15 +1,15 @@
 import { PatrimoinesService } from '../../data-access/patrimoines.service';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingBarService } from '@ngx-loading-bar/core';
-import { ExcelService } from '../../../../../shared/services/excel.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from "@angular/core";
-import { Paginate } from '../../../../../shared/interfaces/api-response';
+import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
 import { SharedDataService } from '../../../../../shared/services/shared-data.service';
 import { StateWhiteSimCardService } from '../../data-access/white-sim-card/state-approbation.service';
 import { handle } from '../../../../../shared/functions/api.function';
 import { DossierWhiteSimCard, WhiteSimCardPaginatedResponse } from '../../data-access/white-sim-card/table-white-sim-card';
+import { Subscription } from 'rxjs';
 
 type PageAction = { 'data': Object, 'action': 'ajouter', 'view': 'page' } | { 'data': Object, 'action': 'détails', 'view': 'page' };
 
@@ -23,22 +23,23 @@ export class WhiteSimCardComponent implements OnInit {
 
     public module: string;
     public subModule: string;
-    public pagination: Paginate<DossierWhiteSimCard>|void;
+    public pagination$: Paginate<DossierWhiteSimCard>;
+    public filterData: Object;
     public listWhiteSimCard: Array<DossierWhiteSimCard> = [];
     public spinner: boolean = false;
-    public selectedWhiteSimCard: DossierWhiteSimCard|undefined;
-    public filterData: Object;
+    public selectedWhiteSimCard: DossierWhiteSimCard;
     public currentPage: string;
     public statistiquesBox: Array<IStatistiquesBox> = [];
+    private pageCallbackSubscription: Subscription;
 
     constructor(private activatedRoute: ActivatedRoute, private router: Router,
-        private sharedDataService: SharedDataService, private excelService: ExcelService,
+        private sharedDataService: SharedDataService,
         private patrimoinesService: PatrimoinesService, private stateWhiteSimCardService: StateWhiteSimCardService,
         private toastrService: ToastrService, private loadingBar: LoadingBarService) {
         }
 
     ngOnInit(): void {
-        this.sharedDataService.postPatrimoineWhiteSimCard().subscribe(() => {
+        this.pageCallbackSubscription = this.sharedDataService.postPatrimoineWhiteSimCard().subscribe(() => {
             this.pageCallback();
         });
         this.activatedRoute.data.subscribe((data) => {
@@ -54,9 +55,10 @@ export class WhiteSimCardComponent implements OnInit {
     }
     
     async pageCallback(dataToSend: Object = {}, nbrPage: string = "1"): Promise<any> {
-        const response: WhiteSimCardPaginatedResponse|null = await handle<WhiteSimCardPaginatedResponse>(() => this.patrimoinesService.PostPatrimoineSimCartonSimBlancheAllPage(dataToSend, nbrPage), this.toastrService, this.loadingBar);
+        const response: WhiteSimCardPaginatedResponse | void = await handle<WhiteSimCardPaginatedResponse>(() => this.patrimoinesService.PostPatrimoineSimCartonSimBlancheAllPage(dataToSend, nbrPage), this.toastrService, this.loadingBar);
         if (response && response.error === false) this.handleSuccessfulPageCallback(response);
     }
+
     private handleSuccessfulPageCallback(response: any): void {
         this.listWhiteSimCard = response?.data?.data?.data;
         this.getTchesBoxValues(response?.data);
@@ -76,12 +78,10 @@ export class WhiteSimCardComponent implements OnInit {
     public navigateByUrl(params: PageAction): void {
         const id = params.data ? params.data["id"] : null;
         const ref = params.action;
-        const current_page = this.pagination?.["current_page"] || 1;
         const filter = this.stateWhiteSimCardService?.setFilterWhiteSimCardState(this.filterData) ?? null;
     
         const queryParams = {
             ref,
-            current_page,
             filter
         };
     
@@ -98,6 +98,7 @@ export class WhiteSimCardComponent implements OnInit {
     
     ngOnDestroy(): void {
         this.stateWhiteSimCardService.clearWhiteSimCard();
+        this.pageCallbackSubscription?.unsubscribe();
     }
 
     getTchesBoxValues(rapport: Object = {}): void {
@@ -110,7 +111,7 @@ export class WhiteSimCardComponent implements OnInit {
             },
             {
                 cardBgColor: 'rgb(52, 73, 94)',
-                legend: '# Cartes SIM',
+                legend: '# Cartes SIM des lots',
                 count: rapport?.["total"] || 0,
                 taux: rapport?.["pourcentage_total"]
             },

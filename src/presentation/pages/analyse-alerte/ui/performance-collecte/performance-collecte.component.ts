@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { Title } from '@angular/platform-browser';
+import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
 
 @Component({
   selector: 'app-performance-collecte',
@@ -17,9 +18,10 @@ export class PerformanceCollecteComponent implements OnInit {
   constructor(
     private router: Router,
     private titleService: Title,
-    private mappingService: MappingService
+    private mappingService: MappingService,
+    private storage: EncodingDataService,
   ) {
-    this.visualUrl = this.mappingService.approLink;
+    this.visualUrl = JSON.parse(this.storage.getData('variables')).dashboardAppro;
     this.titleService.setTitle(`${this.title}`);
   }
 

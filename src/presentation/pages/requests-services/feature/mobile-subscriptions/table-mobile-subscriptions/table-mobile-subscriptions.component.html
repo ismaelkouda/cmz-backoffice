@@ -1,0 +1,268 @@
+<p-table
+    #dt
+    [value]="listDemands$ | async"
+    [rowHover]="true"
+    dataKey="id"
+    selectionMode="single"
+    [(selection)]="demandSelected"
+    [rows]="(pagination$ | async)?.per_page"
+    [globalFilterFields]="table.globalFilterFields"
+>
+    <ng-template pTemplate="caption">
+        <div class="d-flex justify-content-between">
+            <app-table-title
+                [count]="(pagination$ | async)?.total"
+                [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page"
+                [totalPage]="(pagination$ | async)?.last_page"
+            >
+            </app-table-title>
+            <div class="d-flex gap-2 align-items-center">
+                <div class="d-flex gap-2">
+                    <button
+                        pButton
+                        pRipple
+                        [label]="'SIMPLE_DEMAND' | translate"
+                        icon="pi pi-plus"
+                        class="p-button-success margin-right-5"
+                        (click)="
+                            handleAction({
+                                data: null,
+                                action: 'simple-add-mobile-subscription',
+                                view: 'page'
+                            })
+                        "
+                    ></button>
+                    <app-table-button-header
+                        (refresh)="pageCallback()"
+                        (export)="onExportExcel()"
+                        [disabledButtonExport]="
+                            (listDemands$ | async)?.length === 0
+                        "
+                        [labelOther]="'MASS_DEMAND' | translate"
+                        [colorOther]="'dark'"
+                        [hiddenButtonOther]="false"
+                        [iconOther]="'pi pi-plus'"
+                        (other)="
+                            handleAction({
+                                data: null,
+                                action: 'mass-add-mobile-subscription',
+                                view: 'page'
+                            })
+                        "
+                    >
+                    </app-table-button-header>
+                </div>
+                <div>
+                    <app-search-table [dt]="dt"></app-search-table>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
+                <ng-container [ngSwitch]="col.header">
+                    <ng-container *ngSwitchCase="'Date / Heure'">
+                        {{ 'DATE_TIME' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'N° Dossier'">
+                        {{ 'NUMBER_FOLDER' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'# Lignes'">
+                        {{ 'NUMBER_LINES' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'# Traitées'">
+                        {{ 'NUMBER_TREATED' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'# Identifiées'">
+                        {{ 'NUMBER_IDENTIFIED' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Etape'">
+                        {{ 'STEP' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Etat'">
+                        {{ 'STATE' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Date Etat'">
+                        {{ 'UPDATE_DATE' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Demandeur'">
+                        {{ 'APPLICANT' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{ col.header }}
+                    </ng-container>
+                </ng-container>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-dossier>
+        <tr [pSelectableRow]="dossier">
+            <td
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
+                <ng-container [ngSwitch]="col.header">
+                    <ng-container *ngSwitchCase="'#'">
+                        {{ rowIndex + (pagination$ | async)?.current_page }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'N° Dossier'">
+                        <span (click)="copyToClipboard(dossier?.[col.field])">
+                            {{ dossier?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Etape'">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            [class]="'badge ' + getStepBadge(dossier)"
+                        >
+                            {{ dossier?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Etat'">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            [class]="'badge ' + getStateBadge(dossier)"
+                        >
+                            {{ dossier?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Date Etat'">
+                        {{ dossier?.[col.field] }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Actions'">
+                        <button
+                            pButton
+                            [ngClass]="
+                                getTreatmentButtonOpenFolderStyle(dossier)
+                                    ?.class
+                            "
+                            [icon]="
+                                getTreatmentButtonOpenFolderStyle(dossier)?.icon
+                            "
+                            tooltipPosition="top"
+                            [pTooltip]="getTreatmentButtonOpenFolderStyle(dossier)?.['tooltip']"
+                            [disabled]="
+                                getTreatmentButtonOpenFolderStyle(dossier)
+                                    ?.class === 'p-button-secondary'
+                            "
+                            (click)="
+                                handleAction({
+                                    data: dossier,
+                                    action: 'open-folder-mobile-subscription',
+                                    view: 'page'
+                                })
+                            "
+                        ></button
+                        >&nbsp;
+                        <button
+                            pButton
+                            [ngClass]="
+                                getTreatmentButtonViewStyle(dossier)?.class
+                            "
+                            [icon]="getTreatmentButtonViewStyle(dossier)?.icon"
+                            tooltipPosition="top"
+                            [pTooltip]="getTreatmentButtonViewStyle(dossier)?.['tooltip']"
+                            (click)="
+                                handleAction({
+                                    data: dossier,
+                                    action: 'view-mobile-subscription',
+                                    view: 'modal'
+                                })
+                            "
+                        ></button
+                        >&nbsp;
+                        <button
+                            pButton
+                            [ngClass]="
+                                getTreatmentButtonPaiementStyle(dossier)?.class
+                            "
+                            [icon]="
+                                getTreatmentButtonPaiementStyle(dossier)?.icon
+                            "
+                            tooltipPosition="top"
+                            [pTooltip]="getTreatmentButtonPaiementStyle(dossier)?.['tooltip']"
+                            (click)="
+                                handleAction({
+                                    data: dossier,
+                                    action: 'invoice-mobile-subscription',
+                                    view: 'page'
+                                })
+                            "
+                        ></button
+                        >&nbsp;
+                        <button
+                            pButton
+                            icon="pi pi-book"
+                            class="p-button-primary"
+                            tooltip="Journal du dossier"
+                            (click)="
+                                handleAction({
+                                    data: dossier,
+                                    action: 'journal-mobile-subscription',
+                                    view: 'modal'
+                                })
+                            "
+                        ></button>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{dossier?.[col.field]}}
+                    </ng-container>
+                </ng-container>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr *ngIf="listDemands?.length <= 0 && !spinner">
+            <td class="posRelative" colspan="15">
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner">
+            <td class="posRelative" colspan="15">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog
+    header="[{{ 'MOBILE_SUBSCRIPTION' | translate }}] {{
+        'DEMAND' | translate
+    }} [{{ demandSelected?.numero_demande }}]"
+    [(visible)]="visibleFormDossier"
+    (onHide)="hideDialog()"
+    [modal]="true"
+    [closable]="true"
+    [style]="{ width: '100%', 'min-height': '100%' }"
+    [responsive]="true"
+    [maximizable]="true"
+    [draggable]="false"
+    [resizable]="true"
+>
+    <ng-template pTemplate="content">
+        <app-form-folder
+            [demandSelected]="demandSelected"
+            [typeTreatment]="typeTreatment"
+            (visibleFormDossier)="hideDialog()"
+        >
+        </app-form-folder>
+    </ng-template>
+</p-dialog>

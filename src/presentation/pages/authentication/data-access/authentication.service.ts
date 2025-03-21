@@ -18,4 +18,9 @@ export class AuthenticationService {
     const url: string = (<string>EndPointUrl.AUTHENTICATION);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+
+  getVariables(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.LIEN_GRAPHANA_VARIABLES);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
 }

@@ -1,14 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { MappingService } from 'src/shared/services/mapping.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { MappingService } from '../../../../../shared/services/mapping.service';
+import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
+
 @Component({
   selector: 'app-detection-appro',
   templateUrl: './detection-appro.component.html',
   styleUrls: ['./detection-appro.component.scss']
 })
+
 export class DetectionApproComponent implements OnInit {
 
+  public module: string;
+  public subModule: string;
   public isMaximized: boolean = false;
   public showIframe: boolean = false;
   public visualUrl: string;
@@ -16,24 +21,30 @@ export class DetectionApproComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private mappingService: MappingService,
-    private titleService: Title
+        private activatedRoute: ActivatedRoute,
+        private storage: EncodingDataService,
+        private titleService: Title
   ) {
     this.titleService.setTitle(`${this.title}`);
-    this.visualUrl = this.mappingService.detectionApproUrl;
+    this.visualUrl = JSON.parse(this.storage.getData('variables')).dashboardAppro;
   }
 
   ngOnInit() {
-    this.onVisualiserAlarme();
+    this.activatedRoute.data.subscribe((data) => {
+      this.module = data.module;
+      this.subModule = data.subModule[1];
+    });
+    this.onSeeStatics();
   }
 
-  public onVisualiserAlarme() {
+  public onSeeStatics() {
     this.showIframe = true;
     this.onDialogMaximized(true);
   }
 
   public hideDialog() {
-    this.router.navigateByUrl('/zone-trafic/zone-exploitation')
+    // this.router.navigateByUrl('/zone-trafic/zone-exploitation')
+    this.showIframe = false;
   }
 
   public onDialogMaximized(event) {

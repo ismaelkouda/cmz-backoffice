@@ -7,7 +7,7 @@ import { Table } from "primeng/table";
         <div class="p-input-icon-left">
             <i class="pi pi-search"></i>
             <input pInputText type="text" (input)="onSearch($event.target.value)"
-                placeholder="Recherche..." class="search-input"/>
+              placeholder="{{'RESEARCH' | translate}}..." class="search-input"/>
         </div>
     `
 })

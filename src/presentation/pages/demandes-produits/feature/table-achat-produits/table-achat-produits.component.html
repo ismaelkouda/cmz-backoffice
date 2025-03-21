@@ -22,7 +22,7 @@
             <app-table-title
                 [count]="pargination?.total"
                 [legendePluriel]="'SIM blanches'"
-                [legendeSingulier]="'SIM blanche'"
+                [legendeSingulier]="'SIM blanches'"
                 [page]="pargination.currentPage"
                 [totalPage]="pargination.last_page"
                 [perPage]="pargination.per_page"
@@ -122,7 +122,7 @@
                     (click)="
                         onAction({
                             data: achat,
-                            action: 'facture',
+                            action: 'invoice',
                             view: 'page'
                         })
                     "

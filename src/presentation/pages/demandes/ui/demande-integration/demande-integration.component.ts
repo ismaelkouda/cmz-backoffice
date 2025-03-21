@@ -45,7 +45,6 @@ export class DemandeIntegrationComponent implements OnInit {
         this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
-                console.log('event', event.url)
                 if (!event.url.includes(`/${DEMANDE_SERVICE}/${DEMANDE_INTEGRATION}`)) {
                     this.demandeIntegrationStateService.removeAllDemandeIntegrationState();
                 }

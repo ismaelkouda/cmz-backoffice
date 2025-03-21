@@ -1,0 +1,177 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="d-flex gap-1">
+        <div class="col-md">
+            <label
+                ><b>{{ 'APPLICANT' | translate }}</b></label
+            >
+            <p-dropdown
+                formControlName="initie_par"
+                [options]="listApplicants$ | async"
+                optionLabel="fullName"
+                optionValue="id"
+                [filter]="true"
+                filterBy="fullName"
+                [showClear]="true"
+                placeholder="{{ 'SELECT' | translate }} {{
+                    'APPLICANT' | translate
+                }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+            >
+            </p-dropdown>
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'NUMBER_FOLDER' | translate }}</b></label
+            >
+            <input
+                formControlName="numero_demande"
+                type="text"
+                pInputText
+                placeholder="{{ 'NUMBER_FOLDER' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'NUMBER_LINES' | translate }}</b></label
+            >
+            <input
+                formControlName="transaction"
+                type="text"
+                pInputText
+                placeholder="{{ 'NUMBER_LINES' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'STEP' | translate }}</b></label
+            >
+            <p-dropdown
+                formControlName="statut"
+                [options]="listStepCommandWhiteSim"
+                [showClear]="true"
+                placeholder="{{ 'STEP' | translate }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+            >
+                <ng-template let-data pTemplate="item">
+                    <div class="country-item">
+                        <div>{{ data | titlecase }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'STATE' | translate }}</b></label
+            >
+            <p-dropdown
+                formControlName="traitement"
+                [options]="listStateCommandWhiteSim"
+                [showClear]="true"
+                placeholder="{{ 'STATE' | translate }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+            >
+                <ng-template let-data pTemplate="item">
+                    <div class="country-item">
+                        <div>{{ data | titlecase }}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'MSISDN' | translate }}</b></label
+            >
+            <input
+                formControlName="msisdn"
+                type="text"
+                pInputText
+                placeholder="{{ 'MSISDN' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+
+        <div class="filter-button" *ngIf="!secondFilter">
+            <button
+                pButton
+                pRipple
+                type="submit"
+                class="p-button-success"
+                icon="pi pi-filter"
+            ></button>
+        </div>
+
+        <div class="filter-button">
+            <button
+                *ngIf="!secondFilter"
+                (click)="showSecondFilter()"
+                pButton
+                pRipple
+                class="p-button-dark"
+                icon="pi pi-plus"
+            ></button>
+            <button
+                *ngIf="secondFilter"
+                (click)="showSecondFilter()"
+                pButton
+                pRipple
+                class="p-button-dark"
+                icon="pi pi-minus"
+            ></button>
+        </div>
+    </div>
+
+    <br *ngIf="secondFilter" />
+
+    <div class="row" *ngIf="secondFilter">
+        <div class="col-md-2">
+            <label
+                ><b>{{ 'IMSI' | translate }}</b></label
+            >
+            <input
+                formControlName="imsi"
+                type="text"
+                pInputText
+                placeholder="{{ 'IMSI' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+        <div class="col-md-2">
+            <label
+                ><b>{{ 'START_DATE' | translate }}</b></label
+            >
+            <p-calendar
+                formControlName="date_debut"
+                [showIcon]="true"
+                [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+        <div class="col-md-2">
+            <label
+                ><b>{{ 'END_DATE' | translate }}</b></label
+            >
+            <p-calendar
+                formControlName="date_fin"
+                [showIcon]="true"
+                placeholder="JJ-MM-AAAA"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+        <div class="filter-button">
+            <button
+                pButton
+                pRipple
+                type="submit"
+                class="p-button-success"
+                icon="pi pi-filter"
+            ></button>
+        </div>
+    </div>
+</form>

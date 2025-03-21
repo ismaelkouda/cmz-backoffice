@@ -1,11 +1,15 @@
-import { GestionIdentificationsModule } from './../../presentation/pages/gestion-identifications/gestion-identifications.module';
+import { PagesGuard } from './../../core/guard/PagesGuard';
 import { Routes } from "@angular/router";
 export const SEARCH = "search";
 
 
 export const DASHBOARD = 'dashboard';
 export const PATRIMOINE = 'patrimoine';
+export const PATRIMONY = 'patrimony';
 export const DEMANDE_SERVICE = 'demandes';
+export const REQUESTS_SERVICES = 'requests-services';
+export const REQUESTS_PRODUCTS = 'requests-products';
+export const SUPERVISORY_REPOSITORY = 'supervisory-repository';
 export const DEMANDE_PRODUITS = 'demandes-produits'
 export const REFERENTIEL_TELEMETRIE = 'ref-supervision';
 export const SUPERVISION_SIM = 'supervision-sim';
@@ -21,14 +25,17 @@ export const OPERATIONS_SIM = 'operations-sim';
 export const STRUCTURE_ORGANISATIONNELLE = 'structure-organisationnelle'
 export const ADMIN_USER = 'user';
 export const GESTION_IDENTIFICATIONS = 'gestion-identifications'
-export const COMPTABILITE = 'comptabilite'
+export const COMPTABILITE = 'comptabilite';
+export const OVERSEEING_OPERATIONS = 'overseeing-operations';
 
 
 export const content: Routes = [
   {
     path: DASHBOARD,
     loadChildren: () => import("../../presentation/pages/dashboard/dashboard.module").then((m) => m.DashboardModule),
-    data: { title: 'Tableau de bord' }
+    data: { 
+      title: 'Tableau de bord',
+    }
   },
   {
     path: GESTION_IDENTIFICATIONS,
@@ -44,27 +51,42 @@ export const content: Routes = [
   },
   {
     path: PATRIMOINE,
-    loadChildren: () => import("../../presentation/pages/patrimoine/patrimoine.module").then((m) => m.PatrimoineModule),
+    // loadChildren: () => import("../../presentation/pages/patrimoine/patrimoine.module").then((m) => m.PatrimoineModule),
     data: {
       module: 'Patrimoine',
       subModule: [
         'Cartes SIM',
-        'Groupe de SIM',
-        'Dotation Data',
+        'Cartes SIM blanches',
+        // 'Dotation Data',
         'Etat des Soldes Data',
+        'Etat des Soldes SMS',
         'Téléchargements',
         'Cartographie'
       ]
     }
   },
   {
-    
+    path: PATRIMONY,
+    loadChildren: () => import("../../presentation/pages/patrimony/patrimony.module").then((m) => m.PatrimonyModule),
+    data: {
+      module: 'Patrimoine',
+      subModule: [
+        'Cartes SIM',
+        'Cartes SIM blanches',
+        // 'Dotation Data',
+        'Etat des Soldes Data',
+        'Etat des Soldes SMS',
+        'Téléchargements',
+        'Cartographie'
+      ]
+    }
+  },
+  {
+
     path: DEMANDE_SERVICE,
     loadChildren: () => import("../../presentation/pages/demandes/demandes.module").then((m) => m.DemandesModule),
     data: {
       module: 'Demandes',
-
-
       subModule: [
         'Abonnements',
         'Suspensions',
@@ -74,15 +96,50 @@ export const content: Routes = [
     }
   },
   {
-    
+    path: REQUESTS_SERVICES,
+    loadChildren: () => import("../../presentation/pages/requests-services/requests-services.module").then((m) => m.RequestsServicesModule),
+    data: {
+      module: 'Demandes',
+      subModule: [
+        'Abonnements',
+        'Suspensions',
+        'Résiliations',
+        'Changements de Formules'
+      ]
+    }
+  },
+  {
+
     path: DEMANDE_PRODUITS,
     loadChildren: () => import("../../presentation/pages/demandes-produits/demandes-produits.module").then((m) => m.DemandesProduitsModule),
     data: {
       module: 'Commande produits',
-
-
       subModule: [
-        'SIM Blanche'
+        'SIM Blanches'
+      ]
+    }
+  },
+  {
+
+    path: REQUESTS_PRODUCTS,
+    loadChildren: () => import("../../presentation/pages/requests-products/requests-products.module").then((m) => m.RequestsProductsModule),
+    data: {
+      module: 'REQUESTS_PRODUCTS',
+      subModule: [
+        'WHITE_SIM'
+      ]
+    }
+  },
+  {
+    path: OVERSEEING_OPERATIONS,
+    loadChildren: () => import('../../presentation/pages/overseeing-operations/overseeing-operations.module').then((m) => m.OverseeingOperationsModule),
+    data: {
+      module: 'OVERSEEING_OPERATIONS',
+      subModule: [
+        'WAITING_QUEUE',
+        'TREATMENT_MONITORING',
+        'CLAIMS',
+        'MY_NOTIFICATIONS'
       ]
     }
   },
@@ -91,6 +148,11 @@ export const content: Routes = [
     loadChildren: () => import("../../presentation/pages/ref-telemetrie/ref-telemetrie.module").then((m) => m.RefTelemetrieModule),
     data: { title: REFERENTIEL_TELEMETRIE }
   },
+  // {
+  //   path: SUPERVISORY_REPOSITORY,
+  //   loadChildren: () => import("../../presentation/pages/supervisory-repository/supervisory-repository.module").then((m) => m.SupervisoryRepositoryModule),
+  //   data: { title: SUPERVISORY_REPOSITORY }
+  // },
   {
     path: OPERATION_PROVISIONNING,
     loadChildren: () => import("../../presentation/pages/provisionning/provisionning.module").then((m) => m.ProvisionningModule),
@@ -123,7 +185,14 @@ export const content: Routes = [
   {
     path: SUPERVISION_SIM,
     loadChildren: () => import("../../presentation/pages/analyse-alerte/analyse-alerte.module").then((m) => m.AnalyseAlerteModule),
-    data: { title: SUPERVISION_SIM }
+    data: {
+      title: SUPERVISION_SIM,
+      module: "SUPERVISION_SIM",
+      subModule: [
+        "ALARM_ANALYSIS",
+        "DETECTION_SUPPLIES"
+      ]
+    }
   },
   {
     path: INTERCONNEXION_ECHANGE,

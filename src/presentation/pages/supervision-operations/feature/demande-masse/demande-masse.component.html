@@ -15,9 +15,7 @@
             <h4 class="modal-title pl-3" style="margin: 0">
                 Détails
                 <strong class="cursor-pointer">
-                    [{{
-                        listDemandes.numero_demande
-                    }}]
+                    [{{ listDemandes.numero_demande }}]
                 </strong>
             </h4>
             <button
@@ -83,7 +81,7 @@
                             (click)="onLetDownDemands()"
                             class="p-button-warning w-100"
                             *ngIf="
-                                params.vue === 'demande' &&
+                                params.vue === 'activation' &&
                                 params.action === 'Abandonner'
                             "
                         ></button>
@@ -100,7 +98,7 @@
                             (click)="onSaveDemandes()"
                             class="p-button-success w-100"
                             *ngIf="
-                                params.vue === 'demande' &&
+                                params.vue === 'activation' &&
                                 params.action === 'Identifier' &&
                                 canIdentify(listDemandes)
                             "
@@ -370,7 +368,8 @@
                                 <strong
                                     >{{
                                         formatTitle(listDemandes?.operation)
-                                    }}&nbsp;{{listDemandes?.numero_demande
+                                    }}&nbsp;{{
+                                        listDemandes?.numero_demande
                                     }}</strong
                                 >
                             </h4>
@@ -677,7 +676,7 @@
                                                 <div
                                                     *ngIf="
                                                         listDemandes?.type_paiement ===
-                                                        'différé'
+                                                        BADGE_STAUT_PAIEMENT.DIFFERE
                                                     "
                                                 >
                                                     <b
@@ -691,7 +690,7 @@
                                                         class=""
                                                         *ngIf="
                                                             listDemandes?.type_paiement ===
-                                                            'immédiat'
+                                                            BADGE_STAUT_PAIEMENT.IMMEDIAT
                                                         "
                                                     >
                                                         <button
@@ -702,7 +701,7 @@
                                                             class="p-button-success"
                                                             (click)="
                                                                 downloadFile(
-                                                                    'recu-paiement'
+                                                                    'recu_paiement'
                                                                 )
                                                             "
                                                         ></button>
@@ -843,12 +842,12 @@
                                 <fieldset
                                     *ngIf="
                                         !(
-                                            params.vue === 'demande' &&
+                                            params.vue === 'activation' &&
                                             params.action === 'Identifier' &&
                                             canIdentify(listDemandes)
                                         ) &&
                                         !(
-                                            params.vue === 'demande' &&
+                                            params.vue === 'activation' &&
                                             params.action === 'Abandonner'
                                         )
                                     "
@@ -868,7 +867,7 @@
                                                 ) &&
                                                     !(
                                                         params.vue ===
-                                                            'demande' &&
+                                                            'activation' &&
                                                         params.action ===
                                                             'Identifier' &&
                                                         canIdentify(
@@ -877,7 +876,7 @@
                                                     ) &&
                                                     !(
                                                         params.vue ===
-                                                            'demande' &&
+                                                            'activation' &&
                                                         params.action ===
                                                             'Abandonner'
                                                     ))
@@ -908,7 +907,7 @@
                                                 ) &&
                                                     !(
                                                         params.vue ===
-                                                            'demande' &&
+                                                            'activation' &&
                                                         params.action ===
                                                             'Identifier' &&
                                                         canIdentify(
@@ -917,7 +916,7 @@
                                                     ) &&
                                                     !(
                                                         params.vue ===
-                                                            'demande' &&
+                                                            'activation' &&
                                                         params.action ===
                                                             'Abandonner'
                                                     ))
@@ -944,13 +943,15 @@
                                                     params.action === 'Clôturer'
                                                 ) &&
                                                 !(
-                                                    params.vue === 'demande' &&
+                                                    params.vue ===
+                                                        'activation' &&
                                                     params.action ===
                                                         'Identifier' &&
                                                     canIdentify(listDemandes)
                                                 ) &&
                                                 !(
-                                                    params.vue === 'demande' &&
+                                                    params.vue ===
+                                                        'activation' &&
                                                     params.action ===
                                                         'Abandonner'
                                                 )
@@ -1185,7 +1186,7 @@
 
                                 <fieldset
                                     *ngIf="
-                                        params.vue === 'demande' &&
+                                        params.vue === 'activation' &&
                                         params.action === 'Identifier' &&
                                         canIdentify(listDemandes)
                                     "

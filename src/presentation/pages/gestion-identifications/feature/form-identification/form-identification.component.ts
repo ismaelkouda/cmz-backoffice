@@ -21,7 +21,7 @@ import { handle } from 'src/shared/functions/api.function';
 export class FormIdentificationComponent implements OnInit {
 
     public loadingPage: boolean = true;
-    @Input() typeTraitement: { module: string, identifier: boolean, visualiser: boolean };
+    @Input() typeTreatment: { module: string, identifier: boolean, visualiser: boolean };
     @Input() userRole: string;
     @Input() startedDay: string;
     @Input() simSelected: Object;
@@ -112,7 +112,7 @@ export class FormIdentificationComponent implements OnInit {
             accepte: [{ value: this.sim?.["accepte"] ?? '', disabled: this.disabledPrendreField() }, Validators.required],
             commentaire: [{ value: this.sim?.["commentaire"], disabled: this.disabledPrendreField() }],
         });
-        if(this.typeTraitement.module === 'file-attente') this.formIdentification.disable();
+        if(this.typeTreatment.module === 'file-attente') this.formIdentification.disable();
         const typePersonneControl = this.formIdentification.get('type_personne');
         const gererValidationTypeUtilisateur = (value: string) => {
             if (value === TypeUtilisateur.PERSONNE) {
@@ -145,7 +145,7 @@ export class FormIdentificationComponent implements OnInit {
     }
 
     private disabledPrendreField(): boolean {
-        return (this.isStartWorkedDay() || this.typeTraitement?.visualiser);
+        return (this.isStartWorkedDay() || this.typeTreatment?.visualiser);
     }
 
     public isStartWorkedDay(): boolean {

@@ -74,8 +74,8 @@
     <!--[disabled]="!currentRecaptcha"-->
 </div>
 <!-- <div>
-  <app-facture [currentObjectTwo]="currentObjectTwo" *ngIf="factureView" (factureView)="pushStatutView($event,'data')"
-    [currentId]="currentId"></app-facture>
+  <app-invoice-form [currentObjectTwo]="currentObjectTwo" *ngIf="factureView" (factureView)="pushStatutView($event,'data')"
+    [currentId]="currentId"></app-invoice-form>
 </div> -->
 <ng-template #content let-modal style="width: 70rem">
     <div class="modal-header">
@@ -247,13 +247,13 @@
     <hr />
     <p-tabView>
         <p-tabPanel header="HISTORIQUE">
-            <app-historique
+            <!-- <app-historique
                 [module]="''"
                 [sous_module]="''"
                 [modele]="'achat_service'"
                 [modele_id]="currentObject.id"
             >
-            </app-historique>
+            </app-historique> -->
         </p-tabPanel>
     </p-tabView>
 </div>

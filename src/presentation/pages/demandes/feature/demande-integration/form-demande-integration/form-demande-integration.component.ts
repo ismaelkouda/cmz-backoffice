@@ -4,7 +4,7 @@ import { DEMANDE_INTEGRATION } from "../../../demandes-routing.module";
 import { DEMANDE_SERVICE } from "src/shared/routes/routes";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MappingService } from "src/shared/services/mapping.service";
-import { ListCommuneService } from "src/shared/services/list-commune.service";
+// import { ListCommuneService } from "src/shared/services/list-commune.service";
 import { handle } from "src/shared/functions/api.function";
 import { SettingService } from "src/shared/services/setting.service";
 import { PatrimoineService } from "src/presentation/pages/patrimoine/data-access/patrimoine.service";
@@ -71,7 +71,7 @@ export class FormDemandeIntegrationComponent implements OnInit {
     public demandesIntegrationSelected: Object;
 
     constructor(private router: Router, private fb: FormBuilder,
-        public mappingService: MappingService, private listCommuneService: ListCommuneService,
+        public mappingService: MappingService,
         public settingService: SettingService, private patrimoineService: PatrimoineService,
         private toastrService: ToastrService, private loadingBarService: LoadingBarService,
         private activatedRoute: ActivatedRoute, private supervisionOperationService: SupervisionOperationService,
@@ -127,7 +127,7 @@ export class FormDemandeIntegrationComponent implements OnInit {
     }
 
     private getDemandeIntegrationSelected(listDemandesIntegrations: Array<Object>): void {
-        this.demandesIntegrationSelected = listDemandesIntegrations.find((demandeIntegration) => demandeIntegration?.["id"] == this.id);
+        // this.demandesIntegrationSelected = listDemandesIntegrations.find((demandeIntegration) => demandeIntegration?.["id"] == this.id);
         this.patchValueDmandeIntegrationForm(this.demandesIntegrationSelected);
     }
 
@@ -171,7 +171,6 @@ export class FormDemandeIntegrationComponent implements OnInit {
     }
 
     public pushCurrentArrayForm(file_upload: any) {
-        console.log('file_upload', file_upload)
         if (file_upload) this.demandeIntegrationForm.get("sims_file").patchValue(file_upload.sims_file);
     }
 
@@ -236,10 +235,10 @@ export class FormDemandeIntegrationComponent implements OnInit {
     }
 
     public onChangeFirstLvel(uuid: any) {
-        this.listSecondLevelDatas = [];
-        this.listFirstLeveDatas.find((element) => {
-            if (element.uuid === uuid) this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
-        });
+        // this.listSecondLevelDatas = [];
+        // this.listFirstLeveDatas.find((element) => {
+        //     if (element.uuid === uuid) this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
+        // });
     }
 
     async onDownloadModel(event: any): Promise<any> {

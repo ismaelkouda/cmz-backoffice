@@ -10,12 +10,12 @@ import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enu
 import { ExcelService } from 'src/shared/services/excel.service';
 import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { MappingService } from 'src/shared/services/mapping.service';
-import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
 import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
 import { BADGE_TRAITEMENT } from 'src/shared/constants/badge-traitement.constant';
+import { PatrimoineService } from '../../../patrimoine/data-access/patrimoine.service';
 
 @Component({
   selector: 'app-demande-wrapper-show',
@@ -325,7 +325,8 @@ export class DemandeWrapperShowComponent implements OnInit {
         break;
 
       case BADGE_ETAPE.CLOTURE:
-        if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
+        if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-success"; }
+  if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
         if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
         if (data?.traitement === BADGE_ETAT.ABANDONNE) { return "badge-warning"; }
         if (data?.traitement === BADGE_ETAT.REJETE) { return "badge-danger"; }
@@ -370,7 +371,8 @@ export class DemandeWrapperShowComponent implements OnInit {
         break;
 
       case BADGE_ETAPE.CLOTURE:
-        if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
+        if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-success"; }
+  if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
         if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
         if (data?.traitement === BADGE_ETAT.ABANDONNE) { return "badge-warning"; }
         if (data?.traitement === BADGE_ETAT.REJETE) { return "badge-danger"; }

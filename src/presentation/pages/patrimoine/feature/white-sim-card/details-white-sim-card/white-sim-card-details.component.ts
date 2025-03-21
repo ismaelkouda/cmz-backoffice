@@ -8,6 +8,7 @@ import { handle } from '../../../../../../shared/functions/api.function';
 import { WhiteSimCardDetails, WhiteSimCardDetailsResponse } from './data-access/white-sim-card-details/table-white-sim-card-details';
 import { PatrimoinesService } from '../../../data-access/patrimoines.service';
 import { DossierWhiteSimCard, WhiteSimCardPaginatedResponse } from '../../../data-access/white-sim-card/table-white-sim-card';
+import { SharedDataService } from '../../../../../../shared/services/shared-data.service';
 
 type TYPEVIEW = "détails";
 const TYPEVIEW_VALUES: TYPEVIEW[] = ["détails"];
@@ -26,18 +27,19 @@ export class WhiteSimCardDetailsComponent implements OnInit {
     public module: string;
     public subModule: string;
     public urlParamRef: TYPEVIEW;
-    public urlParamId: number|null;
+    public urlParamId: number | null;
     public urlParamFilter: Object;
     public urlParamCurrentPage: string;
     public filterData: Object;
     public listWhiteSimCard: Array<DossierWhiteSimCard>;
-    public selectedWhiteSimCard: DossierWhiteSimCard|undefined;
+    public selectedWhiteSimCard: DossierWhiteSimCard | undefined;
     public listWhiteSimCardDetails: WhiteSimCardDetails;
     public displayUrlErrorPage: boolean = false;
 
     constructor(private activatedRoute: ActivatedRoute, private patrimoinesService: PatrimoinesService,
         private toastrService: ToastrService, private loadingBarService: LoadingBarService,
-        private stateWhiteSimCardService: StateWhiteSimCardService, private location: Location,) { }
+        private stateWhiteSimCardService: StateWhiteSimCardService, private location: Location,
+        private sharedDataService: SharedDataService) { }
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
@@ -60,15 +62,17 @@ export class WhiteSimCardDetailsComponent implements OnInit {
         if (!isTypeView(this.urlParamRef) || !this.urlParamId) {
             this.displayUrlErrorPage = true;
         } else {
-            if(this.urlParamId)  this.pageCallback(this.urlParamFilter, this.urlParamCurrentPage);
+            if (this.urlParamId) {
+                this.pageCallback(this.urlParamFilter, this.urlParamCurrentPage);
+            };
         }
         // recupere par default avec le msisdn du filtre du parent (supprimer seulement ci-dessous si l'on ne veut plus filtrer par default avec le msisdn du filtre du parent)
-        this.filterData = {imsi :this.urlParamFilter?.["imsi"], iccid :this.urlParamFilter?.["iccid"]};
+        this.filterData = { imsi: this.urlParamFilter?.["imsi"], iccid: this.urlParamFilter?.["iccid"] };
     }
 
     async pageCallback(urlParamFilter: Object = {}, urlParamCurrentPage: string = "1") {
-        const response: WhiteSimCardPaginatedResponse|null = await handle<WhiteSimCardPaginatedResponse>(() => this.patrimoinesService.PostPatrimoineSimCartonSimBlancheAllPage(urlParamFilter, urlParamCurrentPage), this.toastrService, this.loadingBarService);
-        if(response && response?.error === false) this.handleSuccessfulPageCallback(response);
+        const response: WhiteSimCardPaginatedResponse | void = await handle<WhiteSimCardPaginatedResponse>(() => this.patrimoinesService.PostPatrimoineSimCartonSimBlancheAllPage(urlParamFilter, urlParamCurrentPage), this.toastrService, this.loadingBarService);
+        if (response && response?.error === false) this.handleSuccessfulPageCallback(response);
     }
 
     private handleSuccessfulPageCallback(response: Object): void {
@@ -78,20 +82,23 @@ export class WhiteSimCardDetailsComponent implements OnInit {
 
     private getWhiteSimCardSelected(listWhiteSimCard: Array<DossierWhiteSimCard>): void {
         this.selectedWhiteSimCard = listWhiteSimCard.find((carteSim: DossierWhiteSimCard) => carteSim?.["id"] == this.urlParamId);
-        if(this.selectedWhiteSimCard) {
-            this.postPatrimoineDetailsWhiteSimCard();
+        if (this.selectedWhiteSimCard) {
+            this.sharedDataService.postPatrimoineDetailsWhiteSimCard().subscribe(() => {
+                this.postPatrimoineDetailsWhiteSimCard({id: this.selectedWhiteSimCard?.["id"]});
+            });
+            this.postPatrimoineDetailsWhiteSimCard({id: this.selectedWhiteSimCard?.["id"]});
         } else {
             this.displayUrlErrorPage = true;
         }
     }
 
     async postPatrimoineDetailsWhiteSimCard(dataToSend: Object = this.filterData, nbrPage: number = 1) {
-        const response: WhiteSimCardDetailsResponse|null = await handle<WhiteSimCardDetailsResponse>(() => this.patrimoinesService.PostPatrimoineSimCartonSimBlancheDetailsPage({...dataToSend, id: this.selectedWhiteSimCard?.["id"]}, nbrPage), this.toastrService, this.loadingBarService);
-        if(response && response.error === false) this.handleSuccessfulPostPatrimoineDetailsWhiteSimCard(response);
+        const response: WhiteSimCardDetailsResponse | any = await handle<WhiteSimCardDetailsResponse>(() => this.patrimoinesService.PostPatrimoineSimCartonSimBlancheDetailsPage({...dataToSend, id: this.selectedWhiteSimCard?.["id"]}, nbrPage), this.toastrService, this.loadingBarService);
+        if (response && response.error === false) this.handleSuccessfulPostPatrimoineDetailsWhiteSimCard(response);
     }
 
     private handleSuccessfulPostPatrimoineDetailsWhiteSimCard(response: any): void {
-        this.listWhiteSimCardDetails = response.data?.carte_sims;
+        this.listWhiteSimCardDetails = response.data;
         this.spinner = false;
         this.stateWhiteSimCardService.setCurrentPageWhiteSimCardState(this.urlParamCurrentPage);
         this.stateWhiteSimCardService.setFilterWhiteSimCardState(this.urlParamFilter);

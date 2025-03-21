@@ -1,0 +1,60 @@
+export interface simCardDetailsResponseInterface {
+  error: boolean;
+  message: string;
+  data: simCardDetailsInterface;
+}
+
+export interface simCardDetailsInterface {
+  id: number;
+  usage_id: number;
+  niveau_un_uuid: string;
+  niveau_deux_uuid: string;
+  niveau_trois_uuid: string;
+  imsi: string;
+  msisdn: string;
+  iccid: string;
+  formule: string;
+  formule_uuid: string;
+  point_emplacement: string;
+  longitude: string;
+  latitude: string;
+  adresse_email: string;
+  adresse_geographique: string;
+  photo_physique: string | null;
+  photo_carte_recto: string | null;
+  photo_carte_verso: string | null;
+  type_personne: string | null;
+  nom: string | null;
+  prenoms: string | null;
+  nature_piece: string | null;
+  numero_piece: string | null;
+  is_identified: boolean;
+  lieu_naissance: string | null;
+  date_naissance: string | null;
+  apn: string;
+  qrcode: string;
+  statut: string;
+  site_id: number | null;
+  username: string | null;
+  adresse_ip: string;
+  identification_fiabilite: string;
+  site: string | null;
+  nom_usage: string;
+  niveau_uns_code: string;
+  niveau_uns_nom: string;
+  niveau_deux_code: string;
+  niveau_deux_nom: string;
+  niveau_trois_code: string;
+  niveau_trois_nom: string;
+  solde_actuel_kb: number;
+  solde_actuel_go: string;
+  date_solde_data: string | null;
+  solde_data_updated_at: string | null;
+  date_localisation: string | null;
+  site_reseau: string | null;
+  long_reseau: string;
+  lat_reseau: string;
+  solde_sms: number;
+  statut_solde_sms: boolean;
+  date_trafic: string;
+}

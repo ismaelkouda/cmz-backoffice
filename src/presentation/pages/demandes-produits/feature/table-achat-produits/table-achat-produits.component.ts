@@ -1,5 +1,4 @@
 import { SharedDataService } from 'src/shared/services/shared-data.service';
-import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from 'ngx-toastr';
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { JournalComponent } from 'src/shared/components/journal/journal.component';
@@ -13,7 +12,7 @@ import { DemandesProduitsService } from '../../data-access/demandes-produits.ser
 import { TypePaiementComponent } from '../../../demandes/feature/type-paiement/type-paiement.component';
 
 type Action = PageAction | ModalAction;
-type PageAction = { data: Object, action: 'détails', view: 'page' };
+type PageAction = { data: Object, action: 'détails', view: 'page' }|{ data: Object, action: 'invoice', view: 'page' };
 type ModalAction = { data: Object, action: 'editer' | 'journal', view: 'modal' };
 
 @Component({
@@ -54,7 +53,7 @@ export class TableAchatProduitsComponent {
         }
         this.IsLoading = true;
         const modalRef = this.modalService.open(TypePaiementComponent, ModalParams);
-        modalRef.componentInstance.params = { vue: "SIM blanche", action: action };
+        modalRef.componentInstance.params = { vue: "SIM blanches", action: action };
         modalRef.componentInstance.demandeSelected = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
         modalRef.componentInstance.resultTraitement = this.demandesProduitsService.postCommandeProduitCommandesAll({}, 1);
         modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res; modalRef.componentInstance.IsLoadData = !res });
@@ -86,7 +85,7 @@ export class TableAchatProduitsComponent {
       }
       this.IsLoading = true;
       const modalRef = this.modalService.open(DemandeMasseComponent, ModalParams);
-      modalRef.componentInstance.params = { vue: "SIM blanche", action: action };
+      modalRef.componentInstance.params = { vue: data.operation, action: action };
       modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
       modalRef.componentInstance.resultTraitement = this.demandesProduitsService.postCommandeProduitCommandesAll({}, 1);
       modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res; modalRef.componentInstance.IsLoadData = !res });
@@ -98,7 +97,7 @@ export class TableAchatProduitsComponent {
     public showJournal(selectedAchat: Object): void {
         const modalRef = this.ngbModal.open(JournalComponent, ModalParams);
         modalRef.componentInstance.numero_demande = selectedAchat['numero_demande'];
-        modalRef.componentInstance.libelleModule = "commandes-produits";
+        modalRef.componentInstance.typeJournal = "demandes-services"
     }
 
     private selectAchatProduits(selectedAchat: Object): void {
@@ -136,7 +135,8 @@ export class TableAchatProduitsComponent {
             break;
     
           case BADGE_ETAPE.CLOTURE:
-            if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
+            if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-success"; }
+      if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
             if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
             if (data?.traitement === BADGE_ETAT.ABANDONNE) { return "badge-warning"; }
             if (data?.traitement === BADGE_ETAT.REJETE) { return "badge-danger"; }

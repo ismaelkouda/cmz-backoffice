@@ -9,6 +9,9 @@ import { PriseEnChargeComponent } from './ui/prise-en-charge/prise-en-charge.com
 import { ContentieuxComponent } from './ui/contentieux/contentieux.component';
 import { NotificationComponent } from './ui/notification/notification.component';
 import { JournalTransactionComponent } from './ui/journal-transaction/journal-transaction.component';
+import { WaitingQueueComponent } from '../overseeing-operations/ui/waiting-queue/waiting-queue.component';
+import { TreatmentMonitoringComponent } from '../overseeing-operations/ui/treatment-monitoring/treatment-monitoring.component';
+import { SimDemandComponent } from '../../../shared/components/sim-demand/sim-demand.component';
 
 
 export const DEMANDE_ROUTE = 'demandes'
@@ -23,46 +26,109 @@ export const MESSAGERIE_ROUTE = 'messagerie'
 
 const routes: Routes = [
     {
-        path: '',
+        path: DEMANDE_ROUTE,
         children: [
             {
-                path: DEMANDE_ROUTE,
                 component: AlarmesComponent,
-            },
-            {
-                path: SUIVIE_TRAITEMENT_ROUTE,
-                component: SuivieTraitementComponent,
-            },
-            {
-              path: SUIVIE_TRAITEMENT_ROUTE + "/:request",
-              component: DetailsSuivieTraitementComponent,
-            },
-            {
-                path: PRISE_EN_CHARGE_ROUTE,
-                component: PriseEnChargeComponent,
-            },
-            {
-                path: PERFORMANCE_SLA_ROUTE,
-                component: PerformancesComponent,
-            },
-            {
-                path: CONTENCIEUX_ROUTE,
-                component: ContentieuxComponent,
-            },
-            {
-                path: NOTIFY_ROUTE,
-                component: NotificationComponent,
-            },
-            {
-                path: JOURNAL_TRANSACTION_ROUTE,
-                component: JournalTransactionComponent,
-            },
-            {
-                path: MESSAGERIE_ROUTE,
-                component: MessagerieComponent,
+                // component: WaitingQueueComponent
             }
         ]
     },
+    {
+        path: SUIVIE_TRAITEMENT_ROUTE,
+        children: [
+            {
+                path: '',
+                component: SuivieTraitementComponent,
+                // component: TreatmentMonitoringComponent
+            },
+            {
+                path: ":number_demand",
+                component: SimDemandComponent,
+            },
+        ]
+    },
+    {
+        path: PRISE_EN_CHARGE_ROUTE,
+        children: [
+            {
+                component: PriseEnChargeComponent
+            }
+        ]
+    },
+    {
+        path: PERFORMANCE_SLA_ROUTE,
+        children: [
+            {
+                component: PerformancesComponent
+            }
+        ]
+    },
+    {
+        path: CONTENCIEUX_ROUTE,
+        children: [
+            {
+                component: ContentieuxComponent
+            }
+        ]
+    },
+    {
+        path: NOTIFY_ROUTE,
+        children: [
+            {
+                component: NotificationComponent
+            }
+        ]
+    },
+    {
+        path: JOURNAL_TRANSACTION_ROUTE,
+        children: [
+            {
+                component: JournalTransactionComponent
+            }
+        ]
+    },
+    {
+        path: MESSAGERIE_ROUTE,
+        children: [
+            {
+                component: MessagerieComponent
+            }
+        ]
+    },
+    // {
+    //     path: '',
+    //     children: [
+    //         {
+    //             path: SUIVIE_TRAITEMENT_ROUTE + "/:request",
+    //             component: DetailsSuivieTraitementComponent,
+    //         },
+    //         // {
+    //         //     path: PRISE_EN_CHARGE_ROUTE,
+    //         //     component: PriseEnChargeComponent,
+    //         // },
+    //         // {
+    //         //     path: PERFORMANCE_SLA_ROUTE,
+    //         //     component: PerformancesComponent,
+    //         // },
+    //         // {
+    //         //     path: CONTENCIEUX_ROUTE,
+    //         //     component: ContentieuxComponent,
+    //         // },
+    //         // {
+    //         //     path: NOTIFY_ROUTE,
+    //         //     component: NotificationComponent,
+    //         // },
+    //         // {
+    //         //     path: JOURNAL_TRANSACTION_ROUTE,
+    //         //     component: JournalTransactionComponent,
+    //         // },
+    //         {
+    //             path: MESSAGERIE_ROUTE,
+    //             component: MessagerieComponent,
+    //         }
+    //     ]
+    // },
 ];
 
 @NgModule({

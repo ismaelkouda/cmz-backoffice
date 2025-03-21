@@ -28,16 +28,11 @@ export class PatrimoineService {
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
 
-
   OnChangeStatutIdentification(data): Observable<any> {
     const url: string = (<string>EndPointUrl.CHANGE_STATUT_IDENTIFICATION);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
 
-
-
-
-  
   OnGetDetailSim(data): Observable<any> {
     const url: string = (<string>EndPointUrl.DETAILS_SIM).replace('{imsi}', data)
     return this.http.post(`${this.baseUrl}${url}`, {});
@@ -75,10 +70,10 @@ export class PatrimoineService {
     const url: string = (<string>EndPointUrl.UPDATE_PATRIMOINE);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
-  ProcessImagePatrimoine(data): Observable<any> {
-    const url: string = new EnvService().verifyIdentityDocumentUrl;
-    return this.http.post(`${url}process-image`, data);
-    // return this.http.post(`http://10.10.0.53:5000/process-image`, data);
+  analysePiecePhoto(data): Observable<any> {
+    // const baseUrl = "http://10.10.0.53:5000"
+    const baseUrl = new EnvService().verifyIdentityDocumentUrl;
+    return this.http.post(`${baseUrl}process-image`, data);
   }
   IdentificationPatrimoine(data): Observable<any> {
     const url: string = (<string>EndPointUrl.IDENTIFICATION_PATRIMOINE);

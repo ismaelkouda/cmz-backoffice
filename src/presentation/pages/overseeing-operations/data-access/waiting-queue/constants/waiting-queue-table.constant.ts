@@ -1,0 +1,15 @@
+export const waitingQueueTableConstant = {
+    cols: [
+        { field: '', header: '#', class: "text-center", width: "2rem" },
+        { field: 'created_at', header: 'Date / Heure', class: "text-center", width: "12rem" },
+        { field: 'operation', header: 'Type Opération', width: "16rem" },
+        { field: 'numero_demande', header: 'N° Dossier', class: "text-center", width: "12rem" },
+        { field: 'nb_cycle', header: '# Cycles', class: "text-center" },
+        { field: 'nb_demande_soumises', header: '# Lignes', class: "text-center" },
+        { field: 'statut', header: 'Etape', class: "text-center" },
+        { field: 'traitement', header: 'Etat', class: "text-center" },
+        { field: 'demandeur', header: 'Demandeur', class: "text-center", width: "20rem" },
+        { field: '', header: 'Actions', class: "text-center", width: "6rem" }
+    ],
+    globalFilterFields: ['created_at','operation','numero_demande','nb_demande_soumises','nb_cycle','statut','traitement', 'updated_at','demandeur']
+}

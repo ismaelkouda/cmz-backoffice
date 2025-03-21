@@ -17,7 +17,7 @@ import { LOGO_ORANGE } from 'src/shared/constants/logoOrange.constant';
 export class SidebarComponent {
   public LOGO_ORANGE = LOGO_ORANGE;
   public iconSidebar;
-  public menuItems: Menu[];
+  public menuItems: Array<any>;
   public filterArray: Array<any> = [];
   public filterArray2: Array<any> = [];
 
@@ -39,78 +39,78 @@ export class SidebarComponent {
     private storage: EncodingDataService,
     private mappingService: MappingService
   ) {
-    let user = this.mappingService.currentUser;
-    this.data = this.mappingService.currentPermissions
+    // let user = this.mappingService.currentUser;
+    // this.data = this.mappingService.currentPermissions
    
-    this.data = JSON.parse(this.storage.getData('current_menu') || null);
+    // this.data = JSON.parse(this.storage.getData('current_menu') || null);
     
-    this.data?.unshift({
-      title: "Tableau de bord",
-      icon: "home",
-      type: "link",
-      path: `/${DASHBOARD}`,
-      statut: true,
-    })
-    if (this.data?.length > 1) {
-      this.data?.push({
-        title: `Structure Organisationnelle`,
-        label: `Structure Organisationnelle`,
-        data: "7-0-0-structure-orga",
-        statut: true,
-        icon: "bar-chart-2",
-        url: "assets/images/portail/icone_settings.webp",
-        path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
-        routerLink: ``,
-        type: "sub",
-        children: [
-          {
-            path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
-            title: `${mappingService.structureGlobale?.niveau_1_menu}`,
-            label: `${mappingService.structureGlobale?.niveau_1_menu}`,
-            data: "7-1-0-structure-orga-niveau-1",
-            type: "link"
-          },
-          {
-            path: `/${STRUCTURE_ORGANISATIONNELLE}/${SECOND_LEVEL_ROUTE}`,
-            title: `${mappingService.structureGlobale?.niveau_2_menu}`,
-            label: `${mappingService.structureGlobale?.niveau_2_menu}`,
-            data: "7-2-0-structure-orga-niveau-2",
-            type: "link"
-          },
-          {
-            path: `/${STRUCTURE_ORGANISATIONNELLE}/${THRID_LEVEL_ROUTE}`,
-            title: `${mappingService.structureGlobale?.niveau_3_menu}`,
-            label: `${mappingService.structureGlobale?.niveau_3_menu}`,
-            data: "7-3-0-structure-orga-niveau-3",
-            type: "link"
-          },
-          {
-            path: `/${STRUCTURE_ORGANISATIONNELLE}/${USAGE_METIER}`,
-            title: `Usages Métier`,
-            label: `Usages Métier`,
-            data: "7-4-0-structure-orga-usage",
-            type: "link"
-          }
-        ]
-      })
-    }
+    // this.data?.unshift({
+    //   title: "Tableau de bord",
+    //   icon: "home",
+    //   type: "link",
+    //   path: `/${DASHBOARD}`,
+    //   statut: true,
+    // })
+    // if (this.data?.length > 1) {
+    //   this.data?.push({
+    //     title: `Structure Organisationnelle`,
+    //     label: `Structure Organisationnelle`,
+    //     data: "7-0-0-structure-orga",
+    //     statut: true,
+    //     icon: "bar-chart-2",
+    //     url: "assets/images/portail/icone_settings.webp",
+    //     path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
+    //     routerLink: ``,
+    //     type: "sub",
+    //     children: [
+    //       {
+    //         path: `/${STRUCTURE_ORGANISATIONNELLE}/${FIRST_LEVEL_ROUTE}`,
+    //         title: `${mappingService.structureGlobale?.niveau_1_menu}`,
+    //         label: `${mappingService.structureGlobale?.niveau_1_menu}`,
+    //         data: "7-1-0-structure-orga-niveau-1",
+    //         type: "link"
+    //       },
+    //       {
+    //         path: `/${STRUCTURE_ORGANISATIONNELLE}/${SECOND_LEVEL_ROUTE}`,
+    //         title: `${mappingService.structureGlobale?.niveau_2_menu}`,
+    //         label: `${mappingService.structureGlobale?.niveau_2_menu}`,
+    //         data: "7-2-0-structure-orga-niveau-2",
+    //         type: "link"
+    //       },
+    //       {
+    //         path: `/${STRUCTURE_ORGANISATIONNELLE}/${THRID_LEVEL_ROUTE}`,
+    //         title: `${mappingService.structureGlobale?.niveau_3_menu}`,
+    //         label: `${mappingService.structureGlobale?.niveau_3_menu}`,
+    //         data: "7-3-0-structure-orga-niveau-3",
+    //         type: "link"
+    //       },
+    //       {
+    //         path: `/${STRUCTURE_ORGANISATIONNELLE}/${USAGE_METIER}`,
+    //         title: `Usages Métier`,
+    //         label: `Usages Métier`,
+    //         data: "7-4-0-structure-orga-usage",
+    //         type: "link"
+    //       }
+    //     ]
+    //   })
+    // }
 
-    this.data.map(item => {
-      if (item.statut === true) {
-        this.filterArray.push(item);
-        this.filterArray.map((d) => {
-          if (d?.children) {
-            d.children.map((value, index) => {
-              if (!user.permissions.includes(value.data)) {
-                d.children.splice(index, 1);
-              }
-            })
-          }
-        });
-      }
-    });
-
-    this.menuItems = this.filterArray;
+    // this.data.map(item => {
+    //   if (item.statut === true) {
+    //     this.filterArray.push(item);
+    //     this.filterArray.map((d) => {
+    //       if (d?.children) {
+    //         d.children.map((value, index) => {
+    //           if (!user.permissions.includes(value.data)) {
+    //             d.children.splice(index, 1);
+    //           }
+    //         })
+    //       }
+    //     });
+    //   }
+    // });
+    this.storage.getData("menu")
+    this.menuItems = JSON.parse(this.storage.getData("menu")) ?? [];
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.menuItems.filter(items => {
@@ -155,8 +155,6 @@ export class SidebarComponent {
       }
       if (menuItem.children) {
         menuItem.children.filter(submenuItems => {
-          console.log('submenuItems', submenuItems)
-          console.log('item', item)
           if (submenuItems.children && submenuItems.children.includes(item)) {
             menuItem.active = true;
             submenuItems.active = true;

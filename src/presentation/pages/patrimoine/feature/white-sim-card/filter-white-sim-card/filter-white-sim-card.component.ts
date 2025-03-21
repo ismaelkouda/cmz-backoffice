@@ -26,7 +26,7 @@ export class FilterWhiteSimCardComponent {
 
     private initFormFilter(): void {
         this.formFilter = this.fb.group({
-            reference: [this.filterData?.["reference"] ?? null],
+            numero_demande: [this.filterData?.["numero_demande"] ?? null],
             imsi: [this.filterData?.["imsi"] ?? null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
             iccid: [this.filterData?.["iccid"] ?? null],
             statut: [this.filterData?.["statut"] ?? null],

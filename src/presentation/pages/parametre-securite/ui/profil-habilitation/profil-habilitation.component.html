@@ -275,10 +275,11 @@
                                 </div>
                             </p-tabPanel>
                             <p-tabPanel header="HISTORIQUE">
-                                <app-historique
-                                    *ngIf="currentTabsIndex === 1"
-                                    [sous_module]="'PROFIL HABILITATIONS'"
-                                ></app-historique>
+                                <ng-container *ngIf="currentTabsIndex === 1">
+                                    <app-history
+                                        [typeModel]="'profil_users'"
+                                    ></app-history>
+                                </ng-container>
                             </p-tabPanel>
                         </p-tabView>
                     </div>

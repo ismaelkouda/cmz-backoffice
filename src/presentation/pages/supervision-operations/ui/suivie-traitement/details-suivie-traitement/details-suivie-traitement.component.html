@@ -345,11 +345,7 @@
                                 </span>
                             </td>
                             <td>
-                                {{
-                                    (transaction.traitement === 'abandonné'
-                                        ? transaction?.date_cloture
-                                        : transaction?.date_traitement) ?? 'N/A'
-                                }}
+                                {{ transaction?.updated_at }}
                             </td>
                             <td class="text-center">
                                 <span

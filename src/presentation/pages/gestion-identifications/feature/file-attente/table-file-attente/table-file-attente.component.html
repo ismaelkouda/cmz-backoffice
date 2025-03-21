@@ -143,7 +143,7 @@
                     (click)="
                         OnShowModalTraitement(
                             sim,
-                            getStyleButtonTraitement(sim)?.typeTraitement
+                            getStyleButtonTraitement(sim)?.typeTreatment
                         )
                     "
                 ></button>
@@ -187,7 +187,7 @@
     <ng-template pTemplate="content">
         <app-form-identification
             [simSelected]="selectedSim"
-            [typeTraitement]="typeTraitement"
+            [typeTreatment]="typeTreatment"
             (visibleForm)="hideDialog()"
         ></app-form-identification>
     </ng-template>

@@ -103,7 +103,7 @@
             label="Demande Simple"
             icon="pi pi-plus"
             class="p-button-success"
-            (click)="onInitForm('simple')"
+            (click)="onInitForm('activation-en-simple')"
         ></button>
         <button
             pButton
@@ -112,7 +112,7 @@
             *ngIf="mappingService.IsAction()"
             icon="pi pi-plus"
             class="p-button btn-dark"
-            (click)="onInitForm('masse')"
+            (click)="onInitForm('activation-en-masse')"
         ></button>
         <button
             pButton
@@ -144,7 +144,7 @@
     <table [ngClass]="['native_table table']">
         <thead>
             <th class="text-center" [style]="{ width: '2rem' }">#</th>
-            <th class="text-center" [style]="{ width: '6rem' }">
+            <th class="text-center" [style]="{ width: '12rem' }">
                 Date Demande
             </th>
             <th class="text-center" [style]="{ width: '6rem' }">N° Dossier</th>
@@ -228,6 +228,7 @@
                         tooltipPosition="top"
                         (click)="OnShowTraitement(data)"
                         class="p-button-dark"
+                        [disabled]="disabledFolderButton(data)"
                     ></button>
                     <button
                         pButton
@@ -310,7 +311,7 @@
     <ng-template pTemplate="content">
         <app-type-paiement
             [demandeSelected]="currentObject"
-            [typeTraitement]="typeTraitement"
+            [typeTreatment]="typeTreatment"
             (visibleFormDossier)="hideDialog()"
         ></app-type-paiement>
     </ng-template>

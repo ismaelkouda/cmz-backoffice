@@ -70,7 +70,8 @@ export class TableDemandeIntegrationComponent {
           break;
   
         case BADGE_ETAPE.CLOTURE:
-          if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
+          if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-success"; }
+    if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
           if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
           break;
       }
@@ -109,7 +110,7 @@ export class TableDemandeIntegrationComponent {
         }
         //   this.IsLoading = true;
         //   const modalRef = this.ngbModal.open(DemandeMasseComponent, ModalParams);
-        //   modalRef.componentInstance.params = { vue: "demande", action: action };
+        //   modalRef.componentInstance.params = { vue: data.operation, action: action };
         //   modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
         //   modalRef.componentInstance.resultTraitement = this.demandeService.GetDemandeServiceByTransaction(this.demandesFilterStateService.getFilterState(), this.p);
         //   modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res; modalRef.componentInstance.IsLoadData = !res });
@@ -132,7 +133,6 @@ export class TableDemandeIntegrationComponent {
     }
 
     OnShowModalTraitement(data: any): void {
-        console.log('data', data)
       let action: string;
       if (data?.statut === this.BADGE_ETAPE.SOUMISSION && data.traitement === this.BADGE_ETAT.EN_ATTENTE) {
         action = "Abandonner";
@@ -141,7 +141,7 @@ export class TableDemandeIntegrationComponent {
       }
       this.IsLoading = true;
       const modalRef = this.ngbModal.open(DemandeMasseComponent, ModalParams);
-      modalRef.componentInstance.params = { vue: "demande", action: action };
+      modalRef.componentInstance.params = { vue: data.operation, action: action };
       modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
       modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res; modalRef.componentInstance.IsLoadData = !res });
     }

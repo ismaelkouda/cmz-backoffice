@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, EventEmitter, Output } from "@angular/core
 import { FormBuilder, FormGroup } from "@angular/forms";
 import * as moment from 'moment';
 import { ToastrService } from "ngx-toastr";
+import { T_BADGE_ETAT_FACTURE } from "../../../../../shared/constants/badge-etat-facture.contant";
 
 @Component({
     selector: `app-filter-facture`,
@@ -14,7 +15,7 @@ export class FilterFactureComponent implements OnChanges {
     @Input() filterData: { [key: string]: any } = {};
     @Input() listOperations: Array<Object>;
     @Input() typePaiement: Array<Object>;
-    @Input() listEtatFacture: Array<Object>;
+    @Input() listStatus: Array<T_BADGE_ETAT_FACTURE>;
   
     @Output() filter = new EventEmitter<Record<string, any>>();
   
@@ -26,7 +27,7 @@ export class FilterFactureComponent implements OnChanges {
     }
 
     ngOnChanges() {
-        this.formFilter.get('sla')?.setValue(this.filterData?.["sla"]);
+        this.formFilter.get('statut')?.setValue(this.filterData?.["statut"]);
     }
 
     public showSecondFilter() {
@@ -37,8 +38,9 @@ export class FilterFactureComponent implements OnChanges {
         this.formFilter = this.fb.group({
             operation: [this.filterData?.["operation"] ?? null],
             numero_demande: [this.filterData?.["numero_demande"] ?? null],
+            reference: [this.filterData?.["reference"] ?? null],
             type_paiement: [this.filterData?.["type_paiement"] ?? null],
-            etat_facture: [this.filterData?.["etat_facture"] ?? null],
+            statut: [this.filterData?.["statut"] ?? null],
             date_debut: [this.filterData?.["date_debut"] ?? null],
             date_fin: [this.filterData?.["date_fin"] ?? null]
         });

@@ -1,0 +1,126 @@
+<p-table
+    #dt
+    [value]="listSlaAgreements$ | async"
+    [rowHover]="true"
+    dataKey="id"
+    selectionMode="single"
+    [(selection)]="slaAgreementsSelected"
+    [rows]="10"
+    [paginator]="true"
+    [globalFilterFields]="table.globalFilterFields"
+    currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données"
+>
+    <ng-template pTemplate="caption">
+        <div class="d-flex justify-content-between">
+            <app-table-title
+                [count]="(listSlaAgreements$ | async)?.length"
+            ></app-table-title>
+            <div class="d-flex gap-2 align-items-center">
+                <div class="d-flex gap-2">
+                    <app-table-button-header
+                        (refresh)="pageCallback()"
+                        (export)="onExportExcel()"
+                        [disabledButtonExport]="
+                            (listSlaAgreements$ | async)?.length === 0
+                        "
+                        [hiddenButtonOther]="true"
+                    >
+                    </app-table-button-header>
+                </div>
+                <div>
+                    <app-search-table [dt]="dt"></app-search-table>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
+                <ng-container [ngSwitch]="col.header">
+                    <ng-container *ngSwitchCase="'Date / Heure'">
+                        {{ 'DATE_TIME' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Services'">
+                        {{ 'SERVICES' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Description du service'">
+                        {{ 'SERVICE_DESCRIPTION' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Réception'">
+                        {{ 'RECEPTION' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Traitement'">
+                        {{ 'TREATMENT' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Clôture'">
+                        {{ 'CLOSURE' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Escalade'">
+                        {{ 'ESCALADE' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Statut'">
+                        {{ 'STATUS' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{ col.header }}
+                    </ng-container>
+                </ng-container>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
+        <tr [pSelectableRow]="item">
+            <td
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
+                <ng-container [ngSwitch]="col.header">
+                    <ng-container *ngSwitchCase="'#'">
+                        {{ rowIndex + 1 }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Statut'">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            [class]="
+                                'badge ' + getStatusSlaAgreementsBadge(item)
+                            "
+                        >
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{item?.[col.field]}}
+                    </ng-container>
+                </ng-container>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr *ngIf="(listSlaAgreements$ | async)?.length <= 0 && !spinner">
+            <td class="posRelative" colspan="15">
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner">
+            <td class="posRelative" colspan="15">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

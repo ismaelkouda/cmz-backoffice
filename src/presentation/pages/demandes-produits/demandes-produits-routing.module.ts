@@ -4,13 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from "@angular/core";
 import { AchatProduitsComponent } from './ui/achat-produits/achat-produits.component';
 import { DetailsAchatProduitsComponent } from './feature/details-achat-produits/details-achat-produits.component';
-import { FactureComponent } from '../../../shared/components/facture/facture.component';
+import { InvoiceFormComponent } from '../../../shared/components/invoice-form/invoice-form.component';
 // import { DetailsAchatProduitsComponent } from './features/achat-produits/details-achat-produits/details-achat-produits.component';
 
 export const ACHAT_PRODUIT = "achat-produit";
 export const FORM = "form";
 export const DETAILS = "details";
-export const FACTURE = "facture";
+export const FACTURE = "invoice";
 
 const routes: Routes = [
     {
@@ -25,8 +25,8 @@ const routes: Routes = [
                 component: FormAchatProduitsComponent,
             },
             {
-                path: FACTURE+"/:id",
-                component: FactureComponent,
+                path: FACTURE+"/:numero_demande",
+                component: InvoiceFormComponent,
             },
             {
                 path: DETAILS+"/:numero_demande",

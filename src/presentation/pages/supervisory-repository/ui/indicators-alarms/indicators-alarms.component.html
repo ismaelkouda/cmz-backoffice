@@ -1,0 +1,56 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="'Réferentiel Supervision'"
+                [active_item]="'Indicateurs d\'alarmes'"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div style="margin-top: -2rem !important">
+                        <div class="d-flex justify-content-between">
+                            <app-patrimoine-header
+                                [displayDate]="false"
+                                [total]="
+                                    (listIndicatorsAlarms$ | async)?.length
+                                "
+                                [legendePluriel]="
+                                    'INDICATORS_ALARMS' | translate
+                                "
+                                [legendeSingulier]="
+                                    'INDICATORS_ALARMS' | translate
+                                "
+                            >
+                            </app-patrimoine-header>
+                        </div>
+                    </div>
+
+                    <div>
+                        <app-table-indicators-alarms
+                            [listIndicatorsAlarms$]="listIndicatorsAlarms$"
+                        >
+                        </app-table-indicators-alarms>
+                    </div>
+                    <!-- <p-tabView>
+                        <p-tabPanel [header]="'INDICATORS_ALARMS' | translate | uppercase">
+                            <ng-container *ngIf="detailsCurrentTabPanelIndex === 0">
+
+                                <app-table-indicators-alarms
+                                    [listIndicatorsAlarms$]="listIndicatorsAlarms$">
+                                </app-table-indicators-alarms>
+
+                            </ng-container>
+                        </p-tabPanel>
+                        <p-tabPanel [header]="'HISTORY' | translate | uppercase">
+                            <ng-container *ngIf="detailsCurrentTabPanelIndex === 1">
+
+                                <app-history [typeModel]="'sims'" [idModel]="simCardSelectedDetails?.id"></app-history>
+
+                            </ng-container>
+                        </p-tabPanel>
+                    </p-tabView> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

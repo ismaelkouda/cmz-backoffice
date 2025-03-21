@@ -91,7 +91,6 @@ export class CarteComponent implements OnInit, AfterViewInit {
           },
           onEachFeature: function (feature, layer) { },
       }).on('click', (e) => {
-          console.log("ACTIF", e);
       }).addTo(this.map)
 
       this.geoJsonInactif = L.geoJSON(this.datas.data.dataset_inactifs, {

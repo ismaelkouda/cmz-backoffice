@@ -1,0 +1,48 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div style="margin-top: -2rem !important">
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [total]="(pagination$ | async)?.total"
+                            [legendePluriel]="'CLAIMS' | translate"
+                            [legendeSingulier]="'CLAIMS' | translate"
+                        >
+                        </app-patrimoine-header>
+                    </div>
+
+                    <div>
+                        <app-filter-claims
+                            (filter)="filter($event)"
+                            [filterData]="filterData"
+                            [listApplicants$]="listApplicants$"
+                            [listOperations]="listOperations"
+                        >
+                        </app-filter-claims>
+
+                        <hr />
+
+                        <app-table-claims
+                            [pagination$]="pagination$"
+                            [listClaims$]="listClaims$"
+                            [claimsSelected]="claimsSelected$ | async"
+                            (interfaceUser)="navigateByUrl($event)"
+                        >
+                        </app-table-claims>
+
+                        <app-pargination
+                            [pargination]="pagination$ | async"
+                            (pageChange)="onPageChange($event)"
+                        ></app-pargination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

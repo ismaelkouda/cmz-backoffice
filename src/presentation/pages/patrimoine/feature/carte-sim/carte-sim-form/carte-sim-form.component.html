@@ -7,23 +7,32 @@
             ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
-                    <div *ngIf="!displayUrlErrorPage">
+                    <div>
                         <div class="forms-feature-header">
                             <div>
                                 <h4>
-                                    <b *ngIf="urlParamRef === 'editer'">
+                                    <b
+                                        *ngIf="
+                                            urlParamRef === 'update-sim-card'
+                                        "
+                                    >
                                         <span>Modification de la SIM</span>
                                         <span class="current_values"
                                             >[{{ urlParamId }}]</span
                                         >
                                     </b>
-                                    <b *ngIf="urlParamRef === 'détails'">
+                                    <b *ngIf="urlParamRef === 'view-sim-card'">
                                         <span>Visualisation de la SIM</span>
                                         <span class="current_values"
                                             >[{{ urlParamId }}]</span
                                         >
                                     </b>
-                                    <b *ngIf="urlParamRef === 'identifier'">
+                                    <b
+                                        *ngIf="
+                                            urlParamRef ===
+                                            'identification-sim-card'
+                                        "
+                                    >
                                         <span>Identification de la SIM</span>
                                         <span class="current_values"
                                             >[{{ urlParamId }}]</span
@@ -32,7 +41,7 @@
                                 </h4>
                             </div>
                             <div class="d-flex gap-3">
-                                <div *ngIf="urlParamRef === 'editer'">
+                                <div *ngIf="urlParamRef === 'update-sim-card'">
                                     <p-button
                                         label="Editer"
                                         styleClass="p-button-success"
@@ -43,12 +52,19 @@
                                     >
                                     </p-button>
                                 </div>
-                                <div *ngIf="urlParamRef === 'identifier'">
+                                <div
+                                    *ngIf="
+                                        urlParamRef ===
+                                        'identification-sim-card'
+                                    "
+                                >
                                     <p-button
                                         label="Identifier"
                                         styleClass="p-button-success"
-                                        (click)="handleIdentifyCampagne()"
-                                        [class.p-disabled]="(isNoVerifyPiecesPhotos || formIdentifierCarteSim.invalid) && !(formIdentifierCarteSim.valid && carteSimSelectedDetails?.['is_identified'])"
+                                        (click)="handleIdentifyCarteSim()"
+                                        [class.p-disabled]="
+                                            isDisabledButtonIdentifyCarteSim()
+                                        "
                                     >
                                     </p-button>
                                 </div>
@@ -65,7 +81,9 @@
                         <div *ngIf="!loadingPage">
                             <!-------------------------- Formulaire d'identification ------------------------------->
                             <div
-                                *ngIf="urlParamRef === 'identifier'"
+                                *ngIf="
+                                    urlParamRef === 'identification-sim-card'
+                                "
                                 style="margin-top: 3rem"
                             >
                                 <form [formGroup]="formIdentifierCarteSim">
@@ -216,15 +234,15 @@
                                                 </div>
 
                                                 <div class="col-md">
-                                                    <label
-                                                        ><b
+                                                    <label>
+                                                        <b
                                                             >Nature de la
                                                             pièce<span
                                                                 class="text-danger"
                                                                 >*</span
-                                                            ></b
-                                                        ></label
-                                                    >
+                                                            >
+                                                        </b>
+                                                    </label>
                                                     <p-dropdown
                                                         [options]="
                                                             listeNaturePiece
@@ -341,7 +359,6 @@
                                                         [options]="
                                                             listeNatureDocument
                                                         "
-                                                        [showClear]="true"
                                                         formControlName="nature_piece"
                                                         placeholder="Nature du document"
                                                     >
@@ -977,7 +994,7 @@
                                         <p-button
                                             label="Identifier"
                                             styleClass="p-button-success"
-                                            (click)="handleIdentifyCampagne()"
+                                            (click)="handleIdentifyCarteSim()"
                                             [class.p-disabled]="(isNoVerifyPiecesPhotos || formIdentifierCarteSim.invalid) && !(formIdentifierCarteSim.valid && carteSimSelectedDetails?.['is_identified'])"
                                         >
                                         </p-button>
@@ -987,7 +1004,7 @@
 
                             <!-------------------------- Formulaire d'edition ------------------------------->
                             <div
-                                *ngIf="urlParamRef === 'editer'"
+                                *ngIf="urlParamRef === 'update-sim-card'"
                                 style="margin-top: 3rem"
                             >
                                 <form [formGroup]="formUpdateCarteSim">
@@ -1397,7 +1414,7 @@
                             <!-------------------------- Formulaire des details ------------------------------->
 
                             <div
-                                *ngIf="urlParamRef === 'détails'"
+                                *ngIf="urlParamRef === 'view-sim-card'"
                                 [formGroup]="formDetailsCarteSim"
                             >
                                 <p-tabView
@@ -1762,7 +1779,7 @@
                                                     </fieldset>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-12 mb-2">
                                                         <div class="form-group">
                                                             <label
                                                                 class="label"
@@ -1784,8 +1801,12 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <br />
-                                                    <div class="col-md-12">
+                                                    <div
+                                                        class="col-md-12 mb-2"
+                                                        *ngIf="
+                                                            asAccessFeatureDataBalance
+                                                        "
+                                                    >
                                                         <div class="form-group">
                                                             <label
                                                                 class="label"
@@ -1811,19 +1832,52 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12 mt-3">
+                                                    <div
+                                                        class="col-md-12"
+                                                        *ngIf="
+                                                            asAccessFeatureSmsBalance
+                                                        "
+                                                    >
+                                                        <div class="form-group">
+                                                            <label class="label"
+                                                                ><b
+                                                                    >Solde
+                                                                    SMS</b
+                                                                ></label
+                                                            >
+                                                            <div
+                                                                class="box-card"
+                                                            >
+                                                                <span
+                                                                    class="valeur"
+                                                                >
+                                                                    <span>{{
+                                                                        carteSimSelectedDetails?.solde_sms ??
+                                                                            0
+                                                                    }}</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div
+                                                        class="col-md-12 mt-2"
+                                                        *ngIf="
+                                                            carteSimSelectedDetails?.solde_data_updated_at
+                                                        "
+                                                    >
                                                         <div class="form-group">
                                                             <label
                                                                 class="label"
                                                             >
                                                                 <b>{{
                                                                     carteSimSelectedDetails?.solde_data_updated_at
-                                                                }}</b
-                                                                ><br />
+                                                                }}</b>
+                                                                <br />
                                                             </label>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12 mt-4">
+                                                    <div class="col-md-12 mt-2">
                                                         <div class="form-group">
                                                             <label
                                                                 ><b
@@ -1835,7 +1889,8 @@
                                                                 [statut]="
                                                                     carteSimSelectedDetails?.statut
                                                                 "
-                                                            ></app-statut-contrat>
+                                                            >
+                                                            </app-statut-contrat>
                                                         </div>
                                                     </div>
                                                     <div
@@ -1885,7 +1940,7 @@
                                                             <button
                                                                 pButton
                                                                 pRipple
-                                                                label="Rafraîchir Solde Data"
+                                                                label="Rafraîchir les soldes"
                                                                 icon="pi pi-refresh"
                                                                 class="p-button-warning w-100"
                                                                 [style]="{
@@ -1950,7 +2005,10 @@
                                             </div>
                                         </div>
                                     </p-tabPanel>
-                                    <p-tabPanel header="IDENTIFICATION">
+                                    <p-tabPanel
+                                        header="IDENTIFICATION"
+                                        *ngIf="asAccessFeatureIdentification"
+                                    >
                                         <fieldset>
                                             <legend>
                                                 <b
@@ -1977,7 +2035,8 @@
                                                 <ng-container
                                                     *ngIf="
                                                         carteSimSelectedDetails?.type_personne ===
-                                                        TypeUtilisateur.PERSONNE
+                                                            TypeUtilisateur.PERSONNE ||
+                                                        !carteSimSelectedDetails?.type_personne
                                                     "
                                                 >
                                                     <div>
@@ -2306,17 +2365,23 @@
                                         </fieldset>
                                     </p-tabPanel>
                                     <p-tabPanel header="HISTORIQUE">
-                                        <app-historique
+                                        <ng-container
                                             *ngIf="
-                                                detailsCurrentTabPanelIndex ===
-                                                2
-                                            "
-                                            [modele]="'sims'"
-                                            [modele_id]="
-                                                carteSimSelectedDetails?.id
+                                                asAccessFeatureIdentification
+                                                    ? detailsCurrentTabPanelIndex ===
+                                                      2
+                                                    : detailsCurrentTabPanelIndex ===
+                                                      1
                                             "
                                         >
-                                        </app-historique>
+                                            <!-- <app-historique [typeModel]="'sims'" [idModel]="carteSimSelectedDetails?.id"></app-historique> -->
+                                            <app-history
+                                                [typeModel]="'sims'"
+                                                [idModel]="
+                                                    carteSimSelectedDetails?.id
+                                                "
+                                            ></app-history>
+                                        </ng-container>
                                     </p-tabPanel>
                                 </p-tabView>
                             </div>
@@ -2324,8 +2389,8 @@
 
                         <div
                             *ngIf="loadingPage"
-                            class="d-flex justify-content-center align-items-center"
                             style="height: 100vh"
+                            class="d-flex justify-content-center align-items-center"
                         >
                             <p-progressSpinner
                                 ariaLabel="loading"
@@ -2333,7 +2398,7 @@
                         </div>
                     </div>
 
-                    <div *ngIf="displayUrlErrorPage">
+                    <!-- <div *ngIf="displayUrlErrorPage">
                         <div>
                             <div class="d-flex justify-content-end">
                                 <p-button
@@ -2349,7 +2414,7 @@
                             page not available
                         </div>
                         <div class="skeleton"></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

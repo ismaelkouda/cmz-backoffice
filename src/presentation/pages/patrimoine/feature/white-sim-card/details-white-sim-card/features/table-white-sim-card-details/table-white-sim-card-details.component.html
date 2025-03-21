@@ -1,41 +1,87 @@
-<p-table #dt [value]="listWhiteSimCardDetails" [rowHover]="true" dataKey="id" selectionMode="single"
-    [(selection)]="selectedWhiteSimCardDetails" [rows]="500" [paginator]="true" [globalFilterFields]="table.globalFilterFields">
+<p-table
+    #dt
+    [value]="listWhiteSimCardDetails?.carte_sims"
+    [rowHover]="true"
+    dataKey="id"
+    selectionMode="single"
+    [(selection)]="selectedWhiteSimCardDetails"
+    [rows]="500"
+    [paginator]="true"
+    [globalFilterFields]="table.globalFilterFields"
+>
     <ng-template pTemplate="caption">
         <div class="d-flex justify-content-between">
-            <app-table-title [count]="listWhiteSimCardDetails?.length" [perPage]="500"
-                [legendePluriel]="'cartes SIM'" [legendeSingulier]="'carte SIM'">
+            <app-table-title
+                [count]="listWhiteSimCardDetails?.carte_sims?.length"
+                [perPage]="500"
+                [legendePluriel]="'cartes SIM'"
+                [legendeSingulier]="'carte SIM'"
+            >
             </app-table-title>
-            <div>
-                <app-search-table [dt]="dt"></app-search-table>
+            <div class="d-flex gap-2 align-items-center">
+                <div>
+                    <app-table-button-header
+                        (refresh)="pageCallback()"
+                        [disabledButtonExport]="
+                            listWhiteSimCardDetails?.carte_sims.length === 0
+                        "
+                        (export)="onExportExcel()"
+                        [hiddenButtonOther]="true"
+                        [iconOther]="'pi pi-plus'"
+                    >
+                    </app-table-button-header>
+                </div>
+                <div>
+                    <app-search-table [dt]="dt"></app-search-table>
+                </div>
             </div>
         </div>
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
-            <th *ngFor="let col of table.cols" [class]="col.class" [ngStyle]="{'width': col.width}">
+            <th
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
                 {{ col.header }}
             </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowIndex="rowIndex" let-whiteSimCard>
         <tr [pSelectableRow]="whiteSimCard">
-            <td *ngFor="let col of table.cols" [class]="col.class" [ngStyle]="{'width': col.width}">
+            <td
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
                         {{ rowIndex + 1 }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'IMSI'">
-                        <span (click)="copyData(whiteSimCard, 'imsi')" class="cursor-pointer">
+                        <span
+                            (click)="copyData(whiteSimCard, 'imsi')"
+                            class="cursor-pointer"
+                        >
                             {{ whiteSimCard?.[col.field] }}
                         </span>
                     </ng-container>
                     <ng-container *ngSwitchCase="'ICCID'">
-                        <span (click)="copyData(whiteSimCard, 'iccid')" class="cursor-pointer">
+                        <span
+                            (click)="copyData(whiteSimCard, 'iccid')"
+                            class="cursor-pointer"
+                        >
                             {{ whiteSimCard?.[col.field] }}
                         </span>
                     </ng-container>
                     <ng-container *ngSwitchCase="'Statut'">
-                        <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getStatutBadge(whiteSimCard.statut)">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            [class]="
+                                'badge ' + getStatutBadge(whiteSimCard.statut)
+                            "
+                        >
                             {{ whiteSimCard?.[col.field] }}
                         </span>
                     </ng-container>
@@ -47,15 +93,25 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
-        <tr *ngIf="listWhiteSimCardDetails?.length <= 0 && !spinner">
+        <tr
+            *ngIf="listWhiteSimCardDetails?.carte_sims?.length <= 0 && !spinner"
+        >
             <td class="posRelative" colspan="15">
-                <span class="posCenter"> {{ 'NO_DATA_FOUND' | translate }} </span>
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
             </td>
         </tr>
         <tr *ngIf="spinner">
             <td class="posRelative" colspan="15">
-                <p-progressSpinner class="posCenter" [style]="{ width: '40px', height: '50px' }"
-                    styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
                 </p-progressSpinner>
             </td>
         </tr>

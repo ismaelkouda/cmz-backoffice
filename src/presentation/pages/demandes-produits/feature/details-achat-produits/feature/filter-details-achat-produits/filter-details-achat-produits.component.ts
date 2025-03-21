@@ -1,4 +1,4 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';

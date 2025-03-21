@@ -19,11 +19,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { LocalStorageService } from 'ngx-webstorage';
 import { SupervisionOperationsModule } from './pages/supervision-operations/supervision-operations.module';
 import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
-import { NotifyService } from 'src/shared/services/notify.service';
-import { MappingService } from 'src/shared/services/mapping.service';
 import { EnvServiceProvider } from '../shared/services/env.service.provider';
-import { FileUploadModule } from 'primeng/fileupload';
-import { AuthGuard } from 'src/core/guard/auth.guard';
+import { NotifyService } from '../shared/services/notify.service';
+import { MappingService } from '../shared/services/mapping.service';
+import { AuthGuard } from '../core/guard/auth.guard';
+import { GuestGuard } from '../core/guard/guest.guard';
+import { PagesGuard } from '../core/guard/PagesGuard';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -31,10 +32,10 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -43,7 +44,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppRoutingModule,
     HttpClientModule,
     NgbModule,
-    FileUploadModule,
     SupervisionOperationsModule,
     ToastrModule.forRoot(),
     TranslateModule.forRoot({
@@ -62,6 +62,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     AuthGuard,
+    GuestGuard,
     EnvServiceProvider,
     LocalStorageService,
     NotifyService,

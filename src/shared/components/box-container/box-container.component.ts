@@ -14,6 +14,7 @@ export class BoxContainerComponent {
   @Input() count: any;
   @Input() taux: any;
   @Input() icon: any;
+  
   pipeValue(number: any) {
     return new Intl.NumberFormat("fr-FR").format(number);
   }

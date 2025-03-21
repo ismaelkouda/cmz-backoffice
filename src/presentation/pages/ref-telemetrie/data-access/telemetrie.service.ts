@@ -26,7 +26,11 @@ export class TelemetrieService {
   }
   GetMetriquesByProfil(id): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_METRIQUES_BY_PROFIL).replace('{id}', id)
-    return this.http.get(`${this.baseUrl}${url}`);
+    return this.http.post(`${this.baseUrl}${url}`, {});
+  }
+  GetSmsMetriquesByProfil(id): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_SMS_METRIQUES_BY_PROFIL).replace('{id}', id)
+    return this.http.post(`${this.baseUrl}${url}`, {});
   }
 
   GetAllProfilSupervision(data): Observable<any> {
@@ -84,7 +88,7 @@ export class TelemetrieService {
   }
   GetContactSla(): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_CONTACT_GESTION_SLA);
-    return this.http.get(`${this.baseUrl}${url}`);
+    return this.http.post(`${this.baseUrl}${url}`, {});
   }
   UpdateContactSla(data): Observable<any> {
     const url: string = (<string>EndPointUrl.UPDATE_CONTACT_GESTION_SLA);

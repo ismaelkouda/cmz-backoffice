@@ -98,7 +98,7 @@ export class DetailsAchatProduitsComponent implements OnInit {
         this.getDossierSelected(listAchatProduits);
     }
     private getDossierSelected(listAchatProduits: Array<Object>): void {
-        this.selectedAchat = listAchatProduits.find((dossier) => dossier['numero_demande'] == this.urlParamId);
+        this.selectedAchat = listAchatProduits.find((dossier) => dossier?.['numero_demande'] == this.urlParamId);
         if (this.selectedAchat) {
             // this.sharedDataService.postGestionStocksDetailsCartesSim().subscribe(() => {
             //     this.postGestionStocksDetailsCartesSim({...this.filterData, id: this.selectedCarteSim?.["id"]});
@@ -117,9 +117,9 @@ export class DetailsAchatProduitsComponent implements OnInit {
 
     private handleSuccessfulGetAllDemandes(response: any): void {
         this.getTchesBoxValues(response?.["data"]);
-        this.listProduits = response?.["data"]?.["data"]?.["data"];
+        this.listProduits = response?.["data"]?.["data"];
         this.isLoadingTitle = false;
-        this.pargination = new Pargination(response?.data?.data?.p, response?.data?.data?.to, response?.data?.data?.last_page, response?.data?.data?.total, response?.data?.data?.per_page, response?.data?.data?.current_page, (response?.data?.data?.current_page - 1) * this.pargination?.per_page + 1);
+        this.pargination = new Pargination(response?.data?.p, response?.data?.to, response?.data?.last_page, response?.data?.total, response?.data?.per_page, response?.data?.current_page, (response?.data?.current_page - 1) * this.pargination?.per_page + 1);
         this.spinner = false;
         this.stateAchatProduitsService.setCurrentPageAchatProduitsState(this.urlParamCurrentPage);
         this.stateAchatProduitsService.setFilterAchatProduitsState(this.urlParamFilter);
@@ -155,25 +155,43 @@ export class DetailsAchatProduitsComponent implements OnInit {
 
     public getEtapeBadge(data: any): string {
         switch (data?.statut) {
-            case BADGE_ETAPE.SOUMISSION: return "badge-dark";
-            case BADGE_ETAPE.TRAITEMENT: return "badge-warning";
+          case BADGE_ETAPE.SOUMISSION: return "badge-dark";
+          case BADGE_ETAPE.TRAITEMENT: return "badge-warning";
+          case BADGE_ETAPE.FINALISATEUR: return "badge-info";
+          case BADGE_ETAPE.CLOTURE: return "badge-success";
         }
-    }
+      }
 
     public getEtatBadge(data: any): string {
         switch (data?.statut) {
-            case BADGE_ETAPE.SOUMISSION:
-                if (data?.traitement === BADGE_ETAT.EN_COURS) return "badge-warning";
-                if (data?.traitement === BADGE_ETAT.RECU) return "badge-dark";
-                if (data?.traitement === BADGE_ETAT.EN_ATTENTE) return "badge-dark";
-                break;
-
-            case BADGE_ETAPE.TRAITEMENT:
-                if (data?.traitement === BADGE_ETAT.EN_COURS) return "badge-warning";
-                if (data?.traitement === BADGE_ETAT.TERMINE) return "badge-success";
-                break;
+          case BADGE_ETAPE.SOUMISSION:
+            if (data?.traitement === BADGE_ETAT.EN_ATTENTE) return "badge-dark";
+            if (data?.traitement === BADGE_ETAT.APPROUVE) return "badge-success";
+            if (data?.traitement === BADGE_ETAT.REJETE) return "badge-danger";
+            if (data?.traitement === BADGE_ETAT.EN_COURS) return "badge-warning";
+            if (data?.traitement === BADGE_ETAT.RECU) return "badge-dark";
+            break;
+    
+          case BADGE_ETAPE.TRAITEMENT:
+            if (data?.traitement === BADGE_ETAT.EN_COURS) return "badge-warning";
+            if (data?.traitement === BADGE_ETAT.TERMINE) return "badge-success";
+            break;
+    
+          case BADGE_ETAPE.FINALISATEUR:
+            if (data?.traitement === BADGE_ETAT.EN_ATTENTE) { return "badge-warning"; }
+            if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-warning"; }
+            if (data?.traitement === BADGE_ETAT.LIVRE) { return "badge-primary"; }
+            break;
+    
+          case BADGE_ETAPE.CLOTURE:
+            if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-success"; }
+      if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
+            if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
+            if (data?.traitement === BADGE_ETAT.ABANDONNE) { return "badge-warning"; }
+            if (data?.traitement === BADGE_ETAT.REJETE) { return "badge-danger"; }
+            break;
         }
-    }
+      }
 
     getTchesBoxValues(rapport: Object = {}): void {
         this.statistiquesBox = [

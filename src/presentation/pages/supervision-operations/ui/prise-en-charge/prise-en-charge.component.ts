@@ -192,7 +192,8 @@ export class PriseEnChargeComponent implements OnInit {
         break;
 
       case BADGE_ETAPE.CLOTURE:
-        if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
+        if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-success"; }
+  if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
         if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
         if (data?.traitement === BADGE_ETAT.ABANDONNE) { return "badge-warning"; }
         if (data?.traitement === BADGE_ETAT.REJETE) { return "badge-danger"; }

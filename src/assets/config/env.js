@@ -12,18 +12,25 @@
  
     // DEV Config
     window.__env.dev = {
-        verifyIdentityDocumentUrl: 'http://10.10.0.200:48013/',
-        // apiUrl: 'http://10.10.0.200:12200/api/v1/',
-        // fileUrl: 'http://10.10.0.200:12200/',
-        //apiUrl: "http://10.10.0.30:8003/api/v1/",
-        //fileUrl: "http://10.10.0.30:8003/", 
-        apiUrl: "http://10.10.70.64:8001/api/v1/",
-        fileUrl: "http://10.10.70.64:8001/",
+        // verifyIdentityDocumentUrl: 'http://10.10.0.200:48013/',
+        // verifyIdentityDocumentUrl: "http://10.10.0.53:5000/",
+        // verifyIdentityDocumentUrl: 'https://osim-monitoring.orange.ci:8013/',
+        verifyIdentityDocumentUrl: "https://sim-monitoring.cateli.io:8013/",
+        apiUrl: 'http://10.10.0.200:12555/api/v1/',
+        fileUrl: 'http://10.10.0.200:12555/',
+        // apiUrl: "http://10.10.0.30:8003/api/v1/",
+        // fileUrl: "http://10.10.0.30:8003/", 
+        // apiUrl: "https://sim-monitoring.cateli.io:12555/api/v1/",
+        // fileUrl: "https://sim-monitoring.cateli.io:12555/",
+        // apiUrl: "http://10.10.70.64:8002/api/v1/",
+        // fileUrl: "http://10.10.70.64:8002/", 
+        // apiUrl: "https://osim-monitoring.orange.ci:12555/api/v1/",
+        // fileUrl: "https://osim-monitoring.orange.ci:12555/",
         //apiUrl:"https://gs2e-osim.orange.ci:12300/api/v1/",
         //fileUrl:"https://gs2e-osim.orange.ci:12300/",
 
-         //apiUrl: "https://osim-monitoring.orange.ci:12014/api/v1/",
-         //fileUrl: "https://osim-monitoring.orange.ci:12014/", 
+        //  apiUrl: "https://osim-monitoring.orange.ci:12400/api/v1/",
+        //  fileUrl: "https://osim-monitoring.orange.ci:12400/", 
         environmentDeployment: 'DEV',
         enableDebug: true
     };

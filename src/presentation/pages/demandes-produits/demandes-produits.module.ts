@@ -13,9 +13,7 @@ import { SharedModule } from 'src/shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TableAchatProduitsComponent } from './feature/table-achat-produits/table-achat-produits.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormAchatProduitsComponent } from './feature/form-achat-produits/form-achat-produits.component';
-import { CommonModule } from '@angular/common';
 import { FilterDetailsAchatProduitsComponent } from './feature/details-achat-produits/feature/filter-details-achat-produits/filter-details-achat-produits.component';
 import { TableDetailsAchatProduits } from './feature/details-achat-produits/feature/table-details-achat-produits/table-details-achat-produits.component';
 import { DetailsAchatProduitsComponent } from './feature/details-achat-produits/details-achat-produits.component';
@@ -28,10 +26,9 @@ import { DetailsAchatProduitsComponent } from './feature/details-achat-produits/
     FilterDetailsAchatProduitsComponent,
     TableDetailsAchatProduits,
     ],
-    imports: [  CommonModule, SharedModule, DemandesProduitsRoutingModule, SharedModule, NgxPaginationModule,
+    imports: [ SharedModule, DemandesProduitsRoutingModule, NgxPaginationModule,
                 NgxPaginationModule,
                 NgxCaptchaModule,
-                FormsModule, ReactiveFormsModule
             ],
     providers: [DemandesProduitsService, 
         StateAchatProduitsService,

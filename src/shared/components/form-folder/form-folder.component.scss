@@ -1,0 +1,160 @@
+:host ::ng-deep .p-inputnumber {
+    width: 21.6rem !important;
+}
+:host ::ng-deep p-dropdown.ng-dirty.ng-invalid > .p-dropdown {
+    border-color: #ced4da !important;
+}
+textarea {
+    resize: none;
+}
+
+:host ::ng-deep {
+    .p-dropdown {
+        width: 100% !important;
+    }
+    .padding-bottom-lignes {
+        padding-bottom: 30px !important;
+    }
+}
+.ngx-datatable.bootstrap
+    .datatable-header
+    .datatable-header-cell
+    .datatable-header-cell-label {
+    font-weight: 800;
+}
+
+hr {
+    background-color: #000;
+    padding: 0;
+}
+
+hr.hr-1 {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.75),
+        rgba(0, 0, 0, 0)
+    );
+}
+
+.mt-10 {
+    margin-top: 10px !important;
+}
+
+fieldset {
+    width: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+%messageAlert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 2px solid transparent;
+    border-radius: 0.25rem;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    strong {
+        font-size: 18px;
+    }
+}
+
+.detailsDemandeColorBlue {
+    @extend %messageAlert;
+    background-color: #e0f2f7;
+    color: #01a9db;
+    border-color: #e0f2f7;
+}
+
+.detailsDemandeColorYellow {
+    @extend %messageAlert;
+    background-color: #faedc4;
+    color: #c79807;
+    border-color: #faedc4;
+}
+
+.detailsDemandeColorRed {
+    @extend %messageAlert;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.detailsDemandeColorGreen {
+    @extend %messageAlert;
+    background-color: #c8e6c9;
+    color: #256029;
+    border-color: #c8e6c9;
+}
+
+.detailsDemandeColorBlack {
+    @extend %messageAlert;
+    background-color: #a4b0be;
+    color: #000;
+    border-color: #a4b0be;
+}
+
+.style100 {
+    @extend %messageAlert;
+    background-color: #e0f2f7;
+    color: #01a9db;
+    border-color: #e0f2f7;
+}
+.styleOrange {
+    @extend %messageAlert;
+    background-color: #faedc4;
+    color: #c79807;
+    border-color: #faedc4;
+}
+.style200 {
+    @extend %messageAlert;
+    background-color: #c8e6c9;
+    color: #256029;
+    border-color: #c8e6c9;
+}
+.styledefault {
+    @extend %messageAlert;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+input[type='text']:disabled {
+    background-color: #ecf0f1;
+}
+.container-button-telecharger {
+    border: 2px solid #d0d3da;
+    border-radius: 5%;
+    height: 65%;
+}
+.form-check-label,
+.form-check-inline {
+    margin-bottom: 0 !important;
+}
+.block-checked {
+    height: 4rem;
+    border: 1px solid #d0d3da;
+    border-radius: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    input {
+        width: 25px;
+        height: 25px;
+        cursor: pointer !important;
+        border: 1px solid black;
+    }
+    label {
+        font-size: 25px;
+        margin-left: 0.5rem;
+    }
+}
+::-webkit-input-placeholder,
+.p-dropdown .p-dropdown-label.p-placeholder {
+    color: #776d6d !important;
+}

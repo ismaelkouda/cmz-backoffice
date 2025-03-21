@@ -2,7 +2,6 @@ import { DetectionApproComponent } from './ui/detection-appro/detection-appro.co
 import { AnalyseRejetComponent } from './ui/analyse-rejet/analyse-rejet.component';
 import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { AnalyseAlerteRoutingModule } from './analyse-alerte-routing.module';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -13,7 +12,6 @@ import { SoldesSimComponent } from './ui/soldes-sim/soldes-sim.component';
 
 @NgModule({
   imports: [
-    CommonModule,
     SharedModule,
     AnalyseAlerteRoutingModule,
     NgxPaginationModule,

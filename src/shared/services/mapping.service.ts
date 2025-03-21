@@ -8,6 +8,8 @@ import { EndPointUrl } from '../enum/api.enum';
 import { OperationTransaction } from '../enum/OperationTransaction.enum';
 import { EnvService } from './env.service';
 
+export type AccessFeature = ["solde-data", "solde-sms", "identification", "activation"]
+
 @Injectable({
   providedIn: 'root'
 })
@@ -46,7 +48,13 @@ export class MappingService {
   public ligneCreditGlobal$ = this._ligneCreditSource.asObservable();
   public dashbordTransactionSLa: string;
   public notifications: number
-
+  public currentVariables: any;
+  public analyseAlarmeNormales: any;
+  public analyseAlarmeMineures: any;
+  public analyseAlarmeMajeures: any;
+  public analyseAlarmeCritiques: any;
+  public analyseAlarmeGenerees: any;
+  public getAccessFeature: AccessFeature;
   constructor(
     private storage: EncodingDataService,
     private storeLocaleService: StoreLocaleService,
@@ -54,11 +62,24 @@ export class MappingService {
     private envService: EnvService
 
   ) {
+    
+    this.currentVariables = JSON.parse(this.storage.getData('variables') || null);
+    this.grafanaLink = this.currentVariables?.dashboardGrafana;
+    this.approLink = this.currentVariables?.dashboardAppro;
+    this.detectionApproUrl = this.currentVariables?.dashboardAppro;
+    this.rejetLink = this.tenant?.lien_dashboard_rejets;
+    this.analyseAlarmeNormales = this.currentVariables?.analyseAlarmeNormales;
+    this.analyseAlarmeMineures = this.currentVariables?.analyseAlarmeMineures;
+    this.analyseAlarmeMajeures = this.currentVariables?.analyseAlarmeMajeures;
+    this.analyseAlarmeCritiques = this.currentVariables?.analyseAlarmeCritiques;
+    this.analyseAlarmeGenerees = this.currentVariables?.analyseAlarmeGenerees;
+    this.getAccessFeature = this.currentVariables?.modules; 
     this.sourceStockTenantSim = this.envService.messageApp.sourceStockTenantSim;
     this.sourceStockOrangeSim = this.envService.messageApp.sourceStockOrangeSim;
     this.sourceSoldeDotation = this.envService.messageApp.sourceSoldeDotation;
     this.sourceSoldeDotationOrange = this.envService.messageApp.sourceSoldeDotationOrange;
     this.storeLocaleService.tenantData$.subscribe((res: any) => {
+
       this.currentUser = res ?? JSON.parse(this.storage.getData('user') || null);
       this.baseUrl = `${this.currentUser?.tenant?.url_backend}/api/v1/`
       this.fileUrl = `${this.currentUser?.tenant?.url_minio}/`
@@ -68,10 +89,6 @@ export class MappingService {
       this.tenant = this.currentUser?.tenant;      
       this.structureGlobale = this.currentUser?.structure_organisationnelle;
       this.logoTenant = `${this.fileUrl}${this.tenant?.logo_tenant}`;
-      this.grafanaLink = this.tenant?.lien_dashboard_grafana;
-      this.approLink = this.tenant?.lien_dashboard_appro;
-      this.rejetLink = this.tenant?.lien_dashboard_rejets;
-      this.detectionApproUrl = this.tenant?.url_detection_appro
       this.profil = this.currentUser?.profil;
       this.appReadStatut = this.profil?.mode_lecture;
       this.dashbordTransactionSLa = this.tenant?.url_demandes_sla;
@@ -101,9 +118,9 @@ export class MappingService {
             item !== OperationTransaction.VOLUME_DATA
             );
       }
-      if (this.currentUser !== null) {
-        this.GetAllPortefeuilleSecond(this.baseUrl)
-      }
+      // if (this.currentUser !== null) {
+      //   this.GetAllPortefeuilleSecond(this.baseUrl)
+      // }
     });
     this.storeLocaleService._permissions$.subscribe((res: any) => {
       this.currentPermissions = res ?? JSON.parse(this.storage.getData('current_menu') || null);
@@ -126,18 +143,18 @@ export class MappingService {
         }
       });
   }
-  public GetAllPortefeuilleSecond(uri: string) {
-    const url: string = (<string>EndPointUrl.GET_ALL_PORTEFEUILLE);
-    this.http.get(`${uri}${url}`)
-      .subscribe({
-        next: (res) => {
-          this._volumeDataGlobalSource.next(res['data']?.filter((item: any) => { return item.type === 'volume-data' })[0].solde);
-          this._ligneCreditSource.next(res['data']?.filter((item: any) => { return item.type === 'ligne-credit' })[0].solde);
-        },
-        error: (err) => {
-        }
-      });
-  }
+  // public GetAllPortefeuilleSecond(uri: string) {
+  //   const url: string = (<string>EndPointUrl.GET_ALL_PORTEFEUILLE);
+  //   this.http.get(`${uri}${url}`)
+  //     .subscribe({
+  //       next: (res) => {
+  //         this._volumeDataGlobalSource.next(res['data']?.filter((item: any) => { return item.type === 'volume-data' })[0].solde);
+  //         this._ligneCreditSource.next(res['data']?.filter((item: any) => { return item.type === 'ligne-credit' })[0].solde);
+  //       },
+  //       error: (err) => {
+  //       }
+  //     });
+  // }
 
   statutContrat(statut: string): any {
     switch (statut) {

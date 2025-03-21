@@ -1,14 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LoadingBarService } from '@ngx-loading-bar/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { ListCommuneService } from 'src/shared/services/list-commune.service';
-import { MappingService } from 'src/shared/services/mapping.service';
-import { SettingService } from 'src/shared/services/setting.service';
-import { handle } from 'src/shared/functions/api.function';
-import { SimStatut } from 'src/shared/enum/SimStatut.enum';
-import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
-import { CarteSimStateService } from 'src/presentation/pages/patrimoine/data-access/carte-sim/carte-sim-state.service';
+import { Applicant } from '../../../../../shared/interfaces/applicant';
+import { T_BADGE_ETAPE } from '../../../../../shared/constants/badge-etape.constant';
+import { T_BADGE_ETAT } from '../../../../../shared/constants/badge-etat.contant';
+import { TranslateService } from '@ngx-translate/core';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-carte-filter',
@@ -22,131 +19,88 @@ import { CarteSimStateService } from 'src/presentation/pages/patrimoine/data-acc
     ],
 })
 export class CarteFilterComponent implements OnInit {
-    public secondFilter: boolean = false;
-    @Output() filter = new EventEmitter<{}>();
-    @Input() firstLevelLibelle: string;
-    @Input() secondLevelLibelle: string;
-    @Input() thirdLevelLibelle: string;
-    @Input() filterData: Object;
-    public formFilter: FormGroup;
-    public listFirstLeveDatas: Array<any> = [];
-    public listSecondLevelDatas: Array<any> = [];
-    public listAPN: Array<any> = [];
-    public listStatuts: Array<any> = [];
-    public listThirdLevelDatas: Array<any> = [];
-    public listUsages: Array<any> = [];
-    private response: any = {};
-    public listFormule: any = [];
 
-    constructor(private fb: FormBuilder, private listCommuneService: ListCommuneService,
-        public mappingService: MappingService, public settingService: SettingService,
-        private toastrService: ToastrService, private loadingBar: LoadingBarService,
-        private patrimoineService: PatrimoineService, private carteSimStateService: CarteSimStateService
-    ) {
-        this.listStatuts = [
-            SimStatut.ACTIF,
-            SimStatut.SUSPENDU,
-            SimStatut.RESILIE,
-        ];
-    }
+    @Input() filterData: Object;
+    @Input() listApplicants$: Array<Applicant> = [];
+    @Input() listStepSimCard: Array<T_BADGE_ETAPE> = [];
+    @Input() listStateSimCard: Array<T_BADGE_ETAT> = [];
+
+    @Output() filter = new EventEmitter<{}>();
+
+    public formFilter: FormGroup<any>;
+    public secondFilter: boolean = false;
+
+    constructor(private fb: FormBuilder, private translate: TranslateService,
+        private toastService: ToastrService,
+    ) { }
 
     ngOnInit(): void {
         this.initFormFilter();
-        this.GetAllFirstLevel();
-        this.GetAllThirdLevel();
-        this.GetAllUsages();
-        this.GetAllFormules();
-        this.onChangeAPNValue();
-    }
-
-    async GetAllFirstLevel() {
-        this.response = await handle(() => this.settingService.GetAllFirstLevelSimple({}), this.toastrService, this.loadingBar);
-        if (this.response?.data) this.handleSuccessfulFirstLevel(this.response);
-    }
-
-    async GetAllThirdLevel() {
-        this.response = await handle(() => this.settingService.GetAllThirdSimple({}), this.toastrService, this.loadingBar);
-        if (this.response?.data) this.handleSuccessfulThirdLevel(this.response);
-    }
-
-    async GetAllUsages() {
-        this.response = await handle(() => this.patrimoineService.GetAllUsages({}), this.toastrService, this.loadingBar);
-        if (this.response?.data) this.handleSuccessfulUsages(this.response);
-    }
-
-    async GetAllFormules() {
-        this.response = await handle(() => this.settingService.GetAllFormules({}), this.toastrService, this.loadingBar);
-        if (this.response?.data) this.handleSuccessfulFormules(this.response);
-    }
-
-    private handleSuccessfulFirstLevel(response): void {
-        this.listFirstLeveDatas = response['data'].map((element) => { return { ...element, fullName: `${element.nom}` } });
-    }
-
-    private handleSuccessfulThirdLevel(response): void {
-        this.listThirdLevelDatas = response['data'];
-    }
-
-    private handleSuccessfulUsages(response): void {
-        this.listUsages = response['data'];
-    }
-
-    private handleSuccessfulFormules(response): void {
-        this.listFormule = response['data'];
-    }
-
-    public initFormFilter() {
-        // const filterState = this.carteSimStateService.getFilterState();
-        this.formFilter = this.fb.group({
-            niveau_un_uuid: [this.filterData?.['niveau_un_uuid'] ?? null],
-            niveau_deux_uuid: [this.filterData?.['niveau_deux_uuid'] ?? null],
-            statut: [this.filterData?.['statut'] ?? history?.state?.statut],
-            msisdn: [this.filterData?.['msisdn'] ?? null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
-            imsi: [this.filterData?.['imsi'] ?? null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
-            adresse_ip: [this.filterData?.['adresse_ip'] ?? null],
-            usage_id: [this.filterData?.['usage_id'] ?? null],
-            apn: [this.filterData?.['apn'] ?? null],
-            niveau_trois_uuid: [this.filterData?.['niveau_trois_uuid'] ?? null],
-            formule_uuid: [this.filterData?.['formule_uuid'] ?? null],
-            zone_trafic: [this.filterData?.['zone_trafic'] ?? null],
-            point_emplacement: [this.filterData?.['point_emplacement'] ?? null],
-        });
-        this.formFilter.get("msisdn").valueChanges.subscribe((value) => {
-            if (value && value.length > 10) {
-                this.formFilter.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
-            }
-        });
-        this.formFilter.get("imsi").valueChanges.subscribe((value) => {
-            if (value && value.length > 15) {
-                this.formFilter.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
-            }
-        });
-    }
-
-    public onChangeFirstLvel(uuid: any) {
-        this.listSecondLevelDatas = [];
-        this.listFirstLeveDatas.find((element) => {
-            if (element.uuid === uuid) this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
-        });
-    }
-
-    public onChangeAPNValue() {
-        this.settingService.GetAllAPN({}).subscribe({
-            next: (response) => {
-                this.listAPN = response["data"];
-                console.log('this.listAPN', this.listAPN)
-            },
-            error: (error) => {
-                this.toastrService.error(error.message);
-            },
-        })
     }
 
     public showSecondFilter() {
         this.secondFilter = !this.secondFilter;
     }
 
-    public onSubmitFilterForm() {
-        this.filter.emit(this.formFilter.value);
+    public initFormFilter() {
+        this.formFilter = this.fb.group<any>({
+            initie_par: new FormControl<string>(this.filterData?.["initie_par"] ?? null, { nonNullable: true }),
+            numero_demande: new FormControl<string>(this.filterData?.["numero_demande"] ?? null, { nonNullable: true }),
+            transaction: new FormControl<string>(this.filterData?.["transaction"] ?? null, { nonNullable: true }),
+            statut: new FormControl<string>(this.filterData?.["statut"] ?? null, { nonNullable: true }),
+            traitement: new FormControl<string>(this.filterData?.["traitement"] ?? null, { nonNullable: true }),
+            msisdn: new FormControl<string>(this.filterData?.["msisdn"] ?? null,
+                {
+                    nonNullable: true,
+                    validators: [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]
+                }
+            ),
+            imsi: new FormControl<string>(this.filterData?.["imsi"] ?? null,
+                {
+                    nonNullable: true,
+                    validators: [Validators.required, Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]
+                }
+            ),
+            date_debut: new FormControl<string>(this.filterData?.["date_debut"] ?? null, { nonNullable: true }),
+            date_fin: new FormControl<string>(this.filterData?.["date_fin"] ?? null, { nonNullable: true }),
+        });
+        this.formFilter.get("imsi")?.valueChanges.subscribe((value) => {
+            if (value && value.length > 15) {
+                this.formFilter.get("imsi")?.setValue(value.slice(0, 15), { emitEvent: false });
+            }
+        });
+        this.formFilter.get("msisdn")?.valueChanges.subscribe((value) => {
+            if (value && value.length > 10) {
+                this.formFilter.get("msisdn")?.setValue(value.slice(0, 10), { emitEvent: false });
+            }
+        });
+    }
+
+    public onSubmitFilterForm(): void {
+        const date_debut = moment(this.formFilter.get("date_debut")?.value).isValid()
+            ? this.formFilter.get("date_debut")?.value
+            : null;
+        const date_fin = moment(this.formFilter.get("date_fin")?.value).isValid()
+            ? this.formFilter.get("date_fin")?.value
+            : null;
+
+        if (date_debut && date_fin && moment(date_debut).isAfter(moment(date_fin))) {
+            const INVALID_DATE_RANGE = this.translate.instant('INVALID_DATE_RANGE');
+            this.toastService.error(INVALID_DATE_RANGE);
+            return;
+        }
+
+        const filterData = {
+            ...this.formFilter.value,
+            date_debut: date_debut ? moment(date_debut).format('YYYY-MM-DD') : '',
+            date_fin: date_fin ? moment(date_fin).format('YYYY-MM-DD') : ''
+        };
+
+        if (this.formFilter.valid) {
+            this.filter.emit(filterData);
+        } else {
+            const translatedMessage = this.translate.instant('FORM_INVALID');
+            this.toastService.success(translatedMessage);
+        }
     }
 }

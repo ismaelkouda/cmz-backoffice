@@ -40,5 +40,6 @@ export interface WhiteSimCard {
     nb_numeros_utilises: number;
     created_at: string;
     updated_at: string;
-    carteSims: WhiteSimCard[];
+    numero_demande: string;
+    carte_sims: WhiteSimCard[];
   }

@@ -257,12 +257,13 @@
                                 </div>
                             </p-tabPanel>
                             <p-tabPanel header="HISTORIQUE">
-                                <app-historique
-                                    *ngIf="currentTabsIndex === 1"
-                                    [module]="'STRUCTURE ORGANISATIONNELLE'"
-                                    [sous_module]="'NIVEAU TROIS'"
-                                >
-                                </app-historique>
+                                <ng-container *ngIf="currentTabsIndex === 1">
+                                    <app-history
+                                        [typeModel]="'niveau_trois'"
+                                        [idModel]="simCardSelectedDetails?.id"
+                                    >
+                                    </app-history>
+                                </ng-container>
                             </p-tabPanel>
                         </p-tabView>
                     </div>

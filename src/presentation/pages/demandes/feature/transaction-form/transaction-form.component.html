@@ -3,53 +3,36 @@
         <div class="d-flex gap-2">
             <div>
                 <h3 class="current-transaction-label">
-                    <b>
-                        <span class="current_values" *ngIf="
-                                selectedActionValue !== activation &&
-                                selectedActionValue &&
-                                typeDemande === 'simple'
-                            ">[{{
-                            getFormattedMsisdn(
-                            currentPatrimoine?.msisdn ?? '0000000000'
-                            )
-                            }}]</span>
-                    </b>
-                    <span *ngIf="typeDemande === 'masse'">Demande d'Abonnement en masse de carte SIM</span>
-                    <span class="current_values" *ngIf="
-                            selectedActionValue !== activation &&
-                            selectedActionValue &&
-                            typeDemande === 'simple'
-                        ">[{{
-                        getFormattedMsisdn(
-                        currentPatrimoine?.msisdn ?? '0000000000'
-                        )
-                        }}]</span>
+                    <span *ngIf="typeDemande === 'activation-en-masse'"
+                        >Demande d'Abonnement en masse de carte SIM</span
+                    >
+                    <span *ngIf="typeDemande === 'activation-en-simple'"
+                        >Demande d'Abonnement simple de carte SIM</span
+                    >
                 </h3>
             </div>
-            <div class="d-flex gap-2" style="margin-top: -0.5rem" *ngIf="selectedActionValue === volume">
+            <!-- <div class="d-flex gap-2" style="margin-top: -0.5rem" *ngIf="selectedActionValue === volume">
                 <div class="box-card">
                     <span class="title">Dotation Data (Go) :</span>
                     <span class="valeur">
-                        <span>{{
-                            currentPatrimoine?.solde_dotation ?? 0
-                            | formatNumber: 2
-                            }}</span>
+                        <span>{{currentPatrimoine?.solde_dotation ?? 0 | formatNumber: 2}}</span>
                     </span>
                 </div>
                 <div class="box-card">
                     <span class="title">Solde Data (Go) :</span>
                     <span class="valeur">
-                        <span>{{
-                            currentPatrimoine?.solde_actuel_go ?? 0
-                            | formatNumber: 2
-                            }}</span>
+                        <span>{{currentPatrimoine?.solde_actuel_go ?? 0 | formatNumber: 2}}</span>
                     </span>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="forms-feature-header__button">
             <div>
-                <p-button label="Fermer" styleClass="p-button-danger" (click)="close()"></p-button>
+                <p-button
+                    label="Fermer"
+                    styleClass="p-button-danger"
+                    (click)="close()"
+                ></p-button>
             </div>
         </div>
     </div>
@@ -602,146 +585,79 @@
         </div>
     </div> -->
 
-    <div *ngIf="typeDemande === 'masse'">
-        <div class="activation-forms" *ngIf="this.router.url === '/demandes/activation'">
+    <div>
+        <div
+            class="activation-forms"
+            *ngIf="
+                typeDemande === 'activation-en-masse' || 'activation-en-simple'
+            "
+        >
             <div [formGroup]="adminForm" novalidate>
-                <!-- <fieldset *ngIf="historie">
-                    <legend>
-                        <b>Informations d'identification</b>
-                    </legend>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>
-                                    <b>{{ firstLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
-                                </label>
-                                <input type="text" formControlName="niveau_un_uuid" pInputText />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>
-                                    <b>{{ secondLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
-                                </label>
-                                <input type="text" formControlName="niveau_deux_uuid" pInputText />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>
-                                    <b>{{ thirdLevelLibelle
-                                        }}<span class="text-danger">*</span></b>
-                                </label>
-                                <input type="text" formControlName="niveau_trois_uuid" pInputText />
-                            </div>
-                        </div>
-                    </div>
-                </fieldset> -->
-                <!-- <fieldset>
-                    <legend>
-                        <b>Paiement</b>
-                    </legend>
-                    <div class="d-flex gap-4">
-                        <div class="d-flex align-items-end flex-wrap" style="padding-right: 0; width: 25%;">
-                            <div class="block-checked-stock-source">
-                                <div style="padding-left: 5px"
-                                    class="d-flex justify-content-between align-items-center wrapper-check">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="paiement"
-                                            value="différé" formControlName="type_paiement" #differe />
-                                            <label class="form-check-label" for="differe"
-                                                style="width: auto !important">Différé</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="paiement"
-                                            value="stock local" formControlName="type_paiement" #immediat />
-                                        <label class="form-check-label" for="immediat" style="width: auto !important">
-                                            <strong>Immédiat</strong>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="padding-left: 0; width: 70%;" *ngIf="differe.checked">
-                            <input type="text" pInputText disabled 
-                                value="Le paiement sera rattaché à la prochaine facture"/>
-                        </div>
-                        <div style="padding-left: 0; width: 70%;" *ngIf="immediat.checked">
-                            <input type="file" accept="image/png,image/jpeg"
-                                    style="padding: 0.rem; border: 1px solid #000;
-                                    border-radius: 0.3rem; color: #000;"
-                                (change)="onChangeFile($event.target.files, 'recu-paiement')"/>
-                        </div>
-                    </div>
-                </fieldset> -->
                 <fieldset>
                     <legend><b>Stock source de carte SIM</b></legend>
-                    <div class="row"
-                        style="padding-right: 0; padding-left: 3px; display: flex; gap: 4px; flex-wrap: nowrap;">
-                        <div class="col-md-3 d-flex justify-content-around gap-2"
-                            style="border: 1px solid #ced4da; height: 3.6rem; border-radius: 6px;">
+                    <div
+                        class="row"
+                        style="
+                            padding-right: 0;
+                            padding-left: 3px;
+                            display: flex;
+                            gap: 4px;
+                            flex-wrap: nowrap;
+                        "
+                    >
+                        <div
+                            class="col-md-3 d-flex justify-content-around gap-2"
+                            style="
+                                border: 1px solid #ced4da;
+                                height: 3.6rem;
+                                border-radius: 6px;
+                            "
+                        >
                             <div
-                                class="d-flex align-items-center justify-content-around gap-2 form-check form-check-inline p-0 m-0">
-                                <input class="form-check-input" type="radio" name="stock_source" value="stock orange"
-                                    id="stock_orange" formControlName="source" #stock_orange
-                                    style="width: 25px; height: 25px;" />
-                                <label class="form-check-label fs-5" for="stock_orange" style="width: inherit;">
-                                    <strong>Stock orange</strong>
+                                class="d-flex align-items-center justify-content-around gap-2 form-check form-check-inline p-0 m-0"
+                            >
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="stock_source"
+                                    value="stock orange"
+                                    id="stock_orange"
+                                    formControlName="source"
+                                    #stock_orange
+                                    style="width: 25px; height: 25px"
+                                />
+                                <label
+                                    class="form-check-label fs-5"
+                                    for="stock_orange"
+                                    style="width: inherit"
+                                >
+                                    <strong>Stock Orange</strong>
                                 </label>
                             </div>
                             <div
-                                class="d-flex align-items-center justify-content-around gap-2 form-check form-check-inline p-0 m-0">
-                                <input class="form-check-input" type="radio" name="stock_source" value="stock local"
-                                    id="mon_stock" formControlName="source" #mon_stock
-                                    style="width: 25px; height: 25px;" />
-                                <label class="form-check-label fs-5" for="mon_stock">
+                                class="d-flex align-items-center justify-content-around gap-2 form-check form-check-inline p-0 m-0"
+                            >
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="stock_source"
+                                    value="stock local"
+                                    id="mon_stock"
+                                    formControlName="source"
+                                    #mon_stock
+                                    style="width: 25px; height: 25px"
+                                />
+                                <label
+                                    class="form-check-label fs-5"
+                                    for="mon_stock"
+                                >
                                     <strong>Mon stock</strong>
                                 </label>
                             </div>
                         </div>
-                        <div class="col-md-9" style="padding-right: 10px" *ngIf="stock_orange.checked">
-                            <input type="text" pInputText value="Orange fournira les cartes SIM" disabled />
-                        </div>
-                        <div class="col-md-9" style="padding-right: 10px; display: flex; flex-wrap: nowrap; gap: 4px;"
-                            *ngIf="mon_stock.checked">
-                            <input type="text" pInputText
-                                value="L'abonnement sera effectué sur les cartes SIM en ma possession" disabled />
-                            <button pButton label="Lot" class="p-button-success" (click)="showDialog()"></button>
-                        </div>
-                    </div>
-                    <!-- <div class="d-flex gap-4">
-                        <div class="d-flex align-items-end flex-wrap" style="padding-right: 0; width: 25%">
-                            <div class="block-checked-stock-source">
-                                <div style="padding-left: 5px"
-                                    class="d-flex justify-content-between 
-                                    align-items-center wrapper-check">
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio"
-                                            name="stock_source" value="stock orange"
-                                            formControlName="source" #stock_orange 
-                                        />
-                                        <label class="form-check-label" for="stock_orange"
-                                            style="width: auto !important">
-                                            <strong>Stock orange</strong>
-                                        </label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio"
-                                            name="stock_source" value="stock local"
-                                            formControlName="source" #mon_stock
-                                        />
-                                        <label class="form-check-label" for="mon_stock"
-                                            style="width: auto !important">
-                                            <strong>Mon stock</strong>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div
-                            style="padding-left: 0; width: 75%"
+                            class="col-md-9"
+                            style="padding-right: 10px"
                             *ngIf="stock_orange.checked"
                         >
                             <input
@@ -751,168 +667,290 @@
                                 disabled
                             />
                         </div>
-                        <div style="padding-left: 0; width: 65%;" *ngIf="mon_stock.checked">
-                            <input type="text" pInputText disabled
+                        <div
+                            class="col-md-9"
+                            style="
+                                padding-right: 10px;
+                                display: flex;
+                                flex-wrap: nowrap;
+                                gap: 4px;
+                            "
+                            *ngIf="mon_stock.checked"
+                        >
+                            <input
+                                type="text"
+                                pInputText
+                                disabled
                                 value="L'abonnement sera effectué sur les cartes SIM en ma possession"
                             />
-                            <button pButton label="Lot" class="p-button-success"></button>
+                            <button
+                                style="width: 15rem"
+                                icon="pi pi-plus"
+                                pButton
+                                label="Prendre lots"
+                                class="p-button-success"
+                                (click)="showDialog()"
+                            ></button>
                         </div>
-                    </div> -->
-                    <!-- <div class="row" *ngIf="mon_stock.checked">
-                        <app-form-masse style="padding-bottom: 10px !important" class="col-md-12 d-flex align-items-end"
-                            [typeOperation]="'demande-masse'" [fileModel]="fileModel"
-                            (dataToSend)="pushCurrentArrayForm($event)" [currentArrayHeaders]="currentArrayHeaders"
-                            (downloadModel)="onDownloadModel($event)" [formMasseLibelle]="formMasseLibelle"
-                            [libelleFile]="libelleFile">
-                        </app-form-masse>
-                    </div> -->
+                    </div>
                 </fieldset>
-                <fieldset *ngIf="selectedActionValue">
+
+                <fieldset>
                     <legend><strong>Informations demande</strong></legend>
                     <div class="row">
                         <div class="col-md">
                             <div class="form-group">
-                                <label><b>Nombre</b><span class="text-danger">*</span></label>
-                                <input placeholder="nombre" formControlName="nb_demandes" type="number" pInputText />
+                                <label
+                                    ><b>Nombre</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    placeholder="nombre"
+                                    formControlName="nb_demandes"
+                                    type="number"
+                                    pInputText
+                                    style="font-size: 15px !important"
+                                />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label><b>Usage<span class="text-danger">*</span></b></label>
-                                <p-dropdown [options]="listUsages" formControlName="usage_id" optionLabel="nom_usage"
-                                    placeholder="usage" optionValue="id" [showClear]="true">
+                                <label
+                                    ><b
+                                        >Usage<span class="text-danger"
+                                            >*</span
+                                        ></b
+                                    ></label
+                                >
+                                <p-dropdown
+                                    [options]="listUsages"
+                                    formControlName="usage_id"
+                                    optionLabel="nom_usage"
+                                    placeholder="usage"
+                                    optionValue="id"
+                                    [showClear]="true"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label><b>Formule d'abonnement<span class="text-danger">*</span></b></label>
-                                <p-dropdown [options]="listFormules" formControlName="formule_uuid" optionLabel="nom"
-                                    [placeholder]="'Formule destination'" [showClear]="true" optionValue="uuid">
+                                <label
+                                    ><b
+                                        >Formule d'abonnement<span
+                                            class="text-danger"
+                                            >*</span
+                                        ></b
+                                    ></label
+                                >
+                                <p-dropdown
+                                    [options]="listFormules"
+                                    formControlName="formule_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="'Formule destination'"
+                                    [showClear]="true"
+                                    optionValue="uuid"
+                                >
                                 </p-dropdown>
                             </div>
                         </div>
                         <div class="col-md-1">
                             <div class="form-group">
-                                <label>
-                                    <b>PU (Fcfa)</b>
-                                </label>
-                                <input formControlName="prix_unitaire" type="number" pInputText
-                                    style="font-size: 15px !important" />
+                                <label><b>PU (Fcfa)</b></label>
+                                <input
+                                    formControlName="prix_unitaire"
+                                    type="number"
+                                    pInputText
+                                    style="font-size: 15px !important"
+                                />
                             </div>
                         </div>
                         <div class="col-md">
                             <div class="form-group">
-                                <label>
-                                    <b>Montant (Fcfa)</b>
-                                </label>
-                                <input formControlName="montant" type="number" pInputText
-                                    style="font-size: 15px !important" />
+                                <label><b>Montant (Fcfa)</b></label>
+                                <input
+                                    formControlName="montant"
+                                    type="number"
+                                    pInputText
+                                    style="font-size: 15px !important"
+                                />
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label>
-                                    <b>Courrier ou Document
-                                        <span class="text-danger">*</span></b>
-                                </label>
-                                <input type="file" style="padding: 0.6rem;border: 1px solid #000;
-                                        border-radius: 0.3rem;
-                                        color: #000;
-                                    " (change)="
-                                        onChangeFile(
-                                            $event.target.files,
-                                            'justificatif'
-                                        )
-                                    " accept="image/png,image/jpeg" />
-                            </div>
-                        </div>
-                        <!-- <div class="col-md-4">
-                            <div class="d-flex">
-                                <div>
-                                    <b style="color: black"
-                                        >Paiement
-                                        <span class="text-danger">*</span></b
-                                    >
-                                </div>
-                                <span>&nbsp;:&nbsp;</span>
-                                <div class="wrapper-check block-checked">
-                                    <div class="form-check form-check-inline">
-                                        <input
-                                            class="form-check-input"
-                                            type="radio"
-                                            name="demande"
-                                            value="différé"
-                                            id="différé"
-                                            formControlName="type_paiement"
-                                        />
-                                        <label
-                                            class="form-check-label"
-                                            for="différé"
-                                            style="width: auto !important"
-                                            >Différé</label
-                                        >
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input
-                                            class="form-check-input"
-                                            type="radio"
-                                            name="demande"
-                                            value="immédiat"
-                                            id="immédiat"
-                                            formControlName="type_paiement"
-                                        />
-                                        <label
-                                            class="form-check-label"
-                                            for="immédiat"
-                                            style="width: auto !important"
-                                            >immédiat</label
-                                        >
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                style="
-                                    padding: 0.6rem;
-                                    border: 1px solid #000;
-                                    border-radius: 0.3rem;
-                                    color: #000;
-                                    height: 53px;
-                                "
-                            >
-                                <span
-                                    class="payment-info"
-                                    *ngIf="
-                                        adminForm.get('type_paiement').value ===
-                                        null
-                                    "
-                                >
-                                    <span>N/A</span>
-                                </span>
-                                <span
-                                    *ngIf="
-                                        adminForm.get('type_paiement').value ===
-                                        'différé'
-                                    "
-                                    >Le paiement sera rattaché à la prochaine
-                                    facture</span
+                                <label
+                                    ><b
+                                        >Courrier ou Document<span
+                                            class="text-danger"
+                                            >*</span
+                                        ></b
+                                    ></label
                                 >
                                 <input
-                                    *ngIf="
-                                        adminForm.get('type_paiement').value ===
-                                        'immédiat'
-                                    "
                                     type="file"
+                                    style="
+                                        padding: 0.6rem;
+                                        border: 1px solid #000;
+                                        border-radius: 0.3rem;
+                                        color: #000;
+                                    "
                                     (change)="
                                         onChangeFile(
                                             $event.target.files,
-                                            'recu-paiement'
+                                            'justificatif'
                                         )
                                     "
                                     accept="image/png,image/jpeg"
                                 />
                             </div>
-                        </div> -->
+                        </div>
+                    </div>
+                </fieldset>
+
+                /*************************************************activation-en-simple*****************************************/
+
+                <fieldset *ngIf="typeDemande === 'activation-en-simple'">
+                    <legend>
+                        <b>Informations d'affectation</b>
+                    </legend>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label
+                                    ><b>{{ firstLevelLibelle }}</b></label
+                                >
+                                <p-dropdown
+                                    [options]="listDirections"
+                                    formControlName="niveau_un_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="firstLevelLibelle"
+                                    [filter]="true"
+                                    filterBy="nom"
+                                    optionValue="uuid"
+                                    [showClear]="true"
+                                >
+                                    <ng-template let-data pTemplate="item">
+                                        <div class="country-item">
+                                            <div>{{ data.nom }}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label
+                                    ><b>{{ secondLevelLibelle }}</b></label
+                                >
+                                <p-dropdown
+                                    [options]="listExploitations"
+                                    formControlName="niveau_deux_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="secondLevelLibelle"
+                                    [filter]="true"
+                                    filterBy="nom"
+                                    optionValue="uuid"
+                                    [showClear]="true"
+                                >
+                                    <ng-template let-data pTemplate="item">
+                                        <div class="country-item">
+                                            <div>{{ data.nom }}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label
+                                    ><b>{{ thirdLevelLibelle }}</b></label
+                                >
+                                <p-dropdown
+                                    [options]="listActivites"
+                                    formControlName="niveau_trois_uuid"
+                                    optionLabel="nom"
+                                    [placeholder]="thirdLevelLibelle"
+                                    [filter]="true"
+                                    filterBy="nom"
+                                    optionValue="uuid"
+                                    [showClear]="true"
+                                >
+                                    <ng-template let-data pTemplate="item">
+                                        <div class="country-item">
+                                            <div>{{ data.nom }}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label
+                                    ><b
+                                        >Nom Emplacement<span
+                                            class="text-danger"
+                                            >*</span
+                                        ></b
+                                    ></label
+                                >
+                                <input
+                                    type="text"
+                                    formControlName="point_emplacement"
+                                    pInputText
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label><b>Adresse mail</b></label>
+                                <input
+                                    type="text"
+                                    formControlName="adresse_email"
+                                    pInputText
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label
+                                    ><b
+                                        >Adresse géographique<span
+                                            class="text-danger"
+                                            >*</span
+                                        ></b
+                                    ></label
+                                >
+                                <input
+                                    type="text"
+                                    formControlName="adresse_geographique"
+                                    pInputText
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label><b>Latitude</b></label>
+                                <input
+                                    type="text"
+                                    formControlName="latitude"
+                                    pInputText
+                                />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label><b>Longitude</b></label>
+                                <input
+                                    type="text"
+                                    formControlName="longitude"
+                                    pInputText
+                                />
+                            </div>
+                        </div>
                     </div>
                 </fieldset>
                 <!-- <fieldset *ngIf="!historie">
@@ -976,8 +1014,13 @@
                     </legend>
                     <div class="row">
                         <div class="col-md-12 d-flex align-items-end">
-                            <input type="text" formControlName="description" pInputText
-                                [ngStyle]="{ 'border-color': 'red' }" placeholder="Commentez..." />
+                            <input
+                                type="text"
+                                formControlName="description"
+                                pInputText
+                                [ngStyle]="{ 'border-color': 'red' }"
+                                placeholder="Commentez..."
+                            />
                         </div>
                     </div>
                 </fieldset>
@@ -985,8 +1028,14 @@
         </div>
         <div class="submit-form">
             <div>
-                <button pButton style="float: right; margin-top: 1rem" label="Soumettre" class="p-button-success"
-                    [disabled]="adminForm.invalid" (click)="handleSaveMasse()"></button>
+                <button
+                    pButton
+                    style="float: right; margin-top: 1rem"
+                    label="Soumettre"
+                    class="p-button-success"
+                    [disabled]="adminForm.invalid"
+                    (click)="handleSaveMasse()"
+                ></button>
             </div>
         </div>
     </div>
@@ -1019,80 +1068,447 @@
         </button>
     </ng-template>
 </p-dialog> -->
-<div class="card">
-    <p-dialog [header]="'Header '+[totalQuantite]" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"
-        id="dialogHeaderTableWhiteSimCard" [(visible)]="dialogVisible" [style]="{ width: '40vw' }"
-        [contentStyle]="{ height: '400px' }">
-        <p-table editMode="row" dataKey="id" #dt [value]="listWhiteSimCard" [scrollable]="true" scrollHeight="flex">
-            <!-- Caption: Zone de recherche -->
+
+<!-- <div class="card">
+    <p-dialog [header]="'Liste des lots disponibles [' + totalDisponibles + ']'" [resizable]="false" [modal]="true"
+        [maximizable]="true" appendTo="body" id="dialogHeaderTableWhiteSimCard" [(visible)]="dialogVisible"
+        [style]="{ width: '60vw' }">
+        <p-table editMode="row" dataKey="id" #dt [value]="listWhiteSimCard" [scrollable]="true" scrollHeight="flex"
+            [paginator]="true" [rows]="5"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
             <ng-template pTemplate="caption">
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-end mt-3">
                     <app-search-table [dt]="dt"></app-search-table>
                 </div>
             </ng-template>
 
-            <!-- En-tête du tableau -->
             <ng-template pTemplate="header">
                 <tr>
-                    <th class="text-center" [style]="{ width: '1.5rem' }">#</th>
-                    <th class="text-center">Référence</th>
-                    <th class="text-center">Nombre disponibles</th>
-                    <th class="text-center" [style]="{ width: '5rem' }">Actions</th>
+                    <th style="display: flex; justify-content: center; max-width: 4rem;">#</th>
+                    <th style="display: flex; justify-content: center;">Référence</th>
+                    <th style="display: flex; justify-content: center;">SIM disponibles</th>
+                    <th style="display: flex; justify-content: center;">Sélection</th>
+                    <th style="display: flex; justify-content: center;">
+                        Actions
+                    </th>
                 </tr>
             </ng-template>
 
-            <!-- Corps du tableau -->
             <ng-template pTemplate="body" let-rowIndex="rowIndex" let-customer let-editing="editing">
                 <tr [pEditableRow]="customer" [editableRow]="editableRowIndex === rowIndex">
-                    <!-- Index de la ligne -->
-                    <td class="text-center" [style]="{ width: '1.5rem' }">{{ rowIndex + 1 }}</td>
+                    <td style="display: flex; justify-content: center; max-width: 4rem;">
+                        {{ rowIndex + 1 }}
+                    </td>
 
-                    <td class="text-center">{{ customer?.numero_demande }}</td>
+                    <td style="display: flex; justify-content: center;">{{ customer?.numero_demande }}</td>
 
-                    <!-- Nombre disponibles (édition et affichage) -->
-                    <td>
-                            <p-cellEditor>
-                                <ng-template pTemplate="input">
-                                    <div class="d-flex gap-2">
-                                        <input pInputText type="number" [(ngModel)]="customer.nb_restants" />
-                                        <input pInputText type="number" [value]="initialNbRestants" disabled style="background-color: #f4f4f4;" />
-                                    </div>
-                                </ng-template>
-                                <ng-template pTemplate="output">
-                                    {{ customer?.nb_restants || 0 }}
-                                </ng-template>
-                            </p-cellEditor>                            
-                      </td>
-                
+                    <td style="display: flex; justify-content: center;">{{ customer?.nb_restants }}</td>
 
-                    <!-- Actions -->
+                    <td style="display: flex; justify-content: center;">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <div class="d-flex gap-2">
+                                    <input pInputText type="number" [(ngModel)]="customer.selected_nb_restants" />
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ customer?.selected_nb_restants || 0 }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+
                     <td class="td-actions">
-                        <!-- Bouton pour modifier -->
-                        <button *ngIf="!editing"  pButton pRipple type="button" pInitEditableRow pTooltip="Modifier"
+
+                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow pTooltip="Modifier"
                             tooltipPosition="top" icon="pi pi-pencil" (click)="editRow(customer, rowIndex)"
                             class="p-button-secondary"></button>
 
-                        <!-- Bouton pour sauvegarder -->
                         <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow pTooltip="Sauvegarder"
                             tooltipPosition="top" icon="pi pi-check" (click)="saveRowEdit(customer)"
                             class="p-button-success"></button>
 
-                        <!-- Bouton pour annuler -->
                         <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow pTooltip="Fermer"
                             tooltipPosition="top" icon="pi pi-times" (click)="cancelRowEdit(customer, rowIndex)"
                             class="p-button-danger" style="margin-left: 1rem"></button>
                     </td>
                 </tr>
             </ng-template>
-            <ng-template pTemplate="footer">
-                <div class="d-flex justify-content-end pt-3">
-                    <button pButton label="Enregistrer" class="p-button-success" (click)="HandleSaveLot()"></button>
-                </div>
-            </ng-template>
-
         </p-table>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <p class="fs-4 mb-0"><b>Nombre sélectionné [ <span>Lot&nbsp;:&nbsp;{{globalMetriquesEditRow.length ||
+                        0}}</span>&nbsp;<span>SIM&nbsp;:&nbsp;{{totalQuantitePrises || 0}}</span> ]</b></p>
+            <button pButton label="Valider" class="p-button-success" (click)="HandleSaveLotSingle()"></button>
+        </div>
+    </p-dialog>
+</div> -->
+
+<div class="card">
+    <p-dialog
+        [resizable]="false"
+        [modal]="true"
+        [header]="'Liste des lots disponibles [' + totalDisponibles + ']'"
+        [maximizable]="true"
+        appendTo="body"
+        id="dialogHeaderTableWhiteSimCard"
+        [(visible)]="dialogVisible"
+        [style]="{ width: '60vw' }"
+    >
+        <!-- /*************************************************Modal activation-en-masse***********************************************/ -->
+        <ng-container *ngIf="typeDemande === 'activation-en-masse'">
+            <p-table
+                editMode="row"
+                dataKey="id"
+                #dt
+                [value]="listWhiteSimCard"
+                [scrollable]="true"
+                scrollHeight="flex"
+                [paginator]="true"
+                [rows]="5"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="d-flex justify-content-end mt-3">
+                        <app-search-table [dt]="dt"></app-search-table>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th
+                            style="
+                                display: flex;
+                                justify-content: center;
+                                max-width: 4rem;
+                            "
+                        >
+                            #
+                        </th>
+                        <th style="display: flex; justify-content: center">
+                            Référence
+                        </th>
+                        <th style="display: flex; justify-content: center">
+                            SIM disponibles
+                        </th>
+                        <th style="display: flex; justify-content: center">
+                            Sélection
+                        </th>
+                        <th style="display: flex; justify-content: center">
+                            Actions
+                        </th>
+                    </tr>
+                </ng-template>
+
+                <ng-template
+                    pTemplate="body"
+                    let-rowIndex="rowIndex"
+                    let-customer
+                    let-editing="editing"
+                >
+                    <tr
+                        [pEditableRow]="customer"
+                        [editableRow]="editableRowIndex === rowIndex"
+                    >
+                        <td
+                            style="
+                                display: flex;
+                                justify-content: center;
+                                max-width: 4rem;
+                            "
+                        >
+                            {{ rowIndex + 1 }}
+                        </td>
+
+                        <td style="display: flex; justify-content: center">
+                            {{ customer?.numero_demande }}
+                        </td>
+
+                        <td style="display: flex; justify-content: center">
+                            {{ customer?.nb_restants }}
+                        </td>
+
+                        <td style="display: flex; justify-content: center">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <div class="d-flex gap-2">
+                                        <input
+                                            pInputText
+                                            type="number"
+                                            [(ngModel)]="
+                                                customer.selected_nb_restants
+                                            "
+                                        />
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{ customer?.selected_nb_restants || 0 }}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+
+                        <td class="td-actions">
+                            <button
+                                *ngIf="!editing"
+                                pButton
+                                pRipple
+                                type="button"
+                                pInitEditableRow
+                                pTooltip="Modifier"
+                                tooltipPosition="top"
+                                icon="pi pi-pencil"
+                                (click)="editRow(customer, rowIndex)"
+                                class="p-button-secondary"
+                            ></button>
+
+                            <button
+                                *ngIf="editing"
+                                pButton
+                                pRipple
+                                type="button"
+                                pSaveEditableRow
+                                pTooltip="Sauvegarder"
+                                tooltipPosition="top"
+                                icon="pi pi-check"
+                                (click)="saveRowEdit(customer)"
+                                class="p-button-success"
+                            ></button>
+
+                            <button
+                                *ngIf="editing"
+                                pButton
+                                pRipple
+                                type="button"
+                                pCancelEditableRow
+                                pTooltip="Fermer"
+                                tooltipPosition="top"
+                                icon="pi pi-times"
+                                (click)="cancelRowEdit(customer, rowIndex)"
+                                class="p-button-danger"
+                                style="margin-left: 1rem"
+                            ></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <p class="fs-4 mb-0">
+                    <b
+                        >Nombre sélectionné [
+                        <span
+                            >Lot&nbsp;:&nbsp;{{
+                                globalMetriquesEditRow.length || 0
+                            }}</span
+                        >&nbsp;<span
+                            >SIM&nbsp;:&nbsp;{{
+                                totalQuantitePrises || 0
+                            }}</span
+                        >
+                        ]</b
+                    >
+                </p>
+                <button
+                    pButton
+                    label="Valider"
+                    class="p-button-success"
+                    (click)="HandleSaveLotMasse()"
+                ></button>
+            </div>
+        </ng-container>
+
+        <!-- /*************************************************Modal activation-en-simple***********************************************/ -->
+
+        <ng-container *ngIf="typeDemande === 'activation-en-simple'">
+            <p-table
+                #dt
+                [value]="listWhiteSimCard"
+                [scrollable]="true"
+                scrollHeight="flex"
+                [paginator]="true"
+                [rows]="5"
+                selectionMode="single"
+                dataKey="id"
+                [(selection)]="selectedLot"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="d-flex justify-content-end mt-3">
+                        <app-search-table [dt]="dt"></app-search-table>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th
+                            style="
+                                display: flex;
+                                justify-content: center;
+                                max-width: 4rem;
+                            "
+                        >
+                            #
+                        </th>
+                        <th style="display: flex; justify-content: center">
+                            Référence
+                        </th>
+                        <th style="display: flex; justify-content: center">
+                            SIM disponibles
+                        </th>
+                        <th
+                            style="
+                                display: flex;
+                                justify-content: center;
+                                max-width: 4rem;
+                            "
+                        >
+                            <div style="display: flex; justify-content: center">
+                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-rowIndex="rowIndex" let-lot>
+                    <tr>
+                        <td
+                            style="
+                                display: flex;
+                                justify-content: center;
+                                max-width: 4rem;
+                            "
+                        >
+                            {{ rowIndex + 1 }}
+                        </td>
+
+                        <td style="display: flex; justify-content: center">
+                            {{ lot?.numero_demande }}
+                        </td>
+
+                        <td style="display: flex; justify-content: center">
+                            {{ lot?.nb_restants }}
+                        </td>
+
+                        <td
+                            style="
+                                display: flex;
+                                justify-content: center;
+                                max-width: 4rem;
+                            "
+                        >
+                            <div style="display: flex; justify-content: center">
+                                <p-tableCheckbox
+                                    [value]="lot"
+                                ></p-tableCheckbox>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <div class="d-flex justify-content-end align-items-center mt-3">
+                <button
+                    pButton
+                    label="Valider"
+                    class="p-button-success"
+                    (click)="HandleSaveLotSimple()"
+                    [disabled]="!selectedLot || !selectedLot.length"
+                ></button>
+            </div>
+        </ng-container>
     </p-dialog>
 </div>
+
+<!-- <div class="card">
+    <p-dialog [header]="'Liste des lots disponibles [' + totalDisponibles + ']'" [resizable]="false" [modal]="true"
+        [maximizable]="true" appendTo="body" id="dialogHeaderTableWhiteSimCard" [(visible)]="dialogVisible"
+        [style]="{ width: '60vw' }">
+        <p-table [value]="listWhiteSimCard" dataKey="id">
+            <ng-template pTemplate="caption">
+                <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                    <div>
+                        <p-button label="Expand All" icon="pi pi-plus" text (onClick)="expandAll()" ></p-button>&nbsp;
+                        <p-button label="Collapse All" icon="pi pi-minus" text (onClick)="collapseAll()" ></p-button>
+                    </div>
+                    <app-search-table [dt]="dt"></app-search-table>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 5rem"></th>
+                    <th style="width: 4rem">#</th>
+                    <th>Référence</th>
+                    <th>SIM disponibles</th>
+                    <th>Sélection</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowIndex="rowIndex" let-customer let-expanded="expanded">
+                <tr>
+                    <td style="width: 5rem">
+                        <p-button type="button" pRipple [pRowToggler]="customer" [text]="true" [rounded]="true"
+                            [plain]="true" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" >
+                        </p-button>
+                    </td>
+                    <td style="max-width: 4rem;">
+                        {{ rowIndex + 1 }}
+                    </td>
+
+                    <td>{{ customer?.numero_demande }}</td>
+
+                    <td>{{ customer?.nb_restants }}</td>
+
+                    <td>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <div class="d-flex gap-2">
+                                    <input pInputText type="number" [(ngModel)]="customer.selected_nb_restants" />
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{ customer?.selected_nb_restants || 0 }}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="expandedrow" let-product>
+                <tr>
+                    <td colspan="7">
+                        <div class="p-4">
+                            <h5>Orders for {{ product.name }}</h5>
+                            <p-table [value]="product.orders" dataKey="id">
+                                <ng-template #header>
+                                    <tr>
+                                        <th pSortableColumn="id">Id</th>
+                                        <th pSortableColumn="customer">Customer</th>
+                                        <th pSortableColumn="date">Date</th>
+                                        <th pSortableColumn="amount">Amount</th>
+                                        <th pSortableColumn="status">Status</th>
+                                        <th style="width: 4rem"></th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template #body let-order>
+                                    <tr>
+                                        <td>{{ order.id }}</td>
+                                        <td>{{ order.customer }}</td>
+                                        <td>{{ order.date }}</td>
+                                        <td>{{ order.amount | currency : 'USD' }}</td>
+                                        <td>
+                                            
+                                        </td>
+                                        <td><p-button type="button" icon="pi pi-search" ></p-button></td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template #emptymessage>
+                                    <tr>
+                                        <td colspan="6">There are no order for this product yet.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </p-dialog>
+</div> -->
+
 <!-- <div *ngIf="currentObject">
     <div class="forms-feature-header">
         <div class="d-flex gap-2">

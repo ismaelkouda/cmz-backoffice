@@ -25,7 +25,7 @@
         </button>
     </div>
 
-    <div>
+    <div *ngIf="displayDefaultJournal">
         <p-table
             #dt
             [value]="listJournal"
@@ -84,11 +84,13 @@
                             class="badge"
                             [class.badge-dark]="
                                 journal?.traitement === BADGE_ETAT.RECU ||
-                                journal?.traitement === BADGE_ETAT.EN_ATTENTE
+                                journal?.traitement === BADGE_ETAT.EN_ATTENTE ||
+                                journal?.traitement === BADGE_ETAT.AFFECTE
                             "
                             [class.badge-warning]="
                                 journal?.traitement === BADGE_ETAT.PARTIEL ||
-                                journal?.traitement === BADGE_ETAT.ABANDONNE
+                                journal?.traitement === BADGE_ETAT.ABANDONNE ||
+                                journal?.traitement === BADGE_ETAT.EN_COURS
                             "
                             [class.badge-danger]="
                                 journal?.traitement === BADGE_ETAT.REJETE ||
@@ -96,7 +98,9 @@
                             "
                             [class.badge-success]="
                                 journal?.traitement === BADGE_ETAT.CLOTURE ||
-                                journal?.traitement === BADGE_ETAT.TERMINE
+                                journal?.traitement === BADGE_ETAT.TERMINE ||
+                                journal?.traitement === BADGE_ETAT.EFFECTUE ||
+                                journal?.traitement === BADGE_ETAT.APPROUVE
                             "
                             [class.badge-primary]="
                                 journal?.traitement === BADGE_ETAT.COMPLET
@@ -113,5 +117,47 @@
                 </tr>
             </ng-template>
         </p-table>
+    </div>
+    <div *ngIf="displayWhitesimCard">
+        <p-table
+            #dt
+            [value]="listJournal"
+            [rows]="10"
+            responsiveLayout="scroll"
+            [rowHover]="true"
+            dataKey="id"
+            [showCurrentPageReport]="true"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center" [style]="{ width: '2rem' }">#</th>
+                    <th class="text-center" [style]="{ width: '8rem' }">
+                        Date/Heure
+                    </th>
+                    <th class="text-center" [style]="{ width: '8rem' }">
+                        Opération
+                    </th>
+                    <th>Description</th>
+                    <th class="text-center" [style]="{ width: '6rem' }">
+                        # Lignes
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template let-i="rowIndex" pTemplate="body" let-journal>
+                <tr>
+                    <td class="text-center">{{ i + 1 }}</td>
+                    <td class="text-center">{{ journal?.created_at }}</td>
+                    <td class="text-center">{{ journal?.operation }}</td>
+                    <td style="width: 23rem; text-align: start">
+                        {{ journal?.description }}
+                    </td>
+                    <td class="text-center">{{ journal?.nbre_element }}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <app-pargination
+            [pargination]="pargination"
+            (pageChange)="onPageChange($event)"
+        ></app-pargination>
     </div>
 </div>

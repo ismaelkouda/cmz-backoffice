@@ -1,6 +1,5 @@
 import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { AdministrationRoutingModule } from './administration-routing.module';
 
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -21,7 +20,6 @@ import { AffectationMembreComponent } from './features/affectation-membre/affect
 
 @NgModule({
     imports: [
-        CommonModule,
         SharedModule,
         AdministrationRoutingModule,
         NgxPaginationModule,

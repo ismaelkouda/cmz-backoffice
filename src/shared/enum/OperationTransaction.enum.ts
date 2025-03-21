@@ -4,6 +4,7 @@ export enum OperationTransaction {
     SWAP = 'swap',
     ACTIVATION = 'activation',
     INTEGRATION = 'integration',
+    SIM_BLANCHE = "sim-blanche",
     ACTIVATION_EN_MASSE = 'activation-en-masse',
     INTEGRATION_EN_MASSE = 'integration-en-masse',
     SIM_BLANCHE_EN_MASSE = 'sim-blanche-en-masse',
@@ -12,8 +13,11 @@ export enum OperationTransaction {
     ACHAT_SERVICE = 'achat-service',
     CHANGEMENT_FORMULE = 'chg-formule-sim',
     IDENTIFICATION = 'identification',
-    SIM_BLANCHE = "SIM blanche"
+    SOLDE_DATA = 'solde-data',
+    SOLDE_SMS = 'solde-sms',
 }   
+
+export type T_OPERATION = typeof OperationTransaction[keyof typeof OperationTransaction];
 
 export class TitleOperation {
     private operation: OperationTransaction | undefined;
@@ -38,10 +42,10 @@ export class TitleOperation {
             [OperationTransaction.CHANGEMENT_FORMULE]: "Changement de Formule SIM",
             [OperationTransaction.IDENTIFICATION]: "Identification",
             [OperationTransaction.SIM_BLANCHE]: "SIM blanche",
+            [OperationTransaction.SOLDE_DATA]: "solde-data",
+            [OperationTransaction.SOLDE_SMS]: "solde-sms",
         };
 
         return this.operation ? operationTitles[this.operation] || "Opération non spécifiée" : "Aucune opération définie";
     }
 }
-
-

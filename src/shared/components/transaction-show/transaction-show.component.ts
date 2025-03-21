@@ -18,7 +18,7 @@ import { COMMANDE_SIM, LIGNE_CREDIT } from 'src/presentation/pages/provisionning
 import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
 import { handle } from 'src/shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
-import { ListCommuneService } from 'src/shared/services/list-commune.service';
+// import { ListCommuneService } from 'src/shared/services/list-commune.service';
 @Component({
   selector: 'app-transaction-show',
   templateUrl: './transaction-show.component.html',
@@ -75,7 +75,7 @@ export class TransactionShowComponent implements OnInit {
 
 
   constructor(
-    private listCommuneService: ListCommuneService,
+
     private fb: FormBuilder,
     private activeModal: NgbActiveModal,
     private toastrService: ToastrService,
@@ -195,34 +195,34 @@ export class TransactionShowComponent implements OnInit {
   }
   public GetCurrentMessage(operation): string {
     switch (operation) {
-      case OperationTransaction.ACTIVATION: {
-        return this.activationForm.get('activation_accepte_comment').value;
-      }
-      case OperationTransaction.INTEGRATION: {
-        return this.integrationForm.get('integration_accepte_comment').value;
-      }
-      case OperationTransaction.SWAP: {
-        return this.swapForm.get('swap_accepte_comment').value;
-      }
-      case OperationTransaction.RESILIATION: {
-        return this.resiliationForm.get('resiliation_accepte_comment').value;
-      }
-      case OperationTransaction.SUSPENSION: {
-        return this.suspensionForm.get('suspension_accepte_comment').value;
-      }
-      case OperationTransaction.CHANGEMENT_FORMULE: {
-        return this.formuleForm.get('chg_formule_accepte_comment').value;
-      }
-      case OperationTransaction.VOLUME_DATA: {
-        return this.volumeForm.get('volume_data_accepte_comment').value;
-      }
-      case OperationTransaction.ACHAT_SERVICE: {
-        return this.achatForm.get('commmande_produit_accepte_comment').value;
-      }
-      case OperationTransaction.PROVISIONNING: {
-        return this.ligneForm.get('provisionning_accepte_comment').value;
-        ;
-      }
+      // case OperationTransaction.ACTIVATION: {
+      //   return this.activationForm.get('activation_accepte_comment').value;
+      // }
+      // case OperationTransaction.INTEGRATION: {
+      //   return this.integrationForm.get('integration_accepte_comment').value;
+      // }
+      // case OperationTransaction.SWAP: {
+      //   return this.swapForm.get('swap_accepte_comment').value;
+      // }
+      // case OperationTransaction.RESILIATION: {
+      //   return this.resiliationForm.get('resiliation_accepte_comment').value;
+      // }
+      // case OperationTransaction.SUSPENSION: {
+      //   return this.suspensionForm.get('suspension_accepte_comment').value;
+      // }
+      // case OperationTransaction.CHANGEMENT_FORMULE: {
+      //   return this.formuleForm.get('chg_formule_accepte_comment').value;
+      // }
+      // case OperationTransaction.VOLUME_DATA: {
+      //   return this.volumeForm.get('volume_data_accepte_comment').value;
+      // }
+      // case OperationTransaction.ACHAT_SERVICE: {
+      //   return this.achatForm.get('commmande_produit_accepte_comment').value;
+      // }
+      // case OperationTransaction.PROVISIONNING: {
+      //   return this.ligneForm.get('provisionning_accepte_comment').value;
+      //   ;
+      // }
       default:
         return 'Aucun Message Pour cette Transaction !'
     }
@@ -789,7 +789,7 @@ export class TransactionShowComponent implements OnInit {
   public onChangeFirstLvel(uuid: any) {
       this.listSecondLevel = [];
       this.listFirstLevel.find((element) => {
-          if (element.uuid === uuid)  this.listSecondLevel = this.listCommuneService.getListCommune(element);
+          // if (element.uuid === uuid)  this.listSecondLevel = this.listCommuneService.getListCommune(element);
       });
   }
 

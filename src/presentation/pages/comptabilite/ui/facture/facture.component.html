@@ -1,53 +1,85 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <!-- <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb> -->
+            <app-breadcrumb
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
                     <div style="margin-top: -2rem !important">
-
                         <div class="d-flex justify-content-between">
+                            <app-patrimoine-header
+                                [displayDate]="false"
+                                [count]="listFactures"
+                                [total]="pagination?.['total']"
+                                [legendePluriel]="'factures'"
+                                [legendeSingulier]="'facture'"
+                            >
+                            </app-patrimoine-header>
 
-                            <!-- <app-patrimoine-header [displayDate]="false" [count]="listFactures" [total]="pagination?.['total']"
-                                [legendePluriel]="'dossiers en file d\'attente'" [legendeSingulier]="'dossier en file d\'attente'">
-                            </app-patrimoine-header> -->
-
-                            <!-- <span class="current-transaction-label" style="display: flex; align-items: center;">Sur les
-                                90 derniers jours</span> -->
-
+                            <span
+                                class="current-transaction-label"
+                                style="display: flex; align-items: center"
+                            >
+                                Sur les 90 derniers jours
+                            </span>
                         </div>
-
                     </div>
 
                     <div>
-
                         <div class="container-box">
-                            <app-box-container *ngFor="let box of statistiquesBox"
-                                [ngClass]="{'boxClickable': indexBoxClickable.includes(box?.id)}"
-                                [pTooltip]="indexBoxClickable.includes(box?.id) ? 'Veuillez cliquer' : ''"
-                                tooltipPosition="top" (click)="onBoxClick(box)" class="col-md"
-                                [cardBgColor]="box?.['cardBgColor']" [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'"
-                                [legend]="box?.['legend']" [count]="box?.['count']"
-                                [legendColor]="box?.['legendColor'] ?? '#FFF'" [countColor]="box?.['countColor'] ?? '#FFF'"
-                                [taux]="box?.['taux']">
+                            <app-box-container
+                                *ngFor="let box of statistiquesBox"
+                                [ngClass]="{
+                                    boxClickable: indexBoxClickable.includes(
+                                        box?.id
+                                    )
+                                }"
+                                [pTooltip]="
+                                    indexBoxClickable.includes(box?.id)
+                                        ? 'Veuillez cliquer'
+                                        : ''
+                                "
+                                tooltipPosition="top"
+                                (click)="onBoxClick(box)"
+                                class="col-md"
+                                [cardBgColor]="box?.['cardBgColor']"
+                                [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'"
+                                [legend]="box?.['legend']"
+                                [count]="box?.['count']"
+                                [legendColor]="box?.['legendColor'] ?? '#FFF'"
+                                [countColor]="box?.['countColor'] ?? '#FFF'"
+                                [taux]="box?.['taux']"
+                            >
                             </app-box-container>
                         </div>
 
-                        <app-filter-facture (filter)="filter($event)" [filterData]="filterData"
-                            [listOperations]="listOperations" [listEtatFacture]="listEtatFacture"
-                            [typePaiement]="typePaiement">
+                        <app-filter-facture
+                            (filter)="filter($event)"
+                            [filterData]="filterData"
+                            [listOperations]="listOperations"
+                            [listStatus]="listStatus"
+                            [typePaiement]="typePaiement"
+                        >
                         </app-filter-facture>
 
                         <hr />
 
-                        <app-table-facture [spinner]="spinner" [selectedFacture]="selectedFacture"
-                            [pagination]="pagination" [listFactures]="listFactures">
+                        <app-table-facture
+                            [spinner]="spinner"
+                            [listFactures]="listFactures"
+                            [selectedFacture]="selectedFacture"
+                            [pagination]="pagination"
+                            (interfaceUser)="navigateByUrl($event)"
+                        >
                         </app-table-facture>
 
-                        <!-- <app-pargination [pargination]="pagination" (pageChange)="onPageChange($event)"></app-pargination> -->
-
+                        <app-pargination
+                            [pargination]="pagination"
+                            (pageChange)="onPageChange($event)"
+                        ></app-pargination>
                     </div>
-
                 </div>
             </div>
         </div>

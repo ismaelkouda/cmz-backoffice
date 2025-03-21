@@ -190,7 +190,9 @@
                                                     {{ data?.prenoms ?? 'N/A' }}
                                                 </td>
                                                 <td>
-                                                    {{ data?.code ?? 'N/A' }}
+                                                    {{
+                                                        data?.matricule ?? 'N/A'
+                                                    }}
                                                 </td>
                                                 <td>
                                                     {{
@@ -387,10 +389,11 @@
                                 </div>
                             </p-tabPanel>
                             <p-tabPanel header="HISTORIQUE">
-                                <app-historique
-                                    *ngIf="currentTabsIndex === 1"
-                                    [sous_module]="'PROFIL USER'"
-                                ></app-historique>
+                                <<ng-container *ngIf="currentTabsIndex === 1">
+                                    <app-history
+                                        [typeModel]="'users'"
+                                    ></app-history>
+                                </ng-container>
                             </p-tabPanel>
                         </p-tabView>
                     </div>

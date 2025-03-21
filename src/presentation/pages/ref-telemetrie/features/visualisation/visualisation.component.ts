@@ -6,7 +6,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ListCommuneService } from 'src/shared/services/list-commune.service';
 import { handle } from 'src/shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
@@ -57,7 +56,6 @@ export class VisualisationComponent implements OnInit {
     private settingService: SettingService,
     public mappingService: MappingService,
     private clipboardApi: ClipboardService,
-    private listCommuneService: ListCommuneService,
     private loadingBarService: LoadingBarService,
     private patrimoineService: PatrimoineService,
 
@@ -111,7 +109,7 @@ public showSecondFilter() {
 public onChangeFirstLvel(uuid: any) {
     this.listSecondLevelDatas = [];
     this.listFirstLeveDatas.find((element) => {
-        if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
+        // if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
     });
 }
 

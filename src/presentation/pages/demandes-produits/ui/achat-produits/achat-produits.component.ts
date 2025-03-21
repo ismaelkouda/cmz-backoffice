@@ -1,7 +1,6 @@
 import { handle } from 'src/shared/functions/api.function';
 import { TYPE_PRODUITS } from './../../../../../shared/enum/type-produits.enum';
 import { BADGE_ETAPE } from './../../../../../shared/constants/badge-etape.constant';
-import { ExcelService } from './../../../../../shared/services/excel.service';
 import { SharedDataService } from './../../../../../shared/services/shared-data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pargination } from './../../../../../shared/class/pargination';
@@ -14,7 +13,7 @@ import { DETAILS, FACTURE, FORM } from '../../demandes-produits-routing.module';
 import { BADGE_ETAT } from '../../../../../shared/constants/badge-etat.contant';
 import { DemandeService } from '../../../demandes/data-access/demande.service';
 
-type PageAction = { 'data': Object, 'action': 'ajouter', 'view': 'page' } | { 'data': Object, 'action': 'détails', 'view': 'page' } | { 'data': Object, 'action': 'facture', 'view': 'page' };
+type PageAction = { 'data': Object, 'action': 'ajouter', 'view': 'page' } | { 'data': Object, 'action': 'détails', 'view': 'page' } | { 'data': Object, 'action': 'invoice', 'view': 'page' };
 
 const etape_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT];
 const etat_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE];
@@ -116,7 +115,7 @@ export class AchatProduitsComponent implements OnInit, OnDestroy {
                 routePath = FORM;
                 break;
 
-            case "facture":
+            case "invoice":
                 routePath = FACTURE+`/${id}`;
                 break;
         }

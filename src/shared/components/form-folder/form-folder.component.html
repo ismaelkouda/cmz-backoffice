@@ -1,0 +1,893 @@
+<div class="row" [formGroup]="formTreatmentDemand">
+    <div class="col-lg-2 mt-2" style="border-right: 1px solid #d8d8d8">
+        <div class="list-group pl-3 d-flex flex-column gap-2">
+            <!-- <button pButton pRipple class="p-button-success w-100" label="Enregistrer"
+                (click)="PostSupervisionOperationsFileAttentesApprobation()"
+                [disabled]="formTreatmentDemand.invalid || isStartWorkedDay()" 
+                *ngIf="typeTreatment?.approuver">
+            </button>
+            <button pButton pRipple class="p-button-primary w-100" label="Prendre en charge"
+                (click)="PostSupervisionOperationsTraitementsSuivisPrendreDemandeService()"
+                [disabled]="isStartWorkedDay()" *ngIf="typeTreatment?.prendre">
+            </button> -->
+            <button
+                pButton
+                pRipple
+                class="p-button-success w-100"
+                [label]="'MODIFY' | translate"
+                [disabled]="formTreatmentDemand.invalid"
+                (click)="onUpdateDemand()"
+                *ngIf="typeTreatment?.modifier"
+            ></button>
+            <button
+                pButton
+                pRipple
+                class="p-button-warning w-100"
+                [label]="'ABANDON' | translate"
+                (click)="onLetDownDemand()"
+                *ngIf="typeTreatment?.abandonner"
+            ></button>
+        </div>
+
+        <div>
+            <fieldset>
+                <legend>
+                    <strong>Emission</strong>
+                </legend>
+                <div class="d-flex flex-column gap-2">
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong>Matricule&nbsp;:&nbsp;</strong>
+                            {{ detailsDemand?.demandeur_matricule ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong>Nom complet&nbsp;:&nbsp;</strong>
+                            {{ detailsDemand?.demandeur_nom ?? '' }}
+                            {{ detailsDemand?.demandeur_prenoms ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong>Contact&nbsp;:&nbsp;</strong>
+                            {{ detailsDemand?.demandeur_contacts ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong>Email&nbsp;:&nbsp;</strong>
+                            {{ detailsDemand?.demandeur_email ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong>Date&nbsp;:&nbsp;</strong>
+                            {{ detailsDemand?.created_at ?? '' }}
+                        </span>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div *ngIf="isApproved">
+            <fieldset>
+                <legend>
+                    <strong>{{ 'APPROVAL' | translate }}</strong>
+                </legend>
+                <div class="d-flex flex-column gap-2">
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong
+                                >{{
+                                    'MATRICULE' | translate
+                                }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.approbateur?.matricule ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong
+                                >{{
+                                    'FULL_NAME' | translate
+                                }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.approbateur?.nom ?? '' }}
+                            {{ detailsDemand?.approbateur?.prenoms ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong
+                                >{{
+                                    'CONTACT' | translate
+                                }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.approbateur?.contacts ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong
+                                >{{ 'EMAIL' | translate }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.approbateur?.email ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong
+                                >{{ 'DATE' | translate }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.acquitte_a ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__30">
+                            <strong
+                                >{{ 'LINES' | translate }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.nb_demande_traitees || 0 }}
+                            /
+                            {{ detailsDemand?.nb_demande_soumises || 0 }}
+                        </span>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div>
+            <fieldset>
+                <legend>
+                    <strong>{{ 'FINALIST' | translate }}</strong>
+                </legend>
+                <div class="d-flex flex-column gap-2">
+                    <div>
+                        <span class="mb-0 fs__30"
+                            ><strong
+                                >{{
+                                    'MATRICULE' | translate
+                                }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.finalisateur?.matricule ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__30"
+                            ><strong
+                                >{{
+                                    'FULL_NAME' | translate
+                                }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.finalisateur?.nom ?? '' }}
+                            {{ detailsDemand?.finalisateur?.prenoms ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__30">
+                            <strong
+                                >{{
+                                    'CONTACT' | translate
+                                }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.finalisateur?.contacts ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__30"
+                            ><strong
+                                >{{ 'EMAIL' | translate }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.finalisateur?.email ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__30">
+                            <strong
+                                >{{ 'DATE' | translate }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.finalise_a ?? '' }}
+                        </span>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="col-lg-10 mt-2">
+        <div class="col-lg-12">
+            <div
+                role="alert"
+                style="display: flex; justify-content: space-between"
+                [ngClass]="OnGetRapportCodeStyle"
+            >
+                <div>
+                    <strong class="wrapper-header">
+                        {{ 'SUBMISSION' | translate | capitalize }} :
+                        {{ detailsDemand?.etat_soumission }}
+                        <br />
+                        {{ 'DATE' | translate }} : [{{ dateSoumission }}]
+                    </strong>
+                </div>
+                <div>
+                    <strong class="wrapper-header">
+                        {{ 'TREATMENT' | translate | capitalize }} :
+                        {{ detailsDemand?.etat_traitement }}
+                        <br />
+                        {{ 'DATE' | translate }} : [{{
+                            detailsDemand?.traite_a ?? '-- : --'
+                        }}]
+                    </strong>
+                </div>
+                <div>
+                    <strong class="wrapper-header">
+                        {{ 'FINALIST' | translate | capitalize }} :
+                        {{ detailsDemand?.etat_finalisation }}
+                        <br />
+                        {{ 'DATE' | translate }} : [{{
+                            detailsDemand?.finalise_a ?? '-- : --'
+                        }}]
+                    </strong>
+                </div>
+                <div>
+                    <strong class="wrapper-header">
+                        <span class="text-capitalize">{{
+                            'CLOSURE' | translate | capitalize
+                        }}</span>
+                        : {{ detailsDemand?.etat_cloture }}
+                        <br />
+                        {{ 'DATE' | translate }} : [{{
+                            detailsDemand?.cloture_a ?? '-- : --'
+                        }}]
+                    </strong>
+                </div>
+            </div>
+            <div class="row">
+                <h4 class="col-md-7 wrapper-header">
+                    <strong
+                        >{{ formatTitle(detailsDemand?.operation) }}
+                        <span style="color: #549b3d; font-weight: bold"></span>
+                    </strong>
+                </h4>
+                <div
+                    class="col-md-5 wrapper-header"
+                    style="display: flex; justify-content: end; font-size: 20px"
+                >
+                    {{ 'UPDATE_DATE' | translate }} :&nbsp;<b
+                        ><span>{{
+                            detailsDemand?.updated_at ?? 'N/A'
+                        }}</span></b
+                    >
+                </div>
+            </div>
+
+            <hr />
+
+            <div>
+                <div>
+                    <fieldset>
+                        <legend>
+                            <strong>{{
+                                'INFORMATION_REQUEST' | translate | capitalize
+                            }}</strong>
+                        </legend>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label
+                                        ><b
+                                            >{{
+                                                'DESIGNATION'
+                                                    | translate
+                                                    | capitalize
+                                            }}<span class="text-danger"
+                                                >*</span
+                                            ></b
+                                        ></label
+                                    >
+                                    <input
+                                        formControlName="operation"
+                                        type="text"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label
+                                        ><b>{{
+                                            'QUANTITY' | translate | capitalize
+                                        }}</b></label
+                                    >
+                                    <input
+                                        formControlName="nb_demande_soumises"
+                                        type="text"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label
+                                        ><b
+                                            >{{ 'PU' | translate }} (Fcfa)</b
+                                        ></label
+                                    >
+                                    <input
+                                        formControlName="prix_unitaire"
+                                        type="text"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label
+                                        ><b
+                                            >{{
+                                                'NET_AMOUNT' | translate
+                                            }}
+                                            (Fcfa)</b
+                                        ></label
+                                    >
+                                    <input
+                                        placeholder="nombre"
+                                        formControlName="prix_ht"
+                                        type="text"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <label
+                                        ><b
+                                            >{{
+                                                'GROSS_AMOUNT'
+                                                    | translate
+                                                    | capitalize
+                                            }}
+                                            (Fcfa)</b
+                                        ></label
+                                    >
+                                    <input
+                                        placeholder="nombre"
+                                        formControlName="prix_ttc"
+                                        type="text"
+                                        pInputText
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="row d-flex justify-content-center"
+                            *ngIf="
+                                detailsDemand.operation ===
+                                typeDemand?.SIM_BLANCHE
+                            "
+                        >
+                            <div class="col-md-6">
+                                <label for="commentaire">
+                                    <strong
+                                        >{{
+                                            'MAIL_OR_DOCUMENT' | translate
+                                        }}t</strong
+                                    ></label
+                                >
+                                <div
+                                    class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                >
+                                    <div
+                                        class="d-flex justify-content-around w-100"
+                                    >
+                                        <button
+                                            pButton
+                                            pRipple
+                                            [label]="'DOWNLOAD' | translate"
+                                            icon="pi pi-download"
+                                            class="p-button-success"
+                                            (click)="
+                                                downloadFile('justificatif')
+                                            "
+                                        ></button>
+                                        <input
+                                            type="file"
+                                            *ngIf="isEditableForm"
+                                            style="
+                                                padding: 0.6rem;
+                                                border: 1px solid #000;
+                                                border-radius: 0.3rem;
+                                                color: #000;
+                                            "
+                                            (change)="
+                                                onChangeFile(
+                                                    $event.target.files
+                                                )
+                                            "
+                                            accept="image/png,image/jpeg"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset
+                        *ngIf="
+                            detailsDemand.operation !== typeDemand.SIM_BLANCHE
+                        "
+                    >
+                        <legend>
+                            <strong>{{ 'DEMAND' | translate }}</strong>
+                        </legend>
+                        <div class="row">
+                            <!-- <ng-container *ngIf="detailsDemand.operation === typeDemand.ACTIVATION">
+                                <div class="col-md-1">
+                                    <label><b>Nombre</b></label>
+                                    <input type="text" pInputText formControlName="nb_demande_soumises" />
+                                </div>
+                            </ng-container> -->
+
+                            <ng-container
+                                *ngIf="
+                                    detailsDemand.operation ===
+                                    typeDemand.INTEGRATION
+                                "
+                            >
+                                <div class="col-md">
+                                    <label
+                                        ><b>{{
+                                            'FORMULA_SIM_AMOUNT' | translate
+                                        }}</b></label
+                                    >
+                                    <input
+                                        type="text"
+                                        pInputText
+                                        formControlName="montant_formule"
+                                    />
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="!isEditableForm">
+                                <div class="col-md">
+                                    <label
+                                        ><b>{{ 'USAGE' | translate }}</b></label
+                                    >
+                                    <input
+                                        type="text"
+                                        pInputText
+                                        formControlName="usage_id"
+                                    />
+                                </div>
+                                <div class="col-md">
+                                    <label
+                                        ><b>{{
+                                            'DESTINATION_FORMULA' | translate
+                                        }}</b></label
+                                    >
+                                    <input
+                                        type="text"
+                                        pInputText
+                                        formControlName="formule_uuid"
+                                    />
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="isEditableForm">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label
+                                            ><b
+                                                >{{ 'USAGE' | translate
+                                                }}<span class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            ></label
+                                        >
+                                        <p-dropdown
+                                            [options]="listUsages$ | async"
+                                            formControlName="usage_id"
+                                            optionLabel="nom_usage"
+                                            placeholder="usage"
+                                            optionValue="id"
+                                            [showClear]="true"
+                                        >
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label
+                                            ><b
+                                                >{{
+                                                    'SUBSCRIPTION_FORMULA'
+                                                        | translate
+                                                }}<span class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            ></label
+                                        >
+                                        <p-dropdown
+                                            [options]="listFormulas"
+                                            formControlName="formule_uuid"
+                                            optionLabel="nom"
+                                            [placeholder]="
+                                                'Formule destination'
+                                            "
+                                            [showClear]="true"
+                                            optionValue="uuid"
+                                        >
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <div class="col-md-3">
+                                <label for="commentaire"
+                                    ><strong>{{
+                                        'PAYMENT' | translate
+                                    }}</strong></label
+                                >
+                                <div
+                                    class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                >
+                                    <div
+                                        *ngIf="
+                                            detailsDemand?.type_paiement ===
+                                            BADGE_STAUT_PAIEMENT.DIFFERE
+                                        "
+                                    >
+                                        <b class="disabled-piece-jointe">{{
+                                            'DIFFERED_ON_THE_INVOICE'
+                                                | translate
+                                        }}</b>
+                                    </div>
+                                    <div class="justificatif-error">
+                                        <span
+                                            *ngIf="
+                                                detailsDemand?.type_paiement ===
+                                                BADGE_STAUT_PAIEMENT.IMMEDIAT
+                                            "
+                                        >
+                                            <button
+                                                pButton
+                                                pRipple
+                                                [label]="
+                                                    'RECEIVED'
+                                                        | translate
+                                                        | capitalize
+                                                "
+                                                icon="pi pi-download"
+                                                class="p-button-success"
+                                                (click)="
+                                                    downloadFile(
+                                                        'recu-paiement'
+                                                    )
+                                                "
+                                            ></button>
+                                        </span>
+                                    </div>
+                                    <div
+                                        *ngIf="
+                                            detailsDemand?.type_paiement !==
+                                                BADGE_STAUT_PAIEMENT.DIFFERE &&
+                                            detailsDemand?.type_paiement !==
+                                                BADGE_STAUT_PAIEMENT.IMMEDIAT
+                                        "
+                                    >
+                                        <b class="disabled-piece-jointe">{{
+                                            'NO_PAYMENTS' | translate
+                                        }}</b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <label for="commentaire">
+                                    <strong>{{
+                                        'MAIL_OR_DOCUMENT' | translate
+                                    }}</strong>
+                                </label>
+                                <div
+                                    class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                >
+                                    <div
+                                        class="d-flex justify-content-around w-100"
+                                    >
+                                        <button
+                                            pButton
+                                            pRipple
+                                            [label]="'DOWNLOAD' | translate"
+                                            icon="pi pi-download"
+                                            class="p-button-success"
+                                            (click)="
+                                                downloadFile('justificatif')
+                                            "
+                                        ></button>
+                                        <input
+                                            type="file"
+                                            *ngIf="isEditableForm"
+                                            style="
+                                                padding: 0.6rem;
+                                                border: 1px solid #000;
+                                                border-radius: 0.3rem;
+                                                color: #000;
+                                            "
+                                            (change)="
+                                                onChangeFile(
+                                                    $event.target.files
+                                                )
+                                            "
+                                            accept="image/png,image/jpeg"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>
+                            <b>{{
+                                'COMMENT_ON_THE_APPLICATION' | translate
+                            }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input
+                                    type="text"
+                                    pInputText
+                                    formControlName="description"
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>
+                            <b>{{ 'COMMENT_ON_APPROVAL' | translate }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input
+                                    type="text"
+                                    pInputText
+                                    disabled
+                                    [value]="
+                                        detailsDemand?.commentaire_approbation
+                                    "
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- <fieldset *ngIf="!(
+                                        detailsDemand.operation === typeDemand.ACTIVATION &&
+                                        typeTreatment.identifier === 'Identifier' &&
+                                        canIdentify()
+                                    ) &&
+                                    !(
+                                        params.vue === 'activation' &&
+                                        params.action === 'Abandonner'
+                                    )
+                                ">
+                        <legend><strong>Traitement</strong></legend>
+                        <div class="d-flex gap-2 no-wrap">
+                            <div style="width: 100%" *ngIf="
+                                            (params.vue === 'traitement' &&
+                                                params.action ===
+                                                    'Clôturer') ||
+                                            (!(
+                                                params.vue ===
+                                                    'traitement' &&
+                                                params.action === 'Clôturer'
+                                            ) &&
+                                                !(
+                                                    params.vue ===
+                                                    'activation' &&
+                                                    params.action ===
+                                                        'Identifier' &&
+                                                    canIdentify(
+                                                        listDemandes
+                                                    )
+                                                ) &&
+                                                !(
+                                                    params.vue ===
+                                                    'activation' &&
+                                                    params.action ===
+                                                        'Abandonner'
+                                                ))
+                                        ">
+                                <label for="commentaire"><strong>Commentaire
+                                        traitement</strong></label>
+                                <input type="text" pInputText formControlName="commentaire_traitement" />
+                            </div>
+                            <div style="width: 100%" *ngIf="
+                                            (params.vue === 'traitement' &&
+                                                params.action ===
+                                                    'Clôturer') ||
+                                            (!(
+                                                params.vue ===
+                                                    'traitement' &&
+                                                params.action === 'Clôturer'
+                                            ) &&
+                                                !(
+                                                    params.vue ===
+                                                    'activation' &&
+                                                    params.action ===
+                                                        'Identifier' &&
+                                                    canIdentify(
+                                                        listDemandes
+                                                    )
+                                                ) &&
+                                                !(
+                                                    params.vue ===
+                                                    'activation' &&
+                                                    params.action ===
+                                                        'Abandonner'
+                                                ))
+                                        ">
+                                <label for="commentaire"><strong>Commentaire
+                                        finalisation</strong></label>
+                                <input type="text" pInputText formControlName="commentaire_finalisation" />
+                            </div>
+                            <div style="width: 100%" *ngIf="
+                                            !(
+                                                params.vue ===
+                                                    'traitement' &&
+                                                params.action === 'Clôturer'
+                                            ) &&
+                                            !(
+                                                params.vue === 'activation' &&
+                                                params.action ===
+                                                    'Identifier' &&
+                                                canIdentify(listDemandes)
+                                            ) &&
+                                            !(
+                                                params.vue === 'activation' &&
+                                                params.action ===
+                                                    'Abandonner'
+                                            )
+                                        ">
+                                <label for="commentaire"><strong>Commentaire clôture</strong></label>
+                                <input type="text" pInputText formControlName="commentaire_cloture" />
+                            </div>
+                        </div>
+                    </fieldset> -->
+
+                    <!-- <fieldset *ngIf="
+                                    (params.vue === 'traitement' &&
+                                        params.action === 'Clôturer') ||
+                                    (listDemandes?.statut ===
+                                        BADGE_ETAPE.CLOTURE &&
+                                        listDemandes?.traitement ===
+                                            BADGE_ETAT.TERMINE)
+                                ">
+                        <legend><strong>Clôture</strong></legend>
+                        <div class="wrapper-evaluation" style="display: flex; gap: 1rem">
+                            <div class="block-checked">
+                                <div style="margin-left: 8%" class="ml-3">
+                                    <span for="accepte" style="
+                                                    font-size: 23px;
+                                                    margin-left: 5%;
+                                                    font-weight: 800;
+                                                ">
+                                        Accepté<span class="text-danger">*</span>?
+                                    </span>
+                                    <div class="wrapper-check">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="demande" value="oui"
+                                                id="infosLigne" formControlName="accepte" />
+                                            <label class="form-check-label" for="oui" style="
+                                                            width: auto !important;
+                                                        ">
+                                                Oui
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="demande" value="non"
+                                                id="infosLigne" formControlName="accepte" />
+                                            <label class="form-check-label" for="non" style="
+                                                            width: auto !important;
+                                                        ">Non
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block-checked" style="
+                                            width: 15rem;
+                                            padding: 0 0.5rem 0.5rem 0.5rem;
+                                        ">
+                                <div class="ml-3">
+                                    <div class="wrapper-check">
+                                        <div style="
+                                                        display: flex;
+                                                        flex-direction: column;
+                                                    ">
+                                            <div>
+                                                <label for="infosLigne" style="
+                                                                margin-left: 0 !important;
+                                                            ">
+                                                    <img src="assets/images/icones/smile.png" width="22" alt="" />
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <input class="form-check-input" type="radio" name="infosLigne"
+                                                    formControlName="notation_cloture" value="content"
+                                                    id="infosLigne" />
+                                            </div>
+                                        </div>
+                                        <div style="
+                                                        display: flex;
+                                                        flex-direction: column;
+                                                    ">
+                                            <div>
+                                                <label for="infosLigne" style="
+                                                                margin-left: 0 !important;
+                                                            ">
+                                                    <img src="assets/images/icones/confused.png" width="22"
+                                                        alt="" />
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <input class="form-check-input" type="radio" name="infosLigne"
+                                                    formControlName="notation_cloture" value="neutre"
+                                                    id="infosLigne" />
+                                            </div>
+                                        </div>
+                                        <div style="
+                                                        display: flex;
+                                                        flex-direction: column;
+                                                    ">
+                                            <div>
+                                                <label for="infosLigne" style="
+                                                                margin-left: 0 !important;
+                                                            ">
+                                                    <img src="assets/images/icones/sad.png" width="22" alt="" />
+                                                </label>
+                                            </div>
+                                            <div>
+                                                <input class="form-check-input" type="radio" name="infosLigne"
+                                                    formControlName="notation_cloture" value="mécontent"
+                                                    id="infosLigne" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width: 100%">
+                                <label for="commentaire"><strong>Commentaire<span class="text-danger" [hidden]="
+                                                        !croixRougeCommentaire
+                                                    ">*</span></strong></label>
+                                <textarea name="commentaire" formControlName="commentaire" class="form-control"
+                                    rows="2" style="
+                                                width: 100%;
+                                                margin-top: 0%;
+                                            " placeholder="Entrer un commentaire">
+                                        </textarea>
+                            </div>
+                        </div>
+                    </fieldset> -->
+
+                    <br />
+
+                    <!-- <fieldset *ngIf="params.vue === 'activation' &&
+                                    params.action === 'Identifier' &&
+                                    canIdentify(listDemandes)
+                                " class="padding-bottom-lignes">
+                        <legend>
+                            <b>Identification des lignes</b>
+                        </legend>
+                        <div class="row">
+                            <app-form-masse class="col-md-9 d-flex align-items-end" [fileModel]="fileModel"
+                                (dataToSend)="pushCurrentArrayForm($event)" 
+                                [currentArrayHeaders]="currentArrayHeaders" 
+                                (downloadModel)="onDownloadModel($event)" 
+                                [formMasseLibelle]="formMasseLibelle" 
+                                [libelleFile]="libelleFile">
+                            </app-form-masse>
+                        </div>
+                    </fieldset> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

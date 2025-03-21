@@ -1,24 +1,51 @@
-<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()" class="d-flex gap-2 no-wrap">
-
+<form
+    [formGroup]="formFilter"
+    (ngSubmit)="onSubmitFilterForm()"
+    class="d-flex gap-2 no-wrap"
+>
     <div class="col-md-3 px-0">
-      <label><b>IMSI</b></label>
-      <input type="text" formControlName="imsi" pInputText [ngStyle]="{ width: '100%' }" />
+        <label><b>IMSI</b></label>
+        <input
+            type="text"
+            formControlName="imsi"
+            pInputText
+            [ngStyle]="{ width: '100%' }"
+        />
     </div>
 
     <div class="col-md-3 pr-0">
-      <label><b>ICCID</b></label>
-      <input type="text" formControlName="iccid" pInputText [ngStyle]="{ width: '100%' }" />
+        <label><b>ICCID</b></label>
+        <input
+            type="text"
+            formControlName="iccid"
+            pInputText
+            [ngStyle]="{ width: '100%' }"
+        />
     </div>
-  
+
     <div class="col-m px-0">
-      <label><b>Statut</b> </label>
-      <p-dropdown [options]="listStatut" [showClear]="true" formControlName="statut" placeholder="Statut"
-        optionValue="code" optionLabel="libelle" [ngStyle]="{ width: '100%' }"
-        emptyFilterMessage="Aucune correspondance" emptyMessage="Aucune donnée">
-      </p-dropdown>
+        <label><b>Statut</b> </label>
+        <p-dropdown
+            [options]="listStatut"
+            [showClear]="true"
+            formControlName="statut"
+            placeholder="Statut"
+            optionValue="code"
+            optionLabel="libelle"
+            [ngStyle]="{ width: '100%' }"
+            emptyFilterMessage="Aucune correspondance"
+            emptyMessage="Aucune donnée"
+        >
+        </p-dropdown>
     </div>
-  
+
     <div class="d-flex align-items-end" [ngStyle]="{ width: '4rem' }">
-      <button pButton pRipple type="submit" class="p-button-success" icon="pi pi-filter"></button>
+        <button
+            pButton
+            pRipple
+            type="submit"
+            class="p-button-success"
+            icon="pi pi-filter"
+        ></button>
     </div>
-  </form>
+</form>

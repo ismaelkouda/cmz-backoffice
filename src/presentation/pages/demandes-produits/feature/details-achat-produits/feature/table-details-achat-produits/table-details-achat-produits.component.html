@@ -50,7 +50,7 @@
         <tr>
             <th class="text-center" [style]="{ width: '1.5rem' }">#</th>
             <th class="text-center">Date/Heure</th>
-            <th class="text-center">N° Produit</th>
+            <th class="text-center">N° Transaction</th>
             <th class="text-center" [style]="{ width: '8rem' }">Etape</th>
             <th class="text-center" [style]="{ width: '8rem' }">Etat</th>
             <th
@@ -71,7 +71,7 @@
                 class="cursor-pointer text-center"
                 (click)="copyData(produit.transaction)"
             >
-                {{ produit?.numero_produit }}
+                {{ produit?.transaction }}
             </td>
             <td class="text-center" [style]="{ width: '8rem' }">
                 <span
@@ -89,7 +89,7 @@
                     {{ produit.traitement }}
                 </span>
             </td>
-            <td class="text-center" [style]="{ width: '8rem' }">
+            <td class="text-center">
                 {{ produit.updated_at ?? 'N/A' }}
             </td>
             <td class="td-actions">

@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { FactureComponent } from "./ui/facture/facture.component";
+import { InvoiceFormComponent } from "../../../shared/components/invoice-form/invoice-form.component";
 
 export const FACTURE = "facture";
 
@@ -11,7 +12,15 @@ const routes: Routes = [
       {
         path: '',
         component: FactureComponent
-      }
+      },
+      {
+        path: ":numero_demande",
+        component: InvoiceFormComponent,
+      },
+      {
+        path: '**',
+        redirectTo: '',
+      },
     ]
   }
 ];
@@ -20,4 +29,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ComptabiliteRoutingModule {}
+export class ComptabiliteRoutingModule { }

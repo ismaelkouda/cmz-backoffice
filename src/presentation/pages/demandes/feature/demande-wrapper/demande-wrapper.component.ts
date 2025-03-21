@@ -1,10 +1,10 @@
+import { DemandeMasseComponent } from './../../../supervision-operations/feature/demande-masse/demande-masse.component';
 import { BADGE_ETAPE } from './../../../../../shared/constants/badge-etape.constant';
 import { BADGE_ETAT } from '../../../../../shared/constants/badge-etat.contant';
 
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
-import { SettingService } from 'src/shared/services/setting.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
@@ -14,14 +14,14 @@ import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enu
 import { ExcelService } from 'src/shared/services/excel.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { DemandeService } from '../../data-access/demande.service';
-import { DemandeMasseComponent } from 'src/presentation/pages/supervision-operations/feature/demande-masse/demande-masse.component';
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
 import { DemandesFilterStateService } from '../../data-access/demandes-filter-state.service';
 import { SharedDataService } from 'src/shared/services/shared-data.service';
 import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { TypePaiementComponent } from '../type-paiement/type-paiement.component';
-import { StateFactureService } from '../../../../../shared/components/facture/data-access/state-facture.service';
+import { StateInvoiceFormService } from '../../../../../shared/components/invoice-form/data-access/state-invoice-form.service';
+import { SettingService } from '../../../../../shared/services/setting.service';
 type PageAction = { data: Object, action: 'facture', view: 'page' };
 @Component({
   selector: 'app-demande-wrapper',
@@ -78,7 +78,7 @@ export class DemandeWrapperComponent implements OnInit {
     private demandesFilterStateService: DemandesFilterStateService,
     private sharedDataService: SharedDataService, private loadingBarService: LoadingBarService,
     private router: Router, private activatedRoute: ActivatedRoute,
-    private stateFactureService: StateFactureService) {
+    private stateInvoiceFormService: StateInvoiceFormService) {
     this.listOperations = this.mappingService.listOperations
     Object.values(StatutTransaction).forEach(item => { this.listStatuts.push(item); });
     Object.values(TraitementTransaction).forEach(item => { this.listTraitementTransactions.push(item); });
@@ -110,6 +110,7 @@ export class DemandeWrapperComponent implements OnInit {
         break;
     }
   }
+
   public navigateByUrl(params: PageAction): void {
     const data = {
       numero_demande: this.selectedTransaction,
@@ -120,10 +121,10 @@ export class DemandeWrapperComponent implements OnInit {
       date_debut: this.selectDateStart,
       date_fin: this.selectDateEnd,
     }
-    const id = params.data ? params.data["id"] : null;
+    const numero_demande = params.data["numero_demande"];
     const ref = params.action;
     const current_page = this.page || 1;
-    const filter = this.stateFactureService?.setFilterFactureState(data) ?? null;
+    const filter = this.stateInvoiceFormService?.setFilterInvoiceFormState(data) ?? null;
 
     const queryParams = {
       ref,
@@ -135,12 +136,13 @@ export class DemandeWrapperComponent implements OnInit {
 
     switch (params.action) {
       case "facture":
-        routePath = `${id}`;
+        routePath = `${numero_demande}`;
         break;
     }
 
     this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams });
   }
+  
   OnShowModalTraitement(data: any): void {
     let action: string;
     if (data?.statut === this.BADGE_ETAPE.SOUMISSION && data.traitement === this.BADGE_ETAT.EN_ATTENTE) {
@@ -150,7 +152,7 @@ export class DemandeWrapperComponent implements OnInit {
     }
     this.IsLoading = true;
     const modalRef = this.modalService.open(DemandeMasseComponent, ModalParams);
-    modalRef.componentInstance.params = { vue: "demande", action: action };
+    modalRef.componentInstance.params = { vue: data.operation, action: action };
     modalRef.componentInstance.demande = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
     modalRef.componentInstance.resultTraitement = this.demandeService.GetDemandeServiceByTransaction(this.demandesFilterStateService.getFilterState(), this.p);
     modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res; modalRef.componentInstance.IsLoadData = !res });
@@ -457,6 +459,13 @@ export class DemandeWrapperComponent implements OnInit {
 
   // }
 
+  public disabledFolderButton(data): boolean {
+    if(data?.statut == BADGE_ETAPE.FINALISATEUR || data?.statut == BADGE_ETAPE.CLOTURE) {
+      return false;
+    }
+    return true;
+  }
+    
 
   public getEtapeBadge(data: any): string {
     switch (data?.statut) {
@@ -489,7 +498,8 @@ export class DemandeWrapperComponent implements OnInit {
         break;
 
       case BADGE_ETAPE.CLOTURE:
-        if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
+        if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-success"; }
+  if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
         if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
         if (data?.traitement === BADGE_ETAT.ABANDONNE) { return "badge-warning"; }
         if (data?.traitement === BADGE_ETAT.REJETE) { return "badge-danger"; }

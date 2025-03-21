@@ -25,6 +25,7 @@ export const enum EndPointUrl {
     
     GET_ALL_CYCLES = 'patrimoine-sim/cycle-de-vie/all?page={page}',
     GET_ALL_ETAT_SOLDE = 'patrimoine-sim/sims/etat-sims?page={page}',
+    GET_ALL_ETAT_SOLDE_SMS = 'patrimoine-sim/sims/etat-sms?page={page}',
     VERIFY_PATRIMOINE = 'patrimoine-sim/sims/verifier',
     ACTIVATION_SIM = 'patrimoine-sim/transactions/demande_activation',
     CHANGE_STATUT = 'patrimoine-sim/transactions/sur-sim',

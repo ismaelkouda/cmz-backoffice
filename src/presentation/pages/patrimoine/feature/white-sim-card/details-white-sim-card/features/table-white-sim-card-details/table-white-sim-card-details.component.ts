@@ -1,8 +1,9 @@
 import { Component, Input } from "@angular/core";
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
-import { TableConfig } from "../../../../../../../../shared/services/table-export-excel-file.service";
-import { TABLE_WHITE_SIM_CARD_DETAILS, WhiteSimCardDetails } from "../../data-access/white-sim-card-details/table-white-sim-card-details";
+import { TableConfig, TableExportExcelFileService } from "../../../../../../../../shared/services/table-export-excel-file.service";
+import { TABLE_WHITE_SIM_CARD_DETAILS, WhiteSimCard, WhiteSimCardDetails } from "../../data-access/white-sim-card-details/table-white-sim-card-details";
+import { SharedDataService } from "../../../../../../../../shared/services/shared-data.service";
 
 type TYPECOPY = "iccid" | "imsi";
 
@@ -13,13 +14,15 @@ type TYPECOPY = "iccid" | "imsi";
 
 export class TableWhiteSimCardDetailsComponent {
 
-    @Input() listWhiteSimCardDetails: Array<WhiteSimCardDetails>;
+    @Input() listWhiteSimCardDetails: WhiteSimCardDetails;
     @Input() spinner: boolean;
     public IsLoading: boolean;
-    public selectedWhiteSimCardDetails: WhiteSimCardDetails;
+    public selectedWhiteSimCardDetails: WhiteSimCard;
     public table: TableConfig = TABLE_WHITE_SIM_CARD_DETAILS;
 
-    constructor(private toastrService: ToastrService, private clipboardService: ClipboardService,) { }
+    constructor(private toastService: ToastrService, private clipboardService: ClipboardService,
+        private tableExportExcelFileService: TableExportExcelFileService, private sharedDataService: SharedDataService,
+    ) { }
 
     public getStatutBadge(statut: string): string {
         switch (statut) {
@@ -36,7 +39,15 @@ export class TableWhiteSimCardDetailsComponent {
     }
 
     public copyData(selectedDetailsWhiteSimCard: WhiteSimCardDetails, type: TYPECOPY): void {
-        this.toastrService.success("Copié dans le presse papier");
+        this.toastService.success("Copié dans le presse papier");
         this.clipboardService.copyFromContent(selectedDetailsWhiteSimCard[type]);
+    }
+
+    public pageCallback() {
+        this.sharedDataService.sendPatrimoineDetailsWhiteSimCard();
+    }
+
+    public onExportExcel(): void {
+        this.tableExportExcelFileService.exportAsExcelFile(this.listWhiteSimCardDetails.carte_sims, this.table, `liste_carte_sim_blanche_du_dossier_${this.listWhiteSimCardDetails.numero_demande}`);
     }
 }

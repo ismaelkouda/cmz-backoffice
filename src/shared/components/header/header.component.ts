@@ -1,18 +1,17 @@
 import { NotifyService } from './../../services/notify.service';
-import { Component, OnInit, Inject } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
 import { NavService } from "../../services/nav.service";
 import { LayoutService } from "../../services/layout.service";
 import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";
 // @ts-ignore
 import { MappingService } from "src/shared/services/mapping.service";
-import { ApplicationType } from "src/shared/enum/ApplicationType.enum";
 import { Router } from "@angular/router";
 import { NOTIFY_ROUTE } from "src/presentation/pages/supervision-operations/supervision-operations-routing.module";
 import { SUPERVISION_OPERATIONS } from "src/shared/routes/routes";
 import { ToastrService } from 'ngx-toastr';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { StoreLocaleService } from 'src/shared/services/store-locale.service';
+import { StoreCurrentUserService } from '../../services/store-current-user.service';
 
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 
@@ -27,30 +26,21 @@ export class HeaderComponent implements OnInit {
   public profil: any;
   public logoTenant: string;
   public minioUrl: string;
-  public appName: string;
-  public applicationType: string;
-  public patrimoineType: string;
+  public nom_tenant: string;
   public soldeGlobal: string;
   public ligneCreditGlobal: string;
   public countNotify: number = 0
 
-  constructor(
-    public layout: LayoutService,
-    public navServices: NavService,
-    @Inject(DOCUMENT) private document: any,
+  constructor(public layout: LayoutService, public navServices: NavService,
     private mappingService: MappingService,
-    private router: Router,
-    private notifyService: NotifyService,
-    private toastrService: ToastrService,
-    private storage: EncodingDataService,
-    private storeLocaleService: StoreLocaleService
-    
+    private router: Router, private notifyService: NotifyService,
+    private toastrService: ToastrService, private storage: EncodingDataService,
+    private storeLocaleService: StoreLocaleService,
+    private storeCurrentUserService: StoreCurrentUserService
   ) {
-    this.statutLayout();
-    this.minioUrl = this.mappingService.minioUrl;
-    this.appName = this.mappingService.appName;  
-    this.applicationType = this.mappingService.applicationType;
-    this.patrimoineType = ApplicationType.PATRIMOINESIM;
+    const currentUser = this.storeCurrentUserService.getCurrentUser;
+    this.nom_tenant = currentUser?.tenant.nom_tenant as string;
+    this.statutLayout();  
     this.storeLocaleService._notify$.subscribe((res: any) => {
       if (res) {
         this.countNotify = res

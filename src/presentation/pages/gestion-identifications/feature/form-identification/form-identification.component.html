@@ -8,14 +8,14 @@
                 label="Identifier"
                 (click)="handleIdentifyCampagne()"
                 [disabled]="(isNoVerifyPiecesPhotos || formIdentifierCarteSim.invalid) && !(formIdentifierCarteSim.valid && carteSimSelectedDetails?.['is_identified'])"
-                *ngIf="typeTraitement?.identifier"
+                *ngIf="typeTreatment?.identifier"
             ></button>
             <button
                 pButton
                 pRipple
                 class="p-button-danger w-100 mt-2"
                 label="Annuler"
-                *ngIf="typeTraitement?.identifier"
+                *ngIf="typeTreatment?.identifier"
             ></button>
         </div>
 
@@ -145,7 +145,7 @@
                         </div>
                         <ng-container
                             *ngIf="
-                                typeTraitement.visualiser;
+                                typeTreatment.visualiser;
                                 else fieldsModuleIdentifier
                             "
                         >
@@ -703,7 +703,7 @@
                     </div>
                 </fieldset> -->
 
-                <!-- <fieldset *ngIf="typeTraitement?.identifier">
+                <!-- <fieldset *ngIf="typeTreatment?.identifier">
                     <legend><strong>Traitement</strong></legend>
                     <div class="row">
                         <div class="d-flex align-items-end col-md-3">

@@ -1,15 +1,33 @@
-<p-table #dt [value]="listFactures" [rowHover]="true" dataKey="id" selectionMode="single"
-    [(selection)]="selectedFacture" [rows]="pagination?.per_page" [globalFilterFields]="table.globalFilterFields">
+<p-table
+    #dt
+    [value]="listFactures"
+    [rowHover]="true"
+    dataKey="id"
+    selectionMode="single"
+    [(selection)]="selectedFacture"
+    [rows]="pagination?.per_page"
+    [globalFilterFields]="table.globalFilterFields"
+>
     <ng-template pTemplate="caption">
         <div class="d-flex justify-content-between">
-            <app-table-title [count]="pagination?.total" [legendePluriel]="'dossiers'" [perPage]="pagination?.per_page"
-                [legendeSingulier]="'dossier'" [page]="pagination?.currentPage" [totalPage]="pagination?.last_page">
+            <app-table-title
+                [count]="pagination?.total"
+                [legendePluriel]="'dossiers'"
+                [perPage]="pagination?.per_page"
+                [legendeSingulier]="'dossier'"
+                [page]="pagination?.current_page"
+                [totalPage]="pagination?.last_page"
+            >
             </app-table-title>
             <div class="d-flex gap-2 align-items-center">
                 <div>
-                    <app-table-button-header (refresh)="pageCallback()"
-                        [disabledButtonExport]="listFactures.length === 0" (export)="onExportExcel()"
-                        [hiddenButtonOther]="true" [iconOther]="'pi pi-plus'">
+                    <app-table-button-header
+                        (refresh)="pageCallback()"
+                        [disabledButtonExport]="listFactures.length === 0"
+                        (export)="onExportExcel()"
+                        [hiddenButtonOther]="true"
+                        [iconOther]="'pi pi-plus'"
+                    >
                     </app-table-button-header>
                 </div>
                 <div>
@@ -20,14 +38,22 @@
     </ng-template>
     <ng-template pTemplate="header">
         <tr>
-            <th *ngFor="let col of table.cols" [class]="col.class" [ngStyle]="{'width': col.width}">
+            <th
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
                 {{ col.header }}
             </th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowIndex="rowIndex" let-dossier>
         <tr [pSelectableRow]="dossier">
-            <td *ngFor="let col of table.cols" [class]="col.class" [ngStyle]="{'width': col.width}">
+            <td
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
                         {{ rowIndex + pagination?.current_page }}
@@ -35,13 +61,16 @@
                     <ng-container *ngSwitchCase="'Type Opération'">
                         {{ formatTitle(dossier?.[col.field]) }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'N° Dossier'">
+                    <ng-container *ngSwitchCase="'Référence'">
                         <span (click)="copyToClipboard(dossier?.[col.field])">
                             {{ dossier?.[col.field] }}
                         </span>
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Etat'">
-                        <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getEtatBadge(dossier)">
+                    <ng-container *ngSwitchCase="'Statut'">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            [class]="'badge ' + getStatutBadge(dossier)"
+                        >
                             {{ dossier?.[col.field] }}
                         </span>
                     </ng-container>
@@ -49,13 +78,29 @@
                         {{ dossier?.[col.field] }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Actions'">
+                        <!-- <button
+                            pButton
+                            icon="pi pi-eye"
+                            pTooltip="Détails dossier"
+                            tooltipPosition="top"
+                            (click)="onAction({data: dossier, action: 'form-dossier', view: 'modal'})"
+                            class="p-button-secondary"
+                        ></button>&nbsp; -->
                         <button
-                        pButton
-                        icon="pi pi-folder-open"
-                        pTooltip="Voir"
-                        tooltipPosition="top"
-                        class="p-button-dark"
-                    ></button>
+                            pButton
+                            icon="pi pi-print"
+                            [class]="getColorActionButton(dossier).style"
+                            pTooltip="Facture"
+                            tooltipPosition="top"
+                            (click)="
+                                onAction({
+                                    data: dossier,
+                                    action: 'form-dossier',
+                                    view: 'page'
+                                })
+                            "
+                            style="border-color: transparent"
+                        ></button>
                     </ng-container>
                     <ng-container *ngSwitchDefault>
                         {{dossier?.[col.field]}}
@@ -67,27 +112,44 @@
     <ng-template pTemplate="emptymessage">
         <tr *ngIf="listFactures?.length <= 0 && !spinner">
             <td class="posRelative" colspan="15">
-                <span class="posCenter"> {{ 'NO_DATA_FOUND' | translate }} </span>
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
             </td>
         </tr>
-        <tr *ngIf="spinner" style="height:46px">
+        <tr *ngIf="spinner" style="height: 46px">
             <td class="posRelative" colspan="15">
-                <p-progressSpinner class="posCenter" [style]="{ width: '40px', height: '50px' }"
-                    styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
                 </p-progressSpinner>
             </td>
         </tr>
     </ng-template>
 </p-table>
 
-
-<p-dialog [header]="'[File d\'attente] Demande ['+selectedFacture?.['numero_demande']+']'" [resizable]="true"
-    [(visible)]="visibleFormDossier" (onHide)="hideDialog()" [modal]="true" [closable]="true"
-    [style]="{'width': '100%', 'max-height': '100%'}" [responsive]="true" [maximizable]="true" [draggable]="false">
-
+<p-dialog
+    [header]="'[File d\'attente] Demande ['+selectedFacture?.['numero_demande']+']'"
+    [resizable]="true"
+    [(visible)]="visibleFormDossier"
+    (onHide)="hideDialog()"
+    [modal]="true"
+    [closable]="true"
+    [style]="{ width: '100%', 'max-height': '100%' }"
+    [responsive]="true"
+    [maximizable]="true"
+    [draggable]="false"
+>
     <ng-template pTemplate="content">
-        <app-form-dossier [demande]="selectedFacture" [typeTraitement]="typeTraitement"
-            (visibleFormDossier)="hideDialog()"></app-form-dossier>
+        <app-form-dossier
+            [demande]="selectedFacture"
+            [typeTreatment]="typeTreatment"
+            (visibleFormDossier)="hideDialog()"
+        ></app-form-dossier>
     </ng-template>
-
 </p-dialog>

@@ -7,7 +7,9 @@ import { SharedDataService } from '../../../../../../shared/services/shared-data
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { JournalComponent } from '../../../../../../shared/components/journal/journal.component';
 import { ModalParams } from '../../../../../../shared/constants/modalParams.contant';
+import { ClipboardService } from 'ngx-clipboard';
 
+type TYPECOPY = "numero_demande";
 type Action = PageAction | ModalAction;
 type PageAction = { data: DossierWhiteSimCard, action: 'détails', view: 'page' };
 type ModalAction = { data: DossierWhiteSimCard, action: 'journal', view: 'modal' };
@@ -26,7 +28,14 @@ export class TableWhiteSimCardComponent {
   public table: TableConfig = TABLE_WHITE_SIM_CARD;
 
   constructor(public toastService: ToastrService, private sharedDataService: SharedDataService,
-    private tableExportExcelFileService: TableExportExcelFileService, private ngbModal: NgbModal) { }
+    private tableExportExcelFileService: TableExportExcelFileService, private ngbModal: NgbModal,
+    private clipboardService: ClipboardService,) { }
+
+
+    public copyData(selectedDetailsWhiteSimCard: DossierWhiteSimCard, type: TYPECOPY): void {
+        this.toastService.success("Copié dans le presse papier");
+        this.clipboardService.copyFromContent(selectedDetailsWhiteSimCard[type]);
+    }
 
   public pageCallback() {
     this.sharedDataService.sendPatrimoineWhiteSimCard();
@@ -67,8 +76,8 @@ export class TableWhiteSimCardComponent {
 
   public showJournal(selectedWhiteSimCard: Object): void {
       const modalRef = this.ngbModal.open(JournalComponent, ModalParams);
-      modalRef.componentInstance.dataToSend = { reference: selectedWhiteSimCard?.["reference"] };
-      modalRef.componentInstance.libelleModule = "patrimoine";
+      modalRef.componentInstance.typeJournal = "whiteSimCard";
+      modalRef.componentInstance.numero_demande = selectedWhiteSimCard['reference'];
   }
 
   private selectWhiteSimCard(selectedWhiteSimCard: DossierWhiteSimCard): void {

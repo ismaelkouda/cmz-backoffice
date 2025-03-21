@@ -1,90 +1,89 @@
+import { PatrimoineService } from './../../../patrimoine/data-access/patrimoine.service';
+import { Justificatif } from './../../../../../shared/enum/Justificatif.enum';
+import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
+import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
+import { DEMANDE_SERVICE } from 'src/shared/routes/routes';
 import { DEMANDE_ACTIVATION } from 'src/presentation/pages/demandes/demandes-routing.module';
 import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
-import {
-    formDataBuilder,
-    formDataBuilderSome,
-} from '../../../../../shared/constants/formDataBuilder.constant';
+import { formDataBuilder } from '../../../../../shared/constants/formDataBuilder.constant';
 import { ToastrService } from 'ngx-toastr';
-import {
-    Component,
-    OnInit,
-    Input,
-    Output,
-    EventEmitter,
-    OnDestroy,
-    ViewChild,
-} from '@angular/core';
-import { SimStatut } from 'src/shared/enum/SimStatut.enum';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EndPointUrl } from '../../data-access/api.enum';
-
-import { environment } from 'src/environments/environment.prod';
-import { SettingService } from 'src/shared/services/setting.service';
+const Swal = require("sweetalert2");
 import { MappingService } from 'src/shared/services/mapping.service';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
-import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
-import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 import { Router } from '@angular/router';
-import { DEMANDE_SERVICE } from 'src/shared/routes/routes';
 import { DemandeService } from '../../data-access/demande.service';
 import { handle } from '../../../../../shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../../../../shared/constants/swalWithBootstrapButtonsParams.constant';
+import { SettingService } from '../../../../../shared/services/setting.service';
 
 @Component({
     selector: 'app-transaction-form',
     templateUrl: './transaction-form.component.html',
     styleUrls: ['./transaction-form.component.scss'],
 })
+
 export class TransactionFormComponent implements OnInit, OnDestroy {
-    public formMasseLibelle = {
-        etape_1: "Etape 1 : Cliquez pour télécharger le fichier modèle",
-        etape_2: "Etape 2 : Importez le fichier modèle",
-        etape_3: "Etape 3 : Vérifiez le fichier importé"
-    } as const;
-    public libelleFile = {
-        file1: "Télécharger le modèle",
-        file2: "Charger le fichier"
-    } as const;
-    public fileModel =
-        '../../../../../assets/data/Modele-Activation-En-Masse.xlsx';
+    // public formMasseLibelle = {
+    //     etape_1: "Etape 1 : Cliquez pour télécharger le fichier modèle",
+    //     etape_2: "Etape 2 : Importez le fichier modèle",
+    //     etape_3: "Etape 3 : Vérifiez le fichier importé"
+    // } as const;
+    // public libelleFile = {
+    //     file1: "Télécharger le modèle",
+    //     file2: "Charger le fichier"
+    // } as const;
+    // public fileModel = '../../../../../assets/data/Modele-Activation-En-Masse.xlsx';
+    // public selectedValue: string;
+    // @Output() listSuspensions = new EventEmitter();
+    // public listPatrimoineSims: Array<any> = [];
+    // public totalPageArray: Array<any> = [];
+    // public currentListSims: Array<any> = [];
+    // public selectedVolume: any;
+    // public display: boolean = false;
+    // public isMaximized: boolean = false;
+    // public radioValue: string = 'IMSI';
+    // public operationValue: string;
+    // public currentListSimsPage: number;
+    // public siteKey: string;
+    // public currentRecaptcha: string;
+    // public suspension: string = OperationTransaction.SUSPENSION;
+    // public formule: string = OperationTransaction.CHANGEMENT_FORMULE;
+    // public resiliation: string = OperationTransaction.RESILIATION;
+    // public swap: string = OperationTransaction.SWAP;
+    // public currentArrayHeaders: Array<any> = [];
+    // public listDemandes: any;
+    // public selectedImsi: string;
+    // public selectedDescription: string;
+    // public selectedFormule: any;
+    // public selectedMsisdn: string;
+    // public selectedExploitation: any;
+    // public sourceStock: string = 'stock';
+    // public sourceOrange: string = 'orangeci';
+    public selectedPiece: any;
+    public patrimoineType: string;
     public baseUrl: string;
-    @Output() listSuspensions = new EventEmitter();
     @Input() currentObject;
     @Input() currentSelectedActionValue;
-    @Input() typeDemande;
+    @Input() typeDemande: 'activation-en-masse' | 'activation-en-simple';
     @Output() formsView = new EventEmitter();
     @Output() listTransactions = new EventEmitter();
     public adminForm: FormGroup;
-    public selectedValue: string;
-    public listPatrimoineSims: Array<any> = [];
-    public totalPageArray: Array<any> = [];
-    public currentListSims: Array<any> = [];
     public listFormules: Array<any> = [];
     public currentPatrimoine: any = {};
-    public selectedVolume: any;
-    public display: boolean = false;
-    public isMaximized: boolean = false;
-    public selectedActionValue: string;
-    public radioValue: string = 'IMSI';
-    public operationValue: string;
     public totalPage: 0;
     public totalRecords: 0;
     public recordsPerPage: 0;
     public offset: any;
     public p: number = 1;
-    public currentListSimsPage: number;
-    public siteKey: string;
-    public currentRecaptcha: string;
     //Operations Transaction
     public activation: string = OperationTransaction.ACTIVATION;
     public activationMasse: string = OperationTransaction.ACTIVATION_EN_MASSE;
-    public suspension: string = OperationTransaction.SUSPENSION;
-    public formule: string = OperationTransaction.CHANGEMENT_FORMULE;
-    public resiliation: string = OperationTransaction.RESILIATION;
-    public swap: string = OperationTransaction.SWAP;
     public volume: string = OperationTransaction.VOLUME_DATA;
 
     //FormsControl
@@ -92,27 +91,16 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     public listExploitations: Array<any> = [];
     public listUsages: Array<any> = [];
     public listActivites: Array<any> = [];
-    public currentArrayHeaders: Array<any> = [];
-    public listDemandes: any;
-    public selectedImsi: string;
-    public selectedDescription: string;
-    public selectedPiece: any;
-    public selectedFormule: any;
-    public selectedMsisdn: string;
     public selectedDirection: any;
-    public selectedExploitation: any;
-    public patrimoineType: string;
     public historie: any;
     @ViewChild('captchaElem', { static: false }) captchaElem: any;
     //Type Source
-    public sourceStock: string = 'stock';
-    public sourceOrange: string = 'orangeci';
     public sourceValue: string;
 
     //Mapping
     public applicationType: string;
     public firstLevelLibelle: string;
-    public secondLevelLibelle: string;
+    public secondLevelLibelle: string;flistDirections
     public thirdLevelLibelle: string;
     public sourceStockTenantSim: string;
     public sourceStockOrangeSim: string;
@@ -127,34 +115,27 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     public clonedMetrique: { [s: string]: any } = {};
     public globalMetriquesEditRow: Array<any> = [];
     public editableRowIndex: number | null = null;
-    public totalQuantite: number = 0;
+    public totalQuantitePrises: number = 0;
     public initialNbRestants: number;  // Variable pour la valeur initiale
+    public totalDisponibles: number;
+    public expandedRows = {};
+    public selectedLot: Array<Object> = [];
 
-    constructor(
-        private patrimoineService: PatrimoineService,
-        private demandeService: DemandeService,
-        private settingService: SettingService,
-        private toastrService: ToastrService,
-        private httpClient: HttpClient,
-        private router: Router,
-        private mappingService: MappingService,
-        private storage: EncodingDataService,
-        private loadingBarService: LoadingBarService,
-        private fb: FormBuilder,
+    constructor(private patrimoineService: PatrimoineService, private demandeService: DemandeService,
+        private settingService: SettingService, private toastrService: ToastrService,
+        private httpClient: HttpClient, private router: Router,
+        private mappingService: MappingService, private storage: EncodingDataService,
+        private loadingBarService: LoadingBarService, private fb: FormBuilder,
     ) {
         const data = JSON.parse(this.storage.getData('user'));
         this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`;
         this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
-        this.secondLevelLibelle =
-            this.mappingService.structureGlobale?.niveau_2;
+        this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
         this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
         (this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim),
-            (this.sourceStockOrangeSim =
-                this.mappingService.sourceStockOrangeSim),
-            (this.sourceSoldeDotation =
-                this.mappingService?.sourceSoldeDotation);
-        this.sourceSoldeDotationOrange =
-            this.mappingService?.sourceSoldeDotationOrange;
+        (this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim),
+        (this.sourceSoldeDotation = this.mappingService?.sourceSoldeDotation);
+        this.sourceSoldeDotationOrange = this.mappingService?.sourceSoldeDotationOrange;
         this.applicationType = this.mappingService.applicationType;
         this.patrimoineType = ApplicationType.PATRIMOINESIM;
     }
@@ -162,83 +143,153 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.getSimCartonSimBlancheDisponibles();
         this.GetCoutUnitaireOperation();
-        this.siteKey = environment.recaptcha.siteKey;
-        this.isFilter();
-        if (this.typeDemande === "simple") {
-            this.initFormSimple();
-        } else if (this.typeDemande === "masse") {
-            this.initFormMasse();
-        }
-        this.IsFormFomSIMValidate();
-        this.isVerify();
-        this.IsPatrimoineType();
+        // this.siteKey = environment.recaptcha.siteKey;
+        // this.isFilter();
+        // if (this.typeDemande === "simple") {
+        //     this.initFormSimple();
+        // } else if (this.typeDemande === "masse") {
+            this.initForm();
+        // }
+        // this.IsFormFomSIMValidate();
+        // this.isVerify();
+        // this.IsPatrimoineType();
         this.GetAllFormules();
         this.historie = history.state.patrimoine;
         this.onGetDrValueChanges();
-        if (this.historie) {
-            this.selectedActionValue = history.state.operation;
-            this.operationValue = this.selectedActionValue;
-            this.currentPatrimoine = history.state.patrimoine;
-            this.onFormPachValues();
-            this.adminForm.get('imsi').disable();
-            this.adminForm.get('msisdn').disable();
-        } else {
-            this.selectedActionValue = this.currentSelectedActionValue;
-            this.operationValue = this.selectedActionValue;
-        }
-        if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
+        // if (this.historie) {
+        //     this.selectedActionValue = history.state.operation;
+        //     this.operationValue = this.selectedActionValue;
+        //     this.currentPatrimoine = history.state.patrimoine;
+        //     this.onFormPachValues();
+        //     this.adminForm.get('imsi')?.disable();
+        //     this.adminForm.get('msisdn')?.disable();
+        // } else {
+        //     this.selectedActionValue = this.currentSelectedActionValue;
+        //     this.operationValue = this.selectedActionValue;
+        // }
+        // if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
             this.getAllDirectionRegionales();
             this.getAllUsages();
             this.getAllZones();
-        }
-        if (this.selectedActionValue === this.swap) {
-            this.sourceValue = 'stock';
-        }
-        if (this.applicationType === ApplicationType.MONITORING) {
-            this.sourceValue = this.sourceOrange;
-        }
-        if (
-            this.selectedActionValue === 'activation' &&
-            this.typeDemande === 'masse'
-        ) {
-            this.selectedActionValue = 'activation-en-masse';
-        }
-        if (this.typeDemande === 'masse') {
-            this.currentArrayHeaders = [
-                'TYPE_EMPLACEMENT',
-                'NOM_EMPLACEMENT',
-                'USAGE',
-                'ADRESSE_MAIL',
-                'ADRESSE_GEOGRAPHIQUE',
-                'LATITUDE',
-                'LONGITUDE',
-                'MSISDN',
-                'IMSI',
-            ];
-        }
+        // }
+        // if (this.selectedActionValue === this.swap) {
+        //     this.sourceValue = 'stock';
+        // }
+        // if (this.applicationType === ApplicationType.MONITORING) {
+        //     this.sourceValue = this.sourceOrange;
+        // }
+        // if (this.typeDemande === 'masse') {
+        //     this.currentArrayHeaders = [
+        //         'TYPE_EMPLACEMENT',
+        //         'NOM_EMPLACEMENT',
+        //         'USAGE',
+        //         'ADRESSE_MAIL',
+        //         'ADRESSE_GEOGRAPHIQUE',
+        //         'LATITUDE',
+        //         'LONGITUDE',
+        //         'MSISDN',
+        //         'IMSI',
+        //     ];
+        // }
+    }
+
+    public initForm(): void {
+        this.adminForm = this.fb.group({
+            source: "stock orange",
+            operation: this.typeDemande,
+            niveau_un_uuid: [null],
+            niveau_deux_uuid: [null],
+            niveau_trois_uuid: [null],
+            usage_id: [this.currentObject ? this.currentObject.usage_id : null, [Validators.required]],
+            nb_demandes: [this.currentObject ? this.currentObject.nb_demandes : null, 
+                [Validators.required, Validators.min(1), Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
+            point_emplacement: [this.currentObject?.point_emplacement || ''],
+            adresse_geographique: [this.currentObject?.adresse_geographique || ''],
+            adresse_email: [this.currentObject?.adresse_email, Validators.email],
+            longitude: [this.currentObject?.longitude || ''],
+            latitude: [this.currentObject?.latitude || ''],
+            formule_uuid: [this.currentObject ? this.currentObject.formule_uuid : null, [Validators.required]],
+            description: [this.currentObject ? this.currentObject.description : '', [Validators.required]],
+            prix_unitaire: [this.coutUinitaire],
+            montant: [this.currentObject ? this.currentObject?.montant : null],
+            justificatif: [null, Validators.required]
+        });
+        // if (this.typeDemande === "paiement") { this.adminForm.disable() }
+        const nbDemandesControl = this.adminForm.get("nb_demandes");
+        const prixUnitaireControl = this.adminForm.get("prix_unitaire");
+        prixUnitaireControl?.disable();
+        const montantControl = this.adminForm.get("montant");
+        montantControl?.disable();
+        const gererMontantDemandes = (value: number) => {
+            // if (nbDemandesControl?.valid) {
+                const montantDemandes = value * prixUnitaireControl?.value;
+                montantControl?.setValue(montantDemandes)
+            // } else {
+            //     montantControl?.setValue(this.currentObject?.prix_unitaire)
+            // }
+            montantControl?.updateValueAndValidity();
+        };
+        gererMontantDemandes(nbDemandesControl?.value);
+        nbDemandesControl?.valueChanges.subscribe((value) => {
+            gererMontantDemandes(value);
+        });
+        this.adminForm.get("source")?.valueChanges.subscribe((value) => {
+            if (value === "stock local") { nbDemandesControl?.disable(); nbDemandesControl?.reset(); }
+            else { nbDemandesControl?.enable(); nbDemandesControl?.reset(); }
+        });
+    }
+
+    set validators(control) {
+        this.adminForm.setValidators([Validators.required]);
+    }
+    
+    async getSimCartonSimBlancheDisponibles() {
+        const response: any = await handle<any>(() => this.patrimoineService.PostPatrimoineSimCartonSimBlancheDisponibles({}), this.toastrService, this.loadingBarService);
+        if (response && response?.error === false) {
+            this.totalDisponibles = response.data.total_disponibles;
+            this.listWhiteSimCard = response.data.data.map((whiteSimCard) => { return { ...whiteSimCard, selected_nb_restants: 0 } });
+        };
+    }
+
+    public GetCoutUnitaireOperation(): void {
+        this.settingService.GetCoutUnitaireOperation(this.currentOperation).subscribe({
+            next: (response) => {
+                this.coutUinitaire = response['data'];
+                this.adminForm.get("prix_unitaire")?.patchValue(this.coutUinitaire)
+            },
+            error: (error) => {
+                this.toastrService.error(error.error.message);
+            },
+        });
+    }
+
+    /*************************************************Modal activation-en-masse***********************************************/
+    
+    expandAll() {
+        this.expandedRows = this.listWhiteSimCard.reduce((acc, p) => (acc[p.id] = true) && acc, {});
+    }
+
+    collapseAll() {
+        this.expandedRows = {};
     }
     showDialog() {
         this.dialogVisible = true;
     }
+
     editRow(item: any, rowIndex: number): void {
-        console.log('Début de l’édition pour', item);
-        this.initialNbRestants = item.nb_restants;
+        this.initialNbRestants = item.selected_nb_restants;
         this.editableRowIndex = rowIndex;
         this.clonedMetrique[item.id] = { ...item };
     }
 
     saveRowEdit(metrique: any): void {
         const originalMetrique = this.clonedMetrique[metrique.id];
-        console.log('État original avant sauvegarde', originalMetrique);
 
         const updatedData = {
             carton_id: originalMetrique.id,
-            quantite: metrique.nb_restants ?? originalMetrique.nb_restants,
+            quantite: metrique.selected_nb_restants ?? originalMetrique.selected_nb_restants,
         };
 
-        console.log('Données à sauvegarder', updatedData);
-
-        // Vérifie si la ligne est déjà dans les modifications globales
         const existsInEditRow = this.globalMetriquesEditRow.some(
             (row) => row.carton_id === updatedData.carton_id
         );
@@ -255,14 +306,12 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         }
 
         delete this.clonedMetrique[metrique.id]; // Supprime la sauvegarde temporaire
-        console.log('Modifications globales après sauvegarde', this.globalMetriquesEditRow);
-        this.totalQuantite = this.globalMetriquesEditRow.reduce((sum, item) => sum + item.quantite, 0);
+        this.totalQuantitePrises = this.globalMetriquesEditRow.reduce((sum, item) => sum + item.quantite, 0);
         this.editableRowIndex = null;
     }
 
     cancelRowEdit(customer: any, rowIndex: number): void {
-        console.log('Annulation des modifications pour', customer);
-        customer.nb_restants = this.initialNbRestants;
+        customer.selected_nb_restants = this.initialNbRestants;
         this.listWhiteSimCard[rowIndex] = this.clonedMetrique[customer.id];
         delete this.clonedMetrique[customer.id];
 
@@ -271,12 +320,13 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             (row) => row.carton_id !== customer.id
         );
         this.editableRowIndex = null;
-        console.log('État des modifications après annulation', this.globalMetriquesEditRow);
-        // this.totalQuantite = this.globalMetriquesEditRow.reduce((sum, item) => sum + item.quantite, 0);
+        // this.totalQuantitePrises = this.globalMetriquesEditRow.reduce((sum, item) => sum + item.quantite, 0);
     }
-    public HandleSaveLot() {
+
+    public HandleSaveLotMasse() {
         this.dialogVisible = false
-        console.log('[...this.globalMetriquesEditRow]', [...this.globalMetriquesEditRow])
+        this.adminForm.get("nb_demandes")?.patchValue(this.totalQuantitePrises);
+        this.adminForm.get("nb_demandes")?.disable();
         // this.contratSlaService
         //   .HandleUpdateContrat({
         //     engagements_sla: [...this.globalMetriquesEditRow],
@@ -292,162 +342,99 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         //     },
         //   });
     }
-    public IsValidate(): boolean {
-        return this.globalMetriquesEditRow.length === 0 ? true : false;
-    }
-    async getSimCartonSimBlancheDisponibles() {
-        const response: any = await handle<any>(() => this.patrimoineService.PostPatrimoineSimCartonSimBlancheDisponibles({}), this.toastrService, this.loadingBarService);
-        if (response && response?.error === false) {
-            this.listWhiteSimCard = response.data;
-        };
-    }
-    public GetCoutUnitaireOperation(): void {
-        this.settingService.GetCoutUnitaireOperation(this.currentOperation).subscribe({
-            next: (response) => {
-                this.coutUinitaire = response['data'];
-                this.adminForm.get("prix_unitaire")?.patchValue(this.coutUinitaire)
-            },
-            error: (error) => {
-                this.toastrService.error(error.error.message);
-            },
+    
+    /*************************************************Modal activation-en-simple***********************************************/
+    public HandleSaveLotSimple() {
+        const message = `<span style="color: #569C5B;">Une SIM</span> sera prise dans ce lot <span style="color: #ff6600;"><strong>${this.selectedLot[0]?.['numero_demande']}</strong></span>`;
+        Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass }).fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: message })
+        .then((result): void => {
+            if (result.value) { 
+                this.dialogVisible = false;
+                this.adminForm.get("nb_demandes")?.patchValue(this.totalQuantitePrises);
+                this.adminForm.get("nb_demandes")?.disable();
+            }
         });
     }
+    // public IsValidate(): boolean {
+    //     return this.globalMetriquesEditRow.length === 0 ? true : false;
+    // }
 
-    pushCurrentArrayForm(event) {
-        this.listDemandes = event;
-    }
+    // pushCurrentArrayForm(event) {
+    //     this.listDemandes = event;
+    // }
+
     close() {
         history.state.operation = null;
         this.formsView.emit(false);
         this.typeDemande = null;
     }
 
-    IsPatrimoineType(): boolean {
-        return this.applicationType === this.patrimoineType ? true : false;
-    }
+    // IsPatrimoineType(): boolean {
+    //     return this.applicationType === this.patrimoineType ? true : false;
+    // }
+    // public initFormSimple(): void {
+    //     this.adminForm = this.fb.group({
+    //         operation: this.activation,
+    //         niveau_un_uuid: [this.currentObject?.niveau_un_uuid || '', [Validators.required]],
+    //         niveau_deux_uuid: [this.currentObject?.niveau_deux_uuid || '', [Validators.required]],
+    //         niveau_trois_uuid: [this.currentObject?.niveau_trois_uuid || '', [Validators.required]],
+    //         usage_id: [this.currentObject?.usage_id || '', [Validators.required]],
+    //         nb_demandes: [this.currentObject?.nb_demandes || '', [Validators.required]],
+    //         point_emplacement: [this.currentObject?.point_emplacement || '', [Validators.required]],
+    //         adresse_geographique: [this.currentObject?.adresse_geographique || '', [Validators.required]],
+    //         longitude: [this.currentObject?.longitude || ''],
+    //         latitude: [this.currentObject?.latitude || ''],
+    //         adresse_email: [null, Validators.email],
+    //         imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+    //         statut: [''],
+    //         statut_contrat: [''],
+    //         formule_uuid: [this.currentObject?.formule_uuid || '', [Validators.required]],
+    //         description: [this.currentObject?.description || '', [Validators.required]],
+    //         msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
+    //         code_pin: [''],
+    //         username: [''],
+    //         site: [''],
+    //         adresse_ip: [''],
+    //         proxy: [''],
+    //         type_paiement: [null, Validators.required],
+    //         recu_paiement: [null],
+    //         justificatif: [null, Validators.required]
+    //     });
 
-    public initFormMasse(): void {
-        this.adminForm = this.fb.group({
-            source: "stock orange",
-            operation: this.activationMasse,
-            niveau_un_uuid: [this.currentObject ? this.currentObject.niveau_un_uuid : ''],
-            niveau_deux_uuid: [this.currentObject ? this.currentObject.niveau_deux_uuid : ''],
-            niveau_trois_uuid: [this.currentObject ? this.currentObject.niveau_trois_uuid : ''],
-            usage_id: [this.currentObject ? this.currentObject.usage_id : null, [Validators.required]],
-            nb_demandes: [this.currentObject ? this.currentObject.nb_demandes : null, [
-                Validators.required,
-                Validators.min(1),
-                Validators.pattern(/^\d+(\.\d{1,2})?$/)
-            ]],
-            formule_uuid: [this.currentObject ? this.currentObject.formule_uuid : null, [Validators.required]],
-            description: [this.currentObject ? this.currentObject.description : '', [Validators.required]],
-            prix_unitaire: [this.coutUinitaire],
-            montant: [this.currentObject ? this.currentObject?.montant : null],
-            // type_paiement: [null, Validators.required],
-            // recu_paiement: [null],
-            justificatif: [null, Validators.required]
-        });
-        // const typePaiementControl = this.adminForm.get("type_paiement");
-        // const recuPaiementControl = this.adminForm.get("recu_paiement");
-        // typePaiementControl.valueChanges.subscribe((value) => {
-        //     if (value === "immédiat") {
-        //         recuPaiementControl.setValidators([Validators.required]);
-        //     } else {
-        //         recuPaiementControl.clearValidators();
-        //         recuPaiementControl.reset();
-        //     }
-        //     recuPaiementControl.updateValueAndValidity();
-        // });
-        if (this.typeDemande === "paiement") { this.adminForm.disable() }
-        const nbDemandesControl = this.adminForm.get("nb_demandes");
-        const prixUnitaireControl = this.adminForm.get("prix_unitaire");
-        prixUnitaireControl?.disable();
-        const montantControl = this.adminForm.get("montant");
-        montantControl?.disable();
-        const gererMontantDemandes = (value: number) => {
-            if (nbDemandesControl?.valid) {
-                const montantDemandes = value * prixUnitaireControl.value;
-                montantControl.setValue(montantDemandes)
-            } else {
-                montantControl.setValue(this.currentObject?.prix_unitaire)
-            }
-            montantControl.updateValueAndValidity();
-        };
-        gererMontantDemandes(nbDemandesControl?.value);
-        nbDemandesControl?.valueChanges.subscribe((value) => {
-            gererMontantDemandes(value);
-        });
-    }
+    //     const typePaiementControl = this.adminForm.get("type_paiement");
+    //     const recuPaiementControl = this.adminForm.get("recu_paiement");
+    //     const msisdnControl = this.adminForm.get("msisdn");
+    //     const imsiControl = this.adminForm.get("imsi");
 
-    public initFormSimple(): void {
-        this.adminForm = this.fb.group({
-            operation: this.activation,
-            niveau_un_uuid: [this.currentObject?.niveau_un_uuid || '', [Validators.required]],
-            niveau_deux_uuid: [this.currentObject?.niveau_deux_uuid || '', [Validators.required]],
-            niveau_trois_uuid: [this.currentObject?.niveau_trois_uuid || '', [Validators.required]],
-            usage_id: [this.currentObject?.usage_id || '', [Validators.required]],
-            nb_demandes: [this.currentObject?.nb_demandes || '', [Validators.required]],
-            point_emplacement: [this.currentObject?.point_emplacement || '', [Validators.required]],
-            adresse_geographique: [this.currentObject?.adresse_geographique || '', [Validators.required]],
-            longitude: [this.currentObject?.longitude || ''],
-            latitude: [this.currentObject?.latitude || ''],
-            adresse_email: [null, Validators.email],
-            imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
-            statut: [''],
-            statut_contrat: [''],
-            formule_uuid: [this.currentObject?.formule_uuid || '', [Validators.required]],
-            description: [this.currentObject?.description || '', [Validators.required]],
-            msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
-            code_pin: [''],
-            username: [''],
-            site: [''],
-            adresse_ip: [''],
-            proxy: [''],
-            type_paiement: [null, Validators.required],
-            recu_paiement: [null],
-            justificatif: [null, Validators.required]
-        });
+    //     typePaiementControl?.valueChanges?.subscribe((value) => {
+    //         if (value === "immédiat") {
+    //             recuPaiementControl?.setValidators([Validators.required]);
+    //         } else {
+    //             recuPaiementControl?.clearValidators();
+    //             recuPaiementControl?.reset();
+    //         }
+    //         recuPaiementControl?.updateValueAndValidity();
+    //     });
 
-        const typePaiementControl = this.adminForm.get("type_paiement");
-        const recuPaiementControl = this.adminForm.get("recu_paiement");
-        const msisdnControl = this.adminForm.get("msisdn");
-        const imsiControl = this.adminForm.get("imsi");
+    //     msisdnControl?.valueChanges.subscribe((value) => {
+    //         if (value && value.length > 10) {
+    //             msisdnControl.setValue(value.slice(0, 10), { emitEvent: false });
+    //         }
+    //     });
 
-        typePaiementControl.valueChanges.subscribe((value) => {
-            if (value === "immédiat") {
-                recuPaiementControl.setValidators([Validators.required]);
-            } else {
-                recuPaiementControl.clearValidators();
-                recuPaiementControl.reset();
-            }
-            recuPaiementControl.updateValueAndValidity();
-        });
+    //     imsiControl?.valueChanges.subscribe((value) => {
+    //         if (value && value.length > 15) {
+    //             imsiControl.setValue(value.slice(0, 15), { emitEvent: false });
+    //         }
+    //     });
+    // }
 
-        msisdnControl.valueChanges.subscribe((value) => {
-            if (value && value.length > 10) {
-                msisdnControl.setValue(value.slice(0, 10), { emitEvent: false });
-            }
-        });
-
-        imsiControl.valueChanges.subscribe((value) => {
-            if (value && value.length > 15) {
-                imsiControl.setValue(value.slice(0, 15), { emitEvent: false });
-            }
-        });
-    }
-
-    get statut_contrat() {
-        return this.adminForm.get('statut').value;
-    }
+    // get statut_contrat() {
+    //     return this.adminForm.get('statut')?.value;
+    // }
 
     public GetAllTransactions() {
-        this.demandeService
-            .GetDemandeServiceByTransaction(
-                {
-                    operation: this.currentSelectedActionValue,
-                },
-                1
-            )
+        this.demandeService.GetDemandeServiceByTransaction({ operation: this.currentSelectedActionValue }, 1)
             .subscribe({
                 next: (response) => {
                     const datas = response['data']['data'].map((data) => {
@@ -489,57 +476,57 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
                 },
             });
     }
-    public GetAllPatrimoines() {
-        this.patrimoineService.GetAllPatrimoines({}, this.p).subscribe({
-            next: (response) => {
-                this.listPatrimoineSims = response.data.data;
-                this.totalPage = response.data.last_page;
-                this.totalRecords = response.data.total;
-                this.recordsPerPage = response.data.per_page;
-                this.offset =
-                    (response.data.current_page - 1) * this.recordsPerPage + 1;
-                for (let i = 0; i < this.totalPage; i++) {
-                    this.totalPageArray.push(i);
-                }
-            },
-            error: (error) => {
-                this.toastrService.error(error.error.message);
-            },
-        });
-    }
-    public formatTitle(title: string) {
-        switch (title) {
-            case OperationTransaction.ACHAT_SERVICE: {
-                return 'Achat de Services';
-            }
-            case 'activation-en-masse': {
-                return 'Abonnement en masse de SIM';
-            }
-            case OperationTransaction.ACTIVATION: {
-                return 'Activation de SIM';
-            }
-            case OperationTransaction.SWAP: {
-                return 'Changement de carte SIM';
-            }
-            case OperationTransaction.SUSPENSION: {
-                return 'Suspension de SIM';
-            }
-            case OperationTransaction.RESILIATION: {
-                return 'Résiliation de SIM';
-            }
-            case OperationTransaction.VOLUME_DATA: {
-                return 'Depot de volume	';
-            }
-            case 'provisionning': {
-                return 'Ligne de Credit';
-            }
-            case OperationTransaction.CHANGEMENT_FORMULE: {
-                return 'Changement de formule';
-            }
-            default:
-                return 'N/A';
-        }
-    }
+    // public GetAllPatrimoines() {
+    //     this.patrimoineService.GetAllPatrimoines({}, this.p).subscribe({
+    //         next: (response) => {
+    //             this.listPatrimoineSims = response.data.data;
+    //             this.totalPage = response.data.last_page;
+    //             this.totalRecords = response.data.total;
+    //             this.recordsPerPage = response.data.per_page;
+    //             this.offset =
+    //                 (response.data.current_page - 1) * this.recordsPerPage + 1;
+    //             for (let i = 0; i < this.totalPage; i++) {
+    //                 this.totalPageArray.push(i);
+    //             }
+    //         },
+    //         error: (error) => {
+    //             this.toastrService.error(error.error.message);
+    //         },
+    //     });
+    // }
+    // public formatTitle(title: string) {
+    //     switch (title) {
+    //         case OperationTransaction.ACHAT_SERVICE: {
+    //             return 'Achat de Services';
+    //         }
+    //         case 'activation-en-masse': {
+    //             return 'Abonnement en masse de SIM';
+    //         }
+    //         case OperationTransaction.ACTIVATION: {
+    //             return 'Activation de SIM';
+    //         }
+    //         case OperationTransaction.SWAP: {
+    //             return 'Changement de carte SIM';
+    //         }
+    //         case OperationTransaction.SUSPENSION: {
+    //             return 'Suspension de SIM';
+    //         }
+    //         case OperationTransaction.RESILIATION: {
+    //             return 'Résiliation de SIM';
+    //         }
+    //         case OperationTransaction.VOLUME_DATA: {
+    //             return 'Depot de volume	';
+    //         }
+    //         case 'provisionning': {
+    //             return 'Ligne de Credit';
+    //         }
+    //         case OperationTransaction.CHANGEMENT_FORMULE: {
+    //             return 'Changement de formule';
+    //         }
+    //         default:
+    //             return 'N/A';
+    //     }
+    // }
     public getAllDirectionRegionales() {
         this.settingService.GetAllFirstLevelSimple({}).subscribe({
             next: (response) => {
@@ -550,7 +537,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             },
         });
     }
-    onGetDrValueChanges() {
+    public onGetDrValueChanges() {
         return this.adminForm?.get('niveau_un_uuid')?.valueChanges.subscribe((value) => {
             this.getAllExploitation(value);
         });
@@ -599,125 +586,124 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             },
         });
     }
-    public onVerify() {
-        this.patrimoineService
-            .OnVerify({
-                ...(this.radioValue === 'IMSI'
-                    ? { imsi: this.selectedValue }
-                    : { msisdn: this.selectedValue }),
-            })
-            .subscribe({
-                next: (response: any) => {
-                    this.currentPatrimoine = response['data'];
-                },
-                error: (error) => {
-                    this.toastrService.error(error.error.message);
-                    // this.currentPatrimoine = {}
-                },
-            });
-    }
+    // public onVerify() {
+    //     this.patrimoineService
+    //         .OnVerify({
+    //             ...(this.radioValue === 'IMSI'
+    //                 ? { imsi: this.selectedValue }
+    //                 : { msisdn: this.selectedValue }),
+    //         })
+    //         .subscribe({
+    //             next: (response: any) => {
+    //                 this.currentPatrimoine = response['data'];
+    //             },
+    //             error: (error) => {
+    //                 this.toastrService.error(error.error.message);
+    //                 // this.currentPatrimoine = {}
+    //             },
+    //         });
+    // }
 
-    public changeItem(event: any) {
-        this.currentPatrimoine = {};
-        this.selectedValue = null;
-        this.selectedVolume = null;
-        this.selectedDescription = null;
-    }
+    // public changeItem(event: any) {
+    //     this.currentPatrimoine = {};
+    //     this.selectedValue = "";
+    //     this.selectedVolume = null;
+    //     this.selectedDescription = "";
+    // }
     public onChangeFile(file: FileList, type: "justificatif" | "recu-paiement") {
         const selectedFile = file.item(0);
-        if (selectedFile) {
-            // Mettez à jour le selectedPiece pour que le bouton soit activé
-            this.selectedPiece = selectedFile;
+        this.adminForm.patchValue({ justificatif: selectedFile });
+        // if (selectedFile) {
+        //     // Mettez à jour le selectedPiece pour que le bouton soit activé
+        //     // this.selectedPiece = selectedFile;
 
-            switch (type) {
-                case "justificatif":
-                    this.adminForm.patchValue({ justificatif: selectedFile });
-                    break;
-                case "recu-paiement":
-                    this.adminForm.patchValue({ recu_paiement: selectedFile });
-                    break;
-            }
-            this.adminForm.get(type === "justificatif" ? "justificatif" : "recu_paiement")?.updateValueAndValidity();
-        } else {
-            this.selectedPiece = null; // Réinitialiser selectedPiece si aucun fichier n'est sélectionné
-        }
+        //     switch (type) {
+        //         case "justificatif":
+        //             break;
+        //         case "recu-paiement":
+        //             this.adminForm.patchValue({ recu_paiement: selectedFile });
+        //             break;
+        //     }
+        // } else {
+        //     this.adminForm.get('justificatif')?.updateValueAndValidity();
+        //     this.selectedPiece = null; // Réinitialiser selectedPiece si aucun fichier n'est sélectionné
+        // }
     }
-    public handleSaveNewTransaction() {
-        let baseUrl;
-        let data;
-        if (this.selectedActionValue === OperationTransaction.SWAP) {
-            data = formDataBuilder({
-                ...this.currentPatrimoine,
-                operation: this.selectedActionValue,
-                bac_a_pioche: this.sourceValue,
-                description: this.selectedDescription,
-                justificatif: this.selectedPiece,
-            });
-            baseUrl = `${this.baseUrl}${EndPointUrl.SWAPER_SIM}`;
-        } else if (
-            this.selectedActionValue === OperationTransaction.ACTIVATION
-        ) {
-            let adminData;
-            if (this.applicationType === ApplicationType.MONITORING) {
-                adminData = {
-                    ...(this.historie
-                        ? {
-                            ...this.adminForm.value,
-                            msisdn: this.currentPatrimoine?.msisdn,
-                            imsi: this.currentPatrimoine?.imsi,
-                        }
-                        : this.adminForm.value),
-                    bac_a_pioche: 'orangeci',
-                };
-            } else if (this.applicationType === ApplicationType.PATRIMOINESIM) {
-                adminData = {
-                    ...this.adminForm.value,
-                    ...this.adminForm.value,
-                    bac_a_pioche:
-                        this.sourceValue !== undefined
-                            ? this.sourceValue
-                            : 'patrimoine',
-                };
-            }
-            console.log('this.adminForm.value', this.adminForm.value)
-            data = formDataBuilder({
-                ...adminData,
-                operation: this.selectedActionValue,
-                justificatif: this.selectedPiece,
-            });
-            baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`;
-        } else if (
-            this.selectedActionValue === OperationTransaction.VOLUME_DATA
-        ) {
-            data = formDataBuilder({
-                ...this.currentPatrimoine,
-                operation: this.selectedActionValue,
-                description: this.selectedDescription,
-                bac_a_pioche: 'stock',
-                volume: this.selectedVolume,
-                justificatif: this.selectedPiece,
-            });
-            baseUrl = `${this.baseUrl}${EndPointUrl.VOLUME_DATA}`;
-        } else {
-            data = formDataBuilder({
-                ...this.currentPatrimoine,
-                operation: this.selectedActionValue,
-                description: this.selectedDescription,
-                justificatif: this.selectedPiece,
-                formule_uuid: this.selectedFormule,
-            });
-            baseUrl = this.typeDemande === 'modifier' ? `${this.baseUrl}${EndPointUrl.MODIFICATION_DEMANDE}` : `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`;
-        }
-        this.httpClient.post(`${baseUrl}`, data).subscribe({
-            next: (res: any) => {
-                this.GetAllTransactions();
-                this.toastrService.success(res.message);
-            },
-            error: (error) => {
-                this.toastrService.error(error.error.message);
-            },
-        });
-    }
+    // public handleSaveNewTransaction() {
+    //     let baseUrl;
+    //     let data;
+    //     if (this.selectedActionValue === OperationTransaction.SWAP) {
+    //         data = formDataBuilder({
+    //             ...this.currentPatrimoine,
+    //             operation: this.selectedActionValue,
+    //             bac_a_pioche: this.sourceValue,
+    //             description: this.selectedDescription,
+    //             justificatif: this.selectedPiece,
+    //         });
+    //         baseUrl = `${this.baseUrl}${EndPointUrl.SWAPER_SIM}`;
+    //     } else if (
+    //         this.selectedActionValue === OperationTransaction.ACTIVATION
+    //     ) {
+    //         let adminData;
+    //         if (this.applicationType === ApplicationType.MONITORING) {
+    //             adminData = {
+    //                 ...(this.historie
+    //                     ? {
+    //                         ...this.adminForm.value,
+    //                         msisdn: this.currentPatrimoine?.msisdn,
+    //                         imsi: this.currentPatrimoine?.imsi,
+    //                     }
+    //                     : this.adminForm.value),
+    //                 bac_a_pioche: 'orangeci',
+    //             };
+    //         } else if (this.applicationType === ApplicationType.PATRIMOINESIM) {
+    //             adminData = {
+    //                 ...this.adminForm.value,
+    //                 ...this.adminForm.value,
+    //                 bac_a_pioche:
+    //                     this.sourceValue !== undefined
+    //                         ? this.sourceValue
+    //                         : 'patrimoine',
+    //             };
+    //         }
+    //         data = formDataBuilder({
+    //             ...adminData,
+    //             operation: this.selectedActionValue,
+    //             justificatif: this.selectedPiece,
+    //         });
+    //         baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`;
+    //     } else if (
+    //         this.selectedActionValue === OperationTransaction.VOLUME_DATA
+    //     ) {
+    //         data = formDataBuilder({
+    //             ...this.currentPatrimoine,
+    //             operation: this.selectedActionValue,
+    //             description: this.selectedDescription,
+    //             bac_a_pioche: 'stock',
+    //             volume: this.selectedVolume,
+    //             justificatif: this.selectedPiece,
+    //         });
+    //         baseUrl = `${this.baseUrl}${EndPointUrl.VOLUME_DATA}`;
+    //     } else {
+    //         data = formDataBuilder({
+    //             ...this.currentPatrimoine,
+    //             operation: this.selectedActionValue,
+    //             description: this.selectedDescription,
+    //             justificatif: this.selectedPiece,
+    //             formule_uuid: this.selectedFormule,
+    //         });
+    //         baseUrl = this.typeDemande === 'modifier' ? `${this.baseUrl}${EndPointUrl.MODIFICATION_DEMANDE}` : `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`;
+    //     }
+    //     this.httpClient.post(`${baseUrl}`, data).subscribe({
+    //         next: (res: any) => {
+    //             this.GetAllTransactions();
+    //             this.toastrService.success(res.message);
+    //         },
+    //         error: (error) => {
+    //             this.toastrService.error(error.error.message);
+    //         },
+    //     });
+    // }
     public handleSaveMasse() {
         let baseUrl;
         let data;
@@ -768,7 +754,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             }
             baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`;
         }
-
+        // j'ai activer par ce que j'ai besoin de la valeur pour la soumettre
+        this.adminForm.get("nb_demandes")?.enable();
         this.httpClient.post(`${baseUrl}`, formDataBuilder({...this.adminForm.value, stockages: JSON.stringify([...this.globalMetriquesEditRow])})).subscribe({
             next: (res: any) => {
                 this.GetAllTransactions();
@@ -780,77 +767,77 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         });
     }
 
-    public selectedSource(value: string) {
-        this.sourceValue = value;
-    }
+    // public selectedSource(value: string) {
+    //     this.sourceValue = value;
+    // }
 
-    public hideDialog() {
-        setTimeout(() => {
-            this.display = false;
-        }, 500);
-    }
+    // public hideDialog() {
+    //     setTimeout(() => {
+    //         this.display = false;
+    //     }, 500);
+    // }
 
-    public onFormPachValues(): void {
-        this.adminForm
-            .get('niveau_un_uuid')
-            .patchValue(this.currentPatrimoine?.niveau_un_uuid);
-        this.adminForm
-            .get('niveau_deux_uuid')
-            .patchValue(this.currentPatrimoine?.niveau_deux_uuid);
-        this.adminForm
-            .get('niveau_trois_uuid')
-            .patchValue(this.currentPatrimoine?.niveau_trois_uuid);
-        this.adminForm
-            .get('usage_id')
-            .patchValue(this.currentPatrimoine?.usage_id);
-        this.adminForm.get('imsi').patchValue(this.currentPatrimoine?.imsi);
-        this.adminForm.get('msisdn').patchValue(this.currentPatrimoine?.msisdn);
-        this.adminForm.get('statut').patchValue(this.currentPatrimoine?.statut);
-        this.adminForm
-            .get('code_pin')
-            .patchValue(this.currentPatrimoine?.code_pin);
-        this.adminForm
-            .get('adresse_geographique')
-            .patchValue(this.currentPatrimoine?.adresse_geographique);
-        this.adminForm
-            .get('point_emplacement')
-            .patchValue(this.currentPatrimoine?.point_emplacement);
-        this.adminForm
-            .get('adresse_email')
-            .patchValue(this.currentPatrimoine?.adresse_email);
-        this.adminForm
-            .get('longitude')
-            .patchValue(this.currentPatrimoine?.longitude);
-        this.adminForm
-            .get('latitude')
-            .patchValue(this.currentPatrimoine?.latitude);
-    }
-    public isVerify(): boolean {
-        return Object.keys(this.currentPatrimoine).length === 0 ? true : false;
-    }
+    // public onFormPachValues(): void {
+    //     this.adminForm
+    //         .get('niveau_un_uuid')
+    //         ?.patchValue(this.currentPatrimoine?.niveau_un_uuid);
+    //     this.adminForm
+    //         .get('niveau_deux_uuid')
+    //         ?.patchValue(this.currentPatrimoine?.niveau_deux_uuid);
+    //     this.adminForm
+    //         .get('niveau_trois_uuid')
+    //         ?.patchValue(this.currentPatrimoine?.niveau_trois_uuid);
+    //     this.adminForm
+    //         .get('usage_id')
+    //         ?.patchValue(this.currentPatrimoine?.usage_id);
+    //     this.adminForm.get('imsi')?.patchValue(this.currentPatrimoine?.imsi);
+    //     this.adminForm.get('msisdn')?.patchValue(this.currentPatrimoine?.msisdn);
+    //     this.adminForm.get('statut')?.patchValue(this.currentPatrimoine?.statut);
+    //     this.adminForm
+    //         .get('code_pin')
+    //         ?.patchValue(this.currentPatrimoine?.code_pin);
+    //     this.adminForm
+    //         .get('adresse_geographique')
+    //         ?.patchValue(this.currentPatrimoine?.adresse_geographique);
+    //     this.adminForm
+    //         .get('point_emplacement')
+    //         ?.patchValue(this.currentPatrimoine?.point_emplacement);
+    //     this.adminForm
+    //         .get('adresse_email')
+    //         ?.patchValue(this.currentPatrimoine?.adresse_email);
+    //     this.adminForm
+    //         .get('longitude')
+    //         ?.patchValue(this.currentPatrimoine?.longitude);
+    //     this.adminForm
+    //         .get('latitude')
+    //         ?.patchValue(this.currentPatrimoine?.latitude);
+    // }
+    // public isVerify(): boolean {
+    //     return Object.keys(this.currentPatrimoine).length === 0 ? true : false;
+    // }
 
-    public IsFormFomSIMValidate(): boolean {
-        if (this.selectedActionValue === this.volume) {
-            return !this.selectedDescription || !this.selectedVolume
-                ? true
-                : false;
-        } else if (this.selectedActionValue === this.formule) {
-            return !this.selectedDescription || !this.selectedFormule
-                ? true
-                : false;
-        } else {
-            !this.selectedDescription ? true : false;
-            return !this.selectedDescription ? true : false;
-        }
-    }
+    // public IsFormFomSIMValidate(): boolean {
+    //     if (this.selectedActionValue === this.volume) {
+    //         return !this.selectedDescription || !this.selectedVolume
+    //             ? true
+    //             : false;
+    //     } else if (this.selectedActionValue === this.formule) {
+    //         return !this.selectedDescription || !this.selectedFormule
+    //             ? true
+    //             : false;
+    //     } else {
+    //         !this.selectedDescription ? true : false;
+    //         return !this.selectedDescription ? true : false;
+    //     }
+    // }
 
-    async onDownloadModel(): Promise<any> {
-        // const tokenUser = JSON.parse(this.storage.getData('user')).token;
-        // window.location.href = this.gestionStocksService.postGestionStocksDownloadModeleFile(STOCKAGE_NUMEROS, tokenUser);
-    }
-    public isFilter(): boolean {
-        return !this.selectedValue ? true : false;
-    }
+    // async onDownloadModel(): Promise<any> {
+    //     // const tokenUser = JSON.parse(this.storage.getData('user')).token;
+    //     // window.location.href = this.gestionStocksService.postGestionStocksDownloadModeleFile(STOCKAGE_NUMEROS, tokenUser);
+    // }
+    // public isFilter(): boolean {
+    //     return !this.selectedValue ? true : false;
+    // }
     getFormattedMsisdn(value): string {
         const msisdn = value || ''; // Assurez-vous que msisdn est défini
         const formattedMsisdn = msisdn.replace(/(\d{2})(?=\d)/g, '$1 '); // Ajoute le séparateur

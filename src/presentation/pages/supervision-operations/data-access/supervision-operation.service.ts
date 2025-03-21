@@ -44,6 +44,11 @@ export class SupervisionOperationService {
     const url: string = (<string>EndPointUrl.POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_TRANSACTIONS_PAGE).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
+  
+  GetPatrimoineSimTransactions(data, page): Observable<any> {
+    const url: string = (<string>EndPointUrl.GET_PATRIMOINE_SIM_TRANSACTIONS).replace('{page}', page);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
   GetAllTransactions(data, page): Observable<any> {
     const url: string = (<string>EndPointUrl.GET_ALL_TRANSACTIONS).replace('{page}', page);
     return this.http.post(`${this.baseUrl}${url}`, data);
@@ -54,6 +59,10 @@ export class SupervisionOperationService {
   }
   PostSupervisionOperationsTraitementsSuivisIdentificationsSims(data): Observable<any> {
     const url: string = (<string>EndPointUrl.POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_IDENTIFICATIONS_SIMS);
+    return this.http.post(`${this.baseUrl}${url}`, data);
+  }
+  PostPatrimoineSimTransactionsSurSimUpdate(data): Observable<any> {
+    const url: string = (<string>EndPointUrl.PATRIMOINE_SIM_TRANSACTIONS_SUR_SIM_UPDATE);
     return this.http.post(`${this.baseUrl}${url}`, data);
   }
   PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(data): Observable<any> {

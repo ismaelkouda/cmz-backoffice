@@ -17,6 +17,42 @@ export class SharedDataService {
     return this.patrimoineWhiteSimCard.asObservable();
   }
 
+    /**
+   * PATRIMOINE => SMS BALANCE STATUS
+   */
+    private patrimoineSmsBalanceStatus = new Subject<void>();
+
+    sendPatrimoineSmsBalanceStatus() {
+      this.patrimoineSmsBalanceStatus.next();
+    }
+    postPatrimoineSmsBalanceStatus(): Observable<void> {
+      return this.patrimoineSmsBalanceStatus.asObservable();
+    }
+
+    /**
+   * PATRIMOINE => WHITE SIM CARD => DETAILS
+   */
+    private patrimoineDetailsWhiteSimCard = new Subject<void>();
+
+    sendPatrimoineDetailsWhiteSimCard() {
+      this.patrimoineDetailsWhiteSimCard.next();
+    }
+    postPatrimoineDetailsWhiteSimCard(): Observable<void> {
+      return this.patrimoineDetailsWhiteSimCard.asObservable();
+    }
+
+        /**
+   * PATRIMOINE => SMS BALANCE STATUS => DETAILS
+   */
+        private patrimoineDetailsSmsBalanceStatus = new Subject<void>();
+
+        sendPatrimoineDetailsSmsBalanceStatus() {
+          this.patrimoineDetailsSmsBalanceStatus.next();
+        }
+        postPatrimoineDetailsSmsBalanceStatus(): Observable<void> {
+          return this.patrimoineDetailsSmsBalanceStatus.asObservable();
+        }
+
   /**
    * TENANTS SIM
    */
@@ -76,6 +112,34 @@ export class SharedDataService {
     }
     postComptabiliteFacture(): Observable<void> {
       return this.comptabiliteFacture.asObservable();
+    }
+
+    // REFERENtiel SUPERVISION
+
+        /**
+   * PATRIMOINE => SMS BALANCE
+   */
+    private patrimoineSmsBalance = new Subject<void>();
+
+    sendPatrimoineSmsBalance() {
+      this.patrimoineSmsBalance.next();
+    }
+    postPatrimoineSmsBalance(): Observable<void> {
+      return this.patrimoineSmsBalance.asObservable();
+    }
+
+    // REFERENtiel SUPERVISION
+
+        /**
+   * PATRIMOINE => DATA BALANCE
+   */
+    private patrimoineDataBalance = new Subject<void>();
+
+    sendPatrimoineDataBalance() {
+      this.patrimoineDataBalance.next();
+    }
+    postPatrimoineDataBalance(): Observable<void> {
+      return this.patrimoineDataBalance.asObservable();
     }
   
 }

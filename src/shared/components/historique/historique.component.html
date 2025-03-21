@@ -107,23 +107,24 @@
             <ng-template let-i="rowIndex" pTemplate="body" let-historique>
                 <tr>
                     <td class="text-center">{{ i + 1 }}</td>
-                    <td class="text-center">{{ historique?.created_at }}</td>
+                    <td class="text-center">{{ historique?.createdAt }}</td>
                     <td class="text-center">
-                        {{ historique?.event ?? 'N/A' }}
+                        {{ historique?.typeAction ?? 'N/A' }}
                     </td>
                     <td>{{ historique?.action }}</td>
-                    <td>
+                    <td>{{ historique?.source }}</td>
+                    <!-- <td>
                         {{ historique?.ip }}
                         {{
-                            historique?.user
-                                ? '[' +
-                                  historique?.user?.nom +
-                                  ' ' +
-                                  historique?.user?.prenoms +
-                                  ']'
-                                : ''
+                        historique?.user
+                        ? '[' +
+                        historique?.user?.nom +
+                        ' ' +
+                        historique?.user?.prenoms +
+                        ']'
+                        : ''
                         }}
-                    </td>
+                    </td> -->
                     <td class="text-center">
                         <button
                             pButton
@@ -141,51 +142,64 @@
 
 <p-dialog
     [(visible)]="display"
-    position="bottom-right"
     (onHide)="hideDialog()"
     [style]="{ width: '100%' }"
+    [resizable]="false"
     (onMaximize)="onDialogMaximized($event)"
     [modal]="true"
     [responsive]="true"
     [maximizable]="true"
     [draggable]="false"
-    [resizable]="false"
 >
     <ng-template pTemplate="header">
         <h3>
-            <b [style]="{ color: '#FFFFFF' }">Historique</b>
+            <b [style]="{ color: '#FFFFFF' }"
+                >Historique {{ currentEvent.source }}</b
+            >
         </h3>
     </ng-template>
-    <ng-template pTemplate="content">
-        <div class="ressource_wrapper">
+    <div
+        *ngIf="!(detailsHistory$ | async); else content"
+        style="height: 100vh"
+        class="my-3"
+    >
+        <p-skeleton width="100%" height="90%"></p-skeleton>
+    </div>
+    <ng-template #content>
+        <div
+            class="ressource_wrapper"
+            *ngIf="detailsHistory$ | async as currentEvent"
+        >
             <div class="identification">
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>
-                                <b>Date/Heure</b>
-                            </label>
+                            <label><b>Date/Heure</b></label>
                             <input
                                 type="text"
-                                [placeholder]="currentEvent?.created_at"
-                                [disabled]="true"
+                                [value]="currentEvent?.createdAt"
+                                disabled
                                 pInputText
                             />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>
-                                <b>Utilisateur</b>
-                            </label>
+                            <label
+                                ><b
+                                    >Utilisateur [{{
+                                        currentEvent?.adresseIP
+                                    }}]</b
+                                ></label
+                            >
                             <input
                                 type="text"
-                                [placeholder]="
-                                    currentEvent?.user.nom +
+                                [value]="
+                                    currentEvent?.initiePar.nom +
                                     ' ' +
-                                    currentEvent?.user.prenoms
+                                    currentEvent?.initiePar.prenoms
                                 "
-                                [disabled]="true"
+                                disabled
                                 pInputText
                             />
                         </div>
@@ -194,54 +208,41 @@
                 <div class="row my-3">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>
-                                <b>Action</b>
-                            </label>
+                            <label><b>Action</b></label>
                             <input
                                 type="text"
-                                [placeholder]="currentEvent?.action"
-                                [disabled]="true"
+                                [value]="currentEvent?.action"
+                                disabled
                                 pInputText
                             />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>
-                                <b>Module</b>
-                            </label>
+                            <label><b>Module</b></label>
                             <input
                                 type="text"
-                                [placeholder]="currentEvent?.module"
-                                [disabled]="true"
+                                [value]="currentEvent?.module"
+                                disabled
                                 pInputText
                             />
                         </div>
                     </div>
+                    <!-- <div class="col-md-4">
+                        <div class="form-group">
+                            <label><b>Adresse IP</b></label>
+                            <input type="text" [value]="currentEvent?.adresseIP" disabled pInputText />
+                        </div>
+                    </div> -->
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label>
-                                <b>Sous Module</b>
-                            </label>
+                            <label><b>Moyen d'accès</b></label>
                             <input
                                 type="text"
-                                [placeholder]="currentEvent?.sous_module"
-                                [disabled]="true"
-                                pInputText
-                            />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>
-                                <b>Commentaire</b>
-                            </label>
-                            <input
-                                type="text"
-                                [placeholder]="currentEvent?.sous_module"
-                                [disabled]="true"
+                                [value]="currentEvent?.agentUtilise"
+                                disabled
                                 pInputText
                             />
                         </div>
@@ -249,100 +250,26 @@
                 </div>
             </div>
         </div>
+
         <div
             class="table_wrapper"
-            *ngIf="
-                currentEvent?.event === 'Mise à jour' ||
-                currentEvent?.event === 'Évènement'
-            "
+            *ngIf="(detailsHistory$ | async)?.typeAction === 'Mise à jour'"
         >
-            <table [ngClass]="['native_table table']">
+            <table class="native_table table">
                 <thead>
-                    <th style="width: 35rem">Champs</th>
-                    <th>Valeurs Avant</th>
-                    <th>Valeurs Après</th>
-                    <th class="text-center">Modification</th>
+                    <tr>
+                        <th style="width: 35rem" style="text-align: center">
+                            Champs
+                        </th>
+                        <th style="text-align: center">Valeurs Avant</th>
+                        <th style="text-align: center">Valeurs Après</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="padding: 0 !important">
-                            <tr style="display: flex; flex-direction: column">
-                                <td
-                                    style="
-                                        text-align: left;
-                                        text-transform: uppercase;
-                                        font-weight: bold;
-                                    "
-                                    *ngFor="
-                                        let item of this
-                                            .currentEventParseBeforeKeys
-                                    "
-                                >
-                                    {{ item }}
-                                </td>
-                            </tr>
-                        </td>
-                        <td style="padding: 0 !important">
-                            <tr style="display: flex; flex-direction: column">
-                                <td
-                                    style="
-                                        text-align: left;
-                                        text-transform: capitalize;
-                                        font-weight: 600;
-                                    "
-                                    *ngFor="
-                                        let item of this
-                                            .currentEventParseBeforeValues
-                                    "
-                                >
-                                    {{ item?.id ? item?.nom : item ?? 'N/A' }}
-                                </td>
-                            </tr>
-                        </td>
-                        <td style="padding: 0 !important">
-                            <tr style="display: flex; flex-direction: column">
-                                <td
-                                    style="
-                                        text-align: left;
-                                        text-transform: capitalize;
-                                        font-weight: 600;
-                                    "
-                                    *ngFor="
-                                        let item of this
-                                            .currentEventParseAfterValues
-                                    "
-                                >
-                                    {{
-                                        item?.item?.id
-                                            ? item?.item?.nom
-                                            : item?.item ?? 'N/A'
-                                    }}
-                                </td>
-                            </tr>
-                        </td>
-                        <td style="padding: 0 !important">
-                            <tr style="display: flex; flex-direction: column">
-                                <td
-                                    style="
-                                        text-align: left;
-                                        text-transform: capitalize;
-                                        font-weight: 600;
-                                        text-align: center;
-                                    "
-                                    *ngFor="
-                                        let item of this
-                                            .currentEventParseAfterValues
-                                    "
-                                >
-                                    <span *ngIf="!item?.isIdentique"
-                                        ><strong>Oui</strong></span
-                                    >
-                                    <span *ngIf="item?.isIdentique"
-                                        ><strong>-</strong></span
-                                    >
-                                </td>
-                            </tr>
-                        </td>
+                    <tr *ngFor="let item of transformedData$ | async">
+                        <td>{{ item.key }}</td>
+                        <td>{{ item.previousValue ?? '' }}</td>
+                        <td>{{ item.currentValue ?? '' }}</td>
                     </tr>
                 </tbody>
             </table>
