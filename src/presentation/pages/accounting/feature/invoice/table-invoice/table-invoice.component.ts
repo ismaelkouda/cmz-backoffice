@@ -1,19 +1,19 @@
-import { InvoiceApiService } from './../../../data-access/invoice/services/invoice-api.service';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 import { TableConfig, TableExportExcelFileService } from '../../../../../../shared/services/table-export-excel-file.service';
-import { Folder } from '../../../../../../shared/interfaces/folder';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { Observable } from 'rxjs';
-import { invoiceTableConstant } from '../../../data-access/invoice/constants/invoice-table.constant';
 import { TranslateService } from '@ngx-translate/core';
-import { invoiceFilterInterface } from '../../../data-access/invoice/interfaces/invoice-filter.interface';
+import { invoiceInterface } from '../../../data-access/invoice/interface/invoice.interface';
+import { invoiceTableConstant } from '../../../data-access/invoice/constantes/invoice-table';
+import { InvoiceApiService } from '../../../data-access/invoice/service/invoice-api.service';
+import { invoiceFilterInterface } from '../../../data-access/invoice/interface/invoice-filter.interface';
+import { INVOICE_STATUS_ENUM, T_INVOICE_STATUS_ENUM } from '../../../data-access/invoice/enums/invoice-status.enum';
 
-type Action = ModalAction;
-type ModalAction = { data: Folder, action: 'view-invoice', view: 'page' };
-type TYPE_COLOR_ETAPE_BADGE = 'badge-dark' | 'badge-warning' | 'badge-info' | 'badge-success';
-type TYPE_COLOR_ETAT_BADGE = 'badge-warning' | 'badge-dark' | 'badge-success' | 'badge-danger';
+type Action = PageAction;
+type PageAction = { data: invoiceInterface, action: 'view-invoice', view: 'page' };
+type TYPE_COLOR_INVOICE_STATUS_BADGE = 'badge-dark' | 'badge-warning' | 'badge-primary' | 'badge-success' | 'badge-danger';
 
 @Component({
     selector: 'app-table-invoice',
@@ -22,15 +22,15 @@ type TYPE_COLOR_ETAT_BADGE = 'badge-warning' | 'badge-dark' | 'badge-success' | 
 
 export class TableInvoiceComponent {
 
-    @Input() listInvoices$: Observable<Array<Folder>>;
-    @Input() pagination$: Observable<Paginate<Folder>>;
+    @Input() listInvoices$: Observable<Array<invoiceInterface>>;
+    @Input() pagination$: Observable<Paginate<invoiceInterface>>;
     @Input() spinner: boolean;
-    @Output() interfaceUser = new EventEmitter<any>();
-    public invoiceSelected: Folder;
+    @Output() interfaceUser = new EventEmitter<Action>();
+    public invoiceSelected: invoiceInterface;
     public visibleFormInvoice = false;
 
     public readonly table: TableConfig = invoiceTableConstant;
-    public readonly BADGE_STATUS_INVOICE = BADGE_STATUS_INVOICE;
+    public readonly INVOICE_STATUS_ENUM = INVOICE_STATUS_ENUM;
 
     constructor(private toastService: ToastrService, private clipboardService: ClipboardService,
         private tableExportExcelFileService: TableExportExcelFileService, private translate: TranslateService,
@@ -52,39 +52,39 @@ export class TableInvoiceComponent {
         this.clipboardService.copyFromContent(data);
     }
 
-    public getStatusInvoiceBadge(selectedInvoice?: { statut: T_BADGE_STATUS_INVOICE; }): TYPE_COLOR_ETAPE_BADGE {
+    public getStatusInvoiceBadge(selectedInvoice?: { statut: T_INVOICE_STATUS_ENUM; }): TYPE_COLOR_INVOICE_STATUS_BADGE {
         if (!selectedInvoice || !selectedInvoice.statut) {
             return 'badge-dark';
-          }
-      
-          const stateMap: Record<T_BADGE_STATUS_INVOICE, TYPE_COLOR_ETAT_BADGE> = {
-            [BADGE_STATUS_INVOICE.EN_ATTENTE]: 'badge-dark',
-            [BADGE_STATUS_INVOICE.POSTEE]: 'badge-warning',
-            [BADGE_STATUS_INVOICE.REPORTEE]: 'badge-primary',
-            [BADGE_STATUS_INVOICE.SOLDEE]: 'badge-success',
-            [BADGE_STATUS_INVOICE.REJETEE]: 'badge-danger',
-          };
-      
-          return stateMap[selectedInvoice.statut];
+        }
+
+        const stateMap: Record<T_INVOICE_STATUS_ENUM, TYPE_COLOR_INVOICE_STATUS_BADGE> = {
+            [INVOICE_STATUS_ENUM.WAITING]: 'badge-dark',
+            [INVOICE_STATUS_ENUM.POSTED]: 'badge-warning',
+            [INVOICE_STATUS_ENUM.REPORTED]: 'badge-primary',
+            [INVOICE_STATUS_ENUM.RESULTED]: 'badge-success',
+            [INVOICE_STATUS_ENUM.REJECTED]: 'badge-danger',
+        };
+
+        return stateMap[selectedInvoice.statut];
     }
 
     public handleAction(params: Action): void {
         this.onSelectInvoice(params.data);
 
         switch (params.view) {
-            case 'page': this.interfaceUser.emit(params); break; break;
+            case 'page': this.interfaceUser.emit(params); break;
         }
     }
 
     getTreatmentButtonViewStyle(selectedInvoice: { type_paiement: any, etat_facture: string }): { style: string, value: string } {
         if (!!selectedInvoice?.["type_paiement"]) {
             return { style: 'badge-success', value: selectedInvoice?.["etat_facture"] };
-          } else {
+        } else {
             return { style: 'badge-danger', value: selectedInvoice?.["etat_facture"] };
-          }
+        }
     }
 
-    private onSelectInvoice(selectedInvoice: Folder): void {
+    private onSelectInvoice(selectedInvoice: invoiceInterface): void {
         this.invoiceSelected = selectedInvoice;
         this.invoiceApiService.setInvoiceSelected(selectedInvoice);
     }

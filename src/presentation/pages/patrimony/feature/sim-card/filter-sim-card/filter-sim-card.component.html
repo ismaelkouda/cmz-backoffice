@@ -1,259 +1,150 @@
 <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
-    <div class="d-flex gap-1">
-        <div class="col-md-2">
-            <label
-                ><b>{{ firstLevelLibel }}</b></label
-            >
-            <p-dropdown
-                formControlName="niveau_un_uuid"
-                [options]="listFirstLevel$ | async"
-                optionValue="uuid"
-                optionLabel="nom"
-                filterBy="nom"
-                [showClear]="true"
-                [filter]="true"
+    <div class="row g-3">
+        <!-- Niveau 1 -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <label><b>{{ firstLevelLibel }}</b></label>
+            <p-dropdown formControlName="niveau_un_uuid" [options]="listFirstLevel$ | async" optionValue="uuid"
+                optionLabel="nom" filterBy="nom" [showClear]="true" [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{ firstLevelLibel }}"
-                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
-                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
-            >
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}" emptyMessage="{{ 'NO_DATA_FOUND' | translate }}">
             </p-dropdown>
         </div>
 
-        <div class="col-md-2">
-            <label
-                ><b>{{ secondLevelLibel }}</b></label
-            >
-            <p-dropdown
-                formControlName="niveau_deux_uuid"
-                [options]="listSecondLevel$ | async"
-                optionValue="uuid"
-                optionLabel="nom"
-                filterBy="nom"
-                [showClear]="true"
-                [filter]="true"
+        <!-- Niveau 2 -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <label><b>{{ secondLevelLibel }}</b></label>
+            <p-dropdown formControlName="niveau_deux_uuid" [options]="listSecondLevel$ | async" optionValue="uuid"
+                optionLabel="nom" filterBy="nom" [showClear]="true" [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{ secondLevelLibel }}"
-                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
-                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
-            >
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}" emptyMessage="{{ 'NO_DATA_FOUND' | translate }}">
             </p-dropdown>
         </div>
 
-        <div class="col-md">
-            <label
-                ><b>{{ 'STATUS' | translate }}</b></label
-            >
-            <p-dropdown
-                formControlName="statut"
-                [options]="listStatusSimCard"
-                [showClear]="true"
+        <!-- Status -->
+        <div class="col-12 col-sm-6 col-md-2">
+            <label><b>{{ 'STATUS' | translate }}</b></label>
+            <p-dropdown formControlName="statut" [options]="listStatusSimCard" [showClear]="true"
                 placeholder="{{ 'SELECT' | translate }}"
-                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
-                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
-            >
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}" emptyMessage="{{ 'NO_DATA_FOUND' | translate }}">
             </p-dropdown>
         </div>
 
-        <div class="col-md">
-            <label
-                ><b>{{ 'MSISDN' | translate }}</b></label
-            >
-            <input
-                formControlName="msisdn"
-                type="text"
-                pInputText
-                placeholder="{{ 'MSISDN' | translate }}"
-                [style]="{ minWidth: '100%' }"
-            />
+        <!-- MSISDN -->
+        <div class="col-12 col-sm-6 col-md-2">
+            <label><b>{{ 'MSISDN' | translate }}</b></label>
+            <input formControlName="msisdn" type="text" pInputText placeholder="{{ 'MSISDN' | translate }}" />
         </div>
 
-        <div class="col-md">
-            <label
-                ><b>{{ 'IMSI' | translate }}</b></label
-            >
-            <input
-                formControlName="imsi"
-                type="text"
-                pInputText
-                placeholder="{{ 'IMSI' | translate }}"
-                [style]="{ minWidth: '100%' }"
-            />
-        </div>
-
-        <div class="col-md">
-            <label
-                ><b>{{ 'APN' | translate }}</b></label
-            >
-            <p-dropdown
-                formControlName="apn"
-                [options]="listApn$ | async"
-                optionValue="apn"
-                optionLabel="apn"
-                filterBy="apn"
-                [showClear]="true"
-                [filter]="true"
-                placeholder="{{ 'SELECT' | translate }} {{ 'APN' | translate }}"
-                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
-                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
-            >
-            </p-dropdown>
-        </div>
-
-        <div class="col-md">
-            <label
-                ><b>{{ 'IP_ADDRESS' | translate }}</b></label
-            >
-            <input
-                formControlName="adresse_ip"
-                type="text"
-                pInputText
-                placeholder="{{ 'IP_ADDRESS' | translate }}"
-                [style]="{ minWidth: '100%' }"
-            />
-        </div>
-
-        <div class="filter-button" *ngIf="!secondFilter">
-            <button
-                pButton
-                pRipple
-                type="submit"
-                class="p-button-success"
-                icon="pi pi-filter"
-            ></button>
-        </div>
-
-        <div class="filter-button">
-            <button
-                *ngIf="!secondFilter"
-                (click)="showSecondFilter()"
-                pButton
-                pRipple
-                class="p-button-dark"
-                icon="pi pi-plus"
-            ></button>
-            <button
-                *ngIf="secondFilter"
-                (click)="showSecondFilter()"
-                pButton
-                pRipple
-                class="p-button-dark"
-                icon="pi pi-minus"
-            ></button>
+        <!-- Buttons (Filter, Show Second Filter) -->
+        <div class="col-12 col-sm-6 col-md-2 d-flex align-items-end justify-content-start gap-2 mt-2">
+            <button *ngIf="!secondFilter" pButton pRipple type="submit" class="p-button-success" icon="pi pi-filter"></button>
+            <button *ngIf="!secondFilter" (click)="showSecondFilter()" pButton pRipple class="p-button-dark"
+                icon="pi pi-plus"></button>
+            <button *ngIf="secondFilter" (click)="showSecondFilter()" pButton pRipple class="p-button-dark"
+                icon="pi pi-minus"></button>
         </div>
     </div>
 
-    <br *ngIf="secondFilter" />
+    <div *ngIf="secondFilter" class="mt-3">
+        <!-- Second Filter (appears when secondFilter is true) -->
+        <div class="row g-3">
 
-    <div class="d-flex gap-1" *ngIf="secondFilter">
-        <div class="col-md">
-            <label
-                ><b>{{ 'USAGE' | translate }}</b></label
-            >
-            <p-dropdown
-                formControlName="usage_id"
-                [options]="listApplicants$ | async"
-                optionLabel="nom_usage"
-                [showClear]="true"
-                placeholder="{{ 'SELECT' | translate }} {{
-                    'USAGE' | translate
-                }}"
-                optionValue="uuid"
-                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
-                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
-            >
-            </p-dropdown>
+            <!-- Destination Formula -->
+            <div class="col-12 col-sm-6 col-md-2">
+                <label><b>{{ 'DESTINATION_FORMULA' | translate }}</b></label>
+                <p-dropdown formControlName="formule_uuid" [options]="listFormulas$ | async" optionLabel="nom"
+                    [showClear]="true" placeholder="{{ 'SELECT' | translate }} {{ 'ALARM' | translate }}" optionValue="uuid"
+                    emptyFilterMessage="{{ 'NO_MATCH' | translate }}" emptyMessage="{{ 'NO_DATA_FOUND' | translate }}">
+                </p-dropdown>
+            </div>
+
+            <!-- IMSI -->
+            <div class="col-12 col-sm-6 col-md-2">
+                <label><b>{{ 'IMSI' | translate }}</b></label>
+                <input formControlName="imsi" type="text" pInputText placeholder="{{ 'IMSI' | translate }}" />
+            </div>
+
+            <!-- APN -->
+            <div class="col-12 col-sm-6 col-md-2">
+                <label><b>{{ 'APN' | translate }}</b></label>
+                <p-dropdown formControlName="apn" [options]="listApn$ | async" optionValue="apn" optionLabel="apn"
+                    filterBy="apn" [showClear]="true" [filter]="true"
+                    placeholder="{{ 'SELECT' | translate }} {{ 'APN' | translate }}"
+                    emptyFilterMessage="{{ 'NO_MATCH' | translate }}" emptyMessage="{{ 'NO_DATA_FOUND' | translate }}">
+                </p-dropdown>
+            </div>
+
+            <!-- IP Address -->
+            <div class="col-12 col-sm-6 col-md-2">
+                <label><b>{{ 'IP_ADDRESS' | translate }}</b></label>
+                <input formControlName="adresse_ip" type="text" pInputText placeholder="{{ 'IP_ADDRESS' | translate }}" />
+            </div>
+
+            <!-- Usage -->
+            <div class="col-12 col-sm-6 col-md-2">
+                <label><b>{{ 'USAGE' | translate }}</b></label>
+                <p-dropdown formControlName="usage_id" [options]="listApplicants$ | async" optionLabel="nom_usage"
+                    [showClear]="true" placeholder="{{ 'SELECT' | translate }} {{ 'USAGE' | translate }}"
+                    optionValue="uuid" emptyFilterMessage="{{ 'NO_MATCH' | translate }}" emptyMessage="{{ 'NO_DATA_FOUND' | translate }}">
+                </p-dropdown>
+            </div>
+
+            <!-- Buttons (Show Third Filter) -->
+            <div class="col-12 col-sm-6 col-md-2 d-flex align-items-end justify-content-start gap-2 mt-2">
+                <button *ngIf="!thirdFilter" pButton pRipple type="submit" class="p-button-success" icon="pi pi-filter"></button>
+                <button *ngIf="!thirdFilter" (click)="showThirdFilter()" pButton pRipple class="p-button-dark"
+                    icon="pi pi-plus"></button>
+                <button *ngIf="thirdFilter" (click)="showThirdFilter()" pButton pRipple class="p-button-dark"
+                    icon="pi pi-minus"></button>
+            </div>
         </div>
-        <div class="col-md">
-            <label
-                ><b>{{ 'DESTINATION_FORMULA' | translate }}</b></label
-            >
-            <p-dropdown
-                formControlName="formule_uuid"
-                [options]="listFormulas$ | async"
-                optionLabel="nom"
-                [showClear]="true"
-                placeholder="{{ 'SELECT' | translate }} {{
-                    'ALARM' | translate
-                }}"
-                optionValue="uuid"
-                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
-                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
-            >
-            </p-dropdown>
-        </div>
-        <div class="col-md-2">
-            <label
-                ><b>{{ thirdLevelLibel }}</b></label
-            >
-            <p-dropdown
-                formControlName="niveau_trois_uuid"
-                [options]="listThirdLevel$ | async"
-                optionValue="uuid"
-                optionLabel="nom"
-                filterBy="nom"
-                [showClear]="true"
-                [filter]="true"
-                placeholder="{{ 'SELECT' | translate }} {{ thirdLevelLibel }}"
-                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
-                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
-            >
-            </p-dropdown>
-        </div>
-        <div class="col-md">
-            <label
-                ><b>{{ 'NAME_LOCATION' | translate }}</b></label
-            >
-            <input
-                formControlName="point_emplacement"
-                type="text"
-                pInputText
-                placeholder="{{ 'NAME_LOCATION' | translate }}"
-                [style]="{ minWidth: '100%' }"
-            />
-        </div>
-        <div class="col-md">
-            <label
-                ><b>{{ 'TRAFFIC_ZONE' | translate }}</b></label
-            >
-            <input
-                formControlName="zone_trafic"
-                type="text"
-                pInputText
-                placeholder="{{ 'TRAFFIC_ZONE' | translate }}"
-                [style]="{ minWidth: '100%' }"
-            />
-        </div>
-        <div class="col-md-2">
-            <label
-                ><b>{{ 'START_DATE' | translate }}</b></label
-            >
-            <p-calendar
-                formControlName="date_debut"
-                [showIcon]="true"
-                [placeholder]="'JJ-MM-AAAA'"
-                dateFormat="dd-mm-yy"
-            >
-            </p-calendar>
-        </div>
-        <div class="col-md-2">
-            <label
-                ><b>{{ 'END_DATE' | translate }}</b></label
-            >
-            <p-calendar
-                formControlName="date_fin"
-                [showIcon]="true"
-                placeholder="JJ-MM-AAAA"
-                dateFormat="dd-mm-yy"
-            >
-            </p-calendar>
-        </div>
-        <div class="filter-button">
-            <button
-                pButton
-                pRipple
-                type="submit"
-                class="p-button-success"
-                icon="pi pi-filter"
-            ></button>
+    </div>
+
+    <div *ngIf="thirdFilter" class="mt-3">
+        <!-- Third Filter (appears when thirdFilter is true) -->
+        <div class="row g-3">
+
+            <!-- Third Level -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <label><b>{{ thirdLevelLibel }}</b></label>
+                <p-dropdown formControlName="niveau_trois_uuid" [options]="listThirdLevel$ | async" optionValue="uuid"
+                    optionLabel="nom" filterBy="nom" [showClear]="true" [filter]="true"
+                    placeholder="{{ 'SELECT' | translate }} {{ thirdLevelLibel }}"
+                    emptyFilterMessage="{{ 'NO_MATCH' | translate }}" emptyMessage="{{ 'NO_DATA_FOUND' | translate }}">
+                </p-dropdown>
+            </div>
+
+            <!-- Name Location -->
+            <div class="col-12 col-sm-6 col-md-2">
+                <label><b>{{ 'NAME_LOCATION' | translate }}</b></label>
+                <input formControlName="point_emplacement" type="text" pInputText placeholder="{{ 'NAME_LOCATION' | translate }}" />
+            </div>
+
+            <!-- Traffic Zone -->
+            <div class="col-12 col-sm-6 col-md-2">
+                <label><b>{{ 'TRAFFIC_ZONE' | translate }}</b></label>
+                <input formControlName="zone_trafic" type="text" pInputText placeholder="{{ 'TRAFFIC_ZONE' | translate }}" />
+            </div>
+
+            <!-- Start Date -->
+            <div class="col-12 col-sm-6 col-md-2">
+                <label><b>{{ 'START_DATE' | translate }}</b></label>
+                <p-calendar formControlName="date_debut" [showIcon]="true" [placeholder]="'JJ-MM-AAAA'"
+                    dateFormat="dd-mm-yy">
+                </p-calendar>
+            </div>
+
+            <!-- End Date -->
+            <div class="col-12 col-sm-6 col-md-2">
+                <label><b>{{ 'END_DATE' | translate }}</b></label>
+                <p-calendar formControlName="date_fin" [showIcon]="true" placeholder="JJ-MM-AAAA" dateFormat="dd-mm-yy">
+                </p-calendar>
+            </div>
+
+            <!-- Filter Button -->
+            <div class="col-12 col-sm-6 col-md-1 d-flex align-items-end justify-content-start gap-2 mt-2">
+                <button pButton pRipple type="submit" class="p-button-success" icon="pi pi-filter"></button>
+            </div>
         </div>
     </div>
 </form>

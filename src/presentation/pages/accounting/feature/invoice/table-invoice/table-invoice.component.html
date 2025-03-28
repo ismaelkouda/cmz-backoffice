@@ -66,7 +66,7 @@
                         {{ 'STATUS' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Date Etat'">
-                        {{ 'UPDATE_DATE' | translate }}
+                        {{ 'UPDATED_DATE' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchDefault>
                         {{ col.header }}
@@ -151,25 +151,3 @@
         </tr>
     </ng-template>
 </p-table>
-
-<p-dialog
-    [header]="['INVOICE' | translate]+' '+invoiceSelected?.['numero_demande']"
-    [resizable]="true"
-    [(visible)]="visibleFormInvoice"
-    (onHide)="hideDialog()"
-    [modal]="true"
-    [closable]="true"
-    [style]="{ width: '100%', 'min-height': '100%' }"
-    [responsive]="true"
-    [maximizable]="true"
-    [draggable]="false"
->
-    <ng-template pTemplate="content">
-        <app-form-folder
-            [demandSelected]="invoiceSelected"
-            [typeTreatment]="typeTreatment"
-            (visibleFormDossier)="hideDialog()"
-        >
-        </app-form-folder>
-    </ng-template>
-</p-dialog>

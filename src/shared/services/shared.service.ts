@@ -12,6 +12,7 @@ import { Folder } from '../interfaces/folder';
 import { Paginate } from '../interfaces/paginate';
 import { FormulasInterface } from '../interfaces/formulas.interface';
 import { FirstLevelInterface } from '../interfaces/first-level.interface';
+import { BankInterface } from '../interfaces/bank.interface';
 
 @Injectable({ providedIn: "root" })
 
@@ -189,7 +190,7 @@ export class SharedService {
     fetchSimDemand(data: Object, nbrPage: string = '1'): void {
         if (this.loadingSimDemandSubject.getValue()) return;
 
-        const url: string = EndPointUrl.PATRIMOINE_SIM_TRANSACTIONS_ALL_PAGE.replace('${nbrPage}', nbrPage);
+        const url: string = EndPointUrl.PATRIMOINE_SIM_TRANSACTIONS_ALL_PAGE.replace('{page}', nbrPage);
         this.loadingSimDemandSubject.next(true);
 
         this.http
@@ -531,6 +532,42 @@ export class SharedService {
 
     isLoadingSecondLevel(): Observable<boolean> {
         return this.loadingSecondLevelSubject.asObservable();
+    }
+
+    /*********************Méthode pour récupérer la liste des Banks*************** */
+
+    private banksSubject = new BehaviorSubject<Array<BankInterface>>([]);
+    private loadingBanksSubject = new BehaviorSubject<boolean>(false);
+
+    fetchBanks(): void {
+        if (this.loadingBanksSubject.getValue()) return; // Évite les doublons
+
+        const url: string = EndPointUrl.BANKS_ALL;
+        this.loadingBanksSubject.next(true);
+
+        this.http
+            .post<Object>(`${this.BASE_URL}${url}`, {})
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    this.banksSubject.next(response?.['data']);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching banks', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingBanksSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getBanks(): Observable<Array<BankInterface>> {
+        return this.banksSubject.asObservable();
+    }
+
+    isLoadingBanks(): Observable<boolean> {
+        return this.loadingBanksSubject.asObservable();
     }
 
     /*********************Méthode pour récupérer les historiques*************** */

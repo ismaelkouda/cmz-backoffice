@@ -1,4 +1,3 @@
-import { CustomValidators } from './../../../../class/password-validator';
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -7,7 +6,6 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from "ngx-toastr";
 import { handle } from 'src/shared/functions/api.function';
 import { EncodingDataService } from "src/shared/services/encoding-data.service";
-import { MappingService } from "src/shared/services/mapping.service";
 import { SettingService } from "src/shared/services/setting.service";
 import { StoreCurrentUserService } from '../../../../services/store-current-user.service';
 import { CurrentUser } from '../../../../interfaces/current-user.interface';

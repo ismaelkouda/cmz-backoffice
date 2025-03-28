@@ -26,8 +26,8 @@ export const STRUCTURE_ORGANISATIONNELLE = 'structure-organisationnelle'
 export const ADMIN_USER = 'user';
 export const GESTION_IDENTIFICATIONS = 'gestion-identifications'
 export const COMPTABILITE = 'comptabilite';
+export const ACCOUNTING = 'accounting';
 export const OVERSEEING_OPERATIONS = 'overseeing-operations';
-
 
 export const content: Routes = [
   {
@@ -56,7 +56,7 @@ export const content: Routes = [
       module: 'Patrimoine',
       subModule: [
         'Cartes SIM',
-        'Cartes SIM blanches',
+        'Cartes sim-blanches',
         // 'Dotation Data',
         'Etat des Soldes Data',
         'Etat des Soldes SMS',
@@ -72,7 +72,7 @@ export const content: Routes = [
       module: 'Patrimoine',
       subModule: [
         'Cartes SIM',
-        'Cartes SIM blanches',
+        'Cartes sim-blanches',
         // 'Dotation Data',
         'Etat des Soldes Data',
         'Etat des Soldes SMS',
@@ -169,6 +169,19 @@ export const content: Routes = [
       module: "Comptabilité",
       subModule: [
         "Facture"
+      ]
+    }
+  },
+  {
+
+    path: ACCOUNTING,
+    loadChildren: () => import("../../presentation/pages/accounting/accounting.module").then((m) => m.AccountingModule),
+    data: {
+      module: 'ACCOUNTING',
+      subModule: [
+        'INVOICES',
+        'MY_ACCOUNT',
+        'RELOAD_MY_ACCOUNT',
       ]
     }
   },

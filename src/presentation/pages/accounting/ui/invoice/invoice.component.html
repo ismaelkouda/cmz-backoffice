@@ -17,24 +17,20 @@
                             >
                             </app-patrimoine-header>
 
-                            <span
+                            <!-- <span
                                 class="current-transaction-label"
                                 style="display: flex; align-items: center"
                             >
                                 {{ 'LAST_90_DAYS' | translate }}
-                            </span>
+                            </span> -->
                         </div>
                     </div>
 
                     <div>
-                        <div class="container-box">
+                        <!-- <div class="container-box">
                             <app-box-container
                                 *ngFor="let box of statistiquesBox"
-                                [ngClass]="{
-                                    boxClickable: indexBoxClickable.includes(
-                                        box?.id
-                                    )
-                                }"
+                                [ngClass]="{boxClickable: indexBoxClickable.includes(box?.id)}"
                                 [pTooltip]="indexBoxClickable.includes(box?.id) ? ('FILTER' | translate) box?.['legendColor'] : ''"
                                 tooltipPosition="top"
                                 (click)="onBoxClick(box)"
@@ -48,13 +44,12 @@
                                 [taux]="box?.['taux']"
                             >
                             </app-box-container>
-                        </div>
+                        </div> -->
 
                         <app-filter-invoice
                             (filter)="filter($event)"
-                            [filterData]="filterData"
                             [listOperations]="listOperations"
-                            [listStatus]="listStatus"
+                            [listStatusInvoice]="listStatusInvoice"
                         >
                         </app-filter-invoice>
 
@@ -62,7 +57,6 @@
 
                         <app-table-invoice
                             [spinner]="spinner"
-                            [listStatusInvoice]="listStatusInvoice"
                             [listInvoices$]="listInvoices$"
                             [pagination$]="pagination$"
                             (interfaceUser)="navigateByUrl($event)"
@@ -70,7 +64,7 @@
                         </app-table-invoice>
 
                         <app-pargination
-                            [pargination]="pagination"
+                            [pargination]="pagination$ | async"
                             (pageChange)="onPageChange($event)"
                         ></app-pargination>
                     </div>

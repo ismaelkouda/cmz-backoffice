@@ -25,7 +25,6 @@
                     <div>
                         <app-filter-mobile-subscriptions
                             (filter)="filter($event)"
-                            [filterData]="filterData"
                             [listApplicants$]="listApplicants$"
                             [listStepFolder]="listStepFolder"
                             [listStateFolder]="listStateFolder"
@@ -35,9 +34,9 @@
                         <hr />
 
                         <app-table-mobile-subscriptions
+                            [spinner]="spinner"
                             [pagination$]="pagination$"
                             [listDemands$]="listDemands$"
-                            [demandSelected]="demandSelected$ | async"
                             (interfaceUser)="navigateByUrl($event)"
                         >
                         </app-table-mobile-subscriptions>

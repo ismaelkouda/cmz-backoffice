@@ -4,11 +4,11 @@ import { ClipboardService } from "ngx-clipboard";
 import { ToastrService } from "ngx-toastr";
 import { JournalComponent } from "src/shared/components/journal/journal.component";
 import { BADGE_ETAPE } from "src/shared/constants/badge-etape.constant";
-import { BADGE_ETAT } from "src/shared/constants/badge-etat.contant";
 import { DemandeIntegrationStateService } from "../../../data-access/demande-integration/demande-integration-state.service";
 import { DemandeMasseComponent } from "src/presentation/pages/supervision-operations/feature/demande-masse/demande-masse.component";
 import { ModalParams } from "src/shared/constants/modalParams.contant";
 import { BADGE_STATUT } from "src/shared/constants/badge-statut.constant";
+import { BADGE_ETAT } from "../../../../../../shared/constants/badge-etat.contant";
 
 type TYPEFORM = "détails" | "editer" | "traitement" | "dossier" ;
 
@@ -67,6 +67,7 @@ export class TableDemandeIntegrationComponent {
         case BADGE_ETAPE.FINALISATEUR:
           if (data?.traitement === BADGE_ETAT.EN_ATTENTE) { return "badge-warning"; }
           if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-warning"; }
+          if (data?.traitement === BADGE_ETAT.LIVRE) { return "badge-primary"; }
           break;
   
         case BADGE_ETAPE.CLOTURE:

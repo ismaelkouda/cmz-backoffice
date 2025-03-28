@@ -1,0 +1,70 @@
+import { RELOAD_MY_ACCOUNT_STATUS_ENUM, T_RELOAD_MY_ACCOUNT_STATUS_ENUM } from '../../../data-access/reload-my-account/enums/reload-my-account-status.enum';
+import { EventEmitter, Input, Output } from "@angular/core";
+import { Component } from "@angular/core";
+import { ToastrService } from "ngx-toastr";
+import { TableConfig, TableExportExcelFileService } from '../../../../../../shared/services/table-export-excel-file.service';
+import { ClipboardService } from 'ngx-clipboard';
+import { Observable } from 'rxjs';
+import { reloadMyAccountInterface } from '../../../data-access/reload-my-account/interfaces/reload-my-account.interface';
+import { ReloadMyAccountApiService } from '../../../data-access/reload-my-account/service/reload-my-account-api.service';
+import { reloadMyAccountFilterInterface } from '../../../data-access/reload-my-account/interfaces/reload-my-account-filter.interface';
+import { reloadMyAccountTableConstant } from "../../../data-access/reload-my-account/constants/reload-my-account-table.constant";
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
+import { TranslateService } from '@ngx-translate/core';
+
+type Action = PageAction;
+type PageAction = { data: reloadMyAccountInterface, action: 'fund-reload-my-account', view: 'page' };
+type TYPE_COLOR_STATUS_BADGE = 'badge-warning' | 'badge-success' | 'badge-danger';
+
+@Component({
+  selector: `app-table-reload-my-account`,
+  templateUrl: `./table-reload-my-account.component.html`
+})
+
+export class TableReloadMyAccountComponent {
+
+  @Input() spinner: boolean;
+  @Input() listReloadAccount$: Observable<Array<reloadMyAccountInterface>>;
+  @Input() pagination$: Observable<Paginate<reloadMyAccountInterface>>;
+  public table: TableConfig = reloadMyAccountTableConstant;
+  @Output() interfaceUser = new EventEmitter<Action>();
+
+  constructor(public toastService: ToastrService, private reloadMyAccountApiService: ReloadMyAccountApiService,
+    private tableExportExcelFileService: TableExportExcelFileService, private translate: TranslateService,
+    private clipboardService: ClipboardService) {
+  }
+
+  public copyToClipboard(data: string): void {
+    const translatedMessage = this.translate.instant('COPIED_TO_THE_CLIPBOARD');
+    this.toastService.success(translatedMessage);
+    this.clipboardService.copyFromContent(data);
+  }
+
+  public getStatusReloadAccount(selectedSimCard?: { statut: T_RELOAD_MY_ACCOUNT_STATUS_ENUM }): TYPE_COLOR_STATUS_BADGE {
+    if (!selectedSimCard || !selectedSimCard.statut) { return 'badge-success'; }
+
+    const etapeMap: Record<T_RELOAD_MY_ACCOUNT_STATUS_ENUM, TYPE_COLOR_STATUS_BADGE> = {
+      [RELOAD_MY_ACCOUNT_STATUS_ENUM.VALIDATED]: 'badge-success',
+      [RELOAD_MY_ACCOUNT_STATUS_ENUM.WAITING]: 'badge-warning',
+      [RELOAD_MY_ACCOUNT_STATUS_ENUM.REJECTED]: 'badge-danger',
+    };
+    return etapeMap[selectedSimCard.statut] || 'badge-success';
+  }
+
+  public pageCallback() {
+    this.reloadMyAccountApiService.fetchReloadMyAccount({} as reloadMyAccountFilterInterface);
+  }
+
+  public onExportExcel(): void {
+    this.listReloadAccount$.subscribe(data => {
+      if (data) { this.tableExportExcelFileService.exportAsExcelFile(data, this.table, "list_reload_account"); }
+    });
+  }
+
+  public handleAction(params: Action): void {
+    switch (params.view) {
+      case 'page': this.interfaceUser.emit(params); break;
+    }
+  }
+
+}

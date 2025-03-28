@@ -5,10 +5,13 @@ import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { MappingService } from '../../../../../shared/services/mapping.service';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { BADGE_ETAT_FACTURE, T_BADGE_ETAT_FACTURE } from '../../../../../shared/constants/badge-etat-facture.contant';
+import { invoiceGlobalStatsInterface, invoiceInterface } from '../../data-access/invoice/interface/invoice.interface';
+import { invoiceFilterInterface } from '../../data-access/invoice/interface/invoice-filter.interface';
+import { InvoiceApiService } from '../../data-access/invoice/service/invoice-api.service';
 
 const status_values = [BADGE_ETAT_FACTURE.POSTEE, BADGE_ETAT_FACTURE.REPORTEE, BADGE_ETAT_FACTURE.SOLDEE, BADGE_ETAT_FACTURE.REJETEE];
 const indexBoxClickable = [2, 3, 4] as const;
-type PageAction = { 'data': Object, 'action': 'invoice', 'view': 'page' };
+type PageAction = { 'data': invoiceInterface, 'action': 'view-invoice', 'view': 'page' };
 
 @Component({
     selector: `app-invoice`,
@@ -24,7 +27,6 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     public listStatusInvoice: Array<T_BADGE_ETAT_FACTURE> = status_values;
     public pagination$: Observable<Paginate<invoiceInterface>>;
     public listInvoices$: Observable<Array<invoiceInterface>>;
-    public invoiceSelected$: Observable<invoiceInterface>;
     public listOperations: Array<string> = [];
     public statistiquesBox: Array<IStatistiquesBox> = [];
     public indexBoxClickable = indexBoxClickable;
@@ -33,25 +35,26 @@ export class InvoiceComponent implements OnInit, OnDestroy {
 
     constructor(private activatedRoute: ActivatedRoute, private invoiceApiService: InvoiceApiService,
         private router: Router, private mappingService: MappingService) {
-            this.listOperations = this.mappingService.listOperations;
+        this.listOperations = this.mappingService.listOperations;
     }
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
-          this.module = data.module;
-          this.subModule = data.subModule[1];
+            this.module = data.module;
+            this.subModule = data.subModule[0];
         });
+        
         this.listInvoices$ = this.invoiceApiService.getInvoice();
         this.pagination$ = this.invoiceApiService.getInvoicePagination();
-        this.invoiceSelected$ = this.invoiceApiService.getInvoiceSelected();
-
         combineLatest([
             this.invoiceApiService.getDataFilterInvoice(),
             this.invoiceApiService.getDataNbrPageInvoice()
         ]).subscribe(([filterData, nbrPageData]) => {
             this.invoiceApiService.fetchInvoice(filterData, nbrPageData);
         });
-        this.spinner = false;
+        this.invoiceApiService.isLoadingInvoice().pipe(takeUntil(this.destroy$)).subscribe((spinner: boolean) => {
+            this.spinner = spinner;
+        });
     }
 
     public filter(filterData: invoiceFilterInterface): void {
@@ -64,18 +67,18 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         });
     }
 
-  public navigateByUrl(params: PageAction): void {
-    const number_demand = params.data ? params.data["numero_demande"] : null;
-    const ref = params.action;
-    const queryParams = { ref };
-    let routePath: string = '';
+    public navigateByUrl(params: PageAction): void {
+        const number_demand = params.data ? params.data["numero_demande"] : null;
+        const ref = params.action;
+        const queryParams = { ref };
+        let routePath: string = '';
 
-    switch (params.action) {
-      case "invoice": routePath = `${number_demand}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
+        switch (params.action) {
+            case "view-invoice": routePath = `${number_demand}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
+        }
     }
-  }
 
-    private getTchesBoxValues(rapport: GlobalStats | {} = {}): void {
+    private getTchesBoxValues(rapport: invoiceGlobalStatsInterface | {} = {}): void {
         this.statistiquesBox = [
             {
                 id: 0,
@@ -119,9 +122,9 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         type IndexBoxClickable = (typeof indexBoxClickable)[number];
         if (indexBoxClickable.includes(statistiqueBox.id as IndexBoxClickable)) {
             switch (statistiqueBox.id) {
-                case 2: this.invoiceApiService.fetchInvoice({ statut: "reportée" }); break;
-                case 3: this.invoiceApiService.fetchInvoice({ statut: "soldée" }); break;
-                case 4: this.invoiceApiService.fetchInvoice({ statut: "rejetée" }); break;
+                case 2: this.invoiceApiService.fetchInvoice({ statut: "reportée" } as any); break;
+                case 3: this.invoiceApiService.fetchInvoice({ statut: "soldée" } as any); break;
+                case 4: this.invoiceApiService.fetchInvoice({ statut: "rejetée" } as any); break;
             }
         }
     }

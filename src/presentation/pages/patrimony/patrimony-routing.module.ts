@@ -7,6 +7,8 @@ import { DataBalanceStatusComponent } from './ui/data-balance-status/data-balanc
 import { DownloadComponent } from './ui/download/download.component';
 import { WhiteSimCardComponent } from './ui/white-sim-card/white-sim-card.component';
 import { PagesGuard } from '../../../core/guard/PagesGuard';
+import { SimDemandComponent } from '../../../shared/components/sim-demand/sim-demand.component';
+import { WhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/white-sim-card-details.component';
 
 export const SIM_CARD = 'sim-card';
 export const SMS_BALANCE_STATUS = 'sms-balance-status';
@@ -42,6 +44,14 @@ const routes: Routes = [
       {
         path: '',
         component: WhiteSimCardComponent,
+      },
+      // {
+      //   path: ":number_demand",
+      //   component: SimDemandComponent,
+      // },
+      {
+          path: ":id",
+          component: WhiteSimCardDetailsComponent,
       },
       {
         path: '**',

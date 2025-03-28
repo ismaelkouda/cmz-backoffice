@@ -32,6 +32,7 @@ export class DataBalanceStatusComponent implements OnInit {
     public listFirstLevel$: Observable<Array<FirstLevelInterface>>;
     public listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
     public listAlarms: Array<TypeAlarme> = [];
+    public spinner: boolean = true;
 
     constructor(private activatedRoute: ActivatedRoute, private sharedService: SharedService, 
         private dataBalanceStatusApiService: dataBalanceStatusApiService) {
@@ -61,6 +62,9 @@ export class DataBalanceStatusComponent implements OnInit {
         // ]).subscribe(([filterData, nbrPageData]) => {
         //     this.dataBalanceStatusApiService.fetchDataBalanceStatus(filterData, nbrPageData);
         // });
+        this.dataBalanceStatusApiService.isLoadingDataBalanceStatus().subscribe((spinner) => {
+            this.spinner = spinner;
+        })
     }
 
     public filter(filterData: dataBalanceStatusFilterInterface): void {

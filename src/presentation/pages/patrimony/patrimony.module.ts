@@ -21,12 +21,15 @@ import { DataBalanceStatusComponent } from './ui/data-balance-status/data-balanc
 import { DownloadComponent } from './ui/download/download.component';
 import { TableDownloadComponent } from './feature/download/table-download/table-download.component';
 import { downloadApiService } from './data-access/download/services/download-api.service';
+import { WhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/white-sim-card-details.component';
 import { FilterWhiteSimCardComponent } from './feature/white-sim-card/filter-white-sim-card/filter-white-sim-card.component';
 import { TableWhiteSimCardComponent } from './feature/white-sim-card/table-white-sim-card/table-white-sim-card.component';
 import { WhiteSimCardComponent } from './ui/white-sim-card/white-sim-card.component';
 import { whiteSimCardApiService } from './data-access/white-sim-card/services/white-sim-card-api.service';
 import { smsBalanceStatusApiService } from './data-access/sms-balance-status/services/sms-balance-status-api.service';
 import { dataBalanceStatusApiService } from './data-access/data-balance-status/services/data-balance-status-api.service';
+import { FilterWhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/features/filter-white-sim-card-details/filter-white-sim-card-details.component';
+import { TableWhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/features/table-white-sim-card-details/table-white-sim-card-details.component';
 
 
 @NgModule({
@@ -44,6 +47,9 @@ import { dataBalanceStatusApiService } from './data-access/data-balance-status/s
     TableSimCardComponent,
     SimCardComponent,
 
+    FilterWhiteSimCardDetailsComponent,
+    TableWhiteSimCardDetailsComponent,
+    WhiteSimCardDetailsComponent,
     FilterWhiteSimCardComponent,
     TableWhiteSimCardComponent,
     WhiteSimCardComponent,

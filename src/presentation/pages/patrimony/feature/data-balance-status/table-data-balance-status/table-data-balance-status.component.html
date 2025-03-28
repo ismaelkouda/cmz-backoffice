@@ -133,14 +133,19 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
-        <tr *ngIf="listDataBalanceStatus?.length <= 0 && !spinner">
+        <tr *ngIf="(listDataBalanceStatus$ | async)?.length <= 0 && !spinner">
             <td class="posRelative" colspan="15">
                 <span class="posCenter">
                     {{ 'NO_DATA_FOUND' | translate }}
                 </span>
             </td>
         </tr>
-        <tr *ngIf="spinner" style="height: 46px">
+        <tr
+            *ngIf="
+                (!(listDataBalanceStatus$ | async) || (listDataBalanceStatus$ | async)?.length) <=
+                    0 && spinner
+            "
+        >
             <td class="posRelative" colspan="15">
                 <p-progressSpinner
                     class="posCenter"

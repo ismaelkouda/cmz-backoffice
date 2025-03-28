@@ -53,7 +53,7 @@ export class TableAchatProduitsComponent {
         }
         this.IsLoading = true;
         const modalRef = this.modalService.open(TypePaiementComponent, ModalParams);
-        modalRef.componentInstance.params = { vue: "SIM blanches", action: action };
+        modalRef.componentInstance.params = { vue: "sim-blanches", action: action };
         modalRef.componentInstance.demandeSelected = { ...data, current_date: data?.current_date, IsLoading: this.IsLoading };
         modalRef.componentInstance.resultTraitement = this.demandesProduitsService.postCommandeProduitCommandesAll({}, 1);
         modalRef.componentInstance.IsLoading.subscribe((res) => { this.IsLoading = res; modalRef.componentInstance.IsLoadData = !res });

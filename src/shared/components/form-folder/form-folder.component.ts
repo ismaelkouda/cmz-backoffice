@@ -115,7 +115,7 @@ export class FormFolderComponent implements OnInit {
                 { value: this.detailsDemand?.operation, disabled: true },
                 { nonNullable: true }),
             nb_demande_soumises: new FormControl<number>(
-                this.detailsDemand?.nb_demande_soumises,
+                { value: this.detailsDemand?.nb_demande_soumises, disabled: true },
                 { validators: [Validators.required, Validators.min(1), Validators.pattern(/^\d+(\.\d{1,2})?$/)], nonNullable: true }),
             prix_unitaire: new FormControl<number>(
                 { value: this.detailsDemand?.facture?.prix_unitaire, disabled: true },
@@ -259,8 +259,10 @@ export class FormFolderComponent implements OnInit {
             this.sharedService.getDataFilterDemands(),
             this.sharedService.getDataNbrPageDemands()
         ]).subscribe(([filterData, nbrPageData]) => {
+            console.log('filterData', filterData)
             this.sharedService.fetchDemands(filterData, nbrPageData);
         });
+        
     }
 
     public truncateString(str: string, maxLength: number = 20): string {

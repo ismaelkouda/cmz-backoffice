@@ -16,6 +16,7 @@ import { TreatmentDemands } from '../../../../../../shared/interfaces/treatment-
 import { Observable } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
+import { BADGE_ETAT_FACTURE } from '../../../../../../shared/constants/badge-etat-facture.contant';
 
 type Action = PageAction | ModalAction;
 type PageAction = { data: Folder, action: 'open-folder-mobile-subscription' | 'invoice-mobile-subscription' | 'mass-edit-mobile-subscription' | 'mass-add-mobile-subscription' | 'simple-add-mobile-subscription', view: 'page' };
@@ -31,10 +32,11 @@ type TYPE_COLOR_ETAT_BADGE = 'badge-warning' | 'badge-dark' | 'badge-success' | 
 
 export class TableMobileSubscriptionsComponent {
 
+  @Input() spinner: boolean;
   @Input() listDemands$: Observable<Array<Folder>>;
-  @Input() demandSelected: Folder;
   @Input() pagination$: Observable<Paginate<Folder>>;
   @Output() interfaceUser = new EventEmitter<any>();
+  public demandSelected: Folder;
   public typeTreatment: TreatmentDemands = INIT_TYPE_TRAITEMENT;
   public visibleFormDossier = false;
 
@@ -127,7 +129,6 @@ export class TableMobileSubscriptionsComponent {
   }
 
   private onSelectDemand(selectedDemand: Folder): void {
-    console.log('selectedDemand', selectedDemand)
     this.demandSelected = selectedDemand;
     this.sharedService.setDemandSelected(selectedDemand);
   }
@@ -158,17 +159,30 @@ export class TableMobileSubscriptionsComponent {
     switch (dossier?.statut) {
       case BADGE_ETAPE.TRAITEMENT: {
         if (dossier?.traitement === BADGE_ETAT.EN_COURS) {
-          return createButtonStyle('p-button-success', 'pi pi-folder-open', SIM_OF_THE_REQUEST, this.typeTreatment);
+          return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
+        }
+      }
+      case BADGE_ETAPE.SOUMISSION: {
+        if (dossier?.traitement === BADGE_ETAT.EN_ATTENTE) {
+          return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
+        }
+      }
+      case BADGE_ETAPE.CLOTURE: {
+        if (dossier?.traitement === BADGE_ETAT.ABANDONNE) {
+          return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
         }
       }
     }
-    return createButtonStyle('p-button-secondary', 'pi pi-folder-open', `${CANNOT_SEE_THE_SIM} ${dossier.numero_demande}`, this.typeTreatment);
+    return createButtonStyle('p-button-dark', 'pi pi-folder-open', `${SIM_OF_THE_REQUEST} ${dossier.numero_demande}`, this.typeTreatment);
   }
 
-  getTreatmentButtonPaiementStyle(dossier: { type_paiement: string }): { class: string, icon: string, tooltip: string } {
+  getTreatmentButtonPaiementStyle(dossier: { type_paiement: string, statut: string, traitement: string }): { class: string, icon: string, tooltip: string } {
     const SOLVE = this.translate.instant('SOLVE');
     const MAKE_A_PAYMENT = this.translate.instant('MAKE_A_PAYMENT');
-    if (!!dossier?.type_paiement) {
+    const CANNOT_MAKE_A_PAYMENT = this.translate.instant('CANNOT_MAKE_A_PAYMENT');
+    if(dossier?.statut === BADGE_ETAPE.CLOTURE && dossier.traitement === BADGE_ETAT.ABANDONNE) {
+      return createButtonStyle('p-button-secondary', 'pi pi-print', CANNOT_MAKE_A_PAYMENT, this.typeTreatment);
+    } else if (!!dossier?.type_paiement) {
       return createButtonStyle('p-button-success', 'pi pi-print', SOLVE, this.typeTreatment);
     } else {
       return createButtonStyle('p-button-danger', 'pi pi-print', MAKE_A_PAYMENT, this.typeTreatment);

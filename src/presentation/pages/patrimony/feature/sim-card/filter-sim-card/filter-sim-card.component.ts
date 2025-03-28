@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { simCardFilterInterface } from './../../../data-access/sim-card/interfaces/sim-card-filter.interface';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { ToastrService } from "ngx-toastr";
 import { TranslateService } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { FormulasInterface } from '@shared/interfaces/formulas.interface';
 import { FirstLevelInterface, SecondLevelInterface } from '@shared/interfaces/first-level.interface';
 import { ThirdLevelInterface } from '@shared/interfaces/third-level.interface';
@@ -13,14 +13,36 @@ import { T_SIM_CARD_STATUS_ENUM } from '../../../data-access/sim-card/enums/sim-
 import { SecondLevelService } from '@shared/services/second-level.service';
 import { StoreCurrentUserService } from '@shared/services/store-current-user.service';
 import { ApplicantInterface } from '@shared/interfaces/applicant';
+import { simCardApiService } from '../../../data-access/sim-card/services/sim-card-api.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
     selector: 'app-filter-sim-card',
     templateUrl: './filter-sim-card.component.html',
+    animations: [
+        trigger('slideInOut', [
+          state('void', style({
+            transform: 'translateY(-20px)',
+            opacity: 0,
+          })),
+          transition(':enter', [
+            animate('300ms ease-in', style({
+              transform: 'translateY(0)',
+              opacity: 1,
+            })),
+          ]),
+          transition(':leave', [
+            animate('300ms ease-out', style({
+              transform: 'translateY(-20px)',
+              opacity: 0,
+            })),
+          ]),
+        ]),
+      ],
     styles: [':host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }']
 })
 
-export class FilterSimCardComponent {
+export class FilterSimCardComponent implements OnDestroy {
 
     @Input() listFormulas$: Observable<Array<FormulasInterface>>;
     @Input() listFirstLevel$: Observable<Array<FirstLevelInterface>>;
@@ -34,16 +56,18 @@ export class FilterSimCardComponent {
 
     public listSecondLevel$: Observable<Array<SecondLevelInterface>>;
     public formFilter: FormGroup<simCardFilterInterface>;
+    private destroy$ = new Subject<void>();
 
     public firstLevelLibel: string | undefined;
     public secondLevelLibel: string | undefined;
     public thirdLevelLibel: string | undefined;
 
     public secondFilter: boolean = false;
+    public thirdFilter: boolean = false;
 
     constructor(private fb: FormBuilder, private toastService: ToastrService,
         private storeCurrentUserService: StoreCurrentUserService, private translate: TranslateService,
-        private secondLevelService: SecondLevelService) {
+        private secondLevelService: SecondLevelService, private simCardApiService: simCardApiService) {
         this.initFormFilter();
 
         const currentUser = this.storeCurrentUserService.getCurrentUser;
@@ -54,43 +78,50 @@ export class FilterSimCardComponent {
 
     public showSecondFilter() {
         this.secondFilter = !this.secondFilter;
+        this.thirdFilter = false;
+    }
+
+    public showThirdFilter() {
+        this.thirdFilter = !this.thirdFilter;
     }
 
     public initFormFilter(): void {
-        this.formFilter = this.fb.group<simCardFilterInterface>({
-            imsi: new FormControl<string>(this.filterData?.["imsi"], {
-                nonNullable: true,
-                validators: [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)],
-            }),
-            statut: new FormControl<string>(this.filterData?.["statut"], { nonNullable: true }),
-            date_debut: new FormControl<string>(this.filterData?.["date_debut"], { nonNullable: true }),
-            date_fin: new FormControl<string>(this.filterData?.["date_fin"], { nonNullable: true }),
-            niveau_un_uuid: new FormControl<string>(this.filterData?.["niveau_un_uuid"], { nonNullable: true }),
-            niveau_deux_uuid: new FormControl<string>(this.filterData?.["niveau_deux_uuid"], { nonNullable: true }),
-            msisdn: new FormControl<string>(this.filterData?.["msisdn"], { nonNullable: true }),
-            apn: new FormControl<string>(this.filterData?.["apn"], { nonNullable: true }),
-            adresse_ip: new FormControl<string>(this.filterData?.["adresse_ip"], { nonNullable: true }),
-            usage_id: new FormControl<string>(this.filterData?.["usage_id"], { nonNullable: true }),
-            formule_uuid: new FormControl<string>(this.filterData?.["formule_uuid"], { nonNullable: true }),
-            niveau_trois_uuid: new FormControl<string>(this.filterData?.["niveau_trois_uuid"], { nonNullable: true }),
-            point_emplacement: new FormControl<string>(this.filterData?.["point_emplacement"], { nonNullable: true }),
-            zone_trafic: new FormControl<string>(this.filterData?.["zone_trafic"], { nonNullable: true }),
-        });
+        this.simCardApiService.getDataFilterSimCard().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
+            this.formFilter = this.fb.group<simCardFilterInterface>({
+                imsi: new FormControl<string>(filterData?.["imsi"], {
+                    nonNullable: true,
+                    validators: [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)],
+                }),
+                statut: new FormControl<string>(filterData?.["statut"], { nonNullable: true }),
+                date_debut: new FormControl<string>(filterData?.["date_debut"], { nonNullable: true }),
+                date_fin: new FormControl<string>(filterData?.["date_fin"], { nonNullable: true }),
+                niveau_un_uuid: new FormControl<string>(filterData?.["niveau_un_uuid"], { nonNullable: true }),
+                niveau_deux_uuid: new FormControl<string>(filterData?.["niveau_deux_uuid"], { nonNullable: true }),
+                msisdn: new FormControl<string>(filterData?.["msisdn"], { nonNullable: true }),
+                apn: new FormControl<string>(filterData?.["apn"], { nonNullable: true }),
+                adresse_ip: new FormControl<string>(filterData?.["adresse_ip"], { nonNullable: true }),
+                usage_id: new FormControl<string>(filterData?.["usage_id"], { nonNullable: true }),
+                formule_uuid: new FormControl<string>(filterData?.["formule_uuid"], { nonNullable: true }),
+                niveau_trois_uuid: new FormControl<string>(filterData?.["niveau_trois_uuid"], { nonNullable: true }),
+                point_emplacement: new FormControl<string>(filterData?.["point_emplacement"], { nonNullable: true }),
+                zone_trafic: new FormControl<string>(filterData?.["zone_trafic"], { nonNullable: true }),
+            });
 
-        this.formFilter.get("imsi")?.valueChanges.subscribe((value) => {
-            if (value && value.length > 15) {
-                this.formFilter.get("imsi")?.setValue(value.slice(0, 15), { emitEvent: false });
-            }
-        });
+            this.formFilter.get("imsi")?.valueChanges.subscribe((value) => {
+                if (value && value.length > 15) {
+                    this.formFilter.get("imsi")?.setValue(value.slice(0, 15), { emitEvent: false });
+                }
+            });
 
-        this.formFilter.get("msisdn")?.valueChanges.subscribe((value) => {
-            if (value && value.length > 10) {
-                this.formFilter.get("msisdn")?.setValue(value.slice(0, 10), { emitEvent: false });
-            }
+            this.formFilter.get("msisdn")?.valueChanges.subscribe((value) => {
+                if (value && value.length > 10) {
+                    this.formFilter.get("msisdn")?.setValue(value.slice(0, 10), { emitEvent: false });
+                }
+            });
+            this.formFilter?.get('niveau_un_uuid')?.valueChanges.subscribe(
+                this.fetchSecondLevel.bind(this)
+            );
         });
-        this.formFilter?.get('niveau_un_uuid')?.valueChanges.subscribe(
-            this.fetchSecondLevel.bind(this)
-        );
     }
 
     async fetchSecondLevel(uuid: string): Promise<void> {
@@ -123,5 +154,8 @@ export class FilterSimCardComponent {
         }
     }
 
-
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
 }

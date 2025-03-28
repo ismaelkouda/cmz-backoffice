@@ -23,7 +23,7 @@ const Swal = require("sweetalert2");
 })
 
 export class TypePaiementComponent implements OnInit {
-    @Input() params: { vue: "abonnement", action: "Abandonner" | "Identifier" } | { vue: "SIM blanches", action: "Clôturer" };
+    @Input() params: { vue: "abonnement", action: "Abandonner" | "Identifier" } | { vue: "sim-blanches", action: "Clôturer" };
     @Input() action: 'traiter' | 'cloturer' | 'Abandonner' | 'Traiter';
     @Input() IsLoadData;
     @Input() demandeSelected;
@@ -40,7 +40,7 @@ export class TypePaiementComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        if (this.params.vue === "SIM blanches") {
+        if (this.params.vue === "sim-blanches") {
             this.postCommandeProduitCommandesDetails();
         } else {
             this.sharedService.fetchDetailsDemand(this.demandeSelected["numero_demande"]);

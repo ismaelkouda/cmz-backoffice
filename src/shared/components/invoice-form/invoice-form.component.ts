@@ -1,6 +1,5 @@
 import { FormatFormData } from 'src/shared/functions/formatFormData.function';
 import { Pargination } from '../../table/pargination';
-import { ExcelService } from '../../services/excel.service';
 import { Component } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -18,8 +17,8 @@ import { BADGE_ETAT_FACTURE, T_BADGE_ETAT_FACTURE } from '../../constants/badge-
 import { SharedService } from '../../services/shared.service';
 const Swal = require("sweetalert2");
 
-type TYPEVIEW = "form-dossier"|"invoice"|"invoice-mobile-subscription" | "invoice-white-sim";
-const TYPEVIEW_VALUES: TYPEVIEW[] = ["form-dossier","invoice", "invoice-mobile-subscription", "invoice-white-sim"];
+type TYPEVIEW = "form-dossier"|"invoice"|"invoice-mobile-subscription" | "invoice-white-sim" | "view-invoice";
+const TYPEVIEW_VALUES: TYPEVIEW[] = ["form-dossier","invoice", "invoice-mobile-subscription", "invoice-white-sim", "view-invoice"];
 function isTypeView(value: any): value is TYPEVIEW {
     return TYPEVIEW_VALUES.includes(value);
 }type TYPE_COLOR_ETAT_BADGE = 'badge-warning' | 'badge-dark' | 'badge-success' | 'badge-danger' | 'badge-primary';
@@ -72,7 +71,6 @@ export class InvoiceFormComponent {
         // si la ref dans l'url est different de  "facture" alors affiche la page d'error
         if (!isTypeView(this.urlParamRef) || !this.urlParamNumeroDemande) {
             this.displayUrlErrorPage = true;
-            alert()
         } else {
             this.sharedService.fetchDetailsDemand(this.urlParamNumeroDemande);
             this.sharedService.getDetailsDemand().subscribe((value) => {

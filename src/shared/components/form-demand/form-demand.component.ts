@@ -205,12 +205,12 @@ export class FormDemandComponent implements OnInit {
         if (this.verifyHandleSaveDemand) {
             const result = await Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass }).fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: this.messageHandleSaveDemand })
             if (result.isConfirmed) {
-                const response: any = await handle(() => this.formDemandApiService.SaveDemand(formDataBuilder({ ...this.formDemand.value, stockages: JSON.stringify([...this.globalWhiteSimCardEditRow]) })), this.toastrService, this.loadingBarService);
+                const response: any = await handle(() => this.formDemandApiService.SaveDemand(formDataBuilder({ ...this.formDemand.value, nb_demandes: this.formDemand.get("nb_demandes")?.value, stockages: JSON.stringify([...this.globalWhiteSimCardEditRow]) })), this.toastrService, this.loadingBarService);
                 if (response.error === false) {
                     this.sharedService.fetchDemands(
                         {
                             operation: this.urlParamTypeDemand.includes(OperationTransaction.ACTIVATION)
-                                ? OperationTransaction.ACTIVATION : "SIM blanche"
+                                ? OperationTransaction.ACTIVATION : "sim-blanche"
                         });
                     this.onGoToBack();
                 } else {
@@ -268,14 +268,13 @@ export class FormDemandComponent implements OnInit {
 
     public HandleSaveLotWhiteSimCardSelected() {
         if (this.totalWhiteSimCardSelected > 0) {
-            const message = `<span style="color: #569C5B;">Une SIM</span> sera prise dans ce lot <span style="color: #ff6600;"><strong>${this.selectedLotWhiteSimCardAvailable[0]?.['numero_demande']}</strong></span>`;
+            const message = `<span style="color: #569C5B;">${this.totalWhiteSimCardSelected}</span> sera prise dans ce lot`;
             console.log('this.selectedLotWhiteSimCardAvailable', this.selectedLotWhiteSimCardAvailable)
             Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass }).fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: message })
                 .then((result): void => {
                     if (result.value) {
                         this.whiteSimCardDialogVisible = false;
                         this.formDemand.get("nb_demandes")?.patchValue(this.totalWhiteSimCardSelected);
-                        this.formDemand.get("nb_demandes")?.disable();
                     }
                 });
         } else {

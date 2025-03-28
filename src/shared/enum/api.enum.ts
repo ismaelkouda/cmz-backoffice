@@ -59,6 +59,7 @@ export const enum EndPointUrl {
     GET_ALL_NIVEAUX_3_SIMPLE = 'parametres-securite/niveau_trois/simple',
     GET_ALL_FORMULES = 'parametres-securite/formules-sims/all',
     GET_CONTRATS_SLA_ENGAGEMENTS_SLA = 'contrats-sla/{demand}/engagements-sla',
+    BANKS_ALL = 'banques/all',
 
     GET_ALL_APN = 'patrimoine-sim/apn/all',
 

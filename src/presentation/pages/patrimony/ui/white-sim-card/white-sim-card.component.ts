@@ -6,8 +6,9 @@ import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { whiteSimCardApiService } from '../../data-access/white-sim-card/services/white-sim-card-api.service';
 import { whiteSimCardGlobalStateInterface, whiteSimCardInterface } from '../../data-access/white-sim-card/interfaces/white-sim-card.interface';
 import { whiteSimCardFilterInterface } from '../../data-access/white-sim-card/interfaces/white-sim-card-filter.interface';
-import { WHITE_SIM_CARD_STATUS_ENUM } from '../../data-access/white-sim-card/enums/white-sim-card-status.enum';
+import { T_WHITE_SIM_CARD_STATUS_ENUM, WHITE_SIM_CARD_STATUS_ENUM } from '../../data-access/white-sim-card/enums/white-sim-card-status.enum';
 import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
+import { OperationTransaction } from "../../../../../shared/enum/OperationTransaction.enum";
 
 type PageAction = { data: whiteSimCardInterface, action: 'view-white-sim-card' | 'update-white-sim-card' | 'identification-white-sim-card', view: 'page' };
 
@@ -21,7 +22,7 @@ export class WhiteSimCardComponent implements OnInit, OnDestroy {
     public subModule: string;
     public pagination$: Observable<Paginate<whiteSimCardInterface>>;
     public filterData: whiteSimCardFilterInterface;
-    public listStatusWhiteSimCard = [WHITE_SIM_CARD_STATUS_ENUM];
+    public listStatusWhiteSimCard: Array<T_WHITE_SIM_CARD_STATUS_ENUM> = [];
     public listWhiteSimCard$: Observable<whiteSimCardInterface[]>;
     public whiteSimCardSelected$: Observable<whiteSimCardInterface>;
     public whiteSimCardGlobalState$: Observable<whiteSimCardGlobalStateInterface>;
@@ -30,10 +31,11 @@ export class WhiteSimCardComponent implements OnInit, OnDestroy {
 
     constructor(private router: Router,
         private activatedRoute: ActivatedRoute, private whiteSimCardApiService: whiteSimCardApiService) {
+        Object.values(WHITE_SIM_CARD_STATUS_ENUM).forEach((item) => { this.listStatusWhiteSimCard.push(item); });
     }
 
     ngOnInit(): void {
-        
+
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
             this.subModule = data.subModule[1];
@@ -62,9 +64,10 @@ export class WhiteSimCardComponent implements OnInit, OnDestroy {
     }
 
     public navigateByUrl(params: PageAction): void {
-        const id = params.data?.id;
+        const id = params.data ? params.data["id"] : null;
+        const number_demand = params.data ? params.data["numero_demande"] : null;
         const ref = params.action;
-        const queryParams = { ref };
+        const queryParams = { ref, number_demand };
         let routePath: string = '';
 
         switch (params.action) {

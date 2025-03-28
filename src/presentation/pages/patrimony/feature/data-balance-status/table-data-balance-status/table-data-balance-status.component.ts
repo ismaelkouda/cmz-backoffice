@@ -20,6 +20,7 @@ import { StoreCurrentUserService } from "../../../../../../shared/services/store
 
 export class TableDataBalanceStatusComponent {
 
+  @Input() spinner: boolean;
   @Input() listDataBalanceStatus$: Observable<Array<dataBalanceStatusInterface>>;
   @Input() pagination$: Observable<Paginate<dataBalanceStatusInterface>>;
   public table: TableConfig = dataBalanceStatusTableConstant;

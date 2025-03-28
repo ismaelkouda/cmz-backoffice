@@ -60,7 +60,7 @@ export class AchatProduitsComponent implements OnInit, OnDestroy {
     }
 
     async pageCallback(dataToSend: Object = {}, nbrPage: string = "1"): Promise<any> {
-        const response: any = await handle(() => this.demandeService.GetDemandeServiceByTransaction({...dataToSend, operation: "SIM blanche"}, nbrPage), this.toastrService, this.loadingBarService);
+        const response: any = await handle(() => this.demandeService.GetDemandeServiceByTransaction({...dataToSend, operation: "sim-blanche"}, nbrPage), this.toastrService, this.loadingBarService);
         if (response.error === false) this.handleSuccessfulPageCallback(response);
     }
     private handleSuccessfulPageCallback(response: any): void {

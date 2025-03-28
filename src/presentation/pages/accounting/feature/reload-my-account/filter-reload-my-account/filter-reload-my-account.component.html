@@ -1,0 +1,34 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="d-flex gap-1">
+
+        <div class="col-md-2">
+            <label><b>{{ 'NUMBER_TRANSACTION' | translate }}</b></label>
+            <input formControlName="transaction" type="text" pInputText placeholder="{{ 'NUMBER_TRANSACTION' | translate }}"
+                [style]="{ minWidth: '100%' }" />
+        </div>
+
+        <div class="col-md-2">
+            <label><b>{{ 'NUMBER_REFERENCE' | translate }}</b></label>
+            <input formControlName="reference" type="text" pInputText placeholder="{{ 'NUMBER_REFERENCE' | translate }}"
+                [style]="{ minWidth: '100%' }" />
+        </div>
+
+        <div class="col-md-2">
+            <label><b>{{ 'START_DATE' | translate }}</b></label>
+            <p-calendar formControlName="date_debut" [showIcon]="true" [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy">
+            </p-calendar>
+        </div>
+
+        <div class="col-md-2">
+            <label><b>{{ 'END_DATE' | translate }}</b></label>
+            <p-calendar formControlName="date_fin" [showIcon]="true" placeholder="JJ-MM-AAAA" dateFormat="dd-mm-yy">
+            </p-calendar>
+        </div>
+
+        <div class="filter-button">
+            <button pButton pRipple type="submit" class="p-button-success" icon="pi pi-filter"></button>
+        </div>
+    </div>
+
+</form>

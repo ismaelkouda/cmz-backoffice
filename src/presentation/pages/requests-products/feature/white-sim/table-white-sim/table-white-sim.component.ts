@@ -8,16 +8,19 @@ import { TableConfig, TableExportExcelFileService } from '../../../../../../shar
 import { BADGE_ETAT, T_BADGE_ETAT } from '../../../../../../shared/constants/badge-etat.contant';
 import { BADGE_ETAPE, T_BADGE_ETAPE } from '../../../../../../shared/constants/badge-etape.constant';
 import { TreatmentDemands } from '../../../../../../shared/interfaces/treatment-demands.interface';
-import { CommandWhiteSim } from '../../../data-access/white-sim/interfaces/white-sim.interface';
 import { whiteSimTableConstant } from '../../../data-access/white-sim/constants/white-sim-table.constant';
 import { TranslateService } from '@ngx-translate/core';
 import { createButtonStyle } from '../../../../../../shared/functions/treatment-demands.function';
 import { CommandWhiteSimApiService } from '../../../data-access/white-sim/services/white-sim-api.service';
 import { Observable } from 'rxjs';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
+import { Folder } from '../../../../../../shared/interfaces/folder';
+import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
+import { SharedService } from '../../../../../../shared/services/shared.service';
 
 type Action = PageAction | ModalAction;
-type PageAction = { data: CommandWhiteSim, action: 'open-folder-white-sim' | 'invoice-white-sim' | 'mass-edit-white-sim' | 'mass-add-white-sim' | 'simple-add-white-sim', view: 'page' };
-type ModalAction = { data: CommandWhiteSim, action: 'view-white-sim' | 'journal-white-sim', view: 'modal' };
+type PageAction = { data: Folder, action: 'open-folder-white-sim' | 'invoice-white-sim' | 'mass-edit-white-sim' | 'mass-add-white-sim' | 'simple-add-white-sim', view: 'page' };
+type ModalAction = { data: Folder, action: 'view-white-sim' | 'journal-white-sim', view: 'modal' };
 const INIT_TYPE_TREATMENT: TreatmentDemands = { module: "requests-products", abandonner: false, modifier: false, visualiser: false, cloturer: false }
 type TYPE_COLOR_ETAPE_BADGE = 'badge-dark' | 'badge-warning' | 'badge-info' | 'badge-success';
 type TYPE_COLOR_ETAT_BADGE = 'badge-warning' | 'badge-dark' | 'badge-success' | 'badge-danger';
@@ -29,10 +32,11 @@ type TYPE_COLOR_ETAT_BADGE = 'badge-warning' | 'badge-dark' | 'badge-success' | 
 
 export class TableWhiteSimComponent {
 
-    @Input() listCommandWhiteSim$: Observable<Array<CommandWhiteSim>>;
-    @Input() commandWhiteSimSelected: CommandWhiteSim;
-    @Input() pagination: any;
+    @Input() spinner: boolean;
+    @Input() listCommandWhiteSim$: Observable<Array<Folder>>;
+    @Input() pagination$: Observable<Paginate<Folder>>;
     @Output() interfaceUser = new EventEmitter<any>();
+    public commandWhiteSimSelected: Folder;
     public typeTreatment: TreatmentDemands = INIT_TYPE_TREATMENT;
     public visibleFormCommandWhiteSim = false;
 
@@ -42,10 +46,10 @@ export class TableWhiteSimComponent {
 
     constructor(private toastService: ToastrService, private clipboardService: ClipboardService, private ngbModal: NgbModal,
         private commandWhiteSimApiService: CommandWhiteSimApiService, private tableExportExcelFileService: TableExportExcelFileService,
-        private translate: TranslateService) { }
+        private translate: TranslateService, private sharedService: SharedService) { }
 
     public pageCallback() {
-        this.commandWhiteSimApiService.fetchCommandWhiteSim({});
+        this.sharedService.fetchDemands({operation: OperationTransaction.SIM_BLANCHE} as Folder);
     }
 
     public onExportExcel(): void {
@@ -126,9 +130,9 @@ export class TableWhiteSimComponent {
         modalRef.componentInstance.typeJournal = "demandes-services";
     }
 
-    private onSelectCommandWhiteSim(commandWhiteSimSelected: CommandWhiteSim): void {
+    private onSelectCommandWhiteSim(commandWhiteSimSelected: Folder): void {
         this.commandWhiteSimSelected = commandWhiteSimSelected;
-        this.commandWhiteSimApiService.setCommandWhiteSimSelected(commandWhiteSimSelected);
+        this.sharedService.setDemandSelected(commandWhiteSimSelected);
     }
 
     hideDialog(): void {
@@ -157,18 +161,31 @@ export class TableWhiteSimComponent {
         switch (commandWhiteSim?.statut) {
             case BADGE_ETAPE.TRAITEMENT: {
                 if (commandWhiteSim?.traitement === BADGE_ETAT.EN_COURS) {
-                    return createButtonStyle('p-button-success', 'pi pi-folder-open', SIM_OF_THE_REQUEST, this.typeTreatment);
+                    return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
                 }
             }
+            case BADGE_ETAPE.SOUMISSION: {
+                if (commandWhiteSim?.traitement === BADGE_ETAT.EN_ATTENTE) {
+                    return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
+                }
+            }
+            case BADGE_ETAPE.CLOTURE: {
+              if (commandWhiteSim?.traitement === BADGE_ETAT.ABANDONNE) {
+                return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
+              }
+            }
         }
-        return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
+        return createButtonStyle('p-button-dark', 'pi pi-folder-open', SIM_OF_THE_REQUEST, this.typeTreatment);
     }
 
 
-    getTreatmentButtonPaiementCommandStyle(commandWhiteSim: { type_paiement: string }): { class: string, icon: string, tooltip: string } {
+    getTreatmentButtonPaiementCommandStyle(commandWhiteSim: { type_paiement: string, statut: string, traitement: string }): { class: string, icon: string, tooltip: string } {
         const SOLVE = this.translate.instant('SOLVE');
         const MAKE_A_PAYMENT = this.translate.instant('MAKE_A_PAYMENT');
-        if (!!commandWhiteSim?.type_paiement) {
+        const CANNOT_MAKE_A_PAYMENT = this.translate.instant('CANNOT_MAKE_A_PAYMENT');
+        if(commandWhiteSim?.statut === BADGE_ETAPE.CLOTURE && commandWhiteSim.traitement === BADGE_ETAT.ABANDONNE) {
+            return createButtonStyle('p-button-secondary', 'pi pi-print', CANNOT_MAKE_A_PAYMENT, this.typeTreatment);
+          } else if (!!commandWhiteSim?.type_paiement) {
             return createButtonStyle('p-button-success', 'pi pi-print', SOLVE, this.typeTreatment);
         } else {
             return createButtonStyle('p-button-danger', 'pi pi-print', MAKE_A_PAYMENT, this.typeTreatment);

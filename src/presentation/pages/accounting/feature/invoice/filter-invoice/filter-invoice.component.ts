@@ -1,12 +1,12 @@
-import { Component, Input, EventEmitter, Output, OnDestroy } from "@angular/core";
+import { Component, Input, EventEmitter, Output, OnDestroy, OnChanges } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import * as moment from 'moment';
 import { ToastrService } from "ngx-toastr";
-import { Observable, Subject, takeUntil } from 'rxjs';
-import { invoiceFilterInterface } from '../../../data-access/invoice/interfaces/invoice-filter.interface';
+import { Subject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
 import { T_BADGE_ETAT_FACTURE } from "../../../../../../shared/constants/badge-etat-facture.contant";
+import { invoiceFilterInterface } from "../../../data-access/invoice/interface/invoice-filter.interface";
+import { InvoiceApiService } from "../../../data-access/invoice/service/invoice-api.service";
 
     @Component({
         selector: 'app-filter-invoice',
@@ -14,9 +14,9 @@ import { T_BADGE_ETAT_FACTURE } from "../../../../../../shared/constants/badge-e
         styles: [':host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }']
     })
 
-    export class FilterInvoiceComponent implements OnDestroy {
+    export class FilterInvoiceComponent implements OnChanges, OnDestroy {
 
-    @Input() listApplicants$: Observable<Array<ApplicantInterface>>;
+    @Input() listOperations: Array<string>;
     @Input() listStatusInvoice: Array<T_BADGE_ETAT_FACTURE>
     @Input() filterData: invoiceFilterInterface;
     
@@ -30,27 +30,19 @@ import { T_BADGE_ETAT_FACTURE } from "../../../../../../shared/constants/badge-e
         this.initFormFilter();
     }
 
+    ngOnChanges() {
+        this.formFilter.get('statut')?.setValue(this.filterData?.["statut"]);
+    }
+
     public initFormFilter(): void {
         this.invoiceApiService.getDataFilterInvoice().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
             this.formFilter = this.fb.group<invoiceFilterInterface>({
                 date_debut: new FormControl<string>(filterData?.["date_debut"], { nonNullable: true }),
                 date_fin: new FormControl<string>(filterData?.["date_fin"], { nonNullable: true }),
                 numero_demande: new FormControl<string>(filterData?.["numero_demande"], { nonNullable: true }),
-                reference: new FormControl<string>(filterData?.["initie_par"], { nonNullable: true }),
+                initie_par: new FormControl<string>(filterData?.["initie_par"], { nonNullable: true }),
                 statut: new FormControl<string>(filterData?.["statut"], { nonNullable: true }),
                 operation: new FormControl<string>(filterData?.["operation"], { nonNullable: true })
-            });
-    
-            this.formFilter.get("imsi")?.valueChanges.subscribe((value) => {
-                if (value && value.length > 15) {
-                    this.formFilter.get("imsi")?.setValue(value.slice(0, 15), { emitEvent: false });
-                }
-            });
-    
-            this.formFilter.get("msisdn")?.valueChanges.subscribe((value) => {
-                if (value && value.length > 10) {
-                    this.formFilter.get("msisdn")?.setValue(value.slice(0, 10), { emitEvent: false });
-                }
             });
         });
     }

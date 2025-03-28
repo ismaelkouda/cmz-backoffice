@@ -103,7 +103,8 @@
                                 journal?.traitement === BADGE_ETAT.APPROUVE
                             "
                             [class.badge-primary]="
-                                journal?.traitement === BADGE_ETAT.COMPLET
+                                journal?.traitement === BADGE_ETAT.COMPLET || 
+                                journal?.traitement === BADGE_ETAT.LIVRE
                             "
                         >
                             {{ journal.traitement }}

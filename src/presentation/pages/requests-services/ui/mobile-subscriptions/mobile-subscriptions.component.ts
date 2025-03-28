@@ -3,7 +3,7 @@ import { Paginate } from './../../../../../shared/interfaces/paginate';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedService } from '../../../../../shared/services/shared.service';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { BADGE_ETAPE, T_BADGE_ETAPE } from '../../../../../shared/constants/badge-etape.constant';
 import { BADGE_ETAT, T_BADGE_ETAT } from '../../../../../shared/constants/badge-etat.contant';
 import { FORM, INVOICE } from '../../requests-services-routing.module';
@@ -25,12 +25,12 @@ export class MobileSubscriptionsComponent {
   public module: string;
   public subModule: string;
   public pagination$: Observable<Paginate<Folder>>;
-  public filterData: mobileSubscriptionsFilterInterface;
   public listStepFolder: Array<T_BADGE_ETAPE> = step_values;
   public listStateFolder: Array<T_BADGE_ETAT> = state_values;
   public listApplicants$: Observable<Array<ApplicantInterface>>;
   public listDemands$: Observable<Array<Folder>>;
-  public demandSelected$: Observable<Folder>;
+  public spinner: boolean = true;
+  private destroy$ = new Subject<void>();
 
   constructor(private router: Router, private sharedService: SharedService,
     private activatedRoute: ActivatedRoute) {
@@ -45,22 +45,25 @@ export class MobileSubscriptionsComponent {
     this.listApplicants$ = this.sharedService.getApplicants();
     this.listDemands$ = this.sharedService.getDemands();
     this.pagination$ = this.sharedService.getDemandsPagination();
-    this.demandSelected$ = this.sharedService.getDemandSelected();
     combineLatest([
       this.sharedService.getDataFilterDemands(),
       this.sharedService.getDataNbrPageDemands()
     ]).subscribe(([filterData, nbrPageData]) => {
-      this.sharedService.fetchDemands({...filterData, operation: OperationTransaction.ACTIVATION}, nbrPageData);
+      this.sharedService.fetchDemands({ ...filterData, operation: OperationTransaction.ACTIVATION }, nbrPageData);
+    });
+    this.sharedService.isLoadingDemands().pipe(takeUntil(this.destroy$)).subscribe((spinner: boolean) => {
+        this.spinner = spinner;
     });
   }
 
   public filter(filterData: mobileSubscriptionsFilterInterface): void {
-    this.filterData = { ...filterData, operation: OperationTransaction.ACTIVATION };
-    this.sharedService.fetchDemands(this.filterData)
+    this.sharedService.fetchDemands({ ...filterData, operation: OperationTransaction.ACTIVATION })
   }
 
   public onPageChange(event: number): void {
-    this.sharedService.fetchDemands(this.filterData, JSON.stringify(event + 1))
+    this.sharedService.getDataFilterDemands().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
+        this.sharedService.fetchDemands(filterData, JSON.stringify(event + 1))
+    });
   }
 
   public navigateByUrl(params: PageAction): void {
@@ -77,6 +80,11 @@ export class MobileSubscriptionsComponent {
       case "simple-add-mobile-subscription": routePath = FORM; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams: { ...queryParams, operation: OperationTransaction.ACTIVATION } }); break;
       case "mass-add-mobile-subscription": routePath = FORM; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams: { ...queryParams, operation: OperationTransaction.ACTIVATION_EN_MASSE } }); break;
     }
+  }
+
+  ngOnDestroy(): void {
+      this.destroy$.next();
+      this.destroy$.complete();
   }
 
 }

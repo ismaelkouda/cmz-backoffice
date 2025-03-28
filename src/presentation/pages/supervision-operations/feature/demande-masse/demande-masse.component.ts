@@ -40,7 +40,7 @@ export class DemandeMasseComponent implements OnInit {
     public BADGE_ETAT = BADGE_ETAT;
     public BADGE_ETAPE = BADGE_ETAPE;
     public formTraitementMasse: FormGroup;
-    @Input() params: { vue: "activation", action: "Abandonner" | "Identifier" } | { vue: "SIM blanche", action: "Abandonner" | "Identifier" } | { vue: "traitement", action: "Clôturer" };
+    @Input() params: { vue: "activation", action: "Abandonner" | "Identifier" } | { vue: "sim-blanche", action: "Abandonner" | "Identifier" } | { vue: "traitement", action: "Clôturer" };
     @Input() action: 'traiter' | 'cloturer' | 'Abandonner' | 'Traiter';
     @Input() IsLoadData;
     @Input() demande;
@@ -88,7 +88,7 @@ export class DemandeMasseComponent implements OnInit {
     ngOnInit() {
         this.initFormTraitementMasse();
         // this.GetFormules();
-        if (this.params.vue === "SIM blanche") {
+        if (this.params.vue === "sim-blanche") {
             this.getAllProduits();
         } else {
             this.GetSupervisionOperationsDemandesServicesDetails();
@@ -123,7 +123,7 @@ export class DemandeMasseComponent implements OnInit {
             notation_cloture: this.createFormControl(this.listDemandes?.notation_cloture, this.isRequireNotationCloture ? Validators.required : null, false),
 
             operation: this.createFormControl(this.formatTitle(this.listDemandes?.operation), null, true),
-            nb_demande_soumises: this.createFormControl(this.params.vue === 'SIM blanche' ? this.listDemandes?.facture?.qte : this.listDemandes?.nb_demande_soumises, null, true),
+            nb_demande_soumises: this.createFormControl(this.params.vue === 'sim-blanche' ? this.listDemandes?.facture?.qte : this.listDemandes?.nb_demande_soumises, null, true),
             prix_unitaire: this.createFormControl(this.listDemandes?.["facture"]?.["prix_unitaire"], null, true),
             prix_ht: this.createFormControl(this.listDemandes?.["facture"]?.["prix_ht"], null, true),
             prix_ttc: this.createFormControl(this.listDemandes?.["facture"]?.["prix_ttc"], null, true),

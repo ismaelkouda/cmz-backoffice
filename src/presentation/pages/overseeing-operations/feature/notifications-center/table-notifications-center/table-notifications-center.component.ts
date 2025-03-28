@@ -12,6 +12,7 @@ import { notificationsCenterFilterInterface } from "../../../data-access/notific
 import { NotificationsCenterApiService } from "../../../data-access/notifications-center/services/notifications-center-api.service";
 import { handle } from "../../../../../../shared/functions/api.function";
 import { LoadingBarService } from "@ngx-loading-bar/core";
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: `app-table-notifications-center`,
@@ -27,12 +28,18 @@ export class TableNotificationsCenterComponent {
 
   constructor(public toastService: ToastrService, private notificationsCenterApiService: NotificationsCenterApiService,
     private tableExportExcelFileService: TableExportExcelFileService, private translate: TranslateService,
-    private clipboardService: ClipboardService, private loadingBarService: LoadingBarService) { }
+    private clipboardService: ClipboardService, private loadingBarService: LoadingBarService,
+    private sanitizer: DomSanitizer) { }
 
   public copyToClipboard(data: string): void {
     const translatedMessage = this.translate.instant('COPIED_TO_THE_CLIPBOARD');
     this.toastService.success(translatedMessage);
     this.clipboardService.copyFromContent(data);
+  }
+
+  public getSanitizedHTML(content: string): SafeHtml {
+    console.log('content', content)
+    return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
   async onClearNotificationSelected(): Promise<void> {

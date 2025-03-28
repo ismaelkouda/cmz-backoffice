@@ -11,7 +11,7 @@
                         <div class="d-flex justify-content-between">
                             <app-patrimoine-header
                                 [displayDate]="false"
-                                [total]="pagination?.['total']"
+                                [total]="(pagination$ | async)?.total"
                                 [legendePluriel]="'WHITE_SIM' | translate"
                                 [legendeSingulier]="'WHITE_SIM' | translate"
                             >
@@ -36,27 +36,23 @@
 
                         <app-filter-white-sim
                             (filter)="filter($event)"
-                            [filterData]="filterData"
                             [listApplicants$]="listApplicants$"
                             [listStepCommandWhiteSim]="listStepCommandWhiteSim"
-                            [listStateCommandWhiteSim]="
-                                listStateCommandWhiteSim
-                            "
-                        >
+                            [listStateCommandWhiteSim]="listStateCommandWhiteSim">
                         </app-filter-white-sim>
 
                         <hr />
 
                         <app-table-white-sim
-                            [pagination]="pagination"
+                            [spinner]="spinner"
+                            [pagination$]="pagination$"
                             [listCommandWhiteSim$]="listCommandWhiteSim$"
-                            [commandWhiteSimSelected]="commandWhiteSimSelected"
                             (interfaceUser)="navigateByUrl($event)"
                         >
                         </app-table-white-sim>
 
                         <app-pargination
-                            [pargination]="pagination"
+                            [pargination]="pagination$ | async"
                             (pageChange)="onPageChange($event)"
                         ></app-pargination>
                     </div>

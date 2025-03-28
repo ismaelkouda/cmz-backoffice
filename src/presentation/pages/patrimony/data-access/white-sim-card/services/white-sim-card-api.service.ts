@@ -5,8 +5,10 @@ import { Injectable } from "@angular/core";
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { whiteSimCardGlobalStateInterface, whiteSimCardInterface, whiteSimCardResponseInterface } from '../interfaces/white-sim-card.interface';
-import { whiteSimCardFilterInterface } from '../interfaces/white-sim-card-filter.interface';
 import { whiteSimCardEndpointEnum } from '../enums/white-sim-card-endpoint.enum';
+import { whiteSimCardDetailsInterface } from '../interfaces/white-sim-card-details.interface';
+import { whiteSimCardDetailsFilterInterface } from '../interfaces/white-sim-card-details-filter.interface';
+import { whiteSimCardFilterInterface } from '../interfaces/white-sim-card-filter.interface';
 
 @Injectable()
 
@@ -38,8 +40,8 @@ export class whiteSimCardApiService {
                 switchMap((response: any) => {
                     const whiteSimCard = response?.['data']?.data?.data;
                     this.whiteSimCardSubject.next(whiteSimCard);
-                    this.whiteSimCardPagination.next(response?.['data']);
-                    this.whiteSimCardGlobalState.next(response?.['data']?.data);
+                    this.whiteSimCardPagination.next(response?.['data']?.data);
+                    this.whiteSimCardGlobalState.next(response?.['data']);
                     this.apiResponseWhiteSimCardSubject.next(response);
                     this.dataFilterWhiteSimCardSubject.next(data);
                     this.dataNbrPageWhiteSimCardSubject.next(nbrPage);
@@ -84,37 +86,42 @@ export class whiteSimCardApiService {
 
     /*********************Méthode pour récupérer la liste des SIMS details*************** */
 
-//     private whiteSimCardDetailsSubject = new BehaviorSubject<whiteSimCardDetailsInterface>({} as whiteSimCardDetailsInterface);
-//     private loadingWhiteSimCardDetailsSubject = new BehaviorSubject<boolean>(false);
+    private whiteSimCardDetailsSubject = new BehaviorSubject<Array<whiteSimCardDetailsInterface>>([]);
+    private loadingWhiteSimCardDetailsSubject = new BehaviorSubject<boolean>(false);
+    private dataFilterWhiteSimCardDetailsSubject = new BehaviorSubject<whiteSimCardDetailsFilterInterface>({} as whiteSimCardDetailsFilterInterface);
 
-//     fetchWhiteSimCardDetails(imsi: string): void {
-//         if (this.loadingWhiteSimCardDetailsSubject.getValue()) return;
+    fetchWhiteSimCardDetails(data): void {
+        if (this.loadingWhiteSimCardDetailsSubject.getValue()) return;
 
-//         const url: string = whiteSimCardEndpointEnum.POST_PATRIMOINE_SIM_SIMS_imsi_Details.replace('{imsi}', imsi)
-//         this.loadingWhiteSimCardDetailsSubject.next(true);
+        const url: string = whiteSimCardEndpointEnum.POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_DETAILS_PAGE;
+        this.loadingWhiteSimCardDetailsSubject.next(true);
 
-//         this.httpClient
-//             .post<Object>(`${this.BASE_URL}${url}`, {})
-//             .pipe(
-//                 debounceTime(1000),
-//                 switchMap((response: any) => {
-//                     this.whiteSimCardDetailsSubject.next(response?.['data']);
-//                     return of(response);
-//                 }),
-//                 catchError((error) => {
-//                     console.error('Error fetching whiteSimCardDetails', error);
-//                     return of([]);
-//                 }),
-//                 finalize(() => this.loadingWhiteSimCardDetailsSubject.next(false))
-//             )
-//             .subscribe();
-//     }
+        this.httpClient
+            .post<Object>(`${this.BASE_URL}${url}`, data)
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    this.whiteSimCardDetailsSubject.next(response?.['data']);
+                    this.dataFilterWhiteSimCardDetailsSubject.next(data);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching whiteSimCardDetails', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingWhiteSimCardDetailsSubject.next(false))
+            )
+            .subscribe();
+    }
 
-//     getWhiteSimCardDetails(): Observable<whiteSimCardDetailsInterface> {
-//         return this.whiteSimCardDetailsSubject.asObservable();
-//     }
+    getWhiteSimCardDetails(): Observable<Array<whiteSimCardDetailsInterface>> {
+        return this.whiteSimCardDetailsSubject.asObservable();
+    }
 
-//     isLoadingWhiteSimCardDetails(): Observable<boolean> {
-//         return this.loadingWhiteSimCardDetailsSubject.asObservable();
-//     }
+    isLoadingWhiteSimCardDetails(): Observable<boolean> {
+        return this.loadingWhiteSimCardDetailsSubject.asObservable();
+    }
+    getDataFilterWhiteSimCardDetails(): Observable<whiteSimCardDetailsFilterInterface> {
+        return this.dataFilterWhiteSimCardDetailsSubject.asObservable();
+    }
 }

@@ -6,12 +6,12 @@ import { OperationTransaction } from './../../../../../shared/enum/OperationTran
 import { BADGE_ETAPE, T_BADGE_ETAPE } from './../../../../../shared/constants/badge-etape.constant';
 import { BADGE_ETAT, T_BADGE_ETAT } from './../../../../../shared/constants/badge-etat.contant';
 import { CommandWhiteSim } from '../../data-access/white-sim/interfaces/white-sim.interface';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { INVOICE } from '../../../requests-products/requests-products-routing.module';
 import { FORM } from '../../../requests-products/requests-products-routing.module';
 import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
-import { CommandWhiteSimApiService } from '../../data-access/white-sim/services/white-sim-api.service';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
+import { Folder } from '../../../../../shared/interfaces/folder';
 
 const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT];
 const state_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE];
@@ -25,68 +25,65 @@ type PageAction = { data: CommandWhiteSim, action: 'open-folder-white-sim' | 'in
 export class WhiteSimComponent implements OnInit {
     public module: string;
     public subModule: string;
-    public pagination: Paginate<CommandWhiteSim> | void;
-    public filterData: Object;
+    public pagination$: Observable<Paginate<Folder>>;
     public currentPage: string;
     public listStepCommandWhiteSim: Array<T_BADGE_ETAPE> = step_values;
     public listStateCommandWhiteSim: Array<T_BADGE_ETAT> = state_values;
     public statistiquesBox: Array<IStatistiquesBox> = [];
-    public listCommandWhiteSim$: Observable<Array<CommandWhiteSim>>;
-    public commandWhiteSimSelected: CommandWhiteSim;
+    public listCommandWhiteSim$: Observable<Array<Folder>>;
+    public commandWhiteSimSelected$: Observable<Folder>;
     public listApplicants$: Observable<any[]>;
     private destroy$ = new Subject<void>();
+    public spinner: boolean = true;
 
     constructor(private router: Router, private sharedService: SharedService,
-        private activatedRoute: ActivatedRoute, 
-        private commandWhiteSimApiService: CommandWhiteSimApiService) {
+        private activatedRoute: ActivatedRoute,) {
     }
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
-            this.subModule = data.subModule[1];
+            this.subModule = data.subModule[0];
         });
         this.sharedService.fetchApplicants();
         this.listApplicants$ = this.sharedService.getApplicants();
-        this.listCommandWhiteSim$ = this.commandWhiteSimApiService.getCommandWhiteSim();
-        // this.commandWhiteSimApiService.getCommandWhiteSim().pipe(takeUntil(this.destroy$)).subscribe((command) => {
-        //     this.listCommandWhiteSim = command;
-        // });
-        this.commandWhiteSimApiService.getDataFilterCommandWhiteSim().pipe(takeUntil(this.destroy$)).subscribe((command) => {
-            this.filterData = command;
+        this.listCommandWhiteSim$ = this.sharedService.getDemands();
+        this.pagination$ = this.sharedService.getDemandsPagination();
+        this.commandWhiteSimSelected$ = this.sharedService.getDemandSelected();
+        combineLatest([
+            this.sharedService.getDataFilterDemands(),
+            this.sharedService.getDataNbrPageDemands()
+        ]).subscribe(([filterData, nbrPageData]) => {
+            this.sharedService.fetchDemands({ ...filterData, operation: OperationTransaction.SIM_BLANCHE }, nbrPageData);
         });
-        this.commandWhiteSimApiService.fetchCommandWhiteSim(this.filterData, this.currentPage);
-        this.commandWhiteSimApiService.getCommandWhiteSimPagination().pipe(takeUntil(this.destroy$)).subscribe((value) => {
-            this.pagination = value;
-        });
-        this.commandWhiteSimApiService.getCommandWhiteSimSelected().pipe(takeUntil(this.destroy$)).subscribe((command: CommandWhiteSim) => {
-            this.commandWhiteSimSelected = command;
+        this.sharedService.isLoadingDemands().pipe(takeUntil(this.destroy$)).subscribe((spinner: boolean) => {
+            this.spinner = spinner;
         });
     }
 
     public filter(filterData: Object): void {
-        this.filterData = filterData;
-        this.commandWhiteSimApiService.fetchCommandWhiteSim(filterData)
+        this.sharedService.fetchDemands({ ...filterData, operation: OperationTransaction.SIM_BLANCHE })
     }
 
     public onPageChange(event: number): void {
-        this.commandWhiteSimApiService.fetchCommandWhiteSim(this.filterData, JSON.stringify(event + 1))
+        this.sharedService.getDataFilterDemands().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
+            this.sharedService.fetchDemands(filterData, JSON.stringify(event + 1))
+        });
     }
 
     public navigateByUrl(params: PageAction): void {
         const number_demand = params.data ? params.data?.["numero_demande"] : null;
         const ref = params.action;
         const operation = OperationTransaction.SIM_BLANCHE;
-        const current_page = this.pagination?.['current_page'] || 1;
-        const queryParams = { ref, operation, current_page };
+        const queryParams = { ref, operation };
         let routePath: string = '';
 
         switch (params.action) {
-        case "invoice-white-sim": routePath = `${INVOICE}/${number_demand}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
-        case "open-folder-white-sim": routePath = `${number_demand}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
-        case "mass-edit-white-sim":
-        case "simple-add-white-sim": routePath = FORM; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams: { ...queryParams, operation: OperationTransaction.SIM_BLANCHE } }); break;
-        case "mass-add-white-sim": routePath = FORM; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams: { ...queryParams, operation: OperationTransaction.SIM_BLANCHE_EN_MASSE } }); break;
+            case "invoice-white-sim": routePath = `${INVOICE}/${number_demand}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
+            case "open-folder-white-sim": routePath = `${number_demand}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
+            case "mass-edit-white-sim":
+            case "simple-add-white-sim": routePath = FORM; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams: { ...queryParams, operation: OperationTransaction.SIM_BLANCHE } }); break;
+            case "mass-add-white-sim": routePath = FORM; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams: { ...queryParams, operation: OperationTransaction.SIM_BLANCHE_EN_MASSE } }); break;
         }
     }
 

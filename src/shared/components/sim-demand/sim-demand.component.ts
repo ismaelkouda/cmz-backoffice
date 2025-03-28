@@ -10,8 +10,8 @@ import { SimDemand } from '../../interfaces/details-mobile-subscriptions.interfa
 import { BADGE_ETAPE } from '../../constants/badge-etape.constant';
 import { BADGE_ETAT } from '../../constants/badge-etat.contant';
 
-type TYPEVIEW = "open-folder-mobile-subscription"|"open-folder-white-sim"|"open-folder-treatment-monitoring";
-const TYPEVIEW_VALUES: TYPEVIEW[] = ["open-folder-mobile-subscription","open-folder-white-sim","open-folder-treatment-monitoring"];
+type TYPEVIEW = "open-folder-mobile-subscription"|"open-folder-white-sim"|"open-folder-treatment-monitoring"|"view-white-sim-card";
+const TYPEVIEW_VALUES: TYPEVIEW[] = ["open-folder-mobile-subscription","open-folder-white-sim","open-folder-treatment-monitoring","view-white-sim-card"];
 function isTypeView(value: any): value is TYPEVIEW {
     return TYPEVIEW_VALUES.includes(value);
 }

@@ -1,36 +1,34 @@
-import { Paginate } from "../../../../../../shared/interfaces/paginate";
 
 export interface whiteSimCardDetailsResponseInterface {
+  data: whiteSimCardDetailsInterface;
   error: boolean;
   message: string;
-  data: whiteSimCardDetailsGlobalStateInterface;
 }
 
-export interface whiteSimCardDetailsGlobalStateInterface {
-  total: number;
-  total_lots: number;
-  total_disponibles: number;
-  total_attribues: number;
-  total_reserves: number;
-  pourcentage_lots: number;
-  pourcentage_disponibles: number;
-  pourcentage_attribues: number;
-  pourcentage_reserves: number;
-  data: Paginate<whiteSimCardDetailsInterface>;
+export interface WhiteSimCardInterface {
+  id: number;
+  transaction: string;
+  numero_demande: string;
+  locked_until: string;
+  carton_sim_id: number;
+  imsi: string;
+  iccid: string;
+  statut: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface whiteSimCardDetailsInterface {
   id: number;
   reference: string;
-  numero_demande: string;
+  description: string;
+  statut: string;
   premier_numero: string;
   dernier_numero: string;
   nb_numeros_total: number;
   nb_numeros_utilises: number;
-  statut: string;
-  description: string | null;
   created_at: string;
   updated_at: string;
-  nb_numeros_disponibles: number;
-  taux_utilisation: number;
+  numero_demande: string;
+  carte_sims: WhiteSimCardInterface[];
 }

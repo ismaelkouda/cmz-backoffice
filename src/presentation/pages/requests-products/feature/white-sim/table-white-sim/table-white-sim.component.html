@@ -5,23 +5,17 @@
     dataKey="id"
     selectionMode="single"
     [(selection)]="commandWhiteSimSelected"
-    [rows]="pagination?.per_page"
+    [rows]="(pagination$ | async)?.per_page"
     [globalFilterFields]="table.globalFilterFields"
 >
     <ng-template pTemplate="caption">
         <div class="d-flex justify-content-between">
-            <app-table-title
-                [count]="pagination?.total"
-                [legendePluriel]="'WHITE_SIMPLE' | translate"
-                [perPage]="pagination?.per_page"
-                [legendeSingulier]="'WHITE_SIMPLE' | translate"
-                [page]="pagination?.currentPage"
-                [totalPage]="pagination?.last_page"
-            >
+            <app-table-title [count]="(pagination$ | async)?.total" [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page" [totalPage]="(pagination$ | async)?.last_page">
             </app-table-title>
             <div class="d-flex gap-2 align-items-center">
                 <div class="d-flex gap-2">
-                    <button
+                    <!-- <button
                         pButton
                         pRipple
                         [label]="'SIMPLE_DEMAND' | translate"
@@ -34,7 +28,7 @@
                                 view: 'page'
                             })
                         "
-                    ></button>
+                    ></button> -->
                     <app-table-button-header
                         (refresh)="pageCallback()"
                         (export)="onExportExcel()"
@@ -91,7 +85,7 @@
                         {{ 'STATE' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Date Etat'">
-                        {{ 'UPDATE_DATE' | translate }}
+                        {{ 'UPDATED_DATE' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Demandeur'">
                         {{ 'APPLICANT' | translate }}
@@ -112,7 +106,7 @@
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
-                        {{ rowIndex + pagination?.current_page }}
+                        {{ rowIndex + (pagination$ | async)?.current_page }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'N° Commande'">
                         <span (click)="copyToClipboard(item?.[col.field])">
@@ -145,6 +139,7 @@
                     <ng-container *ngSwitchCase="'Actions'">
                         <button
                             pButton
+                            [class.p-disabled]="getTreatmentButtonOpenCommandStyle(item)?.class === 'p-button-secondary'"
                             [ngClass]="
                                 getTreatmentButtonOpenCommandStyle(item)?.class
                             "
@@ -183,6 +178,7 @@
                         >&nbsp;
                         <button
                             pButton
+                            [class.p-disabled]="getTreatmentButtonPaiementCommandStyle(item)?.class === 'p-button-secondary'"
                             [ngClass]="
                                 getTreatmentButtonPaiementCommandStyle(item)
                                     ?.class
@@ -266,7 +262,7 @@
         <app-form-folder
             [demandSelected]="commandWhiteSimSelected"
             [typeTreatment]="typeTreatment"
-            (visibleFormCommandWhiteSim)="hideDialog()"
+            (visibleFormDossier)="hideDialog()"
         >
         </app-form-folder>
     </ng-template>

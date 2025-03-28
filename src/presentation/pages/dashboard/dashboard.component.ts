@@ -80,7 +80,7 @@ export class DashboardComponent implements OnInit {
         legendColor: '#FFF',
         countColor:"#FFF",
         legend: 'Total SIM',
-        count: rapport?.['total'] || '0',
+        count: rapport?.['totalSim'] || '0',
         width: "col-md-3",
         icon: this.simIcon,
         routerFilter: () => this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`)
@@ -91,7 +91,7 @@ export class DashboardComponent implements OnInit {
         legendColor:"#FFF",
         countColor:"#FFF",
         legend: '# SIM Actives',
-        count: rapport?.["actif"] || '0',
+        count: rapport?.["totalSimActives"] || '0',
         width: "col-md-3",
         icon: this.simIcon,
         routerFilter: () => this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`, { state: { statut: SimStatut.ACTIF } })
@@ -102,7 +102,7 @@ export class DashboardComponent implements OnInit {
         legendColor:"#ff7f50",
         countColor:"#ff7f50",
         legend: '# SIM Suspendues',
-        count: rapport?.["suspendu"] || '0',
+        count: rapport?.["totalSimSuspendues"] || '0',
         width: "col-md-3",
         icon: this.simIcon,
         routerFilter: () => this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`, { state: { statut: SimStatut.SUSPENDU } })
@@ -113,7 +113,7 @@ export class DashboardComponent implements OnInit {
         legendColor:"#FFF",
         countColor:"#FFF",
         legend: '# SIM Resiliées',
-        count: rapport?.["resilie"] || '0',
+        count: rapport?.["totalSimResiliees"] || '0',
         width: "col-md-3",
         icon: this.simIcon,
         routerFilter: () => this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`, { state: { statut: SimStatut.RESILIE } })
@@ -124,7 +124,7 @@ export class DashboardComponent implements OnInit {
         legendColor:"#27ae60",
         countColor:"#27ae60",
         legend: '# SIM Alarmes Normales',
-        count: rapport?.["alarme_normal"] || '0',
+        count: rapport?.["totalAlarmesNormales"] || '0',
         width: "col-md-3",
         icon: this.simNormale,
         iframeLink: variables?.analyseAlarmeNormales ?? ''
@@ -135,7 +135,7 @@ export class DashboardComponent implements OnInit {
         legendColor:"#130f40",
         countColor:"#130f40",
         legend: '# SIM Alarmes Mineures',
-        count: rapport?.["alarme_mineur"] || '0',
+        count: rapport?.["totalAlarmesMineures"] || '0',
         width: "col-md-3",
         icon: this.simMineure,
         iframeLink: variables?.analyseAlarmeMineures ?? ''
@@ -146,7 +146,7 @@ export class DashboardComponent implements OnInit {
         legendColor:"#FFF",
         countColor:"#FFF",
         legend: '# SIM Alarmes Majeures',
-        count: rapport?.["alarme_majeur"] || '0',
+        count: rapport?.["totalAlarmesMajeures"] || '0',
         width: "col-md-3",
         icon: this.simMajeure,
         iframeLink: variables?.analyseAlarmeMajeures ?? ''
@@ -157,7 +157,7 @@ export class DashboardComponent implements OnInit {
         legendColor:"#FFF",
         countColor:"#FFF",
         legend: '# SIM Alarmes Critiques',
-        count: rapport?.["alarme_critique"] || '0',
+        count: rapport?.["totalAlarmesCritiques"] || '0',
         width: "col-md-3",
         icon: this.simCrique,
         iframeLink: variables?.analyseAlarmeCritiques ?? ''
