@@ -8,12 +8,10 @@
         "build:dev": "npm run set-env -- dev && ng build",
         "build:prod": "npm run set-env -- prod && ng build --configuration=production",
         "format": "prettier \"src/**/*.{jts,html,css,scss}\" --write",
-
         "start-en:dev": "npm run set-env -- dev && ng serve --host 0.0.0.0 --port 4401 --configuration=en",
         "start-en:prod": "npm run set-env -- prod && ng serve --host 0.0.0.0 --port 4401 --configuration=en",
         "build-en:dev": "npm run set-env -- dev && ng build",
         "build-en:prod": "npm run set-env -- prod && ng build --configuration=production",
-        
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
@@ -86,6 +84,7 @@
         "ngx-webstorage": "^11.1.1",
         "npm": "^9.6.6",
         "pdfmake": "^0.2.7",
+        "pnpm": "^10.8.1",
         "postcss": "^8.5.3",
         "primeflex": "^3.2.0",
         "primeicons": "^5.0.0",
