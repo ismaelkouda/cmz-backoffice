@@ -17,7 +17,14 @@
                             >
                             </app-patrimoine-header>
                             <h3 class="d-flex align-items-end">
-                                <b>{{'MY_BALANCE' | translate}} : {{ (listInvoicesResponse$ | async)?.data?.mon_compte }} Fcfa</b>
+                                <b
+                                    >{{ 'MY_BALANCE' | translate }} :
+                                    {{
+                                        (listInvoicesResponse$ | async)?.data
+                                            ?.mon_compte
+                                    }}
+                                    Fcfa</b
+                                >
                             </h3>
                         </div>
                     </div>

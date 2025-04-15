@@ -1,7 +1,10 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb [title]="module" [active_item]="subModule"></app-breadcrumb>
+            <app-breadcrumb
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
                     <div *ngIf="!displayUrlErrorPage">
@@ -10,85 +13,128 @@
                                 <h4>
                                     <b>
                                         <span>Référence de la facture :</span>
+                                        <span class="current_values"
+                                            >[{{detailsInvoiceForm?.facture?.['reference']
+                                            }}]</span
+                                        >
                                         <span
-                                            class="current_values">[{{detailsInvoiceForm?.facture?.['reference']}}]</span>
-                                        <span [class]="
+                                            [class]="
                                                 'badge ' +
                                                 getStatutBadge(
                                                     detailsInvoiceForm?.facture
                                                 )
-                                            " [ngStyle]="{
+                                            "
+                                            [ngStyle]="{
                                                 width: 'fit-content',
                                                 'font-size': '18px'
-                                            }">
+                                            }"
+                                        >
                                             {{
-                                            detailsInvoiceForm?.facture
-                                            ?.statut
-                                            }} </span>&nbsp; [Montant :<span class="text-orange">
+                                                detailsInvoiceForm?.facture
+                                                    ?.statut
+                                            }} </span
+                                        >&nbsp; [Montant :<span
+                                            class="text-orange"
+                                        >
                                             {{
-                                            detailsInvoiceForm?.facture
-                                            ?.prix_ttc
+                                                detailsInvoiceForm?.facture
+                                                    ?.prix_ttc
                                             }}
-                                            Fcfa</span>]
+                                            Fcfa</span
+                                        >]
                                     </b>
                                 </h4>
                                 <div class="forms-feature-header__button">
                                     <div class="d-flex gap-3">
-                                        <p-button label="Enregistrer" styleClass="p-button-success"
-                                            tooltipPosition="top" pTooltip="Enregistrer le paiement" [class.p-disabled]="
+                                        <p-button
+                                            label="Enregistrer"
+                                            styleClass="p-button-success"
+                                            tooltipPosition="top"
+                                            pTooltip="Enregistrer le paiement"
+                                            [class.p-disabled]="
                                                 formTypePaiement.invalid ||
                                                 isSold
-                                            " (click)="
+                                            "
+                                            (click)="
                                                 postTraitementsSuivisPaiementDemandeService()
-                                            " *ngIf="!isSold">
+                                            "
+                                            *ngIf="!isSold"
+                                        >
                                         </p-button>
-                                        <p-button label="Exporter" styleClass="p-button-primary" tooltipPosition="top"
-                                            pTooltip="Exporter la facture" printSectionId="print-section"
-                                            ngxPrint></p-button>
-                                        <p-button label="Fermer" styleClass="p-button-danger"
-                                            (click)="onGoToBack()"></p-button>
+                                        <p-button
+                                            label="Exporter"
+                                            styleClass="p-button-primary"
+                                            tooltipPosition="top"
+                                            pTooltip="Exporter la facture"
+                                            printSectionId="print-section"
+                                            ngxPrint
+                                        ></p-button>
+                                        <p-button
+                                            label="Fermer"
+                                            styleClass="p-button-danger"
+                                            (click)="onGoToBack()"
+                                        ></p-button>
                                     </div>
                                 </div>
                             </div>
 
                             <div id="print-section">
                                 <div>
-                                    <div class="d-flex justify-content-around align-items-center gap-10">
+                                    <div
+                                        class="d-flex justify-content-around align-items-center gap-10"
+                                    >
                                         <div>
-                                            <img class="img-fluid" [src]="logoTenant" width="250" height="250"
-                                                alt="Logo du client" />
+                                            <img
+                                                class="img-fluid"
+                                                [src]="logoTenant"
+                                                width="250"
+                                                height="250"
+                                                alt="Logo du client"
+                                            />
                                         </div>
                                         <div>
                                             <p class="text-secondary fs-6">
-                                                <span class="text-orange fw-bolder">RCCM&nbsp;:&nbsp;</span>{{
-                                                detailsInvoiceForm?.facture
-                                                ?.orangeInfo?.rccm ??
-                                                'N/A'
+                                                <span
+                                                    class="text-orange fw-bolder"
+                                                    >RCCM&nbsp;:&nbsp;</span
+                                                >{{
+                                                    detailsInvoiceForm?.facture
+                                                        ?.orangeInfo?.rccm ??
+                                                        'N/A'
                                                 }}<br />
-                                                <span class="text-orange fw-bolder">CC&nbsp;:&nbsp;</span>{{
-                                                detailsInvoiceForm?.facture
-                                                ?.orangeInfo?.cc ??
-                                                'N/A'
+                                                <span
+                                                    class="text-orange fw-bolder"
+                                                    >CC&nbsp;:&nbsp;</span
+                                                >{{
+                                                    detailsInvoiceForm?.facture
+                                                        ?.orangeInfo?.cc ??
+                                                        'N/A'
                                                 }}&nbsp;{{
-                                                detailsInvoiceForm?.facture
-                                                ?.orangeInfo?.adresse ??
-                                                'N/A'
+                                                    detailsInvoiceForm?.facture
+                                                        ?.orangeInfo?.adresse ??
+                                                        'N/A'
                                                 }}<br />
-                                                <span class="text-orange fw-bolder">Email&nbsp;:&nbsp;</span>{{
-                                                detailsInvoiceForm?.facture
-                                                ?.orangeInfo?.email ??
-                                                'N/A'
+                                                <span
+                                                    class="text-orange fw-bolder"
+                                                    >Email&nbsp;:&nbsp;</span
+                                                >{{
+                                                    detailsInvoiceForm?.facture
+                                                        ?.orangeInfo?.email ??
+                                                        'N/A'
                                                 }}<br />
-                                                <span class="text-orange fw-bolder">Contacts&nbsp;:&nbsp;</span>{{
-                                                detailsInvoiceForm?.facture
-                                                ?.orangeInfo
-                                                ?.contact_1 ?? 'N/A'
+                                                <span
+                                                    class="text-orange fw-bolder"
+                                                    >Contacts&nbsp;:&nbsp;</span
+                                                >{{
+                                                    detailsInvoiceForm?.facture
+                                                        ?.orangeInfo
+                                                        ?.contact_1 ?? 'N/A'
                                                 }}
                                                 /
                                                 {{
-                                                detailsInvoiceForm?.facture
-                                                ?.orangeInfo
-                                                ?.contact_2 ?? 'N/A'
+                                                    detailsInvoiceForm?.facture
+                                                        ?.orangeInfo
+                                                        ?.contact_2 ?? 'N/A'
                                                 }}
                                             </p>
                                         </div>
@@ -97,54 +143,86 @@
 
                                 <div class="row px-5 pt-2">
                                     <div class="col-12">
-                                        <table [ngClass]="['native_table table']">
+                                        <table
+                                            [ngClass]="['native_table table']"
+                                        >
                                             <tbody>
                                                 <tr>
-                                                    <td colspan="3" class="text-center">
-                                                        <b class="fs-5">Facture</b>
+                                                    <td
+                                                        colspan="3"
+                                                        class="text-center"
+                                                    >
+                                                        <b class="fs-5"
+                                                            >Facture</b
+                                                        >
                                                     </td>
-                                                    <td rowspan="2" class="align-middle text-start">
-                                                        <b class="fs-5">A l'attention de
+                                                    <td
+                                                        rowspan="2"
+                                                        class="align-middle text-start"
+                                                    >
+                                                        <b class="fs-5"
+                                                            >A l'attention de
                                                             [&nbsp;{{
-                                                            detailsInvoiceForm
-                                                            ?.facture
-                                                            ?.clientInfo
-                                                            ?.nom_tenant
-                                                            }}&nbsp;]</b>
-                                                        <p class="text-secondary fs-6">
-                                                            <span class="fw-bolder">Compte
-                                                                client&nbsp;:&nbsp;</span>{{
-                                                            detailsInvoiceForm
-                                                            ?.facture
-                                                            ?.clientInfo
-                                                            ?.compte_client ??
-                                                            'N/A'
+                                                                detailsInvoiceForm
+                                                                    ?.facture
+                                                                    ?.clientInfo
+                                                                    ?.nom_tenant
+                                                            }}&nbsp;]</b
+                                                        >
+                                                        <p
+                                                            class="text-secondary fs-6"
+                                                        >
+                                                            <span
+                                                                class="fw-bolder"
+                                                                >Compte
+                                                                client&nbsp;:&nbsp;</span
+                                                            >{{
+                                                                detailsInvoiceForm
+                                                                    ?.facture
+                                                                    ?.clientInfo
+                                                                    ?.compte_client ??
+                                                                    'N/A'
                                                             }}<br />
-                                                            <span class="fw-bolder">Adresse&nbsp;:&nbsp;</span>{{
-                                                            detailsInvoiceForm
-                                                            ?.facture
-                                                            ?.clientInfo
-                                                            ?.adresse ??
-                                                            'N/A'
+                                                            <span
+                                                                class="fw-bolder"
+                                                                >Adresse&nbsp;:&nbsp;</span
+                                                            >{{
+                                                                detailsInvoiceForm
+                                                                    ?.facture
+                                                                    ?.clientInfo
+                                                                    ?.adresse ??
+                                                                    'N/A'
                                                             }}<br />
-                                                            <span class="fw-bolder">Contact&nbsp;:&nbsp;</span>{{
-                                                            detailsInvoiceForm
-                                                            ?.facture
-                                                            ?.clientInfo
-                                                            ?.contact_admin_tenant ??
-                                                            'N/A'
+                                                            <span
+                                                                class="fw-bolder"
+                                                                >Contact&nbsp;:&nbsp;</span
+                                                            >{{
+                                                                detailsInvoiceForm
+                                                                    ?.facture
+                                                                    ?.clientInfo
+                                                                    ?.contact_admin_tenant ??
+                                                                    'N/A'
                                                             }}
                                                         </p>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="text-center">
-                                                        <b>{{ 'NUMBER_REFERENCE' | translate }}</b>
+                                                        <b>{{
+                                                            'NUMBER_REFERENCE'
+                                                                | translate
+                                                        }}</b>
                                                     </td>
-                                                    <td scope="row" class="text-center">
+                                                    <td
+                                                        scope="row"
+                                                        class="text-center"
+                                                    >
                                                         <b>DATE FACTURE</b>
                                                     </td>
-                                                    <td scope="row" class="text-center">
+                                                    <td
+                                                        scope="row"
+                                                        class="text-center"
+                                                    >
                                                         <b>DATE LIMITE</b>
                                                     </td>
                                                 </tr>
@@ -155,34 +233,38 @@
                                                     </td>
                                                     <td class="text-center">
                                                         {{
-                                                        detailsInvoiceForm
-                                                        ?.facture
-                                                        ?.created_at ??
-                                                        'N/A'
+                                                            detailsInvoiceForm
+                                                                ?.facture
+                                                                ?.created_at ??
+                                                                'N/A'
                                                         }}
                                                     </td>
                                                     <td class="text-center">
                                                         <b>{{
                                                             detailsInvoiceForm
-                                                            ?.facture
-                                                            ?.date_limite ??
-                                                            'N/A'
-                                                            }}</b>
+                                                                ?.facture
+                                                                ?.date_limite ??
+                                                                'N/A'
+                                                        }}</b>
                                                     </td>
-                                                    <td class="align-middle text-start">
-                                                        <b class="fs-5">Suivi par [&nbsp;{{
-                                                            detailsInvoiceForm
-                                                            ?.approbateur
-                                                            ?.nom
+                                                    <td
+                                                        class="align-middle text-start"
+                                                    >
+                                                        <b class="fs-5"
+                                                            >Suivi par [&nbsp;{{
+                                                                detailsInvoiceForm
+                                                                    ?.approbateur
+                                                                    ?.nom
                                                             }}&nbsp;{{
-                                                            detailsInvoiceForm
-                                                            ?.approbateur
-                                                            ?.prenoms
+                                                                detailsInvoiceForm
+                                                                    ?.approbateur
+                                                                    ?.prenoms
                                                             }}&nbsp;]&nbsp;[{{
-                                                            detailsInvoiceForm
-                                                            ?.approbateur
-                                                            ?.email
-                                                            }}&nbsp;]</b>
+                                                                detailsInvoiceForm
+                                                                    ?.approbateur
+                                                                    ?.email
+                                                            }}&nbsp;]</b
+                                                        >
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -191,133 +273,244 @@
                                 </div>
 
                                 <div class="row px-5 pt-5">
-                                    <div class="col-12" [formGroup]="formTypePaiement">
-                                        <div class="alert alert-dark p-1" role="alert" *ngIf="isSold && isApprouved">
-                                            <div class="d-flex gap-4 justify-content-center">
-                                                <span class="d-flex align-items-center">
+                                    <div
+                                        class="col-12"
+                                        [formGroup]="formTypePaiement"
+                                    >
+                                        <div
+                                            class="alert alert-dark p-1"
+                                            role="alert"
+                                            *ngIf="isSold && isApprouved"
+                                        >
+                                            <div
+                                                class="d-flex gap-4 justify-content-center"
+                                            >
+                                                <span
+                                                    class="d-flex align-items-center"
+                                                >
                                                     La Facture a été réglée dans
                                                     sa totalité par le client
                                                     avec un reçu de paiement
                                                 </span>
                                                 <span class="d-flex gap-4">
-                                                    <button *ngIf="
+                                                    <button
+                                                        *ngIf="
                                                             displayButtonShowPaymentReceipt
-                                                        " pButton pRipple icon="pi pi-download"
-                                                        class="p-button-success" (click)="
+                                                        "
+                                                        pButton
+                                                        pRipple
+                                                        icon="pi pi-download"
+                                                        class="p-button-success"
+                                                        (click)="
                                                             onDownloadPaymentReceipt()
-                                                        "></button>
+                                                        "
+                                                    ></button>
                                                 </span>
                                             </div>
                                         </div>
-                                        <table [ngClass]="['native_table table']" *ngIf="!(isSold && isApprouved)">
-                                            <thead class="text-white" style="background-color: #000">
+                                        <table
+                                            [ngClass]="['native_table table']"
+                                            *ngIf="!(isSold && isApprouved)"
+                                        >
+                                            <thead
+                                                class="text-white"
+                                                style="background-color: #000"
+                                            >
                                                 <tr>
-                                                    <th class="text-center" style="
+                                                    <th
+                                                        class="text-center"
+                                                        style="
                                                             border: 2px solid
                                                                 #fff;
-                                                        ">
+                                                        "
+                                                    >
                                                         <b>Choisir</b>
                                                     </th>
-                                                    <th class="text-center" style="
+                                                    <th
+                                                        class="text-center"
+                                                        style="
                                                             border: 2px solid
                                                                 #fff;
-                                                        ">
+                                                        "
+                                                    >
                                                         <b>Source</b>
                                                     </th>
                                                     <th class="text-center">
-                                                        <b>MODES DE PAIEMENT
-                                                            DISPONIBLES</b>
+                                                        <b
+                                                            >MODES DE PAIEMENT
+                                                            DISPONIBLES</b
+                                                        >
                                                     </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr *ngIf="!isDeferred && !isSold && !(isPosted && isApprouved)">
+                                                <tr
+                                                    *ngIf="
+                                                        !isDeferred &&
+                                                        !isSold &&
+                                                        !(
+                                                            isPosted &&
+                                                            isApprouved
+                                                        )
+                                                    "
+                                                >
                                                     <td class="text-center">
-                                                        <input class="form-check-input" type="radio" name="paiement"
-                                                            value="différé" formControlName="type_paiement" #differe />
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            name="paiement"
+                                                            value="différé"
+                                                            formControlName="type_paiement"
+                                                            #differe
+                                                        />
                                                     </td>
                                                     <td class="text-center">
                                                         Differé
                                                     </td>
                                                     <td class="text-start">
-                                                        Le Montant dû a été posté
-                                                        (reporté) sur la
+                                                        Le Montant dû a été
+                                                        posté (reporté) sur la
                                                         prochaine facture
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="text-center">
-                                                        <input class="form-check-input" type="radio" name="paiement"
-                                                            value="immédiat" formControlName="type_paiement" #immediat
-                                                            id="immediat" />
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            name="paiement"
+                                                            value="immédiat"
+                                                            formControlName="type_paiement"
+                                                            #immediat
+                                                            id="immediat"
+                                                        />
                                                     </td>
                                                     <td class="text-center">
                                                         Immediat
                                                     </td>
                                                     <td class="text-center">
-                                                        <div class="d-flex gap-4">
-                                                            <span class="d-flex align-items-center">
+                                                        <div
+                                                            class="d-flex gap-4"
+                                                        >
+                                                            <span
+                                                                class="d-flex align-items-center"
+                                                            >
                                                                 La Facture a été
                                                                 réglée dans sa
                                                                 totalité par le
                                                                 client avec un
                                                                 reçu de paiement
                                                             </span>
-                                                            <span class="d-flex gap-4" *ngIf="
+                                                            <span
+                                                                class="d-flex gap-4"
+                                                                *ngIf="
                                                                     immediat?.checked
-                                                                ">
-                                                                <input *ngIf="
+                                                                "
+                                                            >
+                                                                <input
+                                                                    *ngIf="
                                                                         !isSold
-                                                                    " type="file" accept="image/png,image/jpeg" style="
+                                                                    "
+                                                                    type="file"
+                                                                    accept="image/png,image/jpeg"
+                                                                    style="
                                                                         padding: 0.5rem;
                                                                         border: 1px
                                                                             solid
                                                                             #000;
                                                                         border-radius: 0.2rem;
                                                                         color: #000;
-                                                                    " (change)="
+                                                                    "
+                                                                    (change)="
                                                                         onUploadPaymentReceipt(
                                                                             $event
                                                                                 .target
                                                                                 .files
                                                                         )
-                                                                    " />
-                                                                <button pButton pRipple icon="pi pi-download"
-                                                                    class="p-button-success" (click)="
+                                                                    "
+                                                                />
+                                                                <button
+                                                                    pButton
+                                                                    pRipple
+                                                                    icon="pi pi-download"
+                                                                    class="p-button-success"
+                                                                    (click)="
                                                                         onDownloadPaymentReceipt()
-                                                                    " *ngIf="
+                                                                    "
+                                                                    *ngIf="
                                                                         displayButtonShowPaymentReceipt
-                                                                    "></button>
+                                                                    "
+                                                                ></button>
                                                             </span>
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td class="text-center">
-                                                        <input class="form-check-input" type="radio" name="paiement"
-                                                            value="mon compte" formControlName="type_paiement"
-                                                            #differe />
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            name="paiement"
+                                                            value="mon compte"
+                                                            formControlName="type_paiement"
+                                                            #differe
+                                                        />
                                                     </td>
                                                     <td class="text-center">
                                                         Mon compte
                                                     </td>
                                                     <td class="text-start">
-                                                        Le montant a été débité de votre compte
-                                                        &nbsp;
-                                                        [ <b>Solde engagé</b>&nbsp;:&nbsp;
-                                                        <span [ngStyle]="{ 'font-size': '16px' }"
-                                                            class="badge badge-dark">
-                                                            {{ detailsInvoiceForm?.facture.SoldeEngage || 0 }}&nbsp;Fcfa
+                                                        Le montant a été débité
+                                                        de votre compte &nbsp; [
+                                                        <b>Solde engagé</b
+                                                        >&nbsp;:&nbsp;
+                                                        <span
+                                                            [ngStyle]="{
+                                                                'font-size':
+                                                                    '16px'
+                                                            }"
+                                                            class="badge badge-dark"
+                                                        >
+                                                            {{
+                                                                detailsInvoiceForm
+                                                                    ?.facture
+                                                                    .SoldeEngage ||
+                                                                    0
+                                                            }}&nbsp;Fcfa
                                                         </span>
-                                                        &nbsp;<b>Solde restant</b>&nbsp;:&nbsp;
-                                                        <span [ngStyle]="{ 'font-size': '16px' }"
-                                                            class="badge badge-primary">
-                                                            {{ detailsInvoiceForm?.facture.SoldeRestant || 0 }}&nbsp;Fcfa
+                                                        &nbsp;<b
+                                                            >Solde restant</b
+                                                        >&nbsp;:&nbsp;
+                                                        <span
+                                                            [ngStyle]="{
+                                                                'font-size':
+                                                                    '16px'
+                                                            }"
+                                                            class="badge badge-primary"
+                                                        >
+                                                            {{
+                                                                detailsInvoiceForm
+                                                                    ?.facture
+                                                                    .SoldeRestant ||
+                                                                    0
+                                                            }}&nbsp;Fcfa
                                                         </span>
-                                                        &nbsp;<b>Solde disponible</b>&nbsp;:&nbsp;
-                                                        <span [ngStyle]="{ 'font-size': '16px' }"
-                                                            class="badge badge-success">
-                                                            {{ detailsInvoiceForm?.facture.soldeDisponible || 0 }}&nbsp;Fcfa
+                                                        &nbsp;<b
+                                                            >Solde disponible</b
+                                                        >&nbsp;:&nbsp;
+                                                        <span
+                                                            [ngStyle]="{
+                                                                'font-size':
+                                                                    '16px'
+                                                            }"
+                                                            class="badge badge-success"
+                                                        >
+                                                            {{
+                                                                detailsInvoiceForm
+                                                                    ?.facture
+                                                                    .soldeDisponible ||
+                                                                    0
+                                                            }}&nbsp;Fcfa
                                                         </span>
                                                         &nbsp;]
                                                     </td>
@@ -330,8 +523,12 @@
                                 <div class="row" style="padding: 20px 45px">
                                     <div class="col-12">
                                         <br />
-                                        <table class="table table-bordered border-secondary">
-                                            <thead class="bg-primary text-white">
+                                        <table
+                                            class="table table-bordered border-secondary"
+                                        >
+                                            <thead
+                                                class="bg-primary text-white"
+                                            >
                                                 <tr>
                                                     <th>Code</th>
                                                     <th>Designation</th>
@@ -350,93 +547,112 @@
                                                 <tr style="border-color: black">
                                                     <td>
                                                         {{
-                                                        detailsInvoiceForm
-                                                        ?.facture
-                                                        ?.numero_demande ??
-                                                        'N/A'
+                                                            detailsInvoiceForm
+                                                                ?.facture
+                                                                ?.numero_demande ??
+                                                                'N/A'
                                                         }}
                                                     </td>
                                                     <td>
                                                         <b>{{
                                                             formatTitle(
-                                                            detailsInvoiceForm?.operation
+                                                                detailsInvoiceForm?.operation
                                                             )
-                                                            }}</b>
+                                                        }}</b>
                                                     </td>
                                                     <td class="text-center">
                                                         {{
-                                                        detailsInvoiceForm
-                                                        ?.facture?.qte
+                                                            detailsInvoiceForm
+                                                                ?.facture?.qte
                                                         }}
                                                     </td>
                                                     <td class="text-center">
                                                         {{
-                                                        detailsInvoiceForm
-                                                        ?.facture
-                                                        ?.prix_unitaire
+                                                            detailsInvoiceForm
+                                                                ?.facture
+                                                                ?.prix_unitaire
                                                         }}
                                                     </td>
-                                                    <td class="text-center fs-6">
+                                                    <td
+                                                        class="text-center fs-6"
+                                                    >
                                                         {{
-                                                        detailsInvoiceForm
-                                                        ?.facture
-                                                        ?.prix_ht
+                                                            detailsInvoiceForm
+                                                                ?.facture
+                                                                ?.prix_ht
                                                         }}
                                                     </td>
                                                 </tr>
-                                                <tr class="tr_montant" style="
+                                                <tr
+                                                    class="tr_montant"
+                                                    style="
                                                         border-color: transparent;
-                                                    ">
+                                                    "
+                                                >
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
                                                     <td class="text-center">
                                                         Montant Total (HT)
                                                     </td>
-                                                    <td class="text-center fs-6">
+                                                    <td
+                                                        class="text-center fs-6"
+                                                    >
                                                         {{
-                                                        detailsInvoiceForm
-                                                        ?.facture
-                                                        ?.prix_ht
+                                                            detailsInvoiceForm
+                                                                ?.facture
+                                                                ?.prix_ht
                                                         }}
                                                     </td>
                                                 </tr>
-                                                <tr class="tr_montant" style="
+                                                <tr
+                                                    class="tr_montant"
+                                                    style="
                                                         border-color: transparent;
-                                                    ">
+                                                    "
+                                                >
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
                                                     <td class="text-center">
                                                         Montant TVA ({{
-                                                        detailsInvoiceForm
-                                                        ?.facture?.tva
+                                                            detailsInvoiceForm
+                                                                ?.facture?.tva
                                                         }})
                                                     </td>
-                                                    <td class="text-center fs-6">
+                                                    <td
+                                                        class="text-center fs-6"
+                                                    >
                                                         {{
-                                                        detailsInvoiceForm
-                                                        ?.facture
-                                                        ?.prix_tva
+                                                            detailsInvoiceForm
+                                                                ?.facture
+                                                                ?.prix_tva
                                                         }}
                                                     </td>
                                                 </tr>
-                                                <tr class="tr_montant" style="
+                                                <tr
+                                                    class="tr_montant"
+                                                    style="
                                                         border-color: transparent;
-                                                    ">
+                                                    "
+                                                >
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
                                                     <td class="text-center">
-                                                        <b>Montant Total
-                                                            (TTC)</b>
+                                                        <b
+                                                            >Montant Total
+                                                            (TTC)</b
+                                                        >
                                                     </td>
-                                                    <td class="text-center fs-6">
+                                                    <td
+                                                        class="text-center fs-6"
+                                                    >
                                                         <b>{{
                                                             detailsInvoiceForm
-                                                            ?.facture
-                                                            ?.prix_ttc
-                                                            }}</b>
+                                                                ?.facture
+                                                                ?.prix_ttc
+                                                        }}</b>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -444,32 +660,45 @@
                                     </div>
                                 </div>
 
-                                <div class="d-flex justify-content-center py-10">
+                                <div
+                                    class="d-flex justify-content-center py-10"
+                                >
                                     <p class="fs-6">
                                         Arrêté cette facture à la somme de
                                         <span class="text-primary">{{
                                             detailsInvoiceForm?.facture
-                                            ?.prix_ttc_lettres
-                                            }}</span>
+                                                ?.prix_ttc_lettres
+                                        }}</span>
                                         Fcfa TTC sauf erreur
                                     </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-center align-items-center" style="height: 100vh"
-                            *ngIf="spinner">
-                            <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+                        <div
+                            class="d-flex justify-content-center align-items-center"
+                            style="height: 100vh"
+                            *ngIf="spinner"
+                        >
+                            <p-progressSpinner
+                                ariaLabel="loading"
+                            ></p-progressSpinner>
                         </div>
                     </div>
 
                     <div *ngIf="displayUrlErrorPage">
                         <div>
                             <div class="d-flex justify-content-end">
-                                <p-button label="Fermer" styleClass="p-button-danger" (click)="onGoToBack()"></p-button>
+                                <p-button
+                                    label="Fermer"
+                                    styleClass="p-button-danger"
+                                    (click)="onGoToBack()"
+                                ></p-button>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center align-items-center text-danger">
+                        <div
+                            class="d-flex justify-content-center align-items-center text-danger"
+                        >
                             page not available
                         </div>
                     </div>

@@ -32,7 +32,7 @@
                                     [selectedSoldeData]="selectedSoldeData" (interfaceUser)="navigateByUrl($event)"
                                     [pagination]="pagination">
                                 </app-table-solde-data>
-                                <app-pargination [pargination]="pagination" (pageChange)="onPageChange($event)">
+                                <app-pargination [pargination]="pagination" (pageChange)="onPageChange($event)"></app-pargination>
                             </div>
                         </p-tabPanel>
 
@@ -55,7 +55,7 @@
                                     [selectedSoldeSms]="selectedSoldeSms" (interfaceUser)="navigateByUrl($event)"
                                     [pagination]="pagination">
                                 </app-table-solde-sms>
-                                <app-pargination [pargination]="pagination" (pageChange)="onPageChange($event)">
+                                <app-pargination [pargination]="pagination" (pageChange)="onPageChange($event)"></app-pargination>
                             </div>
                         </p-tabPanel>
                     </p-tabView>

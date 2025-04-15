@@ -17,21 +17,43 @@
                             >
                             </app-patrimoine-header>
                             <h3 class="d-flex align-items-end">
-                                <b>{{'MY_BALANCE' | translate}} : {{ (listPaymentResponse$ | async)?.data?.mon_compte }} Fcfa</b>
+                                <b
+                                    >{{ 'MY_BALANCE' | translate }} :
+                                    {{
+                                        (listPaymentResponse$ | async)?.data
+                                            ?.mon_compte
+                                    }}
+                                    Fcfa</b
+                                >
                             </h3>
                         </div>
                     </div>
 
                     <div>
                         <div class="container-box">
-                            <app-statistique-box *ngFor="let box of statisticsBox" 
-                                [ngClass]="{'boxClickable': indexBoxClickable?.includes(box?.id)}" 
-                                [pTooltip]="indexBoxClickable?.includes(box?.id) ? 'Veuillez cliquer' : ''"
-                                tooltipPosition="top" (click)="onBoxClick(box)"
-                                class="col-md" [cardBgColor]="box?.['cardBgColor']"
-                                [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'" [legend]="box?.['legend']"
-                                [count]="box?.['count']" [legendColor]="box?.['legendColor'] ?? '#FFF'"
-                                [countColor]="box?.['countColor'] ?? '#FFF'" [taux]="box?.['taux']">
+                            <app-statistique-box
+                                *ngFor="let box of statisticsBox"
+                                [ngClass]="{
+                                    boxClickable: indexBoxClickable?.includes(
+                                        box?.id
+                                    )
+                                }"
+                                [pTooltip]="
+                                    indexBoxClickable?.includes(box?.id)
+                                        ? 'Veuillez cliquer'
+                                        : ''
+                                "
+                                tooltipPosition="top"
+                                (click)="onBoxClick(box)"
+                                class="col-md"
+                                [cardBgColor]="box?.['cardBgColor']"
+                                [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'"
+                                [legend]="box?.['legend']"
+                                [count]="box?.['count']"
+                                [legendColor]="box?.['legendColor'] ?? '#FFF'"
+                                [countColor]="box?.['countColor'] ?? '#FFF'"
+                                [taux]="box?.['taux']"
+                            >
                             </app-statistique-box>
                         </div>
 

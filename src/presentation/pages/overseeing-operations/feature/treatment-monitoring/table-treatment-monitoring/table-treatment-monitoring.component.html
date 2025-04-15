@@ -115,8 +115,9 @@
                         <button
                             pButton
                             [class.p-disabled]="
-                                getTreatmentButtonOpenTreatmentMonitoringStyle(item)
-                                    ?.class === 'p-button-secondary'
+                                getTreatmentButtonOpenTreatmentMonitoringStyle(
+                                    item
+                                )?.class === 'p-button-secondary'
                             "
                             [ngClass]="
                                 getTreatmentButtonOpenTreatmentMonitoringStyle(
