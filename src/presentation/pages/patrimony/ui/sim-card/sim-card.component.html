@@ -20,7 +20,7 @@
                     <div>
                         <app-filter-sim-card
                             (filter)="filter($event)"
-                            [listApplicants$]="listApplicants$"
+                            [listUsages$]="listUsages$"
                             [listApn$]="listApn$"
                             [listFormulas$]="listFormulas$"
                             [listFirstLevel$]="listFirstLevel$"
@@ -29,22 +29,21 @@
                         >
                         </app-filter-sim-card>
 
-                            <hr />
+                        <hr />
 
-                            <app-table-sim-card
-                                [spinner]="spinner"
-                                [pagination$]="pagination$"
-                                [listSimCard$]="listSimCard$"
-                                [simCardSelected]="simCardSelected$ | async"
-                                (interfaceUser)="navigateByUrl($event)"
-                            >
-                            </app-table-sim-card>
-    
-                            <app-pargination
-                                [pargination]="pagination$ | async"
-                                (pageChange)="onPageChange($event)"
-                            ></app-pargination>
+                        <app-table-sim-card
+                            [spinner]="spinner"
+                            [pagination$]="pagination$"
+                            [listSimCard$]="listSimCard$"
+                            [simCardSelected]="simCardSelected$ | async"
+                            (interfaceUser)="navigateByUrl($event)"
+                        >
+                        </app-table-sim-card>
 
+                        <app-pargination
+                            [pargination]="pagination$ | async"
+                            (pageChange)="onPageChange($event)"
+                        ></app-pargination>
                     </div>
                 </div>
             </div>

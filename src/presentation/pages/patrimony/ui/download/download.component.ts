@@ -16,6 +16,7 @@ export class DownloadComponent implements OnInit, OnDestroy {
     public subModule: string;
     public pagination$: Observable<Paginate<downloadInterface>>;
     public listDownload$: Observable<Array<downloadInterface>>;
+    public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
     constructor(private activatedRoute: ActivatedRoute, private downloadApiService: downloadApiService) {  }
@@ -29,6 +30,9 @@ export class DownloadComponent implements OnInit, OnDestroy {
         this.pagination$ = this.downloadApiService.getDownloadPagination();
         this.downloadApiService.getDataNbrPageDownload().pipe(takeUntil(this.destroy$)).subscribe((nbrPageData) => {
             this.downloadApiService.fetchDownload(nbrPageData);
+        })
+        this.downloadApiService.isLoadingDownload().subscribe((spinner) => {
+            this.spinner = spinner;
         })
     }
 

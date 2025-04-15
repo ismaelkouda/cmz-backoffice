@@ -142,6 +142,7 @@ export class TableWhiteSimComponent {
     getTreatmentButtonViewCommandStyle(commandWhiteSim: { statut: string, traitement: string }): { class: string, icon: string, tooltip: string, typeTreatment: TreatmentDemands } {
         const STOP_OR_CHANGE = this.translate.instant('STOP_OR_CHANGE');
         const DETAILS_OF_THE_REQUEST = this.translate.instant('DETAILS_OF_THE_REQUEST');
+        const TO_CLOSURE = this.translate.instant('TO_CLOSURE');
         switch (commandWhiteSim?.statut) {
             case BADGE_ETAPE.SOUMISSION: {
                 if (commandWhiteSim?.traitement === BADGE_ETAT.EN_ATTENTE) {
@@ -149,6 +150,11 @@ export class TableWhiteSimComponent {
                 }
                 if (commandWhiteSim?.traitement === BADGE_ETAT.REJETE) {
                     return createButtonStyle('p-button-warning', 'pi pi-times', STOP_OR_CHANGE, this.typeTreatment, { abandonner: true, modifier: true, visualiser: false });
+                }
+            }
+            case BADGE_ETAPE.FINALISATEUR: {
+                if (commandWhiteSim?.traitement === BADGE_ETAT.LIVRE) {
+                    return createButtonStyle('p-button-success', 'pi pi-check-circle', TO_CLOSURE, this.typeTreatment, { abandonner: false, modifier: false, visualiser: false, cloturer: true });
                 }
             }
         }
@@ -166,6 +172,9 @@ export class TableWhiteSimComponent {
             }
             case BADGE_ETAPE.SOUMISSION: {
                 if (commandWhiteSim?.traitement === BADGE_ETAT.EN_ATTENTE) {
+                    return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
+                }
+                if (commandWhiteSim?.traitement === BADGE_ETAT.REJETE) {
                     return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
                 }
             }

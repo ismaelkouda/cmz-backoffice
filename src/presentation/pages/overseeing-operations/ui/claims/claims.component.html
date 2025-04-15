@@ -20,7 +20,6 @@
                     <div>
                         <app-filter-claims
                             (filter)="filter($event)"
-                            [filterData]="filterData"
                             [listApplicants$]="listApplicants$"
                             [listOperations]="listOperations"
                         >
@@ -29,9 +28,9 @@
                         <hr />
 
                         <app-table-claims
+                            [spinner]="spinner"
                             [pagination$]="pagination$"
                             [listClaims$]="listClaims$"
-                            [claimsSelected]="claimsSelected$ | async"
                             (interfaceUser)="navigateByUrl($event)"
                         >
                         </app-table-claims>

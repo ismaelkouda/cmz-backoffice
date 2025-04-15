@@ -6,7 +6,7 @@ export interface myAccountInterface {
   transaction: string;
   mode_paiement: string;
   operation: string;
-  code_banque: string;
+  code_banque_tireur: string;
   reference: string;
   montant: string;
   justificatif: string;

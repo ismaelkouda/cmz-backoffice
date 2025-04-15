@@ -1,7 +1,8 @@
-export const RELOAD_MY_ACCOUNT_STATUS_ENUM = {
+export const MY_RELOADS_STATUS_ENUM = {
     WAITING: "en-attente",
+    IN_PROGRESS: "en-cours",
     VALIDATED: "validé",
-    REJECTED: "rejecté"
+    REJECTED: "rejeté"
 } as const;
   
-export type T_RELOAD_MY_ACCOUNT_STATUS_ENUM = typeof RELOAD_MY_ACCOUNT_STATUS_ENUM[keyof typeof RELOAD_MY_ACCOUNT_STATUS_ENUM];
+export type T_MY_RELOADS_STATUS_ENUM = typeof MY_RELOADS_STATUS_ENUM[keyof typeof MY_RELOADS_STATUS_ENUM];

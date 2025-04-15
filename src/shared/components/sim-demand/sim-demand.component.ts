@@ -2,16 +2,17 @@ import { IStatistiquesBox } from '../../interfaces/statistiquesBox.interface';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { OperationTransaction, T_OPERATION } from '../../enum/OperationTransaction.enum';
 import { Paginate } from '../../interfaces/paginate';
 import { SharedService } from '../../services/shared.service';
 import { SimDemand } from '../../interfaces/details-mobile-subscriptions.interface';
 import { BADGE_ETAPE } from '../../constants/badge-etape.constant';
 import { BADGE_ETAT } from '../../constants/badge-etat.contant';
+import { Subject, takeUntil } from 'rxjs';
 
-type TYPEVIEW = "open-folder-mobile-subscription"|"open-folder-white-sim"|"open-folder-treatment-monitoring"|"view-white-sim-card";
-const TYPEVIEW_VALUES: TYPEVIEW[] = ["open-folder-mobile-subscription","open-folder-white-sim","open-folder-treatment-monitoring","view-white-sim-card"];
+type TYPEVIEW = "open-folder-mobile-subscription" | "open-folder-white-sim" | "open-folder-treatment-monitoring" | "view-white-sim-card" | "open-folder-claims";
+const TYPEVIEW_VALUES: TYPEVIEW[] = ["open-folder-mobile-subscription", "open-folder-white-sim", "open-folder-treatment-monitoring", "view-white-sim-card", "open-folder-claims"];
 function isTypeView(value: any): value is TYPEVIEW {
     return TYPEVIEW_VALUES.includes(value);
 }
@@ -22,7 +23,7 @@ function isTypeView(value: any): value is TYPEVIEW {
     styles: [`.container-box { display: flex; gap: 2px; margin-bottom: 1rem;align-self: stretch;}`]
 })
 
-export class SimDemandComponent implements OnInit {
+export class SimDemandComponent implements OnInit, OnDestroy {
     public module: string;
     public subModule: string;
     public pagination: Paginate<SimDemand> | void;
@@ -38,8 +39,8 @@ export class SimDemandComponent implements OnInit {
     public statistiquesBox: Array<IStatistiquesBox> = [];
     public BADGE_ETAPE = BADGE_ETAPE;
     public BADGE_ETAT = BADGE_ETAT;
-    private filterData: Object;
     public listSim: Array<SimDemand>;
+    private destroy$ = new Subject<void>();
 
     constructor(public toastrService: ToastrService, private activatedRoute: ActivatedRoute,
         private sharedService: SharedService, private location: Location) {
@@ -66,7 +67,7 @@ export class SimDemandComponent implements OnInit {
         if (!isTypeView(this.urlParamRef) || !Object.values(OperationTransaction).includes(this.urlParamTypeDemand as OperationTransaction)) {
             this.displayUrlErrorPage = true;
         } else {
-            this.sharedService.fetchSimDemand(this.filterData);
+            this.sharedService.fetchSimDemand({ numero_demande: this.urlParamNumberDemand });
             this.sharedService.getSimDemand().subscribe((value) => {
                 this.listSim = value;
             });
@@ -77,12 +78,13 @@ export class SimDemandComponent implements OnInit {
     }
 
     public filter(filterData: Object): void {
-        this.filterData = filterData;
         this.sharedService.fetchSimDemand(filterData);
     }
 
     public onPageChange(event: number): void {
-        this.sharedService.fetchSimDemand(this.filterData, JSON.stringify(event + 1));
+        this.sharedService.getDataFilterSimDemand().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
+            this.sharedService.fetchSimDemand(filterData, JSON.stringify(event + 1))
+        });
     }
 
     public onGoToBack(): void {
@@ -151,5 +153,10 @@ export class SimDemandComponent implements OnInit {
                 taux: rapport?.["pourcentage_traites_rejetes"] || '0'
             }
         ];
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

@@ -4,30 +4,42 @@ export interface reloadMyAccountInterface {
   id: number;
   transaction: string;
   mode_paiement: string;
-  operation: string;
-  code_banque: string;
   reference: string;
   montant: string;
   justificatif: string;
-  date_remise: string | null; // Since date_remise can be null
+  date_remise: string | null;
   titulaire: string;
-  numero: string | null; // Since numero can be null
-  solde_avant: string;
-  solde_apres: string;
+  numero: string;
+  solde_avant: string | null;
+  solde_apres: string | null;
   initie_par: number;
-  traite_a: string | null; // Since traite_a can be null
-  traite_par: string | null; // Since traite_par can be null
+  traite_a: string | null;
+  traite_par: string | null;
   in_basket: boolean;
-  accepte: string | null; // Since accepte can be null
-  cloture_par: string | null; // Since cloture_par can be null
+  accepte: string | null;
+  commentaire_approbation: string | null;
+  cloture_par: string | null;
   statut: string;
   created_at: string;
   updated_at: string;
-  type: "Crédit" | "Debit";
 }
 
 export interface reloadMyAccountApiResponseInterface {
-    error: boolean;
-    message: string;
-    data: Paginate<reloadMyAccountInterface>;
+  error: boolean;
+  message: string;
+  data: reloadMyAccountGlobalStateInterface
+}
+
+export interface reloadMyAccountGlobalStateInterface {
+  mon_compte: string;
+  "totalRechargements": number;
+  "totalEnAttentes": number;
+  "TotalValides": number;
+  "totalRejetes": number;
+  "totalEncours": number;
+  "pourcentageEnAttentes": number;
+  "pourcentageValide": number;
+  "pourcentageRejetes": number;
+  "pourcentageEnCours": number;
+  data: Paginate<reloadMyAccountInterface>;
 }

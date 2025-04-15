@@ -88,16 +88,22 @@
                         {{ rowIndex + (pagination$ | async)?.current_page }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'N° Dossier'">
-                        <span (click)="copyToClipboard(notification?.[col.field])">
+                        <span
+                            (click)="copyToClipboard(notification?.[col.field])"
+                        >
                             {{ notification?.[col.field] }}
                         </span>
                     </ng-container>
                     <ng-container *ngSwitchCase="'Description'">
-                      <span [innerHTML]="getSanitizedHTML(notification?.[col.field])"></span>
+                        <span
+                            [innerHTML]="getSanitizedHTML(notification?.[col.field])"
+                        ></span>
                     </ng-container>
                     <ng-container *ngSwitchCase="'Actions'">
                         <div style="display: flex; justify-content: center">
-                            <p-tableCheckbox [value]="notification"></p-tableCheckbox>
+                            <p-tableCheckbox
+                                [value]="notification"
+                            ></p-tableCheckbox>
                         </div>
                     </ng-container>
                     <ng-container *ngSwitchDefault>

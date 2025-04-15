@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { whiteSimCardApiService } from '../../../data-access/white-sim-card/services/white-sim-card-api.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { whiteSimCardDetailsInterface } from '../../../data-access/white-sim-card/interfaces/white-sim-card-details.interface';
+import { whiteSimCardDetailsInterface, WhiteSimCardInterface } from '../../../data-access/white-sim-card/interfaces/white-sim-card-details.interface';
 import { PATRIMONY } from '../../../../../../shared/routes/routes';
 import { WHITE_SIM_CARD } from '../../../patrimony-routing.module';
+import { whiteSimCardDetailsFilterInterface } from '../../../data-access/white-sim-card/interfaces/white-sim-card-details-filter.interface';
 
 type TYPEVIEW = "view-white-sim-card";
 const TYPEVIEW_VALUES: TYPEVIEW[] = ["view-white-sim-card"];
@@ -26,19 +27,14 @@ export class WhiteSimCardDetailsComponent implements OnInit, OnDestroy {
     public urlParamId: number | null;
     public urlParamFilter: Object;
     public urlParamNumberDemand: string;
-    public listWhiteSimCardDetails$: Observable<Array<whiteSimCardDetailsInterface>>;
+    public listWhiteSimCardDetails$: Observable<Array<WhiteSimCardInterface>>;
     public displayUrlErrorPage: boolean = false;
     private destroy$ = new Subject<void>();
 
     constructor(private activatedRoute: ActivatedRoute, private whiteSimCardApiService: whiteSimCardApiService,
         private router: Router
-    ) { }
+    ) {
 
-    ngOnInit(): void {
-        this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[1];
-        });
         this.activatedRoute.queryParams.subscribe((params: Object) => {
             this.urlParamRef = params?.["ref"];
             this.urlParamNumberDemand = params?.["number_demand"];
@@ -47,6 +43,13 @@ export class WhiteSimCardDetailsComponent implements OnInit, OnDestroy {
         const idParam = this.activatedRoute.snapshot.paramMap.get('id');
         this.urlParamId = idParam !== null && !isNaN(Number(idParam)) ? Number(idParam) : null;
         this.getParamsInUrl();
+    }
+
+    ngOnInit(): void {
+        this.activatedRoute.data.subscribe((data) => {
+            this.module = data.module;
+            this.subModule = data.subModule[1];
+        });
     }
 
     private getParamsInUrl(): void {
@@ -62,10 +65,10 @@ export class WhiteSimCardDetailsComponent implements OnInit, OnDestroy {
             };
         }
     }
-
-    public filter(filterData: Object): void {
-        this.whiteSimCardApiService.fetchWhiteSimCardDetails({...filterData, id: this.urlParamId})
-    }
+    
+        public filter(filterData: whiteSimCardDetailsFilterInterface): void {
+            this.whiteSimCardApiService.fetchWhiteSimCardDetails({...filterData, id: this.urlParamId})
+        }
 
     public onGoToBack(): void {
         this.router.navigate([PATRIMONY + "/" + WHITE_SIM_CARD]);

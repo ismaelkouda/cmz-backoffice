@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EncodingDataService } from '../../../../shared/services/encoding-data.service';
 import { EndPointUrl } from './api.enum';
+import { EnvService } from '../../../../shared/services/env.service';
 
 @Injectable()
 
@@ -12,10 +13,9 @@ export class ComptabiliteService {
 
     constructor(
         private http: HttpClient,
-        private storage: EncodingDataService
+        private envService: EnvService
     ) {
-        const data = JSON.parse(this.storage.getData('user') || null);
-        this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`;
+        this.baseUrl = this.envService.apiUrl;
     }
 
     PostGestionFactureFacture(data, page): Observable<any> {

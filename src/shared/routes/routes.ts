@@ -71,8 +71,8 @@ export const content: Routes = [
     data: {
       module: 'Patrimoine',
       subModule: [
-        'Cartes SIM',
-        'Cartes sim-blanches',
+        'SIM_CARDS',
+        'WHITE_SIM',
         // 'Dotation Data',
         'Etat des Soldes Data',
         'Etat des Soldes SMS',
@@ -101,7 +101,7 @@ export const content: Routes = [
     data: {
       module: 'Demandes',
       subModule: [
-        'Abonnements',
+        'MOBILE_SUBSCRIPTIONS',
         'Suspensions',
         'Résiliations',
         'Changements de Formules'
@@ -179,9 +179,10 @@ export const content: Routes = [
     data: {
       module: 'ACCOUNTING',
       subModule: [
+        'ACCOUNT_CREDITS',
         'INVOICES',
+        'PAYMENTS',
         'MY_ACCOUNT',
-        'RELOAD_MY_ACCOUNT',
       ]
     }
   },

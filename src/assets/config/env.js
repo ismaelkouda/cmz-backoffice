@@ -20,10 +20,14 @@
         // fileUrl: 'http://10.10.0.200:12555/',
         // apiUrl: "http://10.10.0.30:8002/api/v1/",
         // fileUrl: "http://10.10.0.30:8002/", 
+        // Adresse Backend SIM MONITORING
         // apiUrl: "https://sim-monitoring.cateli.io:12555/api/v1/",
         // fileUrl: "https://sim-monitoring.cateli.io:12555/",
-        apiUrl: "http://10.10.70.64:8080/api/v1/",
-        fileUrl: "http://10.10.70.64:8080/", 
+        // Adresse Backend PATRIMOINE SIM
+        // apiUrl: "https://sim-monitoring.cateli.io:12999/api/v1/",
+        // fileUrl: "https://sim-monitoring.cateli.io:12999/",
+        apiUrl: "http://10.10.70.64:8001/api/v1/",
+        fileUrl: "http://10.10.70.64:8001/", 
         // apiUrl: "https://osim-monitoring.orange.ci:12200/api/v1/",
         // fileUrl: "https://osim-monitoring.orange.ci:12200/",
         //apiUrl:"https://gs2e-osim.orange.ci:12300/api/v1/",

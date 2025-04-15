@@ -17,11 +17,11 @@ import { BADGE_ETAT_FACTURE, T_BADGE_ETAT_FACTURE } from '../../constants/badge-
 import { SharedService } from '../../services/shared.service';
 const Swal = require("sweetalert2");
 
-type TYPEVIEW = "form-dossier"|"invoice"|"invoice-mobile-subscription" | "invoice-white-sim" | "view-invoice";
-const TYPEVIEW_VALUES: TYPEVIEW[] = ["form-dossier","invoice", "invoice-mobile-subscription", "invoice-white-sim", "view-invoice"];
+type TYPEVIEW = "form-dossier" | "invoice" | "invoice-mobile-subscription" | "invoice-white-sim" | "view-invoice" | "view-payment";
+const TYPEVIEW_VALUES: TYPEVIEW[] = ["form-dossier", "invoice", "invoice-mobile-subscription", "invoice-white-sim", "view-invoice", "view-payment"];
 function isTypeView(value: any): value is TYPEVIEW {
     return TYPEVIEW_VALUES.includes(value);
-}type TYPE_COLOR_ETAT_BADGE = 'badge-warning' | 'badge-dark' | 'badge-success' | 'badge-danger' | 'badge-primary';
+} type TYPE_COLOR_ETAT_BADGE = 'badge-warning' | 'badge-dark' | 'badge-success' | 'badge-danger' | 'badge-primary';
 @Component({
     selector: "app-invoice-form",
     templateUrl: "./invoice-form.component.html",
@@ -78,7 +78,7 @@ export class InvoiceFormComponent {
                 this.detailsInvoiceForm = value;
                 this.initFormTypePaiement();
                 this.spinner = false;
-                
+
             });
         }
     }
@@ -116,25 +116,25 @@ export class InvoiceFormComponent {
         typePaiementControl?.valueChanges.subscribe((value) => {
             gererValidationCommentaire(value);
         });
-        if(this.isDeferred()) {
+        if (this.isDeferred) {
             this.formTypePaiement.get('type_paiement')?.reset();
         }
     }
-    public isSold = () => {
+    public get isSold(): boolean {
         return this.detailsInvoiceForm?.["facture"]?.statut === BADGE_ETAT_FACTURE.SOLDEE;
     }
     public get displayInputUploadPaymentReceipt(): boolean {
         return this.detailsInvoiceForm?.["facture"]?.statut === BADGE_ETAT_FACTURE.SOLDEE;
     }
-    public isDeferred() : boolean {
+    public get isDeferred(): boolean {
         return this.detailsInvoiceForm?.["facture"]?.statut === BADGE_ETAT_FACTURE.REPORTEE;
     }
 
-    public isApprouved = () => {
+    public get isApprouved(): boolean {
         return this.detailsInvoiceForm?.["facture"]?.etat_facture === BADGE_ETAT.APPROUVE;
     }
-     
-    public isPosted() : boolean {
+
+    public get isPosted(): boolean {
         return this.detailsInvoiceForm?.["facture"]?.statut === BADGE_ETAT_FACTURE.POSTEE;
     }
 
@@ -146,9 +146,23 @@ export class InvoiceFormComponent {
         return [{ value: initialValue, disabled: isDisabled }, validator].filter(v => v !== null);
     }
     async postTraitementsSuivisPaiementDemandeService(dataToSend = { ...this.formTypePaiement.value }): Promise<void> {
-        const htmlMessage = this.formTypePaiement.get("type_paiement")?.value == "immédiat" ?
-            `Le recu de paiement sera rattaché à la facture <span style="color: #ff6600;"><strong>${this.detailsInvoiceForm?.["facture"]?.["numero_demande"]}</strong></span> !` :
-            `Paiement différé !`;
+        // if(this.formTypePaiement.invalid || this.isSold()) {}
+        let htmlMessage: string;
+        switch (this.formTypePaiement.get("type_paiement")?.value) {
+            case "immédiat":
+                htmlMessage = `Le recu de paiement sera rattaché à la facture <span style="color: #ff6600;"><strong>${this.detailsInvoiceForm?.["facture"]?.["numero_demande"]}</strong></span> !`
+                break;
+            case "différé":
+                htmlMessage = `Paiement différé !`
+                break;
+            case "mon compte":
+                htmlMessage = `Le paiement de la facture <span style="color: #ff6600;"><strong>${this.detailsInvoiceForm?.["facture"]?.["numero_demande"]}</strong></span> a été débité de votre compte !`
+                break;
+
+            default: htmlMessage = ''
+                break;
+        }
+        
         const result = await Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass })
             .fire({
                 ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: htmlMessage
@@ -167,11 +181,11 @@ export class InvoiceFormComponent {
         this.sharedDataService.sendPatrimoineSimDemandeIntegrationsAll();
     }
 
-      getStatutBadge(facture?: { statut?: T_BADGE_ETAT_FACTURE }): Object {
+    getStatutBadge(facture?: { statut?: T_BADGE_ETAT_FACTURE }): Object {
         if (!facture || !facture.statut) {
-          return 'badge-dark';
+            return 'badge-dark';
         }
-    
+
         const stateMap: Record<T_BADGE_ETAT_FACTURE, TYPE_COLOR_ETAT_BADGE> = {
             [BADGE_ETAT_FACTURE.EN_ATTENTE]: 'badge-dark',
             [BADGE_ETAT_FACTURE.POSTEE]: 'badge-warning',
@@ -179,9 +193,9 @@ export class InvoiceFormComponent {
             [BADGE_ETAT_FACTURE.SOLDEE]: 'badge-success',
             [BADGE_ETAT_FACTURE.REJETEE]: 'badge-danger',
         };
-    
+
         return stateMap[facture.statut];
-      }
+    }
 
     public formatTitle(title: string) {
         return this.supervisionOperationService.HandleFormatTitle(title);

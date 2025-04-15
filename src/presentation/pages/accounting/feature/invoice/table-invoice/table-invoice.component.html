@@ -48,9 +48,9 @@
                         {{ 'DATE_TIME' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Référence'">
-                        {{ 'REFERENCE' | translate }}
+                        {{ 'NUMBER_REFERENCE' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Désignation'">
+                    <ng-container *ngSwitchCase="'Opération'">
                         {{ 'OPERATION' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Quantité'">
@@ -89,6 +89,11 @@
                     <ng-container *ngSwitchCase="'Référence'">
                         <span (click)="copyToClipboard(item?.[col.field])">
                             {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Opération'">
+                        <span>
+                            {{ getTitleForm(item?.[col.field]) }}
                         </span>
                     </ng-container>
                     <ng-container *ngSwitchCase="'Statut'">

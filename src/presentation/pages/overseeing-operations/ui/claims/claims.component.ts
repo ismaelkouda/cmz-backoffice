@@ -2,13 +2,12 @@ import { SharedService } from './../../../../../shared/services/shared.service';
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { OperationTransaction } from './../../../../../shared/enum/OperationTransaction.enum';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { claimsFilterInterface } from '../../data-access/claims/interfaces/claims-filter.interface';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { Folder } from '../../../../../shared/interfaces/folder';
 import { ClaimsApiService } from '../../data-access/claims/services/claims-api.service';
-import { FORM, INVOICE } from '../../overseeing-operations-routing.module';
+import { claimsInterface } from '../../data-access/claims/interfaces/claims.interface';
 
 type PageAction = { data: Folder, action: 'open-folder-claims' | 'invoice-claims' | 'mass-edit-claims' | 'simple-add-claims' | 'mass-add-claims', view: 'page' };
 
@@ -20,12 +19,14 @@ type PageAction = { data: Folder, action: 'open-folder-claims' | 'invoice-claims
 export class ClaimsComponent implements OnInit {
     public module: string;
     public subModule: string;
-    public pagination$: Observable<Paginate<Folder>>;
+    public pagination$: Observable<Paginate<claimsInterface>>;
     public filterData: claimsFilterInterface;
-    public listClaims$: Observable<Array<Folder>>;
-    public claimsSelected$: Observable<Folder>;
+    public listClaims$: Observable<Array<claimsInterface>>;
     public listApplicants$: Observable<any[]>;
     public listOperations: Array<string> = [];
+    public spinner: boolean = true;
+    private destroy$ = new Subject<void>();
+
 
     constructor(private router: Router, private sharedService: SharedService,
         private activatedRoute: ActivatedRoute,
@@ -41,7 +42,6 @@ export class ClaimsComponent implements OnInit {
         this.listApplicants$ = this.sharedService.getApplicants();
         this.listClaims$ = this.claimsApiService.getClaims();
         this.pagination$ = this.claimsApiService.getClaimsPagination();
-        this.claimsSelected$ = this.claimsApiService.getClaimsSelected();
 
         combineLatest([
             this.claimsApiService.getDataFilterClaims(),
@@ -49,15 +49,19 @@ export class ClaimsComponent implements OnInit {
         ]).subscribe(([filterData, nbrPageData]) => {
             this.claimsApiService.fetchClaims(filterData, nbrPageData);
         });
+        this.claimsApiService.isLoadingClaims().pipe(takeUntil(this.destroy$)).subscribe((spinner: boolean) => {
+            this.spinner = spinner;
+        });
     }
 
     public filter(filterData: claimsFilterInterface): void {
-        this.filterData = filterData;
         this.claimsApiService.fetchClaims(filterData)
     }
 
     public onPageChange(event: number): void {
-        this.claimsApiService.fetchClaims(this.filterData, JSON.stringify(event + 1))
+        this.claimsApiService.getDataFilterClaims().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
+            this.claimsApiService.fetchClaims(filterData, JSON.stringify(event + 1))
+        });
     }
 
     public navigateByUrl(params: PageAction): void {
@@ -68,11 +72,12 @@ export class ClaimsComponent implements OnInit {
         let routePath: string = '';
 
         switch (params.action) {
-            case "invoice-claims": routePath = `${INVOICE}/${number_demand}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
             case "open-folder-claims": routePath = `${number_demand}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
-            case "mass-edit-claims":
-            case "simple-add-claims": routePath = FORM; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams: { ...queryParams, operation: OperationTransaction.ACTIVATION } }); break;
-            case "mass-add-claims": routePath = FORM; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams: { ...queryParams, operation: OperationTransaction.ACTIVATION_EN_MASSE } }); break;
         }
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

@@ -6,10 +6,12 @@ import { MyAccountComponent } from './ui/my-account/my-account.component';
 import { InvoiceFormComponent } from '../../../shared/components/invoice-form/invoice-form.component';
 import { ReloadMyAccountComponent } from './ui/reload-my-account/reload-my-account.component';
 import { FormReloadMyAccountComponent } from './feature/reload-my-account/form-reload-my-account/form-reload-my-account.component';
+import { PaymentComponent } from './ui/payment/payment.component';
 
+export const PAYMENT = 'my-payments';
 export const INVOICE = 'invoice';
 export const MY_ACCOUNT = 'my-account';
-export const RELOAD_MY_ACCOUNT = 'reload-my-account';
+export const MY_RELOADS = 'reload-my-account';
 export const FORM = 'form';
 
 const routes: Routes = [
@@ -19,6 +21,23 @@ const routes: Routes = [
       {
         path: '',
         component: InvoiceComponent
+      },
+      {
+        path: `:number_demand`,
+        component: InvoiceFormComponent
+      },
+      {
+        path: '**',
+        redirectTo: ''
+      },
+    ],
+  },
+  {
+    path: PAYMENT,
+    children: [
+      {
+        path: '',
+        component: PaymentComponent
       },
       {
         path: `:number_demand`,
@@ -44,7 +63,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: RELOAD_MY_ACCOUNT,
+    path: MY_RELOADS,
     children: [
       {
         path: '',

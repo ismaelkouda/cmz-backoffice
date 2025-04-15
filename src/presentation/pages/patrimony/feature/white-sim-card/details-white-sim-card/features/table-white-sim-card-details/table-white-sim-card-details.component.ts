@@ -19,11 +19,11 @@ export class TableWhiteSimCardDetailsComponent {
     @Input() listWhiteSimCardDetails$: Observable<Array<whiteSimCardDetailsInterface>>;
     @Input() spinner: boolean;
     @Input() urlParamRef: string;
+    @Input() urlParamId: number;
     public table: TableConfig = whiteSimCardDetailsTableConstant;
 
     constructor(private toastService: ToastrService, private clipboardService: ClipboardService, private translate: TranslateService,
-        private tableExportExcelFileService: TableExportExcelFileService, private whiteSimCardApiService: whiteSimCardApiService,
-    ) { }
+        private tableExportExcelFileService: TableExportExcelFileService, private whiteSimCardApiService: whiteSimCardApiService,) { }
 
     public getStatutBadge(statut: string): string {
         switch (statut) {
@@ -46,12 +46,12 @@ export class TableWhiteSimCardDetailsComponent {
     }
     
       public pageCallback() {
-        this.whiteSimCardApiService.fetchWhiteSimCardDetails({} as whiteSimCardDetailsFilterInterface);
+        this.whiteSimCardApiService.fetchWhiteSimCardDetails({ id: this.urlParamId });
       }
 
     public onExportExcel(): void {
       this.listWhiteSimCardDetails$.subscribe(data => {
-        if (data) { this.tableExportExcelFileService.exportAsExcelFile(data, this.table, `liste_carte_sim_blanche_du_dossier_${this.urlParamRef}`); }
+        if (data) { this.tableExportExcelFileService.exportAsExcelFile(data, this.table, `liste_white_card_sim_details${this.urlParamRef}`); }
       });
     }
 }

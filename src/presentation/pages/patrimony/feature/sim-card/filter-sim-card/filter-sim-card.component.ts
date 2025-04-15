@@ -1,3 +1,4 @@
+import { UsageInterface } from './../../../../../../shared/interfaces/usage.interface';
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { simCardFilterInterface } from './../../../data-access/sim-card/interfaces/sim-card-filter.interface';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -10,11 +11,11 @@ import { FirstLevelInterface, SecondLevelInterface } from '@shared/interfaces/fi
 import { ThirdLevelInterface } from '@shared/interfaces/third-level.interface';
 import { ApnInterface } from '@shared/interfaces/apn.interface';
 import { T_SIM_CARD_STATUS_ENUM } from '../../../data-access/sim-card/enums/sim-card-status.enum';
-import { SecondLevelService } from '@shared/services/second-level.service';
 import { StoreCurrentUserService } from '@shared/services/store-current-user.service';
 import { ApplicantInterface } from '@shared/interfaces/applicant';
 import { simCardApiService } from '../../../data-access/sim-card/services/sim-card-api.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { SecondLevelService } from '../../../../../../shared/services/second-level.service';
 
 @Component({
     selector: 'app-filter-sim-card',
@@ -47,10 +48,9 @@ export class FilterSimCardComponent implements OnDestroy {
     @Input() listFormulas$: Observable<Array<FormulasInterface>>;
     @Input() listFirstLevel$: Observable<Array<FirstLevelInterface>>;
     @Input() listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
-    @Input() listApplicants$: Observable<Array<ApplicantInterface>>;
+    @Input() listUsages$: Observable<Array<UsageInterface>>;
     @Input() listApn$: Observable<Array<ApnInterface>>;
     @Input() listStatusSimCard: Array<T_SIM_CARD_STATUS_ENUM>;
-    @Input() filterData: simCardFilterInterface;
 
     @Output() filter = new EventEmitter<simCardFilterInterface | {}>();
 
@@ -86,7 +86,8 @@ export class FilterSimCardComponent implements OnDestroy {
     }
 
     public initFormFilter(): void {
-        this.simCardApiService.getDataFilterSimCard().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
+        this.simCardApiService.getDataFilterSimCard().pipe(takeUntil(this.destroy$)).subscribe((filterData: simCardFilterInterface) => {
+            this.expandedFirstLine(filterData);
             this.formFilter = this.fb.group<simCardFilterInterface>({
                 imsi: new FormControl<string>(filterData?.["imsi"], {
                     nonNullable: true,
@@ -118,14 +119,15 @@ export class FilterSimCardComponent implements OnDestroy {
                     this.formFilter.get("msisdn")?.setValue(value.slice(0, 10), { emitEvent: false });
                 }
             });
-            this.formFilter?.get('niveau_un_uuid')?.valueChanges.subscribe(
-                this.fetchSecondLevel.bind(this)
-            );
+            const firstLevelControl = this.formFilter.get("niveau_un_uuid");
+            const gererValidatioFirstLevel = (value: string) => {
+                this.listSecondLevel$ = this.secondLevelService.getSecondLevel(value);
+            };
+            gererValidatioFirstLevel(firstLevelControl?.value as string);
+            firstLevelControl?.valueChanges.subscribe((value: string) => {
+                this.listSecondLevel$ = this.secondLevelService.getSecondLevel(value);
+            });
         });
-    }
-
-    async fetchSecondLevel(uuid: string): Promise<void> {
-        this.listSecondLevel$ = await this.secondLevelService.getSecondLevel(uuid);
     }
 
     public onSubmitFilterForm(): void {
@@ -151,6 +153,15 @@ export class FilterSimCardComponent implements OnDestroy {
         } else {
             const translatedMessage = this.translate.instant('FORM_INVALID');
             this.toastService.success(translatedMessage);
+        }
+    }
+
+    private expandedFirstLine(filterData: simCardFilterInterface): void {
+        if(filterData?.imsi || filterData?.formule_uuid || filterData?.apn || filterData?.adresse_ip || filterData?.usage_id) {
+            this.secondFilter = true;
+        } else if(filterData?.date_fin || filterData?.date_debut || filterData?.zone_trafic || filterData?.point_emplacement || filterData?.niveau_trois_uuid) {
+            this.secondFilter = true;
+            this.thirdFilter = true;
         }
     }
 

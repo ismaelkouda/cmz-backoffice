@@ -11,17 +11,16 @@ import { OperationTransaction } from '../../../../../shared/enum/OperationTransa
 import { ApplicantInterface } from '../../../../../shared/interfaces/applicant';
 import { mobileSubscriptionsFilterInterface } from '../../data-access/mobile-subscriptions/interface/mobile-subscription-filter.interface';
 
-const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT];
-const state_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE];
+const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT, BADGE_ETAPE.CLOTURE];
+const state_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE, BADGE_ETAT.EN_ATTENTE, BADGE_ETAT.ABANDONNE, BADGE_ETAT.ACCEPTE];
 type PageAction = { data: Folder, action: 'open-folder-mobile-subscription' | 'invoice-mobile-subscription' | 'mass-edit-mobile-subscription' | 'simple-add-mobile-subscription' | 'mass-add-mobile-subscription', view: 'page' };
 
 @Component({
   selector: 'app-mobile-subscriptions',
-  templateUrl: './mobile-subscriptions.component.html',
-  styleUrls: ['./mobile-subscriptions.component.scss']
+  templateUrl: './mobile-subscriptions.component.html'
 })
-export class MobileSubscriptionsComponent {
 
+export class MobileSubscriptionsComponent {
   public module: string;
   public subModule: string;
   public pagination$: Observable<Paginate<Folder>>;
@@ -39,7 +38,7 @@ export class MobileSubscriptionsComponent {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data) => {
       this.module = data.module;
-      this.subModule = data.subModule[1];
+      this.subModule = data.subModule[0];
     });
     this.sharedService.fetchApplicants();
     this.listApplicants$ = this.sharedService.getApplicants();

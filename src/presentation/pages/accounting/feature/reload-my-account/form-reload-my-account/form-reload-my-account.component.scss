@@ -1,3 +1,9 @@
+.bankBenefitNumber {
+    input[type=text]:disabled {
+        font-size: 17px !important;
+    }
+}
+
 ::ng-deep .buttonDeleteFileUpload {
     color: red !important;
     border-color: red !important;

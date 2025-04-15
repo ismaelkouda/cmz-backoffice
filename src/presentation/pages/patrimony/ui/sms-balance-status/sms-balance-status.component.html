@@ -24,7 +24,6 @@
                     <div>
                         <app-filter-sms-balance-status
                             (filter)="filter($event)"
-                            [filterData]="filterData$ | async"
                             [listUsages$]="listUsages$"
                             [listApn$]="listApn$"
                             [listFormulas$]="listFormulas$"
@@ -37,6 +36,7 @@
                         <hr />
 
                         <app-table-sms-balance-status
+                            [spinner]="spinner"
                             [pagination$]="pagination$"
                             [listSmsBalanceStatus$]="listSmsBalanceStatus$"
                         >

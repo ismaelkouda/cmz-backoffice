@@ -1,9 +1,9 @@
 import { SecondLevelService } from '../../../../../../shared/services/second-level.service';
-import { Component, Input, EventEmitter, Output } from "@angular/core";
+import { Component, Input, EventEmitter, Output, OnDestroy } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import * as moment from 'moment';
 import { ToastrService } from "ngx-toastr";
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { FormulasInterface } from '../../../../../../shared/interfaces/formulas.interface';
 import { FirstLevelInterface, SecondLevelInterface } from '../../../../../../shared/interfaces/first-level.interface';
 import { ThirdLevelInterface } from '../../../../../../shared/interfaces/third-level.interface';
@@ -13,6 +13,7 @@ import { TypeAlarme } from '../../../../../../shared/enum/TypeAlarme.enum';
 import { dataBalanceStatusFilterInterface } from '../../../data-access/data-balance-status/interfaces/data-balance-status-filter.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
+import { dataBalanceStatusApiService } from '../../../data-access/data-balance-status/services/data-balance-status-api.service';
 
 @Component({
     selector: `app-filter-data-balance-status`,
@@ -20,7 +21,7 @@ import { StoreCurrentUserService } from '../../../../../../shared/services/store
     styles: [`:host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }, .col-md-2 { padding-right: 0 !important; }`]
 })
 
-export class FilterDataBalanceStatusComponent {
+export class FilterDataBalanceStatusComponent implements OnDestroy {
 
     @Input() listFormulas$: Observable<Array<FormulasInterface>>;
     @Input() listFirstLevel$: Observable<Array<FirstLevelInterface>>;
@@ -28,24 +29,25 @@ export class FilterDataBalanceStatusComponent {
     @Input() listUsages$: Observable<Array<UsageInterface>>;
     @Input() listApn$: Observable<Array<ApnInterface>>;
     @Input() listAlarms: Array<TypeAlarme> = [];
-    @Input() filterData: dataBalanceStatusFilterInterface;
-    
+
     @Output() filter = new EventEmitter<dataBalanceStatusFilterInterface>();
 
     public listSecondLevel$: Observable<Array<SecondLevelInterface>>;
     public formFilter: FormGroup;
 
-    public firstLevelLibel: string|undefined;
-    public secondLevelLibel: string|undefined;
-    public thirdLevelLibel: string|undefined;
+    public firstLevelLibel: string | undefined;
+    public secondLevelLibel: string | undefined;
+    public thirdLevelLibel: string | undefined;
 
     public secondFilter: boolean = false;
 
+    private destroy$ = new Subject<void>();
+
     constructor(private toastService: ToastrService, private fb: FormBuilder,
         private storeCurrentUserService: StoreCurrentUserService, private translate: TranslateService,
-        private secondLevelService: SecondLevelService) {
+        private secondLevelService: SecondLevelService, private dataBalanceStatusApiService: dataBalanceStatusApiService) {
         this.initFormFilter();
-        
+
         const currentUser = this.storeCurrentUserService.getCurrentUser;
         this.firstLevelLibel = currentUser?.structure_organisationnelle?.niveau_1;
         this.secondLevelLibel = currentUser?.structure_organisationnelle?.niveau_2;
@@ -53,45 +55,50 @@ export class FilterDataBalanceStatusComponent {
     }
 
     public initFormFilter(): void {
-        this.formFilter = this.fb.group<dataBalanceStatusFilterInterface>({
-            imsi: new FormControl<string>(this.filterData?.["imsi"], { nonNullable: true,
-                validators: [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)],
-            }),
-            iccid: new FormControl<string>(this.filterData?.["iccid"], { nonNullable: true }),
-            statut: new FormControl<string>(this.filterData?.["statut"], { nonNullable: true }),
-            date_debut: new FormControl<string>(this.filterData?.["date_debut"], { nonNullable: true }),
-            date_fin: new FormControl<string>(this.filterData?.["date_fin"], { nonNullable: true }),
-            alarme: new FormControl<string>(this.filterData?.["alarme"], { nonNullable: true }),
-            niveau_un_uuid: new FormControl<string>(this.filterData?.["niveau_un_uuid"], { nonNullable: true }),
-            niveau_deux_uuid: new FormControl<string>(this.filterData?.["niveau_deux_uuid"], { nonNullable: true }),
-            msisdn: new FormControl<string>(this.filterData?.["msisdn"], { nonNullable: true }),
-            apn: new FormControl<string>(this.filterData?.["apn"], { nonNullable: true }),
-            adresse_ip: new FormControl<string>(this.filterData?.["adresse_ip"], { nonNullable: true }),
-            usage_id: new FormControl<string>(this.filterData?.["usage_id"], { nonNullable: true }),
-            formule_uuid: new FormControl<string>(this.filterData?.["formule_uuid"], { nonNullable: true }),
-            niveau_trois_uuid: new FormControl<string>(this.filterData?.["niveau_trois_uuid"], { nonNullable: true }),
-            point_emplacement: new FormControl<string>(this.filterData?.["point_emplacement"], { nonNullable: true }),
-            zone_trafic: new FormControl<string>(this.filterData?.["zone_trafic"], { nonNullable: true }),
-        });
+        this.dataBalanceStatusApiService.getDataFilterDataBalanceStatus().pipe(takeUntil(this.destroy$)).subscribe((filterData: dataBalanceStatusFilterInterface) => {
+            this.expandedSecondLine(filterData);
+            this.formFilter = this.fb.group<dataBalanceStatusFilterInterface>({
+                imsi: new FormControl<string>(filterData?.["imsi"], {
+                    nonNullable: true,
+                    validators: [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)],
+                }),
+                iccid: new FormControl<string>(filterData?.["iccid"], { nonNullable: true }),
+                statut: new FormControl<string>(filterData?.["statut"], { nonNullable: true }),
+                date_debut: new FormControl<string>(filterData?.["date_debut"], { nonNullable: true }),
+                date_fin: new FormControl<string>(filterData?.["date_fin"], { nonNullable: true }),
+                alarme: new FormControl<string>(filterData?.["alarme"], { nonNullable: true }),
+                niveau_un_uuid: new FormControl<string>(filterData?.["niveau_un_uuid"], { nonNullable: true }),
+                niveau_deux_uuid: new FormControl<string>(filterData?.["niveau_deux_uuid"], { nonNullable: true }),
+                msisdn: new FormControl<string>(filterData?.["msisdn"], { nonNullable: true }),
+                apn: new FormControl<string>(filterData?.["apn"], { nonNullable: true }),
+                adresse_ip: new FormControl<string>(filterData?.["adresse_ip"], { nonNullable: true }),
+                usage_id: new FormControl<string>(filterData?.["usage_id"], { nonNullable: true }),
+                formule_uuid: new FormControl<string>(filterData?.["formule_uuid"], { nonNullable: true }),
+                niveau_trois_uuid: new FormControl<string>(filterData?.["niveau_trois_uuid"], { nonNullable: true }),
+                point_emplacement: new FormControl<string>(filterData?.["point_emplacement"], { nonNullable: true }),
+                zone_trafic: new FormControl<string>(filterData?.["zone_trafic"], { nonNullable: true }),
+            });
 
-        this.formFilter.get("imsi")?.valueChanges.subscribe((value) => {
-            if (value && value.length > 15) {
-                this.formFilter.get("imsi")?.setValue(value.slice(0, 15), { emitEvent: false });
-            }
-        });
+            this.formFilter.get("imsi")?.valueChanges.subscribe((value) => {
+                if (value && value.length > 15) {
+                    this.formFilter.get("imsi")?.setValue(value.slice(0, 15), { emitEvent: false });
+                }
+            });
 
-        this.formFilter.get("msisdn")?.valueChanges.subscribe((value) => {
-            if (value && value.length > 10) {
-                this.formFilter.get("msisdn")?.setValue(value.slice(0, 10), { emitEvent: false });
-            }
+            this.formFilter.get("msisdn")?.valueChanges.subscribe((value) => {
+                if (value && value.length > 10) {
+                    this.formFilter.get("msisdn")?.setValue(value.slice(0, 10), { emitEvent: false });
+                }
+            });
+            const firstLevelControl = this.formFilter.get("niveau_un_uuid");
+            const gererValidatioFirstLevel = (value: string) => {
+                this.listSecondLevel$ = this.secondLevelService.getSecondLevel(value);
+            };
+            gererValidatioFirstLevel(firstLevelControl?.value as string);
+            firstLevelControl?.valueChanges.subscribe((value: string) => {
+                this.listSecondLevel$ = this.secondLevelService.getSecondLevel(value);
+            });
         });
-        this.formFilter?.get('niveau_un_uuid')?.valueChanges.subscribe(
-            this.fetchSecondLevel.bind(this)
-        );
-    }
-
-    async fetchSecondLevel(uuid: string): Promise<void> {
-        this.listSecondLevel$ = await this.secondLevelService.getSecondLevel(uuid);
     }
 
     public showSecondFilter(): void {
@@ -122,5 +129,16 @@ export class FilterDataBalanceStatusComponent {
             const translatedMessage = this.translate.instant('FORM_INVALID');
             this.toastService.success(translatedMessage);
         }
+    }
+
+    private expandedSecondLine(filterData: dataBalanceStatusFilterInterface): void {
+        if (filterData?.niveau_trois_uuid || filterData?.formule_uuid || filterData?.point_emplacement || filterData?.zone_trafic || filterData?.date_debut || filterData?.date_fin) {
+            this.secondFilter = true;
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

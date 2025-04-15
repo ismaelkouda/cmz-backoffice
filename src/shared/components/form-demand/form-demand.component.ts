@@ -38,9 +38,9 @@ function isTypeView(value: any): value is TYPEVIEW {
 export class FormDemandComponent implements OnInit {
     public module: string;
     public subModule: string;
-    public firstLevelLibel: string|undefined;
-    public secondLevelLibel: string|undefined;
-    public thirdLevelLibel: string|undefined;
+    public firstLevelLibel: string | undefined;
+    public secondLevelLibel: string | undefined;
+    public thirdLevelLibel: string | undefined;
     public listFirstLevel: Array<any> = [];
     public listSecondLevel$: Observable<Array<SecondLevelInterface>>;
     public listThirdLevel: Array<any> = [];
@@ -72,19 +72,15 @@ export class FormDemandComponent implements OnInit {
         private clipboardService: ClipboardService,
         private loadingBarService: LoadingBarService,
         private translate: TranslateService,
-    private secondLevelService: SecondLevelService) {
+        private secondLevelService: SecondLevelService) {
 
-            const currentUser = this.storeCurrentUserService.getCurrentUser;
-            this.firstLevelLibel = currentUser?.structure_organisationnelle?.niveau_1;
-            this.secondLevelLibel = currentUser?.structure_organisationnelle?.niveau_2;
-            this.thirdLevelLibel = currentUser?.structure_organisationnelle?.niveau_3;
+        const currentUser = this.storeCurrentUserService.getCurrentUser;
+        this.firstLevelLibel = currentUser?.structure_organisationnelle?.niveau_1;
+        this.secondLevelLibel = currentUser?.structure_organisationnelle?.niveau_2;
+        this.thirdLevelLibel = currentUser?.structure_organisationnelle?.niveau_3;
     }
 
     ngOnInit(): void {
-        this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[1];
-        });
         this.activatedRoute.queryParams.subscribe((params: Object) => {
             this.urlParamId = params?.["id"];
             this.urlParamRef = params?.["ref"];
@@ -99,6 +95,7 @@ export class FormDemandComponent implements OnInit {
         if (!isTypeView(this.urlParamRef) || !Object.values(OperationTransaction).includes(this.urlParamTypeDemand as OperationTransaction)) {
             this.displayUrlErrorPage = true;
         } else {
+            this.getTitle;
             this.initFormDemand();
             this.sharedService.fetchWhiteSimCardAvailable();
             this.sharedService.fetchDemandPrice(this.getTypeDemand(this.urlParamTypeDemand));
@@ -217,8 +214,6 @@ export class FormDemandComponent implements OnInit {
                     this.toastrService.error(SOMETHING_WENT_WRONG);
                 }
             }
-        } else {
-            this.toastrService.error(SOMETHING_WENT_WRONG);
         }
     }
 
@@ -238,28 +233,40 @@ export class FormDemandComponent implements OnInit {
         const CONFIRM_THE_REQUEST_FOR = this.translate.instant('CONFIRM_THE_REQUEST_FOR');
         const SIM_CARD = this.translate.instant('SIM_CARD');
         if (this.urlParamRef.includes('simple-add')) {
-            return `${SIMPLE_DEMAND} : <span style="color: #569C5B;">${CONFIRM_THE_REQUEST_FOR}</span><span style="color: #ff6600;"><strong>1</strong></span> ${SIM_CARD}`;
+            return `${SIMPLE_DEMAND} : <span style="color: #569C5B;">${CONFIRM_THE_REQUEST_FOR}</span><span style="color: #ff6600;"><strong> 1</strong></span> ${SIM_CARD}`;
         } else if (this.urlParamRef.includes('mass-add') && this.formDemand.get("nb_demandes")?.value) {
-            return `${MASS_DEMAND} :<span style="color: #569C5B;">${CONFIRM_THE_REQUEST_FOR}</span><span style="color: #ff6600;"><strong>${this.formDemand.get("nb_demandes")?.value}</strong></span> ${SIM_CARD}`
+            return `${MASS_DEMAND} : <span style="color: #569C5B;">${CONFIRM_THE_REQUEST_FOR}</span><span style="color: #ff6600;"><strong> ${this.formDemand.get("nb_demandes")?.value}</strong></span> ${SIM_CARD}`
         }
         return '';
     }
 
     get verifyHandleSaveDemand(): boolean {
-        if (this.urlParamRef.includes('simple-add')) {
+        const SOMETHING_WENT_WRONG = this.translate.instant('SOMETHING_WENT_WRONG');
+        const PLEASE_TAKE_BATCH = this.translate.instant('PLEASE_TAKE_BATCH');
+
+        if (this.formDemand.valid && this.urlParamRef.includes('simple-add')) {
             this.formDemand.get("nb_demandes")?.setValue(1);
             return true;
-        } else if (this.urlParamRef.includes('mass-add') && this.formDemand.get("nb_demandes")?.value) {
+        }
+
+        if (this.formDemand.valid && this.urlParamRef.includes('mass-add') && this.formDemand.get("nb_demandes")?.value) {
             return true;
         }
+
+        if (this.urlParamRef.includes('mass-add') && !this.formDemand.get("nb_demandes")?.value && this.formDemand.get("source")?.value == "stock local") {
+            this.toastrService.error(PLEASE_TAKE_BATCH);
+            return false;
+        }
+
+        this.toastrService.error(SOMETHING_WENT_WRONG);
         return false;
     }
+
 
     showDialog() {
         this.whiteSimCardDialogVisible = true;
         this.sharedService.getWhiteSimCardAvailable().subscribe((value) => {
             this.listWhiteSimCardAvailable = value;
-            console.log('this.listWhiteSimCardAvailable', this.listWhiteSimCardAvailable)
         });
         this.sharedService.getTotalLotWhiteSimCardAvailable().subscribe((value) => {
             this.totalLotWhiteSimCardAvailable = value;
@@ -269,7 +276,6 @@ export class FormDemandComponent implements OnInit {
     public HandleSaveLotWhiteSimCardSelected() {
         if (this.totalWhiteSimCardSelected > 0) {
             const message = `<span style="color: #569C5B;">${this.totalWhiteSimCardSelected}</span> sera prise dans ce lot`;
-            console.log('this.selectedLotWhiteSimCardAvailable', this.selectedLotWhiteSimCardAvailable)
             Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass }).fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: message })
                 .then((result): void => {
                     if (result.value) {
@@ -351,5 +357,15 @@ export class FormDemandComponent implements OnInit {
 
     public onGoToBack(): void {
         this.location.back();
+    }
+
+
+    get getTitle(): {module: string, subModule: string} {
+        switch (this.urlParamRef) {
+            case "mass-add-mobile-subscription": return  {module: 'REQUESTS_SERVICES', subModule: 'MOBILE_SUBSCRIPTIONS'};
+            case "simple-add-mobile-subscription": return {module: 'REQUESTS_SERVICES', subModule: 'MOBILE_SUBSCRIPTIONS'};
+            case "mass-add-white-sim": return {module: 'REQUESTS_PRODUCTS', subModule: 'WHITE_SIM'};
+            default: return {module: '', subModule: ''}
+        }
     }
 }

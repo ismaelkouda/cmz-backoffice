@@ -18,6 +18,7 @@ import { MappingService } from "../../../../../../shared/services/mapping.servic
 
 export class TableDownloadComponent {
 
+  @Input() spinner: boolean;
   @Input() listDownload$: Observable<Array<downloadInterface>>;
   @Input() pagination$: Observable<Paginate<downloadInterface>>;
   public table: TableConfig = downloadTableConstant;

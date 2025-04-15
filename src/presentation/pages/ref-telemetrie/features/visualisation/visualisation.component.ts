@@ -1,3 +1,4 @@
+import { StoreCurrentUserService } from './../../../../../shared/services/store-current-user.service';
 import { SettingService } from './../../../../../shared/services/setting.service';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { TelemetrieService } from '../../data-access/telemetrie.service';
@@ -43,12 +44,13 @@ export class VisualisationComponent implements OnInit {
   public offset: any;
   public p: number = 1;
   public page: number = 0
-  //Mapping
-  firstLevelLibelle: string;
-  secondLevelLibelle: string;
-  thirdLevelLibelle: string;
+
+  public firstLevelLibel: string | undefined;
+  public secondLevelLibel: string | undefined;
+  public thirdLevelLibel: string | undefined;
 
   constructor(
+    private storeCurrentUserService: StoreCurrentUserService,
     private telemetrieService: TelemetrieService,
     private toastrService: ToastrService,
     private modalService: NgbModal,
@@ -60,9 +62,11 @@ export class VisualisationComponent implements OnInit {
     private patrimoineService: PatrimoineService,
 
   ) {
-    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
-    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
-    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+
+    const currentUser = this.storeCurrentUserService.getCurrentUser;
+    this.firstLevelLibel = currentUser?.structure_organisationnelle?.niveau_1;
+    this.secondLevelLibel = currentUser?.structure_organisationnelle?.niveau_2;
+    this.thirdLevelLibel = currentUser?.structure_organisationnelle?.niveau_3;
   }
 
   ngOnInit() {

@@ -4,7 +4,7 @@ import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { MyAccountApiService } from '../../data-access/my-account/service/my-account-api.service';
 import { MappingService } from '../../../../../shared/services/mapping.service';
-import { myAccountInterface } from '../../data-access/my-account/interfaces/my-account.interface';
+import { myAccountApiResponseInterface, myAccountInterface } from '../../data-access/my-account/interfaces/my-account.interface';
 import { myAccountFilterInterface } from '../../data-access/my-account/interfaces/my-account-filter.interface';
 import { MY_ACCOUNT_OPERATION_ENUM, T_MY_ACCOUNT_OPERATION_ENUM } from '../../data-access/my-account/enums/my-account-operation.enum';
 
@@ -21,6 +21,7 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     public module: string;
     public subModule: string;
     public pagination$: Observable<Paginate<myAccountInterface>>;
+    public listMyAccountResponse$: Observable<myAccountApiResponseInterface>;
     public listAccount$: Observable<Array<myAccountInterface>>;
     public listOperations: Array<T_MY_ACCOUNT_OPERATION_ENUM> = [];
     public spinner: boolean = true;
@@ -34,9 +35,10 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
-            this.subModule = data.subModule[1];
+            this.subModule = data.subModule[0];
         });
         this.listAccount$ = this.myAccountApiService.getMyAccount();
+        this.listMyAccountResponse$ = this.myAccountApiService.getApiResponseMyAccount();
         this.pagination$ = this.myAccountApiService.getMyAccountPagination();
         combineLatest([
             this.myAccountApiService.getDataFilterMyAccount(),

@@ -21,12 +21,20 @@ import { MyAccountApiService } from './data-access/my-account/service/my-account
 import { AccountingRoutingModule } from './accounting-routing.module';
 import { FormReloadMyAccountComponent } from './feature/reload-my-account/form-reload-my-account/form-reload-my-account.component';
 import { FilterReloadMyAccountComponent } from './feature/reload-my-account/filter-reload-my-account/filter-reload-my-account.component';
-import { TableReloadMyAccountComponent } from './feature/reload-my-account/table-my-account/table-reload-my-account.component';
+import { TableReloadMyAccountComponent } from './feature/reload-my-account/table-reload-my-account/table-reload-my-account.component';
 import { ReloadMyAccountComponent } from './ui/reload-my-account/reload-my-account.component';
 import { ReloadMyAccountApiService } from './data-access/reload-my-account/service/reload-my-account-api.service';
+import { FilterPaymentComponent } from './feature/payment/filter-payment/filter-payment.component';
+import { TablePaymentComponent } from './feature/payment/table-payment/table-payment.component';
+import { PaymentComponent } from './ui/payment/payment.component';
+import { PaymentApiService } from './data-access/payment/service/payment-api.service';
 
 @NgModule({
   declarations: [
+    FilterPaymentComponent,
+    TablePaymentComponent,
+    PaymentComponent,
+
     FilterInvoiceComponent,
     TableInvoiceComponent,
     InvoiceComponent,
@@ -51,6 +59,8 @@ import { ReloadMyAccountApiService } from './data-access/reload-my-account/servi
   ],
   providers: [
     InvoiceApiService,
+
+    PaymentApiService,
 
     MyAccountApiService,
 

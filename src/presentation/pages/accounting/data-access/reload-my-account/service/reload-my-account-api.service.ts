@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { reloadMyAccountApiResponseInterface, reloadMyAccountInterface } from '../interfaces/reload-my-account.interface';
+import { reloadMyAccountApiResponseInterface, reloadMyAccountGlobalStateInterface, reloadMyAccountInterface } from '../interfaces/reload-my-account.interface';
 import { reloadMyAccountEndpointEnum } from '../enums/reload-my-account-endpoint.enum';
 import { reloadMyAccountFilterInterface } from '../interfaces/reload-my-account-filter.interface';
 
@@ -21,6 +21,7 @@ export class ReloadMyAccountApiService {
     /*********************Méthode pour récupérer la liste reload-my-account*************** */
 
     private reloadMyAccountSubject = new BehaviorSubject<Array<reloadMyAccountInterface>>([]);
+    private reloadMyAccountGlobalState = new BehaviorSubject<reloadMyAccountGlobalStateInterface>({} as reloadMyAccountGlobalStateInterface);
     private reloadMyAccountPagination = new BehaviorSubject<Paginate<reloadMyAccountInterface>>({} as Paginate<reloadMyAccountInterface>);
     private reloadMyAccountSelected = new BehaviorSubject<reloadMyAccountInterface>({} as reloadMyAccountInterface);
     private loadingReloadMyAccountSubject = new BehaviorSubject<boolean>(false);
@@ -42,6 +43,7 @@ export class ReloadMyAccountApiService {
                     console.log('reloadMyAccount', reloadMyAccount)
                     this.reloadMyAccountSubject.next(reloadMyAccount);
                     this.reloadMyAccountPagination.next(response?.['data']?.data);
+                    this.reloadMyAccountGlobalState.next(response?.['data']);
                     this.apiResponseReloadMyAccountSubject.next(response);
                     this.dataFilterReloadMyAccountSubject.next(data);
                     this.dataNbrPageReloadMyAccountSubject.next(nbrPage);
@@ -61,6 +63,9 @@ export class ReloadMyAccountApiService {
     }
     getReloadMyAccountPagination(): Observable<Paginate<reloadMyAccountInterface>> {
         return this.reloadMyAccountPagination.asObservable();
+    }
+    getReloadMyAccountGlobalState(): Observable<reloadMyAccountGlobalStateInterface> {
+        return this.reloadMyAccountGlobalState.asObservable();
     }
     isLoadingReloadMyAccount(): Observable<boolean> {
         return this.loadingReloadMyAccountSubject.asObservable();

@@ -140,12 +140,7 @@
                 </span>
             </td>
         </tr>
-        <tr
-            *ngIf="
-                (!(listDataBalanceStatus$ | async) || (listDataBalanceStatus$ | async)?.length) <=
-                    0 && spinner
-            "
-        >
+        <tr *ngIf="spinner" style="height: 46px">
             <td class="posRelative" colspan="15">
                 <p-progressSpinner
                     class="posCenter"

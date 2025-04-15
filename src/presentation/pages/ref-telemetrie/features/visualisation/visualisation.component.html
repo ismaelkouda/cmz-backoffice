@@ -34,7 +34,7 @@
             <div class="d-flex gap-1">
                 <div class="width-100">
                     <label
-                        ><b>{{ firstLevelLibelle }}</b></label
+                        ><b>{{ firstLevelLibel }}</b></label
                     >
                     <p-dropdown
                         [options]="listFirstLeveDatas"
@@ -43,7 +43,7 @@
                         [showClear]="true"
                         [filter]="true"
                         filterBy="fullName"
-                        [placeholder]="firstLevelLibelle"
+                        [placeholder]="firstLevelLibel"
                         optionValue="uuid"
                         formControlName="niveau_un_uuid"
                         [ngStyle]="{ width: '100%' }"
@@ -52,7 +52,7 @@
                 </div>
                 <div class="width-100">
                     <label
-                        ><b>{{ secondLevelLibelle }}</b></label
+                        ><b>{{ secondLevelLibel }}</b></label
                     >
                     <p-dropdown
                         [options]="listSecondLevelDatas"
@@ -60,7 +60,7 @@
                         [filter]="true"
                         [showClear]="true"
                         formControlName="niveau_deux_uuid"
-                        [placeholder]="secondLevelLibelle"
+                        [placeholder]="secondLevelLibel"
                         optionValue="uuid"
                         [ngStyle]="{ width: '100%' }"
                     >
@@ -176,14 +176,14 @@
                 </div>
                 <div class="width-100">
                     <label
-                        ><b>{{ thirdLevelLibelle }}</b></label
+                        ><b>{{ thirdLevelLibel }}</b></label
                     >
                     <p-dropdown
                         [options]="listThirdLevelDatas"
                         formControlName="niveau_trois_uuid"
                         optionLabel="nom"
                         [showClear]="true"
-                        [placeholder]="thirdLevelLibelle"
+                        [placeholder]="thirdLevelLibel"
                         optionValue="uuid"
                         [ngStyle]="{ width: '100%' }"
                     >
@@ -261,12 +261,12 @@
         <table [ngClass]="['native_table table']" style="margin-top: -0.2rem">
             <thead>
                 <th class="text-center">#</th>
-                <th>{{ firstLevelLibelle }}</th>
-                <th>{{ secondLevelLibelle }}</th>
+                <th>{{ firstLevelLibel }}</th>
+                <th>{{ secondLevelLibel }}</th>
                 <th class="text-center">APN</th>
                 <th class="text-center">Adresse IP</th>
                 <th class="text-center">
-                    {{ thirdLevelLibelle }}
+                    {{ thirdLevelLibel }}
                 </th>
                 <th class="text-center">Emplacement</th>
                 <th class="text-center">MSISDN</th>

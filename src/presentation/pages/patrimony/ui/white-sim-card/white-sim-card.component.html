@@ -1,44 +1,70 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-            <app-breadcrumb [title]="module | translate" [active_item]="subModule | translate"></app-breadcrumb>
+            <app-breadcrumb
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
                     <div style="margin-top: -2rem !important">
                         <div class="d-flex justify-content-between">
-                            <app-patrimoine-header [displayDate]="false" [total]="(pagination$ | async)?.total"
-                                [legendePluriel]="'SIM_CARDS' | translate" [legendeSingulier]="'SIM_CARD' | translate">
+                            <app-patrimoine-header
+                                [displayDate]="false"
+                                [total]="(pagination$ | async)?.total"
+                                [legendePluriel]="'WHITE_SIM' | translate"
+                                [legendeSingulier]="'WHITE_SIM' | translate"
+                            >
                             </app-patrimoine-header>
-                            <span class="current-transaction-label" style="display: flex; align-items: center;">
-                                {{'LAST_90_DAYS' | translate}}
+                            <span
+                                class="current-transaction-label"
+                                style="display: flex; align-items: center"
+                            >
+                                {{ 'LAST_90_DAYS' | translate }}
                             </span>
                         </div>
                     </div>
 
                     <div>
+
                         <div class="container-box">
-                            <app-box-container *ngFor="let box of statistiquesBox" class="col-md"
+                            <app-statistique-box
+                                *ngFor="let box of statisticsBox"
+                                class="col-md"
                                 [cardBgColor]="box?.['cardBgColor']"
-                                [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'" [legend]="box?.['legend']"
-                                [count]="box?.['count']" [legendColor]="box?.['legendColor'] ?? '#FFF'"
-                                [countColor]="box?.['countColor'] ?? '#FFF'" [taux]="box?.['taux']">
-                            </app-box-container>
+                                [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'"
+                                [legend]="box?.['legend']"
+                                [count]="box?.['count']"
+                                [legendColor]="box?.['legendColor'] ?? '#FFF'"
+                                [countColor]="box?.['countColor'] ?? '#FFF'"
+                                [taux]="box?.['taux']"
+                            >
+                            </app-statistique-box>
                         </div>
 
-                        <app-filter-white-sim-card (filter)="filter($event)" [filterData]="filterData"
-                            [listStatusWhiteSimCard]="listStatusWhiteSimCard">
+                        <app-filter-white-sim-card
+                            (filter)="filter($event)"
+                            [listStatusWhiteSimCard]="listStatusWhiteSimCard"
+                        >
                         </app-filter-white-sim-card>
 
                         <hr />
 
-                        <app-table-white-sim-card [pagination$]="pagination$" [listWhiteSimCard$]="listWhiteSimCard$"
+                        <app-table-white-sim-card
+                            [spinner]="spinner"
+                            [pagination$]="pagination$"
+                            [listWhiteSimCard$]="listWhiteSimCard$"
                             [whiteSimCardSelected]="
                                 whiteSimCardSelected$ | async
-                            " (interfaceUser)="navigateByUrl($event)">
+                            "
+                            (interfaceUser)="navigateByUrl($event)"
+                        >
                         </app-table-white-sim-card>
 
-                        <app-pargination [pargination]="pagination$ | async"
-                            (pageChange)="onPageChange($event)"></app-pargination>
+                        <app-pargination
+                            [pargination]="pagination$ | async"
+                            (pageChange)="onPageChange($event)"
+                        ></app-pargination>
                     </div>
                 </div>
             </div>

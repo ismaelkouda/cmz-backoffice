@@ -24,7 +24,6 @@ export class SmsBalanceStatusComponent implements OnInit, OnDestroy {
     public module: string;
     public subModule: string;
     public pagination$: Observable<Paginate<smsBalanceStatusInterface>>;
-    public filterData$: Observable<smsBalanceStatusFilterInterface>;
     public listSmsBalanceStatus$: Observable<Array<smsBalanceStatusInterface>>;
     public listUsages$: Observable<Array<UsageInterface>>;
     public listApn$: Observable<Array<ApnInterface>>;
@@ -32,6 +31,7 @@ export class SmsBalanceStatusComponent implements OnInit, OnDestroy {
     public listFirstLevel$: Observable<Array<FirstLevelInterface>>;
     public listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
     public listAlarms: Array<TypeAlarme> = [];
+    public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
     constructor(private activatedRoute: ActivatedRoute, private sharedService: SharedService,
@@ -54,10 +54,6 @@ export class SmsBalanceStatusComponent implements OnInit, OnDestroy {
         this.listFirstLevel$ = this.sharedService.getFirstLevel();;
         this.sharedService.fetchThirdLevel();
         this.listThirdLevel$ = this.sharedService.getThirdLevel();
-        this.filterData$ = this.smsBalanceStatusApiService.getDataFilterSmsBalanceStatus();
-        this.smsBalanceStatusApiService.getDataFilterSmsBalanceStatus().subscribe(data => {
-            console.log('data', data)
-        })
         this.listSmsBalanceStatus$ = this.smsBalanceStatusApiService.getSmsBalanceStatus();
         this.pagination$ = this.smsBalanceStatusApiService.getSmsBalanceStatusPagination();
         // combineLatest([
@@ -66,6 +62,9 @@ export class SmsBalanceStatusComponent implements OnInit, OnDestroy {
         // ]).subscribe(([filterData, nbrPageData]) => {
         //     this.smsBalanceStatusApiService.fetchSmsBalanceStatus(filterData, nbrPageData);
         // });
+        this.smsBalanceStatusApiService.isLoadingSmsBalanceStatus().subscribe((spinner) => {
+            this.spinner = spinner;
+        })
     }
 
     public filter(filterData: smsBalanceStatusFilterInterface): void {

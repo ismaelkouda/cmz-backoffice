@@ -129,13 +129,14 @@ export class TableTreatmentMonitoringComponent {
         this.treatmentMonitoringApiService.setTreatmentMonitoringSelected(selectedTreatmentMonitoring);
     }
 
-    hideDialog(): void {
+    public hideDialog(): void {
         this.visibleFormTreatmentMonitoring = false;
     }
 
     getTreatmentButtonViewTreatmentMonitoringStyle(selectedTreatmentMonitoring: { statut: string, traitement: string }): { class: string, icon: string, tooltip: string, typeTreatment: TreatmentDemands } {
         const STOP_OR_CHANGE = this.translate.instant('STOP_OR_CHANGE');
         const DETAILS_OF_THE_REQUEST = this.translate.instant('DETAILS_OF_THE_REQUEST');
+        const TO_CLOSURE = this.translate.instant('TO_CLOSURE');
         switch (selectedTreatmentMonitoring?.statut) {
             case BADGE_ETAPE.SOUMISSION: {
                 if (selectedTreatmentMonitoring?.traitement === BADGE_ETAT.EN_ATTENTE) {
@@ -145,20 +146,37 @@ export class TableTreatmentMonitoringComponent {
                     return createButtonStyle('p-button-warning', 'pi pi-times', STOP_OR_CHANGE, this.typeTreatment, { abandonner: true, modifier: true, visualiser: false });
                 }
             }
+            case BADGE_ETAPE.FINALISATEUR: {
+                if (selectedTreatmentMonitoring?.traitement === BADGE_ETAT.LIVRE) {
+                    return createButtonStyle('p-button-success', 'pi pi-check-circle', TO_CLOSURE, this.typeTreatment, { abandonner: false, modifier: false, visualiser: false, cloturer: true });
+                }
+            }
+            default: 
+                return createButtonStyle('p-button-secondary', 'pi pi-eye', DETAILS_OF_THE_REQUEST, this.typeTreatment, { abandonner: false, modifier: false, visualiser: true });
         }
-        return createButtonStyle('p-button-secondary', 'pi pi-eye', DETAILS_OF_THE_REQUEST, this.typeTreatment, { abandonner: false, modifier: false, visualiser: true });
+        
     }
 
-    getTreatmentButtonOpenTreatmentMonitoringStyle(selectedTreatmentMonitoring: { statut: string, traitement: string }): { class: string, icon: string, tooltip: string } {
+    getTreatmentButtonOpenTreatmentMonitoringStyle(selectedTreatmentMonitoring: { statut: string, traitement: string, numero_demande: string }): { class: string, icon: string, tooltip: string } {
         const SIM_OF_THE_REQUEST = this.translate.instant('SIM_OF_THE_REQUEST');
         const CANNOT_SEE_THE_SIM = this.translate.instant('CANNOT_SEE_THE_SIM');
         switch (selectedTreatmentMonitoring?.statut) {
             case BADGE_ETAPE.TRAITEMENT: {
                 if (selectedTreatmentMonitoring?.traitement === BADGE_ETAT.EN_COURS) {
-                    return createButtonStyle('p-button-success', 'pi pi-folder-open', SIM_OF_THE_REQUEST, this.typeTreatment);
+                    return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
+                }
+            }
+            case BADGE_ETAPE.SOUMISSION: {
+                if (selectedTreatmentMonitoring?.traitement === BADGE_ETAT.EN_ATTENTE) {
+                    return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
+                }
+            }
+            case BADGE_ETAPE.CLOTURE: {
+                if (selectedTreatmentMonitoring?.traitement === BADGE_ETAT.ABANDONNE) {
+                    return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
                 }
             }
         }
-        return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
+        return createButtonStyle('p-button-dark', 'pi pi-folder-open', `${SIM_OF_THE_REQUEST} ${selectedTreatmentMonitoring.numero_demande}`, this.typeTreatment);
     }
 }

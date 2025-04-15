@@ -26,9 +26,6 @@
             <div *ngIf="!currentObject?.show">
                 <p-button
                     label="Enregistrer"
-                    [label]="
-                        currentObject === undefined ? 'Enregistrer' : 'Modifier'
-                    "
                     [disabled]="!adminForm.valid"
                     styleClass="p-button-success"
                     (click)="!currentObject ? handleSave() : handleUpdate()"

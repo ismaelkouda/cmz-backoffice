@@ -10,8 +10,12 @@
 >
     <ng-template pTemplate="caption">
         <div class="d-flex justify-content-between">
-            <app-table-title [count]="(pagination$ | async)?.total" [perPage]="(pagination$ | async)?.per_page"
-                [page]="(pagination$ | async)?.current_page" [totalPage]="(pagination$ | async)?.last_page">
+            <app-table-title
+                [count]="(pagination$ | async)?.total"
+                [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page"
+                [totalPage]="(pagination$ | async)?.last_page"
+            >
             </app-table-title>
             <div class="d-flex gap-2 align-items-center">
                 <div class="d-flex gap-2">
@@ -139,7 +143,10 @@
                     <ng-container *ngSwitchCase="'Actions'">
                         <button
                             pButton
-                            [class.p-disabled]="getTreatmentButtonOpenCommandStyle(item)?.class === 'p-button-secondary'"
+                            [class.p-disabled]="
+                                getTreatmentButtonOpenCommandStyle(item)
+                                    ?.class === 'p-button-secondary'
+                            "
                             [ngClass]="
                                 getTreatmentButtonOpenCommandStyle(item)?.class
                             "
@@ -176,9 +183,12 @@
                             "
                         ></button
                         >&nbsp;
-                        <button
+                        <!-- <button
                             pButton
-                            [class.p-disabled]="getTreatmentButtonPaiementCommandStyle(item)?.class === 'p-button-secondary'"
+                            [class.p-disabled]="
+                                getTreatmentButtonPaiementCommandStyle(item)
+                                    ?.class === 'p-button-secondary'
+                            "
                             [ngClass]="
                                 getTreatmentButtonPaiementCommandStyle(item)
                                     ?.class
@@ -196,8 +206,8 @@
                                     view: 'page'
                                 })
                             "
-                        ></button
-                        >&nbsp;
+                        ></button>
+                        &nbsp; -->
                         <button
                             pButton
                             icon="pi pi-book"
@@ -221,7 +231,7 @@
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-        <tr *ngIf="listCommandWhiteSim$?.length <= 0 && !spinner">
+        <tr *ngIf="(listCommandWhiteSim$ | async)?.length <= 0 && !spinner">
             <td class="posRelative" colspan="15">
                 <span class="posCenter">
                     {{ 'NO_DATA_FOUND' | translate }}

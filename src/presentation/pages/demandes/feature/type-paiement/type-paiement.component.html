@@ -426,6 +426,26 @@
                                                             class="form-check-input"
                                                             type="radio"
                                                             name="paiement"
+                                                            value="mon compte"
+                                                            formControlName="type_paiement"
+                                                            #mon_compte
+                                                        />
+                                                        <label
+                                                            class="form-check-label"
+                                                            for="mon_compte"
+                                                            style="
+                                                                width: auto !important;
+                                                            "
+                                                            >Mon compte</label
+                                                        >
+                                                    </div>
+                                                    <div
+                                                        class="form-check form-check-inline"
+                                                    >
+                                                        <input
+                                                            class="form-check-input"
+                                                            type="radio"
+                                                            name="paiement"
                                                             value="immédiat"
                                                             formControlName="type_paiement"
                                                             #immediat
@@ -455,6 +475,17 @@
                                                 pInputText
                                                 disabled
                                                 value="Le Montant dû sera posté (reporté) sur la prochaine facture"
+                                            />
+                                        </div>
+                                        <div
+                                            style="padding-left: 0; width: 70%"
+                                            *ngIf="mon_compte.checked"
+                                        >
+                                            <input
+                                                type="text"
+                                                pInputText
+                                                disabled
+                                                value="Le montant a été débité de votre compte"
                                             />
                                         </div>
                                         <div

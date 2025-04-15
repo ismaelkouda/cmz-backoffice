@@ -16,13 +16,9 @@
                                 [legendeSingulier]="'INVOICE' | translate"
                             >
                             </app-patrimoine-header>
-
-                            <!-- <span
-                                class="current-transaction-label"
-                                style="display: flex; align-items: center"
-                            >
-                                {{ 'LAST_90_DAYS' | translate }}
-                            </span> -->
+                            <h3 class="d-flex align-items-end">
+                                <b>{{'MY_BALANCE' | translate}} : {{ (listInvoicesResponse$ | async)?.data?.mon_compte }} Fcfa</b>
+                            </h3>
                         </div>
                     </div>
 

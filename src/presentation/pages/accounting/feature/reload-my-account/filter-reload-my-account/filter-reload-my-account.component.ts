@@ -6,6 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { reloadMyAccountFilterInterface } from '../../../data-access/reload-my-account/interfaces/reload-my-account-filter.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { ReloadMyAccountApiService } from '../../../data-access/reload-my-account/service/reload-my-account-api.service';
+import { T_MY_RELOADS_STATUS_ENUM } from "../../../data-access/reload-my-account/enums/reload-my-account-status.enum";
 
 @Component({
     selector: `app-filter-reload-my-account`,
@@ -16,6 +17,7 @@ import { ReloadMyAccountApiService } from '../../../data-access/reload-my-accoun
 export class FilterReloadMyAccountComponent implements OnDestroy {
 
     @Output() filter = new EventEmitter<reloadMyAccountFilterInterface>();
+    @Input() listStatus: Array<T_MY_RELOADS_STATUS_ENUM> = [];
 
     public formFilter: FormGroup;
     private destroy$ = new Subject<void>();
@@ -30,8 +32,8 @@ export class FilterReloadMyAccountComponent implements OnDestroy {
             this.formFilter = this.fb.group<reloadMyAccountFilterInterface>({
                 date_debut: new FormControl<string>(filterData?.["date_debut"], { nonNullable: true }),
                 date_fin: new FormControl<string>(filterData?.["date_fin"], { nonNullable: true }),
-                reference: new FormControl<string>(filterData?.["reference"], { nonNullable: true }),
-                transaction: new FormControl<string>(filterData?.["transaction"], { nonNullable: true })
+                statut: new FormControl<string>(filterData?.["statut"], { nonNullable: true }),
+                transaction: new FormControl<string>(filterData?.["transaction"], { nonNullable: true }),
             });
         });
     }

@@ -609,7 +609,7 @@ import { TranslateService } from '@ngx-translate/core';
                             {{ 'STATE' | translate }}
                         </ng-container>
                         <ng-container *ngSwitchCase="'Date Etat'">
-                            {{ 'UPDATE_DATE' | translate }}
+                            {{ 'UPDATED_DATE' | translate }}
                         </ng-container>
                         <ng-container *ngSwitchCase="'Demandeur'">
                             {{ 'APPLICANT' | translate }}
@@ -1169,7 +1169,7 @@ if (-not (Test-Path $featurePath)) {
                             {{ 'STATE' | translate }}
                         </ng-container>
                         <ng-container *ngSwitchCase="'Date Etat'">
-                            {{ 'UPDATE_DATE' | translate }}
+                            {{ 'UPDATED_DATE' | translate }}
                         </ng-container>
                         <ng-container *ngSwitchCase="'Demandeur'">
                             {{ 'APPLICANT' | translate }}

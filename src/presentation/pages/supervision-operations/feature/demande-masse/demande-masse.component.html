@@ -685,6 +685,17 @@
                                                         facture</b
                                                     >
                                                 </div>
+                                                <div
+                                                    *ngIf="
+                                                        listDemandes?.type_paiement ===
+                                                        BADGE_STAUT_PAIEMENT.MON_COMPTE
+                                                    "
+                                                >
+                                                    <b
+                                                        class="disabled-piece-jointe"
+                                                        >Débité de votre compte</b
+                                                    >
+                                                </div>
                                                 <div class="justificatif-error">
                                                     <span
                                                         class=""

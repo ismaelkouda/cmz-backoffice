@@ -4,17 +4,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { claimsApiResponseInterface } from '../interfaces/claims.interface';
+import { claimsApiResponseInterface, claimsInterface } from '../interfaces/claims.interface';
 import { claimsEndpointEnum } from '../enums/claims-endpoint.enum';
 import { claimsFilterInterface } from '../interfaces/claims-filter.interface';
-import { Folder } from '../../../../../../shared/interfaces/folder';
 
 @Injectable()
 
 export class ClaimsApiService {
-    private claimsSubject = new BehaviorSubject<Array<Folder>>([]);
-    private claimsPagination = new BehaviorSubject<Paginate<Folder>>({} as Paginate<Folder>);
-    private claimsSelected = new BehaviorSubject<Folder>({} as Folder);
+    private claimsSubject = new BehaviorSubject<Array<claimsInterface>>([]);
+    private claimsPagination = new BehaviorSubject<Paginate<claimsInterface>>({} as Paginate<claimsInterface>);
+    private claimsSelected = new BehaviorSubject<claimsInterface>({} as claimsInterface);
     private loadingClaimsSubject = new BehaviorSubject<boolean>(false);
     private dataFilterClaimsSubject = new BehaviorSubject<claimsFilterInterface>({} as claimsFilterInterface);
     private dataNbrPageClaimsSubject = new BehaviorSubject<string>('1');
@@ -36,7 +35,10 @@ export class ClaimsApiService {
             .pipe(
                 debounceTime(500),
                 switchMap((response: any) => {
-                    const claims = response?.['data']?.data;
+                    const claims = response?.['data']?.data.map((demande) => ({
+                        ...demande,
+                        demandeur: `${demande.demandeur_nom} ${demande.demandeur_prenoms}`,
+                    }));
                     this.claimsSubject.next(claims);
                     this.claimsPagination.next(response?.['data']);
                     this.apiResponseClaimsSubject.next(response);
@@ -53,10 +55,10 @@ export class ClaimsApiService {
             .subscribe();
     }
 
-    getClaims(): Observable<Array<Folder>> {
+    getClaims(): Observable<Array<claimsInterface>> {
         return this.claimsSubject.asObservable();
     }
-    getClaimsPagination(): Observable<Paginate<Folder>> {
+    getClaimsPagination(): Observable<Paginate<claimsInterface>> {
         return this.claimsPagination.asObservable();
     }
     isLoadingClaims(): Observable<boolean> {
@@ -71,10 +73,10 @@ export class ClaimsApiService {
     getApiResponseClaims(): Observable<claimsApiResponseInterface> {
         return this.apiResponseClaimsSubject.asObservable();
     }
-    getClaimsSelected(): Observable<Folder> {
+    getClaimsSelected(): Observable<claimsInterface> {
         return this.claimsSelected.asObservable();
     }
-    setClaimsSelected(claims: Folder): void {
+    setClaimsSelected(claims: claimsInterface): void {
         this.claimsSelected.next(claims);
     }
 }

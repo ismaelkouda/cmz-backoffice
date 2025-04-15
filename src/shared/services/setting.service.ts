@@ -1,8 +1,8 @@
+import { EnvService } from './env.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { EndPointUrl } from '../enum/api.enum';
-import { EncodingDataService } from './encoding-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -14,12 +14,8 @@ export class SettingService {
     public baseUrl: string;
     public httpOptions: any;
 
-    constructor(
-        private http: HttpClient,
-        private storage: EncodingDataService
-    ) {
-        const data = JSON.parse(this.storage.getData('user') || null);
-        this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`;
+    constructor(private http: HttpClient, private envService: EnvService) {
+        this.baseUrl = this.envService.apiUrl;
     }
 
     getAllUsers(data): Observable<any> {

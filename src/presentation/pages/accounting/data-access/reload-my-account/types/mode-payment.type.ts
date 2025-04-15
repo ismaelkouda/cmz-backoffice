@@ -1,1 +1,1 @@
-export type T_MODE_PAYMENT = 'depot'|'cheque';
+export type T_MODE_PAYMENT = 'Espèce'|'Chèque';

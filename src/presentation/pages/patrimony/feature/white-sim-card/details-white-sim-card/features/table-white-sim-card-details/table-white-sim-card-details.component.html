@@ -1,6 +1,6 @@
 <p-table
     #dt
-    [value]="(listWhiteSimCardDetails$ | async)?.carte_sims"
+    [value]="listWhiteSimCardDetails$ | async"
     [rowHover]="true"
     dataKey="id"
     selectionMode="single"
@@ -11,10 +11,10 @@
     <ng-template pTemplate="caption">
         <div class="d-flex justify-content-between">
             <app-table-title
-                [count]="(listWhiteSimCardDetails$ | async)?.carte_sims?.length"
+                [count]="(listWhiteSimCardDetails$ | async)?.length"
                 [perPage]="500"
-                [legendePluriel]="'cartes SIM'"
-                [legendeSingulier]="'carte SIM'"
+                [legendePluriel]="'WHITE_SIM' | translate"
+                [legendeSingulier]="'WHITE_SIM' | translate"
             >
             </app-table-title>
             <div class="d-flex gap-2 align-items-center">
@@ -22,7 +22,7 @@
                     <app-table-button-header
                         (refresh)="pageCallback()"
                         [disabledButtonExport]="
-                            (listWhiteSimCardDetails$ | async)?.carte_sims.length === 0
+                            (listWhiteSimCardDetails$ | async).length === 0
                         "
                         (export)="onExportExcel()"
                         [hiddenButtonOther]="true"
@@ -93,7 +93,10 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
         <tr
-            *ngIf="(listWhiteSimCardDetails$ | async)?.carte_sims?.length <= 0 && !spinner"
+            *ngIf="
+                (listWhiteSimCardDetails$ | async)?.length <= 0 &&
+                !spinner
+            "
         >
             <td class="posRelative" colspan="15">
                 <span class="posCenter">

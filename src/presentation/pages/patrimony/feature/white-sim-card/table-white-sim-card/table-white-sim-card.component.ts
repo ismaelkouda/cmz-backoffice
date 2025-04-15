@@ -27,6 +27,7 @@ type TYPE_COLOR_STATUS_BADGE = 'badge-success' | 'badge-danger';
 
 export class TableWhiteSimCardComponent {
 
+    @Input() spinner: boolean;
     @Input() listWhiteSimCard$: Observable<Array<whiteSimCardInterface>>;
     @Input() whiteSimCardSelected: whiteSimCardInterface;
     @Input() pagination$: Observable<Paginate<whiteSimCardInterface>>;

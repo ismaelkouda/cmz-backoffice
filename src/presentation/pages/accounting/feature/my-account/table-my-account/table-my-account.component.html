@@ -28,7 +28,13 @@
                         [labelOther]="'TO_RECHARGE' | translate"
                         [colorOther]="'dark'"
                         [iconOther]="'pi pi-plus'"
-                        (other)="handleAction({data: null, action: 'fund-my-account', view: 'page'})"
+                        (other)="
+                            handleAction({
+                                data: null,
+                                action: 'fund-my-account',
+                                view: 'page'
+                            })
+                        "
                     >
                     </app-table-button-header>
                 </div>
@@ -52,14 +58,16 @@
                     <ng-container *ngSwitchCase="'N° Référence'">
                         {{ 'NUMBER_REFERENCE' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'N° Transaction'">
-                        {{ 'NUMBER_TRANSACTION' | translate }}
+                    <ng-container *ngSwitchCase="'Opération'">
+                        {{ 'OPERATION' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Montant (Fcfa)'">
                         {{ 'AMOUNT' | translate }}&nbsp;(Fcfa)
                     </ng-container>
                     <ng-container *ngSwitchCase="'Solde avant (Fcfa)'">
-                        {{ 'BALANCE_PRIOR' | translate | capitalize }}&nbsp;(Fcfa)
+                        {{
+                            'BALANCE_PRIOR' | translate | capitalize
+                        }}&nbsp;(Fcfa)
                     </ng-container>
                     <ng-container *ngSwitchCase="'Solde après (Fcfa)'">
                         {{ 'BALANCE_AFTER' | translate }}&nbsp;(Fcfa)
@@ -82,7 +90,7 @@
                     <ng-container *ngSwitchCase="'#'">
                         {{ rowIndex + (pagination$ | async)?.current_page }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Réference'">
+                    <ng-container *ngSwitchCase="'N° Référence'">
                         <span
                             (click)="copyToClipboard(item?.[col.field])"
                             class="cursor-pointer"
@@ -90,15 +98,7 @@
                             {{ item?.[col.field] }}
                         </span>
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Transaction'">
-                        <span
-                            (click)="copyToClipboard(item?.[col.field])"
-                            class="cursor-pointer"
-                        >
-                            {{ item?.[col.field] }}
-                        </span>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'Operation'">
+                    <ng-container *ngSwitchCase="'Opération'">
                         <span
                             (click)="copyToClipboard(item?.[col.field])"
                             class="cursor-pointer"

@@ -12,16 +12,16 @@ import { CLAIMS_STATUS_ENUM } from '../../../data-access/claims/enums/claims-sta
 import { ClaimsApiService } from '../../../data-access/claims/services/claims-api.service';
 import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';
 import { Observable } from 'rxjs';
-import { Folder } from '../../../../../../shared/interfaces/folder';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { TreatmentDemands } from '../../../../../../shared/interfaces/treatment-demands.interface';
 import { claimsTableConstant } from '../../../data-access/claims/constants/claims-table.constant';
 import { TranslateService } from '@ngx-translate/core';
 import { createButtonStyle } from '../../../../../../shared/functions/treatment-demands.function';
+import { claimsInterface } from '../../../data-access/claims/interfaces/claims.interface';
 
 type Action = PageAction | ModalAction;
-type PageAction = { data: Folder, action: 'open-folder-claims' | 'invoice-claims' | 'mass-edit-claims' | 'mass-add-claims' | 'simple-add-claims', view: 'page' };
-type ModalAction = { data: Folder, action: 'view-claims' | 'journal-claims', view: 'modal' };
+type PageAction = { data: claimsInterface, action: 'open-folder-claims' | 'invoice-claims' | 'mass-edit-claims' | 'mass-add-claims' | 'simple-add-claims', view: 'page' };
+type ModalAction = { data: claimsInterface, action: 'view-claims' | 'journal-claims', view: 'modal' };
 const INIT_TYPE_TRAITEMENT: TreatmentDemands = { module: "tracking-processing", abandonner: false, modifier: false, visualiser: false, cloturer: false }
 type TYPE_COLOR_STATUS_BADGE = 'badge-dark' | 'badge-success' | 'badge-danger';
 
@@ -32,9 +32,10 @@ type TYPE_COLOR_STATUS_BADGE = 'badge-dark' | 'badge-success' | 'badge-danger';
 
 export class TableClaimsComponent {
 
-    @Input() listClaims$: Observable<Array<Folder>>;
-    @Input() claimsSelected: Folder;
-    @Input() pagination$: Observable<Paginate<Folder>>;
+    @Input() spinner: boolean;
+    @Input() listClaims$: Observable<Array<claimsInterface>>;
+    @Input() claimsSelected: claimsInterface;
+    @Input() pagination$: Observable<Paginate<claimsInterface>>;
     @Output() interfaceUser = new EventEmitter<any>();
     public typeTreatment: TreatmentDemands = INIT_TYPE_TRAITEMENT;
     public visibleFormClaims = false;
@@ -70,47 +71,13 @@ export class TableClaimsComponent {
         return etapeMap[selectedClaim.code_rapport] || 'badge-dark';
     }
 
-    // getStatusClaimBadge(selectedClaims?: { statut?: T_BADGE_ETAPE; traitement?: T_BADGE_ETAT }): TYPE_COLOR_ETAT_BADGE {
-    //     if (!selectedClaims || !selectedClaims.statut || !selectedClaims.traitement) {
-    //         return 'badge-dark';
-    //     }
-
-    //     const stateMap: Partial<Record<T_BADGE_ETAPE, Partial<Record<T_BADGE_ETAT, TYPE_COLOR_ETAT_BADGE>>>> = {
-    //         [BADGE_ETAPE.SOUMISSION]: {
-    //             [CLAIMS_STATUS_ENUM.SUBMITTED]: 'badge-dark',
-    //             [CLAIMS_STATUS_ENUM.TREATED]: 'badge-success',
-    //             [CLAIMS_STATUS_ENUM.CLOSED]: 'badge-danger',
-    //         },
-    //         [BADGE_ETAPE.CLOTURE]: {
-    //             [CLAIMS_STATUS_ENUM.SUBMITTED]: 'badge-dark'
-    //         },
-    //     };
-
-    //     return stateMap[selectedClaims.statut]?.[selectedClaims.traitement] || 'badge-dark';
-    // }
-
     public truncateString(str: string, num: number = 20): string {
         if (str.length > num) {
-          return str.slice(0, num) + "...";
+            return str.slice(0, num) + "...";
         } else {
-          return str;
+            return str;
         }
-      }
-
-    // getReportClaimBadge(selectedClaim?: { code_rapport: T_CODE_REPORT_ENUM }): TYPE_COLOR_STATUS_BADGE {
-    //     if (!selectedClaim || !selectedClaim.code_rapport) { return 'badge-dark'; }
-    //     const code = selectedClaim.code_rapport?.split("-");
-    //     const etapeMap: Record<T_CODE_REPORT_ENUM, TYPE_COLOR_STATUS_BADGE> = {
-    //         [CODE_REPORT_ENUM[200]]: 'badge-success',
-    //         [CODE_REPORT_ENUM.RECEIVED]: 'badge-dark',
-    //         [CODE_REPORT_ENUM.REJECTED]: 'badge-danger',
-    //         [CODE_REPORT_ENUM.REFUSED]: 'badge-danger',
-    //         [CODE_REPORT_ENUM.ABANDONED]: 'badge-danger',
-    //         [CODE_REPORT_ENUM.ACCEPTED]: 'badge-danger',
-    //         [CODE_REPORT_ENUM.CLOSED]: 'badge-danger',
-    //     };
-    //     return etapeMap[code] || 'badge-dark';
-    // }
+    }
 
     public handleAction(params: Action): void {
         this.onSelectClaims(params.data);
@@ -142,7 +109,7 @@ export class TableClaimsComponent {
         modalRef.componentInstance.typeJournal = "contentieux";
     }
 
-    private onSelectClaims(selectedClaims: Folder): void {
+    private onSelectClaims(selectedClaims: claimsInterface): void {
         this.claimsSelected = selectedClaims;
         this.claimsApiService.setClaimsSelected(selectedClaims);
     }
@@ -152,42 +119,12 @@ export class TableClaimsComponent {
     }
 
     getTreatmentButtonViewClaimsStyle(selectedClaims: { statut: string, traitement: string }): { class: string, icon: string, tooltip: string, typeTreatment: TreatmentDemands } {
-        const STOP_OR_CHANGE = this.translate.instant('STOP_OR_CHANGE');
         const DETAILS_OF_THE_REQUEST = this.translate.instant('DETAILS_OF_THE_REQUEST');
-        switch (selectedClaims?.statut) {
-            case BADGE_ETAPE.SOUMISSION: {
-                if (selectedClaims?.traitement === BADGE_ETAT.EN_ATTENTE) {
-                    return createButtonStyle('p-button-warning', 'pi pi-times', STOP_OR_CHANGE, this.typeTreatment, { abandonner: true, modifier: true, visualiser: false });
-                }
-                if (selectedClaims?.traitement === BADGE_ETAT.REJETE) {
-                    return createButtonStyle('p-button-warning', 'pi pi-times', STOP_OR_CHANGE, this.typeTreatment, { abandonner: true, modifier: true, visualiser: false });
-                }
-            }
-        }
         return createButtonStyle('p-button-secondary', 'pi pi-eye', DETAILS_OF_THE_REQUEST, this.typeTreatment, { abandonner: false, modifier: false, visualiser: true });
     }
 
     getTreatmentButtonOpenClaimsStyle(selectedClaims: { statut: string, traitement: string }): { class: string, icon: string, tooltip: string } {
         const SIM_OF_THE_REQUEST = this.translate.instant('SIM_OF_THE_REQUEST');
-        const CANNOT_SEE_THE_SIM = this.translate.instant('CANNOT_SEE_THE_SIM');
-        switch (selectedClaims?.statut) {
-            case BADGE_ETAPE.TRAITEMENT: {
-                if (selectedClaims?.traitement === BADGE_ETAT.EN_COURS) {
-                    return createButtonStyle('p-button-success', 'pi pi-folder-open', SIM_OF_THE_REQUEST, this.typeTreatment);
-                }
-            }
-        }
-        return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
-    }
-
-
-    getTreatmentButtonPaymentClaimsStyle(selectedClaims: { type_paiement: string }): { class: string, icon: string, tooltip: string } {
-        const SOLVE = this.translate.instant('SOLVE');
-        const MAKE_A_PAYMENT = this.translate.instant('MAKE_A_PAYMENT');
-        if (!!selectedClaims?.type_paiement) {
-            return createButtonStyle('p-button-success', 'pi pi-print', SOLVE, this.typeTreatment);
-        } else {
-            return createButtonStyle('p-button-danger', 'pi pi-print', MAKE_A_PAYMENT, this.typeTreatment);
-        }
+        return createButtonStyle('p-button-success', 'pi pi-folder-open', SIM_OF_THE_REQUEST, this.typeTreatment);
     }
 }

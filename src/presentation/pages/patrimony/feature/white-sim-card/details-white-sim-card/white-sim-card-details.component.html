@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-sm-12">
             <app-breadcrumb
-                [title]="module"
-                [active_item]="subModule"
+                [title]="module | translate"
+                [active_item]="subModule | translate"
             ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
@@ -32,17 +32,18 @@
                         <app-filter-white-sim-card-details
                             (filter)="filter($event)"
                         ></app-filter-white-sim-card-details>
+
                         <hr />
-                        <div>
-                            <app-table-white-sim-card-details
-                                [spinner]="spinner"
-                                [listWhiteSimCardDetails$]="
-                                    listWhiteSimCardDetails$
-                                "
-                                [urlParamRef]="urlParamRef"
-                            >
-                            </app-table-white-sim-card-details>
-                        </div>
+
+                        <app-table-white-sim-card-details
+                            [spinner]="spinner"
+                            [urlParamId]="urlParamId"
+                            [listWhiteSimCardDetails$]="
+                                listWhiteSimCardDetails$
+                            "
+                            [urlParamRef]="urlParamRef"
+                        >
+                        </app-table-white-sim-card-details>
                     </div>
 
                     <div *ngIf="displayUrlErrorPage">

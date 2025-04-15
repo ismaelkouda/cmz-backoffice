@@ -3,7 +3,6 @@ import { Component } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { TableConfig, TableExportExcelFileService } from '../../../../../../shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { MappingService } from '../../../../../../shared/services/mapping.service';
 import { Observable } from 'rxjs';
 import { dataBalanceStatusInterface } from '../../../data-access/data-balance-status/interfaces/data-balance-status.interface';
 import { dataBalanceStatusApiService } from '../../../data-access/data-balance-status/services/data-balance-status-api.service';
@@ -24,6 +23,7 @@ export class TableDataBalanceStatusComponent {
   @Input() listDataBalanceStatus$: Observable<Array<dataBalanceStatusInterface>>;
   @Input() pagination$: Observable<Paginate<dataBalanceStatusInterface>>;
   public table: TableConfig = dataBalanceStatusTableConstant;
+
   public firstLevelLibel: string|undefined;
   public secondLevelLibel: string|undefined;
   public thirdLevelLibel: string|undefined;
@@ -31,6 +31,7 @@ export class TableDataBalanceStatusComponent {
   constructor(public toastService: ToastrService, private dataBalanceStatusApiService: dataBalanceStatusApiService,
     private tableExportExcelFileService: TableExportExcelFileService, private translate: TranslateService,
     private clipboardService: ClipboardService, private storeCurrentUserService: StoreCurrentUserService) {
+      
       const currentUser = this.storeCurrentUserService.getCurrentUser;
       this.firstLevelLibel = currentUser?.structure_organisationnelle?.niveau_1;
       this.secondLevelLibel = currentUser?.structure_organisationnelle?.niveau_2;

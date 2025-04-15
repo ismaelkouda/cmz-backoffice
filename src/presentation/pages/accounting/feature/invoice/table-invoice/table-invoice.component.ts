@@ -10,6 +10,7 @@ import { invoiceTableConstant } from '../../../data-access/invoice/constantes/in
 import { InvoiceApiService } from '../../../data-access/invoice/service/invoice-api.service';
 import { invoiceFilterInterface } from '../../../data-access/invoice/interface/invoice-filter.interface';
 import { INVOICE_STATUS_ENUM, T_INVOICE_STATUS_ENUM } from '../../../data-access/invoice/enums/invoice-status.enum';
+import { OperationTransaction, TitleOperation } from '../../../../../../shared/enum/OperationTransaction.enum';
 
 type Action = PageAction;
 type PageAction = { data: invoiceInterface, action: 'view-invoice', view: 'page' };
@@ -40,6 +41,12 @@ export class TableInvoiceComponent {
         this.listInvoices$.subscribe(data => {
             if (data) { this.tableExportExcelFileService.exportAsExcelFile(data, this.table, "List_invoice"); }
         });
+    }
+
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
 
     public pageCallback() {

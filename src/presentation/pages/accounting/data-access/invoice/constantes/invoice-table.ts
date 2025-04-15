@@ -3,7 +3,7 @@ export const invoiceTableConstant = {
         { field: '', header: '#', class: "text-center", width: "2rem" },
         { field: 'created_at', header: 'Date / Heure', class: "text-center", width: "10rem" },
         { field: 'reference', header: 'Référence', class: "text-center", width: "10rem" },
-        { field: 'operation', header: 'Désignation', width: "10rem" },
+        { field: 'operation', header: 'Opération', width: "10rem" },
         { field: 'qte', header: 'Quantité', class: "text-center", width: "4rem" },
         { field: 'prix_unitaire', header: 'Prix unitaire (Fcfa)', class: "text-center", width: "4rem" },
         { field: 'prix_ttc', header: 'Montant TTC (Fcfa)', class: "text-center", width: "4rem" },

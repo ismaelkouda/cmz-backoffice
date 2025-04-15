@@ -21,6 +21,7 @@ import { OperationTransaction } from '../../enum/OperationTransaction.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, Observable } from 'rxjs';
 import { UsageInterface } from '../../interfaces/usage.interface';
+import { TreatmentMonitoringApiService } from '../../../presentation/pages/overseeing-operations/data-access/treatment-monitoring/services/treatment-monitoring-api.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -45,7 +46,7 @@ export class FormFolderComponent implements OnInit {
     constructor(private sharedService: SharedService, private fb: FormBuilder,
         private toastrService: ToastrService, private loadingBarService: LoadingBarService,
         private supervisionOperationService: SupervisionOperationService,
-        private translate: TranslateService) { }
+        private translate: TranslateService, private treatmentMonitoringApiService: TreatmentMonitoringApiService) { }
 
     ngOnInit(): void {
         console.log('this.demandSelected', this.demandSelected)
@@ -68,24 +69,24 @@ export class FormFolderComponent implements OnInit {
                 this.isEditableForm ?
                     { value: this.detailsDemand?.formule_uuid, disabled: false } :
                     { value: this.detailsDemand?.formule, disabled: true },
-                { validators: Validators.required, nonNullable: true }
+                { validators: this.demandSelected.operation === OperationTransaction.ACTIVATION ? Validators.required : null, nonNullable: true }
             ),
             usage_id: new FormControl<string | number>(
                 this.isEditableForm ?
                     { value: this.detailsDemand?.usage_id, disabled: false } :
                     { value: this.detailsDemand?.usage_nom, disabled: true },
-                { validators: Validators.required, nonNullable: true }
+                { validators: this.demandSelected.operation === OperationTransaction.ACTIVATION ? Validators.required : null, nonNullable: true }
             ),
             montant_formule: new FormControl<number>(
                 { value: this.detailsDemand?.montant_formule, disabled: true },
-                { nonNullable: true, validators: this.detailsDemand.operation === this.typeDemand.INTEGRATION ? Validators.required : null }
+                { nonNullable: true, validators: this.detailsDemand.operation === OperationTransaction.INTEGRATION ? Validators.required : null }
             ),
             description: new FormControl<string>(
                 { value: this.detailsDemand?.description, disabled: false },
                 { validators: Validators.required, nonNullable: true }
             ),
             accepte: new FormControl<string>(
-                { value: this.detailsDemand?.etat_cloture, disabled: true },
+                this.detailsDemand?.etat_cloture,
                 { nonNullable: true, validators: this.typeTreatment.cloturer ? Validators.required : null }
             ),
             commentaire: new FormControl<string>(
@@ -196,12 +197,23 @@ export class FormFolderComponent implements OnInit {
     }
 
     async onUpdateDemand(dataToSend: {}): Promise<void> {
-        dataToSend = { sims_file: this.formTreatmentDemand.value.sims_file, numero_demande: this.detailsDemand?.numero_demande };
-        const translatedMessage = this.translate.instant('WOULD_YOU_LIKE_TO_IDENTIFY_THE_REQUEST');
-        const htmlMessage = `${translatedMessage} ?`;
+        dataToSend = { ...this.formTreatmentDemand.value, numero_demande: this.demandSelected?.numero_demande };
+        const translatedMessage = this.translate.instant('WOULD_YOU_LIKE_TO_MODIFY_THE_REQUEST');
+        const htmlMessage = `${translatedMessage} <span class="badge badge-success fs-6">${this.demandSelected.numero_demande}</span> ?`;
         const result = await Swal.fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: htmlMessage })
         if (result.isConfirmed) {
             const response: any = await handle(() => this.supervisionOperationService.PostPatrimoineSimTransactionsSurSimUpdate(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
+            if (response?.error === false) this.successHandle(response);
+        }
+    }
+
+    async onClosedDemand(dataToSend: {}): Promise<void> {
+        dataToSend = { accepte: this.formTreatmentDemand.get('accepte')?.value, numero_demande: this.demandSelected?.numero_demande, commentaire: this.formTreatmentDemand.get('commentaire')?.value, notation_cloture: this.formTreatmentDemand.get('notation_cloture')?.value };
+        const translatedMessage = this.translate.instant('WOULD_YOU_LIKE_TO_CLOSE_THE_REQUEST');
+        const htmlMessage = `${translatedMessage} <span class="badge badge-success fs-6">${this.demandSelected.numero_demande}</span> ?`;
+        const result = await Swal.fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: htmlMessage })
+        if (result.isConfirmed) {
+            const response: any = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
             if (response?.error === false) this.successHandle(response);
         }
     }
@@ -210,7 +222,7 @@ export class FormFolderComponent implements OnInit {
         return this.supervisionOperationService.HandleFormatTitle(title);
     }
 
-    public onLetDownDemand(dataToSend = { numero_demande: this.detailsDemand?.numero_demande }) {
+    public onLetDownDemand(dataToSend = { numero_demande: this.demandSelected?.numero_demande }) {
         const YOU_ARE_ABOUT_TO_ABANDON_THE_REQUEST = this.translate.instant('YOU_ARE_ABOUT_TO_ABANDON_THE_REQUEST');
         const COMMENT = this.translate.instant('COMMENT');
         let response: any;
@@ -252,17 +264,18 @@ export class FormFolderComponent implements OnInit {
     private successHandle(response) {
         this.toastrService.success(response?.message);
         this.handleCloseModal();
-        // this.sharedDataService.sendPatrimoineSimDemandesServicesAll();
-        // this.sharedDataService.sendPatrimoineSimTraitementsDemandesAll();
-        // this.sharedDataService.sendPatrimoineSimDemandeIntegrationsAll();
         combineLatest([
             this.sharedService.getDataFilterDemands(),
             this.sharedService.getDataNbrPageDemands()
         ]).subscribe(([filterData, nbrPageData]) => {
-            console.log('filterData', filterData)
             this.sharedService.fetchDemands(filterData, nbrPageData);
         });
-        
+        combineLatest([
+            this.treatmentMonitoringApiService.getDataFilterTreatmentMonitoring(),
+            this.treatmentMonitoringApiService.getDataNbrPageTreatmentMonitoring()
+        ]).subscribe(([filterData, nbrPageData]) => {
+            this.treatmentMonitoringApiService.fetchTreatmentMonitoring(filterData, nbrPageData);
+        });
     }
 
     public truncateString(str: string, maxLength: number = 20): string {
@@ -273,16 +286,16 @@ export class FormFolderComponent implements OnInit {
     }
 
     public get dateSoumission(): string {
-        const details = this.detailsDemand;
-        if (!details) return '-- : --'; // Valeur par défaut pour éviter les erreurs
+        const details = this.demandSelected;
+        if (!details) return '-- : --';
 
         switch (true) {
             case details.traitement === BADGE_ETAT.EN_ATTENTE:
                 return details.created_at;
             case details.etat_soumission === BADGE_ETAT.RECU || details.etat_soumission === BADGE_ETAT.EN_COURS:
-                return details.acquitte_a;
+                return details.acquitte_a ?? '-- : --';
             case details.traitement === BADGE_ETAT.APPROUVE || details.traitement === BADGE_ETAT.REJETE:
-                return details.approuve_a;
+                return details.approuve_a ?? '-- : --';
             default:
                 return details.created_at;
         }
@@ -294,6 +307,14 @@ export class FormFolderComponent implements OnInit {
 
     public get isApproved(): boolean {
         return this.detailsDemand?.accepte_approbation ? true : false;
+    }
+
+    public get isFinalized(): boolean {
+        return this.detailsDemand?.finalise_par ? true : false;
+    }
+
+    public get isConcluded(): boolean {
+        return this.detailsDemand?.etat_cloture ? true : false;
     }
 
     public get OnGetRapportCodeStyle(): string {

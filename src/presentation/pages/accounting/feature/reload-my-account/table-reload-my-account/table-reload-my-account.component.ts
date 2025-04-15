@@ -1,4 +1,4 @@
-import { RELOAD_MY_ACCOUNT_STATUS_ENUM, T_RELOAD_MY_ACCOUNT_STATUS_ENUM } from '../../../data-access/reload-my-account/enums/reload-my-account-status.enum';
+import { MY_RELOADS_STATUS_ENUM, T_MY_RELOADS_STATUS_ENUM } from '../../../data-access/reload-my-account/enums/reload-my-account-status.enum';
 import { EventEmitter, Input, Output } from "@angular/core";
 import { Component } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
@@ -14,7 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 type Action = PageAction;
 type PageAction = { data: reloadMyAccountInterface, action: 'fund-reload-my-account', view: 'page' };
-type TYPE_COLOR_STATUS_BADGE = 'badge-warning' | 'badge-success' | 'badge-danger';
+type TYPE_COLOR_STATUS_BADGE = 'badge-warning' | 'badge-success' | 'badge-danger' | 'badge-dark';
 
 @Component({
   selector: `app-table-reload-my-account`,
@@ -40,15 +40,16 @@ export class TableReloadMyAccountComponent {
     this.clipboardService.copyFromContent(data);
   }
 
-  public getStatusReloadAccount(selectedSimCard?: { statut: T_RELOAD_MY_ACCOUNT_STATUS_ENUM }): TYPE_COLOR_STATUS_BADGE {
-    if (!selectedSimCard || !selectedSimCard.statut) { return 'badge-success'; }
+  public getStatusReloadAccount(selectedSimCard?: { statut: T_MY_RELOADS_STATUS_ENUM }): TYPE_COLOR_STATUS_BADGE {
+    if (!selectedSimCard || !selectedSimCard.statut) { return 'badge-dark'; }
 
-    const etapeMap: Record<T_RELOAD_MY_ACCOUNT_STATUS_ENUM, TYPE_COLOR_STATUS_BADGE> = {
-      [RELOAD_MY_ACCOUNT_STATUS_ENUM.VALIDATED]: 'badge-success',
-      [RELOAD_MY_ACCOUNT_STATUS_ENUM.WAITING]: 'badge-warning',
-      [RELOAD_MY_ACCOUNT_STATUS_ENUM.REJECTED]: 'badge-danger',
+    const etapeMap: Record<T_MY_RELOADS_STATUS_ENUM, TYPE_COLOR_STATUS_BADGE> = {
+      [MY_RELOADS_STATUS_ENUM.WAITING]: 'badge-dark',
+      [MY_RELOADS_STATUS_ENUM.VALIDATED]: 'badge-success',
+      [MY_RELOADS_STATUS_ENUM.IN_PROGRESS]: 'badge-warning',
+      [MY_RELOADS_STATUS_ENUM.REJECTED]: 'badge-danger',
     };
-    return etapeMap[selectedSimCard.statut] || 'badge-success';
+    return etapeMap[selectedSimCard.statut] || 'badge-dark';
   }
 
   public pageCallback() {

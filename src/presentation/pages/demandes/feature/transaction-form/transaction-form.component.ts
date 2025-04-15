@@ -21,6 +21,7 @@ import { handle } from '../../../../../shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../../../../shared/constants/swalWithBootstrapButtonsParams.constant';
 import { SettingService } from '../../../../../shared/services/setting.service';
+import { EnvService } from '../../../../../shared/services/env.service';
 
 @Component({
     selector: 'app-transaction-form',
@@ -124,11 +125,10 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     constructor(private patrimoineService: PatrimoineService, private demandeService: DemandeService,
         private settingService: SettingService, private toastrService: ToastrService,
         private httpClient: HttpClient, private router: Router,
-        private mappingService: MappingService, private storage: EncodingDataService,
+        private mappingService: MappingService, private envService: EnvService,
         private loadingBarService: LoadingBarService, private fb: FormBuilder,
     ) {
-        const data = JSON.parse(this.storage.getData('user'));
-        this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`;
+        this.baseUrl = this.envService.apiUrl;
         this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
         this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
         this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;

@@ -2,7 +2,7 @@
     <div class="d-flex gap-1">
         <div class="col-md">
             <label
-                ><b>{{ 'DESIGNATION' | translate | capitalize }}</b></label
+                ><b>{{ 'OPERATION' | translate }}</b></label
             >
             <p-dropdown
                 formControlName="operation"
@@ -10,7 +10,7 @@
                 [showClear]="true"
                 [filter]="true"
                 placeholder="{{ 'SELECT' | translate }} {{
-                    'DEMAND' | translate
+                    'OPERATION' | translate
                 }}"
                 emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
                 emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"

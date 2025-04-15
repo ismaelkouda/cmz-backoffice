@@ -41,7 +41,7 @@ export class TitleOperation {
             [OperationTransaction.ACHAT_SERVICE]: "Achat de Service",
             [OperationTransaction.CHANGEMENT_FORMULE]: "Changement de Formule SIM",
             [OperationTransaction.IDENTIFICATION]: "Identification",
-            [OperationTransaction.SIM_BLANCHE]: "sim-blanche",
+            [OperationTransaction.SIM_BLANCHE]: "SIM Blanche",
             [OperationTransaction.SOLDE_DATA]: "solde-data",
             [OperationTransaction.SOLDE_SMS]: "solde-sms",
         };

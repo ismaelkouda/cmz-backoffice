@@ -71,6 +71,7 @@ import { FilterHistoryComponent } from './components/historique/feature/filter-h
 import { TableHistoryComponent } from './components/historique/feature/table-history/table-history.component';
 import { DetailsHistoryComponent } from './components/historique/feature/details-history/details-history.component';
 import { PagesGuard } from '../core/guard/PagesGuard';
+import { TreatmentMonitoringApiService } from '../presentation/pages/overseeing-operations/data-access/treatment-monitoring/services/treatment-monitoring-api.service';
 
 @NgModule({
   declarations: [
@@ -130,6 +131,7 @@ import { PagesGuard } from '../core/guard/PagesGuard';
     EndpointParamsService,
     StateInvoiceFormService, 
     FormDemandApiService,
+    TreatmentMonitoringApiService,
     HistoryApiService,
     PagesGuard
   ],

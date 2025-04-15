@@ -62,7 +62,7 @@
                         {{ 'STATE' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Date traitement'">
-                        {{ 'UPDATE_DATE' | translate }}
+                        {{ 'UPDATED_DATE' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Demandeur'">
                         {{ 'APPLICANT' | translate }}
@@ -114,6 +114,10 @@
                     <ng-container *ngSwitchCase="'Actions'">
                         <button
                             pButton
+                            [class.p-disabled]="
+                                getTreatmentButtonOpenTreatmentMonitoringStyle(item)
+                                    ?.class === 'p-button-secondary'
+                            "
                             [ngClass]="
                                 getTreatmentButtonOpenTreatmentMonitoringStyle(
                                     item

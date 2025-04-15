@@ -1,3 +1,4 @@
+import { BankBenefitInterface } from './../interfaces/bank-beneficiaire.interface';
 import { ApnInterface } from './../interfaces/apn.interface';
 import { ThirdLevelInterface } from './../interfaces/third-level.interface';
 import { Observable, BehaviorSubject, of } from 'rxjs';
@@ -186,6 +187,7 @@ export class SharedService {
     private loadingSimDemandSubject = new BehaviorSubject<boolean>(false);
     private lastRequestSimDemandSubject = new BehaviorSubject<any>(null);
     private apiResponseSimDemandSubject = new BehaviorSubject<any>(null);
+    private dataFilterSimDemandSubject = new BehaviorSubject<any>({});
 
     fetchSimDemand(data: Object, nbrPage: string = '1'): void {
         if (this.loadingSimDemandSubject.getValue()) return;
@@ -201,6 +203,7 @@ export class SharedService {
                     this.simDemandSubject.next(response?.['data']?.data);
                     this.simDemandPagination.next(response?.['data']);
                     this.apiResponseSimDemandSubject.next(response);
+                    this.dataFilterSimDemandSubject.next(data);
                     this.lastRequestSimDemandSubject.next({});
                     return of(response);
                 }),
@@ -218,6 +221,9 @@ export class SharedService {
     }
     getSimDemandPagination(): any {
         return this.simDemandPagination.asObservable();
+    }
+    getDataFilterSimDemand(): Observable<any> {
+        return this.dataFilterSimDemandSubject.asObservable();
     }
 
     isLoadingSimDemand(): Observable<boolean> {
@@ -248,9 +254,7 @@ export class SharedService {
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {
-                    const formatData = response?.['data']?.data?.map((demande) => {
-                        return { ...demande, demandeur: demande.demandeur_nom + " " + demande.demandeur_prenoms };
-                    });
+                    const formatData = response?.['data'];
                     this.applicantsSubject.next(formatData);
                     this.apiResponseApplicantsSubject.next(response);
                     return of(response);
@@ -568,6 +572,42 @@ export class SharedService {
 
     isLoadingBanks(): Observable<boolean> {
         return this.loadingBanksSubject.asObservable();
+    }
+
+    /*********************Méthode pour récupérer la liste des Banks bénéficiaire*************** */
+
+    private banksBenefitSubject = new BehaviorSubject<Array<BankBenefitInterface>>([]);
+    private loadingBanksBenefitSubject = new BehaviorSubject<boolean>(false);
+
+    fetchBanksBenefit(): void {
+        if (this.loadingBanksBenefitSubject.getValue()) return; // Évite les doublons
+
+        const url: string = EndPointUrl.BANKS_BENEFIT_ALL;
+        this.loadingBanksBenefitSubject.next(true);
+
+        this.http
+            .post<Object>(`${this.BASE_URL}${url}`, {})
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    this.banksBenefitSubject.next(response?.['data']);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching banksBenefit', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingBanksBenefitSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getBanksBenefit(): Observable<Array<BankBenefitInterface>> {
+        return this.banksBenefitSubject.asObservable();
+    }
+
+    isLoadingBanksBenefit(): Observable<boolean> {
+        return this.loadingBanksBenefitSubject.asObservable();
     }
 
     /*********************Méthode pour récupérer les historiques*************** */

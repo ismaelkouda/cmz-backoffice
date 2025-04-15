@@ -212,30 +212,35 @@
                 [style]="{ minWidth: '100%' }"
             />
         </div>
-        <div class="col-md-2">
+
+        <!-- Start Date -->
+        <div class="col-12 col-sm-6 col-md-2">
             <label
                 ><b>{{ 'START_DATE' | translate }}</b></label
             >
             <p-calendar
                 formControlName="date_debut"
                 [showIcon]="true"
-                [placeholder]="'JJ-MM-AAAA'"
-                dateFormat="dd-mm-yy"
+                [placeholder]="'AAAA-MM-JJ'"
+                dateFormat="yy-mm-dd"
             >
             </p-calendar>
         </div>
-        <div class="col-md-2">
+
+        <!-- End Date -->
+        <div class="col-12 col-sm-6 col-md-2">
             <label
                 ><b>{{ 'END_DATE' | translate }}</b></label
             >
             <p-calendar
                 formControlName="date_fin"
                 [showIcon]="true"
-                placeholder="JJ-MM-AAAA"
-                dateFormat="dd-mm-yy"
+                [placeholder]="'AAAA-MM-JJ'"
+                dateFormat="yy-mm-dd"
             >
             </p-calendar>
         </div>
+        
         <div class="filter-button">
             <button
                 pButton

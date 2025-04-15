@@ -1,8 +1,8 @@
 import { UsageInterface } from '../../../../../shared/interfaces/usage.interface';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Paginate } from '../../../../../shared/interfaces/paginate';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { TypeAlarme } from '../../../../../shared/enum/TypeAlarme.enum';
 import { FormulasInterface } from '../../../../../shared/interfaces/formulas.interface';
 import { SharedService } from '../../../../../shared/services/shared.service';
@@ -19,12 +19,11 @@ import { dataBalanceStatusApiService } from '../../data-access/data-balance-stat
     styleUrls: [`./data-balance-status.component.scss`]
 })
 
-export class DataBalanceStatusComponent implements OnInit {
+export class DataBalanceStatusComponent implements OnInit, OnDestroy {
 
     public module: string;
     public subModule: string;
     public pagination$: Observable<Paginate<dataBalanceStatusInterface>>;
-    public filterData: dataBalanceStatusFilterInterface;
     public listDataBalanceStatus$: Observable<Array<dataBalanceStatusInterface>>;
     public listUsages$: Observable<Array<UsageInterface>>;
     public listApn$: Observable<Array<ApnInterface>>;
@@ -33,8 +32,9 @@ export class DataBalanceStatusComponent implements OnInit {
     public listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
     public listAlarms: Array<TypeAlarme> = [];
     public spinner: boolean = true;
+    private destroy$ = new Subject<void>();
 
-    constructor(private activatedRoute: ActivatedRoute, private sharedService: SharedService, 
+    constructor(private activatedRoute: ActivatedRoute, private sharedService: SharedService,
         private dataBalanceStatusApiService: dataBalanceStatusApiService) {
         Object.values(TypeAlarme).forEach(item => { this.listAlarms.push(item); });
     }
@@ -68,12 +68,18 @@ export class DataBalanceStatusComponent implements OnInit {
     }
 
     public filter(filterData: dataBalanceStatusFilterInterface): void {
-        this.filterData = filterData;
         this.dataBalanceStatusApiService.fetchDataBalanceStatus(filterData)
     }
 
     public onPageChange(event: number): void {
-        this.dataBalanceStatusApiService.fetchDataBalanceStatus(this.filterData, JSON.stringify(event + 1))
+        this.dataBalanceStatusApiService.getDataFilterDataBalanceStatus().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
+            this.dataBalanceStatusApiService.fetchDataBalanceStatus(filterData, JSON.stringify(event + 1))
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
 }

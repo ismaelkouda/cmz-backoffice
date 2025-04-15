@@ -8,10 +8,12 @@
         "build:dev": "npm run set-env -- dev && ng build",
         "build:prod": "npm run set-env -- prod && ng build --configuration=production",
         "format": "prettier \"src/**/*.{jts,html,css,scss}\" --write",
+
         "start-en:dev": "npm run set-env -- dev && ng serve --host 0.0.0.0 --port 4401 --configuration=en",
         "start-en:prod": "npm run set-env -- prod && ng serve --host 0.0.0.0 --port 4401 --configuration=en",
         "build-en:dev": "npm run set-env -- dev && ng build",
         "build-en:prod": "npm run set-env -- prod && ng build --configuration=production",
+        
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",

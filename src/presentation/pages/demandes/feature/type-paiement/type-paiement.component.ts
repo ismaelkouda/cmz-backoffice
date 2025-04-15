@@ -144,9 +144,21 @@ export class TypePaiementComponent implements OnInit {
     //     this.IsLoading.emit(false);
     // }
     async postTraitementsSuivisPaiementDemandeService(dataToSend = { ...this.formTypePaiement.value }): Promise<void> {
-        const htmlMessage = this.formTypePaiement.get("type_paiement")?.value == "immédiat" ?
-            `Le recu de paiement sera rattaché à la facture <span style="color: #ff6600;"><strong>${this.demandeSelected["numero_demande"]}</strong></span> !` :
-            `Paiement différé !`;
+        let htmlMessage: string;
+        switch (this.formTypePaiement.get("type_paiement")?.value) {
+            case "immédiat":
+                htmlMessage = `Le recu de paiement sera rattaché à la facture <span style="color: #ff6600;"><strong>${this.demandeSelected?.["numero_demande"]}</strong></span> !`
+                break;
+            case "différé":
+                htmlMessage = `Paiement différé !`
+                break;
+            case "mon compte":
+                htmlMessage = `Le paiement de la facture <span style="color: #ff6600;"><strong>${this.demandeSelected?.["numero_demande"]}</strong></span> a été débité de votre compte !`
+                break;
+
+            default: htmlMessage = ''
+                break;
+        }
         const result = await Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass })
             .fire({
                 ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: htmlMessage

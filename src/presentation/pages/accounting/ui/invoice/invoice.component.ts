@@ -5,7 +5,7 @@ import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { MappingService } from '../../../../../shared/services/mapping.service';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { BADGE_ETAT_FACTURE, T_BADGE_ETAT_FACTURE } from '../../../../../shared/constants/badge-etat-facture.contant';
-import { invoiceGlobalStatsInterface, invoiceInterface } from '../../data-access/invoice/interface/invoice.interface';
+import { invoiceApiResponseInterface, invoiceGlobalStatsInterface, invoiceInterface } from '../../data-access/invoice/interface/invoice.interface';
 import { invoiceFilterInterface } from '../../data-access/invoice/interface/invoice-filter.interface';
 import { InvoiceApiService } from '../../data-access/invoice/service/invoice-api.service';
 
@@ -26,6 +26,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     public subModule: string;
     public listStatusInvoice: Array<T_BADGE_ETAT_FACTURE> = status_values;
     public pagination$: Observable<Paginate<invoiceInterface>>;
+    public listInvoicesResponse$: Observable<invoiceApiResponseInterface>;
     public listInvoices$: Observable<Array<invoiceInterface>>;
     public listOperations: Array<string> = [];
     public statistiquesBox: Array<IStatistiquesBox> = [];
@@ -41,10 +42,11 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
-            this.subModule = data.subModule[0];
+            this.subModule = data.subModule[1];
         });
-        
+
         this.listInvoices$ = this.invoiceApiService.getInvoice();
+        this.listInvoicesResponse$ = this.invoiceApiService.getApiResponseInvoice();
         this.pagination$ = this.invoiceApiService.getInvoicePagination();
         combineLatest([
             this.invoiceApiService.getDataFilterInvoice(),

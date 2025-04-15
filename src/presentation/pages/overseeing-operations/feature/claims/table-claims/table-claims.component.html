@@ -49,25 +49,26 @@
                     <ng-container *ngSwitchCase="'N° Dossier'">
                         {{ 'NUMBER_FOLDER' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Service'">
-                        {{ 'SERVICE' | translate }}
+                    <ng-container *ngSwitchCase="'# Lignes'">
+                        {{ 'NUMBER_LINES' | translate }}
                     </ng-container>
-                    <!-- <ng-container *ngSwitchCase="'Rapport'">
-                            {{ 'REPORT' | translate }}
-                        </ng-container> -->
-                    <ng-container *ngSwitchCase="'Détails Rapport'">
-                        {{ 'DETAILS' | translate }}&nbsp;{{
-                            'REPORT' | translate
-                        }}
+                    <ng-container *ngSwitchCase="'# Traitées'">
+                        {{ 'NUMBER_TREATED' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Statut'">
-                        {{ 'STATUS' | translate }}
+                    <ng-container *ngSwitchCase="'# Identifiées'">
+                        {{ 'NUMBER_IDENTIFIED' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Etape'">
+                        {{ 'STEP' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Etat'">
+                        {{ 'STATE' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Date Etat'">
+                        {{ 'UPDATED_DATE' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Demandeur'">
                         {{ 'APPLICANT' | translate }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'Date Etat'">
-                        {{ 'UPDATE_DATE' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchDefault>
                         {{ col.header }}
@@ -85,34 +86,11 @@
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
-                        {{ rowIndex + pagination?.current_page }}
+                        {{ rowIndex + (pagination$ | async)?.current_page }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'N° Dossier'">
                         <span (click)="copyToClipboard(item?.[col.field])">
                             {{ item?.[col.field] }}
-                        </span>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'Statut'">
-                        <span
-                            [ngStyle]="{ 'font-size': '16px' }"
-                            [class]="'badge ' + getStatusClaimBadge(item)"
-                        >
-                            {{ item?.[col.field] }}
-                        </span>
-                    </ng-container>
-                    <!-- <ng-container *ngSwitchCase="'Rapport'">
-                            <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge '+getReportClaimBadge(item)">
-                                {{ item?.[col.field] }}
-                            </span>
-                        </ng-container> -->
-                    <ng-container *ngSwitchCase="'Détails Rapport'">
-                        <span
-                            [ngStyle]="{ 'font-size': '16px' }"
-                            [pTooltip]="'SEE_REPORT' | translate"
-                            tooltipPosition="top"
-                            [innerHTML]="item?.[col.field]"
-                        >
-                            {{ truncateString(item?.[col.field], 20) }}
                         </span>
                     </ng-container>
                     <ng-container *ngSwitchCase="'Date Etat'">
@@ -156,40 +134,7 @@
                                 })
                             "
                         ></button
-                        >&nbsp;
-                        <button
-                            pButton
-                            [ngClass]="
-                                getTreatmentButtonPaymentClaimsStyle(item)
-                                    ?.class
-                            "
-                            [icon]="
-                                getTreatmentButtonPaymentClaimsStyle(item)?.icon
-                            "
-                            tooltipPosition="top"
-                            [pTooltip]="getTreatmentButtonPaymentClaimsStyle(item)?.['tooltip']"
-                            (click)="
-                                handleAction({
-                                    data: item,
-                                    action: 'invoice-claims',
-                                    view: 'page'
-                                })
-                            "
-                        ></button
-                        >&nbsp;
-                        <button
-                            pButton
-                            icon="pi pi-book"
-                            class="p-button-primary"
-                            tooltip="Journal du claims"
-                            (click)="
-                                handleAction({
-                                    data: item,
-                                    action: 'journal-claims',
-                                    view: 'modal'
-                                })
-                            "
-                        ></button>
+                        >
                     </ng-container>
                     <ng-container *ngSwitchDefault>
                         {{item?.[col.field]}}
@@ -239,7 +184,7 @@
 >
     <ng-template pTemplate="content">
         <app-form-folder
-            [claimsSelected]="claimsSelected"
+            [demandSelected]="claimsSelected"
             [typeTreatment]="typeTreatment"
             (visibleFormDossier)="hideDialog()"
         >

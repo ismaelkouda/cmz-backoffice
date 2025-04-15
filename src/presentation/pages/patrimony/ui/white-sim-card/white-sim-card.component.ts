@@ -8,7 +8,6 @@ import { whiteSimCardGlobalStateInterface, whiteSimCardInterface } from '../../d
 import { whiteSimCardFilterInterface } from '../../data-access/white-sim-card/interfaces/white-sim-card-filter.interface';
 import { T_WHITE_SIM_CARD_STATUS_ENUM, WHITE_SIM_CARD_STATUS_ENUM } from '../../data-access/white-sim-card/enums/white-sim-card-status.enum';
 import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
-import { OperationTransaction } from "../../../../../shared/enum/OperationTransaction.enum";
 
 type PageAction = { data: whiteSimCardInterface, action: 'view-white-sim-card' | 'update-white-sim-card' | 'identification-white-sim-card', view: 'page' };
 
@@ -21,12 +20,12 @@ export class WhiteSimCardComponent implements OnInit, OnDestroy {
     public module: string;
     public subModule: string;
     public pagination$: Observable<Paginate<whiteSimCardInterface>>;
-    public filterData: whiteSimCardFilterInterface;
     public listStatusWhiteSimCard: Array<T_WHITE_SIM_CARD_STATUS_ENUM> = [];
     public listWhiteSimCard$: Observable<whiteSimCardInterface[]>;
     public whiteSimCardSelected$: Observable<whiteSimCardInterface>;
     public whiteSimCardGlobalState$: Observable<whiteSimCardGlobalStateInterface>;
-    public statistiquesBox: Array<IStatistiquesBox> = [];
+    public statisticsBox: Array<IStatistiquesBox> = [];
+    public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
     constructor(private router: Router,
@@ -35,7 +34,6 @@ export class WhiteSimCardComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
             this.subModule = data.subModule[1];
@@ -44,7 +42,7 @@ export class WhiteSimCardComponent implements OnInit, OnDestroy {
         this.pagination$ = this.whiteSimCardApiService.getWhiteSimCardPagination();
         this.whiteSimCardSelected$ = this.whiteSimCardApiService.getWhiteSimCardSelected();
         this.whiteSimCardApiService.getWhiteSimCardGlobalState().pipe(takeUntil(this.destroy$)).subscribe((globalState) => {
-            this.getTchesBoxValues(globalState);
+            this.getStatisticsBoxValues(globalState);
         });
         combineLatest([
             this.whiteSimCardApiService.getDataFilterWhiteSimCard(),
@@ -52,15 +50,19 @@ export class WhiteSimCardComponent implements OnInit, OnDestroy {
         ]).subscribe(([filterData, nbrPageData]) => {
             this.whiteSimCardApiService.fetchWhiteSimCard(filterData, nbrPageData);
         });
+        this.whiteSimCardApiService.isLoadingWhiteSimCard().subscribe((spinner) => {
+            this.spinner = spinner;
+        })
     }
 
     public filter(filterData: whiteSimCardFilterInterface): void {
-        this.filterData = filterData;
         this.whiteSimCardApiService.fetchWhiteSimCard(filterData)
     }
 
     public onPageChange(event: number): void {
-        this.whiteSimCardApiService.fetchWhiteSimCard(this.filterData, JSON.stringify(event + 1))
+        this.whiteSimCardApiService.getDataFilterWhiteSimCard().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
+            this.whiteSimCardApiService.fetchWhiteSimCard(filterData, JSON.stringify(event + 1))
+        });
     }
 
     public navigateByUrl(params: PageAction): void {
@@ -75,8 +77,8 @@ export class WhiteSimCardComponent implements OnInit, OnDestroy {
         }
     }
 
-    getTchesBoxValues(rapport: whiteSimCardGlobalStateInterface): void {
-        this.statistiquesBox = [
+    getStatisticsBoxValues(rapport: whiteSimCardGlobalStateInterface): void {
+        this.statisticsBox = [
             {
                 cardBgColor: 'rgb(52, 152, 219)',
                 legend: '# Lots disponibles',

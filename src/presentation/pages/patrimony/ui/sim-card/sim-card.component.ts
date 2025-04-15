@@ -14,12 +14,10 @@ import { FormulasInterface } from '@shared/interfaces/formulas.interface';
 import { FirstLevelInterface } from '@shared/interfaces/first-level.interface';
 import { ThirdLevelInterface } from '@shared/interfaces/third-level.interface';
 import { SIM_CARD_STATUS_ENUM, T_SIM_CARD_STATUS_ENUM } from '../../data-access/sim-card/enums/sim-card-status.enum';
-import { ApplicantInterface } from '@shared/interfaces/applicant';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { UsageInterface } from '../../../../../shared/interfaces/usage.interface';
 
 const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT];
 const etat_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE];
-
 type PageAction = { data: simCardInterface, action: 'view-sim-card' | 'update-sim-card' | 'identification-sim-card', view: 'page' };
 
 @Component({
@@ -28,7 +26,6 @@ type PageAction = { data: simCardInterface, action: 'view-sim-card' | 'update-si
 })
 
 export class SimCardComponent implements OnInit, OnDestroy {
-
     public module: string;
     public subModule: string;
     public pagination$: Observable<Paginate<simCardInterface>>;
@@ -36,7 +33,7 @@ export class SimCardComponent implements OnInit, OnDestroy {
     public listStateSimCard: Array<T_BADGE_ETAT> = etat_values;
     public listSimCard$: Observable<simCardInterface[]>;
     public simCardSelected$: Observable<simCardInterface>;
-    public listApplicants$: Observable<Array<ApplicantInterface>>;
+    public listUsages$: Observable<Array<UsageInterface>>;
     public listApn$: Observable<Array<ApnInterface>>;
     public listFormulas$: Observable<Array<FormulasInterface>>;
     public listFirstLevel$: Observable<Array<FirstLevelInterface>>;
@@ -56,7 +53,7 @@ export class SimCardComponent implements OnInit, OnDestroy {
             this.subModule = data.subModule[0];
         });
         this.sharedService.fetchApplicants();
-        this.listApplicants$ = this.sharedService.getApplicants();
+        this.listUsages$ = this.sharedService.getApplicants();
         this.sharedService.fetchFormulas();
         this.listFormulas$ = this.sharedService.getFormulas();
         this.sharedService.fetchApn();
@@ -72,7 +69,7 @@ export class SimCardComponent implements OnInit, OnDestroy {
             this.simCardApiService.getDataFilterSimCard(),
             this.simCardApiService.getDataNbrPageSimCard()
         ]).subscribe(([filterData, nbrPageData]) => {
-            this.simCardApiService.fetchSimCard({ ...filterData, statut: history?.state?.statut }, nbrPageData);
+            this.simCardApiService.fetchSimCard({ ...filterData }, nbrPageData);
         });
         this.simCardApiService.isLoadingSimCard().subscribe((spinner) => {
             this.spinner = spinner;

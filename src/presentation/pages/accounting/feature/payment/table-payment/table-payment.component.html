@@ -1,9 +1,10 @@
 <p-table
     #dt
-    [value]="listReloadAccount$ | async"
+    [value]="listPayments$ | async"
     [rowHover]="true"
     dataKey="id"
     selectionMode="single"
+    [(selection)]="paymentSelected"
     [rows]="(pagination$ | async)?.per_page"
     [globalFilterFields]="table.globalFilterFields"
 >
@@ -17,18 +18,15 @@
             >
             </app-table-title>
             <div class="d-flex gap-2 align-items-center">
-                <div>
+                <div class="d-flex gap-2">
                     <app-table-button-header
                         (refresh)="pageCallback()"
                         (export)="onExportExcel()"
                         [disabledButtonExport]="
-                            (listReloadAccount$ | async).length === 0
+                            (listPayments$ | async)?.length === 0
                         "
-                        [hiddenButtonOther]="false"
-                        [labelOther]="'TO_RECHARGE' | translate"
                         [colorOther]="'dark'"
-                        [iconOther]="'pi pi-plus'"
-                        (other)="handleAction({data: null, action: 'reload-my-account', view: 'page'})"
+                        [hiddenButtonOther]="true"
                     >
                     </app-table-button-header>
                 </div>
@@ -50,25 +48,25 @@
                         {{ 'DATE_TIME' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Référence'">
-                        {{ 'REFERENCE' | translate }}
+                        {{ 'NUMBER_REFERENCE' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Désignation'">
+                    <ng-container *ngSwitchCase="'Opération'">
                         {{ 'OPERATION' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Montant (Fcfa)'">
-                        {{ 'AMOUNT' | translate }}&nbsp;(Fcfa)
+                    <ng-container *ngSwitchCase="'Quantité'">
+                        {{ 'QUANTITY' | translate | capitalize }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Solde avant (Fcfa)'">
-                        {{ 'BALANCE_PRIOR' | translate | capitalize }}&nbsp;(Fcfa)
+                    <ng-container *ngSwitchCase="'Prix unitaire (Fcfa)'">
+                        {{ 'UNIT_PRICE' | translate }}&nbsp;(Fcfa)
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Solde après (Fcfa)'">
-                        {{ 'BALANCE_AFTER' | translate }}&nbsp;(Fcfa)
+                    <ng-container *ngSwitchCase="'Montant TTC (Fcfa)'">
+                        {{ 'GROSS_AMOUNT' | translate }}&nbsp;(Fcfa)
                     </ng-container>
                     <ng-container *ngSwitchCase="'Statut'">
                         {{ 'STATUS' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchDefault>
-                        {{ col.header }}
+                    <ng-container *ngSwitchCase="'Date Etat'">
+                        {{ 'UPDATED_DATE' | translate }}
                     </ng-container>
                 </ng-container>
             </th>
@@ -85,29 +83,44 @@
                     <ng-container *ngSwitchCase="'#'">
                         {{ rowIndex + (pagination$ | async)?.current_page }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Réference'">
-                        <span
-                            (click)="copyToClipboard(item?.[col.field])"
-                            class="cursor-pointer"
-                        >
+                    <ng-container *ngSwitchCase="'Référence'">
+                        <span (click)="copyToClipboard(item?.[col.field])">
                             {{ item?.[col.field] }}
                         </span>
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Operation'">
-                        <span
-                            (click)="copyToClipboard(item?.[col.field])"
-                            class="cursor-pointer"
-                        >
-                            {{ item?.[col.field] }}
+                    <ng-container *ngSwitchCase="'Opération'">
+                        <span>
+                            {{ getTitleForm(item?.[col.field]) }}
                         </span>
                     </ng-container>
                     <ng-container *ngSwitchCase="'Statut'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
-                            [class]="'badge ' + getStatusReloadAccount(item)"
+                            [class]="'badge ' + getStatusPaymentBadge(item)"
                         >
                             {{ item?.[col.field] }}
                         </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Date Etat'">
+                        {{ item?.[col.field] }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Actions'">
+                        <button
+                            pButton
+                            [ngClass]="getTreatmentButtonViewStyle(item)?.style"
+                            style="border-color: transparent"
+                            icon="pi pi-print"
+                            tooltipPosition="top"
+                            pTooltip="Facture"
+                            [pTooltip]="getTreatmentButtonViewStyle(item)?.['tooltip']"
+                            (click)="
+                                handleAction({
+                                    data: item,
+                                    action: 'view-payment',
+                                    view: 'page'
+                                })
+                            "
+                        ></button>
                     </ng-container>
                     <ng-container *ngSwitchDefault>
                         {{item?.[col.field]}}
@@ -118,7 +131,7 @@
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-        <tr *ngIf="(listReloadAccount$ | async)?.length <= 0 && !spinner">
+        <tr *ngIf="(listPayments$ | async)?.length <= 0 && !spinner">
             <td class="posRelative" colspan="15">
                 <span class="posCenter">
                     {{ 'NO_DATA_FOUND' | translate }}

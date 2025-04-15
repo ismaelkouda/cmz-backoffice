@@ -13,8 +13,8 @@ import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesB
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { Folder } from '../../../../../shared/interfaces/folder';
 
-const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT];
-const state_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE];
+const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT, BADGE_ETAPE.CLOTURE];
+const state_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE, BADGE_ETAT.EN_ATTENTE, BADGE_ETAT.ABANDONNE, BADGE_ETAT.ACCEPTE];
 type PageAction = { data: CommandWhiteSim, action: 'open-folder-white-sim' | 'invoice-white-sim' | 'mass-edit-white-sim' | 'simple-add-white-sim' | 'mass-add-white-sim', view: 'page' };
 
 @Component({

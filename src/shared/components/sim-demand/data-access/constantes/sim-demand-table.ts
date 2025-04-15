@@ -11,5 +11,5 @@ export const TABLE_SIM_DEMAND = {
         { field: 'updated_at', header: 'Date Etat', class: "text-center", width: "12rem" },
         { field: '', header: 'Actions', class: "text-center", width: "20rem" }
     ],
-    globalFilterFields: ['created_at','transaction','imsi','msisdn','nb_demande_identifiees','statut','traitement', 'updated_at']
+    globalFilterFields: ['created_at', 'transaction', 'imsi', 'msisdn', 'nb_demande_identifiees', 'statut', 'traitement', 'updated_at']
 }

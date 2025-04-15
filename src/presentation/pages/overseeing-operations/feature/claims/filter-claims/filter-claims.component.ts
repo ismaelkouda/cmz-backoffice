@@ -1,41 +1,60 @@
-import { Component, Input, EventEmitter, Output } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { Component, Input, EventEmitter, Output, OnDestroy } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import * as moment from 'moment';
 import { ToastrService } from "ngx-toastr";
-import { Observable } from 'rxjs';;
+import { Observable, Subject, takeUntil } from 'rxjs';;
 import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
+import { ClaimsApiService } from "../../../data-access/claims/services/claims-api.service";
 
-    @Component({
-        selector: 'app-filter-claims',
-        templateUrl: './filter-claims.component.html',
-    })
+@Component({
+    selector: 'app-filter-claims',
+    templateUrl: './filter-claims.component.html',
+})
 
-    export class FilterClaimsComponent {
-
+export class FilterClaimsComponent implements OnDestroy {
 
     @Input() listApplicants$: Observable<Array<ApplicantInterface>>;
-
     @Input() listOperations: Array<string>;
-    @Input() filterData: claimsFilterInterface;
-    
-    @Output() filter = new EventEmitter<claimsFilterInterface>();
 
+    @Output() filter = new EventEmitter<claimsFilterInterface>();
     public formFilter: FormGroup;
+    private destroy$ = new Subject<void>();
 
     constructor(private toastService: ToastrService, private fb: FormBuilder,
-        private translate: TranslateService) {
+        private translate: TranslateService, private claimsApiService: ClaimsApiService) {
         this.initFormFilter();
     }
 
     public initFormFilter(): void {
-        this.formFilter = this.fb.group<claimsFilterInterface>({
-            initie_par: new FormControl<string>(this.filterData?.["initie_par"], { nonNullable: true }),
-            numero_demande: new FormControl<string>(this.filterData?.["numero_demande"], { nonNullable: true }),
-            operation: new FormControl<string>(this.filterData?.["operation"], { nonNullable: true }),
-            date_debut: new FormControl<string>(this.filterData?.["date_debut"], { nonNullable: true }),
-            date_fin: new FormControl<string>(this.filterData?.["date_fin"], { nonNullable: true }),
+        this.claimsApiService.getDataFilterClaims().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
+            this.formFilter = this.fb.group<claimsFilterInterface>({
+                imsi: new FormControl<string>(filterData?.["imsi"], {
+                    nonNullable: true,
+                    validators: [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)],
+                }),
+                msisdn: new FormControl<string>(filterData?.["msisdn"], { nonNullable: true }),
+                statut: new FormControl<string>(filterData?.["statut"], { nonNullable: true }),
+                initie_par: new FormControl<string>(filterData?.["initie_par"], { nonNullable: true }),
+                numero_demande: new FormControl<string>(filterData?.["numero_demande"], { nonNullable: true }),
+                transaction: new FormControl<string>(filterData?.["transaction"], { nonNullable: true }),
+                traitement: new FormControl<string>(filterData?.["traitement"], { nonNullable: true }),
+                date_debut: new FormControl<string>(filterData?.["date_debut"], { nonNullable: true }),
+                date_fin: new FormControl<string>(filterData?.["date_fin"], { nonNullable: true }),
+            });
+        });
+
+        this.formFilter.get("imsi")?.valueChanges.subscribe((value) => {
+            if (value && value.length > 15) {
+                this.formFilter.get("imsi")?.setValue(value.slice(0, 15), { emitEvent: false });
+            }
+        });
+
+        this.formFilter.get("msisdn")?.valueChanges.subscribe((value) => {
+            if (value && value.length > 10) {
+                this.formFilter.get("msisdn")?.setValue(value.slice(0, 10), { emitEvent: false });
+            }
         });
     }
 
@@ -63,6 +82,11 @@ import { ApplicantInterface } from '../../../../../../shared/interfaces/applican
             const translatedMessage = this.translate.instant('FORM_INVALID');
             this.toastService.success(translatedMessage);
         }
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
 }

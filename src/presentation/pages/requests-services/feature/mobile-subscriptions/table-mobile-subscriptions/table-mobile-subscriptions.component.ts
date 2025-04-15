@@ -16,7 +16,6 @@ import { TreatmentDemands } from '../../../../../../shared/interfaces/treatment-
 import { Observable } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
-import { BADGE_ETAT_FACTURE } from '../../../../../../shared/constants/badge-etat-facture.contant';
 
 type Action = PageAction | ModalAction;
 type PageAction = { data: Folder, action: 'open-folder-mobile-subscription' | 'invoice-mobile-subscription' | 'mass-edit-mobile-subscription' | 'mass-add-mobile-subscription' | 'simple-add-mobile-subscription', view: 'page' };
@@ -140,6 +139,7 @@ export class TableMobileSubscriptionsComponent {
   getTreatmentButtonViewStyle(dossier: { statut: string, traitement: string }): { class: string, icon: string, tooltip: string, typeTreatment: TreatmentDemands } {
     const STOP_OR_CHANGE = this.translate.instant('STOP_OR_CHANGE');
     const DETAILS_OF_THE_REQUEST = this.translate.instant('DETAILS_OF_THE_REQUEST');
+    const TO_CLOSURE = this.translate.instant('TO_CLOSURE');
     switch (dossier?.statut) {
       case BADGE_ETAPE.SOUMISSION: {
         if (dossier?.traitement === BADGE_ETAT.EN_ATTENTE) {
@@ -148,6 +148,11 @@ export class TableMobileSubscriptionsComponent {
         if (dossier?.traitement === BADGE_ETAT.REJETE) {
           return createButtonStyle('p-button-warning', 'pi pi-times', STOP_OR_CHANGE, this.typeTreatment, { abandonner: true, modifier: true, visualiser: false });
         }
+      }
+      case BADGE_ETAPE.FINALISATEUR: {
+          if (dossier?.traitement === BADGE_ETAT.LIVRE) {
+              return createButtonStyle('p-button-success', 'pi pi-check-circle', TO_CLOSURE, this.typeTreatment, { abandonner: false, modifier: false, visualiser: false, cloturer: true });
+          }
       }
     }
     return createButtonStyle('p-button-secondary', 'pi pi-eye', DETAILS_OF_THE_REQUEST, this.typeTreatment, { abandonner: false, modifier: false, visualiser: true });
@@ -165,6 +170,9 @@ export class TableMobileSubscriptionsComponent {
       case BADGE_ETAPE.SOUMISSION: {
         if (dossier?.traitement === BADGE_ETAT.EN_ATTENTE) {
           return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
+        }
+        if (dossier?.traitement === BADGE_ETAT.EN_ATTENTE) {
+            return createButtonStyle('p-button-secondary', 'pi pi-folder-open', CANNOT_SEE_THE_SIM, this.typeTreatment);
         }
       }
       case BADGE_ETAPE.CLOTURE: {

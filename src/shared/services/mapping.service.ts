@@ -79,7 +79,6 @@ export class MappingService {
     this.sourceSoldeDotation = this.envService.messageApp.sourceSoldeDotation;
     this.sourceSoldeDotationOrange = this.envService.messageApp.sourceSoldeDotationOrange;
     this.storeLocaleService.tenantData$.subscribe((res: any) => {
-
       this.currentUser = res ?? JSON.parse(this.storage.getData('user') || null);
       this.baseUrl = `${this.currentUser?.tenant?.url_backend}/api/v1/`
       this.fileUrl = `${this.currentUser?.tenant?.url_minio}/`

@@ -92,6 +92,11 @@
                             {{ item?.[col.field] }}
                         </span>
                     </ng-container>
+                    <ng-container *ngSwitchCase="'IMSI'">
+                        <span (click)="copyToClipboard(item?.[col.field])">
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
                     <ng-container *ngSwitchCase="'Statut'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
@@ -247,12 +252,7 @@
                 </span>
             </td>
         </tr>
-        <tr
-            *ngIf="
-                (!(listSimCard$ | async) || (listSimCard$ | async)?.length) <=
-                    0 && spinner
-            "
-        >
+        <tr *ngIf="spinner">
             <td class="posRelative" colspan="15">
                 <p-progressSpinner
                     class="posCenter"
@@ -268,7 +268,7 @@
     </ng-template>
 </p-table>
 
-<p-dialog 
+<p-dialog
     header="[{{ 'SIM_CARD' | translate }}] [{{ simCardSelected?.msisdn }}]"
     [(visible)]="visibleSimCardMap"
     (onHide)="hideDialog()"

@@ -6,7 +6,7 @@ import { EnvService } from '../../../../../../shared/services/env.service';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { whiteSimCardGlobalStateInterface, whiteSimCardInterface, whiteSimCardResponseInterface } from '../interfaces/white-sim-card.interface';
 import { whiteSimCardEndpointEnum } from '../enums/white-sim-card-endpoint.enum';
-import { whiteSimCardDetailsInterface } from '../interfaces/white-sim-card-details.interface';
+import { whiteSimCardDetailsInterface, WhiteSimCardInterface } from '../interfaces/white-sim-card-details.interface';
 import { whiteSimCardDetailsFilterInterface } from '../interfaces/white-sim-card-details-filter.interface';
 import { whiteSimCardFilterInterface } from '../interfaces/white-sim-card-filter.interface';
 
@@ -86,7 +86,7 @@ export class whiteSimCardApiService {
 
     /*********************Méthode pour récupérer la liste des SIMS details*************** */
 
-    private whiteSimCardDetailsSubject = new BehaviorSubject<Array<whiteSimCardDetailsInterface>>([]);
+    private whiteSimCardDetailsSubject = new BehaviorSubject<Array<WhiteSimCardInterface>>([]);
     private loadingWhiteSimCardDetailsSubject = new BehaviorSubject<boolean>(false);
     private dataFilterWhiteSimCardDetailsSubject = new BehaviorSubject<whiteSimCardDetailsFilterInterface>({} as whiteSimCardDetailsFilterInterface);
 
@@ -101,7 +101,7 @@ export class whiteSimCardApiService {
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {
-                    this.whiteSimCardDetailsSubject.next(response?.['data']);
+                    this.whiteSimCardDetailsSubject.next(response?.['data']?.carte_sims);
                     this.dataFilterWhiteSimCardDetailsSubject.next(data);
                     return of(response);
                 }),
@@ -114,7 +114,7 @@ export class whiteSimCardApiService {
             .subscribe();
     }
 
-    getWhiteSimCardDetails(): Observable<Array<whiteSimCardDetailsInterface>> {
+    getWhiteSimCardDetails(): Observable<Array<WhiteSimCardInterface>> {
         return this.whiteSimCardDetailsSubject.asObservable();
     }
 
