@@ -1,4 +1,4 @@
-FROM node:15 AS base
+FROM node:20 AS base
 WORKDIR /app
 COPY package.json .
 #COPY package.json pnpm-lock.yaml ./
