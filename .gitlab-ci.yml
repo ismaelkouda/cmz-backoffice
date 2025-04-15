@@ -106,3 +106,4 @@ deploy-test_tenant:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "backup_v15"'
      # when: manual
      
+
