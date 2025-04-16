@@ -1,4 +1,8 @@
 {
+    "SLA_MANAGEMENT_CONTRACT": "contrat gestion SLA",
+    "SUPERVISORY_PROFILES": "Profils de supervision",
+    "SUPERVISORY_REPOSITORY": "Référentiel de supervision",
+    "SLIP_ATTACHMENT": "Pièce jointe bordereau",
     "MY_BALANCE": "Mon solde",
     "PAYMENTS": "paiements",
     "DEPOSER": "Deposant",
@@ -248,6 +252,8 @@
     "TRACKING_PROCESSING": "Suivi & Traitement",
     "MOBILE_SUBSCRIPTION": "Abonnements mobiles",
     "WHITE_SIM": "SIM blanches",
+    "DETAILS_ACCOUNT_CREDIT_TRANSACTION": "Détails de l'opération de crédit de compte",
+    "EDIT_ACCOUNT_CREDIT_TRANSACTION": "Editer l'opération de crédit de compte",
     "ACCOUNT_CREDIT_TRANSACTION": "opérations de crédit de compte",
     "ACCOUNT_RELOAD_FORM": "Opération de crédit de compte",
     "SIM_CARD_SUBSCRIPTION_ADD_ON_REQUEST_FORM": "Formulaire d'ajout de demande en masse d'Abonnement de carte SIM",

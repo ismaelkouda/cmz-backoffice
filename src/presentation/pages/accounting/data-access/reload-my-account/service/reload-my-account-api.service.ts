@@ -1,3 +1,4 @@
+import { ReloadAccountOperationDetailsInterface } from './../interfaces/transaction-details.interface';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -84,6 +85,42 @@ export class ReloadMyAccountApiService {
     }
     setReloadMyAccountSelected(reloadMyAccount: reloadMyAccountInterface): void {
         this.reloadMyAccountSelected.next(reloadMyAccount);
+    }
+
+
+    /*********************Méthode pour récupérer les details de la transaction*************** */
+
+    private transactionDetailsSubject = new BehaviorSubject<ReloadAccountOperationDetailsInterface>({} as ReloadAccountOperationDetailsInterface);
+    private loadingTransactionDetailsSubject = new BehaviorSubject<boolean>(false);
+
+    fetchTransactionDetails(transaction: string): void {
+        if (this.loadingTransactionDetailsSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        this.loadingTransactionDetailsSubject.next(true);
+        const url: string = reloadMyAccountEndpointEnum.ACCOUNT_CREDIT_transaction_Details.replace('{transaction}', transaction);
+
+        this.httpClient
+            .post<Object>(this.BASE_URL + url, {})
+            .pipe(
+                debounceTime(500),
+                switchMap((response: any) => {
+                    const transactionDetails = response?.['data'];
+                    this.transactionDetailsSubject.next(transactionDetails);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching reload-my-account', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingTransactionDetailsSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getTransactionDetails(): Observable<ReloadAccountOperationDetailsInterface> {
+        return this.transactionDetailsSubject.asObservable();
+    }
+    isLoadingTransactionDetails(): Observable<boolean> {
+        return this.loadingTransactionDetailsSubject.asObservable();
     }
 
 

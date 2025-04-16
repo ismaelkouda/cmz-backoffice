@@ -146,7 +146,16 @@ export const content: Routes = [
   {
     path: REFERENTIEL_TELEMETRIE,
     loadChildren: () => import("../../presentation/pages/ref-telemetrie/ref-telemetrie.module").then((m) => m.RefTelemetrieModule),
-    data: { title: REFERENTIEL_TELEMETRIE }
+    data: {
+      title: REFERENTIEL_TELEMETRIE,
+      module: 'SUPERVISORY_REPOSITORY',
+      subModule: [
+        'INDICATORS_ALARMS',
+        'SUPERVISORY_PROFILES',
+        'SLA_AGREEMENTS',
+        'SLA_MANAGEMENT_CONTRACT'
+      ]
+    }
   },
   // {
   //   path: SUPERVISORY_REPOSITORY,
@@ -156,7 +165,16 @@ export const content: Routes = [
   {
     path: OPERATION_PROVISIONNING,
     loadChildren: () => import("../../presentation/pages/provisionning/provisionning.module").then((m) => m.ProvisionningModule),
-    data: { title: OPERATION_PROVISIONNING }
+    data: {
+      title: 'SUPERVISORY_REPOSITORY',
+      module: 'SUPERVISORY_REPOSITORY',
+      subModule: [
+        'INDICATORS_ALARMS',
+        'SUPERVISORY_PROFILES',
+        'SLA_AGREEMENTS',
+        'SLA_MANAGEMENT_CONTRACT'
+      ]
+    }
   },
   {
     path: SUPERVISION_OPERATIONS,

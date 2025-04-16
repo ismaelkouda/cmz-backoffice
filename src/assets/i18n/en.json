@@ -1,4 +1,8 @@
 {
+    "SLA_MANAGEMENT_CONTRACT": "SLA management contract",
+    "SUPERVISORY_PROFILES": "supervisory profiles",
+    "SUPERVISORY_REPOSITORY": "Supervisory repository",
+    "SLIP_ATTACHMENT": "Slip attachment",
     "MY_BALANCE": "My balance",
     "PAYMENTS": "payments",
     "DEPOSER": "Deposer",
@@ -245,6 +249,8 @@
     "TRACKING_PROCESSING": "Tracking & Processing",
     "MOBILE_SUBSCRIPTION": "Mobile subscription",
     "WHITE_SIM": "White SIM", 
+    "DETAILS_ACCOUNT_CREDIT_TRANSACTION": "Details of the account credit transaction",
+    "EDIT_ACCOUNT_CREDIT_TRANSACTION": "Edit the account credit transaction",
     "ACCOUNT_CREDIT_TRANSACTION": "account credit transactions",
     "ACCOUNT_RELOAD_FORM": "Account credit transaction",
     "SIM_CARD_SUBSCRIPTION_ADD_ON_REQUEST_FORM": "SIM Card Subscription Bulk Add-on Form",

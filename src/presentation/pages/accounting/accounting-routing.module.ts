@@ -70,7 +70,7 @@ const routes: Routes = [
         component: ReloadMyAccountComponent
       },
       {
-        path: ":reference",
+        path: ":transaction",
         component: FormReloadMyAccountComponent
       },
       {

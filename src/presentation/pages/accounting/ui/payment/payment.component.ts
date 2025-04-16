@@ -107,13 +107,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
                 taux: rapport?.["pourcentage_immediats"] || 0
             },
             {
-                id: 3,
-                cardBgColor: '#27ae60',
-                legend: '# Soldés',
-                count: rapport?.["total_soldes"] || 0,
-                taux: rapport?.["pourcentage_differes"] || 0
-            },
-            {
                 id: 4,
                 cardBgColor: '#e74c3c',
                 legend: '# Rejetés',

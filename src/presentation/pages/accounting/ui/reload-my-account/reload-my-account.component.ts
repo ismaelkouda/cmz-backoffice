@@ -8,7 +8,7 @@ import { reloadMyAccountApiResponseInterface, reloadMyAccountGlobalStateInterfac
 import { reloadMyAccountFilterInterface } from '../../data-access/reload-my-account/interfaces/reload-my-account-filter.interface';
 import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
 
-type PageAction = { 'data': reloadMyAccountInterface, 'action': 'reload-my-account', 'view': 'page' };
+type PageAction = { 'data': reloadMyAccountInterface, 'action': 'reload-my-account'|'edit-reload-my-account'|'details-reload-my-account', 'view': 'page' };
 const etape_values = [MY_RELOADS_STATUS_ENUM.IN_PROGRESS, MY_RELOADS_STATUS_ENUM.VALIDATED, MY_RELOADS_STATUS_ENUM.REJECTED];
 const indexBoxClickable = [1, 2, 3] as const;
 
@@ -68,11 +68,14 @@ export class ReloadMyAccountComponent implements OnInit, OnDestroy {
     }
 
     public navigateByUrl(params: PageAction): void {
+        const transaction = params.data?.transaction;
         const ref = params.action;
         const queryParams = { ref };
         let routePath: string = '';
 
         switch (params.action) {
+            case "details-reload-my-account":
+            case "edit-reload-my-account": routePath = `${transaction}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
             case "reload-my-account": routePath = "form"; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
         }
     }

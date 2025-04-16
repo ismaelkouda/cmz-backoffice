@@ -2,7 +2,7 @@ import { MODE_PAYMENT_ENUM } from './../../../../../../shared/enum/mode-payment.
 import { Component } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MappingService } from "../../../../../../shared/services/mapping.service";
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 import { LoadingBarService } from "@ngx-loading-bar/core";
@@ -22,9 +22,10 @@ import { T_MODE_PAYMENT } from "../../../data-access/reload-my-account/types/mod
 import * as moment from 'moment';
 import { AgencyBenefitInterface, BankBenefitInterface } from '../../../../../../shared/interfaces/bank-beneficiaire.interface';
 import { dateNotInPastValidator } from '../../../../../../shared/functions/control-date.function';
+import { ReloadAccountOperationDetailsInterface } from '../../../data-access/reload-my-account/interfaces/transaction-details.interface';
 
-type TYPEVIEW = 'reload-my-account';
-const TYPEVIEW_VALUES: TYPEVIEW[] = ['reload-my-account'];
+type TYPEVIEW = 'reload-my-account' | 'details-reload-my-account' | 'edit-reload-my-account';
+const TYPEVIEW_VALUES: TYPEVIEW[] = ['reload-my-account', 'details-reload-my-account', 'edit-reload-my-account'];
 function isTypeView(value: any): value is TYPEVIEW {
     return TYPEVIEW_VALUES.includes(value);
 }
@@ -39,11 +40,15 @@ export class FormReloadMyAccountComponent {
     public module: string;
     public subModule: string;
     public urlParamRef: TYPEVIEW;
+    public urlParamTransaction: string;
     public displayUrlErrorPage: boolean = false;
-    public formFundMyAccount: FormGroup;
+    public formFundMyAccount: FormGroup<reloadMyAccountFormInterface>;
     public listBanks$: Observable<Array<BankInterface>>;
     public listBanksBenefit$: Observable<Array<BankBenefitInterface>>;
     public listAgencyBenefit$: Observable<Array<AgencyBenefitInterface>>;
+    public transactionDetails$: Observable<ReloadAccountOperationDetailsInterface>
+    public filePreviewUrl: string | null = null;
+    private destroy$ = new Subject<void>();
 
     constructor(private activatedRoute: ActivatedRoute,
         private loadingBarService: LoadingBarService, private toastrService: ToastrService,
@@ -59,19 +64,33 @@ export class FormReloadMyAccountComponent {
         });
         this.activatedRoute.queryParams.subscribe((params: Object) => {
             this.urlParamRef = params?.["ref"];
+            this.getParamsInUrl();
         });
-        this.getParamsInUrl();
     }
 
     private getParamsInUrl(): void {
         if (!isTypeView(this.urlParamRef)) {
             this.displayUrlErrorPage = true;
+            return;
         } else {
-            this.sharedService.fetchBanks();
-            this.listBanks$ = this.sharedService.getBanks();
-            this.sharedService.fetchBanksBenefit();
-            this.listBanksBenefit$ = this.sharedService.getBanksBenefit();
             this.initFormFundReloadMyAccount();
+            const isDetailsOrEdit = this.urlParamRef === 'details-reload-my-account' || this.urlParamRef === 'edit-reload-my-account';
+            if (isDetailsOrEdit) {
+                this.urlParamTransaction = this.activatedRoute.snapshot.paramMap.get('transaction') ?? '';
+
+                this.reloadMyAccountApiService.fetchTransactionDetails(this.urlParamTransaction);
+                this.transactionDetails$ = this.reloadMyAccountApiService.getTransactionDetails();
+                this.reloadMyAccountApiService.isLoadingTransactionDetails().pipe(takeUntil(this.destroy$))
+                    .subscribe((isLoading: boolean) => {
+                        if (isLoading) {
+                            this.patchValueFormFundReloadMyAccount(this.transactionDetails$);
+                        }
+                    });
+                this.sharedService.fetchBanks();
+                this.listBanks$ = this.sharedService.getBanks();
+                this.sharedService.fetchBanksBenefit();
+                this.listBanksBenefit$ = this.sharedService.getBanksBenefit();
+            }
         }
     }
 
@@ -101,66 +120,138 @@ export class FormReloadMyAccountComponent {
         });
 
         const codeBankBenefitControl = this.formFundMyAccount.get('code_banque_beneficiaire');
-        const gererValidationBankBenefit = (value: string) => {
-            this.listAgencyBenefit$ = this.getListAgencies(value);
-        };
-        gererValidationBankBenefit(codeBankBenefitControl?.value as string);
         codeBankBenefitControl?.valueChanges.subscribe((value: string) => {
             this.listAgencyBenefit$ = this.getListAgencies(value);
+            this.updateReferenceFromBankBenefit(value);
         });
-        const referenceControl = this.formFundMyAccount.get('reference');
-        const meansPaymentControl = this.formFundMyAccount.get("mode_paiement");
-        const codeBankControl = this.formFundMyAccount.get('code_banque_tireur');
-        const numberChequeControl = this.formFundMyAccount.get('numero_cheque');
-        const nameShooterControl = this.formFundMyAccount.get('nom_tireur');
-        const prenameDeposerControl = this.formFundMyAccount.get('prenom_deposant');
-        const nameDeposerControl = this.formFundMyAccount.get('nom_deposant');
+        const initialCodeBank = codeBankBenefitControl?.value as string;
+        this.listAgencyBenefit$ = this.getListAgencies(initialCodeBank);
+        // const gererValidationBankBenefit = (value: string) => {
+        //     this.listAgencyBenefit$ = this.getListAgencies(value);
+        // };
+        // gererValidationBankBenefit(codeBankBenefitControl?.value as string);
+        // codeBankBenefitControl?.valueChanges.subscribe((value: string) => {
+        //     this.listAgencyBenefit$ = this.getListAgencies(value);
+        // });
+        this.updateReferenceFromBankBenefit(initialCodeBank);
+        this.initMeansPaymentValidatorListeners();
+
+        // const referenceControl = this.formFundMyAccount.get('reference');
+        // const meansPaymentControl = this.formFundMyAccount.get("mode_paiement");
+        // const codeBankControl = this.formFundMyAccount.get('code_banque_tireur');
+        // const numberChequeControl = this.formFundMyAccount.get('numero_cheque');
+        // const nameShooterControl = this.formFundMyAccount.get('nom_tireur');
+        // const prenameDeposerControl = this.formFundMyAccount.get('prenom_deposant');
+        // const nameDeposerControl = this.formFundMyAccount.get('nom_deposant');
+        // const proofControl = this.formFundMyAccount.get('piece_jointe_bordereau');
+
+        // const checkValidationMeansPayment = (value: T_MODE_PAYMENT) => {
+        //     if (value === MODE_PAYMENT_ENUM.SPECIE) {
+        //         codeBankControl?.clearValidators();
+        //         numberChequeControl?.clearValidators();
+        //         nameShooterControl?.clearValidators();
+        //         prenameDeposerControl?.setValidators(Validators.required);
+        //         nameDeposerControl?.setValidators(Validators.required);
+        //         proofControl?.reset();
+        //     } else {
+        //         codeBankControl?.setValidators(Validators.required);
+        //         numberChequeControl?.setValidators(Validators.required);
+        //         nameShooterControl?.setValidators(Validators.required);
+        //         prenameDeposerControl?.clearValidators();
+        //         nameDeposerControl?.clearValidators();
+        //         proofControl?.reset();
+        //     }
+        //     codeBankControl?.updateValueAndValidity();
+        //     numberChequeControl?.updateValueAndValidity();
+        //     nameShooterControl?.updateValueAndValidity();
+        //     prenameDeposerControl?.updateValueAndValidity();
+        //     nameDeposerControl?.updateValueAndValidity();
+        //     proofControl?.updateValueAndValidity();
+        // };
+        // checkValidationMeansPayment(meansPaymentControl?.value as T_MODE_PAYMENT);
+        // meansPaymentControl?.valueChanges.subscribe((value) => {
+        //     checkValidationMeansPayment(value);
+        // });
+
+        // const checkValidationCodeBankBenefit = (value: string) => {
+        //     if (value) {
+        //         this.sharedService.getBanksBenefit().subscribe((listBanksBenefit) => {
+        //             listBanksBenefit.map((banksBenefit: BankBenefitInterface) => {
+        //                 if (banksBenefit.code === value) referenceControl?.setValue(banksBenefit.rib);
+        //             })
+        //         })
+        //     } else {
+        //         referenceControl?.reset();
+        //     }
+        //     referenceControl?.updateValueAndValidity();
+        // };
+        // checkValidationCodeBankBenefit(codeBankBenefitControl?.value as string);
+        // codeBankBenefitControl?.valueChanges.subscribe((value: string) => {
+        //     checkValidationCodeBankBenefit(value);
+        // });
+    }
+    private initMeansPaymentValidatorListeners(): void {
+        const modeControl = this.formFundMyAccount.get('mode_paiement');
+        const chequeFields = [
+            this.formFundMyAccount.get('code_banque_tireur'),
+            this.formFundMyAccount.get('numero_cheque'),
+            this.formFundMyAccount.get('nom_tireur')
+        ];
+        const cashFields = [
+            this.formFundMyAccount.get('prenom_deposant'),
+            this.formFundMyAccount.get('nom_deposant')
+        ];
         const proofControl = this.formFundMyAccount.get('piece_jointe_bordereau');
 
-        const checkValidationMeansPayment = (value: T_MODE_PAYMENT) => {
-            if (value === MODE_PAYMENT_ENUM.SPECIE) {
-                codeBankControl?.clearValidators();
-                numberChequeControl?.clearValidators();
-                nameShooterControl?.clearValidators();
-                prenameDeposerControl?.setValidators(Validators.required);
-                nameDeposerControl?.setValidators(Validators.required);
-                proofControl?.reset();
-            } else {
-                codeBankControl?.setValidators(Validators.required);
-                numberChequeControl?.setValidators(Validators.required);
-                nameShooterControl?.setValidators(Validators.required);
-                prenameDeposerControl?.clearValidators();
-                nameDeposerControl?.clearValidators();
-                proofControl?.reset();
-            }
-            codeBankControl?.updateValueAndValidity();
-            numberChequeControl?.updateValueAndValidity();
-            nameShooterControl?.updateValueAndValidity();
-            prenameDeposerControl?.updateValueAndValidity();
-            nameDeposerControl?.updateValueAndValidity();
-            proofControl?.updateValueAndValidity();
-        };
-        checkValidationMeansPayment(meansPaymentControl?.value);
-        meansPaymentControl?.valueChanges.subscribe((value) => {
-            checkValidationMeansPayment(value);
-        });
+        const applyValidators = (mode: T_MODE_PAYMENT) => {
+            const isCash = mode === MODE_PAYMENT_ENUM.SPECIE;
 
-        const checkValidationCodeBankBenefit = (value: string) => {
-            if (value) {
-                this.sharedService.getBanksBenefit().subscribe((listBanksBenefit) => {
-                    listBanksBenefit.map((banksBenefit: BankBenefitInterface) => {
-                        if (banksBenefit.code === value) referenceControl?.setValue(banksBenefit.rib);
-                    })
-                })
-            } else {
-                referenceControl?.reset();
-            }
-            referenceControl?.updateValueAndValidity();
+            chequeFields.forEach(ctrl => isCash ? ctrl?.clearValidators() : ctrl?.setValidators(Validators.required));
+            cashFields.forEach(ctrl => isCash ? ctrl?.setValidators(Validators.required) : ctrl?.clearValidators());
+
+            proofControl?.reset();
+
+            [...chequeFields, ...cashFields, proofControl].forEach(ctrl => ctrl?.updateValueAndValidity());
         };
-        checkValidationCodeBankBenefit(codeBankBenefitControl?.value);
-        codeBankBenefitControl?.valueChanges.subscribe((value: string) => {
-            checkValidationCodeBankBenefit(value);
+
+        applyValidators(modeControl?.value as T_MODE_PAYMENT);
+        modeControl?.valueChanges.subscribe(applyValidators);
+    }
+    private updateReferenceFromBankBenefit(code: string): void {
+        const referenceControl = this.formFundMyAccount.get('reference');
+
+        if (!code) {
+            referenceControl?.reset();
+            referenceControl?.updateValueAndValidity();
+            return;
+        }
+
+        this.sharedService.getBanksBenefit().subscribe((list) => {
+            const match = list.find(b => b.code === code);
+            if (match) {
+                referenceControl?.setValue(match.rib);
+                referenceControl?.updateValueAndValidity();
+            }
         });
+    }
+
+    public patchValueFormFundReloadMyAccount(transactionDetails$: Observable<ReloadAccountOperationDetailsInterface>): void {
+        transactionDetails$
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((details: any) => {
+                if (!details || !this.formFundMyAccount) return;
+                console.log('details', details)
+
+                // Conserve l’URL ou le nom du fichier
+                this.filePreviewUrl = details.piece_jointe_bordereau || null;
+
+                const {
+                    piece_jointe_bordereau, // ne le patche pas directement
+                    ...formSafeData
+                } = details;
+
+                this.formFundMyAccount.patchValue(formSafeData);
+            });
     }
     private getListAgencies(value: string): Observable<Array<AgencyBenefitInterface>> {
         return this.sharedService.getBanksBenefit().pipe(
@@ -198,6 +289,11 @@ export class FormReloadMyAccountComponent {
 
     public closeInterface(): void {
         this.router.navigate([ACCOUNTING + "/" + MY_RELOADS]);
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
 }

@@ -6,6 +6,7 @@ export const reloadMyAccountTableConstant = {
         { field: 'montant', header: 'Montant (Fcfa)', class: "text-center", width: "6rem" },
         { field: 'statut', header: 'Statut', class: "text-center", width: "4rem" },
         { field: 'updated_at', header: 'Date MAJ', class: "text-center", width: "12rem" },
+        { field: '', header: 'Actions', class: "text-center", width: "4rem" }
     ],
     globalFilterFields: ['created_at', 'transaction', 'montant', 'solde_avant', 'solde_apres', 'statut', 'updated_at']
 };

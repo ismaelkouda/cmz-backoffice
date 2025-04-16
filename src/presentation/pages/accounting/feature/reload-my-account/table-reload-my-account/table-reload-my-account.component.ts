@@ -13,7 +13,7 @@ import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { TranslateService } from '@ngx-translate/core';
 
 type Action = PageAction;
-type PageAction = { data: reloadMyAccountInterface, action: 'fund-reload-my-account', view: 'page' };
+type PageAction = { data: reloadMyAccountInterface, action: 'edit-reload-my-account'|'details-reload-my-account', view: 'page' };
 type TYPE_COLOR_STATUS_BADGE = 'badge-warning' | 'badge-success' | 'badge-danger' | 'badge-dark';
 
 @Component({
