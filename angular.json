@@ -34,7 +34,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
               "lodash",
@@ -86,13 +86,10 @@
               "apexcharts/dist/apexcharts.min.js",
               "calendar-utils/date-adapters/date-fns"
             ],
-            "outputPath": {
-              "base": "dist/patrimoine-sim-tenant"
-            },
+            "outputPath": "dist/patrimoine-sim-bo",
             "index": "src/index.html",
-            "polyfills": [
-              "src/polyfills.ts"
-            ],
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/assets/images/favicon.png",
@@ -122,16 +119,12 @@
             "scripts": [
               "./node_modules/pusher-js/dist/web/pusher.min.js"
             ],
+            "vendorChunk": true,
             "extractLicenses": false,
+            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true,
-            "browser": "src/main.ts",
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "."
-              ]
-            }
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -164,18 +157,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "ps:build"
+            "browserTarget": "ps:build"
           },
           "configurations": {
             "production": {
-              "buildTarget": "ps:build:production"
+              "browserTarget": "ps:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "ps:build"
+            "browserTarget": "ps:build"
           }
         },
         "test": {
@@ -210,6 +203,7 @@
       }
     }
   },
+  "defaultProject": "ps",
   "cli": {
     "analytics": false
   },
