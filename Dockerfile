@@ -7,13 +7,13 @@ COPY package.json .
 FROM base AS dependencies
 RUN npm install -g pnpm
 #RUN pnpm install --frozen-lockfile
-RUN pnpm install
+RUN npm install
 
 # ---- Build ----
 FROM dependencies AS build
 
 COPY . .
-RUN pnpm run build:prod
+RUN npm run build:prod
 RUN ls dist/patrimoine-sim-tenant
 
 
