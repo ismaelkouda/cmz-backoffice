@@ -231,11 +231,11 @@ export const content: Routes = [
     loadChildren: () => import("../../presentation/pages/interconnexion/interconnexion.module").then((m) => m.InterconnexionModule),
     data: { title: INTERCONNEXION_ECHANGE }
   },
-  {
-    path: SUPERVISION_SYSTEME,
-    loadChildren: () => import("../../presentation/pages/supervision-systeme/supervision-systeme.module").then((m) => m.SupervisionSystemeModule),
-    data: { title: SUPERVISION_SYSTEME }
-  },
+  // {
+  //   path: SUPERVISION_SYSTEME,
+  //   loadChildren: () => import("../../presentation/pages/supervision-systeme/supervision-systeme.module").then((m) => m.SupervisionSystemeModule),
+  //   data: { title: SUPERVISION_SYSTEME }
+  // },
   {
     path: SLA_DEMANDE_SERVICE,
     loadChildren: () => import("../../presentation/pages/sla-demande-service/sla-demande-service.module").then((m) => m.SlaDemandeServiceModule),

@@ -42,7 +42,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     OverlayModule,
     SharedModule,
     AppRoutingModule,
-    HttpClientModule,
+    // HttpClientModule,
     NgbModule,
     SupervisionOperationsModule,
     ToastrModule.forRoot(),
