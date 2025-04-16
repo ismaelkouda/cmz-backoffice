@@ -37,8 +37,8 @@ docker-dev_tenant:
   tags:
     - serveur-200
   script:
-    - touch .env.${ENV}
-    - cp .env.${ENV} .env
+   # - touch .env.${ENV}
+   # - cp .env.${ENV} .env
     - CI_REGISTRY_IMAGE=$(echo "$CI_REGISTRY_IMAGE" | tr '[:upper:]' '[:lower:]' | tr '/' '-')
     - echo ${CI_REGISTRY_IMAGE}
     - docker build -t ${CI_REGISTRY_IMAGE} .
@@ -79,8 +79,8 @@ docker-test_tenant:
   tags:
     - sim-monitoring_test_144
   script:
-    - touch .env.${ENV}
-    - cp .env.${ENV} .env
+    #- touch .env.${ENV}
+    #- cp .env.${ENV} .env
     - CI_REGISTRY_IMAGE=$(echo "$CI_REGISTRY_IMAGE" | tr '[:upper:]' '[:lower:]' | tr '/' '-')
     - echo ${CI_REGISTRY_IMAGE}
     - docker build -t ${CI_REGISTRY_IMAGE} .
