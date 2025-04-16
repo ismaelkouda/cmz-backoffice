@@ -127,7 +127,7 @@ export class DetailsSuivieTraitementComponent implements OnInit {
       date_fin: this.selectDateEnd,
     };
     this.supervisionOperationService
-      .PostSupervisionOperationsTraitementsSuivisTransactions(data, this.p)
+      .GetPatrimoineSimTransactions(data, this.p)
       .subscribe({
         next: (response) => {
           this.listTraitemants = response["data"]["data"].map((data) => {
@@ -296,7 +296,8 @@ public getTraitementBadge(data: any): string {
       break;
 
     case BADGE_ETAPE.CLOTURE:
-      if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
+      if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-success"; }
+if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
       if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
       if (data?.traitement === BADGE_ETAT.ABANDONNE) { return "badge-warning"; }
       if (data?.traitement === BADGE_ETAT.REJETE) { return "badge-danger"; }

@@ -204,7 +204,7 @@
         </div>
     </div>
     <div *ngIf="currentObject?.show">
-        <p-tabView>
+        <p-tabView (onChange)="currentTabsIndex = $event.index">
             <p-tabPanel header="IDENTIFICATION">
                 <div [formGroup]="adminForm" novalidate>
                     <fieldset>
@@ -341,11 +341,12 @@
                 </div>
             </p-tabPanel>
             <p-tabPanel header="HISTORIQUE">
-                <app-historique
-                    [modele_type]="'users'"
-                    [modele_id]="currentObject.id"
-                >
-                </app-historique>
+                <<ng-container *ngIf="currentTabsIndex === 1">
+                    <app-history
+                        [typeModel]="'users'"
+                        [idModel]="currentObject?.id"
+                    ></app-history>
+                </ng-container>
             </p-tabPanel>
         </p-tabView>
     </div>

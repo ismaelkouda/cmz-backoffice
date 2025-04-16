@@ -1,0 +1,84 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="row">
+        <div class="col-md">
+            <label><b>N° Dossier</b></label>
+            <input
+                type="text"
+                formControlName="numero_demande"
+                pInputText
+                [style]="{ minWidth: '100%' }"
+                placeholder="Saisir le numéro de demande"
+            />
+        </div>
+        <div class="col-md">
+            <label><b>Désignation</b></label>
+            <p-dropdown
+                [options]="listOperations"
+                [filter]="true"
+                filterBy="nom,code"
+                [showClear]="true"
+                formControlName="operation"
+                placeholder="Sélectionner l'opération"
+                [style]="{ minWidth: '100%' }"
+                emptyFilterMessage="Aucune correspondance"
+                emptyMessage="Aucune donnée"
+            >
+            </p-dropdown>
+        </div>
+        <div class="col-md">
+            <label><b>Référence</b></label>
+            <input
+                type="text"
+                formControlName="reference"
+                pInputText
+                [style]="{ minWidth: '100%' }"
+                placeholder="Saisir le numéro de demande"
+            />
+        </div>
+
+        <div class="col-md-2">
+            <label><b>Etat</b> </label>
+            <p-dropdown
+                [options]="listStatus"
+                [showClear]="true"
+                formControlName="statut"
+                placeholder="Statut de la facture"
+                [style]="{ minWidth: '100%' }"
+                emptyFilterMessage="Aucune correspondance"
+                emptyMessage="Aucune donnée"
+            >
+            </p-dropdown>
+        </div>
+
+        <div class="col-md-2">
+            <label><b>Date début</b></label>
+            <p-calendar
+                formControlName="date_debut"
+                [showIcon]="true"
+                [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+
+        <div class="col-md-2">
+            <label><b>Date fin </b></label>
+            <p-calendar
+                formControlName="date_fin"
+                [showIcon]="true"
+                placeholder="JJ-MM-AAAA"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+        <div class="filter-button">
+            <button
+                pButton
+                pRipple
+                type="submit"
+                class="p-button-success"
+                icon="pi pi-filter"
+            ></button>
+        </div>
+    </div>
+</form>

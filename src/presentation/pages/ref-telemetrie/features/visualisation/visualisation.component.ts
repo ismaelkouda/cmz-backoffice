@@ -1,3 +1,4 @@
+import { StoreCurrentUserService } from './../../../../../shared/services/store-current-user.service';
 import { SettingService } from './../../../../../shared/services/setting.service';
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { TelemetrieService } from '../../data-access/telemetrie.service';
@@ -6,7 +7,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ListCommuneService } from 'src/shared/services/list-commune.service';
 import { handle } from 'src/shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
@@ -44,12 +44,13 @@ export class VisualisationComponent implements OnInit {
   public offset: any;
   public p: number = 1;
   public page: number = 0
-  //Mapping
-  firstLevelLibelle: string;
-  secondLevelLibelle: string;
-  thirdLevelLibelle: string;
+
+  public firstLevelLibel: string | undefined;
+  public secondLevelLibel: string | undefined;
+  public thirdLevelLibel: string | undefined;
 
   constructor(
+    private storeCurrentUserService: StoreCurrentUserService,
     private telemetrieService: TelemetrieService,
     private toastrService: ToastrService,
     private modalService: NgbModal,
@@ -57,14 +58,15 @@ export class VisualisationComponent implements OnInit {
     private settingService: SettingService,
     public mappingService: MappingService,
     private clipboardApi: ClipboardService,
-    private listCommuneService: ListCommuneService,
     private loadingBarService: LoadingBarService,
     private patrimoineService: PatrimoineService,
 
   ) {
-    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
-    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
-    this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
+
+    const currentUser = this.storeCurrentUserService.getCurrentUser;
+    this.firstLevelLibel = currentUser?.structure_organisationnelle?.niveau_1;
+    this.secondLevelLibel = currentUser?.structure_organisationnelle?.niveau_2;
+    this.thirdLevelLibel = currentUser?.structure_organisationnelle?.niveau_3;
   }
 
   ngOnInit() {
@@ -111,7 +113,7 @@ public showSecondFilter() {
 public onChangeFirstLvel(uuid: any) {
     this.listSecondLevelDatas = [];
     this.listFirstLeveDatas.find((element) => {
-        if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
+        // if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
     });
 }
 

@@ -1,0 +1,64 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div style="margin-top: -2rem !important">
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [count]="listWhiteSimCard"
+                            [total]="pagination?.['total']"
+                            [legendePluriel]="
+                                'lots avec des cartes SIM disponibles'
+                            "
+                            [legendeSingulier]="
+                                'lots avec des cartes SIM disponibles'
+                            "
+                        >
+                        </app-patrimoine-header>
+                    </div>
+
+                    <div>
+                        <app-filter-white-sim-card
+                            (filter)="filter($event)"
+                            [filterData]="filterData"
+                        >
+                        </app-filter-white-sim-card>
+                        <hr />
+                        <div class="container-box">
+                            <app-box-container
+                                *ngFor="let box of statistiquesBox"
+                                class="col-md"
+                                [cardBgColor]="box?.['cardBgColor']"
+                                [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'"
+                                [legend]="box?.['legend']"
+                                [count]="box?.['count']"
+                                [legendColor]="box?.['legendColor'] ?? '#FFF'"
+                                [countColor]="box?.['countColor'] ?? '#FFF'"
+                                [taux]="box?.['taux']"
+                            >
+                            </app-box-container>
+                        </div>
+                        <app-table-white-sim-card
+                            [spinner]="spinner"
+                            [listWhiteSimCard]="listWhiteSimCard"
+                            [selectedWhiteSimCard]="selectedWhiteSimCard"
+                            (interfaceUser)="navigateByUrl($event)"
+                            [pagination]="pagination"
+                        >
+                        </app-table-white-sim-card>
+                        <app-pargination
+                            [pargination]="pagination"
+                            (pageChange)="onPageChange($event)"
+                        >
+                        </app-pargination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

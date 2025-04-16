@@ -1,0 +1,58 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="d-flex gap-1">
+        <div class="col-md-3">
+            <label
+                ><b>{{ 'START_DATE' | translate }}</b></label
+            >
+            <p-calendar
+                formControlName="date_debut"
+                [showIcon]="true"
+                [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+        <div class="col-md-3">
+            <label
+                ><b>{{ 'END_DATE' | translate }}</b></label
+            >
+            <p-calendar
+                formControlName="date_fin"
+                [showIcon]="true"
+                placeholder="JJ-MM-AAAA"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+        <div class="col-md-3">
+            <label
+                ><b>{{ 'USER' | translate }}</b></label
+            >
+            <p-dropdown
+                formControlName="user_id"
+                [options]="listApplicants$ | async"
+                optionLabel="fullName"
+                optionValue="id"
+                [filter]="true"
+                filterBy="fullName"
+                [showClear]="true"
+                placeholder="{{ 'SELECT' | translate }} {{
+                    'USER' | translate
+                }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+            >
+            </p-dropdown>
+        </div>
+
+        <div class="filter-button">
+            <button
+                pButton
+                pRipple
+                type="submit"
+                class="p-button-success"
+                icon="pi pi-filter"
+            ></button>
+        </div>
+    </div>
+</form>

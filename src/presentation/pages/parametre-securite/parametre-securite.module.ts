@@ -1,8 +1,6 @@
 import { JournalAuthenticationComponent } from './ui/journal-authentication/journal-authentication.component';
 import { AdminFormComponent } from './feature/admin-form/admin-form.component';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './../../../shared/shared.module';
 
 //Components
@@ -13,45 +11,15 @@ import { AffectationComponent } from './feature/affectation/affectation.componen
 import { FormsProfilComponent } from './feature/forms-profil/forms-profil.component';
 
 //Modules Primeng
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TabViewModule } from 'primeng/tabview';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { CheckboxModule } from 'primeng/checkbox';
-import { DialogModule } from 'primeng/dialog';
-import { TooltipModule } from 'primeng/tooltip';
-import { CalendarModule } from 'primeng/calendar';
-import { InputSwitchModule } from 'primeng/inputswitch';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ParametreSecuriteRoutingModule } from './parametre-securite-routing.module';
-import { TreeModule } from 'primeng/tree';
 
+import { FormsProfilApiService } from './data-access/services/forms-profil/forms-profil.service';
+;
+import { TreeSelectModule } from 'primeng/treeselect';
+import { TreeTableModule } from 'primeng/treetable';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        SharedModule,
-        ParametreSecuriteRoutingModule,
-        DropdownModule,
-        ButtonModule,
-        TableModule,
-        InputTextModule,
-        InputNumberModule,
-        InputTextareaModule,
-        TabViewModule,
-        CheckboxModule,
-        DialogModule,
-        TooltipModule,
-        CalendarModule,
-        InputSwitchModule,
-        NgxPaginationModule,
-        TreeModule
-    ],
     declarations: [
         ProfilHabilitationComponent,
         UsersComponent,
@@ -60,6 +28,14 @@ import { TreeModule } from 'primeng/tree';
         FormsProfilComponent,
         AdminFormComponent,
         JournalAuthenticationComponent
-    ]
+    ],
+    imports: [
+        SharedModule,
+        ParametreSecuriteRoutingModule,
+        NgxPaginationModule,
+            TreeSelectModule,
+            TreeTableModule,
+    ],
+    providers: [FormsProfilApiService]
 })
 export class ParametreSecuriteModule { }

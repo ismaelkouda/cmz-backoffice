@@ -7,6 +7,7 @@ import { FormValidator } from '../../../../../shared/utils/spacer.validator';
 import { ClipboardService } from 'ngx-clipboard';
 import { ExcelService } from 'src/shared/services/excel.service';
 import { Title } from '@angular/platform-browser';
+import { StoreCurrentUserService } from '@shared/services/store-current-user.service';
 
 @Component({
   selector: 'app-first-level',
@@ -30,13 +31,14 @@ export class FirstLevelComponent implements OnInit {
   public selectedNom: string;
   public selectedCommune: string;
   public selectedCode: string;
-  public firstLevelLibelle: string;
+  public firstLevelLibel: string | undefined;
+  public secondLevelLibel: string | undefined;
+  // public firstLevelLibelle: string;
   public firstLevelMenus: string;
-  public secondLevelLibelle: string;
+  // public secondLevelLibelle: string;
   public adminForm: FormGroup;
   public currentTabsIndex: number = 0;
   public title = '1er niveau - Système de Gestion de Collecte Centralisée';
-
 
   constructor(
     private settingService: SettingService,
@@ -45,12 +47,14 @@ export class FirstLevelComponent implements OnInit {
     private excelService: ExcelService,
     private clipboardApi: ClipboardService,
     private fb: FormBuilder,
-    private titleService: Title
+    private titleService: Title,
+    private storeCurrentUserService: StoreCurrentUserService
   ) {
     this.titleService.setTitle(`${this.title}`);
-    this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
-    this.firstLevelMenus = this.mappingService.structureGlobale?.niveau_1_menu;
-    this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+    const currentUser = this.storeCurrentUserService.getCurrentUser;
+    this.firstLevelLibel = currentUser?.structure_organisationnelle?.niveau_1;
+    this.secondLevelLibel = currentUser?.structure_organisationnelle?.niveau_2;
+    this.firstLevelMenus = currentUser?.structure_organisationnelle?.niveau_1_menu;
   }
 
   ngOnInit() {
@@ -58,9 +62,9 @@ export class FirstLevelComponent implements OnInit {
     this.onInitForm();
     this.isFilter();
   }
+
   public GellAllFirstLevel() {
-    this.settingService
-      .getAllDirectionRegionales({},this.p)
+    this.settingService.getAllDirectionRegionales({}, this.p)
       .subscribe({
         next: (response) => {
           this.listFirstLevelDatas = response.data.data;
@@ -68,7 +72,7 @@ export class FirstLevelComponent implements OnInit {
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
           this.page = response.data?.current_page;
-          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;        
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
         },
         error: (error) => {
           this.toastrService.error(error.message);
@@ -79,7 +83,7 @@ export class FirstLevelComponent implements OnInit {
     this.settingService
       .getAllDirectionRegionales({
         nom: this.selectedNom
-       },this.p)
+      }, this.p)
       .subscribe({
         next: (response) => {
           this.listFirstLevelDatas = response.data.data;
@@ -87,7 +91,8 @@ export class FirstLevelComponent implements OnInit {
           this.totalRecords = response.data.total;
           this.recordsPerPage = response.data.per_page;
           this.page = response.data?.current_page;
-          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;                },
+          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;
+        },
         error: (error) => {
           this.toastrService.error(error.message);
         }
@@ -101,7 +106,7 @@ export class FirstLevelComponent implements OnInit {
       this.onFilter()
     }
   }
-  public OnRefresh(){
+  public OnRefresh() {
     this.p = 1;
     this.GellAllFirstLevel();
     this.selectedNom = null
@@ -146,7 +151,7 @@ export class FirstLevelComponent implements OnInit {
     this.totalPage = 0;
     this.totalRecords = 0;
     this.recordsPerPage = 0;
-    this.page = 1;    
+    this.page = 1;
     this.initialView = false;
     this.formsView = true;
     this.currentObject = { ...data, type: 'visualiser' };
@@ -163,11 +168,11 @@ export class FirstLevelComponent implements OnInit {
   }
   public OnExportExcel(): void {
     const data = this.listFirstLevelDatas.map((item: any) => ({
-      [this.firstLevelLibelle]: item?.nom,
-      ['#'+this.secondLevelLibelle]: item?.niveaux_deux_count,
+      [this.firstLevelLibel]: item?.nom,
+      ['#' + this.secondLevelLibel]: item?.niveaux_deux_count,
     }));
-    this.excelService.exportAsExcelFile(data, `Lise des ${this.firstLevelLibelle}`);
-  }
+    this.excelService.exportAsExcelFile(data, `Lise des ${this.firstLevelLibel}`);
+  }
   public isFilter(): boolean {
     return (!this.selectedNom && !this.selectedCode && !this.selectedCommune) ? true : false
   }

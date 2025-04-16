@@ -25,34 +25,35 @@
                                 <div *ngIf="currentContact">
                                     <fieldset>
                                         <legend>
-                                            <b>Informations Identification</b>
+                                            <b>Informations Client</b>
                                         </legend>
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b>Nom</b>
+                                                        <b>Nom / Code Client</b>
                                                     </label>
                                                     <input
                                                         type="text"
                                                         [value]="
-                                                            currentContact.nom_tenant ??
-                                                            ''
+                                                            currentContact.nom_tenant +
+                                                            ' ' +
+                                                            currentContact.tenant_code
                                                         "
                                                         [disabled]="true"
                                                         pInputText
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b>Segment Client</b>
+                                                        <b>Adresse</b>
                                                     </label>
                                                     <input
                                                         type="text"
                                                         [value]="
-                                                            currentContact.segment_client ??
+                                                            currentContact?.adresse ??
                                                             ''
                                                         "
                                                         [disabled]="true"
@@ -60,7 +61,7 @@
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label>
                                                         <b>Compte Client</b>
@@ -96,30 +97,108 @@
                                     </fieldset>
                                     <fieldset>
                                         <legend>
-                                            <b>Informations Admin</b>
+                                            <b>Informations Phone manager</b>
                                         </legend>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b>Nom Admin</b>
+                                                        <b>Nom</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        pInputText
+                                                        [disabled]="true"
+                                                        value="{{
+                                                            currentContact?.nom_gestionnaire_tenant ??
+                                                                ''
+                                                        }} {{
+                                                            currentContact?.prenoms_gestionnaire_tenant ??
+                                                                ''
+                                                        }}"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Contact</b>
                                                     </label>
                                                     <input
                                                         type="text"
                                                         [value]="
-                                                            currentContact.nom_admin_tenant +
-                                                            '  ' +
-                                                            currentContact.prenoms_admin_tenant
+                                                            currentContact?.contact_gestionnaire_tenant ??
+                                                            ''
                                                         "
                                                         [disabled]="true"
                                                         pInputText
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b>Contact Admin</b>
+                                                        <b>Email</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        [value]="
+                                                            currentContact?.email_gestionnaire_tenant ??
+                                                            ''
+                                                        "
+                                                        [disabled]="true"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Username</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        [value]="
+                                                            currentContact?.username_gestionnaire_tenant ??
+                                                            ''
+                                                        "
+                                                        [disabled]="true"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>
+                                            <b>Informations Administrateur</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Nom</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        [value]="
+                                                            currentContact.nom_admin_tenant ??
+                                                            ''
+                                                        "
+                                                        [disabled]="true"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b
+                                                            >Contact<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        >
                                                     </label>
                                                     <input
                                                         type="text"
@@ -132,10 +211,10 @@
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b>Email Admin</b>
+                                                        <b>Email</b>
                                                     </label>
                                                     <input
                                                         type="text"
@@ -148,69 +227,15 @@
                                                     />
                                                 </div>
                                             </div>
-                                        </div>
-                                    </fieldset>
-                                    <fieldset>
-                                        <legend>
-                                            <b>Informations Gestionnaire</b>
-                                        </legend>
-                                        <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b
-                                                            >Nom Gestionnaire
-                                                            Contrat</b
-                                                        >
+                                                        <b>Username</b>
                                                     </label>
                                                     <input
                                                         type="text"
                                                         [value]="
-                                                            currentContact?.nom_gestionnaire_tenant
-                                                                ? currentContact?.nom_gestionnaire_tenant
-                                                                : '' +
-                                                                  ' ' +
-                                                                  currentContact?.prenoms_gestionnaire_tenant
-                                                                ? currentContact?.prenoms_gestionnaire_tenant
-                                                                : ''
-                                                        "
-                                                        [disabled]="true"
-                                                        pInputText
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>
-                                                        <b
-                                                            >Contact
-                                                            Gestionnaire
-                                                            Contrat</b
-                                                        >
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        [value]="
-                                                            currentContact.contacts_gestionnaire_tenant ??
-                                                            ''
-                                                        "
-                                                        [disabled]="true"
-                                                        pInputText
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>
-                                                        <b
-                                                            >Email Gestionnaire
-                                                            Contrat</b
-                                                        >
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        [value]="
-                                                            currentContact.email_gestionnaire_tenant ??
+                                                            currentContact?.username_admin_tenant ??
                                                             ''
                                                         "
                                                         [disabled]="true"
@@ -225,52 +250,64 @@
                                             <b>Informations Escalade</b>
                                         </legend>
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b>Nom Escalade</b>
+                                                        <b>Nom</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        pInputText
+                                                        [disabled]="true"
+                                                        value="{{
+                                                            currentContact?.nom_escalade_tenant ??
+                                                                ''
+                                                        }} {{
+                                                            currentContact?.prenoms_escalade_tenant ??
+                                                                ''
+                                                        }}"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Contact</b>
                                                     </label>
                                                     <input
                                                         type="text"
                                                         [value]="
-                                                            currentContact.nom_escalade_tenant
-                                                                ? currentContact.nom_escalade_tenant
-                                                                : '' +
-                                                                  '  ' +
-                                                                  currentContact.prenoms_escalade_tenant
-                                                                ? currentContact.prenoms_escalade_tenant
-                                                                : ''
+                                                            currentContact?.contact_escalade_tenant
                                                         "
                                                         [disabled]="true"
                                                         pInputText
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b>Contact Escalade</b>
+                                                        <b>Email</b>
                                                     </label>
                                                     <input
                                                         type="text"
                                                         [value]="
-                                                            currentContact.contacts_escalade_tenant ??
-                                                            ''
+                                                            currentContact?.email_escalade_tenant
                                                         "
                                                         [disabled]="true"
                                                         pInputText
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md">
                                                 <div class="form-group">
                                                     <label>
-                                                        <b>Email Escalade</b>
+                                                        <b>Username</b>
                                                     </label>
                                                     <input
                                                         type="text"
                                                         [value]="
-                                                            currentContact.email_escalade_tenant ??
+                                                            currentContact?.username_escalade_tenant ??
                                                             ''
                                                         "
                                                         [disabled]="true"
@@ -280,12 +317,481 @@
                                             </div>
                                         </div>
                                     </fieldset>
+                                    <!-- <fieldset>
+                                        <legend>
+                                            <b>Informations Morale</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Numéro RCCM</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        [value]="currentContact?.numero_rccm"
+                                                        [disabled]="true"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Forme Juridique</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        [value]="currentContact?.forme_juridique"
+                                                        [disabled]="true"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Nom Gérant</b>
+                                                    </label>
+                                                    <input type="text" [value]="currentContact?.nom_gerant_tenant"
+                                                        [disabled]="true" pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>RCCM</b>
+                                                    </label>
+                                                    <div class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                                        style="background-color: #fafafa;">
+                                                        <div style="margin-top: 3px; margin-bottom: 3px;">
+                                                            <button pButton pRipple label="Voir" icon="pi pi-eye" class="p-button-dark"
+                                                                (click)="openModal('fichier_rccm')">
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>
+                                            <b>Declaration Fiscale</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Numéro CC</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        [value]="currentContact?.numero_cc"
+                                                        [disabled]="true"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Régime</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        [value]="currentContact?.regime"
+                                                        [disabled]="true"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Centre</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        [value]="currentContact?.centre"
+                                                        [disabled]="true"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label><b>DFE</b></label>
+                                                    <div class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                                        style="background-color: #fafafa;">
+                                                      <div style="margin-top: 3px; margin-bottom: 3px;">
+                                                        <button pButton pRipple label="Voir" icon="pi pi-eye" class="p-button-dark"
+                                                          (click)="openModal('fichier_dfe')">
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset> -->
+                                </div>
+                            </p-tabPanel>
+                            <p-tabPanel header="DOCUMENTS">
+                                <div *ngIf="currentContact">
+                                    <fieldset>
+                                        <legend>
+                                            <b>Informations Gérant</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Nom Gérant</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        pInputText
+                                                        [value]="
+                                                            currentContact?.nom_gerant ??
+                                                            ''
+                                                        "
+                                                        [disabled]="true"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b
+                                                            >Contact Gérant<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        >
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        pInputText
+                                                        [value]="
+                                                            currentContact?.contact_gerant ??
+                                                            ''
+                                                        "
+                                                        [disabled]="true"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b
+                                                            >Email Gérant<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        >
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        pInputText
+                                                        [value]="
+                                                            currentContact?.email_gerant ??
+                                                            ''
+                                                        "
+                                                        [disabled]="true"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Pièce d'identité</b>
+                                                    </label>
+                                                    <div
+                                                        class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                                    >
+                                                        <ng-container
+                                                            *ngIf="currentContact?.['piece_gerant'] else aucune_piece_gerant"
+                                                        >
+                                                            <div
+                                                                style="
+                                                                    margin-top: 2px;
+                                                                    margin-bottom: 2px;
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                "
+                                                            >
+                                                                <button
+                                                                    pButton
+                                                                    pRipple
+                                                                    label="Voir"
+                                                                    icon="pi pi-eye"
+                                                                    class="p-button-dark"
+                                                                    (click)="
+                                                                        openModal(
+                                                                            'piece_gerant'
+                                                                        )
+                                                                    "
+                                                                ></button>
+                                                            </div>
+                                                        </ng-container>
+                                                        <ng-template
+                                                            #aucune_piece_gerant
+                                                        >
+                                                            <div
+                                                                style="
+                                                                    margin-top: 5px;
+                                                                    margin-bottom: 2px;
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                "
+                                                            >
+                                                                <p
+                                                                    style="
+                                                                        font-size: large;
+                                                                        margin-bottom: 12px;
+                                                                        margin-top: 12px;
+                                                                    "
+                                                                >
+                                                                    <b
+                                                                        >Aucune
+                                                                        pièce
+                                                                        d'identité</b
+                                                                    >
+                                                                </p>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>
+                                            <b>Déclaration Morale</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Numéro RCCM</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        pInputText
+                                                        disabled
+                                                        [value]="
+                                                            currentContact?.numero_rccm ??
+                                                            ''
+                                                        "
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Forme Juridique</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        pInputText
+                                                        disabled
+                                                        [value]="
+                                                            currentContact?.forme_juridique ??
+                                                            ''
+                                                        "
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>RCCM</b>
+                                                    </label>
+                                                    <div
+                                                        class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                                    >
+                                                        <ng-container
+                                                            *ngIf="currentContact?.['fichier_rccm'] else aucun_fichier_rccm"
+                                                        >
+                                                            <div
+                                                                style="
+                                                                    margin-top: 2px;
+                                                                    margin-bottom: 2px;
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                "
+                                                            >
+                                                                <button
+                                                                    pButton
+                                                                    pRipple
+                                                                    label="Voir"
+                                                                    icon="pi pi-eye"
+                                                                    class="p-button-dark"
+                                                                    (click)="
+                                                                        openModal(
+                                                                            'fichier_rccm'
+                                                                        )
+                                                                    "
+                                                                ></button>
+                                                            </div>
+                                                        </ng-container>
+                                                        <ng-template
+                                                            #aucun_fichier_rccm
+                                                        >
+                                                            <div
+                                                                style="
+                                                                    margin-top: 5px;
+                                                                    margin-bottom: 2px;
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                "
+                                                            >
+                                                                <p
+                                                                    style="
+                                                                        font-size: large;
+                                                                        margin-bottom: 12px;
+                                                                        margin-top: 12px;
+                                                                    "
+                                                                >
+                                                                    <b
+                                                                        >Aucun
+                                                                        fichier
+                                                                        RCCM</b
+                                                                    >
+                                                                </p>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>
+                                            <b>Declaration Fiscale</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Numéro CC</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        pInputText
+                                                        disabled
+                                                        [value]="
+                                                            currentContact?.numero_cc ??
+                                                            ''
+                                                        "
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Regime</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        pInputText
+                                                        disabled
+                                                        [value]="
+                                                            currentContact?.regime ??
+                                                            ''
+                                                        "
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Centre</b>
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        pInputText
+                                                        disabled
+                                                        [value]="
+                                                            currentContact?.centre ??
+                                                            ''
+                                                        "
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>DFE</b>
+                                                    </label>
+                                                    <div
+                                                        class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                                    >
+                                                        <ng-container
+                                                            *ngIf="currentContact?.['fichier_dfe'] else aucun_fichier_dfe"
+                                                        >
+                                                            <div
+                                                                style="
+                                                                    margin-top: 2px;
+                                                                    margin-bottom: 2px;
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                "
+                                                            >
+                                                                <button
+                                                                    pButton
+                                                                    pRipple
+                                                                    label="Voir"
+                                                                    icon="pi pi-eye"
+                                                                    class="p-button-dark"
+                                                                    (click)="
+                                                                        openModal(
+                                                                            'fichier_dfe'
+                                                                        )
+                                                                    "
+                                                                ></button>
+                                                            </div>
+                                                        </ng-container>
+                                                        <ng-template
+                                                            #aucun_fichier_dfe
+                                                        >
+                                                            <div
+                                                                style="
+                                                                    margin-top: 5px;
+                                                                    margin-bottom: 2px;
+                                                                    display: flex;
+                                                                    align-items: center;
+                                                                "
+                                                            >
+                                                                <p
+                                                                    style="
+                                                                        font-size: large;
+                                                                        margin-bottom: 12px;
+                                                                        margin-top: 12px;
+                                                                    "
+                                                                >
+                                                                    <b
+                                                                        >Aucun
+                                                                        fichier
+                                                                        DFE</b
+                                                                    >
+                                                                </p>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
                                 </div>
                             </p-tabPanel>
                             <p-tabPanel header="HISTORIQUE">
-                                <app-historique
-                                    *ngIf="currentTabsIndex === 1"
-                                ></app-historique>
+                                <ng-container *ngIf="currentTabsIndex === 2">
+                                    <app-history
+                                        [typeModel]="'env_configs'"
+                                        [idModel]="currentContact?.id"
+                                    ></app-history>
+                                </ng-container>
                             </p-tabPanel>
                         </p-tabView>
                     </div>

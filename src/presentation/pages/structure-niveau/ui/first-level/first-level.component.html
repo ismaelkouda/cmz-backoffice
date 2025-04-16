@@ -3,7 +3,7 @@
         <div class="col-sm-12">
             <app-breadcrumb
                 [title]="'Structure Organisationnelle'"
-                [active_item]="firstLevelLibelle"
+                [active_item]="firstLevelLibel"
             ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
@@ -16,10 +16,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>
-                                                <b
-                                                    >Nom
-                                                    {{ firstLevelLibelle }}</b
-                                                >
+                                                <b>Nom {{ firstLevelLibel }}</b>
                                             </label>
                                             <input
                                                 placeholder="Saisir le nom"
@@ -32,7 +29,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label>
-                                                <b>{{ secondLevelLibelle }}</b>
+                                                <b>{{ secondLevelLibel }}</b>
                                             </label>
                                             <input
                                                 [(ngModel)]="selectedCommune"
@@ -87,16 +84,107 @@
                                             [totalPage]="totalPage"
                                         ></app-table-header>
                                     </div>
+                                    <!-- <p-table #dt [value]="listFirstLevelDatas" [rows]="10" [paginator]="false"
+                                        responsiveLayout="scroll" [rowHover]="true" dataKey="id"
+                                        currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données" 
+                                        [showCurrentPageReport]="true" [globalFilterFields]="['code', 'nom', 'niveaux_deux_count']">
+                                        <ng-template pTemplate="caption">
+                                            <div class="table_header">
+                                                <app-table-header [count]="listFirstLevelDatas" [legende]="firstLevelMenus"
+                                                    [page]="page" [totalPage]="totalPage">
+                                                </app-table-header>
+                                                <div class="table_header__input">
+                                                    <span class="p-input-icon-left ml-auto">
+                                                        <i class="pi pi-search"></i>
+                                                        <input pInputText type="text" (input)="
+                                                            dt.filterGlobal(
+                                                                $event.target
+                                                                    .value,
+                                                                'contains'
+                                                            )
+                                                        " placeholder="Recherche" />
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th class="text-center" [ngStyle]="{ width: '3rem' }">
+                                                    #
+                                                </th>
+                                                <th class="text-center">
+                                                    Code
+                                                </th>
+                                                <th class="text-center">
+                                                    {{ firstLevelLibel }}
+                                                </th>
+                                                <th class="text-center">
+                                                    #
+                                                    {{ secondLevelLibel }}
+                                                    Affectés
+                                                </th>
+                                                <th class="text-center" [ngStyle]="{ width: '11rem' }">
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template let-i="rowIndex" pTemplate="body" let-data>
+                                            <tr>
+                                                <td class="text-center">
+                                                    {{ i + 1 }}
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ data?.code }}
+                                                </td>
+                                                <td (click)="
+                                                        copyData(data?.nom)
+                                                    " style="cursor: pointer">
+                                                    {{ data?.nom }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <button pButton pRipple pTooltip="Visualiser" tooltipPosition="top"
+                                                        label="Visualiser [{{
+                                                            data.niveaux_deux_count
+                                                        }}]" (click)="
+                                                            OnVisualisation(
+                                                                data
+                                                            )
+                                                        " [disabled]="
+                                                            data?.niveaux_deux_count ===
+                                                            0
+                                                        "></button>
+                                                </td>
+                                                <td class="td-actions">
+                                                    <button pButton icon="pi pi-eye" pTooltip="Voir"
+                                                        tooltipPosition="top" (click)="
+                                                            onShowForm(
+                                                                data,
+                                                                content
+                                                            )
+                                                        " class="p-button-dark"></button>
+                                                    <button *ngIf="
+                                                            mappingService.IsAction()
+                                                        " pButton icon="pi pi-pencil" pTooltip="Editer"
+                                                        tooltipPosition="top" (click)="
+                                                            onEditForm(
+                                                                data,
+                                                                content
+                                                            )
+                                                        " class="p-button-secondary"></button>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table> -->
                                     <table [ngClass]="['native_table table']">
                                         <thead>
                                             <th class="text-center">#</th>
                                             <th class="text-center">Code</th>
                                             <th class="text-center">
-                                                {{ firstLevelLibelle }}
+                                                {{ firstLevelLibel }}
                                             </th>
                                             <th class="text-center">
                                                 #
-                                                {{ secondLevelLibelle }}
+                                                {{ secondLevelLibel }}
                                                 Affectés
                                             </th>
                                             <th
@@ -138,6 +226,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <button
+                                                        style="max-width: 300px"
                                                         pButton
                                                         pRipple
                                                         pTooltip="Visualiser"
@@ -145,7 +234,6 @@
                                                         label="Visualiser [{{
                                                             data.niveaux_deux_count
                                                         }}]"
-                                                        class="p-button"
                                                         (click)="
                                                             OnVisualisation(
                                                                 data
@@ -202,12 +290,13 @@
                                 </div>
                             </p-tabPanel>
                             <p-tabPanel header="HISTORIQUE">
-                                <app-historique
-                                    *ngIf="currentTabsIndex === 1"
-                                    [module]="'STRUCTURE ORGANISATIONNELLE'"
-                                    [sous_module]="'NIVEAU UN'"
-                                >
-                                </app-historique>
+                                <ng-container *ngIf="currentTabsIndex === 1">
+                                    <app-history
+                                        [typeModel]="'niveau_uns'"
+                                        [idModel]="simCardSelectedDetails?.id"
+                                    >
+                                    </app-history>
+                                </ng-container>
                             </p-tabPanel>
                         </p-tabView>
                     </div>

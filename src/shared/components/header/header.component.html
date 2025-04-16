@@ -23,13 +23,13 @@
                         "
                     >
                         <span class="legende">
-                            <b>{{ appName }}</b>
+                            <b>{{ nom_tenant }}</b>
                         </span>
                     </h3>
                 </div>
             </div>
-            <div
-                *ngIf="applicationType === patrimoineType"
+            <!-- <div
+                *ngIf="nom_application === patrimoineType"
                 style="display: flex; gap: 2rem"
             >
                 <div class="box-card">
@@ -44,7 +44,7 @@
                         <span>{{ pipeValue(ligneCreditGlobal || '0') }}</span>
                     </span>
                 </div>
-            </div>
+            </div> -->
             <div class="nav-right" style="margin-top: 0.4rem">
                 <ul class="nav-menus">
                     <li class="profile-nav onhover-dropdown">
@@ -76,15 +76,15 @@
                                 "
                             >
                                 <span class="legende">
-                                    <b>{{ appName }}</b>
+                                    <b>{{ nom_tenant }}</b>
                                 </span>
                             </h3>
                         </div>
                     </div>
                 </div>
             </div>
-            <div
-                *ngIf="applicationType === patrimoineType"
+            <!-- <div
+                *ngIf="nom_application === patrimoineType"
                 style="display: flex; gap: 2rem"
             >
                 <div class="box-card">
@@ -99,8 +99,8 @@
                         <span>{{ pipeValue(ligneCreditGlobal || '0') }}</span>
                     </span>
                 </div>
-            </div>
-            <div class="d-flex gap-4 nav-right pull-right right-header p-2">
+            </div> -->
+            <div class="d-flex gap-4 nav-right pull-right p-2">
                 <div style="padding-top: 0.9rem">
                     <i
                         class="pi pi-bell text-3xl"

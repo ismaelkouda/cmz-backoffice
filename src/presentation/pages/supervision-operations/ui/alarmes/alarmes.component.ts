@@ -11,11 +11,11 @@ import { TransactionShowComponent } from 'src/shared/components/transaction-show
 import { MappingService } from 'src/shared/services/mapping.service';
 import { Title } from '@angular/platform-browser';
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
-import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { DemandeMasseComponent } from '../../feature/demande-masse/demande-masse.component';
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
+import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
 
 @Component({
   selector: 'app-alarmes',
@@ -203,6 +203,9 @@ export class AlarmesComponent implements OnInit {
       case OperationTransaction.RESILIATION: {
         return "Résiliation de SIM";
       }
+      case OperationTransaction.SIM_BLANCHE: {
+        return "SIM Blanche";
+      }
       case OperationTransaction.VOLUME_DATA: {
         return "Depot de volume	";
       }
@@ -257,7 +260,8 @@ export class AlarmesComponent implements OnInit {
         break;
 
       case BADGE_ETAPE.CLOTURE:
-        if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
+        if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-success"; }
+  if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
         if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
         if (data?.traitement === BADGE_ETAT.ABANDONNE) { return "badge-warning"; }
         if (data?.traitement === BADGE_ETAT.REJETE) { return "badge-danger"; }

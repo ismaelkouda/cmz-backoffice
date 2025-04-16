@@ -8,11 +8,11 @@ import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum'
 import { StatutTransaction } from './../../../../../shared/enum/StatutTransaction.enum';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
-import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import * as moment from 'moment';
 import { ExcelService } from 'src/shared/services/excel.service';
 import { Title } from '@angular/platform-browser';
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
+import { TraitementTransaction } from '../../../../../shared/enum/TraitementTransaction.enum';
 const Swal = require('sweetalert2');
 
 @Component({

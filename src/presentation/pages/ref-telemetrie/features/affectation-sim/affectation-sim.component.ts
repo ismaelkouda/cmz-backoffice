@@ -4,7 +4,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TelemetrieService } from '../../data-access/telemetrie.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { ListCommuneService } from 'src/shared/services/list-commune.service';
 import { handle } from 'src/shared/functions/api.function';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
@@ -52,7 +51,6 @@ export class AffectationSimComponent implements OnInit {
     public mappingService: MappingService,
     private fb: FormBuilder,
     private clipboardApi: ClipboardService,
-    private listCommuneService: ListCommuneService,
     private patrimoineService: PatrimoineService,
     private loadingBarService: LoadingBarService,
 
@@ -246,7 +244,7 @@ export class AffectationSimComponent implements OnInit {
   public onChangeFirstLvel(uuid: any) {
     this.listSecondLevelDatas = [];
     this.listFirstLeveDatas.find((element) => {
-      if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
+      // if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
   });
   }
 

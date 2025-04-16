@@ -14,10 +14,7 @@
         >
             <h4 class="modal-title pl-3" style="margin: 0">
                 Détails
-                <strong
-                    class="cursor-pointer"
-                    (click)="copyTransaction(listDemandes.numero_demande)"
-                >
+                <strong class="cursor-pointer">
                     [{{ listDemandes.numero_demande }}]
                 </strong>
             </h4>
@@ -84,7 +81,7 @@
                             (click)="onLetDownDemands()"
                             class="p-button-warning w-100"
                             *ngIf="
-                                params.vue === 'demande' &&
+                                params.vue === 'activation' &&
                                 params.action === 'Abandonner'
                             "
                         ></button>
@@ -101,7 +98,7 @@
                             (click)="onSaveDemandes()"
                             class="p-button-success w-100"
                             *ngIf="
-                                params.vue === 'demande' &&
+                                params.vue === 'activation' &&
                                 params.action === 'Identifier' &&
                                 canIdentify(listDemandes)
                             "
@@ -367,20 +364,11 @@
                             </div>
                         </div>
                         <div class="row">
-                            <h4
-                                class="col-md-7 wrapper-header"
-                                *ngIf="listDemandes?.operation === 'activation'"
-                            >
-                                <strong>Abonnement mobile</strong>
-                            </h4>
-                            <h4
-                                class="col-md-7 wrapper-header"
-                                *ngIf="
-                                    listDemandes?.operation === 'integration'
-                                "
-                            >
+                            <h4 class="col-md-7 wrapper-header">
                                 <strong
-                                    >Operation d'integration&nbsp;{{
+                                    >{{
+                                        formatTitle(listDemandes?.operation)
+                                    }}&nbsp;{{
                                         listDemandes?.numero_demande
                                     }}</strong
                                 >
@@ -433,6 +421,177 @@
                                     </div>
                                 </div> -->
                                 <fieldset>
+                                    <legend>
+                                        <strong>Informations demande</strong>
+                                    </legend>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label
+                                                    ><b
+                                                        >Désignation<span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></b
+                                                    ></label
+                                                >
+                                                <input
+                                                    formControlName="operation"
+                                                    type="text"
+                                                    pInputText
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <div class="form-group">
+                                                <label><b>PU (Fcfa)</b></label>
+                                                <input
+                                                    formControlName="prix_unitaire"
+                                                    type="text"
+                                                    pInputText
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <div class="form-group">
+                                                <label><b>Quantité</b></label>
+                                                <input
+                                                    formControlName="nb_demande_soumises"
+                                                    type="number"
+                                                    pInputText
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <div class="form-group">
+                                                <label
+                                                    ><b
+                                                        >Montant HT (Fcfa)</b
+                                                    ></label
+                                                >
+                                                <input
+                                                    placeholder="nombre"
+                                                    formControlName="prix_ht"
+                                                    type="text"
+                                                    pInputText
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
+                                            <div class="form-group">
+                                                <label
+                                                    ><b
+                                                        >Montant TTC (Fcfa)</b
+                                                    ></label
+                                                >
+                                                <input
+                                                    placeholder="nombre"
+                                                    formControlName="prix_ttc"
+                                                    type="text"
+                                                    pInputText
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div
+                                            class="col-md"
+                                            *ngIf="
+                                                this.params.vue ===
+                                                'SIM blanche'
+                                            "
+                                        >
+                                            <label for="commentaire"
+                                                ><strong
+                                                    >Courrier ou
+                                                    Document</strong
+                                                ></label
+                                            >
+                                            <div
+                                                class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                            >
+                                                <div
+                                                    *ngIf="
+                                                        displayBoutonJustificatif()
+                                                    "
+                                                >
+                                                    <button
+                                                        pButton
+                                                        pRipple
+                                                        label="Télécharger"
+                                                        icon="pi pi-download"
+                                                        class="p-button-success"
+                                                        (click)="
+                                                            downloadFile(
+                                                                'justificatif'
+                                                            )
+                                                        "
+                                                    ></button>
+                                                </div>
+                                                <div class="justificatif-error">
+                                                    <span
+                                                        class=""
+                                                        *ngIf="
+                                                            !displayBoutonJustificatif()
+                                                        "
+                                                    >
+                                                        <b
+                                                            class="disabled-piece-jointe"
+                                                            >Aucune pièce
+                                                            jointe</b
+                                                        >
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-md-3">
+                                            <label for="commentaire"
+                                                ><strong
+                                                    >Courrier ou
+                                                    Document</strong
+                                                ></label
+                                            >
+                                            <div
+                                                class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                            >
+                                                <div
+                                                    *ngIf="
+                                                        displayBoutonJustificatif()
+                                                    "
+                                                >
+                                                    <button
+                                                        pButton
+                                                        pRipple
+                                                        label="Télécharger"
+                                                        icon="pi pi-download"
+                                                        class="p-button-success"
+                                                        (click)="
+                                                            downloadFile(
+                                                                'justificatif'
+                                                            )
+                                                        "
+                                                    ></button>
+                                                </div>
+                                                <div class="justificatif-error">
+                                                    <span
+                                                        class=""
+                                                        *ngIf="
+                                                            !displayBoutonJustificatif()
+                                                        "
+                                                    >
+                                                        <b
+                                                            class="disabled-piece-jointe"
+                                                            >Aucune pièce
+                                                            jointe</b
+                                                        >
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </fieldset>
+                                <fieldset
+                                    *ngIf="this.params.vue !== 'SIM blanche'"
+                                >
                                     <legend>Demande</legend>
                                     <div class="row">
                                         <ng-container
@@ -479,7 +638,7 @@
                                                 formControlName="usage_id"
                                             />
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md">
                                             <label
                                                 ><b
                                                     >Formule destination<span
@@ -506,6 +665,63 @@
                                             />
                                         </div>
                                         <div class="col-md-3">
+                                            <label for="commentaire"
+                                                ><strong
+                                                    >Paiement</strong
+                                                ></label
+                                            >
+                                            <div
+                                                class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                            >
+                                                <div
+                                                    *ngIf="
+                                                        listDemandes?.type_paiement ===
+                                                        BADGE_STAUT_PAIEMENT.DIFFERE
+                                                    "
+                                                >
+                                                    <b
+                                                        class="disabled-piece-jointe"
+                                                        >Differé sur la
+                                                        facture</b
+                                                    >
+                                                </div>
+                                                <div
+                                                    *ngIf="
+                                                        listDemandes?.type_paiement ===
+                                                        BADGE_STAUT_PAIEMENT.MON_COMPTE
+                                                    "
+                                                >
+                                                    <b
+                                                        class="disabled-piece-jointe"
+                                                        >Débité de votre
+                                                        compte</b
+                                                    >
+                                                </div>
+                                                <div class="justificatif-error">
+                                                    <span
+                                                        class=""
+                                                        *ngIf="
+                                                            listDemandes?.type_paiement ===
+                                                            BADGE_STAUT_PAIEMENT.IMMEDIAT
+                                                        "
+                                                    >
+                                                        <button
+                                                            pButton
+                                                            pRipple
+                                                            label="Réçu"
+                                                            icon="pi pi-download"
+                                                            class="p-button-success"
+                                                            (click)="
+                                                                downloadFile(
+                                                                    'recu_paiement'
+                                                                )
+                                                            "
+                                                        ></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md">
                                             <label for="commentaire"
                                                 ><strong
                                                     >Courrier ou
@@ -549,55 +765,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <label for="commentaire"
-                                                ><strong
-                                                    >Paiement</strong
-                                                ></label
-                                            >
-                                            <div
-                                                class="d-flex justify-content-center align-items-center container-button-telecharger"
-                                            >
-                                                <div
-                                                    *ngIf="
-                                                        listDemandes?.type_paiement ===
-                                                        'différé'
-                                                    "
-                                                >
-                                                    <b
-                                                        class="disabled-piece-jointe"
-                                                        >Differé sur la
-                                                        facture</b
-                                                    >
-                                                </div>
-                                                <div class="justificatif-error">
-                                                    <span
-                                                        class=""
-                                                        *ngIf="
-                                                            listDemandes?.type_paiement ===
-                                                            'immédiat'
-                                                        "
-                                                    >
-                                                        <button
-                                                            pButton
-                                                            pRipple
-                                                            label="Réçu"
-                                                            icon="pi pi-download"
-                                                            class="p-button-success"
-                                                            (click)="
-                                                                downloadFile(
-                                                                    'recu-paiement'
-                                                                )
-                                                            "
-                                                        ></button>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </fieldset>
 
-                                <fieldset>
+                                <!-- <fieldset>
                                     <legend>
                                         <b>Informations d'affectation</b>
                                     </legend>
@@ -635,11 +806,11 @@
                                             />
                                         </div>
                                     </div>
-                                </fieldset>
+                                </fieldset> -->
 
                                 <fieldset>
                                     <legend>
-                                        <b>Détails de la Demande</b>
+                                        <b>Commentaire de la Demande</b>
                                     </legend>
                                     <div class="row">
                                         <div class="col-md-12">
@@ -683,12 +854,12 @@
                                 <fieldset
                                     *ngIf="
                                         !(
-                                            params.vue === 'demande' &&
+                                            params.vue === 'activation' &&
                                             params.action === 'Identifier' &&
                                             canIdentify(listDemandes)
                                         ) &&
                                         !(
-                                            params.vue === 'demande' &&
+                                            params.vue === 'activation' &&
                                             params.action === 'Abandonner'
                                         )
                                     "
@@ -708,7 +879,7 @@
                                                 ) &&
                                                     !(
                                                         params.vue ===
-                                                            'demande' &&
+                                                            'activation' &&
                                                         params.action ===
                                                             'Identifier' &&
                                                         canIdentify(
@@ -717,7 +888,7 @@
                                                     ) &&
                                                     !(
                                                         params.vue ===
-                                                            'demande' &&
+                                                            'activation' &&
                                                         params.action ===
                                                             'Abandonner'
                                                     ))
@@ -748,7 +919,7 @@
                                                 ) &&
                                                     !(
                                                         params.vue ===
-                                                            'demande' &&
+                                                            'activation' &&
                                                         params.action ===
                                                             'Identifier' &&
                                                         canIdentify(
@@ -757,7 +928,7 @@
                                                     ) &&
                                                     !(
                                                         params.vue ===
-                                                            'demande' &&
+                                                            'activation' &&
                                                         params.action ===
                                                             'Abandonner'
                                                     ))
@@ -784,13 +955,15 @@
                                                     params.action === 'Clôturer'
                                                 ) &&
                                                 !(
-                                                    params.vue === 'demande' &&
+                                                    params.vue ===
+                                                        'activation' &&
                                                     params.action ===
                                                         'Identifier' &&
                                                     canIdentify(listDemandes)
                                                 ) &&
                                                 !(
-                                                    params.vue === 'demande' &&
+                                                    params.vue ===
+                                                        'activation' &&
                                                     params.action ===
                                                         'Abandonner'
                                                 )
@@ -812,8 +985,12 @@
 
                                 <fieldset
                                     *ngIf="
-                                        params.vue === 'traitement' &&
-                                        params.action === 'Clôturer'
+                                        (params.vue === 'traitement' &&
+                                            params.action === 'Clôturer') ||
+                                        (listDemandes?.statut ===
+                                            BADGE_ETAPE.CLOTURE &&
+                                            listDemandes?.traitement ===
+                                                BADGE_ETAT.TERMINE)
                                     "
                                 >
                                     <legend><strong>Clôture</strong></legend>
@@ -918,6 +1095,7 @@
                                                                 class="form-check-input"
                                                                 type="radio"
                                                                 name="infosLigne"
+                                                                formControlName="notation_cloture"
                                                                 value="content"
                                                                 id="infosLigne"
                                                             />
@@ -948,6 +1126,7 @@
                                                                 class="form-check-input"
                                                                 type="radio"
                                                                 name="infosLigne"
+                                                                formControlName="notation_cloture"
                                                                 value="neutre"
                                                                 id="infosLigne"
                                                             />
@@ -978,6 +1157,7 @@
                                                                 class="form-check-input"
                                                                 type="radio"
                                                                 name="infosLigne"
+                                                                formControlName="notation_cloture"
                                                                 value="mécontent"
                                                                 id="infosLigne"
                                                             />
@@ -1018,7 +1198,7 @@
 
                                 <fieldset
                                     *ngIf="
-                                        params.vue === 'demande' &&
+                                        params.vue === 'activation' &&
                                         params.action === 'Identifier' &&
                                         canIdentify(listDemandes)
                                     "

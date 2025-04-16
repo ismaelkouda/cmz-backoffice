@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { Title } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-analyse-rejet',
   templateUrl: './analyse-rejet.component.html',
   styleUrls: ['./analyse-rejet.component.scss']
 })
+
 export class AnalyseRejetComponent implements OnInit {
 
   public isMaximized: boolean = false;

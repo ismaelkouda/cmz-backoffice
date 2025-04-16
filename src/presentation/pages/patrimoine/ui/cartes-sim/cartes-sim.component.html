@@ -9,47 +9,34 @@
                 <div class="card-body">
                     <div style="margin-top: -2rem !important">
                         <app-patrimoine-header
-                            [displayDate]="false"
-                            [count]="listCartesSim"
-                            [total]="pargination?.total"
-                            [legendePluriel]="'cartes SIM'"
-                            [legendeSingulier]="'carte SIM'"
+                            [displayDate]="true"
+                            [displayList]="true"
+                            [total]="pagination?.['total']"
+                            [legendePluriel]="'SIM_CARDS' | translate"
+                            [legendeSingulier]="'SIM_CARD' | translate"
                         >
                         </app-patrimoine-header>
                     </div>
                     <app-carte-filter
                         (filter)="filter($event)"
                         [filterData]="filterData"
-                        [firstLevelLibelle]="firstLevelLibelle"
-                        [secondLevelLibelle]="secondLevelLibelle"
-                        [thirdLevelLibelle]="thirdLevelLibelle"
+                        [listApplicants$]="listApplicants$"
+                        [listStepSimCard]="listStepSimCard"
+                        [listStateSimCard]="listStateSimCard"
                     ></app-carte-filter>
                     <hr />
-                    <app-table-button-header
-                        (refresh)="pageCallback()"
-                        (export)="exportExcel()"
-                        [hiddenButtonOther]="true"
-                    ></app-table-button-header>
-                    <!-- <app-table-header [count]="listCartesSim" [legende]="'SIM'" [pargination]="pargination"app-table-header> -->
-                    <br />
                     <app-carte-sim-table
-                        [spinner]="spinner"
-                        [listCartesSim]="listCartesSim"
+                        [pagination]="pagination"
+                        [listSimCard$]="listSimCard$"
+                        [simCardSelected]="simCardSelected$ | async"
                         (interfaceUser)="navigateByUrl($event)"
-                        [pargination]="pargination"
-                        [firstLevelLibelle]="firstLevelLibelle"
-                        [secondLevelLibelle]="secondLevelLibelle"
-                        [thirdLevelLibelle]="thirdLevelLibelle"
                     >
                     </app-carte-sim-table>
 
                     <app-pargination
-                        [pargination]="pargination"
+                        [pargination]="pagination"
                         (pageChange)="onPageChange($event)"
                     ></app-pargination>
-                    <!-- <app-patrimoine-forms [currentData]="currentData" *ngIf="formsView"
-                        (formsView)="pushStatutView($event)"
-                        (listCartesSim)="pushListPatrimoines($event)"></app-patrimoine-forms> -->
                 </div>
             </div>
         </div>

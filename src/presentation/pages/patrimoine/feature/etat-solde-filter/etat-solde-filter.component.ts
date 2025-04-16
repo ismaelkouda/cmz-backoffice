@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TypeAlarme } from 'src/shared/enum/TypeAlarme.enum';
 import { handle } from 'src/shared/functions/api.function';
 import { SettingService } from 'src/shared/services/setting.service';
-import { ListCommuneService } from 'src/shared/services/list-commune.service';
+// import { ListCommuneService } from 'src/shared/services/list-commune.service';
 import { PatrimoineService } from '../../data-access/patrimoine.service';
 
 @Component({
@@ -14,12 +14,12 @@ import { PatrimoineService } from '../../data-access/patrimoine.service';
 })
 
 export class EtatSoldeFilterComponent {
-    public formFilter: FormGroup;
-    public secondFilter: boolean = false;
     @Output() filter = new EventEmitter<{}>();
     @Input() firstLevelLibelle: string;
     @Input() secondLevelLibelle: string;
     @Input() thirdLevelLibelle: string;
+    public formFilter: FormGroup;
+    public secondFilter: boolean = false;
     public listAlarmes: Array<any> = [];
     private response: any = {};
     public listFirstLeveDatas: Array<any> = [];
@@ -30,7 +30,7 @@ export class EtatSoldeFilterComponent {
 
     constructor(private fb: FormBuilder, public settingService: SettingService,
         private toastrService: ToastrService, private loadingBar: LoadingBarService,
-        private listCommuneService: ListCommuneService, private patrimoineService: PatrimoineService) {
+        private patrimoineService: PatrimoineService) {
         Object.values(TypeAlarme).forEach(item => {
             this.listAlarmes.push(item);
         });
@@ -56,7 +56,7 @@ export class EtatSoldeFilterComponent {
     public onChangeFirstLvel(uuid: any) {
         this.listSecondLevelDatas = [];
         this.listFirstLeveDatas.find((element) => {
-            if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
+            // if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
         });
     }
 

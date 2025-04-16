@@ -1,207 +1,177 @@
 <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
-    <div class="d-flex gap-1">
-        <div class="width-100">
+    <div class="row">
+        <div class="col-md">
             <label
-                ><b>{{ firstLevelLibelle }}</b></label
+                ><b>{{ 'APPLICANT' | translate }}</b></label
             >
             <p-dropdown
-                [options]="listFirstLeveDatas"
+                formControlName="initie_par"
+                [options]="listApplicants$ | async"
                 optionLabel="fullName"
-                (onChange)="onChangeFirstLvel($event.value)"
-                [showClear]="true"
+                optionValue="id"
                 [filter]="true"
                 filterBy="fullName"
-                [placeholder]="firstLevelLibelle"
-                optionValue="uuid"
-                formControlName="niveau_un_uuid"
-                [ngStyle]="{ width: '100%' }"
+                [showClear]="true"
+                placeholder="{{ 'SELECT' | translate }} {{
+                    'APPLICANT' | translate
+                }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
             >
             </p-dropdown>
         </div>
-        <div class="width-100">
+        <div class="col-md">
             <label
-                ><b>{{ secondLevelLibelle }}</b></label
+                ><b>{{ 'NUMBER_FOLDER' | translate }}</b></label
             >
-            <p-dropdown
-                [options]="listSecondLevelDatas"
-                optionLabel="fullName"
-                [filter]="true"
-                [showClear]="true"
-                formControlName="niveau_deux_uuid"
-                [placeholder]="secondLevelLibelle"
-                optionValue="uuid"
-                [ngStyle]="{ width: '100%' }"
-            >
-            </p-dropdown>
+            <input
+                formControlName="numero_demande"
+                type="text"
+                pInputText
+                placeholder="{{ 'NUMBER_FOLDER' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
         </div>
-        <div class="width-80">
-            <label><b>Statut</b></label>
-            <p-dropdown
-                [options]="listStatuts"
-                [showClear]="true"
-                formControlName="statut"
-                placeholder="Statut"
+        <div class="col-md">
+            <label
+                ><b>{{ 'NUMBER_LINES' | translate }}</b></label
             >
-                <ng-template
-                    let-data
-                    pTemplate="item"
-                    [ngStyle]="{ width: '100%' }"
-                >
+            <input
+                formControlName="transaction"
+                type="text"
+                pInputText
+                placeholder="{{ 'NUMBER_LINES' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'STEP' | translate }}</b></label
+            >
+            <p-dropdown
+                formControlName="statut"
+                [options]="listStepSimCard"
+                [showClear]="true"
+                placeholder="{{ 'STEP' | translate }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+            >
+                <ng-template let-data pTemplate="item">
                     <div class="country-item">
                         <div>{{ data | titlecase }}</div>
                     </div>
                 </ng-template>
             </p-dropdown>
         </div>
-        <div class="width-80">
-            <label><b>MSISDN</b></label>
-            <input
-                placeholder="Numéro"
-                formControlName="msisdn"
-                type="text"
-                pInputText
-                [ngStyle]="{ width: '100%' }"
-            />
-        </div>
-        <div class="width-80">
-            <label><b>IMSI</b></label>
-            <input
-                placeholder="IMSI"
-                formControlName="imsi"
-                type="text"
-                pInputText
-                [ngStyle]="{ width: '100%' }"
-            />
-        </div>
-        <div class="width-80">
-            <label><b>APN</b></label>
-            <p-dropdown
-                [options]="listAPN"
-                placeholder="apn"
-                [showClear]="true"
-                formControlName="apn"
-                optionLabel="apn"
-                optionValue="apn"
+        <div class="col-md">
+            <label
+                ><b>{{ 'STATE' | translate }}</b></label
             >
-                <ng-template
-                    let-data
-                    pTemplate="item"
-                    [ngStyle]="{ width: '100%' }"
-                >
+            <p-dropdown
+                formControlName="traitement"
+                [options]="listStateSimCard"
+                [showClear]="true"
+                placeholder="{{ 'STATE' | translate }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+            >
+                <ng-template let-data pTemplate="item">
                     <div class="country-item">
-                        <div>{{ data.apn | titlecase }}</div>
+                        <div>{{ data | titlecase }}</div>
                     </div>
                 </ng-template>
             </p-dropdown>
         </div>
-        <div class="width-80">
-            <label><b>Adresse IP</b></label>
+        <div class="col-md">
+            <label
+                ><b>{{ 'MSISDN' | translate }}</b></label
+            >
             <input
-                placeholder="Adresse IP"
-                formControlName="adresse_ip"
+                formControlName="msisdn"
                 type="text"
                 pInputText
-                [ngStyle]="{ width: '100%' }"
+                placeholder="{{ 'MSISDN' | translate }}"
+                [style]="{ minWidth: '100%' }"
             />
         </div>
-        <div [ngStyle]="{ width: 'auto' }" *ngIf="!secondFilter">
-            <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-            <p-button
-                styleClass="p-button-success"
-                icon="pi pi-filter"
+
+        <div class="filter-button" *ngIf="!secondFilter">
+            <button
+                pButton
+                pRipple
                 type="submit"
-            ></p-button>
+                class="p-button-success"
+                icon="pi pi-filter"
+            ></button>
         </div>
-        <div [ngStyle]="{ width: 'auto' }">
-            <label [ngStyle]="{ opacity: '0' }">Actions</label> <br />
-            <p-button
+
+        <div class="filter-button">
+            <button
                 *ngIf="!secondFilter"
                 (click)="showSecondFilter()"
-                styleClass="p-button-dark"
+                pButton
+                pRipple
+                class="p-button-dark"
                 icon="pi pi-plus"
-            ></p-button>
-            <p-button
+            ></button>
+            <button
                 *ngIf="secondFilter"
                 (click)="showSecondFilter()"
-                styleClass="p-button-dark"
+                pButton
+                pRipple
+                class="p-button-dark"
                 icon="pi pi-minus"
-            ></p-button>
+            ></button>
         </div>
     </div>
-    <!--------------------Second-------------Filter--------->
-    <div class="d-flex gap-1" style="padding-top: 0.7rem" *ngIf="secondFilter">
-        <div class="width-100">
-            <label><b>Usage</b></label>
-            <p-dropdown
-                [options]="listUsages"
-                formControlName="usage_id"
-                optionLabel="nom_usage"
-                [showClear]="true"
-                [placeholder]="'Usage'"
-                optionValue="id"
-                [ngStyle]="{ width: '100%' }"
-            >
-            </p-dropdown>
-        </div>
-        <div class="width-100">
-            <label><b>Formule</b></label>
-            <p-dropdown
-                [options]="listFormule"
-                formControlName="formule_uuid"
-                optionLabel="nom"
-                [showClear]="true"
-                [placeholder]="'Formule'"
-                optionValue="uuid"
-                [ngStyle]="{ width: '100%' }"
-            >
-            </p-dropdown>
-        </div>
-        <div class="width-100">
+
+    <br *ngIf="secondFilter" />
+
+    <div class="row" *ngIf="secondFilter">
+        <div class="col-md-2">
             <label
-                ><b>{{ thirdLevelLibelle }}</b></label
+                ><b>{{ 'IMSI' | translate }}</b></label
             >
-            <p-dropdown
-                [options]="listThirdLevelDatas"
-                formControlName="niveau_trois_uuid"
-                optionLabel="nom"
-                [showClear]="true"
-                [placeholder]="thirdLevelLibelle"
-                optionValue="uuid"
-                [ngStyle]="{ width: '100%' }"
-            >
-            </p-dropdown>
-        </div>
-        <div class="width-100">
-            <label><b>Nom Emplacement</b></label>
             <input
-                placeholder="Emplacement"
-                formControlName="point_emplacement"
+                formControlName="imsi"
                 type="text"
                 pInputText
-                [ngStyle]="{ width: '100%' }"
+                placeholder="{{ 'IMSI' | translate }}"
+                [style]="{ minWidth: '100%' }"
             />
         </div>
-        <div class="width-100">
-            <label>
-                <b>Zone Trafic</b>
-            </label>
-            <input
-                placeholder="zone"
-                formControlName="zone_trafic"
-                type="text"
-                pInputText
-                [ngStyle]="{ width: '100%' }"
-            />
+        <div class="col-md-2">
+            <label
+                ><b>{{ 'START_DATE' | translate }}</b></label
+            >
+            <p-calendar
+                formControlName="date_debut"
+                [showIcon]="true"
+                [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
         </div>
-        <div
-            class="p-0 d-flex align-items-end justify-content-end"
-            [ngStyle]="{ width: '4rem' }"
-        >
-            <p-button
-                styleClass="p-button-success"
-                icon="pi pi-filter"
+        <div class="col-md-2">
+            <label
+                ><b>{{ 'END_DATE' | translate }}</b></label
+            >
+            <p-calendar
+                formControlName="date_fin"
+                [showIcon]="true"
+                placeholder="JJ-MM-AAAA"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+        <div class="filter-button">
+            <button
+                pButton
+                pRipple
                 type="submit"
-            ></p-button>
+                class="p-button-success"
+                icon="pi pi-filter"
+            ></button>
         </div>
     </div>
 </form>

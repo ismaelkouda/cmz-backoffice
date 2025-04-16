@@ -35,6 +35,7 @@ export class ContentComponent implements OnInit, AfterViewInit {
         return this.navServices.horizontal
           ? 'horizontal-wrapper enterprice-type advance-layout'
           : 'compact-wrapper enterprice-type advance-layout';
+          default: return 'compact-wrapper dark-sidebar'
     }
   }
 

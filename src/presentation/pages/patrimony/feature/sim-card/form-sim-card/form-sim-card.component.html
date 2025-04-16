@@ -1,0 +1,2324 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="module"
+                [active_item]="subModule"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <div class="forms-feature-header">
+                            <div>
+                                <h4>
+                                    <b
+                                        *ngIf="
+                                            urlParamRef === 'update-sim-card'
+                                        "
+                                    >
+                                        <span>Modification de la SIM</span>
+                                        <span class="current_values"
+                                            >[{{ urlParamMSISDN }}]</span
+                                        >
+                                    </b>
+                                    <b *ngIf="urlParamRef === 'view-sim-card'">
+                                        <span>Visualisation de la SIM</span>
+                                        <span class="current_values"
+                                            >[{{ urlParamMSISDN }}]</span
+                                        >
+                                    </b>
+                                    <b
+                                        *ngIf="
+                                            urlParamRef ===
+                                            'identification-sim-card'
+                                        "
+                                    >
+                                        <span>Identification de la SIM</span>
+                                        <span class="current_values"
+                                            >[{{ urlParamMSISDN }}]</span
+                                        >
+                                    </b>
+                                </h4>
+                            </div>
+                            <div class="d-flex gap-3">
+                                <div *ngIf="urlParamRef === 'update-sim-card'">
+                                    <p-button
+                                        label="Enregistrer"
+                                        styleClass="p-button-success"
+                                        (click)="handleUpdateSimCard()"
+                                        [class.p-disabled]="
+                                            formUpdateCarteSim.invalid
+                                        "
+                                    >
+                                    </p-button>
+                                </div>
+                                <div
+                                    *ngIf="
+                                        urlParamRef ===
+                                        'identification-sim-card'
+                                    "
+                                >
+                                    <p-button
+                                        label="Identifier"
+                                        styleClass="p-button-success"
+                                        (click)="handleIdentifySimCard()"
+                                        [class.p-disabled]="
+                                            isDisabledButtonIdentifySimCard()
+                                        "
+                                    >
+                                    </p-button>
+                                </div>
+                                <div>
+                                    <p-button
+                                        label="Fermer"
+                                        (click)="closeInterface()"
+                                        styleClass="p-button-danger"
+                                    >
+                                    </p-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="simCardSelectedDetails; else loadingPage">
+                            <!-------------------------- Formulaire d'identification ------------------------------->
+                            <div
+                                *ngIf="
+                                    urlParamRef === 'identification-sim-card'
+                                "
+                                style="margin-top: 3rem"
+                            >
+                                <form [formGroup]="formIdentifierCarteSim">
+                                    <fieldset>
+                                        <legend>
+                                            <b>Utilisateur / Bénéficiaire</b>
+                                        </legend>
+                                        <div class="d-flex gap-4 mb-2">
+                                            <div
+                                                class="d-flex align-items-end flex-wrap"
+                                                style="width: fix-content"
+                                            >
+                                                <div class="block-checked">
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center wrapper-check"
+                                                        style="
+                                                            width: fix-content;
+                                                        "
+                                                    >
+                                                        <div
+                                                            class="form-check form-check-inline"
+                                                            style="
+                                                                margin-left: 1rem;
+                                                            "
+                                                        >
+                                                            <input
+                                                                class="form-check-input"
+                                                                type="radio"
+                                                                name="type_utilisateur"
+                                                                value="Personne"
+                                                                id="Personne"
+                                                                formControlName="type_personne"
+                                                            />
+                                                            <label
+                                                                class="form-check-label"
+                                                                for="Personne"
+                                                                style="
+                                                                    width: auto !important;
+                                                                "
+                                                                ><strong
+                                                                    >Personne
+                                                                    physique</strong
+                                                                ></label
+                                                            >
+                                                        </div>
+                                                        <div
+                                                            class="form-check form-check-inline"
+                                                        >
+                                                            <input
+                                                                class="form-check-input"
+                                                                type="radio"
+                                                                name="type_utilisateur"
+                                                                value="Equipement"
+                                                                id="Equipement"
+                                                                formControlName="type_personne"
+                                                            />
+                                                            <label
+                                                                class="form-check-label"
+                                                                for="Equipement"
+                                                                style="
+                                                                    width: auto !important;
+                                                                "
+                                                                ><strong
+                                                                    >Equipement
+                                                                    connectés</strong
+                                                                ></label
+                                                            >
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="alert alert-light col-md"
+                                                role="alert"
+                                                style="
+                                                    height: 4rem;
+                                                    margin-right: 14px;
+                                                "
+                                            >
+                                                <ng-container
+                                                    *ngIf="
+                                                        displayPersonne;
+                                                        else equipementMessage
+                                                    "
+                                                >
+                                                    <span class="fs-5">
+                                                        Les informations de la
+                                                        personne seront
+                                                        rattachées à la SIM
+                                                    </span>
+                                                </ng-container>
+                                                <ng-template #equipementMessage>
+                                                    <span class="fs-5">
+                                                        Les informations de
+                                                        l'équipement seront
+                                                        rattachées à la SIM
+                                                    </span>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <ng-container
+                                                *ngIf="
+                                                    displayPersonne === true;
+                                                    else displayEquipement
+                                                "
+                                            >
+                                                <div class="col-md">
+                                                    <div class="form-group">
+                                                        <label
+                                                            ><b
+                                                                >Nom<span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                ></b
+                                                            ></label
+                                                        >
+                                                        <input
+                                                            type="text"
+                                                            formControlName="nom"
+                                                            pInputText
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md">
+                                                    <div class="form-group">
+                                                        <label
+                                                            ><b
+                                                                >Prénoms<span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                ></b
+                                                            ></label
+                                                        >
+                                                        <input
+                                                            type="text"
+                                                            formControlName="prenoms"
+                                                            pInputText
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md">
+                                                    <label>
+                                                        <b
+                                                            >Nature de la
+                                                            pièce<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
+                                                        </b>
+                                                    </label>
+                                                    <p-dropdown
+                                                        [options]="
+                                                            listeNaturePiece
+                                                        "
+                                                        formControlName="nature_piece"
+                                                        placeholder="Nature de la pièce"
+                                                    >
+                                                    </p-dropdown>
+                                                </div>
+                                                <div class="col-md">
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <b
+                                                                >Numéro de la
+                                                                pièce<span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                ></b
+                                                            >
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            formControlName="numero_piece"
+                                                            pInputText
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label
+                                                        ><b
+                                                            >Date naissance<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <p-calendar
+                                                        formControlName="date_naissance"
+                                                        [showIcon]="true"
+                                                        [placeholder]="
+                                                            'JJ-MM-AAAA'
+                                                        "
+                                                        dateFormat="dd-mm-yy"
+                                                    >
+                                                    </p-calendar>
+                                                </div>
+                                                <div class="col-md">
+                                                    <div class="form-group">
+                                                        <label
+                                                            ><b
+                                                                >Lieu de
+                                                                naissance<span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                ></b
+                                                            ></label
+                                                        >
+                                                        <input
+                                                            type="text"
+                                                            formControlName="lieu_naissance"
+                                                            pInputText
+                                                            class="w-100"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-template #displayEquipement>
+                                                <div class="col-md">
+                                                    <div class="form-group">
+                                                        <label
+                                                            ><b
+                                                                >Types
+                                                                Emplacements<span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                ></b
+                                                            ></label
+                                                        >
+                                                        <input
+                                                            type="text"
+                                                            formControlName="prenoms"
+                                                            pInputText
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md">
+                                                    <div class="form-group">
+                                                        <label
+                                                            ><b
+                                                                >Nom
+                                                                Emplacement<span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                ></b
+                                                            ></label
+                                                        >
+                                                        <input
+                                                            type="text"
+                                                            formControlName="nom"
+                                                            pInputText
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md">
+                                                    <label
+                                                        ><b
+                                                            >Type numéro<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <p-dropdown
+                                                        [options]="
+                                                            listeNatureDocument
+                                                        "
+                                                        formControlName="nature_piece"
+                                                        placeholder="Nature du document"
+                                                    >
+                                                    </p-dropdown>
+                                                </div>
+                                                <div class="col-md">
+                                                    <div class="form-group">
+                                                        <label
+                                                            ><b
+                                                                >Numéro
+                                                                {{
+                                                                    formIdentifierCarteSim
+                                                                        ?.value
+                                                                        ?.nature_piece
+                                                                }}<span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                ></b
+                                                            ></label
+                                                        >
+                                                        <input
+                                                            type="text"
+                                                            formControlName="numero_piece"
+                                                            pInputText
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label
+                                                        ><b
+                                                            >Date
+                                                            d'installation<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <p-calendar
+                                                        formControlName="date_naissance"
+                                                        [showIcon]="true"
+                                                        [placeholder]="
+                                                            'JJ-MM-AAAA'
+                                                        "
+                                                        dateFormat="dd-mm-yy"
+                                                    >
+                                                    </p-calendar>
+                                                </div>
+                                                <div class="col-md">
+                                                    <div class="form-group">
+                                                        <label
+                                                            ><b
+                                                                >Lieu
+                                                                d'installation<span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                ></b
+                                                            ></label
+                                                        >
+                                                        <input
+                                                            type="text"
+                                                            formControlName="lieu_naissance"
+                                                            pInputText
+                                                            class="w-100"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >IMSI<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="imsi"
+                                                        pInputText
+                                                        class="w-100"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >ICCID<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="iccid"
+                                                        pInputText
+                                                        class="w-100"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >MSISDN<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="msisdn"
+                                                        pInputText
+                                                        class="w-100"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b>Identification</b>
+                                                    </label>
+                                                    <app-statut-contrat
+                                                        [statut]="
+                                                            simCardSelectedDetails?.['identification_fiabilite']
+                                                        "
+                                                    ></app-statut-contrat>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-md">
+                                                <div class="form-group">
+                                                    <label><b>Formule</b></label>
+                                                    <input type="text" formControlName="formule" pInputText
+                                                        class="w-100" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md">
+                                                <div class="form-group">
+                                                    <label><b>Statut Contrat</b></label>
+                                                    <app-statut-contrat [statut]="
+                                                            simCardSelectedDetails?.['statut']
+                                                        "></app-statut-contrat>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset>
+                                        <legend><b>Photo & Pièces</b></legend>
+                                        <div class="row">
+                                            <div
+                                                class="d-flex justify-content-end mb-2"
+                                            >
+                                                <p-button
+                                                    label="Analyser"
+                                                    styleClass="p-button-primary"
+                                                    (click)="
+                                                        handleAnalyzePiecePhoto()
+                                                    "
+                                                    tooltipPosition="top"
+                                                    [disabled]="
+                                                        formIdentifierCarteSim.get(
+                                                            'type_personne'
+                                                        ).value ==
+                                                        TypeUtilisateur.Equipement
+                                                    "
+                                                    [pTooltip]="
+                                                        formIdentifierCarteSim.get(
+                                                            'type_personne'
+                                                        ).value ==
+                                                        TypeUtilisateur.Equipement
+                                                            ? 'Impossible de Analyser l\'equipement'
+                                                            : 'Analyser les pièces'
+                                                    "
+                                                >
+                                                </p-button>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <div class="card">
+                                                        <p-fileUpload
+                                                            name="myfile[]"
+                                                            [showCancelButton]="
+                                                                false
+                                                            "
+                                                            url="https://www.primefaces.org/cdn/api/upload.php"
+                                                            [multiple]="false"
+                                                            accept="image/*"
+                                                            maxFileSize="5000000"
+                                                            (onSelect)="
+                                                                onSelectedFiles(
+                                                                    $event,
+                                                                    'physique'
+                                                                )
+                                                            "
+                                                            [showUploadButton]="
+                                                                false
+                                                            "
+                                                            chooseLabel="Choisir photo physique"
+                                                        >
+                                                            <ng-template
+                                                                pTemplate="header"
+                                                                let-filesPhysique
+                                                                let-chooseCallback="chooseCallback"
+                                                            >
+                                                                <div
+                                                                    class="flex flex-wrap justify-content-between align-items-center flex-1 gap-2"
+                                                                >
+                                                                    <p-progressBar
+                                                                        [value]="
+                                                                            totalSizePercent
+                                                                        "
+                                                                        [showValue]="
+                                                                            false
+                                                                        "
+                                                                        styleClass="md:w-20rem h-1rem w-full md:ml-auto"
+                                                                        [ngClass]="{
+                                                                            'exceeded-progress-bar':
+                                                                                totalSizePercent >
+                                                                                100
+                                                                        }"
+                                                                    >
+                                                                        <span
+                                                                            class="white-space-nowrap"
+                                                                            >{{
+                                                                                totalSize
+                                                                            }}B
+                                                                            /
+                                                                            1Mb</span
+                                                                        >
+                                                                    </p-progressBar>
+                                                                </div>
+                                                            </ng-template>
+                                                            <ng-template
+                                                                pTemplate="content"
+                                                                let-filesPhysique
+                                                                let-chooseCallback="chooseCallback"
+                                                                let-removeFileCallback="removeFileCallback"
+                                                            >
+                                                                <div
+                                                                    *ngIf="
+                                                                        filesPhysique?.length >
+                                                                        0
+                                                                    "
+                                                                >
+                                                                    <div
+                                                                        *ngFor="
+                                                                            let file of filesPhysique;
+                                                                            let i = index
+                                                                        "
+                                                                    >
+                                                                        <img
+                                                                            role="presentation"
+                                                                            [alt]="
+                                                                                file.name
+                                                                            "
+                                                                            class="img-fluid"
+                                                                            [src]="
+                                                                                file.objectURL
+                                                                            "
+                                                                            style="
+                                                                                position: relative;
+                                                                                max-height: 550px;
+                                                                            "
+                                                                        />
+
+                                                                        <button
+                                                                            icon="pi pi-trash"
+                                                                            class="p-button-danger buttonDeleteFileUpload"
+                                                                            pButton
+                                                                            pRipple
+                                                                            style="
+                                                                                position: absolute;
+                                                                                right: 15px;
+                                                                                border: none;
+                                                                                padding: 10px
+                                                                                    10px;
+                                                                                font-size: large;
+                                                                            "
+                                                                            (click)="
+                                                                                onRemoveTemplatingFile(
+                                                                                    $event,
+                                                                                    file,
+                                                                                    removeFileCallback,
+                                                                                    i,
+                                                                                    'physique'
+                                                                                )
+                                                                            "
+                                                                            [outlined]="
+                                                                                true
+                                                                            "
+                                                                            [rounded]="
+                                                                                true
+                                                                            "
+                                                                            pTooltip="Supprimer"
+                                                                            tooltipPosition="top"
+                                                                        ></button>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    *ngIf="
+                                                                        filesPhysique?.length <=
+                                                                        0
+                                                                    "
+                                                                >
+                                                                    <p-image
+                                                                        [src]="
+                                                                            simCardSelectedDetails?.photo_physique
+                                                                        "
+                                                                        alt="Illustration photo physique"
+                                                                        style="
+                                                                            width: 100%;
+                                                                            max-height: 550px;
+                                                                        "
+                                                                        [preview]="
+                                                                            true
+                                                                        "
+                                                                    ></p-image>
+                                                                </div>
+                                                            </ng-template>
+                                                        </p-fileUpload>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <div class="card">
+                                                        <p-fileUpload
+                                                            name="myfile[]"
+                                                            [showCancelButton]="
+                                                                false
+                                                            "
+                                                            url="https://www.primefaces.org/cdn/api/upload.php"
+                                                            [multiple]="false"
+                                                            accept="image/*"
+                                                            maxFileSize="5000000"
+                                                            (onSelect)="
+                                                                onSelectedFiles(
+                                                                    $event,
+                                                                    'recto'
+                                                                )
+                                                            "
+                                                            [showUploadButton]="
+                                                                false
+                                                            "
+                                                            chooseLabel="Choisir pièce recto"
+                                                        >
+                                                            <ng-template
+                                                                pTemplate="header"
+                                                                let-filesRecto
+                                                                let-chooseCallback="chooseCallback"
+                                                            >
+                                                                <div
+                                                                    class="flex flex-wrap justify-content-between align-items-center flex-1 gap-2"
+                                                                >
+                                                                    <p-progressBar
+                                                                        [value]="
+                                                                            totalSizePercent
+                                                                        "
+                                                                        [showValue]="
+                                                                            false
+                                                                        "
+                                                                        styleClass="md:w-20rem h-1rem w-full md:ml-auto"
+                                                                        [ngClass]="{
+                                                                            'exceeded-progress-bar':
+                                                                                totalSizePercent >
+                                                                                100
+                                                                        }"
+                                                                    >
+                                                                        <span
+                                                                            class="white-space-nowrap"
+                                                                            >{{
+                                                                                totalSize
+                                                                            }}B
+                                                                            /
+                                                                            1Mb</span
+                                                                        >
+                                                                    </p-progressBar>
+                                                                </div>
+                                                            </ng-template>
+
+                                                            <ng-template
+                                                                pTemplate="content"
+                                                                let-filesRecto
+                                                                let-chooseCallback="chooseCallback"
+                                                                let-removeFileCallback="removeFileCallback"
+                                                            >
+                                                                <div
+                                                                    *ngIf="
+                                                                        filesRecto?.length >
+                                                                        0
+                                                                    "
+                                                                >
+                                                                    <div
+                                                                        *ngFor="
+                                                                            let file of filesRecto;
+                                                                            let i = index
+                                                                        "
+                                                                    >
+                                                                        <img
+                                                                            role="presentation"
+                                                                            [alt]="
+                                                                                file.name
+                                                                            "
+                                                                            class="img-fluid"
+                                                                            [src]="
+                                                                                file.objectURL
+                                                                            "
+                                                                            style="
+                                                                                position: relative;
+                                                                                max-height: 550px;
+                                                                            "
+                                                                        />
+
+                                                                        <button
+                                                                            icon="pi pi-trash"
+                                                                            class="p-button-danger buttonDeleteFileUpload"
+                                                                            pButton
+                                                                            pRipple
+                                                                            style="
+                                                                                position: absolute;
+                                                                                right: 15px;
+                                                                                border: none;
+                                                                                padding: 10px
+                                                                                    10px;
+                                                                                font-size: large;
+                                                                            "
+                                                                            (click)="
+                                                                                onRemoveTemplatingFile(
+                                                                                    $event,
+                                                                                    file,
+                                                                                    removeFileCallback,
+                                                                                    i,
+                                                                                    'recto'
+                                                                                )
+                                                                            "
+                                                                            [outlined]="
+                                                                                true
+                                                                            "
+                                                                            [rounded]="
+                                                                                true
+                                                                            "
+                                                                            pTooltip="Supprimer"
+                                                                            tooltipPosition="top"
+                                                                        ></button>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    *ngIf="
+                                                                        filesRecto?.length <=
+                                                                        0
+                                                                    "
+                                                                >
+                                                                    <p-image
+                                                                        [src]="
+                                                                            simCardSelectedDetails?.photo_carte_recto
+                                                                        "
+                                                                        alt="Illustration pièce recto"
+                                                                        style="
+                                                                            width: 100%;
+                                                                            max-height: 550px;
+                                                                        "
+                                                                        [preview]="
+                                                                            true
+                                                                        "
+                                                                    >
+                                                                    </p-image>
+                                                                </div>
+                                                            </ng-template>
+                                                        </p-fileUpload>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <div class="card">
+                                                        <p-fileUpload
+                                                            name="myfile[]"
+                                                            [showCancelButton]="
+                                                                false
+                                                            "
+                                                            url="https://www.primefaces.org/cdn/api/upload.php"
+                                                            [multiple]="false"
+                                                            accept="image/*"
+                                                            maxFileSize="5000000"
+                                                            (onSelect)="
+                                                                onSelectedFiles(
+                                                                    $event,
+                                                                    'verso'
+                                                                )
+                                                            "
+                                                            [showUploadButton]="
+                                                                false
+                                                            "
+                                                            chooseLabel="Choisir pièce verso"
+                                                        >
+                                                            <ng-template
+                                                                pTemplate="header"
+                                                                let-filesVerso
+                                                                let-chooseCallback="chooseCallback"
+                                                            >
+                                                                <div
+                                                                    class="flex flex-wrap justify-content-between align-items-center flex-1 gap-2"
+                                                                >
+                                                                    <p-progressBar
+                                                                        [value]="
+                                                                            totalSizePercent
+                                                                        "
+                                                                        [showValue]="
+                                                                            false
+                                                                        "
+                                                                        styleClass="md:w-20rem h-1rem w-full md:ml-auto"
+                                                                        [ngClass]="{
+                                                                            'exceeded-progress-bar':
+                                                                                totalSizePercent >
+                                                                                100
+                                                                        }"
+                                                                    >
+                                                                        <span
+                                                                            class="white-space-nowrap"
+                                                                            >{{
+                                                                                totalSize
+                                                                            }}B
+                                                                            /
+                                                                            1Mb</span
+                                                                        >
+                                                                    </p-progressBar>
+                                                                </div>
+                                                            </ng-template>
+                                                            <ng-template
+                                                                pTemplate="content"
+                                                                let-filesVerso
+                                                                let-chooseCallback="chooseCallback"
+                                                                let-removeFileCallback="removeFileCallback"
+                                                            >
+                                                                <div
+                                                                    *ngIf="
+                                                                        filesVerso?.length >
+                                                                        0
+                                                                    "
+                                                                >
+                                                                    <div
+                                                                        *ngFor="
+                                                                            let file of filesVerso;
+                                                                            let i = index
+                                                                        "
+                                                                    >
+                                                                        <img
+                                                                            role="presentation"
+                                                                            [alt]="
+                                                                                file.name
+                                                                            "
+                                                                            class="img-fluid"
+                                                                            [src]="
+                                                                                file.objectURL
+                                                                            "
+                                                                            style="
+                                                                                position: relative;
+                                                                                max-height: 550px;
+                                                                            "
+                                                                        />
+
+                                                                        <button
+                                                                            icon="pi pi-trash"
+                                                                            class="p-button-danger buttonDeleteFileUpload"
+                                                                            pButton
+                                                                            pRipple
+                                                                            style="
+                                                                                position: absolute;
+                                                                                right: 15px;
+                                                                                border: none;
+                                                                                padding: 10px
+                                                                                    10px;
+                                                                                font-size: large;
+                                                                            "
+                                                                            (click)="
+                                                                                onRemoveTemplatingFile(
+                                                                                    $event,
+                                                                                    file,
+                                                                                    removeFileCallback,
+                                                                                    i,
+                                                                                    'verso'
+                                                                                )
+                                                                            "
+                                                                            [outlined]="
+                                                                                true
+                                                                            "
+                                                                            [rounded]="
+                                                                                true
+                                                                            "
+                                                                            pTooltip="Supprimer"
+                                                                            tooltipPosition="top"
+                                                                        ></button>
+                                                                    </div>
+                                                                </div>
+                                                                <div
+                                                                    *ngIf="
+                                                                        filesVerso?.length <=
+                                                                        0
+                                                                    "
+                                                                >
+                                                                    <p-image
+                                                                        [src]="
+                                                                            simCardSelectedDetails?.photo_carte_verso
+                                                                        "
+                                                                        alt="Illustration pièce verso"
+                                                                        style="
+                                                                            width: 100%;
+                                                                            max-height: 550px;
+                                                                        "
+                                                                        [preview]="
+                                                                            true
+                                                                        "
+                                                                    >
+                                                                    </p-image>
+                                                                </div>
+                                                            </ng-template>
+                                                        </p-fileUpload>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <div class="forms-feature-footer">
+                                        <p-button
+                                            label="Identifier"
+                                            styleClass="p-button-success"
+                                            (click)="handleIdentifySimCard()"
+                                            [class.p-disabled]="(isNoVerifyPiecesPhotos || formIdentifierCarteSim.invalid) && !(formIdentifierCarteSim.valid && simCardSelectedDetails?.['is_identified'])"
+                                        >
+                                        </p-button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-------------------------- Formulaire d'edition ------------------------------->
+                            <div
+                                *ngIf="urlParamRef === 'update-sim-card'"
+                                style="margin-top: 3rem"
+                            >
+                                <form [formGroup]="formUpdateCarteSim">
+                                    <fieldset>
+                                        <legend><b>Informations SIM</b></legend>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >IMSI<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="imsi"
+                                                        pInputText
+                                                        class="w-100"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >ICCID<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="iccid"
+                                                        pInputText
+                                                        class="w-100"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >MSISDN<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="msisdn"
+                                                        pInputText
+                                                        class="w-100"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b>Formule</b></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="formule"
+                                                        pInputText
+                                                        class="w-100"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >Statut Contrat</b
+                                                        ></label
+                                                    >
+                                                    <app-statut-contrat
+                                                        [statut]="
+                                                            simCardSelectedDetails?.['statut']
+                                                        "
+                                                    ></app-statut-contrat>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset>
+                                        <legend>
+                                            <b>Informations d'affectation</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >{{ firstLevelLibel
+                                                            }}<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <p-dropdown
+                                                        [options]="
+                                                            listFirstLevel$
+                                                                | async
+                                                        "
+                                                        formControlName="niveau_un_uuid"
+                                                        optionLabel="nom"
+                                                        optionValue="uuid"
+                                                        [placeholder]="
+                                                            firstLevelLibel
+                                                        "
+                                                    >
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <label
+                                                    ><b>{{
+                                                        secondLevelLibel
+                                                    }}</b></label
+                                                >
+                                                <p-dropdown
+                                                    formControlName="niveau_deux_uuid"
+                                                    [options]="
+                                                        listSecondLevel$ | async
+                                                    "
+                                                    optionValue="uuid"
+                                                    optionLabel="nom"
+                                                    filterBy="nom"
+                                                    [showClear]="true"
+                                                    [filter]="true"
+                                                    placeholder="{{
+                                                        'SELECT' | translate
+                                                    }} {{ secondLevelLibel }}"
+                                                    emptyFilterMessage="{{
+                                                        'NO_MATCH' | translate
+                                                    }}"
+                                                    emptyMessage="{{
+                                                        'NO_DATA_FOUND'
+                                                            | translate
+                                                    }}"
+                                                >
+                                                </p-dropdown>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >{{ thirdLevelLibel
+                                                            }}<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <p-dropdown
+                                                        [options]="
+                                                            listThirdLevel$
+                                                                | async
+                                                        "
+                                                        formControlName="niveau_trois_uuid"
+                                                        optionLabel="nom"
+                                                        optionValue="uuid"
+                                                        [placeholder]="
+                                                            thirdLevelLibel
+                                                        "
+                                                    >
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >Nom Emplacement</b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="point_emplacement"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >Usage<span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            ></b
+                                                        ></label
+                                                    >
+                                                    <p-dropdown
+                                                        [options]="
+                                                            listUsages$ | async
+                                                        "
+                                                        formControlName="usage_id"
+                                                        optionLabel="nom_usage"
+                                                        optionValue="id"
+                                                        placeholder="Selectionner l'usage"
+                                                    >
+                                                        <ng-template
+                                                            let-data
+                                                            pTemplate="item"
+                                                        >
+                                                            <div
+                                                                class="country-item"
+                                                            >
+                                                                <div>
+                                                                    {{
+                                                                        data.nom_usage
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </p-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b
+                                                            >Adresse mail
+                                                            Notification</b
+                                                        >
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="adresse_email"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>
+                                                        <b
+                                                            >Adresse
+                                                            géographique</b
+                                                        >
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="adresse_geographique"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b>Latitude</b></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="latitude"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b>Longitude</b></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="longitude"
+                                                        pInputText
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset>
+                                        <legend>
+                                            <b>Informations Réseau</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >Date Trafic</b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="date_trafic"
+                                                        pInputText
+                                                        class="w-100"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label><b>APN</b></label>
+                                                    <input
+                                                        type="text"
+                                                        formControlName="apn"
+                                                        pInputText
+                                                        class="w-100"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >Adresse IP</b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="adresse_ip"
+                                                        pInputText
+                                                        class="w-100"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label
+                                                        ><b
+                                                            >Site Trafic</b
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        type="text"
+                                                        formControlName="site_reseau"
+                                                        pInputText
+                                                        class="w-100"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <div class="forms-feature-footer">
+                                        <p-button
+                                            [class.p-disabled]="
+                                                formUpdateCarteSim.invalid
+                                            "
+                                            label="Enregistrer"
+                                            styleClass="p-button-success"
+                                            (click)="handleUpdateSimCard()"
+                                        >
+                                        </p-button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-------------------------- Formulaire des details ------------------------------->
+
+                            <div
+                                *ngIf="urlParamRef === 'view-sim-card'"
+                                [formGroup]="formDetailsCarteSim"
+                            >
+                                <p-tabView
+                                    (onChange)="
+                                        detailsCurrentTabPanelIndex =
+                                            $event.index
+                                    "
+                                >
+                                    <p-tabPanel header="INFORMATIONS">
+                                        <div>
+                                            <div class="row">
+                                                <div
+                                                    class="col-md-9"
+                                                    novalidate
+                                                >
+                                                    <fieldset>
+                                                        <legend>
+                                                            <b
+                                                                >Informations
+                                                                SIM</b
+                                                            >
+                                                        </legend>
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-md-4"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b
+                                                                            >IMSI</b
+                                                                        >
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="imsi"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-md-4"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label
+                                                                        ><b
+                                                                            >ICCID</b
+                                                                        ></label
+                                                                    >
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="iccid"
+                                                                        pInputText
+                                                                        class="w-100"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <!-- <div class="col-md-2">
+                                                                <div class="form-group">
+                                                                    <label>
+                                                                        <b>MSISDN</b>
+                                                                    </label>
+                                                                    <input type="text" formControlName="msisdn"
+                                                                        pInputText />
+                                                                </div>
+                                                            </div> -->
+                                                            <div
+                                                                class="col-md-4"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b
+                                                                            >Formule</b
+                                                                        >
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="formule"
+                                                                        pInputText
+                                                                        [pTooltip]="
+                                                                            simCardSelectedDetails?.formule
+                                                                        "
+                                                                        tooltipPosition="top"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <legend>
+                                                            <b
+                                                                >Informations
+                                                                d'affectation</b
+                                                            >
+                                                        </legend>
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-md-4"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b>{{
+                                                                            firstLevelLibel
+                                                                        }}</b>
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="niveau_un_uuid"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-md-4"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b>{{
+                                                                            secondLevelLibel
+                                                                        }}</b>
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="niveau_deux_uuid"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-md-4"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b>{{
+                                                                            thirdLevelLibel
+                                                                        }}</b>
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="niveau_trois_uuid"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-md-4"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b
+                                                                            >Nom
+                                                                            Emplacement</b
+                                                                        >
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="point_emplacement"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-md-4"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b
+                                                                            >Usage</b
+                                                                        >
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="usage_id"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-md-4"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b
+                                                                            >Adresse
+                                                                            mail
+                                                                            Notification</b
+                                                                        >
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="adresse_email"
+                                                                        pInputText
+                                                                        [pTooltip]="
+                                                                            simCardSelectedDetails?.adresse_email
+                                                                        "
+                                                                        tooltipPosition="top"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-md-4"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b
+                                                                            >Adresse
+                                                                            géographique</b
+                                                                        >
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="adresse_geographique"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-md-4"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b
+                                                                            >Latitude</b
+                                                                        >
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="latitude"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-md-4"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b
+                                                                            >Longitude</b
+                                                                        >
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="longitude"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                    <fieldset>
+                                                        <legend>
+                                                            <b
+                                                                >Informations
+                                                                Réseau</b
+                                                            >
+                                                        </legend>
+                                                        <div class="row">
+                                                            <div
+                                                                class="col-md-3"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b
+                                                                            >Date
+                                                                            Trafic</b
+                                                                        >
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="date_trafic"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-md-3"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b
+                                                                            >APN</b
+                                                                        >
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="apn"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-md-3"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b
+                                                                            >Adresse
+                                                                            IP</b
+                                                                        >
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="adresse_ip"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="col-md-3"
+                                                            >
+                                                                <div
+                                                                    class="form-group"
+                                                                >
+                                                                    <label>
+                                                                        <b
+                                                                            >Site
+                                                                            Trafic</b
+                                                                        >
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="site_reseau"
+                                                                        pInputText
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="col-md-12 mb-2">
+                                                        <div class="form-group">
+                                                            <label
+                                                                class="label"
+                                                            >
+                                                                <b>MSISDN</b>
+                                                            </label>
+                                                            <div
+                                                                class="box-card"
+                                                            >
+                                                                <span
+                                                                    class="valeur"
+                                                                >
+                                                                    <span>{{
+                                                                        formatMsisdn
+                                                                    }}</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-md-12 mb-2"
+                                                        *ngIf="
+                                                            asAccessFeatureDataBalance
+                                                        "
+                                                    >
+                                                        <div class="form-group">
+                                                            <label
+                                                                class="label"
+                                                            >
+                                                                <b
+                                                                    >Solde Data
+                                                                    (Go)</b
+                                                                >
+                                                            </label>
+                                                            <div
+                                                                class="box-card"
+                                                            >
+                                                                <span
+                                                                    class="valeur"
+                                                                >
+                                                                    <span>{{
+                                                                        simCardSelectedDetails?.solde_actuel_go ??
+                                                                            0
+                                                                            | formatNumber
+                                                                                : 2
+                                                                    }}</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-md-12"
+                                                        *ngIf="
+                                                            asAccessFeatureSmsBalance
+                                                        "
+                                                    >
+                                                        <div class="form-group">
+                                                            <label class="label"
+                                                                ><b
+                                                                    >Solde
+                                                                    SMS</b
+                                                                ></label
+                                                            >
+                                                            <div
+                                                                class="box-card"
+                                                            >
+                                                                <span
+                                                                    class="valeur"
+                                                                >
+                                                                    <span>{{
+                                                                        simCardSelectedDetails?.solde_sms ??
+                                                                            0
+                                                                    }}</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div
+                                                        class="col-md-12 mt-2"
+                                                        *ngIf="
+                                                            simCardSelectedDetails?.solde_data_updated_at
+                                                        "
+                                                    >
+                                                        <div class="form-group">
+                                                            <label
+                                                                class="label"
+                                                            >
+                                                                <b>{{
+                                                                    simCardSelectedDetails?.solde_data_updated_at
+                                                                }}</b>
+                                                                <br />
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 mt-2">
+                                                        <div class="form-group">
+                                                            <label
+                                                                ><b
+                                                                    >Statut
+                                                                    Contrat</b
+                                                                ></label
+                                                            >
+                                                            <app-statut-contrat
+                                                                [statut]="
+                                                                    simCardSelectedDetails?.statut
+                                                                "
+                                                            >
+                                                            </app-statut-contrat>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-md-12 mt-4"
+                                                        *ngIf="
+                                                            applicationType ===
+                                                            patrimoineType
+                                                        "
+                                                    >
+                                                        <div class="form-group">
+                                                            <label
+                                                                class="label"
+                                                                style="
+                                                                    line-height: 1.3 !important;
+                                                                "
+                                                            >
+                                                                <b class="mt-1"
+                                                                    >Solde
+                                                                    Dotation
+                                                                    (Go)</b
+                                                                >
+                                                            </label>
+                                                            <div
+                                                                class="box-card"
+                                                            >
+                                                                <span
+                                                                    class="valeur"
+                                                                >
+                                                                    <span>{{
+                                                                        simCardSelectedDetails?.solde_dotation ??
+                                                                            0
+                                                                            | formatNumber
+                                                                                : 2
+                                                                    }}</span>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <div
+                                                            class="text-center"
+                                                            *ngIf="
+                                                                simCardSelectedDetails?.statut ===
+                                                                'actif'
+                                                            "
+                                                        >
+                                                            <button
+                                                                pButton
+                                                                pRipple
+                                                                label="Rafraîchir les soldes"
+                                                                icon="pi pi-refresh"
+                                                                class="p-button-warning w-100"
+                                                                [style]="{
+                                                                    fontSize:
+                                                                        '20px'
+                                                                }"
+                                                                (click)="
+                                                                    handleRefreshData(
+                                                                        simCardSelectedDetails
+                                                                    )
+                                                                "
+                                                            ></button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 mt-3">
+                                                        <img
+                                                            class="w-100"
+                                                            style="
+                                                                max-width: fit-content;
+                                                            "
+                                                            [src]="
+                                                                simCardSelectedDetails?.qrcode
+                                                            "
+                                                            alt="QR Illustration"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </p-tabPanel>
+                                    <p-tabPanel
+                                        header="IDENTIFICATION"
+                                        *ngIf="asAccessFeatureIdentification"
+                                    >
+                                        <fieldset>
+                                            <legend>
+                                                <b
+                                                    >Utilisateur /
+                                                    Bénéficiaire</b
+                                                >
+                                            </legend>
+                                            <div class="d-flex gap-2">
+                                                <div>
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <b
+                                                                >Type
+                                                                Utilisateur</b
+                                                            >
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            formControlName="type_personne"
+                                                            pInputText
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <ng-container
+                                                    *ngIf="
+                                                        simCardSelectedDetails?.type_personne ===
+                                                            TypeUtilisateur.PERSONNE ||
+                                                        !simCardSelectedDetails?.type_personne
+                                                    "
+                                                >
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label
+                                                                ><b
+                                                                    >Nom</b
+                                                                ></label
+                                                            >
+                                                            <input
+                                                                type="text"
+                                                                formControlName="nom"
+                                                                pInputText
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label
+                                                                ><b
+                                                                    >Prénoms</b
+                                                                ></label
+                                                            >
+                                                            <input
+                                                                type="text"
+                                                                formControlName="prenoms"
+                                                                pInputText
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label>
+                                                                <b
+                                                                    >Nature de
+                                                                    la pièce</b
+                                                                >
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                formControlName="nature_piece"
+                                                                pInputText
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label>
+                                                                <b
+                                                                    >Numéro de
+                                                                    la pièce</b
+                                                                >
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                formControlName="numero_piece"
+                                                                pInputText
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label
+                                                            ><b
+                                                                >Date
+                                                                naissance<span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                ></b
+                                                            ></label
+                                                        >
+                                                        <input
+                                                            type="text"
+                                                            formControlName="date_naissance"
+                                                            pInputText
+                                                            class="w-100"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label
+                                                                ><b
+                                                                    >Lieu de
+                                                                    naissance<span
+                                                                        class="text-danger"
+                                                                        >*</span
+                                                                    ></b
+                                                                ></label
+                                                            >
+                                                            <input
+                                                                type="text"
+                                                                formControlName="lieu_naissance"
+                                                                pInputText
+                                                                class="w-100"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container
+                                                    *ngIf="
+                                                        simCardSelectedDetails?.type_personne ===
+                                                        TypeUtilisateur.EQUIPEMENT
+                                                    "
+                                                >
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label
+                                                                ><b
+                                                                    >Denomination</b
+                                                                ></label
+                                                            >
+                                                            <input
+                                                                type="text"
+                                                                formControlName="nom"
+                                                                pInputText
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label
+                                                                ><b
+                                                                    >Raison
+                                                                    social</b
+                                                                ></label
+                                                            >
+                                                            <input
+                                                                type="text"
+                                                                formControlName="prenoms"
+                                                                pInputText
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label>
+                                                                <b
+                                                                    >Nature du
+                                                                    document</b
+                                                                >
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                formControlName="nature_piece"
+                                                                pInputText
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label>
+                                                                <b
+                                                                    >Numéro du
+                                                                    document</b
+                                                                >
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                formControlName="numero_piece"
+                                                                pInputText
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label
+                                                            ><b
+                                                                >Date
+                                                                d'installation<span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                ></b
+                                                            ></label
+                                                        >
+                                                        <input
+                                                            type="text"
+                                                            formControlName="date_naissance"
+                                                            pInputText
+                                                            class="w-100"
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label
+                                                                ><b
+                                                                    >Lieu
+                                                                    d'installation<span
+                                                                        class="text-danger"
+                                                                        >*</span
+                                                                    ></b
+                                                                ></label
+                                                            >
+                                                            <input
+                                                                type="text"
+                                                                formControlName="lieu_naissance"
+                                                                pInputText
+                                                                class="w-100"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset>
+                                            <legend>
+                                                <b>Photo & Pièces</b>
+                                            </legend>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div
+                                                            class="text-center"
+                                                        >
+                                                            <ng-container
+                                                                class="mt-2"
+                                                                *ngIf="
+                                                                    simCardSelectedDetails?.photo_physique;
+                                                                    else noImagePhysique
+                                                                "
+                                                            >
+                                                                <h3>
+                                                                    Photo
+                                                                    physique
+                                                                </h3>
+                                                                <p-image
+                                                                    [src]="
+                                                                        simCardSelectedDetails?.photo_physique
+                                                                    "
+                                                                    alt="Illustration photo physique"
+                                                                    style="
+                                                                        width: 100%;
+                                                                    "
+                                                                    [preview]="
+                                                                        true
+                                                                    "
+                                                                ></p-image>
+                                                            </ng-container>
+                                                            <ng-template
+                                                                #noImagePhysique
+                                                            >
+                                                                <h3>
+                                                                    Aucune photo
+                                                                    physique
+                                                                </h3>
+                                                            </ng-template>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div
+                                                            class="text-center"
+                                                        >
+                                                            <ng-container
+                                                                class="mt-2"
+                                                                *ngIf="
+                                                                    simCardSelectedDetails?.photo_carte_recto;
+                                                                    else noImagePieceRecto
+                                                                "
+                                                            >
+                                                                <h3>
+                                                                    Pièce recto
+                                                                </h3>
+                                                                <p-image
+                                                                    [src]="
+                                                                        simCardSelectedDetails?.photo_carte_recto
+                                                                    "
+                                                                    alt="Illustration pièce recto"
+                                                                    style="
+                                                                        width: 100%;
+                                                                    "
+                                                                    [preview]="
+                                                                        true
+                                                                    "
+                                                                ></p-image>
+                                                            </ng-container>
+                                                            <ng-template
+                                                                #noImagePieceRecto
+                                                            >
+                                                                <h3>
+                                                                    Aucune pièce
+                                                                    recto
+                                                                </h3>
+                                                            </ng-template>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div
+                                                            class="text-center"
+                                                        >
+                                                            <ng-container
+                                                                class="mt-2"
+                                                                *ngIf="
+                                                                    simCardSelectedDetails?.photo_carte_verso;
+                                                                    else noImagePieceVerso
+                                                                "
+                                                            >
+                                                                <h3>
+                                                                    Pièce verso
+                                                                </h3>
+                                                                <p-image
+                                                                    [src]="
+                                                                        simCardSelectedDetails?.photo_carte_verso
+                                                                    "
+                                                                    alt="Illustration pièce verso"
+                                                                    style="
+                                                                        width: 100%;
+                                                                    "
+                                                                    [preview]="
+                                                                        true
+                                                                    "
+                                                                ></p-image>
+                                                            </ng-container>
+                                                            <ng-template
+                                                                #noImagePieceVerso
+                                                            >
+                                                                <h3>
+                                                                    Aucune pièce
+                                                                    verso
+                                                                </h3>
+                                                            </ng-template>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </p-tabPanel>
+                                    <p-tabPanel header="HISTORIQUE">
+                                        <ng-container
+                                            *ngIf="
+                                                asAccessFeatureIdentification
+                                                    ? detailsCurrentTabPanelIndex ===
+                                                      2
+                                                    : detailsCurrentTabPanelIndex ===
+                                                      1
+                                            "
+                                        >
+                                            <app-history
+                                                [typeModel]="'sims'"
+                                                [idModel]="
+                                                    simCardSelectedDetails?.id
+                                                "
+                                            >
+                                            </app-history>
+                                        </ng-container>
+                                    </p-tabPanel>
+                                </p-tabView>
+                            </div>
+                        </div>
+
+                        <ng-template #loadingPage>
+                            <div
+                                style="height: 100vh"
+                                class="d-flex justify-content-center align-items-center"
+                            >
+                                <p-skeleton
+                                    width="100%"
+                                    height="150px"
+                                ></p-skeleton>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

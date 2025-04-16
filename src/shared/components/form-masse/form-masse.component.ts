@@ -58,6 +58,7 @@ type MODEL_ENTETE_FILE = ['TRANSACTION', 'MSISDN', 'IMSI', 'ICCID', 'ADRESSE IP'
 })
 
 export class FormMasseComponent {
+    @Input() typeOperation: "demande-masse";
     @Input() formMasseLibelle: any;
     @Output() dataToSend: EventEmitter<{}> = new EventEmitter<{}>();
     @Input() currentArrayHeaders: MODEL_ENTETE_FILE;

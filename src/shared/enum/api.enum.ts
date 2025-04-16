@@ -1,10 +1,16 @@
 export const enum EndPointUrl {
+    PATRIMONY_SIM_SIMS_ALL_USAGES = 'patrimoine-sim/sims/all_usage',
+    PATRIMOINE_SIM_DEMANDES_SERVICES_ALL = 'patrimoine-sim/demandes-services/all?page={page}',
     GET_ALL_USERS = 'users/all',
+    PARAMETRES_SECURITE_FORME_JURIDIQUES_ALL = 'parametres-securite/forme-juridiques/all',
+    PARAMETRES_SECURITE_REGIMES_ENTREPRISE_ALL = 'parametres-securite/regimes-entreprise/all',
     SAVE_USER = 'users/store',
     UPDATE_USER = 'users/update',
     DELETE_USER = 'users/delete',
-    GET_ALL_HISTORIQUE = 'historiques',
+    GET_ALL_HISTORIQUE = 'historiques?page={page}',
+    GET_ALL_DETAILS_HISTORIQUE = 'historiques/{id}',
     GET_ALL_JOURNAL = 'gestion-transactions/{typeJournal}/journal-evenements',
+    GET_ALL_SIM_BLANCHE_JOURNAL = 'patrimoine-sim/carton-sim-blanches/journal-evenements?page={page}',
     GET_ALL_YEAR = 'gestion-campagnes/annees/all',
 
     //First Level EndPoints
@@ -47,13 +53,19 @@ export const enum EndPointUrl {
 
     // LEVEL SIMPLE
     GET_ALL_NIVEAUX_1_SIMPLE = 'parametres-securite/niveau_un/simple',
+    POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_DISPONIBLES = 'patrimoine-sim/carton-sim-blanches/disponibles',
+
     GET_ALL_NIVEAUX_2_SIMPLE = 'parametres-securite/niveau_deux/simple',
     GET_ALL_NIVEAUX_3_SIMPLE = 'parametres-securite/niveau_trois/simple',
     GET_ALL_FORMULES = 'parametres-securite/formules-sims/all',
+    GET_CONTRATS_SLA_ENGAGEMENTS_SLA = 'contrats-sla/{demand}/engagements-sla',
+    BANKS_ALL = 'banques/all',
+    BANKS_BENEFIT_ALL = 'banques/beneficiaire',
 
     GET_ALL_APN = 'patrimoine-sim/apn/all',
 
     FORCE_VENTE_COMMERCIAL_ALL = "force-vente/commercial/all?page={page}",
     POST_GESTION_TENANTS_PORTEFEUILLES_TENANT_ALL = "gestion-tenants/portefeuilles-tenant/all",
-
+    GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_DETAILS = "supervision-operations/demandes-services/{numberDemand}/details",
+    PATRIMOINE_SIM_TRANSACTIONS_ALL_PAGE = 'patrimoine-sim/transactions/all?page={page}',
 }

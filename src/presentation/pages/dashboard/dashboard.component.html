@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="d-flex justify-content-between">
         <div class="mt-15">
-            <h2>{{ 'Vue génerale - Plateforme  ' + appName }}</h2>
+            <h2>{{ 'Vue génerale - Plateforme ' + nom_tenant }}</h2>
         </div>
         <div class="mt-15 d-flex gap-4">
             <div class="d-flex gap-2">
@@ -12,7 +12,7 @@
                 <button
                     pButton
                     pRipple
-                    (click)="onDashboard()"
+                    (click)="refreshStatic()"
                     icon="pi pi-refresh"
                     class="p-button-secondary"
                     style="margin-top: -0.5rem"
@@ -21,158 +21,48 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-3">
-            <app-stat-box
-                (click)="OnFilterByLegend('Total SIM')"
-                [cardBgColor]="'#FFFFFF'"
-                [cardBorderColor]="'#FE9A2E'"
-                [legend]="'Total SIM'"
-                [count]="countTotalSim || '0'"
-                [legendColor]="'#ff7f50'"
-                [countColor]="'#ff7f50'"
-                [icon]="totalSimIcon"
-                [style]="{ cursor: 'pointer' }"
-            ></app-stat-box>
+    <div class="row" *ngIf="!loading">
+        <app-box-container
+            *ngFor="let box of listStatisticsBox"
+            [class]="'scale '+box?.['width'] ?? 'col-md-4'"
+            [cardBgColor]="box?.['cardBgColor']"
+            [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'"
+            [legend]="box?.['legend']"
+            [count]="box?.['count']"
+            [legendColor]="box?.['legendColor'] ?? '#FFF'"
+            [countColor]="box?.['countColor'] ?? '#FFF'"
+            [icon]="box?.['icon']"
+            style="cursor: pointer"
+            (click)="
+                box.routerFilter ? box.routerFilter() : onVisualiserAlarme(box)
+            "
+        >
+        </app-box-container>
+    </div>
+
+    <div class="d-flex gap-3 flex-wrap" *ngIf="loading">
+        <div *ngFor="let box of listStatisticsBox">
+            <p-skeleton width="23rem" height="9rem"></p-skeleton>
         </div>
-        <div class="col-md-3">
-            <app-stat-box
-                (click)="OnFilterByLegend('SIM Actives')"
-                [cardBgColor]="'#27ae60'"
-                [cardBorderColor]="'#FFF'"
-                [legend]="'SIM Actives'"
-                [count]="countSimActive || '0'"
-                [legendColor]="'#FFF'"
-                [countColor]="'#FFF'"
-                [icon]="simIcon"
-                [style]="{ cursor: 'pointer' }"
-            ></app-stat-box>
-        </div>
-        <div class="col-md-3">
-            <app-stat-box
-                (click)="OnFilterByLegend('SIM Suspendues')"
-                [cardBgColor]="'#000000'"
-                [cardBorderColor]="'#000000'"
-                [legend]="'SIM Suspendues'"
-                [count]="countSimSuspendu || '0'"
-                [legendColor]="'#ff7f50'"
-                [countColor]="'#ff7f50'"
-                [icon]="simIcon"
-                [style]="{ cursor: 'pointer' }"
-            ></app-stat-box>
-        </div>
-        <div class="col-md-3">
-            <app-stat-box
-                (click)="OnFilterByLegend('SIM Resiliées')"
-                [cardBgColor]="'#e74c3c'"
-                [cardBorderColor]="'#FFF'"
-                [legend]="'SIM Resiliées'"
-                [count]="countSimResilie || '0'"
-                [legendColor]="'#FFF'"
-                [countColor]="'#FFF'"
-                [icon]="simIcon"
-                [style]="{ cursor: 'pointer' }"
-            ></app-stat-box>
-        </div>
-        <div class="col-md-3">
-            <app-stat-box
-                (click)="OnFilterByLegend('SIM Alarmes Normales')"
-                [cardBgColor]="'#FFF'"
-                [cardBorderColor]="'#27ae60'"
-                [legend]="'SIM Alarmes Normales'"
-                [count]="countAlarmeNormal || '0'"
-                [legendColor]="'#27ae60'"
-                [countColor]="'#27ae60'"
-                [icon]="simNormale"
-                [style]="{ cursor: 'pointer' }"
-            ></app-stat-box>
-        </div>
-        <div class="col-md-3">
-            <app-stat-box
-                (click)="OnFilterByLegend('SIM Alarmes Mineures')"
-                [cardBgColor]="'#FFFF00'"
-                [cardBorderColor]="'#FFF'"
-                [legend]="'SIM Alarmes Mineures'"
-                [count]="countAlarmeMineure || '0'"
-                [legendColor]="'#130f40'"
-                [countColor]="'#130f40'"
-                [icon]="simMineure"
-                [style]="{ cursor: 'pointer' }"
-            ></app-stat-box>
-        </div>
-        <div class="col-md-3">
-            <app-stat-box
-                (click)="OnFilterByLegend('SIM Alarmes Majeures')"
-                [cardBgColor]="'#FE9A2E'"
-                [cardBorderColor]="'#FFF'"
-                [legend]="'SIM Alarmes Majeures'"
-                [count]="countAlarmeMajeure || '0'"
-                [legendColor]="'#FFF'"
-                [countColor]="'#FFF'"
-                [icon]="simMajeure"
-                [style]="{ cursor: 'pointer' }"
-            ></app-stat-box>
-        </div>
-        <div class="col-md-3">
-            <app-stat-box
-                (click)="OnFilterByLegend('SIM Alarmes Critiques')"
-                [cardBgColor]="'#e74c3c'"
-                [cardBorderColor]="'#FFF'"
-                [legend]="'SIM Alarmes Critiques'"
-                [count]="countAlarmeCritique || '0'"
-                [legendColor]="'#FFF'"
-                [countColor]="'#FFF'"
-                [icon]="simCrique"
-                [style]="{ cursor: 'pointer' }"
-            ></app-stat-box>
-        </div>
-        <!--  <div class="col-md-3">
-            <app-stat-box
-                (click)="OnFilterByLegend('# Demandes Soumises')"
-                [cardBgColor]="'#3498db'"
-                [cardBorderColor]="'#FFF'"
-                [legend]="'# Demandes Soumises'"
-                [count]="countSoumis || '0'"
-                [legendColor]="'#FFF'"
-                [countColor]="'#FFF'"
-                [style]="{ cursor: 'pointer' }"
-            ></app-stat-box>
-        </div>
-        <div class="col-md-3">
-            <app-stat-box
-                (click)="OnFilterByLegend('# Demandes Clôturées')"
-                [cardBgColor]="'#27ae60'"
-                [cardBorderColor]="'#FFF'"
-                [legend]="'# Demandes Clôturées'"
-                [count]="countCloture || '0'"
-                [legendColor]="'#FFF'"
-                [countColor]="'#FFF'"
-                [style]="{ cursor: 'pointer' }"
-            ></app-stat-box>
-        </div>
-        <div class="col-md-3">
-            <app-stat-box
-                (click)="OnFilterByLegend('# Demandes Traitées')"
-                [cardBgColor]="'#000000'"
-                [cardBorderColor]="'#000000'"
-                [legend]="'# Demandes Traitées'"
-                [count]="countTraiter || '0'"
-                [legendColor]="'#ff7f50'"
-                [countColor]="'#ff7f50'"
-                [style]="{ cursor: 'pointer' }"
-            ></app-stat-box>
-        </div>
-        <div class="col-md-3">
-            <app-stat-box
-                (click)="OnFilterByLegend('# Demandes en Attentes')"
-                [cardBgColor]="'#FFF'"
-                [cardBorderColor]="'#000000'"
-                [legend]="'# Demandes en Attentes'"
-                [count]="countAttente || '0'"
-                [legendColor]="'#000000'"
-                [countColor]="'#000000'"
-                [style]="{ cursor: 'pointer' }"
-            ></app-stat-box>
-        </div>-->
     </div>
 </div>
+
+<p-dialog
+    [header]="'DETECTION APPRO.'"
+    [(visible)]="showIframe"
+    (onHide)="hideDialog()"
+    [modal]="true"
+    [style]="{ width: '100%' }"
+    (onMaximize)="onDialogMaximized($event)"
+    [draggable]="false"
+    [resizable]="false"
+>
+    <ng-template pTemplate="content" [style]="{ height: '100vh !important' }">
+        <div>
+            <iframe
+                class="iframe__constainer"
+                [src]="iframeLink | safe"
+            ></iframe>
+        </div>
+    </ng-template>
+</p-dialog>

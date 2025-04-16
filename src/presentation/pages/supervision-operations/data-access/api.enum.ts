@@ -1,12 +1,14 @@
-import { DESTRUCTION } from "dns";
 
 export const enum EndPointUrl {
+    PATRIMOINE_SIM_TRANSACTIONS_SUR_SIM_UPDATE = "patrimoine-sim/transactions/sur-sim/update",
+    POST_COMMANDE_PRODUIT_COMMANDES_DETAILS = "commande-produit/commandes/{numero_demande}/details",
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_ABANDONNER_DEMANDE_SERVICE = 'supervision-operations/traitements-suivis/abandonner-demande-service',
     GET_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_DOWNLOAD_MODELE_DATA = "supervision-operations/traitements-suivis/download-modele-data?operation={operation}&numeroDemande={numeroDemande}&token={tokenUser}",
-    GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_numeroDemande_DETAILS = "supervision-operations/demandes-services/{numeroDemande}/details",
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_IDENTIFICATIONS_SIMS = 'supervision-operations/traitements-suivis/identifications-sims',
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_CLOTURER_DEMANDE_SERVICE = 'supervision-operations/traitements-suivis/cloturer-demande-service',
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_TRANSACTIONS_PAGE = 'supervision-operations/traitements-suivis/transactions?page={page}',
+    GET_PATRIMOINE_SIM_TRANSACTIONS = 'patrimoine-sim/transactions/all?page={page}',
+    GESTION_FACTURE_PAIMENTS_TRANSACTION = 'gestion-facture/paiments/transaction',
     GET_ALL_TRANSACTIONS = 'supervision-operations/traitements-suivis/demandes-services?page={page}',
     GET_DETAIL_TRANSACTION = 'gestion-transactions/details-transaction',
     GET_ALL_PRISE_EN_CHARGE = 'supervision-operations/prise-en-charge/all?page={page}',

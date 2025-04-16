@@ -1,6 +1,5 @@
 import { FormatFormData } from 'src/shared/functions/formatFormData.function';
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { SupervisionOperationService } from "src/presentation/pages/supervision-operations/data-access/supervision-operation.service";
 import { ToastrService } from "ngx-toastr";
 import { LoadingBarService } from "@ngx-loading-bar/core";
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +16,10 @@ import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from 'src/shared/constants/swalWithBootstrapButtonsParams.constant';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { OperationTransaction } from "src/shared/enum/OperationTransaction.enum";
+import { DemandesProduitsService } from '../../../demandes-produits/data-access/demandes-produits.service';
+import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
+import { getRapportCodeStyle } from '../../../../../shared/functions/rapport-code-style.function';
+import { BADGE_STAUT_PAIEMENT } from '../../../../../shared/constants/badge-statut-paiement';
 const Swal = require('sweetalert2');
 @Component({
     selector: 'app-demande-masse',
@@ -37,7 +40,7 @@ export class DemandeMasseComponent implements OnInit {
     public BADGE_ETAT = BADGE_ETAT;
     public BADGE_ETAPE = BADGE_ETAPE;
     public formTraitementMasse: FormGroup;
-    @Input() params: { vue: "demande", action: "Abandonner" | "Identifier" } | { vue: "traitement", action: "Clôturer" };
+    @Input() params: { vue: "activation", action: "Abandonner" | "Identifier" } | { vue: "sim-blanche", action: "Abandonner" | "Identifier" } | { vue: "traitement", action: "Clôturer" };
     @Input() action: 'traiter' | 'cloturer' | 'Abandonner' | 'Traiter';
     @Input() IsLoadData;
     @Input() demande;
@@ -65,6 +68,7 @@ export class DemandeMasseComponent implements OnInit {
     public treatmenAcquiter: string = TraitementTransaction.ACQUITER;
     public treatmenCancel: string = TraitementTransaction.ABANDONNER;
     public TYPE_FORM = OperationTransaction;
+    public BADGE_STAUT_PAIEMENT= BADGE_STAUT_PAIEMENT;
 
     constructor(private supervisionOperationService: SupervisionOperationService, private toastrService: ToastrService,
         private loadingBarService: LoadingBarService, private activeModal: NgbActiveModal, private mappingService: MappingService,
@@ -84,7 +88,11 @@ export class DemandeMasseComponent implements OnInit {
     ngOnInit() {
         this.initFormTraitementMasse();
         // this.GetFormules();
-        this.GetSupervisionOperationsDemandesServicesDetails();
+        if (this.params.vue === "sim-blanche") {
+            this.getAllProduits();
+        } else {
+            this.GetSupervisionOperationsDemandesServicesDetails();
+        }
     }
 
 
@@ -95,8 +103,6 @@ export class DemandeMasseComponent implements OnInit {
         }
         return str || '';
       }
-    
-
 
     public initFormTraitementMasse(): void {
         this.formTraitementMasse = this.fb.group({
@@ -104,18 +110,25 @@ export class DemandeMasseComponent implements OnInit {
             niveau_deux_uuid: this.createFormControl(this.listDemandes?.niveau_deux_nom, null, true),
             niveau_trois_uuid: this.createFormControl(this.listDemandes?.niveau_trois_nom, null, true),
             numero_demande: [this.listDemandes?.numero_demande],
-            formule_uuid: this.createFormControl(this.truncateString(this.listDemandes?.formule), Validators.required, true),
+            formule_uuid: this.createFormControl(this.listDemandes?.formule, Validators.required, true),
             usage_id: this.createFormControl(this.listDemandes?.usage_nom, null, true),
-            nb_demande_soumises: this.createFormControl(this.listDemandes?.nb_demande_soumises, null, true),
             montant_formule: this.createFormControl(this.listDemandes?.montant_formule, null, true),
             description: this.createFormControl(this.listDemandes?.description, null, true),
-            operation: this.createFormControl(this.listDemandes?.operation, null, true),
-            accepte: this.createFormControl(null, this.params.vue === 'traitement' ? Validators.required : null),
+            accepte: this.createFormControl(this.listDemandes?.etat_cloture, this.params.vue === 'traitement' ? Validators.required : null, false),
             commentaire: [this.commentairePatchValue()],
-            sims_file: this.createFormControl(null, this.params.vue === 'demande' ? Validators.required : null),
+            sims_file: this.createFormControl(null, this.params.vue === "activation" ? Validators.required : null),
             commentaire_traitement: this.createFormControl(this.getNonNullValue(this.listDemandes?.commentaire_traitement), null, true), 
             commentaire_finalisation: this.createFormControl(this.listDemandes?.commentaire_finalisation, null, true),
             commentaire_cloture: this.createFormControl(this.listDemandes?.commentaire_cloture, null, true),
+            notation_cloture: this.createFormControl(this.listDemandes?.notation_cloture, this.isRequireNotationCloture ? Validators.required : null, false),
+
+            operation: this.createFormControl(this.formatTitle(this.listDemandes?.operation), null, true),
+            nb_demande_soumises: this.createFormControl(this.params.vue === 'sim-blanche' ? this.listDemandes?.facture?.qte : this.listDemandes?.nb_demande_soumises, null, true),
+            prix_unitaire: this.createFormControl(this.listDemandes?.["facture"]?.["prix_unitaire"], null, true),
+            prix_ht: this.createFormControl(this.listDemandes?.["facture"]?.["prix_ht"], null, true),
+            prix_ttc: this.createFormControl(this.listDemandes?.["facture"]?.["prix_ttc"], null, true),
+
+            montant: this.createFormControl(this.listDemandes?.["montant"], null, true),
         });
     
         if (this.isTraiteState()) {
@@ -124,12 +137,23 @@ export class DemandeMasseComponent implements OnInit {
     
         this.formTraitementMasse.get('accepte')?.valueChanges.subscribe(this.handleAccepteChange.bind(this));
     }
+
+    get isRequireNotationCloture() {
+        return this.listDemandes?.statut === BADGE_ETAPE.FINALISATEUR && this.listDemandes?.traitement === BADGE_ETAT.EFFECTUE
+    } 
+
+    get asClosed(): boolean {
+        return this.listDemandes?.statut === BADGE_ETAPE.CLOTURE&& this.listDemandes?.traitement === BADGE_ETAT.TERMINE
+      }
     
     // Nouvelle méthode pour gérer les valeurs null ou 'null'
     private getNonNullValue(value: any): string {
         return value === 'null' || value === null || value === undefined ? '' : value;
     }
     
+    public formatTitle(title: string) {
+        return this.supervisionOperationService.HandleFormatTitle(title);
+    }
 
     private commentairePatchValue(): string | null {
         switch (this.params.action) {
@@ -172,34 +196,34 @@ export class DemandeMasseComponent implements OnInit {
 
     private isRequiredFieldsetTraiter(value: 'traiter' | 'cloturer') {
         if (value === 'traiter') {
-            this.formTraitementMasse.get("sims_file").setValidators([Validators.required]);
+            this.formTraitementMasse.get("sims_file")?.setValidators([Validators.required]);
         } else {
-            this.formTraitementMasse.get("sims_file").clearValidators();
-            this.formTraitementMasse.get("sims_file").disabled;
+            this.formTraitementMasse.get("sims_file")?.clearValidators();
+            this.formTraitementMasse.get("sims_file")?.disabled;
         }
-        this.formTraitementMasse.get("sims_file").updateValueAndValidity();
+        this.formTraitementMasse.get("sims_file")?.updateValueAndValidity();
     }
 
     private isRequiredCommenatire(value: 'oui' | 'non') {
         if (value === 'non') {
             this.croixRougeCommentaire = true;
-            this.formTraitementMasse.get("commentaire").setValidators([Validators.required]);
+            this.formTraitementMasse.get("commentaire")?.setValidators([Validators.required]);
         } else {
             this.croixRougeCommentaire = false;
-            this.formTraitementMasse.get("commentaire").clearValidators();
-            this.formTraitementMasse.get("commentaire").disabled;
+            this.formTraitementMasse.get("commentaire")?.clearValidators();
+            this.formTraitementMasse.get("commentaire")?.disabled;
         }
-        this.formTraitementMasse.get("commentaire").updateValueAndValidity();
+        this.formTraitementMasse.get("commentaire")?.updateValueAndValidity();
     }
 
     private isRequiredFieldsetAccepte(value: 'traiter' | 'cloturer') {
         if (value === 'cloturer') {
-            this.formTraitementMasse.get("accepte").setValidators([Validators.required]);
+            this.formTraitementMasse.get("accepte")?.setValidators([Validators.required]);
         } else {
-            this.formTraitementMasse.get("accepte").clearValidators();
-            this.formTraitementMasse.get("accepte").disabled;
+            this.formTraitementMasse.get("accepte")?.clearValidators();
+            this.formTraitementMasse.get("accepte")?.disabled;
         }
-        this.formTraitementMasse.get("accepte").updateValueAndValidity();
+        this.formTraitementMasse.get("accepte")?.updateValueAndValidity();
     }
 
     public getLabelForm() {
@@ -216,13 +240,18 @@ export class DemandeMasseComponent implements OnInit {
         return false;
     }
 
-    async GetSupervisionOperationsDemandesServicesDetails(dataToSend = this.demande?.numero_demande): Promise<void> {
-        console.log('this.demande?.numero_demande', this.demande?.numero_demande)
-        this.response = await handle(() => this.supervisionOperationService.GetSupervisionOperationsDemandesServicesDetails(dataToSend), this.toastrService, this.loadingBarService);
-        this.listDemandes = this.response?.data;
-        console.log('this.listDemandes', this.listDemandes)
+    async getAllProduits(dataToSend: Object = this.demande?.numero_demande) {
+        const response: any = await handle(() => this.supervisionOperationService.postCommandeProduitCommandesDetails(dataToSend), this.toastrService, this.loadingBarService);
+        this.listDemandes = response?.data;
         this.initFormTraitementMasse();
         this.IsLoading.emit(false);
+    }
+
+    async GetSupervisionOperationsDemandesServicesDetails(dataToSend = this.demande?.numero_demande): Promise<void> {
+        // this.response = await handle(() => this.settingService.GetSupervisionOperationsDemandesServicesDetails(dataToSend), this.toastrService, this.loadingBarService);
+        // this.listDemandes = this.response?.data;
+        // this.initFormTraitementMasse();
+        // this.IsLoading.emit(false);
     }
 
     async onSaveDemandes(dataToSend: {}): Promise<void> {
@@ -235,7 +264,7 @@ export class DemandeMasseComponent implements OnInit {
         }
     }
     async onSaveTraitements(dataToSend: {}): Promise<void> {
-        dataToSend = { accepte: this.formTraitementMasse.value.accepte, numero_demande: this.listDemandes?.numero_demande, commentaire: this.formTraitementMasse?.value?.commentaire };
+        dataToSend = { accepte: this.formTraitementMasse.value.accepte, numero_demande: this.listDemandes?.numero_demande, commentaire: this.formTraitementMasse?.value?.commentaire, notation_cloture: this.formTraitementMasse?.value?.notation_cloture };
         const htmlMessage = `Voulez-vous clôturer la demande ?`;
         const result = await Swal.fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: htmlMessage });
         if (result.isConfirmed) {
@@ -289,37 +318,23 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     public OnGetRapportCodeStyle(data: any): string {
-        if (data?.etat_soumission === BADGE_ETAT.RECU && (data?.etat_cloture !== BADGE_ETAT.REFUSE || data?.etat_cloture !== BADGE_ETAT.REJETE)) {
-            return "detailsDemandeColorBlue";
-        } else if (data?.etat_soumission === BADGE_ETAT.ABANDONNE) {
-            return "detailsDemandeColorYellow";
-        } else if (data?.etat_traitement === BADGE_ETAT.REJETE || data?.etat_cloture === BADGE_ETAT.REFUSE) {
-            return "detailsDemandeColorRed";
-        } else if (data?.etat_traitement === BADGE_ETAT.PARTIEL || data?.etat_traitement === BADGE_ETAT.CLOTURE) {
-            return "detailsDemandeColorGreen";
-        } else {
-            return "detailsDemandeColorBlack";
-        }
+        return getRapportCodeStyle(data)
     }
 
     public pushCurrentArrayForm(file_upload) {
-        this.formTraitementMasse.get("sims_file").patchValue(file_upload.sims_file);
+        this.formTraitementMasse.get("sims_file")?.patchValue(file_upload.sims_file);
     }
 
-    public downloadFile(typeFile: 'justificatif' | 'recu-paiement') {
-        // if (!this.listDemandes?.justificatif) {
-        //     this.toastrService.warning("Pas de justificatif pour cette operation");
-        // } else {
-        //     window.open(this.listDemandes?.justificatif);
-        // }
-        switch (typeFile) {
-            case 'justificatif':
-                window.open(this.listDemandes?.justificatif);
-                break;
+    public downloadFile(typeFile: 'justificatif' | 'recu_paiement') {
+        const File: Record<'justificatif' | 'recu_paiement', string> = {
+            'justificatif': this.listDemandes?.justificatif,
+            'recu_paiement': this.listDemandes?.recu_paiement,
+        }
 
-            case 'recu-paiement':
-                window.open(this.listDemandes?.recu_paiement);
-                break;
+        if (File[typeFile]) {
+            window.open(File[typeFile], '_blank');
+        } else {
+            this.toastrService.warning("Type non deffini " + typeFile);
         }
     }
 
@@ -338,7 +353,6 @@ export class DemandeMasseComponent implements OnInit {
         } else {
             // window.location.href = this.supervisionOperationService.GetGestionTransactionsTraitementsServicesDownloadAbonnementsData(this.listDemandes.numero_demande, tokenUser);
         }
-
     }
 
     public canIdentify(demande: any): boolean {

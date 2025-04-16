@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<!-- <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
             <app-breadcrumb
@@ -13,9 +13,9 @@
                                 [displayDate]="true"
                                 [count]="listEtats"
                                 [total]="total"
-                                [legendePluriel]="'cartes SIM avec leurs solde'"
+                                [legendePluriel]="'cartes SIM avec leurs soldes'"
                                 [legendeSingulier]="
-                                    'carte SIM avec leurs solde'
+                                    'carte SIM avec leurs soldes'
                                 "
                             >
                             </app-patrimoine-header>
@@ -267,13 +267,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <app-etat-solde-filter
-                        (filter)="GetAllEtats($event)"
-                        [firstLevelLibelle]="firstLevelLibelle"
-                        [secondLevelLibelle]="secondLevelLibelle"
-                        [thirdLevelLibelle]="thirdLevelLibelle"
-                        ></app-etat-solde-filter> -->
-
                         <hr />
                         <div class="table_actions_wrapper">
                             <app-table-button-header
@@ -368,7 +361,7 @@
                                         </td>
                                         <td class="text-center">
                                             {{
-                                                data?.solde_actuel_go
+                                                data?.solde_actuel_go ?? '0'
                                                     | formatNumber: 2
                                             }}
                                         </td>
@@ -399,4 +392,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

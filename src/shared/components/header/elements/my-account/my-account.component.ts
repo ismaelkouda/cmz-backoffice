@@ -1,4 +1,3 @@
-import { CustomValidators } from 'src/shared/class/password-validator';
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
@@ -7,8 +6,10 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from "ngx-toastr";
 import { handle } from 'src/shared/functions/api.function';
 import { EncodingDataService } from "src/shared/services/encoding-data.service";
-import { MappingService } from "src/shared/services/mapping.service";
 import { SettingService } from "src/shared/services/setting.service";
+import { StoreCurrentUserService } from '../../../../services/store-current-user.service';
+import { CurrentUser } from '../../../../interfaces/current-user.interface';
+import { StoreTokenService } from '../../../../services/store-token.service';
 const Swal = require('sweetalert2');
 
 
@@ -21,7 +22,7 @@ export class MyAccountComponent implements OnInit {
 
   public userName: string;
   public profileImg: "assets/images/dashboard/profile.jpg";
-  public currentUser: any;
+  public currentUser: CurrentUser;
   public newPasswordValue: string;
   public confirmPasswordValue: string;
   public passwordForm: FormGroup;
@@ -29,19 +30,16 @@ export class MyAccountComponent implements OnInit {
   public accountForm: FormGroup;
 
 
-  constructor(
-    private settingService: SettingService,
-    private router: Router,
-    private storage: EncodingDataService,
-    private mappingService: MappingService,
-    private fb: FormBuilder,
-    private modalService: NgbModal,
-    private toastrService: ToastrService,
-    private loadingBarService: LoadingBarService
+  constructor(private settingService: SettingService, private router: Router,
+    private storage: EncodingDataService, private fb: FormBuilder,
+    private modalService: NgbModal, private toastrService: ToastrService,
+    private loadingBarService: LoadingBarService,
+    private storeCurrentUserService: StoreCurrentUserService,
+    private storeTokenService: StoreTokenService
   ) { }
 
   ngOnInit() {
-    this.currentUser = this.mappingService.currentUser;
+    this.currentUser = this.storeCurrentUserService.getCurrentUser as CurrentUser;
     this.initFormPassword()
     this.initFormAccount()
     // this.OnChangeNewPasswordvalue()
@@ -52,8 +50,10 @@ export class MyAccountComponent implements OnInit {
   public initFormPassword(): void {
     this.passwordForm = this.fb.group({
       old_password: [null, [Validators.required]],
-      new_password: [null, [Validators.required, CustomValidators.password]],
-      new_password_confirmation: [null, [Validators.required, CustomValidators.password]],
+      // new_password: [null, [Validators.required, CustomValidators.password]],
+      // new_password_confirmation: [null, [Validators.required, CustomValidators.password]],
+      new_password: [null, Validators.required],
+      new_password_confirmation: [null, Validators.required],
     });
   }
   public openFormPassword(content) {
@@ -120,7 +120,9 @@ export class MyAccountComponent implements OnInit {
       username: ['', [Validators.required]],
       email: ['', [Validators.required]],
       contacts: ['', [Validators.required]],
-      adresse: ['', [Validators.required]]
+      adresse: ['', [Validators.required]],
+      profil_user_id: [this.currentUser?.profil_user_id],
+      user_id: [this.currentUser?.id]
     });
   }
   public openFormAccount(account, data) {
@@ -158,14 +160,17 @@ export class MyAccountComponent implements OnInit {
       .Logout({})
       .subscribe({
         next: (response) => {
+          this.storeCurrentUserService.removeCurrentUser();
+          this.storeTokenService.removeToken();
           this.storage.removeData('current_menu');
+          this.storage.removeData('variables');
+          this.storage.removeData('user');
           if (this.storage.getData('isProfil') || null) {
             this.storage.removeData('isProfil');
-            this.router.navigateByUrl('auth/login')
-              .then(() => window.location.reload());
-          } else {
-            this.router.navigateByUrl('auth/login');
+            window.location.reload()
+              // .then(() => window.location.reload());
           }
+            this.router.navigateByUrl('auth/login');
           this.toastrService.success(response?.message);
         },
         error: (error) => {

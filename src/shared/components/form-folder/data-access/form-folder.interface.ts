@@ -1,0 +1,134 @@
+interface ClientInfo {
+    adresse: string | null;
+    compte_client: string | null;
+    nom_gerant: string | null;
+    contact_admin_tenant: string | null;
+    email_admin_tenant: string | null;
+    nom_tenant: string | null;
+    segment_client: string | null;
+}
+
+interface Facture {
+    id: number;
+    reference: string;
+    initie_par: number;
+    traite_a: string | null;
+    traite_par: string | null;
+    approuve_par: string | null;
+    approuve_a: string | null;
+    numero_demande: string;
+    operation: string;
+    qte: number;
+    prix_unitaire: number;
+    prix_ht: number;
+    tva: string;
+    prix_tva: string;
+    prix_ttc: number;
+    statut: string;
+    montant_paye: string;
+    date_paiement: string | null;
+    date_limite: string;
+    etat_facture: string;
+    type_paiement: string | null;
+    created_at: string;
+    updated_at: string;
+    commentaire_facture: string | null;
+    accepte_facture: string | null;
+    orangeInfo: any | null; // Remplacez `any` par un type spécifique si nécessaire
+    clientInfo: ClientInfo;
+    prix_ttc_lettres: string;
+    montant_total: string;
+    impaye_anterieur: string;
+}
+
+export interface DetailsDemand {
+    id: number;
+    numero_demande: string;
+    description: string;
+    justificatif: string;
+    operation: string;
+    bac_a_pioche: string ;
+    cloture_a: string ;
+    nb_demande_soumises: number;
+    nb_demande_traitees: number;
+    nb_demande_cloturees: number;
+    initie_par: number;
+    statut: string;
+    created_at: string;
+    updated_at: string;
+    recu_paiement: string ;
+    type: string;
+    niveau_un_uuid: string ;
+    niveau_deux_uuid: string ;
+    niveau_trois_uuid: string ;
+    formule_uuid: string;
+    usage_id: number;
+    intervenant_id: number ;
+    traite_a: string ;
+    traite_par: string ;
+    cloture_par: string ;
+    abandonne_a: string ;
+    abandonne_par: string ;
+    acquitte_a: string ;
+    acquitte_par: string ;
+    commentaire_traitement: string ;
+    traitement: string;
+    commentaire_cloture: string ;
+    nb_demande_identifiees: string;
+    nb_demande_echouees: string;
+    finalise_a: string ;
+    finalise_par: string ;
+    etat_soumission: string;
+    etat_traitement: string ;
+    etat_finalisation: string ;
+    etat_cloture: string ;
+    commentaire_finalisation: string ;
+    montant_formule: number ;
+    nb_cycle: number;
+    nb_demande_crees: number;
+    accepte: string ;
+    equipe_id: number ;
+    type_paiement: string ;
+    nb_sim_affectees: number;
+    accepte_approbation: string ;
+    commentaire_approbation: string ;
+    approuve_par: string ;
+    approuve_a: string ;
+    commentaire_livraison: string ;
+    livre_par: string ;
+    livre_a: string ;
+    delai_ack: number;
+    delai_traitement: number;
+    delai_cloture: number;
+    delai_escalade: number;
+    source: string;
+    date_soumission_facture: string ;
+    notation_cloture: string ;
+    etat_facture: string;
+    recuperer_par: string ;
+    recuperer_a: string ;
+    formule: string;
+    usage_nom: string;
+    niveau_uns_code: string ;
+    niveau_deux_code: string ;
+    niveau_trois_code: string ;
+    niveau_uns_nom: string ;
+    niveau_deux_nom: string ;
+    niveau_trois_nom: string ;
+    demandeur_nom: string;
+    demandeur_prenoms: string;
+    demandeur_contacts: string;
+    demandeur_email: string;
+    demandeur_matricule: string;
+    intervenant: string ;
+    finalisateur: string ;
+    approbateur: string ;
+    livreur: string ;
+    facture: Facture;
+}
+
+export interface DetailsDemandResponse {
+    error: boolean;
+    message: string;
+    data: DetailsDemand;
+}

@@ -3,5 +3,4 @@ export enum TypeAlarme {
     MINEUR = 'MINEUR',
     MAJEUR = 'MAJEUR',
     CRITIQUE = 'CRITIQUE'
-
 }   

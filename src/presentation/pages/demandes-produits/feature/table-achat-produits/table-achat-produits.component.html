@@ -1,0 +1,171 @@
+<p-table
+    #dt
+    [value]="listAchatProduits"
+    [rowHover]="true"
+    dataKey="id"
+    selectionMode="single"
+    [(selection)]="selectedAchat"
+    [rows]="50"
+    [globalFilterFields]="[
+        'created_at',
+        'reference',
+        'nb_achat_produits_total',
+        'nb_achat_produits_utilises',
+        'nb_achat_produits_total',
+        'nb_achat_produits_disponibles',
+        'taux_utilisation',
+        'statut'
+    ]"
+>
+    <ng-template pTemplate="caption">
+        <div class="d-flex justify-content-between">
+            <app-table-title
+                [count]="pargination?.total"
+                [legendePluriel]="'SIM blanches'"
+                [legendeSingulier]="'SIM blanches'"
+                [page]="pargination.currentPage"
+                [totalPage]="pargination.last_page"
+                [perPage]="pargination.per_page"
+            >
+            </app-table-title>
+            <div>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="
+                            dt.filterGlobal($event.target.value, 'contains')
+                        "
+                        placeholder="Recherche..."
+                    />
+                </span>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th class="text-center" [style]="{ width: '2rem' }">#</th>
+            <th class="text-center" [style]="{ width: '6rem' }">
+                Date Demande
+            </th>
+            <th class="text-center" [style]="{ width: '6rem' }">N° Commande</th>
+            <th class="text-center" [style]="{ width: '4rem' }"># Produits</th>
+            <th class="text-center" [style]="{ width: '4rem' }"># Traitées</th>
+            <th class="text-center" [style]="{ width: '3rem' }">Etape</th>
+            <th class="text-center" [style]="{ width: '3rem' }">Etat</th>
+            <th class="text-center" [style]="{ width: '3rem' }">Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-achat>
+        <tr [pSelectableRow]="achat">
+            <td class="text-center">{{ rowIndex + pargination?.offset }}</td>
+            <td class="text-center">{{ achat?.created_at }}</td>
+            <td
+                class="text-center"
+                (click)="copyData(achat.numero_demande)"
+                style="cursor: pointer"
+            >
+                {{ achat?.numero_demande }}
+            </td>
+            <td class="text-center">
+                {{ achat?.nb_demande_soumises ?? 'N/A' }}
+            </td>
+            <td class="text-center">
+                {{ achat?.nb_demande_traitees ?? 'N/A' }}
+            </td>
+            <td class="text-center" [style]="{ width: '3rem' }">
+                <span
+                    [ngStyle]="{ 'font-size': '16px' }"
+                    [class]="'badge ' + getEtapeBadge(achat)"
+                >
+                    {{ achat?.statut }}
+                </span>
+            </td>
+            <td class="text-center">
+                <span
+                    [ngStyle]="{ 'font-size': '16px' }"
+                    [class]="'badge ' + getEtatBadge(achat)"
+                >
+                    {{ achat.traitement }}
+                </span>
+            </td>
+            <td class="td-actions">
+                <button
+                    pButton
+                    icon="pi pi-folder-open"
+                    pTooltip="Voir"
+                    tooltipPosition="top"
+                    (click)="
+                        onAction({
+                            data: achat,
+                            action: 'détails',
+                            view: 'page'
+                        })
+                    "
+                    class="p-button-dark"
+                ></button>
+                <button
+                    pButton
+                    tooltipPosition="top"
+                    (click)="OnShowModalTraitement(achat)"
+                    [ngClass]="getStyleButtonTraitement(achat).class"
+                    [icon]="getStyleButtonTraitement(achat).icon"
+                    [pTooltip]="getStyleButtonTraitement(achat).tooltip"
+                ></button>
+                <button
+                    pButton
+                    icon="pi pi-print"
+                    [class]="getColorActionButton(achat).style"
+                    pTooltip="Facture"
+                    tooltipPosition="top"
+                    (click)="
+                        onAction({
+                            data: achat,
+                            action: 'invoice',
+                            view: 'page'
+                        })
+                    "
+                    style="border-color: transparent"
+                ></button>
+                <!-- <button pButton icon="pi pi-dollar" class="p-button-primary" pTooltip="Mode de paiement"
+                    tooltipPosition="top" (click)="OnShowModalPaiement(achat)">
+                </button> -->
+                <button
+                    pButton
+                    icon="pi pi-book"
+                    pTooltip="Journal"
+                    tooltipPosition="top"
+                    (click)="
+                        onAction({
+                            data: achat,
+                            action: 'journal',
+                            view: 'modal'
+                        })
+                    "
+                    class="p-button-primary"
+                ></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr *ngIf="listAchatProduits?.length <= 0 && !spinner">
+            <td class="posRelative" colspan="15">
+                <span class="posCenter"> Aucune donnée disponible </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner">
+            <td class="posRelative" colspan="15">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

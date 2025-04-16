@@ -45,7 +45,7 @@ export class TableFileAttenteComponent {
   @Input() userRole: string;
   @Input() startedDay: string;
   public visibleForm: boolean = false;
-  public typeTraitement: { module: "personne-physique", visualiser: boolean};
+  public typeTreatment: { module: "personne-physique", visualiser: boolean};
 
   constructor(public toastrService: ToastrService, private clipboardService: ClipboardService,
     private supervisionOperationService: SupervisionOperationService) { }
@@ -55,7 +55,7 @@ export class TableFileAttenteComponent {
     this.clipboardService.copyFromContent(demande);
   }
   public getStyleButtonTraitement(sim: any): Object|void {
-    return { class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'identifier', typeTraitement: { module: "file-attente", visualiser: true } };
+    return { class: 'p-button-success', icon: 'pi pi-check-circle', tooltip: 'identifier', typeTreatment: { module: "file-attente", visualiser: true } };
   }
 
   getTreatmentButtonStyle(dossier?: Dossier): any {
@@ -72,13 +72,13 @@ export class TableFileAttenteComponent {
         [BADGE_ETAT.RECU]: {
           icon: 'pi pi-eye',
           tooltip: 'Détails demande',
-          typeTraitement: baseAction
+          typeTreatment: baseAction
         },
         [BADGE_ETAT.EN_COURS]: {
           class: 'p-button-success',
           icon: 'pi pi-check-circle',
           tooltip: 'Editer',
-          typeTraitement: { ...baseAction, editer: true }
+          typeTreatment: { ...baseAction, editer: true }
         }
       },
       [BADGE_ETAPE.TRAITEMENT]: {
@@ -86,7 +86,7 @@ export class TableFileAttenteComponent {
           class: 'p-button-success',
           icon: 'pi pi-check-circle',
           tooltip: 'Editer',
-          typeTraitement: { ...baseAction, editer: true }
+          typeTreatment: { ...baseAction, editer: true }
         }
       }
     };
@@ -122,10 +122,10 @@ export class TableFileAttenteComponent {
     }
   }
 
-  OnShowModalTraitement(data: any, typeTraitement: { module: "personne-physique", visualiser: boolean }): void {
+  OnShowModalTraitement(data: any, typeTreatment: { module: "personne-physique", visualiser: boolean }): void {
     this.onSelectTableSim(data);
     this.visibleForm = true;
-    this.typeTraitement = typeTraitement;
+    this.typeTreatment = typeTreatment;
   }
 
   private onSelectTableSim(selectedSim: Object): void {

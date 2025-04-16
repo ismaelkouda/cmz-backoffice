@@ -1,0 +1,100 @@
+.bankBenefitNumber {
+    input[type='text']:disabled {
+        font-size: 25px !important;
+        padding: 0.4rem 0.75rem !important;
+    }
+}
+
+::ng-deep .buttonDeleteFileUpload {
+    color: red !important;
+    border-color: red !important;
+    background-color: white !important;
+    font-weight: bolder;
+    font-size: larger;
+    .pi {
+        font-weight: bolder;
+        font-size: larger;
+    }
+}
+
+::ng-deep .p-button.p-fileupload-choose {
+    width: 100% !important;
+}
+
+.messageAlert {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    border: 2px solid transparent;
+    border-radius: 0.25rem;
+    margin-right: 10px;
+    //   background-color: #000; color: #fff; border-color: #a4b0be;
+    background-color: #a4b0be;
+    color: #000;
+    border-color: #a4b0be;
+}
+
+.container-button-telecharger {
+    border: 2px solid #d0d3da;
+    border-radius: 5%;
+    height: 70%;
+}
+
+.block-checked {
+    height: 4rem;
+    border: 1px solid #d0d3da;
+    border-radius: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    input {
+        width: 25px;
+        height: 25px;
+        cursor: pointer !important;
+        border: 1px solid black;
+    }
+    label {
+        font-size: 1.25rem;
+        margin-left: 0.5rem;
+    }
+}
+.form-check-label,
+.form-check-inline {
+    margin-bottom: 0 !important;
+}
+// input[type=text]:disabled {
+//     font-size: inherit;
+// }
+
+.small-dashboard {
+    display: flex;
+    gap: 2rem;
+}
+
+.label {
+    font-size: 20px;
+    color: #000;
+    text-align: center;
+}
+
+.box-card {
+    text-align: center;
+    border: 2px solid #2c3e50;
+    border-radius: 6px;
+    height: 80px !important;
+    .title {
+        span {
+            color: black;
+            text-transform: capitalize;
+            font-weight: 900 !important;
+            font-size: 35px;
+        }
+    }
+    .valeur {
+        span {
+            color: #ff6600;
+            font-size: 45px;
+            text-align: center;
+            font-weight: 900 !important;
+        }
+    }
+}

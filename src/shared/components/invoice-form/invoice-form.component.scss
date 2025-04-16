@@ -1,0 +1,25 @@
+.container-invoice {
+    display: flex;
+    justify-content: end;
+}
+.invoice {
+    background-color: white;
+    padding: 20px;
+    // border: 1px solid #ddd;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+.invoice hr {
+    border-top: 2px solid black;
+}
+.invoice .total {
+    font-weight: bold;
+}
+input[type='radio'] {
+    width: 2em;
+    height: 2em;
+    border: 2px solid black;
+}
+tbody .tr_montant > td {
+    padding: 0.4rem !important;
+}

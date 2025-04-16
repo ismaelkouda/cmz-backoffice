@@ -1,9 +1,11 @@
-import { SeuilAlarmesComponent } from './ui/seuil-alarmes/seuil-alarmes.component';
+// import { SeuilAlarmesComponent } from './ui/seuil-alarmes/seuil-alarmes.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProfilSupervisionComponent } from './ui/profil-supervision/profil-supervision.component';
-import { ObjectifSlaComponent } from './ui/objectif-sla/objectif-sla.component';
+// import { ObjectifSlaComponent } from './ui/objectif-sla/objectif-sla.component';
 import { ContactSlaComponent } from './ui/contact-sla/contact-sla.component';
+import { IndicatorsAlarmsComponent } from '../supervisory-repository/ui/indicators-alarms/indicators-alarms.component';
+import { SlaAgreementsComponent } from '../supervisory-repository/ui/sla-agreements/sla-agreements.component';
 
 export const SEUIL_ALARMES = 'indicateurs-alarmes';
 export const PROFIL_SUPERVISION = 'profil-supervision';
@@ -15,7 +17,8 @@ const routes: Routes = [{
     children: [
         {
             path: SEUIL_ALARMES,
-            component: SeuilAlarmesComponent
+            // component: SeuilAlarmesComponent
+            component: IndicatorsAlarmsComponent
         },
         {
             path: PROFIL_SUPERVISION,
@@ -23,7 +26,8 @@ const routes: Routes = [{
         },
         {
             path: OBJECTIFS_SLA,
-            component: ObjectifSlaComponent
+            // component: ObjectifSlaComponent
+            component: SlaAgreementsComponent
         },
         {
             path: CONTACT_SLA,

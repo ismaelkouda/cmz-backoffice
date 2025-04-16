@@ -1,3 +1,4 @@
+
 // import { TableDossierDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/table-dossier-demande-identification/table-dossier-demande-identification.component';
 // import { FilterDossierDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/filter-dossier-demande-identification/filter-dossier-demande-identification.component';
 // import { FilterDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/filter-demande-identification/filter-demande-identification.component';
@@ -12,38 +13,22 @@ import { DemandeSwappingComponent } from './ui/demande-swapping/demande-swapping
 import { StatutDemandeComponent } from './feature/statut-demande/statut-demande.component';
 import { DemandeWrapperShowComponent } from './feature/demande-wrapper-show/demande-wrapper-show.component';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxCaptchaModule } from 'ngx-captcha';
 
 //Modules Primeng
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { TabViewModule } from 'primeng/tabview';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { DialogModule } from "primeng/dialog";
-import { TooltipModule } from 'primeng/tooltip';
-import { InputMaskModule } from 'primeng/inputmask';
-import { PasswordModule } from 'primeng/password';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { CalendarModule } from 'primeng/calendar';
-import { CheckboxModule } from 'primeng/checkbox';
 import { DemandesRoutingModule } from './demandes-routing.module';
 import { SharedModule } from 'src/shared/shared.module';
 
 //Components
 
-import { DemandeWrapperComponent } from './feature/demande-wrapper/demande-wrapper.component';
-import { DemandeSuspensionComponent } from './ui/demande-suspension/demande-suspension.component';
-import { DemandeActivationComponent } from './ui/demande-activation/demande-activation.component';
-import { DemandeResiliationComponent } from './ui/demande-resiliation/demande-resiliation.component';
-import { TransactionFormComponent } from './feature/transaction-form/transaction-form.component';
+// import { DemandeWrapperComponent } from './feature/demande-wrapper/demande-wrapper.component';
+// import { DemandeSuspensionComponent } from './ui/demande-suspension/demande-suspension.component';
+// import { DemandeActivationComponent } from './ui/demande-activation/demande-activation.component';
+// import { DemandeResiliationComponent } from './ui/demande-resiliation/demande-resiliation.component';
+// import { TransactionFormComponent } from './feature/transaction-form/transaction-form.component';
 import { DemandeFormuleChangeComponent } from './ui/demande-formule-change/demande-formule-change.component';
-
+import { TypePaiementComponent } from './feature/type-paiement/type-paiement.component';
 
 //services
 import { DemandesFilterStateService } from './data-access/demandes-filter-state.service';
@@ -54,40 +39,27 @@ import { TableDossierDemandeIntegration } from "./feature/demande-integration/ta
 // import { FormDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/form-demande-identification/form-demande-identification.component';
 // import { ManagementDemandeIdentificationComponent } from './feature/demande-identification/demande-identification/management-demande-identification/management-demande-identification.component';
 
+import { Tag } from 'primeng/tag';
+import { Rating } from 'primeng/rating';
+
 @NgModule({
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
         SharedModule,
         DemandesRoutingModule,
-        DropdownModule,
-        ButtonModule,
-        TableModule,
-        InputTextModule,
-        InputNumberModule,
-        InputTextareaModule,
-        TabViewModule,
-        DialogModule,
-        TooltipModule,
         NgxPaginationModule,
-        InputMaskModule,
-        PasswordModule,
-        RadioButtonModule,
         NgxCaptchaModule,
-        CalendarModule,
-        CheckboxModule,
     ],
     declarations: [
-        DemandeActivationComponent,
-        DemandeSuspensionComponent,
-        DemandeResiliationComponent,
+        TypePaiementComponent,
+        // DemandeActivationComponent,
+        // DemandeSuspensionComponent,
+        // DemandeResiliationComponent,
         DemandeFormuleChangeComponent,
         DemandeSwappingComponent,
-        DemandeWrapperComponent,
+        // DemandeWrapperComponent,
         DemandeWrapperShowComponent,
         StatutDemandeComponent,
-        TransactionFormComponent,
+        // TransactionFormComponent,
         // DemandeIdentificationComponent,
         // FormDemandeIdentificationComponent,
         // FilterDossierDemandeIdentificationComponent,
@@ -95,8 +67,8 @@ import { TableDossierDemandeIntegration } from "./feature/demande-integration/ta
         // TableDossierDemandeIdentificationComponent,
         // ManagementDemandeIdentificationComponent,
         // TableDemandeIdentificationComponent,
-        DemandeIntegrationComponent,FilterDemandeIntegrationComponent,TableDemandeIntegrationComponent,FormDemandeIntegrationComponent, DossierDemandeIntegrationComponent, FilterDossierDemandeIntegrationComponent, TableDossierDemandeIntegration
+        DemandeIntegrationComponent, FilterDemandeIntegrationComponent, TableDemandeIntegrationComponent, FormDemandeIntegrationComponent, DossierDemandeIntegrationComponent, FilterDossierDemandeIntegrationComponent, TableDossierDemandeIntegration
     ],
-    providers: [DemandesFilterStateService, DemandeIntegrationStateService]
+    providers: [DemandesFilterStateService, DemandeIntegrationStateService, Tag, Rating]
 })
 export class DemandesModule { }

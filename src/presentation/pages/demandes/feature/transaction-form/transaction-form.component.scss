@@ -44,12 +44,13 @@
     // }
 }
 .block-checked-stock-source {
-    height: 4rem;
+    height: 3.6rem;
     border: 1px solid #d0d3da;
     border-radius: 5%;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
     input {
         width: 25px;
         height: 25px;
@@ -69,4 +70,18 @@
     border: 2px solid #d0d3da;
     border-radius: 5%;
     height: 70%;
+}
+.p-component-overlay .p-dialog .p-dialog-header {
+    border-bottom: 0 none !important;
+    background: #ffffff !important;
+    color: #343a40 !important;
+    padding: 1.5rem !important;
+    border-top-right-radius: 6px !important;
+    border-top-left-radius: 6px !important;
+}
+.p-component-overlay .p-dialog-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-shrink: 0 !important;
 }

@@ -17,5 +17,24 @@
     <body>
         <app-root></app-root>
         <script src="assets/feather.min.js"></script>
+        <script defer>
+            const url = location.protocol + '//' + location.host;
+            switch (url) {
+                case 'https://sim-monitoring.cateli.io:11555':
+                    title =
+                        'Système de Gestion du Patrimoine des Cartes SIM et des demandes de Produits & Services';
+                    break;
+
+                case 'https://osim-monitoring.orange.ci:11555':
+                    title = 'Système de surveillance de données Collectées';
+                    break;
+
+                default:
+                    title =
+                        'Cateli Data Collector - Système de Gestion de Collecte Centralisée';
+                    break;
+            }
+            document.title = title;
+        </script>
     </body>
 </html>

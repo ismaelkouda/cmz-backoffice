@@ -1,31 +1,29 @@
+// import { TransactionShowComponent } from './components/transaction-show/transaction-show.component';
+import { ParginationComponent } from './components/pargination/pargination.component';
+import { SharedService } from './../shared/services/shared.service';
+import { TablebuttonHeaderComponent } from './components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from './components/table-title/table-title.component';
 import { StatistiqueBoxComponent } from './components/statistique-box/statistique-box.component';
-import { SharedService } from 'src/shared/services/shared.service';
 import { SharedDataService } from './services/shared-data.service';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { FormMasseComponent } from './components/form-masse/form-masse.component';
-import { ParginationComponent } from 'src/shared/components/pargination/pargination.component';
 import { TransactionMasseComponent } from './components/transaction-masse/transaction-masse.component';
 import { PatrimoineHeaderComponent } from './components/patrimoine-header/patrimoine-header.component';
 import { TabViewHeaderComponent } from './components/tab-view-header/tab-view-header.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
 import { StatutContratComponent } from './components/statut-contrat/statut-contrat.component';
 import { FormatNumberPipe } from './pipes/formatNumber.pipe';
-import { TransactionShowComponent } from 'src/shared/components/transaction-show/transaction-show.component';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
 import { CountBoxComponent } from './components/count-box/count-box.component';
 import { StatBoxComponent } from './components/stat-box/stat-box.component';
 import { JournalComponent } from './components/journal/journal.component';
 import { SafePipe } from './pipes/safe.pipe';
 import { HistoriqueComponent } from './components/historique/historique.component';
-import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
 import {
   CUSTOM_ELEMENTS_SCHEMA,
   NgModule,
   NO_ERRORS_SCHEMA,
-} from '@angular/core'; import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+} from '@angular/core';
 import { TranslateModule } from "@ngx-translate/core";
 import { NgxPaginationModule } from "ngx-pagination";
 import { CapitalizePipe } from "./pipes/capitalize.pipe";
@@ -40,7 +38,6 @@ import { LoaderComponent } from "./components/loader/loader.component";
 import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { TapToTopComponent } from "./components/tap-to-top/tap-to-top.component";
 import { MyAccountComponent } from "./components/header/elements/my-account/my-account.component";
-import { TablebuttonHeaderComponent } from "src/shared/components/table-button-header/table-button-header.component";
 
 // Services
 import { LayoutService } from "./services/layout.service";
@@ -51,31 +48,42 @@ import { CarouselModule } from "ngx-owl-carousel-o";
 import { SwiperModule } from "swiper/angular";
 
 //Primeng Modules
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from 'primeng/dropdown';
-import { CalendarModule } from 'primeng/calendar';
 import { TableFilterPipe } from './pipes/table-filter.pipe';
-import { TooltipModule } from 'primeng/tooltip';
-import { DialogModule } from 'primeng/dialog';
-import { PasswordModule } from 'primeng/password';
 import { TraitementShowComponent } from './components/traitement-show/traitement-show.component';
-import { BadgeModule } from 'primeng/badge';
-import { PaginatorModule } from 'primeng/paginator';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { FileUploadModule } from 'primeng/fileupload';
+import { SpinnerTitleDetailsComponent } from './components/spinner-title-details/spinner-title-details.component';
+import { BoxContainerComponent } from './components/box-container/box-container.component';
+import { PrimengModule } from './primeng.module';
+
+import { SearchTableComponent } from './components/search-table/search-table.component';
+import { AngularModule } from './angular.module';
+import { StateInvoiceFormService } from './components/invoice-form/data-access/state-invoice-form.service';
+import { InvoiceFormComponent } from './components/invoice-form/invoice-form.component';
+import { FormDemandComponent } from './components/form-demand/form-demand.component';
+import { FormDemandApiService } from './components/form-demand/data-access/services/form-demand-api.service';
+import { FormFolderComponent } from './components/form-folder/form-folder.component';
+import { SimDemandComponent } from './components/sim-demand/sim-demand.component';
+import { TableSimDemandComponent } from './components/sim-demand/feature/table-sim-demand/table-sim-demand.component';
+import { FilterSimDemandComponent } from './components/sim-demand/feature/filter-sim-demand/filter-sim-demand.component';
+import { HistoryApiService } from './components/historique/data-access/services/history-api.service';
+import { EndpointParamsService } from './services/endpoint-params.service';
+import { HistoryComponent } from './components/historique/history.component';
+import { FilterHistoryComponent } from './components/historique/feature/filter-history/filter-history.component';
+import { TableHistoryComponent } from './components/historique/feature/table-history/table-history.component';
+import { DetailsHistoryComponent } from './components/historique/feature/details-history/details-history.component';
+import { PagesGuard } from '../core/guard/PagesGuard';
+import { TreatmentMonitoringApiService } from '../presentation/pages/overseeing-operations/data-access/treatment-monitoring/services/treatment-monitoring-api.service';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
+    SearchTableComponent,
     SidebarComponent,
     ContentComponent,
     BreadcrumbComponent,
     TraitementShowComponent,
-    TransactionShowComponent,
+    // TransactionShowComponent,
+    BoxContainerComponent,
     FullComponent,
     LoaderComponent,
     StatBoxComponent,
@@ -83,6 +91,7 @@ import { FileUploadModule } from 'primeng/fileupload';
     TapToTopComponent,
     MyAccountComponent,
     SvgIconComponent,
+    HistoryComponent, FilterHistoryComponent, TableHistoryComponent, DetailsHistoryComponent,
     HistoriqueComponent,
     JournalComponent,
     StatutContratComponent,
@@ -101,44 +110,44 @@ import { FileUploadModule } from 'primeng/fileupload';
     SpinnerComponent,
     CapitalizePipe,
     StatistiqueBoxComponent,
-    TableTitleComponent
+    TableTitleComponent,
+    InvoiceFormComponent,
+    SpinnerTitleDetailsComponent,
+    FormDemandComponent,
+    FormFolderComponent,
+    SimDemandComponent, 
+    TableSimDemandComponent,
+    FilterSimDemandComponent,
   ],
   imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgbModule,
-    TranslateModule.forRoot(),
+    AngularModule,
+    PrimengModule,
+    TranslateModule,
     CarouselModule,
     SwiperModule,
-    TableModule,
-    ButtonModule,
-    InputTextModule,
-    DropdownModule,
-    CalendarModule,
-    TooltipModule,
-    DialogModule,
     NgxPaginationModule,
-    BadgeModule,
-    RadioButtonModule,
-    PasswordModule,
-    PaginatorModule,
-    ProgressSpinnerModule,
-    FileUploadModule
   ],
-  providers: [NavService, LayoutService, DecimalPipe, SharedDataService, SharedService],
+  providers: [NavService, LayoutService, DecimalPipe, SharedDataService, SharedService,
+    EndpointParamsService,
+    StateInvoiceFormService, 
+    FormDemandApiService,
+    TreatmentMonitoringApiService,
+    HistoryApiService,
+    PagesGuard
+  ],
   exports: [
-    NgbModule,
-    FormsModule,
-    ReactiveFormsModule,
+    AngularModule,
+    PrimengModule,
     TranslateModule,
     LoaderComponent,
+    SearchTableComponent,
     StatBoxComponent,
     CountBoxComponent,
+    BoxContainerComponent,
     BreadcrumbComponent,
     TraitementShowComponent,
-    TransactionShowComponent,
+    // TransactionShowComponent,
+    HistoryComponent, FilterHistoryComponent, TableHistoryComponent, DetailsHistoryComponent,
     HistoriqueComponent,
     JournalComponent,
     QrModalComponent,
@@ -155,16 +164,18 @@ import { FileUploadModule } from 'primeng/fileupload';
     TableFilterPipe,
     TablebuttonHeaderComponent,
     ParginationComponent,
-    RadioButtonModule,
     FormMasseComponent,
     SpinnerComponent,
-    ProgressSpinnerModule,
     CapitalizePipe,
-    CalendarModule,
-    ButtonModule,
-    FileUploadModule,
     StatistiqueBoxComponent,
-    TableTitleComponent
+    TableTitleComponent,
+    InvoiceFormComponent,
+    SpinnerTitleDetailsComponent,
+    FormDemandComponent,
+    FormFolderComponent,
+    SimDemandComponent,
+    TableSimDemandComponent,
+    FilterSimDemandComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 

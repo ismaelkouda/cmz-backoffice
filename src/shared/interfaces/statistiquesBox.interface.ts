@@ -6,7 +6,9 @@ export interface IStatistiquesBox {
     legendColor?: string;
     legend: string;
     count: number;
-    taux?: string;
+    taux?: number;
     icon?: string;
     width?: String;
+    routerFilter?: () => void
+    iframeLink?: string;
 }

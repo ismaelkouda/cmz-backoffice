@@ -73,4 +73,17 @@ export class ContactSlaComponent implements OnInit {
   handleChangeTabviewIndex(e) {
     this.currentTabsIndex = e.index;
   }
+  public openModal(type: "fichier_rccm" | "fichier_dfe" | "piece_gerant"): void {
+    switch (type) {
+      case "fichier_rccm":
+        window.open(this.currentContact?.["fichier_rccm"]);
+        break;
+      case "fichier_dfe":
+        window.open(this.currentContact?.["fichier_dfe"]);
+        break;
+      case "piece_gerant":
+        window.open(this.currentContact?.["piece_gerant"]);
+        break;
+    }
+  }
 }

@@ -23,9 +23,9 @@ th {
         }
     }
     th,
-    td {
-        padding: $table-padding;
-    }
+    // td {
+    //     padding: $table-padding;
+    // }
     &.table-primary {
         th {
             color: $white;

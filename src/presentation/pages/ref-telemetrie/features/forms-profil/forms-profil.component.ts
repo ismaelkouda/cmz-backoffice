@@ -5,7 +5,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { handle } from 'src/shared/functions/api.function';
 import { SettingService } from 'src/shared/services/setting.service';
-import { ListCommuneService } from 'src/shared/services/list-commune.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 
@@ -30,6 +29,7 @@ export class FormsProfilComponent implements OnInit {
   public adminForm: FormGroup;
   public checkedAllConsumers: boolean = false;
   public listAffectations: Array<any> = [];
+  public listSms: Array<any> = [];
   public clonedMetrique: { [s: string]: any } = {};
   public currentMetrique: any;
   public globalMetriquesEditRow: Array<any> = [];
@@ -39,6 +39,7 @@ export class FormsProfilComponent implements OnInit {
   public listUsages: Array<any> = [];
   public listFormule: any = [];
   private response: any = {};
+  public indexTabPanelActive: number = 0;
 
   constructor(
     private telemetrieService: TelemetrieService,
@@ -46,7 +47,6 @@ export class FormsProfilComponent implements OnInit {
     private fb: FormBuilder,
     public mappingService: MappingService,
     public settingService: SettingService,
-    private listCommuneService: ListCommuneService,
     private loadingBarService: LoadingBarService,
     private patrimoineService: PatrimoineService,
   ) {
@@ -56,6 +56,7 @@ export class FormsProfilComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.onChangeTabPanel(0);
     this.initForm();
     this.initFormFilter();
     this.GetAllFirstLevel();
@@ -64,9 +65,10 @@ export class FormsProfilComponent implements OnInit {
     this.GetAllFormules();
     this.GetAllReferentielTelemetrie();
     this.isValidate();
+    this.onFormPachValues();
     if (this.currentObject !== undefined) {
-      this.onFormPachValues();
       this.GetMetriquesByProfil();
+      this.GetSmsMetriquesByProfil();
     }
   }
 
@@ -96,6 +98,15 @@ export class FormsProfilComponent implements OnInit {
     });
 }
 
+public onChangeTabPanel(index: number): void {
+  this.indexTabPanelActive = index;
+  switch (this.indexTabPanelActive) {
+    case 1: this.GetSmsMetriquesByProfil(); break;
+  
+    default: this.GetMetriquesByProfil(); break;
+  }
+}
+
 public showSecondFilter() {
     this.secondFilter = !this.secondFilter;
 }
@@ -103,7 +114,7 @@ public showSecondFilter() {
 public onChangeFirstLvel(uuid: any) {
     this.listSecondLevelDatas = [];
     this.listFirstLeveDatas.find((element) => {
-        if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
+        // if (element.uuid === uuid)  this.listSecondLevelDatas = this.listCommuneService.getListCommune(element);
     });
 }
 
@@ -148,8 +159,26 @@ private handleSuccessfulThirdLevel(response): void {
       .GetMetriquesByProfil(this.currentObject?.id)
       .subscribe({
         next: (response) => {
-          this.listAffectations = response['data'];
+          this.listAffectations = response['data'].metriques;
           this.globalMetriquesEditRow = this.listAffectations.filter(item => {
+            return item?.statut === 'actif'
+          }).map((data) => {
+            return { metrique_id: data?.id, seuil: data?.seuil, statut: data?.statut }
+          });
+        },
+        error: (error) => {
+          this.toastrService.error(error.error.message);
+        }
+      })
+  }
+
+  public GetSmsMetriquesByProfil(): void {
+    this.telemetrieService
+      .GetSmsMetriquesByProfil(this.currentObject?.id)
+      .subscribe({
+        next: (response) => {
+          this.listSms = response['data'];
+          this.globalMetriquesEditRow = this.listSms.filter(item => {
             return item?.statut === 'actif'
           }).map((data) => {
             return { metrique_id: data?.id, seuil: data?.seuil, statut: data?.statut }
@@ -219,6 +248,13 @@ private handleSuccessfulThirdLevel(response): void {
   }
   public onCancelRowMetrique(metrique: any, index: number) {
     this.listAffectations[index] = this.clonedMetrique[metrique.id];
+    delete this.clonedMetrique[metrique.id];
+    this.globalMetriquesEditRow.forEach((index) => {
+      this.globalMetriquesEditRow.splice(index, 1);
+    });
+  }
+  public onCancelRowSmsMetrique(metrique: any, index: number) {
+    this.listSms[index] = this.clonedMetrique[metrique.id];
     delete this.clonedMetrique[metrique.id];
     this.globalMetriquesEditRow.forEach((index) => {
       this.globalMetriquesEditRow.splice(index, 1);

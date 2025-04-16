@@ -8,6 +8,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { FormValidator } from 'src/shared/utils/spacer.validator';
 import { Title } from '@angular/platform-browser';
+import { StoreCurrentUserService } from '../../../../../shared/services/store-current-user.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -33,8 +34,8 @@ export class ThirdLevelComponent implements OnInit {
   public selectedNom: string;
   public selectedCode: string;
   public selectedCodes: string;
-  public currentLevelLibelle: string;
-  public currentLevelMenus: string;
+  public currentLevelLibelle: string | undefined;
+  public currentLevelMenus: string | undefined;
   public currentLevel: any;
   public adminForm: FormGroup;
   public currentTabsIndex: number = 0;
@@ -47,11 +48,13 @@ export class ThirdLevelComponent implements OnInit {
     private excelService: ExcelService,
     private clipboardApi: ClipboardService,
     private titleService: Title,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private storeCurrentUserService: StoreCurrentUserService
   ) {
     this.titleService.setTitle(`${this.title}`);
-    this.currentLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
-    this.currentLevelMenus = this.mappingService.structureGlobale?.niveau_3_menu;
+    const currentUser = this.storeCurrentUserService.getCurrentUser;
+    this.currentLevelLibelle = currentUser?.structure_organisationnelle?.niveau_3;
+    this.currentLevelMenus = currentUser?.structure_organisationnelle?.niveau_3_menu;
   }
 
   ngOnInit() {

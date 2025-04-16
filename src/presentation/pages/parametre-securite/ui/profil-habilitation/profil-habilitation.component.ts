@@ -71,9 +71,9 @@ export class ProfilHabilitationComponent implements OnInit {
     this.currentObject = data;
   }
   public onEditForm(data: any): void {
+    this.currentObject = data;
     this.initialView = false;
     this.formsView = true;
-    this.currentObject = data;
   }
   public onViewVisualisation(data: any): void {
     this.initialView = false;

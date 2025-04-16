@@ -1,21 +1,26 @@
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
-export async function handle(allFn: () => Observable<any>, toastrService: ToastrService, loadingBar: LoadingBarService): Promise<void> {
+export async function handle<T>(
+    allFn: () => Observable<T | null>,
+    toastrService: ToastrService,
+    loadingBar: LoadingBarService
+): Promise<T|void> {
     loadingBar.start();
     try {
         const res = await allFn().toPromise();
-        if (res?.error) {
-                loadingBar.stop();
-                toastrService.error(res.message);
-                return res;
-        } else {
-            loadingBar.complete();
-            return res;
+        if (!res) { 
+            throw new Error("La réponse du serveur est null ou undefined.");
         }
-    } catch (err) {
-        return err;
         loadingBar.complete();
-        // toastrService.error(err.error.message);
+        return res;
+    } catch (err: any) {
+        loadingBar.complete();
+        // Extraire le message d'erreur détaillé si disponible
+        const errorMessage = err?.error?.message || "Une erreur est survenue.";
+        toastrService.error(errorMessage); // Afficher dans un toastr
+        throw new Error(errorMessage); // Relancer l'erreur pour un traitement ultérieur
     }
 }
+
+

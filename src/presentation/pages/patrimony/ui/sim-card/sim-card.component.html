@@ -1,0 +1,52 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div style="margin-top: -2rem !important">
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [total]="(pagination$ | async)?.total"
+                            [legendePluriel]="'SIM_CARDS' | translate"
+                            [legendeSingulier]="'SIM_CARD' | translate"
+                        >
+                        </app-patrimoine-header>
+                    </div>
+
+                    <div>
+                        <app-filter-sim-card
+                            (filter)="filter($event)"
+                            [listUsages$]="listUsages$"
+                            [listApn$]="listApn$"
+                            [listFormulas$]="listFormulas$"
+                            [listFirstLevel$]="listFirstLevel$"
+                            [listThirdLevel$]="listThirdLevel$"
+                            [listStatusSimCard]="listStatusSimCard"
+                        >
+                        </app-filter-sim-card>
+
+                        <hr />
+
+                        <app-table-sim-card
+                            [spinner]="spinner"
+                            [pagination$]="pagination$"
+                            [listSimCard$]="listSimCard$"
+                            [simCardSelected]="simCardSelected$ | async"
+                            (interfaceUser)="navigateByUrl($event)"
+                        >
+                        </app-table-sim-card>
+
+                        <app-pargination
+                            [pargination]="pagination$ | async"
+                            (pageChange)="onPageChange($event)"
+                        ></app-pargination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

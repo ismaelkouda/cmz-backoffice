@@ -1,0 +1,157 @@
+<p-table
+    #dt
+    [value]="listSmsBalanceStatus$ | async"
+    [rowHover]="true"
+    dataKey="id"
+    selectionMode="single"
+    [rows]="(pagination$ | async)?.per_page"
+    [globalFilterFields]="table.globalFilterFields"
+>
+    <ng-template pTemplate="caption">
+        <div class="d-flex justify-content-between">
+            <app-table-title
+                [count]="(pagination$ | async)?.total"
+                [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page"
+                [totalPage]="(pagination$ | async)?.last_page"
+            >
+            </app-table-title>
+            <div class="d-flex gap-2 align-items-center">
+                <div>
+                    <app-table-button-header
+                        (refresh)="pageCallback()"
+                        (export)="onExportExcel()"
+                        [disabledButtonExport]="
+                            (listSmsBalanceStatus$ | async).length === 0
+                        "
+                        [hiddenButtonOther]="true"
+                        [iconOther]="'pi pi-plus'"
+                    >
+                    </app-table-button-header>
+                </div>
+                <div>
+                    <app-search-table [dt]="dt"></app-search-table>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
+                <ng-container [ngSwitch]="col.header">
+                    <ng-container *ngSwitchCase="'Niveau un'">
+                        {{ firstLevelLibel }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Niveau deux'">
+                        {{ secondLevelLibel }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Niveau trois'">
+                        {{ thirdLevelLibel }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'APN'">
+                        {{ 'APN' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Nom Emplacement'">
+                        {{ 'NAME_LOCATION' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'MSISDN'">
+                        {{ 'MSISDN' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'IMSI'">
+                        {{ 'IMSI' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Solde SMS'">
+                        {{ 'BALANCE' | translate }}&nbsp;
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Date Solde'">
+                        {{ 'DATE' | translate }}&nbsp;{{
+                            'BALANCE' | translate
+                        }}
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{ col.header }}
+                    </ng-container>
+                </ng-container>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-smsBalanceStatus>
+        <tr [pSelectableRow]="smsBalanceStatus">
+            <td
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
+                <ng-container [ngSwitch]="col.header">
+                    <ng-container *ngSwitchCase="'#'">
+                        {{ rowIndex + (pagination$ | async)?.current_page }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'APN'">
+                        <span
+                            (click)="copyToClipboard(smsBalanceStatus?.[col.field])"
+                            class="cursor-pointer"
+                        >
+                            {{ smsBalanceStatus?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Nom Emplacement'">
+                        <span
+                            (click)="copyToClipboard(smsBalanceStatus?.[col.field])"
+                            class="cursor-pointer"
+                        >
+                            {{ smsBalanceStatus?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'MSISDN'">
+                        <span
+                            (click)="copyToClipboard(smsBalanceStatus?.[col.field])"
+                            class="cursor-pointer"
+                        >
+                            {{ smsBalanceStatus?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'IMSI'">
+                        <span
+                            (click)="copyToClipboard(smsBalanceStatus?.[col.field])"
+                            class="cursor-pointer"
+                        >
+                            {{ smsBalanceStatus?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Solde SMS'">
+                        {{smsBalanceStatus?.[col.field] ? (smsBalanceStatus?.[col.field] | formatNumber: 2) : ''}}
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{smsBalanceStatus?.[col.field]}}
+                    </ng-container>
+                </ng-container>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr *ngIf="listSmsBalanceStatus?.length <= 0 && !spinner">
+            <td class="posRelative" colspan="15">
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner" style="height: 46px">
+            <td class="posRelative" colspan="15">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

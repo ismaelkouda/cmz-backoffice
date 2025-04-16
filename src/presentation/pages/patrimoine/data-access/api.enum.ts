@@ -1,5 +1,7 @@
 export const enum EndPointUrl {
-    
+    POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_DETAILS_PAGE = 'patrimoine-sim/carton-sim-blanches/details?page={page}',
+    POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_PAGE = 'patrimoine-sim/carton-sim-blanches?page={page}',
+    POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_DISPONIBLES = 'patrimoine-sim/carton-sim-blanches/disponibles',
     POST_PATRIMOINE_SIM_SIMS_ALL_PAGE = 'patrimoine-sim/sims/all?page={page}',
     GET_ALL_PATRIMOINES = 'patrimoine-sim/sims/all?page={page}',
     POST_PATRIMOINE_SIM_SIMS_imsi_Details = 'patrimoine-sim/sims/{imsi}/details',
@@ -19,16 +21,11 @@ export const enum EndPointUrl {
     REFRESH_DATA = 'patrimoine-sim/etats-des-soldes/actualisation-simple',
     POST_PATRIMOINE_SIM_ETATS_DES_SOLDES_ACTUALISATION_SIMPLE = 'patrimoine-sim/etats-des-soldes/actualisation-simple',
 
-
     CHANGE_STATUT_IDENTIFICATION = 'patrimoine-sim/transactions/sur-sim',
-
-
-
-
-
     
     GET_ALL_CYCLES = 'patrimoine-sim/cycle-de-vie/all?page={page}',
     GET_ALL_ETAT_SOLDE = 'patrimoine-sim/sims/etat-sims?page={page}',
+    GET_ALL_ETAT_SOLDE_SMS = 'patrimoine-sim/sims/etat-sms?page={page}',
     VERIFY_PATRIMOINE = 'patrimoine-sim/sims/verifier',
     ACTIVATION_SIM = 'patrimoine-sim/transactions/demande_activation',
     CHANGE_STATUT = 'patrimoine-sim/transactions/sur-sim',

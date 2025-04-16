@@ -1,0 +1,155 @@
+<p-table
+    #dt
+    [value]="listPayments$ | async"
+    [rowHover]="true"
+    dataKey="id"
+    selectionMode="single"
+    [(selection)]="paymentSelected"
+    [rows]="(pagination$ | async)?.per_page"
+    [globalFilterFields]="table.globalFilterFields"
+>
+    <ng-template pTemplate="caption">
+        <div class="d-flex justify-content-between">
+            <app-table-title
+                [count]="(pagination$ | async)?.total"
+                [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page"
+                [totalPage]="(pagination$ | async)?.last_page"
+            >
+            </app-table-title>
+            <div class="d-flex gap-2 align-items-center">
+                <div class="d-flex gap-2">
+                    <app-table-button-header
+                        (refresh)="pageCallback()"
+                        (export)="onExportExcel()"
+                        [disabledButtonExport]="
+                            (listPayments$ | async)?.length === 0
+                        "
+                        [colorOther]="'dark'"
+                        [hiddenButtonOther]="true"
+                    >
+                    </app-table-button-header>
+                </div>
+                <div>
+                    <app-search-table [dt]="dt"></app-search-table>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
+                <ng-container [ngSwitch]="col.header">
+                    <ng-container *ngSwitchCase="'Date / Heure'">
+                        {{ 'DATE_TIME' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Référence'">
+                        {{ 'NUMBER_REFERENCE' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Opération'">
+                        {{ 'OPERATION' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Quantité'">
+                        {{ 'QUANTITY' | translate | capitalize }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Prix unitaire (Fcfa)'">
+                        {{ 'UNIT_PRICE' | translate }}&nbsp;(Fcfa)
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Montant TTC (Fcfa)'">
+                        {{ 'GROSS_AMOUNT' | translate }}&nbsp;(Fcfa)
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Statut'">
+                        {{ 'STATUS' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Date Etat'">
+                        {{ 'UPDATED_DATE' | translate }}
+                    </ng-container>
+                </ng-container>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
+        <tr [pSelectableRow]="item">
+            <td
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
+                <ng-container [ngSwitch]="col.header">
+                    <ng-container *ngSwitchCase="'#'">
+                        {{ rowIndex + (pagination$ | async)?.current_page }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Référence'">
+                        <span (click)="copyToClipboard(item?.[col.field])">
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Opération'">
+                        <span>
+                            {{ getTitleForm(item?.[col.field]) }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Statut'">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            [class]="'badge ' + getStatusPaymentBadge(item)"
+                        >
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Date Etat'">
+                        {{ item?.[col.field] }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Actions'">
+                        <button
+                            pButton
+                            [ngClass]="getTreatmentButtonViewStyle(item)?.style"
+                            style="border-color: transparent"
+                            icon="pi pi-print"
+                            tooltipPosition="top"
+                            pTooltip="Facture"
+                            [pTooltip]="getTreatmentButtonViewStyle(item)?.['tooltip']"
+                            (click)="
+                                handleAction({
+                                    data: item,
+                                    action: 'view-payment',
+                                    view: 'page'
+                                })
+                            "
+                        ></button>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{item?.[col.field]}}
+                    </ng-container>
+                </ng-container>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr *ngIf="(listPayments$ | async)?.length <= 0 && !spinner">
+            <td class="posRelative" colspan="15">
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner">
+            <td class="posRelative" colspan="15">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

@@ -1,10 +1,10 @@
-import { AuthGuard } from './../core/guard/auth.guard';
-import { full } from './../shared/routes/full.routes';
 import { content, DASHBOARD } from './../shared/routes/routes';
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { ContentComponent } from "src/shared/components/layout/content/content.component";
-import { FullComponent } from 'src/shared/components/layout/full/full.component';
+import { GuestGuard } from '../core/guard/guest.guard';
+import { AuthGuard } from '../core/guard/auth.guard';
+import { ContentComponent } from '../shared/components/layout/content/content.component';
+// import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const REINITIALISATION = 'reinitialisation';
 export const AUTH = "auth";
@@ -16,6 +16,7 @@ const routes: Routes = [
       import("./pages/authentication/authentication.module").then(
         (m) => m.AuthenticationModule
       ),
+      canActivate: [GuestGuard]
   },
   {
     path: REINITIALISATION,
@@ -36,7 +37,11 @@ const routes: Routes = [
     path: '',
     redirectTo: DASHBOARD,
     pathMatch: 'full'
-  }
+  },
+  // {
+  //   path: '**',
+  //   component: NotFoundComponent,
+  // }
 ];
 
 @NgModule({

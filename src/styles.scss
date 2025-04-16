@@ -77,8 +77,8 @@ label {
 
 .filter-button {
     display: flex;
-    align-items: end;
-    width: 4rem;
+    // align-items: end;
+    // width: 4rem;
     padding-right: 0;
 }
 
@@ -180,6 +180,14 @@ p-password .p-disabled {
 }
 :host ::ng-deep .spinner .p-progress-spinner-circle {
     animation: geek 5s ease-in-out infinite;
+}
+// swal2 au modal primeng
+.swal2-container {
+    z-index: 20000 !important;
+}
+// toast au modal primeng
+.toast-container {
+    z-index: 20000 !important;
 }
 span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fileupload-choose {
     color: #ffffff !important;
@@ -378,10 +386,10 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
     position: relative !important;
     top: 10px !important;
 }
-
-.p-dialog .p-dialog-content {
-    height: 100vh !important;
-}
+.body > div
+// .p-dialog .p-dialog-content {
+//     height: 100vh !important;
+// }
 
 .leaflet-tooltip-site {
     position: absolute;

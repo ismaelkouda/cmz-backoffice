@@ -1,6 +1,14 @@
-<p-table #dt [ngClass]="['native_table table']" [value]="listSim" [rowHover]="true" dataKey="id" selectionMode="single"
-    currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données" [(selection)]="selectedSim"
-    [rows]="50" [globalFilterFields]="[
+<p-table
+    #dt
+    [ngClass]="['native_table table']"
+    [value]="listSim"
+    [rowHover]="true"
+    dataKey="id"
+    selectionMode="single"
+    currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données"
+    [(selection)]="selectedSim"
+    [rows]="50"
+    [globalFilterFields]="[
         'created_at',
         'operation',
         'numero_demande',
@@ -10,28 +18,50 @@
         'traitement',
         'demandeur_nom',
         'demandeur_prenoms'
-    ]">
+    ]"
+>
     <ng-template pTemplate="caption">
         <div class="d-flex justify-content-start gap-2 width-100 mb-2">
-            <app-table-button-header (refresh)="pageCallback()" (export)="onExportExcel()" [hiddenButtonOther]="true"
-                [iconOther]="'pi pi-plus'" [disabledButtonExport]="listSim.length === 0">
+            <app-table-button-header
+                (refresh)="pageCallback()"
+                (export)="onExportExcel()"
+                [hiddenButtonOther]="true"
+                [iconOther]="'pi pi-plus'"
+                [disabledButtonExport]="listSim.length === 0"
+            >
             </app-table-button-header>
         </div>
         <div class="d-flex justify-content-between">
             <div>
-                <div style="flex-grow: 1; display: flex; justify-content: flex-start;">
-                    <app-table-title [count]="pargination?.total" [legendePluriel]="'SIM'"
-                        [perPage]="pargination.per_page" [legendeSingulier]="'SIM'" [page]="pargination.currentPage"
-                        [totalPage]="pargination.last_page">
+                <div
+                    style="
+                        flex-grow: 1;
+                        display: flex;
+                        justify-content: flex-start;
+                    "
+                >
+                    <app-table-title
+                        [count]="pargination?.total"
+                        [legendePluriel]="'SIM'"
+                        [perPage]="pargination.per_page"
+                        [legendeSingulier]="'SIM'"
+                        [page]="pargination.currentPage"
+                        [totalPage]="pargination.last_page"
+                    >
                     </app-table-title>
                 </div>
             </div>
             <div>
                 <span class="p-input-icon-left">
                     <i class="pi pi-search"></i>
-                    <input pInputText type="text" (input)="
+                    <input
+                        pInputText
+                        type="text"
+                        (input)="
                             dt.filterGlobal($event.target.value, 'contains')
-                        " placeholder="Recherche..." />
+                        "
+                        placeholder="Recherche..."
+                    />
                 </span>
             </div>
         </div>
@@ -62,22 +92,38 @@
             <td class="text-center">{{ rowIndex + pargination?.offset }}</td>
             <td class="text-center">{{ sim?.created_at }}</td>
             <td class="text-center">{{ sim?.type_personne ?? 'N/A' }}</td>
-            <td class="text-center" (click)="copyData(sim.transaction)" style="cursor: pointer; width: fit-content">
+            <td
+                class="text-center"
+                (click)="copyData(sim.transaction)"
+                style="cursor: pointer; width: fit-content"
+            >
                 {{ sim?.transaction }}
             </td>
-            <td (click)="copyData(sim, 'msisdn')" class="px-2 cursor-pointer text-center">
+            <td
+                (click)="copyData(sim, 'msisdn')"
+                class="px-2 cursor-pointer text-center"
+            >
                 {{ sim.msisdn }}
             </td>
-            <td (click)="copyData(sim, 'imsi')" class="px-2 cursor-pointer text-center">
+            <td
+                (click)="copyData(sim, 'imsi')"
+                class="px-2 cursor-pointer text-center"
+            >
                 {{ sim?.imsi ? sim?.imsi : 'N/A' }}
             </td>
             <td class="text-center" [style]="{ width: '3rem' }">
-                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge ' + getEtapeBadge(sim)">
+                <span
+                    [ngStyle]="{ 'font-size': '16px' }"
+                    [class]="'badge ' + getEtapeBadge(sim)"
+                >
                     {{ sim?.statut }}
                 </span>
             </td>
             <td class="text-center">
-                <span [ngStyle]="{ 'font-size': '16px' }" [class]="'badge ' + getEtatBadge(sim)">
+                <span
+                    [ngStyle]="{ 'font-size': '16px' }"
+                    [class]="'badge ' + getEtatBadge(sim)"
+                >
                     {{ sim?.traitement }}
                 </span>
             </td>
@@ -88,12 +134,19 @@
                 {{ sim?.demandeur_nom }} {{ sim?.demandeur_prenoms }}
             </td>
             <td class="td-actions">
-                <button pButton pRipple label="Voir" icon="pi pi-eye" class="p-button-dark" (click)="
+                <button
+                    pButton
+                    pRipple
+                    label="Voir"
+                    icon="pi pi-eye"
+                    class="p-button-dark"
+                    (click)="
                         OnShowModalTraitement(
                             sim,
-                            getStyleButtonTraitement(sim)?.typeTraitement
+                            getStyleButtonTraitement(sim)?.typeTreatment
                         )
-                    "></button>
+                    "
+                ></button>
             </td>
         </tr>
     </ng-template>
@@ -105,23 +158,37 @@
         </tr>
         <tr *ngIf="spinner">
             <td class="posRelative" colspan="15">
-                <p-progressSpinner class="posCenter" [style]="{ width: '40px', height: '50px' }"
-                    styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
                 </p-progressSpinner>
             </td>
         </tr>
     </ng-template>
 </p-table>
 
-<p-dialog [header]="'Détails de la sim ['+selectedSim?.['msisdn']+']'" [(visible)]="visibleForm" [maximizable]="true"
-    [draggable]="false" [resizable]="true" (onHide)="hideDialog()" [modal]="true" [closable]="true"
-    [style]="{'width': '100%', 'max-height': '100%'}" [responsive]="true">
-
+<p-dialog
+    [header]="'Détails de la sim ['+selectedSim?.['msisdn']+']'"
+    [(visible)]="visibleForm"
+    [maximizable]="true"
+    [draggable]="false"
+    [resizable]="true"
+    (onHide)="hideDialog()"
+    [modal]="true"
+    [closable]="true"
+    [style]="{ width: '100%', 'max-height': '100%' }"
+    [responsive]="true"
+>
     <ng-template pTemplate="content">
-
-        <app-form-identification [simSelected]="selectedSim" [typeTraitement]="typeTraitement"
-            (visibleForm)="hideDialog()"></app-form-identification>
-
+        <app-form-identification
+            [simSelected]="selectedSim"
+            [typeTreatment]="typeTreatment"
+            (visibleForm)="hideDialog()"
+        ></app-form-identification>
     </ng-template>
-
 </p-dialog>

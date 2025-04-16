@@ -17,8 +17,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     </div>
   </div>
   `,
-  styles: [`
-  `]
 })
 export class ParginationComponent {
   @Input() pargination;

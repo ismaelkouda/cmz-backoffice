@@ -8,11 +8,15 @@
                 label="Identifier"
                 (click)="handleIdentifyCampagne()"
                 [disabled]="(isNoVerifyPiecesPhotos || formIdentifierCarteSim.invalid) && !(formIdentifierCarteSim.valid && carteSimSelectedDetails?.['is_identified'])"
-                *ngIf="typeTraitement?.identifier"
+                *ngIf="typeTreatment?.identifier"
             ></button>
-            <button pButton pRipple class="p-button-danger w-100 mt-2" label="Annuler"
-            *ngIf="typeTraitement?.identifier">
-            </button>
+            <button
+                pButton
+                pRipple
+                class="p-button-danger w-100 mt-2"
+                label="Annuler"
+                *ngIf="typeTreatment?.identifier"
+            ></button>
         </div>
 
         <div>
@@ -94,8 +98,10 @@
         >
             <div>
                 <strong class="wrapper-header">
-                    Soumission : {{ (sim?.etat_soumission | titlecase) ?? '' }}
-                    [{{sim?.etat_soumission === BADGE_ETAT.RECU ? sim?.acquitte_a
+                    Soumission :
+                    {{ (sim?.etat_soumission | titlecase) ?? '' }} [{{
+                        sim?.etat_soumission === BADGE_ETAT.RECU
+                            ? sim?.acquitte_a
                             : sim?.etat_soumission === BADGE_ETAT.EN_ATTENTE
                             ? sim?.created_at
                             : '-- : --'
@@ -139,7 +145,7 @@
                         </div>
                         <ng-container
                             *ngIf="
-                                typeTraitement.visualiser;
+                                typeTreatment.visualiser;
                                 else fieldsModuleIdentifier
                             "
                         >
@@ -697,7 +703,7 @@
                     </div>
                 </fieldset> -->
 
-                <!-- <fieldset *ngIf="typeTraitement?.identifier">
+                <!-- <fieldset *ngIf="typeTreatment?.identifier">
                     <legend><strong>Traitement</strong></legend>
                     <div class="row">
                         <div class="d-flex align-items-end col-md-3">

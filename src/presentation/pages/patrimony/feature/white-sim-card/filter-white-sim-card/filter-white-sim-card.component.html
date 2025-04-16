@@ -1,0 +1,107 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="d-flex gap-1">
+        <div class="col-md">
+            <label
+                ><b>{{ 'LOT_REFERENCE_NUMBER' | translate }}</b></label
+            >
+            <input
+                formControlName="numero_demande"
+                type="text"
+                pInputText
+                placeholder="{{ 'LOT_REFERENCE_NUMBER' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'MSISDN' | translate }}</b></label
+            >
+            <input
+                formControlName="msisdn"
+                type="text"
+                pInputText
+                placeholder="{{ 'MSISDN' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'IMSI' | translate }}</b></label
+            >
+            <input
+                formControlName="imsi"
+                type="text"
+                pInputText
+                placeholder="{{ 'IMSI' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'ICCID' | translate }}</b></label
+            >
+            <input
+                formControlName="iccid"
+                type="text"
+                pInputText
+                placeholder="{{ 'ICCID' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'STATUS' | translate }}</b></label
+            >
+            <p-dropdown
+                formControlName="statut"
+                [options]="listStatusWhiteSimCard"
+                [showClear]="true"
+                [filter]="true"
+                placeholder="{{ 'SELECT' | translate }} {{
+                    'STATUS' | translate
+                }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+            >
+            </p-dropdown>
+        </div>
+
+        <!-- Start Date -->
+        <div class="col-12 col-sm-6 col-md-2">
+            <label
+                ><b>{{ 'START_DATE' | translate }}</b></label
+            >
+            <p-calendar
+                formControlName="date_debut"
+                [showIcon]="true"
+                [placeholder]="'AAAA-MM-JJ'"
+                dateFormat="yy-mm-dd"
+            >
+            </p-calendar>
+        </div>
+
+        <!-- End Date -->
+        <div class="col-12 col-sm-6 col-md-2">
+            <label
+                ><b>{{ 'END_DATE' | translate }}</b></label
+            >
+            <p-calendar
+                formControlName="date_fin"
+                [showIcon]="true"
+                [placeholder]="'AAAA-MM-JJ'"
+                dateFormat="yy-mm-dd"
+            >
+            </p-calendar>
+        </div>
+
+        <div class="filter-button">
+            <button
+                pButton
+                pRipple
+                type="submit"
+                class="p-button-success"
+                icon="pi pi-filter"
+            ></button>
+        </div>
+    </div>
+</form>

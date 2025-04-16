@@ -25,7 +25,7 @@ export class StatutContratComponent implements OnInit {
         break;
 
         case 'resilié':
-          case 'non fiable':
+          case 'non-fiable':
         this.badge = 'danger';
         break;
     }

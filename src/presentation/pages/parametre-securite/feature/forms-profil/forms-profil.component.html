@@ -29,7 +29,7 @@
                     />
                 </div>
             </div>
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <div class="form-group">
                     <label>
                         <b>Mode Lecture</b>
@@ -42,7 +42,7 @@
                         ></p-inputSwitch>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div>
             <div class="table_actions_wrapper pt-3">
@@ -55,8 +55,8 @@
                     label="Sauvegarder"
                     (click)="
                         !currentObject
-                            ? handleSaveProfilHabilitation()
-                            : handleUpdateProfilHabilitation()
+                            ? handleSavePermission()
+                            : handleUpdatePermission()
                     "
                 ></button>
                 <button
@@ -76,9 +76,40 @@
                 <div>
                     <p-tree
                         selectionMode="checkbox"
-                        [value]="dataSourceFiles"
-                        [(selection)]="selectedItemsDataSource"
-                    ></p-tree>
+                        [value]="listPermissions$ | async"
+                        [(selection)]="checkedPermission"
+                    >
+                    </p-tree>
+
+                    <!-- <p-treetable [value]="listPermissions" [columns]="cols" selectionMode="checkbox"
+                        [(selectionKeys)]="selectionKeys" dataKey="data.value" [scrollable]="true"
+                        [tableStyle]="{ 'min-width': '50rem' }" (onNodeSelect)="onSelectionChange($event)"
+                        (onNodeUnselect)="onSelectionChange($event)">
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th *ngFor="let col of cols">
+                                    {{ col.header }}
+                                </th>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                            <tr>
+                                <td>
+
+                                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+
+                                    <p-treeTableCheckbox [value]="rowNode"></p-treeTableCheckbox>
+
+                                    {{ rowData.data?.title }}
+                                </td>
+                                <td>
+                                    {{ rowData.data?.value }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-treetable> -->
                 </div>
                 <div>
                     <button
@@ -104,8 +135,8 @@
                 <div>
                     <p-tree
                         selectionMode="checkbox"
-                        [value]="habilitationSourceFiles"
-                        [(selection)]="selectedItemsHabilitationSource"
+                        [value]="listHabilitation$ | async"
+                        [(selection)]="checkedHabilitation"
                     ></p-tree>
                 </div>
                 <div>
@@ -113,7 +144,7 @@
                         pButton
                         type="button"
                         label="Dérouler Tout"
-                        (click)="expandAllHabilitations()"
+                        (click)="expandAllHabilitation()"
                         style="margin-right: 0.5rem"
                         class="p-button-secondary"
                     ></button>
@@ -121,18 +152,17 @@
                         pButton
                         type="button"
                         label="Fermer Tout"
-                        (click)="collapseAllHabilitations()"
+                        (click)="collapseAllHabilitation()"
                         class="p-button-dark"
                     ></button>
                 </div>
             </div>
         </p-tabPanel>
         <p-tabPanel header="HISTORIQUE" *ngIf="currentObject?.show">
-            <app-historique
-                [modele_type]="'profils-habilitations'"
-                [modele_id]="currentObject.id"
-            >
-            </app-historique>
+            <app-history
+                [typeModel]="'profil_users'"
+                [idModel]="currentObject?.id"
+            ></app-history>
         </p-tabPanel>
     </p-tabView>
 </div>
