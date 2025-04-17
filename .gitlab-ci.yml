@@ -29,7 +29,7 @@ build-dev_tenant:
   script:
     - echo "Build stage"
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "backup_v15"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
       when: manual
 
 docker-dev_tenant:
@@ -37,13 +37,13 @@ docker-dev_tenant:
   tags:
     - serveur-200
   script:
-    - touch .env.${ENV}
-    - cp .env.${ENV} .env
+   # - touch .env.${ENV}
+   # - cp .env.${ENV} .env
     - CI_REGISTRY_IMAGE=$(echo "$CI_REGISTRY_IMAGE" | tr '[:upper:]' '[:lower:]' | tr '/' '-')
     - echo ${CI_REGISTRY_IMAGE}
     - docker build -t ${CI_REGISTRY_IMAGE} .
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "backup_v15"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
     #  when: manual
 
 deploy-dev_tenant:
@@ -61,7 +61,7 @@ deploy-dev_tenant:
     - docker stop ${APP_NAME} || true
     - docker rm ${APP_NAME} || true
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "backup_v15"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
      # when: manual
 
 build-test_tenant:
@@ -71,7 +71,7 @@ build-test_tenant:
   script:
     - echo "Build stage"
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "backup_v15"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
       when: manual
 
 docker-test_tenant:
@@ -79,13 +79,13 @@ docker-test_tenant:
   tags:
     - sim-monitoring_test_144
   script:
-    - touch .env.${ENV}
-    - cp .env.${ENV} .env
+    #- touch .env.${ENV}
+    #- cp .env.${ENV} .env
     - CI_REGISTRY_IMAGE=$(echo "$CI_REGISTRY_IMAGE" | tr '[:upper:]' '[:lower:]' | tr '/' '-')
     - echo ${CI_REGISTRY_IMAGE}
     - docker build -t ${CI_REGISTRY_IMAGE} .
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "backup_v15"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
     #  when: manual
 
 deploy-test_tenant:
@@ -103,7 +103,7 @@ deploy-test_tenant:
     - docker stop ${APP_NAME} || true
     - docker rm ${APP_NAME} || true
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "backup_v15"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
      # when: manual
      
 
