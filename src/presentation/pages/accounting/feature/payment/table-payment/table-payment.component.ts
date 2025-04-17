@@ -67,6 +67,7 @@ export class TablePaymentComponent {
         const stateMap: Record<T_PAYMENT_STATUS_ENUM, TYPE_COLOR_PAYMENT_STATUS_BADGE> = {
             [PAYMENT_STATUS_ENUM.WAITING]: 'badge-dark',
             [PAYMENT_STATUS_ENUM.POSTED]: 'badge-warning',
+            [PAYMENT_STATUS_ENUM.ABANDONED]: 'badge-warning',
             [PAYMENT_STATUS_ENUM.REPORTED]: 'badge-primary',
             [PAYMENT_STATUS_ENUM.RESULTED]: 'badge-success',
             [PAYMENT_STATUS_ENUM.REJECTED]: 'badge-danger',

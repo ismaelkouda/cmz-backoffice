@@ -7,7 +7,6 @@ import { BADGE_ETAPE, T_BADGE_ETAPE } from './../../../../../shared/constants/ba
 import { BADGE_ETAT, T_BADGE_ETAT } from './../../../../../shared/constants/badge-etat.contant';
 import { CommandWhiteSim } from '../../data-access/white-sim/interfaces/white-sim.interface';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
-import { INVOICE } from '../../../requests-products/requests-products-routing.module';
 import { FORM } from '../../../requests-products/requests-products-routing.module';
 import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
@@ -15,7 +14,7 @@ import { Folder } from '../../../../../shared/interfaces/folder';
 
 const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT, BADGE_ETAPE.CLOTURE];
 const state_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE, BADGE_ETAT.EN_ATTENTE, BADGE_ETAT.ABANDONNE, BADGE_ETAT.ACCEPTE];
-type PageAction = { data: CommandWhiteSim, action: 'open-folder-white-sim' | 'invoice-white-sim' | 'mass-edit-white-sim' | 'simple-add-white-sim' | 'mass-add-white-sim', view: 'page' };
+type PageAction = { data: CommandWhiteSim, action: 'open-folder-white-sim' | 'mass-edit-white-sim' | 'simple-add-white-sim' | 'mass-add-white-sim', view: 'page' };
 
 @Component({
     selector: 'app-white-sim',
@@ -79,7 +78,6 @@ export class WhiteSimComponent implements OnInit {
         let routePath: string = '';
 
         switch (params.action) {
-            case "invoice-white-sim": routePath = `${INVOICE}/${number_demand}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
             case "open-folder-white-sim": routePath = `${number_demand}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
             case "mass-edit-white-sim":
             case "simple-add-white-sim": routePath = FORM; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams: { ...queryParams, operation: OperationTransaction.SIM_BLANCHE } }); break;

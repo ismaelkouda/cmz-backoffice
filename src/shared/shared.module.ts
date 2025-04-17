@@ -56,10 +56,6 @@ import { PrimengModule } from './primeng.module';
 
 import { SearchTableComponent } from './components/search-table/search-table.component';
 import { AngularModule } from './angular.module';
-import { StateInvoiceFormService } from './components/invoice-form/data-access/state-invoice-form.service';
-import { InvoiceFormComponent } from './components/invoice-form/invoice-form.component';
-import { FormDemandComponent } from './components/form-demand/form-demand.component';
-import { FormDemandApiService } from './components/form-demand/data-access/services/form-demand-api.service';
 import { FormFolderComponent } from './components/form-folder/form-folder.component';
 import { SimDemandComponent } from './components/sim-demand/sim-demand.component';
 import { TableSimDemandComponent } from './components/sim-demand/feature/table-sim-demand/table-sim-demand.component';
@@ -72,6 +68,8 @@ import { TableHistoryComponent } from './components/historique/feature/table-his
 import { DetailsHistoryComponent } from './components/historique/feature/details-history/details-history.component';
 import { PagesGuard } from '../core/guard/PagesGuard';
 import { TreatmentMonitoringApiService } from '../presentation/pages/overseeing-operations/data-access/treatment-monitoring/services/treatment-monitoring-api.service';
+import { FormDemandComponent } from './components/form-demand/form-demand.component';
+import { FormDemandApiService } from './components/form-demand/data-access/services/form-demand-api.service';
 
 @NgModule({
   declarations: [
@@ -111,13 +109,12 @@ import { TreatmentMonitoringApiService } from '../presentation/pages/overseeing-
     CapitalizePipe,
     StatistiqueBoxComponent,
     TableTitleComponent,
-    InvoiceFormComponent,
     SpinnerTitleDetailsComponent,
-    FormDemandComponent,
     FormFolderComponent,
     SimDemandComponent, 
     TableSimDemandComponent,
     FilterSimDemandComponent,
+    FormDemandComponent
   ],
   imports: [
     AngularModule,
@@ -129,11 +126,10 @@ import { TreatmentMonitoringApiService } from '../presentation/pages/overseeing-
   ],
   providers: [NavService, LayoutService, DecimalPipe, SharedDataService, SharedService,
     EndpointParamsService,
-    StateInvoiceFormService, 
-    FormDemandApiService,
     TreatmentMonitoringApiService,
     HistoryApiService,
-    PagesGuard
+    PagesGuard,
+    FormDemandApiService
   ],
   exports: [
     AngularModule,
@@ -169,13 +165,12 @@ import { TreatmentMonitoringApiService } from '../presentation/pages/overseeing-
     CapitalizePipe,
     StatistiqueBoxComponent,
     TableTitleComponent,
-    InvoiceFormComponent,
     SpinnerTitleDetailsComponent,
-    FormDemandComponent,
     FormFolderComponent,
     SimDemandComponent,
     TableSimDemandComponent,
-    FilterSimDemandComponent
+    FilterSimDemandComponent,
+    FormDemandComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 

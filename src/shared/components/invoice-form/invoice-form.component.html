@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-sm-12">
             <app-breadcrumb
-                [title]="module"
-                [active_item]="subModule"
+                [title]="getTitle.module"
+                [active_item]="getTitle.subModule"
             ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
@@ -14,18 +14,7 @@
                                     <b>
                                         <span>Référence de la facture :</span>
                                         <span class="current_values"
-                                            >[{{detailsInvoiceForm?.facture?.['reference']
-
-
-
-
-
-
-
-
-
-
-                                            }}]</span
+                                            >[{{detailsInvoiceForm?.facture?.['reference']}}]</span
                                         >
                                         <span
                                             [class]="
@@ -484,7 +473,7 @@
                                                             {{
                                                                 detailsInvoiceForm
                                                                     ?.facture
-                                                                    .SoldeEngage ||
+                                                                    ?.SoldeEngage ||
                                                                     0
                                                             }}&nbsp;Fcfa
                                                         </span>
@@ -501,7 +490,7 @@
                                                             {{
                                                                 detailsInvoiceForm
                                                                     ?.facture
-                                                                    .SoldeRestant ||
+                                                                    ?.SoldeRestant ||
                                                                     0
                                                             }}&nbsp;Fcfa
                                                         </span>
@@ -518,7 +507,7 @@
                                                             {{
                                                                 detailsInvoiceForm
                                                                     ?.facture
-                                                                    .soldeDisponible ||
+                                                                    ?.soldeDisponible ||
                                                                     0
                                                             }}&nbsp;Fcfa
                                                         </span>

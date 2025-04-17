@@ -28,9 +28,12 @@ import { FilterPaymentComponent } from './feature/payment/filter-payment/filter-
 import { TablePaymentComponent } from './feature/payment/table-payment/table-payment.component';
 import { PaymentComponent } from './ui/payment/payment.component';
 import { PaymentApiService } from './data-access/payment/service/payment-api.service';
+import { InvoiceFormComponent } from '../../../shared/components/invoice-form/invoice-form.component';
 
 @NgModule({
   declarations: [
+    InvoiceFormComponent,
+    
     FilterPaymentComponent,
     TablePaymentComponent,
     PaymentComponent,

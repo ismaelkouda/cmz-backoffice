@@ -2,7 +2,7 @@ import { MODE_PAYMENT_ENUM } from './../../../../../../shared/enum/mode-payment.
 import { Component } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MappingService } from "../../../../../../shared/services/mapping.service";
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { filter, firstValueFrom, map, Observable, Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 import { LoadingBarService } from "@ngx-loading-bar/core";
@@ -23,6 +23,7 @@ import * as moment from 'moment';
 import { AgencyBenefitInterface, BankBenefitInterface } from '../../../../../../shared/interfaces/bank-beneficiaire.interface';
 import { dateNotInPastValidator } from '../../../../../../shared/functions/control-date.function';
 import { ReloadAccountOperationDetailsInterface } from '../../../data-access/reload-my-account/interfaces/transaction-details.interface';
+import { T_MY_RELOADS_STATUS_ENUM, MY_RELOADS_STATUS_ENUM } from '../../../data-access/reload-my-account/enums/reload-my-account-status.enum';
 
 type TYPEVIEW = 'reload-my-account' | 'details-reload-my-account' | 'edit-reload-my-account';
 const TYPEVIEW_VALUES: TYPEVIEW[] = ['reload-my-account', 'details-reload-my-account', 'edit-reload-my-account'];
@@ -48,10 +49,14 @@ export class FormReloadMyAccountComponent {
     public listAgencyBenefit$: Observable<Array<AgencyBenefitInterface>>;
     public transactionDetails$: Observable<ReloadAccountOperationDetailsInterface>
     public filePreviewUrl: string | null = null;
+    public isDetailsMode: boolean = false;
+    public isEditMode: boolean = false;
+    public isCreateMode: boolean = false;
+    public visibleFilePreview: boolean = false;
+    public MY_RELOADS_STATUS_ENUM = MY_RELOADS_STATUS_ENUM;
     private destroy$ = new Subject<void>();
 
-    constructor(private activatedRoute: ActivatedRoute,
-        private loadingBarService: LoadingBarService, private toastrService: ToastrService,
+    constructor(private activatedRoute: ActivatedRoute, private toastrService: ToastrService,
         private fb: FormBuilder, private translate: TranslateService,
         public mappingService: MappingService, private router: Router,
         private reloadMyAccountApiService: ReloadMyAccountApiService, private sharedService: SharedService,) {
@@ -60,10 +65,13 @@ export class FormReloadMyAccountComponent {
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
-            this.subModule = data.subModule[2];
+            this.subModule = data.subModule[0];
         });
         this.activatedRoute.queryParams.subscribe((params: Object) => {
             this.urlParamRef = params?.["ref"];
+            this.isDetailsMode = this.urlParamRef === 'details-reload-my-account';
+            this.isEditMode = this.urlParamRef === 'edit-reload-my-account';
+            this.isCreateMode = this.urlParamRef === 'reload-my-account';
             this.getParamsInUrl();
         });
     }
@@ -73,8 +81,12 @@ export class FormReloadMyAccountComponent {
             this.displayUrlErrorPage = true;
             return;
         } else {
+            this.sharedService.fetchBanks();
+            this.listBanks$ = this.sharedService.getBanks();
+            this.sharedService.fetchBanksBenefit();
+            this.listBanksBenefit$ = this.sharedService.getBanksBenefit();
             this.initFormFundReloadMyAccount();
-            const isDetailsOrEdit = this.urlParamRef === 'details-reload-my-account' || this.urlParamRef === 'edit-reload-my-account';
+            const isDetailsOrEdit = this.isDetailsMode || this.isEditMode;
             if (isDetailsOrEdit) {
                 this.urlParamTransaction = this.activatedRoute.snapshot.paramMap.get('transaction') ?? '';
 
@@ -86,10 +98,8 @@ export class FormReloadMyAccountComponent {
                             this.patchValueFormFundReloadMyAccount(this.transactionDetails$);
                         }
                     });
-                this.sharedService.fetchBanks();
-                this.listBanks$ = this.sharedService.getBanks();
-                this.sharedService.fetchBanksBenefit();
-                this.listBanksBenefit$ = this.sharedService.getBanksBenefit();
+                this.isDetailsMode ? this.formFundMyAccount.disable() : '';
+                this.isEditMode ? this.formFundMyAccount.get('piece_jointe_bordereau')?.clearValidators() : '';
             }
         }
     }
@@ -120,76 +130,22 @@ export class FormReloadMyAccountComponent {
         });
 
         const codeBankBenefitControl = this.formFundMyAccount.get('code_banque_beneficiaire');
-        codeBankBenefitControl?.valueChanges.subscribe((value: string) => {
-            this.listAgencyBenefit$ = this.getListAgencies(value);
-            this.updateReferenceFromBankBenefit(value);
-        });
         const initialCodeBank = codeBankBenefitControl?.value as string;
-        this.listAgencyBenefit$ = this.getListAgencies(initialCodeBank);
-        // const gererValidationBankBenefit = (value: string) => {
-        //     this.listAgencyBenefit$ = this.getListAgencies(value);
-        // };
-        // gererValidationBankBenefit(codeBankBenefitControl?.value as string);
-        // codeBankBenefitControl?.valueChanges.subscribe((value: string) => {
-        //     this.listAgencyBenefit$ = this.getListAgencies(value);
-        // });
+
+        const gererValidationBankBenefit = (value: string) => {
+            this.listAgencyBenefit$ = this.getListAgencies(initialCodeBank);
+        };
+        gererValidationBankBenefit(codeBankBenefitControl?.value as string);
+        codeBankBenefitControl?.valueChanges.subscribe((value: string) => {
+            this.updateReferenceFromBankBenefit(value);
+            this.listAgencyBenefit$ = this.getListAgencies(value);
+        });
+
         this.updateReferenceFromBankBenefit(initialCodeBank);
         this.initMeansPaymentValidatorListeners();
 
-        // const referenceControl = this.formFundMyAccount.get('reference');
-        // const meansPaymentControl = this.formFundMyAccount.get("mode_paiement");
-        // const codeBankControl = this.formFundMyAccount.get('code_banque_tireur');
-        // const numberChequeControl = this.formFundMyAccount.get('numero_cheque');
-        // const nameShooterControl = this.formFundMyAccount.get('nom_tireur');
-        // const prenameDeposerControl = this.formFundMyAccount.get('prenom_deposant');
-        // const nameDeposerControl = this.formFundMyAccount.get('nom_deposant');
-        // const proofControl = this.formFundMyAccount.get('piece_jointe_bordereau');
-
-        // const checkValidationMeansPayment = (value: T_MODE_PAYMENT) => {
-        //     if (value === MODE_PAYMENT_ENUM.SPECIE) {
-        //         codeBankControl?.clearValidators();
-        //         numberChequeControl?.clearValidators();
-        //         nameShooterControl?.clearValidators();
-        //         prenameDeposerControl?.setValidators(Validators.required);
-        //         nameDeposerControl?.setValidators(Validators.required);
-        //         proofControl?.reset();
-        //     } else {
-        //         codeBankControl?.setValidators(Validators.required);
-        //         numberChequeControl?.setValidators(Validators.required);
-        //         nameShooterControl?.setValidators(Validators.required);
-        //         prenameDeposerControl?.clearValidators();
-        //         nameDeposerControl?.clearValidators();
-        //         proofControl?.reset();
-        //     }
-        //     codeBankControl?.updateValueAndValidity();
-        //     numberChequeControl?.updateValueAndValidity();
-        //     nameShooterControl?.updateValueAndValidity();
-        //     prenameDeposerControl?.updateValueAndValidity();
-        //     nameDeposerControl?.updateValueAndValidity();
-        //     proofControl?.updateValueAndValidity();
-        // };
-        // checkValidationMeansPayment(meansPaymentControl?.value as T_MODE_PAYMENT);
-        // meansPaymentControl?.valueChanges.subscribe((value) => {
-        //     checkValidationMeansPayment(value);
-        // });
-
-        // const checkValidationCodeBankBenefit = (value: string) => {
-        //     if (value) {
-        //         this.sharedService.getBanksBenefit().subscribe((listBanksBenefit) => {
-        //             listBanksBenefit.map((banksBenefit: BankBenefitInterface) => {
-        //                 if (banksBenefit.code === value) referenceControl?.setValue(banksBenefit.rib);
-        //             })
-        //         })
-        //     } else {
-        //         referenceControl?.reset();
-        //     }
-        //     referenceControl?.updateValueAndValidity();
-        // };
-        // checkValidationCodeBankBenefit(codeBankBenefitControl?.value as string);
-        // codeBankBenefitControl?.valueChanges.subscribe((value: string) => {
-        //     checkValidationCodeBankBenefit(value);
-        // });
     }
+
     private initMeansPaymentValidatorListeners(): void {
         const modeControl = this.formFundMyAccount.get('mode_paiement');
         const chequeFields = [
@@ -217,6 +173,7 @@ export class FormReloadMyAccountComponent {
         applyValidators(modeControl?.value as T_MODE_PAYMENT);
         modeControl?.valueChanges.subscribe(applyValidators);
     }
+
     private updateReferenceFromBankBenefit(code: string): void {
         const referenceControl = this.formFundMyAccount.get('reference');
 
@@ -240,19 +197,25 @@ export class FormReloadMyAccountComponent {
             .pipe(takeUntil(this.destroy$))
             .subscribe((details: any) => {
                 if (!details || !this.formFundMyAccount) return;
-                console.log('details', details)
 
-                // Conserve l’URL ou le nom du fichier
                 this.filePreviewUrl = details.piece_jointe_bordereau || null;
 
+                const montantFormat = details.montant
+                    ? parseFloat(details.montant.toString().replace(/\s/g, '').replace(',', '.'))
+                    : null;
+
                 const {
-                    piece_jointe_bordereau, // ne le patche pas directement
+                    piece_jointe_bordereau,
                     ...formSafeData
                 } = details;
 
-                this.formFundMyAccount.patchValue(formSafeData);
+                this.formFundMyAccount.patchValue({
+                    ...formSafeData,
+                    montant: montantFormat,
+                });
             });
     }
+
     private getListAgencies(value: string): Observable<Array<AgencyBenefitInterface>> {
         return this.sharedService.getBanksBenefit().pipe(
             map((listBanksBenefit: Array<BankBenefitInterface>) => {
@@ -261,6 +224,7 @@ export class FormReloadMyAccountComponent {
             })
         );
     }
+
     public onChangeFile(file: FileList) {
         const selectedFile = file.item(0);
         this.formFundMyAccount.patchValue({ piece_jointe_bordereau: selectedFile });
@@ -272,12 +236,21 @@ export class FormReloadMyAccountComponent {
         const CONFIRM_THE_TRANSACTION_BY = this.translate.instant('CONFIRM_THE_TRANSACTION_BY');
         const mode_paiement = this.formFundMyAccount.get('mode_paiement')?.value;
         if (this.formFundMyAccount.valid) {
-            const result = await Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass }).fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: `<span><strong>${CONFIRM_THE_TRANSACTION_BY}</strong></span><span style="color: #569C5B; font-weight: bold; text-transform: uppercase"> ${mode_paiement}</span>` })
+            const result = await Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass })
+                .fire({
+                    ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message,
+                    html: `<span><strong>${CONFIRM_THE_TRANSACTION_BY}</strong></span><span style="color: #569C5B; font-weight: bold; text-transform: uppercase"> ${mode_paiement}</span>`
+                })
             if (result.isConfirmed) {
                 const date_debut = this.formFundMyAccount.get("date_remise")?.value;
-                const format_date = moment(date_debut).format('YYYY-MM-DD')
-                const response: any = await handle(() => this.reloadMyAccountApiService.creditReloadMyAccount(formDataBuilder({ ...this.formFundMyAccount.value, date_remise: format_date })), this.toastrService, this.loadingBarService);
-                if (response.error === false) {
+                const format_date_remise = moment(date_debut).format('YYYY-MM-DD')
+                this.reloadMyAccountApiService.fetchDemandCredit(formDataBuilder({ ...this.formFundMyAccount.value, date_remise: format_date_remise }));
+                const response = await firstValueFrom(
+                    this.reloadMyAccountApiService.getDemandCredit().pipe(
+                        filter((res) => !!res && Object.keys(res).length > 0)
+                    )
+                );
+                if (response && response.error === false) {
                     this.reloadMyAccountApiService.fetchReloadMyAccount({} as reloadMyAccountFilterInterface);
                     this.closeInterface();
                 }
@@ -285,6 +258,85 @@ export class FormReloadMyAccountComponent {
         } else {
             this.toastrService.error(SOMETHING_WENT_WRONG);
         }
+    }
+
+    async handleUpdateReloadMyAccount(): Promise<void> {
+        if (this.formFundMyAccount.invalid) return;
+        const SOMETHING_WENT_WRONG = this.translate.instant('SOMETHING_WENT_WRONG');
+        const CONFIRM_THE_TRANSACTION_BY = this.translate.instant('CONFIRM_THE_TRANSACTION_BY');
+        const mode_paiement = this.formFundMyAccount.get('mode_paiement')?.value;
+        if (this.formFundMyAccount.valid) {
+            const result = await Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass }).fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: `<span><strong>${CONFIRM_THE_TRANSACTION_BY}</strong></span><span style="color: #569C5B; font-weight: bold; text-transform: uppercase"> ${mode_paiement}</span>` })
+            if (result.isConfirmed) {
+                const date_debut = this.formFundMyAccount.get("date_remise")?.value;
+                const format_date_remise = moment(date_debut).format('YYYY-MM-DD')
+                this.reloadMyAccountApiService.fetchUpdateDemandCredit(formDataBuilder({ ...this.formFundMyAccount.value, date_remise: format_date_remise, transaction: this.urlParamTransaction }));
+                const response = await firstValueFrom(
+                    this.reloadMyAccountApiService.getUpdateDemandCredit().pipe(
+                        filter((res) => !!res && Object.keys(res).length > 0)
+                    )
+                );
+                if (response.error === false) {
+                    this.toastrService.success(response.message);
+                    this.reloadMyAccountApiService.fetchReloadMyAccount({} as reloadMyAccountFilterInterface);
+                    this.closeInterface();
+                    return
+                }
+                this.toastrService.error(response.message);
+            }
+        } else {
+            this.toastrService.error(SOMETHING_WENT_WRONG);
+        }
+    }
+
+    public onLetDownReloadMyAccount() {
+        const SOMETHING_WENT_WRONG = this.translate.instant('SOMETHING_WENT_WRONG');
+        const YOU_ARE_ABOUT_TO_ABANDON_THE_TRANSACTION = this.translate.instant('YOU_ARE_ABOUT_TO_ABANDON_THE_TRANSACTION');
+        const COMMENT = this.translate.instant('COMMENT');
+        Swal.mixin({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass }).fire({
+            title: "Êtes-vous sûr ?",
+            html: `<h2 class="badge badge-success fs-4">${YOU_ARE_ABOUT_TO_ABANDON_THE_TRANSACTION} !</h2>`,
+            input: 'text',
+            inputPlaceholder: `Ex: ${COMMENT}...`,
+            inputAttributes: { autocapitalize: 'off', autocomplete: 'off' },
+            showCancelButton: true,
+            cancelButtonText: "Annuler        ",
+            confirmButtonText: "Confirmer",
+            confirmButtonColor: "#569C5B",
+            cancelButtonColor: "#dc3545",
+            showLoaderOnConfirm: true,
+            backdrop: false,
+            width: 800,
+            preConfirm: async (commentaire) => {
+                try {
+                    this.reloadMyAccountApiService.fetchLetDownCredit({ transaction: this.urlParamTransaction, commentaire: commentaire });
+                    const response = await firstValueFrom(
+                        this.reloadMyAccountApiService.getUpdateDemandCredit().pipe(
+                            filter((res) => !!res && Object.keys(res).length > 0)
+                        )
+                    );
+                    console.log("response", response)
+                    if (response.error === false) {
+                        this.toastrService.success(response.message);
+                        this.reloadMyAccountApiService.fetchReloadMyAccount({} as reloadMyAccountFilterInterface);
+                        this.closeInterface();
+                        return
+                    }
+                } catch (error) {
+                    const SOMETHING_WENT_WRONG = this.translate.instant('SOMETHING_WENT_WRONG');
+                    Swal.showValidationMessage(`${SOMETHING_WENT_WRONG}`);
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.showValidationMessage(`${SOMETHING_WENT_WRONG}`);
+            }
+        })
+    }
+
+    public showFilePreview() {
+        this.visibleFilePreview = true;
     }
 
     public closeInterface(): void {

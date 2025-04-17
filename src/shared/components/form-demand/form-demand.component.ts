@@ -1,13 +1,11 @@
 import { IFormDemandValues } from './data-access/enums/form-demand-values.interface';
-import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { SharedService } from "../../services/shared.service";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { distinctUntilChanged, Observable } from "rxjs";
 const Swal = require("sweetalert2");
 import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../constants/swalWithBootstrapButtonsParams.constant';
-import { MappingService } from '../../services/mapping.service';
 import { ToastrService } from 'ngx-toastr';
 import { handle } from '../../functions/api.function';
 import { FormDemandApiService } from './data-access/services/form-demand-api.service';
@@ -23,6 +21,9 @@ import { FormulasInterface } from '../../interfaces/formulas.interface';
 import { StoreCurrentUserService } from '../../services/store-current-user.service';
 import { SecondLevelInterface } from '@shared/interfaces/first-level.interface';
 import { SecondLevelService } from '@shared/services/second-level.service';
+import { MOBILE_SUBSCRIPTIONS } from '../../../presentation/pages/requests-services/requests-services-routing.module';
+import { REQUESTS_PRODUCTS, REQUESTS_SERVICES } from '../../routes/routes';
+import { WHITE_SIM } from '../../../presentation/pages/requests-products/requests-products-routing.module';
 
 type TYPEVIEW = "mass-add-mobile-subscription" | "simple-add-mobile-subscription" | "mass-add-white-sim" | "simple-add-white-sim";
 const TYPEVIEW_VALUES: TYPEVIEW[] = ["mass-add-mobile-subscription", "simple-add-mobile-subscription", "mass-add-white-sim", "simple-add-white-sim"];
@@ -67,7 +68,7 @@ export class FormDemandComponent implements OnInit {
 
     constructor(private sharedService: SharedService, private toastrService: ToastrService,
         private storeCurrentUserService: StoreCurrentUserService, private fb: FormBuilder,
-        private location: Location, private activatedRoute: ActivatedRoute,
+        private router: Router, private activatedRoute: ActivatedRoute,
         private formDemandApiService: FormDemandApiService,
         private clipboardService: ClipboardService,
         private loadingBarService: LoadingBarService,
@@ -233,9 +234,9 @@ export class FormDemandComponent implements OnInit {
         const CONFIRM_THE_REQUEST_FOR = this.translate.instant('CONFIRM_THE_REQUEST_FOR');
         const SIM_CARD = this.translate.instant('SIM_CARD');
         if (this.urlParamRef.includes('simple-add')) {
-            return `${SIMPLE_DEMAND} : <span style="color: #569C5B;">${CONFIRM_THE_REQUEST_FOR}</span><span style="color: #ff6600;"><strong> 1</strong></span> ${SIM_CARD}`;
+            return `${SIMPLE_DEMAND} : <span style="color: #569C5B;">${CONFIRM_THE_REQUEST_FOR} </span><span style="color: #ff6600;"><strong>1</strong></span> ${SIM_CARD}`;
         } else if (this.urlParamRef.includes('mass-add') && this.formDemand.get("nb_demandes")?.value) {
-            return `${MASS_DEMAND} : <span style="color: #569C5B;">${CONFIRM_THE_REQUEST_FOR}</span><span style="color: #ff6600;"><strong> ${this.formDemand.get("nb_demandes")?.value}</strong></span> ${SIM_CARD}`
+            return `${MASS_DEMAND} : <span style="color: #569C5B;">${CONFIRM_THE_REQUEST_FOR} </span><span style="color: #ff6600;"><strong>${this.formDemand.get("nb_demandes")?.value}</strong></span> ${SIM_CARD}`
         }
         return '';
     }
@@ -356,16 +357,15 @@ export class FormDemandComponent implements OnInit {
     }
 
     public onGoToBack(): void {
-        this.location.back();
+        this.router.navigateByUrl(`/${this.getTitle.moduleRoute}/${this.getTitle.subModuleRoute}`)
     }
 
-
-    get getTitle(): {module: string, subModule: string} {
+    get getTitle(): {module: string, moduleRoute: string, subModule: string, subModuleRoute: string} {
         switch (this.urlParamRef) {
-            case "mass-add-mobile-subscription": return  {module: 'REQUESTS_SERVICES', subModule: 'MOBILE_SUBSCRIPTIONS'};
-            case "simple-add-mobile-subscription": return {module: 'REQUESTS_SERVICES', subModule: 'MOBILE_SUBSCRIPTIONS'};
-            case "mass-add-white-sim": return {module: 'REQUESTS_PRODUCTS', subModule: 'WHITE_SIM'};
-            default: return {module: '', subModule: ''}
+            case "mass-add-mobile-subscription": return  {module: 'REQUESTS_SERVICES', moduleRoute: REQUESTS_SERVICES, subModule: 'MOBILE_SUBSCRIPTIONS', subModuleRoute: MOBILE_SUBSCRIPTIONS};
+            case "simple-add-mobile-subscription": return {module: 'REQUESTS_SERVICES', moduleRoute: REQUESTS_SERVICES, subModule: 'MOBILE_SUBSCRIPTIONS', subModuleRoute: MOBILE_SUBSCRIPTIONS};
+            case "mass-add-white-sim": return {module: 'REQUESTS_PRODUCTS', moduleRoute: REQUESTS_PRODUCTS, subModule: 'WHITE_SIM', subModuleRoute: 'white-sim'};
+            default: return {module: '', moduleRoute: '', subModule: '', subModuleRoute: ''}
         }
     }
 }

@@ -19,7 +19,7 @@ import { OperationTransaction } from '../../../../../../shared/enum/OperationTra
 import { SharedService } from '../../../../../../shared/services/shared.service';
 
 type Action = PageAction | ModalAction;
-type PageAction = { data: Folder, action: 'open-folder-white-sim' | 'invoice-white-sim' | 'mass-edit-white-sim' | 'mass-add-white-sim' | 'simple-add-white-sim', view: 'page' };
+type PageAction = { data: Folder, action: 'open-folder-white-sim' | 'mass-edit-white-sim' | 'mass-add-white-sim' | 'simple-add-white-sim', view: 'page' };
 type ModalAction = { data: Folder, action: 'view-white-sim' | 'journal-white-sim', view: 'modal' };
 const INIT_TYPE_TREATMENT: TreatmentDemands = { module: "requests-products", abandonner: false, modifier: false, visualiser: false, cloturer: false }
 type TYPE_COLOR_ETAPE_BADGE = 'badge-dark' | 'badge-warning' | 'badge-info' | 'badge-success';
@@ -110,7 +110,6 @@ export class TableWhiteSimComponent {
                 break;
 
             case 'page':
-                if (params.action === 'invoice-white-sim') { this.interfaceUser.emit(params) };
                 if (params.action === 'open-folder-white-sim') { this.interfaceUser.emit(params) };
                 if (params.action === 'mass-edit-white-sim') { this.interfaceUser.emit(params) };
                 if (params.action === 'mass-add-white-sim') { this.interfaceUser.emit(params) };

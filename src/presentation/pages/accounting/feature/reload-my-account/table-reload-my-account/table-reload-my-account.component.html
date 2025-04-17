@@ -102,9 +102,10 @@
                         </span>
                     </ng-container>
                     <ng-container *ngSwitchCase="'Actions'">
-                        <p-button
+                        <button
                             icon="pi pi-eye"
-                            styleClass="p-button-dark"
+                            pButton
+                            class="p-button-dark"
                             pTooltip="Voir"
                             tooltipPosition="top"
                             (click)="
@@ -114,11 +115,12 @@
                                     view: 'page'
                                 })
                             "
-                        ></p-button
+                        ></button
                         >&nbsp;
-                        <p-button
+                        <button
                             icon="pi pi-pencil"
-                            styleClass="p-button-secondary"
+                            pButton
+                            class="p-button-secondary"
                             pTooltip="Editer"
                             tooltipPosition="top"
                             (click)="
@@ -128,7 +130,7 @@
                                     view: 'page'
                                 })
                             "
-                        ></p-button
+                        ></button
                         >&nbsp;
                         <!--<p-button icon="pi pi-trash" styleClass="p-button-danger" pTooltip="Supprimer"
                         tooltipPosition="top">

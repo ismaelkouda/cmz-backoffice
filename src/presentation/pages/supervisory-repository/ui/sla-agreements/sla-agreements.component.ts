@@ -22,7 +22,7 @@ export class SlaAgreementsComponent implements OnInit {
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
-            this.subModule = data.subModule[1];
+            this.subModule = data.subModule[2];
         });
         this.listSlaAgreements$ = this.slaAgreementssApiService.getSlaAgreements();
         this.slaAgreementssApiService.fetchSlaAgreements();
