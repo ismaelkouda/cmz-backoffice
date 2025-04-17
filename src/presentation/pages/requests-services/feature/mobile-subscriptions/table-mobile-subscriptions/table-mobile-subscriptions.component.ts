@@ -18,7 +18,7 @@ import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
 
 type Action = PageAction | ModalAction;
-type PageAction = { data: Folder, action: 'open-folder-mobile-subscription' | 'invoice-mobile-subscription' | 'mass-edit-mobile-subscription' | 'mass-add-mobile-subscription' | 'simple-add-mobile-subscription', view: 'page' };
+type PageAction = { data: Folder, action: 'open-folder-mobile-subscription' | 'mass-edit-mobile-subscription' | 'mass-add-mobile-subscription' | 'simple-add-mobile-subscription', view: 'page' };
 type ModalAction = { data: Folder, action: 'view-mobile-subscription' | 'journal-mobile-subscription', view: 'modal' };
 const INIT_TYPE_TRAITEMENT: TreatmentDemands = { module: "requests-services", abandonner: false, modifier: false, visualiser: false, cloturer: false }
 type TYPE_COLOR_ETAPE_BADGE = 'badge-dark' | 'badge-warning' | 'badge-info' | 'badge-success';
@@ -108,7 +108,6 @@ export class TableMobileSubscriptionsComponent {
         break;
 
       case 'page':
-        if (params.action === 'invoice-mobile-subscription') { this.interfaceUser.emit(params) };
         if (params.action === 'open-folder-mobile-subscription') { this.interfaceUser.emit(params) };
         if (params.action === 'mass-edit-mobile-subscription') { this.interfaceUser.emit(params) };
         if (params.action === 'mass-add-mobile-subscription') { this.interfaceUser.emit(params) };

@@ -14,7 +14,7 @@ import { SharedModule } from '../../../shared/shared.module';
 
 @NgModule({
   declarations: [
-    FilterWhiteSimComponent, TableWhiteSimComponent, WhiteSimComponent,
+    FilterWhiteSimComponent, TableWhiteSimComponent, WhiteSimComponent
   ],
   imports: [
     SharedModule,

@@ -20,7 +20,6 @@ import { SharedDataService } from 'src/shared/services/shared-data.service';
 import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { TypePaiementComponent } from '../type-paiement/type-paiement.component';
-import { StateInvoiceFormService } from '../../../../../shared/components/invoice-form/data-access/state-invoice-form.service';
 import { SettingService } from '../../../../../shared/services/setting.service';
 type PageAction = { data: Object, action: 'facture', view: 'page' };
 @Component({
@@ -77,8 +76,7 @@ export class DemandeWrapperComponent implements OnInit {
     private route: ActivatedRoute, private excelService: ExcelService,
     private demandesFilterStateService: DemandesFilterStateService,
     private sharedDataService: SharedDataService, private loadingBarService: LoadingBarService,
-    private router: Router, private activatedRoute: ActivatedRoute,
-    private stateInvoiceFormService: StateInvoiceFormService) {
+    private router: Router, private activatedRoute: ActivatedRoute) {
     this.listOperations = this.mappingService.listOperations
     Object.values(StatutTransaction).forEach(item => { this.listStatuts.push(item); });
     Object.values(TraitementTransaction).forEach(item => { this.listTraitementTransactions.push(item); });
@@ -124,12 +122,10 @@ export class DemandeWrapperComponent implements OnInit {
     const numero_demande = params.data["numero_demande"];
     const ref = params.action;
     const current_page = this.page || 1;
-    const filter = this.stateInvoiceFormService?.setFilterInvoiceFormState(data) ?? null;
 
     const queryParams = {
       ref,
       current_page,
-      filter
     };
 
     let routePath: string;

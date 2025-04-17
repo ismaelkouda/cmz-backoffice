@@ -1,8 +1,6 @@
-import { FormatFormData } from 'src/shared/functions/formatFormData.function';
 import { Pargination } from '../../table/pargination';
 import { Component } from "@angular/core";
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from 'ngx-toastr';
 import { SharedDataService } from '../../services/shared-data.service';
@@ -15,10 +13,14 @@ import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../constants/swalWithBootstra
 import { BADGE_ETAT } from '../../constants/badge-etat.contant';
 import { BADGE_ETAT_FACTURE, T_BADGE_ETAT_FACTURE } from '../../constants/badge-etat-facture.contant';
 import { SharedService } from '../../services/shared.service';
+import { FormatFormData } from 'src/shared/functions/formatFormData.function';
+import { TranslateService } from '@ngx-translate/core';
+import { ACCOUNTING } from '../../routes/routes';
+import { INVOICE, PAYMENT } from '../../../presentation/pages/accounting/accounting-routing.module';
 const Swal = require("sweetalert2");
 
-type TYPEVIEW = "form-dossier" | "invoice" | "invoice-mobile-subscription" | "invoice-white-sim" | "view-invoice" | "view-payment";
-const TYPEVIEW_VALUES: TYPEVIEW[] = ["form-dossier", "invoice", "invoice-mobile-subscription", "invoice-white-sim", "view-invoice", "view-payment"];
+type TYPEVIEW = "view-invoice" | "view-payment";
+const TYPEVIEW_VALUES: TYPEVIEW[] = ["view-invoice", "view-payment"];
 function isTypeView(value: any): value is TYPEVIEW {
     return TYPEVIEW_VALUES.includes(value);
 } type TYPE_COLOR_ETAT_BADGE = 'badge-warning' | 'badge-dark' | 'badge-success' | 'badge-danger' | 'badge-primary';
@@ -44,19 +46,16 @@ export class InvoiceFormComponent {
     public BADGE_ETAT = BADGE_ETAT;
     public formTypePaiement: FormGroup;
 
-    constructor(private activatedRoute: ActivatedRoute, private location: Location,
+    constructor(private activatedRoute: ActivatedRoute, private router: Router,
         private toastrService: ToastrService, private loadingBarService: LoadingBarService,
         public demandeService: DemandeService, private sharedDataService: SharedDataService,
         private sharedService: SharedService, private fb: FormBuilder,
-        private supervisionOperationService: SupervisionOperationService) {
+        private supervisionOperationService: SupervisionOperationService,
+        private translate: TranslateService,) {
         this.logoTenant = LOGO_ORANGE;
     }
 
     ngOnInit(): void {
-        this.activatedRoute.data.subscribe((data) => {
-            this.module = data.module;
-            this.subModule = data.subModule[0];
-        });
         this.getParamsInUrl();
     }
 
@@ -72,6 +71,7 @@ export class InvoiceFormComponent {
         if (!isTypeView(this.urlParamRef) || !this.urlParamNumeroDemande) {
             this.displayUrlErrorPage = true;
         } else {
+            this.getTitle;
             this.sharedService.fetchDetailsDemand(this.urlParamNumeroDemande);
             this.sharedService.getDetailsDemand().subscribe((value) => {
                 console.log('value', value)
@@ -202,6 +202,15 @@ export class InvoiceFormComponent {
     }
 
     public onGoToBack(): void {
-        this.location.back();
+        this.router.navigateByUrl(`/${this.getTitle.moduleRoute}/${this.getTitle.subModuleRoute}`)
+    }
+
+
+    get getTitle(): {module: string, moduleRoute: string, subModule: string, subModuleRoute: string} {
+        switch (this.urlParamRef) {
+            case "view-invoice": return  {module: 'ACCOUNTING', moduleRoute: ACCOUNTING, subModule: 'INVOICES', subModuleRoute: INVOICE};
+            case "view-payment": return {module: 'ACCOUNTING', moduleRoute: ACCOUNTING, subModule: 'PAYMENTS', subModuleRoute: PAYMENT};
+            default: return {module: '', moduleRoute: '', subModule: '', subModuleRoute: ''}
+        }
     }
 }

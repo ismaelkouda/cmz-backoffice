@@ -124,9 +124,117 @@ export class ReloadMyAccountApiService {
     }
 
 
-    creditReloadMyAccount(data): Observable<any> {
-        const url: string = <string>reloadMyAccountEndpointEnum.MANAGEMENT_INVOICE_ACCOUNTS_STORE;
-        return this.httpClient.post(`${this.BASE_URL}${url}`, data);
+    // creditReloadMyAccount(data): Observable<any> {
+    //     const url: string = <string>reloadMyAccountEndpointEnum.MANAGEMENT_INVOICE_ACCOUNTS_STORE;
+    //     return this.httpClient.post(`${this.BASE_URL}${url}`, data);
+    // }
+    /*********************Méthode pour enregistrer une demande de credit*************** */
+
+    private demandCreditSubject = new BehaviorSubject<any>({} as any);
+    private loadingDemandCreditSubject = new BehaviorSubject<boolean>(false);
+
+    fetchDemandCredit(data: any): void {
+        if (this.loadingDemandCreditSubject.getValue()) return;
+        this.loadingDemandCreditSubject.next(true);
+        const url: string = reloadMyAccountEndpointEnum.MANAGEMENT_INVOICE_ACCOUNTS_STORE;
+
+        this.httpClient
+            .post<Object>(this.BASE_URL + url, data)
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    const demandCredit = response;
+                    this.demandCreditSubject.next(demandCredit);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching reload-my-account', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingDemandCreditSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getDemandCredit(): Observable<any> {
+        return this.demandCreditSubject.asObservable();
+    }
+    isLoadingDemandCredit(): Observable<boolean> {
+        return this.loadingTransactionDetailsSubject.asObservable();
+    }
+
+    /*********************Méthode pour modifier une demande de credit*************** */
+
+    private updateDemandCreditSubject = new BehaviorSubject<any>({} as any);
+    private loadingUpdateDemandCreditSubject = new BehaviorSubject<boolean>(false);
+
+    fetchUpdateDemandCredit(data: any): void {
+        if (this.loadingUpdateDemandCreditSubject.getValue()) return;
+        this.loadingUpdateDemandCreditSubject.next(true);
+        const url: string = reloadMyAccountEndpointEnum.MANAGEMENT_INVOICE_ACCOUNTS_UPDATE;
+
+        this.httpClient
+            .post<Object>(this.BASE_URL + url, data)
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    const updatedemandCredit = response;
+                    console.log("updatedemandCredit", updatedemandCredit);
+
+                    this.updateDemandCreditSubject.next(updatedemandCredit);
+                    console.log("updatedemandCredit", updatedemandCredit);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching reload-my-account', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingUpdateDemandCreditSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getUpdateDemandCredit(): Observable<any> {
+        return this.updateDemandCreditSubject.asObservable();
+    }
+    isLoadingUpdateDemandCredit(): Observable<boolean> {
+        return this.loadingTransactionDetailsSubject.asObservable();
+    }
+
+    /*********************Méthode pour abandonner une demande de credit*************** */
+
+    private letDownCreditSubject = new BehaviorSubject<any>({} as any);
+    private loadingLetDownCreditSubject = new BehaviorSubject<boolean>(false);
+
+    fetchLetDownCredit(data: any): void {
+        if (this.loadingLetDownCreditSubject.getValue()) return;
+        this.loadingLetDownCreditSubject.next(true);
+        const url: string = reloadMyAccountEndpointEnum.MANAGEMENT_INVOICE_ACCOUNTS_LETDOWN;
+
+        this.httpClient
+            .post<Object>(this.BASE_URL + url, data)
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    const demandCredit = response;
+
+                    this.letDownCreditSubject.next(demandCredit);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching reload-my-account', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingLetDownCreditSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getLetDownCredit(): Observable<any> {
+        return this.letDownCreditSubject.asObservable();
+    }
+    isLoadingLetDownCredit(): Observable<boolean> {
+        return this.loadingTransactionDetailsSubject.asObservable();
     }
 
 }

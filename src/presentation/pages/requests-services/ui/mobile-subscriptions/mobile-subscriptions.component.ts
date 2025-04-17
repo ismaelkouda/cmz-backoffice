@@ -6,14 +6,14 @@ import { SharedService } from '../../../../../shared/services/shared.service';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { BADGE_ETAPE, T_BADGE_ETAPE } from '../../../../../shared/constants/badge-etape.constant';
 import { BADGE_ETAT, T_BADGE_ETAT } from '../../../../../shared/constants/badge-etat.contant';
-import { FORM, INVOICE } from '../../requests-services-routing.module';
+import { FORM } from '../../requests-services-routing.module';
 import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
 import { ApplicantInterface } from '../../../../../shared/interfaces/applicant';
 import { mobileSubscriptionsFilterInterface } from '../../data-access/mobile-subscriptions/interface/mobile-subscription-filter.interface';
 
 const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT, BADGE_ETAPE.CLOTURE];
 const state_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE, BADGE_ETAT.EN_ATTENTE, BADGE_ETAT.ABANDONNE, BADGE_ETAT.ACCEPTE];
-type PageAction = { data: Folder, action: 'open-folder-mobile-subscription' | 'invoice-mobile-subscription' | 'mass-edit-mobile-subscription' | 'simple-add-mobile-subscription' | 'mass-add-mobile-subscription', view: 'page' };
+type PageAction = { data: Folder, action: 'open-folder-mobile-subscription' | 'mass-edit-mobile-subscription' | 'simple-add-mobile-subscription' | 'mass-add-mobile-subscription', view: 'page' };
 
 @Component({
   selector: 'app-mobile-subscriptions',
@@ -73,7 +73,6 @@ export class MobileSubscriptionsComponent {
     let routePath: string = '';
 
     switch (params.action) {
-      case "invoice-mobile-subscription": routePath = `${INVOICE}/${number_demand}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
       case "open-folder-mobile-subscription": routePath = `${number_demand}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
       case "mass-edit-mobile-subscription":
       case "simple-add-mobile-subscription": routePath = FORM; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams: { ...queryParams, operation: OperationTransaction.ACTIVATION } }); break;

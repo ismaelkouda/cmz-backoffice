@@ -11,7 +11,6 @@ import { DemandeSwappingComponent } from './ui/demande-swapping/demande-swapping
 import { DemandeIntegrationComponent } from './ui/demande-integration/demande-integration.component';
 import { FormDemandeIntegrationComponent } from './feature/demande-integration/form-demande-integration/form-demande-integration.component';
 import { DossierDemandeIntegrationComponent } from './feature/demande-integration/dossier-demande-integration/dossier-demande-integration.component';
-import { InvoiceFormComponent } from '../../../shared/components/invoice-form/invoice-form.component';
 
 export const DEMANDE_ACTIVATION = 'activation';
 export const DEMANDE_SUSPENSION = 'suspension';
@@ -34,10 +33,6 @@ const routes: Routes = [{
                 // {
                 //     path: '',
                 //     component: DemandeActivationComponent,
-                // },
-                // {
-                //     path: ":numero_demande",
-                //     component: InvoiceFormComponent,
                 // },
                 // {
                 //   path: '**',

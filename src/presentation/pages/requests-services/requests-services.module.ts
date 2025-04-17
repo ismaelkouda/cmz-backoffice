@@ -14,7 +14,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
-    MobileSubscriptionsComponent, FilterMobileSubscriptionsComponent, TableMobileSubscriptionsComponent,
+    MobileSubscriptionsComponent, FilterMobileSubscriptionsComponent, TableMobileSubscriptionsComponent
   ],
   imports: [
     SharedModule,
