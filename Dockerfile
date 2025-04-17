@@ -13,7 +13,7 @@ RUN pnpm install
 FROM dependencies AS build
 
 COPY . .
-RUN pnpm run build:prod
+RUN pnpm run build:dev
 RUN ls dist/patrimoine-sim-tenant
 
 
