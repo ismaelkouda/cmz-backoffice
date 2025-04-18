@@ -9,9 +9,6 @@
 /node_modules
 .angular
 
-# script
-/scripts
-
 # IDEs and editors
 /.idea
 .project
