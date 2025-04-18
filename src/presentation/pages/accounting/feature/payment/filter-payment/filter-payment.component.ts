@@ -11,7 +11,7 @@ import { PaymentApiService } from "../../../data-access/payment/service/payment-
     @Component({
         selector: 'app-filter-payment',
         templateUrl: './filter-payment.component.html',
-        styles: [':host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }']
+        styleUrls: ['./filter-payment.component.scss']
     })
 
     export class FilterPaymentComponent implements OnChanges, OnDestroy {

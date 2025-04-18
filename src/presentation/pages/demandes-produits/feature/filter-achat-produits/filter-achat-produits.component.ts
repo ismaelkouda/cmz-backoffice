@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: "app-filter-achat-produits",
     templateUrl: "./filter-achat-produits.component.html",
-    styles: [`:host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }`]
+    styleUrls: ['./filter-achat-produits.component.scss']
 })
 
 export class FilterAchatProduitsComponent implements OnInit {

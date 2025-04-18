@@ -18,6 +18,7 @@ import { AsFeatureService } from '../../../../../shared/services/as-feature.serv
 import { MappingService } from '../../../../../shared/services/mapping.service';
 import { StoreCurrentUserService } from '../../../../../shared/services/store-current-user.service';
 import { StoreTokenService } from '../../../../../shared/services/store-token.service';
+import { CryptoToken } from '../../../../../shared/crypto-data/crypto-token';
 
 @Component({
   selector: "app-login",
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit {
     private loadingBarService: LoadingBarService, private mappingService: MappingService,
     private storeCurrentUserService: StoreCurrentUserService,
     private storeTokenService: StoreTokenService,
-    private encodingDataService: EncodingDataService
+    private cryptoToken: CryptoToken
   ) {
     this.permissionsJson = menuJson;
   }
@@ -61,9 +62,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  private handleSuccessful(response): void {
-    console.log('--1--')
-    console.log(response)
+  private async handleSuccessful(response): Promise<void> {
     this.toastrService.success(`Bienvenue ${response.data?.user?.nom} ${response.data?.user?.prenoms}`);
     // this.permissionsJson.forEach((module, index) => {
     //   if (module.children) {
@@ -83,6 +82,7 @@ export class LoginComponent implements OnInit {
     console.log(token)
     this.storeCurrentUserService.setCurrentUser(currentUser);
     this.storeTokenService.setToken(token);
+    // await this.cryptoToken.saveTokenData('token', token);
     this.storage.saveData('menu', JSON.stringify(response.data?.user?.permissions));
     this.router.navigateByUrl(`/${DASHBOARD}`)
     // this.storage.saveData("current_menu", JSON.stringify(this.permissionsJson))

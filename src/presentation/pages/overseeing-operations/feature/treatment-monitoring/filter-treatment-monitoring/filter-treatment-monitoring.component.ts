@@ -12,7 +12,7 @@ import { T_BADGE_ETAT } from "../../../../../../shared/constants/badge-etat.cont
 @Component({
     selector: 'app-filter-treatment-monitoring',
     templateUrl: './filter-treatment-monitoring.component.html',
-    styles: [':host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }']
+    styleUrls: ['./filter-treatment-monitoring.component.scss']
 })
 
 export class FilterTreatmentMonitoringComponent {

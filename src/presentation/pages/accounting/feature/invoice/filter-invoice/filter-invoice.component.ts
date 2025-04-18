@@ -11,7 +11,7 @@ import { InvoiceApiService } from "../../../data-access/invoice/service/invoice-
     @Component({
         selector: 'app-filter-invoice',
         templateUrl: './filter-invoice.component.html',
-        styles: [':host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }']
+        styleUrls: ['./filter-invoice.component.scss']
     })
 
     export class FilterInvoiceComponent implements OnChanges, OnDestroy {

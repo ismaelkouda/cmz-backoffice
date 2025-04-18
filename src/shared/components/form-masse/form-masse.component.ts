@@ -40,12 +40,11 @@ type MODEL_ENTETE_FILE = ['TRANSACTION', 'MSISDN', 'IMSI', 'ICCID', 'ADRESSE IP'
         margin-bottom: 0 !important;
         cursor: pointer;
         width: 100%;
-
+    }
         span {
             font-style: italic;
             margin-left: 10px;
         }
-    }
     .isFile_backgroundGreen {
         background-color: rgb(86, 156, 91, 0.5) !important;
     }

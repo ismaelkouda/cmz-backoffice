@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { envConfig } from '../../../generate-env';
 
 declare var window: any;
 
@@ -32,12 +33,12 @@ export class EnvService {
         this.loadEnvironment();
     }
 
-    private loadEnvironment(): void {
-        const env = window.__env.currentEnv;
-        this.verifyIdentityDocumentUrl = env.verifyIdentityDocumentUrl;
-        this.apiUrl = env.apiUrl;
-        this.fileUrl = env.fileUrl;
-        this.environmentDeployment = env.environmentDeployment;
-        this.enableDebug = env.enableDebug;
-    }
+    public async loadEnvironment(): Promise<void> {
+        const env = await fetch('/assets/env.json').then(res => res.json());
+        this.apiUrl = env.API_URL;
+        this.fileUrl = env.FILE_URL;
+        this.verifyIdentityDocumentUrl = env.VERIFY_IDENTITY_URL;
+        this.environmentDeployment = env.ENVIRONMENT;
+        this.enableDebug = env.ENABLE_DEBUG;
+      }
 }

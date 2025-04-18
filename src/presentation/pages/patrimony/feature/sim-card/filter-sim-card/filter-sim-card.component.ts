@@ -40,7 +40,7 @@ import { SecondLevelService } from '../../../../../../shared/services/second-lev
           ]),
         ]),
       ],
-    styles: [':host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }']
+    styleUrls: ['./filter-sim-card.component.scss']
 })
 
 export class FilterSimCardComponent implements OnDestroy {

@@ -10,7 +10,7 @@ import { ApplicantInterface } from '../../../../../../shared/interfaces/applican
     @Component({
         selector: 'app-filter-waiting-queue',
         templateUrl: './filter-waiting-queue.component.html',
-        styles: [':host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }']
+        styleUrls: ['./filter-waiting-queue.component.scss']
     })
 
     export class FilterWaitingQueueComponent {

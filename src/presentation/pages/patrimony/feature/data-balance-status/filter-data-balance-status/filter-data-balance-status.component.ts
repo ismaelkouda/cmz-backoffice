@@ -18,7 +18,7 @@ import { dataBalanceStatusApiService } from '../../../data-access/data-balance-s
 @Component({
     selector: `app-filter-data-balance-status`,
     templateUrl: `./filter-data-balance-status.component.html`,
-    styles: [`:host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }, .col-md-2 { padding-right: 0 !important; }`]
+    styleUrls: ['./filter-data-balance-status.component.scss']
 })
 
 export class FilterDataBalanceStatusComponent implements OnDestroy {

@@ -10,7 +10,7 @@
     @Component({
         selector: 'app-filter-white-sim',
         templateUrl: './filter-white-sim.component.html',
-        styles: [`:host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }`]
+        styleUrls: ['./filter-white-sim.component.scss']
     })
 
     export class FilterWhiteSimComponent implements OnInit {
