@@ -41,7 +41,7 @@ docker-dev_tenant:
    # - cp .env.${ENV} .env
     - CI_REGISTRY_IMAGE=$(echo "$CI_REGISTRY_IMAGE" | tr '[:upper:]' '[:lower:]' | tr '/' '-')
     - echo ${CI_REGISTRY_IMAGE}
-    - docker build -t ${CI_REGISTRY_IMAGE} .
+    - docker build --build-arg ENV=dev -t ${CI_REGISTRY_IMAGE} .
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
     #  when: manual

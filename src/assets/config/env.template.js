@@ -1,10 +1,10 @@
 (function (window) {
     window.__env = {
-        verifyIdentityDocumentUrl: 'https://sim-monitoring.cateli.io:8013/',
-        apiUrl: "https://sim-monitoring.cateli.io:12999/api/v1/",
-        fileUrl: "https://sim-monitoring.cateli.io:12999/",
-        environmentDeployment: "PROD",
-        enableDebug: false,
+        verifyIdentityDocumentUrl: '__VERIFY_IDENTITY_URL__',
+        apiUrl: '__API_URL__',
+        fileUrl: '__FILE_URL__',
+        environmentDeployment: '__ENVIRONMENT__',
+        enableDebug: __ENABLE_DEBUG__,
         headerSettings: {
             appTypePS: 'PATRIMOINE SIM',
             appTypeSM: 'SIM MONITORING'
