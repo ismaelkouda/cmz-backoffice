@@ -40,7 +40,7 @@ WORKDIR /app
 COPY package.json .
 COPY tools ./tools
 COPY src/assets/config/env.template.js ./src/assets/config/env.template.js
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 FROM base AS build
 COPY . .
