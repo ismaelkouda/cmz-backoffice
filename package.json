@@ -2,26 +2,15 @@
     "name": "cateli-data-collector",
     "version": "1.1.0",
     "scripts": {
-        "generate-env:dev": "node generate-env.js dev",
-        "generate-env:prod": "node generate-env.js prod",
-      
-        "build:dev": "npm run generate-env:dev && ng build",
-        "build:prod": "npm run generate-env:prod && ng build --configuration=production",
-      
-        "start:dev": "npm run generate-env:dev && ng serve --host 0.0.0.0 --port 4401",
-        "start:prod": "npm run generate-env:prod && ng serve --host 0.0.0.0",
-      
-        "build-en:dev": "npm run generate-env:dev && ng build --configuration=en",
-        "build-en:prod": "npm run generate-env:prod && ng build --configuration=production",
-      
-        "start-en:dev": "npm run generate-env:dev && ng serve --host 0.0.0.0 --port 4401 --configuration=en",
-        "start-en:prod": "npm run generate-env:prod && ng serve --host 0.0.0.0 --port 4401 --configuration=en",
-
-        "format": "prettier \"src/**/*.{jts,html,css,scss}\" --write",
-
-        "test": "ng test",
+        "env:dev": "node tools/env/generate-env.js dev",
+        "env:prod": "node tools/env/generate-env.js prod",
+        "build:dev": "npm run env:dev && ng build",
+        "build:prod": "npm run env:prod && ng build --configuration=production",
+        "start:dev": "npm run env:dev && ng serve --host 0.0.0.0 --port 4401",
+        "start:prod": "npm run env:prod && ng serve --host 0.0.0.0",
         "lint": "ng lint",
-        "e2e": "ng e2e",
+        "test": "ng test",
+        "format": "prettier \"src/**/*.{ts,html,css,scss}\" --write",
         "generate-structure": "powershell -ExecutionPolicy Bypass -File ./scripts/generate-structure.ps1",
         "gsc": "powershell -ExecutionPolicy Bypass -File ./scripts/gsc.ps1"
     },
