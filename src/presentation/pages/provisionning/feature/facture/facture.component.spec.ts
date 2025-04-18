@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { FactureComponent } from './facture.component';
 
 describe('FactureComponent', () => {
-  let component: FactureComponent;
-  let fixture: ComponentFixture<FactureComponent>;
+    let component: FactureComponent;
+    let fixture: ComponentFixture<FactureComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FactureComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [FactureComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FactureComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(FactureComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

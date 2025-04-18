@@ -11,176 +11,184 @@ import { StoreCurrentUserService } from '../../../../../shared/services/store-cu
 const Swal = require('sweetalert2');
 
 @Component({
-  selector: 'app-second-level',
-  templateUrl: './second-level.component.html',
-  styleUrls: ['./second-level.component.scss']
+    selector: 'app-second-level',
+    templateUrl: './second-level.component.html',
+    styleUrls: ['./second-level.component.scss'],
 })
 export class SecondLevelComponent implements OnInit {
-
-  public initialView: boolean = true;
-  public formsView: boolean = false;
-  public affectationView: boolean = false;
-  public visualisationView: boolean = false;
-  public totalPage: 0;
-  public totalRecords: 0;
-  public recordsPerPage: 0;
-  public offset: any;
-  public p: number = 1;
-  public page: number = 0;
-  public currentObject: any;
-  public listCurrentLevelDatas: Array<any> = [];
-  public listFirstLevelDatas: Array<any> = [];
-  public selectedNom: string;
-  public selectedParent: any;
-  public currentLevelLibelle: string | undefined;
-  public childLevelLibelle: string | undefined;
-  public parentLevelLibelle: string | undefined;
-  public currentLevelMenus: string | undefined;
-  public adminForm: FormGroup;
-  public currentTabsIndex: number = 0;
-  public title = '2ème niveau - Système de Gestion de Collecte Centralisée';
-  constructor(
-    private settingService: SettingService,
-    private toastrService: ToastrService,
-    public mappingService: MappingService,
-    private excelService: ExcelService,
-    private clipboardApi: ClipboardService,
-    private titleService: Title,
-    private fb: FormBuilder,
-    private storeCurrentUserService: StoreCurrentUserService
-  ) {
-    this.titleService.setTitle(`${this.title}`);
-    const currentUser = this.storeCurrentUserService.getCurrentUser;
-    this.currentLevelLibelle = currentUser?.structure_organisationnelle?.niveau_2;
-    this.childLevelLibelle = currentUser?.structure_organisationnelle?.niveau_3;
-    this.parentLevelLibelle = currentUser?.structure_organisationnelle?.niveau_1;
-    this.currentLevelMenus = currentUser?.structure_organisationnelle?.niveau_2_menu;
-  }
-
-  ngOnInit() {
-    this.GellCurrentLevel();
-    this.GellAllFirstLevel();
-    this.onInitForm();
-    this.isFilter();
-  }
-
-  public GellCurrentLevel() {
-    this.settingService
-      .getAllExploiatations({},this.p)
-      .subscribe({
-        next: (response) => {          
-          this.listCurrentLevelDatas = response.data.data;
-          this.totalPage = response.data.last_page;
-          this.totalRecords = response.data.total;
-          this.recordsPerPage = response.data.per_page;
-          this.page = response.data?.current_page;
-          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;   
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
-        }
-      })
-  }
-  public onFilter() {
-    this.settingService
-      .getAllExploiatations({
-        nom: this.selectedNom,
-        niveau_un_uuid: this.selectedParent
-      },this.p)
-      .subscribe({
-        next: (response) => {
-          this.listCurrentLevelDatas = response.data.data;
-          this.totalPage = response.data.last_page;
-          this.totalRecords = response.data.total;
-          this.recordsPerPage = response.data.per_page;
-          this.page = response.data?.current_page;
-          this.offset = (response.data.current_page - 1) * this.recordsPerPage + 1;         
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
-        }
-      })
-  }
-  public onPageChange(event) {
-    this.p = event;
-    if (this.isFilter()) {
-      this.GellCurrentLevel()
-    } else {
-      this.onFilter()
+    public initialView: boolean = true;
+    public formsView: boolean = false;
+    public affectationView: boolean = false;
+    public visualisationView: boolean = false;
+    public totalPage: 0;
+    public totalRecords: 0;
+    public recordsPerPage: 0;
+    public offset: any;
+    public p: number = 1;
+    public page: number = 0;
+    public currentObject: any;
+    public listCurrentLevelDatas: Array<any> = [];
+    public listFirstLevelDatas: Array<any> = [];
+    public selectedNom: string;
+    public selectedParent: any;
+    public currentLevelLibelle: string | undefined;
+    public childLevelLibelle: string | undefined;
+    public parentLevelLibelle: string | undefined;
+    public currentLevelMenus: string | undefined;
+    public adminForm: FormGroup;
+    public currentTabsIndex: number = 0;
+    public title = '2ème niveau - Système de Gestion de Collecte Centralisée';
+    constructor(
+        private settingService: SettingService,
+        private toastrService: ToastrService,
+        public mappingService: MappingService,
+        private excelService: ExcelService,
+        private clipboardApi: ClipboardService,
+        private titleService: Title,
+        private fb: FormBuilder,
+        private storeCurrentUserService: StoreCurrentUserService
+    ) {
+        this.titleService.setTitle(`${this.title}`);
+        const currentUser = this.storeCurrentUserService.getCurrentUser;
+        this.currentLevelLibelle =
+            currentUser?.structure_organisationnelle?.niveau_2;
+        this.childLevelLibelle =
+            currentUser?.structure_organisationnelle?.niveau_3;
+        this.parentLevelLibelle =
+            currentUser?.structure_organisationnelle?.niveau_1;
+        this.currentLevelMenus =
+            currentUser?.structure_organisationnelle?.niveau_2_menu;
     }
-  }
-  public OnRefresh(){
-    this.p = 1;
-    this.GellCurrentLevel();
-    this.selectedNom = null
-    this.selectedParent = null
-  }
-  copyData(data: any): void {
-    this.toastrService.success('Copié dans le presse papier');
-    this.clipboardApi.copyFromContent(data);
-  }
 
-  public GellAllFirstLevel() {
-    this.settingService
-      .GetAllFirstLevelSimple({})
-      .subscribe({
-        next: (response) => {
-          this.listFirstLevelDatas = response['data'];
-        },
-        error: (error) => {
-          this.toastrService.error(error.message);
+    ngOnInit() {
+        this.GellCurrentLevel();
+        this.GellAllFirstLevel();
+        this.onInitForm();
+        this.isFilter();
+    }
+
+    public GellCurrentLevel() {
+        this.settingService.getAllExploiatations({}, this.p).subscribe({
+            next: (response) => {
+                this.listCurrentLevelDatas = response.data.data;
+                this.totalPage = response.data.last_page;
+                this.totalRecords = response.data.total;
+                this.recordsPerPage = response.data.per_page;
+                this.page = response.data?.current_page;
+                this.offset =
+                    (response.data.current_page - 1) * this.recordsPerPage + 1;
+            },
+            error: (error) => {
+                this.toastrService.error(error.message);
+            },
+        });
+    }
+    public onFilter() {
+        this.settingService
+            .getAllExploiatations(
+                {
+                    nom: this.selectedNom,
+                    niveau_un_uuid: this.selectedParent,
+                },
+                this.p
+            )
+            .subscribe({
+                next: (response) => {
+                    this.listCurrentLevelDatas = response.data.data;
+                    this.totalPage = response.data.last_page;
+                    this.totalRecords = response.data.total;
+                    this.recordsPerPage = response.data.per_page;
+                    this.page = response.data?.current_page;
+                    this.offset =
+                        (response.data.current_page - 1) * this.recordsPerPage +
+                        1;
+                },
+                error: (error) => {
+                    this.toastrService.error(error.message);
+                },
+            });
+    }
+    public onPageChange(event) {
+        this.p = event;
+        if (this.isFilter()) {
+            this.GellCurrentLevel();
+        } else {
+            this.onFilter();
         }
-      })
-  }
+    }
+    public OnRefresh() {
+        this.p = 1;
+        this.GellCurrentLevel();
+        this.selectedNom = null;
+        this.selectedParent = null;
+    }
+    copyData(data: any): void {
+        this.toastrService.success('Copié dans le presse papier');
+        this.clipboardApi.copyFromContent(data);
+    }
 
-  onInitForm() {
-    this.adminForm = this.fb.group({
-      nom: ['', [
-        Validators.required,
-        FormValidator.cannotContainSpace
-      ]],
-      code: ['', [
-        Validators.required,
-        FormValidator.cannotContainSpace,
-        FormValidator.symbolsOnly,
-      ]],
-      niveau_un_uuid: ['', [Validators.required]]
-    })
-  }
-  public openForm(): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = undefined;
-  }
-  public onEditForm(data: any): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = data;
-  }
-  public onShowForm(data: any): void {
-    this.initialView = false;
-    this.formsView = true;
-    this.currentObject = { ...data, show: true };
-  }
-  public pushStatutView(event: boolean): void {
-    this.formsView = event;
-    this.initialView = !event;
-  }
-  public pushListDatas(event: any): void {
-    this.listCurrentLevelDatas = event;
-  }
-  handleChangeTabviewIndex(e) {
-    this.currentTabsIndex = e.index;
-  }
-  public OnExportExcel(): void {
-    const data = this.listCurrentLevelDatas.map((item: any) => ({
-      [this.currentLevelLibelle]: item?.nom,
-      [this.parentLevelLibelle]: item?.niveau_un?.nom,
-      '# SIM Affectées': item?.sims_count,
-    }));
-    this.excelService.exportAsExcelFile(data, `Lise des ${this.currentLevelLibelle}`);
-  }
-  public isFilter(): boolean {
-    return (!this.selectedNom && !this.selectedParent) ? true : false
-  }
+    public GellAllFirstLevel() {
+        this.settingService.GetAllFirstLevelSimple({}).subscribe({
+            next: (response) => {
+                this.listFirstLevelDatas = response['data'];
+            },
+            error: (error) => {
+                this.toastrService.error(error.message);
+            },
+        });
+    }
+
+    onInitForm() {
+        this.adminForm = this.fb.group({
+            nom: ['', [Validators.required, FormValidator.cannotContainSpace]],
+            code: [
+                '',
+                [
+                    Validators.required,
+                    FormValidator.cannotContainSpace,
+                    FormValidator.symbolsOnly,
+                ],
+            ],
+            niveau_un_uuid: ['', [Validators.required]],
+        });
+    }
+    public openForm(): void {
+        this.initialView = false;
+        this.formsView = true;
+        this.currentObject = undefined;
+    }
+    public onEditForm(data: any): void {
+        this.initialView = false;
+        this.formsView = true;
+        this.currentObject = data;
+    }
+    public onShowForm(data: any): void {
+        this.initialView = false;
+        this.formsView = true;
+        this.currentObject = { ...data, show: true };
+    }
+    public pushStatutView(event: boolean): void {
+        this.formsView = event;
+        this.initialView = !event;
+    }
+    public pushListDatas(event: any): void {
+        this.listCurrentLevelDatas = event;
+    }
+    handleChangeTabviewIndex(e) {
+        this.currentTabsIndex = e.index;
+    }
+    public OnExportExcel(): void {
+        const data = this.listCurrentLevelDatas.map((item: any) => ({
+            [this.currentLevelLibelle]: item?.nom,
+            [this.parentLevelLibelle]: item?.niveau_un?.nom,
+            '# SIM Affectées': item?.sims_count,
+        }));
+        this.excelService.exportAsExcelFile(
+            data,
+            `Lise des ${this.currentLevelLibelle}`
+        );
+    }
+    public isFilter(): boolean {
+        return !this.selectedNom && !this.selectedParent ? true : false;
+    }
 }

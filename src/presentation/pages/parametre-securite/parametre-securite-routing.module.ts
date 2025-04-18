@@ -8,23 +8,22 @@ export const PROFILS_HABILITATIONS = 'profils-habilitations';
 export const UTILISATEURS = 'utilisateurs';
 export const JOURNAL_ATHENTICATION = 'journaux-authentification';
 
-
 const routes: Routes = [
     {
         path: '',
         children: [
             {
                 path: PROFILS_HABILITATIONS,
-                component: ProfilHabilitationComponent
+                component: ProfilHabilitationComponent,
             },
             {
                 path: UTILISATEURS,
-                component: UsersComponent
+                component: UsersComponent,
             },
             {
                 path: JOURNAL_ATHENTICATION,
-                component: JournalAuthenticationComponent
-            }
+                component: JournalAuthenticationComponent,
+            },
         ],
     },
 ];
@@ -32,4 +31,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class ParametreSecuriteRoutingModule { }
+export class ParametreSecuriteRoutingModule {}

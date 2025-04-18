@@ -27,37 +27,36 @@ import { NotificationsCenterComponent } from './ui/notifications-center/notifica
 import { MessagerieComponent } from '../supervision-operations/ui/messagerie/messagerie.component';
 
 @NgModule({
-  declarations: [
-    FilterWaitingQueueComponent,
-    TableWaitingQueueComponent,
-    WaitingQueueComponent,
-    FilterTreatmentMonitoringComponent,
-    TableTreatmentMonitoringComponent,
-    TreatmentMonitoringComponent,
-    FilterClaimsComponent,
-    TableClaimsComponent,
-    ClaimsComponent,
-    FilterNotificationsCenterComponent,
-    TableNotificationsCenterComponent,
-    NotificationsCenterComponent
-  ],
-  imports: [
-    SharedModule,
-    OverseeingOperationsRoutingModule,
-    NgSelectModule,
-    NgbModule,
-    AngularMultiSelectModule,
-    Ng2SearchPipeModule,
-    NgxPaginationModule,
-  ],
-  providers: [
-    WaitingQueueApiService, 
-    TreatmentMonitoringApiService,
-    ClaimsApiService,
-    NotificationsCenterApiService,
+    declarations: [
+        FilterWaitingQueueComponent,
+        TableWaitingQueueComponent,
+        WaitingQueueComponent,
+        FilterTreatmentMonitoringComponent,
+        TableTreatmentMonitoringComponent,
+        TreatmentMonitoringComponent,
+        FilterClaimsComponent,
+        TableClaimsComponent,
+        ClaimsComponent,
+        FilterNotificationsCenterComponent,
+        TableNotificationsCenterComponent,
+        NotificationsCenterComponent,
+    ],
+    imports: [
+        SharedModule,
+        OverseeingOperationsRoutingModule,
+        NgSelectModule,
+        NgbModule,
+        AngularMultiSelectModule,
+        Ng2SearchPipeModule,
+        NgxPaginationModule,
+    ],
+    providers: [
+        WaitingQueueApiService,
+        TreatmentMonitoringApiService,
+        ClaimsApiService,
+        NotificationsCenterApiService,
 
-
-    MessagerieComponent
-  ]
+        MessagerieComponent,
+    ],
 })
-export class OverseeingOperationsModule { }
+export class OverseeingOperationsModule {}

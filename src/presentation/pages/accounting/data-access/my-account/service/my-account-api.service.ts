@@ -1,39 +1,62 @@
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { myAccountApiResponseInterface, myAccountInterface } from '../interfaces/my-account.interface';
+import {
+    myAccountApiResponseInterface,
+    myAccountInterface,
+} from '../interfaces/my-account.interface';
 import { myAccountEndpointEnum } from '../enums/my-account-endpoint.enum';
 import { myAccountFilterInterface } from '../interfaces/my-account-filter.interface';
 import { BankInterface } from '../../../../../../shared/interfaces/bank.interface';
 import { EndPointUrl } from '../../../../../../shared/enum/api.enum';
 
 @Injectable()
-
 export class MyAccountApiService {
-
     private BASE_URL: string;
 
-    constructor(private httpClient: HttpClient, private envService: EnvService) {
+    constructor(
+        private httpClient: HttpClient,
+        private envService: EnvService
+    ) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
     /*********************Méthode pour récupérer la liste my-account*************** */
 
-    private myAccountSubject = new BehaviorSubject<Array<myAccountInterface>>([]);
-    private myAccountPagination = new BehaviorSubject<Paginate<myAccountInterface>>({} as Paginate<myAccountInterface>);
-    private myAccountSelected = new BehaviorSubject<myAccountInterface>({} as myAccountInterface);
+    private myAccountSubject = new BehaviorSubject<Array<myAccountInterface>>(
+        []
+    );
+    private myAccountPagination = new BehaviorSubject<
+        Paginate<myAccountInterface>
+    >({} as Paginate<myAccountInterface>);
+    private myAccountSelected = new BehaviorSubject<myAccountInterface>(
+        {} as myAccountInterface
+    );
     private loadingMyAccountSubject = new BehaviorSubject<boolean>(false);
-    private dataFilterMyAccountSubject = new BehaviorSubject<myAccountFilterInterface>({} as myAccountFilterInterface);
+    private dataFilterMyAccountSubject =
+        new BehaviorSubject<myAccountFilterInterface>(
+            {} as myAccountFilterInterface
+        );
     private dataNbrPageMyAccountSubject = new BehaviorSubject<string>('1');
-    private apiResponseMyAccountSubject = new BehaviorSubject<myAccountApiResponseInterface>({} as myAccountApiResponseInterface);
+    private apiResponseMyAccountSubject =
+        new BehaviorSubject<myAccountApiResponseInterface>(
+            {} as myAccountApiResponseInterface
+        );
 
-    fetchMyAccount(data: myAccountFilterInterface, nbrPage: string = '1'): void {
+    fetchMyAccount(
+        data: myAccountFilterInterface,
+        nbrPage: string = '1'
+    ): void {
         if (this.loadingMyAccountSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
         this.loadingMyAccountSubject.next(true);
-        const url: string = myAccountEndpointEnum.MANAGEMENT_INVOICE_ACCOUNTS.replace('{page}', nbrPage);
+        const url: string =
+            myAccountEndpointEnum.MANAGEMENT_INVOICE_ACCOUNTS.replace(
+                '{page}',
+                nbrPage
+            );
 
         this.httpClient
             .post<Object>(this.BASE_URL + url, data)
@@ -41,7 +64,7 @@ export class MyAccountApiService {
                 debounceTime(500),
                 switchMap((response: any) => {
                     const myAccount = response?.['data']?.data?.data;
-                    console.log('myAccount', myAccount)
+                    console.log('myAccount', myAccount);
                     this.myAccountSubject.next(myAccount);
                     this.myAccountPagination.next(response?.['data']?.data);
                     this.apiResponseMyAccountSubject.next(response);
@@ -82,5 +105,4 @@ export class MyAccountApiService {
     setMyAccountSelected(myAccount: myAccountInterface): void {
         this.myAccountSelected.next(myAccount);
     }
-
 }

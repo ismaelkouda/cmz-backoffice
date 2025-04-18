@@ -15,7 +15,6 @@
 // import { handle } from 'src/shared/functions/api.function';
 // import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-
 // @Component({
 //   selector: 'app-etat-solde',
 //   templateUrl: './etat-solde.component.html',
@@ -135,7 +134,7 @@
 //       this.response = await handle(() => this.patrimoineService.GetAllUsages({}), this.toastrService, this.loadingBarService);
 //       if(this.response?.data) this.handleSuccessfulUsages(this.response);
 //   }
-  
+
 //   private handleSuccessfulUsages(response): void {
 //     this.listUsages = response['data'];
 //   }
@@ -155,7 +154,7 @@
 //       this.response = await handle(() => this.settingService.GetAllFormules({}), this.toastrService, this.loadingBarService);
 //       if(this.response?.data) this.handleSuccessfulFormules(this.response);
 //   }
-  
+
 //   private handleSuccessfulFormules(response): void {
 //     this.listFormule = response['data'];
 //   }
@@ -240,8 +239,6 @@
 //     this.GetAllEtats();
 //   }
 
- 
-  
 //   public disableAction(): boolean {
 //     return (this.listEtats === undefined || this.listEtats?.length === 0) ? true : false
 //   }

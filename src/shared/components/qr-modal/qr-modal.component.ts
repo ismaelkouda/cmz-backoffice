@@ -5,10 +5,8 @@ import { MappingService } from 'src/shared/services/mapping.service';
 @Component({
     selector: 'app-qr-modal',
     templateUrl: './qr-modal.component.html',
-    styleUrls: [
-        './qr-modal.component.scss'    ]
+    styleUrls: ['./qr-modal.component.scss'],
 })
-
 export class QrModalComponent implements OnInit {
     @Input() qr;
     public minioUrl: string;
@@ -16,20 +14,17 @@ export class QrModalComponent implements OnInit {
     constructor(
         private activeModal: NgbActiveModal,
         private mappingService: MappingService
-        ) {
-            this.minioUrl = this.mappingService.minioUrl
-        }
+    ) {
+        this.minioUrl = this.mappingService.minioUrl;
+    }
 
     /**
      * @author André ATCHORI
      */
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
     closeModal() {
         this.activeModal.close();
     }
-
-
 }

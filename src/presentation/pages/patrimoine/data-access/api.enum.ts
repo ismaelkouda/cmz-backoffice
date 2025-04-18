@@ -22,7 +22,7 @@ export const enum EndPointUrl {
     POST_PATRIMOINE_SIM_ETATS_DES_SOLDES_ACTUALISATION_SIMPLE = 'patrimoine-sim/etats-des-soldes/actualisation-simple',
 
     CHANGE_STATUT_IDENTIFICATION = 'patrimoine-sim/transactions/sur-sim',
-    
+
     GET_ALL_CYCLES = 'patrimoine-sim/cycle-de-vie/all?page={page}',
     GET_ALL_ETAT_SOLDE = 'patrimoine-sim/sims/etat-sims?page={page}',
     GET_ALL_ETAT_SOLDE_SMS = 'patrimoine-sim/sims/etat-sms?page={page}',
@@ -51,8 +51,8 @@ export const enum EndPointUrl {
     DISABLE_GROUPE = 'patrimoine-sim/groupe-sims/{id}/desactiver',
     VERIFY_GROUPE = 'patrimoine-sim/groupe-sims/verifier-groupe',
 
-   //DOTATION
-   GET_ALL_DOTATION = 'patrimoine-sim/dotations-services/all?page={page}',
-   SAVE_DOATATION = 'patrimoine-sim/dotations-services/store',
-   DOWNLOAD_FILE = 'patrimoine-sim/telechargement-fichiers/all?page={page}'
+    //DOTATION
+    GET_ALL_DOTATION = 'patrimoine-sim/dotations-services/all?page={page}',
+    SAVE_DOATATION = 'patrimoine-sim/dotations-services/store',
+    DOWNLOAD_FILE = 'patrimoine-sim/telechargement-fichiers/all?page={page}',
 }

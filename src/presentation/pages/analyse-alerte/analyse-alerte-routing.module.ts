@@ -10,31 +10,32 @@ export const DETECTION_APPRO = 'detection-appro';
 export const ANALAYSE_REJET = 'analyse-rejet';
 export const PERFORMANCE_COLLECTE = 'approvisionnement';
 
-
-const routes: Routes = [{
-    path: "",
-    children: [
-        {
-            path: COURBE_MESSAGE,
-            component: CourbeMessageComponent
-        },
-        {
-            path: DETECTION_APPRO,
-            component: DetectionApproComponent
-        },
-        {
-            path: PERFORMANCE_COLLECTE,
-            component: PerformanceCollecteComponent
-        },
-        {
-            path: ANALAYSE_REJET,
-            component: AnalyseRejetComponent
-        }
-    ]
-}];
+const routes: Routes = [
+    {
+        path: '',
+        children: [
+            {
+                path: COURBE_MESSAGE,
+                component: CourbeMessageComponent,
+            },
+            {
+                path: DETECTION_APPRO,
+                component: DetectionApproComponent,
+            },
+            {
+                path: PERFORMANCE_COLLECTE,
+                component: PerformanceCollecteComponent,
+            },
+            {
+                path: ANALAYSE_REJET,
+                component: AnalyseRejetComponent,
+            },
+        ],
+    },
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
-export class AnalyseAlerteRoutingModule { }
+export class AnalyseAlerteRoutingModule {}

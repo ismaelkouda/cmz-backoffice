@@ -7,10 +7,18 @@ import { DEMANDE_ACTIVATION } from 'src/presentation/pages/demandes/demandes-rou
 import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
 import { formDataBuilder } from '../../../../../shared/constants/formDataBuilder.constant';
 import { ToastrService } from 'ngx-toastr';
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, ViewChild } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Input,
+    Output,
+    EventEmitter,
+    OnDestroy,
+    ViewChild,
+} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EndPointUrl } from '../../data-access/api.enum';
-const Swal = require("sweetalert2");
+const Swal = require('sweetalert2');
 import { MappingService } from 'src/shared/services/mapping.service';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
@@ -28,7 +36,6 @@ import { EnvService } from '../../../../../shared/services/env.service';
     templateUrl: './transaction-form.component.html',
     styleUrls: ['./transaction-form.component.scss'],
 })
-
 export class TransactionFormComponent implements OnInit, OnDestroy {
     // public formMasseLibelle = {
     //     etape_1: "Etape 1 : Cliquez pour télécharger le fichier modèle",
@@ -101,7 +108,8 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     //Mapping
     public applicationType: string;
     public firstLevelLibelle: string;
-    public secondLevelLibelle: string;flistDirections
+    public secondLevelLibelle: string;
+    flistDirections;
     public thirdLevelLibelle: string;
     public sourceStockTenantSim: string;
     public sourceStockOrangeSim: string;
@@ -110,32 +118,42 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     public currentOperation: string = OperationTransaction.ACTIVATION;
     public coutUinitaire: number;
     public dialogVisible: boolean = false;
-    public listWhiteSimCard: Array<any> = []
-    public cloneListWhiteSimCard: Array<any> = []
+    public listWhiteSimCard: Array<any> = [];
+    public cloneListWhiteSimCard: Array<any> = [];
     public currentMetrique: any;
     public clonedMetrique: { [s: string]: any } = {};
     public globalMetriquesEditRow: Array<any> = [];
     public editableRowIndex: number | null = null;
     public totalQuantitePrises: number = 0;
-    public initialNbRestants: number;  // Variable pour la valeur initiale
+    public initialNbRestants: number; // Variable pour la valeur initiale
     public totalDisponibles: number;
     public expandedRows = {};
     public selectedLot: Array<Object> = [];
 
-    constructor(private patrimoineService: PatrimoineService, private demandeService: DemandeService,
-        private settingService: SettingService, private toastrService: ToastrService,
-        private httpClient: HttpClient, private router: Router,
-        private mappingService: MappingService, private envService: EnvService,
-        private loadingBarService: LoadingBarService, private fb: FormBuilder,
+    constructor(
+        private patrimoineService: PatrimoineService,
+        private demandeService: DemandeService,
+        private settingService: SettingService,
+        private toastrService: ToastrService,
+        private httpClient: HttpClient,
+        private router: Router,
+        private mappingService: MappingService,
+        private envService: EnvService,
+        private loadingBarService: LoadingBarService,
+        private fb: FormBuilder
     ) {
         this.baseUrl = this.envService.apiUrl;
         this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
-        this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+        this.secondLevelLibelle =
+            this.mappingService.structureGlobale?.niveau_2;
         this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
         (this.sourceStockTenantSim = this.mappingService.sourceStockTenantSim),
-        (this.sourceStockOrangeSim = this.mappingService.sourceStockOrangeSim),
-        (this.sourceSoldeDotation = this.mappingService?.sourceSoldeDotation);
-        this.sourceSoldeDotationOrange = this.mappingService?.sourceSoldeDotationOrange;
+            (this.sourceStockOrangeSim =
+                this.mappingService.sourceStockOrangeSim),
+            (this.sourceSoldeDotation =
+                this.mappingService?.sourceSoldeDotation);
+        this.sourceSoldeDotationOrange =
+            this.mappingService?.sourceSoldeDotationOrange;
         this.applicationType = this.mappingService.applicationType;
         this.patrimoineType = ApplicationType.PATRIMOINESIM;
     }
@@ -148,7 +166,7 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         // if (this.typeDemande === "simple") {
         //     this.initFormSimple();
         // } else if (this.typeDemande === "masse") {
-            this.initForm();
+        this.initForm();
         // }
         // this.IsFormFomSIMValidate();
         // this.isVerify();
@@ -168,9 +186,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         //     this.operationValue = this.selectedActionValue;
         // }
         // if (this.selectedActionValue === OperationTransaction.ACTIVATION) {
-            this.getAllDirectionRegionales();
-            this.getAllUsages();
-            this.getAllZones();
+        this.getAllDirectionRegionales();
+        this.getAllUsages();
+        this.getAllZones();
         // }
         // if (this.selectedActionValue === this.swap) {
         //     this.sourceValue = 'stock';
@@ -195,35 +213,55 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
 
     public initForm(): void {
         this.adminForm = this.fb.group({
-            source: "stock orange",
+            source: 'stock orange',
             operation: this.typeDemande,
             niveau_un_uuid: [null],
             niveau_deux_uuid: [null],
             niveau_trois_uuid: [null],
-            usage_id: [this.currentObject ? this.currentObject.usage_id : null, [Validators.required]],
-            nb_demandes: [this.currentObject ? this.currentObject.nb_demandes : null, 
-                [Validators.required, Validators.min(1), Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
+            usage_id: [
+                this.currentObject ? this.currentObject.usage_id : null,
+                [Validators.required],
+            ],
+            nb_demandes: [
+                this.currentObject ? this.currentObject.nb_demandes : null,
+                [
+                    Validators.required,
+                    Validators.min(1),
+                    Validators.pattern(/^\d+(\.\d{1,2})?$/),
+                ],
+            ],
             point_emplacement: [this.currentObject?.point_emplacement || ''],
-            adresse_geographique: [this.currentObject?.adresse_geographique || ''],
-            adresse_email: [this.currentObject?.adresse_email, Validators.email],
+            adresse_geographique: [
+                this.currentObject?.adresse_geographique || '',
+            ],
+            adresse_email: [
+                this.currentObject?.adresse_email,
+                Validators.email,
+            ],
             longitude: [this.currentObject?.longitude || ''],
             latitude: [this.currentObject?.latitude || ''],
-            formule_uuid: [this.currentObject ? this.currentObject.formule_uuid : null, [Validators.required]],
-            description: [this.currentObject ? this.currentObject.description : '', [Validators.required]],
+            formule_uuid: [
+                this.currentObject ? this.currentObject.formule_uuid : null,
+                [Validators.required],
+            ],
+            description: [
+                this.currentObject ? this.currentObject.description : '',
+                [Validators.required],
+            ],
             prix_unitaire: [this.coutUinitaire],
             montant: [this.currentObject ? this.currentObject?.montant : null],
-            justificatif: [null, Validators.required]
+            justificatif: [null, Validators.required],
         });
         // if (this.typeDemande === "paiement") { this.adminForm.disable() }
-        const nbDemandesControl = this.adminForm.get("nb_demandes");
-        const prixUnitaireControl = this.adminForm.get("prix_unitaire");
+        const nbDemandesControl = this.adminForm.get('nb_demandes');
+        const prixUnitaireControl = this.adminForm.get('prix_unitaire');
         prixUnitaireControl?.disable();
-        const montantControl = this.adminForm.get("montant");
+        const montantControl = this.adminForm.get('montant');
         montantControl?.disable();
         const gererMontantDemandes = (value: number) => {
             // if (nbDemandesControl?.valid) {
-                const montantDemandes = value * prixUnitaireControl?.value;
-                montantControl?.setValue(montantDemandes)
+            const montantDemandes = value * prixUnitaireControl?.value;
+            montantControl?.setValue(montantDemandes);
             // } else {
             //     montantControl?.setValue(this.currentObject?.prix_unitaire)
             // }
@@ -233,40 +271,61 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         nbDemandesControl?.valueChanges.subscribe((value) => {
             gererMontantDemandes(value);
         });
-        this.adminForm.get("source")?.valueChanges.subscribe((value) => {
-            if (value === "stock local") { nbDemandesControl?.disable(); nbDemandesControl?.reset(); }
-            else { nbDemandesControl?.enable(); nbDemandesControl?.reset(); }
+        this.adminForm.get('source')?.valueChanges.subscribe((value) => {
+            if (value === 'stock local') {
+                nbDemandesControl?.disable();
+                nbDemandesControl?.reset();
+            } else {
+                nbDemandesControl?.enable();
+                nbDemandesControl?.reset();
+            }
         });
     }
 
     set validators(control) {
         this.adminForm.setValidators([Validators.required]);
     }
-    
+
     async getSimCartonSimBlancheDisponibles() {
-        const response: any = await handle<any>(() => this.patrimoineService.PostPatrimoineSimCartonSimBlancheDisponibles({}), this.toastrService, this.loadingBarService);
+        const response: any = await handle<any>(
+            () =>
+                this.patrimoineService.PostPatrimoineSimCartonSimBlancheDisponibles(
+                    {}
+                ),
+            this.toastrService,
+            this.loadingBarService
+        );
         if (response && response?.error === false) {
             this.totalDisponibles = response.data.total_disponibles;
-            this.listWhiteSimCard = response.data.data.map((whiteSimCard) => { return { ...whiteSimCard, selected_nb_restants: 0 } });
-        };
+            this.listWhiteSimCard = response.data.data.map((whiteSimCard) => {
+                return { ...whiteSimCard, selected_nb_restants: 0 };
+            });
+        }
     }
 
     public GetCoutUnitaireOperation(): void {
-        this.settingService.GetCoutUnitaireOperation(this.currentOperation).subscribe({
-            next: (response) => {
-                this.coutUinitaire = response['data'];
-                this.adminForm.get("prix_unitaire")?.patchValue(this.coutUinitaire)
-            },
-            error: (error) => {
-                this.toastrService.error(error.error.message);
-            },
-        });
+        this.settingService
+            .GetCoutUnitaireOperation(this.currentOperation)
+            .subscribe({
+                next: (response) => {
+                    this.coutUinitaire = response['data'];
+                    this.adminForm
+                        .get('prix_unitaire')
+                        ?.patchValue(this.coutUinitaire);
+                },
+                error: (error) => {
+                    this.toastrService.error(error.error.message);
+                },
+            });
     }
 
     /*************************************************Modal activation-en-masse***********************************************/
-    
+
     expandAll() {
-        this.expandedRows = this.listWhiteSimCard.reduce((acc, p) => (acc[p.id] = true) && acc, {});
+        this.expandedRows = this.listWhiteSimCard.reduce(
+            (acc, p) => (acc[p.id] = true) && acc,
+            {}
+        );
     }
 
     collapseAll() {
@@ -287,7 +346,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
 
         const updatedData = {
             carton_id: originalMetrique.id,
-            quantite: metrique.selected_nb_restants ?? originalMetrique.selected_nb_restants,
+            quantite:
+                metrique.selected_nb_restants ??
+                originalMetrique.selected_nb_restants,
         };
 
         const existsInEditRow = this.globalMetriquesEditRow.some(
@@ -306,7 +367,10 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         }
 
         delete this.clonedMetrique[metrique.id]; // Supprime la sauvegarde temporaire
-        this.totalQuantitePrises = this.globalMetriquesEditRow.reduce((sum, item) => sum + item.quantite, 0);
+        this.totalQuantitePrises = this.globalMetriquesEditRow.reduce(
+            (sum, item) => sum + item.quantite,
+            0
+        );
         this.editableRowIndex = null;
     }
 
@@ -324,9 +388,9 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     }
 
     public HandleSaveLotMasse() {
-        this.dialogVisible = false
-        this.adminForm.get("nb_demandes")?.patchValue(this.totalQuantitePrises);
-        this.adminForm.get("nb_demandes")?.disable();
+        this.dialogVisible = false;
+        this.adminForm.get('nb_demandes')?.patchValue(this.totalQuantitePrises);
+        this.adminForm.get('nb_demandes')?.disable();
         // this.contratSlaService
         //   .HandleUpdateContrat({
         //     engagements_sla: [...this.globalMetriquesEditRow],
@@ -342,18 +406,21 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         //     },
         //   });
     }
-    
+
     /*************************************************Modal activation-en-simple***********************************************/
     public HandleSaveLotSimple() {
         const message = `<span style="color: #569C5B;">Une SIM</span> sera prise dans ce lot <span style="color: #ff6600;"><strong>${this.selectedLot[0]?.['numero_demande']}</strong></span>`;
-        Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass }).fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: message })
-        .then((result): void => {
-            if (result.value) { 
-                this.dialogVisible = false;
-                this.adminForm.get("nb_demandes")?.patchValue(this.totalQuantitePrises);
-                this.adminForm.get("nb_demandes")?.disable();
-            }
-        });
+        Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass })
+            .fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: message })
+            .then((result): void => {
+                if (result.value) {
+                    this.dialogVisible = false;
+                    this.adminForm
+                        .get('nb_demandes')
+                        ?.patchValue(this.totalQuantitePrises);
+                    this.adminForm.get('nb_demandes')?.disable();
+                }
+            });
     }
     // public IsValidate(): boolean {
     //     return this.globalMetriquesEditRow.length === 0 ? true : false;
@@ -434,7 +501,11 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     // }
 
     public GetAllTransactions() {
-        this.demandeService.GetDemandeServiceByTransaction({ operation: this.currentSelectedActionValue }, 1)
+        this.demandeService
+            .GetDemandeServiceByTransaction(
+                { operation: this.currentSelectedActionValue },
+                1
+            )
             .subscribe({
                 next: (response) => {
                     const datas = response['data']['data'].map((data) => {
@@ -538,9 +609,11 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
         });
     }
     public onGetDrValueChanges() {
-        return this.adminForm?.get('niveau_un_uuid')?.valueChanges.subscribe((value) => {
-            this.getAllExploitation(value);
-        });
+        return this.adminForm
+            ?.get('niveau_un_uuid')
+            ?.valueChanges.subscribe((value) => {
+                this.getAllExploitation(value);
+            });
     }
     public getAllExploitation(data: string) {
         this.settingService
@@ -610,7 +683,10 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     //     this.selectedVolume = null;
     //     this.selectedDescription = "";
     // }
-    public onChangeFile(file: FileList, type: "justificatif" | "recu-paiement") {
+    public onChangeFile(
+        file: FileList,
+        type: 'justificatif' | 'recu-paiement'
+    ) {
         const selectedFile = file.item(0);
         this.adminForm.patchValue({ justificatif: selectedFile });
         // if (selectedFile) {
@@ -755,16 +831,24 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
             baseUrl = `${this.baseUrl}${EndPointUrl.CHANGE_STATUT}`;
         }
         // j'ai activer par ce que j'ai besoin de la valeur pour la soumettre
-        this.adminForm.get("nb_demandes")?.enable();
-        this.httpClient.post(`${baseUrl}`, formDataBuilder({...this.adminForm.value, stockages: JSON.stringify([...this.globalMetriquesEditRow])})).subscribe({
-            next: (res: any) => {
-                this.GetAllTransactions();
-                this.toastrService.success(res.message);
-            },
-            error: (error) => {
-                this.toastrService.error(error.error.message);
-            },
-        });
+        this.adminForm.get('nb_demandes')?.enable();
+        this.httpClient
+            .post(
+                `${baseUrl}`,
+                formDataBuilder({
+                    ...this.adminForm.value,
+                    stockages: JSON.stringify([...this.globalMetriquesEditRow]),
+                })
+            )
+            .subscribe({
+                next: (res: any) => {
+                    this.GetAllTransactions();
+                    this.toastrService.success(res.message);
+                },
+                error: (error) => {
+                    this.toastrService.error(error.error.message);
+                },
+            });
     }
 
     // public selectedSource(value: string) {

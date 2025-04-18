@@ -3,9 +3,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxCaptchaModule } from 'ngx-captcha';
 
-
 //Modules Primeng
-
 
 //Components
 import { DashboardSlaComponent } from './ui/dashboard-sla/dashboard-sla.component';
@@ -28,4 +26,4 @@ import { RapportBoxComponent } from './feature/rapport-box/rapport-box.component
         RapportBoxComponent,
     ],
 })
-export class SlaDemandeServiceModule { }
+export class SlaDemandeServiceModule {}

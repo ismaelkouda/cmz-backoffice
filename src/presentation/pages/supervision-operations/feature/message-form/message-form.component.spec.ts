@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { MessageFormComponent } from './message-form.component';
 
 describe('MessageFormComponent', () => {
-  let component: MessageFormComponent;
-  let fixture: ComponentFixture<MessageFormComponent>;
+    let component: MessageFormComponent;
+    let fixture: ComponentFixture<MessageFormComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MessageFormComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [MessageFormComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(MessageFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(MessageFormComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

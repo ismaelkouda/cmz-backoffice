@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { CarteMapComponent } from './carte-map.component';
 
 describe('CarteMapComponent', () => {
-  let component: CarteMapComponent;
-  let fixture: ComponentFixture<CarteMapComponent>;
+    let component: CarteMapComponent;
+    let fixture: ComponentFixture<CarteMapComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CarteMapComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [CarteMapComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CarteMapComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CarteMapComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

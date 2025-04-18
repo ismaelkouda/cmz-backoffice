@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { SuivieTraitementComponent } from './suivie-traitement.component';
 
 describe('SuivieTraitementComponent', () => {
-  let component: SuivieTraitementComponent;
-  let fixture: ComponentFixture<SuivieTraitementComponent>;
+    let component: SuivieTraitementComponent;
+    let fixture: ComponentFixture<SuivieTraitementComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SuivieTraitementComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [SuivieTraitementComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SuivieTraitementComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(SuivieTraitementComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

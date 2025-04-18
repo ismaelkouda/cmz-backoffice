@@ -3,4 +3,4 @@ export enum StatutTransaction {
     TARITER = 'traité',
     CLOTURER = 'cloturé',
     TRAITEMENT = 'traitement',
-}   
+}

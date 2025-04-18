@@ -20,19 +20,22 @@ import { DetailsAchatProduitsComponent } from './feature/details-achat-produits/
 
 @NgModule({
     declarations: [
-        AchatProduitsComponent, FilterAchatProduitsComponent, TableAchatProduitsComponent, FormAchatProduitsComponent,
-        
-    DetailsAchatProduitsComponent,
-    FilterDetailsAchatProduitsComponent,
-    TableDetailsAchatProduits,
-    ],
-    imports: [ SharedModule, DemandesProduitsRoutingModule, NgxPaginationModule,
-                NgxPaginationModule,
-                NgxCaptchaModule,
-            ],
-    providers: [DemandesProduitsService, 
-        StateAchatProduitsService,
-    ]
-})
+        AchatProduitsComponent,
+        FilterAchatProduitsComponent,
+        TableAchatProduitsComponent,
+        FormAchatProduitsComponent,
 
+        DetailsAchatProduitsComponent,
+        FilterDetailsAchatProduitsComponent,
+        TableDetailsAchatProduits,
+    ],
+    imports: [
+        SharedModule,
+        DemandesProduitsRoutingModule,
+        NgxPaginationModule,
+        NgxPaginationModule,
+        NgxCaptchaModule,
+    ],
+    providers: [DemandesProduitsService, StateAchatProduitsService],
+})
 export class DemandesProduitsModule {}

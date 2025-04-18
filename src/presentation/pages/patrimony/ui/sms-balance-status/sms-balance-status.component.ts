@@ -1,6 +1,6 @@
 import { UsageInterface } from './../../../../../shared/interfaces/usage.interface';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { TypeAlarme } from '../../../../../shared/enum/TypeAlarme.enum';
@@ -14,13 +14,11 @@ import { smsBalanceStatusFilterInterface } from '../../data-access/sms-balance-s
 import { ApnInterface } from '../../../../../shared/interfaces/apn.interface';
 
 @Component({
-    selector: "app-sms-balance-status",
-    templateUrl: "./sms-balance-status.component.html",
-    styleUrls: [`./sms-balance-status.component.scss`]
+    selector: 'app-sms-balance-status',
+    templateUrl: './sms-balance-status.component.html',
+    styleUrls: [`./sms-balance-status.component.scss`],
 })
-
 export class SmsBalanceStatusComponent implements OnInit, OnDestroy {
-
     public module: string;
     public subModule: string;
     public pagination$: Observable<Paginate<smsBalanceStatusInterface>>;
@@ -34,9 +32,14 @@ export class SmsBalanceStatusComponent implements OnInit, OnDestroy {
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
-    constructor(private activatedRoute: ActivatedRoute, private sharedService: SharedService,
-        private smsBalanceStatusApiService: smsBalanceStatusApiService) {
-        Object.values(TypeAlarme).forEach(item => { this.listAlarms.push(item); });
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private sharedService: SharedService,
+        private smsBalanceStatusApiService: smsBalanceStatusApiService
+    ) {
+        Object.values(TypeAlarme).forEach((item) => {
+            this.listAlarms.push(item);
+        });
     }
 
     ngOnInit(): void {
@@ -51,35 +54,44 @@ export class SmsBalanceStatusComponent implements OnInit, OnDestroy {
         this.sharedService.fetchApn();
         this.listApn$ = this.sharedService.getApn();
         this.sharedService.fetchFirstLevel();
-        this.listFirstLevel$ = this.sharedService.getFirstLevel();;
+        this.listFirstLevel$ = this.sharedService.getFirstLevel();
         this.sharedService.fetchThirdLevel();
         this.listThirdLevel$ = this.sharedService.getThirdLevel();
-        this.listSmsBalanceStatus$ = this.smsBalanceStatusApiService.getSmsBalanceStatus();
-        this.pagination$ = this.smsBalanceStatusApiService.getSmsBalanceStatusPagination();
+        this.listSmsBalanceStatus$ =
+            this.smsBalanceStatusApiService.getSmsBalanceStatus();
+        this.pagination$ =
+            this.smsBalanceStatusApiService.getSmsBalanceStatusPagination();
         // combineLatest([
         //     this.smsBalanceStatusApiService.getDataFilterSmsBalanceStatus(),
         //     this.smsBalanceStatusApiService.getDataNbrPageSmsBalanceStatus()
         // ]).subscribe(([filterData, nbrPageData]) => {
         //     this.smsBalanceStatusApiService.fetchSmsBalanceStatus(filterData, nbrPageData);
         // });
-        this.smsBalanceStatusApiService.isLoadingSmsBalanceStatus().subscribe((spinner) => {
-            this.spinner = spinner;
-        })
+        this.smsBalanceStatusApiService
+            .isLoadingSmsBalanceStatus()
+            .subscribe((spinner) => {
+                this.spinner = spinner;
+            });
     }
 
     public filter(filterData: smsBalanceStatusFilterInterface): void {
-        this.smsBalanceStatusApiService.fetchSmsBalanceStatus(filterData)
+        this.smsBalanceStatusApiService.fetchSmsBalanceStatus(filterData);
     }
 
     public onPageChange(event: number): void {
-        this.smsBalanceStatusApiService.getDataFilterSmsBalanceStatus().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
-            this.smsBalanceStatusApiService.fetchSmsBalanceStatus(filterData, JSON.stringify(event + 1))
-        });
+        this.smsBalanceStatusApiService
+            .getDataFilterSmsBalanceStatus()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((filterData) => {
+                this.smsBalanceStatusApiService.fetchSmsBalanceStatus(
+                    filterData,
+                    JSON.stringify(event + 1)
+                );
+            });
     }
 
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
-
 }

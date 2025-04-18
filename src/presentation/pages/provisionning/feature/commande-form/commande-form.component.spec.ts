@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { CommandeFormComponent } from './commande-form.component';
 
 describe('CommandeFormComponent', () => {
-  let component: CommandeFormComponent;
-  let fixture: ComponentFixture<CommandeFormComponent>;
+    let component: CommandeFormComponent;
+    let fixture: ComponentFixture<CommandeFormComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CommandeFormComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [CommandeFormComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CommandeFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CommandeFormComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { GroupesComponent } from './groupes.component';
 
 describe('GroupesComponent', () => {
-  let component: GroupesComponent;
-  let fixture: ComponentFixture<GroupesComponent>;
+    let component: GroupesComponent;
+    let fixture: ComponentFixture<GroupesComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ GroupesComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [GroupesComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(GroupesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(GroupesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

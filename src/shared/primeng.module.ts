@@ -1,29 +1,29 @@
-import { NgModule } from "@angular/core";
-import { PasswordModule } from "primeng/password";
-import { BadgeModule } from "primeng/badge";
-import { ProgressSpinnerModule } from "primeng/progressspinner";
-import { EditableRow, TableModule } from "primeng/table";
-import { ButtonModule } from "primeng/button";
-import { InputTextModule } from "primeng/inputtext";
-import { DropdownModule } from "primeng/dropdown";
-import { CalendarModule } from "primeng/calendar";
-import { TooltipModule } from "primeng/tooltip";
-import { DialogModule } from "primeng/dialog";
-import { MultiSelectModule } from "primeng/multiselect";
+import { NgModule } from '@angular/core';
+import { PasswordModule } from 'primeng/password';
+import { BadgeModule } from 'primeng/badge';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { EditableRow, TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
+import { TooltipModule } from 'primeng/tooltip';
+import { DialogModule } from 'primeng/dialog';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { PaginatorModule } from 'primeng/paginator';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextareaModule } from "primeng/inputtextarea";
-import { TabViewModule } from "primeng/tabview";
-import { InputMaskModule } from "primeng/inputmask";
-import { RadioButtonModule } from "primeng/radiobutton";
-import { CheckboxModule } from "primeng/checkbox";
-import { InputSwitchModule } from "primeng/inputswitch";
-import { SplitButtonModule } from "primeng/splitbutton";
-import { ToolbarModule } from "primeng/toolbar";
-import { ConfirmDialogModule } from "primeng/confirmdialog";
-import { FieldsetModule } from "primeng/fieldset";
-import { DynamicDialogModule } from "primeng/dynamicdialog";
-import { TreeModule } from "primeng/tree";
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TabViewModule } from 'primeng/tabview';
+import { InputMaskModule } from 'primeng/inputmask';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { FieldsetModule } from 'primeng/fieldset';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { TreeModule } from 'primeng/tree';
 import { ImageModule } from 'primeng/image';
 import { SkeletonModule } from 'primeng/skeleton';
 import { SliderModule } from 'primeng/slider';
@@ -65,7 +65,7 @@ import { MessageModule } from 'primeng/message';
         FileUploadModule,
         // SharedModule,
         TagModule,
-        MessageModule
+        MessageModule,
     ],
     exports: [
         PaginatorModule,
@@ -93,17 +93,14 @@ import { MessageModule } from 'primeng/message';
         DynamicDialogModule,
         FieldsetModule,
         TreeModule,
-        ImageModule, 
+        ImageModule,
         SkeletonModule,
         SliderModule,
         FileUploadModule,
         // SharedModule,
         TagModule,
-        MessageModule
+        MessageModule,
     ],
-    providers: [EditableRow]
+    providers: [EditableRow],
 })
-
-export class PrimengModule {
-
-}
+export class PrimengModule {}

@@ -1,4 +1,4 @@
-import { Paginate } from "../../../../../../shared/interfaces/paginate";
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
 
 export interface simCardInterface {
     id: number;
@@ -35,7 +35,7 @@ export interface simCardInterface {
 }
 
 export interface simCardApiResponseInterface {
-  error: boolean;
-  message: string;
-  data: Paginate<simCardInterface>;
+    error: boolean;
+    message: string;
+    data: Paginate<simCardInterface>;
 }

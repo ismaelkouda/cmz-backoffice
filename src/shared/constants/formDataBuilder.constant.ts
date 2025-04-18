@@ -12,7 +12,10 @@ export const formDataBuilderSome = (data: any) => {
         if (Array.isArray(value)) {
             value.forEach((item, index) => {
                 Object.keys(item).forEach((subKey) => {
-                    formData.append(`${key}[${index}][${subKey}]`, item[subKey]);
+                    formData.append(
+                        `${key}[${index}][${subKey}]`,
+                        item[subKey]
+                    );
                 });
             });
         } else {

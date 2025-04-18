@@ -1,7 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
-import { TableConfig, TableExportExcelFileService } from '../../../../../../shared/services/table-export-excel-file.service';
+import {
+    TableConfig,
+    TableExportExcelFileService,
+} from '../../../../../../shared/services/table-export-excel-file.service';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,20 +12,33 @@ import { paymentInterface } from '../../../data-access/payment/interface/payment
 import { paymentTableConstant } from '../../../data-access/payment/constantes/payment-table';
 import { PaymentApiService } from '../../../data-access/payment/service/payment-api.service';
 import { paymentFilterInterface } from '../../../data-access/payment/interface/payment-filter.interface';
-import { PAYMENT_STATUS_ENUM, T_PAYMENT_STATUS_ENUM } from '../../../data-access/payment/enums/payment-status.enum';
-import { OperationTransaction, TitleOperation } from '../../../../../../shared/enum/OperationTransaction.enum';
+import {
+    PAYMENT_STATUS_ENUM,
+    T_PAYMENT_STATUS_ENUM,
+} from '../../../data-access/payment/enums/payment-status.enum';
+import {
+    OperationTransaction,
+    TitleOperation,
+} from '../../../../../../shared/enum/OperationTransaction.enum';
 
 type Action = PageAction;
-type PageAction = { data: paymentInterface, action: 'view-payment', view: 'page' };
-type TYPE_COLOR_PAYMENT_STATUS_BADGE = 'badge-dark' | 'badge-warning' | 'badge-primary' | 'badge-success' | 'badge-danger';
+type PageAction = {
+    data: paymentInterface;
+    action: 'view-payment';
+    view: 'page';
+};
+type TYPE_COLOR_PAYMENT_STATUS_BADGE =
+    | 'badge-dark'
+    | 'badge-warning'
+    | 'badge-primary'
+    | 'badge-success'
+    | 'badge-danger';
 
 @Component({
     selector: 'app-table-payment',
-    templateUrl: './table-payment.component.html'
+    templateUrl: './table-payment.component.html',
 })
-
 export class TablePaymentComponent {
-
     @Input() listPayments$: Observable<Array<paymentInterface>>;
     @Input() pagination$: Observable<Paginate<paymentInterface>>;
     @Input() spinner: boolean;
@@ -33,13 +49,23 @@ export class TablePaymentComponent {
     public readonly table: TableConfig = paymentTableConstant;
     public readonly PAYMENT_STATUS_ENUM = PAYMENT_STATUS_ENUM;
 
-    constructor(private toastService: ToastrService, private clipboardService: ClipboardService,
-        private tableExportExcelFileService: TableExportExcelFileService, private translate: TranslateService,
-        private paymentApiService: PaymentApiService) { }
+    constructor(
+        private toastService: ToastrService,
+        private clipboardService: ClipboardService,
+        private tableExportExcelFileService: TableExportExcelFileService,
+        private translate: TranslateService,
+        private paymentApiService: PaymentApiService
+    ) {}
 
     public onExportExcel(): void {
-        this.listPayments$.subscribe(data => {
-            if (data) { this.tableExportExcelFileService.exportAsExcelFile(data, this.table, "List_payment"); }
+        this.listPayments$.subscribe((data) => {
+            if (data) {
+                this.tableExportExcelFileService.exportAsExcelFile(
+                    data,
+                    this.table,
+                    'List_payment'
+                );
+            }
         });
     }
 
@@ -54,17 +80,24 @@ export class TablePaymentComponent {
     }
 
     public copyToClipboard(data: string): void {
-        const translatedMessage = this.translate.instant('COPIED_TO_THE_CLIPBOARD');
+        const translatedMessage = this.translate.instant(
+            'COPIED_TO_THE_CLIPBOARD'
+        );
         this.toastService.success(translatedMessage);
         this.clipboardService.copyFromContent(data);
     }
 
-    public getStatusPaymentBadge(selectedPayment?: { statut: T_PAYMENT_STATUS_ENUM; }): TYPE_COLOR_PAYMENT_STATUS_BADGE {
+    public getStatusPaymentBadge(selectedPayment?: {
+        statut: T_PAYMENT_STATUS_ENUM;
+    }): TYPE_COLOR_PAYMENT_STATUS_BADGE {
         if (!selectedPayment || !selectedPayment.statut) {
             return 'badge-dark';
         }
 
-        const stateMap: Record<T_PAYMENT_STATUS_ENUM, TYPE_COLOR_PAYMENT_STATUS_BADGE> = {
+        const stateMap: Record<
+            T_PAYMENT_STATUS_ENUM,
+            TYPE_COLOR_PAYMENT_STATUS_BADGE
+        > = {
             [PAYMENT_STATUS_ENUM.WAITING]: 'badge-dark',
             [PAYMENT_STATUS_ENUM.POSTED]: 'badge-warning',
             [PAYMENT_STATUS_ENUM.ABANDONED]: 'badge-warning',
@@ -80,15 +113,26 @@ export class TablePaymentComponent {
         this.onSelectPayment(params.data);
 
         switch (params.view) {
-            case 'page': this.interfaceUser.emit(params); break;
+            case 'page':
+                this.interfaceUser.emit(params);
+                break;
         }
     }
 
-    getTreatmentButtonViewStyle(selectedPayment: { type_paiement: any, etat_facture: string }): { style: string, value: string } {
-        if (!!selectedPayment?.["type_paiement"]) {
-            return { style: 'badge-success', value: selectedPayment?.["etat_facture"] };
+    getTreatmentButtonViewStyle(selectedPayment: {
+        type_paiement: any;
+        etat_facture: string;
+    }): { style: string; value: string } {
+        if (!!selectedPayment?.['type_paiement']) {
+            return {
+                style: 'badge-success',
+                value: selectedPayment?.['etat_facture'],
+            };
         } else {
-            return { style: 'badge-danger', value: selectedPayment?.["etat_facture"] };
+            return {
+                style: 'badge-danger',
+                value: selectedPayment?.['etat_facture'],
+            };
         }
     }
 

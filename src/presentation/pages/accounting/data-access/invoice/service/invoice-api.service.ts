@@ -1,26 +1,41 @@
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { invoiceEndpointEnum } from '../enums/invoice-endpoint.enum';
-import { invoiceApiResponseInterface, invoiceInterface } from '../interface/invoice.interface';
+import {
+    invoiceApiResponseInterface,
+    invoiceInterface,
+} from '../interface/invoice.interface';
 import { invoiceFilterInterface } from '../interface/invoice-filter.interface';
 
 @Injectable()
-
 export class InvoiceApiService {
     private invoiceSubject = new BehaviorSubject<Array<invoiceInterface>>([]);
-    private invoicePagination = new BehaviorSubject<Paginate<invoiceInterface>>({} as Paginate<invoiceInterface>);
-    private invoiceSelected = new BehaviorSubject<invoiceInterface>({} as invoiceInterface);
+    private invoicePagination = new BehaviorSubject<Paginate<invoiceInterface>>(
+        {} as Paginate<invoiceInterface>
+    );
+    private invoiceSelected = new BehaviorSubject<invoiceInterface>(
+        {} as invoiceInterface
+    );
     private loadingInvoiceSubject = new BehaviorSubject<boolean>(false);
-    private dataFilterInvoiceSubject = new BehaviorSubject<invoiceFilterInterface>({} as invoiceFilterInterface);
+    private dataFilterInvoiceSubject =
+        new BehaviorSubject<invoiceFilterInterface>(
+            {} as invoiceFilterInterface
+        );
     private dataNbrPageInvoiceSubject = new BehaviorSubject<string>('1');
-    private apiResponseInvoiceSubject = new BehaviorSubject<invoiceApiResponseInterface>({} as invoiceApiResponseInterface);
+    private apiResponseInvoiceSubject =
+        new BehaviorSubject<invoiceApiResponseInterface>(
+            {} as invoiceApiResponseInterface
+        );
 
     private BASE_URL: string;
-    constructor(private httpClient: HttpClient, private envService: EnvService) {
+    constructor(
+        private httpClient: HttpClient,
+        private envService: EnvService
+    ) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
@@ -28,7 +43,11 @@ export class InvoiceApiService {
     fetchInvoice(data: invoiceFilterInterface, nbrPage: string = '1'): void {
         if (this.loadingInvoiceSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
         this.loadingInvoiceSubject.next(true);
-        const url: string = invoiceEndpointEnum.POST_MANAGEMENT_INVOICE_INVOICES.replace('{page}', nbrPage);
+        const url: string =
+            invoiceEndpointEnum.POST_MANAGEMENT_INVOICE_INVOICES.replace(
+                '{page}',
+                nbrPage
+            );
 
         this.httpClient
             .post<Object>(this.BASE_URL + url, data)

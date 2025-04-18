@@ -1,5 +1,1 @@
-# src/assets/config/env.js
-node_modules
-dist
-*.log
 src/assets/config/env.js

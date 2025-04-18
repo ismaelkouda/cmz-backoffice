@@ -10,9 +10,8 @@ import { PatrimoineService } from '../../data-access/patrimoine.service';
 
 @Component({
     selector: 'app-etat-solde-filter',
-    templateUrl: './etat-solde-filter.component.html'
+    templateUrl: './etat-solde-filter.component.html',
 })
-
 export class EtatSoldeFilterComponent {
     @Output() filter = new EventEmitter<{}>();
     @Input() firstLevelLibelle: string;
@@ -28,10 +27,14 @@ export class EtatSoldeFilterComponent {
     public listUsages: Array<any> = [];
     public listFormule: any = [];
 
-    constructor(private fb: FormBuilder, public settingService: SettingService,
-        private toastrService: ToastrService, private loadingBar: LoadingBarService,
-        private patrimoineService: PatrimoineService) {
-        Object.values(TypeAlarme).forEach(item => {
+    constructor(
+        private fb: FormBuilder,
+        public settingService: SettingService,
+        private toastrService: ToastrService,
+        private loadingBar: LoadingBarService,
+        private patrimoineService: PatrimoineService
+    ) {
+        Object.values(TypeAlarme).forEach((item) => {
             this.listAlarmes.push(item);
         });
     }
@@ -45,12 +48,18 @@ export class EtatSoldeFilterComponent {
     }
 
     async GetAllFirstLevel() {
-        this.response = await handle(() => this.settingService.GetAllFirstLevelSimple({}), this.toastrService, this.loadingBar);
-        if(this.response?.data) this.handleSuccessfulFirstLevel(this.response);
+        this.response = await handle(
+            () => this.settingService.GetAllFirstLevelSimple({}),
+            this.toastrService,
+            this.loadingBar
+        );
+        if (this.response?.data) this.handleSuccessfulFirstLevel(this.response);
     }
 
     private handleSuccessfulFirstLevel(response): void {
-        this.listFirstLeveDatas = response['data'].map((element) => { return { ...element, fullName: `${element.nom}` } });
+        this.listFirstLeveDatas = response['data'].map((element) => {
+            return { ...element, fullName: `${element.nom}` };
+        });
     }
 
     public onChangeFirstLvel(uuid: any) {
@@ -61,8 +70,12 @@ export class EtatSoldeFilterComponent {
     }
 
     async GetAllThirdLevel() {
-        this.response = await handle(() => this.settingService.GetAllThirdSimple({}), this.toastrService, this.loadingBar);
-        if(this.response?.data) this.handleSuccessfulThirdLevel(this.response);
+        this.response = await handle(
+            () => this.settingService.GetAllThirdSimple({}),
+            this.toastrService,
+            this.loadingBar
+        );
+        if (this.response?.data) this.handleSuccessfulThirdLevel(this.response);
     }
 
     private handleSuccessfulThirdLevel(response): void {
@@ -70,8 +83,12 @@ export class EtatSoldeFilterComponent {
     }
 
     async GetAllUsages() {
-        this.response = await handle(() => this.patrimoineService.GetAllUsages({}), this.toastrService, this.loadingBar);
-        if(this.response?.data) this.handleSuccessfulUsages(this.response);
+        this.response = await handle(
+            () => this.patrimoineService.GetAllUsages({}),
+            this.toastrService,
+            this.loadingBar
+        );
+        if (this.response?.data) this.handleSuccessfulUsages(this.response);
     }
 
     private handleSuccessfulUsages(response): void {
@@ -79,14 +96,17 @@ export class EtatSoldeFilterComponent {
     }
 
     async GetAllFormules() {
-        this.response = await handle(() => this.settingService.GetAllFormules({}), this.toastrService, this.loadingBar);
-        if(this.response?.data) this.handleSuccessfulFormules(this.response);
+        this.response = await handle(
+            () => this.settingService.GetAllFormules({}),
+            this.toastrService,
+            this.loadingBar
+        );
+        if (this.response?.data) this.handleSuccessfulFormules(this.response);
     }
 
     private handleSuccessfulFormules(response): void {
         this.listFormule = response['data'];
     }
-
 
     public initFormFilter() {
         this.formFilter = this.fb.group({
@@ -94,22 +114,40 @@ export class EtatSoldeFilterComponent {
             niveau_deux_uuid: [null],
             niveau_trois_uuid: [null],
             usage_id: [null],
-            imsi: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
-            msisdn: [null, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
+            imsi: [
+                null,
+                [
+                    Validators.pattern('^[0-9]*$'),
+                    Validators.maxLength(15),
+                    Validators.minLength(15),
+                ],
+            ],
+            msisdn: [
+                null,
+                [
+                    Validators.pattern('^[0-9]*$'),
+                    Validators.maxLength(10),
+                    Validators.minLength(10),
+                ],
+            ],
             zone_trafic: [null],
             adresse_ip: [null],
             statut: [null],
-            point_emplacement: [null]
-        })
-        this.formFilter.get("msisdn").valueChanges.subscribe((value) => {
-          if (value && value.length > 10) {
-            this.formFilter.get("msisdn").setValue(value.slice(0, 10), { emitEvent: false });
-          }
+            point_emplacement: [null],
         });
-        this.formFilter.get("imsi").valueChanges.subscribe((value) => {
-          if (value && value.length > 15) {
-            this.formFilter.get("imsi").setValue(value.slice(0, 15), { emitEvent: false });
-          }
+        this.formFilter.get('msisdn').valueChanges.subscribe((value) => {
+            if (value && value.length > 10) {
+                this.formFilter
+                    .get('msisdn')
+                    .setValue(value.slice(0, 10), { emitEvent: false });
+            }
+        });
+        this.formFilter.get('imsi').valueChanges.subscribe((value) => {
+            if (value && value.length > 15) {
+                this.formFilter
+                    .get('imsi')
+                    .setValue(value.slice(0, 15), { emitEvent: false });
+            }
         });
     }
 

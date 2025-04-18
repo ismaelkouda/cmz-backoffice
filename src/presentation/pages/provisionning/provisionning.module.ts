@@ -15,14 +15,12 @@ import { CommandeFormComponent } from './feature/commande-form/commande-form.com
 import { CommandeSimComponent } from './ui/commande-sim/commande-sim.component';
 import { LigneCreditComponent } from './ui/ligne-credit/ligne-credit.component';
 
-
 @NgModule({
     imports: [
         SharedModule,
         ProvisionningRoutingModule,
         NgxPaginationModule,
         NgxCaptchaModule,
-        
     ],
     declarations: [
         CommandeSimComponent,
@@ -36,4 +34,4 @@ import { LigneCreditComponent } from './ui/ligne-credit/ligne-credit.component';
         CardStockComponent,
     ],
 })
-export class ProvisionningModule { }
+export class ProvisionningModule {}

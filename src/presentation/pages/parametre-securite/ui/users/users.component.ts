@@ -72,18 +72,32 @@ export class UsersComponent implements OnInit {
     }
 
     public onChangePassword(data: Object): void {
-        const title = "Réinitialisation de mot de passe";
-        const htmlMessage = "L'utilisateur <u>{nom} {prenoms}</u> recevra <br> un mail de réinitialisation de son mot de passe";
-        Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass }).fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, title: title, html: htmlMessage.replace("{nom}", data["nom"]).replace("{prenoms}", data["prenoms"]) })
+        const title = 'Réinitialisation de mot de passe';
+        const htmlMessage =
+            "L'utilisateur <u>{nom} {prenoms}</u> recevra <br> un mail de réinitialisation de son mot de passe";
+        Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass })
+            .fire({
+                ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message,
+                title: title,
+                html: htmlMessage
+                    .replace('{nom}', data['nom'])
+                    .replace('{prenoms}', data['prenoms']),
+            })
             .then((result) => {
                 if (result.isConfirmed) {
-                    handle(() => this.parametreSecuriteService.handleChangePassword({id: data?.["id"]}), this.toastrService, this.loadingBarService)
-                        .then((response: any) => {
-                            if (response.error === false) {
-                                this.toastrService.success(response.message);
-                                this.GetAllUsers();
-                            }
-                        });
+                    handle(
+                        () =>
+                            this.parametreSecuriteService.handleChangePassword({
+                                id: data?.['id'],
+                            }),
+                        this.toastrService,
+                        this.loadingBarService
+                    ).then((response: any) => {
+                        if (response.error === false) {
+                            this.toastrService.success(response.message);
+                            this.GetAllUsers();
+                        }
+                    });
                 }
             });
     }

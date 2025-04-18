@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { StatBoxComponent } from './stat-box.component';
 
 describe('StatBoxComponent', () => {
-  let component: StatBoxComponent;
-  let fixture: ComponentFixture<StatBoxComponent>;
+    let component: StatBoxComponent;
+    let fixture: ComponentFixture<StatBoxComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ StatBoxComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [StatBoxComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(StatBoxComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(StatBoxComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

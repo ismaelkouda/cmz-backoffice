@@ -1,2 +1,1 @@
-export interface indicatorsAlarmsFilterInterface {
-}
+export interface indicatorsAlarmsFilterInterface {}

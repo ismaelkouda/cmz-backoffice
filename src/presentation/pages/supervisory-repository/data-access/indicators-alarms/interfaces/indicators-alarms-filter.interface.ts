@@ -1,4 +1,4 @@
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl } from '@angular/forms';
 
 export interface dataBalanceStatusFilterInterface {
     imsi: AbstractControl<string>;
@@ -18,4 +18,3 @@ export interface dataBalanceStatusFilterInterface {
     point_emplacement: AbstractControl<string>;
     zone_trafic: AbstractControl<string>;
 }
-

@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { DemandeFormuleChangeComponent } from './demande-formule-change.component';
 
 describe('DemandeFormuleChangeComponent', () => {
-  let component: DemandeFormuleChangeComponent;
-  let fixture: ComponentFixture<DemandeFormuleChangeComponent>;
+    let component: DemandeFormuleChangeComponent;
+    let fixture: ComponentFixture<DemandeFormuleChangeComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DemandeFormuleChangeComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [DemandeFormuleChangeComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DemandeFormuleChangeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(DemandeFormuleChangeComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

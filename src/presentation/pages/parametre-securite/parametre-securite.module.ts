@@ -15,7 +15,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ParametreSecuriteRoutingModule } from './parametre-securite-routing.module';
 
 import { FormsProfilApiService } from './data-access/services/forms-profil/forms-profil.service';
-;
 import { TreeSelectModule } from 'primeng/treeselect';
 import { TreeTableModule } from 'primeng/treetable';
 
@@ -27,15 +26,15 @@ import { TreeTableModule } from 'primeng/treetable';
         VisualisationComponent,
         FormsProfilComponent,
         AdminFormComponent,
-        JournalAuthenticationComponent
+        JournalAuthenticationComponent,
     ],
     imports: [
         SharedModule,
         ParametreSecuriteRoutingModule,
         NgxPaginationModule,
-            TreeSelectModule,
-            TreeTableModule,
+        TreeSelectModule,
+        TreeTableModule,
     ],
-    providers: [FormsProfilApiService]
+    providers: [FormsProfilApiService],
 })
-export class ParametreSecuriteModule { }
+export class ParametreSecuriteModule {}

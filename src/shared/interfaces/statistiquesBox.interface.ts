@@ -9,6 +9,6 @@ export interface IStatistiquesBox {
     taux?: number;
     icon?: string;
     width?: String;
-    routerFilter?: () => void
+    routerFilter?: () => void;
     iframeLink?: string;
 }

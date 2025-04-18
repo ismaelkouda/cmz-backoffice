@@ -7,9 +7,9 @@ export interface ProfilApplicantInterface {
     statut: string;
     created_at: string;
     updated_at: string;
-  }
-  
-  export interface ApplicantInterface {
+}
+
+export interface ApplicantInterface {
     id: number;
     matricule: string;
     profil_user_id: number;
@@ -26,10 +26,10 @@ export interface ProfilApplicantInterface {
     updated_at: string;
     nom_complet: string;
     profil_user: ProfilApplicantInterface;
-  }
-  
-  export interface ApiResponseApplicantInterface {
+}
+
+export interface ApiResponseApplicantInterface {
     error: boolean;
     message: string;
     data: ApplicantInterface[];
-  }
+}

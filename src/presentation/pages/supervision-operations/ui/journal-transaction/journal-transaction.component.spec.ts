@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { JournalTransactionComponent } from './journal-transaction.component';
 
 describe('JournalTransactionComponent', () => {
-  let component: JournalTransactionComponent;
-  let fixture: ComponentFixture<JournalTransactionComponent>;
+    let component: JournalTransactionComponent;
+    let fixture: ComponentFixture<JournalTransactionComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ JournalTransactionComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [JournalTransactionComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(JournalTransactionComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(JournalTransactionComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

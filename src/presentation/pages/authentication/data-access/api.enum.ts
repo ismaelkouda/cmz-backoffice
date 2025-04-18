@@ -3,6 +3,5 @@ export const enum EndPointUrl {
     LIEN_GRAPHANA_VARIABLES = 'parametres-securite/variables',
     AUTHENTICATION = 'login',
     FORGOT_PASSWORD = 'forgot-password',
-    RESET_PASSWORD = 'reset-password'
+    RESET_PASSWORD = 'reset-password',
 }
-

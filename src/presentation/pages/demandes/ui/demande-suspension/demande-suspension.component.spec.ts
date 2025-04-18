@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { DemandeSuspensionComponent } from './demande-suspension.component';
 
 describe('DemandeSuspensionComponent', () => {
-  let component: DemandeSuspensionComponent;
-  let fixture: ComponentFixture<DemandeSuspensionComponent>;
+    let component: DemandeSuspensionComponent;
+    let fixture: ComponentFixture<DemandeSuspensionComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DemandeSuspensionComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [DemandeSuspensionComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DemandeSuspensionComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(DemandeSuspensionComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -2,13 +2,18 @@ import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { FormatFormData } from 'src/shared/functions/formatFormData.function';
 import { BADGE_STAUT_PAIEMENT } from './../../constants/badge-statut-paiement';
 import { IFormFolderValues } from './data-access/form-folder-values.interface';
-import { EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { Component } from "@angular/core";
-import { TreatmentDemands } from "../../interfaces/treatment-demands.interface";
-import { getRapportCodeStyle } from "../../functions/rapport-code-style.function";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { SharedService } from "../../services/shared.service";
-import { Folder } from "../../interfaces/folder";
+import { EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { TreatmentDemands } from '../../interfaces/treatment-demands.interface';
+import { getRapportCodeStyle } from '../../functions/rapport-code-style.function';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
+import { SharedService } from '../../services/shared.service';
+import { Folder } from '../../interfaces/folder';
 import { DetailsDemand } from './data-access/form-folder.interface';
 import { BADGE_ETAPE } from '../../constants/badge-etape.constant';
 import { BADGE_ETAT } from '../../constants/badge-etat.contant';
@@ -25,15 +30,15 @@ import { TreatmentMonitoringApiService } from '../../../presentation/pages/overs
 const Swal = require('sweetalert2');
 
 @Component({
-    selector: "app-form-folder",
-    templateUrl: "./form-folder.component.html",
-    styleUrls: [`./form-folder.component.scss`]
+    selector: 'app-form-folder',
+    templateUrl: './form-folder.component.html',
+    styleUrls: [`./form-folder.component.scss`],
 })
-
 export class FormFolderComponent implements OnInit {
     @Input() demandSelected: Folder;
     @Input() typeTreatment: TreatmentDemands;
-    @Output() visibleFormDossier: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() visibleFormDossier: EventEmitter<boolean> =
+        new EventEmitter<boolean>();
     public BADGE_STAUT_PAIEMENT = BADGE_STAUT_PAIEMENT;
     public formTreatmentDemand!: FormGroup<IFormFolderValues>;
     public detailsDemand: DetailsDemand;
@@ -43,14 +48,21 @@ export class FormFolderComponent implements OnInit {
     public listUsages$: Observable<Array<UsageInterface>>;
     public listFormulas: Array<any> = [];
 
-    constructor(private sharedService: SharedService, private fb: FormBuilder,
-        private toastrService: ToastrService, private loadingBarService: LoadingBarService,
+    constructor(
+        private sharedService: SharedService,
+        private fb: FormBuilder,
+        private toastrService: ToastrService,
+        private loadingBarService: LoadingBarService,
         private supervisionOperationService: SupervisionOperationService,
-        private translate: TranslateService, private treatmentMonitoringApiService: TreatmentMonitoringApiService) { }
+        private translate: TranslateService,
+        private treatmentMonitoringApiService: TreatmentMonitoringApiService
+    ) {}
 
     ngOnInit(): void {
-        console.log('this.demandSelected', this.demandSelected)
-        this.sharedService.fetchDetailsDemand(this.demandSelected?.numero_demande);
+        console.log('this.demandSelected', this.demandSelected);
+        this.sharedService.fetchDetailsDemand(
+            this.demandSelected?.numero_demande
+        );
         this.sharedService.getDetailsDemand().subscribe((value) => {
             this.detailsDemand = value;
             this.initFormTreatmentMasse();
@@ -66,36 +78,60 @@ export class FormFolderComponent implements OnInit {
     private initFormTreatmentMasse(): void {
         this.formTreatmentDemand = this.fb.group<IFormFolderValues>({
             formule_uuid: new FormControl<string>(
-                this.isEditableForm ?
-                    { value: this.detailsDemand?.formule_uuid, disabled: false } :
-                    { value: this.detailsDemand?.formule, disabled: true },
-                { validators: this.demandSelected.operation === OperationTransaction.ACTIVATION ? Validators.required : null, nonNullable: true }
+                this.isEditableForm
+                    ? {
+                          value: this.detailsDemand?.formule_uuid,
+                          disabled: false,
+                      }
+                    : { value: this.detailsDemand?.formule, disabled: true },
+                {
+                    validators:
+                        this.demandSelected.operation ===
+                        OperationTransaction.ACTIVATION
+                            ? Validators.required
+                            : null,
+                    nonNullable: true,
+                }
             ),
             usage_id: new FormControl<string | number>(
-                this.isEditableForm ?
-                    { value: this.detailsDemand?.usage_id, disabled: false } :
-                    { value: this.detailsDemand?.usage_nom, disabled: true },
-                { validators: this.demandSelected.operation === OperationTransaction.ACTIVATION ? Validators.required : null, nonNullable: true }
+                this.isEditableForm
+                    ? { value: this.detailsDemand?.usage_id, disabled: false }
+                    : { value: this.detailsDemand?.usage_nom, disabled: true },
+                {
+                    validators:
+                        this.demandSelected.operation ===
+                        OperationTransaction.ACTIVATION
+                            ? Validators.required
+                            : null,
+                    nonNullable: true,
+                }
             ),
             montant_formule: new FormControl<number>(
                 { value: this.detailsDemand?.montant_formule, disabled: true },
-                { nonNullable: true, validators: this.detailsDemand.operation === OperationTransaction.INTEGRATION ? Validators.required : null }
+                {
+                    nonNullable: true,
+                    validators:
+                        this.detailsDemand.operation ===
+                        OperationTransaction.INTEGRATION
+                            ? Validators.required
+                            : null,
+                }
             ),
             description: new FormControl<string>(
                 { value: this.detailsDemand?.description, disabled: false },
                 { validators: Validators.required, nonNullable: true }
             ),
-            accepte: new FormControl<string>(
-                this.detailsDemand?.etat_cloture,
-                { nonNullable: true, validators: this.typeTreatment.cloturer ? Validators.required : null }
-            ),
+            accepte: new FormControl<string>(this.detailsDemand?.etat_cloture, {
+                nonNullable: true,
+                validators: this.typeTreatment.cloturer
+                    ? Validators.required
+                    : null,
+            }),
             commentaire: new FormControl<string>(
                 this.detailsDemand?.commentaire_cloture,
                 { nonNullable: true }
             ),
-            sims_file: new FormControl<File | null>(
-                null
-            ),
+            sims_file: new FormControl<File | null>(null),
             commentaire_traitement: new FormControl<string>(
                 this.detailsDemand?.commentaire_traitement,
                 { nonNullable: true }
@@ -110,28 +146,56 @@ export class FormFolderComponent implements OnInit {
             ),
             notation_cloture: new FormControl<string>(
                 this.detailsDemand?.notation_cloture,
-                { validators: this.isRequireNotationCloture ? Validators.required : null, nonNullable: true }
+                {
+                    validators: this.isRequireNotationCloture
+                        ? Validators.required
+                        : null,
+                    nonNullable: true,
+                }
             ),
             operation: new FormControl<string>(
                 { value: this.detailsDemand?.operation, disabled: true },
-                { nonNullable: true }),
+                { nonNullable: true }
+            ),
             nb_demande_soumises: new FormControl<number>(
-                { value: this.detailsDemand?.nb_demande_soumises, disabled: true },
-                { validators: [Validators.required, Validators.min(1), Validators.pattern(/^\d+(\.\d{1,2})?$/)], nonNullable: true }),
+                {
+                    value: this.detailsDemand?.nb_demande_soumises,
+                    disabled: true,
+                },
+                {
+                    validators: [
+                        Validators.required,
+                        Validators.min(1),
+                        Validators.pattern(/^\d+(\.\d{1,2})?$/),
+                    ],
+                    nonNullable: true,
+                }
+            ),
             prix_unitaire: new FormControl<number>(
-                { value: this.detailsDemand?.facture?.prix_unitaire, disabled: true },
-                { nonNullable: true }),
+                {
+                    value: this.detailsDemand?.facture?.prix_unitaire,
+                    disabled: true,
+                },
+                { nonNullable: true }
+            ),
             prix_ht: new FormControl<number>(
                 { value: this.detailsDemand?.facture?.prix_ht, disabled: true },
-                { nonNullable: true }),
+                { nonNullable: true }
+            ),
             prix_ttc: new FormControl<number>(
-                { value: this.detailsDemand?.facture?.prix_ttc ?? 0, disabled: true },
-                { nonNullable: true }),
-            justificatif: new FormControl<File | null>(
-                null,
-                { nonNullable: true })
+                {
+                    value: this.detailsDemand?.facture?.prix_ttc ?? 0,
+                    disabled: true,
+                },
+                { nonNullable: true }
+            ),
+            justificatif: new FormControl<File | null>(null, {
+                nonNullable: true,
+            }),
         });
-        this.formTreatmentDemand.get('accepte')?.valueChanges.subscribe(this.handleAccepteChange.bind(this));
+        this.formTreatmentDemand
+            .get('accepte')
+            ?.valueChanges.subscribe(this.handleAccepteChange.bind(this));
 
         if (this.typeTreatment.visualiser) {
             this.formTreatmentDemand.disable();
@@ -169,17 +233,19 @@ export class FormFolderComponent implements OnInit {
     // }
 
     private isRequiredFieldsetDemand(value: 'traiter' | 'cloturer') {
-        this.isRequiredFieldsetAccepte(value)
+        this.isRequiredFieldsetAccepte(value);
     }
 
     private isRequiredFieldsetAccepte(value: 'traiter' | 'cloturer') {
         if (value === 'cloturer') {
-            this.formTreatmentDemand.get("accepte")?.setValidators([Validators.required]);
+            this.formTreatmentDemand
+                .get('accepte')
+                ?.setValidators([Validators.required]);
         } else {
-            this.formTreatmentDemand.get("accepte")?.clearValidators();
-            this.formTreatmentDemand.get("accepte")?.disabled;
+            this.formTreatmentDemand.get('accepte')?.clearValidators();
+            this.formTreatmentDemand.get('accepte')?.disabled;
         }
-        this.formTreatmentDemand.get("accepte")?.updateValueAndValidity();
+        this.formTreatmentDemand.get('accepte')?.updateValueAndValidity();
     }
 
     private handleAccepteChange(value: 'oui' | 'non'): void {
@@ -188,32 +254,67 @@ export class FormFolderComponent implements OnInit {
 
     private isRequiredComment(value: 'oui' | 'non') {
         if (value === 'non') {
-            this.formTreatmentDemand.get("commentaire")?.setValidators([Validators.required]);
+            this.formTreatmentDemand
+                .get('commentaire')
+                ?.setValidators([Validators.required]);
         } else {
-            this.formTreatmentDemand.get("commentaire")?.clearValidators();
-            this.formTreatmentDemand.get("commentaire")?.disabled;
+            this.formTreatmentDemand.get('commentaire')?.clearValidators();
+            this.formTreatmentDemand.get('commentaire')?.disabled;
         }
-        this.formTreatmentDemand.get("commentaire")?.updateValueAndValidity();
+        this.formTreatmentDemand.get('commentaire')?.updateValueAndValidity();
     }
 
     async onUpdateDemand(dataToSend: {}): Promise<void> {
-        dataToSend = { ...this.formTreatmentDemand.value, numero_demande: this.demandSelected?.numero_demande };
-        const translatedMessage = this.translate.instant('WOULD_YOU_LIKE_TO_MODIFY_THE_REQUEST');
+        dataToSend = {
+            ...this.formTreatmentDemand.value,
+            numero_demande: this.demandSelected?.numero_demande,
+        };
+        const translatedMessage = this.translate.instant(
+            'WOULD_YOU_LIKE_TO_MODIFY_THE_REQUEST'
+        );
         const htmlMessage = `${translatedMessage} <span class="badge badge-success fs-6">${this.demandSelected.numero_demande}</span> ?`;
-        const result = await Swal.fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: htmlMessage })
+        const result = await Swal.fire({
+            ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message,
+            html: htmlMessage,
+        });
         if (result.isConfirmed) {
-            const response: any = await handle(() => this.supervisionOperationService.PostPatrimoineSimTransactionsSurSimUpdate(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
+            const response: any = await handle(
+                () =>
+                    this.supervisionOperationService.PostPatrimoineSimTransactionsSurSimUpdate(
+                        FormatFormData(dataToSend)
+                    ),
+                this.toastrService,
+                this.loadingBarService
+            );
             if (response?.error === false) this.successHandle(response);
         }
     }
 
     async onClosedDemand(dataToSend: {}): Promise<void> {
-        dataToSend = { accepte: this.formTreatmentDemand.get('accepte')?.value, numero_demande: this.demandSelected?.numero_demande, commentaire: this.formTreatmentDemand.get('commentaire')?.value, notation_cloture: this.formTreatmentDemand.get('notation_cloture')?.value };
-        const translatedMessage = this.translate.instant('WOULD_YOU_LIKE_TO_CLOSE_THE_REQUEST');
+        dataToSend = {
+            accepte: this.formTreatmentDemand.get('accepte')?.value,
+            numero_demande: this.demandSelected?.numero_demande,
+            commentaire: this.formTreatmentDemand.get('commentaire')?.value,
+            notation_cloture:
+                this.formTreatmentDemand.get('notation_cloture')?.value,
+        };
+        const translatedMessage = this.translate.instant(
+            'WOULD_YOU_LIKE_TO_CLOSE_THE_REQUEST'
+        );
         const htmlMessage = `${translatedMessage} <span class="badge badge-success fs-6">${this.demandSelected.numero_demande}</span> ?`;
-        const result = await Swal.fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: htmlMessage })
+        const result = await Swal.fire({
+            ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message,
+            html: htmlMessage,
+        });
         if (result.isConfirmed) {
-            const response: any = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(FormatFormData(dataToSend)), this.toastrService, this.loadingBarService);
+            const response: any = await handle(
+                () =>
+                    this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisCloturerDemandeService(
+                        FormatFormData(dataToSend)
+                    ),
+                this.toastrService,
+                this.loadingBarService
+            );
             if (response?.error === false) this.successHandle(response);
         }
     }
@@ -222,43 +323,58 @@ export class FormFolderComponent implements OnInit {
         return this.supervisionOperationService.HandleFormatTitle(title);
     }
 
-    public onLetDownDemand(dataToSend = { numero_demande: this.demandSelected?.numero_demande }) {
-        const YOU_ARE_ABOUT_TO_ABANDON_THE_REQUEST = this.translate.instant('YOU_ARE_ABOUT_TO_ABANDON_THE_REQUEST');
+    public onLetDownDemand(
+        dataToSend = { numero_demande: this.demandSelected?.numero_demande }
+    ) {
+        const YOU_ARE_ABOUT_TO_ABANDON_THE_REQUEST = this.translate.instant(
+            'YOU_ARE_ABOUT_TO_ABANDON_THE_REQUEST'
+        );
         const COMMENT = this.translate.instant('COMMENT');
         let response: any;
-        Swal.mixin({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass }).fire({
-            title: "Êtes-vous sûr ?",
-            html: `<h2 class="badge badge-success fs-4">${YOU_ARE_ABOUT_TO_ABANDON_THE_REQUEST} !</h2>`,
-            input: 'text',
-            inputPlaceholder: `Ex: ${COMMENT}...`,
-            inputAttributes: { autocapitalize: 'off', autocomplete: 'off' },
-            showCancelButton: true,
-            cancelButtonText: "Annuler        ",
-            confirmButtonText: "Confirmer",
-            confirmButtonColor: "#569C5B",
-            cancelButtonColor: "#dc3545",
-            showLoaderOnConfirm: true,
-            backdrop: false,
-            width: 800,
-            preConfirm: async (commentaire) => {
-                try {
-                    response = await handle(() => this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisAbandonnerDemandeService({ ...dataToSend, commentaire: commentaire }), this.toastrService, this.loadingBarService)
-                    if (!response.ok) {
-                        // return Swal.showValidationMessage(`${JSON.stringify(await response.message)}`);
-                        if (!response?.error) this.successHandle(response)
+        Swal.mixin({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass })
+            .fire({
+                title: 'Êtes-vous sûr ?',
+                html: `<h2 class="badge badge-success fs-4">${YOU_ARE_ABOUT_TO_ABANDON_THE_REQUEST} !</h2>`,
+                input: 'text',
+                inputPlaceholder: `Ex: ${COMMENT}...`,
+                inputAttributes: { autocapitalize: 'off', autocomplete: 'off' },
+                showCancelButton: true,
+                cancelButtonText: 'Annuler        ',
+                confirmButtonText: 'Confirmer',
+                confirmButtonColor: '#569C5B',
+                cancelButtonColor: '#dc3545',
+                showLoaderOnConfirm: true,
+                backdrop: false,
+                width: 800,
+                preConfirm: async (commentaire) => {
+                    try {
+                        response = await handle(
+                            () =>
+                                this.supervisionOperationService.PostSupervisionOperationsTraitementsSuivisAbandonnerDemandeService(
+                                    { ...dataToSend, commentaire: commentaire }
+                                ),
+                            this.toastrService,
+                            this.loadingBarService
+                        );
+                        if (!response.ok) {
+                            // return Swal.showValidationMessage(`${JSON.stringify(await response.message)}`);
+                            if (!response?.error) this.successHandle(response);
+                        }
+                        // return response.message;
+                    } catch (error) {
+                        const SOMETHING_WENT_WRONG = this.translate.instant(
+                            'SOMETHING_WENT_WRONG'
+                        );
+                        Swal.showValidationMessage(`${SOMETHING_WENT_WRONG}`);
                     }
-                    // return response.message;
-                } catch (error) {
-                    const SOMETHING_WENT_WRONG = this.translate.instant('SOMETHING_WENT_WRONG');
-                    Swal.showValidationMessage(`${SOMETHING_WENT_WRONG}`);
+                },
+                allowOutsideClick: () => !Swal.isLoading(),
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    this.successHandle(response);
                 }
-            },
-            allowOutsideClick: () => !Swal.isLoading()
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.successHandle(response);
-            }
-        })
+            });
     }
 
     private successHandle(response) {
@@ -266,15 +382,18 @@ export class FormFolderComponent implements OnInit {
         this.handleCloseModal();
         combineLatest([
             this.sharedService.getDataFilterDemands(),
-            this.sharedService.getDataNbrPageDemands()
+            this.sharedService.getDataNbrPageDemands(),
         ]).subscribe(([filterData, nbrPageData]) => {
             this.sharedService.fetchDemands(filterData, nbrPageData);
         });
         combineLatest([
             this.treatmentMonitoringApiService.getDataFilterTreatmentMonitoring(),
-            this.treatmentMonitoringApiService.getDataNbrPageTreatmentMonitoring()
+            this.treatmentMonitoringApiService.getDataNbrPageTreatmentMonitoring(),
         ]).subscribe(([filterData, nbrPageData]) => {
-            this.treatmentMonitoringApiService.fetchTreatmentMonitoring(filterData, nbrPageData);
+            this.treatmentMonitoringApiService.fetchTreatmentMonitoring(
+                filterData,
+                nbrPageData
+            );
         });
     }
 
@@ -292,9 +411,11 @@ export class FormFolderComponent implements OnInit {
         switch (true) {
             case details.traitement === BADGE_ETAT.EN_ATTENTE:
                 return details.created_at;
-            case details.etat_soumission === BADGE_ETAT.RECU || details.etat_soumission === BADGE_ETAT.EN_COURS:
+            case details.etat_soumission === BADGE_ETAT.RECU ||
+                details.etat_soumission === BADGE_ETAT.EN_COURS:
                 return details.acquitte_a ?? '-- : --';
-            case details.traitement === BADGE_ETAT.APPROUVE || details.traitement === BADGE_ETAT.REJETE:
+            case details.traitement === BADGE_ETAT.APPROUVE ||
+                details.traitement === BADGE_ETAT.REJETE:
                 return details.approuve_a ?? '-- : --';
             default:
                 return details.created_at;
@@ -302,7 +423,10 @@ export class FormFolderComponent implements OnInit {
     }
 
     private get isRequireNotationCloture(): boolean {
-        return this.demandSelected?.statut === BADGE_ETAPE.FINALISATEUR && this.demandSelected?.traitement === BADGE_ETAT.EFFECTUE
+        return (
+            this.demandSelected?.statut === BADGE_ETAPE.FINALISATEUR &&
+            this.demandSelected?.traitement === BADGE_ETAT.EFFECTUE
+        );
     }
 
     public get isApproved(): boolean {
@@ -318,22 +442,30 @@ export class FormFolderComponent implements OnInit {
     }
 
     public get OnGetRapportCodeStyle(): string {
-        return getRapportCodeStyle(this.detailsDemand)
+        return getRapportCodeStyle(this.detailsDemand);
     }
 
     public displayBoutonProofPaiement(): boolean {
-        return this.detailsDemand?.type_paiement === "différé";
+        return this.detailsDemand?.type_paiement === 'différé';
     }
 
     public downloadFile(typeFile: 'justificatif' | 'recu-paiement') {
         switch (typeFile) {
-            case 'justificatif': window.open(this.detailsDemand?.justificatif); break;
-            case 'recu-paiement': window.open(this.detailsDemand?.recu_paiement); break;
+            case 'justificatif':
+                window.open(this.detailsDemand?.justificatif);
+                break;
+            case 'recu-paiement':
+                window.open(this.detailsDemand?.recu_paiement);
+                break;
         }
     }
 
     public get canIdentify(): boolean {
-        return (this.detailsDemand?.etat_traitement === "partiel" || this.detailsDemand?.etat_traitement === "total") && this.detailsDemand?.etat_finalisation === "clôturé";
+        return (
+            (this.detailsDemand?.etat_traitement === 'partiel' ||
+                this.detailsDemand?.etat_traitement === 'total') &&
+            this.detailsDemand?.etat_finalisation === 'clôturé'
+        );
     }
 
     public handleCloseModal(): void {

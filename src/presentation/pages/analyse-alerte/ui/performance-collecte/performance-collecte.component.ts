@@ -5,41 +5,43 @@ import { Title } from '@angular/platform-browser';
 import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
 
 @Component({
-  selector: 'app-performance-collecte',
-  templateUrl: './performance-collecte.component.html',
-  styleUrls: ['./performance-collecte.component.scss']
+    selector: 'app-performance-collecte',
+    templateUrl: './performance-collecte.component.html',
+    styleUrls: ['./performance-collecte.component.scss'],
 })
 export class PerformanceCollecteComponent implements OnInit {
+    public isMaximized: boolean = false;
+    public showIframe: boolean = false;
+    public visualUrl: string;
+    public title =
+        'Performance collecte - Système de Gestion de Collecte Centralisée';
+    constructor(
+        private router: Router,
+        private titleService: Title,
+        private mappingService: MappingService,
+        private storage: EncodingDataService
+    ) {
+        this.visualUrl = JSON.parse(
+            this.storage.getData('variables')
+        ).dashboardAppro;
+        this.titleService.setTitle(`${this.title}`);
+    }
 
-  public isMaximized: boolean = false;
-  public showIframe: boolean = false;
-  public visualUrl: string;
-  public title = 'Performance collecte - Système de Gestion de Collecte Centralisée';
-  constructor(
-    private router: Router,
-    private titleService: Title,
-    private mappingService: MappingService,
-    private storage: EncodingDataService,
-  ) {
-    this.visualUrl = JSON.parse(this.storage.getData('variables')).dashboardAppro;
-    this.titleService.setTitle(`${this.title}`);
-  }
+    ngOnInit() {
+        this.onVisualiserTrafic();
+    }
 
-  ngOnInit() {
-    this.onVisualiserTrafic();
-  }
+    public onVisualiserTrafic() {
+        this.showIframe = true;
+        this.onDialogMaximized(true);
+    }
+    public hideDialog() {
+        this.router.navigateByUrl('/zone-trafic/zone-exploitation');
+    }
 
-
-  public onVisualiserTrafic() {
-    this.showIframe = true;
-    this.onDialogMaximized(true);
-  }
-  public hideDialog() {
-    this.router.navigateByUrl('/zone-trafic/zone-exploitation')
-  }
-
-  public onDialogMaximized(event) {
-    event.maximized ? (this.isMaximized = true) : (this.isMaximized = false);
-  }
-
+    public onDialogMaximized(event) {
+        event.maximized
+            ? (this.isMaximized = true)
+            : (this.isMaximized = false);
+    }
 }

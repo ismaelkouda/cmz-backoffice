@@ -32,5 +32,5 @@ export const LIST_CODE_RAPPORT = [
 ];
 export const LIST_AFFECTE = [
     { name: 'affecté', code: 'affecte' },
-    { name: 'auto-affecté', code: 'auto affecte' }
-]
+    { name: 'auto-affecté', code: 'auto affecte' },
+];

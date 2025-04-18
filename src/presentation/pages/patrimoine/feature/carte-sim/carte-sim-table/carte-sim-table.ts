@@ -13,5 +13,5 @@ export const cols: Array<Column> = [
     { type: 'text', field: 'point_emplacement', header: 'Emplacement' },
     { type: 'text', field: 'msisdn', header: 'MSISDN' },
     { type: 'text', field: 'imsi', header: 'IMSI' },
-    { type: 'text', field: 'statut', header: 'Statut' }
+    { type: 'text', field: 'statut', header: 'Statut' },
 ];

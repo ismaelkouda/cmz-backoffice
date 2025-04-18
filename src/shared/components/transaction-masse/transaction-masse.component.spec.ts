@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { TransactionMasseComponent } from './transaction-masse.component';
 
 describe('TransactionMasseComponent', () => {
-  let component: TransactionMasseComponent;
-  let fixture: ComponentFixture<TransactionMasseComponent>;
+    let component: TransactionMasseComponent;
+    let fixture: ComponentFixture<TransactionMasseComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TransactionMasseComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [TransactionMasseComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TransactionMasseComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(TransactionMasseComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

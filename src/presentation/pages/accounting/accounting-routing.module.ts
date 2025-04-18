@@ -15,80 +15,80 @@ export const MY_RELOADS = 'reload-my-account';
 export const FORM = 'form';
 
 const routes: Routes = [
-  {
-    path: INVOICE,
-    children: [
-      {
-        path: '',
-        component: InvoiceComponent
-      },
-      {
-        path: `:number_demand`,
-        component: InvoiceFormComponent
-      },
-      {
-        path: '**',
-        redirectTo: ''
-      },
-    ],
-  },
-  {
-    path: PAYMENT,
-    children: [
-      {
-        path: '',
-        component: PaymentComponent
-      },
-      {
-        path: `:number_demand`,
-        component: InvoiceFormComponent
-      },
-      {
-        path: '**',
-        redirectTo: ''
-      },
-    ],
-  },
-  {
-    path: MY_ACCOUNT,
-    children: [
-      {
-        path: '',
-        component: MyAccountComponent
-      },
-      {
-        path: '**',
-        redirectTo: ''
-      },
-    ],
-  },
-  {
-    path: MY_RELOADS,
-    children: [
-      {
-        path: '',
-        component: ReloadMyAccountComponent
-      },
-      {
-        path: ":transaction",
-        component: FormReloadMyAccountComponent
-      },
-      {
-        path: '**',
-        redirectTo: ''
-      },
-    ],
-  },
-  {
-    canActivate: [PagesGuard],
-    data: {
-      allowedPaths: [`/${INVOICE}`, `/${MY_ACCOUNT}`]
-    }
-  }
+    {
+        path: INVOICE,
+        children: [
+            {
+                path: '',
+                component: InvoiceComponent,
+            },
+            {
+                path: `:number_demand`,
+                component: InvoiceFormComponent,
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+    },
+    {
+        path: PAYMENT,
+        children: [
+            {
+                path: '',
+                component: PaymentComponent,
+            },
+            {
+                path: `:number_demand`,
+                component: InvoiceFormComponent,
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+    },
+    {
+        path: MY_ACCOUNT,
+        children: [
+            {
+                path: '',
+                component: MyAccountComponent,
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+    },
+    {
+        path: MY_RELOADS,
+        children: [
+            {
+                path: '',
+                component: ReloadMyAccountComponent,
+            },
+            {
+                path: ':transaction',
+                component: FormReloadMyAccountComponent,
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+    },
+    {
+        canActivate: [PagesGuard],
+        data: {
+            allowedPaths: [`/${INVOICE}`, `/${MY_ACCOUNT}`],
+        },
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class AccountingRoutingModule { }
+export class AccountingRoutingModule {}

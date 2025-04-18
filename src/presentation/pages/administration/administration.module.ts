@@ -36,7 +36,7 @@ import { AffectationMembreComponent } from './features/affectation-membre/affect
         GroupesComponent,
         PointVentesComponent,
         ClientFormComponent,
-        AffectationMembreComponent
-    ]
+        AffectationMembreComponent,
+    ],
 })
-export class AdministrationModule { }
+export class AdministrationModule {}

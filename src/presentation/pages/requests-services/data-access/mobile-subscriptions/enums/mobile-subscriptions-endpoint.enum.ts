@@ -1,3 +1,1 @@
-export const enum mobileSubscriptionsEndpointEnum {
-  }
-  
+export const enum mobileSubscriptionsEndpointEnum {}

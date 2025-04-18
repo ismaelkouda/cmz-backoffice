@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { PriseEnChargeComponent } from './prise-en-charge.component';
 
 describe('PriseEnChargeComponent', () => {
-  let component: PriseEnChargeComponent;
-  let fixture: ComponentFixture<PriseEnChargeComponent>;
+    let component: PriseEnChargeComponent;
+    let fixture: ComponentFixture<PriseEnChargeComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PriseEnChargeComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [PriseEnChargeComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PriseEnChargeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(PriseEnChargeComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { ThirdLevelComponent } from './third-level.component';
 
 describe('ThirdLevelComponent', () => {
-  let component: ThirdLevelComponent;
-  let fixture: ComponentFixture<ThirdLevelComponent>;
+    let component: ThirdLevelComponent;
+    let fixture: ComponentFixture<ThirdLevelComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ThirdLevelComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [ThirdLevelComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ThirdLevelComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ThirdLevelComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

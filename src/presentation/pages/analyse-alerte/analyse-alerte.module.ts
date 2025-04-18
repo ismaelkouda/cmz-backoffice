@@ -11,17 +11,13 @@ import { CourbeMessageComponent } from './ui/courbe-message/courbe-message.compo
 import { SoldesSimComponent } from './ui/soldes-sim/soldes-sim.component';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    AnalyseAlerteRoutingModule,
-    NgxPaginationModule,
-  ],
-  declarations: [
-    CourbeMessageComponent,
-    AnalyseRejetComponent,
-    DetectionApproComponent,
-    PerformanceCollecteComponent,
-    SoldesSimComponent
-  ]
+    imports: [SharedModule, AnalyseAlerteRoutingModule, NgxPaginationModule],
+    declarations: [
+        CourbeMessageComponent,
+        AnalyseRejetComponent,
+        DetectionApproComponent,
+        PerformanceCollecteComponent,
+        SoldesSimComponent,
+    ],
 })
-export class AnalyseAlerteModule { }
+export class AnalyseAlerteModule {}

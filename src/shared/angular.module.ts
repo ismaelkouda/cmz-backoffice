@@ -5,11 +5,20 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 @NgModule({
-    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, NgbModule],
-    exports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, NgbModule],
-    providers: []
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgbModule,
+    ],
+    exports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgbModule,
+    ],
+    providers: [],
 })
-
-export class AngularModule {
-
-}
+export class AngularModule {}

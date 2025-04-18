@@ -13,16 +13,14 @@ import { WaitingQueueComponent } from '../overseeing-operations/ui/waiting-queue
 import { TreatmentMonitoringComponent } from '../overseeing-operations/ui/treatment-monitoring/treatment-monitoring.component';
 import { SimDemandComponent } from '../../../shared/components/sim-demand/sim-demand.component';
 
-
-export const DEMANDE_ROUTE = 'demandes'
-export const PRISE_EN_CHARGE_ROUTE = 'prise-en-charge'
-export const SUIVIE_TRAITEMENT_ROUTE = 'suivie-et-traitements'
-export const PERFORMANCE_SLA_ROUTE = 'performances-sla'
-export const CONTENCIEUX_ROUTE = 'reclamations'
-export const NOTIFY_ROUTE = 'centre-notifications'
-export const JOURNAL_TRANSACTION_ROUTE = 'journal-transaction'
-export const MESSAGERIE_ROUTE = 'messagerie'
-
+export const DEMANDE_ROUTE = 'demandes';
+export const PRISE_EN_CHARGE_ROUTE = 'prise-en-charge';
+export const SUIVIE_TRAITEMENT_ROUTE = 'suivie-et-traitements';
+export const PERFORMANCE_SLA_ROUTE = 'performances-sla';
+export const CONTENCIEUX_ROUTE = 'reclamations';
+export const NOTIFY_ROUTE = 'centre-notifications';
+export const JOURNAL_TRANSACTION_ROUTE = 'journal-transaction';
+export const MESSAGERIE_ROUTE = 'messagerie';
 
 const routes: Routes = [
     {
@@ -31,8 +29,8 @@ const routes: Routes = [
             {
                 component: AlarmesComponent,
                 // component: WaitingQueueComponent
-            }
-        ]
+            },
+        ],
     },
     {
         path: SUIVIE_TRAITEMENT_ROUTE,
@@ -43,58 +41,58 @@ const routes: Routes = [
                 // component: TreatmentMonitoringComponent
             },
             {
-                path: ":number_demand",
+                path: ':number_demand',
                 component: SimDemandComponent,
             },
-        ]
+        ],
     },
     {
         path: PRISE_EN_CHARGE_ROUTE,
         children: [
             {
-                component: PriseEnChargeComponent
-            }
-        ]
+                component: PriseEnChargeComponent,
+            },
+        ],
     },
     {
         path: PERFORMANCE_SLA_ROUTE,
         children: [
             {
-                component: PerformancesComponent
-            }
-        ]
+                component: PerformancesComponent,
+            },
+        ],
     },
     {
         path: CONTENCIEUX_ROUTE,
         children: [
             {
-                component: ContentieuxComponent
-            }
-        ]
+                component: ContentieuxComponent,
+            },
+        ],
     },
     {
         path: NOTIFY_ROUTE,
         children: [
             {
-                component: NotificationComponent
-            }
-        ]
+                component: NotificationComponent,
+            },
+        ],
     },
     {
         path: JOURNAL_TRANSACTION_ROUTE,
         children: [
             {
-                component: JournalTransactionComponent
-            }
-        ]
+                component: JournalTransactionComponent,
+            },
+        ],
     },
     {
         path: MESSAGERIE_ROUTE,
         children: [
             {
-                component: MessagerieComponent
-            }
-        ]
+                component: MessagerieComponent,
+            },
+        ],
     },
     // {
     //     path: '',
@@ -135,5 +133,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class SupervisionOperationsRoutingModule { }
-
+export class SupervisionOperationsRoutingModule {}

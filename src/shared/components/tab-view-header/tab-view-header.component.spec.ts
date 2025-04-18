@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { TabViewHeaderComponent } from './tab-view-header.component';
 
 describe('TabViewHeaderComponent', () => {
-  let component: TabViewHeaderComponent;
-  let fixture: ComponentFixture<TabViewHeaderComponent>;
+    let component: TabViewHeaderComponent;
+    let fixture: ComponentFixture<TabViewHeaderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TabViewHeaderComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [TabViewHeaderComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TabViewHeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(TabViewHeaderComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

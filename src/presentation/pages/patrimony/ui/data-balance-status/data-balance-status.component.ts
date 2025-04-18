@@ -1,6 +1,6 @@
 import { UsageInterface } from '../../../../../shared/interfaces/usage.interface';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { TypeAlarme } from '../../../../../shared/enum/TypeAlarme.enum';
@@ -14,17 +14,17 @@ import { dataBalanceStatusInterface } from '../../data-access/data-balance-statu
 import { dataBalanceStatusApiService } from '../../data-access/data-balance-status/services/data-balance-status-api.service';
 
 @Component({
-    selector: "app-data-balance-status",
-    templateUrl: "./data-balance-status.component.html",
-    styleUrls: [`./data-balance-status.component.scss`]
+    selector: 'app-data-balance-status',
+    templateUrl: './data-balance-status.component.html',
+    styleUrls: [`./data-balance-status.component.scss`],
 })
-
 export class DataBalanceStatusComponent implements OnInit, OnDestroy {
-
     public module: string;
     public subModule: string;
     public pagination$: Observable<Paginate<dataBalanceStatusInterface>>;
-    public listDataBalanceStatus$: Observable<Array<dataBalanceStatusInterface>>;
+    public listDataBalanceStatus$: Observable<
+        Array<dataBalanceStatusInterface>
+    >;
     public listUsages$: Observable<Array<UsageInterface>>;
     public listApn$: Observable<Array<ApnInterface>>;
     public listFormulas$: Observable<Array<FormulasInterface>>;
@@ -34,9 +34,14 @@ export class DataBalanceStatusComponent implements OnInit, OnDestroy {
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
-    constructor(private activatedRoute: ActivatedRoute, private sharedService: SharedService,
-        private dataBalanceStatusApiService: dataBalanceStatusApiService) {
-        Object.values(TypeAlarme).forEach(item => { this.listAlarms.push(item); });
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private sharedService: SharedService,
+        private dataBalanceStatusApiService: dataBalanceStatusApiService
+    ) {
+        Object.values(TypeAlarme).forEach((item) => {
+            this.listAlarms.push(item);
+        });
     }
 
     ngOnInit(): void {
@@ -51,35 +56,44 @@ export class DataBalanceStatusComponent implements OnInit, OnDestroy {
         this.sharedService.fetchApn();
         this.listApn$ = this.sharedService.getApn();
         this.sharedService.fetchFirstLevel();
-        this.listFirstLevel$ = this.sharedService.getFirstLevel();;
+        this.listFirstLevel$ = this.sharedService.getFirstLevel();
         this.sharedService.fetchThirdLevel();
         this.listThirdLevel$ = this.sharedService.getThirdLevel();
-        this.listDataBalanceStatus$ = this.dataBalanceStatusApiService.getDataBalanceStatus();
-        this.pagination$ = this.dataBalanceStatusApiService.getDataBalanceStatusPagination();
+        this.listDataBalanceStatus$ =
+            this.dataBalanceStatusApiService.getDataBalanceStatus();
+        this.pagination$ =
+            this.dataBalanceStatusApiService.getDataBalanceStatusPagination();
         // combineLatest([
         //     this.dataBalanceStatusApiService.getDataFilterDataBalanceStatus(),
         //     this.dataBalanceStatusApiService.getDataNbrPageDataBalanceStatus()
         // ]).subscribe(([filterData, nbrPageData]) => {
         //     this.dataBalanceStatusApiService.fetchDataBalanceStatus(filterData, nbrPageData);
         // });
-        this.dataBalanceStatusApiService.isLoadingDataBalanceStatus().subscribe((spinner) => {
-            this.spinner = spinner;
-        })
+        this.dataBalanceStatusApiService
+            .isLoadingDataBalanceStatus()
+            .subscribe((spinner) => {
+                this.spinner = spinner;
+            });
     }
 
     public filter(filterData: dataBalanceStatusFilterInterface): void {
-        this.dataBalanceStatusApiService.fetchDataBalanceStatus(filterData)
+        this.dataBalanceStatusApiService.fetchDataBalanceStatus(filterData);
     }
 
     public onPageChange(event: number): void {
-        this.dataBalanceStatusApiService.getDataFilterDataBalanceStatus().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
-            this.dataBalanceStatusApiService.fetchDataBalanceStatus(filterData, JSON.stringify(event + 1))
-        });
+        this.dataBalanceStatusApiService
+            .getDataFilterDataBalanceStatus()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((filterData) => {
+                this.dataBalanceStatusApiService.fetchDataBalanceStatus(
+                    filterData,
+                    JSON.stringify(event + 1)
+                );
+            });
     }
 
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
     }
-
 }

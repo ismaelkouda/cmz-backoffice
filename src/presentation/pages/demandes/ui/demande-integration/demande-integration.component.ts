@@ -1,26 +1,29 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
-import { LoadingBarService } from "@ngx-loading-bar/core";
-import { ToastrService } from "ngx-toastr";
-import { Subscription } from "rxjs";
-import { handle } from "src/shared/functions/api.function";
-import { DEMANDE_SERVICE, SEARCH } from "src/shared/routes/routes";
-import { ExcelService } from "src/shared/services/excel.service";
-import { MappingService } from "src/shared/services/mapping.service";
-import { Pargination } from "src/shared/table/pargination";
-import { SupervisionOperationService } from "src/presentation/pages/supervision-operations/data-access/supervision-operation.service";
-import { DemandeIntegrationStateService } from "../../data-access/demande-integration/demande-integration-state.service";
-import { DEMANDE_INTEGRATION, DEMANDE_INTEGRATION_DOSSIER, DEMANDE_INTEGRATION_FORM } from "../../demandes-routing.module";
-import { DemandeService } from "../../data-access/demande.service";
-import { SharedDataService } from "src/shared/services/shared-data.service";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { handle } from 'src/shared/functions/api.function';
+import { DEMANDE_SERVICE, SEARCH } from 'src/shared/routes/routes';
+import { ExcelService } from 'src/shared/services/excel.service';
+import { MappingService } from 'src/shared/services/mapping.service';
+import { Pargination } from 'src/shared/table/pargination';
+import { SupervisionOperationService } from 'src/presentation/pages/supervision-operations/data-access/supervision-operation.service';
+import { DemandeIntegrationStateService } from '../../data-access/demande-integration/demande-integration-state.service';
+import {
+    DEMANDE_INTEGRATION,
+    DEMANDE_INTEGRATION_DOSSIER,
+    DEMANDE_INTEGRATION_FORM,
+} from '../../demandes-routing.module';
+import { DemandeService } from '../../data-access/demande.service';
+import { SharedDataService } from 'src/shared/services/shared-data.service';
 
-type TYPEVIEW = "editer" | "détails" | "ajouter" | "dossier";
+type TYPEVIEW = 'editer' | 'détails' | 'ajouter' | 'dossier';
 
 @Component({
-    selector: "app-demande-integration",
-    templateUrl: "./demande-integration.component.html"
+    selector: 'app-demande-integration',
+    templateUrl: './demande-integration.component.html',
 })
-
 export class DemandeIntegrationComponent implements OnInit {
     private response: any = {};
     public firstLevelLibelle: string;
@@ -34,18 +37,29 @@ export class DemandeIntegrationComponent implements OnInit {
     public spinner: boolean = false;
     public dataToSend: string;
 
-    constructor(private activatedRoute: ActivatedRoute, private supervisionOperationService: SupervisionOperationService,
-        private toastrService: ToastrService, private loadingBarService: LoadingBarService,
-        private router: Router, public mappingService: MappingService,
-        private excelService: ExcelService, private demandeIntegrationStateService: DemandeIntegrationStateService,
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private supervisionOperationService: SupervisionOperationService,
+        private toastrService: ToastrService,
+        private loadingBarService: LoadingBarService,
+        private router: Router,
+        public mappingService: MappingService,
+        private excelService: ExcelService,
+        private demandeIntegrationStateService: DemandeIntegrationStateService,
         private sharedDataService: SharedDataService,
-        private demandeService: DemandeService) {
+        private demandeService: DemandeService
+    ) {
         this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
-        this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
+        this.secondLevelLibelle =
+            this.mappingService.structureGlobale?.niveau_2;
         this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
-                if (!event.url.includes(`/${DEMANDE_SERVICE}/${DEMANDE_INTEGRATION}`)) {
+                if (
+                    !event.url.includes(
+                        `/${DEMANDE_SERVICE}/${DEMANDE_INTEGRATION}`
+                    )
+                ) {
                     this.demandeIntegrationStateService.removeAllDemandeIntegrationState();
                 }
             }
@@ -55,43 +69,98 @@ export class DemandeIntegrationComponent implements OnInit {
     ngOnInit(): void {
         this.initPage();
         if (this.demandeIntegrationStateService.getTableItemSelectedState()) {
-            this.listDemandesIntegrations = this.demandeIntegrationStateService.getTableState();
-            this.pargination = this.demandeIntegrationStateService.getParginateState();
+            this.listDemandesIntegrations =
+                this.demandeIntegrationStateService.getTableState();
+            this.pargination =
+                this.demandeIntegrationStateService.getParginateState();
         } else {
-            this.subscriptionListDemandesIntegrations = this.sharedDataService.postPatrimoineSimDemandeIntegrationsAll().subscribe(() => {
-                this.pageCallback();
-            });
+            this.subscriptionListDemandesIntegrations = this.sharedDataService
+                .postPatrimoineSimDemandeIntegrationsAll()
+                .subscribe(() => {
+                    this.pageCallback();
+                });
             this.pageCallback();
             this.spinner = true;
         }
     }
 
-    async pageCallback(dataToSend: Object = { operation: "integration" }, nbrPage: number = 1) {
+    async pageCallback(
+        dataToSend: Object = { operation: 'integration' },
+        nbrPage: number = 1
+    ) {
         this.demandeIntegrationStateService.setFilterState(dataToSend);
-        this.dataToSend = this.demandeIntegrationStateService.generateQueryStringFromObject(dataToSend);
-        const response: any = await handle(() => this.demandeService.GetDemandeServiceByTransaction(dataToSend, nbrPage), this.toastrService, this.loadingBarService);
-        if (response?.error === false) this.handleSuccessfulPageCallback(response);
+        this.dataToSend =
+            this.demandeIntegrationStateService.generateQueryStringFromObject(
+                dataToSend
+            );
+        const response: any = await handle(
+            () =>
+                this.demandeService.GetDemandeServiceByTransaction(
+                    dataToSend,
+                    nbrPage
+                ),
+            this.toastrService,
+            this.loadingBarService
+        );
+        if (response?.error === false)
+            this.handleSuccessfulPageCallback(response);
     }
 
     private handleSuccessfulPageCallback(response: any): void {
         this.listDemandesIntegrations = response?.data?.data;
         this.demandeIntegrationStateService.setTableItemSelectedState(null);
         this.spinner = false;
-        this.pargination = new Pargination(response?.data?.p, response?.data?.to, response?.data?.last_page, response?.data?.total, response?.data?.per_page, response?.data?.current_page, (response?.data?.current_page - 1) * this.pargination?.per_page + 1);
+        this.pargination = new Pargination(
+            response?.data?.p,
+            response?.data?.to,
+            response?.data?.last_page,
+            response?.data?.total,
+            response?.data?.per_page,
+            response?.data?.current_page,
+            (response?.data?.current_page - 1) * this.pargination?.per_page + 1
+        );
         this.demandeIntegrationStateService.setParginateState(this.pargination);
     }
 
     public onPageChange(event: number) {
-        this.pageCallback(this.demandeIntegrationStateService.getFilterState(), event + 1);
+        this.pageCallback(
+            this.demandeIntegrationStateService.getFilterState(),
+            event + 1
+        );
     }
 
-    public navigateByUrl(data: { data: null | Object, paramUrl: TYPEVIEW }): void {
-        if (data.paramUrl === "ajouter") {
-            this.router.navigate([DEMANDE_INTEGRATION_FORM + "/" + SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl } });
-        } else if (data.paramUrl === "editer" || data.paramUrl === "détails") {
-            this.router.navigate([DEMANDE_INTEGRATION_FORM + "/" + SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl, page: this.pargination?.currentPage, filter: this.dataToSend, id: data.data["id"] } });
-        } else if (data.paramUrl === "dossier") {
-            this.router.navigate([DEMANDE_INTEGRATION_DOSSIER + "/" + SEARCH], { relativeTo: this.activatedRoute, queryParams: { view: data.paramUrl, page: this.pargination?.currentPage, filter: this.dataToSend, id: data.data["id"], numero_demande: data.data["numero_demande"], tenant_code: this.mappingService.tenant.tenant_code, statut: data.data["statut"] } });
+    public navigateByUrl(data: {
+        data: null | Object;
+        paramUrl: TYPEVIEW;
+    }): void {
+        if (data.paramUrl === 'ajouter') {
+            this.router.navigate([DEMANDE_INTEGRATION_FORM + '/' + SEARCH], {
+                relativeTo: this.activatedRoute,
+                queryParams: { view: data.paramUrl },
+            });
+        } else if (data.paramUrl === 'editer' || data.paramUrl === 'détails') {
+            this.router.navigate([DEMANDE_INTEGRATION_FORM + '/' + SEARCH], {
+                relativeTo: this.activatedRoute,
+                queryParams: {
+                    view: data.paramUrl,
+                    page: this.pargination?.currentPage,
+                    filter: this.dataToSend,
+                    id: data.data['id'],
+                },
+            });
+        } else if (data.paramUrl === 'dossier') {
+            this.router.navigate([DEMANDE_INTEGRATION_DOSSIER + '/' + SEARCH], {
+                relativeTo: this.activatedRoute,
+                queryParams: {
+                    view: data.paramUrl,
+                    page: this.pargination?.currentPage,
+                    filter: this.dataToSend,
+                    id: data.data['id'],
+                    numero_demande: data.data['numero_demande'],
+                    tenant_code: this.mappingService.tenant.tenant_code,
+                    statut: data.data['statut'],
+                },
+            });
         }
     }
 
@@ -130,6 +199,7 @@ export class DemandeIntegrationComponent implements OnInit {
     }
 
     ngOnDestroy(): void {
-        if (this.subscriptionListDemandesIntegrations) this.subscriptionListDemandesIntegrations.unsubscribe();
+        if (this.subscriptionListDemandesIntegrations)
+            this.subscriptionListDemandesIntegrations.unsubscribe();
     }
 }

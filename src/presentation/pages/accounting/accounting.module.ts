@@ -7,7 +7,6 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from '../../../shared/shared.module';
 
-
 import { FilterInvoiceComponent } from './feature/invoice/filter-invoice/filter-invoice.component';
 import { TableInvoiceComponent } from './feature/invoice/table-invoice/table-invoice.component';
 import { InvoiceComponent } from './ui/invoice/invoice.component';
@@ -31,43 +30,43 @@ import { PaymentApiService } from './data-access/payment/service/payment-api.ser
 import { InvoiceFormComponent } from '../../../shared/components/invoice-form/invoice-form.component';
 
 @NgModule({
-  declarations: [
-    InvoiceFormComponent,
-    
-    FilterPaymentComponent,
-    TablePaymentComponent,
-    PaymentComponent,
+    declarations: [
+        InvoiceFormComponent,
 
-    FilterInvoiceComponent,
-    TableInvoiceComponent,
-    InvoiceComponent,
-    
-    FilterMyAccountComponent,
-    TableMyAccountComponent,
-    MyAccountComponent,
-    
-    FormReloadMyAccountComponent,
-    FilterReloadMyAccountComponent,
-    TableReloadMyAccountComponent,
-    ReloadMyAccountComponent,
-  ],
-  imports: [
-    SharedModule,
-    AccountingRoutingModule,
-    NgSelectModule,
-    NgbModule,
-    AngularMultiSelectModule,
-    Ng2SearchPipeModule,
-    NgxPaginationModule,
-  ],
-  providers: [
-    InvoiceApiService,
+        FilterPaymentComponent,
+        TablePaymentComponent,
+        PaymentComponent,
 
-    PaymentApiService,
+        FilterInvoiceComponent,
+        TableInvoiceComponent,
+        InvoiceComponent,
 
-    MyAccountApiService,
+        FilterMyAccountComponent,
+        TableMyAccountComponent,
+        MyAccountComponent,
 
-    ReloadMyAccountApiService
-  ]
+        FormReloadMyAccountComponent,
+        FilterReloadMyAccountComponent,
+        TableReloadMyAccountComponent,
+        ReloadMyAccountComponent,
+    ],
+    imports: [
+        SharedModule,
+        AccountingRoutingModule,
+        NgSelectModule,
+        NgbModule,
+        AngularMultiSelectModule,
+        Ng2SearchPipeModule,
+        NgxPaginationModule,
+    ],
+    providers: [
+        InvoiceApiService,
+
+        PaymentApiService,
+
+        MyAccountApiService,
+
+        ReloadMyAccountApiService,
+    ],
 })
-export class AccountingModule { }
+export class AccountingModule {}

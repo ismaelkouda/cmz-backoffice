@@ -4,5 +4,5 @@ export enum Justificatif {
     COURIER = 'courier',
     CNI = 'cni',
     DOCUMENT = 'document',
-    AUTRE = 'autre'
-}   
+    AUTRE = 'autre',
+}

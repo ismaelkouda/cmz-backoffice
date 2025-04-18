@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { TransactionSimComponent } from './transaction-sim.component';
 
 describe('TransactionSimComponent', () => {
-  let component: TransactionSimComponent;
-  let fixture: ComponentFixture<TransactionSimComponent>;
+    let component: TransactionSimComponent;
+    let fixture: ComponentFixture<TransactionSimComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TransactionSimComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [TransactionSimComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TransactionSimComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(TransactionSimComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

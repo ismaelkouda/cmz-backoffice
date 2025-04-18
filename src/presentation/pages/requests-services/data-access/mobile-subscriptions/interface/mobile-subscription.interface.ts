@@ -1,5 +1,5 @@
-import { Folder } from "../../../../../../shared/interfaces/folder";
-import { Paginate } from "../../../../../../shared/interfaces/paginate";
+import { Folder } from '../../../../../../shared/interfaces/folder';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
 
 export interface mobileSubscriptionsGlobalStatsInterface {
     pourcentage_cloture_acceptes: number;

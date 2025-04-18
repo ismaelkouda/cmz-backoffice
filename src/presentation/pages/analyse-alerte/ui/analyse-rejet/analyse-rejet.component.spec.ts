@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { AnalyseRejetComponent } from './analyse-rejet.component';
 
 describe('AnalyseRejetComponent', () => {
-  let component: AnalyseRejetComponent;
-  let fixture: ComponentFixture<AnalyseRejetComponent>;
+    let component: AnalyseRejetComponent;
+    let fixture: ComponentFixture<AnalyseRejetComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AnalyseRejetComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [AnalyseRejetComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AnalyseRejetComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(AnalyseRejetComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

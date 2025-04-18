@@ -13,18 +13,20 @@ import { CommandWhiteSimApiService } from './data-access/white-sim/services/whit
 import { SharedModule } from '../../../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    FilterWhiteSimComponent, TableWhiteSimComponent, WhiteSimComponent
-  ],
-  imports: [
-    SharedModule,
-    RequestsProductsRoutingModule,
-    NgSelectModule,
-    NgbModule,
-    AngularMultiSelectModule,
-    Ng2SearchPipeModule,
-    NgxPaginationModule,
-  ],
-  providers: [CommandWhiteSimApiService]
+    declarations: [
+        FilterWhiteSimComponent,
+        TableWhiteSimComponent,
+        WhiteSimComponent,
+    ],
+    imports: [
+        SharedModule,
+        RequestsProductsRoutingModule,
+        NgSelectModule,
+        NgbModule,
+        AngularMultiSelectModule,
+        Ng2SearchPipeModule,
+        NgxPaginationModule,
+    ],
+    providers: [CommandWhiteSimApiService],
 })
-export class RequestsProductsModule { }
+export class RequestsProductsModule {}

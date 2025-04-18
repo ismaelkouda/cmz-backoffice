@@ -5,15 +5,17 @@ import { EnvConfig } from './env-config';
 
 @Injectable()
 export class EnvironmentLoaderService {
-  private envConfig: EnvConfig;
+    private envConfig: EnvConfig;
 
-  constructor(private readonly http: HttpClient) { }
+    constructor(private readonly http: HttpClient) {}
 
-  async loadEnvConfig(configPath: string): Promise<void> {
-    this.envConfig = await lastValueFrom(this.http.get<EnvConfig>(configPath));
-  }
+    async loadEnvConfig(configPath: string): Promise<void> {
+        this.envConfig = await lastValueFrom(
+            this.http.get<EnvConfig>(configPath)
+        );
+    }
 
-  getEnvConfig(): EnvConfig {
-    return this.envConfig;
-  }
+    getEnvConfig(): EnvConfig {
+        return this.envConfig;
+    }
 }

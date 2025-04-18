@@ -6,5 +6,5 @@ export enum TraitementTransaction {
     REFUSER = 'refusé',
     ABANDONNER = 'abandonné',
     PARTIEL = 'partiel',
-    TOTAL = 'total'
-}   
+    TOTAL = 'total',
+}

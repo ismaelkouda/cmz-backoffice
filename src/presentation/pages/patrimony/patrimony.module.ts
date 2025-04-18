@@ -31,47 +31,46 @@ import { dataBalanceStatusApiService } from './data-access/data-balance-status/s
 import { FilterWhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/features/filter-white-sim-card-details/filter-white-sim-card-details.component';
 import { TableWhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/features/table-white-sim-card-details/table-white-sim-card-details.component';
 
-
 @NgModule({
-  declarations: [
-    FilterDataBalanceStatusComponent,
-    TableDataBalanceStatusComponent,
-    DataBalanceStatusComponent,
+    declarations: [
+        FilterDataBalanceStatusComponent,
+        TableDataBalanceStatusComponent,
+        DataBalanceStatusComponent,
 
-    FilterSmsBalanceStatusComponent,
-    TableSmsBalanceStatusComponent,
-    SmsBalanceStatusComponent,
+        FilterSmsBalanceStatusComponent,
+        TableSmsBalanceStatusComponent,
+        SmsBalanceStatusComponent,
 
-    FormSimCardComponent,
-    FilterSimCardComponent,
-    TableSimCardComponent,
-    SimCardComponent,
+        FormSimCardComponent,
+        FilterSimCardComponent,
+        TableSimCardComponent,
+        SimCardComponent,
 
-    FilterWhiteSimCardDetailsComponent,
-    TableWhiteSimCardDetailsComponent,
-    WhiteSimCardDetailsComponent,
-    FilterWhiteSimCardComponent,
-    TableWhiteSimCardComponent,
-    WhiteSimCardComponent,
+        FilterWhiteSimCardDetailsComponent,
+        TableWhiteSimCardDetailsComponent,
+        WhiteSimCardDetailsComponent,
+        FilterWhiteSimCardComponent,
+        TableWhiteSimCardComponent,
+        WhiteSimCardComponent,
 
-    DownloadComponent,
-    TableDownloadComponent
-  ],
-  imports: [
-    SharedModule,
-    PatrimonyRoutingModule,
-    NgSelectModule,
-    NgbModule,
-    AngularMultiSelectModule,
-    Ng2SearchPipeModule,
-    NgxPaginationModule,
-  ],
-  providers: [
-    simCardApiService,
-    whiteSimCardApiService,
-    downloadApiService,
-    smsBalanceStatusApiService,
-    dataBalanceStatusApiService
-  ]
+        DownloadComponent,
+        TableDownloadComponent,
+    ],
+    imports: [
+        SharedModule,
+        PatrimonyRoutingModule,
+        NgSelectModule,
+        NgbModule,
+        AngularMultiSelectModule,
+        Ng2SearchPipeModule,
+        NgxPaginationModule,
+    ],
+    providers: [
+        simCardApiService,
+        whiteSimCardApiService,
+        downloadApiService,
+        smsBalanceStatusApiService,
+        dataBalanceStatusApiService,
+    ],
 })
-export class PatrimonyModule { }
+export class PatrimonyModule {}

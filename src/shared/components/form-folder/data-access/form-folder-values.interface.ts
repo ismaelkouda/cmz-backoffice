@@ -1,8 +1,8 @@
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl } from '@angular/forms';
 
 export interface IFormFolderValues {
     formule_uuid: AbstractControl<string>;
-    usage_id: AbstractControl<string|number>;
+    usage_id: AbstractControl<string | number>;
     montant_formule: AbstractControl<number>;
     description: AbstractControl<string>;
     accepte: AbstractControl<string>;
@@ -18,5 +18,4 @@ export interface IFormFolderValues {
     prix_ht: AbstractControl<number>;
     prix_ttc: AbstractControl<number>;
     justificatif: AbstractControl<File | null>;
-    
 }

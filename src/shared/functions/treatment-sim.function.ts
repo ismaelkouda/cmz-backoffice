@@ -1,4 +1,4 @@
-export interface TreatmentSimCard{
+export interface TreatmentSimCard {
     module: string;
     see: boolean;
     modifier: boolean;

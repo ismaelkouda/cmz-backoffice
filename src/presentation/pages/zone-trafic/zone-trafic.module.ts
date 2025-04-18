@@ -9,21 +9,19 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ZoneTraficRoutingModule } from './zone-trafic-routing.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-
-
 @NgModule({
     declarations: [
         VueGeographiqueComponent,
         CarteComponent,
         CardSecondComponent,
-        SitesWrapperComponent
+        SitesWrapperComponent,
     ],
     imports: [
         SharedModule,
         ZoneTraficRoutingModule,
         NgSelectModule,
         NgbModule,
-        NgxPaginationModule
-    ]
+        NgxPaginationModule,
+    ],
 })
-export class ZoneTraficModule { }
+export class ZoneTraficModule {}

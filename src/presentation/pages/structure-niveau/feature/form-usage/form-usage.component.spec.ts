@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { FormUsageComponent } from './form-usage.component';
 
 describe('FormUsageComponent', () => {
-  let component: FormUsageComponent;
-  let fixture: ComponentFixture<FormUsageComponent>;
+    let component: FormUsageComponent;
+    let fixture: ComponentFixture<FormUsageComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FormUsageComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [FormUsageComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FormUsageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(FormUsageComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

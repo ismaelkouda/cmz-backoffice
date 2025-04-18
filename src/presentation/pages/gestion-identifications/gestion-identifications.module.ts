@@ -5,7 +5,7 @@ import { SharedModule } from './../../../shared/shared.module';
 import { GestionIdentificationsRoutingModule } from './gestion-identifications-routing.module';
 import { GestionIdentificationsService } from './data-access/gestion-identifications.service';
 import { StateFileAttenteService } from './data-access/file-attente/state-file-attente.service';
-import { FileAttenteComponent } from './ui/file-attente/file-attente.component'
+import { FileAttenteComponent } from './ui/file-attente/file-attente.component';
 import { FilterFileAttenteComponent } from './feature/file-attente/filter-file-attente/filter-file-attente.component';
 import { TableFileAttenteComponent } from './feature/file-attente/table-file-attente/table-file-attente.component';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -14,8 +14,10 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 
 @NgModule({
     declarations: [
-        FileAttenteComponent, FilterFileAttenteComponent, TableFileAttenteComponent,
-        FormIdentificationComponent
+        FileAttenteComponent,
+        FilterFileAttenteComponent,
+        TableFileAttenteComponent,
+        FormIdentificationComponent,
     ],
     imports: [
         GestionIdentificationsRoutingModule,
@@ -25,10 +27,6 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
         Ng2SearchPipeModule,
         NgxPaginationModule,
     ],
-    providers: [
-        GestionIdentificationsService,
-        StateFileAttenteService,
-    ]
+    providers: [GestionIdentificationsService, StateFileAttenteService],
 })
-
 export class GestionIdentificationsModule {}

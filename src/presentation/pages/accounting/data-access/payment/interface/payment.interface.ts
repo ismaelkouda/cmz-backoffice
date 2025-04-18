@@ -1,4 +1,4 @@
-import { Paginate } from "../../../../../../shared/interfaces/paginate";
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
 
 export interface paymentInterface {
     id: number;
@@ -71,9 +71,9 @@ export interface paymentInterface {
 }
 
 export interface paymentApiResponseInterface {
-  error: boolean;
-  message: string;
-  data: paymentGlobalStatsInterface;
+    error: boolean;
+    message: string;
+    data: paymentGlobalStatsInterface;
 }
 
 export interface paymentGlobalStatsInterface {

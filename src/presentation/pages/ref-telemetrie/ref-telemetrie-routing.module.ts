@@ -12,32 +12,34 @@ export const PROFIL_SUPERVISION = 'profil-supervision';
 export const OBJECTIFS_SLA = 'accords-sla';
 export const CONTACT_SLA = 'contact-sla';
 
-const routes: Routes = [{
-    path: "",
-    children: [
-        {
-            path: SEUIL_ALARMES,
-            // component: SeuilAlarmesComponent
-            component: IndicatorsAlarmsComponent
-        },
-        {
-            path: PROFIL_SUPERVISION,
-            component: ProfilSupervisionComponent
-        },
-        {
-            path: OBJECTIFS_SLA,
-            // component: ObjectifSlaComponent
-            component: SlaAgreementsComponent
-        },
-        {
-            path: CONTACT_SLA,
-            component: ContactSlaComponent
-        }
-    ]
-}];
+const routes: Routes = [
+    {
+        path: '',
+        children: [
+            {
+                path: SEUIL_ALARMES,
+                // component: SeuilAlarmesComponent
+                component: IndicatorsAlarmsComponent,
+            },
+            {
+                path: PROFIL_SUPERVISION,
+                component: ProfilSupervisionComponent,
+            },
+            {
+                path: OBJECTIFS_SLA,
+                // component: ObjectifSlaComponent
+                component: SlaAgreementsComponent,
+            },
+            {
+                path: CONTACT_SLA,
+                component: ContactSlaComponent,
+            },
+        ],
+    },
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
-export class RefTelemetrieRoutingModule { }
+export class RefTelemetrieRoutingModule {}

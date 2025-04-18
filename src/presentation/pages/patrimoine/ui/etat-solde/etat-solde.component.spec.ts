@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { EtatSoldeComponent } from './etat-solde.component';
 
 describe('EtatSoldeComponent', () => {
-  let component: EtatSoldeComponent;
-  let fixture: ComponentFixture<EtatSoldeComponent>;
+    let component: EtatSoldeComponent;
+    let fixture: ComponentFixture<EtatSoldeComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EtatSoldeComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [EtatSoldeComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(EtatSoldeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(EtatSoldeComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

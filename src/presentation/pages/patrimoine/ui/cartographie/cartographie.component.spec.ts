@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { CartographieComponent } from './cartographie.component';
 
 describe('CartographieComponent', () => {
-  let component: CartographieComponent;
-  let fixture: ComponentFixture<CartographieComponent>;
+    let component: CartographieComponent;
+    let fixture: ComponentFixture<CartographieComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CartographieComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [CartographieComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CartographieComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CartographieComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

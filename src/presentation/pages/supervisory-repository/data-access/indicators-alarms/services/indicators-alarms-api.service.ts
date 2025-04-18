@@ -1,32 +1,45 @@
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { indicatorsAlarmsEndpointEnum } from '../enums/indicators-alarms-endpoint.enum';
-import { indicatorsAlarmsApiResponseInterface, indicatorsAlarmsInterface } from '../interfaces/indicators-alarms.interface';
+import {
+    indicatorsAlarmsApiResponseInterface,
+    indicatorsAlarmsInterface,
+} from '../interfaces/indicators-alarms.interface';
 
 @Injectable()
-
-export class IndicatorsAlarmsApiService {    
-    private indicatorsAlarmsSubject = new BehaviorSubject<Array<indicatorsAlarmsInterface>>([]);
-    private indicatorsAlarmsSelected = new BehaviorSubject<indicatorsAlarmsInterface>({} as indicatorsAlarmsInterface);
-    private loadingIndicatorsAlarmsSubject = new BehaviorSubject<boolean>(false);
-    private apiResponseIndicatorsAlarmsSubject = new BehaviorSubject<indicatorsAlarmsApiResponseInterface>({} as indicatorsAlarmsApiResponseInterface);
+export class IndicatorsAlarmsApiService {
+    private indicatorsAlarmsSubject = new BehaviorSubject<
+        Array<indicatorsAlarmsInterface>
+    >([]);
+    private indicatorsAlarmsSelected =
+        new BehaviorSubject<indicatorsAlarmsInterface>(
+            {} as indicatorsAlarmsInterface
+        );
+    private loadingIndicatorsAlarmsSubject = new BehaviorSubject<boolean>(
+        false
+    );
+    private apiResponseIndicatorsAlarmsSubject =
+        new BehaviorSubject<indicatorsAlarmsApiResponseInterface>(
+            {} as indicatorsAlarmsApiResponseInterface
+        );
 
     private BASE_URL: string;
     constructor(private http: HttpClient, private envService: EnvService) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
-            /*********************Méthode pour récupérer la liste indicatorsAlarms*************** */
+    /*********************Méthode pour récupérer la liste indicatorsAlarms*************** */
     fetchIndicatorsAlarms(): void {
         if (this.loadingIndicatorsAlarmsSubject.getValue()) return;
         this.loadingIndicatorsAlarmsSubject.next(true);
-        const url: string = indicatorsAlarmsEndpointEnum.PROFIL_SUPERVISION_REFERENTIEL_TELEMETRIQUES_ALL;
+        const url: string =
+            indicatorsAlarmsEndpointEnum.PROFIL_SUPERVISION_REFERENTIEL_TELEMETRIQUES_ALL;
 
         this.http
-            .post<Object>(this.BASE_URL+url, {})
+            .post<Object>(this.BASE_URL + url, {})
             .pipe(
                 debounceTime(500),
                 switchMap((response: any) => {
@@ -56,7 +69,9 @@ export class IndicatorsAlarmsApiService {
     getIndicatorsAlarmsSelected(): Observable<indicatorsAlarmsInterface> {
         return this.indicatorsAlarmsSelected.asObservable();
     }
-    setIndicatorsAlarmsSelected(indicatorsAlarms: indicatorsAlarmsInterface): void {
+    setIndicatorsAlarmsSelected(
+        indicatorsAlarms: indicatorsAlarmsInterface
+    ): void {
         this.indicatorsAlarmsSelected.next(indicatorsAlarms);
     }
 }

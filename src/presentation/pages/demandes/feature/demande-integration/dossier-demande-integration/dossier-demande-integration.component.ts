@@ -1,25 +1,23 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { LoadingBarService } from "@ngx-loading-bar/core";
-import { ToastrService } from "ngx-toastr";
-import { PatrimoineService } from "src/presentation/pages/patrimoine/data-access/patrimoine.service";
-import { handle } from "src/shared/functions/api.function";
-import { Pargination } from "src/shared/table/pargination";
-import { DemandeIntegrationStateService } from "../../../data-access/demande-integration/demande-integration-state.service";
-import { DemandeService } from "../../../data-access/demande.service";
-import { DEMANDE_SERVICE } from "src/shared/routes/routes";
-import { DEMANDE_INTEGRATION } from "../../../demandes-routing.module";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingBarService } from '@ngx-loading-bar/core';
+import { ToastrService } from 'ngx-toastr';
+import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
+import { handle } from 'src/shared/functions/api.function';
+import { Pargination } from 'src/shared/table/pargination';
+import { DemandeIntegrationStateService } from '../../../data-access/demande-integration/demande-integration-state.service';
+import { DemandeService } from '../../../data-access/demande.service';
+import { DEMANDE_SERVICE } from 'src/shared/routes/routes';
+import { DEMANDE_INTEGRATION } from '../../../demandes-routing.module';
 
-type TYPEVIEW = "dossier" ;
+type TYPEVIEW = 'dossier';
 
 @Component({
-    selector: "app-dossier-demande-integration",
-    templateUrl: "./dossier-demande-integration.component.html",
-    styleUrls: ["./dossier-demande-integration.component.scss"]
+    selector: 'app-dossier-demande-integration',
+    templateUrl: './dossier-demande-integration.component.html',
+    styleUrls: ['./dossier-demande-integration.component.scss'],
 })
-
 export class DossierDemandeIntegrationComponent implements OnInit {
-    
     public view: TYPEVIEW;
     public page: number;
     public id: number;
@@ -30,15 +28,20 @@ export class DossierDemandeIntegrationComponent implements OnInit {
 
     public module: string;
     public subModule: string;
-    
+
     public listLignesIntegrations: Array<Object>;
     public pargination = new Pargination(1, 50, 0, 0, 0, 1, 0);
     public spinner: boolean = false;
 
-    constructor(private activatedRoute: ActivatedRoute, public patrimoineService: PatrimoineService,
-        private toastrService: ToastrService, private loadingBarService: LoadingBarService,
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        public patrimoineService: PatrimoineService,
+        private toastrService: ToastrService,
+        private loadingBarService: LoadingBarService,
         private demandeIntegrationStateService: DemandeIntegrationStateService,
-        public demandeService: DemandeService, private router: Router) {}
+        public demandeService: DemandeService,
+        private router: Router
+    ) {}
 
     ngOnInit(): void {
         this.initPage();
@@ -48,13 +51,16 @@ export class DossierDemandeIntegrationComponent implements OnInit {
 
     private getParamsInUrl(): void {
         this.activatedRoute.queryParams.subscribe((params: Object) => {
-            this.view = params?.["view"];
-            this.page = params?.["page"];
-            this.id = params?.["id"];
-            this.numero_demande = params?.["numero_demande"];
-            this.tenant_code  = params?.["tenant_code"];
-            this.statut = params?.["statut"];
-            this.filter = this.demandeIntegrationStateService.parseQueryStringToObject(params?.["filter"]);
+            this.view = params?.['view'];
+            this.page = params?.['page'];
+            this.id = params?.['id'];
+            this.numero_demande = params?.['numero_demande'];
+            this.tenant_code = params?.['tenant_code'];
+            this.statut = params?.['statut'];
+            this.filter =
+                this.demandeIntegrationStateService.parseQueryStringToObject(
+                    params?.['filter']
+                );
         });
     }
 
@@ -72,14 +78,35 @@ export class DossierDemandeIntegrationComponent implements OnInit {
         });
     }
 
-    async pageCallback(dataToSend: Object = {operation: "integration", tenant_code: this.tenant_code, numero_demande: this.numero_demande}, nbrPage: number = 1) {
-        const response: any = await handle(() => this.patrimoineService.GetAllTransactions(dataToSend, nbrPage), this.toastrService, this.loadingBarService);
-        if(response?.error === false) this.handleSuccessfulPageCallback(response);
+    async pageCallback(
+        dataToSend: Object = {
+            operation: 'integration',
+            tenant_code: this.tenant_code,
+            numero_demande: this.numero_demande,
+        },
+        nbrPage: number = 1
+    ) {
+        const response: any = await handle(
+            () =>
+                this.patrimoineService.GetAllTransactions(dataToSend, nbrPage),
+            this.toastrService,
+            this.loadingBarService
+        );
+        if (response?.error === false)
+            this.handleSuccessfulPageCallback(response);
     }
     private handleSuccessfulPageCallback(response: any): void {
         this.listLignesIntegrations = response?.data?.data;
         this.spinner = false;
-        this.pargination = new Pargination(response?.data?.p, response?.data?.to, response?.data?.last_page, response?.data?.total, response?.data?.per_page, response?.data?.current_page, (response?.data?.current_page - 1) * this.pargination?.per_page + 1);
+        this.pargination = new Pargination(
+            response?.data?.p,
+            response?.data?.to,
+            response?.data?.last_page,
+            response?.data?.total,
+            response?.data?.per_page,
+            response?.data?.current_page,
+            (response?.data?.current_page - 1) * this.pargination?.per_page + 1
+        );
     }
     public exportExcel(): void {
         // const data = this.listDemandesIntegrations.map((item: any) => ({
@@ -94,6 +121,6 @@ export class DossierDemandeIntegrationComponent implements OnInit {
     }
 
     public closeView(): void {
-        this.router.navigateByUrl(`${DEMANDE_SERVICE}/${DEMANDE_INTEGRATION}`)
+        this.router.navigateByUrl(`${DEMANDE_SERVICE}/${DEMANDE_INTEGRATION}`);
     }
 }

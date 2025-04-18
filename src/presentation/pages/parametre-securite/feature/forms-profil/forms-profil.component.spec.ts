@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { FormsProfilComponent } from './forms-profil.component';
 
 describe('FormsProfilComponent', () => {
-  let component: FormsProfilComponent;
-  let fixture: ComponentFixture<FormsProfilComponent>;
+    let component: FormsProfilComponent;
+    let fixture: ComponentFixture<FormsProfilComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FormsProfilComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [FormsProfilComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FormsProfilComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(FormsProfilComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

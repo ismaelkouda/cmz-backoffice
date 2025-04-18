@@ -20,29 +20,22 @@ import { SlaAgreementsApiService } from '../supervisory-repository/data-access/s
 import { TableSlaAgreementsComponent } from '../supervisory-repository/feature/sla-agreements/table-sla-agreements/table-sla-agreements.component';
 import { SlaAgreementsComponent } from '../supervisory-repository/ui/sla-agreements/sla-agreements.component';
 
-
-
 @NgModule({
-  imports: [
-    SharedModule,
-    RefTelemetrieRoutingModule,
-    NgxPaginationModule,
-
-  ],
-  declarations: [
-    // SeuilAlarmesComponent,
-    TableIndicatorsAlarmsComponent,
-    IndicatorsAlarmsComponent,
-    // ObjectifSlaComponent,
-    TableSlaAgreementsComponent,
-    SlaAgreementsComponent,
-    ProfilSupervisionComponent,
-    ContactSlaComponent,
-    ContactFormComponent,
-    FormsProfilComponent,
-    AffectationSimComponent,
-    VisualisationComponent
-  ],
-    providers: [IndicatorsAlarmsApiService, SlaAgreementsApiService]
+    imports: [SharedModule, RefTelemetrieRoutingModule, NgxPaginationModule],
+    declarations: [
+        // SeuilAlarmesComponent,
+        TableIndicatorsAlarmsComponent,
+        IndicatorsAlarmsComponent,
+        // ObjectifSlaComponent,
+        TableSlaAgreementsComponent,
+        SlaAgreementsComponent,
+        ProfilSupervisionComponent,
+        ContactSlaComponent,
+        ContactFormComponent,
+        FormsProfilComponent,
+        AffectationSimComponent,
+        VisualisationComponent,
+    ],
+    providers: [IndicatorsAlarmsApiService, SlaAgreementsApiService],
 })
-export class RefTelemetrieModule { }
+export class RefTelemetrieModule {}

@@ -1,9 +1,15 @@
 import { SharedService } from './../../../../../shared/services/shared.service';
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { BADGE_ETAPE, T_BADGE_ETAPE } from './../../../../../shared/constants/badge-etape.constant';
-import { BADGE_ETAT, T_BADGE_ETAT } from './../../../../../shared/constants/badge-etat.contant';
+import {
+    BADGE_ETAPE,
+    T_BADGE_ETAPE,
+} from './../../../../../shared/constants/badge-etape.constant';
+import {
+    BADGE_ETAT,
+    T_BADGE_ETAT,
+} from './../../../../../shared/constants/badge-etat.contant';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { simCardApiService } from '../../data-access/sim-card/services/sim-card-api.service';
@@ -13,18 +19,24 @@ import { ApnInterface } from '@shared/interfaces/apn.interface';
 import { FormulasInterface } from '@shared/interfaces/formulas.interface';
 import { FirstLevelInterface } from '@shared/interfaces/first-level.interface';
 import { ThirdLevelInterface } from '@shared/interfaces/third-level.interface';
-import { SIM_CARD_STATUS_ENUM, T_SIM_CARD_STATUS_ENUM } from '../../data-access/sim-card/enums/sim-card-status.enum';
+import {
+    SIM_CARD_STATUS_ENUM,
+    T_SIM_CARD_STATUS_ENUM,
+} from '../../data-access/sim-card/enums/sim-card-status.enum';
 import { UsageInterface } from '../../../../../shared/interfaces/usage.interface';
 
 const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT];
 const etat_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE];
-type PageAction = { data: simCardInterface, action: 'view-sim-card' | 'update-sim-card' | 'identification-sim-card', view: 'page' };
+type PageAction = {
+    data: simCardInterface;
+    action: 'view-sim-card' | 'update-sim-card' | 'identification-sim-card';
+    view: 'page';
+};
 
 @Component({
     selector: 'app-sim-card',
     templateUrl: './sim-card.component.html',
 })
-
 export class SimCardComponent implements OnInit, OnDestroy {
     public module: string;
     public subModule: string;
@@ -42,9 +54,15 @@ export class SimCardComponent implements OnInit, OnDestroy {
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
-    constructor(private router: Router, private sharedService: SharedService,
-        private activatedRoute: ActivatedRoute, private simCardApiService: simCardApiService) {
-        Object.values(SIM_CARD_STATUS_ENUM).forEach(item => { this.listStatusSimCard.push(item); });
+    constructor(
+        private router: Router,
+        private sharedService: SharedService,
+        private activatedRoute: ActivatedRoute,
+        private simCardApiService: simCardApiService
+    ) {
+        Object.values(SIM_CARD_STATUS_ENUM).forEach((item) => {
+            this.listStatusSimCard.push(item);
+        });
     }
 
     ngOnInit(): void {
@@ -59,7 +77,7 @@ export class SimCardComponent implements OnInit, OnDestroy {
         this.sharedService.fetchApn();
         this.listApn$ = this.sharedService.getApn();
         this.sharedService.fetchFirstLevel();
-        this.listFirstLevel$ = this.sharedService.getFirstLevel();;
+        this.listFirstLevel$ = this.sharedService.getFirstLevel();
         this.sharedService.fetchThirdLevel();
         this.listThirdLevel$ = this.sharedService.getThirdLevel();
         this.listSimCard$ = this.simCardApiService.getSimCard();
@@ -67,23 +85,29 @@ export class SimCardComponent implements OnInit, OnDestroy {
         this.simCardSelected$ = this.simCardApiService.getSimCardSelected();
         combineLatest([
             this.simCardApiService.getDataFilterSimCard(),
-            this.simCardApiService.getDataNbrPageSimCard()
+            this.simCardApiService.getDataNbrPageSimCard(),
         ]).subscribe(([filterData, nbrPageData]) => {
             this.simCardApiService.fetchSimCard({ ...filterData }, nbrPageData);
         });
         this.simCardApiService.isLoadingSimCard().subscribe((spinner) => {
             this.spinner = spinner;
-        })
+        });
     }
 
     public filter(filterData: simCardFilterInterface): void {
-        this.simCardApiService.fetchSimCard(filterData)
+        this.simCardApiService.fetchSimCard(filterData);
     }
 
     public onPageChange(event: number): void {
-        this.simCardApiService.getDataFilterSimCard().pipe(takeUntil(this.destroy$)).subscribe((filterData) => {
-            this.simCardApiService.fetchSimCard(filterData, JSON.stringify(event + 1))
-        });
+        this.simCardApiService
+            .getDataFilterSimCard()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((filterData) => {
+                this.simCardApiService.fetchSimCard(
+                    filterData,
+                    JSON.stringify(event + 1)
+                );
+            });
     }
 
     public navigateByUrl(params: PageAction): void {
@@ -94,9 +118,15 @@ export class SimCardComponent implements OnInit, OnDestroy {
         let routePath: string = '';
 
         switch (params.action) {
-            case "view-sim-card":
-            case "update-sim-card":
-            case "identification-sim-card": routePath = `${imsi}`; this.router.navigate([routePath], { relativeTo: this.activatedRoute, queryParams }); break;
+            case 'view-sim-card':
+            case 'update-sim-card':
+            case 'identification-sim-card':
+                routePath = `${imsi}`;
+                this.router.navigate([routePath], {
+                    relativeTo: this.activatedRoute,
+                    queryParams,
+                });
+                break;
         }
     }
 

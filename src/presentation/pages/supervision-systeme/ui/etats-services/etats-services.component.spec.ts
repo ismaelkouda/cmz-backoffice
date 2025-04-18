@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { EtatsServicesComponent } from './etats-services.component';
 
 describe('EtatsServicesComponent', () => {
-  let component: EtatsServicesComponent;
-  let fixture: ComponentFixture<EtatsServicesComponent>;
+    let component: EtatsServicesComponent;
+    let fixture: ComponentFixture<EtatsServicesComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EtatsServicesComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [EtatsServicesComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(EtatsServicesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(EtatsServicesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

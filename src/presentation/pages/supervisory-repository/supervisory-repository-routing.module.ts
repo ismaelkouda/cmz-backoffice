@@ -8,44 +8,44 @@ export const INDICATORS_ALARMS = 'indicators-alarms';
 export const SLA_AGREEMENTS = 'sla-agreements';
 
 const routes: Routes = [
-  {
-    path: INDICATORS_ALARMS,
-    children: [
-      {
-        path: '',
-        component: IndicatorsAlarmsComponent
-      },
-      {
-        path: '**',
-        redirectTo: ''
-      },
-    ],
-    canActivate: [PagesGuard],
-    data: {
-      allowedPaths: [`/${INDICATORS_ALARMS}`]
-    }
-  },
-  {
-    path: SLA_AGREEMENTS,
-    children: [
-      {
-        path: '',
-        component: SlaAgreementsComponent
-      },
-      {
-        path: '**',
-        redirectTo: ''
-      },
-    ],
-    canActivate: [PagesGuard],
-    data: {
-      allowedPaths: [`/${SLA_AGREEMENTS}`]
-    }
-  },
+    {
+        path: INDICATORS_ALARMS,
+        children: [
+            {
+                path: '',
+                component: IndicatorsAlarmsComponent,
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        canActivate: [PagesGuard],
+        data: {
+            allowedPaths: [`/${INDICATORS_ALARMS}`],
+        },
+    },
+    {
+        path: SLA_AGREEMENTS,
+        children: [
+            {
+                path: '',
+                component: SlaAgreementsComponent,
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        canActivate: [PagesGuard],
+        data: {
+            allowedPaths: [`/${SLA_AGREEMENTS}`],
+        },
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class SupervisoryRepositoryRoutingModule { }
+export class SupervisoryRepositoryRoutingModule {}

@@ -12,9 +12,9 @@ export interface Permission {
     expanded?: boolean;
     statut?: boolean;
     children?: Permission[];
-  }
-  
-  export interface ProfilCurrentUser {
+}
+
+export interface ProfilCurrentUser {
     id: number;
     nom: string;
     slug: string;
@@ -23,9 +23,9 @@ export interface Permission {
     statut: string;
     created_at: string;
     updated_at: string;
-  }
-  
-  export interface Tenant {
+}
+
+export interface Tenant {
     id: number;
     tenant_code: string;
     nom_tenant: string;
@@ -86,9 +86,9 @@ export interface Permission {
     contact_gerant: string | null;
     email_gerant: string | null;
     piece_gerant: string | null;
-  }
-  
-  export interface StructureOrganisationnelle {
+}
+
+export interface StructureOrganisationnelle {
     id: number;
     uuid: string;
     niveau_1: string;
@@ -103,9 +103,9 @@ export interface Permission {
     description: string | null;
     created_at: string;
     updated_at: string;
-  }
-  
-  export interface CurrentUser {
+}
+
+export interface CurrentUser {
     id: number;
     matricule: string;
     profil_user_id: number;
@@ -129,4 +129,4 @@ export interface Permission {
     created_at: string;
     updated_at: string;
     paths: Array<string>;
-  }
+}

@@ -1,4 +1,4 @@
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl } from '@angular/forms';
 
 export interface notificationsCenterFilterInterface {
     numero_demande: AbstractControl<string>;
@@ -6,4 +6,3 @@ export interface notificationsCenterFilterInterface {
     date_debut: AbstractControl<string>;
     date_fin: AbstractControl<string>;
 }
-

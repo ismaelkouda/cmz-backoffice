@@ -1,27 +1,46 @@
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { paymentEndpointEnum } from '../enums/payment-endpoint.enum';
-import { paymentApiResponseInterface, paymentGlobalStatsInterface, paymentInterface } from '../interface/payment.interface';
+import {
+    paymentApiResponseInterface,
+    paymentGlobalStatsInterface,
+    paymentInterface,
+} from '../interface/payment.interface';
 import { paymentFilterInterface } from '../interface/payment-filter.interface';
 
 @Injectable()
-
 export class PaymentApiService {
     private paymentSubject = new BehaviorSubject<Array<paymentInterface>>([]);
-    private paymentGlobalState = new BehaviorSubject<paymentGlobalStatsInterface>({} as paymentGlobalStatsInterface);
-    private paymentPagination = new BehaviorSubject<Paginate<paymentInterface>>({} as Paginate<paymentInterface>);
-    private paymentSelected = new BehaviorSubject<paymentInterface>({} as paymentInterface);
+    private paymentGlobalState =
+        new BehaviorSubject<paymentGlobalStatsInterface>(
+            {} as paymentGlobalStatsInterface
+        );
+    private paymentPagination = new BehaviorSubject<Paginate<paymentInterface>>(
+        {} as Paginate<paymentInterface>
+    );
+    private paymentSelected = new BehaviorSubject<paymentInterface>(
+        {} as paymentInterface
+    );
     private loadingPaymentSubject = new BehaviorSubject<boolean>(false);
-    private dataFilterPaymentSubject = new BehaviorSubject<paymentFilterInterface>({} as paymentFilterInterface);
+    private dataFilterPaymentSubject =
+        new BehaviorSubject<paymentFilterInterface>(
+            {} as paymentFilterInterface
+        );
     private dataNbrPagePaymentSubject = new BehaviorSubject<string>('1');
-    private apiResponsePaymentSubject = new BehaviorSubject<paymentApiResponseInterface>({} as paymentApiResponseInterface);
+    private apiResponsePaymentSubject =
+        new BehaviorSubject<paymentApiResponseInterface>(
+            {} as paymentApiResponseInterface
+        );
 
     private BASE_URL: string;
-    constructor(private httpClient: HttpClient, private envService: EnvService) {
+    constructor(
+        private httpClient: HttpClient,
+        private envService: EnvService
+    ) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
@@ -29,7 +48,11 @@ export class PaymentApiService {
     fetchPayment(data: paymentFilterInterface, nbrPage: string = '1'): void {
         if (this.loadingPaymentSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
         this.loadingPaymentSubject.next(true);
-        const url: string = paymentEndpointEnum.POST_MANAGEMENT_INVOICE_INVOICES.replace('{page}', nbrPage);
+        const url: string =
+            paymentEndpointEnum.POST_MANAGEMENT_INVOICE_INVOICES.replace(
+                '{page}',
+                nbrPage
+            );
 
         this.httpClient
             .post<Object>(this.BASE_URL + url, data)

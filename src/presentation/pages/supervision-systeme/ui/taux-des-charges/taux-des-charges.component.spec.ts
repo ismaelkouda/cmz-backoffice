@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { TauxDesChargesComponent } from './taux-des-charges.component';
 
 describe('TauxDesChargesComponent', () => {
-  let component: TauxDesChargesComponent;
-  let fixture: ComponentFixture<TauxDesChargesComponent>;
+    let component: TauxDesChargesComponent;
+    let fixture: ComponentFixture<TauxDesChargesComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TauxDesChargesComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [TauxDesChargesComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TauxDesChargesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(TauxDesChargesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

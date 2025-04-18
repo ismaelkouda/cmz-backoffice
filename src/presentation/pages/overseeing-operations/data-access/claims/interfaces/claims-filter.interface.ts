@@ -1,4 +1,4 @@
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl } from '@angular/forms';
 
 export interface claimsFilterInterface {
     operation?: string;
@@ -12,4 +12,3 @@ export interface claimsFilterInterface {
     date_debut: AbstractControl<string>;
     date_fin: AbstractControl<string>;
 }
-
