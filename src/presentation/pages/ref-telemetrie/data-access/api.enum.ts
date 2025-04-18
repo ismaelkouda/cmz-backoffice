@@ -1,5 +1,4 @@
 export const enum EndPointUrl {
-
     GET_ALL_REFERENTIEL_TELEMETRIE = 'profil-supervision/referentiel-telemetriques/all',
     SAVE_PROFIL_SUPERVISION = 'profil-supervision/profils/store',
     GET_METRIQUES_BY_PROFIL = 'profil-supervision/profils/{id}/metriques',
@@ -18,6 +17,5 @@ export const enum EndPointUrl {
     RETRAIT_SIM = 'profil-supervision/sims/retrait',
     DEPLOYER = 'profil-supervision/referentiel-telemetriques/deploy',
     GET_CONTACT_GESTION_SLA = 'contrats-sla/env-config',
-    UPDATE_CONTACT_GESTION_SLA = 'contrats-sla/env-config/update'
-
+    UPDATE_CONTACT_GESTION_SLA = 'contrats-sla/env-config/update',
 }

@@ -1,63 +1,86 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import readXlsxFile from "read-excel-file";
+import readXlsxFile from 'read-excel-file';
 import Swal from 'sweetalert2';
 
-type MODEL_ENTETE_FILE = ['TRANSACTION', 'MSISDN', 'IMSI', 'ICCID', 'ADRESSE IP', 'APN', 'NOM EMPLACEMENT', 'ADRESSE EMAIL', 'ADRESSE GEO', 'LONGITUDE', 'LATITUDE'] | ['MSISDN*', 'IMSI', 'ICCID', 'NOM EMPLACEMENT*', 'ADRESSE EMAIL', 'ADRESSE GEO', 'LONGITUDE', 'LATITUDE'];
+type MODEL_ENTETE_FILE =
+    | [
+          'TRANSACTION',
+          'MSISDN',
+          'IMSI',
+          'ICCID',
+          'ADRESSE IP',
+          'APN',
+          'NOM EMPLACEMENT',
+          'ADRESSE EMAIL',
+          'ADRESSE GEO',
+          'LONGITUDE',
+          'LATITUDE'
+      ]
+    | [
+          'MSISDN*',
+          'IMSI',
+          'ICCID',
+          'NOM EMPLACEMENT*',
+          'ADRESSE EMAIL',
+          'ADRESSE GEO',
+          'LONGITUDE',
+          'LATITUDE'
+      ];
 
 @Component({
     selector: 'app-form-masse',
     templateUrl: './form-masse.component.html',
-    styles: [`
-    .container-form-masse {
-        padding-left: 10px;
-    }
-    .title-file {
-        padding: 0;
-    }
-    .container-button-telecharger {
-        border: 2px solid #d0d3da;
-        border-radius: 5%;
-        height: 70%;
-    }
-    .input_file {
-        align-items: center;
-        position: relative;
-        display: flex;
-        overflow: hidden;
-        border: solid .5px rgba(0, 0, 0, .5);
-        width: 90%
-    }
-    input {
-        width: 1px;
-        height: 1px;
-        z-index: 1;
-    }
-    label[for="file"] {
-        position: static;
-        z-index: 2;
-        background-color: #e1e1e1;
-        margin-bottom: 0 !important;
-        cursor: pointer;
-        width: 100%;
-    }
-        span {
-            font-style: italic;
-            margin-left: 10px;
-        }
-    .isFile_backgroundGreen {
-        background-color: rgb(86, 156, 91, 0.5) !important;
-    }
+    styles: [
+        `
+            .container-form-masse {
+                padding-left: 10px;
+            }
+            .title-file {
+                padding: 0;
+            }
+            .container-button-telecharger {
+                border: 2px solid #d0d3da;
+                border-radius: 5%;
+                height: 70%;
+            }
+            .input_file {
+                align-items: center;
+                position: relative;
+                display: flex;
+                overflow: hidden;
+                border: solid 0.5px rgba(0, 0, 0, 0.5);
+                width: 90%;
+            }
+            input {
+                width: 1px;
+                height: 1px;
+                z-index: 1;
+            }
+            label[for='file'] {
+                position: static;
+                z-index: 2;
+                background-color: #e1e1e1;
+                margin-bottom: 0 !important;
+                cursor: pointer;
+                width: 100%;
+            }
+            span {
+                font-style: italic;
+                margin-left: 10px;
+            }
+            .isFile_backgroundGreen {
+                background-color: rgb(86, 156, 91, 0.5) !important;
+            }
 
-    .isFile_backgroundRed {
-        background-color: red;
-    }
-
-    `]
+            .isFile_backgroundRed {
+                background-color: red;
+            }
+        `,
+    ],
 })
-
 export class FormMasseComponent {
-    @Input() typeOperation: "demande-masse";
+    @Input() typeOperation: 'demande-masse';
     @Input() formMasseLibelle: any;
     @Output() dataToSend: EventEmitter<{}> = new EventEmitter<{}>();
     @Input() currentArrayHeaders: MODEL_ENTETE_FILE;
@@ -76,12 +99,12 @@ export class FormMasseComponent {
 
     @Input() libelleFile: any;
 
-    constructor(private toastrService: ToastrService) { }
+    constructor(private toastrService: ToastrService) {}
 
     // Debut: ajout du fichier excel au formulaire
     onExcelFileChange(event: FileList) {
         if (event.length != 0) {
-            this.data = event[0]
+            this.data = event[0];
             readXlsxFile(event[0]).then((rows) => {
                 // debut: recuperer l'entete du fichier excel upload
                 this.arrayHeaderExcelFile = rows[0];
@@ -118,10 +141,12 @@ export class FormMasseComponent {
     isArraySame(arr1: string[], arr2): boolean {
         if (!arr1 || arr1.length <= 0) {
             this.toastrService.error('Fichier vide');
-            return false
+            return false;
         } else if (arr1.length !== arr2.length) {
-            this.toastrService.error('Nombre de colonne du fichier n\'est le bon');
-            return false
+            this.toastrService.error(
+                "Nombre de colonne du fichier n'est le bon"
+            );
+            return false;
         }
         for (let i = 0; i < arr1.length; i++) {
             if (arr1[i] !== arr2[i]) return false;
@@ -135,7 +160,7 @@ export class FormMasseComponent {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',
-                cancelButton: 'btn btn-danger'
+                cancelButton: 'btn btn-danger',
             },
             buttonsStyling: false,
         });
@@ -152,7 +177,12 @@ export class FormMasseComponent {
     // Debut: construction de l'object a envoyer au backend
     formatDataToSend() {
         this.arrayContentExcelFile.map((item) => {
-            this.formatData.push({ ...this.arrayHeaderExcelFile.reduce((ac, key, i) => ({ ...ac, [key.toLowerCase()]: item[i] }), {}) })
+            this.formatData.push({
+                ...this.arrayHeaderExcelFile.reduce(
+                    (ac, key, i) => ({ ...ac, [key.toLowerCase()]: item[i] }),
+                    {}
+                ),
+            });
         });
         this.onSendData();
     }
@@ -166,11 +196,20 @@ export class FormMasseComponent {
 
     // Debut: Verification du fichier a upload
     checkFile() {
-        this.excelFileIsCorrect = this.isArraySame(this.arrayHeaderExcelFile, this.currentArrayHeaders);
+        this.excelFileIsCorrect = this.isArraySame(
+            this.arrayHeaderExcelFile,
+            this.currentArrayHeaders
+        );
         if (this.excelFileIsCorrect === false) {
-            this.messageFileIsNotCorrect(`Le fichier soumis ne respecte pas la structure attendue. Veuillez télécharger le modèle et l'utiliser`, 'error');
+            this.messageFileIsNotCorrect(
+                `Le fichier soumis ne respecte pas la structure attendue. Veuillez télécharger le modèle et l'utiliser`,
+                'error'
+            );
         } else {
-            this.messageFileIsNotCorrect(`Structure du fichier cohérente ${this.nombreLigneInExcelFile} ligne(s) chargée(s)`, 'success');
+            this.messageFileIsNotCorrect(
+                `Structure du fichier cohérente ${this.nombreLigneInExcelFile} ligne(s) chargée(s)`,
+                'success'
+            );
             this.formatDataToSend();
         }
     }
@@ -182,6 +221,8 @@ export class FormMasseComponent {
     }
 
     getButtonLabel(): string {
-        return this.excelFileIsCorrect ? `${this.nombreLigneInExcelFile} ligne(s) chargée(s)` : 'Vérifier le fichier';
+        return this.excelFileIsCorrect
+            ? `${this.nombreLigneInExcelFile} ligne(s) chargée(s)`
+            : 'Vérifier le fichier';
     }
 }

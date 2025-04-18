@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { StockProduitComponent } from './stock-produit.component';
 
 describe('StockProduitComponent', () => {
-  let component: StockProduitComponent;
-  let fixture: ComponentFixture<StockProduitComponent>;
+    let component: StockProduitComponent;
+    let fixture: ComponentFixture<StockProduitComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ StockProduitComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [StockProduitComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(StockProduitComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(StockProduitComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

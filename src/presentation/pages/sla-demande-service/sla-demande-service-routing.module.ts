@@ -6,22 +6,24 @@ import { RapportConformiteComponent } from './ui/rapport-conformite/rapport-conf
 export const SLA_DASHBORD = 'dashboard-sla';
 export const RAPPORT_CONFORMITE = 'rapport-performances';
 
-const routes: Routes = [{
-    path: "",
-    children: [
-        {
-            path: SLA_DASHBORD,
-            component: DashboardSlaComponent
-        },
-        {
-            path: RAPPORT_CONFORMITE,
-            component: RapportConformiteComponent
-        }
-    ]
-}];
+const routes: Routes = [
+    {
+        path: '',
+        children: [
+            {
+                path: SLA_DASHBORD,
+                component: DashboardSlaComponent,
+            },
+            {
+                path: RAPPORT_CONFORMITE,
+                component: RapportConformiteComponent,
+            },
+        ],
+    },
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
-export class SlaDemandeServiceRoutingModule { }
+export class SlaDemandeServiceRoutingModule {}

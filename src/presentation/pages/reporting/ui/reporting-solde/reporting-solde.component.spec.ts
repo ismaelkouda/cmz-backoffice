@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { ReportingSoldeComponent } from './reporting-solde.component';
 
 describe('ReportingSoldeComponent', () => {
-  let component: ReportingSoldeComponent;
-  let fixture: ComponentFixture<ReportingSoldeComponent>;
+    let component: ReportingSoldeComponent;
+    let fixture: ComponentFixture<ReportingSoldeComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ReportingSoldeComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [ReportingSoldeComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ReportingSoldeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ReportingSoldeComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

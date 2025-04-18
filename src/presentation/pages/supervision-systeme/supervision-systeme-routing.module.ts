@@ -6,7 +6,6 @@
 // export const ETAT_SERVICES = 'etats-des-services';
 // export const TAUX_CHARGES = 'taux-des-charges';
 
-
 // const routes: Routes = [
 //     {
 //         path: '',

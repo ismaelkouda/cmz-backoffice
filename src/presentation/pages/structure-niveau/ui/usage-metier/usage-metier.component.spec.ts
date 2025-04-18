@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { UsageMetierComponent } from './usage-metier.component';
 
 describe('UsageMetierComponent', () => {
-  let component: UsageMetierComponent;
-  let fixture: ComponentFixture<UsageMetierComponent>;
+    let component: UsageMetierComponent;
+    let fixture: ComponentFixture<UsageMetierComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ UsageMetierComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [UsageMetierComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(UsageMetierComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(UsageMetierComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

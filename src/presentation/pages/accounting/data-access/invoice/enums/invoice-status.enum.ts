@@ -1,9 +1,10 @@
 export const INVOICE_STATUS_ENUM = {
-    WAITING: "en-attente",
+    WAITING: 'en-attente',
     RESULTED: 'soldée',
-    REJECTED: "rejetée",
-    REPORTED: "reportée",
-    POSTED: "postée",
+    REJECTED: 'rejetée',
+    REPORTED: 'reportée',
+    POSTED: 'postée',
 } as const;
-  
-export type T_INVOICE_STATUS_ENUM = typeof INVOICE_STATUS_ENUM[keyof typeof INVOICE_STATUS_ENUM];
+
+export type T_INVOICE_STATUS_ENUM =
+    typeof INVOICE_STATUS_ENUM[keyof typeof INVOICE_STATUS_ENUM];

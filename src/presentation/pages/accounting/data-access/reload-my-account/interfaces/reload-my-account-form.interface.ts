@@ -1,5 +1,5 @@
-import { AbstractControl } from "@angular/forms";
-import { T_MODE_PAYMENT } from "../types/mode-payment.type";
+import { AbstractControl } from '@angular/forms';
+import { T_MODE_PAYMENT } from '../types/mode-payment.type';
 
 export interface reloadMyAccountFormInterface {
     mode_paiement: AbstractControl<T_MODE_PAYMENT>;

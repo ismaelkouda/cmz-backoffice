@@ -1,4 +1,4 @@
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl } from '@angular/forms';
 
 export interface whiteSimCardDetailsFilterInterface {
     imsi: AbstractControl<string>;

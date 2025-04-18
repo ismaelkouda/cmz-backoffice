@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { PointVentesComponent } from './point-ventes.component';
 
 describe('PointVentesComponent', () => {
-  let component: PointVentesComponent;
-  let fixture: ComponentFixture<PointVentesComponent>;
+    let component: PointVentesComponent;
+    let fixture: ComponentFixture<PointVentesComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PointVentesComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [PointVentesComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PointVentesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(PointVentesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

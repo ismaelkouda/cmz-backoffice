@@ -2,7 +2,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 import { TYPE_PRODUITS } from '../../../../../shared/enum/type-produits.enum';
 import { DemandesProduitsService } from '../../data-access/demandes-produits.service';
 import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
@@ -16,8 +16,8 @@ import { DemandeService } from '../../../demandes/data-access/demande.service';
 import { MappingService } from '../../../../../shared/services/mapping.service';
 import { PatrimoineService } from '../../../patrimoine/data-access/patrimoine.service';
 
-type TYPEVIEW = "détails";
-const TYPEVIEW_VALUES: TYPEVIEW[] = ["détails"];
+type TYPEVIEW = 'détails';
+const TYPEVIEW_VALUES: TYPEVIEW[] = ['détails'];
 function isTypeView(value: any): value is TYPEVIEW {
     return TYPEVIEW_VALUES.includes(value);
 }
@@ -25,9 +25,17 @@ function isTypeView(value: any): value is TYPEVIEW {
 @Component({
     selector: `app-details-achat-produits`,
     templateUrl: `./details-achat-produits.component.html`,
-    styles: [`.container-box { display: flex; gap: 2px; margin-bottom: 1rem;align-self: stretch;}`]
+    styles: [
+        `
+            .container-box {
+                display: flex;
+                gap: 2px;
+                margin-bottom: 1rem;
+                align-self: stretch;
+            }
+        `,
+    ],
 })
-
 export class DetailsAchatProduitsComponent implements OnInit {
     public spinner: boolean = true;
     public module: string;
@@ -54,13 +62,22 @@ export class DetailsAchatProduitsComponent implements OnInit {
     public BADGE_ETAPE = BADGE_ETAPE;
     public BADGE_ETAT = BADGE_ETAT;
 
-    constructor(public toastrService: ToastrService, private loadingBarService: LoadingBarService,
-        private demandesProduitsService: DemandesProduitsService, private activatedRoute: ActivatedRoute,
-        private excelService: ExcelService, private demandeService: DemandeService,
-        private mappingService: MappingService, public patrimoineService: PatrimoineService,
-        private stateAchatProduitsService: StateAchatProduitsService, private location: Location) {
-        Object.values(TYPE_PRODUITS).forEach((item) => { this.listTypeProduits.push(item); });
-        this.listOperations = this.mappingService.listOperations
+    constructor(
+        public toastrService: ToastrService,
+        private loadingBarService: LoadingBarService,
+        private demandesProduitsService: DemandesProduitsService,
+        private activatedRoute: ActivatedRoute,
+        private excelService: ExcelService,
+        private demandeService: DemandeService,
+        private mappingService: MappingService,
+        public patrimoineService: PatrimoineService,
+        private stateAchatProduitsService: StateAchatProduitsService,
+        private location: Location
+    ) {
+        Object.values(TYPE_PRODUITS).forEach((item) => {
+            this.listTypeProduits.push(item);
+        });
+        this.listOperations = this.mappingService.listOperations;
     }
 
     ngOnInit(): void {
@@ -74,31 +91,53 @@ export class DetailsAchatProduitsComponent implements OnInit {
 
     private getParamsInUrl(): void {
         this.activatedRoute.queryParams.subscribe((params: Object) => {
-            this.urlParamRef = params?.["ref"];
-            this.urlParamCurrentPage = params?.["urlParamCurrentPage"];
-            this.urlParamOperation = params?.["operation"];
-            this.urlParamFilter = this.stateAchatProduitsService.getFilterAchatProduitsState(params?.["filter"]);
+            this.urlParamRef = params?.['ref'];
+            this.urlParamCurrentPage = params?.['urlParamCurrentPage'];
+            this.urlParamOperation = params?.['operation'];
+            this.urlParamFilter =
+                this.stateAchatProduitsService.getFilterAchatProduitsState(
+                    params?.['filter']
+                );
         });
-        this.urlParamId = this.activatedRoute.snapshot.paramMap.get('numero_demande');
-        
+        this.urlParamId =
+            this.activatedRoute.snapshot.paramMap.get('numero_demande');
+
         if (!this.urlParamId || !this.urlParamRef) {
             this.displayUrlErrorPage = true;
             this.isLoadingTitle = false;
         } else {
-            if (this.urlParamId) this.pageCallback(this.urlParamFilter, this.urlParamCurrentPage);
+            if (this.urlParamId)
+                this.pageCallback(
+                    this.urlParamFilter,
+                    this.urlParamCurrentPage
+                );
         }
     }
 
-    async pageCallback(urlParamFilter = {}, urlParamCurrentPage: string = "1"): Promise<any> {
-        const response: any = await handle(() => this.demandeService.GetDemandeServiceByTransaction(urlParamFilter, urlParamCurrentPage), this.toastrService, this.loadingBarService);
-        if (response.error === false) this.handleSuccessfulPageCallback(response);
+    async pageCallback(
+        urlParamFilter = {},
+        urlParamCurrentPage: string = '1'
+    ): Promise<any> {
+        const response: any = await handle(
+            () =>
+                this.demandeService.GetDemandeServiceByTransaction(
+                    urlParamFilter,
+                    urlParamCurrentPage
+                ),
+            this.toastrService,
+            this.loadingBarService
+        );
+        if (response.error === false)
+            this.handleSuccessfulPageCallback(response);
     }
     private handleSuccessfulPageCallback(response: Object): void {
-        const listAchatProduits = response?.["data"]?.data;
+        const listAchatProduits = response?.['data']?.data;
         this.getDossierSelected(listAchatProduits);
     }
     private getDossierSelected(listAchatProduits: Array<Object>): void {
-        this.selectedAchat = listAchatProduits.find((dossier) => dossier?.['numero_demande'] == this.urlParamId);
+        this.selectedAchat = listAchatProduits.find(
+            (dossier) => dossier?.['numero_demande'] == this.urlParamId
+        );
         if (this.selectedAchat) {
             // this.sharedDataService.postGestionStocksDetailsCartesSim().subscribe(() => {
             //     this.postGestionStocksDetailsCartesSim({...this.filterData, id: this.selectedCarteSim?.["id"]});
@@ -110,19 +149,48 @@ export class DetailsAchatProduitsComponent implements OnInit {
         }
     }
 
-    async getAllProduits(dataToSend: Object = this.filterData, nbrPage: string = "1") {
-        const response: any = await handle(() => this.patrimoineService.GetAllTransactions({...dataToSend, numero_demande: this.selectedAchat?.["numero_demande"], operation: this.urlParamOperation, tenant_code: this.mappingService.tenant.tenant_code}, nbrPage), this.toastrService, this.loadingBarService);
-        if (response.error === false) this.handleSuccessfulGetAllDemandes(response);
+    async getAllProduits(
+        dataToSend: Object = this.filterData,
+        nbrPage: string = '1'
+    ) {
+        const response: any = await handle(
+            () =>
+                this.patrimoineService.GetAllTransactions(
+                    {
+                        ...dataToSend,
+                        numero_demande: this.selectedAchat?.['numero_demande'],
+                        operation: this.urlParamOperation,
+                        tenant_code: this.mappingService.tenant.tenant_code,
+                    },
+                    nbrPage
+                ),
+            this.toastrService,
+            this.loadingBarService
+        );
+        if (response.error === false)
+            this.handleSuccessfulGetAllDemandes(response);
     }
 
     private handleSuccessfulGetAllDemandes(response: any): void {
-        this.getTchesBoxValues(response?.["data"]);
-        this.listProduits = response?.["data"]?.["data"];
+        this.getTchesBoxValues(response?.['data']);
+        this.listProduits = response?.['data']?.['data'];
         this.isLoadingTitle = false;
-        this.pargination = new Pargination(response?.data?.p, response?.data?.to, response?.data?.last_page, response?.data?.total, response?.data?.per_page, response?.data?.current_page, (response?.data?.current_page - 1) * this.pargination?.per_page + 1);
+        this.pargination = new Pargination(
+            response?.data?.p,
+            response?.data?.to,
+            response?.data?.last_page,
+            response?.data?.total,
+            response?.data?.per_page,
+            response?.data?.current_page,
+            (response?.data?.current_page - 1) * this.pargination?.per_page + 1
+        );
         this.spinner = false;
-        this.stateAchatProduitsService.setCurrentPageAchatProduitsState(this.urlParamCurrentPage);
-        this.stateAchatProduitsService.setFilterAchatProduitsState(this.urlParamFilter);
+        this.stateAchatProduitsService.setCurrentPageAchatProduitsState(
+            this.urlParamCurrentPage
+        );
+        this.stateAchatProduitsService.setFilterAchatProduitsState(
+            this.urlParamFilter
+        );
         this.stateAchatProduitsService.setItemSelectedState(this.selectedAchat);
     }
 
@@ -132,21 +200,27 @@ export class DetailsAchatProduitsComponent implements OnInit {
     }
 
     public onPageChange(event: number): void {
-        this.getAllProduits(this.filterData, JSON.stringify(event + 1))
+        this.getAllProduits(this.filterData, JSON.stringify(event + 1));
     }
 
     public onExportExcel(): void {
         const data = this.listProduits.map((item: any) => ({
-            "Date/Heure": item?.created_at,
-            "N° Tâche": item?.transaction,
-            "MSISDN": item?.msisdn,
-            "IMSI": item?.imsi,
-            "Etape": item?.statut,
-            "Etat": item?.traitement,
-            "Date Etat": (item.traitement === 'abandonné' ? item?.date_cloture : item?.date_traitement),
-            "Rapport": item?.code_rapport,
+            'Date/Heure': item?.created_at,
+            'N° Tâche': item?.transaction,
+            MSISDN: item?.msisdn,
+            IMSI: item?.imsi,
+            Etape: item?.statut,
+            Etat: item?.traitement,
+            'Date Etat':
+                item.traitement === 'abandonné'
+                    ? item?.date_cloture
+                    : item?.date_traitement,
+            Rapport: item?.code_rapport,
         }));
-        this.excelService.exportAsExcelFile(data, `Liste_des_demandes_du_dossier_${this.selectedAchat?.["numero_demande"]}`);
+        this.excelService.exportAsExcelFile(
+            data,
+            `Liste_des_demandes_du_dossier_${this.selectedAchat?.['numero_demande']}`
+        );
     }
 
     public onGoToBack(): void {
@@ -155,82 +229,108 @@ export class DetailsAchatProduitsComponent implements OnInit {
 
     public getEtapeBadge(data: any): string {
         switch (data?.statut) {
-          case BADGE_ETAPE.SOUMISSION: return "badge-dark";
-          case BADGE_ETAPE.TRAITEMENT: return "badge-warning";
-          case BADGE_ETAPE.FINALISATEUR: return "badge-info";
-          case BADGE_ETAPE.CLOTURE: return "badge-success";
+            case BADGE_ETAPE.SOUMISSION:
+                return 'badge-dark';
+            case BADGE_ETAPE.TRAITEMENT:
+                return 'badge-warning';
+            case BADGE_ETAPE.FINALISATEUR:
+                return 'badge-info';
+            case BADGE_ETAPE.CLOTURE:
+                return 'badge-success';
         }
-      }
+    }
 
     public getEtatBadge(data: any): string {
         switch (data?.statut) {
-          case BADGE_ETAPE.SOUMISSION:
-            if (data?.traitement === BADGE_ETAT.EN_ATTENTE) return "badge-dark";
-            if (data?.traitement === BADGE_ETAT.APPROUVE) return "badge-success";
-            if (data?.traitement === BADGE_ETAT.REJETE) return "badge-danger";
-            if (data?.traitement === BADGE_ETAT.EN_COURS) return "badge-warning";
-            if (data?.traitement === BADGE_ETAT.RECU) return "badge-dark";
-            break;
-    
-          case BADGE_ETAPE.TRAITEMENT:
-            if (data?.traitement === BADGE_ETAT.EN_COURS) return "badge-warning";
-            if (data?.traitement === BADGE_ETAT.TERMINE) return "badge-success";
-            break;
-    
-          case BADGE_ETAPE.FINALISATEUR:
-            if (data?.traitement === BADGE_ETAT.EN_ATTENTE) { return "badge-warning"; }
-            if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-warning"; }
-            if (data?.traitement === BADGE_ETAT.LIVRE) { return "badge-primary"; }
-            break;
-    
-          case BADGE_ETAPE.CLOTURE:
-            if (data?.traitement === BADGE_ETAT.EFFECTUE) { return "badge-success"; }
-      if (data?.traitement === BADGE_ETAT.TERMINE) { return "badge-success"; }
-            if (data?.traitement === BADGE_ETAT.REFUSE) { return "badge-danger"; }
-            if (data?.traitement === BADGE_ETAT.ABANDONNE) { return "badge-warning"; }
-            if (data?.traitement === BADGE_ETAT.REJETE) { return "badge-danger"; }
-            break;
+            case BADGE_ETAPE.SOUMISSION:
+                if (data?.traitement === BADGE_ETAT.EN_ATTENTE)
+                    return 'badge-dark';
+                if (data?.traitement === BADGE_ETAT.APPROUVE)
+                    return 'badge-success';
+                if (data?.traitement === BADGE_ETAT.REJETE)
+                    return 'badge-danger';
+                if (data?.traitement === BADGE_ETAT.EN_COURS)
+                    return 'badge-warning';
+                if (data?.traitement === BADGE_ETAT.RECU) return 'badge-dark';
+                break;
+
+            case BADGE_ETAPE.TRAITEMENT:
+                if (data?.traitement === BADGE_ETAT.EN_COURS)
+                    return 'badge-warning';
+                if (data?.traitement === BADGE_ETAT.TERMINE)
+                    return 'badge-success';
+                break;
+
+            case BADGE_ETAPE.FINALISATEUR:
+                if (data?.traitement === BADGE_ETAT.EN_ATTENTE) {
+                    return 'badge-warning';
+                }
+                if (data?.traitement === BADGE_ETAT.EFFECTUE) {
+                    return 'badge-warning';
+                }
+                if (data?.traitement === BADGE_ETAT.LIVRE) {
+                    return 'badge-primary';
+                }
+                break;
+
+            case BADGE_ETAPE.CLOTURE:
+                if (data?.traitement === BADGE_ETAT.EFFECTUE) {
+                    return 'badge-success';
+                }
+                if (data?.traitement === BADGE_ETAT.TERMINE) {
+                    return 'badge-success';
+                }
+                if (data?.traitement === BADGE_ETAT.REFUSE) {
+                    return 'badge-danger';
+                }
+                if (data?.traitement === BADGE_ETAT.ABANDONNE) {
+                    return 'badge-warning';
+                }
+                if (data?.traitement === BADGE_ETAT.REJETE) {
+                    return 'badge-danger';
+                }
+                break;
         }
-      }
+    }
 
     getTchesBoxValues(rapport: Object = {}): void {
         this.statistiquesBox = [
             {
                 cardBgColor: 'rgb(52, 152, 219)',
                 legend: '# Tâches',
-                count: rapport?.["total_taches"] || '0',
-                taux: rapport?.["pourcentage_taches"] || '0'
+                count: rapport?.['total_taches'] || '0',
+                taux: rapport?.['pourcentage_taches'] || '0',
             },
             {
                 cardBgColor: 'rgb(52, 73, 94)',
                 legend: '# Non Affectées',
-                count: rapport?.["total_non_affectes"] || '0',
-                taux: rapport?.["pourcentage_non_affectes"] || '0'
+                count: rapport?.['total_non_affectes'] || '0',
+                taux: rapport?.['pourcentage_non_affectes'] || '0',
             },
             {
                 cardBgColor: 'rgb(155, 89, 182)',
                 legend: '# Affectées',
-                count: rapport?.["total_affectes"] || '0',
-                taux: rapport?.["pourcentage_affectes"] || '0'
+                count: rapport?.['total_affectes'] || '0',
+                taux: rapport?.['pourcentage_affectes'] || '0',
             },
             {
                 cardBgColor: 'rgb(39, 174, 96)',
                 legend: '# Terminées',
-                count: rapport?.["total_traite_termines"] || '0',
-                taux: rapport?.["pourcentage_traite_termines"] || '0'
+                count: rapport?.['total_traite_termines'] || '0',
+                taux: rapport?.['pourcentage_traite_termines'] || '0',
             },
             {
                 cardBgColor: 'rgb(255, 102, 0)',
                 legend: '# Échouées',
-                count: rapport?.["total_traite_echoues"] || '0',
-                taux: rapport?.["pourcentage_traite_echoues"] || '0'
+                count: rapport?.['total_traite_echoues'] || '0',
+                taux: rapport?.['pourcentage_traite_echoues'] || '0',
             },
             {
                 cardBgColor: 'rgb(231, 76, 60)',
                 legend: '# Rejetées',
-                count: rapport?.["total_traites_rejetes"] || '0',
-                taux: rapport?.["pourcentage_traites_rejetes"] || '0'
-            }
+                count: rapport?.['total_traites_rejetes'] || '0',
+                taux: rapport?.['pourcentage_traites_rejetes'] || '0',
+            },
         ];
     }
 }

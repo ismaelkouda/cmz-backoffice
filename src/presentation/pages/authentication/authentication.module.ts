@@ -6,14 +6,8 @@ import { SharedModule } from 'src/shared/shared.module';
 import { AuthenticationService } from './data-access/authentication.service';
 
 @NgModule({
-  imports: [
-    SharedModule,
-    AuthenticationRoutingModule,
-    NgxCaptchaModule,
-  ],
-  declarations: [
-    LoginComponent  
-  ],
-  providers: [AuthenticationService]
+    imports: [SharedModule, AuthenticationRoutingModule, NgxCaptchaModule],
+    declarations: [LoginComponent],
+    providers: [AuthenticationService],
 })
-export class AuthenticationModule { }
+export class AuthenticationModule {}

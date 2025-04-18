@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { ContactSlaComponent } from './contact-sla.component';
 
 describe('ContactSlaComponent', () => {
-  let component: ContactSlaComponent;
-  let fixture: ComponentFixture<ContactSlaComponent>;
+    let component: ContactSlaComponent;
+    let fixture: ComponentFixture<ContactSlaComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ContactSlaComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [ContactSlaComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ContactSlaComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ContactSlaComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { ConnexionApiComponent } from './connexion-api.component';
 
 describe('ConnexionApiComponent', () => {
-  let component: ConnexionApiComponent;
-  let fixture: ComponentFixture<ConnexionApiComponent>;
+    let component: ConnexionApiComponent;
+    let fixture: ComponentFixture<ConnexionApiComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ConnexionApiComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [ConnexionApiComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ConnexionApiComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ConnexionApiComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

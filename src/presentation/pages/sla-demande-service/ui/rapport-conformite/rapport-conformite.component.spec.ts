@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { RapportConformiteComponent } from './rapport-conformite.component';
 
 describe('RapportConformiteComponent', () => {
-  let component: RapportConformiteComponent;
-  let fixture: ComponentFixture<RapportConformiteComponent>;
+    let component: RapportConformiteComponent;
+    let fixture: ComponentFixture<RapportConformiteComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RapportConformiteComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [RapportConformiteComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RapportConformiteComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(RapportConformiteComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

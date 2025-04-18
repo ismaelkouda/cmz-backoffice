@@ -7,7 +7,6 @@
 // import { NgxPaginationModule } from 'ngx-pagination';
 // import { NgxCaptchaModule } from 'ngx-captcha';
 
-
 // //Modules Primeng
 
 // //Components
@@ -71,8 +70,6 @@
 //         CarteComponent,
 //         CarteFilterComponent,
 //         EtatSoldeFilterComponent,
-
-
 
 //         CarteSimTableComponent,
 //         CartesSimComponent,

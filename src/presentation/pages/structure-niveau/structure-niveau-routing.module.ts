@@ -10,27 +10,26 @@ export const SECOND_LEVEL_ROUTE = 'niveau-2';
 export const THRID_LEVEL_ROUTE = 'niveau-3';
 export const USAGE_METIER = 'usage-metier';
 
-
 const routes: Routes = [
     {
         path: '',
         children: [
             {
                 path: FIRST_LEVEL_ROUTE,
-                component: FirstLevelComponent
+                component: FirstLevelComponent,
             },
             {
                 path: SECOND_LEVEL_ROUTE,
-                component: SecondLevelComponent
+                component: SecondLevelComponent,
             },
             {
                 path: THRID_LEVEL_ROUTE,
-                component: ThirdLevelComponent
+                component: ThirdLevelComponent,
             },
             {
                 path: USAGE_METIER,
-                component: UsageMetierComponent
-            }
+                component: UsageMetierComponent,
+            },
         ],
     },
 ];
@@ -39,4 +38,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class StructureNiveauRoutingModule { }
+export class StructureNiveauRoutingModule {}

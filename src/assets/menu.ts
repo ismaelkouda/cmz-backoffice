@@ -1,19 +1,66 @@
 import { FILE_ATTENTE_ROUTE } from './../presentation/pages/gestion-identifications/gestion-identifications-routing.module';
 import { CONTACT_SLA } from './../presentation/pages/ref-telemetrie/ref-telemetrie-routing.module';
-import { DEMANDE_ROUTE, SUIVIE_TRAITEMENT_ROUTE, CONTENCIEUX_ROUTE, NOTIFY_ROUTE, MESSAGERIE_ROUTE } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
-import { COURBE_MESSAGE, DETECTION_APPRO, PERFORMANCE_COLLECTE } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
-import { COMMANDE_SIM, STOCK_PRODUITS, LIGNE_CREDIT } from './../presentation/pages/provisionning/provisionning-routing.module';
-import { OBJECTIFS_SLA, PROFIL_SUPERVISION, SEUIL_ALARMES } from "src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module";
-import { GESTION_IDENTIFICATIONS, OPERATION_PROVISIONNING, PARAMETRE_SECURITE, PATRIMOINE, REFERENTIEL_TELEMETRIE, SLA_DEMANDE_SERVICE, SUPERVISION_OPERATIONS, SUPERVISION_SIM } from "src/shared/routes/routes";
-import { JOURNAL_ATHENTICATION, PROFILS_HABILITATIONS, UTILISATEURS } from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
+import {
+    DEMANDE_ROUTE,
+    SUIVIE_TRAITEMENT_ROUTE,
+    CONTENCIEUX_ROUTE,
+    NOTIFY_ROUTE,
+    MESSAGERIE_ROUTE,
+} from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
+import {
+    COURBE_MESSAGE,
+    DETECTION_APPRO,
+    PERFORMANCE_COLLECTE,
+} from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
+import {
+    COMMANDE_SIM,
+    STOCK_PRODUITS,
+    LIGNE_CREDIT,
+} from './../presentation/pages/provisionning/provisionning-routing.module';
+import {
+    OBJECTIFS_SLA,
+    PROFIL_SUPERVISION,
+    SEUIL_ALARMES,
+} from 'src/presentation/pages/ref-telemetrie/ref-telemetrie-routing.module';
+import {
+    GESTION_IDENTIFICATIONS,
+    OPERATION_PROVISIONNING,
+    PARAMETRE_SECURITE,
+    PATRIMOINE,
+    REFERENTIEL_TELEMETRIE,
+    SLA_DEMANDE_SERVICE,
+    SUPERVISION_OPERATIONS,
+    SUPERVISION_SIM,
+} from 'src/shared/routes/routes';
+import {
+    JOURNAL_ATHENTICATION,
+    PROFILS_HABILITATIONS,
+    UTILISATEURS,
+} from 'src/presentation/pages/parametre-securite/parametre-securite-routing.module';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
-import { RAPPORT_CONFORMITE, SLA_DASHBORD } from 'src/presentation/pages/sla-demande-service/sla-demande-service-routing.module';
-import { COMPTABILITE, DEMANDE_PRODUITS, PATRIMONY, REQUESTS_PRODUCTS, REQUESTS_SERVICES, SUPERVISORY_REPOSITORY } from '../shared/routes/routes';
+import {
+    RAPPORT_CONFORMITE,
+    SLA_DASHBORD,
+} from 'src/presentation/pages/sla-demande-service/sla-demande-service-routing.module';
+import {
+    COMPTABILITE,
+    DEMANDE_PRODUITS,
+    PATRIMONY,
+    REQUESTS_PRODUCTS,
+    REQUESTS_SERVICES,
+    SUPERVISORY_REPOSITORY,
+} from '../shared/routes/routes';
 import { ACHAT_PRODUIT } from '../presentation/pages/demandes-produits/demandes-produits-routing.module';
 import { FACTURE } from '../presentation/pages/comptabilite/comptabilite-routing.module';
 import { MOBILE_SUBSCRIPTIONS } from '../presentation/pages/requests-services/requests-services-routing.module';
 import { WHITE_SIM } from '../presentation/pages/requests-products/requests-products-routing.module';
-import { DATA_BALANCE_STATUS, DOWNLOAD, SIM_CARD, SMS_BALANCE_STATUS, WHITE_SIM_CARD } from '../presentation/pages/patrimony/patrimony-routing.module';
+import {
+    DATA_BALANCE_STATUS,
+    DOWNLOAD,
+    SIM_CARD,
+    SMS_BALANCE_STATUS,
+    WHITE_SIM_CARD,
+} from '../presentation/pages/patrimony/patrimony-routing.module';
 import { VUE_GEOGRAPHIQUE } from '../presentation/pages/zone-trafic/zone-trafic-routing.module';
 import { INDICATORS_ALARMS } from '../presentation/pages/supervisory-repository/supervisory-repository-routing.module';
 
@@ -98,82 +145,82 @@ export var menuJson = [
     //     ]
     // },
     {
-        title: "Patrimoine",
-        label: "Patrimoine",
-        data: "1-0-0-patrimoine",
+        title: 'Patrimoine',
+        label: 'Patrimoine',
+        data: '1-0-0-patrimoine',
         statut: false,
         expanded: true,
-        icon: "disc",
-        url: "assets/images/portail/government.png",
+        icon: 'disc',
+        url: 'assets/images/portail/government.png',
         path: `/${PATRIMONY}/${SIM_CARD}`,
         routerLink: `/${PATRIMONY}/${SIM_CARD}`,
-        type: "sub",
+        type: 'sub',
         pack: ApplicationType.MONITORING,
         children: [
             {
                 path: `/${PATRIMONY}/${SIM_CARD}`,
-                title: "Cartes SIM",
-                label: "Cartes SIM",
-                data: "1-1-0-cartes-sim",
+                title: 'Cartes SIM',
+                label: 'Cartes SIM',
+                data: '1-1-0-cartes-sim',
                 pack: ApplicationType.MONITORING,
-                type: "link"
+                type: 'link',
             },
             {
                 path: `/${PATRIMONY}/${WHITE_SIM_CARD}`,
-                title: "Cartes SIM Blanches",
-                label: "Cartes SIM Blanches",
-                data: "1-2-0-cartes-sim-blanche",
+                title: 'Cartes SIM Blanches',
+                label: 'Cartes SIM Blanches',
+                data: '1-2-0-cartes-sim-blanche',
                 pack: ApplicationType.MONITORING,
-                type: "link"
+                type: 'link',
             },
             {
                 path: `/${PATRIMONY}/${DATA_BALANCE_STATUS}`,
-                title: "Etat des Soldes Data",
-                label: "Etat des Soldes Data",
-                data: "1-3-0-etat-solde",
+                title: 'Etat des Soldes Data',
+                label: 'Etat des Soldes Data',
+                data: '1-3-0-etat-solde',
                 pack: ApplicationType.MONITORING,
-                type: "link"
+                type: 'link',
             },
             {
                 path: `/${PATRIMONY}/${SMS_BALANCE_STATUS}`,
-                title: "Etat des Soldes SMS",
-                label: "Etat des Soldes SMS",
-                data: "1-4-0-etat-solde-sms",
+                title: 'Etat des Soldes SMS',
+                label: 'Etat des Soldes SMS',
+                data: '1-4-0-etat-solde-sms',
                 pack: ApplicationType.MONITORING,
-                type: "link"
+                type: 'link',
             },
-                        {
+            {
                 path: `/${PATRIMONY}/${DOWNLOAD}`,
-                title: "Téléchargements",
-                label: "Téléchargements",
-                data: "1-5-0-telechargement",
-                type: "link",
-                pack: ApplicationType.MONITORING
+                title: 'Téléchargements',
+                label: 'Téléchargements',
+                data: '1-5-0-telechargement',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
             },
-        ]
+        ],
     },
     {
-        title: "Demandes de service",
-        label: "Demandes de service",
-        data: "9-0-0-demandes-de-services",
+        title: 'Demandes de service',
+        label: 'Demandes de service',
+        data: '9-0-0-demandes-de-services',
         statut: false,
         expanded: true,
-        icon: "pen-tool",
-        url: "assets/images/portail/icone_ps.png",
+        icon: 'pen-tool',
+        url: 'assets/images/portail/icone_ps.png',
         path: `/${REQUESTS_SERVICES}/${MOBILE_SUBSCRIPTIONS}`,
         routerLink: `/${REQUESTS_SERVICES}/${MOBILE_SUBSCRIPTIONS}`,
-        type: "sub",
+        type: 'sub',
         pack: ApplicationType.MONITORING,
         children: [
             {
                 path: `/${REQUESTS_SERVICES}/${MOBILE_SUBSCRIPTIONS}`,
-                title: "Abonnements mobiles",
-                label: "Abonnements mobiles",
-                data: "9-1-0-activations-mobile",
+                title: 'Abonnements mobiles',
+                label: 'Abonnements mobiles',
+                data: '9-1-0-activations-mobile',
                 pack: ApplicationType.MONITORING,
-                type: "link"
+                type: 'link',
             },
-        ]
+        ],
     },
     // {
     //     title: "Commande de produits",
@@ -202,181 +249,181 @@ export var menuJson = [
     //     ]
     // },
     {
-        title: "Commande de produits",
-        label: "Commande de produits",
-        data: "11-0-0-demande-de-produits",
+        title: 'Commande de produits',
+        label: 'Commande de produits',
+        data: '11-0-0-demande-de-produits',
         statut: false,
         expanded: true,
-        icon: "pen-tool",
-        url: "assets/images/portail/icone_ps.png",
+        icon: 'pen-tool',
+        url: 'assets/images/portail/icone_ps.png',
         path: `/${REQUESTS_PRODUCTS}/${WHITE_SIM}`,
         routerLink: `/${REQUESTS_PRODUCTS}/${WHITE_SIM}`,
-        type: "sub",
+        type: 'sub',
         pack: ApplicationType.MONITORING,
         children: [
             {
                 path: `/${REQUESTS_PRODUCTS}/${WHITE_SIM}`,
-                title: "SIM Blanches",
-                label: "SIM Blanches",
-                data: "11-1-0-sim-blanche",
+                title: 'SIM Blanches',
+                label: 'SIM Blanches',
+                data: '11-1-0-sim-blanche',
                 pack: ApplicationType.MONITORING,
-                type: "link"
+                type: 'link',
             },
-        ]
+        ],
     },
     {
-        title: "Réferentiel de supervision",
-        label: "Réferentiel de supervision",
-        data: "2-0-0-referentiel-telemetrie",
+        title: 'Réferentiel de supervision',
+        label: 'Réferentiel de supervision',
+        data: '2-0-0-referentiel-telemetrie',
         statut: false,
         expanded: true,
-        icon: "thermometer",
-        url: "assets/images/portail/icone_operation.webp",
+        icon: 'thermometer',
+        url: 'assets/images/portail/icone_operation.webp',
         path: `/${SUPERVISORY_REPOSITORY}/${INDICATORS_ALARMS}`,
         routerLink: `/${SUPERVISORY_REPOSITORY}/${INDICATORS_ALARMS}`,
-        type: "sub",
+        type: 'sub',
         pack: ApplicationType.MONITORING,
         children: [
             {
                 path: `/${SUPERVISORY_REPOSITORY}/${INDICATORS_ALARMS}`,
-                title: "Indicateurs & Alarmes",
-                label: "Indicateurs & Alarmes",
-                data: "2-1-0-seuil-alarmes",
-                type: "link",
-                pack: ApplicationType.MONITORING
+                title: 'Indicateurs & Alarmes',
+                label: 'Indicateurs & Alarmes',
+                data: '2-1-0-seuil-alarmes',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${REFERENTIEL_TELEMETRIE}/${PROFIL_SUPERVISION}`,
-                title: "Profils de supervision",
-                label: "Profils de supervision",
-                data: "2-2-0-profil-supervision",
-                type: "link",
-                pack: ApplicationType.MONITORING
+                title: 'Profils de supervision',
+                label: 'Profils de supervision',
+                data: '2-2-0-profil-supervision',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${REFERENTIEL_TELEMETRIE}/${OBJECTIFS_SLA}`,
-                title: "Accords SLA",
-                label: "Accords SLA",
-                data: "2-3-0-objectif-sla",
-                type: "link",
-                pack: ApplicationType.MONITORING
+                title: 'Accords SLA',
+                label: 'Accords SLA',
+                data: '2-3-0-objectif-sla',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${REFERENTIEL_TELEMETRIE}/${CONTACT_SLA}`,
-                title: "Contacts Gestion SLA",
-                label: "Contacts Gestion SLA",
-                data: "2-4-0-contact-sla",
-                type: "link",
-                pack: ApplicationType.MONITORING
-            }
-        ]
+                title: 'Contacts Gestion SLA',
+                label: 'Contacts Gestion SLA',
+                data: '2-4-0-contact-sla',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
+            },
+        ],
     },
     {
-        title: "Gestion de Portefeuille",
-        label: "Gestion de Portefeuille",
-        data: "3-0-0-gestion-portefeuille",
+        title: 'Gestion de Portefeuille',
+        label: 'Gestion de Portefeuille',
+        data: '3-0-0-gestion-portefeuille',
         statut: false,
-        icon: "shopping-bag",
-        url: "assets/images/portail/bag.png",
+        icon: 'shopping-bag',
+        url: 'assets/images/portail/bag.png',
         path: `/${OPERATION_PROVISIONNING}/${LIGNE_CREDIT}`,
         routerLink: `/${OPERATION_PROVISIONNING}/${LIGNE_CREDIT}`,
-        type: "sub",
+        type: 'sub',
         children: [
             {
                 path: `/${OPERATION_PROVISIONNING}/${LIGNE_CREDIT}`,
-                title: "Lignes de Crédits",
-                label: "Lignes de Crédits",
-                data: "3-1-0-ligne-credits",
-                type: "link"
+                title: 'Lignes de Crédits',
+                label: 'Lignes de Crédits',
+                data: '3-1-0-ligne-credits',
+                type: 'link',
             },
             {
                 path: `/${OPERATION_PROVISIONNING}/${COMMANDE_SIM}`,
-                title: "Achat de Produits & Services",
-                label: "Achat de Produits & Services",
-                data: "3-2-0-achats-produits",
-                type: "link"
+                title: 'Achat de Produits & Services',
+                label: 'Achat de Produits & Services',
+                data: '3-2-0-achats-produits',
+                type: 'link',
             },
             {
                 path: `/${OPERATION_PROVISIONNING}/${STOCK_PRODUITS}`,
-                title: "Stock de Produits & Services",
-                label: "Stock de Produits & Services",
-                data: "3-3-0-stock-produits",
-                type: "link"
-            }
-        ]
+                title: 'Stock de Produits & Services',
+                label: 'Stock de Produits & Services',
+                data: '3-3-0-stock-produits',
+                type: 'link',
+            },
+        ],
     },
     {
-        title: "Suivi des opérations",
-        label: "Suivi des opérations",
-        data: "4-0-0-suivi-operations",
+        title: 'Suivi des opérations',
+        label: 'Suivi des opérations',
+        data: '4-0-0-suivi-operations',
         statut: false,
-        icon: "airplay",
-        url: "assets/images/portail/icone_recherche_multicritere.webp",
+        icon: 'airplay',
+        url: 'assets/images/portail/icone_recherche_multicritere.webp',
         path: `/${SUPERVISION_OPERATIONS}/${DEMANDE_ROUTE}`,
         routerLink: `/${SUPERVISION_OPERATIONS}/${DEMANDE_ROUTE}`,
-        type: "sub",
+        type: 'sub',
         pack: ApplicationType.MONITORING,
         children: [
             {
                 path: `/${SUPERVISION_OPERATIONS}/${DEMANDE_ROUTE}`,
                 title: "File d'attente",
                 label: "File d'attente",
-                data: "4-1-0-fil-attente",
-                type: "link",
-                pack: ApplicationType.MONITORING
+                data: '4-1-0-fil-attente',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${SUPERVISION_OPERATIONS}/${SUIVIE_TRAITEMENT_ROUTE}`,
-                title: "Suivi et traitements",
-                label: "Suivi et traitements",
-                data: "4-2-0-suivi-traitement",
-                type: "link",
-                pack: ApplicationType.MONITORING
+                title: 'Suivi et traitements',
+                label: 'Suivi et traitements',
+                data: '4-2-0-suivi-traitement',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${SUPERVISION_OPERATIONS}/${CONTENCIEUX_ROUTE}`,
-                title: "Réclamations",
-                label: "Réclamations",
-                data: "4-4-0-contentieux",
-                type: "link",
-                pack: ApplicationType.MONITORING
+                title: 'Réclamations',
+                label: 'Réclamations',
+                data: '4-4-0-contentieux',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${SUPERVISION_OPERATIONS}/${NOTIFY_ROUTE}`,
-                title: "Centre de Notifications",
-                label: "Centre de Notifications",
-                data: "4-5-0-notifications",
-                type: "link",
-                pack: ApplicationType.MONITORING
+                title: 'Centre de Notifications',
+                label: 'Centre de Notifications',
+                data: '4-5-0-notifications',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${SUPERVISION_OPERATIONS}/${MESSAGERIE_ROUTE}`,
-                title: "Messagerie",
-                label: "Messagerie",
-                data: "4-7-0-messagerie",
-                type: "link",
-                pack: ApplicationType.MONITORING
+                title: 'Messagerie',
+                label: 'Messagerie',
+                data: '4-7-0-messagerie',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
             },
-        ]
+        ],
     },
     {
         title: "Suivi de l'identification",
         label: "Suivi de l'identification",
-        data: "10-0-0-gestion-identifications",
+        data: '10-0-0-gestion-identifications',
         active: false,
         statut: false,
-        icon: "airplay",
-        url: "assets/images/portail/icone_recherche_multicritere.webp",
+        icon: 'airplay',
+        url: 'assets/images/portail/icone_recherche_multicritere.webp',
         path: `/${GESTION_IDENTIFICATIONS}/${FILE_ATTENTE_ROUTE}`,
         routerLink: `/${GESTION_IDENTIFICATIONS}/${FILE_ATTENTE_ROUTE}`,
-        type: "sub",
+        type: 'sub',
         children: [
             {
                 path: `/${GESTION_IDENTIFICATIONS}/${FILE_ATTENTE_ROUTE}`,
                 title: "File d'attente",
                 label: "File d'attente",
-                data: "10-1-0-file-attente",
-                type: "link",
+                data: '10-1-0-file-attente',
+                type: 'link',
             },
             // {
             //   path: `/${GESTION_IDENTIFICATIONS}/${PERSONNE_PHYSIQUE}`,
@@ -395,132 +442,132 @@ export var menuJson = [
         ],
     },
     {
-        title: "Supervision des SIM",
-        label: "Supervision des SIM",
-        data: "5-0-0-supervision-sim",
+        title: 'Supervision des SIM',
+        label: 'Supervision des SIM',
+        data: '5-0-0-supervision-sim',
         statut: false,
-        icon: "activity",
-        url: "assets/images/portail/graph.png",
-        type: "sub",
+        icon: 'activity',
+        url: 'assets/images/portail/graph.png',
+        type: 'sub',
         pack: ApplicationType.MONITORING,
         path: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
         routerLink: `/${SUPERVISION_SIM}/${PERFORMANCE_COLLECTE}`,
         children: [
             {
                 path: `/zone-trafic/${VUE_GEOGRAPHIQUE}`,
-                title: "Zones de Trafic",
-                label: "Zones- de Trafic",
-                data: "5-1-0-zone-trafic",
-                type: "link",
+                title: 'Zones de Trafic',
+                label: 'Zones- de Trafic',
+                data: '5-1-0-zone-trafic',
+                type: 'link',
                 pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${SUPERVISION_SIM}/${COURBE_MESSAGE}`,
-                title: "Analyse des Alarmes",
-                label: "Analyse des Alarmes",
-                data: "5-2-0-analyse-alarmes",
-                type: "link",
+                title: 'Analyse des Alarmes',
+                label: 'Analyse des Alarmes',
+                data: '5-2-0-analyse-alarmes',
+                type: 'link',
                 pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${SUPERVISION_SIM}/${DETECTION_APPRO}`,
-                title: "Détection Appro. Data",
-                label: "Détection Appro. Data",
-                data: "5-3-0-detection-appro",
-                type: "link",
+                title: 'Détection Appro. Data',
+                label: 'Détection Appro. Data',
+                data: '5-3-0-detection-appro',
+                type: 'link',
                 pack: ApplicationType.MONITORING,
-            }
-        ]
+            },
+        ],
     },
     {
-        title: "Comptabilité",
-        label: "Comptabilité",
-        data: "12-0-0-comptabilite",
+        title: 'Comptabilité',
+        label: 'Comptabilité',
+        data: '12-0-0-comptabilite',
         statut: false,
-        icon: "activity",
-        url: "assets/images/portail/graph.png",
-        type: "sub",
+        icon: 'activity',
+        url: 'assets/images/portail/graph.png',
+        type: 'sub',
         pack: ApplicationType.MONITORING,
         path: `/${COMPTABILITE}/${FACTURE}`,
         routerLink: `/${COMPTABILITE}/${FACTURE}`,
         children: [
             {
                 path: `/${COMPTABILITE}/${FACTURE}`,
-                title: "Facture",
-                label: "Facture",
-                data: "12-1-0-facture",
-                type: "link",
+                title: 'Facture',
+                label: 'Facture',
+                data: '12-1-0-facture',
+                type: 'link',
                 pack: ApplicationType.MONITORING,
-            }
-        ]
+            },
+        ],
     },
     {
-        title: "SLA Demandes Service",
-        label: "SLA Demandes Service",
-        data: "8-0-0-sla-demandes-de-services",
+        title: 'SLA Demandes Service',
+        label: 'SLA Demandes Service',
+        data: '8-0-0-sla-demandes-de-services',
         statut: false,
-        icon: "clock",
+        icon: 'clock',
         path: `/${SLA_DEMANDE_SERVICE}/${SLA_DASHBORD}`,
-        type: "sub",
+        type: 'sub',
         pack: ApplicationType.MONITORING,
         children: [
             {
                 path: `/${SLA_DEMANDE_SERVICE}/${SLA_DASHBORD}`,
-                title: "Tableau de bord SLA",
-                label: "Tableau de bord SLA",
-                data: "8-1-0-dashboard-sla",
-                type: "link",
-                pack: ApplicationType.MONITORING
+                title: 'Tableau de bord SLA',
+                label: 'Tableau de bord SLA',
+                data: '8-1-0-dashboard-sla',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${SLA_DEMANDE_SERVICE}/${RAPPORT_CONFORMITE}`,
-                title: "Rapport Performances",
-                label: "Rapport Performances",
-                data: "8-2-0-rapport-de-conformite",
-                type: "link",
-                pack: ApplicationType.MONITORING
-            }
-        ]
+                title: 'Rapport Performances',
+                label: 'Rapport Performances',
+                data: '8-2-0-rapport-de-conformite',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
+            },
+        ],
     },
     {
-        title: "Paramètres & Sécurité",
-        label: "Paramètres & Sécurité",
-        data: "6-0-0-parametres-securite",
+        title: 'Paramètres & Sécurité',
+        label: 'Paramètres & Sécurité',
+        data: '6-0-0-parametres-securite',
         statut: false,
-        icon: "settings",
-        url: "assets/images/portail/icone_settings.webp",
+        icon: 'settings',
+        url: 'assets/images/portail/icone_settings.webp',
         path: `/${PARAMETRE_SECURITE}/${PROFILS_HABILITATIONS}`,
         routerLink: `/${PARAMETRE_SECURITE}/${PROFILS_HABILITATIONS}`,
-        type: "sub",
+        type: 'sub',
         pack: ApplicationType.MONITORING,
         children: [
             {
                 path: `/${PARAMETRE_SECURITE}/${PROFILS_HABILITATIONS}`,
-                title: "Profils Habilitations",
-                label: "Profils Habilitations",
-                data: "6-1-0-profils-habilitations",
-                type: "link",
-                pack: ApplicationType.MONITORING
+                title: 'Profils Habilitations',
+                label: 'Profils Habilitations',
+                data: '6-1-0-profils-habilitations',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${PARAMETRE_SECURITE}/${UTILISATEURS}`,
-                title: "Utilisateurs",
-                label: "Utilisateurs",
-                data: "6-2-0-utilisateurs",
-                type: "link",
-                pack: ApplicationType.MONITORING
+                title: 'Utilisateurs',
+                label: 'Utilisateurs',
+                data: '6-2-0-utilisateurs',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
             },
             {
                 path: `/${PARAMETRE_SECURITE}/${JOURNAL_ATHENTICATION}`,
-                title: "Journal des accès",
-                label: "Journal des accès",
-                data: "6-3-0-journaux-auth",
-                type: "link",
-                pack: ApplicationType.MONITORING
-            }
-        ]
-    }
-]
+                title: 'Journal des accès',
+                label: 'Journal des accès',
+                data: '6-3-0-journaux-auth',
+                type: 'link',
+                pack: ApplicationType.MONITORING,
+            },
+        ],
+    },
+];
 
 //10.10.0.200:12200
 //https://osim-monitoring.orange.ci:12200

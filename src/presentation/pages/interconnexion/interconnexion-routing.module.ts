@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ConnexionApiComponent } from './ui/connexion-api/connexion-api.component';
 
-export const CONNEXION_API = 'connexion-api'
+export const CONNEXION_API = 'connexion-api';
 
 const routes: Routes = [
     {
@@ -10,8 +10,8 @@ const routes: Routes = [
         children: [
             {
                 path: CONNEXION_API,
-                component: ConnexionApiComponent
-            }
+                component: ConnexionApiComponent,
+            },
         ],
     },
 ];
@@ -20,4 +20,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class InterconnexionRoutingModule { }
+export class InterconnexionRoutingModule {}

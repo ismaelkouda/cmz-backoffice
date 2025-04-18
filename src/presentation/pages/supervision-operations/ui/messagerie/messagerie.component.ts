@@ -2,59 +2,54 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-messagerie',
-  templateUrl: './messagerie.component.html',
-  styleUrls: ['./messagerie.component.scss']
+    selector: 'app-messagerie',
+    templateUrl: './messagerie.component.html',
+    styleUrls: ['./messagerie.component.scss'],
 })
 export class MessagerieComponent implements OnInit {
+    public rapport: any;
+    public initialView: boolean = true;
+    public formsView: boolean = false;
+    public currentObject: any;
+    public currentTabsIndex: number = 0;
+    public title = 'Messagerie - Système de Gestion de Collecte Centralisée';
 
-  public rapport: any;
-  public initialView: boolean = true;
-  public formsView: boolean = false;  
-  public currentObject: any;  
-  public currentTabsIndex: number = 0;
-  public title = 'Messagerie - Système de Gestion de Collecte Centralisée';
-
-  constructor(
-    private titleService: Title
-  ) {
-    this.titleService.setTitle(`${this.title}`);
-  }
-
-  ngOnInit() {
-    if (!this.formsView) {
-      this.currentTabsIndex = 0;
+    constructor(private titleService: Title) {
+        this.titleService.setTitle(`${this.title}`);
     }
-  }
 
-  public onInitForm(): void {
-    this.initialView = false;
-    this.formsView = true;
-  }
-  handleChangeTabviewIndex(e) {    
-    this.currentTabsIndex = e.index;
-    for (const key in this.rapport) {
-      if (this.rapport.hasOwnProperty(key)) {
-          this.rapport[key] = '0';
-      }
+    ngOnInit() {
+        if (!this.formsView) {
+            this.currentTabsIndex = 0;
+        }
     }
-  }
-  public OnPushRapport(event: any): void {
-    this.rapport = event;
-  }
 
-  public pushStatutView(event: boolean): void {
-    if(event === false){
-      this.currentTabsIndex = 0
+    public onInitForm(): void {
+        this.initialView = false;
+        this.formsView = true;
     }
-    this.formsView = event;
-    this.initialView = !event;
-  }
-  public pushCurrentObject(event: any): void {
+    handleChangeTabviewIndex(e) {
+        this.currentTabsIndex = e.index;
+        for (const key in this.rapport) {
+            if (this.rapport.hasOwnProperty(key)) {
+                this.rapport[key] = '0';
+            }
+        }
+    }
+    public OnPushRapport(event: any): void {
+        this.rapport = event;
+    }
 
-    console.log("this.currentObject",this.currentObject);
-    
-    this.currentObject = event;
-  }
+    public pushStatutView(event: boolean): void {
+        if (event === false) {
+            this.currentTabsIndex = 0;
+        }
+        this.formsView = event;
+        this.initialView = !event;
+    }
+    public pushCurrentObject(event: any): void {
+        console.log('this.currentObject', this.currentObject);
 
+        this.currentObject = event;
+    }
 }

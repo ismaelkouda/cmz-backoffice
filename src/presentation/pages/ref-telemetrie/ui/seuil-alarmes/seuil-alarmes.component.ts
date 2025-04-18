@@ -52,7 +52,6 @@
 //       })
 //   }
 
-
 //   handleChangeTabviewIndex(e) {
 //     console.log('e', e)
 //     this.currentTabsIndex = e.index;

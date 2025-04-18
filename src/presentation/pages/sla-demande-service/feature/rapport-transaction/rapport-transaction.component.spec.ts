@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { RapportTransactionComponent } from './rapport-transaction.component';
 
 describe('RapportTransactionComponent', () => {
-  let component: RapportTransactionComponent;
-  let fixture: ComponentFixture<RapportTransactionComponent>;
+    let component: RapportTransactionComponent;
+    let fixture: ComponentFixture<RapportTransactionComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RapportTransactionComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [RapportTransactionComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RapportTransactionComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(RapportTransactionComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

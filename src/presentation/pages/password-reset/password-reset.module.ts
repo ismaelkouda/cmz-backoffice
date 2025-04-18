@@ -3,7 +3,6 @@ import { SharedModule } from './../../../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-
 //Modules Primeng
 import { PasswordResetRoutingModule } from './password-reset-routing.module';
 
@@ -11,17 +10,9 @@ import { PasswordResetRoutingModule } from './password-reset-routing.module';
 import { ResetPasswordComponent } from './ui/reset-password/reset-password.component';
 import { ForgotPasswordComponent } from './ui/forgot-password/forgot-password.component';
 
-
 @NgModule({
-  imports: [
-    SharedModule,
-    PasswordResetRoutingModule,
-    NgxPaginationModule,
-  ],
-  declarations: [
-    ForgotPasswordComponent,
-    ResetPasswordComponent
-  ],
-  providers: [PasswordResetService]
+    imports: [SharedModule, PasswordResetRoutingModule, NgxPaginationModule],
+    declarations: [ForgotPasswordComponent, ResetPasswordComponent],
+    providers: [PasswordResetService],
 })
-export class PasswordResetModule { }
+export class PasswordResetModule {}

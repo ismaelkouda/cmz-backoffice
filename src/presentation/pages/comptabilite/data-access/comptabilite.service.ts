@@ -6,26 +6,28 @@ import { EndPointUrl } from './api.enum';
 import { EnvService } from '../../../../shared/services/env.service';
 
 @Injectable()
-
 export class ComptabiliteService {
     public baseUrl: string;
     public httpOptions: any;
 
-    constructor(
-        private http: HttpClient,
-        private envService: EnvService
-    ) {
+    constructor(private http: HttpClient, private envService: EnvService) {
         this.baseUrl = this.envService.apiUrl;
     }
 
     PostGestionFactureFacture(data, page): Observable<any> {
-        const url: string = (<string>EndPointUrl.POST_GESTION_FACTURE_FACTURES).replace('{page}', page);
+        const url: string = (<string>(
+            EndPointUrl.POST_GESTION_FACTURE_FACTURES
+        )).replace('{page}', page);
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
 
     PostGestionFactureFacturesDetails(numeroDemande: string): Observable<any> {
-        const url: string = <string>EndPointUrl.POST_GESTION_FACTURE_FACTURES_DETAILS.replace('{numeroDemande}', numeroDemande);
+        const url: string = <string>(
+            EndPointUrl.POST_GESTION_FACTURE_FACTURES_DETAILS.replace(
+                '{numeroDemande}',
+                numeroDemande
+            )
+        );
         return this.http.post(`${this.baseUrl}${url}`, {});
     }
-
 }

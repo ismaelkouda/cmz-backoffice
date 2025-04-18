@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { StatutContratComponent } from './statut-contrat.component';
 
 describe('StatutContratComponent', () => {
-  let component: StatutContratComponent;
-  let fixture: ComponentFixture<StatutContratComponent>;
+    let component: StatutContratComponent;
+    let fixture: ComponentFixture<StatutContratComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ StatutContratComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [StatutContratComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(StatutContratComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(StatutContratComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -4,28 +4,28 @@ import { LoginComponent } from './ui/login/login.component';
 import { AuthGuard } from '../../../core/guard/auth.guard';
 import { GuestGuard } from '../../../core/guard/guest.guard';
 
-export const LOGIN = "login";
-export const PORTAIL = "portail";
+export const LOGIN = 'login';
+export const PORTAIL = 'portail';
 
 const routes: Routes = [
-  {
-    path: "",
-    children: [
-      {
-        path: LOGIN,
-        component: LoginComponent,
-      },
-      {
+    {
         path: '',
-        redirectTo: LOGIN,
-        pathMatch: 'full'
-      }
-    ],
-  },
+        children: [
+            {
+                path: LOGIN,
+                component: LoginComponent,
+            },
+            {
+                path: '',
+                redirectTo: LOGIN,
+                pathMatch: 'full',
+            },
+        ],
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class AuthenticationRoutingModule { }
+export class AuthenticationRoutingModule {}

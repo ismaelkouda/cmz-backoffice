@@ -5,73 +5,71 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-facture',
-  templateUrl: './facture.component.html',
-  styleUrls: ['./facture.component.scss']
+    selector: 'app-facture',
+    templateUrl: './facture.component.html',
+    styleUrls: ['./facture.component.scss'],
 })
 export class FactureComponent implements OnInit {
+    @Output() factureView = new EventEmitter();
+    @Input() currentObjectTwo;
+    @Output() listAchats = new EventEmitter();
 
-  @Output() factureView = new EventEmitter();
-  @Input() currentObjectTwo;
-  @Output() listAchats = new EventEmitter();
+    public totalPage: 0;
+    public totalRecords: 0;
+    public recordsPerPage: 0;
+    public offset: any;
+    public p: number = 1;
+    public montantHt: number = 0;
+    public montantTva: number = 0;
+    public montantTtc: number = 0;
+    public tenant: any;
+    public currentDate: any;
+    public delayDate: any;
 
-  public totalPage: 0;
-  public totalRecords: 0;
-  public recordsPerPage: 0;
-  public offset: any;
-  public p: number = 1;
-  public montantHt: number = 0;
-  public montantTva: number = 0;
-  public montantTtc: number = 0;
-  public tenant: any;
-  public currentDate: any;
-  public delayDate: any;
+    constructor(
+        private provisionningService: ProvisionningService,
+        private toastrService: ToastrService
+    ) {
+        this.currentDate = moment().format('DD/MM/YYYY');
+        this.delayDate = moment().add(6, 'days').format('DD/MM/YYYY');
+    }
 
-  constructor(
-    private provisionningService: ProvisionningService,
-    private toastrService: ToastrService,
-  ) {
-    this.currentDate = moment().format('DD/MM/YYYY');
-    this.delayDate = moment().add(6, 'days').format('DD/MM/YYYY');
+    ngOnInit() {
+        this.montantHt = this.currentObjectTwo
+            .map((item) => {
+                return item.prix_unitaire * item.qte;
+            })
+            .reduce(
+                (totalPrice, singleItemPrice) => totalPrice + singleItemPrice,
+                0
+            );
 
+        this.montantTva = (this.montantHt * 18) / 100;
+        this.montantTtc = this.montantHt - this.montantTva;
+    }
 
-  }
+    public OnValidate() {
+        this.provisionningService
+            .OnValidate({
+                operation: 'commande-produits',
+                achats: this.currentObjectTwo,
+            })
+            .subscribe({
+                next: (response) => {
+                    this.close();
+                    this.toastrService.success(response.message);
+                },
+                error: (error) => {
+                    this.toastrService.error(error.error.message);
+                },
+            });
+    }
 
-  ngOnInit() {
-    this.montantHt = this.currentObjectTwo.map(item => {
-      return item.prix_unitaire * item.qte
-    }).reduce((totalPrice, singleItemPrice) => totalPrice + singleItemPrice, 0);
-
-    this.montantTva = (this.montantHt * 18) / 100;
-    this.montantTtc = this.montantHt - this.montantTva;
-
-  }
-
-
-  public OnValidate() {
-    this.provisionningService
-      .OnValidate({
-        operation: "commande-produits",
-        achats: this.currentObjectTwo
-      })
-      .subscribe({
-        next: (response) => {
-          this.close();
-          this.toastrService.success(response.message);
-        },
-        error: (error) => {
-          this.toastrService.error(error.error.message);
-        }
-      })
-  }
-
-  public close(): void {
-    this.factureView.emit({ statut: false, type: 'fermer' });
-  }
-  public onValidate() {
-
-  }
-  pipeValue(number: any) {
-    return new Intl.NumberFormat('fr-FR').format(number);
-  }
+    public close(): void {
+        this.factureView.emit({ statut: false, type: 'fermer' });
+    }
+    public onValidate() {}
+    pipeValue(number: any) {
+        return new Intl.NumberFormat('fr-FR').format(number);
+    }
 }

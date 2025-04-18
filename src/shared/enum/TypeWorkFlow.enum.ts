@@ -1,4 +1,4 @@
 export const enum TypeWorkFlow {
-    AFFECTATION = "affectation",
+    AFFECTATION = 'affectation',
     VIUSALISATION = 'visualiser',
 }

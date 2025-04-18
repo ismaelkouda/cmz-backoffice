@@ -1,29 +1,39 @@
-const Swal = require("sweetalert2");
-import { Injectable } from "@angular/core";
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, throwError } from "rxjs";
+const Swal = require('sweetalert2');
+import { Injectable } from '@angular/core';
+import {
+    HttpEvent,
+    HttpHandler,
+    HttpInterceptor,
+    HttpRequest,
+    HttpErrorResponse,
+} from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingBarService } from '@ngx-loading-bar/core';
-import { EncodingDataService } from "./encoding-data.service";
-import { StoreTokenService } from "./store-token.service";
+import { EncodingDataService } from './encoding-data.service';
+import { StoreTokenService } from './store-token.service';
 
 @Injectable()
-
 export class GlobalHttpInterceptorService implements HttpInterceptor {
-
     constructor(
         public router: Router,
         private toastrService: ToastrService,
         private loadingBar: LoadingBarService,
         private storage: EncodingDataService,
-        private storeTokenService: StoreTokenService) { }
+        private storeTokenService: StoreTokenService
+    ) {}
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    intercept(
+        req: HttpRequest<any>,
+        next: HttpHandler
+    ): Observable<HttpEvent<any>> {
         // this.storeTokenService.removeToken();
         const token = this.storeTokenService.getToken;
-        req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token?.value) });
+        req = req.clone({
+            headers: req.headers.set('Authorization', 'Bearer ' + token?.value),
+        });
         return next.handle(req).pipe(
             catchError((error) => {
                 let handled: boolean = false;
@@ -37,11 +47,13 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                                     this.storage.removeData('user');
                                     this.storage.removeData('current_menu');
                                     this.storeTokenService.removeToken();
-                                    this.router.navigateByUrl('auth/login')
+                                    this.router.navigateByUrl('auth/login');
                                     // .then(() => window.location.reload());
                                 } else {
                                     this.loadingBar.stop();
-                                    this.toastrService.error(`${error.error.message}`)
+                                    this.toastrService.error(
+                                        `${error.error.message}`
+                                    );
                                 }
                                 break;
                             case 201:
@@ -75,7 +87,9 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                                 //   });
                                 break;
                             case 422:
-                                this.toastrService.error(`${error.error.message}`);
+                                this.toastrService.error(
+                                    `${error.error.message}`
+                                );
                                 // Swal.fire({
                                 //     confirmButtonColor: "#569C5B",
                                 //     icon: "error",
@@ -97,17 +111,14 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                                 break;
                         }
                     }
+                } else {
                 }
-                else { }
                 if (handled) {
                     return of(error);
                 } else {
                     return throwError(error);
                 }
-
             })
-        )
+        );
     }
-    
 }
-

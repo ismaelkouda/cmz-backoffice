@@ -1,4 +1,7 @@
-export async function deriveKey(password: string, salt: Uint8Array): Promise<CryptoKey> {
+export async function deriveKey(
+    password: string,
+    salt: Uint8Array
+): Promise<CryptoKey> {
     const iterations = 100000;
     const algo = { name: 'AES-GCM', length: 256 };
 
@@ -16,7 +19,7 @@ export async function deriveKey(password: string, salt: Uint8Array): Promise<Cry
             name: 'PBKDF2',
             salt,
             iterations: iterations,
-            hash: 'SHA-256'
+            hash: 'SHA-256',
         },
         keyMaterial,
         algo,
@@ -30,5 +33,5 @@ export function toBase64(buffer: ArrayBuffer): string {
 }
 
 export function fromBase64(base64: string): Uint8Array {
-    return Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+    return Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
 }

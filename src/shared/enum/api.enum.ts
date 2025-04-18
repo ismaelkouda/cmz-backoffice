@@ -38,13 +38,13 @@ export const enum EndPointUrl {
     DISABLE_NIVEAUX_3 = 'parametres-securite/niveau_trois/{id}/desactiver',
 
     //Third Level EndPoints
-    GET_ALL_USAGES = 'parametres-securite/usages/all',    
+    GET_ALL_USAGES = 'parametres-securite/usages/all',
     SAVE_USAGE = 'parametres-securite/usages/store',
     UPDATE_USAGE = 'parametres-securite/usages/update',
     ACTIVATE_USAGE = 'parametres-securite/usages/{id}/activer',
     DISABLE_USAGE = 'parametres-securite/usages/{id}/desactiver',
     DELETE_USAGE = 'parametres-securite/usages/{id}/delete',
-    
+
     // SECURITY
     HANDLE_UPDATE_PASSWORD = 'users/update-password',
     GET_ALL_SITES = 'sites/all',
@@ -64,8 +64,8 @@ export const enum EndPointUrl {
 
     GET_ALL_APN = 'patrimoine-sim/apn/all',
 
-    FORCE_VENTE_COMMERCIAL_ALL = "force-vente/commercial/all?page={page}",
-    POST_GESTION_TENANTS_PORTEFEUILLES_TENANT_ALL = "gestion-tenants/portefeuilles-tenant/all",
-    GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_DETAILS = "supervision-operations/demandes-services/{numberDemand}/details",
+    FORCE_VENTE_COMMERCIAL_ALL = 'force-vente/commercial/all?page={page}',
+    POST_GESTION_TENANTS_PORTEFEUILLES_TENANT_ALL = 'gestion-tenants/portefeuilles-tenant/all',
+    GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_DETAILS = 'supervision-operations/demandes-services/{numberDemand}/details',
     PATRIMOINE_SIM_TRANSACTIONS_ALL_PAGE = 'patrimoine-sim/transactions/all?page={page}',
 }

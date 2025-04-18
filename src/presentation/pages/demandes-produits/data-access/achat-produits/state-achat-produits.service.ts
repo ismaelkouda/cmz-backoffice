@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-
 export class StateAchatProduitsService {
     private filterAchatProduitsState: any;
     private currentPageAchatProduitsState: any;
-    private itemSelectedState: Object|null;
+    private itemSelectedState: Object | null;
 
     /**
      * @function setFilterAchatProduitsState garde et returner des données du filtre sous form de string
@@ -13,7 +12,7 @@ export class StateAchatProduitsService {
      * @returns return les données du filtre sous forme de string
      */
     setFilterAchatProduitsState(state: any): string {
-        return this.generateQueryStringFromObject(state)
+        return this.generateQueryStringFromObject(state);
     }
     /**
      * @function getFilterAchatProduitsState rtransform les données du filtre de string => object
@@ -21,9 +20,11 @@ export class StateAchatProduitsService {
      * @returns return les données du filtre sous forme d'object
      */
     // garde l'etat des données du filtre sous form de string
-    getFilterAchatProduitsState(state?: any): Record<string, string | null>  {
+    getFilterAchatProduitsState(state?: any): Record<string, string | null> {
         this.filterAchatProduitsState = state ?? this.filterAchatProduitsState;
-        return this.parseQueryStringToObject(this.filterAchatProduitsState ?? state)
+        return this.parseQueryStringToObject(
+            this.filterAchatProduitsState ?? state
+        );
     }
 
     setCurrentPageAchatProduitsState(state: any): void {
@@ -34,11 +35,11 @@ export class StateAchatProduitsService {
         return this.currentPageAchatProduitsState;
     }
 
-    setItemSelectedState(state: Object|undefined): void {
+    setItemSelectedState(state: Object | undefined): void {
         this.itemSelectedState = state;
     }
 
-    getItemSelectedState(): Object|null {
+    getItemSelectedState(): Object | null {
         return this.itemSelectedState;
     }
 
@@ -50,13 +51,15 @@ export class StateAchatProduitsService {
 
     /**
      * Génère une chaîne de requête à partir d'un objet.
-     * 
+     *
      * @param dataFilter - Un objet contenant les filtres sous forme de paires clé-valeur.
      * @returns Une chaîne de requête encodée ou une chaîne vide si aucune donnée valide n'est présente.
      */
-    public generateQueryStringFromObject = (dataFilter: Record<string, any> = {}): string => {
+    public generateQueryStringFromObject = (
+        dataFilter: Record<string, any> = {}
+    ): string => {
         const params = new URLSearchParams();
-        if(dataFilter) {
+        if (dataFilter) {
             Object.entries(dataFilter).forEach(([key, val]) => {
                 if (key && val !== null && val !== undefined) {
                     const encodedKey = encodeURIComponent(key);
@@ -72,24 +75,32 @@ export class StateAchatProduitsService {
 
     /**
      * Convertit une chaîne de requête en un objet.
-     * 
+     *
      * @param queryString - La chaîne de requête à analyser.
      * @returns Un objet représentant les paires clé-valeur de la chaîne de requête.
      */
-    private parseQueryStringToObject = (queryString: string): Record<string, string | null> => {
+    private parseQueryStringToObject = (
+        queryString: string
+    ): Record<string, string | null> => {
         const filterObj: Record<string, string | null> = {};
 
-        if (!queryString || typeof queryString !== 'string' ||  queryString.trim() === '') {
+        if (
+            !queryString ||
+            typeof queryString !== 'string' ||
+            queryString.trim() === ''
+        ) {
             return filterObj; // Retourne un objet vide si la chaîne de requête est vide ou nulle
         }
 
-        const params = new URLSearchParams(queryString.startsWith('?') ? queryString.substring(1) : queryString);
+        const params = new URLSearchParams(
+            queryString.startsWith('?') ? queryString.substring(1) : queryString
+        );
 
         params.forEach((value, key) => {
-            filterObj[decodeURIComponent(key)] = value !== '' ? decodeURIComponent(value) : null; // Convertir une chaîne vide en null
+            filterObj[decodeURIComponent(key)] =
+                value !== '' ? decodeURIComponent(value) : null; // Convertir une chaîne vide en null
         });
 
         return filterObj;
     };
-
 }

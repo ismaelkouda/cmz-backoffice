@@ -1,4 +1,4 @@
-import { Paginate } from "../../../../../../shared/interfaces/paginate";
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
 
 export interface invoiceInterface {
     id: number;
@@ -71,9 +71,9 @@ export interface invoiceInterface {
 }
 
 export interface invoiceApiResponseInterface {
-  error: boolean;
-  message: string;
-  data: invoiceGlobalStatsInterface;
+    error: boolean;
+    message: string;
+    data: invoiceGlobalStatsInterface;
 }
 
 export interface invoiceGlobalStatsInterface {

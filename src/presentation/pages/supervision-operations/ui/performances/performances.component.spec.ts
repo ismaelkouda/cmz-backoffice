@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { PerformancesComponent } from './performances.component';
 
 describe('PerformancesComponent', () => {
-  let component: PerformancesComponent;
-  let fixture: ComponentFixture<PerformancesComponent>;
+    let component: PerformancesComponent;
+    let fixture: ComponentFixture<PerformancesComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PerformancesComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [PerformancesComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PerformancesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(PerformancesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

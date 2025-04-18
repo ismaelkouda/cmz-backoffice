@@ -4,13 +4,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Injectable()
 // @ts-ignore
 export class GlobalErrorHandlerService implements ErrorHandler {
-
-    constructor() {
-    }
-
+    constructor() {}
 
     handleError(error: Error | HttpErrorResponse) {
         console.error(error);
     }
-
 }

@@ -1,4 +1,4 @@
 export enum TypeUtilisateur {
-    PERSONNE = "Personne",
-    EQUIPEMENT = "Equipement"
+    PERSONNE = 'Personne',
+    EQUIPEMENT = 'Equipement',
 }

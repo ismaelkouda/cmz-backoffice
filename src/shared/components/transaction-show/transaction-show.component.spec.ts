@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { TransactionShowComponent } from './transaction-show.component';
 
 describe('TransactionShowComponent', () => {
-  let component: TransactionShowComponent;
-  let fixture: ComponentFixture<TransactionShowComponent>;
+    let component: TransactionShowComponent;
+    let fixture: ComponentFixture<TransactionShowComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ TransactionShowComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [TransactionShowComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(TransactionShowComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(TransactionShowComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

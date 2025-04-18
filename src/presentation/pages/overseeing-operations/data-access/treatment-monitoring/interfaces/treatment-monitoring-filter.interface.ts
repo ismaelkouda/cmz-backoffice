@@ -1,4 +1,4 @@
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl } from '@angular/forms';
 
 export interface treatmentMonitoringFilterInterface {
     initie_par: AbstractControl<string>;
@@ -11,4 +11,3 @@ export interface treatmentMonitoringFilterInterface {
     date_debut: AbstractControl<string>;
     date_fin: AbstractControl<string>;
 }
-

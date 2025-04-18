@@ -7,8 +7,6 @@ import { SharedModule } from '../../../shared/shared.module';
 
 //Components
 
-
-
 @NgModule({
     imports: [
         SharedModule,
@@ -16,8 +14,6 @@ import { SharedModule } from '../../../shared/shared.module';
         NgxPaginationModule,
         NgxCaptchaModule,
     ],
-    declarations: [
-        
-    ],
+    declarations: [],
 })
-export class ReportingModule { }
+export class ReportingModule {}

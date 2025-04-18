@@ -22,93 +22,94 @@ export const DEMANDE_INTEGRATION_FORM = 'form';
 export const DEMANDE_INTEGRATION_DOSSIER = 'dossier';
 export const DEMANDE_IDENTIFICATION_FORM = 'form';
 export const DEMANDE_IDENTIFICATION = 'identification';
-export const DEMANDE_IDENTIFICATION_DOSSIER = 'dossier';
+export const DEMANDE_IDENTIFICATION_DOSSIER = 'dossier';
 
-const routes: Routes = [{
-    path: "",
-    children: [
-        {
-            path: DEMANDE_ACTIVATION,
-            children: [
-                // {
-                //     path: '',
-                //     component: DemandeActivationComponent,
-                // },
-                // {
-                //   path: '**',
-                //   redirectTo: '',
-                // },
-            ]
-        },
-        // {
-        //     path: DEMANDE_INTEGRATION,
-        //     children: [
-        //         {
-        //             path: '',
-        //             component: DemandeIntegrationComponent,
-        //         },
-        //         {
-        //             path: DEMANDE_INTEGRATION_FORM + "/:id",
-        //             component: FormDemandeIntegrationComponent,
-        //         },
-        //         {
-        //             path: DEMANDE_INTEGRATION_DOSSIER + "/:id",
-        //             component: DossierDemandeIntegrationComponent,
-        //         },
-        //         {
-        //             path: '', 
-        //             redirectTo: DEMANDE_INTEGRATION,
-        //         }
-        //     ]
-        // },
-        // {
-        //     path: DEMANDE_SUSPENSION,
-        //     component: DemandeSuspensionComponent
-        // },
-        // {
-        //     path: DEMANDE_RESILIATION,
-        //     component: DemandeResiliationComponent
-        // },
-        // {
-        //     path: DEMANDE_SWAPPING,
-        //     component: DemandeSwappingComponent
-        // },
-        // {
-        //     path: DEMANDE_FORMULE_CHANGE,
-        //     component: DemandeFormuleChangeComponent
-        // },
-//         {
-//             path: DEMANDE_IDENTIFICATION,
-//             children: [
-//                 {
-//                     path: '',
-//                     component: DemandeIdentificationComponent,
-//                 },
-               
-//                 {
-//                     path: DEMANDE_IDENTIFICATION_FORM + "/:id",
-//                     component: FormDemandeIdentificationComponent
-//                 },
-//                 {
-//                     path:DEMANDE_IDENTIFICATION_DOSSIER + "/:id",
-//                     component: ManagementDemandeIdentificationComponent
-//                 },
-//                 {
-//                     path: '', 
-//                     redirectTo: DEMANDE_IDENTIFICATION,
-//                 }
-//             ]
-//         },
-    ]
-},
-{
-    path: '**',
-    redirectTo: DEMANDE_ACTIVATION
-}
+const routes: Routes = [
+    {
+        path: '',
+        children: [
+            {
+                path: DEMANDE_ACTIVATION,
+                children: [
+                    // {
+                    //     path: '',
+                    //     component: DemandeActivationComponent,
+                    // },
+                    // {
+                    //   path: '**',
+                    //   redirectTo: '',
+                    // },
+                ],
+            },
+            // {
+            //     path: DEMANDE_INTEGRATION,
+            //     children: [
+            //         {
+            //             path: '',
+            //             component: DemandeIntegrationComponent,
+            //         },
+            //         {
+            //             path: DEMANDE_INTEGRATION_FORM + "/:id",
+            //             component: FormDemandeIntegrationComponent,
+            //         },
+            //         {
+            //             path: DEMANDE_INTEGRATION_DOSSIER + "/:id",
+            //             component: DossierDemandeIntegrationComponent,
+            //         },
+            //         {
+            //             path: '',
+            //             redirectTo: DEMANDE_INTEGRATION,
+            //         }
+            //     ]
+            // },
+            // {
+            //     path: DEMANDE_SUSPENSION,
+            //     component: DemandeSuspensionComponent
+            // },
+            // {
+            //     path: DEMANDE_RESILIATION,
+            //     component: DemandeResiliationComponent
+            // },
+            // {
+            //     path: DEMANDE_SWAPPING,
+            //     component: DemandeSwappingComponent
+            // },
+            // {
+            //     path: DEMANDE_FORMULE_CHANGE,
+            //     component: DemandeFormuleChangeComponent
+            // },
+            //         {
+            //             path: DEMANDE_IDENTIFICATION,
+            //             children: [
+            //                 {
+            //                     path: '',
+            //                     component: DemandeIdentificationComponent,
+            //                 },
+
+            //                 {
+            //                     path: DEMANDE_IDENTIFICATION_FORM + "/:id",
+            //                     component: FormDemandeIdentificationComponent
+            //                 },
+            //                 {
+            //                     path:DEMANDE_IDENTIFICATION_DOSSIER + "/:id",
+            //                     component: ManagementDemandeIdentificationComponent
+            //                 },
+            //                 {
+            //                     path: '',
+            //                     redirectTo: DEMANDE_IDENTIFICATION,
+            //                 }
+            //             ]
+            //         },
+        ],
+    },
+    {
+        path: '**',
+        redirectTo: DEMANDE_ACTIVATION,
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
-export class DemandesRoutingModule { }
+export class DemandesRoutingModule {}

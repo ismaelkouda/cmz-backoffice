@@ -5,7 +5,7 @@ import { Observable, BehaviorSubject, of } from 'rxjs';
 import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { EnvService } from './env.service';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { EndPointUrl } from '../enum/api.enum';
 import { DetailsDemand } from '../components/form-folder/data-access/form-folder.interface';
 import { SimDemand } from '../interfaces/details-mobile-subscriptions.interface';
@@ -15,20 +15,20 @@ import { FormulasInterface } from '../interfaces/formulas.interface';
 import { FirstLevelInterface } from '../interfaces/first-level.interface';
 import { BankInterface } from '../interfaces/bank.interface';
 
-@Injectable({ providedIn: "root" })
-
+@Injectable({ providedIn: 'root' })
 export class SharedService {
     private BASE_URL: string;
 
-    constructor(private http: HttpClient, private envService: EnvService
-    ) {
+    constructor(private http: HttpClient, private envService: EnvService) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
     /*********************Méthode pour récupérer la liste des demands*************** */
 
     private demandsSubject = new BehaviorSubject<Folder[]>([]);
-    private demandsPagination = new BehaviorSubject<Paginate<Folder>>({} as Paginate<Folder>);
+    private demandsPagination = new BehaviorSubject<Paginate<Folder>>(
+        {} as Paginate<Folder>
+    );
     private demandSelected = new BehaviorSubject<Folder>({} as Folder);
     private loadingDemandsSubject = new BehaviorSubject<boolean>(false);
     private dataFilterDemandsSubject = new BehaviorSubject<Object>({});
@@ -38,7 +38,11 @@ export class SharedService {
     fetchDemands(data: Object, nbrPage: string = '1'): void {
         if (this.loadingDemandsSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
         this.loadingDemandsSubject.next(true);
-        const url: string = EndPointUrl.PATRIMOINE_SIM_DEMANDES_SERVICES_ALL.replace('{page}', nbrPage);
+        const url: string =
+            EndPointUrl.PATRIMOINE_SIM_DEMANDES_SERVICES_ALL.replace(
+                '{page}',
+                nbrPage
+            );
 
         this.http
             .post<Object>(`${this.BASE_URL}${url}`, data)
@@ -92,7 +96,9 @@ export class SharedService {
 
     /*********************Méthode pour récupérer la liste des détails demands*************** */
 
-    private detailsDemandSubject = new BehaviorSubject<DetailsDemand>({} as DetailsDemand);
+    private detailsDemandSubject = new BehaviorSubject<DetailsDemand>(
+        {} as DetailsDemand
+    );
     private detailsDemandPagination = new BehaviorSubject<any>(null);
     private loadingDetailsDemandSubject = new BehaviorSubject<boolean>(false);
     private lastRequestDetailsDemandSubject = new BehaviorSubject<any>(null);
@@ -101,7 +107,11 @@ export class SharedService {
     fetchDetailsDemand(numberDemand: string): void {
         if (this.loadingDetailsDemandSubject.getValue()) return;
 
-        const url: string = EndPointUrl.GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_DETAILS.replace('{numberDemand}', numberDemand);
+        const url: string =
+            EndPointUrl.GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_DETAILS.replace(
+                '{numberDemand}',
+                numberDemand
+            );
         this.loadingDetailsDemandSubject.next(true);
 
         this.http
@@ -148,11 +158,14 @@ export class SharedService {
     private demandPriceSubject = new BehaviorSubject<number>(0);
     private loadingDemandPriceSubject = new BehaviorSubject<boolean>(false);
 
-
     fetchDemandPrice(demand: string): void {
         if (this.loadingDemandPriceSubject.getValue()) return; // Évite les doublons
 
-        const url: string = EndPointUrl.GET_CONTRATS_SLA_ENGAGEMENTS_SLA.replace('{demand}', demand);
+        const url: string =
+            EndPointUrl.GET_CONTRATS_SLA_ENGAGEMENTS_SLA.replace(
+                '{demand}',
+                demand
+            );
         this.loadingDemandPriceSubject.next(true);
 
         this.http
@@ -192,7 +205,11 @@ export class SharedService {
     fetchSimDemand(data: Object, nbrPage: string = '1'): void {
         if (this.loadingSimDemandSubject.getValue()) return;
 
-        const url: string = EndPointUrl.PATRIMOINE_SIM_TRANSACTIONS_ALL_PAGE.replace('{page}', nbrPage);
+        const url: string =
+            EndPointUrl.PATRIMOINE_SIM_TRANSACTIONS_ALL_PAGE.replace(
+                '{page}',
+                nbrPage
+            );
         this.loadingSimDemandSubject.next(true);
 
         this.http
@@ -250,7 +267,8 @@ export class SharedService {
         const url: string = EndPointUrl.GET_ALL_USERS;
         this.loadingApplicantsSubject.next(true);
 
-        this.http.post<Object>(`${this.BASE_URL}${url}`, {})
+        this.http
+            .post<Object>(`${this.BASE_URL}${url}`, {})
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {
@@ -354,7 +372,9 @@ export class SharedService {
 
     /*********************Méthode pour récupérer la liste des niveaux uns*************** */
 
-    private firstLevelSubject = new BehaviorSubject<Array<FirstLevelInterface>>([]);
+    private firstLevelSubject = new BehaviorSubject<Array<FirstLevelInterface>>(
+        []
+    );
     private loadingFirstLevelSubject = new BehaviorSubject<boolean>(false);
 
     fetchFirstLevel(): void {
@@ -390,7 +410,9 @@ export class SharedService {
 
     /*********************Méthode pour récupérer la liste des niveaux trois*************** */
 
-    private thirdLevelSubject = new BehaviorSubject<Array<ThirdLevelInterface>>([]);
+    private thirdLevelSubject = new BehaviorSubject<Array<ThirdLevelInterface>>(
+        []
+    );
     private loadingThirdLevelSubject = new BehaviorSubject<boolean>(false);
 
     fetchThirdLevel(): void {
@@ -463,13 +485,18 @@ export class SharedService {
     /*********************Méthode pour récupérer la liste des usages*************** */
 
     private whiteSimCardAvailableSubject = new BehaviorSubject<any[]>([]);
-    private totalLotWhiteSimCardAvailableSubject = new BehaviorSubject<number>(0);
-    private loadingWhiteSimCardAvailableSubject = new BehaviorSubject<boolean>(false);
+    private totalLotWhiteSimCardAvailableSubject = new BehaviorSubject<number>(
+        0
+    );
+    private loadingWhiteSimCardAvailableSubject = new BehaviorSubject<boolean>(
+        false
+    );
 
     fetchWhiteSimCardAvailable(): void {
         if (this.loadingWhiteSimCardAvailableSubject.getValue()) return; // Évite les doublons
 
-        const url: string = EndPointUrl.POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_DISPONIBLES;
+        const url: string =
+            EndPointUrl.POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_DISPONIBLES;
         this.loadingWhiteSimCardAvailableSubject.next(true);
 
         this.http
@@ -477,15 +504,26 @@ export class SharedService {
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {
-                    this.whiteSimCardAvailableSubject.next(response?.data?.data.map((whiteSimCard) => { return { ...whiteSimCard, selected_nb_restants: 0 } }));
-                    this.totalLotWhiteSimCardAvailableSubject.next(response?.['data'].total_disponibles)
+                    this.whiteSimCardAvailableSubject.next(
+                        response?.data?.data.map((whiteSimCard) => {
+                            return { ...whiteSimCard, selected_nb_restants: 0 };
+                        })
+                    );
+                    this.totalLotWhiteSimCardAvailableSubject.next(
+                        response?.['data'].total_disponibles
+                    );
                     return of(response);
                 }),
                 catchError((error) => {
-                    console.error('Error fetching whiteSimCardAvailable', error);
+                    console.error(
+                        'Error fetching whiteSimCardAvailable',
+                        error
+                    );
                     return of([]);
                 }),
-                finalize(() => this.loadingWhiteSimCardAvailableSubject.next(false))
+                finalize(() =>
+                    this.loadingWhiteSimCardAvailableSubject.next(false)
+                )
             )
             .subscribe();
     }
@@ -507,7 +545,7 @@ export class SharedService {
     private secondLevelSubject = new BehaviorSubject<any[]>([]);
     private loadingSecondLevelSubject = new BehaviorSubject<boolean>(false);
 
-    fetchSecondLevel(firstLevelLibelIndex: string,): void {
+    fetchSecondLevel(firstLevelLibelIndex: string): void {
         if (this.loadingSecondLevelSubject.getValue()) return; // Évite les doublons
 
         const url: string = EndPointUrl.GET_ALL_NIVEAUX_2_SIMPLE;
@@ -576,7 +614,9 @@ export class SharedService {
 
     /*********************Méthode pour récupérer la liste des Banks bénéficiaire*************** */
 
-    private banksBenefitSubject = new BehaviorSubject<Array<BankBenefitInterface>>([]);
+    private banksBenefitSubject = new BehaviorSubject<
+        Array<BankBenefitInterface>
+    >([]);
     private loadingBanksBenefitSubject = new BehaviorSubject<boolean>(false);
 
     fetchBanksBenefit(): void {
@@ -618,7 +658,6 @@ export class SharedService {
     // private historySelected = new BehaviorSubject<any>({} as any);
     // private dataFilterHistorySubject = new BehaviorSubject<Object>({});
     // private apiResponseHistorySubject = new BehaviorSubject<any>(null);
-
 
     // fetchHistory(data, nbrPage: string = '1'): void {
     //     if (this.loadingHistorySubject.getValue()) return; // Évite les doublons
@@ -668,12 +707,10 @@ export class SharedService {
     //     this.historySelected.next(history);
     // }
 
-
     // /*********************Méthode pour récupérer les details de l'historique*************** */
 
     // private detailsHistorySubject = new BehaviorSubject<Array<HistoryData>>([] as Array<HistoryData>);
     // private loadingDetailsHistorySubject = new BehaviorSubject<boolean>(false);
-
 
     // fetchDetailsHistory(idModel: number, dataFilter: Record<string, any>[]): void {
     //     if (this.loadingDetailsHistorySubject.getValue()) return; // Évite les doublons
@@ -711,16 +748,21 @@ export class SharedService {
     //     return this.http.get(`${this.BASE_URL}${url}`);
     // }
 
-
-
     PostForceVenteCommercialAll(data: Object): Observable<any> {
         const url: string = <string>EndPointUrl.FORCE_VENTE_COMMERCIAL_ALL;
         return this.http.post(`${this.BASE_URL}${url}`, data);
     }
 
-    PostGestionTenantsPortefeuillesTenantAll(data: Object, nbrPage: string): Observable<any> {
-        const url: string = <string>EndPointUrl.POST_GESTION_TENANTS_PORTEFEUILLES_TENANT_ALL.replace('${nbrPage}', nbrPage);
+    PostGestionTenantsPortefeuillesTenantAll(
+        data: Object,
+        nbrPage: string
+    ): Observable<any> {
+        const url: string = <string>(
+            EndPointUrl.POST_GESTION_TENANTS_PORTEFEUILLES_TENANT_ALL.replace(
+                '${nbrPage}',
+                nbrPage
+            )
+        );
         return this.http.post(`${this.BASE_URL}${url}`, data);
     }
-
 }

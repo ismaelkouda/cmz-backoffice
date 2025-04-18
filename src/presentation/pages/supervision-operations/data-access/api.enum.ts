@@ -1,9 +1,8 @@
-
 export const enum EndPointUrl {
-    PATRIMOINE_SIM_TRANSACTIONS_SUR_SIM_UPDATE = "patrimoine-sim/transactions/sur-sim/update",
-    POST_COMMANDE_PRODUIT_COMMANDES_DETAILS = "commande-produit/commandes/{numero_demande}/details",
+    PATRIMOINE_SIM_TRANSACTIONS_SUR_SIM_UPDATE = 'patrimoine-sim/transactions/sur-sim/update',
+    POST_COMMANDE_PRODUIT_COMMANDES_DETAILS = 'commande-produit/commandes/{numero_demande}/details',
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_ABANDONNER_DEMANDE_SERVICE = 'supervision-operations/traitements-suivis/abandonner-demande-service',
-    GET_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_DOWNLOAD_MODELE_DATA = "supervision-operations/traitements-suivis/download-modele-data?operation={operation}&numeroDemande={numeroDemande}&token={tokenUser}",
+    GET_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_DOWNLOAD_MODELE_DATA = 'supervision-operations/traitements-suivis/download-modele-data?operation={operation}&numeroDemande={numeroDemande}&token={tokenUser}',
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_IDENTIFICATIONS_SIMS = 'supervision-operations/traitements-suivis/identifications-sims',
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_CLOTURER_DEMANDE_SERVICE = 'supervision-operations/traitements-suivis/cloturer-demande-service',
     POST_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_TRANSACTIONS_PAGE = 'supervision-operations/traitements-suivis/transactions?page={page}',
@@ -27,6 +26,5 @@ export const enum EndPointUrl {
     DETAIL_MESSAGE_SENDER = 'messagerie/boite-envoi/details',
     DETAIL_MESSAGE_RECIEVE = 'messagerie/boite-reception/details',
     DOWNLOAD_MESSAGE = 'messagerie/boite-reception/telecharger',
-    GET_ALL_DEMANDES_IDENTIFICATION = 'patrimoine-sim/demandes-services/all'
+    GET_ALL_DEMANDES_IDENTIFICATION = 'patrimoine-sim/demandes-services/all',
 }
-

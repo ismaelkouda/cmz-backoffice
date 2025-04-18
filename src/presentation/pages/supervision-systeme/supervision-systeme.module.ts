@@ -10,7 +10,6 @@
 // import { TauxDesChargesComponent } from './ui/taux-des-charges/taux-des-charges.component';
 // import { SharedModule } from 'src/shared/shared.module';
 
-
 // @NgModule({
 //     declarations: [
 //         EtatsServicesComponent,

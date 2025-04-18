@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { ReportingSlaComponent } from './reporting-sla.component';
 
 describe('ReportingSlaComponent', () => {
-  let component: ReportingSlaComponent;
-  let fixture: ComponentFixture<ReportingSlaComponent>;
+    let component: ReportingSlaComponent;
+    let fixture: ComponentFixture<ReportingSlaComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ReportingSlaComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [ReportingSlaComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ReportingSlaComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ReportingSlaComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

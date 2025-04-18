@@ -13,18 +13,20 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
-  declarations: [
-    MobileSubscriptionsComponent, FilterMobileSubscriptionsComponent, TableMobileSubscriptionsComponent
-  ],
-  imports: [
-    SharedModule,
-    RequestsServicesRoutingModule,
-    NgSelectModule,
-    NgbModule,
-    AngularMultiSelectModule,
-    Ng2SearchPipeModule,
-    NgxPaginationModule,
-  ],
-  providers: [MobileSubscriptionsService]
+    declarations: [
+        MobileSubscriptionsComponent,
+        FilterMobileSubscriptionsComponent,
+        TableMobileSubscriptionsComponent,
+    ],
+    imports: [
+        SharedModule,
+        RequestsServicesRoutingModule,
+        NgSelectModule,
+        NgbModule,
+        AngularMultiSelectModule,
+        Ng2SearchPipeModule,
+        NgxPaginationModule,
+    ],
+    providers: [MobileSubscriptionsService],
 })
-export class RequestsServicesModule { }
+export class RequestsServicesModule {}

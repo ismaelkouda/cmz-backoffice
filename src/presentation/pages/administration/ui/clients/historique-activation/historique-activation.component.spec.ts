@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { HistoriqueActivationComponent } from './historique-activation.component';
 
 describe('HistoriqueActivationComponent', () => {
-  let component: HistoriqueActivationComponent;
-  let fixture: ComponentFixture<HistoriqueActivationComponent>;
+    let component: HistoriqueActivationComponent;
+    let fixture: ComponentFixture<HistoriqueActivationComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HistoriqueActivationComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [HistoriqueActivationComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HistoriqueActivationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(HistoriqueActivationComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

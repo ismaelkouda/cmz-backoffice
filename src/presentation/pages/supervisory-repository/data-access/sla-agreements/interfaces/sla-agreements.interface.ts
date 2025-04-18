@@ -1,4 +1,4 @@
-type T_STATUS = "actif" | "inactif";
+type T_STATUS = 'actif' | 'inactif';
 export interface slaAgreementsInterface {
     id: number;
     parametrage_sla_id: number;
@@ -13,11 +13,10 @@ export interface slaAgreementsInterface {
     created_at: string;
     updated_at: string;
     cout_unitaire: number;
-  
 }
 
 export interface slaAgreementsApiResponseInterface {
-  error: boolean;
-  message: string;
-  data: slaAgreementsInterface;
+    error: boolean;
+    message: string;
+    data: slaAgreementsInterface;
 }

@@ -2,19 +2,20 @@ import { Injectable } from '@angular/core';
 import { SmsBalance } from './table-sms-balance';
 
 @Injectable()
-
-export class StateSmsBalanceService{
+export class StateSmsBalanceService {
     private filterSmsBalanceState: any;
     private currentPageSmsBalanceState: any;
-    private itemSelectedState: SmsBalance|undefined;
+    private itemSelectedState: SmsBalance | undefined;
 
     setFilterSmsBalanceState(state: any): string {
-        return this.generateQueryStringFromObject(state)
+        return this.generateQueryStringFromObject(state);
     }
-    
-    getFilterSmsBalanceState(state?: any): Record<string, string | null>  {
+
+    getFilterSmsBalanceState(state?: any): Record<string, string | null> {
         this.filterSmsBalanceState = state ?? this.filterSmsBalanceState;
-        return this.parseQueryStringToObject(this.filterSmsBalanceState ?? state)
+        return this.parseQueryStringToObject(
+            this.filterSmsBalanceState ?? state
+        );
     }
 
     setCurrentPageSmsBalanceState(state: any): void {
@@ -25,11 +26,11 @@ export class StateSmsBalanceService{
         return this.currentPageSmsBalanceState;
     }
 
-    setItemSelectedState(state: SmsBalance|undefined): void {
+    setItemSelectedState(state: SmsBalance | undefined): void {
         this.itemSelectedState = state;
     }
 
-    getItemSelectedState(): SmsBalance|undefined {
+    getItemSelectedState(): SmsBalance | undefined {
         return this.itemSelectedState;
     }
 
@@ -39,9 +40,11 @@ export class StateSmsBalanceService{
         this.itemSelectedState = undefined;
     }
 
-    public generateQueryStringFromObject = (dataFilter: Record<string, any> = {}): string => {
+    public generateQueryStringFromObject = (
+        dataFilter: Record<string, any> = {}
+    ): string => {
         const params = new URLSearchParams();
-        if(dataFilter) {
+        if (dataFilter) {
             Object.entries(dataFilter).forEach(([key, val]) => {
                 if (key && val !== null && val !== undefined) {
                     const encodedKey = encodeURIComponent(key);
@@ -55,20 +58,28 @@ export class StateSmsBalanceService{
         return params.toString();
     };
 
-    private parseQueryStringToObject = (queryString: string): Record<string, string | null> => {
+    private parseQueryStringToObject = (
+        queryString: string
+    ): Record<string, string | null> => {
         const filterObj: Record<string, string | null> = {};
 
-        if (!queryString || typeof queryString !== 'string' ||  queryString.trim() === '') {
+        if (
+            !queryString ||
+            typeof queryString !== 'string' ||
+            queryString.trim() === ''
+        ) {
             return filterObj;
         }
 
-        const params = new URLSearchParams(queryString.startsWith('?') ? queryString.substring(1) : queryString);
+        const params = new URLSearchParams(
+            queryString.startsWith('?') ? queryString.substring(1) : queryString
+        );
 
         params.forEach((value, key) => {
-            filterObj[decodeURIComponent(key)] = value !== '' ? decodeURIComponent(value) : null;
+            filterObj[decodeURIComponent(key)] =
+                value !== '' ? decodeURIComponent(value) : null;
         });
 
         return filterObj;
     };
-
 }

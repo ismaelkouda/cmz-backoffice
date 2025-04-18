@@ -1,15 +1,15 @@
 import { FormAchatProduitsComponent } from './feature/form-achat-produits/form-achat-produits.component';
 
 import { RouterModule, Routes } from '@angular/router';
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 import { AchatProduitsComponent } from './ui/achat-produits/achat-produits.component';
 import { DetailsAchatProduitsComponent } from './feature/details-achat-produits/details-achat-produits.component';
 // import { DetailsAchatProduitsComponent } from './features/achat-produits/details-achat-produits/details-achat-produits.component';
 
-export const ACHAT_PRODUIT = "achat-produit";
-export const FORM = "form";
-export const DETAILS = "details";
-export const FACTURE = "invoice";
+export const ACHAT_PRODUIT = 'achat-produit';
+export const FORM = 'form';
+export const DETAILS = 'details';
+export const FACTURE = 'invoice';
 
 const routes: Routes = [
     {
@@ -24,19 +24,19 @@ const routes: Routes = [
                 component: FormAchatProduitsComponent,
             },
             {
-                path: DETAILS+"/:numero_demande",
+                path: DETAILS + '/:numero_demande',
                 component: DetailsAchatProduitsComponent,
             },
             {
-              path: '**',
-              redirectTo: '',
+                path: '**',
+                redirectTo: '',
             },
-        ]
-    }
-]
+        ],
+    },
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: []
+    exports: [],
 })
-export class DemandesProduitsRoutingModule {  }
+export class DemandesProduitsRoutingModule {}

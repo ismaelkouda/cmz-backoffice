@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { FormSecondLevelComponent } from './form-second-level.component';
 
 describe('FormSecondLevelComponent', () => {
-  let component: FormSecondLevelComponent;
-  let fixture: ComponentFixture<FormSecondLevelComponent>;
+    let component: FormSecondLevelComponent;
+    let fixture: ComponentFixture<FormSecondLevelComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FormSecondLevelComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [FormSecondLevelComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FormSecondLevelComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(FormSecondLevelComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

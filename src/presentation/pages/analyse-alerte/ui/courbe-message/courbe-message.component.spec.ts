@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { CourbeMessageComponent } from './courbe-message.component';
 
 describe('CourbeMessageComponent', () => {
-  let component: CourbeMessageComponent;
-  let fixture: ComponentFixture<CourbeMessageComponent>;
+    let component: CourbeMessageComponent;
+    let fixture: ComponentFixture<CourbeMessageComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CourbeMessageComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [CourbeMessageComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CourbeMessageComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CourbeMessageComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

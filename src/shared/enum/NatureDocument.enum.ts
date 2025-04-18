@@ -1,4 +1,4 @@
 export enum NatureDocument {
-    REGISTRE_COMMERCE = "Numero de série",
-    DE = "IMEI/MAC",
+    REGISTRE_COMMERCE = 'Numero de série',
+    DE = 'IMEI/MAC',
 }

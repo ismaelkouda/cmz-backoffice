@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-
 export class DemandesFilterStateService {
     private filterState: {} | null;
 
@@ -9,7 +8,7 @@ export class DemandesFilterStateService {
         this.filterState = state;
     }
 
-    getFilterState(): {}|null {
+    getFilterState(): {} | null {
         return this.filterState ?? null;
     }
 }

@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { CardSecondComponent } from './card-second.component';
 
 describe('CardSecondComponent', () => {
-  let component: CardSecondComponent;
-  let fixture: ComponentFixture<CardSecondComponent>;
+    let component: CardSecondComponent;
+    let fixture: ComponentFixture<CardSecondComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CardSecondComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [CardSecondComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CardSecondComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CardSecondComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -7,15 +7,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InterconnexionRoutingModule } from './interconnexion-routing.module';
 
 @NgModule({
-    declarations: [
-        ConnexionApiComponent,
-        ConnexionFormComponent
-    ],
+    declarations: [ConnexionApiComponent, ConnexionFormComponent],
     imports: [
         SharedModule,
         InterconnexionRoutingModule,
         NgSelectModule,
         NgbModule,
-    ]
+    ],
 })
-export class InterconnexionModule { }
+export class InterconnexionModule {}

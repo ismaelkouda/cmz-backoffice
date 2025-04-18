@@ -6,4 +6,3 @@ export const enum EndPointUrl {
     GET_ALL_SUSPENSION_TRANSACTION = 'gestion-transactions/operations/suspension/all?page={page}',
     GET_ALL_VOLUME_DATA_TRANSACTION = 'gestion-transactions/operations/volume-data/all?page={page}',
 }
-

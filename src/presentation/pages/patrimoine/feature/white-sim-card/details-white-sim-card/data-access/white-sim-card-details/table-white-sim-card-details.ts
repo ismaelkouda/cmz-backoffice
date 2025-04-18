@@ -1,13 +1,28 @@
 export const TABLE_WHITE_SIM_CARD_DETAILS = {
-  cols: [
-      { field: '', header: '#', class: "text-center", width: "2rem" },
-      { field: 'created_at', header: 'Date / Heure', class: "text-center", width: "12rem" },
-      { field: 'imsi', header: 'IMSI', class: "text-center", width: "12rem" },
-      { field: 'iccid', header: 'ICCID', class: "text-center", width: "12rem" },
-      { field: 'statut', header: 'Statut', class: "text-center", width: "4rem" },
-  ],
-  globalFilterFields: ['created_at','imsi','iccid','statut']
-}
+    cols: [
+        { field: '', header: '#', class: 'text-center', width: '2rem' },
+        {
+            field: 'created_at',
+            header: 'Date / Heure',
+            class: 'text-center',
+            width: '12rem',
+        },
+        { field: 'imsi', header: 'IMSI', class: 'text-center', width: '12rem' },
+        {
+            field: 'iccid',
+            header: 'ICCID',
+            class: 'text-center',
+            width: '12rem',
+        },
+        {
+            field: 'statut',
+            header: 'Statut',
+            class: 'text-center',
+            width: '4rem',
+        },
+    ],
+    globalFilterFields: ['created_at', 'imsi', 'iccid', 'statut'],
+};
 
 export interface WhiteSimCardDetailsResponse {
     data: WhiteSimCardDetails;
@@ -26,10 +41,9 @@ export interface WhiteSimCard {
     statut: string;
     created_at: string;
     updated_at: string;
-  }
-  
+}
 
-  export interface WhiteSimCardDetails {
+export interface WhiteSimCardDetails {
     id: number;
     reference: string;
     description: string;
@@ -42,4 +56,4 @@ export interface WhiteSimCard {
     updated_at: string;
     numero_demande: string;
     carte_sims: WhiteSimCard[];
-  }
+}

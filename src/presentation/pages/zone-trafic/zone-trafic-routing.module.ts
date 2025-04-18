@@ -10,8 +10,8 @@ const routes: Routes = [
         children: [
             {
                 component: VueGeographiqueComponent,
-                path: VUE_GEOGRAPHIQUE
-            }
+                path: VUE_GEOGRAPHIQUE,
+            },
         ],
     },
 ];
@@ -20,4 +20,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class ZoneTraficRoutingModule { }
+export class ZoneTraficRoutingModule {}

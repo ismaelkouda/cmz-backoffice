@@ -18,48 +18,47 @@ export const ADMIN_ACTIVATION_HISTORIE = 'historique-activation';
 export const ADMIN_GROUPE = 'groupes';
 export const ADMIN_POINT_VENTE = 'point-ventes';
 
-
-
-
-const routes: Routes = [{
-    path: "",
-    children: [
-        {
-            path: ADMIN_VENTE,
-            component: VentesComponent
-        },
-        {
-            path: ADMIN_STOCK,
-            component: StockComponent
-        },
-        {
-            path: ADMIN_PRODUCT,
-            component: ProductsComponent
-        },
-        {
-            path: ADMIN_ACHAT,
-            component: AchatsComponent
-        },
-        {
-            path: ADMIN_CLIENT,
-            component: ListClientsComponent
-        },
-        {
-            path: ADMIN_ACTIVATION_HISTORIE,
-            component: HistoriqueActivationComponent
-        },
-        {
-            path: ADMIN_GROUPE,
-            component: GroupesComponent
-        },
-        {
-            path: ADMIN_POINT_VENTE,
-            component: PointVentesComponent
-        }
-    ]
-}];
+const routes: Routes = [
+    {
+        path: '',
+        children: [
+            {
+                path: ADMIN_VENTE,
+                component: VentesComponent,
+            },
+            {
+                path: ADMIN_STOCK,
+                component: StockComponent,
+            },
+            {
+                path: ADMIN_PRODUCT,
+                component: ProductsComponent,
+            },
+            {
+                path: ADMIN_ACHAT,
+                component: AchatsComponent,
+            },
+            {
+                path: ADMIN_CLIENT,
+                component: ListClientsComponent,
+            },
+            {
+                path: ADMIN_ACTIVATION_HISTORIE,
+                component: HistoriqueActivationComponent,
+            },
+            {
+                path: ADMIN_GROUPE,
+                component: GroupesComponent,
+            },
+            {
+                path: ADMIN_POINT_VENTE,
+                component: PointVentesComponent,
+            },
+        ],
+    },
+];
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
-export class AdministrationRoutingModule { }
+export class AdministrationRoutingModule {}

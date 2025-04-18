@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { LigneShowComponent } from './ligne-show.component';
 
 describe('DemandeShowComponent', () => {
-  let component: LigneShowComponent;
-  let fixture: ComponentFixture<LigneShowComponent>;
+    let component: LigneShowComponent;
+    let fixture: ComponentFixture<LigneShowComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LigneShowComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [LigneShowComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LigneShowComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(LigneShowComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { RecipientWrapperComponent } from './recipient-wrapper.component';
 
 describe('RecipientWrapperComponent', () => {
-  let component: RecipientWrapperComponent;
-  let fixture: ComponentFixture<RecipientWrapperComponent>;
+    let component: RecipientWrapperComponent;
+    let fixture: ComponentFixture<RecipientWrapperComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RecipientWrapperComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [RecipientWrapperComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RecipientWrapperComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(RecipientWrapperComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

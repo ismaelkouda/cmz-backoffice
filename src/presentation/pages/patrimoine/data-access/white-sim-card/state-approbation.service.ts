@@ -2,19 +2,20 @@ import { Injectable } from '@angular/core';
 import { DossierWhiteSimCard } from './table-white-sim-card';
 
 @Injectable()
-
 export class StateWhiteSimCardService {
     private filterWhiteSimCardState: any;
     private currentPageWhiteSimCardState: any;
-    private itemSelectedState: DossierWhiteSimCard|undefined;
+    private itemSelectedState: DossierWhiteSimCard | undefined;
 
     setFilterWhiteSimCardState(state: any): string {
-        return this.generateQueryStringFromObject(state)
+        return this.generateQueryStringFromObject(state);
     }
-    
-    getFilterWhiteSimCardState(state?: any): Record<string, string | null>  {
+
+    getFilterWhiteSimCardState(state?: any): Record<string, string | null> {
         this.filterWhiteSimCardState = state ?? this.filterWhiteSimCardState;
-        return this.parseQueryStringToObject(this.filterWhiteSimCardState ?? state)
+        return this.parseQueryStringToObject(
+            this.filterWhiteSimCardState ?? state
+        );
     }
 
     setCurrentPageWhiteSimCardState(state: any): void {
@@ -25,11 +26,11 @@ export class StateWhiteSimCardService {
         return this.currentPageWhiteSimCardState;
     }
 
-    setItemSelectedState(state: DossierWhiteSimCard|undefined): void {
+    setItemSelectedState(state: DossierWhiteSimCard | undefined): void {
         this.itemSelectedState = state;
     }
 
-    getItemSelectedState(): DossierWhiteSimCard|undefined {
+    getItemSelectedState(): DossierWhiteSimCard | undefined {
         return this.itemSelectedState;
     }
 
@@ -39,9 +40,11 @@ export class StateWhiteSimCardService {
         this.itemSelectedState = undefined;
     }
 
-    public generateQueryStringFromObject = (dataFilter: Record<string, any> = {}): string => {
+    public generateQueryStringFromObject = (
+        dataFilter: Record<string, any> = {}
+    ): string => {
         const params = new URLSearchParams();
-        if(dataFilter) {
+        if (dataFilter) {
             Object.entries(dataFilter).forEach(([key, val]) => {
                 if (key && val !== null && val !== undefined) {
                     const encodedKey = encodeURIComponent(key);
@@ -55,20 +58,28 @@ export class StateWhiteSimCardService {
         return params.toString();
     };
 
-    private parseQueryStringToObject = (queryString: string): Record<string, string | null> => {
+    private parseQueryStringToObject = (
+        queryString: string
+    ): Record<string, string | null> => {
         const filterObj: Record<string, string | null> = {};
 
-        if (!queryString || typeof queryString !== 'string' ||  queryString.trim() === '') {
+        if (
+            !queryString ||
+            typeof queryString !== 'string' ||
+            queryString.trim() === ''
+        ) {
             return filterObj;
         }
 
-        const params = new URLSearchParams(queryString.startsWith('?') ? queryString.substring(1) : queryString);
+        const params = new URLSearchParams(
+            queryString.startsWith('?') ? queryString.substring(1) : queryString
+        );
 
         params.forEach((value, key) => {
-            filterObj[decodeURIComponent(key)] = value !== '' ? decodeURIComponent(value) : null;
+            filterObj[decodeURIComponent(key)] =
+                value !== '' ? decodeURIComponent(value) : null;
         });
 
         return filterObj;
     };
-
 }

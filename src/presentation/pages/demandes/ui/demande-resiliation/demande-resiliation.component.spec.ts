@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { DemandeResiliationComponent } from './demande-resiliation.component';
 
 describe('DemandeResiliationComponent', () => {
-  let component: DemandeResiliationComponent;
-  let fixture: ComponentFixture<DemandeResiliationComponent>;
+    let component: DemandeResiliationComponent;
+    let fixture: ComponentFixture<DemandeResiliationComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DemandeResiliationComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [DemandeResiliationComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DemandeResiliationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(DemandeResiliationComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

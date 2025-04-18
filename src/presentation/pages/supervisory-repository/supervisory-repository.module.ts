@@ -15,21 +15,22 @@ import { SlaAgreementsApiService } from './data-access/sla-agreements/services/s
 import { SlaAgreementsComponent } from './ui/sla-agreements/sla-agreements.component';
 import { TableSlaAgreementsComponent } from './feature/sla-agreements/table-sla-agreements/table-sla-agreements.component';
 
-
 @NgModule({
-  declarations: [
-    TableIndicatorsAlarmsComponent, IndicatorsAlarmsComponent,
-    TableSlaAgreementsComponent, SlaAgreementsComponent
-  ],
-  imports: [
-    SharedModule,
-    SupervisoryRepositoryRoutingModule,
-    NgSelectModule,
-    NgbModule,
-    AngularMultiSelectModule,
-    Ng2SearchPipeModule,
-    NgxPaginationModule,
-  ],
-  providers: [IndicatorsAlarmsApiService, SlaAgreementsApiService]
+    declarations: [
+        TableIndicatorsAlarmsComponent,
+        IndicatorsAlarmsComponent,
+        TableSlaAgreementsComponent,
+        SlaAgreementsComponent,
+    ],
+    imports: [
+        SharedModule,
+        SupervisoryRepositoryRoutingModule,
+        NgSelectModule,
+        NgbModule,
+        AngularMultiSelectModule,
+        Ng2SearchPipeModule,
+        NgxPaginationModule,
+    ],
+    providers: [IndicatorsAlarmsApiService, SlaAgreementsApiService],
 })
-export class SupervisoryRepositoryModule { }
+export class SupervisoryRepositoryModule {}

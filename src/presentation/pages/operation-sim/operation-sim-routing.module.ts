@@ -2,7 +2,7 @@ import { OperationFormsComponent } from './ui/operation-forms/operation-forms.co
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-export const OPERATION_FORM = 'operation'
+export const OPERATION_FORM = 'operation';
 
 const routes: Routes = [
     {
@@ -10,8 +10,8 @@ const routes: Routes = [
         children: [
             {
                 path: OPERATION_FORM,
-                component: OperationFormsComponent
-            }
+                component: OperationFormsComponent,
+            },
         ],
     },
 ];
@@ -20,4 +20,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule],
 })
-export class OperationSimRoutingModule { }
+export class OperationSimRoutingModule {}

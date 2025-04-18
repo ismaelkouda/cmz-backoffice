@@ -8,26 +8,28 @@ export const REPORTING_SOLDE = 'soldes';
 export const REPORTING_ALARME = 'alarmes';
 export const REPORTING_SLA = 'sla';
 
-const routes: Routes = [{
-    path: "",
-    children: [
-        {
-            path: REPORTING_SOLDE,
-            component: ReportingSoldeComponent
-        },
-        {
-            path: REPORTING_ALARME,
-            component: ReportingAlarmeComponent
-        },
-        {
-            path: REPORTING_SLA,
-            component: ReportingSlaComponent
-        }
-    ]
-}];
+const routes: Routes = [
+    {
+        path: '',
+        children: [
+            {
+                path: REPORTING_SOLDE,
+                component: ReportingSoldeComponent,
+            },
+            {
+                path: REPORTING_ALARME,
+                component: ReportingAlarmeComponent,
+            },
+            {
+                path: REPORTING_SLA,
+                component: ReportingSlaComponent,
+            },
+        ],
+    },
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
-export class ReportingRoutingModule { }
+export class ReportingRoutingModule {}

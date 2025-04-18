@@ -21,7 +21,7 @@ import '@angular/localize/init';
 
 /***************************************************************************************************
  * BROWSER POLYFILLS
- */  // Run `npm install --save classlist.js`.  // Run `npm install --save web-animations-js`.
+ */ // Run `npm install --save classlist.js`.  // Run `npm install --save web-animations-js`.
 
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
@@ -50,8 +50,7 @@ import '@angular/localize/init';
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js';  // Included with Angular CLI.
-
+import 'zone.js'; // Included with Angular CLI.
 
 /***************************************************************************************************
  * APPLICATION IMPORTS

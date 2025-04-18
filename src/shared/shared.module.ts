@@ -20,32 +20,32 @@ import { JournalComponent } from './components/journal/journal.component';
 import { SafePipe } from './pipes/safe.pipe';
 import { HistoriqueComponent } from './components/historique/historique.component';
 import {
-  CUSTOM_ELEMENTS_SCHEMA,
-  NgModule,
-  NO_ERRORS_SCHEMA,
+    CUSTOM_ELEMENTS_SCHEMA,
+    NgModule,
+    NO_ERRORS_SCHEMA,
 } from '@angular/core';
-import { TranslateModule } from "@ngx-translate/core";
-import { NgxPaginationModule } from "ngx-pagination";
-import { CapitalizePipe } from "./pipes/capitalize.pipe";
+import { TranslateModule } from '@ngx-translate/core';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { CapitalizePipe } from './pipes/capitalize.pipe';
 
 // Components
-import { BreadcrumbComponent } from "./components/breadcrumb/breadcrumb.component";
-import { FooterComponent } from "./components/footer/footer.component";
-import { HeaderComponent } from "./components/header/header.component";
-import { ContentComponent } from "./components/layout/content/content.component";
-import { FullComponent } from "./components/layout/full/full.component";
-import { LoaderComponent } from "./components/loader/loader.component";
-import { SidebarComponent } from "./components/sidebar/sidebar.component";
-import { TapToTopComponent } from "./components/tap-to-top/tap-to-top.component";
-import { MyAccountComponent } from "./components/header/elements/my-account/my-account.component";
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
+import { ContentComponent } from './components/layout/content/content.component';
+import { FullComponent } from './components/layout/full/full.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { TapToTopComponent } from './components/tap-to-top/tap-to-top.component';
+import { MyAccountComponent } from './components/header/elements/my-account/my-account.component';
 
 // Services
-import { LayoutService } from "./services/layout.service";
-import { NavService } from "./services/nav.service";
-import { DecimalPipe } from "@angular/common";
-import { SvgIconComponent } from "./components/svg-icon/svg-icon.component";
-import { CarouselModule } from "ngx-owl-carousel-o";
-import { SwiperModule } from "swiper/angular";
+import { LayoutService } from './services/layout.service';
+import { NavService } from './services/nav.service';
+import { DecimalPipe } from '@angular/common';
+import { SvgIconComponent } from './components/svg-icon/svg-icon.component';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { SwiperModule } from 'swiper/angular';
 
 //Primeng Modules
 import { TableFilterPipe } from './pipes/table-filter.pipe';
@@ -72,107 +72,117 @@ import { FormDemandComponent } from './components/form-demand/form-demand.compon
 import { FormDemandApiService } from './components/form-demand/data-access/services/form-demand-api.service';
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    FooterComponent,
-    SearchTableComponent,
-    SidebarComponent,
-    ContentComponent,
-    BreadcrumbComponent,
-    TraitementShowComponent,
-    // TransactionShowComponent,
-    BoxContainerComponent,
-    FullComponent,
-    LoaderComponent,
-    StatBoxComponent,
-    CountBoxComponent,
-    TapToTopComponent,
-    MyAccountComponent,
-    SvgIconComponent,
-    HistoryComponent, FilterHistoryComponent, TableHistoryComponent, DetailsHistoryComponent,
-    HistoriqueComponent,
-    JournalComponent,
-    StatutContratComponent,
-    TableHeaderComponent,
-    TabViewHeaderComponent,
-    PatrimoineHeaderComponent,
-    TransactionMasseComponent,
-    QrModalComponent,
-    TablebuttonHeaderComponent,
-    SafePipe,
-    FormatNumberPipe,
-    TableFilterPipe,
-    TableFilterPipe,
-    ParginationComponent,
-    FormMasseComponent,
-    SpinnerComponent,
-    CapitalizePipe,
-    StatistiqueBoxComponent,
-    TableTitleComponent,
-    SpinnerTitleDetailsComponent,
-    FormFolderComponent,
-    SimDemandComponent, 
-    TableSimDemandComponent,
-    FilterSimDemandComponent,
-    FormDemandComponent
-  ],
-  imports: [
-    AngularModule,
-    PrimengModule,
-    TranslateModule,
-    CarouselModule,
-    SwiperModule,
-    NgxPaginationModule,
-  ],
-  providers: [NavService, LayoutService, DecimalPipe, SharedDataService, SharedService,
-    EndpointParamsService,
-    TreatmentMonitoringApiService,
-    HistoryApiService,
-    PagesGuard,
-    FormDemandApiService
-  ],
-  exports: [
-    AngularModule,
-    PrimengModule,
-    TranslateModule,
-    LoaderComponent,
-    SearchTableComponent,
-    StatBoxComponent,
-    CountBoxComponent,
-    BoxContainerComponent,
-    BreadcrumbComponent,
-    TraitementShowComponent,
-    // TransactionShowComponent,
-    HistoryComponent, FilterHistoryComponent, TableHistoryComponent, DetailsHistoryComponent,
-    HistoriqueComponent,
-    JournalComponent,
-    QrModalComponent,
-    TapToTopComponent,
-    StatutContratComponent,
-    TableHeaderComponent,
-    TabViewHeaderComponent,
-    PatrimoineHeaderComponent,
-    TransactionMasseComponent,
-    SvgIconComponent,
-    SwiperModule,
-    SafePipe,
-    FormatNumberPipe,
-    TableFilterPipe,
-    TablebuttonHeaderComponent,
-    ParginationComponent,
-    FormMasseComponent,
-    SpinnerComponent,
-    CapitalizePipe,
-    StatistiqueBoxComponent,
-    TableTitleComponent,
-    SpinnerTitleDetailsComponent,
-    FormFolderComponent,
-    SimDemandComponent,
-    TableSimDemandComponent,
-    FilterSimDemandComponent,
-    FormDemandComponent
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-
+    declarations: [
+        HeaderComponent,
+        FooterComponent,
+        SearchTableComponent,
+        SidebarComponent,
+        ContentComponent,
+        BreadcrumbComponent,
+        TraitementShowComponent,
+        // TransactionShowComponent,
+        BoxContainerComponent,
+        FullComponent,
+        LoaderComponent,
+        StatBoxComponent,
+        CountBoxComponent,
+        TapToTopComponent,
+        MyAccountComponent,
+        SvgIconComponent,
+        HistoryComponent,
+        FilterHistoryComponent,
+        TableHistoryComponent,
+        DetailsHistoryComponent,
+        HistoriqueComponent,
+        JournalComponent,
+        StatutContratComponent,
+        TableHeaderComponent,
+        TabViewHeaderComponent,
+        PatrimoineHeaderComponent,
+        TransactionMasseComponent,
+        QrModalComponent,
+        TablebuttonHeaderComponent,
+        SafePipe,
+        FormatNumberPipe,
+        TableFilterPipe,
+        TableFilterPipe,
+        ParginationComponent,
+        FormMasseComponent,
+        SpinnerComponent,
+        CapitalizePipe,
+        StatistiqueBoxComponent,
+        TableTitleComponent,
+        SpinnerTitleDetailsComponent,
+        FormFolderComponent,
+        SimDemandComponent,
+        TableSimDemandComponent,
+        FilterSimDemandComponent,
+        FormDemandComponent,
+    ],
+    imports: [
+        AngularModule,
+        PrimengModule,
+        TranslateModule,
+        CarouselModule,
+        SwiperModule,
+        NgxPaginationModule,
+    ],
+    providers: [
+        NavService,
+        LayoutService,
+        DecimalPipe,
+        SharedDataService,
+        SharedService,
+        EndpointParamsService,
+        TreatmentMonitoringApiService,
+        HistoryApiService,
+        PagesGuard,
+        FormDemandApiService,
+    ],
+    exports: [
+        AngularModule,
+        PrimengModule,
+        TranslateModule,
+        LoaderComponent,
+        SearchTableComponent,
+        StatBoxComponent,
+        CountBoxComponent,
+        BoxContainerComponent,
+        BreadcrumbComponent,
+        TraitementShowComponent,
+        // TransactionShowComponent,
+        HistoryComponent,
+        FilterHistoryComponent,
+        TableHistoryComponent,
+        DetailsHistoryComponent,
+        HistoriqueComponent,
+        JournalComponent,
+        QrModalComponent,
+        TapToTopComponent,
+        StatutContratComponent,
+        TableHeaderComponent,
+        TabViewHeaderComponent,
+        PatrimoineHeaderComponent,
+        TransactionMasseComponent,
+        SvgIconComponent,
+        SwiperModule,
+        SafePipe,
+        FormatNumberPipe,
+        TableFilterPipe,
+        TablebuttonHeaderComponent,
+        ParginationComponent,
+        FormMasseComponent,
+        SpinnerComponent,
+        CapitalizePipe,
+        StatistiqueBoxComponent,
+        TableTitleComponent,
+        SpinnerTitleDetailsComponent,
+        FormFolderComponent,
+        SimDemandComponent,
+        TableSimDemandComponent,
+        FilterSimDemandComponent,
+        FormDemandComponent,
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
-export class SharedModule { }
+export class SharedModule {}

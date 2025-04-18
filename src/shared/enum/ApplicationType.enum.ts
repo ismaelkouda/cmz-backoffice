@@ -1,5 +1,5 @@
-export enum ApplicationType  {
+export enum ApplicationType {
     MONITORING = 'monitoring',
     PATRIMOINESIM = 'patrimoinesim',
     FLOTTE = 'flotte',
-}   
+}

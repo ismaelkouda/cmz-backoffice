@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { LigneCreditComponent } from './ligne-credit.component';
 
 describe('LigneCreditComponent', () => {
-  let component: LigneCreditComponent;
-  let fixture: ComponentFixture<LigneCreditComponent>;
+    let component: LigneCreditComponent;
+    let fixture: ComponentFixture<LigneCreditComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LigneCreditComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [LigneCreditComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LigneCreditComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(LigneCreditComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

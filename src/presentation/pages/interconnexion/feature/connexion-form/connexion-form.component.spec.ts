@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { ConnexionFormComponent } from './connexion-form.component';
 
 describe('ConnexionFormComponent', () => {
-  let component: ConnexionFormComponent;
-  let fixture: ComponentFixture<ConnexionFormComponent>;
+    let component: ConnexionFormComponent;
+    let fixture: ComponentFixture<ConnexionFormComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ConnexionFormComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [ConnexionFormComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ConnexionFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ConnexionFormComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

@@ -1,16 +1,16 @@
-import { Component } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { MappingService } from "../../../../../../shared/services/mapping.service";
-import { OperationTransaction } from "../../../../../../shared/enum/OperationTransaction.enum";
-import { TypeUtilisateur } from "../../../../../../shared/enum/TypeUtilisateur.enum";
-import { ApplicationType } from "../../../../../../shared/enum/ApplicationType.enum";
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MappingService } from '../../../../../../shared/services/mapping.service';
+import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
+import { TypeUtilisateur } from '../../../../../../shared/enum/TypeUtilisateur.enum';
+import { ApplicationType } from '../../../../../../shared/enum/ApplicationType.enum';
 import { SharedService } from '../../../../../../shared/services/shared.service';
 import { combineLatest, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { simCardApiService } from '../../../data-access/sim-card/services/sim-card-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from "ngx-toastr";
-import { LoadingBarService } from "@ngx-loading-bar/core";
+import { ToastrService } from 'ngx-toastr';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 const Swal = require('sweetalert2');
 import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../../../../../shared/constants/swalWithBootstrapButtonsParams.constant';
 import { handle } from '../../../../../../shared/functions/api.function';
@@ -20,23 +20,26 @@ import { TranslateService } from '@ngx-translate/core';
 import { PATRIMONY } from '../../../../../../shared/routes/routes';
 import { AsFeatureService } from '../../../../../../shared/services/as-feature.service';
 import { simCardDetailsInterface } from '../../../data-access/sim-card/interfaces/sim-card-details.interface';
-import { NatureDocument } from "../../../../../../shared/enum/NatureDocument.enum";
-import { NaturePiece } from "../../../../../../shared/enum/NaturePiece.enum";
-import { StoreCurrentUserService } from "../../../../../../shared/services/store-current-user.service";
-import { SecondLevelInterface } from "@shared/interfaces/first-level.interface";
-import { SecondLevelService } from "@shared/services/second-level.service";
+import { NatureDocument } from '../../../../../../shared/enum/NatureDocument.enum';
+import { NaturePiece } from '../../../../../../shared/enum/NaturePiece.enum';
+import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
+import { SecondLevelInterface } from '@shared/interfaces/first-level.interface';
+import { SecondLevelService } from '@shared/services/second-level.service';
 
 type TYPEVIEW = 'view-sim-card' | 'update-sim-card' | 'identification-sim-card';
-const TYPEVIEW_VALUES: TYPEVIEW[] = ['view-sim-card', 'update-sim-card', 'identification-sim-card'];
+const TYPEVIEW_VALUES: TYPEVIEW[] = [
+    'view-sim-card',
+    'update-sim-card',
+    'identification-sim-card',
+];
 function isTypeView(value: any): value is TYPEVIEW {
     return TYPEVIEW_VALUES.includes(value);
 }
 @Component({
     selector: 'app-form-sim-card',
     templateUrl: './form-sim-card.component.html',
-    styleUrls: ['./form-sim-card.component.scss']
+    styleUrls: ['./form-sim-card.component.scss'],
 })
-
 export class FormSimCardComponent {
     public module: string;
     public subModule: string;
@@ -51,9 +54,9 @@ export class FormSimCardComponent {
     public listSecondLevel$: Observable<Array<SecondLevelInterface>>;
     public listThirdLevel$: Observable<any[]>;
     public listUsages$: Observable<any[]>;
-    public firstLevelLibel: string|undefined;
-    public secondLevelLibel: string|undefined;
-    public thirdLevelLibel: string|undefined;
+    public firstLevelLibel: string | undefined;
+    public secondLevelLibel: string | undefined;
+    public thirdLevelLibel: string | undefined;
 
     public filesPhysique = [];
     public filesRecto = [];
@@ -76,22 +79,38 @@ export class FormSimCardComponent {
     public asAccessFeatureDataBalance: boolean;
     public asAccessFeatureSmsBalance: boolean;
 
-    constructor(private activatedRoute: ActivatedRoute,
-        private loadingBar: LoadingBarService, private toastrService: ToastrService,
-        private fb: FormBuilder, private patrimoineService: PatrimoineService,
-        public mappingService: MappingService, private router: Router,
-        private sharedService: SharedService, private simCardApiService: simCardApiService,
-        private translate: TranslateService, private asFeatureService: AsFeatureService,
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private loadingBar: LoadingBarService,
+        private toastrService: ToastrService,
+        private fb: FormBuilder,
+        private patrimoineService: PatrimoineService,
+        public mappingService: MappingService,
+        private router: Router,
+        private sharedService: SharedService,
+        private simCardApiService: simCardApiService,
+        private translate: TranslateService,
+        private asFeatureService: AsFeatureService,
         private storeCurrentUserService: StoreCurrentUserService,
-        private secondLevelService: SecondLevelService) {
-        this.asAccessFeatureIdentification = this.asFeatureService.hasFeature(OperationTransaction.IDENTIFICATION);
-        this.asAccessFeatureDataBalance = this.asFeatureService.hasFeature(OperationTransaction.SOLDE_DATA);
-        this.asAccessFeatureSmsBalance = this.asFeatureService.hasFeature(OperationTransaction.SOLDE_SMS);
-        
+        private secondLevelService: SecondLevelService
+    ) {
+        this.asAccessFeatureIdentification = this.asFeatureService.hasFeature(
+            OperationTransaction.IDENTIFICATION
+        );
+        this.asAccessFeatureDataBalance = this.asFeatureService.hasFeature(
+            OperationTransaction.SOLDE_DATA
+        );
+        this.asAccessFeatureSmsBalance = this.asFeatureService.hasFeature(
+            OperationTransaction.SOLDE_SMS
+        );
+
         const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.firstLevelLibel = currentUser?.structure_organisationnelle?.niveau_1;
-        this.secondLevelLibel = currentUser?.structure_organisationnelle?.niveau_2;
-        this.thirdLevelLibel = currentUser?.structure_organisationnelle?.niveau_3;
+        this.firstLevelLibel =
+            currentUser?.structure_organisationnelle?.niveau_1;
+        this.secondLevelLibel =
+            currentUser?.structure_organisationnelle?.niveau_2;
+        this.thirdLevelLibel =
+            currentUser?.structure_organisationnelle?.niveau_3;
         this.applicationType = this.mappingService.applicationType;
         this.patrimoineType = ApplicationType.PATRIMOINESIM;
         Object.values(TypeUtilisateur).forEach((item) => {
@@ -115,14 +134,20 @@ export class FormSimCardComponent {
 
     private getParamsInUrl(): void {
         this.activatedRoute.queryParams.subscribe((params: Object) => {
-            this.urlParamRef = params?.["ref"];
-            this.urlParamMSISDN = params?.["msisdn"];
+            this.urlParamRef = params?.['ref'];
+            this.urlParamMSISDN = params?.['msisdn'];
         });
         const imsi = this.activatedRoute.snapshot.paramMap.get('imsi') ?? '';
         switch (this.urlParamRef) {
-            case "update-sim-card": this.initFormUpdateCarteSim(); break;
-            case "identification-sim-card": this.initFormIdentificationCarteSim(); break;
-            case "view-sim-card": this.initFormDetailsCarteSim(); break;
+            case 'update-sim-card':
+                this.initFormUpdateCarteSim();
+                break;
+            case 'identification-sim-card':
+                this.initFormIdentificationCarteSim();
+                break;
+            case 'view-sim-card':
+                this.initFormDetailsCarteSim();
+                break;
         }
         if (!isTypeView(this.urlParamRef)) {
             this.displayUrlErrorPage = true;
@@ -133,24 +158,41 @@ export class FormSimCardComponent {
             this.listThirdLevel$ = this.sharedService.getThirdLevel();
             this.sharedService.fetchUsages();
             this.listUsages$ = this.sharedService.getUsages();
-            if (this.urlParamRef === "view-sim-card") this.formDetailsCarteSim.disable();
+            if (this.urlParamRef === 'view-sim-card')
+                this.formDetailsCarteSim.disable();
             this.getCarteSimSelectedDetails(imsi);
         }
     }
 
-    async getCarteSimSelectedDetails(simCardSelectedImsi: string): Promise<void> {
+    async getCarteSimSelectedDetails(
+        simCardSelectedImsi: string
+    ): Promise<void> {
         this.simCardApiService.fetchSimCardDetails(simCardSelectedImsi);
         this.simCardApiService.getSimCardDetails().subscribe((value) => {
             this.simCardSelectedDetails = value;
             switch (this.urlParamRef) {
-                case "update-sim-card": this.patchValueFormUpdateCarteSim(this.simCardSelectedDetails); break;
-                case "identification-sim-card": this.patchValueFormIdentifierCarteSim(this.simCardSelectedDetails); break;
-                case "view-sim-card": this.patchValueFormDetailsCarteSim(this.simCardSelectedDetails); break;
+                case 'update-sim-card':
+                    this.patchValueFormUpdateCarteSim(
+                        this.simCardSelectedDetails
+                    );
+                    break;
+                case 'identification-sim-card':
+                    this.patchValueFormIdentifierCarteSim(
+                        this.simCardSelectedDetails
+                    );
+                    break;
+                case 'view-sim-card':
+                    this.patchValueFormDetailsCarteSim(
+                        this.simCardSelectedDetails
+                    );
+                    break;
             }
         });
     }
 
-    private patchValueFormIdentifierCarteSim(simCardSelectedDetails: simCardDetailsInterface): void {
+    private patchValueFormIdentifierCarteSim(
+        simCardSelectedDetails: simCardDetailsInterface
+    ): void {
         this.formIdentifierCarteSim.patchValue({
             sim_id: simCardSelectedDetails?.id,
             type_personne: simCardSelectedDetails.type_personne,
@@ -161,21 +203,28 @@ export class FormSimCardComponent {
             imsi: simCardSelectedDetails?.imsi,
             iccid: simCardSelectedDetails?.iccid,
             msisdn: simCardSelectedDetails?.msisdn,
-            date_naissance: simCardSelectedDetails?.date_naissance ? new Date(simCardSelectedDetails?.date_naissance) : '',
+            date_naissance: simCardSelectedDetails?.date_naissance
+                ? new Date(simCardSelectedDetails?.date_naissance)
+                : '',
             lieu_naissance: simCardSelectedDetails?.lieu_naissance,
         });
         if (simCardSelectedDetails?.photo_carte_recto) {
-            this.imageURLs['recto'] = simCardSelectedDetails?.photo_carte_recto ?? '';
+            this.imageURLs['recto'] =
+                simCardSelectedDetails?.photo_carte_recto ?? '';
         }
         if (simCardSelectedDetails?.photo_carte_verso) {
-            this.imageURLs['verso'] = simCardSelectedDetails?.photo_carte_verso ?? '';
+            this.imageURLs['verso'] =
+                simCardSelectedDetails?.photo_carte_verso ?? '';
         }
         if (simCardSelectedDetails?.photo_physique) {
-            this.imageURLs['physique'] = simCardSelectedDetails.photo_physique ?? '';
+            this.imageURLs['physique'] =
+                simCardSelectedDetails.photo_physique ?? '';
         }
     }
 
-    private patchValueFormUpdateCarteSim(simCardSelectedDetails: simCardDetailsInterface): void {
+    private patchValueFormUpdateCarteSim(
+        simCardSelectedDetails: simCardDetailsInterface
+    ): void {
         this.formUpdateCarteSim.patchValue({
             sim_id: simCardSelectedDetails?.id,
             imsi: simCardSelectedDetails?.imsi,
@@ -198,7 +247,9 @@ export class FormSimCardComponent {
         });
     }
 
-    private patchValueFormDetailsCarteSim(simCardSelectedDetails: simCardDetailsInterface): void {
+    private patchValueFormDetailsCarteSim(
+        simCardSelectedDetails: simCardDetailsInterface
+    ): void {
         this.formDetailsCarteSim.patchValue({
             sim_id: simCardSelectedDetails?.id,
             type_personne: simCardSelectedDetails?.type_personne,
@@ -226,16 +277,29 @@ export class FormSimCardComponent {
             adresse_ip: simCardSelectedDetails?.adresse_ip,
             site_reseau: simCardSelectedDetails?.site_reseau,
         });
-        this.mappingService.statutContrat(simCardSelectedDetails?.statut)
+        this.mappingService.statutContrat(simCardSelectedDetails?.statut);
     }
 
     public initFormUpdateCarteSim(): void {
-
         this.formUpdateCarteSim = this.fb.group({
             sim_id: null,
-            imsi: [{ value: null, disabled: true }, [Validators.pattern("^[0-9]*$"), Validators.maxLength(15), Validators.minLength(15)]],
+            imsi: [
+                { value: null, disabled: true },
+                [
+                    Validators.pattern('^[0-9]*$'),
+                    Validators.maxLength(15),
+                    Validators.minLength(15),
+                ],
+            ],
             iccid: [{ value: null, disabled: true }],
-            msisdn: [{ value: null, disabled: true }, [Validators.pattern("^[0-9]*$"), Validators.maxLength(10), Validators.minLength(10)]],
+            msisdn: [
+                { value: null, disabled: true },
+                [
+                    Validators.pattern('^[0-9]*$'),
+                    Validators.maxLength(10),
+                    Validators.minLength(10),
+                ],
+            ],
             formule: [{ value: null, disabled: true }],
             niveau_un_uuid: ['', Validators.required],
             niveau_deux_uuid: ['', Validators.required],
@@ -251,13 +315,15 @@ export class FormSimCardComponent {
             site_reseau: [{ value: null, disabled: true }],
             adresse_ip: [{ value: null, disabled: true }],
         });
-        this.formUpdateCarteSim?.get('niveau_un_uuid')?.valueChanges.subscribe(
-            this.fetchSecondLevel.bind(this)
-        );
+        this.formUpdateCarteSim
+            ?.get('niveau_un_uuid')
+            ?.valueChanges.subscribe(this.fetchSecondLevel.bind(this));
     }
 
     async fetchSecondLevel(uuid: string): Promise<void> {
-        this.listSecondLevel$ = await this.secondLevelService.getSecondLevel(uuid);
+        this.listSecondLevel$ = await this.secondLevelService.getSecondLevel(
+            uuid
+        );
     }
 
     public initFormDetailsCarteSim(): void {
@@ -296,9 +362,9 @@ export class FormSimCardComponent {
             photo_carte_recto: null,
             photo_carte_verso: null,
             photo_physique: null,
-
         });
-        const typePersonneControl = this.formIdentifierCarteSim?.get('type_personne');
+        const typePersonneControl =
+            this.formIdentifierCarteSim?.get('type_personne');
         const gererValidationTypeUtilisateur = (value: string) => {
             if (value === TypeUtilisateur.PERSONNE) {
                 this.displayPersonne = true;
@@ -320,7 +386,10 @@ export class FormSimCardComponent {
             prenoms: [null, Validators.required],
             nature_piece: [null, Validators.required],
             numero_piece: [null, Validators.required],
-            date_naissance: ['', [Validators.required, this.validateDateOfBirth]],
+            date_naissance: [
+                '',
+                [Validators.required, this.validateDateOfBirth],
+            ],
             lieu_naissance: [null, Validators.required],
             imsi: [{ value: null, disabled: true }],
             iccid: [{ value: null, disabled: true }],
@@ -329,14 +398,15 @@ export class FormSimCardComponent {
             photo_carte_verso: [''],
             photo_physique: [''],
         });
-        const typePersonneControl = this.formIdentifierCarteSim.get('type_personne');
+        const typePersonneControl =
+            this.formIdentifierCarteSim.get('type_personne');
         const gererValidationTypeUtilisateur = (value: string) => {
             if (value === TypeUtilisateur.PERSONNE) {
                 this.displayPersonne = true;
-                this.isNoVerifyPiecesPhotos = true
+                this.isNoVerifyPiecesPhotos = true;
             } else {
                 this.displayPersonne = false;
-                this.isNoVerifyPiecesPhotos = false
+                this.isNoVerifyPiecesPhotos = false;
             }
         };
         gererValidationTypeUtilisateur(typePersonneControl?.value);
@@ -371,14 +441,25 @@ export class FormSimCardComponent {
 
     async handleUpdateSimCard(): Promise<void> {
         const htmlMessage = `Les informations de la SIM <span style="color: #ff6600;"><strong>{msisdn}</strong></span> seront modifiée !`;
-        const result = await Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass })
-            .fire({
-                ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, html: htmlMessage
-                    .replace('{msisdn}', this.simCardSelectedDetails?.["msisdn"])
-            });
+        const result = await Swal.mixin({
+            customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass,
+        }).fire({
+            ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message,
+            html: htmlMessage.replace(
+                '{msisdn}',
+                this.simCardSelectedDetails?.['msisdn']
+            ),
+        });
         if (result.isConfirmed) {
-            const response: any = await handle(() => this.patrimoineService.UpdatePatrimoine(this.formUpdateCarteSim.value), this.toastrService, this.loadingBar);
-            response.error === false ? this.handleSuccessfulSave(response) : "";
+            const response: any = await handle(
+                () =>
+                    this.patrimoineService.UpdatePatrimoine(
+                        this.formUpdateCarteSim.value
+                    ),
+                this.toastrService,
+                this.loadingBar
+            );
+            response.error === false ? this.handleSuccessfulSave(response) : '';
         }
     }
     private handleSuccessfulSave(response: any): void {
@@ -390,45 +471,45 @@ export class FormSimCardComponent {
     private refreshListCartesSim(): void {
         combineLatest([
             this.simCardApiService.getDataFilterSimCard(),
-            this.simCardApiService.getDataNbrPageSimCard()
+            this.simCardApiService.getDataNbrPageSimCard(),
         ]).subscribe(([filterData, nbrPageData]) => {
             this.simCardApiService.fetchSimCard(filterData, nbrPageData);
         });
     }
 
     public closeInterface(): void {
-        this.router.navigate([PATRIMONY + "/" + SIM_CARD]);
+        this.router.navigate([PATRIMONY + '/' + SIM_CARD]);
     }
-    
+
     async handleAnalyzePiecePhoto(): Promise<void> {
         const formData = new FormData();
-        formData.append("photo_physique", this.filesPhysique[0] ?? "");
-        formData.append("photo_carte_verso", this.filesVerso[0] ?? "");
-        formData.append("photo_carte_recto", this.filesRecto[0] ?? "");
-    
+        formData.append('photo_physique', this.filesPhysique[0] ?? '');
+        formData.append('photo_carte_verso', this.filesVerso[0] ?? '');
+        formData.append('photo_carte_recto', this.filesRecto[0] ?? '');
+
         try {
             await Swal.fire({
                 title: "Vous êtes sur le point d'analyser les images chargées",
                 text: "Veuillez confirmer pour lancer l'analyse.",
-                icon: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: "#569C5B",
-                cancelButtonColor: "#dc3545",
-                confirmButtonText: "Confirmer",
-                cancelButtonText: "Annuler",
+                confirmButtonColor: '#569C5B',
+                cancelButtonColor: '#dc3545',
+                confirmButtonText: 'Confirmer',
+                cancelButtonText: 'Annuler',
                 showLoaderOnConfirm: true,
                 allowOutsideClick: () => !Swal.isLoading(),
                 backdrop: true,
                 width: 800,
                 preConfirm: async () => {
                     await this.processImages(formData);
-                }
+                },
             });
         } catch (error) {
-            console.error("Erreur lors de la confirmation :", error);
+            console.error('Erreur lors de la confirmation :', error);
         }
     }
-    
+
     private async processImages(formData: FormData): Promise<void> {
         try {
             // Appel de la méthode `handle`
@@ -437,72 +518,97 @@ export class FormSimCardComponent {
                 this.toastrService,
                 this.loadingBar
             );
-    
+
             if (response.error) {
                 Swal.fire({
-                    title: "Erreur",
-                    text: response.message || "Une erreur inattendue est survenue.",
-                    icon: "error",
+                    title: 'Erreur',
+                    text:
+                        response.message ||
+                        'Une erreur inattendue est survenue.',
+                    icon: 'error',
                 });
             } else {
                 this.handleSuccessfulAnalysePiecePhoto(response);
             }
-
         } catch (error: any) {
-    
             Swal.fire({
-                title: "Erreur",
+                title: 'Erreur',
                 text: error.message,
-                icon: "error",
+                icon: 'error',
             });
         }
     }
-    
-    private async handleSuccessfulAnalysePiecePhoto(response: any): Promise<void> {    
+
+    private async handleSuccessfulAnalysePiecePhoto(
+        response: any
+    ): Promise<void> {
         await Swal.fire({
-            title: "Analyse terminée",
-            text: response?.message || "Les images ont été analysées avec succès.",
-            icon: "success",
+            title: 'Analyse terminée',
+            text:
+                response?.message ||
+                'Les images ont été analysées avec succès.',
+            icon: 'success',
         });
-    
+
         this.updateFormWithResponseData(response);
-        this.toastrService.success(response?.message || "Analyse réussie.");
+        this.toastrService.success(response?.message || 'Analyse réussie.');
         this.isNoVerifyPiecesPhotos = false;
     }
-    
+
     private updateFormWithResponseData(response: any): void {
         this.formIdentifierCarteSim.patchValue({
             type_personne: TypeUtilisateur.PERSONNE,
-            nom: response?.data?.nom || "",
-            prenoms: response?.data?.prenoms || "",
-            nature_piece: response?.data?.nature_piece || "",
-            numero_piece: response?.data?.numero_piece || "",
-            lieu_naissance: response?.data?.lieu_naissance || "",
-            date_naissance: response?.data?.date_naissance ? new Date(response.data.date_naissance)
-                : "",
+            nom: response?.data?.nom || '',
+            prenoms: response?.data?.prenoms || '',
+            nature_piece: response?.data?.nature_piece || '',
+            numero_piece: response?.data?.numero_piece || '',
+            lieu_naissance: response?.data?.lieu_naissance || '',
+            date_naissance: response?.data?.date_naissance
+                ? new Date(response.data.date_naissance)
+                : '',
         });
     }
 
     private get IdentifyCarteSimMessage(): string {
-        if(this.formIdentifierCarteSim.get("type_personne")?.value === TypeUtilisateur.PERSONNE) {
-            const THE_INFORMATION_OF_THIS_NATURAL_PERSON_WILL_BE_ATTACHED_TO_THE_SIM = this.translate.instant('THE_INFORMATION_OF_THIS_NATURAL_PERSON_WILL_BE_ATTACHED_TO_THE_SIM');
+        if (
+            this.formIdentifierCarteSim.get('type_personne')?.value ===
+            TypeUtilisateur.PERSONNE
+        ) {
+            const THE_INFORMATION_OF_THIS_NATURAL_PERSON_WILL_BE_ATTACHED_TO_THE_SIM =
+                this.translate.instant(
+                    'THE_INFORMATION_OF_THIS_NATURAL_PERSON_WILL_BE_ATTACHED_TO_THE_SIM'
+                );
             return `${THE_INFORMATION_OF_THIS_NATURAL_PERSON_WILL_BE_ATTACHED_TO_THE_SIM} <span style="color: #ff6600;"><strong>{msisdn}</strong></span> !`;
         } else {
-            const THE_INFORMATION_OF_THE_CONNECTED_EQUIPMENT_WILL_BE_ATTACHED_TO_THE_SIM = this.translate.instant('THE_INFORMATION_OF_THE_CONNECTED_EQUIPMENT_WILL_BE_ATTACHED_TO_THE_SIM');
+            const THE_INFORMATION_OF_THE_CONNECTED_EQUIPMENT_WILL_BE_ATTACHED_TO_THE_SIM =
+                this.translate.instant(
+                    'THE_INFORMATION_OF_THE_CONNECTED_EQUIPMENT_WILL_BE_ATTACHED_TO_THE_SIM'
+                );
             return `${THE_INFORMATION_OF_THE_CONNECTED_EQUIPMENT_WILL_BE_ATTACHED_TO_THE_SIM} <span style="color: #ff6600;"><strong>{msisdn}</strong></span> !`;
         }
     }
 
     async handleIdentifySimCard(): Promise<void> {
-        this.formIdentifierCarteSim.get("date_naissance")?.setValue(moment(this.formIdentifierCarteSim.get("date_naissance")?.value).format('YYYY-MM-DD') ?? '')
+        this.formIdentifierCarteSim
+            .get('date_naissance')
+            ?.setValue(
+                moment(
+                    this.formIdentifierCarteSim.get('date_naissance')?.value
+                ).format('YYYY-MM-DD') ?? ''
+            );
         const htmlMessage = this.IdentifyCarteSimMessage;
-        const result = await Swal.mixin({ customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass })
-            .fire({ ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message, 
-                html: htmlMessage.replace('{msisdn}', this.simCardSelectedDetails?.["msisdn"])
-            });
+        const result = await Swal.mixin({
+            customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass,
+        }).fire({
+            ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message,
+            html: htmlMessage.replace(
+                '{msisdn}',
+                this.simCardSelectedDetails?.['msisdn']
+            ),
+        });
         if (result.isConfirmed) {
             const formData = new FormData();
-            Object.keys(this.formIdentifierCarteSim.controls).forEach(key => {
+            Object.keys(this.formIdentifierCarteSim.controls).forEach((key) => {
                 const control = this.formIdentifierCarteSim.get(key);
                 if (control && control.value) {
                     formData.append(key, control.value);
@@ -517,42 +623,71 @@ export class FormSimCardComponent {
             if (this.filesRecto) {
                 formData.append('photo_carte_recto', this.filesRecto[0] ?? '');
             }
-            if (this.simCardSelectedDetails?.["is_identified"] === false) {
-                const response: any = await handle(() => this.patrimoineService.IdentificationPatrimoine(formData), this.toastrService, this.loadingBar);
-                response.error === false ? this.handleSuccessfulSave(response) : "";
+            if (this.simCardSelectedDetails?.['is_identified'] === false) {
+                const response: any = await handle(
+                    () =>
+                        this.patrimoineService.IdentificationPatrimoine(
+                            formData
+                        ),
+                    this.toastrService,
+                    this.loadingBar
+                );
+                response.error === false
+                    ? this.handleSuccessfulSave(response)
+                    : '';
             } else {
-                const response: any = await handle(() => this.patrimoineService.IdentificationPatrimoineUpdate(formData), this.toastrService, this.loadingBar);
-                response.error === false ? this.handleSuccessfulSave(response) : "";
+                const response: any = await handle(
+                    () =>
+                        this.patrimoineService.IdentificationPatrimoineUpdate(
+                            formData
+                        ),
+                    this.toastrService,
+                    this.loadingBar
+                );
+                response.error === false
+                    ? this.handleSuccessfulSave(response)
+                    : '';
             }
         }
     }
 
     public isDisabledButtonIdentifySimCard(): boolean {
-        const typePersonneControl = this.formIdentifierCarteSim.get('type_personne');
-        const photoPhysiqueControl = this.formIdentifierCarteSim.get('photo_physique');
-        const photoCarteRectoControl = this.formIdentifierCarteSim.get('photo_carte_recto');
-        const photoCarteVersoControl = this.formIdentifierCarteSim.get('photo_carte_verso');
-        if(typePersonneControl?.value === TypeUtilisateur.EQUIPEMENT && this.formIdentifierCarteSim.invalid) {
+        const typePersonneControl =
+            this.formIdentifierCarteSim.get('type_personne');
+        const photoPhysiqueControl =
+            this.formIdentifierCarteSim.get('photo_physique');
+        const photoCarteRectoControl =
+            this.formIdentifierCarteSim.get('photo_carte_recto');
+        const photoCarteVersoControl =
+            this.formIdentifierCarteSim.get('photo_carte_verso');
+        if (
+            typePersonneControl?.value === TypeUtilisateur.EQUIPEMENT &&
+            this.formIdentifierCarteSim.invalid
+        ) {
             return true;
-        } else if(typePersonneControl?.value === TypeUtilisateur.PERSONNE && 
-                this.simCardSelectedDetails?.['is_identified'] && 
-                this.formIdentifierCarteSim.invalid) {
+        } else if (
+            typePersonneControl?.value === TypeUtilisateur.PERSONNE &&
+            this.simCardSelectedDetails?.['is_identified'] &&
+            this.formIdentifierCarteSim.invalid
+        ) {
             return true;
-        } else if(typePersonneControl?.value === TypeUtilisateur.PERSONNE && 
-                this.simCardSelectedDetails?.['is_identified'] === false && 
-                this.formIdentifierCarteSim.invalid && 
-                !photoPhysiqueControl?.value && 
-                !photoCarteRectoControl?.value && 
-                !photoCarteVersoControl?.value){
+        } else if (
+            typePersonneControl?.value === TypeUtilisateur.PERSONNE &&
+            this.simCardSelectedDetails?.['is_identified'] === false &&
+            this.formIdentifierCarteSim.invalid &&
+            !photoPhysiqueControl?.value &&
+            !photoCarteRectoControl?.value &&
+            !photoCarteVersoControl?.value
+        ) {
             return true;
         } else {
-            return false
+            return false;
         }
     }
 
-    get  formatMsisdn(): string {
-        const msisdn = this.simCardSelectedDetails?.msisdn || "";
-        const formattedMsisdn = msisdn.replace(/(\d{2})(?=\d)/g, "$1 ");
+    get formatMsisdn(): string {
+        const msisdn = this.simCardSelectedDetails?.msisdn || '';
+        const formattedMsisdn = msisdn.replace(/(\d{2})(?=\d)/g, '$1 ');
         return formattedMsisdn;
     }
 
@@ -571,7 +706,13 @@ export class FormSimCardComponent {
         }
     }
 
-    onRemoveTemplatingFile(event: Event, file: any, removeFileCallback: Function, index: number, typeFile: 'physique' | 'recto' | 'verso'): void {
+    onRemoveTemplatingFile(
+        event: Event,
+        file: any,
+        removeFileCallback: Function,
+        index: number,
+        typeFile: 'physique' | 'recto' | 'verso'
+    ): void {
         switch (typeFile) {
             case 'physique':
                 this.filesPhysique.splice(index, 1);
@@ -586,8 +727,7 @@ export class FormSimCardComponent {
         }
     }
 
-
-    public handleRefreshData(simCardSelectedDetails: {msisdn: string}): void {
+    public handleRefreshData(simCardSelectedDetails: { msisdn: string }): void {
         Swal.fire({
             html: `Voulez-vous rafraîchir le solde Data ?`,
             icon: 'warning',
@@ -601,7 +741,8 @@ export class FormSimCardComponent {
                 this.patrimoineService
                     .handleRefreshData({
                         msisdn: simCardSelectedDetails?.msisdn,
-                    }).subscribe(
+                    })
+                    .subscribe(
                         (response: any) => {
                             this.toastrService.success(response.message);
                             this.closeInterface();
@@ -609,7 +750,7 @@ export class FormSimCardComponent {
                         (error) => {
                             this.toastrService.error(error.error.message);
                         }
-                    )
+                    );
             }
         });
     }

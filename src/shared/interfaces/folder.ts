@@ -75,5 +75,4 @@ export interface Folder {
     niveau_uns_nom: string | null;
     niveau_deux_nom: string | null;
     niveau_trois_nom: string | null;
-
 }

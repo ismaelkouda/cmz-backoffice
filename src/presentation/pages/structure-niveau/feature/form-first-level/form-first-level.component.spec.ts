@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { FormFirstLevelComponent } from './form-first-level.component';
 
 describe('FormFirstLevelComponent', () => {
-  let component: FormFirstLevelComponent;
-  let fixture: ComponentFixture<FormFirstLevelComponent>;
+    let component: FormFirstLevelComponent;
+    let fixture: ComponentFixture<FormFirstLevelComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FormFirstLevelComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [FormFirstLevelComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(FormFirstLevelComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(FormFirstLevelComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

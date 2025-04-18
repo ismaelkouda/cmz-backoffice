@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { AlarmeColorComponent } from './alarme-color.component';
 
 describe('AlarmeColorComponent', () => {
-  let component: AlarmeColorComponent;
-  let fixture: ComponentFixture<AlarmeColorComponent>;
+    let component: AlarmeColorComponent;
+    let fixture: ComponentFixture<AlarmeColorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AlarmeColorComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [AlarmeColorComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(AlarmeColorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(AlarmeColorComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

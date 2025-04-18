@@ -8,27 +8,28 @@ export const COMMANDE_SIM = 'commande-produits';
 export const LIGNE_CREDIT = 'ligne-credit';
 export const STOCK_PRODUITS = 'stock-produits';
 
-
-const routes: Routes = [{
-    path: "",
-    children: [
-        {
-            path: LIGNE_CREDIT,
-            component: LigneCreditComponent
-        },
-        {
-            path: COMMANDE_SIM,
-            component: CommandeSimComponent
-        },
-        {
-            path: STOCK_PRODUITS,
-            component: StockProduitComponent
-        },
-    ]
-}];
+const routes: Routes = [
+    {
+        path: '',
+        children: [
+            {
+                path: LIGNE_CREDIT,
+                component: LigneCreditComponent,
+            },
+            {
+                path: COMMANDE_SIM,
+                component: CommandeSimComponent,
+            },
+            {
+                path: STOCK_PRODUITS,
+                component: StockProduitComponent,
+            },
+        ],
+    },
+];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
-export class ProvisionningRoutingModule { }
+export class ProvisionningRoutingModule {}

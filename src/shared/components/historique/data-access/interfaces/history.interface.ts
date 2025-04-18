@@ -1,4 +1,4 @@
-import { Paginate } from "@shared/interfaces/paginate";
+import { Paginate } from '@shared/interfaces/paginate';
 
 export interface historyApiResponseInterface {
     error: boolean;

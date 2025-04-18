@@ -3,4 +3,3 @@ export const enum SujetEnum {
     CONTRAT = 'contrat',
     FACTURE = 'facture',
 }
-

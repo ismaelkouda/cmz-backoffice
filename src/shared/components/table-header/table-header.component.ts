@@ -1,21 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-table-header',
-  templateUrl: './table-header.component.html',
-  styleUrls: ['./table-header.component.scss']
+    selector: 'app-table-header',
+    templateUrl: './table-header.component.html',
+    styleUrls: ['./table-header.component.scss'],
 })
 export class TableHeaderComponent implements OnInit {
+    @Input() count: [];
+    @Input() legende: string;
+    @Input() page: number;
+    @Input() totalPage: number;
 
-  @Input() count: [];
-  @Input() legende: string;
-  @Input() page: number;
-  @Input() totalPage: number;
+    constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-    
-  }
-
+    ngOnInit() {}
 }

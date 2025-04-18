@@ -30,7 +30,7 @@
 //             // {
 //             //     path: CARTES_SIM,
 //             //     component: CarteSimActiveComponent
-//             // }, 
+//             // },
 //             {
 //                 path: '',
 //                 component: CartesSimComponent

@@ -1,18 +1,18 @@
-import { Paginate } from "../../../../../../shared/interfaces/paginate";
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
 
 export interface dataBalanceStatusInterface {
-  id: number;
-  reference: string;
-  description: string;
-  statut: string;
-  premier_numero: string;
-  dernier_numero: string;
-  nb_numeros_disponibles: number;
-  nb_numeros_utilises: number;
-  nb_numeros_total: number;
-  taux_utilisation: number;
-  created_at: string;
-  updated_at: string;
+    id: number;
+    reference: string;
+    description: string;
+    statut: string;
+    premier_numero: string;
+    dernier_numero: string;
+    nb_numeros_disponibles: number;
+    nb_numeros_utilises: number;
+    nb_numeros_total: number;
+    taux_utilisation: number;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface dataBalanceStatusGlobalStatsInterface {

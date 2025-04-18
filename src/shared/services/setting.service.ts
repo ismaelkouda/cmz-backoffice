@@ -7,7 +7,6 @@ import { EndPointUrl } from '../enum/api.enum';
 @Injectable({
     providedIn: 'root',
 })
-
 export class SettingService {
     public statutSubject = new BehaviorSubject(false);
     public statutSubject$ = this.statutSubject.asObservable();
@@ -24,12 +23,16 @@ export class SettingService {
     }
 
     postParametresSecuriteFormeJuridiqueAll(data): Observable<any> {
-        const url: string = <string>EndPointUrl.PARAMETRES_SECURITE_FORME_JURIDIQUES_ALL;
+        const url: string = <string>(
+            EndPointUrl.PARAMETRES_SECURITE_FORME_JURIDIQUES_ALL
+        );
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
 
     postParametresSecuriteRegimesEntrepriseAll(data): Observable<any> {
-        const url: string = <string>EndPointUrl.PARAMETRES_SECURITE_REGIMES_ENTREPRISE_ALL;
+        const url: string = <string>(
+            EndPointUrl.PARAMETRES_SECURITE_REGIMES_ENTREPRISE_ALL
+        );
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
     OnSaveUser(data): Observable<any> {
@@ -45,7 +48,9 @@ export class SettingService {
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
     getHistoriques(data, nbrPage: string = '1'): Observable<any> {
-        const url: string = <string>EndPointUrl.GET_ALL_HISTORIQUE.replace('{page}', nbrPage);
+        const url: string = <string>(
+            EndPointUrl.GET_ALL_HISTORIQUE.replace('{page}', nbrPage)
+        );
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
     getDetailsHistoriques(data): Observable<any> {
@@ -53,14 +58,15 @@ export class SettingService {
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
     getAllJournal(data, typeJournal): Observable<any> {
-        const url: string = <string>EndPointUrl.GET_ALL_JOURNAL.replace('{typeJournal}', typeJournal);
+        const url: string = <string>(
+            EndPointUrl.GET_ALL_JOURNAL.replace('{typeJournal}', typeJournal)
+        );
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
     getAllSimBlancheJournal(data, page): Observable<any> {
-        const url: string = <string>EndPointUrl.GET_ALL_SIM_BLANCHE_JOURNAL.replace(
-            "{page}",
-            page
-          );
+        const url: string = <string>(
+            EndPointUrl.GET_ALL_SIM_BLANCHE_JOURNAL.replace('{page}', page)
+        );
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
 
@@ -233,7 +239,12 @@ export class SettingService {
     }
 
     GetCoutUnitaireOperation(typeOperation: string): Observable<any> {
-        const url: string = <string>EndPointUrl.GET_CONTRATS_SLA_ENGAGEMENTS_SLA.replace('{typeOperation}', typeOperation);
+        const url: string = <string>(
+            EndPointUrl.GET_CONTRATS_SLA_ENGAGEMENTS_SLA.replace(
+                '{typeOperation}',
+                typeOperation
+            )
+        );
         return this.http.post(`${this.baseUrl}${url}`, {});
     }
 

@@ -4,6 +4,9 @@ export const AUTH = 'auth';
 export const full: Routes = [
     {
         path: AUTH,
-        loadChildren: () => import("../../presentation/pages/authentication/authentication.module").then((m) => m.AuthenticationModule),
-    }
+        loadChildren: () =>
+            import(
+                '../../presentation/pages/authentication/authentication.module'
+            ).then((m) => m.AuthenticationModule),
+    },
 ];

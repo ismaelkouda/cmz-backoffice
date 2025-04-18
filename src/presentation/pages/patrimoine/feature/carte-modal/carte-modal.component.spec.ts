@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { CarteModalComponent } from './carte-modal.component';
 
 describe('CarteModalComponent', () => {
-  let component: CarteModalComponent;
-  let fixture: ComponentFixture<CarteModalComponent>;
+    let component: CarteModalComponent;
+    let fixture: ComponentFixture<CarteModalComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CarteModalComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [CarteModalComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CarteModalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CarteModalComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

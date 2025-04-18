@@ -1,4 +1,4 @@
 export enum TYPE_PRODUITS {
-    ROUTEUR = "Routeur",
-    SWITCH = "switch"
+    ROUTEUR = 'Routeur',
+    SWITCH = 'switch',
 }

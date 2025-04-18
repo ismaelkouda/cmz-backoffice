@@ -3,11 +3,10 @@ export interface ThirdLevelInterface {
     uuid: string;
     code: string;
     nom: string;
-  }
-  
-  export interface ApiResponseThirdLevelInterface {
+}
+
+export interface ApiResponseThirdLevelInterface {
     error: boolean;
     message: string;
     data: Array<ThirdLevelInterface>;
-  }
-  
+}

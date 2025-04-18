@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { deriveKey, fromBase64, toBase64 } from './crypto-utils';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
-
 export class CryptoToken {
     private readonly password = 'Ct2&Ro0~Yk2#Pe5{';
 
-    constructor() { }
+    constructor() {}
 
     async saveTokenData(key: string, value: string): Promise<void> {
         // initialiser
@@ -28,12 +27,11 @@ export class CryptoToken {
         const data = {
             iv: toBase64(iv.buffer),
             salt: toBase64(salt.buffer),
-            value: toBase64(encrypted)
-        }
+            value: toBase64(encrypted),
+        };
 
         localStorage.setItem(key, JSON.stringify(data));
     }
-
 
     async getTokenData(key: string, token: string): Promise<string | null> {
         // initialiser
@@ -52,11 +50,11 @@ export class CryptoToken {
                 { name: 'AES-GCM', iv },
                 aeskey,
                 value
-            )
+            );
 
-            return new TextDecoder().decode(derypted)
+            return new TextDecoder().decode(derypted);
         } catch (e) {
-            console.log('echec de decryptage', e)
+            console.log('echec de decryptage', e);
             return null;
         }
     }

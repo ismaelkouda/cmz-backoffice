@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { SeuilAlarmesComponent } from './seuil-alarmes.component';
 
 describe('SeuilAlarmesComponent', () => {
-  let component: SeuilAlarmesComponent;
-  let fixture: ComponentFixture<SeuilAlarmesComponent>;
+    let component: SeuilAlarmesComponent;
+    let fixture: ComponentFixture<SeuilAlarmesComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ SeuilAlarmesComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [SeuilAlarmesComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SeuilAlarmesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(SeuilAlarmesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

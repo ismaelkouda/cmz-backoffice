@@ -21,7 +21,6 @@ import { SupervisionOperationService } from './data-access/supervision-operation
 import { SharedModule } from 'src/shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-
 //Components
 import { PriseEnChargeComponent } from './ui/prise-en-charge/prise-en-charge.component';
 import { AlarmesComponent } from './ui/alarmes/alarmes.component';
@@ -61,8 +60,8 @@ import { ClaimsApiService } from '../overseeing-operations/data-access/claims/se
         // TableTreatmentMonitoringComponent,
         // TreatmentMonitoringComponent,
 
-        // ClaimsComponent, 
-        // FilterClaimsComponent, 
+        // ClaimsComponent,
+        // FilterClaimsComponent,
         // TableClaimsComponent,
 
         SuivieTraitementComponent,
@@ -82,15 +81,14 @@ import { ClaimsApiService } from '../overseeing-operations/data-access/claims/se
         ShowMessageSenderComponent,
         ShowMessageRecieveComponent,
         DetailsSuivieTraitementComponent,
-        DemandeMasseComponent
+        DemandeMasseComponent,
     ],
     providers: [
-        SupervisionOperationService, 
+        SupervisionOperationService,
         SuivieTraitementFilterStateService,
-        // WaitingQueueApiService, 
-        // TreatmentMonitoringApiService, 
+        // WaitingQueueApiService,
+        // TreatmentMonitoringApiService,
         // ClaimsApiService
-    ]
+    ],
 })
-export class SupervisionOperationsModule { }
-
+export class SupervisionOperationsModule {}

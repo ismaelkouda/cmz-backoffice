@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { PatrimoineHeaderComponent } from './patrimoine-header.component';
 
 describe('PatrimoineHeaderComponent', () => {
-  let component: PatrimoineHeaderComponent;
-  let fixture: ComponentFixture<PatrimoineHeaderComponent>;
+    let component: PatrimoineHeaderComponent;
+    let fixture: ComponentFixture<PatrimoineHeaderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PatrimoineHeaderComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [PatrimoineHeaderComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PatrimoineHeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(PatrimoineHeaderComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

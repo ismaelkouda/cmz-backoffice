@@ -6,23 +6,22 @@ import { DebugElement } from '@angular/core';
 import { PatrimoineFormsComponent } from './patrimoine-forms.component';
 
 describe('PatrimoineFormsComponent', () => {
-  let component: PatrimoineFormsComponent;
-  let fixture: ComponentFixture<PatrimoineFormsComponent>;
+    let component: PatrimoineFormsComponent;
+    let fixture: ComponentFixture<PatrimoineFormsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ PatrimoineFormsComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [PatrimoineFormsComponent],
+        }).compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PatrimoineFormsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(PatrimoineFormsComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });
