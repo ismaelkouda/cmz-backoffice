@@ -16,7 +16,9 @@
       
         "start-en:dev": "npm run generate-env:dev && ng serve --host 0.0.0.0 --port 4401 --configuration=en",
         "start-en:prod": "npm run generate-env:prod && ng serve --host 0.0.0.0 --port 4401 --configuration=en",
-        
+
+        "format": "prettier \"src/**/*.{jts,html,css,scss}\" --write",
+
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
