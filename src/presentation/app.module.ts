@@ -25,9 +25,13 @@ import { MappingService } from '../shared/services/mapping.service';
 import { AuthGuard } from '../core/guard/auth.guard';
 import { GuestGuard } from '../core/guard/guest.guard';
 import { PagesGuard } from '../core/guard/PagesGuard';
+import { EnvService } from '../shared/services/env.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+}
+export function initEnv(envService: EnvService): () => void {
+  return () => envService.load();
 }
 
 @NgModule({
@@ -68,8 +72,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     NotifyService,
     { 
       provide: WebSocketSubject, 
-      useFactory: (mappingService: MappingService) => webSocket(`${mappingService.ws_server}/ws/refrresh-notifs`),
-      deps: [MappingService]
+      useFactory: initEnv,
+      // useFactory: (mappingService: MappingService) => webSocket(`${mappingService.ws_server}/ws/refrresh-notifs`),
+      // deps: [MappingService]
+      deps: [EnvService],
+      // multi: true,
     },
     CookieService,
     { provide: HTTP_INTERCEPTORS, useClass: GlobalHttpInterceptorService, multi: true },
