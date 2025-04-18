@@ -18,7 +18,7 @@ import { smsBalanceStatusApiService } from '../../../data-access/sms-balance-sta
 @Component({
     selector: `app-filter-sms-balance-status`,
     templateUrl: `./filter-sms-balance-status.component.html`,
-    styles: [`:host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }, .col-md-2 { padding-right: 0 !important; }`]
+    styleUrls: ['./filter-sms-balance-status.component.scss']
 })
 
 export class FilterSmsBalanceStatusComponent implements OnDestroy {

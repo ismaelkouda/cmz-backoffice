@@ -9,7 +9,7 @@ import { notificationsCenterFilterInterface } from "../../../data-access/notific
 @Component({
     selector: `app-filter-notifications-center`,
     templateUrl: `./filter-notifications-center.component.html`,
-    styles: [`:host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }, .col-md-2 { padding-right: 0 !important; }`]
+    styleUrls: ['./filter-notifications-center.component.scss']
 })
 
 export class FilterNotificationsCenterComponent {

@@ -22,24 +22,7 @@ type TYPEVIEW = "editer" | "détails" | "ajouter";
 @Component({
     selector: "app-form-demande-integration",
     templateUrl: "./form-demande-integration.component.html",
-    styles: [`
-        .container-button-telecharger {
-            border: 2px solid #d0d3da;
-            border-radius: 5%;
-            height: 70%;
-        }
-        :host ::ng-deep {
-            .p-dropdown {
-                width: 100% !important;
-            }
-            .padding-bottom-lignes {
-                padding-bottom: 30px !important;
-            }
-        }
-        :host ::ng-deep p-dropdown.ng-dirty.ng-invalid > .p-dropdown {
-            border-color: #ced4da !important;
-        }
-    `]
+    styleUrls: ['./form-demande-integration.component.scss']
 })
 
 export class FormDemandeIntegrationComponent implements OnInit {

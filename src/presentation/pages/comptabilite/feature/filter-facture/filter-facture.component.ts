@@ -7,7 +7,7 @@ import { T_BADGE_ETAT_FACTURE } from "../../../../../shared/constants/badge-etat
 @Component({
     selector: `app-filter-facture`,
     templateUrl: `./filter-facture.component.html`,
-    styles: [`:host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }, .col-md-2 { padding-right: 0 !important; }`]
+    styleUrls: ['./filter-facture.component.scss']
 })
 
 export class FilterFactureComponent implements OnChanges {

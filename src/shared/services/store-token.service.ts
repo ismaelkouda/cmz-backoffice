@@ -16,7 +16,6 @@ export class StoreTokenService {
   constructor(private encodingDataService: EncodingDataService) {}
 
   public setToken(token: TokenInterface): void {
-    console.log('token11', token);
     this.encodingDataService.saveData(this.STORAGE_KEY, JSON.stringify(token));
     this.tokenSubject.next(token);
   }

@@ -11,7 +11,7 @@ import { T_MY_RELOADS_STATUS_ENUM } from "../../../data-access/reload-my-account
 @Component({
     selector: `app-filter-reload-my-account`,
     templateUrl: `./filter-reload-my-account.component.html`,
-    styles: [`:host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }, .col-md-2 { padding-right: 0 !important; }`]
+    styleUrls: ['./filter-reload-my-account.component.scss']
 })
 
 export class FilterReloadMyAccountComponent implements OnDestroy {

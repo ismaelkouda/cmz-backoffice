@@ -11,7 +11,7 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
     selector: 'app-filter-white-sim-card',
     templateUrl: './filter-white-sim-card.component.html',
-    styles: [':host ::ng-deep { .p-calendar { position: relative; display: inline-flex; max-width: 100%; width: 21rem !important; } }']
+    styleUrls: ['./filter-white-sim-card.component.scss']
 })
 
 export class FilterWhiteSimCardComponent implements OnDestroy {
