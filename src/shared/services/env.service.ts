@@ -34,6 +34,7 @@ export class EnvService {
 
     private loadEnvironment(): void {
         const env = window.__env.currentEnv;
+        console.log('env', env)
         this.verifyIdentityDocumentUrl = env.verifyIdentityDocumentUrl;
         this.apiUrl = env.apiUrl;
         this.fileUrl = env.fileUrl;

@@ -2,16 +2,21 @@
     "name": "cateli-data-collector",
     "version": "1.1.0",
     "scripts": {
-        "set-env": "node set-env.js",
-        "start:dev": "npm run set-env -- dev && ng serve --host 0.0.0.0 --port 4401",
-        "start:prod": "npm run set-env -- prod && ng serve --host 0.0.0.0",
-        "build:dev": "npm run set-env -- dev && ng build",
-        "build:prod": "npm run set-env -- prod && ng build --configuration=production",
-        "format": "prettier \"src/**/*.{jts,html,css,scss}\" --write",
-        "start-en:dev": "npm run set-env -- dev && ng serve --host 0.0.0.0 --port 4401 --configuration=en",
-        "start-en:prod": "npm run set-env -- prod && ng serve --host 0.0.0.0 --port 4401 --configuration=en",
-        "build-en:dev": "npm run set-env -- dev && ng build",
-        "build-en:prod": "npm run set-env -- prod && ng build --configuration=production",
+        "generate-env:dev": "node generate-env.js dev",
+        "generate-env:prod": "node generate-env.js prod",
+      
+        "build:dev": "npm run generate-env:dev && ng build",
+        "build:prod": "npm run generate-env:prod && ng build --configuration=production",
+      
+        "start:dev": "npm run generate-env:dev && ng serve --host 0.0.0.0 --port 4401",
+        "start:prod": "npm run generate-env:prod && ng serve --host 0.0.0.0",
+      
+        "build-en:dev": "npm run generate-env:dev && ng build --configuration=en",
+        "build-en:prod": "npm run generate-env:prod && ng build --configuration=production",
+      
+        "start-en:dev": "npm run generate-env:dev && ng serve --host 0.0.0.0 --port 4401 --configuration=en",
+        "start-en:prod": "npm run generate-env:prod && ng serve --host 0.0.0.0 --port 4401 --configuration=en",
+        
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",

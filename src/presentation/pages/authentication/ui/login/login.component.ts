@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit {
     console.log(token)
     this.storeCurrentUserService.setCurrentUser(currentUser);
     this.storeTokenService.setToken(token);
-    await this.cryptoToken.saveTokenData('token', token);
+    // await this.cryptoToken.saveTokenData('token', token);
     this.storage.saveData('menu', JSON.stringify(response.data?.user?.permissions));
     this.router.navigateByUrl(`/${DASHBOARD}`)
     // this.storage.saveData("current_menu", JSON.stringify(this.permissionsJson))

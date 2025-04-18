@@ -5,8 +5,7 @@ import { ToastrService } from "ngx-toastr";
 
 @Component({
     selector: `app-filter-file-attente`,
-    templateUrl: `./filter-file-attente.component.html`,
-    styles: ['./filter-file-attente.component.scss']
+    templateUrl: './filter-file-attente.component.html',
 })
 
 export class FilterFileAttenteComponent implements OnChanges {
