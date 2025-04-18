@@ -29,7 +29,7 @@ const configs = {
     }
 };
 
-const envConfig = configs[env];
+export const envConfig = configs[env];
 
 fs.readFile(templatePath, 'utf8', (err, content) => {
     if (err) {
