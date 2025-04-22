@@ -33,7 +33,7 @@ export class SidebarComponent {
         private router: Router,
         public navServices: NavService,
         public layout: LayoutService,
-        private storage: EncodingDataService,
+        private storage: EncodingDataService
     ) {
         this.menuItems = JSON.parse(this.storage.getData('menu')) ?? [];
         this.router.events.subscribe((event) => {
