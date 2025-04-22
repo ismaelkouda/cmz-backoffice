@@ -8,7 +8,7 @@ RUN npm install --legacy-peer-deps
 FROM base AS build
 COPY . .
 ARG ENV=prod
-RUN node tools/env/generate-env.js $ENV
+#RUN node tools/env/generate-env.js $ENV
 RUN npm run build:prod
 RUN ls dist/patrimoine-sim-tenant
 
