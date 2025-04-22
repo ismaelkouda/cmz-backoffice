@@ -50,7 +50,7 @@ import {
     REQUESTS_SERVICES,
     SUPERVISORY_REPOSITORY,
 } from '../shared/routes/routes';
-import { ACHAT_PRODUIT } from '../presentation/pages/demandes-produits/demandes-produits-routing.module';
+// import { ACHAT_PRODUIT } from '../presentation/pages/demandes-produits/demandes-produits-routing.module';
 import { FACTURE } from '../presentation/pages/comptabilite/comptabilite-routing.module';
 import { MOBILE_SUBSCRIPTIONS } from '../presentation/pages/requests-services/requests-services-routing.module';
 import { WHITE_SIM } from '../presentation/pages/requests-products/requests-products-routing.module';

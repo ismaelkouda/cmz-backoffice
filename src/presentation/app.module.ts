@@ -7,8 +7,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {
     HTTP_INTERCEPTORS,
     HttpClient,
-    provideHttpClient,
-    withInterceptorsFromDi,
 } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -23,13 +21,11 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { AppRoutingModule } from './app-routing.module';
 import { LocalStorageService } from 'ngx-webstorage';
 import { SupervisionOperationsModule } from './pages/supervision-operations/supervision-operations.module';
-import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
+import { WebSocketSubject } from 'rxjs/webSocket';
 import { EnvServiceProvider } from '../shared/services/env.service.provider';
 import { NotifyService } from '../shared/services/notify.service';
-import { MappingService } from '../shared/services/mapping.service';
 import { AuthGuard } from '../core/guard/auth.guard';
 import { GuestGuard } from '../core/guard/guest.guard';
-import { PagesGuard } from '../core/guard/PagesGuard';
 import { EnvService } from '../shared/services/env.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -76,10 +72,7 @@ export function initEnv(envService: EnvService): () => void {
         {
             provide: WebSocketSubject,
             useFactory: initEnv,
-            // useFactory: (mappingService: MappingService) => webSocket(`${mappingService.ws_server}/ws/refrresh-notifs`),
-            // deps: [MappingService]
             deps: [EnvService],
-            // multi: true,
         },
         CookieService,
         {
@@ -87,7 +80,6 @@ export function initEnv(envService: EnvService): () => void {
             useClass: GlobalHttpInterceptorService,
             multi: true,
         },
-        // { provide: ErrorHandler, useClass: GlobalErrorHandlerService }
     ],
     bootstrap: [AppComponent],
 })

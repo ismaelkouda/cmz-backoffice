@@ -54,22 +54,24 @@ export const content: Routes = [
             ],
         },
     },
-    {
-        path: PATRIMOINE,
-        // loadChildren: () => import("../../presentation/pages/patrimoine/patrimoine.module").then((m) => m.PatrimoineModule),
-        data: {
-            module: 'Patrimoine',
-            subModule: [
-                'Cartes SIM',
-                'Cartes sim-blanches',
-                // 'Dotation Data',
-                'Etat des Soldes Data',
-                'Etat des Soldes SMS',
-                'Téléchargements',
-                'Cartographie',
-            ],
-        },
-    },
+    // {
+    //     path: PATRIMOINE,
+    //     loadChildren: () => import('../../presentation/pages/patrimony/patrimony.module').then(
+    //         (m) => m.PatrimonyModule
+    //     ),
+    //     data: {
+    //         module: 'Patrimoine',
+    //         subModule: [
+    //             'Cartes SIM',
+    //             'Cartes sim-blanches',
+    //             // 'Dotation Data',
+    //             'Etat des Soldes Data',
+    //             'Etat des Soldes SMS',
+    //             'Téléchargements',
+    //             'Cartographie',
+    //         ],
+    //     },
+    // },
     {
         path: PATRIMONY,
         loadChildren: () =>
@@ -88,23 +90,23 @@ export const content: Routes = [
                 'Cartographie',
             ],
         },
-    },
-    {
-        path: DEMANDE_SERVICE,
-        loadChildren: () =>
-            import('../../presentation/pages/demandes/demandes.module').then(
-                (m) => m.DemandesModule
-            ),
-        data: {
-            module: 'Demandes',
-            subModule: [
-                'Abonnements',
-                'Suspensions',
-                'Résiliations',
-                'Changements de Formules',
-            ],
-        },
-    },
+    }, 
+    // {
+    //     path: DEMANDE_SERVICE,
+    //     loadChildren: () =>
+    //         import('../../presentation/pages/demandes/demandes.module').then(
+    //             (m) => m.DemandesModule
+    //         ),
+    //     data: {
+    //         module: 'Demandes',
+    //         subModule: [
+    //             'Abonnements',
+    //             'Suspensions',
+    //             'Résiliations',
+    //             'Changements de Formules',
+    //         ],
+    //     },
+    // },
     {
         path: REQUESTS_SERVICES,
         loadChildren: () =>
