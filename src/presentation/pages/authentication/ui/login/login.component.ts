@@ -71,17 +71,6 @@ export class LoginComponent implements OnInit {
         this.toastrService.success(
             `Bienvenue ${response.data?.user?.nom} ${response.data?.user?.prenoms}`
         );
-        // this.permissionsJson.forEach((module, index) => {
-        //   if (module.children) {
-        //     module.children.forEach((sous_module) => {
-        //       const found = response['data']?.user.permissions.includes(sous_module.data);
-        //       if (found) {
-        //         this.permissionsJson[index] = { ...module, statut: true };
-        //       }
-        //     });
-        //   }
-        // });
-        // this.storage.saveData('token', JSON.stringify(response.data?.token));
         this.storage.saveData('user', JSON.stringify(response.data?.user));
         const currentUser = response.data?.user;
         const token = response.data?.token;

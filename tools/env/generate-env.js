@@ -1,36 +1,31 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('./env.config');
+const config = require('../../src/assets/config/env');
 
 const env = process.argv[2];
 
 if (!env || !config[env]) {
-  console.error('❌ Usage: node generate-env.js <dev|prod>');
-  process.exit(1);
+    console.error('❌ Usage: node generate-env.js <dev|prod>');
+    process.exit(1);
 }
 
-const templatePath = path.resolve(__dirname, '../../src/assets/config/env.template.js');
-const outputPath = path.resolve(__dirname, '../../src/assets/config/env.js');
-const envConfig = config[env];
+const selectedConfig = config[env];
 
-fs.readFile(templatePath, 'utf8', (err, content) => {
-  if (err) {
-    console.error(`❌ Lecture template: ${err.message}`);
-    process.exit(1);
-  }
+const envContent = `(function (window) {
+    window.__env = ${JSON.stringify({
+        verifyIdentityDocumentUrl: selectedConfig.VERIFY_IDENTITY_URL,
+        apiUrl: selectedConfig.API_URL,
+        fileUrl: selectedConfig.FILE_URL,
+        environmentDeployment: selectedConfig.ENVIRONMENT,
+        enableDebug: selectedConfig.ENABLE_DEBUG,
+        headerSettings: selectedConfig.HEADER_SETTINGS,
+        messageApp: selectedConfig.MESSAGE_APP
+    }, null, 4)};
+})(this);
+`;
 
-  const result = content
-    .replace(/__VERIFY_IDENTITY_URL__/g, envConfig.VERIFY_IDENTITY_URL)
-    .replace(/__API_URL__/g, envConfig.API_URL)
-    .replace(/__FILE_URL__/g, envConfig.FILE_URL)
-    .replace(/__ENVIRONMENT__/g, envConfig.ENVIRONMENT)
-    .replace(/__ENABLE_DEBUG__/g, envConfig.ENABLE_DEBUG);
+const targetPath = path.join(__dirname, '../../src/assets/config/env.template.js');
 
-  fs.writeFile(outputPath, result, 'utf8', (err) => {
-    if (err) {
-      console.error(`❌ Erreur écriture : ${err.message}`);
-      process.exit(1);
-    }
-    console.log(`✅ Environnement "${env}" généré avec succès.`);
-  });
-});
+fs.writeFileSync(targetPath, envContent, 'utf8');
+
+console.log(`✅ env.template.js generated for '${env}' environment at ${targetPath}`);

@@ -15,7 +15,7 @@ module.exports = {
             sourceSoldeDotation: 'Le solde de la dotation Data...',
             sourceSoldeDotationOrange: 'Orange fera le dépôt...'
           }
-    },
+    }, 
     prod: {
         VERIFY_IDENTITY_URL: "https://osim-monitoring.orange.ci:8013/",
         API_URL: "https://sim-monitoring.cateli.io:12555/api/v1/",

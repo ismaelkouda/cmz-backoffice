@@ -5,7 +5,8 @@
         "env:dev": "node tools/env/generate-env.js dev",
         "env:prod": "node tools/env/generate-env.js prod",
         "build:dev": "npm run env:dev && ng build",
-        "build:prod": "npm run env:prod && ng build --configuration=production",
+        "build:prod": "ng build",
+        
         "start:dev": "npm run env:dev && ng serve --host 0.0.0.0 --port 4401",
         "start:prod": "npm run env:prod && ng serve --host 0.0.0.0",
         "lint": "ng lint",

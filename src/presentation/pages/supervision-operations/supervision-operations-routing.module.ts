@@ -27,6 +27,7 @@ const routes: Routes = [
         path: DEMANDE_ROUTE,
         children: [
             {
+                path: '',
                 component: AlarmesComponent,
                 // component: WaitingQueueComponent
             },
@@ -50,6 +51,7 @@ const routes: Routes = [
         path: PRISE_EN_CHARGE_ROUTE,
         children: [
             {
+                path: '',
                 component: PriseEnChargeComponent,
             },
         ],
@@ -58,6 +60,7 @@ const routes: Routes = [
         path: PERFORMANCE_SLA_ROUTE,
         children: [
             {
+                path: '',
                 component: PerformancesComponent,
             },
         ],
@@ -66,6 +69,7 @@ const routes: Routes = [
         path: CONTENCIEUX_ROUTE,
         children: [
             {
+                path: '',
                 component: ContentieuxComponent,
             },
         ],
@@ -74,6 +78,7 @@ const routes: Routes = [
         path: NOTIFY_ROUTE,
         children: [
             {
+                path: '',
                 component: NotificationComponent,
             },
         ],
@@ -82,6 +87,7 @@ const routes: Routes = [
         path: JOURNAL_TRANSACTION_ROUTE,
         children: [
             {
+                path: '',
                 component: JournalTransactionComponent,
             },
         ],
@@ -90,6 +96,7 @@ const routes: Routes = [
         path: MESSAGERIE_ROUTE,
         children: [
             {
+                path: '',
                 component: MessagerieComponent,
             },
         ],

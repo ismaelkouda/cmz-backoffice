@@ -16,6 +16,10 @@ export class EnvService {
     public load(): void {
         const env = (window as any).__env;
 
+        if (!env) {
+            throw new Error("🌍 '__env' is not defined. Make sure runtime-env.js is loaded.");
+        }
+
         this.apiUrl = env.apiUrl;
         this.fileUrl = env.fileUrl;
         this.verifyIdentityDocumentUrl = env.verifyIdentityDocumentUrl;
