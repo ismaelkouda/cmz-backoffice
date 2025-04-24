@@ -22,7 +22,7 @@ before_script:
   - export APP_NAME=${CI_PROJECT_NAME}-${ENV}
   - export CI_REGISTRY_IMAGE=${APP_NAME}:${CI_COMMIT_REF_NAME}
 
-build-dev_tenant:
+build-dev_bo:
   stage: build
   tags:
     - serveur-200
@@ -32,55 +32,13 @@ build-dev_tenant:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
       when: manual
 
-docker-dev_tenant:
+docker-dev_bo:
   stage: image
   tags:
     - serveur-200
   script:
-   # - touch .env.${ENV}
-   # - cp .env.${ENV} .env
-    - CI_REGISTRY_IMAGE=$(echo "$CI_REGISTRY_IMAGE" | tr '[:upper:]' '[:lower:]' | tr '/' '-')
-    - echo ${CI_REGISTRY_IMAGE}
-    - docker build --build-arg ENV=dev -t ${CI_REGISTRY_IMAGE} .
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
-    #  when: manual
-
-deploy-dev_tenant:
-  stage: deploy
-  tags:
-    - serveur-200
-  script:
-    - docker stop ${APP_NAME} || true
-    - docker rm ${APP_NAME} || true
-    - CI_REGISTRY_IMAGE=$(echo "$CI_REGISTRY_IMAGE" | tr '[:upper:]' '[:lower:]' | tr '/' '-')
-    - docker run --restart unless-stopped --network ${DOCKER_NETWORK} -d --name ${APP_NAME} ${CI_REGISTRY_IMAGE}
-    - whoami
-    - docker cp ${APP_NAME}:/var/www/html/. /var/www/P-Orange.ci/tenants/client/frontend/
-    - docker cp ${APP_NAME}:/var/www/html/. /var/www/P-Orange.ci/tenants/imako/frontend/
-    - docker stop ${APP_NAME} || true
-    - docker rm ${APP_NAME} || true
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
-     # when: manual
-
-build-test_tenant:
-  stage: build
-  tags:
-    - sim-monitoring_test_144
-  script:
-    - echo "Build stage"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
-      when: manual
-
-docker-test_tenant:
-  stage: image
-  tags:
-    - sim-monitoring_test_144
-  script:
-    #- touch .env.${ENV}
-    #- cp .env.${ENV} .env
+    - touch .env.${ENV}
+    - cp .env.${ENV} .env
     - CI_REGISTRY_IMAGE=$(echo "$CI_REGISTRY_IMAGE" | tr '[:upper:]' '[:lower:]' | tr '/' '-')
     - echo ${CI_REGISTRY_IMAGE}
     - docker build -t ${CI_REGISTRY_IMAGE} .
@@ -88,7 +46,48 @@ docker-test_tenant:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
     #  when: manual
 
-deploy-test_tenant:
+deploy-dev_bo:
+  stage: deploy
+  tags:
+    - serveur-200
+  script:
+    - docker stop ${APP_NAME} || true
+    - docker rm ${APP_NAME} || true
+    - CI_REGISTRY_IMAGE=$(echo "$CI_REGISTRY_IMAGE" | tr '[:upper:]' '[:lower:]' | tr '/' '-')
+    - docker run --restart unless-stopped --network ${DOCKER_NETWORK} -d --name ${APP_NAME} ${CI_REGISTRY_IMAGE}
+    - whoami
+    - docker cp ${APP_NAME}:/var/www/html/. /var/www/P-Orange.ci/frontend/
+    - docker stop ${APP_NAME} || true
+    - docker rm ${APP_NAME} || true
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
+     # when: manual
+
+build-test_bo:
+  stage: build
+  tags:
+    - sim-monitoring_test_144
+  script:
+    - echo "Build stage"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
+      when: manual
+
+docker-test_bo:
+  stage: image
+  tags:
+    - sim-monitoring_test_144
+  script:
+    - touch .env.${ENV}
+    - cp .env.${ENV} .env
+    - CI_REGISTRY_IMAGE=$(echo "$CI_REGISTRY_IMAGE" | tr '[:upper:]' '[:lower:]' | tr '/' '-')
+    - echo ${CI_REGISTRY_IMAGE}
+    - docker build -t ${CI_REGISTRY_IMAGE} .
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "staging"'
+    #  when: manual
+
+deploy-test_bo:
   stage: deploy
   tags:
     - sim-monitoring_test_144
@@ -96,10 +95,9 @@ deploy-test_tenant:
     - docker stop ${APP_NAME} || true
     - docker rm ${APP_NAME} || true
     - CI_REGISTRY_IMAGE=$(echo "$CI_REGISTRY_IMAGE" | tr '[:upper:]' '[:lower:]' | tr '/' '-')
-    - docker run --restart unless-stopped --network ${DOCKER_NETWORK} -d --name ${APP_NAME} ${CI_REGISTRY_IMAGE}
+    - docker run --restart unless-stopped --network ${DOCKER_NETWORK} -d -p ${APP_PORT}:${DOCKER_PORT} --name ${APP_NAME} ${CI_REGISTRY_IMAGE}
     - whoami
-    - docker cp ${APP_NAME}:/var/www/html/. /opt/cateli/data/patrimoineSim/tenants-test/999/frontend/
-    - docker cp ${APP_NAME}:/var/www/html/. /opt/cateli/data/patrimoineSim/tenants-test/555/frontend/
+    - docker cp ${APP_NAME}:/var/www/html/. /opt/cateli/data/patrimoineSim/backOffice-test/frontend/
     - docker stop ${APP_NAME} || true
     - docker rm ${APP_NAME} || true
   rules:

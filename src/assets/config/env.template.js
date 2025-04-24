@@ -1,8 +1,8 @@
 (function (window) {
     window.__env = {
-    "verifyIdentityDocumentUrl": "http://10.10.70.64:8001/",
-    "apiUrl": "https://sim-monitoring.cateli.io:12999/api/v1/",
-    "fileUrl": "https://sim-monitoring.cateli.io:12999/",
+    "verifyIdentityDocumentUrl": "http://10.10.0.200:12555/",
+    "apiUrl": "http://10.10.70.64:8001/api/v1/",
+    "fileUrl": "http://10.10.70.64:8001/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
     "headerSettings": {

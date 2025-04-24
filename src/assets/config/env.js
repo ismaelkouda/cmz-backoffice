@@ -1,8 +1,10 @@
 module.exports = {
     dev: {
         VERIFY_IDENTITY_URL: "http://10.10.0.200:12555/",
-        API_URL: "http://10.10.0.200:12555/api/v1/",
-        FILE_URL: "http://10.10.0.200:12555/",
+        // API_URL: "http://10.10.0.200:12555/api/v1/",
+        // FILE_URL: "http://10.10.0.200:12555/",
+        API_URL: "http://10.10.70.64:8001/api/v1/",
+        FILE_URL: "http://10.10.70.64:8001/",
         ENVIRONMENT: "DEV",
         ENABLE_DEBUG: true,
         HEADER_SETTINGS: {
