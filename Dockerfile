@@ -1,16 +1,16 @@
 FROM node:18 AS base
 WORKDIR /app
 COPY package.json .
-COPY tools ./tools
-COPY src/assets/config/env.template.js ./src/assets/config/env.template.js
-RUN npm install --legacy-peer-deps
+# COPY tools ./tools
+# COPY src/assets/config/env.template.js ./src/assets/config/env.template.js
+RUN pnpm install --legacy-peer-deps
 
 FROM base AS build
 COPY . .
 ARG ENV=prod
 #RUN node tools/env/generate-env.js $ENV
-RUN npm run build:prod
-RUN ls dist/patrimoine-sim-tenant
+RUN pnpm run build:prod
+RUN ls /app/dist/patrimoine-sim-tenant
 
 FROM php:8.2-apache
 
