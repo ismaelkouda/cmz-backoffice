@@ -1,7 +1,6 @@
 import { IStatistiquesBox } from '../../interfaces/statistiquesBox.interface';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
     OperationTransaction,
@@ -13,6 +12,8 @@ import { SimDemand } from '../../interfaces/details-mobile-subscriptions.interfa
 import { BADGE_ETAPE } from '../../constants/badge-etape.constant';
 import { BADGE_ETAT } from '../../constants/badge-etat.contant';
 import { Subject, takeUntil } from 'rxjs';
+import { MOBILE_SUBSCRIPTIONS } from '../../../presentation/pages/requests-services/requests-services-routing.module';
+import { REQUESTS_SERVICES } from '../../routes/routes';
 
 type TYPEVIEW =
     | 'open-folder-mobile-subscription'
@@ -68,7 +69,7 @@ export class SimDemandComponent implements OnInit, OnDestroy {
         public toastrService: ToastrService,
         private activatedRoute: ActivatedRoute,
         private sharedService: SharedService,
-        private location: Location
+        private router: Router
     ) {
         Object.values(BADGE_ETAPE).forEach((item) => {
             this.listEtapeLigne.push(item);
@@ -103,6 +104,7 @@ export class SimDemandComponent implements OnInit, OnDestroy {
         ) {
             this.displayUrlErrorPage = true;
         } else {
+            this.getTitle();
             this.sharedService.fetchSimDemand({
                 numero_demande: this.urlParamNumberDemand,
             });
@@ -129,10 +131,6 @@ export class SimDemandComponent implements OnInit, OnDestroy {
                     JSON.stringify(event + 1)
                 );
             });
-    }
-
-    public onGoToBack(): void {
-        this.location.back();
     }
 
     public getEtapeBadge(data: any): string {
@@ -207,5 +205,56 @@ export class SimDemandComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
+    }
+
+    public onGoToBack(): void {
+        this.router.navigateByUrl(
+            `/${this.getTitle().moduleRoute}/${this.getTitle().subModuleRoute}`
+        );
+    }
+
+    public getTitle(): {
+        module: string;
+        moduleRoute: string;
+        subModule: string;
+        subModuleRoute: string;
+    } {
+        switch (this.urlParamRef) {
+            case 'open-folder-mobile-subscription':
+                return {
+                    module: 'REQUESTS_SERVICES',
+                    moduleRoute: 'requests-services',
+                    subModule: 'MOBILE_SUBSCRIPTIONS',
+                    subModuleRoute: 'mobile-subscriptions',
+                };
+            case 'open-folder-white-sim':
+                return {
+                    module: 'REQUESTS_PRODUCTS',
+                    moduleRoute: 'requests-products',
+                    subModule: 'WHITE_SIM',
+                    subModuleRoute: 'white-sim',
+                };
+            case 'open-folder-treatment-monitoring':
+                return {
+                    module: 'OVERSEEING_OPERATIONS',
+                    moduleRoute: 'overseeing-operations',
+                    subModule: 'TREATMENT_MONITORING',
+                    subModuleRoute: 'treatment-monitoring',
+                };
+            case 'open-folder-claims':
+                return {
+                    module: 'OVERSEEING_OPERATIONS',
+                    moduleRoute: 'overseeing-operations',
+                    subModule: 'CLAIMS',
+                    subModuleRoute: 'claims',
+                };
+            default:
+                return {
+                    module: '',
+                    moduleRoute: '',
+                    subModule: '',
+                    subModuleRoute: '',
+                };
+        }
     }
 }

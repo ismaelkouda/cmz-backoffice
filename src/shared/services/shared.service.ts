@@ -454,7 +454,7 @@ export class SharedService {
     fetchApn(): void {
         if (this.loadingApnSubject.getValue()) return; // Évite les doublons
 
-        const url: string = EndPointUrl.GET_ALL_NIVEAUX_3_SIMPLE;
+        const url: string = EndPointUrl.GET_ALL_APN;
         this.loadingApnSubject.next(true);
 
         this.http

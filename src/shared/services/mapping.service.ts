@@ -158,7 +158,7 @@ export class MappingService {
                 res ?? JSON.parse(this.storage.getData('current_menu') || null);
         });
         if (storage.getData('user')) {
-            this.GetAllPortefeuille();
+            // this.GetAllPortefeuille();
         }
         this.IsAction();
     }

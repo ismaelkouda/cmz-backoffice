@@ -398,18 +398,29 @@
                                                         }}</b></label
                                                     >
                                                     <p-dropdown
-                                                        [options]="
-                                                            listFirstLevel
-                                                        "
                                                         formControlName="niveau_un_uuid"
-                                                        optionLabel="nom"
-                                                        [placeholder]="
-                                                            firstLevelLibel
+                                                        [options]="
+                                                            listFirstLevel$
+                                                                | async
                                                         "
-                                                        [filter]="true"
-                                                        filterBy="nom"
                                                         optionValue="uuid"
+                                                        optionLabel="nom"
+                                                        filterBy="nom"
                                                         [showClear]="true"
+                                                        [filter]="true"
+                                                        placeholder="{{
+                                                            'SELECT' | translate
+                                                        }} {{
+                                                            firstLevelLibel
+                                                        }}"
+                                                        emptyFilterMessage="{{
+                                                            'NO_MATCH'
+                                                                | translate
+                                                        }}"
+                                                        emptyMessage="{{
+                                                            'NO_DATA_FOUND'
+                                                                | translate
+                                                        }}"
                                                     >
                                                     </p-dropdown>
                                                 </div>
@@ -453,13 +464,16 @@
                                                     >
                                                     <p-dropdown
                                                         [options]="
-                                                            listThirdLevel
+                                                            listThirdLevel$
+                                                                | async
                                                         "
                                                         formControlName="niveau_trois_uuid"
                                                         optionLabel="nom"
-                                                        [placeholder]="
+                                                        placeholder="{{
+                                                            'SELECT' | translate
+                                                        }} {{
                                                             thirdLevelLibel
-                                                        "
+                                                        }}"
                                                         [filter]="true"
                                                         filterBy="nom"
                                                         optionValue="uuid"

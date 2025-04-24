@@ -23,7 +23,7 @@
         </div>
 
         <div class="col-md">
-            <label
+            <label for="niveau_un_uuid"
                 ><b>{{ firstLevelLibel }}</b></label
             >
             <p-dropdown
@@ -34,6 +34,7 @@
                 filterBy="nom"
                 [showClear]="true"
                 [filter]="true"
+                id="niveau_un_uuid"
                 placeholder="{{ 'SELECT' | translate }} {{ firstLevelLibel }}"
                 emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
                 emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"

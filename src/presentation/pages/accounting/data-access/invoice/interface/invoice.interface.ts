@@ -77,6 +77,7 @@ export interface invoiceApiResponseInterface {
 }
 
 export interface invoiceGlobalStatsInterface {
+    mon_compte: string;
     total_differes: number;
     total_en_attentes: number;
     total_factures: number;

@@ -28,13 +28,15 @@ import { dataBalanceStatusFilterInterface } from '../../../data-access/data-bala
 import { TranslateService } from '@ngx-translate/core';
 import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
 import { dataBalanceStatusApiService } from '../../../data-access/data-balance-status/services/data-balance-status-api.service';
+import { OnInit } from '@angular/core';
+import { SharedService } from '../../../../../../shared/services/shared.service';
 
 @Component({
     selector: `app-filter-data-balance-status`,
     templateUrl: `./filter-data-balance-status.component.html`,
     styleUrls: ['./filter-data-balance-status.component.scss'],
 })
-export class FilterDataBalanceStatusComponent implements OnDestroy {
+export class FilterDataBalanceStatusComponent implements OnInit, OnDestroy {
     @Input() listFormulas$: Observable<Array<FormulasInterface>>;
     @Input() listFirstLevel$: Observable<Array<FirstLevelInterface>>;
     @Input() listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
@@ -56,6 +58,7 @@ export class FilterDataBalanceStatusComponent implements OnDestroy {
     private destroy$ = new Subject<void>();
 
     constructor(
+        private sharedService: SharedService,
         private toastService: ToastrService,
         private fb: FormBuilder,
         private storeCurrentUserService: StoreCurrentUserService,
@@ -72,6 +75,13 @@ export class FilterDataBalanceStatusComponent implements OnDestroy {
             currentUser?.structure_organisationnelle?.niveau_2;
         this.thirdLevelLibel =
             currentUser?.structure_organisationnelle?.niveau_3;
+    }
+
+    ngOnInit(): void {
+        this.sharedService.fetchFirstLevel();
+        this.listFirstLevel$ = this.sharedService.getFirstLevel();
+        this.sharedService.fetchThirdLevel();
+        this.listThirdLevel$ = this.sharedService.getThirdLevel();
     }
 
     public initFormFilter(): void {
@@ -161,6 +171,17 @@ export class FilterDataBalanceStatusComponent implements OnDestroy {
                 });
 
                 this.formFilter
+                    .get('niveau_un_uuid')
+                    ?.valueChanges.subscribe((value: string) => {
+                        console.log(', this.listFirstLevel$0111', value);
+                        this.listSecondLevel$ =
+                            this.secondLevelService.getSecondLevel(
+                                value,
+                                this.listFirstLevel$
+                            );
+                    });
+
+                this.formFilter
                     .get('msisdn')
                     ?.valueChanges.subscribe((value) => {
                         if (value && value.length > 10) {
@@ -171,15 +192,29 @@ export class FilterDataBalanceStatusComponent implements OnDestroy {
                                 });
                         }
                     });
+
                 const firstLevelControl = this.formFilter.get('niveau_un_uuid');
                 const gererValidatioFirstLevel = (value: string) => {
+                    console.log(', this.listFirstLevel$', this.listFirstLevel$);
+
                     this.listSecondLevel$ =
-                        this.secondLevelService.getSecondLevel(value);
+                        this.secondLevelService.getSecondLevel(
+                            value,
+                            this.listFirstLevel$
+                        );
                 };
                 gererValidatioFirstLevel(firstLevelControl?.value as string);
+                console.log(
+                    ', this.listFirstLevel$0111',
+                    firstLevelControl?.value
+                );
                 firstLevelControl?.valueChanges.subscribe((value: string) => {
+                    console.log(', this.listFirstLevel$0111', value);
                     this.listSecondLevel$ =
-                        this.secondLevelService.getSecondLevel(value);
+                        this.secondLevelService.getSecondLevel(
+                            value,
+                            this.listFirstLevel$
+                        );
                 });
             });
     }

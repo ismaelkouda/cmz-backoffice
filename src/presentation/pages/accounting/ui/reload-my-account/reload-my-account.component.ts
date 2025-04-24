@@ -130,6 +130,14 @@ export class ReloadMyAccountComponent implements OnInit, OnDestroy {
 
     getStatisticsBoxValues(rapport: reloadMyAccountGlobalStateInterface): void {
         this.statisticsBox = [
+            // {
+            //     cardBgColor: '#FFF',
+            //     cardBorderColor: 'rgb(52, 152, 219)',
+            //     legendColor: 'rgb(52, 152, 219)',
+            //     countColor: 'rgb(52, 152, 219)',
+            //     legend: 'Mon solde',
+            //     count: Number(rapport?.['mon_compte'].replace(/\s/g, '')),
+            // },
             {
                 cardBgColor: 'rgb(52, 73, 94)',
                 legend: '# En attente',

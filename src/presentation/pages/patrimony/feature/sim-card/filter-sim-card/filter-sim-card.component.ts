@@ -17,16 +17,11 @@ import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { FormulasInterface } from '@shared/interfaces/formulas.interface';
 import {
     FirstLevelInterface,
     SecondLevelInterface,
 } from '@shared/interfaces/first-level.interface';
-import { ThirdLevelInterface } from '@shared/interfaces/third-level.interface';
-import { ApnInterface } from '@shared/interfaces/apn.interface';
 import { T_SIM_CARD_STATUS_ENUM } from '../../../data-access/sim-card/enums/sim-card-status.enum';
-import { StoreCurrentUserService } from '@shared/services/store-current-user.service';
-import { ApplicantInterface } from '@shared/interfaces/applicant';
 import { simCardApiService } from '../../../data-access/sim-card/services/sim-card-api.service';
 import {
     trigger,
@@ -36,6 +31,10 @@ import {
     animate,
 } from '@angular/animations';
 import { SecondLevelService } from '../../../../../../shared/services/second-level.service';
+import { FormulasInterface } from '../../../../../../shared/interfaces/formulas.interface';
+import { ThirdLevelInterface } from '../../../../../../shared/interfaces/third-level.interface';
+import { ApnInterface } from '../../../../../../shared/interfaces/apn.interface';
+import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
 
 @Component({
     selector: 'app-filter-sim-card',
@@ -210,12 +209,18 @@ export class FilterSimCardComponent implements OnDestroy {
                 const firstLevelControl = this.formFilter.get('niveau_un_uuid');
                 const gererValidatioFirstLevel = (value: string) => {
                     this.listSecondLevel$ =
-                        this.secondLevelService.getSecondLevel(value);
+                        this.secondLevelService.getSecondLevel(
+                            value,
+                            this.listFirstLevel$
+                        );
                 };
                 gererValidatioFirstLevel(firstLevelControl?.value as string);
                 firstLevelControl?.valueChanges.subscribe((value: string) => {
                     this.listSecondLevel$ =
-                        this.secondLevelService.getSecondLevel(value);
+                        this.secondLevelService.getSecondLevel(
+                            value,
+                            this.listFirstLevel$
+                        );
                 });
             });
     }

@@ -16,15 +16,17 @@
                                 [legendeSingulier]="'PAYMENT' | translate"
                             >
                             </app-patrimoine-header>
-                            <h3 class="d-flex align-items-end">
-                                <b
-                                    >{{ 'MY_BALANCE' | translate }} :
+                            <h3 class="d-flex align-items-end mb-2">
+                                <span
+                                    [ngStyle]="{ 'font-size': '27px' }"
+                                    class="badge badge-primary"
+                                >
+                                    <b>{{ 'MY_BALANCE' | translate }} : </b>
                                     {{
                                         (listPaymentResponse$ | async)?.data
-                                            ?.mon_compte
-                                    }}
-                                    Fcfa</b
-                                >
+                                            ?.mon_compte || 0
+                                    }}&nbsp;Fcfa
+                                </span>
                             </h3>
                         </div>
                     </div>

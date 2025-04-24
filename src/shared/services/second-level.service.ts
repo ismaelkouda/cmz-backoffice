@@ -3,19 +3,18 @@ import {
     FirstLevelInterface,
     SecondLevelInterface,
 } from '../interfaces/first-level.interface';
-import { SharedService } from './shared.service';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class SecondLevelService {
-    constructor(private sharedService: SharedService) {}
+    constructor() {}
     public getSecondLevel(
-        uuid: string
+        uuid: string,
+        listFirstLevel$: Observable<Array<FirstLevelInterface>>
     ): Observable<Array<SecondLevelInterface>> {
-        this.sharedService.fetchFirstLevel();
-        return this.sharedService.getFirstLevel().pipe(
+        return listFirstLevel$?.pipe(
             map((listFirstLevel: Array<FirstLevelInterface>) => {
                 const firstLevel = listFirstLevel.find(
                     (fl) => fl.uuid === uuid

@@ -15,26 +15,6 @@
                                         <span>Référence de la facture :</span>
                                         <span class="current_values"
                                             >[{{detailsInvoiceForm?.facture?.['reference']
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                             }}]</span
                                         >
                                         <span
@@ -344,7 +324,7 @@
                                                                 #fff;
                                                         "
                                                     >
-                                                        <b>Choisir</b>
+                                                        <b>Choix</b>
                                                     </th>
                                                     <th
                                                         class="text-center"
@@ -353,13 +333,10 @@
                                                                 #fff;
                                                         "
                                                     >
-                                                        <b>Source</b>
+                                                        <b>Mode de paiement</b>
                                                     </th>
                                                     <th class="text-center">
-                                                        <b
-                                                            >MODES DE PAIEMENT
-                                                            DISPONIBLES</b
-                                                        >
+                                                        <b>DESCRIPTION</b>
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -384,13 +361,13 @@
                                                             #differe
                                                         />
                                                     </td>
-                                                    <td class="text-center">
-                                                        Differé
+                                                    <td class="text-center h4">
+                                                        SI facturation
                                                     </td>
                                                     <td class="text-start">
-                                                        Le Montant dû a été
-                                                        posté (reporté) sur la
-                                                        prochaine facture
+                                                        Le montant posté dans le
+                                                        système de facturation
+                                                        pour le paiement à venir
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -405,7 +382,7 @@
                                                             id="immediat"
                                                         />
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="text-center h4">
                                                         Immediat
                                                     </td>
                                                     <td class="text-center">
@@ -415,11 +392,12 @@
                                                             <span
                                                                 class="d-flex align-items-center"
                                                             >
-                                                                La Facture a été
-                                                                réglée dans sa
-                                                                totalité par le
-                                                                client avec un
-                                                                reçu de paiement
+                                                                Le justificatif
+                                                                de la facture
+                                                                doit etre
+                                                                fournir pour le
+                                                                traitement de la
+                                                                facture
                                                             </span>
                                                             <span
                                                                 class="d-flex gap-4"
@@ -476,12 +454,14 @@
                                                             #differe
                                                         />
                                                     </td>
-                                                    <td class="text-center">
+                                                    <td class="text-center h4">
                                                         Mon compte
                                                     </td>
                                                     <td class="text-start">
-                                                        Le montant a été débité
-                                                        de votre compte &nbsp; [
+                                                        Le montant de la facture
+                                                        va être prélevé de votre
+                                                        compte <br />
+                                                        &nbsp; [
                                                         <b>Solde engagé</b
                                                         >&nbsp;:&nbsp;
                                                         <span

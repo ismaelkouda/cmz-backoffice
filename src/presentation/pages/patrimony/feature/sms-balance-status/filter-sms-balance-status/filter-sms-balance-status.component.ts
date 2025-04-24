@@ -174,12 +174,18 @@ export class FilterSmsBalanceStatusComponent implements OnDestroy {
                 const firstLevelControl = this.formFilter.get('niveau_un_uuid');
                 const gererValidatioFirstLevel = (value: string) => {
                     this.listSecondLevel$ =
-                        this.secondLevelService.getSecondLevel(value);
+                        this.secondLevelService.getSecondLevel(
+                            value,
+                            this.listFirstLevel$
+                        );
                 };
                 gererValidatioFirstLevel(firstLevelControl?.value as string);
                 firstLevelControl?.valueChanges.subscribe((value: string) => {
                     this.listSecondLevel$ =
-                        this.secondLevelService.getSecondLevel(value);
+                        this.secondLevelService.getSecondLevel(
+                            value,
+                            this.listFirstLevel$
+                        );
                 });
             });
     }

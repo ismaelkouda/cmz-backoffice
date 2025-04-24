@@ -34,7 +34,8 @@ import { SecondLevelInterface } from '@shared/interfaces/first-level.interface';
 import { SecondLevelService } from '@shared/services/second-level.service';
 import { MOBILE_SUBSCRIPTIONS } from '../../../presentation/pages/requests-services/requests-services-routing.module';
 import { REQUESTS_PRODUCTS, REQUESTS_SERVICES } from '../../routes/routes';
-import { WHITE_SIM } from '../../../presentation/pages/requests-products/requests-products-routing.module';
+import { FirstLevelInterface } from '../../interfaces/first-level.interface';
+import { ThirdLevelInterface } from '../../interfaces/third-level.interface';
 
 type TYPEVIEW =
     | 'mass-add-mobile-subscription'
@@ -61,9 +62,9 @@ export class FormDemandComponent implements OnInit {
     public firstLevelLibel: string | undefined;
     public secondLevelLibel: string | undefined;
     public thirdLevelLibel: string | undefined;
-    public listFirstLevel: Array<any> = [];
+    public listFirstLevel$: Observable<Array<FirstLevelInterface>>;
     public listSecondLevel$: Observable<Array<SecondLevelInterface>>;
-    public listThirdLevel: Array<any> = [];
+    public listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
     public listUsages$: Observable<Array<UsageInterface>>;
     public listFormulas$: Observable<Array<FormulasInterface>>;
     public demandPrice: number;
@@ -140,13 +141,9 @@ export class FormDemandComponent implements OnInit {
             this.sharedService.fetchFormulas();
             this.listFormulas$ = this.sharedService.getFormulas();
             this.sharedService.fetchFirstLevel();
-            this.sharedService.getFirstLevel().subscribe((value) => {
-                this.listFirstLevel = value;
-            });
+            this.listFirstLevel$ = this.sharedService.getFirstLevel();
             this.sharedService.fetchThirdLevel();
-            this.sharedService.getThirdLevel().subscribe((value) => {
-                this.listThirdLevel = value;
-            });
+            this.listThirdLevel$ = this.sharedService.getThirdLevel();
         }
     }
 
@@ -202,9 +199,21 @@ export class FormDemandComponent implements OnInit {
                 nonNullable: true,
             }),
         });
-        this.formDemand
-            ?.get('niveau_un_uuid')
-            ?.valueChanges.subscribe(this.fetchSecondLevel.bind(this));
+
+        const firstLevelControl = this.formDemand.get('niveau_un_uuid');
+        const gererValidatioFirstLevel = (value: string) => {
+            this.listSecondLevel$ = this.secondLevelService.getSecondLevel(
+                value,
+                this.listFirstLevel$
+            );
+        };
+        gererValidatioFirstLevel(firstLevelControl?.value as string);
+        firstLevelControl?.valueChanges.subscribe((value: string) => {
+            this.listSecondLevel$ = this.secondLevelService.getSecondLevel(
+                value,
+                this.listFirstLevel$
+            );
+        });
 
         // Récupération des contrôles
         const pointEmplacementControl =
@@ -260,7 +269,8 @@ export class FormDemandComponent implements OnInit {
 
     async fetchSecondLevel(uuid: string): Promise<void> {
         this.listSecondLevel$ = await this.secondLevelService.getSecondLevel(
-            uuid
+            uuid,
+            this.listFirstLevel$
         );
     }
 

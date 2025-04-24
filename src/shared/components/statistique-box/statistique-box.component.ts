@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class StatistiqueBoxComponent {
     @Input() cardBgColor: any;
-    @Input() cardBorderColor: any;
+    @Input() cardBorderColor: string;
     @Input() legendColor: any;
     @Input() countColor: any;
     @Input() legend: string;

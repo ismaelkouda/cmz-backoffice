@@ -3,7 +3,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { MyAccountApiService } from '../../data-access/my-account/service/my-account-api.service';
-import { MappingService } from '../../../../../shared/services/mapping.service';
 import {
     myAccountApiResponseInterface,
     myAccountInterface,

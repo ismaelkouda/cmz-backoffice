@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const config = require('../../src/assets/config/env');
+const config = require('../../src/assets/config/env.js');
 
 const env = process.argv[2];
 

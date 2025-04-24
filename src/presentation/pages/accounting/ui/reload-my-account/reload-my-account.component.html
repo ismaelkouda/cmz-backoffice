@@ -21,16 +21,18 @@
                                 "
                             >
                             </app-patrimoine-header>
-                            <h3 class="d-flex align-items-end">
-                                <b
-                                    >{{ 'MY_BALANCE' | translate }} :
+                            <h2 class="d-flex align-items-end mb-2">
+                                <span
+                                    [ngStyle]="{ 'font-size': '27px' }"
+                                    class="badge badge-primary"
+                                >
+                                    <b>{{ 'MY_BALANCE' | translate }} : </b>
                                     {{
                                         (listReloadAccountResponse$ | async)
-                                            ?.data?.mon_compte
-                                    }}
-                                    Fcfa</b
-                                >
-                            </h3>
+                                            ?.data?.mon_compte || 0
+                                    }}&nbsp;Fcfa
+                                </span>
+                            </h2>
                         </div>
                     </div>
 
@@ -52,7 +54,9 @@
                                 (click)="onBoxClick(box)"
                                 class="col-md"
                                 [cardBgColor]="box?.['cardBgColor']"
-                                [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'"
+                                [cardBorderColor]="
+                                    box?.cardBorderColor ?? '#FFF'
+                                "
                                 [legend]="box?.['legend']"
                                 [count]="box?.['count']"
                                 [legendColor]="box?.['legendColor'] ?? '#FFF'"

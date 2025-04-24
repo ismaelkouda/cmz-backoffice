@@ -131,6 +131,14 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     ): void {
         this.statistiquesBox = [
             {
+                cardBgColor: '#FFF',
+                cardBorderColor: 'rgb(52, 152, 219)',
+                legendColor: 'rgb(52, 152, 219)',
+                countColor: 'rgb(52, 152, 219)',
+                legend: '# En attente',
+                count: Number(rapport?.['mon_compte'].replace(/\s/g, '')),
+            },
+            {
                 id: 0,
                 cardBgColor: 'rgb(52, 73, 94)',
                 legend: '# Invoices',

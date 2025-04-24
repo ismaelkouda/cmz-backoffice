@@ -315,16 +315,31 @@ export class FormSimCardComponent {
             site_reseau: [{ value: null, disabled: true }],
             adresse_ip: [{ value: null, disabled: true }],
         });
-        this.formUpdateCarteSim
-            ?.get('niveau_un_uuid')
-            ?.valueChanges.subscribe(this.fetchSecondLevel.bind(this));
+        // this.formUpdateCarteSim
+        //     ?.get('niveau_un_uuid')
+        //     ?.valueChanges.subscribe(this.fetchSecondLevel.bind(this));
+
+        const firstLevelControl = this.formUpdateCarteSim.get('niveau_un_uuid');
+        const gererValidatioFirstLevel = (value: string) => {
+            this.listSecondLevel$ = this.secondLevelService.getSecondLevel(
+                value,
+                this.listFirstLevel$
+            );
+        };
+        gererValidatioFirstLevel(firstLevelControl?.value as string);
+        firstLevelControl?.valueChanges.subscribe((value: string) => {
+            this.listSecondLevel$ = this.secondLevelService.getSecondLevel(
+                value,
+                this.listFirstLevel$
+            );
+        });
     }
 
-    async fetchSecondLevel(uuid: string): Promise<void> {
-        this.listSecondLevel$ = await this.secondLevelService.getSecondLevel(
-            uuid
-        );
-    }
+    // async fetchSecondLevel(uuid: string): Promise<void> {
+    //     this.listSecondLevel$ = await this.secondLevelService.getSecondLevel(
+    //         uuid
+    //     );
+    // }
 
     public initFormDetailsCarteSim(): void {
         this.formDetailsCarteSim = this.fb.group({

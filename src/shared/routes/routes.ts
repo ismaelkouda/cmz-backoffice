@@ -114,7 +114,7 @@ export const content: Routes = [
                 '../../presentation/pages/requests-services/requests-services.module'
             ).then((m) => m.RequestsServicesModule),
         data: {
-            module: 'Demandes',
+            module: 'REQUESTS_SERVICES',
             subModule: [
                 'MOBILE_SUBSCRIPTIONS',
                 'Suspensions',
