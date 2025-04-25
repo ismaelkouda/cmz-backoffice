@@ -1,4 +1,3 @@
-const Swal = require('sweetalert2');
 import { Injectable } from '@angular/core';
 import {
     HttpEvent,
@@ -13,7 +12,6 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { EncodingDataService } from './encoding-data.service';
-import { StoreTokenService } from './store-token.service';
 
 @Injectable()
 export class GlobalHttpInterceptorService implements HttpInterceptor {
@@ -21,18 +19,18 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
         public router: Router,
         private toastrService: ToastrService,
         private loadingBar: LoadingBarService,
-        private storage: EncodingDataService,
-        private storeTokenService: StoreTokenService
+        private storage: EncodingDataService
     ) {}
 
     intercept(
         req: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
-        // this.storeTokenService.removeToken();
-        const token = this.storeTokenService.getToken;
+        let data;
+        const user: any = this.storage.getData('token');
+        user ? (data = JSON.parse(this.storage.getData('token'))) : (data = {});
         req = req.clone({
-            headers: req.headers.set('Authorization', 'Bearer ' + token?.value),
+            headers: req.headers.set('Authorization', 'Bearer ' + data.value),
         });
         return next.handle(req).pipe(
             catchError((error) => {
@@ -42,13 +40,13 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                     } else {
                         switch (error.status) {
                             case 401:
-                                if (token) {
+                                if (data) {
                                     handled = true;
                                     this.storage.removeData('user');
                                     this.storage.removeData('current_menu');
-                                    this.storeTokenService.removeToken();
-                                    this.router.navigateByUrl('auth/login');
-                                    // .then(() => window.location.reload());
+                                    this.router
+                                        .navigateByUrl('auth/login')
+                                        .then(() => window.location.reload());
                                 } else {
                                     this.loadingBar.stop();
                                     this.toastrService.error(
@@ -59,54 +57,19 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                             case 201:
                                 handled = true;
                                 this.router.navigateByUrl(`/auth/login`);
-                                // Swal.fire({
-                                //   backdrop: true,
-                                //     icon: "error",
-                                //     title: "Oops...",
-                                //     text: "Un problème est survenu!",
-                                //     footer: '<a href="#">Veuillez contacter l\'administrateur ?</a>'
-                                //   });
+
                                 break;
                             case 403:
                                 handled = true;
-                                // Swal.fire({
-                                //     icon: "error",
-                                //     title: "Oops...",
-                                //     text: "Un problème est survenu!",
-                                //     footer: '<a href="#">Veuillez contacter l\'administrateur ?</a>'
-                                //   });
                                 break;
                             case 404:
                                 handled = true;
-                                // Swal.fire({
-                                //     confirmButtonColor: "#569C5B",
-                                //     icon: "error",
-                                //     title: "Oops...",
-                                //     text: "Un problème est survenu!",
-                                //     footer: '<a href="#">Veuillez contacter l\'administrateur ?</a>'
-                                //   });
                                 break;
                             case 422:
-                                this.toastrService.error(
-                                    `${error.error.message}`
-                                );
-                                // Swal.fire({
-                                //     confirmButtonColor: "#569C5B",
-                                //     icon: "error",
-                                //     title: "Oops...",
-                                //     text: "Un problème est survenu!",
-                                //     footer: '<a href="#">Veuillez contacter l\'administrateur ?</a>'
-                                //   });
+                                this.loadingBar.stop();
                                 handled = false;
                                 break;
                             case 500:
-                                // Swal.fire({
-                                //     confirmButtonColor: "#569C5B",
-                                //     icon: "error",
-                                //     title: "Oops...",
-                                //     text: "Un problème est survenu!",
-                                //     footer: '<a href="#">Veuillez contacter l\'administrateur ?</a>'
-                                //   });
                                 handled = false;
                                 break;
                         }

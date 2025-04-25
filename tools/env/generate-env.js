@@ -34,7 +34,6 @@ const envContent = `(function (window) {
 `;
 
 const targetPath = path.join(__dirname, '../../src/assets/config/env.template.js');
-console.log('📝 Contenu généré :\n', envContent);
 
 fs.writeFileSync(targetPath, envContent, 'utf8');
 

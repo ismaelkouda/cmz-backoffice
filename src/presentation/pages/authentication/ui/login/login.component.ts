@@ -74,6 +74,8 @@ export class LoginComponent implements OnInit {
         this.storage.saveData('user', JSON.stringify(response.data?.user));
         const currentUser = response.data?.user;
         const token = response.data?.token;
+        console.log('token', token);
+        this.storage.saveData('token', JSON.stringify(token));
         console.log('------');
         console.log(token);
         this.storeCurrentUserService.setCurrentUser(currentUser);

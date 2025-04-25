@@ -33,7 +33,7 @@ export class CryptoToken {
         localStorage.setItem(key, JSON.stringify(data));
     }
 
-    async getTokenData(key: string, token: string): Promise<string | null> {
+    async getTokenData(key: string): Promise<string | null> {
         // initialiser
         const raw = localStorage.getItem(key);
         if (!raw) return null;

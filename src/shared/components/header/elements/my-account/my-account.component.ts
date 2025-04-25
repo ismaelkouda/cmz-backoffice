@@ -10,6 +10,7 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { StoreCurrentUserService } from '../../../../services/store-current-user.service';
 import { CurrentUser } from '../../../../interfaces/current-user.interface';
 import { StoreTokenService } from '../../../../services/store-token.service';
+import { CryptoToken } from '../../../../crypto-data/crypto-token';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -36,7 +37,8 @@ export class MyAccountComponent implements OnInit {
         private toastrService: ToastrService,
         private loadingBarService: LoadingBarService,
         private storeCurrentUserService: StoreCurrentUserService,
-        private storeTokenService: StoreTokenService
+        private storeTokenService: StoreTokenService,
+        private cryptoToken: CryptoToken
     ) {}
 
     ngOnInit() {
@@ -179,6 +181,7 @@ export class MyAccountComponent implements OnInit {
                 this.storage.removeData('current_menu');
                 this.storage.removeData('variables');
                 this.storage.removeData('user');
+                this.cryptoToken.clear();
                 if (this.storage.getData('isProfil') || null) {
                     this.storage.removeData('isProfil');
                     window.location.reload();
