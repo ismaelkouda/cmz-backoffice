@@ -272,7 +272,10 @@ export class SharedService {
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {
-                    const formatData = response?.['data'];
+                    const formatData = response?.['data'].map((user) => ({
+                        ...user,
+                        fullName: `${user.nom} ${user.prenoms}`,
+                    }));
                     this.applicantsSubject.next(formatData);
                     this.apiResponseApplicantsSubject.next(response);
                     return of(response);

@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { EncodingDataService } from './encoding-data.service';
+import { StoreTokenService } from './store-token.service';
 
 @Injectable()
 export class GlobalHttpInterceptorService implements HttpInterceptor {
@@ -19,7 +20,8 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
         public router: Router,
         private toastrService: ToastrService,
         private loadingBar: LoadingBarService,
-        private storage: EncodingDataService
+        private storage: EncodingDataService,
+        private storeTokenService: StoreTokenService
     ) {}
 
     intercept(
@@ -27,8 +29,10 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
         let data;
-        const user: any = this.storage.getData('token');
-        user ? (data = JSON.parse(this.storage.getData('token'))) : (data = {});
+        const token: any = this.storage.getData('token');
+        token
+            ? (data = JSON.parse(this.storage.getData('token')))
+            : (data = {});
         req = req.clone({
             headers: req.headers.set('Authorization', 'Bearer ' + data.value),
         });
@@ -43,7 +47,9 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                                 if (data) {
                                     handled = true;
                                     this.storage.removeData('user');
+                                    this.storage.removeData('token');
                                     this.storage.removeData('current_menu');
+                                    this.storeTokenService.removeToken();
                                     this.router
                                         .navigateByUrl('auth/login')
                                         .then(() => window.location.reload());

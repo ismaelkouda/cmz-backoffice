@@ -6,13 +6,14 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { HistoryApiService } from '../../data-access/services/history-api.service';
+import { ApplicantInterface } from '@shared/interfaces/applicant';
 
 @Component({
     selector: 'app-filter-history',
     templateUrl: './filter-history.component.html',
 })
 export class FilterHistoryComponent {
-    @Input() listApplicants$: Observable<any[]>;
+    @Input() listApplicants$: Observable<Array<ApplicantInterface>>;
     @Output() filter = new EventEmitter<Record<string, any>>();
 
     public formFilter: FormGroup;
@@ -42,9 +43,12 @@ export class FilterHistoryComponent {
                         filterData?.['date_fin'],
                         { nonNullable: true }
                     ),
-                    user_id: new FormControl<number>(filterData?.['user_id'], {
-                        nonNullable: true,
-                    }),
+                    initie_par: new FormControl<number>(
+                        filterData?.['initie_par'],
+                        {
+                            nonNullable: true,
+                        }
+                    ),
                 });
             });
     }

@@ -2,10 +2,11 @@
     <div class="row g-3">
         <!-- Niveau 1 -->
         <div class="col-12 col-sm-6 col-md-3">
-            <label
+            <label for="firstLevelLibel"
                 ><b>{{ firstLevelLibel }}</b></label
             >
             <p-dropdown
+                id="firstLevelLibel"
                 formControlName="niveau_un_uuid"
                 [options]="listFirstLevel$ | async"
                 optionValue="uuid"
@@ -22,10 +23,11 @@
 
         <!-- Niveau 2 -->
         <div class="col-12 col-sm-6 col-md-3">
-            <label
+            <label for="secondLevelLibel"
                 ><b>{{ secondLevelLibel }}</b></label
             >
             <p-dropdown
+                id="secondLevelLibel"
                 formControlName="niveau_deux_uuid"
                 [options]="listSecondLevel$ | async"
                 optionValue="uuid"
@@ -42,10 +44,11 @@
 
         <!-- Status -->
         <div class="col-12 col-sm-6 col-md-2">
-            <label
+            <label for="STATUS"
                 ><b>{{ 'STATUS' | translate }}</b></label
             >
             <p-dropdown
+                id="STATUS"
                 formControlName="statut"
                 [options]="listStatusSimCard"
                 [showClear]="true"
@@ -58,10 +61,11 @@
 
         <!-- MSISDN -->
         <div class="col-12 col-sm-6 col-md-2">
-            <label
+            <label for="MSISDN"
                 ><b>{{ 'MSISDN' | translate }}</b></label
             >
             <input
+                id="MSISDN"
                 formControlName="msisdn"
                 type="text"
                 pInputText
@@ -105,10 +109,11 @@
         <div class="row g-3">
             <!-- Destination Formula -->
             <div class="col-12 col-sm-6 col-md-2">
-                <label
+                <label for="DESTINATION_FORMULA"
                     ><b>{{ 'DESTINATION_FORMULA' | translate }}</b></label
                 >
                 <p-dropdown
+                    id="DESTINATION_FORMULA"
                     formControlName="formule_uuid"
                     [options]="listFormulas$ | async"
                     optionLabel="nom"
@@ -125,10 +130,11 @@
 
             <!-- IMSI -->
             <div class="col-12 col-sm-6 col-md-2">
-                <label
+                <label for="IMSI"
                     ><b>{{ 'IMSI' | translate }}</b></label
                 >
                 <input
+                    id="IMSI"
                     formControlName="imsi"
                     type="text"
                     pInputText
@@ -138,10 +144,11 @@
 
             <!-- APN -->
             <div class="col-12 col-sm-6 col-md-2">
-                <label
+                <label for="APN"
                     ><b>{{ 'APN' | translate }}</b></label
                 >
                 <p-dropdown
+                    id="APN"
                     formControlName="apn"
                     [options]="listApn$ | async"
                     optionValue="apn"
@@ -160,10 +167,11 @@
 
             <!-- IP Address -->
             <div class="col-12 col-sm-6 col-md-2">
-                <label
+                <label for="IP_ADDRESS"
                     ><b>{{ 'IP_ADDRESS' | translate }}</b></label
                 >
                 <input
+                    id="IP_ADDRESS"
                     formControlName="adresse_ip"
                     type="text"
                     pInputText
@@ -173,10 +181,11 @@
 
             <!-- Usage -->
             <div class="col-12 col-sm-6 col-md-2">
-                <label
+                <label for="USAGE"
                     ><b>{{ 'USAGE' | translate }}</b></label
                 >
                 <p-dropdown
+                    id="USAGE"
                     formControlName="usage_id"
                     [options]="listUsages$ | async"
                     optionLabel="nom_usage"
@@ -184,7 +193,7 @@
                     placeholder="{{ 'SELECT' | translate }} {{
                         'USAGE' | translate
                     }}"
-                    optionValue="uuid"
+                    optionValue="id"
                     emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
                     emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
                 >
@@ -228,10 +237,11 @@
         <div class="row g-3">
             <!-- Third Level -->
             <div class="col-12 col-sm-6 col-md-3">
-                <label
+                <label for="thirdLevelLibel"
                     ><b>{{ thirdLevelLibel }}</b></label
                 >
                 <p-dropdown
+                    id="thirdLevelLibel"
                     formControlName="niveau_trois_uuid"
                     [options]="listThirdLevel$ | async"
                     optionValue="uuid"
@@ -250,10 +260,11 @@
 
             <!-- Name Location -->
             <div class="col-12 col-sm-6 col-md-2">
-                <label
+                <label for="NAME_LOCATION"
                     ><b>{{ 'NAME_LOCATION' | translate }}</b></label
                 >
                 <input
+                    id="NAME_LOCATION"
                     formControlName="point_emplacement"
                     type="text"
                     pInputText
@@ -263,10 +274,11 @@
 
             <!-- Traffic Zone -->
             <div class="col-12 col-sm-6 col-md-2">
-                <label
+                <label for="TRAFFIC_ZONE"
                     ><b>{{ 'TRAFFIC_ZONE' | translate }}</b></label
                 >
                 <input
+                    id="TRAFFIC_ZONE"
                     formControlName="zone_trafic"
                     type="text"
                     pInputText
@@ -276,10 +288,11 @@
 
             <!-- Start Date -->
             <div class="col-12 col-sm-6 col-md-2">
-                <label
+                <label for="START_DATE"
                     ><b>{{ 'START_DATE' | translate }}</b></label
                 >
                 <p-calendar
+                    id="START_DATE"
                     formControlName="date_debut"
                     [showIcon]="true"
                     [placeholder]="'AAAA-MM-JJ'"
@@ -290,10 +303,11 @@
 
             <!-- End Date -->
             <div class="col-12 col-sm-6 col-md-2">
-                <label
+                <label for="END_DATE"
                     ><b>{{ 'END_DATE' | translate }}</b></label
                 >
                 <p-calendar
+                    id="END_DATE"
                     formControlName="date_fin"
                     [showIcon]="true"
                     [placeholder]="'AAAA-MM-JJ'"

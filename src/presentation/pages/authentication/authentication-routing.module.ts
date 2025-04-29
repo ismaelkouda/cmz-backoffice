@@ -14,6 +14,7 @@ const routes: Routes = [
             {
                 path: LOGIN,
                 component: LoginComponent,
+                canActivate: [GuestGuard],
             },
             {
                 path: '',

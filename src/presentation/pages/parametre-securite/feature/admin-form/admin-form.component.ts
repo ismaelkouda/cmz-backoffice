@@ -71,7 +71,11 @@ export class AdminFormComponent implements OnInit {
             email: ['', [Validators.required, Validators.email]],
             contacts: [
                 '',
-                [Validators.required, Validators.pattern('^[0-9]*$')],
+                [
+                    Validators.pattern('^[0-9]*$'),
+                    Validators.maxLength(10),
+                    Validators.minLength(10),
+                ],
             ],
             profil_user_id: ['', [Validators.required]],
         });
@@ -83,6 +87,7 @@ export class AdminFormComponent implements OnInit {
             }
         });
     }
+
     public close(): void {
         this.formsView.emit(false);
     }

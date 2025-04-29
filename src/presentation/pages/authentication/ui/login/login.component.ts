@@ -71,13 +71,10 @@ export class LoginComponent implements OnInit {
         this.toastrService.success(
             `Bienvenue ${response.data?.user?.nom} ${response.data?.user?.prenoms}`
         );
-        this.storage.saveData('user', JSON.stringify(response.data?.user));
         const currentUser = response.data?.user;
+        this.storage.saveData('user', JSON.stringify(currentUser));
         const token = response.data?.token;
-        console.log('token', token);
         this.storage.saveData('token', JSON.stringify(token));
-        console.log('------');
-        console.log(token);
         this.storeCurrentUserService.setCurrentUser(currentUser);
         this.storeTokenService.setToken(token);
         // await this.cryptoToken.saveTokenData('token', token);

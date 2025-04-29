@@ -86,6 +86,7 @@ export class FirstLevelComponent implements OnInit {
             .getAllDirectionRegionales(
                 {
                     nom: this.selectedNom,
+                    nom_commune: this.selectedCommune,
                 },
                 this.p
             )

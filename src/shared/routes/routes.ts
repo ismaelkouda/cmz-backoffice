@@ -81,7 +81,7 @@ export const content: Routes = [
         data: {
             module: 'Patrimoine',
             subModule: [
-                'SIM_CARDS',
+                'MY_SIM_CARDS',
                 'WHITE_SIM',
                 // 'Dotation Data',
                 'Etat des Soldes Data',

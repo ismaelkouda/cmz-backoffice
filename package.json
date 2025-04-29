@@ -5,10 +5,19 @@
         "env:dev": "node tools/env/generate-env.js dev",
         "env:prod": "node tools/env/generate-env.js prod",
         "build:dev": "npm run env:dev && ng build",
-        "build:prod": "npm run env:prod",
+        "build:prod": "npm run env:prod && ng build --configuration=production",
         
         "start:dev": "npm run env:dev && ng serve --host 0.0.0.0 --port 4401",
         "start:prod": "npm run env:prod && ng serve --host 0.0.0.0",
+
+
+        "env:test": "node tools/env/generate-env.js test",
+        "start:test": "npm run env:test && ng serve --host 0.0.0.0 --port 4403",
+        "build:test": "npm run env:test && ng build --configuration=test",
+        "deploy:test": "npm run build:test && rsync -avh dist/ user@server:/var/www/test-app/",
+        "deploy:prod": "npm run build:prod && rsync -avh dist/ user@server:/var/www/prod-app/",
+
+        
         "lint": "ng lint",
         "test": "ng test",
         "format": "prettier \"src/**/*.{ts,html,css,scss}\" --write",

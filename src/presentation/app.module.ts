@@ -19,7 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LocalStorageService } from 'ngx-webstorage';
 import { SupervisionOperationsModule } from './pages/supervision-operations/supervision-operations.module';
 import { WebSocketSubject } from 'rxjs/webSocket';
-import { EnvServiceProvider } from '../shared/services/env.service.provider';
+// import { EnvServiceProvider } from '../shared/services/env.service.provider';
 import { NotifyService } from '../shared/services/notify.service';
 import { AuthGuard } from '../core/guard/auth.guard';
 import { GuestGuard } from '../core/guard/guest.guard';
@@ -29,6 +29,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 export function initEnv(envService: EnvService): () => void {
+    console.log('envService0', envService);
+
     return () => envService.load();
 }
 
@@ -63,7 +65,7 @@ export function initEnv(envService: EnvService): () => void {
     providers: [
         AuthGuard,
         GuestGuard,
-        EnvServiceProvider,
+        // EnvServiceProvider,
         LocalStorageService,
         NotifyService,
         {

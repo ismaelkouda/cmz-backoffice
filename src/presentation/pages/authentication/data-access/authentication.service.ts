@@ -10,6 +10,7 @@ export class AuthenticationService {
 
     constructor(private http: HttpClient, private envService: EnvService) {
         this.baseUrl = this.envService.apiUrl;
+        console.log('this.baseUrl', this.baseUrl);
     }
 
     OnLogin(data): Observable<any> {

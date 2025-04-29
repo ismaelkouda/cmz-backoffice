@@ -70,8 +70,8 @@ export class SimCardComponent implements OnInit, OnDestroy {
             this.module = data.module;
             this.subModule = data.subModule[0];
         });
-        this.sharedService.fetchApplicants();
-        this.listUsages$ = this.sharedService.getApplicants();
+        this.sharedService.fetchUsages();
+        this.listUsages$ = this.sharedService.getUsages();
         this.sharedService.fetchFormulas();
         this.listFormulas$ = this.sharedService.getFormulas();
         this.sharedService.fetchApn();

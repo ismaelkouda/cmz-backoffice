@@ -15,12 +15,12 @@ export const indicatorsAlarmsTableConstant = {
         },
         {
             field: 'description',
-            header: 'Description mésure',
+            header: 'Description mesure',
             class: 'text-center',
         },
         {
             field: 'type_mesure',
-            header: 'Type de mésure',
+            header: 'Type de mesure',
             class: 'text-center',
         },
         { field: 'unite', header: 'Unité', class: 'text-center' },

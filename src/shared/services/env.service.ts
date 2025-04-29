@@ -1,34 +1,26 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class EnvService {
     public apiUrl!: string;
     public fileUrl!: string;
-    public environmentDeployment!: string;
     public verifyIdentityDocumentUrl!: string;
-    public enableDebug = false;
+    public environmentDeployment!: string;
+    public enableDebug!: boolean;
 
     public headerSettings: any = {};
     public messageApp: any = {};
 
+    constructor() {
+        this.load();
+    }
+
     public load(): void {
         const env = (window as any).__env;
+        console.log('env', env);
 
-        if (!env) {
-            throw new Error(
-                "🌍 '__env' is not defined. Make sure runtime-env.js is loaded."
-            );
-        }
+        // if (!env) throw new Error('❌ Environment config not found.');
 
-        this.apiUrl = env.apiUrl;
-        this.fileUrl = env.fileUrl;
-        this.verifyIdentityDocumentUrl = env.verifyIdentityDocumentUrl;
-        this.environmentDeployment = env.environmentDeployment;
-        this.enableDebug = env.enableDebug;
-
-        this.headerSettings = env.headerSettings;
-        this.messageApp = env.messageApp;
+        Object.assign(this, env);
     }
 }

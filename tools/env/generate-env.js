@@ -1,40 +1,56 @@
+// const fs = require('fs');
+// const path = require('path');
+// const config = require('./config');
+
+// const env = process.argv[2];
+// if (!env || !config[env]) {
+//     console.error(`❌ Usage: node generate-env.js <dev|test|prod>\n`);
+//     // process.exit(1);
+
+// }
+// const selectedConfig = config[env];
+
+// const output = `
+// (function (window) {
+// window.__env = ${JSON.stringify(selectedConfig, null, 4)};
+// })(this);
+// `;
+
+// const outputPath = path.resolve(__dirname, '../../src/assets/config/env.js');
+// fs.writeFileSync(outputPath, output, 'utf8');
+
+// console.log(`✅ Fichier env.js généré avec succès pour '${env}' ➜ ${outputPath}`);
+// console.error(`azerty`);
+
 const fs = require('fs');
 const path = require('path');
 
-const envPath = path.resolve(__dirname, '../../src/assets/config/env.js');
+// ✅ Vérifie que le fichier de config existe
 let config = {};
+const configPath = path.resolve(__dirname, './config.js');
 
-if (fs.existsSync(envPath)) {
-    config = require(envPath);
+if (fs.existsSync(configPath)) {
+    config = require(configPath);
 } else {
-    console.warn('⚠️ Fichier env.js introuvable. Aucune config personnalisée ne sera utilisée.');
+    console.warn("⚠️  Fichier 'config.js' introuvable. Aucun environnement ne sera généré.");
 }
 
+// ✅ Récupère l'environnement depuis la ligne de commande
 const env = process.argv[2];
 
 if (!env || !config[env]) {
-    console.error('❌ Usage: node generate-env.js <dev|prod>');
-    // Tu peux choisir de continuer ou non :
-    // process.exit(1);
-}
+    console.warn(`⚠️  Aucune configuration trouvée pour l'environnement '${env}'. Le fichier ne sera pas généré.`);
+} else {
+    const selectedConfig = config[env];
 
-const selectedConfig = config[env] || {};
-
-const envContent = `(function (window) {
-    window.__env = ${JSON.stringify({
-        verifyIdentityDocumentUrl: selectedConfig?.VERIFY_IDENTITY_URL ?? '',
-        apiUrl: selectedConfig?.API_URL ?? '',
-        fileUrl: selectedConfig?.FILE_URL ?? '',
-        environmentDeployment: selectedConfig?.ENVIRONMENT ?? '',
-        enableDebug: selectedConfig?.ENABLE_DEBUG ?? false,
-        headerSettings: selectedConfig?.HEADER_SETTINGS ?? {},
-        messageApp: selectedConfig?.MESSAGE_APP ?? {}
-    }, null, 4)};
+    const output = `
+(function (window) {
+    window.__env = ${JSON.stringify(selectedConfig, null, 4)};
 })(this);
 `;
 
-const targetPath = path.join(__dirname, '../../src/assets/config/env.template.js');
+    const outputPath = path.resolve(__dirname, '../../src/assets/config/env.js');
+    fs.writeFileSync(outputPath, output, 'utf8');
 
-fs.writeFileSync(targetPath, envContent, 'utf8');
-
-console.log(`✅ env.template.js généré pour l’environnement '${env}' à : ${targetPath}`);
+    console.log(`✅ Fichier env.js généré avec succès pour '${env}' ➜ ${outputPath}`);
+}

@@ -1,35 +1,39 @@
 <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
-    <div class="d-flex gap-1">
-        <div class="col-md-3">
-            <label
+    <div class="row g-3">
+        <div class="col-12 col-sm-6 col-md-2">
+            <label for="START_DATE"
                 ><b>{{ 'START_DATE' | translate }}</b></label
             >
             <p-calendar
+                id="START_DATE"
                 formControlName="date_debut"
                 [showIcon]="true"
-                [placeholder]="'JJ-MM-AAAA'"
-                dateFormat="dd-mm-yy"
+                [placeholder]="'AAAA-MM-JJ'"
+                dateFormat="yy-mm-dd"
             >
             </p-calendar>
         </div>
-        <div class="col-md-3">
-            <label
+
+        <div class="col-12 col-sm-6 col-md-2">
+            <label for="END_DATE"
                 ><b>{{ 'END_DATE' | translate }}</b></label
             >
             <p-calendar
+                id="END_DATE"
                 formControlName="date_fin"
                 [showIcon]="true"
-                placeholder="JJ-MM-AAAA"
-                dateFormat="dd-mm-yy"
+                [placeholder]="'AAAA-MM-JJ'"
+                dateFormat="yy-mm-dd"
             >
             </p-calendar>
         </div>
-        <div class="col-md-3">
-            <label
+        <!-- <div class="col-12 col-sm-6 col-md-2">
+            <label for="USER"
                 ><b>{{ 'USER' | translate }}</b></label
             >
             <p-dropdown
-                formControlName="user_id"
+                id="USER"
+                formControlName="initie_par"
                 [options]="listApplicants$ | async"
                 optionLabel="fullName"
                 optionValue="id"
@@ -37,15 +41,17 @@
                 filterBy="fullName"
                 [showClear]="true"
                 placeholder="{{ 'SELECT' | translate }} {{
-                    'USER' | translate
+                    'APPLICANT' | translate
                 }}"
                 emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
                 emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
             >
             </p-dropdown>
-        </div>
+        </div> -->
 
-        <div class="filter-button">
+        <div
+            class="col-12 col-sm-6 col-md-1 d-flex align-items-end justify-content-start gap-2 mt-2"
+        >
             <button
                 pButton
                 pRipple

@@ -159,4 +159,18 @@ export class UsageMetierComponent implements OnInit {
         }));
         this.excelService.exportAsExcelFile(data, `Lise des Usages Metiers`);
     }
+    public onFilter() {
+        this.settingService
+            .getAllUsages({
+                nom: this.selectedUsage,
+            })
+            .subscribe({
+                next: (response) => {
+                    this.listUsages = response['data'];
+                },
+                error: (error) => {
+                    this.toastrService.error(error.message);
+                },
+            });
+    }
 }
