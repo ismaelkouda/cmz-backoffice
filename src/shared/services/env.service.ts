@@ -17,7 +17,6 @@ export class EnvService {
 
     public load(): void {
         const env = (window as any).__env;
-        console.log('env', env);
 
         // if (!env) throw new Error('❌ Environment config not found.');
 

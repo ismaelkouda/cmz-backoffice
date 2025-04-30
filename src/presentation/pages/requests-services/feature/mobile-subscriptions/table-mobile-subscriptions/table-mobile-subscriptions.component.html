@@ -10,7 +10,7 @@
 >
     <ng-template pTemplate="caption">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <app-table-title
                     [count]="(pagination$ | async)?.total"
                     [perPage]="(pagination$ | async)?.per_page"
@@ -20,7 +20,7 @@
                 </app-table-title>
             </div>
             <div
-                class="col-md-8 d-flex gap-2 align-items-end justify-content-end"
+                class="col-md-7 d-flex gap-2 align-items-end justify-content-end"
             >
                 <!-- <button pButton pRipple [label]="'SIMPLE_DEMAND' | translate" icon="pi pi-plus"
                         class="p-button-success margin-right-5" (click)="

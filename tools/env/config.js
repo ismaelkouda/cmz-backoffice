@@ -1,8 +1,6 @@
 module.exports = {
     dev: {
         verifyIdentityDocumentUrl: "https://sim-monitoring.cateli.io:8013/",
-        // apiUrl: "http://10.10.0.200:12555/api/v1/",
-        // fileUrl: "http://10.10.0.200:12555/",
         apiUrl: "http://10.10.70.64:8001/api/v1/",
         fileUrl: "http://10.10.70.64:8001/",
         environmentDeployment: "DEV",
@@ -19,9 +17,11 @@ module.exports = {
         },
     },
     test: {
-        verifyIdentityDocumentUrl: "https://osim-monitoring.orange.ci:8013/",
-        apiUrl: "http://10.10.70.64:8001/api/v1/",
-        fileUrl: "http://10.10.70.64:8001/",
+        verifyIdentityDocumentUrl: "https://sim-monitoring.cateli.io:8013/",
+        // apiUrl: "http://10.10.70.64:8001/api/v1/",
+        // fileUrl: "http://10.10.70.64:8001/",
+        apiUrl: "http://10.10.0.200:12555/api/v1/",
+        fileUrl: "http://10.10.0.200:12555/",
         environmentDeployment: "TEST",
         enableDebug: true,
         headerSettings: {
@@ -36,7 +36,7 @@ module.exports = {
         },
     },
     prod: {
-        verifyIdentityDocumentUrl: "https://osim-monitoring.orange.ci:8013/",
+        verifyIdentityDocumentUrl: "https://sim-monitoring.cateli.io:8013/",
         apiUrl: "https://sim-monitoring.cateli.io:12555/api/v1/",
         fileUrl: "https://sim-monitoring.cateli.io:12555/",
         environmentDeployment: "PROD",

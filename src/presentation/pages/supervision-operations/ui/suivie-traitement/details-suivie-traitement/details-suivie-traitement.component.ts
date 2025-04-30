@@ -349,7 +349,6 @@ export class DetailsSuivieTraitementComponent implements OnInit {
     }
 
     public showDialog(data: Object): void {
-        console.log('data', data);
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',
@@ -409,7 +408,6 @@ export class DetailsSuivieTraitementComponent implements OnInit {
         });
         modalRef.componentInstance.IsLoading.subscribe((res) => {
             this.IsLoading = res;
-            console.log('res', res);
             modalRef.componentInstance.IsLoadData = !res;
         });
     }

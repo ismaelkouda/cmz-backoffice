@@ -5,7 +5,6 @@ export const simCardTableConstant = (asFeatureService: AsFeatureService) => {
     const hasIdentification = asFeatureService.hasFeature(
         OperationTransaction.IDENTIFICATION
     );
-    console.log('hasIdentification', hasIdentification);
 
     return {
         cols: [

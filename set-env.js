@@ -18,9 +18,7 @@ fs.readFile(envFilePath, 'utf8', (err, data) => {
         return console.log('Invalid environment specified. Use "dev" or "prod".');
     }
 
-    console.log("update/gitlab-ci", result);
     fs.writeFile(envFilePath, result, 'utf8', (err) => {
         if (err) return console.log(`Error writing file: ${err}`);
-        console.log(`Environment set to ${env}`);
     });
 });

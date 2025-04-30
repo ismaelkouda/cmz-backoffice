@@ -128,7 +128,6 @@ export class AffectationSimComponent implements OnInit {
         this.settingService.GetAllAPN({}).subscribe({
             next: (response) => {
                 this.listAPN = response['data'];
-                console.log('detail data', response['data']);
             },
             error: (error) => {
                 this.toastrService.error(error.message);

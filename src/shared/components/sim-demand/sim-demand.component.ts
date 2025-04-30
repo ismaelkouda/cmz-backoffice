@@ -12,8 +12,6 @@ import { SimDemand } from '../../interfaces/details-mobile-subscriptions.interfa
 import { BADGE_ETAPE } from '../../constants/badge-etape.constant';
 import { BADGE_ETAT } from '../../constants/badge-etat.contant';
 import { Subject, takeUntil } from 'rxjs';
-import { MOBILE_SUBSCRIPTIONS } from '../../../presentation/pages/requests-services/requests-services-routing.module';
-import { REQUESTS_SERVICES } from '../../routes/routes';
 
 type TYPEVIEW =
     | 'open-folder-mobile-subscription'

@@ -59,7 +59,6 @@ export class FormFolderComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        console.log('this.demandSelected', this.demandSelected);
         this.sharedService.fetchDetailsDemand(
             this.demandSelected?.numero_demande
         );

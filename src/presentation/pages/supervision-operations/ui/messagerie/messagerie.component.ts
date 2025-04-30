@@ -48,8 +48,6 @@ export class MessagerieComponent implements OnInit {
         this.initialView = !event;
     }
     public pushCurrentObject(event: any): void {
-        console.log('this.currentObject', this.currentObject);
-
         this.currentObject = event;
     }
 }

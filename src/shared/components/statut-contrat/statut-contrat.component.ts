@@ -12,7 +12,6 @@ export class StatutContratComponent implements OnInit {
     constructor() {}
 
     ngOnInit() {
-        console.log('this.statut', this.statut);
         switch (this.statut) {
             case 'actif':
             case 'fiable':

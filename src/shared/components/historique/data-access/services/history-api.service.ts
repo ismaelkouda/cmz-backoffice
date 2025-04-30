@@ -125,7 +125,6 @@ export class HistoryApiService {
                 debounceTime(1000),
                 switchMap((response: any) => {
                     this.detailsHistorySubject.next(response?.['data']);
-                    console.log("response?.['data']", response?.['data']);
                     return of(response);
                 }),
                 catchError((error) => {

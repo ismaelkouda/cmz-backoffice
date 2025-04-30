@@ -121,11 +121,9 @@ export class PatrimoineFormsComponent implements OnInit {
         this.OnRefreshValues();
     }
     onSelectedFiles(event, typeFile: 'physique' | 'recto' | 'verso') {
-        console.log('event', event.files[0]);
         switch (typeFile) {
             case 'physique':
                 this.filesPhysique = event.currentFiles;
-                console.log('this.filesPhysique', this.filesPhysique[0]);
                 break;
 
             case 'recto':
@@ -724,7 +722,6 @@ export class PatrimoineFormsComponent implements OnInit {
         });
     }
     public handleChangeTabviewIndex(e) {
-        console.log('content currentTabs :', this.currentTabsIndex);
         this.currentTabsIndex = e.index;
     }
 }

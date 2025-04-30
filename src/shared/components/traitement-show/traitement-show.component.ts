@@ -944,7 +944,6 @@ export class TraitementShowComponent implements OnInit {
         });
     }
     onSelectedFiles(event, typeFile: 'physique' | 'recto' | 'verso') {
-        console.log('event', event.files[0]);
         switch (typeFile) {
             case 'physique':
                 this.filesPhysique = event.currentFiles;

@@ -289,13 +289,8 @@ export class FormsProfilComponent implements OnInit {
         };
         selectedHabilitationValues.forEach((item) => {
             if (item.niveau_uns) {
-                console.log('item.niveau_uns', item.niveau_uns);
                 formatSelectedHabilitationValues.niveau_uns.push(
                     item.niveau_uns
-                );
-                console.log(
-                    'formatSelectedHabilitationValues.niveau_uns',
-                    formatSelectedHabilitationValues.niveau_uns
                 );
             } else if (item.niveau_deux) {
                 formatSelectedHabilitationValues.niveau_deux.push(
@@ -360,11 +355,9 @@ export class FormsProfilComponent implements OnInit {
                 });
             }
         });
-        console.log('this.checkedHabilitation', this.checkedHabilitation);
 
         let selectedHabilitationValues: any[] = [];
         this.checkedHabilitation.forEach((node) => {
-            console.log('node', node);
             // selectedHabilitationValues.push(node.value);
             selectedHabilitationValues.push({
                 [node.parent_value]: node.value,
@@ -372,13 +365,10 @@ export class FormsProfilComponent implements OnInit {
 
             // if (node.children && node.children.length > 0) {
             //   node.children.forEach((nodeChild) => {
-            //     console.log('nodeChild', nodeChild)
-            //     console.log('node', node)
             //     selectedHabilitationValues.push({[node.parent_value]: nodeChild.value});
             //   })
             // }
         });
-        console.log('selectedHabilitationValues', selectedHabilitationValues);
         const formatSelectedHabilitationValues = {
             niveau_uns: [] as string[],
             niveau_deux: [] as string[],
@@ -386,13 +376,8 @@ export class FormsProfilComponent implements OnInit {
         };
         selectedHabilitationValues.forEach((item) => {
             if (item.niveau_uns) {
-                console.log('item.niveau_uns', item.niveau_uns);
                 formatSelectedHabilitationValues.niveau_uns.push(
                     item.niveau_uns
-                );
-                console.log(
-                    'formatSelectedHabilitationValues.niveau_uns',
-                    formatSelectedHabilitationValues.niveau_uns
                 );
             } else if (item.niveau_deux) {
                 formatSelectedHabilitationValues.niveau_deux.push(
@@ -404,10 +389,6 @@ export class FormsProfilComponent implements OnInit {
                 );
             }
         });
-        console.log(
-            'formatSelectedHabilitationValues',
-            formatSelectedHabilitationValues
-        );
 
         const selectedItemsDataSource = this.selectedItemsDataSource.map(
             (element) => {

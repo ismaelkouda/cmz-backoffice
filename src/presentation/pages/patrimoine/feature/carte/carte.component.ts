@@ -120,9 +120,7 @@ export class CarteComponent implements OnInit, AfterViewInit {
             },
             onEachFeature: function (feature, layer) {},
         })
-            .on('click', (e) => {
-                console.log('INACTIF', e);
-            })
+            .on('click', (e) => {})
             .addTo(this.map);
 
         var baseMaps = {

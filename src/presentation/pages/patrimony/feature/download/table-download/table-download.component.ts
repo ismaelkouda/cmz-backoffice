@@ -61,7 +61,6 @@ export class TableDownloadComponent {
     public handleAction(downloadItem: downloadInterface): void {
         this.onSelectDownloadItem(downloadItem);
         if (downloadItem) {
-            console.log('downloadItem.url_fichier', downloadItem.url_fichier);
             const baseUrl = this.mappingService.baseUrl.replace('/api/v1', '');
             window.open(baseUrl + downloadItem.url_fichier), '_blank';
         }

@@ -40,7 +40,6 @@
 //       .subscribe({
 //         next: (response) => {
 //           this.listTelemetries = response['data'];
-//           console.log("indicateur data", response.data);
 //           this.totalPage = response.data.last_page;
 //           this.totalRecords = response.data.total;
 //           this.recordsPerPage = response.data.per_page;
@@ -53,7 +52,6 @@
 //   }
 
 //   handleChangeTabviewIndex(e) {
-//     console.log('e', e)
 //     this.currentTabsIndex = e.index;
 //   }
 

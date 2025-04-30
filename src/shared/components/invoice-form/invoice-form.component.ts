@@ -84,7 +84,6 @@ export class InvoiceFormComponent {
         });
         this.urlParamNumeroDemande =
             this.activatedRoute.snapshot.paramMap.get('number_demand');
-        console.log('this.urlParamNumeroDemande', this.urlParamNumeroDemande);
         // si la ref dans l'url est different de  "facture" alors affiche la page d'error
         if (!isTypeView(this.urlParamRef) || !this.urlParamNumeroDemande) {
             this.displayUrlErrorPage = true;
@@ -92,7 +91,6 @@ export class InvoiceFormComponent {
             this.getTitle;
             this.sharedService.fetchDetailsDemand(this.urlParamNumeroDemande);
             this.sharedService.getDetailsDemand().subscribe((value) => {
-                console.log('value', value);
                 this.detailsInvoiceForm = value;
                 this.initFormTypePaiement();
                 this.spinner = false;

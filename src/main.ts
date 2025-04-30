@@ -5,7 +5,6 @@ import { AppModule } from './presentation/app.module';
 
 loadEnvConfig().then(() => {
     const env = (window as any).__env;
-    console.log('✅ Loaded env:', env);
 
     if (env?.environmentDeployment === 'PROD') {
         enableProdMode();
@@ -23,6 +22,5 @@ function loadEnvConfig(): Promise<void> {
         script.onload = () => resolve();
         script.onerror = () => reject(`❌ Could not load env.js`);
         document.head.appendChild(script);
-        console.log('document.head', document.head);
     });
 }

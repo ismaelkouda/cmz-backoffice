@@ -110,8 +110,6 @@ export class CartographieComponent implements OnInit {
     }
     onSubmitFilterForm() {
         this.http.get('assets/datas.json').subscribe((res: any) => {
-            console.log('res', res);
-
             this.datas = res;
             this.display = true;
             this.onDialogMaximized(true);

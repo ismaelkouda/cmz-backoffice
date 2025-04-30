@@ -23,7 +23,6 @@ export class PagesGuard implements CanActivate {
 
         // Check if the current path is allowed
         if (allowedPaths && allowedPaths.includes(state.url)) {
-            console.log('allowedPaths', allowedPaths);
             return true; // Allow the navigation
         } else {
             // Redirect to a Not Found page or similar

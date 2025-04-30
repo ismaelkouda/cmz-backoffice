@@ -71,7 +71,6 @@ export class ReloadMyAccountApiService {
                 debounceTime(500),
                 switchMap((response: any) => {
                     const reloadMyAccount = response?.['data']?.data?.data;
-                    console.log('reloadMyAccount', reloadMyAccount);
                     this.reloadMyAccountSubject.next(reloadMyAccount);
                     this.reloadMyAccountPagination.next(
                         response?.['data']?.data
@@ -228,10 +227,7 @@ export class ReloadMyAccountApiService {
                 debounceTime(1000),
                 switchMap((response: any) => {
                     const updatedemandCredit = response;
-                    console.log('updatedemandCredit', updatedemandCredit);
-
                     this.updateDemandCreditSubject.next(updatedemandCredit);
-                    console.log('updatedemandCredit', updatedemandCredit);
                     return of(response);
                 }),
                 catchError((error) => {

@@ -64,7 +64,6 @@ export class MyAccountApiService {
                 debounceTime(500),
                 switchMap((response: any) => {
                     const myAccount = response?.['data']?.data?.data;
-                    console.log('myAccount', myAccount);
                     this.myAccountSubject.next(myAccount);
                     this.myAccountPagination.next(response?.['data']?.data);
                     this.apiResponseMyAccountSubject.next(response);

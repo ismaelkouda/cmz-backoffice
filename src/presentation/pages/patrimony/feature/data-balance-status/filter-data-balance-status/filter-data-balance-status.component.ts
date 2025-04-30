@@ -173,7 +173,6 @@ export class FilterDataBalanceStatusComponent implements OnInit, OnDestroy {
                 this.formFilter
                     .get('niveau_un_uuid')
                     ?.valueChanges.subscribe((value: string) => {
-                        console.log(', this.listFirstLevel$0111', value);
                         this.listSecondLevel$ =
                             this.secondLevelService.getSecondLevel(
                                 value,
@@ -195,8 +194,6 @@ export class FilterDataBalanceStatusComponent implements OnInit, OnDestroy {
 
                 const firstLevelControl = this.formFilter.get('niveau_un_uuid');
                 const gererValidatioFirstLevel = (value: string) => {
-                    console.log(', this.listFirstLevel$', this.listFirstLevel$);
-
                     this.listSecondLevel$ =
                         this.secondLevelService.getSecondLevel(
                             value,
@@ -204,12 +201,7 @@ export class FilterDataBalanceStatusComponent implements OnInit, OnDestroy {
                         );
                 };
                 gererValidatioFirstLevel(firstLevelControl?.value as string);
-                console.log(
-                    ', this.listFirstLevel$0111',
-                    firstLevelControl?.value
-                );
                 firstLevelControl?.valueChanges.subscribe((value: string) => {
-                    console.log(', this.listFirstLevel$0111', value);
                     this.listSecondLevel$ =
                         this.secondLevelService.getSecondLevel(
                             value,

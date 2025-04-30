@@ -29,8 +29,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 export function initEnv(envService: EnvService): () => void {
-    console.log('envService0', envService);
-
     return () => envService.load();
 }
 

@@ -147,11 +147,9 @@ export class ContactFormComponent implements OnInit {
         );
         gestionnaireTenantControl?.valueChanges.subscribe((value) => {
             if (!!value) {
-                console.log('value', value);
                 const userSelected = this.listUsers.find(
                     (user) => user.id === value
                 );
-                console.log('userSelected', userSelected);
                 contactGestionnaireTenantControl?.setValue(
                     userSelected?.contacts
                 );
@@ -188,10 +186,6 @@ export class ContactFormComponent implements OnInit {
             .subscribe(
                 (response: any) => {
                     this.listFormeJuridique = response['data'];
-                    console.log(
-                        'this.listFormeJuridique',
-                        this.listFormeJuridique
-                    );
                 },
                 (error) => {
                     this.toastService.error(error.error.message);

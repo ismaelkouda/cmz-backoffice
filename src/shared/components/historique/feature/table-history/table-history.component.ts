@@ -83,7 +83,6 @@ export class TableHistoryComponent {
     }
 
     private onSelectHistory(historySelected: any): void {
-        console.log('historySelected', historySelected);
         this.historySelected = historySelected;
         this.historyApiService.setHistorySelected(historySelected);
     }

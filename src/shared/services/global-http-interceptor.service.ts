@@ -29,10 +29,8 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
         let data;
-        const token: any = this.storage.getData('token');
-        token
-            ? (data = JSON.parse(this.storage.getData('token')))
-            : (data = {});
+        const token = this.storeTokenService.getToken;
+        token ? (data = this.storeTokenService.getToken) : (data = {});
         req = req.clone({
             headers: req.headers.set('Authorization', 'Bearer ' + data.value),
         });

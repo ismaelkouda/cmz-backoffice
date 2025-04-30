@@ -3,7 +3,7 @@ import { LOGO_ORANGE } from '../../../../../shared/constants/logoOrange.constant
 import { REINITIALISATION } from '../../../../app-routing.module';
 import { menuJson } from './../../../../../assets/menu';
 import { AuthenticationService } from './../../data-access/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -19,6 +19,16 @@ import { MappingService } from '../../../../../shared/services/mapping.service';
 import { StoreCurrentUserService } from '../../../../../shared/services/store-current-user.service';
 import { StoreTokenService } from '../../../../../shared/services/store-token.service';
 import { CryptoToken } from '../../../../../shared/crypto-data/crypto-token';
+import {
+    BehaviorSubject,
+    catchError,
+    debounceTime,
+    finalize,
+    of,
+    Subject,
+    switchMap,
+    takeUntil,
+} from 'rxjs';
 
 @Component({
     selector: 'app-login',
@@ -36,12 +46,12 @@ export class LoginComponent implements OnInit {
     readonly REINITIALISATION = REINITIALISATION;
     readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
     public LOGO_ORANGE = LOGO_ORANGE;
-    private response: any = {};
+    private loadingFetchLoginSubject = new BehaviorSubject<boolean>(false);
 
     constructor(
         private authenticationService: AuthenticationService,
         private router: Router,
-        private toastrService: ToastrService,
+        private toastService: ToastrService,
         private storage: EncodingDataService,
         private asFeatureService: AsFeatureService,
         private loadingBarService: LoadingBarService,
@@ -57,27 +67,37 @@ export class LoginComponent implements OnInit {
         this.siteKey = environment.recaptcha.siteKey;
     }
 
-    async onLogin() {
-        this.loginForm.patchValue({ port: '4401' });
-        this.response = await handle(
-            () => this.authenticationService.OnLogin(this.loginForm.value),
-            this.toastrService,
-            this.loadingBarService
-        );
-        this.handleSuccessful(this.response);
+    public fetchLogin(): void {
+        if (this.loadingFetchLoginSubject.getValue()) return;
+        this.loadingFetchLoginSubject.next(true);
+        this.authenticationService
+            .OnLogin(this.loginForm.value)
+            .pipe(
+                debounceTime(1000),
+                catchError((error) => {
+                    console.error('Error fetching login', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingFetchLoginSubject.next(false))
+            )
+            .subscribe((response: any) => {
+                this.handleSuccessful(response);
+            });
     }
 
     private async handleSuccessful(response): Promise<void> {
-        this.toastrService.success(
-            `Bienvenue ${response.data?.user?.nom} ${response.data?.user?.prenoms}`
+        this.toastService.success(
+            `Bienvenue ${response?.data?.user?.nom} ${response?.data?.user?.prenoms}`
         );
         const currentUser = response.data?.user;
-        this.storage.saveData('user', JSON.stringify(currentUser));
         const token = response.data?.token;
+        this.storage.saveData('user', JSON.stringify(currentUser));
         this.storage.saveData('token', JSON.stringify(token));
+        console.log('token', token);
+
         this.storeCurrentUserService.setCurrentUser(currentUser);
         this.storeTokenService.setToken(token);
-        // await this.cryptoToken.saveTokenData('token', token);
+        await this.cryptoToken.saveTokenData('token', token);
         this.storage.saveData(
             'menu',
             JSON.stringify(response.data?.user?.permissions)
@@ -92,7 +112,7 @@ export class LoginComponent implements OnInit {
     async getVariables() {
         const response = await handle(
             () => this.authenticationService.getVariables({}),
-            this.toastrService,
+            this.toastService,
             this.loadingBarService
         );
         if (!response.error) {

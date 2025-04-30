@@ -263,11 +263,9 @@ export class TableSimCardComponent {
         const longitude = parseFloat(
             selectedSimCard.longitude ?? selectedSimCard.long_reseau ?? ''
         );
-        console.log('longitude', longitude);
         const latitude = parseFloat(
             selectedSimCard.latitude ?? selectedSimCard.lat_reseau ?? ''
         );
-        console.log('latitude', latitude);
         if (isNaN(longitude) || isNaN(latitude)) {
             return null;
         }
@@ -277,7 +275,6 @@ export class TableSimCardComponent {
         coords: [number, number],
         selectedSimCard: simCardInterface
     ): void {
-        console.log('coords', coords);
         setTimeout(() => {
             const mapContainer = document.getElementById('containerSimCardMap');
             if (!mapContainer) {

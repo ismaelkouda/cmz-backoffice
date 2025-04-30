@@ -48,7 +48,6 @@ export class TableNotificationsCenterComponent {
     }
 
     public getSanitizedHTML(content: string): SafeHtml {
-        console.log('content', content);
         return this.sanitizer.bypassSecurityTrustHtml(content);
     }
 

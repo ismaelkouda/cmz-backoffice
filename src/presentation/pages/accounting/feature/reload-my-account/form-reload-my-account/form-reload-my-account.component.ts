@@ -470,7 +470,6 @@ export class FormReloadMyAccountComponent {
                                     )
                                 )
                         );
-                        console.log('response', response);
                         if (response.error === false) {
                             this.toastrService.success(response.message);
                             this.reloadMyAccountApiService.fetchReloadMyAccount(

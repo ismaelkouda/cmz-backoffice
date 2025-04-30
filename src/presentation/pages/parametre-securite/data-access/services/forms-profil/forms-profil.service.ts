@@ -32,7 +32,6 @@ export class FormsProfilApiService {
                 switchMap((response: any) => {
                     const permissions = response?.['data']?.permissions.map(
                         (permission) => {
-                            console.log('permission', permission);
                             return {
                                 ...permission['data'],
                                 label: permission['data']?.title,
@@ -90,7 +89,6 @@ export class FormsProfilApiService {
                 switchMap((response: any) => {
                     const habilitation = response?.['data']?.habilitations.map(
                         (habilitation) => {
-                            console.log('habilitation', habilitation);
                             return {
                                 ...habilitation['data'],
                                 label: habilitation['data']?.title,
