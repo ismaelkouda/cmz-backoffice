@@ -25,7 +25,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// ✅ Vérifie que le fichier de config existe
 let config = {};
 const configPath = path.resolve(__dirname, './config.js');
 
@@ -35,7 +34,6 @@ if (fs.existsSync(configPath)) {
     console.warn("⚠️  Fichier 'config.js' introuvable. Aucun environnement ne sera généré.");
 }
 
-// ✅ Récupère l'environnement depuis la ligne de commande
 const env = process.argv[2];
 
 if (!env || !config[env]) {

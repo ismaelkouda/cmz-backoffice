@@ -17,4 +17,5 @@
         "sourceSoldeDotationOrange": "Orange fera le dépôt..."
     }
 };
+window.__env = window.__env.prod; 
 })(this);

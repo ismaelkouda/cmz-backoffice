@@ -1934,89 +1934,116 @@
                                                     Bénéficiaire</b
                                                 >
                                             </legend>
-                                            <div class="d-flex gap-2">
-                                                <div>
-                                                    <div class="form-group">
-                                                        <label>
-                                                            <b
-                                                                >Type
-                                                                Utilisateur</b
-                                                            >
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            formControlName="type_personne"
-                                                            pInputText
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <ng-container
-                                                    *ngIf="
-                                                        simCardSelectedDetails?.type_personne ===
-                                                            TypeUtilisateur.PERSONNE ||
-                                                        !simCardSelectedDetails?.type_personne
-                                                    "
-                                                >
-                                                    <div>
+
+                                            <ng-container
+                                                *ngIf="
+                                                    simCardSelectedDetails?.type_personne ===
+                                                        TypeUtilisateur.PERSONNE ||
+                                                    !simCardSelectedDetails?.type_personne
+                                                "
+                                            >
+                                                <div class="row g-3">
+                                                    <div
+                                                        class="col-12 col-sm-4 col-md-4"
+                                                    >
                                                         <div class="form-group">
                                                             <label
-                                                                ><b
+                                                                for="type_personne"
+                                                            >
+                                                                <b
+                                                                    >Type
+                                                                    Utilisateur</b
+                                                                >
+                                                            </label>
+                                                            <input
+                                                                id="type_personne"
+                                                                type="text"
+                                                                formControlName="type_personne"
+                                                                pInputText
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-sm-4 col-md-4"
+                                                    >
+                                                        <div class="form-group">
+                                                            <label for="nom">
+                                                                <b
                                                                     >Nom</b
                                                                 ></label
                                                             >
                                                             <input
+                                                                id="nom"
                                                                 type="text"
                                                                 formControlName="nom"
                                                                 pInputText
                                                             />
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                    <div
+                                                        class="col-12 col-sm-4 col-md-4"
+                                                    >
                                                         <div class="form-group">
-                                                            <label
-                                                                ><b
+                                                            <label for="prenom">
+                                                                <b
                                                                     >Prénoms</b
                                                                 ></label
                                                             >
                                                             <input
+                                                                id="prenom"
                                                                 type="text"
                                                                 formControlName="prenoms"
                                                                 pInputText
                                                             />
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                </div>
+                                                <div class="row g-3">
+                                                    <div
+                                                        class="col-12 col-sm-6 col-md-3"
+                                                    >
                                                         <div class="form-group">
-                                                            <label>
+                                                            <label
+                                                                for="nom_piece"
+                                                            >
                                                                 <b
                                                                     >Nature de
                                                                     la pièce</b
                                                                 >
                                                             </label>
                                                             <input
+                                                                id="nom_piece"
                                                                 type="text"
                                                                 formControlName="nature_piece"
                                                                 pInputText
                                                             />
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                    <div
+                                                        class="col-12 col-sm-6 col-md-3"
+                                                    >
                                                         <div class="form-group">
-                                                            <label>
+                                                            <label
+                                                                for="numero_piece"
+                                                            >
                                                                 <b
                                                                     >Numéro de
                                                                     la pièce</b
                                                                 >
                                                             </label>
                                                             <input
+                                                                id="numero_piece"
                                                                 type="text"
                                                                 formControlName="numero_piece"
                                                                 pInputText
                                                             />
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                    <div
+                                                        class="col-12 col-sm-6 col-md-3"
+                                                    >
                                                         <label
+                                                            for="date_naissance"
                                                             ><b
                                                                 >Date
                                                                 naissance<span
@@ -2026,15 +2053,19 @@
                                                             ></label
                                                         >
                                                         <input
+                                                            id="date_naissance"
                                                             type="text"
                                                             formControlName="date_naissance"
                                                             pInputText
                                                             class="w-100"
                                                         />
                                                     </div>
-                                                    <div>
+                                                    <div
+                                                        class="col-12 col-sm-6 col-md-3"
+                                                    >
                                                         <div class="form-group">
                                                             <label
+                                                                for="lieu_naissance"
                                                                 ><b
                                                                     >Lieu de
                                                                     naissance<span
@@ -2044,6 +2075,7 @@
                                                                 ></label
                                                             >
                                                             <input
+                                                                id="lieu_naissance"
                                                                 type="text"
                                                                 formControlName="lieu_naissance"
                                                                 pInputText
@@ -2051,74 +2083,120 @@
                                                             />
                                                         </div>
                                                     </div>
-                                                </ng-container>
-                                                <ng-container
-                                                    *ngIf="
-                                                        simCardSelectedDetails?.type_personne ===
-                                                        TypeUtilisateur.EQUIPEMENT
-                                                    "
-                                                >
-                                                    <div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-container
+                                                *ngIf="
+                                                    simCardSelectedDetails?.type_personne ===
+                                                    TypeUtilisateur.EQUIPEMENT
+                                                "
+                                            >
+                                                <div class="row g-3">
+                                                    <div
+                                                        class="col-12 col-sm-4 col-md-4"
+                                                    >
                                                         <div class="form-group">
                                                             <label
+                                                                for="type_personne"
+                                                            >
+                                                                <b
+                                                                    >Type
+                                                                    Utilisateur</b
+                                                                >
+                                                            </label>
+                                                            <input
+                                                                id="type_personne"
+                                                                type="text"
+                                                                formControlName="type_personne"
+                                                                pInputText
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-sm-4 col-md-4"
+                                                    >
+                                                        <div class="form-group">
+                                                            <label for="nom">
                                                                 ><b
                                                                     >Denomination</b
                                                                 ></label
                                                             >
                                                             <input
+                                                                id="nom"
                                                                 type="text"
                                                                 formControlName="nom"
                                                                 pInputText
                                                             />
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                    <div
+                                                        class="col-12 col-sm-4 col-md-4"
+                                                    >
                                                         <div class="form-group">
                                                             <label
+                                                                for="prenoms"
+                                                            >
                                                                 ><b
                                                                     >Raison
                                                                     social</b
                                                                 ></label
                                                             >
                                                             <input
+                                                                id="prenoms"
                                                                 type="text"
                                                                 formControlName="prenoms"
                                                                 pInputText
                                                             />
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                </div>
+                                                <div class="row g-3">
+                                                    <div
+                                                        class="col-12 col-sm-6 col-md-3"
+                                                    >
                                                         <div class="form-group">
-                                                            <label>
+                                                            <label
+                                                                for="nature_piece"
+                                                            >
                                                                 <b
                                                                     >Nature du
                                                                     document</b
                                                                 >
                                                             </label>
                                                             <input
+                                                                id="nature_piece"
                                                                 type="text"
                                                                 formControlName="nature_piece"
                                                                 pInputText
                                                             />
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                    <div
+                                                        class="col-12 col-sm-6 col-md-3"
+                                                    >
                                                         <div class="form-group">
-                                                            <label>
+                                                            <label
+                                                                for="numero_piece"
+                                                            >
                                                                 <b
                                                                     >Numéro du
                                                                     document</b
                                                                 >
                                                             </label>
                                                             <input
+                                                                id="numero_piece"
                                                                 type="text"
                                                                 formControlName="numero_piece"
                                                                 pInputText
                                                             />
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                    <div
+                                                        class="col-12 col-sm-6 col-md-3"
+                                                    >
                                                         <label
+                                                            for="date_naissance"
+                                                        >
                                                             ><b
                                                                 >Date
                                                                 d'installation<span
@@ -2128,15 +2206,20 @@
                                                             ></label
                                                         >
                                                         <input
+                                                            id="date_naissance"
                                                             type="text"
                                                             formControlName="date_naissance"
                                                             pInputText
                                                             class="w-100"
                                                         />
                                                     </div>
-                                                    <div>
+                                                    <div
+                                                        class="col-12 col-sm-6 col-md-3"
+                                                    >
                                                         <div class="form-group">
                                                             <label
+                                                                for="lieu_naissance"
+                                                            >
                                                                 ><b
                                                                     >Lieu
                                                                     d'installation<span
@@ -2146,6 +2229,7 @@
                                                                 ></label
                                                             >
                                                             <input
+                                                                id="lieu_naissance"
                                                                 type="text"
                                                                 formControlName="lieu_naissance"
                                                                 pInputText
@@ -2153,8 +2237,8 @@
                                                             />
                                                         </div>
                                                     </div>
-                                                </ng-container>
-                                            </div>
+                                                </div>
+                                            </ng-container>
                                         </fieldset>
                                         <fieldset>
                                             <legend>

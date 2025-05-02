@@ -12,6 +12,7 @@ import { ApplicantInterface } from '@shared/interfaces/applicant';
     templateUrl: './history.component.html',
 })
 export class HistoryComponent implements OnInit {
+    @Input() module: string;
     @Input() idModel: number;
     @Input() typeModel: string;
     public listHistory$: Observable<Array<any>>;
@@ -39,7 +40,12 @@ export class HistoryComponent implements OnInit {
         //     };
         //     this.historyApiService.fetchHistory(dataToSend, nbrPageData);
         // });
-        this.historyApiService.fetchHistory({} as historyFilterInterface);
+        const dataToSend = {
+            typeModel: this.typeModel,
+            idModel: this.idModel,
+            module: this.module,
+        } as historyFilterInterface;
+        this.historyApiService.fetchHistory(dataToSend, '1');
         this.sharedService.fetchApplicants();
         this.listApplicants$ = this.sharedService.getApplicants();
     }
