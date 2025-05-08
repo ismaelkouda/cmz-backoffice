@@ -7,9 +7,13 @@
     [(selection)]="claimsSelected"
     [rows]="(pagination$ | async)?.per_page"
     [globalFilterFields]="table.globalFilterFields"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    class="responsive-claims-table"
 >
     <ng-template pTemplate="caption">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between flex-wrap align-items-start">
             <app-table-title
                 [count]="(pagination$ | async)?.total"
                 [perPage]="(pagination$ | async)?.per_page"
@@ -17,21 +21,27 @@
                 [totalPage]="(pagination$ | async)?.last_page"
             >
             </app-table-title>
-            <div class="d-flex gap-2 align-items-center">
-                <div class="d-flex gap-2">
-                    <app-table-button-header
-                        (refresh)="pageCallback()"
-                        (export)="onExportExcel()"
-                        [disabledButtonExport]="
-                            (listClaims$ | async)?.length === 0
-                        "
-                        [hiddenButtonOther]="true"
-                    >
-                    </app-table-button-header>
-                </div>
-                <div>
-                    <app-search-table [dt]="dt"></app-search-table>
-                </div>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    (refresh)="pageCallback()"
+                    (export)="onExportExcel()"
+                    [disabledButtonExport]="(listClaims$ | async)?.length === 0"
+                    [labelOther]="'CLAIM' | translate"
+                    [colorOther]="'dark'"
+                    [hiddenButtonOther]="false"
+                    [iconOther]="'pi pi-plus'"
+                    (other)="
+                        handleAction({
+                            data: null,
+                            action: 'add-claims',
+                            view: 'page'
+                        })
+                    "
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt"></app-search-table>
             </div>
         </div>
     </ng-template>
@@ -46,23 +56,14 @@
                     <ng-container *ngSwitchCase="'Date / Heure'">
                         {{ 'DATE_TIME' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'N° Dossier'">
-                        {{ 'NUMBER_FOLDER' | translate }}
+                    <ng-container *ngSwitchCase="'N° Référence'">
+                        {{ 'NUMBER_REFERENCE' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'# Lignes'">
-                        {{ 'NUMBER_LINES' | translate }}
+                    <ng-container *ngSwitchCase="'Opération'">
+                        {{ 'OPERATION' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'# Traitées'">
-                        {{ 'NUMBER_TREATED' | translate }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'# Identifiées'">
-                        {{ 'NUMBER_IDENTIFIED' | translate }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'Etape'">
-                        {{ 'STEP' | translate }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'Etat'">
-                        {{ 'STATE' | translate }}
+                    <ng-container *ngSwitchCase="'Statut'">
+                        {{ 'STATUS' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Date Etat'">
                         {{ 'UPDATED_DATE' | translate }}
@@ -82,14 +83,26 @@
             <td
                 *ngFor="let col of table.cols"
                 [class]="col.class"
+                [attr.data-label]="col.header"
                 [ngStyle]="{ width: col.width }"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
                         {{ rowIndex + (pagination$ | async)?.current_page }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'N° Dossier'">
+                    <ng-container *ngSwitchCase="'N° Référence'">
                         <span (click)="copyToClipboard(item?.[col.field])">
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Opération'">
+                        {{ item?.[col.field] }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Statut'">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            [class]="'badge ' + getStatusInvoiceBadge(item)"
+                        >
                             {{ item?.[col.field] }}
                         </span>
                     </ng-container>

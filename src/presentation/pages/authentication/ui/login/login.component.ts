@@ -97,7 +97,10 @@ export class LoginComponent implements OnInit {
 
         this.storeCurrentUserService.setCurrentUser(currentUser);
         this.storeTokenService.setToken(token);
-        await this.cryptoToken.saveTokenData('token', token);
+        console.log('====================================');
+        console.log('currentUser', token);
+        console.log('=========genère des erreur souvent==========');
+        // await this.cryptoToken.saveTokenData('token', token);
         this.storage.saveData(
             'menu',
             JSON.stringify(response.data?.user?.permissions)

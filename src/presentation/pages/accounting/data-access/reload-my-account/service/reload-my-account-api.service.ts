@@ -205,7 +205,7 @@ export class ReloadMyAccountApiService {
         return this.demandCreditSubject.asObservable();
     }
     isLoadingDemandCredit(): Observable<boolean> {
-        return this.loadingTransactionDetailsSubject.asObservable();
+        return this.loadingDemandCreditSubject.asObservable();
     }
 
     /*********************Méthode pour modifier une demande de credit*************** */

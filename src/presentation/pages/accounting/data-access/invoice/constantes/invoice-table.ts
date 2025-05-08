@@ -22,13 +22,13 @@ export const invoiceTableConstant = {
         },
         {
             field: 'prix_unitaire',
-            header: 'Prix unitaire (Fcfa)',
+            header: 'PU (Fcfa)',
             class: 'text-center',
             width: '4rem',
         },
         {
-            field: 'prix_ttc',
-            header: 'Montant TTC (Fcfa)',
+            field: 'prix_ht',
+            header: 'Montant HT (Fcfa)',
             class: 'text-center',
             width: '4rem',
         },

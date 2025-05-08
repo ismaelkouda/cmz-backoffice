@@ -1,4 +1,4 @@
-export const BADGE_ETAT_FACTURE = {
+export const BADGE_OPERATION_CLAIMS = {
     EN_ATTENTE: 'en-attente',
     SOLDEE: 'soldée',
     REJETEE: 'rejetée',
@@ -7,5 +7,5 @@ export const BADGE_ETAT_FACTURE = {
     ABANDONNEE: 'abandonnée',
 } as const;
 
-export type T_BADGE_ETAT_FACTURE =
-    typeof BADGE_ETAT_FACTURE[keyof typeof BADGE_ETAT_FACTURE];
+export type T_BADGE_OPERATION_CLAIMS =
+    typeof BADGE_OPERATION_CLAIMS[keyof typeof BADGE_OPERATION_CLAIMS];

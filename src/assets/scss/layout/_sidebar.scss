@@ -1402,7 +1402,7 @@
             width: calc(100% - $sidebar-compact-width);
 
             &.close_icon {
-                margin-left: 90px;
+                margin-left: 110px;
                 width: calc(100% - 90px);
             }
 
@@ -1571,7 +1571,7 @@
 
                         ~ .page-body,
                         ~ footer {
-                            margin-left: 90px;
+                            margin-left: 110px;
                             transition: 0.5s;
                         }
 
@@ -2218,7 +2218,7 @@
                 min-height: calc(95vh - 80px);
                 margin-top: 80px;
                 margin-left: $sidebar-compact-width;
-                // animation: pagebody 1000ms ease-in-out;
+                animation: pagebody 1000ms ease-in-out;
             }
         }
 

@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-sm-12">
             <app-breadcrumb
-                [title]="getTitle.module"
-                [active_item]="getTitle.subModule"
+                [title]="getTitle.module | translate"
+                [active_item]="getTitle.subModule | translate"
             ></app-breadcrumb>
             <div class="card">
                 <div class="card-body">
@@ -15,34 +15,6 @@
                                         <span>Référence de la facture :</span>
                                         <span class="current_values"
                                             >[{{detailsInvoiceForm?.facture?.['reference']
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                             }}]</span
                                         >
                                         <span
@@ -521,7 +493,15 @@
                                                                     ?.facture
                                                                     ?.SoldeRestant ||
                                                                     0
-                                                            }}&nbsp;Fcfa
+                                                            }}&nbsp;<span
+                                                                *ngIf="
+                                                                    +detailsInvoiceForm
+                                                                        ?.facture
+                                                                        ?.SoldeRestant >
+                                                                    0
+                                                                "
+                                                                >Fcfa</span
+                                                            >
                                                         </span>
                                                         &nbsp;<b
                                                             >Solde disponible</b
@@ -564,7 +544,7 @@
                                                         Quantité
                                                     </th>
                                                     <th class="text-center">
-                                                        Prix unitaire (Fcfa)
+                                                        PU (Fcfa)
                                                     </th>
                                                     <th class="text-center">
                                                         Montant (Fcfa)

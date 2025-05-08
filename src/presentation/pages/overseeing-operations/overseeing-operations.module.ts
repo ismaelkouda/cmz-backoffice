@@ -25,6 +25,7 @@ import { FilterNotificationsCenterComponent } from './feature/notifications-cent
 import { TableNotificationsCenterComponent } from './feature/notifications-center/table-notifications-center/table-notifications-center.component';
 import { NotificationsCenterComponent } from './ui/notifications-center/notifications-center.component';
 import { MessagerieComponent } from '../supervision-operations/ui/messagerie/messagerie.component';
+import { FormClaimsComponent } from './feature/claims/form-claims/form-claims.component';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import { MessagerieComponent } from '../supervision-operations/ui/messagerie/mes
         FilterTreatmentMonitoringComponent,
         TableTreatmentMonitoringComponent,
         TreatmentMonitoringComponent,
+        FormClaimsComponent,
         FilterClaimsComponent,
         TableClaimsComponent,
         ClaimsComponent,
@@ -55,7 +57,6 @@ import { MessagerieComponent } from '../supervision-operations/ui/messagerie/mes
         TreatmentMonitoringApiService,
         ClaimsApiService,
         NotificationsCenterApiService,
-
         MessagerieComponent,
     ],
 })

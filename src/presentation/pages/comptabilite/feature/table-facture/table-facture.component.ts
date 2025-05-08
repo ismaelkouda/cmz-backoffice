@@ -112,6 +112,7 @@ export class TableFactureComponent {
             [BADGE_ETAT_FACTURE.POSTEE]: 'badge-warning',
             [BADGE_ETAT_FACTURE.REPORTEE]: 'badge-primary',
             [BADGE_ETAT_FACTURE.SOLDEE]: 'badge-success',
+            [BADGE_ETAT_FACTURE.ABANDONNEE]: 'badge-warning',
             [BADGE_ETAT_FACTURE.REJETEE]: 'badge-danger',
         };
 

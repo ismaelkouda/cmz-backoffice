@@ -23,8 +23,8 @@ import { simCardDetailsInterface } from '../../../data-access/sim-card/interface
 import { NatureDocument } from '../../../../../../shared/enum/NatureDocument.enum';
 import { NaturePiece } from '../../../../../../shared/enum/NaturePiece.enum';
 import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
-import { SecondLevelInterface } from '@shared/interfaces/first-level.interface';
-import { SecondLevelService } from '@shared/services/second-level.service';
+import { SecondLevelInterface } from '../../../../../../shared/interfaces/first-level.interface';
+import { SecondLevelService } from '../../../../../../shared/services/second-level.service';
 
 type TYPEVIEW = 'view-sim-card' | 'update-sim-card' | 'identification-sim-card';
 const TYPEVIEW_VALUES: TYPEVIEW[] = [
@@ -130,6 +130,21 @@ export class FormSimCardComponent {
             this.subModule = data.subModule[0];
         });
         this.getParamsInUrl();
+    }
+
+    onSelectedFiles(event, typeFile: 'physique' | 'recto' | 'verso') {
+        switch (typeFile) {
+            case 'physique':
+                this.filesPhysique = event.currentFiles;
+                break;
+
+            case 'recto':
+                this.filesRecto = event.currentFiles;
+                break;
+
+            case 'verso':
+                this.filesVerso = event.currentFiles;
+        }
     }
 
     private getParamsInUrl(): void {
@@ -704,21 +719,6 @@ export class FormSimCardComponent {
         const msisdn = this.simCardSelectedDetails?.msisdn || '';
         const formattedMsisdn = msisdn.replace(/(\d{2})(?=\d)/g, '$1 ');
         return formattedMsisdn;
-    }
-
-    onSelectedFiles(event, typeFile: 'physique' | 'recto' | 'verso') {
-        switch (typeFile) {
-            case 'physique':
-                this.filesPhysique = event.currentFiles;
-                break;
-
-            case 'recto':
-                this.filesRecto = event.currentFiles;
-                break;
-
-            case 'verso':
-                this.filesVerso = event.currentFiles;
-        }
     }
 
     onRemoveTemplatingFile(

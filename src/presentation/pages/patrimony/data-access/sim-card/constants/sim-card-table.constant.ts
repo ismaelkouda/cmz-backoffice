@@ -8,7 +8,7 @@ export const simCardTableConstant = (asFeatureService: AsFeatureService) => {
 
     return {
         cols: [
-            { field: '', header: '#', class: 'text-center', width: '2rem' },
+            { field: '', header: '#', class: 'text-center' },
             {
                 field: 'niveau_uns_nom',
                 header: 'Niveau un',
@@ -23,32 +23,27 @@ export const simCardTableConstant = (asFeatureService: AsFeatureService) => {
                 field: 'apn',
                 header: 'APN',
                 class: 'text-center',
-                width: '6rem',
             },
             {
                 field: 'adresse_ip',
                 header: 'Adresse IP',
                 class: 'text-center',
-                width: '6rem',
             },
             // { field: 'niveau_trois_nom', header: 'Niveau trois', class: "text-center" },
             {
                 field: 'msisdn',
                 header: 'MSISDN',
                 class: 'text-center',
-                width: '6rem',
             },
             {
                 field: 'imsi',
                 header: 'IMSI',
                 class: 'text-center',
-                width: '6rem',
             },
             {
                 field: 'statut',
                 header: 'Statut',
                 class: 'text-center',
-                width: '6rem',
             },
             ...(hasIdentification
                 ? [
@@ -56,7 +51,6 @@ export const simCardTableConstant = (asFeatureService: AsFeatureService) => {
                           field: 'identification_fiabilite',
                           header: 'Identification',
                           class: 'text-center',
-                          width: '6rem',
                       },
                   ]
                 : []),
@@ -64,7 +58,6 @@ export const simCardTableConstant = (asFeatureService: AsFeatureService) => {
                 field: '',
                 header: 'Actions',
                 class: 'text-center',
-                width: 'fix-content',
             },
         ],
         globalFilterFields: [

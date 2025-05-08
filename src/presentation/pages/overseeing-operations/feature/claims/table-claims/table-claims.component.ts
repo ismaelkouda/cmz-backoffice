@@ -9,8 +9,6 @@ import {
     TableConfig,
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
-import { BADGE_ETAT } from '../../../../../../shared/constants/badge-etat.contant';
-import { BADGE_ETAPE } from '../../../../../../shared/constants/badge-etape.constant';
 import { CLAIMS_STATUS_ENUM } from '../../../data-access/claims/enums/claims-status.enum';
 import { ClaimsApiService } from '../../../data-access/claims/services/claims-api.service';
 import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';
@@ -21,16 +19,13 @@ import { claimsTableConstant } from '../../../data-access/claims/constants/claim
 import { TranslateService } from '@ngx-translate/core';
 import { createButtonStyle } from '../../../../../../shared/functions/treatment-demands.function';
 import { claimsInterface } from '../../../data-access/claims/interfaces/claims.interface';
+import { BADGE_STEP_CLAIMS } from '../../../data-access/claims/constants/claims-step.constant';
+import { BADGE_STATE_CLAIMS } from '../../../data-access/claims/constants/claims-state.constant';
 
 type Action = PageAction | ModalAction;
 type PageAction = {
     data: claimsInterface;
-    action:
-        | 'open-folder-claims'
-        | 'invoice-claims'
-        | 'mass-edit-claims'
-        | 'mass-add-claims'
-        | 'simple-add-claims';
+    action: 'open-folder-claims' | 'invoice-claims' | 'add-claims';
     view: 'page';
 };
 type ModalAction = {
@@ -131,21 +126,7 @@ export class TableClaimsComponent {
                 break;
 
             case 'page':
-                if (params.action === 'invoice-claims') {
-                    this.interfaceUser.emit(params);
-                }
-                if (params.action === 'open-folder-claims') {
-                    this.interfaceUser.emit(params);
-                }
-                if (params.action === 'mass-edit-claims') {
-                    this.interfaceUser.emit(params);
-                }
-                if (params.action === 'mass-add-claims') {
-                    this.interfaceUser.emit(params);
-                }
-                if (params.action === 'simple-add-claims') {
-                    this.interfaceUser.emit(params);
-                }
+                this.interfaceUser.emit(params);
                 break;
         }
     }
@@ -186,13 +167,75 @@ export class TableClaimsComponent {
         tooltip: string;
         typeTreatment: TreatmentDemands;
     } {
-        const DETAILS_OF_THE_REQUEST = this.translate.instant(
-            'DETAILS_OF_THE_REQUEST'
+        const STOP_OR_CHANGE = this.translate.instant('STOP_OR_CHANGE');
+        const DETAILS_OF_THE_CLAIM = this.translate.instant(
+            'DETAILS_OF_THE_CLAIM'
         );
+        const TO_CLOSURE = this.translate.instant('TO_CLOSURE');
+        switch (selectedClaims?.statut) {
+            case BADGE_STEP_CLAIMS.SOUMISSION: {
+                if (
+                    selectedClaims?.traitement === BADGE_STATE_CLAIMS.IN_WAITING
+                ) {
+                    return createButtonStyle(
+                        'p-button-warning',
+                        'pi pi-times',
+                        STOP_OR_CHANGE,
+                        this.typeTreatment,
+                        { abandonner: true, modifier: true, visualiser: false }
+                    );
+                }
+                if (
+                    selectedClaims?.traitement === BADGE_STATE_CLAIMS.ABANDONED
+                ) {
+                    return createButtonStyle(
+                        'p-button-warning',
+                        'pi pi-times',
+                        STOP_OR_CHANGE,
+                        this.typeTreatment,
+                        { abandonner: false, modifier: false, visualiser: true }
+                    );
+                }
+            }
+            case BADGE_STEP_CLAIMS.TRAITEMENT: {
+                if (
+                    selectedClaims?.traitement === BADGE_STATE_CLAIMS.APPROVED
+                ) {
+                    return createButtonStyle(
+                        'p-button-success',
+                        'pi pi-check-circle',
+                        TO_CLOSURE,
+                        this.typeTreatment,
+                        {
+                            abandonner: false,
+                            modifier: false,
+                            visualiser: false,
+                            cloturer: true,
+                        }
+                    );
+                }
+                if (
+                    selectedClaims?.traitement === BADGE_STATE_CLAIMS.REJECTED
+                ) {
+                    return createButtonStyle(
+                        'p-button-success',
+                        'pi pi-check-circle',
+                        TO_CLOSURE,
+                        this.typeTreatment,
+                        {
+                            abandonner: false,
+                            modifier: false,
+                            visualiser: false,
+                            cloturer: true,
+                        }
+                    );
+                }
+            }
+        }
         return createButtonStyle(
             'p-button-secondary',
             'pi pi-eye',
-            DETAILS_OF_THE_REQUEST,
+            DETAILS_OF_THE_CLAIM,
             this.typeTreatment,
             { abandonner: false, modifier: false, visualiser: true }
         );

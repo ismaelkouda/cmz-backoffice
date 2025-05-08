@@ -50,10 +50,10 @@ export class NavService implements OnDestroy {
     public megaMenuColapse: boolean = window.innerWidth < 1199 ? true : false;
 
     // Collapse Sidebar
-    public collapseSidebar: boolean = window.innerWidth < 991 ? true : false;
+    public collapseSidebar: boolean = window.innerWidth < 1100 ? true : false;
 
     // For Horizontal Layout Mobile
-    public horizontal: boolean = window.innerWidth < 991 ? false : true;
+    public horizontal: boolean = window.innerWidth < 1100 ? false : true;
 
     // Full screen
     public fullScreen: boolean = false;
@@ -64,16 +64,16 @@ export class NavService implements OnDestroy {
             .pipe(debounceTime(1000), takeUntil(this.unsubscriber))
             .subscribe((evt: any) => {
                 this.setScreenWidth(evt.target.innerWidth);
-                if (evt.target.innerWidth < 991) {
+                if (evt.target.innerWidth < 1100) {
                     this.collapseSidebar = true;
                     this.megaMenu = false;
                     this.levelMenu = false;
                 }
-                if (evt.target.innerWidth < 1199) {
+                if (evt.target.innerWidth < 1100) {
                     this.megaMenuColapse = true;
                 }
             });
-        if (window.innerWidth < 991) {
+        if (window.innerWidth < 1100) {
             // Detect Route change sidebar close
             this.router.events.subscribe((event) => {
                 this.collapseSidebar = true;

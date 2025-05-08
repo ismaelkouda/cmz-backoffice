@@ -14,15 +14,25 @@
 </div>
 <ul class="profile-dropdown onhover-show-div">
     <li (click)="openFormAccount(accountV, currentUser)">
-        <i [attr.data-feather]="'user'"></i><span>Mon compte</span>
+        <i [attr.data-feather]="'user'"></i>&nbsp;<span>Mon compte</span>
     </li>
     <li (click)="openFormPassword(passwordV)">
-        <i [attr.data-feather]="'lock'"></i><span>Mot de passe</span>
+        <i [attr.data-feather]="'lock'"></i>&nbsp;<span>Mot de passe</span>
     </li>
     <li (click)="logout()">
-        <i [attr.data-feather]="'log-in'"></i><span>Déconnexion</span>
+        <i [attr.data-feather]="'log-in'"></i>&nbsp;<span>Déconnexion</span>
     </li>
 </ul>
+<!-- <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Dropdown button
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="#">Action</a>
+      <a class="dropdown-item" href="#">Another action</a>
+      <a class="dropdown-item" href="#">Something else here</a>
+    </div>
+  </div> -->
 <!---------------------PASSWORD FORM----------------------------->
 <ng-template #passwordV let-modal>
     <form [formGroup]="passwordForm">

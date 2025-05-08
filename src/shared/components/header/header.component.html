@@ -54,75 +54,64 @@
             </div>
         </div>
     </div>
-    <div class="header-wrapper m-0" [hidden]="statutLayout()">
-        <div style="display: flex; justify-content: space-between">
-            <div class="left-header">
-                <div>
-                    <div class="d-flex gap-3">
-                        <div>
-                            <img
-                                class="img-fluid"
-                                [src]="logoTenant"
-                                style="margin-top: 0rem"
-                                alt=""
-                            />
-                        </div>
-                        <div>
-                            <h3
-                                style="
-                                    font-weight: bold;
-                                    font-size: 24px;
-                                    position: relative;
-                                "
-                            >
-                                <span class="legende">
-                                    <b>{{ nom_tenant }}</b>
-                                </span>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
+    <nav class="navbar m-0" [hidden]="statutLayout()">
+        <div
+            class="container-fluid d-flex justify-content-between align-items-center flex-wrap px-3 py-2 mr-10"
+        >
+            <div class="d-flex align-items-center gap-3">
+                <img
+                    class="img-fluid sidebar-logo"
+                    [src]="logoTenant"
+                    alt="Logo"
+                />
+                <h3 class="sidebar-tenant mb-0">
+                    <span class="legende"
+                        ><b>{{ nom_tenant }}</b></span
+                    >
+                </h3>
             </div>
-            <!-- <div
-                *ngIf="nom_application === patrimoineType"
-                style="display: flex; gap: 2rem"
+
+            <div
+                class="text-center d-flex align-items-center gap-4 mt-3 mt-md-0"
             >
-                <div class="box-card">
-                    <span class="title">Solde Data Global (Go) :</span>
-                    <span class="valeur">
-                        <span>{{ soldeGlobal | formatNumber: 2 }}</span>
-                    </span>
-                </div>
-                <div class="box-card">
-                    <span class="title">Ligne Crédit (FCFA) :</span>
-                    <span class="valeur">
-                        <span>{{ pipeValue(ligneCreditGlobal || '0') }}</span>
-                    </span>
-                </div>
-            </div> -->
-            <div class="d-flex gap-4 nav-right pull-right p-2">
-                <div style="padding-top: 0.9rem">
-                    <i
-                        class="pi pi-bell text-3xl"
-                        *ngIf="countNotify > 0"
-                        pBadge
-                        [value]="countNotify"
-                        severity="danger"
-                        (click)="OnGoNotif()"
-                        style="
-                            font-size: 1.4rem;
-                            line-height: 1.5;
-                            cursor: pointer;
-                        "
-                    ></i>
-                </div>
-                <ul class="nav-menus">
+                <i
+                    class="pi pi-bell text-3xl notification-icon"
+                    *ngIf="countNotify > 0"
+                    pBadge
+                    [value]="countNotify"
+                    severity="danger"
+                    (click)="OnGoNotif()"
+                ></i>
+                <ul class="nav-menus mb-0">
                     <li class="profile-nav onhover-dropdown p-0">
                         <app-my-account></app-my-account>
                     </li>
                 </ul>
             </div>
         </div>
-    </div>
+    </nav>
 </div>
+<!-- <nav class="navbar m-0" [hidden]="statutLayout()">
+    <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap px-3 py-2">
+
+        <div class="d-flex align-items-center gap-3">
+            <img class="img-fluid sidebar-logo" [src]="logoTenant" alt="Logo" />
+            <h3 class="sidebar-tenant mb-0">
+                <span class="legende"><b>{{ nom_tenant }}</b></span>
+            </h3>
+        </div>
+
+        <div class="d-flex align-items-center gap-4 mt-3 mt-md-0">
+            <i class="pi pi-bell text-3xl notification-icon" *ngIf="countNotify > 0" pBadge [value]="countNotify"
+                severity="danger" (click)="OnGoNotif()"></i>
+            <ul class="nav-menus mb-0">
+                <li class="profile-nav onhover-dropdown p-0">
+                    <app-my-account></app-my-account>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</nav> -->
+
 <!-- Page Header Ends -->

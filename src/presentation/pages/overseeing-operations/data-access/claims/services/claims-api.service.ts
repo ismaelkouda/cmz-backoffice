@@ -93,4 +93,40 @@ export class ClaimsApiService {
     setClaimsSelected(claims: claimsInterface): void {
         this.claimsSelected.next(claims);
     }
+
+    /*********************Méthode pour creer une reclamation*************** */
+
+    private createClaimSubject = new BehaviorSubject<any>({} as any);
+    private loadingCreateClaimSubject = new BehaviorSubject<boolean>(false);
+
+    fetchCreateClaim(data: any): void {
+        if (this.loadingCreateClaimSubject.getValue()) return;
+        this.loadingCreateClaimSubject.next(true);
+        const url: string =
+            claimsEndpointEnum.SUPERVISION_OPERATIONS_CONTENTIEUX_STORE;
+
+        this.http
+            .post<Object>(this.BASE_URL + url, data)
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    const createClaim = response;
+                    this.createClaimSubject.next(createClaim);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching fetchCreateClaim', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingCreateClaimSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getCreateClaim(): Observable<any> {
+        return this.createClaimSubject.asObservable();
+    }
+    isLoadingCreateClaim(): Observable<boolean> {
+        return this.loadingCreateClaimSubject.asObservable();
+    }
 }

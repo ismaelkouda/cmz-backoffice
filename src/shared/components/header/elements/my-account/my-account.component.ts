@@ -182,7 +182,7 @@ export class MyAccountComponent implements OnInit {
                 this.storage.removeData('variables');
                 this.storage.removeData('user');
                 this.storage.removeData('token');
-                this.cryptoToken.clear();
+                // this.cryptoToken.clear();
                 if (this.storage.getData('isProfil') || null) {
                     this.storage.removeData('isProfil');
                     window.location.reload();

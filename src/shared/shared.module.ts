@@ -54,6 +54,7 @@ import { SpinnerTitleDetailsComponent } from './components/spinner-title-details
 import { BoxContainerComponent } from './components/box-container/box-container.component';
 import { PrimengModule } from './primeng.module';
 
+import { InvoiceFormComponent } from './components/invoice-form/invoice-form.component';
 import { SearchTableComponent } from './components/search-table/search-table.component';
 import { AngularModule } from './angular.module';
 import { FormFolderComponent } from './components/form-folder/form-folder.component';
@@ -73,6 +74,7 @@ import { FormDemandApiService } from './components/form-demand/data-access/servi
 
 @NgModule({
     declarations: [
+        InvoiceFormComponent,
         HeaderComponent,
         FooterComponent,
         SearchTableComponent,
@@ -143,6 +145,7 @@ import { FormDemandApiService } from './components/form-demand/data-access/servi
         AngularModule,
         PrimengModule,
         TranslateModule,
+        InvoiceFormComponent,
         LoaderComponent,
         SearchTableComponent,
         StatBoxComponent,

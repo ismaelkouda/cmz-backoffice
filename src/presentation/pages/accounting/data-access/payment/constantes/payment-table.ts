@@ -22,7 +22,7 @@ export const paymentTableConstant = {
         },
         {
             field: 'prix_unitaire',
-            header: 'Prix unitaire (Fcfa)',
+            header: 'PU (Fcfa)',
             class: 'text-center',
             width: '4rem',
         },

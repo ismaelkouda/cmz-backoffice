@@ -8,15 +8,15 @@ import { ReloadMyAccountComponent } from './ui/reload-my-account/reload-my-accou
 import { FormReloadMyAccountComponent } from './feature/reload-my-account/form-reload-my-account/form-reload-my-account.component';
 import { PaymentComponent } from './ui/payment/payment.component';
 
-export const PAYMENT = 'my-payments';
-export const INVOICE = 'invoice';
+export const MY_PAYMENTS = 'my-payments';
+export const MY_INVOICES = 'my-invoices';
 export const MY_ACCOUNT = 'my-account';
 export const MY_RELOADS = 'reload-my-account';
 export const FORM = 'form';
 
 const routes: Routes = [
     {
-        path: INVOICE,
+        path: MY_INVOICES,
         children: [
             {
                 path: '',
@@ -33,7 +33,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: PAYMENT,
+        path: MY_PAYMENTS,
         children: [
             {
                 path: '',
@@ -79,12 +79,12 @@ const routes: Routes = [
             },
         ],
     },
-    {
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${INVOICE}`, `/${MY_ACCOUNT}`],
-        },
-    },
+    // {
+    //     canActivate: [PagesGuard],
+    //     data: {
+    //         allowedPaths: [`/${INVOICE}`, `/${MY_ACCOUNT}`],
+    //     },
+    // },
 ];
 
 @NgModule({

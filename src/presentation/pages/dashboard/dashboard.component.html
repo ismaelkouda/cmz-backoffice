@@ -1,67 +1,117 @@
-<div class="container-fluid">
-    <div class="d-flex justify-content-between">
-        <div class="mt-15">
-            <h2>{{ 'Vue génerale - Plateforme ' + nom_tenant }}</h2>
+<!-- <div class="container-fluid">
+  <div>
+    <div class="row">
+      <h2 class="col-12 col-md-7 mt-15">{{ 'Vue génerale - Plateforme ' + nom_tenant }}</h2>
+      <div class="col-12 col-md-5 mt-15">
+        <div class="d-flex gap-2 justify-content-end">
+          <h3>Date MAJ du TB</h3>
+          <h3>{{ currrentDate }}</h3>
+          <button pButton pRipple (click)="refreshStatic()" icon="pi pi-refresh" class="p-button-secondary"
+            style="margin-top: -0.5rem"></button>
         </div>
-        <div class="mt-15 d-flex gap-4">
-            <div class="d-flex gap-2">
-                <h3>Date MAJ du TB</h3>
-                <h3>{{ currrentDate }}</h3>
-            </div>
-            <div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!loading">
+    <app-box-container *ngFor="let box of listStatisticsBox" [class]="'scale '+box?.['width'] ?? 'col-md-4'"
+      [cardBgColor]="box?.['cardBgColor']" [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'"
+      [legend]="box?.['legend']" [count]="box?.['count']" [legendColor]="box?.['legendColor'] ?? '#FFF'"
+      [countColor]="box?.['countColor'] ?? '#FFF'" [icon]="box?.['icon']" style="cursor: pointer" (click)="
+              box.routerFilter ? box.routerFilter() : onVisualiserAlarme(box)
+          ">
+    </app-box-container>
+  </div>
+
+  <div class="d-flex gap-3 flex-wrap" *ngIf="loading">
+    <div *ngFor="let box of listStatisticsBox">
+      <p-skeleton width="23rem" height="9rem"></p-skeleton>
+    </div>
+  </div>
+</div>
+
+<p-dialog [header]="'DETECTION APPRO.'" [(visible)]="showIframe" (onHide)="hideDialog()" [modal]="true"
+  [style]="{ width: '100%' }" (onMaximize)="onDialogMaximized($event)" [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="content" [style]="{ height: '100vh !important' }">
+    <div>
+      <iframe class="iframe__constainer" [src]="iframeLink | safe"></iframe>
+    </div>
+  </ng-template>
+</p-dialog> -->
+
+<div class="container-fluid">
+    <!-- En-tête -->
+    <div class="row align-items-center">
+        <div class="col-12 col-md-7 mt-3">
+            <h2 class="fw-bold text-truncate">
+                Vue générale - Plateforme {{ nom_tenant }}
+            </h2>
+        </div>
+        <div class="col-12 col-md-5 text-md-end mt-md-0">
+            <div
+                class="d-flex flex-wrap align-items-center justify-content-md-end gap-2"
+            >
+                <h5 class="mb-0 fw-semibold">Date MAJ du TB :</h5>
+                <h5 class="mb-0">{{ currrentDate }}</h5>
                 <button
                     pButton
                     pRipple
                     (click)="refreshStatic()"
                     icon="pi pi-refresh"
-                    class="p-button-secondary"
-                    style="margin-top: -0.5rem"
+                    class="p-button-sm p-button-secondary"
+                    aria-label="Rafraîchir"
                 ></button>
             </div>
         </div>
     </div>
 
+    <!-- Statistiques -->
     <div class="row" *ngIf="!loading">
-        <app-box-container
+        <div
             *ngFor="let box of listStatisticsBox"
-            [class]="'scale '+box?.['width'] ?? 'col-md-4'"
-            [cardBgColor]="box?.['cardBgColor']"
-            [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'"
-            [legend]="box?.['legend']"
-            [count]="box?.['count']"
-            [legendColor]="box?.['legendColor'] ?? '#FFF'"
-            [countColor]="box?.['countColor'] ?? '#FFF'"
-            [icon]="box?.['icon']"
-            style="cursor: pointer"
+            [ngClass]="'scale ' + (box?.['width'] || 'col-md-4')"
+            class="mb-4"
             (click)="
                 box.routerFilter ? box.routerFilter() : onVisualiserAlarme(box)
             "
+            style="cursor: pointer"
         >
-        </app-box-container>
+            <app-box-container
+                [cardBgColor]="box?.['cardBgColor']"
+                [cardBorderColor]="box?.['cardBorderColor'] || '#FFF'"
+                [legend]="box?.['legend']"
+                [count]="box?.['count']"
+                [legendColor]="box?.['legendColor'] || '#FFF'"
+                [countColor]="box?.['countColor'] || '#FFF'"
+                [icon]="box?.['icon']"
+            ></app-box-container>
+        </div>
     </div>
 
-    <div class="d-flex gap-3 flex-wrap" *ngIf="loading">
-        <div *ngFor="let box of listStatisticsBox">
-            <p-skeleton width="23rem" height="9rem"></p-skeleton>
+    <div class="row" *ngIf="loading">
+        <div
+            class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3"
+            *ngFor="let box of listStatisticsBox"
+        >
+            <p-skeleton width="100%" height="9rem"></p-skeleton>
         </div>
     </div>
 </div>
 
 <p-dialog
-    [header]="'DETECTION APPRO.'"
+    header="DETECTION APPRO."
     [(visible)]="showIframe"
     (onHide)="hideDialog()"
     [modal]="true"
     [style]="{ width: '100%' }"
-    (onMaximize)="onDialogMaximized($event)"
     [draggable]="false"
     [resizable]="false"
 >
-    <ng-template pTemplate="content" [style]="{ height: '100vh !important' }">
-        <div>
+    <ng-template pTemplate="content">
+        <div class="ratio ratio-16x9">
             <iframe
-                class="iframe__constainer"
                 [src]="iframeLink | safe"
+                class="w-100 h-100 border-0"
             ></iframe>
         </div>
     </ng-template>

@@ -7,6 +7,8 @@ import { SimDemandComponent } from '../../../shared/components/sim-demand/sim-de
 import { NotificationsCenterComponent } from './ui/notifications-center/notifications-center.component';
 import { MessagerieComponent } from '../supervision-operations/ui/messagerie/messagerie.component';
 import { PagesGuard } from '../../../core/guard/PagesGuard';
+import { FormClaimsComponent } from './feature/claims/form-claims/form-claims.component';
+import { InvoiceFormComponent } from '../../../shared/components/invoice-form/invoice-form.component';
 
 export const WAITING = 'waiting';
 export const TREATMENT_MONITORING = 'treatment-monitoring';
@@ -15,7 +17,9 @@ export const NOTIFICATIONS = 'notifications';
 export const MESSAGING = 'messaging';
 export const FORM = 'form';
 export const INVOICE = 'voice';
-
+export const OPERATION = 'operation';
+export const SIM_DEMAND_ROUTE = 'subscriptions';
+export const INVOICE_FORM_ROUTE = 'invoice-form';
 const routes: Routes = [
     {
         path: WAITING,
@@ -63,18 +67,26 @@ const routes: Routes = [
                 component: ClaimsComponent,
             },
             {
-                path: ':number_demand',
+                path: FORM,
+                component: FormClaimsComponent,
+            },
+            {
+                path: `${SIM_DEMAND_ROUTE}/:number_demand`,
                 component: SimDemandComponent,
+            },
+            {
+                path: `${INVOICE_FORM_ROUTE}/:number_demand`,
+                component: InvoiceFormComponent,
             },
             {
                 path: '**',
                 redirectTo: '',
             },
         ],
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${CLAIMS}`],
-        },
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${CLAIMS}`],
+        // },
     },
     {
         path: NOTIFICATIONS,

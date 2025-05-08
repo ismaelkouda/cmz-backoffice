@@ -17,7 +17,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SupervisionOperationsRoutingModule } from './supervision-operations-routing.module';
-import { SupervisionOperationService } from './data-access/supervision-operation.service';
 import { SharedModule } from 'src/shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 
@@ -39,7 +38,7 @@ import { TreatmentMonitoringApiService } from '../overseeing-operations/data-acc
 // import { ClaimsComponent } from '../overseeing-operations/ui/claims/claims.component';
 // import { FilterClaimsComponent } from '../overseeing-operations/feature/claims/filter-claims/filter-claims.component';
 // import { TableClaimsComponent } from '../overseeing-operations/feature/claims/table-claims/table-claims.component';
-import { ClaimsApiService } from '../overseeing-operations/data-access/claims/services/claims-api.service';
+// import { ClaimsApiService } from '../overseeing-operations/data-access/claims/services/claims-api.service';
 
 @NgModule({
     imports: [
@@ -84,7 +83,6 @@ import { ClaimsApiService } from '../overseeing-operations/data-access/claims/se
         DemandeMasseComponent,
     ],
     providers: [
-        SupervisionOperationService,
         SuivieTraitementFilterStateService,
         // WaitingQueueApiService,
         // TreatmentMonitoringApiService,

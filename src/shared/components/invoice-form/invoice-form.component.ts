@@ -1,10 +1,10 @@
+import { FormatFormData } from 'src/shared/functions/formatFormData.function';
 import { Pargination } from '../../table/pargination';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from 'ngx-toastr';
 import { SharedDataService } from '../../services/shared-data.service';
-import { DemandeService } from '../../../presentation/pages/demandes/data-access/demande.service';
 import { LOGO_ORANGE } from '../../constants/logoOrange.constant';
 import { handle } from '../../functions/api.function';
 import { SupervisionOperationService } from '../../../presentation/pages/supervision-operations/data-access/supervision-operation.service';
@@ -16,17 +16,21 @@ import {
     T_BADGE_ETAT_FACTURE,
 } from '../../constants/badge-etat-facture.contant';
 import { SharedService } from '../../services/shared.service';
-import { FormatFormData } from 'src/shared/functions/formatFormData.function';
-import { TranslateService } from '@ngx-translate/core';
 import { ACCOUNTING } from '../../routes/routes';
-import {
-    INVOICE,
-    PAYMENT,
-} from '../../../presentation/pages/accounting/accounting-routing.module';
+// import {
+//     INVOICE,
+//     PAYMENT,
+// } from '../../../presentation/pages/accounting/accounting-routing.module';
+import { DetailsDemand } from '../form-folder/data-access/form-folder.interface';
+// import { CLAIMS } from '../../../presentation/pages/overseeing-operations/overseeing-operations-routing.module';
 const Swal = require('sweetalert2');
 
-type TYPEVIEW = 'view-invoice' | 'view-payment';
-const TYPEVIEW_VALUES: TYPEVIEW[] = ['view-invoice', 'view-payment'];
+type TYPEVIEW = 'view-invoice' | 'view-payment' | 'invoice-claims';
+const TYPEVIEW_VALUES: TYPEVIEW[] = [
+    'view-invoice',
+    'view-payment',
+    'invoice-claims',
+];
 function isTypeView(value: any): value is TYPEVIEW {
     return TYPEVIEW_VALUES.includes(value);
 }
@@ -51,7 +55,7 @@ export class InvoiceFormComponent {
     public urlParamFilter: Object;
     public urlParamCurrentPage: string;
     public urlParamOperation: string;
-    public detailsInvoiceForm: Object;
+    public detailsInvoiceForm: DetailsDemand;
     public displayUrlErrorPage: boolean = false;
     public logoTenant: string;
     public BADGE_ETAT = BADGE_ETAT;
@@ -62,12 +66,10 @@ export class InvoiceFormComponent {
         private router: Router,
         private toastrService: ToastrService,
         private loadingBarService: LoadingBarService,
-        public demandeService: DemandeService,
         private sharedDataService: SharedDataService,
         private sharedService: SharedService,
         private fb: FormBuilder,
-        private supervisionOperationService: SupervisionOperationService,
-        private translate: TranslateService
+        private supervisionOperationService: SupervisionOperationService
     ) {
         this.logoTenant = LOGO_ORANGE;
     }
@@ -262,6 +264,7 @@ export class InvoiceFormComponent {
             [BADGE_ETAT_FACTURE.POSTEE]: 'badge-warning',
             [BADGE_ETAT_FACTURE.REPORTEE]: 'badge-primary',
             [BADGE_ETAT_FACTURE.SOLDEE]: 'badge-success',
+            [BADGE_ETAT_FACTURE.ABANDONNEE]: 'badge-warning',
             [BADGE_ETAT_FACTURE.REJETEE]: 'badge-danger',
         };
 
@@ -289,16 +292,24 @@ export class InvoiceFormComponent {
                 return {
                     module: 'ACCOUNTING',
                     moduleRoute: ACCOUNTING,
-                    subModule: 'INVOICES',
-                    subModuleRoute: INVOICE,
+                    subModule: 'MY_INVOICES',
+                    subModuleRoute: 'my-invoice',
                 };
             case 'view-payment':
                 return {
                     module: 'ACCOUNTING',
                     moduleRoute: ACCOUNTING,
-                    subModule: 'PAYMENTS',
-                    subModuleRoute: PAYMENT,
+                    subModule: 'MY_PAYMENTS',
+                    subModuleRoute: 'my-payments',
                 };
+            case 'invoice-claims':
+                return {
+                    module: 'OVERSEEING_OPERATIONS',
+                    moduleRoute: 'OVERSEEING_OPERATIONS',
+                    subModule: 'MY_CLAIMS',
+                    subModuleRoute: 'CLAIMS',
+                };
+
             default:
                 return {
                     module: '',

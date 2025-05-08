@@ -227,9 +227,9 @@ export const content: Routes = [
         data: {
             module: 'ACCOUNTING',
             subModule: [
-                'ACCOUNT_CREDITS',
-                'INVOICES',
-                'PAYMENTS',
+                'MY_ACCOUNT_CREDITS',
+                'MY_INVOICES',
+                'MY_PAYMENTS',
                 'MY_ACCOUNT',
             ],
         },

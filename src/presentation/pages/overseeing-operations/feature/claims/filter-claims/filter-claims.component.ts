@@ -1,3 +1,5 @@
+import { T_BADGE_OPERATION_CLAIMS } from './../../../data-access/claims/constants/claims-operation.constant copy';
+import { T_BADGE_STEP_CLAIMS } from '../../../data-access/claims/constants/claims-step.constant';
 import {
     Component,
     Input,
@@ -5,12 +7,7 @@ import {
     Output,
     OnDestroy,
 } from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, takeUntil } from 'rxjs';
@@ -18,6 +15,7 @@ import { claimsFilterInterface } from '../../../data-access/claims/interfaces/cl
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
 import { ClaimsApiService } from '../../../data-access/claims/services/claims-api.service';
+import { T_BADGE_STATE_CLAIMS } from '../../../data-access/claims/constants/claims-state.constant';
 
 @Component({
     selector: 'app-filter-claims',
@@ -25,9 +23,12 @@ import { ClaimsApiService } from '../../../data-access/claims/services/claims-ap
 })
 export class FilterClaimsComponent implements OnDestroy {
     @Input() listApplicants$: Observable<Array<ApplicantInterface>>;
-    @Input() listOperations: Array<string>;
+    @Input() listOperations: Array<T_BADGE_OPERATION_CLAIMS>;
+    @Input() listStepClaims: Array<T_BADGE_STEP_CLAIMS>;
+    @Input() listStateClaims: Array<T_BADGE_STATE_CLAIMS>;
 
     @Output() filter = new EventEmitter<claimsFilterInterface>();
+    public secondFilter: boolean = false;
     public formFilter: FormGroup;
     private destroy$ = new Subject<void>();
 
@@ -44,36 +45,28 @@ export class FilterClaimsComponent implements OnDestroy {
         this.claimsApiService
             .getDataFilterClaims()
             .pipe(takeUntil(this.destroy$))
-            .subscribe((filterData) => {
+            .subscribe((filterData: claimsFilterInterface) => {
+                this.expandedFirstLine(filterData);
                 this.formFilter = this.fb.group<claimsFilterInterface>({
-                    imsi: new FormControl<string>(filterData?.['imsi'], {
-                        nonNullable: true,
-                        validators: [
-                            Validators.pattern('^[0-9]*$'),
-                            Validators.maxLength(15),
-                            Validators.minLength(15),
-                        ],
-                    }),
-                    msisdn: new FormControl<string>(filterData?.['msisdn'], {
-                        nonNullable: true,
-                    }),
+                    operation: new FormControl<string>(
+                        filterData?.['operation'],
+                        {
+                            nonNullable: true,
+                        }
+                    ),
+                    reference: new FormControl<string>(
+                        filterData?.['reference'],
+                        { nonNullable: true }
+                    ),
                     statut: new FormControl<string>(filterData?.['statut'], {
                         nonNullable: true,
                     }),
-                    initie_par: new FormControl<string>(
-                        filterData?.['initie_par'],
-                        { nonNullable: true }
-                    ),
-                    numero_demande: new FormControl<string>(
-                        filterData?.['numero_demande'],
-                        { nonNullable: true }
-                    ),
-                    transaction: new FormControl<string>(
-                        filterData?.['transaction'],
-                        { nonNullable: true }
-                    ),
                     traitement: new FormControl<string>(
                         filterData?.['traitement'],
+                        { nonNullable: true }
+                    ),
+                    initie_par: new FormControl<string>(
+                        filterData?.['initie_par'],
                         { nonNullable: true }
                     ),
                     date_debut: new FormControl<string>(
@@ -86,22 +79,6 @@ export class FilterClaimsComponent implements OnDestroy {
                     ),
                 });
             });
-
-        this.formFilter.get('imsi')?.valueChanges.subscribe((value) => {
-            if (value && value.length > 15) {
-                this.formFilter
-                    .get('imsi')
-                    ?.setValue(value.slice(0, 15), { emitEvent: false });
-            }
-        });
-
-        this.formFilter.get('msisdn')?.valueChanges.subscribe((value) => {
-            if (value && value.length > 10) {
-                this.formFilter
-                    .get('msisdn')
-                    ?.setValue(value.slice(0, 10), { emitEvent: false });
-            }
-        });
     }
 
     public onSubmitFilterForm(): void {
@@ -141,6 +118,20 @@ export class FilterClaimsComponent implements OnDestroy {
             const translatedMessage = this.translate.instant('FORM_INVALID');
             this.toastService.success(translatedMessage);
         }
+    }
+
+    private expandedFirstLine(filterData: claimsFilterInterface): void {
+        if (
+            filterData?.initie_par ||
+            filterData?.date_debut ||
+            filterData?.date_fin
+        ) {
+            this.secondFilter = true;
+        }
+    }
+
+    public showSecondFilter() {
+        this.secondFilter = !this.secondFilter;
     }
 
     ngOnDestroy(): void {

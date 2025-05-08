@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+    OnInit,
+    HostListener,
+} from '@angular/core';
 
 @Component({
     selector: 'app-table-button-header',
@@ -11,39 +18,39 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
     ],
     template: `
         <div>
-            <button
+            <p-button
                 *ngIf="!hiddenButtonOther"
-                [disabled]="disabledButtonOther"
-                (click)="onOther()"
-                pButton
-                pRipple
-                [label]="labelOther"
-                [icon]="iconOther"
-                [class]="'p-button-' + colorOther + ' margin-right-5'"
-            ></button>
-            <button
-                *ngIf="!hiddenButtonRefresh"
-                (click)="onRefresh()"
-                pButton
-                pRipple
-                label="{{ 'REFRESH' | translate }}"
+                [class.p-disabled]="disabledButtonOther"
+                [label]="showLabels ? labelOther : ''"
                 icon="pi pi-refresh"
-                class="p-button-secondary margin-right-5"
-            ></button>
-            <button
+                [styleClass]="'p-button-' + colorOther"
+                class="margin-right-5"
+                (click)="onOther()"
+            >
+            </p-button>
+            <p-button
+                *ngIf="!hiddenButtonRefresh"
+                [label]="showLabels ? ('REFRESH' | translate) : ''"
+                icon="pi pi-refresh"
+                styleClass="p-button-secondary"
+                class="margin-right-5"
+                (click)="onRefresh()"
+            >
+            </p-button>
+            <p-button
                 *ngIf="!hiddenButtonExport"
-                [disabled]="disabledButtonExport"
-                (click)="onExport()"
-                pButton
-                pRipple
-                label="{{ 'EXPORT' | translate }}"
+                [class.p-disabled]="disabledButtonExport"
+                [label]="showLabels ? ('EXPORT' | translate) : ''"
                 icon="pi pi-download"
-                class="p-button-helf"
-            ></button>
+                styleClass="p-button-success"
+                (click)="onExport()"
+            >
+            </p-button>
         </div>
     `,
 })
-export class TablebuttonHeaderComponent {
+export class TablebuttonHeaderComponent implements OnInit {
+    public showLabels: boolean;
     @Output() refresh = new EventEmitter<void>();
     @Output() export = new EventEmitter<void>();
     @Output() other = new EventEmitter<void>();
@@ -56,6 +63,10 @@ export class TablebuttonHeaderComponent {
     @Input() disabledButtonExport: boolean;
     @Input() disabledButtonOther: boolean;
 
+    ngOnInit(): void {
+        this.updateLabelVisibility();
+    }
+
     onRefresh() {
         this.refresh.emit();
     }
@@ -66,5 +77,14 @@ export class TablebuttonHeaderComponent {
 
     onOther() {
         this.other.emit();
+    }
+
+    @HostListener('window:resize')
+    onResize() {
+        this.updateLabelVisibility();
+    }
+
+    private updateLabelVisibility(): void {
+        this.showLabels = window.innerWidth > 650;
     }
 }

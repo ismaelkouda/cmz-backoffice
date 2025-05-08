@@ -4,9 +4,6 @@ import { NavService } from '../../services/nav.service';
 import { LayoutService } from '../../services/layout.service';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { LOGO_ORANGE } from 'src/shared/constants/logoOrange.constant';
-import { CryptoSidebar } from '../../crypto-data/crypto-sidebar';
-import { CryptoToken } from '../../crypto-data/crypto-token';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-sidebar',
@@ -36,10 +33,7 @@ export class SidebarComponent {
         private router: Router,
         public navServices: NavService,
         public layout: LayoutService,
-        private storage: EncodingDataService,
-        private toastrService: ToastrService,
-        private cryptoToken: CryptoToken,
-        private cryptoSidebar: CryptoSidebar
+        private storage: EncodingDataService
     ) {
         this.menuItems = JSON.parse(this.storage.getData('menu')) ?? [];
         this.router.events.subscribe((event) => {
@@ -68,41 +62,7 @@ export class SidebarComponent {
             }
         });
     }
-    // async getDecryptedSidebar(): Promise<string> {
-    //     try {
-    //         const token = await this.getDecryptedToken();
-    //         const sidebarData = await this.cryptoSidebar.getSidebarData('sidebar', token);
 
-    //         if (!sidebarData) {
-    //             throw new Error('Impossible de récupérer votre session. Veuillez vous reconnecter.');
-    //         }
-
-    //         return sidebarData;
-
-    //     } catch (error) {
-    //         console.error('Aucune données disponible pour la sidebar ou déchiffrement échoué');
-    //         this.toastrService.error(error);
-    //         throw error;
-    //     }
-    // }
-    // async getDecryptedToken(): Promise<string> {
-    //     try {
-    //         const token = await this.cryptoToken.getTokenData('token');
-
-    //         if (!token) {
-    //           return '';
-    //             // throw new Error('Impossible de récupérer votre session. Veuillez vous reconnecter.');
-    //         }
-
-    //         return token;
-
-    //     } catch (error) {
-    //         console.error('Aucun token disponible ou déchiffrement échoué');
-    //         this.toastrService.error(error);
-    //         this.router.navigate(['/auth/login']);
-    //         throw error;
-    //     }
-    // }
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         this.width = event.target.innerWidth - 500;

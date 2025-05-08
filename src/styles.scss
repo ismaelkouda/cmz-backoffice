@@ -520,3 +520,53 @@ span.p-ripple.p-element.w-100.mb-2.custom-file-upload.p-button.p-component.p-fil
 .p-radiobutton-disabled {
     cursor: not-allowed !important;
 }
+
+// kouda custom bottom au dessus des datatables
+.p-datatable-scrollable .p-datatable-thead > tr > th:nth-child(1) {
+    max-width: 3rem !important;
+}
+.p-datatable-scrollable .p-datatable-tbody > tr > td:nth-child(1) {
+    max-width: 3rem !important;
+}
+.details-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+@media (max-width: 1382px) {
+    .details-header-wrapper {
+        display: block;
+        margin-bottom: 4px;
+    }
+    .custom-header-actions {
+        width: 100%;
+        display: flex;
+        align-items: stretch !important;
+        justify-content: space-between !important;
+        flex-wrap: wrap !important;
+    }
+
+    .responsive-claims-table {
+        font-size: 13px;
+    }
+
+    .table-header-wrapper {
+        display: block;
+        text-align: center;
+    }
+}
+
+@media (max-width: 768px) {
+    legend {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+}
+
+@media (max-width: 768.85px) {
+    .page-wrapper .card {
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+}

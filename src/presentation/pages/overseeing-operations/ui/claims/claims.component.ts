@@ -5,18 +5,29 @@ import { Router } from '@angular/router';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { claimsFilterInterface } from '../../data-access/claims/interfaces/claims-filter.interface';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
-import { Folder } from '../../../../../shared/interfaces/folder';
 import { ClaimsApiService } from '../../data-access/claims/services/claims-api.service';
 import { claimsInterface } from '../../data-access/claims/interfaces/claims.interface';
+import {
+    BADGE_OPERATION_CLAIMS,
+    T_BADGE_OPERATION_CLAIMS,
+} from '../../data-access/claims/constants/claims-operation.constant copy';
+import {
+    BADGE_STATE_CLAIMS,
+    T_BADGE_STATE_CLAIMS,
+} from '../../data-access/claims/constants/claims-state.constant';
+import {
+    BADGE_STEP_CLAIMS,
+    T_BADGE_STEP_CLAIMS,
+} from '../../data-access/claims/constants/claims-step.constant';
+import {
+    FORM,
+    INVOICE_FORM_ROUTE,
+    SIM_DEMAND_ROUTE,
+} from '../../overseeing-operations-routing.module';
 
 type PageAction = {
-    data: Folder;
-    action:
-        | 'open-folder-claims'
-        | 'invoice-claims'
-        | 'mass-edit-claims'
-        | 'simple-add-claims'
-        | 'mass-add-claims';
+    data: claimsInterface | null;
+    action: 'open-folder-claims' | 'invoice-claims' | 'add-claims';
     view: 'page';
 };
 
@@ -31,7 +42,9 @@ export class ClaimsComponent implements OnInit {
     public filterData: claimsFilterInterface;
     public listClaims$: Observable<Array<claimsInterface>>;
     public listApplicants$: Observable<any[]>;
-    public listOperations: Array<string> = [];
+    public listOperations: Array<T_BADGE_OPERATION_CLAIMS> = [];
+    public listStepClaims: Array<T_BADGE_STEP_CLAIMS>;
+    public listStateClaims: Array<T_BADGE_STATE_CLAIMS>;
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
@@ -40,7 +53,11 @@ export class ClaimsComponent implements OnInit {
         private sharedService: SharedService,
         private activatedRoute: ActivatedRoute,
         private claimsApiService: ClaimsApiService
-    ) {}
+    ) {
+        this.listOperations = Object.values(BADGE_OPERATION_CLAIMS);
+        this.listStepClaims = Object.values(BADGE_STEP_CLAIMS);
+        this.listStateClaims = Object.values(BADGE_STATE_CLAIMS);
+    }
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
@@ -87,13 +104,26 @@ export class ClaimsComponent implements OnInit {
             ? params.data['numero_demande']
             : null;
         const ref = params.action;
-        const operation = params.data.operation;
-        const queryParams = { ref, operation };
+        const queryParams = { ref };
         let routePath: string = '';
 
         switch (params.action) {
             case 'open-folder-claims':
-                routePath = `${number_demand}`;
+                routePath = `${SIM_DEMAND_ROUTE}/${number_demand}`;
+                this.router.navigate([routePath], {
+                    relativeTo: this.activatedRoute,
+                    queryParams,
+                });
+                break;
+            case 'invoice-claims':
+                routePath = `${INVOICE_FORM_ROUTE}/${number_demand}`;
+                this.router.navigate([routePath], {
+                    relativeTo: this.activatedRoute,
+                    queryParams,
+                });
+                break;
+            case 'add-claims':
+                routePath = FORM;
                 this.router.navigate([routePath], {
                     relativeTo: this.activatedRoute,
                     queryParams,

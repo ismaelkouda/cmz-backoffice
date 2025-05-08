@@ -243,7 +243,7 @@ export class SimDemandComponent implements OnInit, OnDestroy {
                 return {
                     module: 'OVERSEEING_OPERATIONS',
                     moduleRoute: 'overseeing-operations',
-                    subModule: 'CLAIMS',
+                    subModule: 'MY_CLAIMS',
                     subModuleRoute: 'claims',
                 };
             default:

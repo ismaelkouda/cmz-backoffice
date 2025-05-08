@@ -20,8 +20,11 @@ import { TranslateService } from '@ngx-translate/core';
 
 type Action = PageAction;
 type PageAction = {
-    data: reloadMyAccountInterface;
-    action: 'edit-reload-my-account' | 'details-reload-my-account';
+    data: reloadMyAccountInterface | null;
+    action:
+        | 'reload-my-account'
+        | 'edit-reload-my-account'
+        | 'details-reload-my-account';
     view: 'page';
 };
 type TYPE_COLOR_STATUS_BADGE =

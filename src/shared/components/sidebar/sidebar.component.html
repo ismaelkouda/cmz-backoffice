@@ -2,24 +2,27 @@
 <div class="logo-wrapper">
     <img class="img-fluid for-light" width="200" [src]="LOGO_ORANGE" alt="" />
     <img class="img-fluid for-dark" width="200" [src]="LOGO_ORANGE" alt="" />
-    <div
+    <!-- <div style="background-color: red;"
         class="back-btn"
         (click)="sidebarToggle()"
         style="background-color: red"
     >
         <i class="fa fa-angle-left"></i>
-    </div>
+    </div> -->
 </div>
 <div class="logo-icon-wrapper">
     <img
         class="img-fluid"
-        width="96"
+        width="56"
         src="assets/images/logo/logo_orange.png"
         alt=""
     />
 </div>
 <nav class="sidebar-main">
-    <div
+    <div class="back-btn sidebar-icon" (click)="sidebarToggle()">
+        <i [attr.data-feather]="'sidebar'"></i>
+    </div>
+    <!-- <div
         class="left-arrow"
         id="left-arrow"
         [class.d-none]="leftArrowNone"
@@ -27,6 +30,14 @@
     >
         <i [attr.data-feather]="'arrow-left'"></i>
     </div>
+    <div style="background-color: red;"
+                class="right-arrow"
+                id="right-arrow"
+                [class.d-none]="rightArrowNone"
+                (click)="scrollToRight()"
+            >
+                <i [attr.data-feather]="'arrow-right'"></i>
+            </div> -->
     <div
         id="sidebar-menu"
         [ngStyle]="{
@@ -437,6 +448,7 @@
                 </div>
             </div>
             <div
+                style="background-color: red"
                 class="right-arrow"
                 id="right-arrow"
                 [class.d-none]="rightArrowNone"
