@@ -46,7 +46,6 @@ export class FileAttenteComponent implements OnInit {
         private stateFileAttenteService: StateFileAttenteService,
         private gestionIdentificationsService: GestionIdentificationsService,
         private excelService: ExcelService,
-        private sharedService: SharedService,
         private sharedDataService: SharedDataService
     ) {}
 
@@ -61,7 +60,6 @@ export class FileAttenteComponent implements OnInit {
             this.module = data.module;
             this.subModule = data.subModule[0];
         });
-        // recuperation de la data du filtre et du numero de la page courrante lorsqu'on a fait un tour dans les details
         this.filterData =
             this.stateFileAttenteService.getFilterFileAttenteState();
         this.currentPage =
@@ -70,11 +68,6 @@ export class FileAttenteComponent implements OnInit {
         this.pageCallback(this.filterData, this.currentPage);
         this.spinner = true;
     }
-
-    // async GetAllTenants(dataToSend = {}, nbrPage: string = "1"): Promise<void> {
-    //     const response: any = await handle(() => this.sharedService.PostGestionTenantsPortefeuillesTenantAll(dataToSend, nbrPage), this.toastrService, this.loadingBarService);
-    //     this.listTenants = response.data?.data;
-    // }
 
     async pageCallback(dataToSend = {}, nbrPage: string = '1'): Promise<any> {
         const response: any = await handle(

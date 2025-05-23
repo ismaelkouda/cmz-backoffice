@@ -6,6 +6,7 @@ import { WaitingQueueApiService } from '../../data-access/waiting-queue/services
 import { waitingQueueFilterInterface } from '../../data-access/waiting-queue/interfaces/waiting-queue-filter.interface';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { Folder } from '../../../../../shared/interfaces/folder';
+import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
 
 @Component({
     selector: 'app-waiting-queue',
@@ -25,7 +26,11 @@ export class WaitingQueueComponent implements OnInit {
         private sharedService: SharedService,
         private activatedRoute: ActivatedRoute,
         private waitingQueueApiService: WaitingQueueApiService
-    ) {}
+    ) {
+        Object.values(OperationTransaction).forEach((item) => {
+            this.listOperations.push(item);
+        });
+    }
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {

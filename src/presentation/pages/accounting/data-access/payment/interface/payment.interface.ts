@@ -16,7 +16,7 @@ export interface paymentInterface {
     nb_demande_cloturees: number;
     nb_demande_identifiees: number;
     initie_par: number;
-    statut: string;
+    etat_paiement: string;
     recu_paiement: string | null;
     type: string;
     nb_cycle: number;

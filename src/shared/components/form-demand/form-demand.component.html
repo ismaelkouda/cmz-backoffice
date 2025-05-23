@@ -243,7 +243,14 @@
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div
+                                                *ngIf="
+                                                    !urlParamRef.includes(
+                                                        'white-sim'
+                                                    )
+                                                "
+                                                class="col-md-2"
+                                            >
                                                 <div class="form-group">
                                                     <label
                                                         ><b
@@ -269,7 +276,14 @@
                                                     </p-dropdown>
                                                 </div>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div
+                                                *ngIf="
+                                                    !urlParamRef.includes(
+                                                        'white-sim'
+                                                    )
+                                                "
+                                                class="col-md-2"
+                                            >
                                                 <div class="form-group">
                                                     <label
                                                         ><b
@@ -298,7 +312,7 @@
                                                     </p-dropdown>
                                                 </div>
                                             </div>
-                                            <div class="col-md-1">
+                                            <div class="col-md">
                                                 <div class="form-group">
                                                     <label
                                                         ><b
@@ -838,7 +852,7 @@
                             >{{ 'LOT' | translate }}&nbsp;:&nbsp;{{
                                 globalWhiteSimCardEditRow.length || 0
                             }}</span
-                        >&nbsp;<span
+                        >&nbsp;|&nbsp;<span
                             >{{ 'SIM' | translate }}&nbsp;:&nbsp;{{
                                 totalWhiteSimCardSelected || 0
                             }}</span

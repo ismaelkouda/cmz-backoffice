@@ -1,4 +1,4 @@
-import { TABLE_SIM_DEMAND } from '../../data-access/constantes/sim-demand-table';
+import { SimDemandTableConstant } from '../../data-access/constantes/sim-demand-table';
 import { BADGE_ETAPE } from '../../../../constants/badge-etape.constant';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardService } from 'ngx-clipboard';
@@ -9,6 +9,11 @@ import { JournalComponent } from '../../../journal/journal.component';
 import { SimDemand } from '../../../../interfaces/details-mobile-subscriptions.interface';
 import { BADGE_ETAT } from '../../../../constants/badge-etat.contant';
 import { TableConfig } from '../../../../services/table-export-excel-file.service';
+import {
+    OperationTransaction,
+    T_OPERATION,
+} from '../../../../enum/OperationTransaction.enum';
+import { ActivatedRoute } from '@angular/router';
 const Swal = require('sweetalert2');
 type ModalAction = {
     data: SimDemand;
@@ -25,15 +30,24 @@ export class TableSimDemandComponent {
     public BADGE_ETAPE = BADGE_ETAPE;
     @Input() pagination;
     @Input() listSim: Array<SimDemand>;
+    public urlParamTypeDemand: T_OPERATION;
     public IsLoading: boolean;
     public selectedDemand: Object;
-    public readonly table: TableConfig = TABLE_SIM_DEMAND;
+    public readonly table: TableConfig;
 
     constructor(
         public toastrService: ToastrService,
         private clipboardService: ClipboardService,
-        private ngbModal: NgbModal
-    ) {}
+        private ngbModal: NgbModal,
+        private activatedRoute: ActivatedRoute
+    ) {
+        this.activatedRoute.queryParams.subscribe((params: Object) => {
+            this.urlParamTypeDemand = params?.['operation'];
+        });
+        const hiddenMsisdn: boolean =
+            this.urlParamTypeDemand === OperationTransaction.SIM_BLANCHE;
+        this.table = SimDemandTableConstant(hiddenMsisdn);
+    }
 
     copyData(dossier: any): void {
         this.toastrService.success('Copié dans le presse papier');

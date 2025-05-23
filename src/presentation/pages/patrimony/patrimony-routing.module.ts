@@ -34,9 +34,9 @@ const routes: Routes = [
             },
         ],
         canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${SIM_CARD}`],
-        },
+        // data: {
+        //     allowedPaths: [`/${SIM_CARD}`],
+        // },
     },
     {
         path: WHITE_SIM_CARD,

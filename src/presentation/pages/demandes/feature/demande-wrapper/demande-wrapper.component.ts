@@ -17,7 +17,6 @@ import { DemandeService } from '../../data-access/demande.service';
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
 import { DemandesFilterStateService } from '../../data-access/demandes-filter-state.service';
 import { SharedDataService } from 'src/shared/services/shared-data.service';
-import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { TypePaiementComponent } from '../type-paiement/type-paiement.component';
 import { SettingService } from '../../../../../shared/services/setting.service';

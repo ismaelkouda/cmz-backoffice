@@ -265,6 +265,12 @@ export class FormDemandComponent implements OnInit {
             nbDemandControl?.setValue(1);
             nbDemandControl?.disable();
         }
+        const usageControl = this.formDemand.get('usage_id');
+        const formuleControl = this.formDemand.get('formule_uuid');
+        if (this.urlParamRef.includes('white-sim')) {
+            formuleControl?.clearValidators();
+            usageControl?.clearValidators();
+        }
     }
 
     async fetchSecondLevel(uuid: string): Promise<void> {

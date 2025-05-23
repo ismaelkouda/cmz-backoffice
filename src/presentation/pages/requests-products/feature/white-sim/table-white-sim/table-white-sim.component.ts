@@ -317,6 +317,14 @@ export class TableWhiteSimComponent {
                         this.typeTreatment
                     );
                 }
+                if (commandWhiteSim?.traitement === BADGE_ETAT.APPROUVE) {
+                    return createButtonStyle(
+                        'p-button-secondary',
+                        'pi pi-folder-open',
+                        CANNOT_SEE_THE_SIM,
+                        this.typeTreatment
+                    );
+                }
             }
             case BADGE_ETAPE.CLOTURE: {
                 if (commandWhiteSim?.traitement === BADGE_ETAT.ABANDONNE) {

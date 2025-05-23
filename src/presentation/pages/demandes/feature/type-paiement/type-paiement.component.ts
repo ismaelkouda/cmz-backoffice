@@ -108,17 +108,17 @@ export class TypePaiementComponent implements OnInit {
                 true
             ),
             qte: this.createFormControl(
-                this.detailsDemande?.['facture']?.['qte'],
+                this.detailsDemande?.['qte'],
                 null,
                 true
             ),
             prix_ht: this.createFormControl(
-                this.detailsDemande?.['facture']?.['prix_ht'],
+                this.detailsDemande?.['prix_ht'],
                 null,
                 true
             ),
             prix_ttc: this.createFormControl(
-                this.detailsDemande?.['facture']?.['prix_ttc'],
+                this.detailsDemande?.['prix_ttc'],
                 null,
                 true
             ),
@@ -133,7 +133,7 @@ export class TypePaiementComponent implements OnInit {
                 true
             ),
             prix_unitaire: this.createFormControl(
-                this.detailsDemande?.['facture']?.['prix_unitaire'],
+                this.detailsDemande?.['prix_unitaire'],
                 null,
                 true
             ),

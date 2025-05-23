@@ -28,12 +28,16 @@
                         </div>
                         <div class="table_content_wrapper">
                             <div class="table_header">
-                                <app-table-header
-                                    [count]="listFiles"
-                                    [legende]="'Fichiers à Télécharger'"
-                                    [page]="page"
-                                    [totalPage]="totalPage"
-                                ></app-table-header>
+                                <app-table-title
+                                    [label]="false"
+                                    [count]="(pagination$ | async)?.total"
+                                    [perPage]="(pagination$ | async)?.per_page"
+                                    [page]="(pagination$ | async)?.current_page"
+                                    [totalPage]="
+                                        (pagination$ | async)?.last_page
+                                    "
+                                >
+                                </app-table-title>
                             </div>
                             <p-table
                                 [ngClass]="['native_table table']"

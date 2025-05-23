@@ -218,11 +218,14 @@ export class FormSimCardComponent {
             imsi: simCardSelectedDetails?.imsi,
             iccid: simCardSelectedDetails?.iccid,
             msisdn: simCardSelectedDetails?.msisdn,
-            date_naissance: simCardSelectedDetails?.date_naissance
-                ? new Date(simCardSelectedDetails?.date_naissance)
-                : '',
+            date_naissance: simCardSelectedDetails?.date_naissance,
             lieu_naissance: simCardSelectedDetails?.lieu_naissance,
         });
+        console.log(
+            'new Date(simCardSelectedDetails?.date_naissance)',
+            new Date(simCardSelectedDetails?.date_naissance as string)
+        );
+
         if (simCardSelectedDetails?.photo_carte_recto) {
             this.imageURLs['recto'] =
                 simCardSelectedDetails?.photo_carte_recto ?? '';
@@ -619,13 +622,6 @@ export class FormSimCardComponent {
     }
 
     async handleIdentifySimCard(): Promise<void> {
-        this.formIdentifierCarteSim
-            .get('date_naissance')
-            ?.setValue(
-                moment(
-                    this.formIdentifierCarteSim.get('date_naissance')?.value
-                ).format('YYYY-MM-DD') ?? ''
-            );
         const htmlMessage = this.IdentifyCarteSimMessage;
         const result = await Swal.mixin({
             customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass,
@@ -644,6 +640,13 @@ export class FormSimCardComponent {
                     formData.append(key, control.value);
                 }
             });
+            formData.delete('date_naissance');
+            formData.append(
+                'date_naissance',
+                moment(
+                    this.formIdentifierCarteSim.get('date_naissance')?.value
+                ).format('YYYY-MM-DD')
+            );
             if (this.filesPhysique) {
                 formData.append('photo_physique', this.filesPhysique[0] ?? '');
             }

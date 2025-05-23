@@ -53,7 +53,7 @@ export class dataBalanceStatusApiService {
         data: dataBalanceStatusFilterInterface,
         nbrPage: string = '1'
     ): void {
-        if (this.loadingDataBalanceStatusSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        if (this.loadingDataBalanceStatusSubject.getValue()) return;
         this.loadingDataBalanceStatusSubject.next(true);
         const url: string =
             dataBalanceStatusEndpointEnum.PATRIMONY_SIM_SIMS_ALL_PAGE.replace(

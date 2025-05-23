@@ -53,12 +53,9 @@ export class LoginComponent implements OnInit {
         private router: Router,
         private toastService: ToastrService,
         private storage: EncodingDataService,
-        private asFeatureService: AsFeatureService,
         private loadingBarService: LoadingBarService,
-        private mappingService: MappingService,
         private storeCurrentUserService: StoreCurrentUserService,
-        private storeTokenService: StoreTokenService,
-        private cryptoToken: CryptoToken
+        private storeTokenService: StoreTokenService
     ) {
         this.permissionsJson = menuJson;
     }

@@ -172,18 +172,18 @@ export class FormFolderComponent implements OnInit {
             ),
             prix_unitaire: new FormControl<number>(
                 {
-                    value: this.detailsDemand?.facture?.prix_unitaire,
+                    value: this.detailsDemand?.prix_unitaire,
                     disabled: true,
                 },
                 { nonNullable: true }
             ),
             prix_ht: new FormControl<number>(
-                { value: this.detailsDemand?.facture?.prix_ht, disabled: true },
+                { value: this.detailsDemand?.prix_ht, disabled: true },
                 { nonNullable: true }
             ),
             prix_ttc: new FormControl<number>(
                 {
-                    value: this.detailsDemand?.facture?.prix_ttc ?? 0,
+                    value: this.detailsDemand?.prix_ttc ?? 0,
                     disabled: true,
                 },
                 { nonNullable: true }

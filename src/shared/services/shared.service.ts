@@ -36,7 +36,7 @@ export class SharedService {
     private apiResponseDemandsSubject = new BehaviorSubject<any>(null);
 
     fetchDemands(data: Object, nbrPage: string = '1'): void {
-        if (this.loadingDemandsSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        if (this.loadingDemandsSubject.getValue()) return;
         this.loadingDemandsSubject.next(true);
         const url: string =
             EndPointUrl.PATRIMOINE_SIM_DEMANDES_SERVICES_ALL.replace(
@@ -104,7 +104,7 @@ export class SharedService {
     private lastRequestDetailsDemandSubject = new BehaviorSubject<any>(null);
     private apiResponseDetailsDemandSubject = new BehaviorSubject<any>(null);
 
-    fetchDetailsDemand(numberDemand: string): void {
+    fetchDetailsDemand(numberDemand: string, type: any = null): void {
         if (this.loadingDetailsDemandSubject.getValue()) return;
 
         const url: string =
@@ -112,10 +112,20 @@ export class SharedService {
                 '{numberDemand}',
                 numberDemand
             );
+        const urlInvoice: string = EndPointUrl.GET_INVOICE_DETAILS.replace(
+            '{numberDemand}',
+            numberDemand
+        );
+
         this.loadingDetailsDemandSubject.next(true);
 
         this.http
-            .get<Object>(`${this.BASE_URL}${url}`)
+            .post<Object>(
+                type == 'view-invoice'
+                    ? `${this.BASE_URL}${urlInvoice}`
+                    : `${this.BASE_URL}${url}`,
+                {}
+            )
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {

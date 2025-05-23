@@ -1,10 +1,14 @@
 export const BADGE_ETAT_FACTURE = {
     EN_ATTENTE: 'en-attente',
-    SOLDEE: 'soldée',
-    REJETEE: 'rejetée',
-    REPORTEE: 'reportée',
-    POSTEE: 'postée',
-    ABANDONNEE: 'abandonnée',
+    SOLDEE: 'soldé',
+    REJETEE: 'rejeté',
+    REPORTEE: 'reporté',
+    POSTEE: 'posté',
+    ABANDONNEE: 'abandonné',
+    SOUMISSION: 'soumission',
+    TRAITEMENT: 'traitement',
+    FINALISATEUR: 'finalisation',
+    CLOTURE: 'clôture',
 } as const;
 
 export type T_BADGE_ETAT_FACTURE =

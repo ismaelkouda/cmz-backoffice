@@ -49,12 +49,14 @@ export class ClaimsApiService {
             .pipe(
                 debounceTime(500),
                 switchMap((response: any) => {
-                    const claims = response?.['data']?.data.map((demande) => ({
-                        ...demande,
-                        demandeur: `${demande.demandeur_nom} ${demande.demandeur_prenoms}`,
-                    }));
+                    const claims = response?.['data']?.data.data.map(
+                        (demande) => ({
+                            ...demande,
+                            demandeur: `${demande.demandeur_nom} ${demande.demandeur_prenoms}`,
+                        })
+                    );
                     this.claimsSubject.next(claims);
-                    this.claimsPagination.next(response?.['data']);
+                    this.claimsPagination.next(response?.['data']?.data);
                     this.apiResponseClaimsSubject.next(response);
                     this.dataFilterClaimsSubject.next(data);
                     this.dataNbrPageClaimsSubject.next(nbrPage);

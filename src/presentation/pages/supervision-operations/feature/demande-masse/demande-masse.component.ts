@@ -204,23 +204,23 @@ export class DemandeMasseComponent implements OnInit {
             ),
             nb_demande_soumises: this.createFormControl(
                 this.params.vue === 'sim-blanche'
-                    ? this.listDemandes?.facture?.qte
+                    ? this.listDemandes?.qte
                     : this.listDemandes?.nb_demande_soumises,
                 null,
                 true
             ),
             prix_unitaire: this.createFormControl(
-                this.listDemandes?.['facture']?.['prix_unitaire'],
+                this.listDemandes?.['prix_unitaire'],
                 null,
                 true
             ),
             prix_ht: this.createFormControl(
-                this.listDemandes?.['facture']?.['prix_ht'],
+                this.listDemandes?.['prix_ht'],
                 null,
                 true
             ),
             prix_ttc: this.createFormControl(
-                this.listDemandes?.['facture']?.['prix_ttc'],
+                this.listDemandes?.['prix_ttc'],
                 null,
                 true
             ),

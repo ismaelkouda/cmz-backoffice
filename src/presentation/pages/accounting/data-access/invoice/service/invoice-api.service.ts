@@ -41,7 +41,7 @@ export class InvoiceApiService {
 
     /*********************Méthode pour récupérer la liste invoice*************** */
     fetchInvoice(data: invoiceFilterInterface, nbrPage: string = '1'): void {
-        if (this.loadingInvoiceSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        if (this.loadingInvoiceSubject.getValue()) return;
         this.loadingInvoiceSubject.next(true);
         const url: string =
             invoiceEndpointEnum.POST_MANAGEMENT_INVOICE_INVOICES.replace(

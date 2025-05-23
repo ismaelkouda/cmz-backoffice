@@ -7,7 +7,7 @@ export interface mobileSubscriptionsFilterInterface {
     statut: AbstractControl<string>;
     initie_par: AbstractControl<string>;
     numero_demande: AbstractControl<string>;
-    transaction: AbstractControl<string>;
+    nb_demande_soumises: AbstractControl<number>;
     traitement: AbstractControl<string>;
     date_debut: AbstractControl<string>;
     date_fin: AbstractControl<string>;

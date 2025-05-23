@@ -16,12 +16,8 @@ export const claimsTableConstant = {
             field: 'operation',
             header: 'Opération',
         },
-        {
-            field: 'statut',
-            header: 'Statut',
-            class: 'text-center',
-            width: '6rem',
-        },
+        { field: 'statut', header: 'Etape', class: 'text-center' },
+        { field: 'traitement', header: 'Etat', class: 'text-center' },
         {
             field: 'updated_at',
             header: 'Date Etat',

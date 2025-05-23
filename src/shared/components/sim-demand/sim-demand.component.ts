@@ -32,7 +32,7 @@ function isTypeView(value: any): value is TYPEVIEW {
 
 @Component({
     selector: `app-sim-demand`,
-    templateUrl: `./sim-demand.component.html`,
+    templateUrl: './sim-demand.component.html',
     styles: [
         `
             .container-box {

@@ -8,42 +8,49 @@ export const simCardTableConstant = (asFeatureService: AsFeatureService) => {
 
     return {
         cols: [
-            { field: '', header: '#', class: 'text-center' },
+            { field: '', header: '#', class: 'text-center', width: '2rem' },
             {
                 field: 'niveau_uns_nom',
                 header: 'Niveau un',
                 class: 'text-center',
+                width: '10rem',
             },
             {
                 field: 'niveau_deux_nom',
                 header: 'Niveau deux',
                 class: 'text-center',
+                width: '10rem',
             },
             {
                 field: 'apn',
                 header: 'APN',
                 class: 'text-center',
+                width: '6rem',
             },
             {
                 field: 'adresse_ip',
                 header: 'Adresse IP',
                 class: 'text-center',
+                width: '10rem',
             },
             // { field: 'niveau_trois_nom', header: 'Niveau trois', class: "text-center" },
             {
                 field: 'msisdn',
                 header: 'MSISDN',
                 class: 'text-center',
+                width: '10rem',
             },
             {
                 field: 'imsi',
                 header: 'IMSI',
                 class: 'text-center',
+                width: '6rem',
             },
             {
                 field: 'statut',
                 header: 'Statut',
                 class: 'text-center',
+                width: '6rem',
             },
             ...(hasIdentification
                 ? [
@@ -51,6 +58,7 @@ export const simCardTableConstant = (asFeatureService: AsFeatureService) => {
                           field: 'identification_fiabilite',
                           header: 'Identification',
                           class: 'text-center',
+                          width: '8rem',
                       },
                   ]
                 : []),
@@ -69,7 +77,7 @@ export const simCardTableConstant = (asFeatureService: AsFeatureService) => {
             'msisdn',
             'imsi',
             'statut',
-            'identification_fiabilite',
+            hasIdentification ? 'identification_fiabilite' : '',
         ],
     };
 };

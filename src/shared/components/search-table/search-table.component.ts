@@ -9,7 +9,7 @@ import { Table } from 'primeng/table';
             <input
                 pInputText
                 type="text"
-                (input)="onSearch($event.target.value)"
+                (input)="onSearch($event.target.value.trim())"
                 placeholder="{{ 'RESEARCH' | translate }}..."
                 class="search-input"
             />

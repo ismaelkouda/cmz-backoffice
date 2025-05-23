@@ -53,7 +53,7 @@ export class smsBalanceStatusApiService {
         data: smsBalanceStatusFilterInterface,
         nbrPage: string = '1'
     ): void {
-        if (this.loadingSmsBalanceStatusSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        if (this.loadingSmsBalanceStatusSubject.getValue()) return;
         this.loadingSmsBalanceStatusSubject.next(true);
         const url: string =
             smsBalanceStatusEndpointEnum.PATRIMONY_SIM_SIMS_ALL_PAGE.replace(

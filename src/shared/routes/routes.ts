@@ -282,8 +282,12 @@ export const content: Routes = [
                 '../../presentation/pages/sla-demande-service/sla-demande-service.module'
             ).then((m) => m.SlaDemandeServiceModule),
         data: {
-            module: 'SLA demandes Service',
-            subModule: ['Tableau SLA', 'Rapport Performances'],
+            module: 'Reporting SLA',
+            subModule: [
+                'Tableau de bord demandes',
+                'Rapport Performances',
+                'tableau de bord dossiers',
+            ],
         },
     },
     {

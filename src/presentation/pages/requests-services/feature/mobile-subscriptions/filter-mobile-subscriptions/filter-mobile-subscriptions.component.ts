@@ -64,8 +64,8 @@ export class FilterMobileSubscriptionsComponent implements OnInit {
                 this.filterData?.['numero_demande'],
                 { nonNullable: true }
             ),
-            transaction: new FormControl<string>(
-                this.filterData?.['transaction'],
+            nb_demande_soumises: new FormControl<number>(
+                this.filterData?.['nb_demande_soumises'],
                 { nonNullable: true }
             ),
             traitement: new FormControl<string>(

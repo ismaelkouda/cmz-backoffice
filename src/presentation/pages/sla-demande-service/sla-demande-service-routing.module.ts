@@ -1,9 +1,11 @@
-import { DashboardSlaComponent } from './ui/dashboard-sla/dashboard-sla.component';
+import { DashboardDemandsComponent } from './ui/dashboard-demands/dashboard-demands.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RapportConformiteComponent } from './ui/rapport-conformite/rapport-conformite.component';
+import { DashboardDossiersComponent } from './ui/dashboard-dossiers/dashboard-dossiers.component';
 
-export const SLA_DASHBORD = 'dashboard-sla';
+export const DEMANDS_DASHBORD = 'dashboard-demands';
+export const FOLDERS_DASHBORD = 'dashboard-folders';
 export const RAPPORT_CONFORMITE = 'rapport-performances';
 
 const routes: Routes = [
@@ -11,8 +13,12 @@ const routes: Routes = [
         path: '',
         children: [
             {
-                path: SLA_DASHBORD,
-                component: DashboardSlaComponent,
+                path: DEMANDS_DASHBORD,
+                component: DashboardDemandsComponent,
+            },
+            {
+                path: FOLDERS_DASHBORD,
+                component: DashboardDossiersComponent,
             },
             {
                 path: RAPPORT_CONFORMITE,

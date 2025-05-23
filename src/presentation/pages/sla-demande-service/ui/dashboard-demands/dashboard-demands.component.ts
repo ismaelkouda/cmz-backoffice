@@ -1,21 +1,20 @@
-import { MappingService } from './../../../../../shared/services/mapping.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
 @Component({
-    selector: 'app-courbe-message',
-    templateUrl: './courbe-message.component.html',
-    styleUrls: ['./courbe-message.component.scss'],
+    selector: 'app-dashboard-demands',
+    templateUrl: './dashboard-demands.component.html',
+    styleUrls: ['./dashboard-demands.component.scss'],
 })
-export class CourbeMessageComponent implements OnInit {
+export class DashboardDemandsComponent implements OnInit {
     public module: string;
     public subModule: string;
     public isMaximized: boolean = false;
     public showIframe: boolean = false;
     public visualUrl: string;
-    public title =
-        'Courbe message - Système de Gestion de Collecte Centralisée';
+    public title = 'Dashboard SLA - Système de Gestion de Collecte Centralisée';
+
     constructor(
         private activatedRoute: ActivatedRoute,
         private storage: EncodingDataService,
@@ -23,7 +22,7 @@ export class CourbeMessageComponent implements OnInit {
     ) {
         this.visualUrl = JSON.parse(
             this.storage.getData('variables')
-        ).dashboardGrafana;
+        ).dashboardDemandes;
         this.titleService.setTitle(`${this.title}`);
     }
 
@@ -41,7 +40,6 @@ export class CourbeMessageComponent implements OnInit {
     }
 
     public hideDialog() {
-        // this.router.navigateByUrl('/zone-trafic/zone-exploitation')
         this.showIframe = false;
     }
 

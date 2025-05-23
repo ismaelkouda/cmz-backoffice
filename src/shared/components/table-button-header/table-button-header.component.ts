@@ -22,7 +22,7 @@ import {
                 *ngIf="!hiddenButtonOther"
                 [class.p-disabled]="disabledButtonOther"
                 [label]="showLabels ? labelOther : ''"
-                icon="pi pi-refresh"
+                icon="pi pi-plus"
                 [styleClass]="'p-button-' + colorOther"
                 class="margin-right-5"
                 (click)="onOther()"

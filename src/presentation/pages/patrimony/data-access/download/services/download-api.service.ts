@@ -38,7 +38,7 @@ export class downloadApiService {
         );
 
     fetchDownload(nbrPage: string = '1'): void {
-        if (this.loadingDownloadSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        if (this.loadingDownloadSubject.getValue()) return;
         this.loadingDownloadSubject.next(true);
         const url: string =
             downloadEndpointEnum.GET_PATRIMOINE_SIM_DOWNLOAD_FILE_ALL_PAGE.replace(

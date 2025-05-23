@@ -40,7 +40,7 @@ import {
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import {
     RAPPORT_CONFORMITE,
-    SLA_DASHBORD,
+    // SLA_DASHBORD,
 } from 'src/presentation/pages/sla-demande-service/sla-demande-service-routing.module';
 import {
     COMPTABILITE,
@@ -501,34 +501,34 @@ export var menuJson = [
             },
         ],
     },
-    {
-        title: 'SLA Demandes Service',
-        label: 'SLA Demandes Service',
-        data: '8-0-0-sla-demandes-de-services',
-        statut: false,
-        icon: 'clock',
-        path: `/${SLA_DEMANDE_SERVICE}/${SLA_DASHBORD}`,
-        type: 'sub',
-        pack: ApplicationType.MONITORING,
-        children: [
-            {
-                path: `/${SLA_DEMANDE_SERVICE}/${SLA_DASHBORD}`,
-                title: 'Tableau de bord SLA',
-                label: 'Tableau de bord SLA',
-                data: '8-1-0-dashboard-sla',
-                type: 'link',
-                pack: ApplicationType.MONITORING,
-            },
-            {
-                path: `/${SLA_DEMANDE_SERVICE}/${RAPPORT_CONFORMITE}`,
-                title: 'Rapport Performances',
-                label: 'Rapport Performances',
-                data: '8-2-0-rapport-de-conformite',
-                type: 'link',
-                pack: ApplicationType.MONITORING,
-            },
-        ],
-    },
+    // {
+    //     title: 'SLA Demandes Service',
+    //     label: 'SLA Demandes Service',
+    //     data: '8-0-0-sla-demandes-de-services',
+    //     statut: false,
+    //     icon: 'clock',
+    //     path: `/${SLA_DEMANDE_SERVICE}/${SLA_DASHBORD}`,
+    //     type: 'sub',
+    //     pack: ApplicationType.MONITORING,
+    //     children: [
+    //         {
+    //             path: `/${SLA_DEMANDE_SERVICE}/${SLA_DASHBORD}`,
+    //             title: 'Tableau de bord SLA',
+    //             label: 'Tableau de bord SLA',
+    //             data: '8-1-0-dashboard-sla',
+    //             type: 'link',
+    //             pack: ApplicationType.MONITORING,
+    //         },
+    //         {
+    //             path: `/${SLA_DEMANDE_SERVICE}/${RAPPORT_CONFORMITE}`,
+    //             title: 'Rapport Performances',
+    //             label: 'Rapport Performances',
+    //             data: '8-2-0-rapport-de-conformite',
+    //             type: 'link',
+    //             pack: ApplicationType.MONITORING,
+    //         },
+    //     ],
+    // },
     {
         title: 'Paramètres & Sécurité',
         label: 'Paramètres & Sécurité',

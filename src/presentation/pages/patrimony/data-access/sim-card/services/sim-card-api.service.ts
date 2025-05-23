@@ -42,7 +42,7 @@ export class simCardApiService {
 
     /*********************Méthode pour récupérer la liste sim-card*************** */
     fetchSimCard(data: simCardFilterInterface, nbrPage: string = '1'): void {
-        if (this.loadingSimCardSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        if (this.loadingSimCardSubject.getValue()) return;
         this.loadingSimCardSubject.next(true);
         const url: string =
             simCardEndpointEnum.PATRIMONY_SIM_SIMS_ALL_PAGE.replace(

@@ -148,6 +148,8 @@ export class TableMobileSubscriptionsComponent {
             },
             [BADGE_ETAPE.CLOTURE]: {
                 [BADGE_ETAT.ABANDONNE]: 'badge-warning',
+                [BADGE_ETAT.REJETE]: 'badge-danger',
+                [BADGE_ETAT.REFUSE]: 'badge-danger',
             },
         };
 
@@ -296,6 +298,14 @@ export class TableMobileSubscriptionsComponent {
                     );
                 }
                 if (dossier?.traitement === BADGE_ETAT.EN_ATTENTE) {
+                    return createButtonStyle(
+                        'p-button-secondary',
+                        'pi pi-folder-open',
+                        CANNOT_SEE_THE_SIM,
+                        this.typeTreatment
+                    );
+                }
+                if (dossier?.traitement === BADGE_ETAT.APPROUVE) {
                     return createButtonStyle(
                         'p-button-secondary',
                         'pi pi-folder-open',

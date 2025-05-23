@@ -108,9 +108,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     }
 
     public navigateByUrl(params: PageAction): void {
-        const number_demand = params.data
-            ? params.data['numero_demande']
-            : null;
+        const number_demand = params.data ? params.data['reference'] : null;
         const ref = params.action;
         const queryParams = { ref };
         let routePath: string = '';

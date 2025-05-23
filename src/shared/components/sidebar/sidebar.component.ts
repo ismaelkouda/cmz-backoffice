@@ -4,6 +4,7 @@ import { NavService } from '../../services/nav.service';
 import { LayoutService } from '../../services/layout.service';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { LOGO_ORANGE } from 'src/shared/constants/logoOrange.constant';
+import { ORANGE } from '../../constants/logoOrange.constant';
 
 @Component({
     selector: 'app-sidebar',
@@ -13,6 +14,7 @@ import { LOGO_ORANGE } from 'src/shared/constants/logoOrange.constant';
 })
 export class SidebarComponent {
     public LOGO_ORANGE = LOGO_ORANGE;
+    public ORANGE = ORANGE;
     public iconSidebar;
     public menuItems: Array<any>;
     public filterArray: Array<any> = [];

@@ -56,7 +56,7 @@ export class whiteSimCardApiService {
         data: whiteSimCardFilterInterface,
         nbrPage: string = '1'
     ): void {
-        if (this.loadingWhiteSimCardSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        if (this.loadingWhiteSimCardSubject.getValue()) return;
         this.loadingWhiteSimCardSubject.next(true);
         const url: string =
             whiteSimCardEndpointEnum.POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_PAGE.replace(

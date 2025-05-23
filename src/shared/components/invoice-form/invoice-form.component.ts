@@ -22,6 +22,7 @@ import { ACCOUNTING } from '../../routes/routes';
 //     PAYMENT,
 // } from '../../../presentation/pages/accounting/accounting-routing.module';
 import { DetailsDemand } from '../form-folder/data-access/form-folder.interface';
+import { BADGE_ETAPE } from '../../constants/badge-etape.constant';
 // import { CLAIMS } from '../../../presentation/pages/overseeing-operations/overseeing-operations-routing.module';
 const Swal = require('sweetalert2');
 
@@ -39,7 +40,8 @@ type TYPE_COLOR_ETAT_BADGE =
     | 'badge-dark'
     | 'badge-success'
     | 'badge-danger'
-    | 'badge-primary';
+    | 'badge-primary'
+    | 'badge-info';
 @Component({
     selector: 'app-invoice-form',
     templateUrl: './invoice-form.component.html',
@@ -91,7 +93,10 @@ export class InvoiceFormComponent {
             this.displayUrlErrorPage = true;
         } else {
             this.getTitle;
-            this.sharedService.fetchDetailsDemand(this.urlParamNumeroDemande);
+            this.sharedService.fetchDetailsDemand(
+                this.urlParamNumeroDemande,
+                this.urlParamRef
+            );
             this.sharedService.getDetailsDemand().subscribe((value) => {
                 this.detailsInvoiceForm = value;
                 this.initFormTypePaiement();
@@ -117,7 +122,7 @@ export class InvoiceFormComponent {
     public initFormTypePaiement(): void {
         this.formTypePaiement = this.fb.group({
             numero_demande: this.createFormControl(
-                this.detailsInvoiceForm?.['facture']?.['numero_demande'],
+                this.detailsInvoiceForm?.['numero_demande'],
                 null,
                 false
             ),
@@ -158,36 +163,21 @@ export class InvoiceFormComponent {
         }
     }
     public get isSold(): boolean {
-        return (
-            this.detailsInvoiceForm?.['facture']?.statut ===
-            BADGE_ETAT_FACTURE.SOLDEE
-        );
+        return this.detailsInvoiceForm?.statut === BADGE_ETAT_FACTURE.SOLDEE;
     }
     public get displayInputUploadPaymentReceipt(): boolean {
-        return (
-            this.detailsInvoiceForm?.['facture']?.statut ===
-            BADGE_ETAT_FACTURE.SOLDEE
-        );
+        return this.detailsInvoiceForm?.statut === BADGE_ETAT_FACTURE.SOLDEE;
     }
     public get isDeferred(): boolean {
-        return (
-            this.detailsInvoiceForm?.['facture']?.statut ===
-            BADGE_ETAT_FACTURE.REPORTEE
-        );
+        return this.detailsInvoiceForm?.statut === BADGE_ETAT_FACTURE.REPORTEE;
     }
 
     public get isApprouved(): boolean {
-        return (
-            this.detailsInvoiceForm?.['facture']?.etat_facture ===
-            BADGE_ETAT.APPROUVE
-        );
+        return this.detailsInvoiceForm?.etat_facture === BADGE_ETAT.APPROUVE;
     }
 
     public get isPosted(): boolean {
-        return (
-            this.detailsInvoiceForm?.['facture']?.statut ===
-            BADGE_ETAT_FACTURE.POSTEE
-        );
+        return this.detailsInvoiceForm?.statut === BADGE_ETAT_FACTURE.POSTEE;
     }
 
     private getNonNullValue(value: any): string {
@@ -212,14 +202,14 @@ export class InvoiceFormComponent {
         // if(this.formTypePaiement.invalid || this.isSold()) {}
         let htmlMessage: string;
         switch (this.formTypePaiement.get('type_paiement')?.value) {
-            case 'immédiat':
-                htmlMessage = `Le recu de paiement sera rattaché à la facture <span style="color: #ff6600;"><strong>${this.detailsInvoiceForm?.['facture']?.['numero_demande']}</strong></span> !`;
+            case 'Post-Paid':
+                htmlMessage = `Le recu de paiement sera rattaché à la facture <span style="color: #ff6600;"><strong>${this.detailsInvoiceForm?.['numero_demande']}</strong></span> !`;
                 break;
-            case 'différé':
+            case 'Pre-Paid':
                 htmlMessage = `Paiement différé !`;
                 break;
-            case 'mon compte':
-                htmlMessage = `Le paiement de la facture <span style="color: #ff6600;"><strong>${this.detailsInvoiceForm?.['facture']?.['numero_demande']}</strong></span> a été débité de votre compte !`;
+            case 'via Compte':
+                htmlMessage = `Le paiement de la facture <span style="color: #ff6600;"><strong>${this.detailsInvoiceForm?.['numero_demande']}</strong></span> a été débité de votre compte !`;
                 break;
 
             default:
@@ -266,6 +256,10 @@ export class InvoiceFormComponent {
             [BADGE_ETAT_FACTURE.SOLDEE]: 'badge-success',
             [BADGE_ETAT_FACTURE.ABANDONNEE]: 'badge-warning',
             [BADGE_ETAT_FACTURE.REJETEE]: 'badge-danger',
+            [BADGE_ETAPE.SOUMISSION]: 'badge-dark',
+            [BADGE_ETAPE.TRAITEMENT]: 'badge-warning',
+            [BADGE_ETAPE.FINALISATEUR]: 'badge-info',
+            [BADGE_ETAPE.CLOTURE]: 'badge-success',
         };
 
         return stateMap[facture.statut];
@@ -293,7 +287,7 @@ export class InvoiceFormComponent {
                     module: 'ACCOUNTING',
                     moduleRoute: ACCOUNTING,
                     subModule: 'MY_INVOICES',
-                    subModuleRoute: 'my-invoice',
+                    subModuleRoute: 'my-invoices',
                 };
             case 'view-payment':
                 return {

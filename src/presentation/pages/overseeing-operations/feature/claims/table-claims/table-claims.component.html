@@ -62,8 +62,11 @@
                     <ng-container *ngSwitchCase="'Opération'">
                         {{ 'OPERATION' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Statut'">
-                        {{ 'STATUS' | translate }}
+                    <ng-container *ngSwitchCase="'Etape'">
+                        {{ 'STEP' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Etat'">
+                        {{ 'STATE' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Date Etat'">
                         {{ 'UPDATED_DATE' | translate }}
@@ -98,10 +101,18 @@
                     <ng-container *ngSwitchCase="'Opération'">
                         {{ item?.[col.field] }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Statut'">
+                    <ng-container *ngSwitchCase="'Etape'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
-                            [class]="'badge ' + getStatusInvoiceBadge(item)"
+                            [class]="'badge ' + getStepClaimsBadge(item)"
+                        >
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Etat'">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            [class]="'badge ' + getStateClaimsBadge(item)"
                         >
                             {{ item?.[col.field] }}
                         </span>

@@ -21,6 +21,14 @@ import { createButtonStyle } from '../../../../../../shared/functions/treatment-
 import { claimsInterface } from '../../../data-access/claims/interfaces/claims.interface';
 import { BADGE_STEP_CLAIMS } from '../../../data-access/claims/constants/claims-step.constant';
 import { BADGE_STATE_CLAIMS } from '../../../data-access/claims/constants/claims-state.constant';
+import {
+    BADGE_ETAPE,
+    T_BADGE_ETAPE,
+} from '../../../../../../shared/constants/badge-etape.constant';
+import {
+    BADGE_ETAT,
+    T_BADGE_ETAT,
+} from '../../../../../../shared/constants/badge-etat.contant';
 
 type Action = PageAction | ModalAction;
 type PageAction = {
@@ -40,7 +48,16 @@ const INIT_TYPE_TRAITEMENT: TreatmentDemands = {
     visualiser: false,
     cloturer: false,
 };
-type TYPE_COLOR_STATUS_BADGE = 'badge-dark' | 'badge-success' | 'badge-danger';
+type TYPE_COLOR_ETAPE_BADGE =
+    | 'badge-dark'
+    | 'badge-warning'
+    | 'badge-info'
+    | 'badge-success';
+type TYPE_COLOR_ETAT_BADGE =
+    | 'badge-warning'
+    | 'badge-dark'
+    | 'badge-success'
+    | 'badge-danger';
 
 @Component({
     selector: 'app-table-claims',
@@ -89,19 +106,55 @@ export class TableClaimsComponent {
         this.toastService.success(translatedMessage);
         this.clipboardService.copyFromContent(data);
     }
-    getStatusClaimBadge(selectedClaim?: {
-        code_rapport: T_CLAIMS_STATUS_ENUM;
-    }): TYPE_COLOR_STATUS_BADGE {
-        if (!selectedClaim || !selectedClaim.code_rapport) {
+    getStepClaimsBadge(selectedClaim?: {
+        statut: T_CLAIMS_STATUS_ENUM;
+    }): TYPE_COLOR_ETAPE_BADGE {
+        if (!selectedClaim || !selectedClaim.statut) {
             return 'badge-dark';
         }
-        const etapeMap: Record<T_CLAIMS_STATUS_ENUM, TYPE_COLOR_STATUS_BADGE> =
-            {
-                [CLAIMS_STATUS_ENUM.SUBMITTED]: 'badge-dark',
-                [CLAIMS_STATUS_ENUM.TREATED]: 'badge-success',
-                [CLAIMS_STATUS_ENUM.CLOSED]: 'badge-danger',
-            };
-        return etapeMap[selectedClaim.code_rapport] || 'badge-dark';
+        const etapeMap: Record<T_BADGE_ETAPE, TYPE_COLOR_ETAPE_BADGE> = {
+            [BADGE_ETAPE.SOUMISSION]: 'badge-dark',
+            [BADGE_ETAPE.TRAITEMENT]: 'badge-warning',
+            [BADGE_ETAPE.FINALISATEUR]: 'badge-info',
+            [BADGE_ETAPE.CLOTURE]: 'badge-success',
+        };
+        return etapeMap[selectedClaim.statut] || 'badge-dark';
+    }
+
+    public getStateClaimsBadge(selectedClaims?: {
+        statut?: T_BADGE_ETAPE;
+        traitement?: T_BADGE_ETAT;
+    }): TYPE_COLOR_ETAT_BADGE {
+        if (
+            !selectedClaims ||
+            !selectedClaims.statut ||
+            !selectedClaims.traitement
+        ) {
+            return 'badge-dark';
+        }
+
+        const stateMap: Partial<
+            Record<
+                T_BADGE_ETAPE,
+                Partial<Record<T_BADGE_ETAT, TYPE_COLOR_ETAT_BADGE>>
+            >
+        > = {
+            [BADGE_ETAPE.SOUMISSION]: {
+                [BADGE_ETAT.EN_ATTENTE]: 'badge-dark',
+                [BADGE_ETAT.PARTIEL]: 'badge-warning',
+                [BADGE_ETAT.RECU]: 'badge-dark',
+                [BADGE_ETAT.APPROUVE]: 'badge-success',
+                [BADGE_ETAT.REJETE]: 'badge-danger',
+            },
+            [BADGE_ETAPE.CLOTURE]: {
+                [BADGE_ETAT.ABANDONNE]: 'badge-warning',
+            },
+        };
+
+        return (
+            stateMap[selectedClaims.statut]?.[selectedClaims.traitement] ||
+            'badge-dark'
+        );
     }
 
     public truncateString(str: string, num: number = 20): string {

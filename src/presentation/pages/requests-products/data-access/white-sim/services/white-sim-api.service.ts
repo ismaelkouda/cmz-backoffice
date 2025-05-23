@@ -27,7 +27,7 @@ export class CommandWhiteSimApiService {
 
     /*********************Méthode pour récupérer la liste CommandWhiteSim*************** */
     fetchCommandWhiteSim(data: Object, nbrPage: string = '1'): void {
-        if (this.loadingCommandWhiteSimSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        if (this.loadingCommandWhiteSimSubject.getValue()) return;
         this.loadingCommandWhiteSimSubject.next(true);
         const url: string =
             CommandWhiteSimEndpointEnum.DEMANDE_SERVICE_ALL.replace(

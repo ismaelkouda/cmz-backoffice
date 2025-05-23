@@ -13,6 +13,7 @@
     <ng-template pTemplate="caption">
         <div class="d-flex justify-content-between">
             <app-table-title
+                [label]="false"
                 [count]="(listIndicatorsAlarms$ | async)?.length"
             ></app-table-title>
             <div class="d-flex gap-2 align-items-center">

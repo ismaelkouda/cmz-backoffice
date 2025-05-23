@@ -20,6 +20,10 @@ import {
     OperationTransaction,
     TitleOperation,
 } from '../../../../../../shared/enum/OperationTransaction.enum';
+import {
+    BADGE_ETAPE,
+    T_BADGE_ETAPE,
+} from '../../../../../../shared/constants/badge-etape.constant';
 
 type Action = PageAction;
 type PageAction = {
@@ -33,7 +37,16 @@ type TYPE_COLOR_PAYMENT_STATUS_BADGE =
     | 'badge-primary'
     | 'badge-success'
     | 'badge-danger';
-
+type TYPE_COLOR_ETAPE_BADGE =
+    | 'badge-dark'
+    | 'badge-warning'
+    | 'badge-info'
+    | 'badge-success';
+type TYPE_COLOR_ETAT_BADGE =
+    | 'badge-warning'
+    | 'badge-dark'
+    | 'badge-success'
+    | 'badge-danger';
 @Component({
     selector: 'app-table-payment',
     templateUrl: './table-payment.component.html',
@@ -87,10 +100,10 @@ export class TablePaymentComponent {
         this.clipboardService.copyFromContent(data);
     }
 
-    public getStatusPaymentBadge(selectedPayment?: {
-        statut: T_PAYMENT_STATUS_ENUM;
+    public getStepBadge(selectedPayment?: {
+        etat_paiement: T_PAYMENT_STATUS_ENUM;
     }): TYPE_COLOR_PAYMENT_STATUS_BADGE {
-        if (!selectedPayment || !selectedPayment.statut) {
+        if (!selectedPayment || !selectedPayment.etat_paiement) {
             return 'badge-dark';
         }
 
@@ -98,16 +111,33 @@ export class TablePaymentComponent {
             T_PAYMENT_STATUS_ENUM,
             TYPE_COLOR_PAYMENT_STATUS_BADGE
         > = {
-            [PAYMENT_STATUS_ENUM.WAITING]: 'badge-dark',
+            [PAYMENT_STATUS_ENUM.UNKNOWN]: 'badge-dark',
             [PAYMENT_STATUS_ENUM.POSTED]: 'badge-warning',
             [PAYMENT_STATUS_ENUM.ABANDONED]: 'badge-warning',
+            [PAYMENT_STATUS_ENUM.VALIDATED]: 'badge-success',
+
+            [PAYMENT_STATUS_ENUM.WAITING]: 'badge-dark',
             [PAYMENT_STATUS_ENUM.REPORTED]: 'badge-primary',
             [PAYMENT_STATUS_ENUM.RESULTED]: 'badge-success',
             [PAYMENT_STATUS_ENUM.REJECTED]: 'badge-danger',
         };
 
-        return stateMap[selectedPayment.statut];
+        return stateMap[selectedPayment.etat_paiement];
     }
+
+    // getStepBadge(dossier?: { etat_paiement: T_BADGE_ETAPE }): TYPE_COLOR_ETAPE_BADGE {
+    //     if (!dossier || !dossier.etat_paiement) {
+    //         return 'badge-dark';
+    //     }
+
+    //     const etapeMap: Record<T_BADGE_ETAPE, TYPE_COLOR_ETAPE_BADGE> = {
+    //         [BADGE_ETAPE.SOUMISSION]: 'badge-dark',
+    //         [BADGE_ETAPE.TRAITEMENT]: 'badge-warning',
+    //         [BADGE_ETAPE.FINALISATEUR]: 'badge-info',
+    //         [BADGE_ETAPE.CLOTURE]: 'badge-success',
+    //     };
+    //     return etapeMap[dossier.etat_paiement] || 'badge-dark';
+    // }
 
     public handleAction(params: Action): void {
         this.onSelectPayment(params.data);

@@ -87,7 +87,25 @@ export interface DetailsDemand {
     finalisateur: any;
     approbateur: any;
     livreur: any;
-    facture: InvoiceInterface;
+    qte: number;
+    prix_unitaire: number;
+    prix_ht: number;
+    tva: string;
+    prix_tva: string;
+    prix_ttc: number;
+    montant_paye: string;
+    date_paiement: string | null;
+    date_limite: string;
+    commentaire_facture: string | null;
+    accepte_facture: string | null;
+    prix_ttc_lettres: string;
+    montant_total: string;
+    impaye_anterieur: string;
+    orangeInfo: OrangeInfoInterface;
+    clientInfo: ClientInfoInterface;
+    soldeDisponible: string;
+    SoldeEngage: string;
+    SoldeRestant: number;
 }
 
 interface InvoiceInterface {

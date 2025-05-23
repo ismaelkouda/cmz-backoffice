@@ -2,6 +2,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
+import { ActivatedRoute } from '@angular/router';
+import { OperationTransaction } from '../../../../enum/OperationTransaction.enum';
 
 @Component({
     selector: `app-filter-sim-demand`,
@@ -12,13 +14,21 @@ export class FilterSimDemandComponent {
     @Output() filter = new EventEmitter<{}>();
     @Input() listEtapeLigne: Array<Object>;
     @Input() listEtatLigne: Array<Object>;
+    public urlParamTypeDemand: string;
+    public OperationTransaction = OperationTransaction;
 
     constructor(
         private toastrService: ToastrService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
+        this.activatedRoute.queryParams.subscribe((params: Object) => {
+            this.urlParamTypeDemand = params?.['operation'];
+        });
+        console.log('this.urlParamTypeDemand', this.urlParamTypeDemand);
+
         this.initFormFilter();
     }
 

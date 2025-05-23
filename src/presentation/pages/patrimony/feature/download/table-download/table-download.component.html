@@ -11,6 +11,7 @@
     <ng-template pTemplate="caption">
         <div class="d-flex justify-content-between">
             <app-table-title
+                [label]="false"
                 [count]="(pagination$ | async)?.total"
                 [perPage]="(pagination$ | async)?.per_page"
                 [page]="(pagination$ | async)?.current_page"

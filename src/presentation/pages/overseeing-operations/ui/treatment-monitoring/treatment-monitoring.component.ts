@@ -15,6 +15,7 @@ import { treatmentMonitoringFilterInterface } from '../../data-access/treatment-
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { Folder } from '../../../../../shared/interfaces/folder';
 import { TreatmentMonitoringApiService } from '../../data-access/treatment-monitoring/services/treatment-monitoring-api.service';
+import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
 
 const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT];
 const state_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE];
@@ -45,7 +46,11 @@ export class TreatmentMonitoringComponent implements OnInit {
         private sharedService: SharedService,
         private activatedRoute: ActivatedRoute,
         private treatmentMonitoringApiService: TreatmentMonitoringApiService
-    ) {}
+    ) {
+        Object.values(OperationTransaction).forEach((item) => {
+            this.listOperations.push(item);
+        });
+    }
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {

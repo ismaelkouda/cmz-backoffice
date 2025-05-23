@@ -46,7 +46,7 @@ export class PaymentApiService {
 
     /*********************Méthode pour récupérer la liste payment*************** */
     fetchPayment(data: paymentFilterInterface, nbrPage: string = '1'): void {
-        if (this.loadingPaymentSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        if (this.loadingPaymentSubject.getValue()) return;
         this.loadingPaymentSubject.next(true);
         const url: string =
             paymentEndpointEnum.POST_MANAGEMENT_INVOICE_INVOICES.replace(

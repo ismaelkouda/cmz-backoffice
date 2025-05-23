@@ -1,10 +1,13 @@
 export const PAYMENT_STATUS_ENUM = {
+    UNKNOWN: 'inconnu',
+    ABANDONED: 'abandonné',
+    POSTED: 'posté',
+    VALIDATED: 'validé',
+
     WAITING: 'en-attente',
-    RESULTED: 'soldée',
-    REJECTED: 'rejetée',
-    REPORTED: 'reportée',
-    POSTED: 'postée',
-    ABANDONED: 'abandonnée',
+    RESULTED: 'soldé',
+    REJECTED: 'rejeté',
+    REPORTED: 'reporté',
 } as const;
 
 export type T_PAYMENT_STATUS_ENUM =

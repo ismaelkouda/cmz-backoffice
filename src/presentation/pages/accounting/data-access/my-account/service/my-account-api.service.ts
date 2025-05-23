@@ -50,7 +50,7 @@ export class MyAccountApiService {
         data: myAccountFilterInterface,
         nbrPage: string = '1'
     ): void {
-        if (this.loadingMyAccountSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        if (this.loadingMyAccountSubject.getValue()) return;
         this.loadingMyAccountSubject.next(true);
         const url: string =
             myAccountEndpointEnum.MANAGEMENT_INVOICE_ACCOUNTS.replace(

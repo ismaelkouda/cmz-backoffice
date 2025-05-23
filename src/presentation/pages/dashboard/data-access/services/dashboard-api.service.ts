@@ -13,7 +13,7 @@ export class DashboardApiService {
         this.BASE_URL = this.envService.apiUrl;
     }
 
-    /*********************Méthode pour récupérer la liste des clients*************** */
+    /*********************Méthode pour récupérer la liste des statistiques du tableau de bord*************** */
 
     private dashboardStatisticSubject = new BehaviorSubject<Object>({});
     private loadingDashboardStatisticSubject = new BehaviorSubject<boolean>(

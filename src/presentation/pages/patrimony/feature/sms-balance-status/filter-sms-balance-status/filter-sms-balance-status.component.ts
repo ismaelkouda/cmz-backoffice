@@ -107,7 +107,10 @@ export class FilterSmsBalanceStatusComponent implements OnDestroy {
                         ),
                         alarme: new FormControl<string>(
                             filterData?.['alarme'],
-                            { nonNullable: true }
+                            {
+                                nonNullable: true,
+                                validators: [Validators.required],
+                            }
                         ),
                         niveau_un_uuid: new FormControl<string>(
                             filterData?.['niveau_un_uuid'],

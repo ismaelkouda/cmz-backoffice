@@ -21,48 +21,30 @@
     ]"
 >
     <ng-template pTemplate="caption">
-        <div class="d-flex justify-content-start gap-2 width-100 mb-2">
-            <app-table-button-header
-                (refresh)="pageCallback()"
-                (export)="onExportExcel()"
-                [hiddenButtonOther]="true"
-                [iconOther]="'pi pi-plus'"
-                [disabledButtonExport]="listSim.length === 0"
-            >
-            </app-table-button-header>
-        </div>
         <div class="d-flex justify-content-between">
-            <div>
-                <div
-                    style="
-                        flex-grow: 1;
-                        display: flex;
-                        justify-content: flex-start;
-                    "
-                >
-                    <app-table-title
-                        [count]="pargination?.total"
-                        [legendePluriel]="'SIM'"
-                        [perPage]="pargination.per_page"
-                        [legendeSingulier]="'SIM'"
-                        [page]="pargination.currentPage"
-                        [totalPage]="pargination.last_page"
+            <app-table-title
+                [count]="pargination?.total"
+                [legendePluriel]="'SIM'"
+                [perPage]="pargination.per_page"
+                [legendeSingulier]="'SIM'"
+                [page]="pargination.currentPage"
+                [totalPage]="pargination.last_page"
+            >
+            </app-table-title>
+            <div class="d-flex gap-2 align-items-center">
+                <div class="d-flex gap-2">
+                    <app-table-button-header
+                        (refresh)="pageCallback()"
+                        (export)="onExportExcel()"
+                        [disabledButtonExport]="listSim.length === 0"
+                        [colorOther]="'dark'"
+                        [hiddenButtonOther]="true"
                     >
-                    </app-table-title>
+                    </app-table-button-header>
                 </div>
-            </div>
-            <div>
-                <span class="p-input-icon-left">
-                    <i class="pi pi-search"></i>
-                    <input
-                        pInputText
-                        type="text"
-                        (input)="
-                            dt.filterGlobal($event.target.value, 'contains')
-                        "
-                        placeholder="Recherche..."
-                    />
-                </span>
+                <div>
+                    <app-search-table [dt]="dt"></app-search-table>
+                </div>
             </div>
         </div>
     </ng-template>

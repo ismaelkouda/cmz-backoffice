@@ -65,9 +65,12 @@ export class FilterPaymentComponent implements OnChanges, OnDestroy {
                         filterData?.['initie_par'],
                         { nonNullable: true }
                     ),
-                    statut: new FormControl<string>(filterData?.['statut'], {
-                        nonNullable: true,
-                    }),
+                    etat_paiement: new FormControl<string>(
+                        filterData?.['etat_paiement'],
+                        {
+                            nonNullable: true,
+                        }
+                    ),
                     operation: new FormControl<string>(
                         filterData?.['operation'],
                         { nonNullable: true }

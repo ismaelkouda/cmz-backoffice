@@ -11,12 +11,14 @@
                         <div class="table_content_wrapper">
                             <div class="table_header">
                                 <div>
-                                    <app-table-header
-                                        [count]="listNotifys"
-                                        [legende]="'Notifications'"
+                                    <app-table-title
+                                        [label]="false"
+                                        [count]="totalRecords"
+                                        [perPage]="recordsPerPage"
                                         [page]="page"
                                         [totalPage]="totalPage"
-                                    ></app-table-header>
+                                    >
+                                    </app-table-title>
                                 </div>
                                 <div>
                                     <button

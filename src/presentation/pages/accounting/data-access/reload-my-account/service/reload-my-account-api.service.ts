@@ -57,7 +57,7 @@ export class ReloadMyAccountApiService {
         data: reloadMyAccountFilterInterface,
         nbrPage: string = '1'
     ): void {
-        if (this.loadingReloadMyAccountSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        if (this.loadingReloadMyAccountSubject.getValue()) return;
         this.loadingReloadMyAccountSubject.next(true);
         const url: string =
             reloadMyAccountEndpointEnum.MANAGEMENT_INVOICE_ACCOUNTS.replace(
@@ -133,7 +133,7 @@ export class ReloadMyAccountApiService {
     );
 
     fetchTransactionDetails(transaction: string): void {
-        if (this.loadingTransactionDetailsSubject.getValue()) return; // Évite les doublons pendant que l'api est en cours
+        if (this.loadingTransactionDetailsSubject.getValue()) return;
         this.loadingTransactionDetailsSubject.next(true);
         const url: string =
             reloadMyAccountEndpointEnum.ACCOUNT_CREDIT_transaction_Details.replace(

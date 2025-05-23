@@ -66,6 +66,7 @@ export const enum EndPointUrl {
 
     FORCE_VENTE_COMMERCIAL_ALL = 'force-vente/commercial/all?page={page}',
     POST_GESTION_TENANTS_PORTEFEUILLES_TENANT_ALL = 'gestion-tenants/portefeuilles-tenant/all',
+    GET_INVOICE_DETAILS = 'gestion-facture/factures/{numberDemand}/details',
     GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_DETAILS = 'supervision-operations/demandes-services/{numberDemand}/details',
     PATRIMOINE_SIM_TRANSACTIONS_ALL_PAGE = 'patrimoine-sim/transactions/all?page={page}',
 }

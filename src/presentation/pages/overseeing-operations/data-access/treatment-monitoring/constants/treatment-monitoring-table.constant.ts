@@ -35,9 +35,9 @@ export const treatmentMonitoringTableConstant = {
             field: 'demandeur',
             header: 'Demandeur',
             class: 'text-center',
-            width: '20rem',
+            width: '15rem',
         },
-        { field: '', header: 'Actions', class: 'text-center', width: '20rem' },
+        { field: '', header: 'Actions', class: 'text-center', width: '15rem' },
     ],
     globalFilterFields: [
         'created_at',

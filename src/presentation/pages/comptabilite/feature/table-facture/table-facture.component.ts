@@ -107,7 +107,7 @@ export class TableFactureComponent {
             return 'badge-dark';
         }
 
-        const stateMap: Record<T_BADGE_ETAT_FACTURE, TYPE_COLOR_ETAT_BADGE> = {
+        const stateMap: any = {
             [BADGE_ETAT_FACTURE.EN_ATTENTE]: 'badge-dark',
             [BADGE_ETAT_FACTURE.POSTEE]: 'badge-warning',
             [BADGE_ETAT_FACTURE.REPORTEE]: 'badge-primary',

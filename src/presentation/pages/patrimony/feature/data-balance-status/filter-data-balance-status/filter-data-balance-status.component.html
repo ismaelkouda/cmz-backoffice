@@ -3,9 +3,8 @@
         <div class="col-md">
             <label
                 ><b
-                    >{{ 'STATUS' | translate }}&nbsp;{{
-                        'ALARM' | translate
-                    }}</b
+                    >{{ 'STATUS' | translate }}&nbsp;{{ 'ALARM' | translate
+                    }}<span class="text-danger">*</span></b
                 ></label
             >
             <p-dropdown
@@ -114,6 +113,7 @@
 
         <div class="filter-button" *ngIf="!secondFilter">
             <button
+                [disabled]="formFilter.invalid"
                 pButton
                 pRipple
                 type="submit"
@@ -244,6 +244,7 @@
 
         <div class="filter-button">
             <button
+                [disabled]="formFilter.invalid"
                 pButton
                 pRipple
                 type="submit"
