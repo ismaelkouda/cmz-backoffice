@@ -12,21 +12,23 @@
                             <div class="d-flex justify-content-between mb-3">
                                 <h4>
                                     <b>
-                                        <span
-                                            >Référence de la
+                                        <span>
+                                            Référence de
                                             <span
                                                 *ngIf="detailsInvoiceForm?.['reference']"
-                                                >facture</span
-                                            ><span
-                                                *ngIf="detailsInvoiceForm?.['etat_paiement']"
-                                                >Proforma</span
+                                                >la facture</span
                                             >
-                                            :</span
-                                        >
-                                        <span class="current_values"
-                                            >[{{detailsInvoiceForm?.['reference'] ?? detailsInvoiceForm?.['numero_demande']
-                                            }}]</span
-                                        >
+                                            <span
+                                                *ngIf="!detailsInvoiceForm?.['reference'] && detailsInvoiceForm?.['etat_paiement']"
+                                                >la proforma</span
+                                            >
+                                            :
+                                        </span>
+                                        <span class="current_values">
+                                            [{{ detailsInvoiceForm?.['reference'] ??
+                                            detailsInvoiceForm?.['numero_demande']
+                                            }}]
+                                        </span>
                                         <span
                                             [class]="
                                                 'badge ' +
@@ -41,15 +43,18 @@
                                         >
                                             {{
                                                 detailsInvoiceForm?.etat_paiement
-                                            }} </span
-                                        >&nbsp; [Montant :<span
-                                            class="text-orange"
-                                        >
-                                            {{ detailsInvoiceForm?.prix_ttc }}
-                                            Fcfa</span
+                                            }}
+                                        </span>
+                                        &nbsp; [Montant :
+                                        <span class="text-orange">
+                                            {{
+                                                detailsInvoiceForm?.prix_ttc
+                                            }}
+                                            Fcfa </span
                                         >]
                                     </b>
                                 </h4>
+
                                 <div class="forms-feature-header__button">
                                     <div class="d-flex gap-3">
                                         <p-button
@@ -159,35 +164,36 @@
                                                         colspan="2"
                                                         class="text-center"
                                                     >
-                                                        <b class="fs-5"
-                                                            ><span
+                                                        <b class="fs-5">
+                                                            <span
                                                                 *ngIf="detailsInvoiceForm?.['reference']"
-                                                                >facture</span
-                                                            ><span
-                                                                *ngIf="detailsInvoiceForm?.['etat_paiement']"
+                                                                >Facture</span
+                                                            >
+                                                            <span
+                                                                *ngIf="!detailsInvoiceForm?.['reference'] && detailsInvoiceForm?.['etat_paiement']"
                                                                 >Proforma</span
-                                                            ></b
-                                                        >
+                                                            >
+                                                        </b>
                                                     </td>
                                                     <td
                                                         rowspan="2"
                                                         class="align-middle text-start"
                                                     >
-                                                        <b class="fs-5"
-                                                            >A l'attention de
+                                                        <b class="fs-5">
+                                                            À l'attention de
                                                             [&nbsp;{{
                                                                 detailsInvoiceForm
                                                                     ?.clientInfo
                                                                     ?.nom_tenant
-                                                            }}&nbsp;]</b
-                                                        >
+                                                            }}&nbsp;]
+                                                        </b>
                                                         <p
                                                             class="text-secondary fs-6"
                                                         >
                                                             <span
                                                                 class="fw-bolder"
                                                                 >Compte
-                                                                client&nbsp;:&nbsp;</span
+                                                                client&nbsp;: </span
                                                             >{{
                                                                 detailsInvoiceForm
                                                                     ?.clientInfo
@@ -196,7 +202,7 @@
                                                             }}<br />
                                                             <span
                                                                 class="fw-bolder"
-                                                                >Adresse&nbsp;:&nbsp;</span
+                                                                >Adresse&nbsp;: </span
                                                             >{{
                                                                 detailsInvoiceForm
                                                                     ?.clientInfo
@@ -205,7 +211,7 @@
                                                             }}<br />
                                                             <span
                                                                 class="fw-bolder"
-                                                                >Contact&nbsp;:&nbsp;</span
+                                                                >Contact&nbsp;: </span
                                                             >{{
                                                                 detailsInvoiceForm
                                                                     ?.clientInfo
@@ -215,6 +221,7 @@
                                                         </p>
                                                     </td>
                                                 </tr>
+
                                                 <tr>
                                                     <td class="text-center">
                                                         <b>{{
@@ -222,30 +229,28 @@
                                                                 | translate
                                                         }}</b>
                                                     </td>
-                                                    <td
-                                                        scope="row"
-                                                        class="text-center"
-                                                    >
+                                                    <td class="text-center">
                                                         <b>
                                                             <span
                                                                 *ngIf="detailsInvoiceForm?.['reference']"
-                                                                >DATE
-                                                                FACTURE</span
-                                                            ><span
-                                                                *ngIf="detailsInvoiceForm?.['etat_paiement']"
-                                                                >DATE
-                                                                PROFORMA</span
+                                                                >Date de la
+                                                                facture</span
+                                                            >
+                                                            <span
+                                                                *ngIf="!detailsInvoiceForm?.['reference'] && detailsInvoiceForm?.['etat_paiement']"
+                                                                >Date de la
+                                                                proforma</span
                                                             >
                                                         </b>
                                                     </td>
                                                     <td
-                                                        *ngIf="detailsInvoiceForm?.['reference']"
-                                                        scope="row"
                                                         class="text-center"
+                                                        *ngIf="detailsInvoiceForm?.['reference']"
                                                     >
-                                                        <b>DATE LIMITE</b>
+                                                        <b>Date limite</b>
                                                     </td>
                                                 </tr>
+
                                                 <tr>
                                                     <td class="text-center">
                                                         {{ detailsInvoiceForm?.['reference'] ??
@@ -269,8 +274,8 @@
                                                     <td
                                                         class="align-middle text-start"
                                                     >
-                                                        <b class="fs-5"
-                                                            >Suivi par [&nbsp;{{
+                                                        <b class="fs-5">
+                                                            Suivi par [&nbsp;{{
                                                                 detailsInvoiceForm
                                                                     ?.approbateur
                                                                     ?.nom
@@ -278,12 +283,12 @@
                                                                 detailsInvoiceForm
                                                                     ?.approbateur
                                                                     ?.prenoms
-                                                            }}&nbsp;]&nbsp;[{{
+                                                            }}&nbsp;]&nbsp; [{{
                                                                 detailsInvoiceForm
                                                                     ?.approbateur
                                                                     ?.email
-                                                            }}&nbsp;]</b
-                                                        >
+                                                            }}]
+                                                        </b>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -309,9 +314,10 @@
                                                 <span
                                                     class="d-flex align-items-center"
                                                 >
-                                                    La Facture a été réglée dans
-                                                    sa totalité par le client
+                                                    La facture a été réglée
+                                                    intégralement par le client,
                                                     avec un reçu de paiement
+                                                    disponible.
                                                 </span>
                                                 <span class="d-flex gap-4">
                                                     <button
@@ -329,6 +335,7 @@
                                                 </span>
                                             </div>
                                         </div>
+
                                         <table
                                             [ngClass]="['native_table table']"
                                             *ngIf="
@@ -369,7 +376,7 @@
                                                         <input
                                                             class="form-check-input"
                                                             type="radio"
-                                                            name="paiement"
+                                                            name="type_paiement"
                                                             value="Post-Paid"
                                                             formControlName="type_paiement"
                                                             #differe
@@ -379,10 +386,13 @@
                                                         PostPaid
                                                     </td>
                                                     <td class="text-start">
-                                                        Le montant postpaid dans
-                                                        le système de
-                                                        facturation pour le
-                                                        paiement à venir
+                                                        Le montant de cette
+                                                        facture sera enregistré
+                                                        dans le système de
+                                                        facturation et réglé
+                                                        ultérieurement selon les
+                                                        conditions de paiement
+                                                        convenues.
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -390,7 +400,7 @@
                                                         <input
                                                             class="form-check-input"
                                                             type="radio"
-                                                            name="paiement"
+                                                            name="type_paiement"
                                                             value="Pre-Paid"
                                                             formControlName="type_paiement"
                                                             #immediat
@@ -407,12 +417,14 @@
                                                             <span
                                                                 class="d-flex align-items-center"
                                                             >
-                                                                Le justificatif
-                                                                de la facture
-                                                                doit etre
-                                                                fournir pour le
-                                                                traitement de la
-                                                                facture
+                                                                Un justificatif
+                                                                de paiement
+                                                                (reçu ou preuve
+                                                                de virement) est
+                                                                requis pour
+                                                                procéder à la
+                                                                validation de la
+                                                                facture.
                                                             </span>
                                                             <span
                                                                 class="d-flex gap-4"
@@ -460,7 +472,7 @@
                                                         <input
                                                             class="form-check-input"
                                                             type="radio"
-                                                            name="paiement"
+                                                            name="type_paiement"
                                                             value="via Compte"
                                                             formControlName="type_paiement"
                                                             #differe
@@ -470,61 +482,62 @@
                                                         via Compte
                                                     </td>
                                                     <td class="text-start">
-                                                        Le montant de la facture
-                                                        va être prélevé de votre
-                                                        compte <br />
-                                                        &nbsp; [
-                                                        <b>Solde engagé</b
-                                                        >&nbsp;:&nbsp;
+                                                        Le montant de cette
+                                                        facture sera
+                                                        automatiquement prélevé
+                                                        de votre compte client.
+                                                        <br />
+                                                        &nbsp;[
+                                                        <b>Solde engagé</b> :
                                                         <span
-                                                            [ngStyle]="{
-                                                                'font-size':
-                                                                    '16px'
-                                                            }"
                                                             class="badge badge-dark"
+                                                            style="
+                                                                font-size: 16px;
+                                                            "
                                                         >
                                                             {{
                                                                 detailsInvoiceForm?.SoldeEngage ||
                                                                     0
-                                                            }}&nbsp;Fcfa
+                                                            }}
+                                                            Fcfa
                                                         </span>
-                                                        &nbsp;<b
-                                                            >Solde restant</b
-                                                        >&nbsp;:&nbsp;
+                                                        &nbsp;|
+                                                        <b>Solde restant</b> :
                                                         <span
-                                                            [ngStyle]="{
-                                                                'font-size':
-                                                                    '16px'
-                                                            }"
                                                             class="badge badge-primary"
+                                                            style="
+                                                                font-size: 16px;
+                                                            "
                                                         >
                                                             {{
                                                                 detailsInvoiceForm?.SoldeRestant ||
                                                                     0
-                                                            }}&nbsp;<span
+                                                            }}
+                                                            <span
                                                                 *ngIf="
                                                                     +detailsInvoiceForm?.SoldeRestant >
                                                                     0
                                                                 "
-                                                                >Fcfa</span
+                                                            >
+                                                                Fcfa</span
                                                             >
                                                         </span>
-                                                        &nbsp;<b
-                                                            >Solde disponible</b
-                                                        >&nbsp;:&nbsp;
+                                                        &nbsp;|
+                                                        <b>Solde disponible</b>
+                                                        :
                                                         <span
-                                                            [ngStyle]="{
-                                                                'font-size':
-                                                                    '16px'
-                                                            }"
                                                             class="badge badge-success"
+                                                            style="
+                                                                font-size: 16px;
+                                                            "
                                                         >
                                                             {{
                                                                 detailsInvoiceForm?.soldeDisponible ||
                                                                     0
-                                                            }}&nbsp;Fcfa
+                                                            }}
+                                                            Fcfa
                                                         </span>
-                                                        &nbsp;]
+                                                        ]
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -543,15 +556,15 @@
                                             >
                                                 <tr>
                                                     <th>Code</th>
-                                                    <th>Designation</th>
+                                                    <th>Désignation</th>
                                                     <th class="text-center">
                                                         Quantité
                                                     </th>
                                                     <th class="text-center">
-                                                        PU (Fcfa)
+                                                        P.U. (FCFA)
                                                     </th>
                                                     <th class="text-center">
-                                                        Montant (Fcfa)
+                                                        Montant (FCFA)
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -588,17 +601,16 @@
                                                         }}
                                                     </td>
                                                 </tr>
+
                                                 <tr
                                                     class="tr_montant"
                                                     style="
                                                         border-color: transparent;
                                                     "
                                                 >
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td colspan="3"></td>
                                                     <td class="text-center">
-                                                        Montant Total (HT)
+                                                        Montant total (HT)
                                                     </td>
                                                     <td
                                                         class="text-center fs-6"
@@ -608,19 +620,18 @@
                                                         }}
                                                     </td>
                                                 </tr>
+
                                                 <tr
                                                     class="tr_montant"
                                                     style="
                                                         border-color: transparent;
                                                     "
                                                 >
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td colspan="3"></td>
                                                     <td class="text-center">
                                                         Montant TVA ({{
                                                             detailsInvoiceForm?.tva
-                                                        }})
+                                                        }}%)
                                                     </td>
                                                     <td
                                                         class="text-center fs-6"
@@ -630,18 +641,17 @@
                                                         }}
                                                     </td>
                                                 </tr>
+
                                                 <tr
                                                     class="tr_montant"
                                                     style="
                                                         border-color: transparent;
                                                     "
                                                 >
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td colspan="3"></td>
                                                     <td class="text-center">
                                                         <b
-                                                            >Montant Total
+                                                            >Montant total
                                                             (TTC)</b
                                                         >
                                                     </td>

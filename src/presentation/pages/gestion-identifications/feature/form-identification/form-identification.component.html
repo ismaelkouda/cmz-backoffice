@@ -130,27 +130,27 @@
                     <legend>
                         <b>Utilisateur / Bénéficiaire</b>
                     </legend>
-                    <div class="row">
-                        <div class="col-md">
-                            <div class="form-group">
-                                <label>
-                                    <b>Type Utilisateur</b>
-                                </label>
-                                <input
-                                    type="text"
-                                    formControlName="type_personne"
-                                    pInputText
-                                />
-                            </div>
-                        </div>
-                        <ng-container
-                            *ngIf="
-                                typeTreatment.visualiser;
-                                else fieldsModuleIdentifier
-                            "
-                        >
-                            <ng-container *ngIf="displayPersonne === true">
-                                <div class="col-md">
+                    <ng-container
+                        *ngIf="
+                            typeTreatment.visualiser;
+                            else fieldsModuleIdentifier
+                        "
+                    >
+                        <ng-container *ngIf="displayPersonne === true">
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-4 col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Type Utilisateur</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="type_personne"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4 col-md-4">
                                     <div class="form-group">
                                         <label><b>Nom</b></label>
                                         <input
@@ -160,7 +160,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-4 col-md-4">
                                     <div class="form-group">
                                         <label><b>Prénoms</b></label>
                                         <input
@@ -170,7 +170,9 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md">
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label>
                                             <b>Nature de la pièce</b>
@@ -182,7 +184,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label>
                                             <b>Numéro de la pièce</b>
@@ -194,7 +196,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <label
                                         ><b
                                             >Date naissance<span
@@ -209,7 +211,7 @@
                                         pInputText
                                     />
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label
                                             ><b
@@ -227,9 +229,24 @@
                                         />
                                     </div>
                                 </div>
-                            </ng-container>
-                            <ng-container *ngIf="displayPersonne === false">
-                                <div class="col-md">
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="displayPersonne === false">
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-4 col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Type Utilisateur</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="type_personne"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4 col-md-4">
                                     <div class="form-group">
                                         <label><b>Denomination</b></label>
                                         <input
@@ -239,7 +256,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-4 col-md-4">
                                     <div class="form-group">
                                         <label><b>Raison social</b></label>
                                         <input
@@ -249,7 +266,10 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md">
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label>
                                             <b>Nature du document</b>
@@ -261,7 +281,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label>
                                             <b>Numéro du document</b>
@@ -273,7 +293,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <label
                                         ><b
                                             >Date d'installation<span
@@ -288,7 +308,7 @@
                                         pInputText
                                     />
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label
                                             ><b
@@ -306,16 +326,30 @@
                                         />
                                     </div>
                                 </div>
-                            </ng-container>
+                            </div>
                         </ng-container>
-                        <ng-template #fieldsModuleIdentifier>
-                            <ng-container
-                                *ngIf="
-                                    displayPersonne === true;
-                                    else displayEquipement
-                                "
-                            >
-                                <div class="col-md">
+                    </ng-container>
+                    <ng-template #fieldsModuleIdentifier>
+                        <ng-container
+                            *ngIf="
+                                displayPersonne === true;
+                                else displayEquipement
+                            "
+                        >
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-4 col-md-4">
+                                    <div class="form-group">
+                                        <label>
+                                            <b>Type Utilisateur</b>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            formControlName="type_personne"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-4 col-md-4">
                                     <div class="form-group">
                                         <label
                                             ><b
@@ -331,7 +365,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-4 col-md-4">
                                     <div class="form-group">
                                         <label
                                             ><b
@@ -348,8 +382,10 @@
                                         />
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="col-md">
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <label
                                         ><b
                                             >Nature de la pièce<span
@@ -365,7 +401,7 @@
                                     >
                                     </p-dropdown>
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label>
                                             <b
@@ -382,7 +418,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <label
                                         ><b
                                             >Date naissance<span
@@ -399,7 +435,7 @@
                                     >
                                     </p-calendar>
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label
                                             ><b
@@ -417,30 +453,28 @@
                                         />
                                     </div>
                                 </div>
-                            </ng-container>
-                            <ng-template #displayEquipement>
-                                <div class="col-md">
+                            </div>
+                        </ng-container>
+
+                        <ng-template #displayEquipement>
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-4 col-md-4">
                                     <div class="form-group">
-                                        <label
-                                            ><b
-                                                >Types Emplacements<span
-                                                    class="text-danger"
-                                                    >*</span
-                                                ></b
-                                            ></label
-                                        >
+                                        <label>
+                                            <b>Type Utilisateur</b>
+                                        </label>
                                         <input
                                             type="text"
-                                            formControlName="prenoms"
+                                            formControlName="type_personne"
                                             pInputText
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-4 col-md-4">
                                     <div class="form-group">
                                         <label
                                             ><b
-                                                >Nom Emplacement<span
+                                                >Denomination<span
                                                     class="text-danger"
                                                     >*</span
                                                 ></b
@@ -453,10 +487,29 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-4 col-md-4">
+                                    <div class="form-group">
+                                        <label
+                                            ><b
+                                                >Raison social<span
+                                                    class="text-danger"
+                                                    >*</span
+                                                ></b
+                                            ></label
+                                        >
+                                        <input
+                                            type="text"
+                                            formControlName="prenoms"
+                                            pInputText
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <label
                                         ><b
-                                            >Type numéro<span
+                                            >Nature du document<span
                                                 class="text-danger"
                                                 >*</span
                                             ></b
@@ -470,7 +523,7 @@
                                     >
                                     </p-dropdown>
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label
                                             ><b
@@ -490,7 +543,7 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <label
                                         ><b
                                             >Date d'installation<span
@@ -507,7 +560,7 @@
                                     >
                                     </p-calendar>
                                 </div>
-                                <div class="col-md">
+                                <div class="col-12 col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <label
                                             ><b
@@ -525,9 +578,9 @@
                                         />
                                     </div>
                                 </div>
-                            </ng-template>
+                            </div>
                         </ng-template>
-                    </div>
+                    </ng-template>
                     <div class="row">
                         <div class="col-md">
                             <div class="form-group">
@@ -768,7 +821,6 @@
         </div>
     </div>
 </div>
-
 <div
     class="d-flex justify-content-center align-items-center"
     *ngIf="loadingPage"

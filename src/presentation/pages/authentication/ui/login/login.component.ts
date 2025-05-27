@@ -90,13 +90,9 @@ export class LoginComponent implements OnInit {
         const token = response.data?.token;
         this.storage.saveData('user', JSON.stringify(currentUser));
         this.storage.saveData('token', JSON.stringify(token));
-        console.log('token', token);
 
         this.storeCurrentUserService.setCurrentUser(currentUser);
         this.storeTokenService.setToken(token);
-        console.log('====================================');
-        console.log('currentUser', token);
-        console.log('=========genère des erreur souvent==========');
         // await this.cryptoToken.saveTokenData('token', token);
         this.storage.saveData(
             'menu',

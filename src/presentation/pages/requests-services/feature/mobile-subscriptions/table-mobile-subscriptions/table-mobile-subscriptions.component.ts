@@ -33,7 +33,9 @@ type PageAction = {
         | 'open-folder-mobile-subscription'
         | 'mass-edit-mobile-subscription'
         | 'mass-add-mobile-subscription'
-        | 'simple-add-mobile-subscription';
+        | 'simple-add-mobile-subscription'
+        | 'view-payment'
+        | 'view-invoice';
     view: 'page';
 };
 type ModalAction = {
@@ -170,18 +172,19 @@ export class TableMobileSubscriptionsComponent {
                 break;
 
             case 'page':
-                if (params.action === 'open-folder-mobile-subscription') {
-                    this.interfaceUser.emit(params);
-                }
-                if (params.action === 'mass-edit-mobile-subscription') {
-                    this.interfaceUser.emit(params);
-                }
-                if (params.action === 'mass-add-mobile-subscription') {
-                    this.interfaceUser.emit(params);
-                }
-                if (params.action === 'simple-add-mobile-subscription') {
-                    this.interfaceUser.emit(params);
-                }
+                this.interfaceUser.emit(params);
+                // if (params.action === 'open-folder-mobile-subscription') {
+                //     this.interfaceUser.emit(params);
+                // }
+                // if (params.action === 'mass-edit-mobile-subscription') {
+                //     this.interfaceUser.emit(params);
+                // }
+                // if (params.action === 'mass-add-mobile-subscription') {
+                //     this.interfaceUser.emit(params);
+                // }
+                // if (params.action === 'simple-add-mobile-subscription') {
+                //     this.interfaceUser.emit(params);
+                // }
                 break;
         }
     }
@@ -333,7 +336,7 @@ export class TableMobileSubscriptionsComponent {
         );
     }
 
-    getTreatmentButtonPaiementStyle(dossier: {
+    getTreatmentButtonPaymentStyle(dossier: {
         type_paiement: string;
         statut: string;
         traitement: string;

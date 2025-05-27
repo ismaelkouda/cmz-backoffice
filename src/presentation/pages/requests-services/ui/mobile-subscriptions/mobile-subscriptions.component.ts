@@ -12,7 +12,7 @@ import {
     BADGE_ETAT,
     T_BADGE_ETAT,
 } from '../../../../../shared/constants/badge-etat.contant';
-import { FORM } from '../../requests-services-routing.module';
+import { FORM, INVOICE, PAYMENT } from '../../requests-services-routing.module';
 import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
 import { ApplicantInterface } from '../../../../../shared/interfaces/applicant';
 import { mobileSubscriptionsFilterInterface } from '../../data-access/mobile-subscriptions/interface/mobile-subscription-filter.interface';
@@ -36,7 +36,9 @@ type PageAction = {
         | 'open-folder-mobile-subscription'
         | 'mass-edit-mobile-subscription'
         | 'simple-add-mobile-subscription'
-        | 'mass-add-mobile-subscription';
+        | 'mass-add-mobile-subscription'
+        | 'view-payment'
+        | 'view-invoice';
     view: 'page';
 };
 
@@ -142,6 +144,20 @@ export class MobileSubscriptionsComponent {
                         ...queryParams,
                         operation: OperationTransaction.ACTIVATION_EN_MASSE,
                     },
+                });
+                break;
+            case 'view-payment':
+                routePath = `${PAYMENT}/${number_demand}`;
+                this.router.navigate([routePath], {
+                    relativeTo: this.activatedRoute,
+                    queryParams,
+                });
+                break;
+            case 'view-invoice':
+                routePath = `${INVOICE}/${params.data['reference']}`;
+                this.router.navigate([routePath], {
+                    relativeTo: this.activatedRoute,
+                    queryParams,
                 });
                 break;
         }

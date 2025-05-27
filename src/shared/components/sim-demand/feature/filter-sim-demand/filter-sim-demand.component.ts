@@ -27,8 +27,6 @@ export class FilterSimDemandComponent {
         this.activatedRoute.queryParams.subscribe((params: Object) => {
             this.urlParamTypeDemand = params?.['operation'];
         });
-        console.log('this.urlParamTypeDemand', this.urlParamTypeDemand);
-
         this.initFormFilter();
     }
 

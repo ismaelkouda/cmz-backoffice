@@ -221,10 +221,6 @@ export class FormSimCardComponent {
             date_naissance: simCardSelectedDetails?.date_naissance,
             lieu_naissance: simCardSelectedDetails?.lieu_naissance,
         });
-        console.log(
-            'new Date(simCardSelectedDetails?.date_naissance)',
-            new Date(simCardSelectedDetails?.date_naissance as string)
-        );
 
         if (simCardSelectedDetails?.photo_carte_recto) {
             this.imageURLs['recto'] =

@@ -42,10 +42,10 @@ if (!env || !config[env]) {
     const selectedConfig = config[env];
 
     const output = `
-(function (window) {
-    window.__env = ${JSON.stringify(selectedConfig, null, 4)};
-})(this);
-`;
+        (function (window) {
+            window.__env = ${JSON.stringify(selectedConfig, null, 4)};
+        })(this);
+        `;
 
     const outputPath = path.resolve(__dirname, '../../src/assets/config/env.js');
     fs.writeFileSync(outputPath, output, 'utf8');

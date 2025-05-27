@@ -187,6 +187,27 @@
                                 })
                             "
                         ></button>
+                        &nbsp;
+                        <button
+                            pButton
+                            [ngClass]="
+                                getTreatmentButtonPaymentStyle(dossier)?.class
+                            "
+                            style="border-color: transparent"
+                            icon="pi pi-print"
+                            tooltipPosition="top"
+                            pTooltip="Facture"
+                            [pTooltip]="getTreatmentButtonPaymentStyle(dossier)?.['tooltip']"
+                            (click)="
+                                handleAction({
+                                    data: dossier,
+                                    action: !!dossier?.type_paiement
+                                        ? 'view-invoice'
+                                        : 'view-payment',
+                                    view: 'page'
+                                })
+                            "
+                        ></button>
                     </ng-container>
                     <ng-container *ngSwitchDefault>
                         {{dossier?.[col.field]}}

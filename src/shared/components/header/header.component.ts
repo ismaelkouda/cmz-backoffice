@@ -68,7 +68,6 @@ export class HeaderComponent implements OnInit {
     // public OncountNotify() {
     //     this.notifyService.OncountNotify().subscribe({
     //         next: (response) => {
-    //             console.log('response', response);
 
     //             let user = JSON.parse(this.storage.getData('user'));
     //             this.countNotify = response['data'];

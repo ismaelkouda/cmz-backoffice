@@ -4,9 +4,12 @@ import { MobileSubscriptionsComponent } from './ui/mobile-subscriptions/mobile-s
 import { FormDemandComponent } from '../../../shared/components/form-demand/form-demand.component';
 import { SimDemandComponent } from '../../../shared/components/sim-demand/sim-demand.component';
 import { PagesGuard } from '../../../core/guard/PagesGuard';
+import { InvoiceFormComponent } from '../../../shared/components/invoice-form/invoice-form.component';
 
 export const MOBILE_SUBSCRIPTIONS = 'mobile-subscriptions';
 export const FORM = 'form';
+export const PAYMENT = 'payment';
+export const INVOICE = 'invoice';
 export const LINES = 'lines';
 
 const routes: Routes = [
@@ -20,6 +23,14 @@ const routes: Routes = [
             {
                 path: FORM,
                 component: FormDemandComponent,
+            },
+            {
+                path: `${PAYMENT}/:number_demand`,
+                component: InvoiceFormComponent,
+            },
+            {
+                path: `${INVOICE}/:number_demand`,
+                component: InvoiceFormComponent,
             },
             {
                 path: ':number_demand',

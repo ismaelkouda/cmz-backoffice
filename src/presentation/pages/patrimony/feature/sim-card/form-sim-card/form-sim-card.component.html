@@ -58,13 +58,20 @@
                                         'identification-sim-card'
                                     "
                                 >
-                                    <p-button
+                                    <!-- <p-button
                                         label="Identifier"
                                         styleClass="p-button-success"
                                         (click)="handleIdentifySimCard()"
                                         [class.p-disabled]="
                                             isDisabledButtonIdentifySimCard()
                                         "
+                                    >
+                                    </p-button> -->
+                                    <p-button
+                                        label="Identifier"
+                                        styleClass="p-button-success"
+                                        (click)="handleIdentifySimCard()"
+                                        [class.p-disabled]="(isNoVerifyPiecesPhotos || formIdentifierCarteSim.invalid) && !(formIdentifierCarteSim.valid && simCardSelectedDetails?.['is_identified'])"
                                     >
                                     </p-button>
                                 </div>
@@ -276,7 +283,7 @@
                                                     <p-calendar
                                                         formControlName="date_naissance"
                                                         [showIcon]="true"
-                                                        dateFormat="mm-dd-yy"
+                                                        [dataType]="date"
                                                     >
                                                     </p-calendar>
                                                 </div>

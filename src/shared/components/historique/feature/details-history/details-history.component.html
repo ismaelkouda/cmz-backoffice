@@ -18,7 +18,7 @@
                             <label><b>Date/Heure</b></label>
                             <input
                                 type="text"
-                                [value]="currentEvent?.createdAt"
+                                [value]="currentEvent?.createdAt ?? ''"
                                 disabled
                                 pInputText
                             />
@@ -29,11 +29,9 @@
                             <label><b>Utilisateur</b></label>
                             <input
                                 type="text"
-                                [value]="
-                                    currentEvent?.initiePar?.nom +
-                                    ' ' +
-                                    currentEvent?.initiePar?.prenoms
-                                "
+                                value="{{
+                                    currentEvent?.initiePar?.nom ?? ''
+                                }} {{ currentEvent?.initiePar?.prenoms ?? '' }}"
                                 disabled
                                 pInputText
                             />
@@ -44,7 +42,7 @@
                             <label><b>Adresse IP</b></label>
                             <input
                                 type="text"
-                                [value]="currentEvent?.adresseIP"
+                                [value]="currentEvent?.adresseIP ?? ''"
                                 disabled
                                 pInputText
                             />
@@ -57,7 +55,7 @@
                             <label><b>Action</b></label>
                             <input
                                 type="text"
-                                [value]="currentEvent?.action"
+                                [value]="currentEvent?.action ?? ''"
                                 disabled
                                 pInputText
                             />
@@ -68,7 +66,7 @@
                             <label><b>Module</b></label>
                             <input
                                 type="text"
-                                [value]="currentEvent?.module"
+                                [value]="currentEvent?.module ?? ''"
                                 disabled
                                 pInputText
                             />
@@ -81,7 +79,7 @@
                             <label><b>Moyen d'accès</b></label>
                             <input
                                 type="text"
-                                [value]="currentEvent?.agentUtilise"
+                                [value]="currentEvent?.agentUtilise ?? ''"
                                 disabled
                                 pInputText
                             />

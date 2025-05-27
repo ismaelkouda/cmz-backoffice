@@ -20,10 +20,6 @@ import {
     OperationTransaction,
     TitleOperation,
 } from '../../../../../../shared/enum/OperationTransaction.enum';
-import {
-    BADGE_ETAPE,
-    T_BADGE_ETAPE,
-} from '../../../../../../shared/constants/badge-etape.constant';
 
 type Action = PageAction;
 type PageAction = {
