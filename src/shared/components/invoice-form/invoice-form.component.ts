@@ -23,6 +23,7 @@ import { ACCOUNTING } from '../../routes/routes';
 // } from '../../../presentation/pages/accounting/accounting-routing.module';
 import { DetailsDemand } from '../form-folder/data-access/form-folder.interface';
 import { BADGE_ETAPE } from '../../constants/badge-etape.constant';
+import { ExportInvoiceService } from './data-access/enums/export-invoice.service';
 // import { CLAIMS } from '../../../presentation/pages/overseeing-operations/overseeing-operations-routing.module';
 const Swal = require('sweetalert2');
 
@@ -71,7 +72,8 @@ export class InvoiceFormComponent {
         private sharedDataService: SharedDataService,
         private sharedService: SharedService,
         private fb: FormBuilder,
-        private supervisionOperationService: SupervisionOperationService
+        private supervisionOperationService: SupervisionOperationService,
+        private exportInvoiceService: ExportInvoiceService
     ) {
         this.logoTenant = LOGO_ORANGE;
     }
@@ -263,6 +265,10 @@ export class InvoiceFormComponent {
         };
 
         return stateMap[facture.statut];
+    }
+
+    public postExportInvoice(): void {
+        this.exportInvoiceService.handleExportInvoice(this.detailsInvoiceForm);
     }
 
     public formatTitle(title: string) {

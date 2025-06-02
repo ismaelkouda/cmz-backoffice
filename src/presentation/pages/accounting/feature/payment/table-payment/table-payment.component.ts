@@ -12,14 +12,15 @@ import { paymentInterface } from '../../../data-access/payment/interface/payment
 import { paymentTableConstant } from '../../../data-access/payment/constantes/payment-table';
 import { PaymentApiService } from '../../../data-access/payment/service/payment-api.service';
 import { paymentFilterInterface } from '../../../data-access/payment/interface/payment-filter.interface';
-import {
-    PAYMENT_STATUS_ENUM,
-    T_PAYMENT_STATUS_ENUM,
-} from '../../../data-access/payment/enums/payment-status.enum';
+
 import {
     OperationTransaction,
     TitleOperation,
 } from '../../../../../../shared/enum/OperationTransaction.enum';
+import {
+    PAYMENT_STATUS_ENUM,
+    T_PAYMENT_STATUS_ENUM,
+} from '../../../data-access/payment/enums/payment-status.enum';
 
 type Action = PageAction;
 type PageAction = {

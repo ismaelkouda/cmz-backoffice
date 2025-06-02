@@ -5,7 +5,6 @@ export const whiteSimTableConstant = {
             field: 'created_at',
             header: 'Date / Heure',
             class: 'text-center',
-            width: '12rem',
         },
         {
             field: 'numero_demande',
@@ -31,13 +30,11 @@ export const whiteSimTableConstant = {
             field: 'updated_at',
             header: 'Date Etat',
             class: 'text-center',
-            width: '12rem',
         },
         {
             field: 'demandeur',
             header: 'Demandeur',
             class: 'text-center',
-            width: '20rem',
         },
         { field: '', header: 'Actions', class: 'text-center', width: '20rem' },
     ],

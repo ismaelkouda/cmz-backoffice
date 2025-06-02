@@ -43,11 +43,10 @@ export class InvoiceApiService {
     fetchInvoice(data: invoiceFilterInterface, nbrPage: string = '1'): void {
         if (this.loadingInvoiceSubject.getValue()) return;
         this.loadingInvoiceSubject.next(true);
-        const url: string =
-            invoiceEndpointEnum.POST_MANAGEMENT_INVOICE_INVOICES.replace(
-                '{page}',
-                nbrPage
-            );
+        const url: string = invoiceEndpointEnum.POST_MANAGEMENT_PAYMENT.replace(
+            '{page}',
+            nbrPage
+        );
 
         this.httpClient
             .post<Object>(this.BASE_URL + url, data)
@@ -104,7 +103,7 @@ export class InvoiceApiService {
     // fetchInvoiceDetails(numeroDemande: string): void {
     //     if (this.loadingInvoiceDetailsSubject.getValue()) return;
 
-    //     const url: string = invoiceEndpointEnum.POST_MANAGEMENT_INVOICE_INVOICES_DETAILS.replace('{numeroDemande}', numeroDemande);
+    //     const url: string = invoiceEndpointEnum.POST_MANAGEMENT_PAYMENT_DETAILS.replace('{numeroDemande}', numeroDemande);
     //     this.loadingInvoiceDetailsSubject.next(true);
 
     //     this.httpClient

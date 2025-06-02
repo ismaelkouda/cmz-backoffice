@@ -55,6 +55,53 @@
             >
             </p-dropdown>
         </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'PAYMENT_TYPE' | translate }}</b></label
+            >
+            <p-dropdown
+                formControlName="type_paiement"
+                [options]="typePayment"
+                [showClear]="true"
+                placeholder="{{ 'SELECT' | translate }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+            >
+            </p-dropdown>
+        </div>
+        <div class="filter-button" *ngIf="!secondFilter">
+            <button
+                pButton
+                pRipple
+                type="submit"
+                class="p-button-success"
+                icon="pi pi-filter"
+            ></button>
+        </div>
+
+        <div class="filter-button">
+            <button
+                *ngIf="!secondFilter"
+                (click)="showSecondFilter()"
+                pButton
+                pRipple
+                class="p-button-dark"
+                icon="pi pi-plus"
+            ></button>
+            <button
+                *ngIf="secondFilter"
+                (click)="showSecondFilter()"
+                pButton
+                pRipple
+                class="p-button-dark"
+                icon="pi pi-minus"
+            ></button>
+        </div>
+    </div>
+
+    <br *ngIf="secondFilter" />
+
+    <div class="d-flex gap-1" *ngIf="secondFilter">
         <div class="col-md-2">
             <label
                 ><b>{{ 'START_DATE' | translate }}</b></label
@@ -79,7 +126,6 @@
             >
             </p-calendar>
         </div>
-
         <div class="filter-button">
             <button
                 pButton

@@ -1,3 +1,7 @@
+import {
+    T_TypePayment,
+    TypePayment,
+} from '../../../../../shared/enum/type-payment.enum';
 import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -55,6 +59,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     public listOperations: Array<string> = [];
     public statisticsBox: Array<IStatistiquesBox> = [];
     public indexBoxClickable = indexBoxClickable;
+    public typePayment: Array<T_TypePayment>;
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
@@ -64,6 +69,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         private router: Router,
         private mappingService: MappingService
     ) {
+        this.typePayment = Object.values(TypePayment);
         this.listOperations = this.mappingService.listOperations;
     }
 
@@ -140,29 +146,29 @@ export class PaymentComponent implements OnInit, OnDestroy {
                 id: 0,
                 cardBgColor: 'rgb(52, 73, 94)',
                 legend: '# Paiements',
-                count: rapport?.['total_factures'] || 0,
-                taux: rapport?.['pourcentage_factures'],
+                count: rapport?.['total_paiements'] || 0,
+                taux: rapport?.['pourcentage_paiements'],
+            },
+            {
+                id: 4,
+                cardBgColor: 'rgb(39, 174, 96)',
+                legend: '# Via mon compte',
+                count: rapport?.['total_via_comptes'] || 0,
+                taux: rapport?.['pourcentage_via_comptes'] || '0',
             },
             {
                 id: 1,
                 cardBgColor: 'rgb(254, 154, 46)',
-                legend: '# Postés',
-                count: rapport?.['total_postes'] || 0,
-                taux: rapport?.['pourcentage_en_attentes'],
+                legend: '# PostPaid',
+                count: rapport?.['total_post_paid'] || 0,
+                taux: rapport?.['pourcentage_post_paid'] || '0',
             },
             {
                 id: 2,
                 cardBgColor: 'rgb(52, 152, 219)',
-                legend: '# Reportés',
-                count: rapport?.['total_reportes'] || 0,
-                taux: rapport?.['pourcentage_immediats'] || 0,
-            },
-            {
-                id: 4,
-                cardBgColor: '#e74c3c',
-                legend: '# Rejetés',
-                count: rapport?.['total_rejetes'] || 0,
-                taux: rapport?.['pourcentage_immediats'] || 0,
+                legend: '# PrePaid',
+                count: rapport?.['total_pre_paid'] || 0,
+                taux: rapport?.['pourcentage_pre_paid'] || '0',
             },
         ];
     }

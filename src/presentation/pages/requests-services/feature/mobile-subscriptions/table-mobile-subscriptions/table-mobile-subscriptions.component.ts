@@ -192,6 +192,7 @@ export class TableMobileSubscriptionsComponent {
     handleDossierTreatment(dossier: {
         statut: string;
         traitement: string;
+        numero_demande: string;
     }): void {
         this.visibleFormDossier = true;
         this.typeTreatment =
@@ -215,6 +216,7 @@ export class TableMobileSubscriptionsComponent {
     getTreatmentButtonViewStyle(dossier: {
         statut: string;
         traitement: string;
+        numero_demande: string;
     }): {
         class: string;
         icon: string;
@@ -232,7 +234,7 @@ export class TableMobileSubscriptionsComponent {
                     return createButtonStyle(
                         'p-button-warning',
                         'pi pi-times',
-                        STOP_OR_CHANGE,
+                        `${STOP_OR_CHANGE} ${dossier?.numero_demande}`,
                         this.typeTreatment,
                         { abandonner: true, modifier: true, visualiser: false }
                     );
@@ -241,7 +243,7 @@ export class TableMobileSubscriptionsComponent {
                     return createButtonStyle(
                         'p-button-warning',
                         'pi pi-times',
-                        STOP_OR_CHANGE,
+                        `${STOP_OR_CHANGE} ${dossier?.numero_demande}`,
                         this.typeTreatment,
                         { abandonner: true, modifier: true, visualiser: false }
                     );
@@ -252,7 +254,7 @@ export class TableMobileSubscriptionsComponent {
                     return createButtonStyle(
                         'p-button-success',
                         'pi pi-check-circle',
-                        TO_CLOSURE,
+                        `${TO_CLOSURE} ${dossier?.numero_demande}`,
                         this.typeTreatment,
                         {
                             abandonner: false,
@@ -267,7 +269,7 @@ export class TableMobileSubscriptionsComponent {
         return createButtonStyle(
             'p-button-secondary',
             'pi pi-eye',
-            DETAILS_OF_THE_REQUEST,
+            `${DETAILS_OF_THE_REQUEST} ${dossier?.numero_demande}`,
             this.typeTreatment,
             { abandonner: false, modifier: false, visualiser: true }
         );
@@ -281,65 +283,32 @@ export class TableMobileSubscriptionsComponent {
         const SIM_OF_THE_REQUEST = this.translate.instant('SIM_OF_THE_REQUEST');
         const CANNOT_SEE_THE_SIM = this.translate.instant('CANNOT_SEE_THE_SIM');
         switch (dossier?.statut) {
-            case BADGE_ETAPE.TRAITEMENT: {
-                if (dossier?.traitement === BADGE_ETAT.EN_COURS) {
+            case BADGE_ETAPE.FINALISATEUR: {
+                if (dossier?.traitement === BADGE_ETAT.LIVRE) {
                     return createButtonStyle(
-                        'p-button-secondary',
+                        'p-button-dark',
                         'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
+                        `${SIM_OF_THE_REQUEST} ${dossier.numero_demande}`,
                         this.typeTreatment
                     );
                 }
             }
-            case BADGE_ETAPE.SOUMISSION: {
-                if (dossier?.traitement === BADGE_ETAT.EN_ATTENTE) {
-                    return createButtonStyle(
-                        'p-button-secondary',
-                        'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
-                        this.typeTreatment
-                    );
-                }
-                if (dossier?.traitement === BADGE_ETAT.EN_ATTENTE) {
-                    return createButtonStyle(
-                        'p-button-secondary',
-                        'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
-                        this.typeTreatment
-                    );
-                }
-                if (dossier?.traitement === BADGE_ETAT.APPROUVE) {
-                    return createButtonStyle(
-                        'p-button-secondary',
-                        'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
-                        this.typeTreatment
-                    );
-                }
-            }
-            case BADGE_ETAPE.CLOTURE: {
-                if (dossier?.traitement === BADGE_ETAT.ABANDONNE) {
-                    return createButtonStyle(
-                        'p-button-secondary',
-                        'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
-                        this.typeTreatment
-                    );
-                }
+            default: {
+                return createButtonStyle(
+                    'p-button-secondary',
+                    'pi pi-folder-open',
+                    `${CANNOT_SEE_THE_SIM} ${dossier.numero_demande}`,
+                    this.typeTreatment
+                );
             }
         }
-        return createButtonStyle(
-            'p-button-dark',
-            'pi pi-folder-open',
-            `${SIM_OF_THE_REQUEST} ${dossier.numero_demande}`,
-            this.typeTreatment
-        );
     }
 
     getTreatmentButtonPaymentStyle(dossier: {
         type_paiement: string;
         statut: string;
         traitement: string;
+        numero_demande: string;
     }): { class: string; icon: string; tooltip: string } {
         const SOLVE = this.translate.instant('SOLVE');
         const MAKE_A_PAYMENT = this.translate.instant('MAKE_A_PAYMENT');
@@ -353,21 +322,21 @@ export class TableMobileSubscriptionsComponent {
             return createButtonStyle(
                 'p-button-secondary',
                 'pi pi-print',
-                CANNOT_MAKE_A_PAYMENT,
+                `${CANNOT_MAKE_A_PAYMENT} ${dossier?.numero_demande}`,
                 this.typeTreatment
             );
         } else if (!!dossier?.type_paiement) {
             return createButtonStyle(
                 'p-button-success',
                 'pi pi-print',
-                SOLVE,
+                `${SOLVE}`,
                 this.typeTreatment
             );
         } else {
             return createButtonStyle(
                 'p-button-danger',
                 'pi pi-print',
-                MAKE_A_PAYMENT,
+                `${MAKE_A_PAYMENT} ${dossier?.numero_demande}`,
                 this.typeTreatment
             );
         }

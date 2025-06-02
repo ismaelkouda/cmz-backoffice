@@ -186,6 +186,7 @@ export class TableTreatmentMonitoringComponent {
     handleTreatmentMonitoringTreatment(selectedTreatmentMonitoring: {
         statut: string;
         traitement: string;
+        numero_demande: string;
     }): void {
         this.visibleFormTreatmentMonitoring = true;
         this.typeTreatment =
@@ -218,6 +219,7 @@ export class TableTreatmentMonitoringComponent {
     getTreatmentButtonViewTreatmentMonitoringStyle(selectedTreatmentMonitoring: {
         statut: string;
         traitement: string;
+        numero_demande: string;
     }): {
         class: string;
         icon: string;
@@ -238,7 +240,7 @@ export class TableTreatmentMonitoringComponent {
                     return createButtonStyle(
                         'p-button-warning',
                         'pi pi-times',
-                        STOP_OR_CHANGE,
+                        `${STOP_OR_CHANGE} ${selectedTreatmentMonitoring?.numero_demande}`,
                         this.typeTreatment,
                         { abandonner: true, modifier: true, visualiser: false }
                     );
@@ -250,7 +252,7 @@ export class TableTreatmentMonitoringComponent {
                     return createButtonStyle(
                         'p-button-warning',
                         'pi pi-times',
-                        STOP_OR_CHANGE,
+                        `${STOP_OR_CHANGE} ${selectedTreatmentMonitoring?.numero_demande}`,
                         this.typeTreatment,
                         { abandonner: true, modifier: true, visualiser: false }
                     );
@@ -263,7 +265,7 @@ export class TableTreatmentMonitoringComponent {
                     return createButtonStyle(
                         'p-button-success',
                         'pi pi-check-circle',
-                        TO_CLOSURE,
+                        `${TO_CLOSURE} ${selectedTreatmentMonitoring?.numero_demande}`,
                         this.typeTreatment,
                         {
                             abandonner: false,
@@ -278,7 +280,7 @@ export class TableTreatmentMonitoringComponent {
                 return createButtonStyle(
                     'p-button-secondary',
                     'pi pi-eye',
-                    DETAILS_OF_THE_REQUEST,
+                    `${DETAILS_OF_THE_REQUEST} ${selectedTreatmentMonitoring?.numero_demande}`,
                     this.typeTreatment,
                     { abandonner: false, modifier: false, visualiser: true }
                 );
@@ -293,51 +295,26 @@ export class TableTreatmentMonitoringComponent {
         const SIM_OF_THE_REQUEST = this.translate.instant('SIM_OF_THE_REQUEST');
         const CANNOT_SEE_THE_SIM = this.translate.instant('CANNOT_SEE_THE_SIM');
         switch (selectedTreatmentMonitoring?.statut) {
-            case BADGE_ETAPE.TRAITEMENT: {
+            case BADGE_ETAPE.FINALISATEUR: {
                 if (
-                    selectedTreatmentMonitoring?.traitement ===
-                    BADGE_ETAT.EN_COURS
+                    selectedTreatmentMonitoring?.traitement === BADGE_ETAT.LIVRE
                 ) {
                     return createButtonStyle(
-                        'p-button-secondary',
+                        'p-button-dark',
                         'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
+                        `${SIM_OF_THE_REQUEST} ${selectedTreatmentMonitoring.numero_demande}`,
                         this.typeTreatment
                     );
                 }
             }
-            case BADGE_ETAPE.SOUMISSION: {
-                if (
-                    selectedTreatmentMonitoring?.traitement ===
-                    BADGE_ETAT.EN_ATTENTE
-                ) {
-                    return createButtonStyle(
-                        'p-button-secondary',
-                        'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
-                        this.typeTreatment
-                    );
-                }
-            }
-            case BADGE_ETAPE.CLOTURE: {
-                if (
-                    selectedTreatmentMonitoring?.traitement ===
-                    BADGE_ETAT.ABANDONNE
-                ) {
-                    return createButtonStyle(
-                        'p-button-secondary',
-                        'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
-                        this.typeTreatment
-                    );
-                }
+            default: {
+                return createButtonStyle(
+                    'p-button-secondary',
+                    'pi pi-folder-open',
+                    `${CANNOT_SEE_THE_SIM} ${selectedTreatmentMonitoring.numero_demande}`,
+                    this.typeTreatment
+                );
             }
         }
-        return createButtonStyle(
-            'p-button-dark',
-            'pi pi-folder-open',
-            `${SIM_OF_THE_REQUEST} ${selectedTreatmentMonitoring.numero_demande}`,
-            this.typeTreatment
-        );
     }
 }

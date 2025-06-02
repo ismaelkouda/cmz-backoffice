@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { T_BADGE_ETAT_FACTURE } from '../../../../../../shared/constants/badge-etat-facture.contant';
 import { invoiceFilterInterface } from '../../../data-access/invoice/interface/invoice-filter.interface';
 import { InvoiceApiService } from '../../../data-access/invoice/service/invoice-api.service';
+import { T_TypePayment } from '../../../../../../shared/enum/type-payment.enum';
 
 @Component({
     selector: 'app-filter-invoice',
@@ -23,11 +24,13 @@ import { InvoiceApiService } from '../../../data-access/invoice/service/invoice-
 export class FilterInvoiceComponent implements OnChanges, OnDestroy {
     @Input() listOperations: Array<string>;
     @Input() listStatusInvoice: Array<T_BADGE_ETAT_FACTURE>;
+    @Input() typePayment: Array<T_TypePayment>;
     @Input() filterData: invoiceFilterInterface;
 
     @Output() filter = new EventEmitter<invoiceFilterInterface>();
 
     public formFilter: FormGroup;
+    public secondFilter: boolean = false;
     private destroy$ = new Subject<void>();
 
     constructor(
@@ -68,12 +71,22 @@ export class FilterInvoiceComponent implements OnChanges, OnDestroy {
                     statut: new FormControl<string>(filterData?.['statut'], {
                         nonNullable: true,
                     }),
+                    type_paiement: new FormControl<string>(
+                        filterData?.['type_paiement'],
+                        {
+                            nonNullable: true,
+                        }
+                    ),
                     operation: new FormControl<string>(
                         filterData?.['operation'],
                         { nonNullable: true }
                     ),
                 });
             });
+    }
+
+    public showSecondFilter(): void {
+        this.secondFilter = !this.secondFilter;
     }
 
     public onSubmitFilterForm(): void {

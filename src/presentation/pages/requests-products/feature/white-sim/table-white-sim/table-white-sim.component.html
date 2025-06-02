@@ -143,10 +143,6 @@
                     <ng-container *ngSwitchCase="'Actions'">
                         <button
                             pButton
-                            [class.p-disabled]="
-                                getTreatmentButtonOpenCommandStyle(item)
-                                    ?.class === 'p-button-secondary'
-                            "
                             [ngClass]="
                                 getTreatmentButtonOpenCommandStyle(item)?.class
                             "
@@ -155,6 +151,10 @@
                             "
                             tooltipPosition="top"
                             [pTooltip]="getTreatmentButtonOpenCommandStyle(item)?.['tooltip']"
+                            [disabled]="
+                                getTreatmentButtonOpenCommandStyle(item)
+                                    ?.class === 'p-button-secondary'
+                            "
                             (click)="
                                 handleAction({
                                     data: item,
@@ -185,9 +185,12 @@
                         >&nbsp;
                         <button
                             pButton
+                            tooltipPosition="top"
                             icon="pi pi-book"
                             class="p-button-primary"
-                            tooltip="Journal du whiteSim"
+                            [pTooltip]="
+                                'Journal de la demande ' + item?.numero_demande
+                            "
                             (click)="
                                 handleAction({
                                     data: item,

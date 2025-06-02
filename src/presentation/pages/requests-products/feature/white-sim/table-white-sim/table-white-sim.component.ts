@@ -198,6 +198,7 @@ export class TableWhiteSimComponent {
     handleCommandWhiteSimTreatment(commandWhiteSim: {
         statut: string;
         traitement: string;
+        numero_demande: string;
     }): void {
         this.visibleFormCommandWhiteSim = true;
         this.typeTreatment =
@@ -225,6 +226,7 @@ export class TableWhiteSimComponent {
     getTreatmentButtonViewCommandStyle(commandWhiteSim: {
         statut: string;
         traitement: string;
+        numero_demande: string;
     }): {
         class: string;
         icon: string;
@@ -242,7 +244,7 @@ export class TableWhiteSimComponent {
                     return createButtonStyle(
                         'p-button-warning',
                         'pi pi-times',
-                        STOP_OR_CHANGE,
+                        `${STOP_OR_CHANGE} ${commandWhiteSim?.numero_demande}`,
                         this.typeTreatment,
                         { abandonner: true, modifier: true, visualiser: false }
                     );
@@ -251,7 +253,7 @@ export class TableWhiteSimComponent {
                     return createButtonStyle(
                         'p-button-warning',
                         'pi pi-times',
-                        STOP_OR_CHANGE,
+                        `${STOP_OR_CHANGE} ${commandWhiteSim?.numero_demande}`,
                         this.typeTreatment,
                         { abandonner: true, modifier: true, visualiser: false }
                     );
@@ -262,7 +264,7 @@ export class TableWhiteSimComponent {
                     return createButtonStyle(
                         'p-button-success',
                         'pi pi-check-circle',
-                        TO_CLOSURE,
+                        `${TO_CLOSURE} ${commandWhiteSim?.numero_demande}`,
                         this.typeTreatment,
                         {
                             abandonner: false,
@@ -277,7 +279,7 @@ export class TableWhiteSimComponent {
         return createButtonStyle(
             'p-button-secondary',
             'pi pi-eye',
-            DETAILS_OF_THE_REQUEST,
+            `${DETAILS_OF_THE_REQUEST} ${commandWhiteSim?.numero_demande}`,
             this.typeTreatment,
             { abandonner: false, modifier: false, visualiser: true }
         );
@@ -286,63 +288,30 @@ export class TableWhiteSimComponent {
     getTreatmentButtonOpenCommandStyle(commandWhiteSim: {
         statut: string;
         traitement: string;
+        numero_demande: string;
     }): { class: string; icon: string; tooltip: string } {
         const SIM_OF_THE_REQUEST = this.translate.instant('SIM_OF_THE_REQUEST');
         const CANNOT_SEE_THE_SIM = this.translate.instant('CANNOT_SEE_THE_SIM');
         switch (commandWhiteSim?.statut) {
-            case BADGE_ETAPE.TRAITEMENT: {
-                if (commandWhiteSim?.traitement === BADGE_ETAT.EN_COURS) {
+            case BADGE_ETAPE.FINALISATEUR: {
+                if (commandWhiteSim?.traitement === BADGE_ETAT.LIVRE) {
                     return createButtonStyle(
-                        'p-button-secondary',
+                        'p-button-dark',
                         'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
+                        `${SIM_OF_THE_REQUEST} ${commandWhiteSim.numero_demande}`,
                         this.typeTreatment
                     );
                 }
             }
-            case BADGE_ETAPE.SOUMISSION: {
-                if (commandWhiteSim?.traitement === BADGE_ETAT.EN_ATTENTE) {
-                    return createButtonStyle(
-                        'p-button-secondary',
-                        'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
-                        this.typeTreatment
-                    );
-                }
-                if (commandWhiteSim?.traitement === BADGE_ETAT.REJETE) {
-                    return createButtonStyle(
-                        'p-button-secondary',
-                        'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
-                        this.typeTreatment
-                    );
-                }
-                if (commandWhiteSim?.traitement === BADGE_ETAT.APPROUVE) {
-                    return createButtonStyle(
-                        'p-button-secondary',
-                        'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
-                        this.typeTreatment
-                    );
-                }
-            }
-            case BADGE_ETAPE.CLOTURE: {
-                if (commandWhiteSim?.traitement === BADGE_ETAT.ABANDONNE) {
-                    return createButtonStyle(
-                        'p-button-secondary',
-                        'pi pi-folder-open',
-                        CANNOT_SEE_THE_SIM,
-                        this.typeTreatment
-                    );
-                }
+            default: {
+                return createButtonStyle(
+                    'p-button-secondary',
+                    'pi pi-folder-open',
+                    `${CANNOT_SEE_THE_SIM} ${commandWhiteSim.numero_demande}`,
+                    this.typeTreatment
+                );
             }
         }
-        return createButtonStyle(
-            'p-button-dark',
-            'pi pi-folder-open',
-            SIM_OF_THE_REQUEST,
-            this.typeTreatment
-        );
     }
 
     getTreatmentButtonPaiementCommandStyle(commandWhiteSim: {

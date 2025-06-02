@@ -48,11 +48,10 @@ export class PaymentApiService {
     fetchPayment(data: paymentFilterInterface, nbrPage: string = '1'): void {
         if (this.loadingPaymentSubject.getValue()) return;
         this.loadingPaymentSubject.next(true);
-        const url: string =
-            paymentEndpointEnum.POST_MANAGEMENT_INVOICE_INVOICES.replace(
-                '{page}',
-                nbrPage
-            );
+        const url: string = paymentEndpointEnum.POST_MANAGEMENT_PAYMENT.replace(
+            '{page}',
+            nbrPage
+        );
 
         this.httpClient
             .post<Object>(this.BASE_URL + url, data)
@@ -113,7 +112,7 @@ export class PaymentApiService {
     // fetchPaymentDetails(numeroDemande: string): void {
     //     if (this.loadingPaymentDetailsSubject.getValue()) return;
 
-    //     const url: string = paymentEndpointEnum.POST_MANAGEMENT_INVOICE_INVOICES_DETAILS.replace('{numeroDemande}', numeroDemande);
+    //     const url: string = paymentEndpointEnum.POST_MANAGEMENT_PAYMENT_DETAILS.replace('{numeroDemande}', numeroDemande);
     //     this.loadingPaymentDetailsSubject.next(true);
 
     //     this.httpClient

@@ -62,7 +62,7 @@
                     <ng-container *ngSwitchCase="'Montant HT (Fcfa)'">
                         {{ 'NET_AMOUNT' | translate }}&nbsp;(Fcfa)
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Statut'">
+                    <ng-container *ngSwitchCase="'Etat facture'">
                         {{ 'STATUS' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Date Etat'">
@@ -96,7 +96,7 @@
                             {{ getTitleForm(item?.[col.field]) }}
                         </span>
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Statut'">
+                    <ng-container *ngSwitchCase="'Etat facture'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
                             [class]="'badge ' + getStatusInvoiceBadge(item)"

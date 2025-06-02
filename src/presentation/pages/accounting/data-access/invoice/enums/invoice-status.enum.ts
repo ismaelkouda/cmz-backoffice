@@ -4,6 +4,7 @@ export const INVOICE_STATUS_ENUM = {
     REJECTED: 'rejetée',
     REPORTED: 'reportée',
     POSTED: 'postée',
+    NON_SOLDEE: 'non-soldée',
 } as const;
 
 export type T_INVOICE_STATUS_ENUM =

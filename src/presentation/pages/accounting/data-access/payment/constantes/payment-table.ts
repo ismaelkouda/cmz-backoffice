@@ -33,6 +33,12 @@ export const paymentTableConstant = {
             width: '4rem',
         },
         {
+            field: 'type_paiement',
+            header: 'Type paiement',
+            class: 'text-center',
+            width: '12rem',
+        },
+        {
             field: 'etat_paiement',
             header: 'Etat',
             class: 'text-center',

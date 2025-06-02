@@ -131,10 +131,6 @@
                     <ng-container *ngSwitchCase="'Actions'">
                         <button
                             pButton
-                            [class.p-disabled]="
-                                getTreatmentButtonOpenFolderStyle(dossier)
-                                    ?.class === 'p-button-secondary'
-                            "
                             [ngClass]="
                                 getTreatmentButtonOpenFolderStyle(dossier)
                                     ?.class
@@ -178,7 +174,11 @@
                             pButton
                             icon="pi pi-book"
                             class="p-button-primary"
-                            tooltip="Journal du dossier"
+                            tooltipPosition="top"
+                            [pTooltip]="
+                                'Journal de la demande ' +
+                                dossier.numero_demande
+                            "
                             (click)="
                                 handleAction({
                                     data: dossier,
@@ -196,8 +196,11 @@
                             style="border-color: transparent"
                             icon="pi pi-print"
                             tooltipPosition="top"
-                            pTooltip="Facture"
                             [pTooltip]="getTreatmentButtonPaymentStyle(dossier)?.['tooltip']"
+                            [disabled]="
+                                getTreatmentButtonPaymentStyle(dossier)
+                                    ?.class === 'p-button-secondary'
+                            "
                             (click)="
                                 handleAction({
                                     data: dossier,

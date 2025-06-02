@@ -33,8 +33,14 @@ export const invoiceTableConstant = {
             width: '4rem',
         },
         {
+            field: 'type_paiement',
+            header: 'Type paiement',
+            class: 'text-center',
+            width: '12rem',
+        },
+        {
             field: 'statut',
-            header: 'Statut',
+            header: 'Etat facture',
             class: 'text-center',
             width: '4rem',
         },

@@ -54,6 +54,7 @@
     "REPORT": "Report",
     "DESCRIPTION": "Description",
     "NOTIFICATION_TYPE": "Notification type",
+    "PAYMENT_TYPE": "Payment type",
     "WAITING_QUEUE": "Waiting queue",
     "ESCALADE": "escalade",
     "RECEPTION": "Réception",

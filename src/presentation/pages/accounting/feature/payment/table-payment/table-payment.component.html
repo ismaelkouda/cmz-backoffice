@@ -68,6 +68,9 @@
                     <ng-container *ngSwitchCase="'Date Etat'">
                         {{ 'UPDATED_DATE' | translate }}
                     </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{ col.header }}
+                    </ng-container>
                 </ng-container>
             </th>
         </tr>

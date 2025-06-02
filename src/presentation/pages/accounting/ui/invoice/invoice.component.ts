@@ -15,6 +15,10 @@ import {
 } from '../../data-access/invoice/interface/invoice.interface';
 import { invoiceFilterInterface } from '../../data-access/invoice/interface/invoice-filter.interface';
 import { InvoiceApiService } from '../../data-access/invoice/service/invoice-api.service';
+import {
+    T_TypePayment,
+    TypePayment,
+} from '../../../../../shared/enum/type-payment.enum';
 
 const status_values = [
     BADGE_ETAT_FACTURE.POSTEE,
@@ -55,6 +59,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     public listOperations: Array<string> = [];
     public statistiquesBox: Array<IStatistiquesBox> = [];
     public indexBoxClickable = indexBoxClickable;
+    public typePayment: Array<T_TypePayment>;
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
@@ -64,6 +69,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         private router: Router,
         private mappingService: MappingService
     ) {
+        this.typePayment = Object.values(TypePayment);
         this.listOperations = this.mappingService.listOperations;
     }
 

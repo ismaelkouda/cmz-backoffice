@@ -1,4 +1,4 @@
 export const enum paymentEndpointEnum {
-    POST_MANAGEMENT_INVOICE_INVOICES = 'gestion-facture/paiements?page={page}',
-    POST_MANAGEMENT_INVOICE_INVOICES_DETAILS = 'gestion-facture/factures/{numeroDemande}/details',
+    POST_MANAGEMENT_PAYMENT = 'gestion-paiement/all?page={page}',
+    POST_MANAGEMENT_PAYMENT_DETAILS = 'gestion-paiement/{numeroDemande}/details',
 }

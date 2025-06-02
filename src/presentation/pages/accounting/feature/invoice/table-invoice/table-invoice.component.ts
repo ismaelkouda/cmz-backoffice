@@ -103,6 +103,7 @@ export class TableInvoiceComponent {
             [INVOICE_STATUS_ENUM.REPORTED]: 'badge-primary',
             [INVOICE_STATUS_ENUM.RESULTED]: 'badge-success',
             [INVOICE_STATUS_ENUM.REJECTED]: 'badge-danger',
+            [INVOICE_STATUS_ENUM.NON_SOLDEE]: 'badge-danger',
         };
 
         return stateMap[selectedInvoice.statut];

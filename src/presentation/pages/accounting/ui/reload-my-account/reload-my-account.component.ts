@@ -142,7 +142,7 @@ export class ReloadMyAccountComponent implements OnInit, OnDestroy {
                 cardBgColor: 'rgb(52, 73, 94)',
                 legend: '# En attente',
                 count: rapport?.['totalEnAttentes'] || 0,
-                taux: rapport?.['pourcentageEnAttentes'] ?? 0,
+                taux: rapport?.['pourcentageEnAttentes'] || 0,
             },
             {
                 id: 1,

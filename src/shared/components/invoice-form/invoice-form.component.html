@@ -27,6 +27,7 @@
                                         <span class="current_values">
                                             [{{ detailsInvoiceForm?.['reference'] ??
                                             detailsInvoiceForm?.['numero_demande']
+
                                             }}]
                                         </span>
                                         <span
@@ -47,9 +48,7 @@
                                         </span>
                                         &nbsp; [Montant :
                                         <span class="text-orange">
-                                            {{
-                                                detailsInvoiceForm?.prix_ttc
-                                            }}
+                                            {{ detailsInvoiceForm?.prix_ttc }}
                                             Fcfa </span
                                         >]
                                     </b>
@@ -80,6 +79,7 @@
                                             pTooltip="Exporter la facture"
                                             printSectionId="print-section"
                                             ngxPrint
+                                            (click)="postExportInvoice()"
                                         ></p-button>
                                         <p-button
                                             label="Fermer"
@@ -479,7 +479,7 @@
                                                         />
                                                     </td>
                                                     <td class="text-center h4">
-                                                        via Compte
+                                                        via mon compte
                                                     </td>
                                                     <td class="text-start">
                                                         Le montant de cette
