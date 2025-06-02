@@ -26,6 +26,7 @@ import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { Folder } from '../../../../../../shared/interfaces/folder';
 import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
 import { SharedService } from '../../../../../../shared/services/shared.service';
+import { PAYMENT_STATUS_ENUM } from '../../../../accounting/data-access/payment/enums/payment-status.enum';
 
 type Action = PageAction | ModalAction;
 type PageAction = {
@@ -34,7 +35,9 @@ type PageAction = {
         | 'open-folder-white-sim'
         | 'mass-edit-white-sim'
         | 'mass-add-white-sim'
-        | 'simple-add-white-sim';
+        | 'simple-add-white-sim'
+        | 'payment-white-sim'
+        | 'invoice-white-sim';
     view: 'page';
 };
 type ModalAction = {
@@ -76,6 +79,7 @@ export class TableWhiteSimComponent {
     public readonly table: TableConfig = whiteSimTableConstant;
     public readonly BADGE_ETAPE = BADGE_ETAPE;
     public readonly BADGE_ETAT = BADGE_ETAT;
+    public readonly PAYMENT_STATUS_ENUM = PAYMENT_STATUS_ENUM;
 
     constructor(
         private toastService: ToastrService,
@@ -166,6 +170,8 @@ export class TableWhiteSimComponent {
     }
 
     public handleAction(params: Action): void {
+        console.log('params', params);
+
         this.onSelectCommandWhiteSim(params.data);
 
         switch (params.view) {
@@ -179,18 +185,7 @@ export class TableWhiteSimComponent {
                 break;
 
             case 'page':
-                if (params.action === 'open-folder-white-sim') {
-                    this.interfaceUser.emit(params);
-                }
-                if (params.action === 'mass-edit-white-sim') {
-                    this.interfaceUser.emit(params);
-                }
-                if (params.action === 'mass-add-white-sim') {
-                    this.interfaceUser.emit(params);
-                }
-                if (params.action === 'simple-add-white-sim') {
-                    this.interfaceUser.emit(params);
-                }
+                this.interfaceUser.emit(params);
                 break;
         }
     }
@@ -314,13 +309,15 @@ export class TableWhiteSimComponent {
         }
     }
 
-    getTreatmentButtonPaiementCommandStyle(commandWhiteSim: {
-        type_paiement: string;
+    getTreatmentButtonPaymentStyle(commandWhiteSim: {
+        etat_paiement: string;
         statut: string;
         traitement: string;
+        numero_demande: string;
     }): { class: string; icon: string; tooltip: string } {
         const SOLVE = this.translate.instant('SOLVE');
         const MAKE_A_PAYMENT = this.translate.instant('MAKE_A_PAYMENT');
+        const MODIFY_THE_PAYMENT = this.translate.instant('MODIFY_THE_PAYMENT');
         const CANNOT_MAKE_A_PAYMENT = this.translate.instant(
             'CANNOT_MAKE_A_PAYMENT'
         );
@@ -334,18 +331,29 @@ export class TableWhiteSimComponent {
                 CANNOT_MAKE_A_PAYMENT,
                 this.typeTreatment
             );
-        } else if (!!commandWhiteSim?.type_paiement) {
+        } else if (
+            commandWhiteSim?.etat_paiement === PAYMENT_STATUS_ENUM.VALIDATED
+        ) {
             return createButtonStyle(
                 'p-button-success',
                 'pi pi-print',
-                SOLVE,
+                `${SOLVE}`,
+                this.typeTreatment
+            );
+        } else if (
+            commandWhiteSim?.etat_paiement === PAYMENT_STATUS_ENUM.POSTED
+        ) {
+            return createButtonStyle(
+                'p-button-warning',
+                'pi pi-print',
+                `${MODIFY_THE_PAYMENT} ${commandWhiteSim?.numero_demande}`,
                 this.typeTreatment
             );
         } else {
             return createButtonStyle(
                 'p-button-danger',
                 'pi pi-print',
-                MAKE_A_PAYMENT,
+                `${MAKE_A_PAYMENT} ${commandWhiteSim?.numero_demande}`,
                 this.typeTreatment
             );
         }

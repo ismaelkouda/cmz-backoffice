@@ -25,6 +25,7 @@ import { TreatmentDemands } from '../../../../../../shared/interfaces/treatment-
 import { Observable } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
+import { PAYMENT_STATUS_ENUM } from '../../../../accounting/data-access/payment/enums/payment-status.enum';
 
 type Action = PageAction | ModalAction;
 type PageAction = {
@@ -34,8 +35,8 @@ type PageAction = {
         | 'mass-edit-mobile-subscription'
         | 'mass-add-mobile-subscription'
         | 'simple-add-mobile-subscription'
-        | 'view-payment'
-        | 'view-invoice';
+        | 'payment-mobile-subscription'
+        | 'invoice-mobile-subscription';
     view: 'page';
 };
 type ModalAction = {
@@ -77,6 +78,7 @@ export class TableMobileSubscriptionsComponent {
     public readonly table: TableConfig = mobileSubscriptionsTableConstant;
     public readonly BADGE_ETAPE = BADGE_ETAPE;
     public readonly BADGE_ETAT = BADGE_ETAT;
+    public readonly PAYMENT_STATUS_ENUM = PAYMENT_STATUS_ENUM;
 
     constructor(
         private toastrService: ToastrService,
@@ -305,13 +307,14 @@ export class TableMobileSubscriptionsComponent {
     }
 
     getTreatmentButtonPaymentStyle(dossier: {
-        type_paiement: string;
+        etat_paiement: string;
         statut: string;
         traitement: string;
         numero_demande: string;
     }): { class: string; icon: string; tooltip: string } {
         const SOLVE = this.translate.instant('SOLVE');
         const MAKE_A_PAYMENT = this.translate.instant('MAKE_A_PAYMENT');
+        const MODIFY_THE_PAYMENT = this.translate.instant('MODIFY_THE_PAYMENT');
         const CANNOT_MAKE_A_PAYMENT = this.translate.instant(
             'CANNOT_MAKE_A_PAYMENT'
         );
@@ -325,11 +328,18 @@ export class TableMobileSubscriptionsComponent {
                 `${CANNOT_MAKE_A_PAYMENT} ${dossier?.numero_demande}`,
                 this.typeTreatment
             );
-        } else if (!!dossier?.type_paiement) {
+        } else if (dossier?.etat_paiement === PAYMENT_STATUS_ENUM.VALIDATED) {
             return createButtonStyle(
                 'p-button-success',
                 'pi pi-print',
                 `${SOLVE}`,
+                this.typeTreatment
+            );
+        } else if (dossier?.etat_paiement === PAYMENT_STATUS_ENUM.POSTED) {
+            return createButtonStyle(
+                'p-button-warning',
+                'pi pi-print',
+                `${MODIFY_THE_PAYMENT} ${dossier?.numero_demande}`,
                 this.typeTreatment
             );
         } else {

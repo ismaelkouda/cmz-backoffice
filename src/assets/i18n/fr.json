@@ -180,6 +180,7 @@
     "APPROVAL": "Approbation",
     "SOLVE": "Demande régler",
     "MAKE_A_PAYMENT": "Effectuer un paiement sur la demande",
+    "MODIFY_THE_PAYMENT": "Modifier le paiement sur la demande",
     "CANNOT_MAKE_A_PAYMENT": "Impossible d'effectuer un paiement",
     "INVALID_DATE_RANGE": "Plage de date invalide",
     "SOMETHING_WENT_WRONG": "Une erreur s'est produite",

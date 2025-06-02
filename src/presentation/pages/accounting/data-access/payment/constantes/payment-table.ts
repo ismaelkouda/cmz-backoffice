@@ -40,7 +40,7 @@ export const paymentTableConstant = {
         },
         {
             field: 'etat_paiement',
-            header: 'Etat',
+            header: 'Payment',
             class: 'text-center',
             width: '4rem',
         },

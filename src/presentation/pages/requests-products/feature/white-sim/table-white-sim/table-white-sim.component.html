@@ -181,6 +181,32 @@
                                     view: 'modal'
                                 })
                             "
+                        ></button>
+                        &nbsp;
+                        <button
+                            pButton
+                            [ngClass]="
+                                getTreatmentButtonPaymentStyle(item)?.class
+                            "
+                            style="border-color: transparent"
+                            icon="pi pi-print"
+                            tooltipPosition="top"
+                            [pTooltip]="getTreatmentButtonPaymentStyle(item)?.['tooltip']"
+                            [disabled]="
+                                getTreatmentButtonPaymentStyle(item)?.class ===
+                                'p-button-secondary'
+                            "
+                            (click)="
+                                handleAction({
+                                    data: item,
+                                    action:
+                                        item?.etat_paiement ===
+                                        PAYMENT_STATUS_ENUM.VALIDATED
+                                            ? 'invoice-white-sim'
+                                            : 'payment-white-sim',
+                                    view: 'page'
+                                })
+                            "
                         ></button
                         >&nbsp;
                         <button

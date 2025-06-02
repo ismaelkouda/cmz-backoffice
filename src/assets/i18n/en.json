@@ -173,6 +173,7 @@
     "APPROVE": "approve",
     "SOLVE": "solve",
     "MAKE_A_PAYMENT": "make a payment",
+    "MODIFY_THE_PAYMENT": "modify the payment",
     "CANNOT_MAKE_A_PAYMENT": "cannot make a payment",
     "INVALID_DATE_RANGE": "invalid date range",
     "SOMETHING_WENT_WRONG": "something went wrong",

@@ -121,7 +121,7 @@ export class SharedService {
 
         this.http
             .post<Object>(
-                type == 'view-invoice'
+                type == 'invoice'
                     ? `${this.BASE_URL}${urlInvoice}`
                     : `${this.BASE_URL}${url}`,
                 {}
@@ -129,8 +129,36 @@ export class SharedService {
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {
-                    this.detailsDemandSubject.next(response?.['data']);
-                    this.detailsDemandPagination.next(response?.['data']);
+                    const customData = {
+                        ...response?.['data'],
+                        ...(response?.['data']?.reference ||
+                        response?.['data']?.facture?.reference
+                            ? {
+                                  ...(response?.['data']?.facture?.reference
+                                      ? {
+                                            numero_demande:
+                                                response?.['data']?.facture
+                                                    ?.reference,
+                                            etat_paiement:
+                                                response?.['data']?.facture
+                                                    ?.statut,
+                                        }
+                                      : {
+                                            numero_demande:
+                                                response?.['data']?.reference,
+                                            etat_paiement:
+                                                response?.['data']?.statut,
+                                        }),
+                                  ...response?.['data']?.facture,
+                                  type_form: 'invoice',
+                              }
+                            : {
+                                  type_form: 'proforma',
+                              }),
+                    };
+                    console.log('customData', customData);
+
+                    this.detailsDemandSubject.next(customData);
                     this.apiResponseDetailsDemandSubject.next(response);
                     this.lastRequestDetailsDemandSubject.next({});
                     return of(response);

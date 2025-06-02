@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-body">
                     <div *ngIf="!displayUrlErrorPage">
-                        <div>
+                        <ng-container *ngIf="demandPrice; else loading">
                             <div class="forms-feature-header">
                                 <div>
                                     <h4>
@@ -624,7 +624,17 @@
                                     </p-button>
                                 </div>
                             </div>
-                        </div>
+                        </ng-container>
+                        <ng-template #loading>
+                            <div
+                                class="d-flex justify-content-center align-items-center"
+                                style="height: 100vh"
+                            >
+                                <p-progressSpinner
+                                    ariaLabel="loading"
+                                ></p-progressSpinner>
+                            </div>
+                        </ng-template>
                     </div>
 
                     <div *ngIf="displayUrlErrorPage">

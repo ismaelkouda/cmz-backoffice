@@ -37,10 +37,10 @@ const routes: Routes = [
                 component: SimDemandComponent,
             },
         ],
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${MOBILE_SUBSCRIPTIONS}`],
-        },
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${MOBILE_SUBSCRIPTIONS}`],
+        // },
     },
 ];
 

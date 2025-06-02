@@ -62,8 +62,8 @@
                     <ng-container *ngSwitchCase="'Montant HT (Fcfa)'">
                         {{ 'NET_AMOUNT' | translate }}&nbsp;(Fcfa)
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Etat'">
-                        {{ 'STATE' | translate }}
+                    <ng-container *ngSwitchCase="'Payment'">
+                        {{ 'PAYMENT' | translate | capitalize }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Date Etat'">
                         {{ 'UPDATED_DATE' | translate }}
@@ -96,7 +96,7 @@
                             {{ getTitleForm(item?.[col.field]) }}
                         </span>
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Etat'">
+                    <ng-container *ngSwitchCase="'Payment'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
                             [class]="'badge ' + getStepBadge(item)"
@@ -119,7 +119,7 @@
                             (click)="
                                 handleAction({
                                     data: item,
-                                    action: 'view-payment',
+                                    action: 'payment',
                                     view: 'page'
                                 })
                             "

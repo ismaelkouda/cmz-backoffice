@@ -5,7 +5,8 @@ export const PAYMENT_STATUS_ENUM = {
     VALIDATED: 'validé',
 
     WAITING: 'en-attente',
-    RESULTED: 'soldé',
+    RESULTED: 'soldée',
+    NO_RESULTED: 'non-soldée',
     REJECTED: 'rejeté',
     REPORTED: 'reporté',
 } as const;

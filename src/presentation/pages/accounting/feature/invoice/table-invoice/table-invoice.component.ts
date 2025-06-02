@@ -24,7 +24,7 @@ import {
 type Action = PageAction;
 type PageAction = {
     data: invoiceInterface;
-    action: 'view-invoice';
+    action: 'invoice';
     view: 'page';
 };
 type TYPE_COLOR_INVOICE_STATUS_BADGE =

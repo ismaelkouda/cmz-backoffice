@@ -25,7 +25,7 @@ import {
 type Action = PageAction;
 type PageAction = {
     data: paymentInterface;
-    action: 'view-payment';
+    action: 'payment';
     view: 'page';
 };
 type TYPE_COLOR_PAYMENT_STATUS_BADGE =
@@ -97,17 +97,14 @@ export class TablePaymentComponent {
         this.clipboardService.copyFromContent(data);
     }
 
-    public getStepBadge(selectedPayment?: {
-        etat_paiement: T_PAYMENT_STATUS_ENUM;
-    }): TYPE_COLOR_PAYMENT_STATUS_BADGE {
+    public getStepBadge(
+        selectedPayment?: any
+    ): TYPE_COLOR_PAYMENT_STATUS_BADGE {
         if (!selectedPayment || !selectedPayment.etat_paiement) {
             return 'badge-dark';
         }
 
-        const stateMap: Record<
-            T_PAYMENT_STATUS_ENUM,
-            TYPE_COLOR_PAYMENT_STATUS_BADGE
-        > = {
+        const stateMap: any = {
             [PAYMENT_STATUS_ENUM.UNKNOWN]: 'badge-dark',
             [PAYMENT_STATUS_ENUM.POSTED]: 'badge-warning',
             [PAYMENT_STATUS_ENUM.ABANDONED]: 'badge-warning',

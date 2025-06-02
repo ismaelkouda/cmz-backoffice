@@ -168,26 +168,8 @@
                                     view: 'modal'
                                 })
                             "
-                        ></button>
-                        &nbsp;
-                        <button
-                            pButton
-                            icon="pi pi-book"
-                            class="p-button-primary"
-                            tooltipPosition="top"
-                            [pTooltip]="
-                                'Journal de la demande ' +
-                                dossier.numero_demande
-                            "
-                            (click)="
-                                handleAction({
-                                    data: dossier,
-                                    action: 'journal-mobile-subscription',
-                                    view: 'modal'
-                                })
-                            "
-                        ></button>
-                        &nbsp;
+                        ></button
+                        >&nbsp;
                         <button
                             pButton
                             [ngClass]="
@@ -204,10 +186,30 @@
                             (click)="
                                 handleAction({
                                     data: dossier,
-                                    action: !!dossier?.type_paiement
-                                        ? 'view-invoice'
-                                        : 'view-payment',
+                                    action:
+                                        dossier?.etat_paiement ===
+                                        PAYMENT_STATUS_ENUM.VALIDATED
+                                            ? 'invoice-mobile-subscription'
+                                            : 'payment-mobile-subscription',
                                     view: 'page'
+                                })
+                            "
+                        ></button>
+                        &nbsp;
+                        <button
+                            pButton
+                            icon="pi pi-book"
+                            class="p-button-primary"
+                            tooltipPosition="top"
+                            [pTooltip]="
+                                'Journal de la demande ' +
+                                dossier.numero_demande
+                            "
+                            (click)="
+                                handleAction({
+                                    data: dossier,
+                                    action: 'journal-mobile-subscription',
+                                    view: 'modal'
                                 })
                             "
                         ></button>

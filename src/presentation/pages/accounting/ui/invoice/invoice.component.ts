@@ -26,10 +26,11 @@ const status_values = [
     BADGE_ETAT_FACTURE.SOLDEE,
     BADGE_ETAT_FACTURE.REJETEE,
 ];
+
 const indexBoxClickable = [2, 3, 4] as const;
 type PageAction = {
     data: invoiceInterface;
-    action: 'view-invoice';
+    action: 'invoice';
     view: 'page';
 };
 
@@ -120,7 +121,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         let routePath: string = '';
 
         switch (params.action) {
-            case 'view-invoice':
+            case 'invoice':
                 routePath = `${number_demand}`;
                 this.router.navigate([routePath], {
                     relativeTo: this.activatedRoute,

@@ -13,7 +13,11 @@ import {
 } from './../../../../../shared/constants/badge-etat.contant';
 import { CommandWhiteSim } from '../../data-access/white-sim/interfaces/white-sim.interface';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
-import { FORM } from '../../../requests-products/requests-products-routing.module';
+import {
+    FORM,
+    INVOICE,
+    PAYMENT,
+} from '../../../requests-products/requests-products-routing.module';
 import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { Folder } from '../../../../../shared/interfaces/folder';
@@ -37,7 +41,9 @@ type PageAction = {
         | 'open-folder-white-sim'
         | 'mass-edit-white-sim'
         | 'simple-add-white-sim'
-        | 'mass-add-white-sim';
+        | 'mass-add-white-sim'
+        | 'payment-white-sim'
+        | 'invoice-white-sim';
     view: 'page';
 };
 
@@ -112,6 +118,8 @@ export class WhiteSimComponent implements OnInit {
     }
 
     public navigateByUrl(params: PageAction): void {
+        console.log('params', params);
+
         const number_demand = params.data
             ? params.data?.['numero_demande']
             : null;
@@ -147,6 +155,20 @@ export class WhiteSimComponent implements OnInit {
                         ...queryParams,
                         operation: OperationTransaction.SIM_BLANCHE_EN_MASSE,
                     },
+                });
+                break;
+            case 'payment-white-sim':
+                routePath = `${PAYMENT}/${number_demand}`;
+                this.router.navigate([routePath], {
+                    relativeTo: this.activatedRoute,
+                    queryParams,
+                });
+                break;
+            case 'invoice-white-sim':
+                routePath = `${INVOICE}/${number_demand}`;
+                this.router.navigate([routePath], {
+                    relativeTo: this.activatedRoute,
+                    queryParams,
                 });
                 break;
         }

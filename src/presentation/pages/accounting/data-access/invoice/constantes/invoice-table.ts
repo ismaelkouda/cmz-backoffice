@@ -40,7 +40,7 @@ export const invoiceTableConstant = {
         },
         {
             field: 'statut',
-            header: 'Etat facture',
+            header: 'Facture',
             class: 'text-center',
             width: '4rem',
         },

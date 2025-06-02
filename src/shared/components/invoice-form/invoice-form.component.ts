@@ -16,7 +16,11 @@ import {
     T_BADGE_ETAT_FACTURE,
 } from '../../constants/badge-etat-facture.contant';
 import { SharedService } from '../../services/shared.service';
-import { ACCOUNTING } from '../../routes/routes';
+import {
+    ACCOUNTING,
+    REQUESTS_PRODUCTS,
+    REQUESTS_SERVICES,
+} from '../../routes/routes';
 // import {
 //     INVOICE,
 //     PAYMENT,
@@ -24,25 +28,40 @@ import { ACCOUNTING } from '../../routes/routes';
 import { DetailsDemand } from '../form-folder/data-access/form-folder.interface';
 import { BADGE_ETAPE } from '../../constants/badge-etape.constant';
 import { ExportInvoiceService } from './data-access/enums/export-invoice.service';
+import {
+    PAYMENT_STATUS_ENUM,
+    T_PAYMENT_STATUS_ENUM,
+} from '../../../presentation/pages/accounting/data-access/payment/enums/payment-status.enum';
+import { TypePayment } from '../../enum/type-payment.enum';
 // import { CLAIMS } from '../../../presentation/pages/overseeing-operations/overseeing-operations-routing.module';
 const Swal = require('sweetalert2');
 
-type TYPEVIEW = 'view-invoice' | 'view-payment' | 'invoice-claims';
+type TYPEVIEW =
+    | 'invoice-mobile-subscription'
+    | 'payment-mobile-subscription'
+    | 'invoice-white-sim'
+    | 'payment-white-sim'
+    | 'invoice'
+    | 'payment'
+    | 'invoice-claims';
 const TYPEVIEW_VALUES: TYPEVIEW[] = [
-    'view-invoice',
-    'view-payment',
+    'invoice-mobile-subscription',
+    'payment-mobile-subscription',
+    'invoice-white-sim',
+    'payment-white-sim',
+    'invoice',
+    'payment',
     'invoice-claims',
 ];
 function isTypeView(value: any): value is TYPEVIEW {
     return TYPEVIEW_VALUES.includes(value);
 }
-type TYPE_COLOR_ETAT_BADGE =
-    | 'badge-warning'
+type TYPE_COLOR_PAYMENT_STATUS_BADGE =
     | 'badge-dark'
-    | 'badge-success'
-    | 'badge-danger'
+    | 'badge-warning'
     | 'badge-primary'
-    | 'badge-info';
+    | 'badge-success'
+    | 'badge-danger';
 @Component({
     selector: 'app-invoice-form',
     templateUrl: './invoice-form.component.html',
@@ -58,11 +77,12 @@ export class InvoiceFormComponent {
     public urlParamFilter: Object;
     public urlParamCurrentPage: string;
     public urlParamOperation: string;
-    public detailsInvoiceForm: DetailsDemand;
+    public detailsInvoiceForm: DetailsDemand | null = null;
     public displayUrlErrorPage: boolean = false;
     public logoTenant: string;
     public BADGE_ETAT = BADGE_ETAT;
     public formTypePaiement: FormGroup;
+    public TypePayment = TypePayment;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -163,6 +183,10 @@ export class InvoiceFormComponent {
         if (this.isDeferred) {
             this.formTypePaiement.get('type_paiement')?.reset();
         }
+
+        if (this.urlParamRef === 'payment') {
+            this.formTypePaiement.disable();
+        }
     }
     public get isSold(): boolean {
         return this.detailsInvoiceForm?.statut === BADGE_ETAT_FACTURE.SOLDEE;
@@ -198,16 +222,16 @@ export class InvoiceFormComponent {
             validator,
         ].filter((v) => v !== null);
     }
-    async postTraitementsSuivisPaiementDemandeService(
+    async handleTreatmentPayment(
         dataToSend = { ...this.formTypePaiement.value }
     ): Promise<void> {
         // if(this.formTypePaiement.invalid || this.isSold()) {}
         let htmlMessage: string;
         switch (this.formTypePaiement.get('type_paiement')?.value) {
-            case 'Post-Paid':
+            case 'PostPaid':
                 htmlMessage = `Le recu de paiement sera rattaché à la facture <span style="color: #ff6600;"><strong>${this.detailsInvoiceForm?.['numero_demande']}</strong></span> !`;
                 break;
-            case 'Pre-Paid':
+            case 'PrePaid':
                 htmlMessage = `Paiement différé !`;
                 break;
             case 'via Compte':
@@ -246,25 +270,30 @@ export class InvoiceFormComponent {
         this.sharedDataService.sendPatrimoineSimDemandeIntegrationsAll();
     }
 
-    getStatutBadge(facture?: { statut?: T_BADGE_ETAT_FACTURE }): Object {
-        if (!facture || !facture.statut) {
+    public getStatePaymentBadge(selectedPayment?: {
+        etat_paiement: T_PAYMENT_STATUS_ENUM;
+    }): TYPE_COLOR_PAYMENT_STATUS_BADGE {
+        if (!selectedPayment || !selectedPayment.etat_paiement) {
             return 'badge-dark';
         }
 
-        const stateMap: Record<T_BADGE_ETAT_FACTURE, TYPE_COLOR_ETAT_BADGE> = {
-            [BADGE_ETAT_FACTURE.EN_ATTENTE]: 'badge-dark',
-            [BADGE_ETAT_FACTURE.POSTEE]: 'badge-warning',
-            [BADGE_ETAT_FACTURE.REPORTEE]: 'badge-primary',
-            [BADGE_ETAT_FACTURE.SOLDEE]: 'badge-success',
-            [BADGE_ETAT_FACTURE.ABANDONNEE]: 'badge-warning',
-            [BADGE_ETAT_FACTURE.REJETEE]: 'badge-danger',
-            [BADGE_ETAPE.SOUMISSION]: 'badge-dark',
-            [BADGE_ETAPE.TRAITEMENT]: 'badge-warning',
-            [BADGE_ETAPE.FINALISATEUR]: 'badge-info',
-            [BADGE_ETAPE.CLOTURE]: 'badge-success',
+        const stateMap: Record<
+            T_PAYMENT_STATUS_ENUM,
+            TYPE_COLOR_PAYMENT_STATUS_BADGE
+        > = {
+            [PAYMENT_STATUS_ENUM.UNKNOWN]: 'badge-dark',
+            [PAYMENT_STATUS_ENUM.POSTED]: 'badge-warning',
+            [PAYMENT_STATUS_ENUM.ABANDONED]: 'badge-warning',
+            [PAYMENT_STATUS_ENUM.VALIDATED]: 'badge-success',
+            [PAYMENT_STATUS_ENUM.RESULTED]: 'badge-success',
+            [PAYMENT_STATUS_ENUM.NO_RESULTED]: 'badge-danger',
+
+            [PAYMENT_STATUS_ENUM.WAITING]: 'badge-dark',
+            [PAYMENT_STATUS_ENUM.REPORTED]: 'badge-primary',
+            [PAYMENT_STATUS_ENUM.REJECTED]: 'badge-danger',
         };
 
-        return stateMap[facture.statut];
+        return stateMap[selectedPayment.etat_paiement];
     }
 
     public postExportInvoice(): void {
@@ -288,14 +317,42 @@ export class InvoiceFormComponent {
         subModuleRoute: string;
     } {
         switch (this.urlParamRef) {
-            case 'view-invoice':
+            case 'invoice-mobile-subscription':
+                return {
+                    module: 'REQUESTS_SERVICES',
+                    moduleRoute: REQUESTS_SERVICES,
+                    subModule: 'MOBILE_SUBSCRIPTIONS',
+                    subModuleRoute: 'mobile-subscriptions',
+                };
+            case 'payment-mobile-subscription':
+                return {
+                    module: 'REQUESTS_SERVICES',
+                    moduleRoute: REQUESTS_SERVICES,
+                    subModule: 'MOBILE_SUBSCRIPTIONS',
+                    subModuleRoute: 'mobile-subscriptions',
+                };
+            case 'invoice-white-sim':
+                return {
+                    module: 'REQUESTS_PRODUCTS',
+                    moduleRoute: REQUESTS_PRODUCTS,
+                    subModule: 'WHITE_SIM',
+                    subModuleRoute: 'white-sim',
+                };
+            case 'payment-white-sim':
+                return {
+                    module: 'REQUESTS_PRODUCTS',
+                    moduleRoute: REQUESTS_PRODUCTS,
+                    subModule: 'WHITE_SIM',
+                    subModuleRoute: 'white-sim',
+                };
+            case 'invoice':
                 return {
                     module: 'ACCOUNTING',
                     moduleRoute: ACCOUNTING,
                     subModule: 'MY_INVOICES',
                     subModuleRoute: 'my-invoices',
                 };
-            case 'view-payment':
+            case 'payment':
                 return {
                     module: 'ACCOUNTING',
                     moduleRoute: ACCOUNTING,

@@ -4,6 +4,7 @@ export const BADGE_ETAT_FACTURE = {
     REJETEE: 'rejeté',
     REPORTEE: 'reporté',
     POSTEE: 'posté',
+    VALIDEE: 'validé',
     ABANDONNEE: 'abandonné',
     SOUMISSION: 'soumission',
     TRAITEMENT: 'traitement',

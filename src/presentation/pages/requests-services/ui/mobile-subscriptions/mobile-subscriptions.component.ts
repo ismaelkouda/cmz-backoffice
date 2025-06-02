@@ -37,8 +37,8 @@ type PageAction = {
         | 'mass-edit-mobile-subscription'
         | 'simple-add-mobile-subscription'
         | 'mass-add-mobile-subscription'
-        | 'view-payment'
-        | 'view-invoice';
+        | 'payment-mobile-subscription'
+        | 'invoice-mobile-subscription';
     view: 'page';
 };
 
@@ -146,15 +146,15 @@ export class MobileSubscriptionsComponent {
                     },
                 });
                 break;
-            case 'view-payment':
+            case 'payment-mobile-subscription':
                 routePath = `${PAYMENT}/${number_demand}`;
                 this.router.navigate([routePath], {
                     relativeTo: this.activatedRoute,
                     queryParams,
                 });
                 break;
-            case 'view-invoice':
-                routePath = `${INVOICE}/${params.data['reference']}`;
+            case 'invoice-mobile-subscription':
+                routePath = `${INVOICE}/${number_demand}`;
                 this.router.navigate([routePath], {
                     relativeTo: this.activatedRoute,
                     queryParams,

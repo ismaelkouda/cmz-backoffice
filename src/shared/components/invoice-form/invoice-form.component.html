@@ -8,32 +8,42 @@
             <div class="card">
                 <div class="card-body">
                     <div *ngIf="!displayUrlErrorPage">
-                        <div *ngIf="!spinner">
+                        <ng-container
+                            *ngIf="
+                                detailsInvoiceForm && detailsInvoiceForm.id;
+                                else loading
+                            "
+                        >
                             <div class="d-flex justify-content-between mb-3">
                                 <h4>
                                     <b>
                                         <span>
                                             Référence de
                                             <span
-                                                *ngIf="detailsInvoiceForm?.['reference']"
+                                                *ngIf="
+                                                    detailsInvoiceForm?.type_form ==
+                                                    'invoice'
+                                                "
                                                 >la facture</span
                                             >
                                             <span
-                                                *ngIf="!detailsInvoiceForm?.['reference'] && detailsInvoiceForm?.['etat_paiement']"
+                                                *ngIf="
+                                                    detailsInvoiceForm?.type_form ==
+                                                    'proforma'
+                                                "
                                                 >la proforma</span
                                             >
                                             :
                                         </span>
-                                        <span class="current_values">
-                                            [{{ detailsInvoiceForm?.['reference'] ??
-                                            detailsInvoiceForm?.['numero_demande']
+                                        <span class="current_values"
+                                            >[{{ detailsInvoiceForm?.['numero_demande']
 
-                                            }}]
-                                        </span>
+                                            }}]</span
+                                        >
                                         <span
                                             [class]="
                                                 'badge ' +
-                                                getStatutBadge(
+                                                getStatePaymentBadge(
                                                     detailsInvoiceForm
                                                 )
                                             "
@@ -47,8 +57,10 @@
                                             }}
                                         </span>
                                         &nbsp; [Montant :
-                                        <span class="text-orange">
-                                            {{ detailsInvoiceForm?.prix_ttc }}
+                                        <span class="text-orange"
+                                            >{{
+                                                detailsInvoiceForm?.prix_ttc
+                                            }}
                                             Fcfa </span
                                         >]
                                     </b>
@@ -64,11 +76,9 @@
                                             [class.p-disabled]="
                                                 formTypePaiement.invalid
                                             "
-                                            (click)="
-                                                postTraitementsSuivisPaiementDemandeService()
-                                            "
+                                            (click)="handleTreatmentPayment()"
                                             *ngIf="
-                                                urlParamRef !== 'view-invoice'
+                                                urlParamRef.includes('payment')
                                             "
                                         >
                                         </p-button>
@@ -80,12 +90,18 @@
                                             printSectionId="print-section"
                                             ngxPrint
                                             (click)="postExportInvoice()"
-                                        ></p-button>
+                                            *ngIf="
+                                                detailsInvoiceForm?.type_form ==
+                                                'invoice'
+                                            "
+                                        >
+                                        </p-button>
                                         <p-button
                                             label="Fermer"
                                             styleClass="p-button-danger"
                                             (click)="onGoToBack()"
-                                        ></p-button>
+                                        >
+                                        </p-button>
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +125,8 @@
                                                 <span
                                                     class="text-orange fw-bolder"
                                                     >RCCM&nbsp;:&nbsp;</span
-                                                >{{
+                                                >
+                                                {{
                                                     detailsInvoiceForm
                                                         ?.orangeInfo?.rccm ??
                                                         'N/A'
@@ -166,11 +183,17 @@
                                                     >
                                                         <b class="fs-5">
                                                             <span
-                                                                *ngIf="detailsInvoiceForm?.['reference']"
+                                                                *ngIf="
+                                                                    detailsInvoiceForm?.type_form ==
+                                                                    'invoice'
+                                                                "
                                                                 >Facture</span
                                                             >
                                                             <span
-                                                                *ngIf="!detailsInvoiceForm?.['reference'] && detailsInvoiceForm?.['etat_paiement']"
+                                                                *ngIf="
+                                                                    detailsInvoiceForm?.type_form ==
+                                                                    'proforma'
+                                                                "
                                                                 >Proforma</span
                                                             >
                                                         </b>
@@ -232,44 +255,36 @@
                                                     <td class="text-center">
                                                         <b>
                                                             <span
-                                                                *ngIf="detailsInvoiceForm?.['reference']"
-                                                                >Date de la
-                                                                facture</span
+                                                                *ngIf="
+                                                                    detailsInvoiceForm?.type_form ==
+                                                                    'invoice'
+                                                                "
                                                             >
+                                                                Date de la
+                                                                facture
+                                                            </span>
                                                             <span
-                                                                *ngIf="!detailsInvoiceForm?.['reference'] && detailsInvoiceForm?.['etat_paiement']"
-                                                                >Date de la
-                                                                proforma</span
+                                                                *ngIf="
+                                                                    detailsInvoiceForm?.type_form ==
+                                                                    'proforma'
+                                                                "
                                                             >
+                                                                Date de la
+                                                                proforma
+                                                            </span>
                                                         </b>
-                                                    </td>
-                                                    <td
-                                                        class="text-center"
-                                                        *ngIf="detailsInvoiceForm?.['reference']"
-                                                    >
-                                                        <b>Date limite</b>
                                                     </td>
                                                 </tr>
 
                                                 <tr>
                                                     <td class="text-center">
-                                                        {{ detailsInvoiceForm?.['reference'] ??
-                                                        detailsInvoiceForm?.['numero_demande'] }}
+                                                        {{ detailsInvoiceForm?.['numero_demande'] }}
                                                     </td>
                                                     <td class="text-center">
                                                         {{
                                                             detailsInvoiceForm?.created_at ??
                                                                 'N/A'
                                                         }}
-                                                    </td>
-                                                    <td
-                                                        class="text-center"
-                                                        *ngIf="detailsInvoiceForm?.['reference']"
-                                                    >
-                                                        <b>{{
-                                                            detailsInvoiceForm?.date_limite ??
-                                                                'N/A'
-                                                        }}</b>
                                                     </td>
                                                     <td
                                                         class="align-middle text-start"
@@ -305,41 +320,82 @@
                                             class="alert alert-dark p-1"
                                             role="alert"
                                             *ngIf="
-                                                urlParamRef === 'view-invoice'
+                                                urlParamRef.includes('invoice')
                                             "
                                         >
                                             <div
                                                 class="d-flex gap-4 justify-content-center"
+                                                style="padding: 0.5rem 0.5rem"
                                             >
-                                                <span
-                                                    class="d-flex align-items-center"
+                                                <ng-container
+                                                    [ngSwitch]="
+                                                        detailsInvoiceForm?.type_paiement
+                                                    "
                                                 >
-                                                    La facture a été réglée
-                                                    intégralement par le client,
-                                                    avec un reçu de paiement
-                                                    disponible.
-                                                </span>
-                                                <span class="d-flex gap-4">
-                                                    <button
-                                                        *ngIf="
-                                                            displayButtonShowPaymentReceipt
+                                                    <span
+                                                        *ngSwitchCase="
+                                                            TypePayment.VIA_ACCOUNT
                                                         "
-                                                        pButton
-                                                        pRipple
-                                                        icon="pi pi-download"
-                                                        class="p-button-success"
-                                                        (click)="
-                                                            onDownloadPaymentReceipt()
+                                                        class="d-flex align-items-center"
+                                                    >
+                                                        La facture a été
+                                                        automatiquement réglée
+                                                        via le compte client.
+                                                    </span>
+
+                                                    <span
+                                                        *ngSwitchCase="
+                                                            TypePayment.POST_PAID
                                                         "
-                                                    ></button>
-                                                </span>
+                                                        class="d-flex align-items-center"
+                                                    >
+                                                        Le paiement est différé
+                                                        selon les conditions
+                                                        convenues. La facture
+                                                        est enregistrée comme
+                                                        payable ultérieurement.
+                                                    </span>
+
+                                                    <ng-container
+                                                        *ngSwitchCase="
+                                                            TypePayment.PRE_PAID
+                                                        "
+                                                    >
+                                                        <span
+                                                            class="d-flex align-items-center"
+                                                        >
+                                                            Le paiement a été
+                                                            effectué à l'avance
+                                                            par le client. Un
+                                                            justificatif de
+                                                            paiement a été
+                                                            fourni.
+                                                        </span>
+                                                        <span
+                                                            class="d-flex gap-4"
+                                                        >
+                                                            <button
+                                                                *ngIf="
+                                                                    displayButtonShowPaymentReceipt
+                                                                "
+                                                                pButton
+                                                                pRipple
+                                                                icon="pi pi-download"
+                                                                class="p-button-success"
+                                                                (click)="
+                                                                    onDownloadPaymentReceipt()
+                                                                "
+                                                            ></button>
+                                                        </span>
+                                                    </ng-container>
+                                                </ng-container>
                                             </div>
                                         </div>
 
                                         <table
                                             [ngClass]="['native_table table']"
                                             *ngIf="
-                                                urlParamRef !== 'view-invoice'
+                                                urlParamRef.includes('payment')
                                             "
                                         >
                                             <thead
@@ -377,7 +433,7 @@
                                                             class="form-check-input"
                                                             type="radio"
                                                             name="type_paiement"
-                                                            value="Post-Paid"
+                                                            value="PostPaid"
                                                             formControlName="type_paiement"
                                                             #differe
                                                         />
@@ -391,17 +447,17 @@
                                                         dans le système de
                                                         facturation et réglé
                                                         ultérieurement selon les
-                                                        conditions de paiement
-                                                        convenues.
+                                                        conditions convenues.
                                                     </td>
                                                 </tr>
+
                                                 <tr>
                                                     <td class="text-center">
                                                         <input
                                                             class="form-check-input"
                                                             type="radio"
                                                             name="type_paiement"
-                                                            value="Pre-Paid"
+                                                            value="PrePaid"
                                                             formControlName="type_paiement"
                                                             #immediat
                                                             id="immediat"
@@ -467,6 +523,7 @@
                                                         </div>
                                                     </td>
                                                 </tr>
+
                                                 <tr>
                                                     <td class="text-center">
                                                         <input
@@ -485,8 +542,8 @@
                                                         Le montant de cette
                                                         facture sera
                                                         automatiquement prélevé
-                                                        de votre compte client.
-                                                        <br />
+                                                        de votre compte
+                                                        client.<br />
                                                         &nbsp;[
                                                         <b>Solde engagé</b> :
                                                         <span
@@ -501,27 +558,12 @@
                                                             }}
                                                             Fcfa
                                                         </span>
-                                                        &nbsp;|
-                                                        <b>Solde restant</b> :
-                                                        <span
-                                                            class="badge badge-primary"
-                                                            style="
-                                                                font-size: 16px;
-                                                            "
-                                                        >
-                                                            {{
-                                                                detailsInvoiceForm?.SoldeRestant ||
-                                                                    0
-                                                            }}
+                                                        <!-- &nbsp;| <b>Solde restant</b> :
+                                                        <span class="badge badge-primary" style="font-size: 16px;">
+                                                            {{ detailsInvoiceForm?.SoldeRestant || 0 }}
                                                             <span
-                                                                *ngIf="
-                                                                    +detailsInvoiceForm?.SoldeRestant >
-                                                                    0
-                                                                "
-                                                            >
-                                                                Fcfa</span
-                                                            >
-                                                        </span>
+                                                                *ngIf="+detailsInvoiceForm?.SoldeRestant > 0">Fcfa</span>
+                                                        </span> -->
                                                         &nbsp;|
                                                         <b>Solde disponible</b>
                                                         :
@@ -674,11 +716,17 @@
                                     <p class="fs-6">
                                         Arrêté
                                         <span
-                                            *ngIf="detailsInvoiceForm?.['reference']"
+                                            *ngIf="
+                                                detailsInvoiceForm?.type_form ==
+                                                'invoice'
+                                            "
                                             >cette facture</span
                                         >
                                         <span
-                                            *ngIf="detailsInvoiceForm?.['etat_paiement']"
+                                            *ngIf="
+                                                detailsInvoiceForm?.type_form ==
+                                                'proforma'
+                                            "
                                             >ce proforma</span
                                         >
                                         à la somme de
@@ -689,17 +737,17 @@
                                     </p>
                                 </div>
                             </div>
-                        </div>
-
-                        <div
-                            class="d-flex justify-content-center align-items-center"
-                            style="height: 100vh"
-                            *ngIf="spinner"
-                        >
-                            <p-progressSpinner
-                                ariaLabel="loading"
-                            ></p-progressSpinner>
-                        </div>
+                        </ng-container>
+                        <ng-template #loading>
+                            <div
+                                class="d-flex justify-content-center align-items-center"
+                                style="height: 100vh"
+                            >
+                                <p-progressSpinner
+                                    ariaLabel="loading"
+                                ></p-progressSpinner>
+                            </div>
+                        </ng-template>
                     </div>
 
                     <div *ngIf="displayUrlErrorPage">
