@@ -19,6 +19,10 @@ import {
 import { DemandeMasseComponent } from '../../../supervision-operations/feature/demande-masse/demande-masse.component';
 import { ModalParams } from '../../../../../shared/constants/modalParams.contant';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+    OperationTransaction,
+    TitleOperation,
+} from '../../../../../shared/enum/OperationTransaction.enum';
 
 // const INIT_TYPE_TRAITEMENT: TypeTraitement = { module: "facture", approuver: false, prendre: false, creer_taches: false, finaliser: false }
 type TYPE_COLOR_ETAT_BADGE =
@@ -77,9 +81,10 @@ export class TableFactureComponent {
         this.toastrService.success('Copié dans le presse papier');
         this.clipboardService.copyFromContent(demande);
     }
-
-    public formatTitle(title: string): string {
-        return this.supervisionOperationService.HandleFormatTitle(title);
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
 
     public hideDialog(): void {

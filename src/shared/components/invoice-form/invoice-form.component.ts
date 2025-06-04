@@ -11,29 +11,26 @@ import { SupervisionOperationService } from '../../../presentation/pages/supervi
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../constants/swalWithBootstrapButtonsParams.constant';
 import { BADGE_ETAT } from '../../constants/badge-etat.contant';
-import {
-    BADGE_ETAT_FACTURE,
-    T_BADGE_ETAT_FACTURE,
-} from '../../constants/badge-etat-facture.contant';
+import { BADGE_ETAT_FACTURE } from '../../constants/badge-etat-facture.contant';
 import { SharedService } from '../../services/shared.service';
 import {
     ACCOUNTING,
     REQUESTS_PRODUCTS,
     REQUESTS_SERVICES,
 } from '../../routes/routes';
-// import {
-//     INVOICE,
-//     PAYMENT,
-// } from '../../../presentation/pages/accounting/accounting-routing.module';
 import { DetailsDemand } from '../form-folder/data-access/form-folder.interface';
-import { BADGE_ETAPE } from '../../constants/badge-etape.constant';
 import { ExportInvoiceService } from './data-access/enums/export-invoice.service';
 import {
     PAYMENT_STATUS_ENUM,
     T_PAYMENT_STATUS_ENUM,
 } from '../../../presentation/pages/accounting/data-access/payment/enums/payment-status.enum';
 import { TypePayment } from '../../enum/type-payment.enum';
-// import { CLAIMS } from '../../../presentation/pages/overseeing-operations/overseeing-operations-routing.module';
+import { CurrentUser } from '../../interfaces/current-user.interface';
+import { StoreCurrentUserService } from '../../services/store-current-user.service';
+import {
+    OperationTransaction,
+    TitleOperation,
+} from '../../enum/OperationTransaction.enum';
 const Swal = require('sweetalert2');
 
 type TYPEVIEW =
@@ -41,6 +38,7 @@ type TYPEVIEW =
     | 'payment-mobile-subscription'
     | 'invoice-white-sim'
     | 'payment-white-sim'
+    | 'invoice-my-paiements'
     | 'invoice'
     | 'payment'
     | 'invoice-claims';
@@ -49,6 +47,7 @@ const TYPEVIEW_VALUES: TYPEVIEW[] = [
     'payment-mobile-subscription',
     'invoice-white-sim',
     'payment-white-sim',
+    'invoice-my-paiements',
     'invoice',
     'payment',
     'invoice-claims',
@@ -83,6 +82,10 @@ export class InvoiceFormComponent {
     public BADGE_ETAT = BADGE_ETAT;
     public formTypePaiement: FormGroup;
     public TypePayment = TypePayment;
+    public url_minio: string;
+    public uploadedFileName: string | null = null;
+    public uploadError: string | null = null;
+    readonly MAX_FILE_SIZE_MB = 2;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -93,8 +96,12 @@ export class InvoiceFormComponent {
         private sharedService: SharedService,
         private fb: FormBuilder,
         private supervisionOperationService: SupervisionOperationService,
-        private exportInvoiceService: ExportInvoiceService
+        private exportInvoiceService: ExportInvoiceService,
+        private storeCurrentUserService: StoreCurrentUserService
     ) {
+        const currentUser: CurrentUser | null =
+            this.storeCurrentUserService.getCurrentUser;
+        this.url_minio = currentUser?.tenant.url_minio as string;
         this.logoTenant = LOGO_ORANGE;
     }
 
@@ -127,8 +134,21 @@ export class InvoiceFormComponent {
         }
     }
 
-    public onUploadPaymentReceipt(file: FileList) {
-        this.formTypePaiement.patchValue({ recu_paiement: file.item(0) });
+    public onUploadPaymentReceipt(files: FileList) {
+        this.uploadError = null;
+
+        if (files && files.length > 0) {
+            const file = files[0];
+            const fileSizeMB = file.size / (1024 * 1024);
+
+            if (fileSizeMB > this.MAX_FILE_SIZE_MB) {
+                this.uploadError = `Taille maximale autorisée (${this.MAX_FILE_SIZE_MB} Mo).`;
+                return;
+            }
+            console.log('files.item(0)', files.item(0));
+
+            this.formTypePaiement.patchValue({ recu_paiement: files.item(0) });
+        }
     }
 
     public onDownloadPaymentReceipt() {
@@ -169,7 +189,7 @@ export class InvoiceFormComponent {
         const typePaiementControl = this.formTypePaiement.get('type_paiement');
         const recuPaiementControl = this.formTypePaiement.get('recu_paiement');
         const gererValidationCommentaire = (value: string) => {
-            if (value === 'immédiat') {
+            if (value === 'PrePaid') {
                 recuPaiementControl?.setValidators([Validators.required]);
             } else {
                 recuPaiementControl?.clearValidators();
@@ -182,10 +202,6 @@ export class InvoiceFormComponent {
         });
         if (this.isDeferred) {
             this.formTypePaiement.get('type_paiement')?.reset();
-        }
-
-        if (this.urlParamRef === 'payment') {
-            this.formTypePaiement.disable();
         }
     }
     public get isSold(): boolean {
@@ -300,8 +316,10 @@ export class InvoiceFormComponent {
         this.exportInvoiceService.handleExportInvoice(this.detailsInvoiceForm);
     }
 
-    public formatTitle(title: string) {
-        return this.supervisionOperationService.HandleFormatTitle(title);
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
 
     public onGoToBack(): void {
@@ -352,7 +370,7 @@ export class InvoiceFormComponent {
                     subModule: 'MY_INVOICES',
                     subModuleRoute: 'my-invoices',
                 };
-            case 'payment':
+            case 'invoice-my-paiements':
                 return {
                     module: 'ACCOUNTING',
                     moduleRoute: ACCOUNTING,

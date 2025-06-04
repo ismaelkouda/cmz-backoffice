@@ -12,6 +12,7 @@ export const enum EndPointUrl {
     GET_ALL_JOURNAL = 'gestion-transactions/{typeJournal}/journal-evenements',
     GET_ALL_SIM_BLANCHE_JOURNAL = 'patrimoine-sim/carton-sim-blanches/journal-evenements?page={page}',
     GET_ALL_YEAR = 'gestion-campagnes/annees/all',
+    GET_ALL_NOTIFICATIONS = 'centre-notifications/all?page={page}',
 
     //First Level EndPoints
     GET_ALL_FIRSTLEVEL = 'parametres-securite/niveau_un/all?page={page}',

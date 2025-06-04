@@ -6,31 +6,40 @@ import {
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { TranslateService } from '@ngx-translate/core';
 import { notificationsCenterTableConstant } from '../../../data-access/notifications-center/constants/notifications-center-table.constant';
-import { notificationsCenterInterface } from '../../../data-access/notifications-center/interfaces/notifications-center.interface';
-import { notificationsCenterFilterInterface } from '../../../data-access/notifications-center/interfaces/notifications-center-filter.interface';
+import {
+    notificationsCenterApiResponseInterface,
+    notificationsCenterInterface,
+} from '../../../data-access/notifications-center/interfaces/notifications-center.interface';
 import { NotificationsCenterApiService } from '../../../data-access/notifications-center/services/notifications-center-api.service';
 import { handle } from '../../../../../../shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { SharedService } from '../../../../../../shared/services/shared.service';
+import {
+    OperationTransaction,
+    TitleOperation,
+} from '../../../../../../shared/enum/OperationTransaction.enum';
 
 @Component({
     selector: `app-table-notifications-center`,
     templateUrl: `./table-notifications-center.component.html`,
 })
 export class TableNotificationsCenterComponent {
-    @Input() listNotifications$: Observable<
-        Array<notificationsCenterInterface>
+    @Input() notificationPagination$: Observable<
+        Paginate<notificationsCenterApiResponseInterface>
     >;
-    @Input() pagination$: Observable<Paginate<notificationsCenterInterface>>;
-    public table: TableConfig = notificationsCenterTableConstant;
+    @Input() notificationList$: Observable<Array<notificationsCenterInterface>>;
+    @Input() spinner: boolean;
     public selectedNotifications: Array<notificationsCenterInterface> = [];
+    public table: TableConfig = notificationsCenterTableConstant;
 
     constructor(
         public toastService: ToastrService,
+        private sharedService: SharedService,
         private notificationsCenterApiService: NotificationsCenterApiService,
         private tableExportExcelFileService: TableExportExcelFileService,
         private translate: TranslateService,
@@ -38,6 +47,23 @@ export class TableNotificationsCenterComponent {
         private loadingBarService: LoadingBarService,
         private sanitizer: DomSanitizer
     ) {}
+
+    public onExportExcel(): void {
+        this.notificationList$.subscribe((data) => {
+            if (data) {
+                this.tableExportExcelFileService.exportAsExcelFile(
+                    data,
+                    this.table,
+                    'List_notifications'
+                );
+            }
+        });
+    }
+
+    public pageCallback() {
+        this.sharedService.fetchNotification();
+        this.selectedNotifications = [];
+    }
 
     public copyToClipboard(data: string): void {
         const translatedMessage = this.translate.instant(
@@ -47,14 +73,21 @@ export class TableNotificationsCenterComponent {
         this.clipboardService.copyFromContent(data);
     }
 
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
+    }
+
     public getSanitizedHTML(content: string): SafeHtml {
         return this.sanitizer.bypassSecurityTrustHtml(content);
     }
 
-    async onClearNotificationSelected(): Promise<void> {
+    async handleClearNotification(): Promise<void> {
+        if (this.selectedNotifications.length === 0) return;
         const response: any = await handle(
             () =>
-                this.notificationsCenterApiService.deleteNotificationsSelected({
+                this.notificationsCenterApiService.ReadNotifications({
                     notifications: this.selectedNotifications.map(
                         (notif) => notif?.id
                     ),
@@ -62,43 +95,12 @@ export class TableNotificationsCenterComponent {
             this.toastService,
             this.loadingBarService
         );
-        if (response.error === false) {
-            this.toastService.success(response?.message);
-            this.selectedNotifications = [];
-            combineLatest([
-                this.notificationsCenterApiService.getDataFilterNotificationsCenter(),
-                this.notificationsCenterApiService.getDataNbrPageNotificationsCenter(),
-            ]).subscribe(([filterData, nbrPageData]) => {
-                this.notificationsCenterApiService.fetchNotificationsCenter(
-                    filterData,
-                    nbrPageData
-                );
-            });
-            // this.saveNumberNotifications(response);
-        }
+        if (response.error === false) this.handleSuccessful(response);
     }
 
-    // private saveNumberNotifications(response): void {
-    //     this.listenerEmitterDataNumberNotificationsService.emitStartedNumberNotifications(
-    //       response.data?.notifications
-    //     );
-    // }
-
-    public pageCallback() {
-        this.notificationsCenterApiService.fetchNotificationsCenter(
-            {} as notificationsCenterFilterInterface
-        );
-    }
-
-    public onExportExcel(): void {
-        this.listNotifications$.subscribe((data) => {
-            if (data) {
-                this.tableExportExcelFileService.exportAsExcelFile(
-                    data,
-                    this.table,
-                    'lis_notifications_center'
-                );
-            }
-        });
+    private handleSuccessful(response): void {
+        this.toastService.success(response?.message);
+        this.selectedNotifications = [];
+        this.sharedService.fetchNotification();
     }
 }

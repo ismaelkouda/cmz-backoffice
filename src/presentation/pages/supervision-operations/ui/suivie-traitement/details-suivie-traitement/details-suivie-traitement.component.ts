@@ -21,6 +21,7 @@ import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
 import { BADGE_TRAITEMENT } from 'src/shared/constants/badge-traitement.constant';
+import { TitleOperation } from '../../../../../../shared/enum/OperationTransaction.enum';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -263,8 +264,10 @@ export class DetailsSuivieTraitementComponent implements OnInit {
         this.toastrService.success('Copié dans le presse papier');
         this.clipboardApi.copyFromContent(data);
     }
-    public formatTitle(title: string) {
-        return this.supervisionOperationService.HandleFormatTitle(title);
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
     public getCodeRapport(value: string): string {
         const code = value?.split('-');

@@ -5,6 +5,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardService } from 'ngx-clipboard';
 import { Component, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import {
+    OperationTransaction,
+    TitleOperation,
+} from '../../../../../../../shared/enum/OperationTransaction.enum';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -31,8 +35,10 @@ export class TableDetailsAchatProduits {
         this.toastrService.success('Copié dans le presse papier');
         this.clipboardService.copyFromContent(dossier);
     }
-    public formatTitle(title: string) {
-        return this.supervisionOperationService.HandleFormatTitle(title);
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
     public truncateString(str: string, num: number = 20): string {
         if (str.length > num) {

@@ -36,12 +36,27 @@
                                             :
                                         </span>
                                         <span class="current_values"
-                                            >[{{ detailsInvoiceForm?.['numero_demande']
-
+                                            >[{{
+                                            detailsInvoiceForm?.['numero_demande']
                                             }}]</span
                                         >
+
                                         <span
-                                            [class]="
+                                            class="badge badge-info"
+                                            *ngIf="
+                                                detailsInvoiceForm?.type_paiement
+                                            "
+                                            [ngStyle]="{
+                                                width: 'fit-content',
+                                                'font-size': '18px'
+                                            }"
+                                        >
+                                            {{
+                                                detailsInvoiceForm?.type_paiement
+                                            }}
+                                        </span>
+                                        <span
+                                            [ngClass]="
                                                 'badge ' +
                                                 getStatePaymentBadge(
                                                     detailsInvoiceForm
@@ -167,6 +182,16 @@
                                                 }}
                                             </p>
                                         </div>
+                                        <div *ngIf="detailsInvoiceForm.qrcode">
+                                            <img
+                                                width="170"
+                                                height="170"
+                                                [src]="
+                                                    detailsInvoiceForm.qrcode
+                                                "
+                                                alt="QR Illustration"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
 
@@ -290,18 +315,14 @@
                                                         class="align-middle text-start"
                                                     >
                                                         <b class="fs-5">
-                                                            Suivi par [&nbsp;{{
-                                                                detailsInvoiceForm
-                                                                    ?.approbateur
-                                                                    ?.nom
-                                                            }}&nbsp;{{
-                                                                detailsInvoiceForm
-                                                                    ?.approbateur
-                                                                    ?.prenoms
+                                                            Initié par [&nbsp;{{
+                                                                detailsInvoiceForm?.demandeur_matricule
                                                             }}&nbsp;]&nbsp; [{{
-                                                                detailsInvoiceForm
-                                                                    ?.approbateur
-                                                                    ?.email
+                                                                detailsInvoiceForm?.demandeur_nom
+                                                            }}&nbsp;{{
+                                                                detailsInvoiceForm?.demandeur_prenoms
+                                                            }}&nbsp;{{
+                                                                detailsInvoiceForm?.demandeur_contacts
                                                             }}]
                                                         </b>
                                                     </td>
@@ -338,8 +359,7 @@
                                                         "
                                                         class="d-flex align-items-center"
                                                     >
-                                                        La facture a été
-                                                        automatiquement réglée
+                                                        La facture est réglée
                                                         via le compte client.
                                                     </span>
 
@@ -349,11 +369,9 @@
                                                         "
                                                         class="d-flex align-items-center"
                                                     >
-                                                        Le paiement est différé
-                                                        selon les conditions
-                                                        convenues. La facture
-                                                        est enregistrée comme
-                                                        payable ultérieurement.
+                                                        Cette facture postpayée
+                                                        sera reglée
+                                                        ulterieurement.
                                                     </span>
 
                                                     <ng-container
@@ -364,12 +382,9 @@
                                                         <span
                                                             class="d-flex align-items-center"
                                                         >
-                                                            Le paiement a été
-                                                            effectué à l'avance
-                                                            par le client. Un
-                                                            justificatif de
-                                                            paiement a été
-                                                            fourni.
+                                                            Cette facture
+                                                            prepayée est reglée
+                                                            dans sa totalité.
                                                         </span>
                                                         <span
                                                             class="d-flex gap-4"
@@ -474,31 +489,27 @@
                                                                 class="d-flex align-items-center"
                                                             >
                                                                 Un justificatif
-                                                                de paiement
-                                                                (reçu ou preuve
-                                                                de virement) est
+                                                                de paiement est
                                                                 requis pour
                                                                 procéder à la
                                                                 validation de la
                                                                 facture.
                                                             </span>
+
                                                             <span
-                                                                class="d-flex gap-4"
                                                                 *ngIf="
                                                                     immediat?.checked
                                                                 "
                                                             >
                                                                 <input
                                                                     type="file"
-                                                                    accept="image/png,image/jpeg"
-                                                                    style="
-                                                                        padding: 0.5rem;
-                                                                        border: 1px
-                                                                            solid
-                                                                            #000;
-                                                                        border-radius: 0.2rem;
-                                                                        color: #000;
-                                                                    "
+                                                                    accept="image/png, image/jpeg"
+                                                                    [ngClass]="{
+                                                                        'file-error':
+                                                                            uploadError
+                                                                    }"
+                                                                    pTooltip="Choisir un fichier (PNG ou JPEG, max 2 Mo)"
+                                                                    tooltipPosition="top"
                                                                     (change)="
                                                                         onUploadPaymentReceipt(
                                                                             $event
@@ -507,6 +518,7 @@
                                                                         )
                                                                     "
                                                                 />
+
                                                                 <button
                                                                     pButton
                                                                     pRipple
@@ -519,6 +531,17 @@
                                                                         displayButtonShowPaymentReceipt
                                                                     "
                                                                 ></button>
+
+                                                                <div
+                                                                    *ngIf="
+                                                                        uploadError
+                                                                    "
+                                                                    class="text-danger small mt-1"
+                                                                >
+                                                                    {{
+                                                                        uploadError
+                                                                    }}
+                                                                </div>
                                                             </span>
                                                         </div>
                                                     </td>
@@ -620,7 +643,7 @@
                                                     </td>
                                                     <td>
                                                         <b>{{
-                                                            formatTitle(
+                                                            getTitleForm(
                                                                 detailsInvoiceForm?.operation
                                                             )
                                                         }}</b>
@@ -673,7 +696,7 @@
                                                     <td class="text-center">
                                                         Montant TVA ({{
                                                             detailsInvoiceForm?.tva
-                                                        }}%)
+                                                        }})
                                                     </td>
                                                     <td
                                                         class="text-center fs-6"
@@ -730,10 +753,12 @@
                                             >ce proforma</span
                                         >
                                         à la somme de
-                                        <span class="text-primary">{{
-                                            detailsInvoiceForm?.prix_ttc_lettres
-                                        }}</span>
-                                        Fcfa TTC sauf erreur
+                                        <span class="text-orange"
+                                            >{{
+                                                detailsInvoiceForm?.prix_ttc_lettres
+                                            }}&nbsp;Fcfa&nbsp;</span
+                                        >
+                                        TTC sauf erreur
                                     </p>
                                 </div>
                             </div>

@@ -10,33 +10,26 @@
                     <div style="margin-top: -2rem !important">
                         <app-patrimoine-header
                             [displayDate]="false"
-                            [displayList]="false"
-                            [total]="(pagination$ | async)?.total"
-                            [legendePluriel]="'MY_NOTIFICATIONS' | translate"
-                            [legendeSingulier]="'MY_NOTIFICATIONS' | translate"
+                            [count]="(notificationPagination$ | async)?.total"
+                            [legendePluriel]="'NOTIFICATIONS' | translate"
+                            [legendeSingulier]="'NOTIFICATIONS' | translate"
                         >
                         </app-patrimoine-header>
                     </div>
 
                     <div>
-                        <!-- <app-filter-notifications-center
-                            (filter)="filter($event)"
-                            [filterData]="filterData"
-                            [listTypeNotifications]="listTypeNotifications">
-                        </app-filter-notifications-center> -->
-
-                        <!-- <hr /> -->
-
                         <app-table-notifications-center
-                            [pagination$]="pagination$"
-                            [listNotifications$]="listNotifications$"
+                            [spinner]="spinner"
+                            [notificationPagination$]="notificationPagination$"
+                            [notificationList$]="notificationList$"
                         >
                         </app-table-notifications-center>
 
                         <app-pargination
-                            [pargination]="pagination$ | async"
+                            [pargination]="notificationPagination$ | async"
                             (pageChange)="onPageChange($event)"
-                        ></app-pargination>
+                        >
+                        </app-pargination>
                     </div>
                 </div>
             </div>

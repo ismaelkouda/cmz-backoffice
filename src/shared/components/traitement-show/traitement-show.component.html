@@ -389,7 +389,9 @@
                     >
                         <strong
                             >{{
-                                formatTitleOuvrage(detailTransaction?.operation)
+                                getTitleFormOuvrage(
+                                    detailTransaction?.operation
+                                )
                             }}
                             <!-- <span style="color: #549b3d; font-weight: bold">
                                 <span *ngIf="IsContentSim()">

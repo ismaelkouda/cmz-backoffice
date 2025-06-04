@@ -20,6 +20,7 @@ import { DemandesProduitsService } from '../../../demandes-produits/data-access/
 import { SupervisionOperationService } from '../../data-access/supervision-operation.service';
 import { getRapportCodeStyle } from '../../../../../shared/functions/rapport-code-style.function';
 import { BADGE_STAUT_PAIEMENT } from '../../../../../shared/constants/badge-statut-paiement';
+import { TitleOperation } from '../../../../../shared/enum/OperationTransaction.enum';
 const Swal = require('sweetalert2');
 @Component({
     selector: 'app-demande-masse',
@@ -29,7 +30,7 @@ const Swal = require('sweetalert2');
 export class DemandeMasseComponent implements OnInit {
     public formMasseLibelle = {
         etape_1:
-            'Cliquez pour télécharger le fichier contenant les SIMs activées par OCI',
+            'Cliquez pour télécharger le fichier contenant les SIM activées par OCI',
         etape_2:
             "Etape 2 : Importez le fichier téléchargé complété avec les infos d'identifications de chaque SIM",
         etape_3:
@@ -198,7 +199,7 @@ export class DemandeMasseComponent implements OnInit {
             ),
 
             operation: this.createFormControl(
-                this.formatTitle(this.listDemandes?.operation),
+                this.getTitleForm(this.listDemandes?.operation),
                 null,
                 true
             ),
@@ -262,8 +263,10 @@ export class DemandeMasseComponent implements OnInit {
             : value;
     }
 
-    public formatTitle(title: string) {
-        return this.supervisionOperationService.HandleFormatTitle(title);
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
 
     private commentairePatchValue(): string | null {
@@ -524,7 +527,7 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     public displayBoutonRecuPaiement(): boolean {
-        return this.listDemandes?.type_paiement === 'différé' ? true : false;
+        return this.listDemandes?.type_paiement === 'PostPaid' ? true : false;
     }
 
     async onDownloadModel(): Promise<any> {

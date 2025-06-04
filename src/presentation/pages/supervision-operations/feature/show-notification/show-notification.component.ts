@@ -13,6 +13,7 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
 import { OperationTransaction } from 'src/shared/enum/OperationTransaction.enum';
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
+import { TitleOperation } from '../../../../../shared/enum/OperationTransaction.enum';
 
 @Component({
     selector: 'app-show-notification',
@@ -309,30 +310,11 @@ export class ShowNotificationComponent implements OnInit {
             ? true
             : false;
     }
-    public formatTitleOuvrage(title: string) {
-        switch (title) {
-            case OperationTransaction.ACTIVATION: {
-                return 'Activations';
-            }
-            case OperationTransaction.SWAP: {
-                return 'Changements de SIM';
-            }
-            case OperationTransaction.RESILIATION: {
-                return 'Résiliations';
-            }
-            case OperationTransaction.SUSPENSION: {
-                return 'Suspension de SIM';
-            }
-            case OperationTransaction.VOLUME_DATA: {
-                return 'Depots de volume';
-            }
-            case OperationTransaction.ACHAT_SERVICE: {
-                return 'Achats de Services';
-            }
-            case OperationTransaction.PROVISIONNING: {
-                return 'Lignes de Credit';
-            }
-        }
+
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
     public OnExportExcel(): void {
         const data = this.listTransactions.map((item: any) => ({

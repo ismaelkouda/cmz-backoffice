@@ -1,6 +1,6 @@
 export const BADGE_STAUT_PAIEMENT = {
-    DIFFERE: 'différé',
-    IMMEDIAT: 'immédiat',
+    DIFFERE: 'PostPaid',
+    IMMEDIAT: 'PrePaid',
     MON_COMPTE: 'mon compte',
 } as const;
 

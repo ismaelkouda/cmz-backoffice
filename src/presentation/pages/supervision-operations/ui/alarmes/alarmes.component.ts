@@ -15,7 +15,10 @@ import { DemandeMasseComponent } from '../../feature/demande-masse/demande-masse
 import { ModalParams } from 'src/shared/constants/modalParams.contant';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
-import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
+import {
+    OperationTransaction,
+    TitleOperation,
+} from '../../../../../shared/enum/OperationTransaction.enum';
 
 @Component({
     selector: 'app-alarmes',
@@ -200,38 +203,10 @@ export class AlarmesComponent implements OnInit {
         this.clipboardApi.copyFromContent(data);
     }
 
-    public formatTitle(title: string) {
-        switch (title) {
-            case OperationTransaction.ACHAT_SERVICE: {
-                return 'Achat de Services';
-            }
-            case OperationTransaction.ACTIVATION: {
-                return 'Activation de SIM';
-            }
-            case OperationTransaction.SWAP: {
-                return 'Changement de SIM';
-            }
-            case OperationTransaction.SUSPENSION: {
-                return 'Suspension de SIM';
-            }
-            case OperationTransaction.CHANGEMENT_FORMULE: {
-                return 'Changement de Formule';
-            }
-            case OperationTransaction.RESILIATION: {
-                return 'Résiliation de SIM';
-            }
-            case OperationTransaction.SIM_BLANCHE: {
-                return 'SIM Blanche';
-            }
-            case OperationTransaction.VOLUME_DATA: {
-                return 'Depot de volume	';
-            }
-            case 'provisionning': {
-                return 'Ligne de Credit';
-            }
-            default:
-                return 'N/A';
-        }
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
     public onDialogMaximized(event) {
         event.maximized

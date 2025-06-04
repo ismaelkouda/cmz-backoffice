@@ -29,6 +29,7 @@ import {
 import { ProvisionningService } from 'src/presentation/pages/provisionning/data-access/provisionning.service';
 import { handle } from 'src/shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { TitleOperation } from '../../enum/OperationTransaction.enum';
 // import { ListCommuneService } from 'src/shared/services/list-commune.service';
 @Component({
     selector: 'app-transaction-show',
@@ -1187,36 +1188,11 @@ export class TransactionShowComponent implements OnInit {
             },
         });
     }
-    public formatTitleOuvrage(title: string) {
-        switch (title) {
-            case OperationTransaction.ACTIVATION: {
-                return 'Activation de SIM';
-            }
-            case OperationTransaction.INTEGRATION: {
-                return 'Integration de SIM';
-            }
-            case OperationTransaction.IDENTIFICATION: {
-                return 'Identification de SIM';
-            }
-            case OperationTransaction.SWAP: {
-                return 'Changement de SIM';
-            }
-            case OperationTransaction.RESILIATION: {
-                return 'Résiliation de SIM';
-            }
-            case OperationTransaction.SUSPENSION: {
-                return 'Suspension de SIM';
-            }
-            case OperationTransaction.VOLUME_DATA: {
-                return 'Depot de volume';
-            }
-            case OperationTransaction.ACHAT_SERVICE: {
-                return 'Achat de Services';
-            }
-            case OperationTransaction.PROVISIONNING: {
-                return 'Ligne de Credit';
-            }
-        }
+
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
     public IsContentSim(): boolean {
         return this.transaction?.operation ===

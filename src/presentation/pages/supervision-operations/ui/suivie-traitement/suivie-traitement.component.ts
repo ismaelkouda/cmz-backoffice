@@ -21,6 +21,7 @@ import { JournalComponent } from 'src/shared/components/journal/journal.componen
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { SharedDataService } from 'src/shared/services/shared-data.service';
 import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
+import { TitleOperation } from '../../../../../shared/enum/OperationTransaction.enum';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -371,35 +372,10 @@ export class SuivieTraitementComponent implements OnInit {
         this.toastrService.success('Copié dans le presse papier');
         this.clipboardApi.copyFromContent(data);
     }
-    public formatTitle(title: string) {
-        switch (title) {
-            case OperationTransaction.ACHAT_SERVICE: {
-                return 'Achat de Services';
-            }
-            case OperationTransaction.ACTIVATION: {
-                return 'Activation de SIM';
-            }
-            case OperationTransaction.SWAP: {
-                return 'Changement de SIM';
-            }
-            case OperationTransaction.SUSPENSION: {
-                return 'Suspension de SIM';
-            }
-            case OperationTransaction.CHANGEMENT_FORMULE: {
-                return 'Changement de Formule';
-            }
-            case OperationTransaction.RESILIATION: {
-                return 'Résiliation de SIM';
-            }
-            case OperationTransaction.VOLUME_DATA: {
-                return 'Depot de volume	';
-            }
-            case 'provisionning': {
-                return 'Ligne de Credit';
-            }
-            default:
-                return 'N/A';
-        }
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
     public getCodeRapport(value: string): string {
         const code = value?.split('-');

@@ -5,6 +5,10 @@ import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
+import {
+    OperationTransaction,
+    TitleOperation,
+} from '../../../../../../shared/enum/OperationTransaction.enum';
 
 type Action = PageAction;
 type PageAction =
@@ -101,8 +105,10 @@ export class TableFileAttenteComponent {
         return treatmentStyles[dossier.statut]?.[dossier.traitement] || null;
     }
 
-    public formatTitle(title: string) {
-        return this.supervisionOperationService.HandleFormatTitle(title);
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
 
     hideDialog() {

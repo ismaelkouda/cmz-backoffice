@@ -14,6 +14,10 @@ import { Paginate } from '../interfaces/paginate';
 import { FormulasInterface } from '../interfaces/formulas.interface';
 import { FirstLevelInterface } from '../interfaces/first-level.interface';
 import { BankInterface } from '../interfaces/bank.interface';
+import {
+    notificationsCenterApiResponseInterface,
+    notificationsCenterInterface,
+} from '../../presentation/pages/overseeing-operations/data-access/notifications-center/interfaces/notifications-center.interface';
 
 @Injectable({ providedIn: 'root' })
 export class SharedService {
@@ -805,5 +809,61 @@ export class SharedService {
             )
         );
         return this.http.post(`${this.BASE_URL}${url}`, data);
+    }
+
+    /*********************Méthode pour récupérer la liste des notifications*************** */
+
+    private notificationListSubject = new BehaviorSubject<
+        Array<notificationsCenterInterface>
+    >([]);
+    private notificationCountSubject = new BehaviorSubject<number>(0);
+    private loadingNotificationSubject = new BehaviorSubject<boolean>(false);
+    private notificationPaginationSubject = new BehaviorSubject<
+        Paginate<notificationsCenterApiResponseInterface>
+    >({} as Paginate<notificationsCenterApiResponseInterface>);
+
+    fetchNotification(page: string = '1'): void {
+        if (this.loadingNotificationSubject.getValue()) return;
+
+        const url: string = EndPointUrl.GET_ALL_NOTIFICATIONS.replace(
+            '{page}',
+            page
+        );
+        this.loadingNotificationSubject.next(true);
+        this.http
+            .post<Object>(`${this.BASE_URL}${url}`, {})
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    const paginationData: Paginate<any> = response?.['data'];
+                    this.notificationListSubject.next(response?.['data']?.data);
+                    this.notificationCountSubject.next(paginationData.total);
+                    this.notificationPaginationSubject.next(paginationData);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching notification', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingNotificationSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getNotificationList(): Observable<Array<notificationsCenterInterface>> {
+        return this.notificationListSubject.asObservable();
+    }
+
+    getNotificationCount(): Observable<number> {
+        return this.notificationCountSubject.asObservable();
+    }
+
+    isLoadingNotification(): Observable<boolean> {
+        return this.loadingNotificationSubject.asObservable();
+    }
+    getNotificationPagination(): Observable<
+        Paginate<notificationsCenterApiResponseInterface>
+    > {
+        return this.notificationPaginationSubject.asObservable();
     }
 }

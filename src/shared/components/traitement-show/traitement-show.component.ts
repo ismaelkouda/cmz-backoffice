@@ -21,6 +21,7 @@ import { PATRIMOINE, SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
 import { TypeUtilisateur } from 'src/shared/enum/TypeUtilisateur.enum';
 import { NaturePiece } from 'src/shared/enum/NaturePiece.enum';
 import { NatureDocument } from 'src/shared/enum/NatureDocument.enum';
+import { TitleOperation } from '../../enum/OperationTransaction.enum';
 declare var require;
 const Swal = require('sweetalert2');
 
@@ -1169,30 +1170,11 @@ export class TraitementShowComponent implements OnInit {
             },
         });
     }
-    public formatTitleOuvrage(title: string) {
-        switch (title) {
-            case OperationTransaction.ACTIVATION: {
-                return 'Activation de SIM';
-            }
-            case OperationTransaction.SWAP: {
-                return 'Changement de SIM';
-            }
-            case OperationTransaction.RESILIATION: {
-                return 'Résiliation de SIM';
-            }
-            case OperationTransaction.SUSPENSION: {
-                return 'Suspension de SIM';
-            }
-            case OperationTransaction.VOLUME_DATA: {
-                return 'Depot de volume';
-            }
-            case OperationTransaction.ACHAT_SERVICE: {
-                return 'Achat de Services';
-            }
-            case OperationTransaction.PROVISIONNING: {
-                return 'Ligne de Credit';
-            }
-        }
+
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
     public IsContentSim(): boolean {
         return this.transaction?.operation ===

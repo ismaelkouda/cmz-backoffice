@@ -112,6 +112,7 @@ export class NotificationComponent implements OnInit {
                 },
             });
     }
+
     public pushStatutView(event: boolean): void {
         this.showView = event;
         this.initialView = !event;

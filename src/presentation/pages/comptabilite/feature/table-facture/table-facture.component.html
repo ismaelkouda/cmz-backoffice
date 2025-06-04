@@ -59,7 +59,7 @@
                         {{ rowIndex + pagination?.current_page }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Type Opération'">
-                        {{ formatTitle(dossier?.[col.field]) }}
+                        {{ getTitleForm(dossier?.[col.field]) }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Référence'">
                         <span (click)="copyToClipboard(dossier?.[col.field])">

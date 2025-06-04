@@ -22,7 +22,10 @@ import { handle } from '../../functions/api.function';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { SupervisionOperationService } from '../../../presentation/pages/supervision-operations/data-access/supervision-operation.service';
-import { OperationTransaction } from '../../enum/OperationTransaction.enum';
+import {
+    OperationTransaction,
+    TitleOperation,
+} from '../../enum/OperationTransaction.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, Observable } from 'rxjs';
 import { UsageInterface } from '../../interfaces/usage.interface';
@@ -317,9 +320,10 @@ export class FormFolderComponent implements OnInit {
             if (response?.error === false) this.successHandle(response);
         }
     }
-
-    public formatTitle(title: string) {
-        return this.supervisionOperationService.HandleFormatTitle(title);
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
 
     public onLetDownDemand(
@@ -445,7 +449,7 @@ export class FormFolderComponent implements OnInit {
     }
 
     public displayBoutonProofPaiement(): boolean {
-        return this.detailsDemand?.type_paiement === 'différé';
+        return this.detailsDemand?.type_paiement === 'PostPaid';
     }
 
     public downloadFile(typeFile: 'justificatif' | 'recu-paiement') {

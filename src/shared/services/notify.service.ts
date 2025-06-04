@@ -26,9 +26,7 @@ export class NotifyService {
         return this.socket$.asObservable();
     }
     OncountNotify(): Observable<any> {
-        const url: string = <string>(
-            'supervision-operations/centre-notifications/count-unread'
-        );
+        const url: string = <string>'centre-notifications/count-unread';
         return this.http.post(`${this.baseUrl}${url}`, {});
     }
 }

@@ -35,7 +35,7 @@ export class FormDemandeIntegrationComponent implements OnInit {
         etape_1:
             'Etape 1 : Cliquez pour télécharger le fichier modèle puis remplissez tous les champs obligatoires',
         etape_2:
-            'Etape 2 : Cliquez pour importez le fichier de SIMs que vous avez téléchargé et renseigné',
+            'Etape 2 : Cliquez pour importez le fichier de SIM que vous avez téléchargé et renseigné',
         etape_3:
             'Etape 3 : Vérifiez la cohérence et la complétude du fichier importé',
     } as const;

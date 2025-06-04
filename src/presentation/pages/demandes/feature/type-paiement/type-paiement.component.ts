@@ -60,7 +60,6 @@ export class TypePaiementComponent implements OnInit {
                 this.IsLoading.emit(false);
             });
         }
-        this.getTitleForm;
     }
 
     public truncateString(str: string, maxLength: number = 20): string {
@@ -158,7 +157,7 @@ export class TypePaiementComponent implements OnInit {
         const typePaiementControl = this.formTypePaiement.get('type_paiement');
         const recuPaiementControl = this.formTypePaiement.get('recu_paiement');
         const gererValidationCommentaire = (value: string) => {
-            if (value === 'immédiat') {
+            if (value === 'PrePaid') {
                 recuPaiementControl?.setValidators([Validators.required]);
             } else {
                 recuPaiementControl?.clearValidators();
@@ -186,12 +185,6 @@ export class TypePaiementComponent implements OnInit {
         return value === 'null' || value === null || value === undefined
             ? ''
             : value;
-    }
-
-    get getTitleForm(): string {
-        const titleOp = new TitleOperation();
-        titleOp.setTitleForm(this.demandeSelected['operation']);
-        return titleOp.getTitleForm;
     }
 
     public displayBoutonJustificatif(): boolean {
@@ -240,10 +233,10 @@ export class TypePaiementComponent implements OnInit {
     ): Promise<void> {
         let htmlMessage: string;
         switch (this.formTypePaiement.get('type_paiement')?.value) {
-            case 'immédiat':
+            case 'PrePaid':
                 htmlMessage = `Le recu de paiement sera rattaché à la facture <span style="color: #ff6600;"><strong>${this.demandeSelected?.['numero_demande']}</strong></span> !`;
                 break;
-            case 'différé':
+            case 'PostPaid':
                 htmlMessage = `Paiement différé !`;
                 break;
             case 'mon compte':
@@ -273,8 +266,10 @@ export class TypePaiementComponent implements OnInit {
         }
     }
 
-    public formatTitle(title: string) {
-        return this.supervisionOperationService.HandleFormatTitle(title);
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
 
     private successHandle(response) {

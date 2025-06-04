@@ -212,7 +212,7 @@ export class VueGeographiqueComponent implements OnInit {
             Commune: item?.commune_nom,
             'Zone Trafic': item?.libelle,
             '# Sites': item?.sites_count,
-            '# SIMs': item?.sims_count,
+            '# SIM': item?.sims_count,
         }));
         this.excelService.exportAsExcelFile(data, 'Liste des zones de trafics');
     }

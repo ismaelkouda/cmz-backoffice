@@ -233,7 +233,7 @@
                             <h4 class="col-md-7 wrapper-header">
                                 <strong
                                     >{{
-                                        formatTitle(detailsDemande?.operation)
+                                        getTitleForm(detailsDemande?.operation)
                                     }}&nbsp;{{
                                         detailsDemande?.numero_demande
                                     }}</strong
@@ -406,7 +406,7 @@
                                                             class="form-check-input"
                                                             type="radio"
                                                             name="paiement"
-                                                            value="différé"
+                                                            value="PostPaid"
                                                             formControlName="type_paiement"
                                                             #differe
                                                         />
@@ -446,7 +446,7 @@
                                                             class="form-check-input"
                                                             type="radio"
                                                             name="paiement"
-                                                            value="immédiat"
+                                                            value="PrePaid"
                                                             formControlName="type_paiement"
                                                             #immediat
                                                             id="immediat"

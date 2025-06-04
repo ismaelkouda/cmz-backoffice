@@ -13,6 +13,7 @@ import { SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
 import { NOTIFY_ROUTE } from '../../supervision-operations-routing.module';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import Swal from 'sweetalert2';
+import { TitleOperation } from '../../../../../shared/enum/OperationTransaction.enum';
 
 @Component({
     selector: 'app-demande-show',
@@ -703,30 +704,11 @@ export class DemandeShowComponent implements OnInit {
     public handleCloseModal(): void {
         this.activeModal.close();
     }
-    public formatTitleOuvrage(title: string) {
-        switch (title) {
-            case OperationTransaction.ACTIVATION: {
-                return 'Activation de SIM';
-            }
-            case OperationTransaction.SWAP: {
-                return 'Changement de SIM';
-            }
-            case OperationTransaction.RESILIATION: {
-                return 'Résiliation de SIM';
-            }
-            case OperationTransaction.SUSPENSION: {
-                return 'Suspension de SIM';
-            }
-            case OperationTransaction.VOLUME_DATA: {
-                return 'Depot de volume';
-            }
-            case OperationTransaction.ACHAT_SERVICE: {
-                return 'Achat de Services';
-            }
-            case OperationTransaction.PROVISIONNING: {
-                return 'Ligne de Credit';
-            }
-        }
+
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
     public GetCurrentMessage(operation): string {
         switch (operation) {

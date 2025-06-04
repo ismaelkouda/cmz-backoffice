@@ -186,7 +186,7 @@
     <div class="d-flex gap-3">
         <app-table-header
             [count]="listTransactions"
-            [legende]="formatTitleOuvrage(currentData?.type)"
+            [legende]="getTitleForm(currentData?.type)"
             [page]="page"
             [totalPage]="totalPage"
         ></app-table-header>

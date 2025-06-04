@@ -4,13 +4,13 @@ import { LayoutService } from '../../services/layout.service';
 import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
 // @ts-ignore
 import { Router } from '@angular/router';
-import { NOTIFY_ROUTE } from 'src/presentation/pages/supervision-operations/supervision-operations-routing.module';
-import { SUPERVISION_OPERATIONS } from 'src/shared/routes/routes';
-import { StoreLocaleService } from 'src/shared/services/store-locale.service';
 import { StoreCurrentUserService } from '../../services/store-current-user.service';
-import { MappingService } from '../../services/mapping.service';
 import { CurrentUser } from '../../interfaces/current-user.interface';
+import { SharedService } from '../../services/shared.service';
+import { Observable } from 'rxjs';
+import { OVERSEEING_OPERATIONS } from '../../routes/routes';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
+const NOTIFICATIONS_ROUTE = 'notifications';
 
 @Component({
     selector: 'app-header',
@@ -25,32 +25,22 @@ export class HeaderComponent implements OnInit {
     public nom_tenant: string;
     public soldeGlobal: string;
     public ligneCreditGlobal: string;
-    public countNotify: number = 0;
+    public notificationCount$: Observable<number>;
 
     constructor(
         public layout: LayoutService,
         public navServices: NavService,
-        private mappingService: MappingService,
         private router: Router,
-        private storeLocaleService: StoreLocaleService,
+        private sharedService: SharedService,
         private storeCurrentUserService: StoreCurrentUserService
     ) {
+        this.sharedService.fetchNotification();
+        this.notificationCount$ = this.sharedService.getNotificationCount();
         const currentUser: CurrentUser | null =
             this.storeCurrentUserService.getCurrentUser;
         this.nom_tenant = currentUser?.tenant.nom_tenant as string;
         this.logoTenant = `${currentUser?.tenant?.url_minio}/${currentUser?.tenant?.logo_tenant}`;
         this.statutLayout();
-        this.storeLocaleService._notify$.subscribe((res: any) => {
-            if (res) {
-                this.countNotify = res;
-            } else {
-                if (currentUser !== null) {
-                    this.countNotify = currentUser.notifications;
-                } else {
-                    this.countNotify = currentUser?.notifications;
-                }
-            }
-        });
     }
 
     ngOnInit() {
@@ -81,8 +71,14 @@ export class HeaderComponent implements OnInit {
     //     });
     // }
 
+    public handleRefreshNotification(): void {
+        this.sharedService.fetchNotification();
+    }
+
     OnGoNotif() {
-        this.router.navigateByUrl(`${SUPERVISION_OPERATIONS}/${NOTIFY_ROUTE}`);
+        this.router.navigateByUrl(
+            `${OVERSEEING_OPERATIONS}/${NOTIFICATIONS_ROUTE}`
+        );
     }
 
     public pipeValue(number: any) {

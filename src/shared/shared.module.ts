@@ -1,6 +1,5 @@
 // import { TransactionShowComponent } from './components/transaction-show/transaction-show.component';
 import { ParginationComponent } from './components/pargination/pargination.component';
-import { SharedService } from './../shared/services/shared.service';
 import { TablebuttonHeaderComponent } from './components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from './components/table-title/table-title.component';
 import { StatistiqueBoxComponent } from './components/statistique-box/statistique-box.component';
@@ -134,7 +133,6 @@ import { FormDemandApiService } from './components/form-demand/data-access/servi
         LayoutService,
         DecimalPipe,
         SharedDataService,
-        SharedService,
         EndpointParamsService,
         TreatmentMonitoringApiService,
         HistoryApiService,

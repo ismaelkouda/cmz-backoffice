@@ -9,6 +9,7 @@ import { SupervisionOperationService } from 'src/presentation/pages/supervision-
 import { Justificatif } from 'src/shared/enum/Justificatif.enum';
 import { ProvisionningService } from '../../data-access/provisionning.service';
 import { EnvService } from '../../../../../shared/services/env.service';
+import { TitleOperation } from '../../../../../shared/enum/OperationTransaction.enum';
 
 @Component({
     selector: 'app-ligne-show',
@@ -144,30 +145,11 @@ export class LigneShowComponent implements OnInit {
     public handleCloseModal(): void {
         this.GetAllLigneCredits();
     }
-    public formatTitleOuvrage(title: string) {
-        switch (title) {
-            case OperationTransaction.ACTIVATION: {
-                return 'Activation de SIM';
-            }
-            case OperationTransaction.SWAP: {
-                return 'Changement de SIM';
-            }
-            case OperationTransaction.RESILIATION: {
-                return 'Résiliation de SIM';
-            }
-            case OperationTransaction.SUSPENSION: {
-                return 'Suspension de SIM';
-            }
-            case OperationTransaction.VOLUME_DATA: {
-                return 'Depot de volume';
-            }
-            case OperationTransaction.ACHAT_SERVICE: {
-                return 'Achat de Services';
-            }
-            case OperationTransaction.PROVISIONNING: {
-                return 'Ligne de Credit';
-            }
-        }
+
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
     }
     public IsContentSim(): boolean {
         return (

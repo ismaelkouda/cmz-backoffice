@@ -4,7 +4,10 @@ import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { DEMANDE_SERVICE } from 'src/shared/routes/routes';
 import { DEMANDE_ACTIVATION } from 'src/presentation/pages/demandes/demandes-routing.module';
-import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
+import {
+    OperationTransaction,
+    TitleOperation,
+} from '../../../../../shared/enum/OperationTransaction.enum';
 import { formDataBuilder } from '../../../../../shared/constants/formDataBuilder.constant';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -565,39 +568,13 @@ export class TransactionFormComponent implements OnInit, OnDestroy {
     //         },
     //     });
     // }
-    // public formatTitle(title: string) {
-    //     switch (title) {
-    //         case OperationTransaction.ACHAT_SERVICE: {
-    //             return 'Achat de Services';
-    //         }
-    //         case 'activation-en-masse': {
-    //             return 'Abonnement en masse de SIM';
-    //         }
-    //         case OperationTransaction.ACTIVATION: {
-    //             return 'Activation de SIM';
-    //         }
-    //         case OperationTransaction.SWAP: {
-    //             return 'Changement de carte SIM';
-    //         }
-    //         case OperationTransaction.SUSPENSION: {
-    //             return 'Suspension de SIM';
-    //         }
-    //         case OperationTransaction.RESILIATION: {
-    //             return 'Résiliation de SIM';
-    //         }
-    //         case OperationTransaction.VOLUME_DATA: {
-    //             return 'Depot de volume	';
-    //         }
-    //         case 'provisionning': {
-    //             return 'Ligne de Credit';
-    //         }
-    //         case OperationTransaction.CHANGEMENT_FORMULE: {
-    //             return 'Changement de formule';
-    //         }
-    //         default:
-    //             return 'N/A';
-    //     }
-    // }
+
+    public getTitleForm(operation: OperationTransaction): string {
+        const titleOp = new TitleOperation();
+        titleOp.setTitleForm(operation);
+        return titleOp.getTitleForm;
+    }
+
     public getAllDirectionRegionales() {
         this.settingService.GetAllFirstLevelSimple({}).subscribe({
             next: (response) => {

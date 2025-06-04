@@ -179,7 +179,9 @@
                             </td>
                             <td class="text-center">
                                 {{
-                                    formatTitle(transaction?.operation ?? 'N/A')
+                                    getTitleForm(
+                                        transaction?.operation ?? 'N/A'
+                                    )
                                 }}
                             </td>
                             <td class="text-center">

@@ -29,7 +29,7 @@ const status_values = [
 const indexBoxClickable = [1, 2, 3, 4] as const;
 type PageAction = {
     data: paymentInterface;
-    action: 'payment';
+    action: 'invoice-my-paiements';
     view: 'page';
 };
 
@@ -128,7 +128,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         let routePath: string = '';
 
         switch (params.action) {
-            case 'payment':
+            case 'invoice-my-paiements':
                 routePath = `${number_demand}`;
                 this.router.navigate([routePath], {
                     relativeTo: this.activatedRoute,

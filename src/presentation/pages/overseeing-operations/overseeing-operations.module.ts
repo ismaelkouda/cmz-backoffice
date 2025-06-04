@@ -20,7 +20,6 @@ import { ClaimsApiService } from './data-access/claims/services/claims-api.servi
 import { FilterClaimsComponent } from './feature/claims/filter-claims/filter-claims.component';
 import { TableClaimsComponent } from './feature/claims/table-claims/table-claims.component';
 import { ClaimsComponent } from './ui/claims/claims.component';
-import { NotificationsCenterApiService } from './data-access/notifications-center/services/notifications-center-api.service';
 import { FilterNotificationsCenterComponent } from './feature/notifications-center/filter-notifications-center/filter-notifications-center.component';
 import { TableNotificationsCenterComponent } from './feature/notifications-center/table-notifications-center/table-notifications-center.component';
 import { NotificationsCenterComponent } from './ui/notifications-center/notifications-center.component';
@@ -56,7 +55,6 @@ import { FormClaimsComponent } from './feature/claims/form-claims/form-claims.co
         WaitingQueueApiService,
         TreatmentMonitoringApiService,
         ClaimsApiService,
-        NotificationsCenterApiService,
         MessagerieComponent,
     ],
 })
