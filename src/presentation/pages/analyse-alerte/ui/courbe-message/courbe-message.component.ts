@@ -21,9 +21,12 @@ export class CourbeMessageComponent implements OnInit {
         private storage: EncodingDataService,
         private titleService: Title
     ) {
+        // this.visualUrl = JSON.parse(
+        //     this.storage.getData('variables')
+        // ).DataAnalyseAlarmeGenerees;
         this.visualUrl = JSON.parse(
             this.storage.getData('variables')
-        ).DataAnalyseAlarmeGenerees;
+        ).dashboardGrafana;
         this.titleService.setTitle(`${this.title}`);
     }
 

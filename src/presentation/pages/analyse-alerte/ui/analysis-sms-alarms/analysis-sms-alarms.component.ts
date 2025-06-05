@@ -21,9 +21,12 @@ export class AnalysisSmsAlarmsComponent implements OnInit {
         private storage: EncodingDataService,
         private titleService: Title
     ) {
+        // this.visualUrl = JSON.parse(
+        //     this.storage.getData('variables')
+        // ).SmsAnalyseAlarmeGenerees;
         this.visualUrl = JSON.parse(
             this.storage.getData('variables')
-        ).SmsAnalyseAlarmeGenerees;
+        ).dashboardGrafana;
         this.titleService.setTitle(`${this.title}`);
     }
 

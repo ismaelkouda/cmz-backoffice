@@ -25,9 +25,12 @@ export class DetectionApproComponent implements OnInit {
         private titleService: Title
     ) {
         this.titleService.setTitle(`${this.title}`);
+        // this.visualUrl = JSON.parse(
+        //     this.storage.getData('variables')
+        // ).dashboardApproData;
         this.visualUrl = JSON.parse(
             this.storage.getData('variables')
-        ).dashboardApproData;
+        ).dashboardAppro;
     }
 
     ngOnInit() {

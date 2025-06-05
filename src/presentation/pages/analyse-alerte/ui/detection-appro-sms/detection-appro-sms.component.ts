@@ -23,9 +23,12 @@ export class DetectionApproSmsComponent implements OnInit {
         private titleService: Title
     ) {
         this.titleService.setTitle(`${this.title}`);
+        // this.visualUrl = JSON.parse(
+        //     this.storage.getData('variables')
+        // ).dashboardApproSms;
         this.visualUrl = JSON.parse(
             this.storage.getData('variables')
-        ).dashboardApproSms;
+        ).dashboardAppro;
     }
 
     ngOnInit() {
