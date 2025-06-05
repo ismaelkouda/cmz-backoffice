@@ -151,7 +151,7 @@ export class DashboardComponent implements OnInit {
                 count: rapport?.['totalAlarmesNormales'] || '0',
                 width: 'col-md-3',
                 icon: this.simNormale,
-                iframeLink: variables?.analyseAlarmeNormales ?? '',
+                iframeLink: variables?.SmsAnalyseAlarmeNormales ?? '',
             },
             {
                 cardBgColor: '#FFFF00',
@@ -162,7 +162,7 @@ export class DashboardComponent implements OnInit {
                 count: rapport?.['totalAlarmesMineures'] || '0',
                 width: 'col-md-3',
                 icon: this.simMineure,
-                iframeLink: variables?.analyseAlarmeMineures ?? '',
+                iframeLink: variables?.SmsAlyseAlarmeMineures ?? '',
             },
             {
                 cardBgColor: '#FE9A2E',
@@ -173,7 +173,7 @@ export class DashboardComponent implements OnInit {
                 count: rapport?.['totalAlarmesMajeures'] || '0',
                 width: 'col-md-3',
                 icon: this.simMajeure,
-                iframeLink: variables?.analyseAlarmeMajeures ?? '',
+                iframeLink: variables?.SmsAnalyseAlarmeMajeures ?? '',
             },
             {
                 cardBgColor: '#e74c3c',
@@ -184,7 +184,7 @@ export class DashboardComponent implements OnInit {
                 count: rapport?.['totalAlarmesCritiques'] || '0',
                 width: 'col-md-3',
                 icon: this.simCrique,
-                iframeLink: variables?.analyseAlarmeCritiques ?? '',
+                iframeLink: variables?.SmsAnalyseAlarmeCritiques ?? '',
             },
         ];
     }

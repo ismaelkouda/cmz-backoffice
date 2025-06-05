@@ -18,7 +18,7 @@ export const smsBalanceStatusTableConstant = {
         },
         { field: 'imsi', header: 'IMSI', class: 'text-center', width: '6rem' },
         {
-            field: 'solde_actuel_go',
+            field: 'solde_sms',
             header: 'Solde SMS',
             class: 'text-center',
             width: '6rem',

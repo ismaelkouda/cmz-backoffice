@@ -52,6 +52,7 @@ export class FilterSmsBalanceStatusComponent implements OnDestroy {
     public thirdLevelLibel: string | undefined;
 
     public secondFilter: boolean = false;
+    public thirdFilter: boolean = false;
 
     private destroy$ = new Subject<void>();
 
@@ -131,10 +132,9 @@ export class FilterSmsBalanceStatusComponent implements OnDestroy {
                             filterData?.['adresse_ip'],
                             { nonNullable: true }
                         ),
-                        usage_id: new FormControl<string>(
-                            filterData?.['usage_id'],
-                            { nonNullable: true }
-                        ),
+                        usage_id: new FormControl<string>(filterData?.['id'], {
+                            nonNullable: true,
+                        }),
                         formule_uuid: new FormControl<string>(
                             filterData?.['formule_uuid'],
                             { nonNullable: true }
@@ -193,8 +193,13 @@ export class FilterSmsBalanceStatusComponent implements OnDestroy {
             });
     }
 
-    public showSecondFilter(): void {
+    public showSecondFilter() {
         this.secondFilter = !this.secondFilter;
+        this.thirdFilter = false;
+    }
+
+    public showThirdFilter() {
+        this.thirdFilter = !this.thirdFilter;
     }
 
     public onSubmitFilterForm(): void {

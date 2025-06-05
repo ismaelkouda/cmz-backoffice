@@ -4,9 +4,13 @@ import { PerformanceCollecteComponent } from './ui/performance-collecte/performa
 import { CourbeMessageComponent } from './ui/courbe-message/courbe-message.component';
 import { AnalyseRejetComponent } from './ui/analyse-rejet/analyse-rejet.component';
 import { DetectionApproComponent } from './ui/detection-appro/detection-appro.component';
+import { DetectionApproSmsComponent } from './ui/detection-appro-sms/detection-appro-sms.component';
+import { AnalysisSmsAlarmsComponent } from './ui/analysis-sms-alarms/analysis-sms-alarms.component';
 
-export const COURBE_MESSAGE = 'analyse-alarmes';
-export const DETECTION_APPRO = 'detection-appro';
+export const COURBE_MESSAGE_DATA = 'analyse-alarmes-data';
+export const COURBE_MESSAGE_SMS = 'analyse-alarmes-sms';
+export const DETECTION_APPRO_DATA = 'detection-appro-data';
+export const DETECTION_APPRO_SMS = 'detection-appro-sms';
 export const ANALAYSE_REJET = 'analyse-rejet';
 export const PERFORMANCE_COLLECTE = 'approvisionnement';
 
@@ -15,12 +19,20 @@ const routes: Routes = [
         path: '',
         children: [
             {
-                path: COURBE_MESSAGE,
+                path: COURBE_MESSAGE_DATA,
                 component: CourbeMessageComponent,
             },
             {
-                path: DETECTION_APPRO,
+                path: COURBE_MESSAGE_SMS,
+                component: AnalysisSmsAlarmsComponent,
+            },
+            {
+                path: DETECTION_APPRO_DATA,
                 component: DetectionApproComponent,
+            },
+            {
+                path: DETECTION_APPRO_SMS,
+                component: DetectionApproSmsComponent,
             },
             {
                 path: PERFORMANCE_COLLECTE,

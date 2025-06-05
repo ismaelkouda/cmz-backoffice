@@ -1,25 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { MappingService } from '../../../../../shared/services/mapping.service';
 import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
 
 @Component({
-    selector: 'app-detection-appro',
-    templateUrl: './detection-appro.component.html',
-    styleUrls: ['./detection-appro.component.scss'],
+    selector: 'app-detection-appro-sms',
+    templateUrl: './detection-appro-sms.component.html',
+    styleUrls: ['./detection-appro-sms.component.scss'],
 })
-export class DetectionApproComponent implements OnInit {
+export class DetectionApproSmsComponent implements OnInit {
     public module: string;
     public subModule: string;
     public isMaximized: boolean = false;
     public showIframe: boolean = false;
     public visualUrl: string;
     public title =
-        'Détection appro - Système de Gestion de Collecte Centralisée';
+        'Détection appro sms - Système de Gestion de Collecte Centralisée';
 
     constructor(
-        private router: Router,
         private activatedRoute: ActivatedRoute,
         private storage: EncodingDataService,
         private titleService: Title
@@ -27,13 +25,13 @@ export class DetectionApproComponent implements OnInit {
         this.titleService.setTitle(`${this.title}`);
         this.visualUrl = JSON.parse(
             this.storage.getData('variables')
-        ).dashboardApproData;
+        ).dashboardApproSms;
     }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
-            this.subModule = data.subModule[2];
+            this.subModule = data.subModule[3];
         });
         this.onSeeStatics();
     }

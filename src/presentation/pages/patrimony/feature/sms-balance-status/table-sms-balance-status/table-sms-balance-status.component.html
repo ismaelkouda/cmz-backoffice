@@ -19,6 +19,7 @@
             <div class="d-flex gap-2 align-items-center">
                 <div>
                     <app-table-button-header
+                        [hiddenButtonRefresh]="true"
                         (refresh)="pageCallback()"
                         (export)="onExportExcel()"
                         [disabledButtonExport]="
@@ -123,7 +124,7 @@
                         </span>
                     </ng-container>
                     <ng-container *ngSwitchCase="'Solde SMS'">
-                        {{smsBalanceStatus?.[col.field] ? (smsBalanceStatus?.[col.field] | formatNumber: 2) : ''}}
+                        {{smsBalanceStatus?.[col.field] | formatNumber: 2}}
                     </ng-container>
                     <ng-container *ngSwitchDefault>
                         {{smsBalanceStatus?.[col.field]}}

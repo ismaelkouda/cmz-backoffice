@@ -18,7 +18,7 @@ export const enum EndPointUrl {
     CLOSE_TRANSACTION = 'supervision-operations/traitements-suivis/cloturer-transaction',
     GET_ALL_SLA = 'supervision-operations/engagement-sla/all',
     GET_ALL_NOTIFICATIONS = 'centre-notifications/all',
-    READ_NOTIFICATION = 'centre-notifications/read',
+    READ_NOTIFICATION = 'centre-notifications/delete',
     SAVE_MESSAGE = 'messagerie/boite-envoi/envoyer',
     UPDATE_MESSAGE = 'messagerie/boite-envoi/update',
     GET_ALL_MESSAGE_SENDER = 'messagerie/boite-envoi/all?page={page}',

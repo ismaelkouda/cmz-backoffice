@@ -259,7 +259,12 @@ export const content: Routes = [
         data: {
             title: SUPERVISION_SIM,
             module: 'SUPERVISION_SIM',
-            subModule: ['ALARM_ANALYSIS', 'DETECTION_SUPPLIES'],
+            subModule: [
+                'ALARM_ANALYSIS_SMS',
+                'ALARM_ANALYSIS_DATA',
+                'DETECTION_SUPPLIES_DATA',
+                'DETECTION_SUPPLIES_SMS',
+            ],
         },
     },
     {

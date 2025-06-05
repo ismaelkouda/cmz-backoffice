@@ -3,6 +3,7 @@ import { AbstractControl } from '@angular/forms';
 export interface claimsFilterInterface {
     operation: AbstractControl<string>;
     reference: AbstractControl<string>;
+    apn: AbstractControl<string>;
     statut: AbstractControl<string>;
     traitement: AbstractControl<string>;
     initie_par: AbstractControl<string>;

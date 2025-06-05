@@ -23,14 +23,14 @@ export class CourbeMessageComponent implements OnInit {
     ) {
         this.visualUrl = JSON.parse(
             this.storage.getData('variables')
-        ).dashboardGrafana;
+        ).DataAnalyseAlarmeGenerees;
         this.titleService.setTitle(`${this.title}`);
     }
 
     ngOnInit() {
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
-            this.subModule = data.subModule[0];
+            this.subModule = data.subModule[1];
         });
         this.onSeeStatics();
     }

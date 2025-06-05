@@ -28,15 +28,13 @@ import { dataBalanceStatusFilterInterface } from '../../../data-access/data-bala
 import { TranslateService } from '@ngx-translate/core';
 import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
 import { dataBalanceStatusApiService } from '../../../data-access/data-balance-status/services/data-balance-status-api.service';
-import { OnInit } from '@angular/core';
-import { SharedService } from '../../../../../../shared/services/shared.service';
 
 @Component({
     selector: `app-filter-data-balance-status`,
     templateUrl: `./filter-data-balance-status.component.html`,
     styleUrls: ['./filter-data-balance-status.component.scss'],
 })
-export class FilterDataBalanceStatusComponent implements OnInit, OnDestroy {
+export class FilterDataBalanceStatusComponent implements OnDestroy {
     @Input() listFormulas$: Observable<Array<FormulasInterface>>;
     @Input() listFirstLevel$: Observable<Array<FirstLevelInterface>>;
     @Input() listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
@@ -54,11 +52,11 @@ export class FilterDataBalanceStatusComponent implements OnInit, OnDestroy {
     public thirdLevelLibel: string | undefined;
 
     public secondFilter: boolean = false;
+    public thirdFilter: boolean = false;
 
     private destroy$ = new Subject<void>();
 
     constructor(
-        private sharedService: SharedService,
         private toastService: ToastrService,
         private fb: FormBuilder,
         private storeCurrentUserService: StoreCurrentUserService,
@@ -75,13 +73,6 @@ export class FilterDataBalanceStatusComponent implements OnInit, OnDestroy {
             currentUser?.structure_organisationnelle?.niveau_2;
         this.thirdLevelLibel =
             currentUser?.structure_organisationnelle?.niveau_3;
-    }
-
-    ngOnInit(): void {
-        this.sharedService.fetchFirstLevel();
-        this.listFirstLevel$ = this.sharedService.getFirstLevel();
-        this.sharedService.fetchThirdLevel();
-        this.listThirdLevel$ = this.sharedService.getThirdLevel();
     }
 
     public initFormFilter(): void {
@@ -141,10 +132,9 @@ export class FilterDataBalanceStatusComponent implements OnInit, OnDestroy {
                             filterData?.['adresse_ip'],
                             { nonNullable: true }
                         ),
-                        usage_id: new FormControl<string>(
-                            filterData?.['usage_id'],
-                            { nonNullable: true }
-                        ),
+                        usage_id: new FormControl<string>(filterData?.['id'], {
+                            nonNullable: true,
+                        }),
                         formule_uuid: new FormControl<string>(
                             filterData?.['formule_uuid'],
                             { nonNullable: true }
@@ -214,8 +204,13 @@ export class FilterDataBalanceStatusComponent implements OnInit, OnDestroy {
             });
     }
 
-    public showSecondFilter(): void {
+    public showSecondFilter() {
         this.secondFilter = !this.secondFilter;
+        this.thirdFilter = false;
+    }
+
+    public showThirdFilter() {
+        this.thirdFilter = !this.thirdFilter;
     }
 
     public onSubmitFilterForm(): void {

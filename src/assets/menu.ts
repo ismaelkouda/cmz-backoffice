@@ -8,8 +8,8 @@ import {
     MESSAGERIE_ROUTE,
 } from './../presentation/pages/supervision-operations/supervision-operations-routing.module';
 import {
-    COURBE_MESSAGE,
-    DETECTION_APPRO,
+    COURBE_MESSAGE_DATA,
+    DETECTION_APPRO_DATA,
     PERFORMANCE_COLLECTE,
 } from 'src/presentation/pages/analyse-alerte/analyse-alerte-routing.module';
 import {
@@ -462,7 +462,7 @@ export var menuJson = [
                 pack: ApplicationType.MONITORING,
             },
             {
-                path: `/${SUPERVISION_SIM}/${COURBE_MESSAGE}`,
+                path: `/${SUPERVISION_SIM}/${COURBE_MESSAGE_DATA}`,
                 title: 'Analyse des Alarmes',
                 label: 'Analyse des Alarmes',
                 data: '5-2-0-analyse-alarmes',
@@ -470,7 +470,7 @@ export var menuJson = [
                 pack: ApplicationType.MONITORING,
             },
             {
-                path: `/${SUPERVISION_SIM}/${DETECTION_APPRO}`,
+                path: `/${SUPERVISION_SIM}/${DETECTION_APPRO_DATA}`,
                 title: 'Détection Appro. Data',
                 label: 'Détection Appro. Data',
                 data: '5-3-0-detection-appro',

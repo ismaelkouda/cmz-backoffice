@@ -61,6 +61,9 @@ export class FilterClaimsComponent implements OnDestroy {
                     statut: new FormControl<string>(filterData?.['statut'], {
                         nonNullable: true,
                     }),
+                    apn: new FormControl<string>(filterData?.['apn'], {
+                        nonNullable: true,
+                    }),
                     traitement: new FormControl<string>(
                         filterData?.['traitement'],
                         { nonNullable: true }

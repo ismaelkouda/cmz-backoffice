@@ -2,7 +2,7 @@ import { UsageInterface } from './../../../../../shared/interfaces/usage.interfa
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
-import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { TypeAlarme } from '../../../../../shared/enum/TypeAlarme.enum';
 import { FormulasInterface } from '../../../../../shared/interfaces/formulas.interface';
 import { SharedService } from '../../../../../shared/services/shared.service';

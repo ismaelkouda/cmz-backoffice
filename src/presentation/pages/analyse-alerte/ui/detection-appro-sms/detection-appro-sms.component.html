@@ -8,7 +8,9 @@
             <div class="card card-custom-size">
                 <div class="card-body text-center">
                     <h2>
-                        <strong>{{ 'ALARM_ANALYSIS_DATA' | translate }}</strong>
+                        <strong>{{
+                            'DETECTION_SUPPLIES_SMS' | translate
+                        }}</strong>
                     </h2>
                     <img
                         alt="Dynamic Image"
@@ -29,7 +31,7 @@
     </div>
 </div>
 <p-dialog
-    [header]="'ALARM_ANALYSIS_DATA' | translate | uppercase"
+    [header]="'DETECTION_SUPPLIES_SMS' | translate | uppercase"
     [(visible)]="showIframe"
     (onHide)="hideDialog()"
     [modal]="true"
