@@ -21,6 +21,12 @@ export class UsageMetierComponent implements OnInit {
     public listUsages: Array<any> = [];
     public selectedUsage: string;
     public selectedTenant: any;
+    public totalPage: 0;
+    public totalRecords: 0;
+    public recordsPerPage: 0;
+    public offset: any;
+    public p: number = 1;
+    public page: number = 0;
     public title = 'Usage metier - Système de Gestion de Collecte Centralisée';
     constructor(
         private toastrService: ToastrService,
@@ -42,6 +48,12 @@ export class UsageMetierComponent implements OnInit {
         this.settingService.getAllUsages({}).subscribe({
             next: (response) => {
                 this.listUsages = response['data'];
+                this.totalPage = response.data.last_page;
+                this.totalRecords = response.data.total;
+                this.recordsPerPage = response.data.per_page;
+                this.page = response.data?.current_page;
+                this.offset =
+                    (response.data.current_page - 1) * this.recordsPerPage + 1;
             },
             error: (error) => {
                 this.toastrService.error(error.message);
@@ -167,10 +179,26 @@ export class UsageMetierComponent implements OnInit {
             .subscribe({
                 next: (response) => {
                     this.listUsages = response['data'];
+                    this.totalPage = response.data.last_page;
+                    this.totalRecords = response.data.total;
+                    this.recordsPerPage = response.data.per_page;
+                    this.page = response.data?.current_page;
+                    this.offset =
+                        (response.data.current_page - 1) * this.recordsPerPage +
+                        1;
+                    ('');
                 },
                 error: (error) => {
                     this.toastrService.error(error.message);
                 },
             });
+    }
+    public onPageChange(event) {
+        this.p = event;
+        if (this.isFilter()) {
+            this.GetAllUsageMetier();
+        } else {
+            this.onFilter();
+        }
     }
 }

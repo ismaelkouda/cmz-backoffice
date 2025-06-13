@@ -2,6 +2,10 @@
 
 /*@@@@@@@@@@@@@@@@@@@@@@@@@Forms view Styles@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
+hr {
+    color: black;
+}
+
 p-calendar span {
     min-width: 100% !important;
     .p-button.p-button-icon-only {
@@ -21,6 +25,8 @@ label {
 .posRelative {
     position: relative;
     height: 100px;
+    min-width: 100%;
+    max-width: 100%;
 }
 
 .posCenter {
@@ -76,6 +82,16 @@ label {
 .p-datatable .p-datatable-header {
     border: none;
     background-color: transparent !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th.text-center {
+    display: flex;
+    justify-content: center;
+}
+
+.p-datatable-scrollable .p-datatable-tbody > tr > td.text-center {
+    display: flex;
+    justify-content: center;
 }
 
 .p-datatable .p-datatable-thead > tr > th {

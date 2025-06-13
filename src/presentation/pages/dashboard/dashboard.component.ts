@@ -9,6 +9,8 @@ import { PATRIMONY } from '../../../shared/routes/routes';
 import { DashboardApiService } from './data-access/services/dashboard-api.service';
 import { SIM_CARD } from '../patrimony/patrimony-routing.module';
 import { StoreCurrentUserService } from '../../../shared/services/store-current-user.service';
+import { AsFeatureService } from '../../../shared/services/as-feature.service';
+import { OperationTransaction } from '../../../shared/enum/OperationTransaction.enum';
 
 @Component({
     selector: 'app-dashboard',
@@ -51,11 +53,15 @@ export class DashboardComponent implements OnInit {
     public showIframe: boolean = false;
     public iframeLink: string | undefined;
 
+    public asAccessFeatureDataBalance: boolean;
+    public asAccessFeatureSmsBalance: boolean;
+
     public listDashboardStatistic$: Observable<Array<any>>;
 
     constructor(
         public router: Router,
         private titleService: Title,
+        private asFeatureService: AsFeatureService,
         private dashboardApiService: DashboardApiService,
         private storage: EncodingDataService,
         private storeCurrentUserService: StoreCurrentUserService
@@ -73,6 +79,12 @@ export class DashboardComponent implements OnInit {
                 this.handleSuccessful(statistic);
             });
         this.dashboardApiService.fetchDashboardStatistic();
+        this.asAccessFeatureDataBalance = this.asFeatureService.hasFeature(
+            OperationTransaction.SOLDE_DATA
+        );
+        this.asAccessFeatureSmsBalance = this.asFeatureService.hasFeature(
+            OperationTransaction.SOLDE_SMS
+        );
     }
 
     public refreshStatic(): void {
@@ -86,7 +98,7 @@ export class DashboardComponent implements OnInit {
     }
 
     private loadingBoxValues(rapport: Object = {}): void {
-        const variables = JSON.parse(this.storage.getData('variables') ?? null);
+        const variables = this.storage.getData('variables') ?? null;
         this.listStatisticsBox = [
             {
                 cardBgColor: '#3498db',
@@ -142,53 +154,111 @@ export class DashboardComponent implements OnInit {
                         state: { statut: SimStatut.RESILIE },
                     }),
             },
-            {
-                cardBgColor: '#FFF',
-                cardBorderColor: '#27ae60',
-                legendColor: '#27ae60',
-                countColor: '#27ae60',
-                legend: '# SIM Alarmes Normales',
-                count: rapport?.['totalAlarmesNormales'] || '0',
-                width: 'col-md-3',
-                icon: this.simNormale,
-                iframeLink: variables?.analyseAlarmeNormales ?? '',
-            },
-            {
-                cardBgColor: '#FFFF00',
-                cardBorderColor: '#FFF',
-                legendColor: '#130f40',
-                countColor: '#130f40',
-                legend: '# SIM Alarmes Mineures',
-                count: rapport?.['totalAlarmesMineures'] || '0',
-                width: 'col-md-3',
-                icon: this.simMineure,
-                iframeLink: variables?.analyseAlarmeMineures ?? '',
-            },
-            {
-                cardBgColor: '#FE9A2E',
-                cardBorderColor: '#FFF',
-                legendColor: '#FFF',
-                countColor: '#FFF',
-                legend: '# SIM Alarmes Majeures',
-                count: rapport?.['totalAlarmesMajeures'] || '0',
-                width: 'col-md-3',
-                icon: this.simMajeure,
-                iframeLink: variables?.analyseAlarmeMajeures ?? '',
-            },
-            {
-                cardBgColor: '#e74c3c',
-                cardBorderColor: '#FFF',
-                legendColor: '#FFF',
-                countColor: '#FFF',
-                legend: '# SIM Alarmes Critiques',
-                count: rapport?.['totalAlarmesCritiques'] || '0',
-                width: 'col-md-3',
-                icon: this.simCrique,
-                iframeLink: variables?.analyseAlarmeCritiques ?? '',
-            },
+
+            ...(this.asAccessFeatureDataBalance
+                ? [
+                      {
+                          cardBgColor: '#FFF',
+                          cardBorderColor: '#27ae60',
+                          legendColor: '#27ae60',
+                          countColor: '#27ae60',
+                          legend: 'SIM Alar. Normales (Data)',
+                          count: rapport?.['totalAlarmesNormales'] || '0',
+                          width: 'col-md-3',
+                          icon: this.simNormale,
+                          iframeLink: variables?.analyseAlarmeNormales ?? '',
+                      },
+                      {
+                          cardBgColor: '#FFFF00',
+                          cardBorderColor: '#FFF',
+                          legendColor: '#130f40',
+                          countColor: '#130f40',
+                          legend: 'SIM Alar. Mineures (Data)',
+                          count: rapport?.['totalAlarmesMineures'] || '0',
+                          width: 'col-md-3',
+                          icon: this.simMineure,
+                          iframeLink: variables?.analyseAlarmeMineures ?? '',
+                      },
+                      {
+                          cardBgColor: '#FE9A2E',
+                          cardBorderColor: '#FFF',
+                          legendColor: '#FFF',
+                          countColor: '#FFF',
+                          legend: 'SIM Alar. Majeures (Data)',
+                          count: rapport?.['totalAlarmesMajeures'] || '0',
+                          width: 'col-md-3',
+                          icon: this.simMajeure,
+                          iframeLink: variables?.analyseAlarmeMajeures ?? '',
+                      },
+                      {
+                          cardBgColor: '#e74c3c',
+                          cardBorderColor: '#FFF',
+                          legendColor: '#FFF',
+                          countColor: '#FFF',
+                          legend: 'SIM Alar. Critiques (Data)',
+                          count: rapport?.['totalAlarmesCritiques'] || '0',
+                          width: 'col-md-3',
+                          icon: this.simCrique,
+                          iframeLink: variables?.analyseAlarmeCritiques ?? '',
+                      },
+                  ]
+                : []),
+
+            ...(this.asAccessFeatureSmsBalance
+                ? [
+                      {
+                          cardBgColor: '#FFF',
+                          cardBorderColor: '#27ae60',
+                          legendColor: '#27ae60',
+                          countColor: '#27ae60',
+                          legend: 'SIM Alar. Normales (SMS)',
+                          count: rapport?.['totalAlarmesNormales'] || '0',
+                          width: 'col-md-3',
+                          icon: this.simNormale,
+                          iframeLink: variables?.analyseAlarmeNormalesSms ?? '',
+                      },
+                      {
+                          cardBgColor: '#FFFF00',
+                          cardBorderColor: '#FFF',
+                          legendColor: '#130f40',
+                          countColor: '#130f40',
+                          legend: 'SIM Alar. Mineures (SMS)',
+                          count: rapport?.['totalAlarmesMineures'] || '0',
+                          width: 'col-md-3',
+                          icon: this.simMineure,
+                          iframeLink: variables?.analyseAlarmeMineuresSms ?? '',
+                      },
+                      {
+                          cardBgColor: '#FE9A2E',
+                          cardBorderColor: '#FFF',
+                          legendColor: '#FFF',
+                          countColor: '#FFF',
+                          legend: 'SIM Alar. Majeures (SMS)',
+                          count: rapport?.['totalAlarmesMajeures'] || '0',
+                          width: 'col-md-3',
+                          icon: this.simMajeure,
+                          iframeLink: variables?.analyseAlarmeMajeuresSms ?? '',
+                      },
+                      {
+                          cardBgColor: '#e74c3c',
+                          cardBorderColor: '#FFF',
+                          legendColor: '#FFF',
+                          countColor: '#FFF',
+                          legend: 'SIM Alar. Critiques (SMS)',
+                          count: rapport?.['totalAlarmesCritiques'] || '0',
+                          width: 'col-md-3',
+                          icon: this.simCrique,
+                          iframeLink:
+                              variables?.analyseAlarmeCritiquesSms ?? '',
+                      },
+                  ]
+                : []),
         ];
     }
+
     public onVisualiserAlarme(statisticsBox: IStatistiquesBox) {
+        console.log('statisticsBox', statisticsBox);
+
         this.iframeLink = statisticsBox?.iframeLink;
         this.showIframe = true;
         this.onDialogMaximized(true);

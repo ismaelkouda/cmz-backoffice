@@ -32,7 +32,7 @@
                 [style]="{ minWidth: '100%' }"
             />
         </div>
-        <div class="col-md">
+        <!-- <div class="col-md">
             <label
                 ><b>{{ 'NUMBER_LINES' | translate }}</b></label
             >
@@ -41,6 +41,30 @@
                 type="text"
                 pInputText
                 placeholder="{{ 'NUMBER_LINES' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div> -->
+        <div class="col-md">
+            <label
+                ><b>{{ 'IMSI' | translate }}</b></label
+            >
+            <input
+                formControlName="imsi"
+                type="text"
+                pInputText
+                placeholder="{{ 'IMSI' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'MSISDN' | translate }}</b></label
+            >
+            <input
+                formControlName="msisdn"
+                type="text"
+                pInputText
+                placeholder="{{ 'MSISDN' | translate }}"
                 [style]="{ minWidth: '100%' }"
             />
         </div>
@@ -82,18 +106,6 @@
                 </ng-template>
             </p-dropdown>
         </div>
-        <div class="col-md">
-            <label
-                ><b>{{ 'MSISDN' | translate }}</b></label
-            >
-            <input
-                formControlName="msisdn"
-                type="text"
-                pInputText
-                placeholder="{{ 'MSISDN' | translate }}"
-                [style]="{ minWidth: '100%' }"
-            />
-        </div>
 
         <div class="filter-button" *ngIf="!secondFilter">
             <button
@@ -128,7 +140,7 @@
     <br *ngIf="secondFilter" />
 
     <div class="d-flex gap-1" *ngIf="secondFilter">
-        <div class="col-md-2">
+        <!-- <div class="col-md-2">
             <label
                 ><b>{{ 'IMSI' | translate }}</b></label
             >
@@ -139,7 +151,7 @@
                 placeholder="{{ 'IMSI' | translate }}"
                 [style]="{ minWidth: '100%' }"
             />
-        </div>
+        </div> -->
         <div class="col-md-2">
             <label
                 ><b>{{ 'START_DATE' | translate }}</b></label

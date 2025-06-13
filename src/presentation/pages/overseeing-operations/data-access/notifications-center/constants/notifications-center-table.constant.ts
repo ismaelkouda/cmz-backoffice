@@ -4,7 +4,6 @@ export const notificationsCenterTableConstant = {
             field: '',
             header: '#',
             class: 'text-center',
-            width: '2rem',
         },
         {
             field: 'created_at',
@@ -16,12 +15,13 @@ export const notificationsCenterTableConstant = {
             field: 'reference',
             header: 'Reference',
             class: 'text-center',
-            width: '12rem',
+            width: '10rem',
         },
         {
             field: 'operation',
             header: 'Type Notification',
             class: 'text-center',
+            width: '12rem',
         },
         {
             field: 'description',
@@ -30,7 +30,8 @@ export const notificationsCenterTableConstant = {
         {
             field: '',
             header: 'Actions',
+            width: '4rem',
         },
     ],
-    globalFilterFields: ['created_at', 'reference', 'type', 'description'],
+    globalFilterFields: ['created_at', 'reference', 'operation', 'description'],
 };

@@ -55,7 +55,8 @@ export class LoginComponent implements OnInit {
         private storage: EncodingDataService,
         private loadingBarService: LoadingBarService,
         private storeCurrentUserService: StoreCurrentUserService,
-        private storeTokenService: StoreTokenService
+        private storeTokenService: StoreTokenService,
+        private asFeatureService: AsFeatureService
     ) {
         this.permissionsJson = menuJson;
     }
@@ -98,11 +99,10 @@ export class LoginComponent implements OnInit {
             'menu',
             JSON.stringify(response.data?.user?.permissions)
         );
-        this.router.navigateByUrl(`/${DASHBOARD}`);
+        this.getVariables();
         // this.storage.saveData("current_menu", JSON.stringify(this.permissionsJson))
         // this.storeLocaleService.OnEmitTenantData(response?.data)
         // this.storeLocaleService.OnEmitCurrentPermission(this.permissionsJson)
-        this.getVariables();
     }
 
     async getVariables() {
@@ -112,12 +112,13 @@ export class LoginComponent implements OnInit {
             this.loadingBarService
         );
         if (!response.error) {
-            // this.asFeatureService.setAsAccessFeature(response.data.modules);
+            this.asFeatureService.setAsAccessFeature(response.data.modules);
             this.storage.saveData(
                 'modules',
                 JSON.stringify(response.data.modules)
             );
             this.storage.saveData('variables', JSON.stringify(response.data));
+            this.router.navigateByUrl(`/${DASHBOARD}`);
         }
     }
 }

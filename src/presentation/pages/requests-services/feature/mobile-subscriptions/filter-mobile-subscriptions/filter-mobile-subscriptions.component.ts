@@ -64,10 +64,10 @@ export class FilterMobileSubscriptionsComponent implements OnInit {
                 this.filterData?.['numero_demande'],
                 { nonNullable: true }
             ),
-            nb_demande_soumises: new FormControl<number>(
-                this.filterData?.['nb_demande_soumises'],
-                { nonNullable: true }
-            ),
+            // nb_demande_soumises: new FormControl<number>(
+            //     this.filterData?.['nb_demande_soumises'],
+            //     { nonNullable: true }
+            // ),
             traitement: new FormControl<string>(
                 this.filterData?.['traitement'],
                 { nonNullable: true }

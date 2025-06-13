@@ -604,7 +604,12 @@
                                                     formControlName="description"
                                                     pInputText
                                                     [ngStyle]="{
-                                                        'border-color': 'red'
+                                                        'border-color':
+                                                            formDemand.get(
+                                                                'description'
+                                                            )?.invalid
+                                                                ? 'red'
+                                                                : ''
                                                     }"
                                                     placeholder="{{
                                                         'COMMENT' | translate
@@ -686,6 +691,11 @@
                 selectionMode="multiple"
                 [(selection)]="globalWhiteSimCardEditRow"
                 [globalFilterFields]="table_mass_demand.globalFilterFields"
+                responsiveLayout="scroll"
+                scrollable="true"
+                scrollHeight="flex"
+                width="100%"
+                class="responsive-claims-table"
             >
                 <ng-template pTemplate="caption">
                     <div class="d-flex justify-content-end mt-3">
@@ -894,6 +904,11 @@
                 dataKey="id"
                 [(selection)]="selectedLotWhiteSimCardAvailable"
                 [globalFilterFields]="table_simple_demand.globalFilterFields"
+                responsiveLayout="scroll"
+                scrollable="true"
+                scrollHeight="flex"
+                width="100%"
+                class="responsive-claims-table"
             >
                 <ng-template pTemplate="caption">
                     <div class="d-flex justify-content-end mt-3">

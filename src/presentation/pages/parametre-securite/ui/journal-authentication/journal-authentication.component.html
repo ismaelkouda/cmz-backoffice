@@ -89,13 +89,18 @@
                                 'created_at',
                                 'data.username'
                             ]"
+                            responsiveLayout="scroll"
+                            scrollable="true"
+                            scrollHeight="flex"
+                            width="100%"
+                            class="responsive-claims-table"
                         >
                             <ng-template pTemplate="caption">
                                 <div
                                     class="d-flex justify-content-between w-100"
                                 >
                                     <app-table-header
-                                        [count]="listNotifications.length"
+                                        [count]="listNotifications?.length"
                                         [legendePluriel]="'accès'"
                                     ></app-table-header>
                                     <div>
@@ -122,16 +127,28 @@
                                     <th
                                         pSortableColumn="created_at"
                                         class="text-center"
+                                        [ngStyle]="{
+                                            minWidth: '12rem',
+                                            width: '12rem',
+                                            maxWidth: '12rem'
+                                        }"
                                     >
                                         Date<p-sortIcon
                                             field="created_at"
                                         ></p-sortIcon>
                                     </th>
-                                    <th class="text-center">Event</th>
-                                    <th class="text-center">Action</th>
-                                    <th class="text-center">
-                                        Source [Utilisateur]
+                                    <th
+                                        class="text-center"
+                                        [ngStyle]="{
+                                            minWidth: '12rem',
+                                            width: '12rem',
+                                            maxWidth: '12rem'
+                                        }"
+                                    >
+                                        Event
                                     </th>
+                                    <th>Action</th>
+                                    <th>Source [Utilisateur]</th>
                                 </tr>
                             </ng-template>
                             <ng-template
@@ -141,20 +158,34 @@
                             >
                                 <tr>
                                     <td class="text-center">{{ i + 1 }}</td>
-                                    <td class="text-center">
+                                    <td
+                                        class="text-center"
+                                        [ngStyle]="{
+                                            minWidth: '12rem',
+                                            width: '12rem',
+                                            maxWidth: '12rem'
+                                        }"
+                                    >
                                         {{
                                             historique?.created_at === null
                                                 ? 'N/A'
                                                 : historique?.created_at
                                         }}
                                     </td>
-                                    <td class="text-center">
+                                    <td
+                                        class="text-center"
+                                        [ngStyle]="{
+                                            minWidth: '12rem',
+                                            width: '12rem',
+                                            maxWidth: '12rem'
+                                        }"
+                                    >
                                         {{ historique?.event ?? 'N/A' }}
                                     </td>
-                                    <td class="text-center">
+                                    <td>
                                         {{ historique?.action ?? 'N/A' }}
                                     </td>
-                                    <td class="text-center">
+                                    <td>
                                         {{ historique?.ip }} [{{
                                             historique?.data?.username
                                         }}]

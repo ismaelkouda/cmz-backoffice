@@ -7,6 +7,11 @@
     [(selection)]="commandWhiteSimSelected"
     [rows]="(pagination$ | async)?.per_page"
     [globalFilterFields]="table.globalFilterFields"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    width="100%"
+    class="responsive-claims-table"
 >
     <ng-template pTemplate="caption">
         <div class="d-flex justify-content-between">
@@ -64,7 +69,11 @@
             <th
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center'
+                }"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'Date / Heure'">
@@ -106,7 +115,8 @@
             <td
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{ minWidth: col.width, width: col.width }"
+                [attr.data-label]="col.header"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">

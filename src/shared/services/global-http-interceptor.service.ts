@@ -47,6 +47,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                                     this.storage.removeData('user');
                                     this.storage.removeData('token');
                                     this.storage.removeData('current_menu');
+                                    this.storage.removeData('modules');
                                     this.storeTokenService.removeToken();
                                     this.router
                                         .navigateByUrl('auth/login')

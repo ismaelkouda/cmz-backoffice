@@ -1,12 +1,12 @@
 export const SimDemandTableConstant = (hiddenMsisdn: boolean = false) => {
     return {
         cols: [
-            { field: '', header: '#', class: 'text-center', width: '2rem' },
+            { field: '', header: '#', class: 'text-center' },
             {
                 field: 'created_at',
                 header: 'Date / Heure',
                 class: 'text-center',
-                width: '12rem',
+                width: '8rem',
             },
             {
                 field: 'transaction',
@@ -14,7 +14,12 @@ export const SimDemandTableConstant = (hiddenMsisdn: boolean = false) => {
                 class: 'text-center',
                 width: '12rem',
             },
-            { field: 'imsi', header: 'IMSI', class: 'text-center' },
+            {
+                field: 'imsi',
+                header: 'IMSI',
+                class: 'text-center',
+                width: '6rem',
+            },
             ...(hiddenMsisdn
                 ? []
                 : [
@@ -22,15 +27,26 @@ export const SimDemandTableConstant = (hiddenMsisdn: boolean = false) => {
                           field: 'msisdn',
                           header: 'MSISDN',
                           class: 'text-center',
+                          width: '6rem',
                       },
                   ]),
-            { field: 'statut', header: 'Etape', class: 'text-center' },
-            { field: 'traitement', header: 'Etat', class: 'text-center' },
+            {
+                field: 'statut',
+                header: 'Etape',
+                class: 'text-center',
+                width: '6rem',
+            },
+            {
+                field: 'traitement',
+                header: 'Etat',
+                class: 'text-center',
+                width: '6rem',
+            },
             {
                 field: 'updated_at',
                 header: 'Date Etat',
                 class: 'text-center',
-                width: '12rem',
+                width: '8rem',
             },
             {
                 field: '',

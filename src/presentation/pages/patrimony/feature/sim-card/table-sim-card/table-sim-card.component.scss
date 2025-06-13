@@ -4,39 +4,18 @@
 //     box-sizing: border-box;
 // }
 
-// ::ng-deep .p-datatable-wrapper {
-//     overflow-x: auto;
-// }
+.map {
+    width: 100%;
+    height: 100vh;
+    min-height: 400px;
+    display: block;
+}
 
-// ::ng-deep .p-datatable .p-datatable-thead > tr > th {
-//     padding-right: 0 !important;
-// }
-// @media (max-width: 768px) {
-//     ::ng-deep .p-datatable table,
-//     ::ng-deep .p-datatable thead,
-//     ::ng-deep .p-datatable tbody,
-//     ::ng-deep .p-datatable th,
-//     ::ng-deep .p-datatable td,
-//     ::ng-deep .p-datatable tr {
-//         display: block;
-//         width: 100%;
-//     }
+::ng-deep .p-datatable-wrapper {
+    overflow-x: auto;
+}
 
-//     ::ng-deep .p-datatable td {
-//         text-align: right;
-//         padding-left: 50%;
-//         position: relative;
-//     }
-
-//     ::ng-deep .p-datatable td::before {
-//         content: attr(data-label);
-//         position: absolute;
-//         left: 10px;
-//         width: 45%;
-//         white-space: nowrap;
-//         overflow: hidden;
-//         text-overflow: ellipsis;
-//         text-align: left;
-//         font-weight: bold;
-//     }
-// }
+::ng-deep .p-datatable-scrollable .p-datatable-thead > tr > th:last-child {
+    display: flex;
+    justify-content: center;
+}

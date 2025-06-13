@@ -7,9 +7,14 @@
     [rows]="(pagination$ | async)?.per_page"
     [(selection)]="downloadItemSelected"
     [globalFilterFields]="table.globalFilterFields"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    width="100%"
+    class="responsive-claims-table"
 >
     <ng-template pTemplate="caption">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between flex-wrap align-items-start">
             <app-table-title
                 [label]="false"
                 [count]="(pagination$ | async)?.total"
@@ -18,7 +23,9 @@
                 [totalPage]="(pagination$ | async)?.last_page"
             >
             </app-table-title>
-            <div class="d-flex gap-2 align-items-center">
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
                 <div>
                     <app-table-button-header
                         (refresh)="pageCallback()"
@@ -42,7 +49,11 @@
             <th
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center'
+                }"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'Date fichier'">
@@ -70,7 +81,8 @@
             <td
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{ minWidth: col.width, width: col.width }"
+                [attr.data-label]="col.header"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">

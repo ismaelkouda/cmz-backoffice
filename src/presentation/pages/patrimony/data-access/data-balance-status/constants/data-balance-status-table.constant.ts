@@ -1,13 +1,26 @@
 export const dataBalanceStatusTableConstant = {
     cols: [
-        { field: '', header: '#', class: 'text-center', width: '2rem' },
-        { field: 'niveau_uns_nom', header: 'Niveau un', width: '10rem' },
-        { field: 'niveau_deux_nom', header: 'Niveau deux', width: '10rem' },
-        { field: 'niveau_trois_nom', header: 'Niveau trois', width: '10rem' },
-        { field: 'apn', header: 'APN', class: 'text-center', width: '6rem' },
         {
-            field: 'point_emplacement',
-            header: 'Nom Emplacement',
+            field: '',
+            header: '#',
+            class: 'text-center',
+        },
+        {
+            field: 'niveau_uns_nom',
+            header: 'Niveau un',
+            class: 'text-center',
+            width: '10rem',
+        },
+        {
+            field: 'niveau_deux_nom',
+            header: 'Niveau deux',
+            class: 'text-center',
+            width: '10rem',
+        },
+        {
+            field: 'apn',
+            header: 'APN',
+            class: 'text-center',
             width: '10rem',
         },
         {
@@ -16,7 +29,23 @@ export const dataBalanceStatusTableConstant = {
             class: 'text-center',
             width: '6rem',
         },
-        { field: 'imsi', header: 'IMSI', class: 'text-center', width: '6rem' },
+        {
+            field: 'niveau_trois_nom',
+            header: 'Niveau trois',
+            class: 'text-center',
+            width: '10rem',
+        },
+        {
+            field: 'imsi',
+            header: 'IMSI',
+            class: 'text-center',
+            width: '6rem',
+        },
+        {
+            field: 'point_emplacement',
+            header: 'Nom Emplacement',
+            width: '10rem',
+        },
         {
             field: 'solde_actuel_go',
             header: 'Solde (Go)',

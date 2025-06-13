@@ -250,6 +250,6 @@ export class SettingService {
 
     GetAllAPN(data): Observable<any> {
         const url: string = <string>EndPointUrl.GET_ALL_APN;
-        return this.http.get(`${this.baseUrl}${url}`, data);
+        return this.http.post(`${this.baseUrl}${url}`, data);
     }
 }

@@ -238,7 +238,12 @@ export class TableMobileSubscriptionsComponent {
                         'pi pi-times',
                         `${STOP_OR_CHANGE} ${dossier?.numero_demande}`,
                         this.typeTreatment,
-                        { abandonner: true, modifier: true, visualiser: false }
+                        {
+                            abandonner: true,
+                            modifier: true,
+                            visualiser: false,
+                            cloturer: false,
+                        }
                     );
                 }
                 if (dossier?.traitement === BADGE_ETAT.REJETE) {
@@ -247,7 +252,12 @@ export class TableMobileSubscriptionsComponent {
                         'pi pi-times',
                         `${STOP_OR_CHANGE} ${dossier?.numero_demande}`,
                         this.typeTreatment,
-                        { abandonner: true, modifier: true, visualiser: false }
+                        {
+                            abandonner: true,
+                            modifier: true,
+                            visualiser: false,
+                            cloturer: false,
+                        }
                     );
                 }
             }
@@ -273,7 +283,12 @@ export class TableMobileSubscriptionsComponent {
             'pi pi-eye',
             `${DETAILS_OF_THE_REQUEST} ${dossier?.numero_demande}`,
             this.typeTreatment,
-            { abandonner: false, modifier: false, visualiser: true }
+            {
+                abandonner: false,
+                modifier: false,
+                visualiser: true,
+                cloturer: false,
+            }
         );
     }
 
@@ -286,14 +301,12 @@ export class TableMobileSubscriptionsComponent {
         const CANNOT_SEE_THE_SIM = this.translate.instant('CANNOT_SEE_THE_SIM');
         switch (dossier?.statut) {
             case BADGE_ETAPE.FINALISATEUR: {
-                if (dossier?.traitement === BADGE_ETAT.LIVRE) {
-                    return createButtonStyle(
-                        'p-button-dark',
-                        'pi pi-folder-open',
-                        `${SIM_OF_THE_REQUEST} ${dossier.numero_demande}`,
-                        this.typeTreatment
-                    );
-                }
+                return createButtonStyle(
+                    'p-button-dark',
+                    'pi pi-folder-open',
+                    `${SIM_OF_THE_REQUEST} ${dossier.numero_demande}`,
+                    this.typeTreatment
+                );
             }
             default: {
                 return createButtonStyle(

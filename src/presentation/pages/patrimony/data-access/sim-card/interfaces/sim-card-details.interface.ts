@@ -56,5 +56,4 @@ export interface simCardDetailsInterface {
     lat_reseau: string;
     solde_sms: number;
     statut_solde_sms: boolean;
-    date_trafic: string;
 }

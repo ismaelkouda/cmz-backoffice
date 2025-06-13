@@ -7,9 +7,14 @@
     [(selection)]="selectedNotifications"
     [rows]="(notificationPagination$ | async)?.per_page"
     [globalFilterFields]="table.globalFilterFields"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    width="100%"
+    class="responsive-claims-table"
 >
     <ng-template pTemplate="caption">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between flex-wrap align-items-start">
             <app-table-title
                 [count]="(notificationPagination$ | async)?.total"
                 [perPage]="(notificationPagination$ | async)?.per_page"
@@ -17,7 +22,9 @@
                 [totalPage]="(notificationPagination$ | async)?.last_page"
             >
             </app-table-title>
-            <div class="d-flex gap-2 align-items-center">
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
                 <div class="d-flex gap-2">
                     <app-table-button-header
                         (refresh)="pageCallback()"
@@ -43,7 +50,12 @@
             <th
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    maxWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center'
+                }"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'Date / Heure'">
@@ -75,7 +87,12 @@
             <td
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    maxWidth: col.width,
+                    width: col.width
+                }"
+                [attr.data-label]="col.header"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">

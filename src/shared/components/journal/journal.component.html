@@ -36,13 +36,12 @@
             dataKey="id"
             currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
               données"
-            [showCurrentPageReport]="true"
         >
             <ng-template pTemplate="header">
                 <tr>
-                    <th class="text-center">#</th>
-                    <th class="text-center">Date/Heure</th>
-                    <th class="text-center">Etape</th>
+                    <th style="text-align: center">#</th>
+                    <th style="text-align: center">Date/Heure</th>
+                    <th style="text-align: center">Etape</th>
                     <th>Etat</th>
                     <th>Date Traitement</th>
                     <th>Description</th>
@@ -51,9 +50,11 @@
             </ng-template>
             <ng-template let-i="rowIndex" pTemplate="body" let-journal>
                 <tr>
-                    <td class="text-center">{{ i + 1 }}</td>
-                    <td class="text-center">{{ journal?.created_at }}</td>
-                    <td class="text-center" [style]="{ width: '3rem' }">
+                    <td style="text-align: center">{{ i + 1 }}</td>
+                    <td style="text-align: center">
+                        {{ journal?.created_at }}
+                    </td>
+                    <td style="text-align: center">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
                             class="badge"
@@ -78,7 +79,7 @@
                             {{ journal?.statut }}
                         </span>
                     </td>
-                    <td class="text-center">
+                    <td style="text-align: center">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
                             class="badge"
@@ -110,11 +111,15 @@
                             {{ journal.traitement }}
                         </span>
                     </td>
-                    <td class="text-center">{{ journal?.date_heure }}</td>
-                    <td style="width: 23rem; text-align: start">
+                    <td style="text-align: center">
+                        {{ journal?.date_heure }}
+                    </td>
+                    <td>
                         {{ journal?.description }}
                     </td>
-                    <td class="text-center">{{ journal?.nbre_element }}</td>
+                    <td style="text-align: center">
+                        {{ journal?.nbre_element }}
+                    </td>
                 </tr>
             </ng-template>
         </p-table>
@@ -128,18 +133,23 @@
             [rowHover]="true"
             dataKey="id"
             [showCurrentPageReport]="true"
+            responsiveLayout="scroll"
+            scrollable="true"
+            scrollHeight="flex"
+            width="100%"
+            class="responsive-claims-table"
         >
             <ng-template pTemplate="header">
                 <tr>
                     <th class="text-center" [style]="{ width: '2rem' }">#</th>
-                    <th class="text-center" [style]="{ width: '8rem' }">
+                    <th style="text-align: center" [style]="{ width: '8rem' }">
                         Date/Heure
                     </th>
-                    <th class="text-center" [style]="{ width: '8rem' }">
+                    <th style="text-align: center" [style]="{ width: '8rem' }">
                         Opération
                     </th>
                     <th>Description</th>
-                    <th class="text-center" [style]="{ width: '6rem' }">
+                    <th style="text-align: center" [style]="{ width: '6rem' }">
                         # Lignes
                     </th>
                 </tr>
@@ -147,12 +157,16 @@
             <ng-template let-i="rowIndex" pTemplate="body" let-journal>
                 <tr>
                     <td class="text-center">{{ i + 1 }}</td>
-                    <td class="text-center">{{ journal?.created_at }}</td>
-                    <td class="text-center">{{ journal?.operation }}</td>
+                    <td style="text-align: center">
+                        {{ journal?.created_at }}
+                    </td>
+                    <td style="text-align: center">{{ journal?.operation }}</td>
                     <td style="width: 23rem; text-align: start">
                         {{ journal?.description }}
                     </td>
-                    <td class="text-center">{{ journal?.nbre_element }}</td>
+                    <td style="text-align: center">
+                        {{ journal?.nbre_element }}
+                    </td>
                 </tr>
             </ng-template>
         </p-table>

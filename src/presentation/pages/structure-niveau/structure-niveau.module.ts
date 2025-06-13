@@ -8,21 +8,14 @@ import { NgModule } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxCaptchaModule } from 'ngx-captcha';
 
-//Modules Primeng
-
 //Components
 import { FirstLevelComponent } from './ui/first-level/first-level.component';
 import { SecondLevelComponent } from './ui/second-level/second-level.component';
 import { ThirdLevelComponent } from './ui/third-level/third-level.component';
-import { SharedModule } from 'src/shared/shared.module';
+import { SharedModule } from '../../../shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-    imports: [
-        StructureNiveauRoutingModule,
-        SharedModule,
-        NgxPaginationModule,
-        NgxCaptchaModule,
-    ],
     declarations: [
         FirstLevelComponent,
         SecondLevelComponent,
@@ -32,6 +25,13 @@ import { SharedModule } from 'src/shared/shared.module';
         FormFirstLevelComponent,
         FormSecondLevelComponent,
         FormThirdLevelComponent,
+    ],
+    imports: [
+        SharedModule,
+        StructureNiveauRoutingModule,
+        NgxPaginationModule,
+        NgxCaptchaModule,
+        NgbModule,
     ],
 })
 export class StructureNiveauModule {}

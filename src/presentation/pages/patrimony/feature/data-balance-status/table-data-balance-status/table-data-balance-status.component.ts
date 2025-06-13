@@ -18,6 +18,22 @@ import { StoreCurrentUserService } from '../../../../../../shared/services/store
 @Component({
     selector: `app-table-data-balance-status`,
     templateUrl: `./table-data-balance-status.component.html`,
+    styles: [
+        `
+            ::ng-deep .p-datatable-wrapper {
+                overflow-x: auto;
+            }
+
+            ::ng-deep
+                .p-datatable-scrollable
+                .p-datatable-thead
+                > tr
+                > th:last-child {
+                display: flex;
+                justify-content: center;
+            }
+        `,
+    ],
 })
 export class TableDataBalanceStatusComponent {
     @Input() spinner: boolean;

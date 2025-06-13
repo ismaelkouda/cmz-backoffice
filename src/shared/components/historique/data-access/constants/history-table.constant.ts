@@ -1,6 +1,6 @@
 export const historyTableConstant = {
     cols: [
-        { field: '', header: '#', class: 'text-center', width: '2rem' },
+        { field: '', header: '#', class: 'text-center' },
         {
             field: 'createdAt',
             header: 'Date / Heure',
@@ -11,7 +11,7 @@ export const historyTableConstant = {
             field: 'typeAction',
             header: 'Operation',
             class: 'text-center',
-            width: '12rem',
+            width: '8rem',
         },
         { field: 'action', header: 'Détails Operation' },
         { field: 'source', header: 'Source [Utilisateur]' },

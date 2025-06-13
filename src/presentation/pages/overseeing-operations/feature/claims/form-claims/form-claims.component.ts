@@ -122,32 +122,27 @@ export class FormClaimsComponent {
                     formDataBuilder({
                         ...this.formClaim.value,
                         date_remise: format_date_remise,
-                    })
+                    }),
+                    this.toastService,
+                    this.claimsApiService,
+                    [OVERSEEING_OPERATIONS + '/' + CLAIMS]
                 );
-                const response = await firstValueFrom(
-                    this.claimsApiService
-                        .getCreateClaim()
-                        .pipe(
-                            filter(
-                                (res) => !!res && Object.keys(res).length > 0
-                            )
-                        )
-                );
-                if (response && response['error'] === false) {
-                    this.claimsApiService.fetchClaims(
-                        {} as claimsFilterInterface
-                    );
-                    this.closeInterface();
-                }
+                // const response = await firstValueFrom(this.claimsApiService.getCreateClaim());
+                // if (response && response['error'] === false) {
+                //     this.claimsApiService.fetchClaims(
+                //         {} as claimsFilterInterface
+                //     );
+                //     this.closeInterface();
+                // }
             }
         } else {
             this.toastService.error(SOMETHING_WENT_WRONG);
         }
     }
 
-    public closeInterface(): void {
-        this.router.navigate([OVERSEEING_OPERATIONS + '/' + CLAIMS]);
-    }
+    // public closeInterface(): void {
+    //     this.router.navigate([OVERSEEING_OPERATIONS + '/' + CLAIMS]);
+    // }
 
     ngOnDestroy(): void {
         this.destroy$.next();

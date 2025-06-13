@@ -3,12 +3,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
-import { BADGE_ETAT } from 'src/shared/constants/badge-etat.contant';
 import { BADGE_TRAITEMENT } from 'src/shared/constants/badge-traitement.constant';
 import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
 import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
 import { SettingService } from '../../services/setting.service';
+import { BADGE_ETAT } from '../../constants/badge-etat.contant';
 
 @Component({
     selector: 'app-journal',

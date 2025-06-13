@@ -43,7 +43,11 @@
             <th
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center'
+                }"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'Niveau un'">
@@ -71,7 +75,7 @@
                         {{ 'STATUS' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchDefault>
-                        {{ col.header }}
+                        {{ col.header | translate }}
                     </ng-container>
                 </ng-container>
             </th>
@@ -82,8 +86,8 @@
             <td
                 *ngFor="let col of table.cols"
                 [class]="col.class"
+                [ngStyle]="{ minWidth: col.width, width: col.width }"
                 [attr.data-label]="col.header"
-                [ngStyle]="{ width: col.width }"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">

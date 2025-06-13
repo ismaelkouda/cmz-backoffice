@@ -35,53 +35,57 @@
                                             >
                                             :
                                         </span>
-                                        <span class="current_values"
-                                            >[{{
-                                            detailsInvoiceForm?.['numero_demande']
-
-
-
-
-                                            }}]</span
-                                        >
-
-                                        <span
-                                            class="badge badge-info"
-                                            *ngIf="
-                                                detailsInvoiceForm?.type_paiement
-                                            "
-                                            [ngStyle]="{
-                                                width: 'fit-content',
-                                                'font-size': '18px'
-                                            }"
-                                        >
-                                            {{
-                                                detailsInvoiceForm?.type_paiement
-                                            }}
+                                        <span class="text-orange">
+                                            {{detailsInvoiceForm?.['numero_demande']}}
                                         </span>
-                                        <span
-                                            [ngClass]="
-                                                'badge ' +
-                                                getStatePaymentBadge(
-                                                    detailsInvoiceForm
-                                                )
-                                            "
-                                            [ngStyle]="{
-                                                width: 'fit-content',
-                                                'font-size': '18px'
-                                            }"
-                                        >
-                                            {{
-                                                detailsInvoiceForm?.etat_paiement
-                                            }}
+                                        &nbsp;
+                                        <span>
+                                            Mode de paiement :
+                                            <span
+                                                class="badge badge-info"
+                                                *ngIf="
+                                                    detailsInvoiceForm?.type_paiement
+                                                "
+                                                [ngStyle]="{
+                                                    width: 'fit-content',
+                                                    'font-size': '18px'
+                                                }"
+                                            >
+                                                {{
+                                                    detailsInvoiceForm?.type_paiement
+                                                }}
+                                            </span>
+                                            <span
+                                                *ngIf="
+                                                    detailsInvoiceForm?.type_form ==
+                                                    'invoice'
+                                                "
+                                                [ngClass]="
+                                                    'badge ' +
+                                                    getStatePaymentBadge(
+                                                        detailsInvoiceForm
+                                                    )
+                                                "
+                                                [ngStyle]="{
+                                                    width: 'fit-content',
+                                                    'font-size': '18px'
+                                                }"
+                                            >
+                                                {{
+                                                    detailsInvoiceForm?.etat_paiement
+                                                }}
+                                            </span>
                                         </span>
-                                        &nbsp; [Montant :
-                                        <span class="text-orange"
-                                            >{{
-                                                detailsInvoiceForm?.prix_ttc
-                                            }}
-                                            Fcfa </span
-                                        >]
+                                        &nbsp;
+                                        <span>
+                                            Montant :
+                                            <span class="text-orange">
+                                                {{
+                                                    detailsInvoiceForm?.prix_ttc
+                                                }}
+                                                Fcfa
+                                            </span>
+                                        </span>
                                     </b>
                                 </h4>
 
@@ -571,7 +575,7 @@
                                                         automatiquement prélevé
                                                         de votre compte
                                                         client.<br />
-                                                        &nbsp;[
+                                                        &nbsp;
                                                         <b>Solde engagé</b> :
                                                         <span
                                                             class="badge badge-dark"
@@ -606,7 +610,6 @@
                                                             }}
                                                             Fcfa
                                                         </span>
-                                                        ]
                                                     </td>
                                                 </tr>
                                             </tbody>

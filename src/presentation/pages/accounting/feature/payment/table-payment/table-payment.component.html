@@ -7,9 +7,14 @@
     [(selection)]="paymentSelected"
     [rows]="(pagination$ | async)?.per_page"
     [globalFilterFields]="table.globalFilterFields"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    width="100%"
+    class="responsive-claims-table"
 >
     <ng-template pTemplate="caption">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between flex-wrap align-items-start">
             <app-table-title
                 [count]="(pagination$ | async)?.total"
                 [perPage]="(pagination$ | async)?.per_page"
@@ -17,22 +22,20 @@
                 [totalPage]="(pagination$ | async)?.last_page"
             >
             </app-table-title>
-            <div class="d-flex gap-2 align-items-center">
-                <div class="d-flex gap-2">
-                    <app-table-button-header
-                        (refresh)="pageCallback()"
-                        (export)="onExportExcel()"
-                        [disabledButtonExport]="
-                            (listPayments$ | async)?.length === 0
-                        "
-                        [colorOther]="'dark'"
-                        [hiddenButtonOther]="true"
-                    >
-                    </app-table-button-header>
-                </div>
-                <div>
-                    <app-search-table [dt]="dt"></app-search-table>
-                </div>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    (refresh)="pageCallback()"
+                    (export)="onExportExcel()"
+                    [disabledButtonExport]="
+                        (listPayments$ | async)?.length === 0
+                    "
+                    [colorOther]="'dark'"
+                    [hiddenButtonOther]="true"
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt"></app-search-table>
             </div>
         </div>
     </ng-template>

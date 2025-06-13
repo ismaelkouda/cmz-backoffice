@@ -5880,9 +5880,10 @@
     .onhover-dropdown {
         &:hover {
             .onhover-show-div {
-                opacity: 0;
-                transform: none;
-                visibility: hidden;
+                //Kouda
+                // opacity: 0;
+                // transform: none;
+                // visibility: hidden;
 
                 &.active {
                     opacity: 1;

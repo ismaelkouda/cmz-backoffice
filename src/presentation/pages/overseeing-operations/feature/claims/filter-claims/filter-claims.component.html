@@ -103,28 +103,6 @@
 
     <div *ngIf="secondFilter" class="mt-3">
         <div class="row g-3">
-            <div class="col-12 col-sm-6 col-md-3">
-                <label class="text-truncate"
-                    ><b>{{ 'APPLICANT' | translate }}</b></label
-                >
-                <p-dropdown
-                    formControlName="initie_par"
-                    [options]="listApplicants$ | async"
-                    optionLabel="fullName"
-                    optionValue="id"
-                    [filter]="true"
-                    filterBy="fullName"
-                    [showClear]="true"
-                    placeholder="{{ 'SELECT' | translate }} {{
-                        'APPLICANT' | translate
-                    }}"
-                    emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
-                    emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
-                >
-                </p-dropdown>
-            </div>
-
-            <!-- IMSI -->
             <div class="col-12 col-sm-6 col-md-2">
                 <label class="text-truncate"
                     ><b>{{ 'START_DATE' | translate }}</b></label
@@ -138,30 +116,6 @@
                 </p-calendar>
             </div>
 
-            <!-- APN -->
-            <div class="col-12 col-sm-6 col-md-2">
-                <label class="text-truncate" for="APN"
-                    ><b>{{ 'APN' | translate }}</b></label
-                >
-                <p-dropdown
-                    id="APN"
-                    formControlName="apn"
-                    [options]="listApn$ | async"
-                    optionValue="apn"
-                    optionLabel="apn"
-                    filterBy="apn"
-                    [showClear]="true"
-                    [filter]="true"
-                    placeholder="{{ 'SELECT' | translate }} {{
-                        'APN' | translate
-                    }}"
-                    emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
-                    emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
-                >
-                </p-dropdown>
-            </div>
-
-            <!-- IP Address -->
             <div class="col-12 col-sm-6 col-md-2">
                 <label class="text-truncate"
                     ><b>{{ 'END_DATE' | translate }}</b></label

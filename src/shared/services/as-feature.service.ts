@@ -11,9 +11,9 @@ export class AsFeatureService {
         return this.storage.getData('modules');
     }
 
-    // public setAsAccessFeature(value: string[]): void {
-    //     this.asAccessFeature = value;
-    // }
+    public setAsAccessFeature(value: string[]): void {
+        this.storage.saveData('modules', JSON.stringify(value));
+    }
 
     public hasFeature(feature: string): boolean {
         this.storage.getData('modules');

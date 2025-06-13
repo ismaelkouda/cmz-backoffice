@@ -23,10 +23,10 @@ export class AnalysisSmsAlarmsComponent implements OnInit {
     ) {
         // this.visualUrl = JSON.parse(
         //     this.storage.getData('variables')
-        // ).SmsAnalyseAlarmeGenerees;
+        // ).analyseAlarmeGenereesSms;
         this.visualUrl = JSON.parse(
             this.storage.getData('variables')
-        ).dashboardGrafana;
+        ).dashboardGrafanaSms;
         this.titleService.setTitle(`${this.title}`);
     }
 

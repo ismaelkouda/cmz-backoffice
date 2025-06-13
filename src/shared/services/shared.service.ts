@@ -158,6 +158,7 @@ export class SharedService {
                               }
                             : {
                                   type_form: 'proforma',
+                                  qte: response?.['data']?.nb_demande_soumises,
                               }),
                     };
                     console.log('customData', customData);

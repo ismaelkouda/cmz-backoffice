@@ -1,10 +1,11 @@
 export const mobileSubscriptionsTableConstant = {
     cols: [
-        { field: '', header: '#', class: 'text-center', width: '2rem' },
+        { field: '', header: '#', class: 'text-center' },
         {
             field: 'created_at',
             header: 'Date / Heure',
             class: 'text-center',
+            width: '8rem',
         },
         {
             field: 'numero_demande',
@@ -16,27 +17,41 @@ export const mobileSubscriptionsTableConstant = {
             field: 'nb_demande_soumises',
             header: '# Lignes',
             class: 'text-center',
+            width: '5rem',
         },
         {
             field: 'nb_demande_traitees',
             header: '# Traitées',
             class: 'text-center',
+            width: '5rem',
         },
         // { field: 'nb_demande_identifiees', header: '# Identifiées', class: "text-center" },
 
-        { field: 'statut', header: 'Etape', class: 'text-center' },
-        { field: 'traitement', header: 'Etat', class: 'text-center' },
+        {
+            field: 'statut',
+            header: 'Etape',
+            class: 'text-center',
+            width: '6rem',
+        },
+        {
+            field: 'traitement',
+            header: 'Etat',
+            class: 'text-center',
+            width: '6rem',
+        },
         {
             field: 'updated_at',
             header: 'Date Etat',
             class: 'text-center',
+            width: '8rem',
         },
         {
             field: 'demandeur',
             header: 'Demandeur',
             class: 'text-center',
+            width: '16rem',
         },
-        { field: '', header: 'Actions', class: 'text-center', width: '20rem' },
+        { field: '', header: 'Actions', class: 'text-center', width: '16rem' },
     ],
     globalFilterFields: [
         'created_at',

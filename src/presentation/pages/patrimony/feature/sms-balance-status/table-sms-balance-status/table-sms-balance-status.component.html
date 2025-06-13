@@ -6,9 +6,14 @@
     selectionMode="single"
     [rows]="(pagination$ | async)?.per_page"
     [globalFilterFields]="table.globalFilterFields"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    width="100%"
+    class="responsive-claims-table"
 >
     <ng-template pTemplate="caption">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between flex-wrap align-items-start">
             <app-table-title
                 [count]="(pagination$ | async)?.total"
                 [perPage]="(pagination$ | async)?.per_page"
@@ -16,23 +21,21 @@
                 [totalPage]="(pagination$ | async)?.last_page"
             >
             </app-table-title>
-            <div class="d-flex gap-2 align-items-center">
-                <div>
-                    <app-table-button-header
-                        [hiddenButtonRefresh]="true"
-                        (refresh)="pageCallback()"
-                        (export)="onExportExcel()"
-                        [disabledButtonExport]="
-                            (listSmsBalanceStatus$ | async).length === 0
-                        "
-                        [hiddenButtonOther]="true"
-                        [iconOther]="'pi pi-plus'"
-                    >
-                    </app-table-button-header>
-                </div>
-                <div>
-                    <app-search-table [dt]="dt"></app-search-table>
-                </div>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    [hiddenButtonRefresh]="true"
+                    (refresh)="pageCallback()"
+                    (export)="onExportExcel()"
+                    [disabledButtonExport]="
+                        (listSmsBalanceStatus$ | async).length === 0
+                    "
+                    [hiddenButtonOther]="true"
+                    [iconOther]="'pi pi-plus'"
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt"></app-search-table>
             </div>
         </div>
     </ng-template>
@@ -41,7 +44,11 @@
             <th
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center'
+                }"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'Niveau un'">
@@ -85,7 +92,8 @@
             <td
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{ minWidth: col.width, width: col.width }"
+                [attr.data-label]="col.header"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">

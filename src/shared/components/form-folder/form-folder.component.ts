@@ -120,7 +120,10 @@ export class FormFolderComponent implements OnInit {
                 }
             ),
             description: new FormControl<string>(
-                { value: this.detailsDemand?.description, disabled: false },
+                {
+                    value: this.detailsDemand?.description,
+                    disabled: this.isApproved ? true : false,
+                },
                 { validators: Validators.required, nonNullable: true }
             ),
             accepte: new FormControl<string>(this.detailsDemand?.etat_cloture, {

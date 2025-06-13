@@ -61,15 +61,8 @@ export class FilterClaimsComponent implements OnDestroy {
                     statut: new FormControl<string>(filterData?.['statut'], {
                         nonNullable: true,
                     }),
-                    apn: new FormControl<string>(filterData?.['apn'], {
-                        nonNullable: true,
-                    }),
                     traitement: new FormControl<string>(
                         filterData?.['traitement'],
-                        { nonNullable: true }
-                    ),
-                    initie_par: new FormControl<string>(
-                        filterData?.['initie_par'],
                         { nonNullable: true }
                     ),
                     date_debut: new FormControl<string>(
@@ -124,11 +117,7 @@ export class FilterClaimsComponent implements OnDestroy {
     }
 
     private expandedFirstLine(filterData: claimsFilterInterface): void {
-        if (
-            filterData?.initie_par ||
-            filterData?.date_debut ||
-            filterData?.date_fin
-        ) {
+        if (filterData?.date_debut || filterData?.date_fin) {
             this.secondFilter = true;
         }
     }

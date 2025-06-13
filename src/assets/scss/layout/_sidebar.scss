@@ -1402,8 +1402,10 @@
             width: calc(100% - $sidebar-compact-width);
 
             &.close_icon {
-                margin-left: 110px;
-                width: calc(100% - 90px);
+                // margin-left: 110px;
+                // width: calc(100% - 90px);
+                margin-left: 55px;
+                width: calc(100% - 55px);
             }
 
             .header-wrapper {
@@ -1571,7 +1573,8 @@
 
                         ~ .page-body,
                         ~ footer {
-                            margin-left: 110px;
+                            // margin-left: 110px;
+                            margin-left: 55px;
                             transition: 0.5s;
                         }
 

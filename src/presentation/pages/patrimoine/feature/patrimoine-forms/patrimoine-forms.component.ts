@@ -223,7 +223,7 @@ export class PatrimoineFormsComponent implements OnInit {
                     Validators.minLength(10),
                 ],
             ],
-            date_trafic: [''],
+            date_localisation: [''],
             apn: [''],
             site_reseau: [''],
             adresse_ip: [],
@@ -564,7 +564,7 @@ export class PatrimoineFormsComponent implements OnInit {
 
         //Trafic Controls
         this.adminForm
-            .get('date_trafic')
+            .get('date_localisation')
             .patchValue(this.currentObject?.date_localisation);
         this.adminForm.get('apn').patchValue(this.currentObject?.apn);
         this.adminForm
@@ -575,6 +575,7 @@ export class PatrimoineFormsComponent implements OnInit {
             .patchValue(this.currentObject?.adresse_ip);
 
         // Set image URLs
+        console.log('date_localisation', this.currentObject?.date_localisation);
 
         if (this.currentObject?.photo_carte_recto) {
             this.imageURLs['recto'] =
@@ -594,7 +595,7 @@ export class PatrimoineFormsComponent implements OnInit {
         this.adminForm.get('imsi').disable();
         this.adminForm.get('msisdn').disable();
         this.adminForm.get('formule').disable();
-        // this.adminForm.get('date_trafic').disable();
+        // this.adminForm.get('date_localisation').disable();
         this.adminForm.get('apn').disable();
         this.adminForm.get('site_reseau').disable();
         this.adminForm.get('adresse_ip').disable();

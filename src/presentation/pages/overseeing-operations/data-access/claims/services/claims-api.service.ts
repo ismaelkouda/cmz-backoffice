@@ -10,6 +10,8 @@ import {
 } from '../interfaces/claims.interface';
 import { claimsEndpointEnum } from '../enums/claims-endpoint.enum';
 import { claimsFilterInterface } from '../interfaces/claims-filter.interface';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ClaimsApiService {
@@ -30,7 +32,11 @@ export class ClaimsApiService {
         );
 
     private BASE_URL: string;
-    constructor(private http: HttpClient, private envService: EnvService) {
+    constructor(
+        private http: HttpClient,
+        private envService: EnvService,
+        private router: Router
+    ) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
@@ -101,7 +107,12 @@ export class ClaimsApiService {
     private createClaimSubject = new BehaviorSubject<any>({} as any);
     private loadingCreateClaimSubject = new BehaviorSubject<boolean>(false);
 
-    fetchCreateClaim(data: any): void {
+    fetchCreateClaim(
+        data: any,
+        toastService: ToastrService,
+        claimsApiService: ClaimsApiService,
+        routeLink: any[]
+    ): void {
         if (this.loadingCreateClaimSubject.getValue()) return;
         this.loadingCreateClaimSubject.next(true);
         const url: string =
@@ -114,6 +125,12 @@ export class ClaimsApiService {
                 switchMap((response: any) => {
                     const createClaim = response;
                     this.createClaimSubject.next(createClaim);
+                    this.displayToast(
+                        response,
+                        toastService,
+                        claimsApiService,
+                        routeLink
+                    );
                     return of(response);
                 }),
                 catchError((error) => {
@@ -130,5 +147,20 @@ export class ClaimsApiService {
     }
     isLoadingCreateClaim(): Observable<boolean> {
         return this.loadingCreateClaimSubject.asObservable();
+    }
+
+    displayToast(
+        response: any,
+        toastService: ToastrService,
+        claimsApiService: ClaimsApiService,
+        routeLink: any[]
+    ) {
+        if (response?.error && response.error === false && toastService) {
+            toastService.success(response.message);
+            claimsApiService.fetchClaims({} as claimsFilterInterface);
+            this.router.navigate(routeLink);
+        } else if (response?.error && response.error === true) {
+            toastService.error(response.message);
+        }
     }
 }

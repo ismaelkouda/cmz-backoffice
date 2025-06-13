@@ -20,6 +20,7 @@ import { mobileSubscriptionsFilterInterface } from '../../data-access/mobile-sub
 const step_values = [
     BADGE_ETAPE.SOUMISSION,
     BADGE_ETAPE.TRAITEMENT,
+    BADGE_ETAPE.FINALISATEUR,
     BADGE_ETAPE.CLOTURE,
 ];
 const state_values = [
@@ -29,6 +30,7 @@ const state_values = [
     BADGE_ETAT.EN_ATTENTE,
     BADGE_ETAT.ABANDONNE,
     BADGE_ETAT.ACCEPTE,
+    BADGE_ETAT.REJETE,
 ];
 type PageAction = {
     data: Folder;

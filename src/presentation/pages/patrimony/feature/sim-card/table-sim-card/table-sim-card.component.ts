@@ -62,16 +62,7 @@ type ButtonQrCodeSimCardData = { qrcode: string; msisdn: string };
 @Component({
     selector: 'app-table-sim-card',
     templateUrl: './table-sim-card.component.html',
-    styles: [
-        `
-            .map {
-                width: 100%;
-                height: 100vh;
-                min-height: 400px;
-                display: block;
-            }
-        `,
-    ],
+    styleUrls: ['./table-sim-card.component.scss'],
 })
 export class TableSimCardComponent {
     @Input() spinner: boolean;
