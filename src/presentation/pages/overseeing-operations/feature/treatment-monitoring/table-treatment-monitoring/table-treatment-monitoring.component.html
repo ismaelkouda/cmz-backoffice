@@ -45,7 +45,11 @@
             <th
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center'
+                }"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'Date demande'">
@@ -84,7 +88,8 @@
             <td
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{ minWidth: col.width, width: col.width }"
+                [attr.data-label]="col.header"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">

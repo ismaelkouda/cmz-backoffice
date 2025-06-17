@@ -1,6 +1,6 @@
 export const invoiceTableConstant = {
     cols: [
-        { field: '', header: '#', class: 'text-center', width: '2rem' },
+        { field: '', header: '#', class: 'text-center' },
         {
             field: 'created_at',
             header: 'Date / Heure',

@@ -17,14 +17,26 @@ export const treatmentMonitoringTableConstant = {
             field: 'nb_demande_soumises',
             header: '# Lignes',
             class: 'text-center',
+            width: '6rem',
         },
         {
             field: 'nb_demande_traitees',
             header: '# Traitées',
             class: 'text-center',
+            width: '6rem',
         },
-        { field: 'statut', header: 'Etape', class: 'text-center' },
-        { field: 'traitement', header: 'Etat', class: 'text-center' },
+        {
+            field: 'statut',
+            header: 'Etape',
+            class: 'text-center',
+            width: '6rem',
+        },
+        {
+            field: 'traitement',
+            header: 'Etat',
+            class: 'text-center',
+            width: '6rem',
+        },
         {
             field: 'updated_at',
             header: 'Date traitement',

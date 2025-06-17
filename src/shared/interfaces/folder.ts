@@ -39,7 +39,7 @@ export interface Folder {
     etat_soumission: string;
     etat_traitement: string | null;
     etat_finalisation: string | null;
-    etat_cloture: string | null;
+    etat_cloture: string;
     commentaire_finalisation: string | null;
     montant_formule: number | null;
     nb_cycle: number;

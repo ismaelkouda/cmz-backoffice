@@ -126,12 +126,18 @@ export class FormFolderComponent implements OnInit {
                 },
                 { validators: Validators.required, nonNullable: true }
             ),
-            accepte: new FormControl<string>(this.detailsDemand?.etat_cloture, {
-                nonNullable: true,
-                validators: this.typeTreatment.cloturer
-                    ? Validators.required
-                    : null,
-            }),
+            accepte: new FormControl<string>(
+                {
+                    value: this.acceptClosure,
+                    disabled: this.detailsDemand?.notation_cloture,
+                },
+                {
+                    validators: this.typeTreatment.cloturer
+                        ? Validators.required
+                        : null,
+                    nonNullable: true,
+                }
+            ),
             commentaire: new FormControl<string>(
                 this.detailsDemand?.commentaire_cloture,
                 { nonNullable: true }
@@ -150,7 +156,10 @@ export class FormFolderComponent implements OnInit {
                 { nonNullable: true }
             ),
             notation_cloture: new FormControl<string>(
-                this.detailsDemand?.notation_cloture,
+                {
+                    value: this.detailsDemand?.notation_cloture,
+                    disabled: this.detailsDemand?.notation_cloture,
+                },
                 {
                     validators: this.isRequireNotationCloture
                         ? Validators.required
@@ -208,6 +217,14 @@ export class FormFolderComponent implements OnInit {
 
         if (this.detailsDemand?.statut === StatutTransaction.TARITER) {
             this.updateFormForTraiteState();
+        }
+    }
+
+    private get acceptClosure(): string {
+        if (this.detailsDemand?.traitement === BADGE_ETAT.TERMINE) {
+            return 'oui';
+        } else if (this.detailsDemand?.traitement === BADGE_ETAT.REFUSE) {
+            return 'non';
         }
     }
 
@@ -352,7 +369,16 @@ export class FormFolderComponent implements OnInit {
                 showLoaderOnConfirm: true,
                 backdrop: false,
                 width: 800,
-                preConfirm: async (commentaire) => {
+                didOpen: () => {
+                    const input = Swal.getInput();
+                    const confirmButton = Swal.getConfirmButton();
+                    confirmButton.disabled = true;
+
+                    input?.addEventListener('input', () => {
+                        confirmButton.disabled = !input.value.trim();
+                    });
+                },
+                preConfirm: async (commentaire: string) => {
                     try {
                         response = await handle(
                             () =>
@@ -362,16 +388,16 @@ export class FormFolderComponent implements OnInit {
                             this.toastrService,
                             this.loadingBarService
                         );
-                        if (!response.ok) {
-                            // return Swal.showValidationMessage(`${JSON.stringify(await response.message)}`);
-                            if (!response?.error) this.successHandle(response);
+                        if (response.error) {
+                            Swal.showValidationMessage(
+                                `${JSON.stringify(await response.message)}`
+                            );
+                        } else {
+                            this.successHandle(response);
                         }
                         // return response.message;
                     } catch (error) {
-                        const SOMETHING_WENT_WRONG = this.translate.instant(
-                            'SOMETHING_WENT_WRONG'
-                        );
-                        Swal.showValidationMessage(`${SOMETHING_WENT_WRONG}`);
+                        Swal.showValidationMessage(`${error}`);
                     }
                 },
                 allowOutsideClick: () => !Swal.isLoading(),
@@ -436,15 +462,29 @@ export class FormFolderComponent implements OnInit {
     }
 
     public get isApproved(): boolean {
-        return this.detailsDemand?.accepte_approbation ? true : false;
+        return this.detailsDemand?.accepte_approbation;
     }
 
     public get isFinalized(): boolean {
-        return this.detailsDemand?.finalise_par ? true : false;
+        return this.detailsDemand?.finalise_par;
+    }
+
+    public get isDelivery(): boolean {
+        return this.detailsDemand?.livre_par;
     }
 
     public get isConcluded(): boolean {
-        return this.detailsDemand?.etat_cloture ? true : false;
+        return this.detailsDemand?.statut === BADGE_ETAPE.CLOTURE &&
+            this.detailsDemand?.traitement !== BADGE_ETAT.ABANDONNE
+            ? true
+            : false;
+    }
+
+    public get isLetDown(): boolean {
+        return this.detailsDemand?.statut === BADGE_ETAPE.CLOTURE &&
+            this.detailsDemand?.traitement === BADGE_ETAT.ABANDONNE
+            ? true
+            : false;
     }
 
     public get OnGetRapportCodeStyle(): string {

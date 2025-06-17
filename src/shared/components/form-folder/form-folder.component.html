@@ -27,7 +27,7 @@
                 pButton
                 pRipple
                 class="p-button-warning w-100"
-                [label]="'ABANDON' | translate"
+                [label]="'TO_ABANDON' | translate"
                 (click)="onLetDownDemand()"
                 *ngIf="typeTreatment?.abandonner"
             ></button>
@@ -141,6 +141,63 @@
             </fieldset>
         </div>
 
+        <div *ngIf="isLetDown">
+            <fieldset>
+                <legend>
+                    <strong>{{ 'ABANDON' | translate }}</strong>
+                </legend>
+                <div class="d-flex flex-column gap-2">
+                    <div>
+                        <span class="mb-0 fs__30"
+                            ><strong
+                                >{{
+                                    'MATRICULE' | translate
+                                }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.abandonneur?.matricule ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__30"
+                            ><strong
+                                >{{
+                                    'FULL_NAME' | translate
+                                }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.abandonneur?.nom ?? '' }}
+                            {{ detailsDemand?.abandonneur?.prenoms ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__30">
+                            <strong
+                                >{{
+                                    'CONTACT' | translate
+                                }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.abandonneur?.contacts ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__30"
+                            ><strong
+                                >{{ 'EMAIL' | translate }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.abandonneur?.email ?? '' }}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__30">
+                            <strong
+                                >{{ 'DATE' | translate }}&nbsp;:&nbsp;</strong
+                            >
+                            {{ detailsDemand?.abandonne_a ?? '' }}
+                        </span>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
         <div *ngIf="isFinalized">
             <fieldset>
                 <legend>
@@ -192,6 +249,35 @@
                                 >{{ 'DATE' | translate }}&nbsp;:&nbsp;</strong
                             >
                             {{ detailsDemand?.finalise_a ?? '' }}
+                        </span>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div *ngIf="isDelivery">
+            <fieldset>
+                <legend>
+                    <strong>Livraison</strong>
+                </legend>
+                <div class="d-flex flex-column gap-2">
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong>Nom&nbsp;:&nbsp;</strong>
+                            {{detailsDemand?.livreur?.['nom'] ?? ""}}
+                            {{detailsDemand?.livreur?.['prenoms'] ?? ""}}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong>Contact&nbsp;:&nbsp;</strong>
+                            {{detailsDemand?.livreur?.['contacts'] ?? ""}}
+                        </span>
+                    </div>
+                    <div>
+                        <span class="mb-0 fs__13"
+                            ><strong>Email&nbsp;:&nbsp;</strong>
+                            {{detailsDemand?.livreur?.['email'] ?? ""}}
                         </span>
                     </div>
                 </div>
@@ -636,7 +722,101 @@
                         </div>
                     </fieldset>
 
-                    <fieldset *ngIf="typeTreatment?.cloturer">
+                    <fieldset>
+                        <legend>
+                            <b>{{
+                                'COMMENT_ON_THE_APPLICATION' | translate
+                            }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input
+                                    type="text"
+                                    pInputText
+                                    formControlName="description"
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset *ngIf="isApproved">
+                        <legend>
+                            <b>{{ 'COMMENT_ON_APPROVAL' | translate }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input
+                                    type="text"
+                                    pInputText
+                                    disabled
+                                    [value]="
+                                        detailsDemand?.commentaire_approbation
+                                    "
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset *ngIf="isFinalized">
+                        <legend>
+                            <b>{{ 'COMMENT_ON_FINALIZATION' | translate }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input
+                                    type="text"
+                                    pInputText
+                                    disabled
+                                    [value]="
+                                        detailsDemand?.commentaire_finalisation
+                                    "
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset *ngIf="isDelivery">
+                        <legend>
+                            <b>{{ 'COMMENT_ON_DELIVERY' | translate }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input
+                                    type="text"
+                                    pInputText
+                                    disabled
+                                    [value]="
+                                        detailsDemand?.commentaire_livraison
+                                    "
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset *ngIf="isLetDown">
+                        <legend>
+                            <b>{{
+                                'COMMENT_OF_THE_ABANDONMENT' | translate
+                            }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input
+                                    type="text"
+                                    pInputText
+                                    disabled
+                                    [value]="detailsDemand?.commentaire_cloture"
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset
+                        *ngIf="
+                            typeTreatment?.cloturer ||
+                            detailsDemand?.notation_cloture
+                        "
+                    >
                         <legend>
                             <strong>{{ 'CLOSING' | translate }}</strong>
                         </legend>
@@ -792,217 +972,69 @@
                         </div>
                     </fieldset>
 
-                    <fieldset>
-                        <legend>
-                            <b>{{
-                                'COMMENT_ON_THE_APPLICATION' | translate
-                            }}</b>
-                        </legend>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input
-                                    type="text"
-                                    pInputText
-                                    formControlName="description"
-                                />
-                            </div>
-                        </div>
-                    </fieldset>
-
-                    <fieldset *ngIf="isApproved">
-                        <legend>
-                            <b>{{ 'COMMENT_ON_APPROVAL' | translate }}</b>
-                        </legend>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input
-                                    type="text"
-                                    pInputText
-                                    disabled
-                                    [value]="
-                                        detailsDemand?.commentaire_approbation
-                                    "
-                                />
-                            </div>
-                        </div>
-                    </fieldset>
-
-                    <fieldset *ngIf="isFinalized">
-                        <legend>
-                            <b>{{ 'COMMENT_ON_FINALIZATION' | translate }}</b>
-                        </legend>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input
-                                    type="text"
-                                    pInputText
-                                    disabled
-                                    [value]="
-                                        detailsDemand?.commentaire_finalisation
-                                    "
-                                />
-                            </div>
-                        </div>
-                    </fieldset>
-
-                    <fieldset *ngIf="isConcluded">
-                        <legend>
-                            <b>{{ 'COMMENT_ON_CLOSING' | translate }}</b>
-                        </legend>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input
-                                    type="text"
-                                    pInputText
-                                    disabled
-                                    [value]="detailsDemand?.commentaire_cloture"
-                                />
-                            </div>
-                        </div>
-                    </fieldset>
-
-                    <fieldset *ngIf="isConcluded">
+                    <!-- <fieldset *ngIf="isConcluded">
                         <legend>
                             <strong>{{ 'CLOSING' | translate }}</strong>
                         </legend>
 
                         <div class="row g-3">
-                            <!-- Accepté Section -->
                             <div class="col-6 col-md-2 mt-0">
                                 <div class="ml-3 text-center">
-                                    <span
-                                        for="accepte"
-                                        class="form-label fs-5 fw-bold"
-                                    >
+                                    <span for="accepte" class="form-label fs-5 fw-bold">
                                         {{ 'ACCEPTED' | translate
                                         }}<span class="text-danger">*</span> ?
                                     </span>
 
                                     <div class="wrapper-check">
                                         <div class="form-check-inline">
-                                            <input
-                                                class="form-check-input big-radio"
-                                                type="radio"
-                                                name="demande"
-                                                value="oui"
-                                                id="accepte-oui"
-                                                [value]="
+                                            <input class="form-check-input big-radio" type="radio" name="demande"
+                                                value="oui" id="accepte-oui" [value]="
                                                     detailsDemand?.etat_cloture
-                                                "
-                                                disabled
-                                            />
-                                            <label
-                                                class="form-check-label"
-                                                for="accepte-oui"
-                                                ><b>Oui</b></label
-                                            >
+                                                " disabled />
+                                            <label class="form-check-label" for="accepte-oui"><b>Oui</b></label>
                                         </div>
 
                                         <div class="form-check-inline">
-                                            <input
-                                                class="form-check-input big-radio"
-                                                type="radio"
-                                                name="demande"
-                                                value="non"
-                                                id="accepte-non"
-                                                [value]="
+                                            <input class="form-check-input big-radio" type="radio" name="demande"
+                                                value="non" id="accepte-non" [value]="
                                                     detailsDemand?.etat_cloture
-                                                "
-                                                disabled
-                                            />
-                                            <label
-                                                class="form-check-label"
-                                                for="accepte-non"
-                                                ><b>Non</b></label
-                                            >
+                                                " disabled />
+                                            <label class="form-check-label" for="accepte-non"><b>Non</b></label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Notation Section -->
                             <div class="col-6 col-md-2 mt-4">
                                 <div class="ml-3">
-                                    <div
-                                        class="wrapper-check d-flex flex-row justify-content-around"
-                                    >
-                                        <!-- Content Rating -->
-                                        <div
-                                            class="d-flex flex-column-reverse align-items-center"
-                                        >
-                                            <label
-                                                for="notation-content"
-                                                class="text-center"
-                                            >
-                                                <img
-                                                    src="assets/images/icones/smile.png"
-                                                    width="22"
-                                                    alt="Content"
-                                                />
+                                    <div class="wrapper-check d-flex flex-row justify-content-around">
+                                        <div class="d-flex flex-column-reverse align-items-center">
+                                            <label for="notation-content" class="text-center">
+                                                <img src="assets/images/icones/smile.png" width="22" alt="Content" />
                                             </label>
-                                            <input
-                                                class="form-check-input big-radio"
-                                                type="radio"
-                                                name="infosLigne"
+                                            <input class="form-check-input big-radio" type="radio" name="infosLigne"
                                                 [value]="
                                                     detailsDemand?.notation_cloture
-                                                "
-                                                value="content"
-                                                id="notation-content"
-                                                disabled
-                                            />
+                                                " value="content" id="notation-content" disabled />
                                         </div>
 
-                                        <!-- Neutral Rating -->
-                                        <div
-                                            class="d-flex flex-column-reverse align-items-center"
-                                        >
-                                            <label
-                                                for="notation-neutre"
-                                                class="text-center"
-                                            >
-                                                <img
-                                                    src="assets/images/icones/confused.png"
-                                                    width="22"
-                                                    alt="Neutre"
-                                                />
+                                        <div class="d-flex flex-column-reverse align-items-center">
+                                            <label for="notation-neutre" class="text-center">
+                                                <img src="assets/images/icones/confused.png" width="22" alt="Neutre" />
                                             </label>
-                                            <input
-                                                class="form-check-input big-radio"
-                                                type="radio"
-                                                name="infosLigne"
+                                            <input class="form-check-input big-radio" type="radio" name="infosLigne"
                                                 [value]="
                                                     detailsDemand?.notation_cloture
-                                                "
-                                                value="neutre"
-                                                id="notation-neutre"
-                                                disabled
-                                            />
+                                                " value="neutre" id="notation-neutre" disabled />
                                         </div>
 
-                                        <!-- Discontent Rating -->
-                                        <div
-                                            class="d-flex flex-column-reverse align-items-center"
-                                        >
-                                            <label
-                                                for="notation-mécontent"
-                                                class="text-center"
-                                            >
-                                                <img
-                                                    src="assets/images/icones/sad.png"
-                                                    width="22"
-                                                    alt="Mécontent"
-                                                />
+                                        <div class="d-flex flex-column-reverse align-items-center">
+                                            <label for="notation-mécontent" class="text-center">
+                                                <img src="assets/images/icones/sad.png" width="22" alt="Mécontent" />
                                             </label>
-                                            <input
-                                                class="form-check-input big-radio"
-                                                type="radio"
-                                                name="infosLigne"
-                                                formControlName="notation_cloture"
-                                                value="mécontent"
-                                                id="notation-mécontent"
-                                                disabled
-                                            />
+                                            <input class="form-check-input big-radio" type="radio" name="infosLigne"
+                                                formControlName="notation_cloture" value="mécontent"
+                                                id="notation-mécontent" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -1012,19 +1044,14 @@
                                 <label for="commentaire" class="form-label">
                                     <strong>{{
                                         'COMMENT_ON_CLOSING' | translate
-                                    }}</strong>
+                                        }}</strong>
                                 </label>
-                                <textarea
-                                    name="commentaire"
-                                    [value]="detailsDemand?.commentaire_cloture"
-                                    class="form-control"
-                                    rows="2"
-                                    disabled
-                                >
+                                <textarea name="commentaire" [value]="detailsDemand?.commentaire_cloture"
+                                    class="form-control" [ngClass]="{'class': true}" rows="2" disabled>
                                 </textarea>
                             </div>
                         </div>
-                    </fieldset>
+                    </fieldset> -->
 
                     <!-- <fieldset *ngIf="!(
                                         detailsDemand.operation === typeDemand.ACTIVATION &&
