@@ -1,4 +1,3 @@
-import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
 import { FormatFormData } from 'src/shared/functions/formatFormData.function';
 import { BADGE_STAUT_PAIEMENT } from './../../constants/badge-statut-paiement';
 import { IFormFolderValues } from './data-access/form-folder-values.interface';
@@ -30,6 +29,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { combineLatest, Observable } from 'rxjs';
 import { UsageInterface } from '../../interfaces/usage.interface';
 import { TreatmentMonitoringApiService } from '../../../presentation/pages/overseeing-operations/data-access/treatment-monitoring/services/treatment-monitoring-api.service';
+import { StatutTransaction } from '../../enum/StatutTransaction.enum';
 const Swal = require('sweetalert2');
 
 @Component({

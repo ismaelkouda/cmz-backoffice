@@ -17,4 +17,6 @@ export interface IFormDemandValues {
     description: AbstractControl<string>;
     montant: AbstractControl<number>;
     justificatif: AbstractControl<File | null>;
+    sims_file: AbstractControl<File | null>;
+    confirmation_contrat: AbstractControl<boolean | null>;
 }

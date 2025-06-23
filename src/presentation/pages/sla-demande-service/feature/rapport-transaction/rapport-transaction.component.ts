@@ -161,7 +161,7 @@ export class RapportTransactionComponent implements OnInit {
         }
         const data = {
             operation: this.selectedTransaction,
-            initie_par: this.selectedUser,
+            initie_par: this.selectedUser.id,
             date_debut: this.selectDateStart,
             date_fin: this.selectDateEnd,
         };

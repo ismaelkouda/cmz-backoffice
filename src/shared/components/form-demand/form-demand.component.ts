@@ -32,25 +32,39 @@ import { FormulasInterface } from '../../interfaces/formulas.interface';
 import { StoreCurrentUserService } from '../../services/store-current-user.service';
 import { SecondLevelInterface } from '@shared/interfaces/first-level.interface';
 import { SecondLevelService } from '@shared/services/second-level.service';
-import { MOBILE_SUBSCRIPTIONS } from '../../../presentation/pages/requests-services/requests-services-routing.module';
-import { REQUESTS_PRODUCTS, REQUESTS_SERVICES } from '../../routes/routes';
+import {
+    MOBILE_IMPORTATION,
+    MOBILE_SUBSCRIPTIONS,
+} from '../../../presentation/pages/requests-services/requests-services-routing.module';
+import {
+    PATRIMONY,
+    REQUESTS_PRODUCTS,
+    REQUESTS_SERVICES,
+} from '../../routes/routes';
 import { FirstLevelInterface } from '../../interfaces/first-level.interface';
 import { ThirdLevelInterface } from '../../interfaces/third-level.interface';
+import { StoreTokenService } from '../../services/store-token.service';
+import { SupervisionOperationService } from '../../../presentation/pages/supervision-operations/data-access/supervision-operation.service';
 
 type TYPEVIEW =
     | 'mass-add-mobile-subscription'
     | 'simple-add-mobile-subscription'
+    | 'mass-add-importation'
+    | 'simple-add-importation'
     | 'mass-add-white-sim'
     | 'simple-add-white-sim';
 const TYPEVIEW_VALUES: TYPEVIEW[] = [
     'mass-add-mobile-subscription',
     'simple-add-mobile-subscription',
+    'mass-add-importation',
+    'simple-add-importation',
     'mass-add-white-sim',
     'simple-add-white-sim',
 ];
 function isTypeView(value: any): value is TYPEVIEW {
     return TYPEVIEW_VALUES.includes(value);
 }
+
 @Component({
     selector: 'app-form-demand',
     templateUrl: './form-demand.component.html',
@@ -83,6 +97,27 @@ export class FormDemandComponent implements OnInit {
     public globalWhiteSimCardEditRow: Array<any> = [];
     public totalWhiteSimCardSelected: number = 0;
     public selectedLotWhiteSimCardAvailable: Array<Object> = [];
+    public fileModel = 'src/assets/data/Modele-Importation-Sim.xlsx';
+    public currentArrayHeaders = [
+        'MSISDN *',
+        'IMSI *',
+        'ICCID *',
+        'APN *',
+        'FORMULE *',
+        'STATUT *',
+        'USAGE',
+        "TYPE D'EMPLACEMENT",
+        'NOM CLIENT',
+    ] as const;
+    public formMasseLibelle = {
+        etape_1: 'Etape 1 : Cliquez pour télécharger le fichier modèle',
+        etape_2: 'Etape 2 : Importez le fichier renseigné',
+        etape_3: 'Etape 3 : Vérifiez la cohérence du fichier importé',
+    } as const;
+    public libelleFile = {
+        file1: 'Télécharger le modèle',
+        file2: 'Charger le fichier',
+    } as const;
     public readonly table_simple_demand: TableConfig = TABLE_FORM_SIMPLE_DEMAND;
     public readonly table_mass_demand: TableConfig = TABLE_FORM_MASS_DEMAND;
 
@@ -93,11 +128,13 @@ export class FormDemandComponent implements OnInit {
         private fb: FormBuilder,
         private router: Router,
         private activatedRoute: ActivatedRoute,
+        private translate: TranslateService,
         private formDemandApiService: FormDemandApiService,
         private clipboardService: ClipboardService,
         private loadingBarService: LoadingBarService,
-        private translate: TranslateService,
-        private secondLevelService: SecondLevelService
+        private secondLevelService: SecondLevelService,
+        private storeTokenService: StoreTokenService,
+        private supervisionOperationService: SupervisionOperationService
     ) {
         const currentUser = this.storeCurrentUserService.getCurrentUser;
         this.firstLevelLibel =
@@ -198,6 +235,12 @@ export class FormDemandComponent implements OnInit {
                 validators: Validators.required,
                 nonNullable: true,
             }),
+            sims_file: new FormControl<File | null>(null, {
+                nonNullable: true,
+            }),
+            confirmation_contrat: new FormControl<boolean | null>(null, {
+                nonNullable: true,
+            }),
         });
 
         const firstLevelControl = this.formDemand.get('niveau_un_uuid');
@@ -267,10 +310,35 @@ export class FormDemandComponent implements OnInit {
         }
         const usageControl = this.formDemand.get('usage_id');
         const formuleControl = this.formDemand.get('formule_uuid');
+        const simsFileControl = this.formDemand.get('sims_file');
+        const confirmationContrat = this.formDemand.get('confirmation_contrat');
+        const justificatifContrat = this.formDemand.get('justificatif');
         if (this.urlParamRef.includes('white-sim')) {
             formuleControl?.clearValidators();
             usageControl?.clearValidators();
         }
+        if (this.urlParamRef.includes('importation')) {
+            simsFileControl?.setValidators(Validators.required);
+            confirmationContrat?.setValidators(Validators.required);
+            formuleControl?.clearValidators();
+            justificatifContrat?.clearValidators();
+            nbDemandControl?.setValue(1);
+        }
+    }
+
+    public pushCurrentArrayForm(file_upload: any) {
+        if (file_upload)
+            this.formDemand.get('sims_file')?.patchValue(file_upload.sims_file);
+    }
+
+    async onDownloadModel(event: any): Promise<any> {
+        const token = this.storeTokenService.getToken;
+        window.location.href =
+            this.supervisionOperationService.GetSupervisionOperationsTraitementsSuivisDownloadModeleData(
+                OperationTransaction.IMPORTATION,
+                '',
+                token?.value
+            );
     }
 
     async fetchSecondLevel(uuid: string): Promise<void> {
@@ -286,9 +354,6 @@ export class FormDemandComponent implements OnInit {
     }
 
     async handleSaveDemand(): Promise<void> {
-        const SOMETHING_WENT_WRONG = this.translate.instant(
-            'SOMETHING_WENT_WRONG'
-        );
         if (this.verifyHandleSaveDemand) {
             const result = await Swal.mixin({
                 customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass,
@@ -297,33 +362,68 @@ export class FormDemandComponent implements OnInit {
                 html: this.messageHandleSaveDemand,
             });
             if (result.isConfirmed) {
-                const response: any = await handle(
-                    () =>
-                        this.formDemandApiService.SaveDemand(
-                            formDataBuilder({
-                                ...this.formDemand.value,
-                                nb_demandes:
-                                    this.formDemand.get('nb_demandes')?.value,
-                                stockages: JSON.stringify([
-                                    ...this.globalWhiteSimCardEditRow,
-                                ]),
-                            })
-                        ),
-                    this.toastrService,
-                    this.loadingBarService
-                );
-                if (response.error === false) {
-                    this.sharedService.fetchDemands({
-                        operation: this.urlParamTypeDemand.includes(
-                            OperationTransaction.ACTIVATION
-                        )
-                            ? OperationTransaction.ACTIVATION
-                            : 'sim-blanche',
-                    });
-                    this.onGoToBack();
-                } else {
-                    this.toastrService.error(SOMETHING_WENT_WRONG);
-                }
+                this.fetchSaveDemand();
+            }
+        }
+    }
+
+    private async fetchSaveDemand(): Promise<void> {
+        const SOMETHING_WENT_WRONG = this.translate.instant(
+            'SOMETHING_WENT_WRONG'
+        );
+        if (this.urlParamRef.includes('importation')) {
+            // je desactive par ce que je ne veux pas l'envoyer dans le payload
+            this.formDemand.get('nb_demandes')?.disable();
+            this.formDemand.get('source')?.disable();
+            const response: any = await handle(
+                () =>
+                    this.formDemandApiService.SaveImportation(
+                        formDataBuilder({
+                            ...this.formDemand.value,
+                            operation: OperationTransaction.IMPORTATION,
+                        })
+                    ),
+                this.toastrService,
+                this.loadingBarService
+            );
+            if (response.error === false) {
+                this.sharedService.fetchDemandsImported({});
+                this.onGoToBack();
+            } else {
+                this.toastrService.error(SOMETHING_WENT_WRONG);
+            }
+            this.formDemand.get('nb_demandes')?.enable();
+            this.formDemand.get('source')?.enable();
+        } else if (
+            this.urlParamRef.includes('white-sim') ||
+            this.urlParamRef.includes('mobile-subscription')
+        ) {
+            const response: any = await handle(
+                () =>
+                    this.formDemandApiService.SaveDemand(
+                        formDataBuilder({
+                            ...this.formDemand.value,
+                            nb_demandes:
+                                this.formDemand.get('nb_demandes')?.value,
+                            stockages: JSON.stringify([
+                                ...this.globalWhiteSimCardEditRow,
+                            ]),
+                        })
+                    ),
+                this.toastrService,
+                this.loadingBarService
+            );
+            if (response.error === false) {
+                this.sharedService.fetchDemands({
+                    operation: this.urlParamTypeDemand.includes(
+                        OperationTransaction.ACTIVATION
+                    )
+                        ? OperationTransaction.ACTIVATION
+                        : 'sim-blanche',
+                });
+                this.onGoToBack();
+            } else {
+                this.toastrService.error(SOMETHING_WENT_WRONG);
             }
         }
     }
@@ -342,6 +442,10 @@ export class FormDemandComponent implements OnInit {
 
     private get messageHandleSaveDemand(): string {
         const MASS_DEMAND = this.translate.instant('MASS_DEMAND');
+        const MASS_IMPORTATION = this.translate.instant('MASS_DEMAND');
+        const CONFIRM_THE_IMPORTATION_FOR = this.translate.instant(
+            'CONFIRM_THE_IMPORTATION_FOR'
+        );
         const SIMPLE_DEMAND = this.translate.instant('SIMPLE_DEMAND');
         const CONFIRM_THE_REQUEST_FOR = this.translate.instant(
             'CONFIRM_THE_REQUEST_FOR'
@@ -353,14 +457,26 @@ export class FormDemandComponent implements OnInit {
             this.urlParamRef.includes('mass-add') &&
             this.formDemand.get('nb_demandes')?.value
         ) {
-            return `${MASS_DEMAND} : <span style="color: #569C5B;">${CONFIRM_THE_REQUEST_FOR} </span><span style="color: #ff6600;"><strong>${
-                this.formDemand.get('nb_demandes')?.value
-            }</strong></span> ${SIM_CARD}`;
+            if (this.urlParamRef.includes('importation')) {
+                return `${MASS_IMPORTATION} : <span style="color: #569C5B;">${CONFIRM_THE_IMPORTATION_FOR} </span><span style="color: #ff6600;"><strong>${
+                    this.formDemand.get('nb_demandes')?.value
+                }</strong></span> ${SIM_CARD}`;
+            } else {
+                return `${MASS_DEMAND} : <span style="color: #569C5B;">${CONFIRM_THE_REQUEST_FOR} </span><span style="color: #ff6600;"><strong>${
+                    this.formDemand.get('nb_demandes')?.value
+                }</strong></span> ${SIM_CARD}`;
+            }
         }
         return '';
     }
 
     get verifyHandleSaveDemand(): boolean {
+        console.log(
+            "this.formDemand.get('nb_demandes')?.value",
+            this.formDemand.value
+        );
+        console.log('IS VALID', this.formDemand.valid);
+
         const SOMETHING_WENT_WRONG = this.translate.instant(
             'SOMETHING_WENT_WRONG'
         );
@@ -534,6 +650,34 @@ export class FormDemandComponent implements OnInit {
                     moduleRoute: REQUESTS_SERVICES,
                     subModule: 'MOBILE_SUBSCRIPTIONS',
                     subModuleRoute: MOBILE_SUBSCRIPTIONS,
+                };
+            // case 'mass-add-importation':
+            //     return {
+            //         module: 'REQUESTS_SERVICES',
+            //         moduleRoute: REQUESTS_SERVICES,
+            //         subModule: 'MOBILE_IMPORTATION',
+            //         subModuleRoute: MOBILE_IMPORTATION,
+            //     };
+            // case 'simple-add-importation':
+            //     return {
+            //         module: 'REQUESTS_SERVICES',
+            //         moduleRoute: REQUESTS_SERVICES,
+            //         subModule: 'MOBILE_IMPORTATION',
+            //         subModuleRoute: MOBILE_IMPORTATION,
+            //     };
+            case 'mass-add-importation':
+                return {
+                    module: 'PATRIMONY',
+                    moduleRoute: PATRIMONY,
+                    subModule: 'MOBILE_IMPORTATION',
+                    subModuleRoute: MOBILE_IMPORTATION,
+                };
+            case 'simple-add-importation':
+                return {
+                    module: 'PATRIMONY',
+                    moduleRoute: PATRIMONY,
+                    subModule: 'MOBILE_IMPORTATION',
+                    subModuleRoute: MOBILE_IMPORTATION,
                 };
             case 'mass-add-white-sim':
                 return {

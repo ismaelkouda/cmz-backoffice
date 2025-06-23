@@ -72,6 +72,7 @@
                         <app-table-payment
                             [spinner]="spinner"
                             [listPayments$]="listPayments$"
+                            [dataToExport]="listPayments$ | async"
                             [pagination$]="pagination$"
                             (interfaceUser)="navigateByUrl($event)"
                         >

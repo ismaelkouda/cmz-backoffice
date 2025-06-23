@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { EncodingDataService } from './encoding-data.service';
 import { StoreTokenService } from './store-token.service';
+const Swal = require('sweetalert2');
 
 @Injectable()
 export class GlobalHttpInterceptorService implements HttpInterceptor {
@@ -72,6 +73,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                                 break;
                             case 422:
                                 this.loadingBar.stop();
+                                this.errorMessages();
                                 handled = false;
                                 break;
                             case 500:
@@ -88,5 +90,14 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                 }
             })
         );
+    }
+
+    private errorMessages() {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "Une erreur s'est produite!",
+            footer: '<a href="#">Contactez-nous pour plus d\'informations</a>',
+        });
     }
 }

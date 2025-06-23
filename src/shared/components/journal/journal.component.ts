@@ -22,6 +22,7 @@ export class JournalComponent implements OnInit {
     public BADGE_STATUT = BADGE_STATUT;
     @Input() typeJournal:
         | 'demandes-services'
+        | 'importation-sim'
         | 'transactions'
         | 'integration'
         | 'whiteSimCard';

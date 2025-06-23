@@ -17,7 +17,7 @@
                     </div>
 
                     <p-tabView (onChange)="indexTabPanelActive = $event.index">
-                        <p-tabPanel header="SOLDE DATA">
+                        <p-tabPanel header="SOLDE Data">
                             <div *ngIf="indexTabPanelActive === 0">
                                 <app-filter-solde-data
                                     (filter)="filter($event)"

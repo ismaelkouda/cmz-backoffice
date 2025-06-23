@@ -30,6 +30,10 @@ import { smsBalanceStatusApiService } from './data-access/sms-balance-status/ser
 import { dataBalanceStatusApiService } from './data-access/data-balance-status/services/data-balance-status-api.service';
 import { FilterWhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/features/filter-white-sim-card-details/filter-white-sim-card-details.component';
 import { TableWhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/features/table-white-sim-card-details/table-white-sim-card-details.component';
+import { ImportationComponent } from '../requests-services/ui/importation/importation.component';
+import { FilterImportationComponent } from '../requests-services/feature/importation/filter-importation/filter-importation.component';
+import { TableImportationComponent } from '../requests-services/feature/importation/table-importation/table-importation.component';
+import { ImportationService } from '../requests-services/data-access/importation/service/importation-api.service';
 
 @NgModule({
     declarations: [
@@ -55,6 +59,10 @@ import { TableWhiteSimCardDetailsComponent } from './feature/white-sim-card/deta
 
         DownloadComponent,
         TableDownloadComponent,
+
+        ImportationComponent,
+        FilterImportationComponent,
+        TableImportationComponent,
     ],
     imports: [
         SharedModule,
@@ -71,6 +79,7 @@ import { TableWhiteSimCardDetailsComponent } from './feature/white-sim-card/deta
         downloadApiService,
         smsBalanceStatusApiService,
         dataBalanceStatusApiService,
+        ImportationService,
     ],
 })
 export class PatrimonyModule {}

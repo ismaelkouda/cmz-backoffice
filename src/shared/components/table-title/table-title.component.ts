@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
             <span class="table-header-wrapper">
                 <b *ngIf="page">
                     <span *ngIf="label">Resultat du filtre</span>
-                    <span *ngIf="!label">Total</span>
+                    <span *ngIf="!label">Total :</span>
                     <span class="text-success"> {{ count || 0 }}</span>
                     <span *ngIf="count > 0 && page && totalPage">
                         [Page <span style="color: #ff6600;">{{ page }}</span> /
@@ -16,7 +16,7 @@ import { Component, Input } from '@angular/core';
                 </b>
                 <b *ngIf="!page">
                     <span *ngIf="label">Resultat du filtre</span>
-                    <span *ngIf="!label">Total</span>
+                    <span *ngIf="!label">Total :</span>
                     <span class="text-success"> {{ count || 0 }}</span></b
                 >
             </span>

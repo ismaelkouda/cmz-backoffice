@@ -18,6 +18,7 @@ import {
     notificationsCenterApiResponseInterface,
     notificationsCenterInterface,
 } from '../../presentation/pages/overseeing-operations/data-access/notifications-center/interfaces/notifications-center.interface';
+import { ImportationInterface } from '../../presentation/pages/requests-services/data-access/importation/interface/importation.interface';
 
 @Injectable({ providedIn: 'root' })
 export class SharedService {
@@ -25,6 +26,84 @@ export class SharedService {
 
     constructor(private http: HttpClient, private envService: EnvService) {
         this.BASE_URL = this.envService.apiUrl;
+    }
+
+    /*********************Méthode pour récupérer la liste des demands importées*************** */
+
+    private demandsImportedSubject = new BehaviorSubject<
+        ImportationInterface[]
+    >([]);
+    private demandsImportedPagination = new BehaviorSubject<
+        Paginate<ImportationInterface>
+    >({} as Paginate<ImportationInterface>);
+    private demandImportedSelected = new BehaviorSubject<ImportationInterface>(
+        {} as ImportationInterface
+    );
+    private loadingDemandsImportedSubject = new BehaviorSubject<boolean>(false);
+    private dataFilterDemandsImportedSubject = new BehaviorSubject<Object>({});
+    private dataNbrPageDemandsImportedSubject = new BehaviorSubject<string>(
+        '1'
+    );
+    private apiResponseDemandsImportedSubject = new BehaviorSubject<any>(null);
+
+    fetchDemandsImported(data: Object, nbrPage: string = '1'): void {
+        if (this.loadingDemandsImportedSubject.getValue()) return;
+        this.loadingDemandsImportedSubject.next(true);
+        const url: string = EndPointUrl.GET_LIST_DEMANDS_IMPORTED.replace(
+            '{page}',
+            nbrPage
+        );
+
+        this.http
+            .post<Object>(`${this.BASE_URL}${url}`, data)
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    const demandsImported = response?.['data']?.data.map(
+                        (demande) => ({
+                            ...demande,
+                            demandeur: `${demande.demandeur_nom} ${demande.demandeur_prenoms}`,
+                        })
+                    );
+                    this.demandsImportedSubject.next(demandsImported);
+                    this.demandsImportedPagination.next(response?.['data']);
+                    this.apiResponseDemandsImportedSubject.next(response);
+                    this.dataFilterDemandsImportedSubject.next(data);
+                    this.dataNbrPageDemandsImportedSubject.next(nbrPage);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching demandsImported', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingDemandsImportedSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getDemandsImported(): Observable<any[]> {
+        return this.demandsImportedSubject.asObservable();
+    }
+    getDemandsImportedPagination(): any {
+        return this.demandsImportedPagination.asObservable();
+    }
+    isLoadingDemandsImported(): Observable<boolean> {
+        return this.loadingDemandsImportedSubject.asObservable();
+    }
+    getDataFilterDemandsImported(): Observable<Object> {
+        return this.dataFilterDemandsImportedSubject.asObservable();
+    }
+    getDataNbrPageDemandsImported(): Observable<string> {
+        return this.dataNbrPageDemandsImportedSubject.asObservable();
+    }
+    getApiResponseDemandsImported(): Observable<Object> {
+        return this.apiResponseDemandsImportedSubject.asObservable();
+    }
+    getDemandImportedSelected(): Observable<ImportationInterface> {
+        return this.demandImportedSelected.asObservable();
+    }
+    setDemandImportedSelected(demand: ImportationInterface): void {
+        this.demandImportedSelected.next(demand);
     }
 
     /*********************Méthode pour récupérer la liste des demands*************** */
@@ -817,7 +896,6 @@ export class SharedService {
     private notificationListSubject = new BehaviorSubject<
         Array<notificationsCenterInterface>
     >([]);
-    private notificationCountSubject = new BehaviorSubject<number>(0);
     private loadingNotificationSubject = new BehaviorSubject<boolean>(false);
     private notificationPaginationSubject = new BehaviorSubject<
         Paginate<notificationsCenterApiResponseInterface>
@@ -838,7 +916,6 @@ export class SharedService {
                 switchMap((response: any) => {
                     const paginationData: Paginate<any> = response?.['data'];
                     this.notificationListSubject.next(response?.['data']?.data);
-                    this.notificationCountSubject.next(paginationData.total);
                     this.notificationPaginationSubject.next(paginationData);
                     return of(response);
                 }),
@@ -855,10 +932,6 @@ export class SharedService {
         return this.notificationListSubject.asObservable();
     }
 
-    getNotificationCount(): Observable<number> {
-        return this.notificationCountSubject.asObservable();
-    }
-
     isLoadingNotification(): Observable<boolean> {
         return this.loadingNotificationSubject.asObservable();
     }
@@ -866,5 +939,46 @@ export class SharedService {
         Paginate<notificationsCenterApiResponseInterface>
     > {
         return this.notificationPaginationSubject.asObservable();
+    }
+
+    /*********************Méthode pour récupérer le nombre de notification non lu*************** */
+
+    private loadingUnReadNotificationSubject = new BehaviorSubject<boolean>(
+        false
+    );
+    private apiResponseUnReadNotificationSubject = new BehaviorSubject<number>(
+        {} as number
+    );
+
+    fetchUnReadNotifications(): void {
+        if (this.loadingUnReadNotificationSubject.getValue()) return;
+        this.loadingUnReadNotificationSubject.next(true);
+        const url: string = EndPointUrl.COUNT_UNREAD_NOTIFICATIONS;
+        this.http
+            .post(`${this.BASE_URL}${url}`, {})
+            .pipe(
+                debounceTime(500),
+                switchMap((response: any) => {
+                    this.apiResponseUnReadNotificationSubject.next(
+                        response.data
+                    );
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching unread notifications', error);
+                    return of([]);
+                }),
+                finalize(() =>
+                    this.loadingUnReadNotificationSubject.next(false)
+                )
+            )
+            .subscribe();
+    }
+
+    isLoadingUnReadNotifications(): Observable<boolean> {
+        return this.loadingUnReadNotificationSubject.asObservable();
+    }
+    getApiResponseUnReadNotifications(): Observable<number> {
+        return this.apiResponseUnReadNotificationSubject.asObservable();
     }
 }

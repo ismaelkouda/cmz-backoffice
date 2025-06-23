@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <app-breadcrumb
-        [title]="'Suivi des opérations'"
-        [active_item]="'Messagerie'"
+        [title]="module | translate"
+        [active_item]="subModule | translate"
     ></app-breadcrumb>
     <div class="card">
         <div class="card-body">
@@ -13,7 +13,7 @@
                             [cardBorderColor]="'#FFF'"
                             [legend]="
                                 '# Total ' +
-                                (+currentTabsIndex === 0 ? 'Reçus' : 'Envoyés')
+                                (+currentTabsIndex === 0 ? 'reçus' : 'envoyés')
                             "
                             [count]="rapport?.total || '0'"
                             [legendColor]="'#FFF'"
@@ -26,7 +26,7 @@
                         <app-message-box
                             [cardBgColor]="'#27ae60'"
                             [cardBorderColor]="'#FFF'"
-                            [legend]="'# Total Lus'"
+                            [legend]="'# Total lus'"
                             [count]="rapport?.total_lus || '0'"
                             [legendColor]="'#FFF'"
                             [countColor]="'#FFF'"
@@ -37,7 +37,7 @@
                         <app-message-box
                             [cardBgColor]="'#FF6600'"
                             [cardBorderColor]="'#FFF'"
-                            [legend]="'# Sujet Offres Commerciales'"
+                            [legend]="'# Sujet offres commerciales'"
                             [count]="rapport?.total_offres_commerciales || '0'"
                             [legendColor]="'#FFF'"
                             [countColor]="'#FFF'"
@@ -50,7 +50,7 @@
                         <app-message-box
                             [cardBgColor]="'#e74c3c'"
                             [cardBorderColor]="'#FFF'"
-                            [legend]="'# Sujet Contrat'"
+                            [legend]="'# Sujet contrat'"
                             [count]="rapport?.total_contrats || '0'"
                             [legendColor]="'#FFF'"
                             [countColor]="'#FFF'"
@@ -61,7 +61,7 @@
                         <app-message-box
                             [cardBgColor]="'#f1c40f'"
                             [cardBorderColor]="'#FFF'"
-                            [legend]="'# Sujet Facture'"
+                            [legend]="'# Sujet facture'"
                             [count]="rapport?.total_factures || '0'"
                             [legendColor]="'#000000'"
                             [countColor]="'#000000'"

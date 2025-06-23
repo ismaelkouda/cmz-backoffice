@@ -11,12 +11,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ImportationService } from './data-access/importation/service/importation-api.service';
+// import { ImportationComponent } from './ui/importation/importation.component';
+// import { FilterImportationComponent } from './feature/importation/filter-importation/filter-importation.component';
+// import { TableImportationComponent } from './feature/importation/table-importation/table-importation.component';
 
 @NgModule({
     declarations: [
         MobileSubscriptionsComponent,
         FilterMobileSubscriptionsComponent,
         TableMobileSubscriptionsComponent,
+        // ImportationComponent, FilterImportationComponent, TableImportationComponent,
     ],
     imports: [
         SharedModule,
@@ -27,6 +32,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
         Ng2SearchPipeModule,
         NgxPaginationModule,
     ],
-    providers: [MobileSubscriptionsService],
+    providers: [MobileSubscriptionsService, ImportationService],
 })
 export class RequestsServicesModule {}

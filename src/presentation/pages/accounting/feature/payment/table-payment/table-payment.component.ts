@@ -53,6 +53,7 @@ export class TablePaymentComponent {
     @Input() pagination$: Observable<Paginate<paymentInterface>>;
     @Input() spinner: boolean;
     @Output() interfaceUser = new EventEmitter<Action>();
+    @Input() dataToExport: Array<paymentInterface>;
     public paymentSelected: paymentInterface;
     public visibleFormPayment = false;
 
@@ -68,15 +69,13 @@ export class TablePaymentComponent {
     ) {}
 
     public onExportExcel(): void {
-        this.listPayments$.subscribe((data) => {
-            if (data) {
-                this.tableExportExcelFileService.exportAsExcelFile(
-                    data,
-                    this.table,
-                    'List_payment'
-                );
-            }
-        });
+        if (this.dataToExport.length > 0) {
+            this.tableExportExcelFileService.exportAsExcelFile(
+                this.dataToExport,
+                this.table,
+                'List_payment'
+            );
+        }
     }
 
     public getTitleForm(operation: OperationTransaction): string {

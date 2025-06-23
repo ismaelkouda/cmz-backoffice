@@ -33,6 +33,7 @@ export class NotificationsCenterComponent implements OnInit {
         private notificationsCenterApiService: NotificationsCenterApiService
     ) {
         this.sharedService.fetchNotification();
+        this.notificationsCenterApiService.fetchReadAllNotifications();
         Object.values(TypeAlarme).forEach((item) => {
             this.listTypeNotifications.push(item);
         });
@@ -43,7 +44,8 @@ export class NotificationsCenterComponent implements OnInit {
             this.module = data.module;
             this.subModule = data.subModule[3];
         });
-        this.notificationCount$ = this.sharedService.getNotificationCount();
+        this.notificationCount$ =
+            this.sharedService.getApiResponseUnReadNotifications();
         this.notificationList$ = this.sharedService.getNotificationList();
         this.notificationPagination$ =
             this.sharedService.getNotificationPagination();

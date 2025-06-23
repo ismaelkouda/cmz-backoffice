@@ -34,6 +34,30 @@
                                                     | translate
                                             }}</span>
                                         </b>
+
+                                        <b
+                                            *ngIf="
+                                                urlParamRef ===
+                                                'mass-add-importation'
+                                            "
+                                        >
+                                            <span>{{
+                                                'SIM_CARD_IMPORTATION_ADD_ON_REQUEST_FORM'
+                                                    | translate
+                                            }}</span>
+                                        </b>
+                                        <b
+                                            *ngIf="
+                                                urlParamRef ===
+                                                'simple-add-importation'
+                                            "
+                                        >
+                                            <span>{{
+                                                'SIMPLE_SIM_CARD_IMPORTATION_ADD_ON_REQUEST_FORM'
+                                                    | translate
+                                            }}</span>
+                                        </b>
+
                                         <b
                                             *ngIf="
                                                 urlParamRef ===
@@ -83,10 +107,13 @@
 
                             <div style="margin-top: 3rem">
                                 <div [formGroup]="formDemand">
-                                    <!-- Le formulaire de demande de SIM blanche ne dispose pas de ce fieldset -->
+                                    <!-- Le formulaire de demande de SIM blanche & d'importation de SIM ne dispose pas de ce fieldset -->
                                     <fieldset
                                         *ngIf="
-                                            !urlParamRef.includes('white-sim')
+                                            !urlParamRef.includes(
+                                                'white-sim'
+                                            ) &&
+                                            !urlParamRef.includes('importation')
                                         "
                                     >
                                         <legend>
@@ -213,7 +240,84 @@
                                         </div>
                                     </fieldset>
 
-                                    <fieldset>
+                                    <!-- <fieldset>
+                                        <legend>
+                                            <b>Demande</b>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label><b>Montant de la
+                                                            formule/SIM<span class="text-danger">*</span></b></label>
+                                                    <input placeholder="Montant de la formule"
+                                                        formControlName="montant_formule" type="number" pInputText />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="commentaire"><strong>Réçu paiement<span
+                                                            class="text-danger">*</span></strong></label>
+                                                <div
+                                                    class="d-flex justify-content-center align-items-center container-button-telecharger">
+                                                    <div>
+                                                        <input type="file" style="
+                                                            padding: 0.6rem;
+                                                            border: 1px solid;
+                                                            border-radius: 0.3rem;
+                                                            color: #000;
+                                                        " (change)="
+                                                            onChangeFile(
+                                                                $event.target
+                                                                    .files
+                                                            )
+                                                        " accept="image/png,image/jpeg" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset> -->
+
+                                    <fieldset
+                                        *ngIf="
+                                            !urlParamRef.includes(
+                                                'white-sim'
+                                            ) &&
+                                            !urlParamRef.includes(
+                                                'mobile-subscription'
+                                            )
+                                        "
+                                    >
+                                        <legend>
+                                            <b>{{
+                                                'MOBILE_IMPORTATION' | translate
+                                            }}</b>
+                                        </legend>
+                                        <div class="row">
+                                            <app-form-masse
+                                                class="col-md-12 d-flex align-items-end"
+                                                [fileModel]="fileModel"
+                                                (dataToSend)="
+                                                    pushCurrentArrayForm($event)
+                                                "
+                                                [currentArrayHeaders]="
+                                                    currentArrayHeaders
+                                                "
+                                                (downloadModel)="
+                                                    onDownloadModel($event)
+                                                "
+                                                [formMasseLibelle]="
+                                                    formMasseLibelle
+                                                "
+                                                [libelleFile]="libelleFile"
+                                            >
+                                            </app-form-masse>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset
+                                        *ngIf="
+                                            !urlParamRef.includes('importation')
+                                        "
+                                    >
                                         <legend>
                                             <strong>{{
                                                 'INFORMATION_REQUEST'
@@ -618,6 +722,35 @@
                                             </div>
                                         </div>
                                     </fieldset>
+                                    <div
+                                        class="form-check pt-3"
+                                        *ngIf="
+                                            !urlParamRef.includes(
+                                                'white-sim'
+                                            ) &&
+                                            !urlParamRef.includes(
+                                                'mobile-subscription'
+                                            )
+                                        "
+                                    >
+                                        <input
+                                            class="form-check-input"
+                                            type="radio"
+                                            [value]="true"
+                                            name="confirmation"
+                                            id="confirmOrange"
+                                            formControlName="confirmation_contrat"
+                                            style="transform: scale(2)"
+                                            required
+                                        />
+                                        <label
+                                            class="form-check-label"
+                                            for="confirmOrange"
+                                        >
+                                            JE CONFIRME QUE LES NUMÉROS IMPORTÉS
+                                            FONT L’OBJET DE CONTRAT AVEC ORANGE
+                                        </label>
+                                    </div>
                                 </div>
                                 <div class="forms-feature-footer">
                                     <p-button

@@ -22,4 +22,8 @@ export class FormDemandApiService {
         );
         return this.http.post(`${this.baseUrl}${url}`, data);
     }
+    SaveImportation(data): Observable<any> {
+        const url: string = <string>FormDemandEndpointEnum.SAVE_IMPORTATION_SIM;
+        return this.http.post(`${this.baseUrl}${url}`, data);
+    }
 }

@@ -115,6 +115,7 @@ export class simCardApiService {
             );
         this.loadingSimCardDetailsSubject.next(true);
 
+        console.log('this.BASE_URL', this.BASE_URL);
         this.httpClient
             .post<Object>(`${this.BASE_URL}${url}`, {})
             .pipe(

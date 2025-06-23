@@ -139,6 +139,9 @@ export class FormMasseComponent {
      * @returns un message toastr ou un boolean(true) lorsqu'il y a une erreur; oubien un boolean(false) lorsqu'il n'y a pas d'erreur
      */
     isArraySame(arr1: string[], arr2): boolean {
+        console.log('arr1', arr1);
+        console.log('arr2', arr2);
+
         if (!arr1 || arr1.length <= 0) {
             this.toastrService.error('Fichier vide');
             return false;

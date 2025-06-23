@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-messagerie',
@@ -7,6 +8,8 @@ import { Title } from '@angular/platform-browser';
     styleUrls: ['./messagerie.component.scss'],
 })
 export class MessagerieComponent implements OnInit {
+    public module: string;
+    public subModule: string;
     public rapport: any;
     public initialView: boolean = true;
     public formsView: boolean = false;
@@ -14,11 +17,18 @@ export class MessagerieComponent implements OnInit {
     public currentTabsIndex: number = 0;
     public title = 'Messagerie - Système de Gestion de Collecte Centralisée';
 
-    constructor(private titleService: Title) {
+    constructor(
+        private titleService: Title,
+        private activatedRoute: ActivatedRoute
+    ) {
         this.titleService.setTitle(`${this.title}`);
     }
 
     ngOnInit() {
+        this.activatedRoute.data.subscribe((data) => {
+            this.module = data.module;
+            this.subModule = data.subModule[4];
+        });
         if (!this.formsView) {
             this.currentTabsIndex = 0;
         }

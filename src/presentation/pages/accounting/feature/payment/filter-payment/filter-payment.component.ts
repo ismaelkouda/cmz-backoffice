@@ -64,6 +64,10 @@ export class FilterPaymentComponent implements OnChanges, OnDestroy {
                         filterData?.['numero_demande'],
                         { nonNullable: true }
                     ),
+                    reference: new FormControl<string>(
+                        filterData?.['reference'],
+                        { nonNullable: true }
+                    ),
                     initie_par: new FormControl<string>(
                         filterData?.['initie_par'],
                         { nonNullable: true }

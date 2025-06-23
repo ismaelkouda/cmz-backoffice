@@ -5,8 +5,10 @@ import { FormDemandComponent } from '../../../shared/components/form-demand/form
 import { SimDemandComponent } from '../../../shared/components/sim-demand/sim-demand.component';
 import { PagesGuard } from '../../../core/guard/PagesGuard';
 import { InvoiceFormComponent } from '../../../shared/components/invoice-form/invoice-form.component';
+import { ImportationComponent } from './ui/importation/importation.component';
 
 export const MOBILE_SUBSCRIPTIONS = 'mobile-subscriptions';
+export const MOBILE_IMPORTATION = 'mobile-importation';
 export const FORM = 'form';
 export const PAYMENT = 'payment';
 export const INVOICE = 'invoice';
@@ -42,6 +44,31 @@ const routes: Routes = [
         //     allowedPaths: [`/${MOBILE_SUBSCRIPTIONS}`],
         // },
     },
+    // {
+    //     path: MOBILE_IMPORTATION,
+    //     children: [
+    //         {
+    //             path: '',
+    //             component: ImportationComponent,
+    //         },
+    //         {
+    //             path: FORM,
+    //             component: FormDemandComponent,
+    //         },
+    //         {
+    //             path: `${PAYMENT}/:number_demand`,
+    //             component: InvoiceFormComponent,
+    //         },
+    //         {
+    //             path: `${INVOICE}/:number_demand`,
+    //             component: InvoiceFormComponent,
+    //         },
+    //         {
+    //             path: ':number_demand',
+    //             component: SimDemandComponent,
+    //         },
+    //     ],
+    // },
 ];
 
 @NgModule({

@@ -170,20 +170,28 @@
         </tr>
     </ng-template>
 
-    <!-- <ng-template pTemplate="emptymessage">
+    <ng-template pTemplate="emptymessage">
         <tr *ngIf="listSim?.length <= 0 && !spinner">
             <td class="posRelative" colspan="15">
-                <span class="posCenter"> {{ 'NO_DATA_FOUND' | translate }} </span>
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
             </td>
         </tr>
         <tr *ngIf="spinner">
             <td class="posRelative" colspan="15">
-                <p-progressSpinner class="posCenter" [style]="{ width: '40px', height: '50px' }"
-                    styleClass="custom-spinner" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
                 </p-progressSpinner>
             </td>
         </tr>
-    </ng-template> -->
+    </ng-template>
 </p-table>
 
 <!-- 

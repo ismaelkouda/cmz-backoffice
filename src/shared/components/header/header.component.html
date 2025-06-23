@@ -77,12 +77,13 @@
                         class="pi pi-refresh header-icon"
                         title="Rafraîchir"
                         (click)="handleRefreshNotification()"
-                    ></i>
+                    ></i
+                    >&nbsp;
 
                     <i
                         class="pi pi-bell header-icon"
                         pBadge
-                        [value]="(notificationCount$ | async) ?? 0"
+                        [value]="(notificationCount$ | async) || 0"
                         severity="danger"
                         (click)="OnGoNotif()"
                         title="Notifications"

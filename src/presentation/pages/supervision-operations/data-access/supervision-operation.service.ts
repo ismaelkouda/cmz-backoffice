@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { EndPointUrl } from './api.enum';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { OperationTransaction } from '../../../../shared/enum/OperationTransaction.enum';
+import { EnvService } from '../../../../shared/services/env.service';
 const Swal = require('sweetalert2');
 @Injectable({
     providedIn: 'root',
@@ -12,10 +13,12 @@ export class SupervisionOperationService {
     public baseUrl: string;
     constructor(
         private http: HttpClient,
-        private storage: EncodingDataService
+        private storage: EncodingDataService,
+        private envService: EnvService
     ) {
         const data = JSON.parse(this.storage.getData('user'));
-        this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`;
+        this.baseUrl = this.envService.apiUrl;
+        console.log('this.baseUrl', this.baseUrl);
     }
 
     postCommandeProduitCommandesDetails(numero_demande): Observable<any> {
@@ -28,7 +31,7 @@ export class SupervisionOperationService {
     GetSupervisionOperationsTraitementsSuivisDownloadModeleData(
         operation: string,
         numeroDemande: string = '',
-        tokenUser: string
+        tokenUser: string = ''
     ): any {
         const url: string = <string>(
             EndPointUrl.GET_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_DOWNLOAD_MODELE_DATA.replace(

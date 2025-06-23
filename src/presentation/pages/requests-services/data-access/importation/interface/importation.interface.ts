@@ -1,0 +1,105 @@
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
+
+export interface ImportationGlobalStatsInterface {
+    pourcentage_cloture_acceptes: number;
+    pourcentage_cloture_rejetes: number;
+    pourcentage_finalisation_effectues: number;
+    pourcentage_finalisation_en_attentes: number;
+    pourcentage_soumission_recu: number;
+    pourcentage_traitement_en_cours: number;
+    pourcentage_traitement_termines: number;
+    total_cloture_acceptes: number;
+    total_cloture_rejetes: number;
+    total_dossiers: number;
+    total_finalisation_effectues: number;
+    total_finalisation_en_attentes: number;
+    total_soumission_recu: number;
+    total_traitement_en_cours: number;
+    total_traitement_termines: number;
+    data: Paginate<ImportationInterface>;
+}
+
+export interface ImportationApiResponseInterface {
+    error: boolean;
+    message: string;
+    data: Paginate<ImportationInterface>;
+}
+
+export interface ImportationInterface {
+    id: number;
+    numero_demande: string;
+    description: string;
+    justificatif: string | null;
+    operation: string;
+    bac_a_pioche: string | null;
+    cloture_a: string | null;
+    nb_demande_soumises: number;
+    nb_demande_traitees: number;
+    nb_demande_cloturees: number;
+    initie_par: number;
+    statut: string;
+    created_at: string;
+    updated_at: string;
+    recu_paiement: string | null;
+    type: string;
+    niveau_un_uuid: string | null;
+    niveau_deux_uuid: string | null;
+    niveau_trois_uuid: string | null;
+    formule_uuid: string;
+    usage_id: number;
+    intervenant_id: number | null;
+    traite_a: string | null;
+    traite_par: number | null;
+    cloture_par: number | null;
+    abandonne_a: string | null;
+    abandonne_par: number | null;
+    acquitte_a: string | null;
+    acquitte_par: number | null;
+    commentaire_traitement: string | null;
+    traitement: string;
+    commentaire_cloture: string | null;
+    nb_demande_identifiees: string;
+    nb_demande_echouees: string;
+    finalise_a: string | null;
+    finalise_par: number | null;
+    usage_nom: string | null;
+    etat_soumission: string;
+    etat_traitement: string | null;
+    etat_finalisation: string | null;
+    etat_cloture: string;
+    commentaire_finalisation: string | null;
+    montant_formule: number | null;
+    nb_cycle: number;
+    nb_demande_crees: number;
+    accepte: boolean | null;
+    equipe_id: number | null;
+    type_paiement: string | null;
+    nb_sim_affectees: number;
+    accepte_approbation: boolean | null;
+    commentaire_approbation: string | null;
+    approuve_par: number | null;
+    approuve_a: string | null;
+    commentaire_livraison: string | null;
+    livre_par: number | null;
+    livre_a: string | null;
+    delai_ack: number;
+    delai_traitement: number;
+    delai_cloture: number;
+    delai_escalade: number;
+    source: string;
+    date_soumission_facture: string | null;
+    notation_cloture: string | null;
+    etat_facture: string;
+    recuperer_par: number | null;
+    recuperer_a: string | null;
+    demandeur_nom: string;
+    demandeur_prenoms: string;
+    demandeur_contacts: string;
+    demandeur_email: string;
+    demandeur_matricule: string;
+    formule: string;
+    nom_usage: string;
+    niveau_uns_nom: string | null;
+    niveau_deux_nom: string | null;
+    niveau_trois_nom: string | null;
+}

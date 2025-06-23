@@ -34,8 +34,9 @@ export class HeaderComponent implements OnInit {
         private sharedService: SharedService,
         private storeCurrentUserService: StoreCurrentUserService
     ) {
-        this.sharedService.fetchNotification();
-        this.notificationCount$ = this.sharedService.getNotificationCount();
+        this.sharedService.fetchUnReadNotifications();
+        this.notificationCount$ =
+            this.sharedService.getApiResponseUnReadNotifications();
         const currentUser: CurrentUser | null =
             this.storeCurrentUserService.getCurrentUser;
         this.nom_tenant = currentUser?.tenant.nom_tenant as string;
@@ -72,7 +73,7 @@ export class HeaderComponent implements OnInit {
     // }
 
     public handleRefreshNotification(): void {
-        this.sharedService.fetchNotification();
+        this.sharedService.fetchUnReadNotifications();
     }
 
     OnGoNotif() {

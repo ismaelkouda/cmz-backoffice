@@ -1,6 +1,7 @@
 export const enum EndPointUrl {
     PATRIMONY_SIM_SIMS_ALL_USAGES = 'patrimoine-sim/sims/all_usage',
     PATRIMOINE_SIM_DEMANDES_SERVICES_ALL = 'patrimoine-sim/demandes-services/all?page={page}',
+    GET_LIST_DEMANDS_IMPORTED = 'patrimoine-sim/importations/all?page={page}',
     GET_ALL_USERS = 'users/all',
     PARAMETRES_SECURITE_FORME_JURIDIQUES_ALL = 'parametres-securite/forme-juridiques/all',
     PARAMETRES_SECURITE_REGIMES_ENTREPRISE_ALL = 'parametres-securite/regimes-entreprise/all',
@@ -13,6 +14,7 @@ export const enum EndPointUrl {
     GET_ALL_SIM_BLANCHE_JOURNAL = 'patrimoine-sim/carton-sim-blanches/journal-evenements?page={page}',
     GET_ALL_YEAR = 'gestion-campagnes/annees/all',
     GET_ALL_NOTIFICATIONS = 'centre-notifications/all?page={page}',
+    COUNT_UNREAD_NOTIFICATIONS = 'centre-notifications/count-unread',
 
     //First Level EndPoints
     GET_ALL_FIRSTLEVEL = 'parametres-securite/niveau_un/all?page={page}',

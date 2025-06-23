@@ -13,10 +13,10 @@
                             [displayDate]="false"
                             [total]="(pagination$ | async)?.total"
                             [legendePluriel]="
-                                'MOBILE_SUBSCRIPTIONS' | translate
+                                'MOBILE_SUBSCRIPTIONS' | translate | lowercase
                             "
                             [legendeSingulier]="
-                                'MOBILE_SUBSCRIPTIONS' | translate
+                                'MOBILE_SUBSCRIPTIONS' | translate | lowercase
                             "
                         >
                         </app-patrimoine-header>
