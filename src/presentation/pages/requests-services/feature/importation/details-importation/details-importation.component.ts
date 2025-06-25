@@ -7,7 +7,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { IStatistiquesBox } from '../../../../../../shared/interfaces/statistiquesBox.interface';
 import { ImportationService } from '../../../data-access/importation/service/importation-api.service';
-import { MOBILE_IMPORTATION } from '../../../requests-services-routing.module';
+import { SIM_IMPORTATION } from '../../../requests-services-routing.module';
 import { PATRIMONY } from '../../../../../../shared/routes/routes';
 import { ApnInterface } from '../../../../../../shared/interfaces/apn.interface';
 import { SharedService } from '../../../../../../shared/services/shared.service';
@@ -156,6 +156,6 @@ export class DetailsImportationComponent implements OnInit, OnDestroy {
     }
 
     public onGoToBack(): void {
-        this.router.navigateByUrl(`/${PATRIMONY}/${MOBILE_IMPORTATION}`);
+        this.router.navigateByUrl(`/${PATRIMONY}/${SIM_IMPORTATION}`);
     }
 }

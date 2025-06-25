@@ -33,7 +33,7 @@ import { StoreCurrentUserService } from '../../services/store-current-user.servi
 import { SecondLevelInterface } from '@shared/interfaces/first-level.interface';
 import { SecondLevelService } from '@shared/services/second-level.service';
 import {
-    MOBILE_IMPORTATION,
+    SIM_IMPORTATION,
     MOBILE_SUBSCRIPTIONS,
 } from '../../../presentation/pages/requests-services/requests-services-routing.module';
 import {
@@ -666,29 +666,29 @@ export class FormDemandComponent implements OnInit {
             //     return {
             //         module: 'REQUESTS_SERVICES',
             //         moduleRoute: REQUESTS_SERVICES,
-            //         subModule: 'MOBILE_IMPORTATION',
-            //         subModuleRoute: MOBILE_IMPORTATION,
+            //         subModule: 'SIM_IMPORTATION',
+            //         subModuleRoute: SIM_IMPORTATION,
             //     };
             // case 'simple-add-importation':
             //     return {
             //         module: 'REQUESTS_SERVICES',
             //         moduleRoute: REQUESTS_SERVICES,
-            //         subModule: 'MOBILE_IMPORTATION',
-            //         subModuleRoute: MOBILE_IMPORTATION,
+            //         subModule: 'SIM_IMPORTATION',
+            //         subModuleRoute: SIM_IMPORTATION,
             //     };
             case 'mass-add-importation':
                 return {
                     module: 'PATRIMONY',
                     moduleRoute: PATRIMONY,
-                    subModule: 'MOBILE_IMPORTATION',
-                    subModuleRoute: MOBILE_IMPORTATION,
+                    subModule: 'SIM_IMPORTATION',
+                    subModuleRoute: SIM_IMPORTATION,
                 };
             case 'simple-add-importation':
                 return {
                     module: 'PATRIMONY',
                     moduleRoute: PATRIMONY,
-                    subModule: 'MOBILE_IMPORTATION',
-                    subModuleRoute: MOBILE_IMPORTATION,
+                    subModule: 'SIM_IMPORTATION',
+                    subModuleRoute: SIM_IMPORTATION,
                 };
             case 'mass-add-white-sim':
                 return {

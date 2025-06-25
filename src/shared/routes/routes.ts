@@ -87,7 +87,7 @@ export const content: Routes = [
                 'Etat des soldes Data',
                 'Etat des soldes SMS',
                 'Téléchargements',
-                'MOBILE_IMPORTATION',
+                'SIM_IMPORTATION',
                 // 'Cartographie',
             ],
         },
@@ -118,7 +118,7 @@ export const content: Routes = [
             module: 'REQUESTS_SERVICES',
             subModule: [
                 'MOBILE_SUBSCRIPTIONS',
-                'MOBILE_IMPORTATION',
+                'SIM_IMPORTATION',
                 'Suspensions',
                 'Résiliations',
                 'Changements de Formules',

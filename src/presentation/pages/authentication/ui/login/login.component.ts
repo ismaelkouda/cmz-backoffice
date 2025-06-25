@@ -79,7 +79,15 @@ export class LoginComponent implements OnInit {
                 finalize(() => this.loadingFetchLoginSubject.next(false))
             )
             .subscribe((response: any) => {
-                this.handleSuccessful(response);
+                console.log('response', response);
+                if (response.error === false) {
+                    this.handleSuccessful(response);
+                } else {
+                    this.toastService.error(
+                        `${response?.message ?? 'Erreur de connexion'}`
+                    );
+                    this.loginForm.reset();
+                }
             });
     }
 

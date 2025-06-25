@@ -9,7 +9,7 @@ import { WhiteSimCardComponent } from './ui/white-sim-card/white-sim-card.compon
 import { PagesGuard } from '../../../core/guard/PagesGuard';
 import { SimDemandComponent } from '../../../shared/components/sim-demand/sim-demand.component';
 import { WhiteSimCardDetailsComponent } from './feature/white-sim-card/details-white-sim-card/white-sim-card-details.component';
-import { MOBILE_IMPORTATION } from '../requests-services/requests-services-routing.module';
+import { SIM_IMPORTATION } from '../requests-services/requests-services-routing.module';
 import { ImportationComponent } from '../requests-services/ui/importation/importation.component';
 import { FORM } from '../demandes-produits/demandes-produits-routing.module';
 import { FormDemandComponent } from '../../../shared/components/form-demand/form-demand.component';
@@ -120,7 +120,7 @@ const routes: Routes = [
         },
     },
     {
-        path: MOBILE_IMPORTATION,
+        path: SIM_IMPORTATION,
         children: [
             {
                 path: '',

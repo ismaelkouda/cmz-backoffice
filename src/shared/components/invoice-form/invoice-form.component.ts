@@ -245,18 +245,20 @@ export class InvoiceFormComponent {
         let htmlMessage: string;
         switch (this.formTypePaiement.get('type_paiement')?.value) {
             case 'PostPaid':
-                htmlMessage = `Le recu de paiement sera rattaché à la facture <span style="color: #ff6600;"><strong>${this.detailsInvoiceForm?.['numero_demande']}</strong></span> !`;
+                htmlMessage = `<span style="color: #ff6600;">Le montant de cette facture sera <strong>enregistré dans le système de facturation</strong>. Le règlement s'effectuera ultérieurement selon les conditions convenues.</span>`;
                 break;
+
             case 'PrePaid':
-                htmlMessage = `Paiement différé !`;
+                htmlMessage = `<span style="color: #ff6600;">Cette facture sera <strong>réglée immédiatement</strong> via un justificatif de paiement.</span>`;
                 break;
+
             case 'via Compte':
-                htmlMessage = `Le paiement de la facture <span style="color: #ff6600;"><strong>${this.detailsInvoiceForm?.['numero_demande']}</strong></span> a été débité de votre compte !`;
+                htmlMessage = `</span>Le montant <span style="color: #ff6600;"><strong>${this.detailsInvoiceForm?.['prix_ttc']}</strong></span> sera <strong>débité de votre compte</strong>.`;
                 break;
 
             default:
-                htmlMessage = '';
-                break;
+                this.toastrService.warning('Type de paiement non reconnu.');
+                return;
         }
 
         const result = await Swal.mixin({

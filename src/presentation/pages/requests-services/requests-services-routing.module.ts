@@ -8,7 +8,7 @@ import { InvoiceFormComponent } from '../../../shared/components/invoice-form/in
 import { ImportationComponent } from './ui/importation/importation.component';
 
 export const MOBILE_SUBSCRIPTIONS = 'mobile-subscriptions';
-export const MOBILE_IMPORTATION = 'mobile-importation';
+export const SIM_IMPORTATION = 'sim-importation';
 export const FORM = 'form';
 export const PAYMENT = 'payment';
 export const INVOICE = 'invoice';
@@ -45,7 +45,7 @@ const routes: Routes = [
         // },
     },
     // {
-    //     path: MOBILE_IMPORTATION,
+    //     path: SIM_IMPORTATION,
     //     children: [
     //         {
     //             path: '',

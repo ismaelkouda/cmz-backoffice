@@ -259,7 +259,7 @@
     "USER": "User",
     "REQUESTS_SERVICES": "Requests services",
     "MOBILE_SUBSCRIPTIONS": "Mobile subscriptions",
-    "MOBILE_IMPORTATION": "Importations SIM",
+    "SIM_IMPORTATION": "Importations SIM",
     "CONFIRM_THE_TRANSACTION_BY": "Confirm the transaction by",
     "CONFIRM_THE_REQUEST_FOR": "Confirm the importation for",
     "CONFIRM_THE_IMPORTATION_FOR": "Confirm the request for",
