@@ -115,9 +115,7 @@ export class ImportationService {
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {
-                    this.simDemandSubject.next(
-                        response?.['data']?.rapports?.data
-                    );
+                    this.simDemandSubject.next(response?.['data']?.rapports);
                     this.simDemandPagination.next(response?.['data']?.rapports);
                     this.apiResponseSimDemandSubject.next(response?.data);
                     this.dataFilterSimDemandSubject.next(data);
