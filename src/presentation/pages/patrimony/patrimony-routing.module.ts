@@ -13,6 +13,7 @@ import { MOBILE_IMPORTATION } from '../requests-services/requests-services-routi
 import { ImportationComponent } from '../requests-services/ui/importation/importation.component';
 import { FORM } from '../demandes-produits/demandes-produits-routing.module';
 import { FormDemandComponent } from '../../../shared/components/form-demand/form-demand.component';
+import { DetailsImportationComponent } from '../requests-services/feature/importation/details-importation/details-importation.component';
 
 export const SIM_CARD = 'sim-card';
 export const SMS_BALANCE_STATUS = 'sms-balance-status';
@@ -128,6 +129,10 @@ const routes: Routes = [
             {
                 path: FORM,
                 component: FormDemandComponent,
+            },
+            {
+                path: ':number_demand',
+                component: DetailsImportationComponent,
             },
         ],
         // canActivate: [PagesGuard],

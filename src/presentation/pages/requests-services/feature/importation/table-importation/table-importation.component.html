@@ -86,8 +86,8 @@
                     <ng-container *ngSwitchCase="'# Echouées'">
                         {{ 'NUMBER_FAILED' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Etape'">
-                        {{ 'STEP' | translate }}
+                    <ng-container *ngSwitchCase="'Statut'">
+                        {{ 'STATUS' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Etat'">
                         {{ 'STATE' | translate }}
@@ -122,7 +122,15 @@
                             {{ dossier?.[col.field] }}
                         </span>
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Etape'">
+                    <ng-container *ngSwitchCase="'Description'">
+                        <span
+                            tooltipPosition="top"
+                            [pTooltip]="getTooltipValue(dossier?.[col.field])"
+                        >
+                            {{ getTruncatedValue(dossier?.[col.field]) }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Statut'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
                             [class]="'badge ' + getStepBadge(dossier)"
@@ -166,7 +174,7 @@
                             "
                         ></button
                         >&nbsp;
-                        <button
+                        <!-- <button
                             pButton
                             [ngClass]="
                                 getTreatmentButtonViewStyle(dossier)?.class
@@ -182,13 +190,13 @@
                                 })
                             "
                         ></button>
-                        &nbsp;
+                        &nbsp; -->
                         <button
                             pButton
                             class="p-button-helf"
                             icon="pi pi-download"
                             tooltipPosition="top"
-                            [label]="'DOWNLOAD' | translate"
+                            pTooltip="Télécharger le rapport"
                             (click)="
                                 handleAction({
                                     data: dossier,

@@ -70,6 +70,7 @@ import { PagesGuard } from '../core/guard/PagesGuard';
 import { TreatmentMonitoringApiService } from '../presentation/pages/overseeing-operations/data-access/treatment-monitoring/services/treatment-monitoring-api.service';
 import { FormDemandComponent } from './components/form-demand/form-demand.component';
 import { FormDemandApiService } from './components/form-demand/data-access/services/form-demand-api.service';
+import { FormSimDemandComponent } from './components/sim-demand/feature/form-sim-demand/form-sim-demand.component';
 
 @NgModule({
     declarations: [
@@ -119,6 +120,7 @@ import { FormDemandApiService } from './components/form-demand/data-access/servi
         TableSimDemandComponent,
         FilterSimDemandComponent,
         FormDemandComponent,
+        FormSimDemandComponent,
     ],
     imports: [
         AngularModule,
@@ -183,6 +185,7 @@ import { FormDemandApiService } from './components/form-demand/data-access/servi
         TableSimDemandComponent,
         FilterSimDemandComponent,
         FormDemandComponent,
+        FormSimDemandComponent,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })

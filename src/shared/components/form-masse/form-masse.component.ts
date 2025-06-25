@@ -1,3 +1,4 @@
+import { OnChanges, SimpleChanges } from '@angular/core';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import readXlsxFile from 'read-excel-file';
@@ -79,7 +80,7 @@ type MODEL_ENTETE_FILE =
         `,
     ],
 })
-export class FormMasseComponent {
+export class FormMasseComponent implements OnChanges {
     @Input() typeOperation: 'demande-masse';
     @Input() formMasseLibelle: any;
     @Output() dataToSend: EventEmitter<{}> = new EventEmitter<{}>();
@@ -94,12 +95,22 @@ export class FormMasseComponent {
     public fileName: string;
     public data: File;
     @Output() downloadModel = new EventEmitter<void>();
-    public nombreLigneInExcelFile: number;
-    public excelFileIsCorrect: boolean;
+    private numberLineInExcelFile: number;
+    @Input() excelFileIsCorrect: boolean;
 
     @Input() libelleFile: any;
 
     constructor(private toastrService: ToastrService) {}
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.excelFileIsCorrect) {
+            console.log(
+                'changes.excelFileIsCorrect',
+                changes.excelFileIsCorrect
+            );
+            this.resetFile();
+        }
+    }
 
     // Debut: ajout du fichier excel au formulaire
     onExcelFileChange(event: FileList) {
@@ -112,10 +123,15 @@ export class FormMasseComponent {
 
                 // debut: recuperer tout le contenu (le corps du fichier) du fichier excel upload
                 this.arrayContentExcelFile = rows;
+                console.log(
+                    'this.arrayContentExcelFile',
+                    this.arrayContentExcelFile
+                );
+
                 // fin: recuperer tout le contenu (le corps du fichier) du fichier excel upload
 
                 this.arrayContentExcelFile.shift(); // suuprime le premier objet qui est l'entete du tableau
-                this.nombreLigneInExcelFile = this.arrayContentExcelFile.length;
+                this.numberLineInExcelFile = this.arrayContentExcelFile.length;
 
                 this.fileName = event[0]?.name.slice(0, 33).padEnd(36, '.');
             });
@@ -129,6 +145,7 @@ export class FormMasseComponent {
         this.arrayHeaderExcelFile = [];
         this.arrayContentExcelFile = [];
         this.fileName = '';
+        this.excelFileIsCorrect = false;
     }
 
     // Debut: Verifier le fichier excel ajouté au formulaire est conforme au fichier qu'on attends
@@ -187,13 +204,19 @@ export class FormMasseComponent {
                 ),
             });
         });
+        console.log('this.arrayContentExcelFile', this.arrayContentExcelFile);
+        console.log('this.formatData', this.formatData);
+
         this.onSendData();
     }
     // Fin: construction de l'object a envoyer au backend
 
     // Debut: Envoie de l'object au backend
     onSendData() {
-        this.dataToSend.emit({ sims_file: this.data });
+        this.dataToSend.emit({
+            sims_file: this.data,
+            numberLineInExcelFile: this.numberLineInExcelFile,
+        });
     }
     // Fin: Envoie de l'object au backend
 
@@ -210,7 +233,7 @@ export class FormMasseComponent {
             );
         } else {
             this.messageFileIsNotCorrect(
-                `Structure du fichier cohérente ${this.nombreLigneInExcelFile} ligne(s) chargée(s)`,
+                `Structure du fichier cohérente ${this.numberLineInExcelFile} ligne(s) chargée(s)`,
                 'success'
             );
             this.formatDataToSend();
@@ -225,7 +248,7 @@ export class FormMasseComponent {
 
     getButtonLabel(): string {
         return this.excelFileIsCorrect
-            ? `${this.nombreLigneInExcelFile} ligne(s) chargée(s)`
+            ? `${this.numberLineInExcelFile} SIM(s) chargée(s)`
             : 'Vérifier le fichier';
     }
 }

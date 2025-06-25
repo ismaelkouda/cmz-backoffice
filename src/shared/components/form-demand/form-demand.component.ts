@@ -98,6 +98,7 @@ export class FormDemandComponent implements OnInit {
     public totalWhiteSimCardSelected: number = 0;
     public selectedLotWhiteSimCardAvailable: Array<Object> = [];
     public fileModel = 'src/assets/data/Modele-Importation-Sim.xlsx';
+    public excelFileIsCorrect: boolean = false;
     public currentArrayHeaders = [
         'MSISDN *',
         'IMSI *',
@@ -327,8 +328,12 @@ export class FormDemandComponent implements OnInit {
     }
 
     public pushCurrentArrayForm(file_upload: any) {
-        if (file_upload)
+        if (file_upload) {
             this.formDemand.get('sims_file')?.patchValue(file_upload.sims_file);
+            this.formDemand
+                .get('nb_demandes')
+                ?.setValue(file_upload.numberLineInExcelFile);
+        }
     }
 
     async onDownloadModel(event: any): Promise<any> {
@@ -375,25 +380,30 @@ export class FormDemandComponent implements OnInit {
             // je desactive par ce que je ne veux pas l'envoyer dans le payload
             this.formDemand.get('nb_demandes')?.disable();
             this.formDemand.get('source')?.disable();
-            const response: any = await handle(
-                () =>
-                    this.formDemandApiService.SaveImportation(
-                        formDataBuilder({
-                            ...this.formDemand.value,
-                            operation: OperationTransaction.IMPORTATION,
-                        })
-                    ),
-                this.toastrService,
-                this.loadingBarService
-            );
-            if (response.error === false) {
-                this.sharedService.fetchDemandsImported({});
-                this.onGoToBack();
-            } else {
-                this.toastrService.error(SOMETHING_WENT_WRONG);
+            try {
+                const response: any = await handle(
+                    () =>
+                        this.formDemandApiService.SaveImportation(
+                            formDataBuilder({
+                                ...this.formDemand.value,
+                                operation: OperationTransaction.IMPORTATION,
+                            })
+                        ),
+                    this.toastrService,
+                    this.loadingBarService
+                );
+                this.formDemand.get('nb_demandes')?.enable();
+                this.formDemand.get('source')?.enable();
+                if (response.error === false) {
+                    this.sharedService.fetchDemandsImported({});
+                    this.onGoToBack();
+                } else {
+                    this.toastrService.error(SOMETHING_WENT_WRONG);
+                }
+            } catch (error) {
+                this.excelFileIsCorrect = true;
+                console.log('response11111', error);
             }
-            this.formDemand.get('nb_demandes')?.enable();
-            this.formDemand.get('source')?.enable();
         } else if (
             this.urlParamRef.includes('white-sim') ||
             this.urlParamRef.includes('mobile-subscription')
@@ -413,6 +423,7 @@ export class FormDemandComponent implements OnInit {
                 this.toastrService,
                 this.loadingBarService
             );
+
             if (response.error === false) {
                 this.sharedService.fetchDemands({
                     operation: this.urlParamTypeDemand.includes(
@@ -442,7 +453,7 @@ export class FormDemandComponent implements OnInit {
 
     private get messageHandleSaveDemand(): string {
         const MASS_DEMAND = this.translate.instant('MASS_DEMAND');
-        const MASS_IMPORTATION = this.translate.instant('MASS_DEMAND');
+        const MASS_IMPORTATION = this.translate.instant('MASS_IMPORTATION');
         const CONFIRM_THE_IMPORTATION_FOR = this.translate.instant(
             'CONFIRM_THE_IMPORTATION_FOR'
         );

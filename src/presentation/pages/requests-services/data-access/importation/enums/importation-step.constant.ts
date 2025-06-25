@@ -1,4 +1,5 @@
 export const IMPORTATION_STEP = {
+    FAILURE: 'échec',
     IN_WAITING: 'en-attente',
     PARTIAL: 'partiel',
     COMPLETE: 'complet',

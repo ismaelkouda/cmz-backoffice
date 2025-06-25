@@ -6,6 +6,7 @@ import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { ImportationEndpointEnum } from '../enums/importation-endpoint.enum';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { EnvService } from '../../../../../../shared/services/env.service';
+import { DetailsImportationInterface } from '../../../feature/importation/details-importation/data-access/interfaces/details-importation.interface';
 
 @Injectable()
 export class ImportationService {
@@ -86,6 +87,72 @@ export class ImportationService {
     }
     setDemandSelected(demand: ImportationInterface): void {
         this.demandSelected.next(demand);
+    }
+
+    /*********************Méthode pour récupérer la liste des détails demands*************** */
+
+    private simDemandSubject = new BehaviorSubject<
+        DetailsImportationInterface[]
+    >([]);
+    private simDemandPagination = new BehaviorSubject<any>(null);
+    private loadingSimDemandSubject = new BehaviorSubject<boolean>(false);
+    private lastRequestSimDemandSubject = new BehaviorSubject<any>(null);
+    private apiResponseSimDemandSubject = new BehaviorSubject<any>(null);
+    private dataFilterSimDemandSubject = new BehaviorSubject<any>({});
+
+    fetchSimDemand(data: Object, nbrPage: string = '1'): void {
+        if (this.loadingSimDemandSubject.getValue()) return;
+
+        const url: string =
+            ImportationEndpointEnum.GET_IMPORTANTION_SIM.replace(
+                '{page}',
+                nbrPage
+            ).replace('{numero_demande}', data['numero_demande']);
+        this.loadingSimDemandSubject.next(true);
+
+        this.http
+            .post<Object>(`${this.BASE_URL}${url}`, data)
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    this.simDemandSubject.next(
+                        response?.['data']?.rapports?.data
+                    );
+                    this.simDemandPagination.next(response?.['data']?.rapports);
+                    this.apiResponseSimDemandSubject.next(response?.data);
+                    this.dataFilterSimDemandSubject.next(data);
+                    this.lastRequestSimDemandSubject.next({});
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching simDemand', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingSimDemandSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getSimDemand(): Observable<DetailsImportationInterface[]> {
+        return this.simDemandSubject.asObservable();
+    }
+    getSimDemandPagination(): any {
+        return this.simDemandPagination.asObservable();
+    }
+    getDataFilterSimDemand(): Observable<any> {
+        return this.dataFilterSimDemandSubject.asObservable();
+    }
+
+    isLoadingSimDemand(): Observable<boolean> {
+        return this.loadingSimDemandSubject.asObservable();
+    }
+
+    getLastRequestSimDemand(): Observable<any> {
+        return this.lastRequestSimDemandSubject.asObservable();
+    }
+
+    getApiResponseSimDemand(): Observable<Object> {
+        return this.apiResponseSimDemandSubject.asObservable();
     }
 
     /*********************Méthode pour creer une importation*************** */

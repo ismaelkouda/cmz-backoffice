@@ -22,7 +22,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Folder } from '../../../../../../shared/interfaces/folder';
 import { createButtonStyle } from '../../../../../../shared/functions/treatment-demands.function';
 import { TreatmentDemands } from '../../../../../../shared/interfaces/treatment-demands.interface';
-import { Observable } from 'rxjs';
+import {
+    combineLatest,
+    filter,
+    Observable,
+    Subject,
+    take,
+    takeUntil,
+} from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
 import { PAYMENT_STATUS_ENUM } from '../../../../accounting/data-access/payment/enums/payment-status.enum';
@@ -32,6 +39,10 @@ import {
 } from '../../../data-access/importation/enums/importation-step.constant';
 import { CurrentUser } from '../../../../../../shared/interfaces/current-user.interface';
 import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
+import { ImportationService } from '../../../data-access/importation/service/importation-api.service';
+import { DetailsImportationTableConstant } from '../details-importation/data-access/constantes/details-importation-table';
+import { OnDestroy } from '@angular/core';
+import { ta } from 'date-fns/locale';
 
 type Action = PageAction | ModalAction;
 type PageAction = {
@@ -57,7 +68,11 @@ const INIT_TYPE_TRAITEMENT: TreatmentDemands = {
     visualiser: false,
     cloturer: false,
 };
-type TYPE_COLOR_ETAPE_BADGE = 'badge-dark' | 'badge-warning' | 'badge-success';
+type TYPE_COLOR_ETAPE_BADGE =
+    | 'badge-dark'
+    | 'badge-warning'
+    | 'badge-success'
+    | 'badge-danger';
 type TYPE_COLOR_ETAT_BADGE =
     | 'badge-warning'
     | 'badge-dark'
@@ -68,7 +83,7 @@ type TYPE_COLOR_ETAT_BADGE =
     selector: 'app-table-importation',
     templateUrl: './table-importation.component.html',
 })
-export class TableImportationComponent {
+export class TableImportationComponent implements OnDestroy {
     @Input() spinner: boolean;
     @Input() listDemands$: Observable<Array<Folder>>;
     @Input() pagination$: Observable<Paginate<Folder>>;
@@ -76,8 +91,11 @@ export class TableImportationComponent {
     public demandSelected: Folder;
     public typeTreatment: TreatmentDemands = INIT_TYPE_TRAITEMENT;
     public visibleFormDossier = false;
+    private destroy$ = new Subject<void>();
 
     public readonly table: TableConfig = importationTableConstant;
+    private readonly excelHeaderSimTable: TableConfig =
+        DetailsImportationTableConstant;
     public readonly BADGE_ETAPE = BADGE_ETAPE;
     public readonly BADGE_ETAT = BADGE_ETAT;
     public readonly PAYMENT_STATUS_ENUM = PAYMENT_STATUS_ENUM;
@@ -89,13 +107,12 @@ export class TableImportationComponent {
         private sharedService: SharedService,
         private translate: TranslateService,
         private tableExportExcelFileService: TableExportExcelFileService,
-        private storeCurrentUserService: StoreCurrentUserService
+        private storeCurrentUserService: StoreCurrentUserService,
+        private importationService: ImportationService
     ) {}
 
     public pageCallback() {
-        this.sharedService.fetchDemands({
-            operation: OperationTransaction.IMPORTATION,
-        } as Folder);
+        this.sharedService.fetchDemandsImported();
     }
 
     public onExportExcel(): void {
@@ -143,6 +160,7 @@ export class TableImportationComponent {
             [IMPORTATION_STEP.IN_WAITING]: 'badge-dark',
             [IMPORTATION_STEP.PARTIAL]: 'badge-warning',
             [IMPORTATION_STEP.COMPLETE]: 'badge-success',
+            [IMPORTATION_STEP.FAILURE]: 'badge-danger',
         };
         return etapeMap[dossier.statut] || 'badge-dark';
     }
@@ -212,6 +230,18 @@ export class TableImportationComponent {
         }
     }
 
+    getTruncatedValue(value: string, maxLength: number = 15): string {
+        if (!value) return '';
+        return value.length > maxLength
+            ? value.slice(0, maxLength) + '...'
+            : value;
+    }
+
+    getTooltipValue(value: string, maxLength: number = 15): string {
+        if (!value) return '';
+        return value.length > maxLength ? value : '';
+    }
+
     handleDossierTreatment(dossier: {
         statut: string;
         traitement: string;
@@ -221,23 +251,37 @@ export class TableImportationComponent {
         this.typeTreatment =
             this.getTreatmentButtonViewStyle(dossier)?.typeTreatment;
     }
+
     handleJournal(dossier: { numero_demande: string }): void {
         const modalRef = this.ngbModal.open(JournalComponent, ModalParams);
         modalRef.componentInstance.numero_demande = dossier?.numero_demande;
         modalRef.componentInstance.typeJournal = 'importation-sim';
     }
+
     handleDownload(dossier: {
         numero_demande: string;
         sims_file: string;
     }): void {
-        if (dossier.numero_demande) {
-            const currentUser: CurrentUser | null =
-                this.storeCurrentUserService.getCurrentUser;
-            window.open(
-                `${currentUser?.tenant?.url_minio}/api/v1/` + dossier.sims_file
-            ),
-                '_blank';
-        }
+        this.importationService.fetchSimDemand({
+            numero_demande: dossier.numero_demande,
+        });
+        combineLatest([
+            this.importationService.isLoadingSimDemand(),
+            this.importationService.getSimDemand(),
+        ])
+            .pipe(
+                takeUntil(this.destroy$),
+                filter(([isLoading, data]) => !isLoading && data.length > 0),
+                take(1)
+            )
+            .subscribe(([_, data]) => {
+                console.log('data', data);
+                this.tableExportExcelFileService.exportAsExcelFile(
+                    data,
+                    this.excelHeaderSimTable,
+                    `list_sim_demand_${dossier.numero_demande}.xlsx`
+                );
+            });
     }
 
     private onSelectDemand(selectedDemand: Folder): void {
@@ -328,29 +372,15 @@ export class TableImportationComponent {
 
     getTreatmentButtonOpenFolderStyle(dossier: {
         statut: string;
-        traitement: string;
         numero_demande: string;
     }): { class: string; icon: string; tooltip: string } {
         const SIM_OF_THE_REQUEST = this.translate.instant('SIM_OF_THE_REQUEST');
-        const CANNOT_SEE_THE_SIM = this.translate.instant('CANNOT_SEE_THE_SIM');
-        switch (dossier?.statut) {
-            case BADGE_ETAPE.FINALISATEUR: {
-                return createButtonStyle(
-                    'p-button-dark',
-                    'pi pi-folder-open',
-                    `${SIM_OF_THE_REQUEST} ${dossier.numero_demande}`,
-                    this.typeTreatment
-                );
-            }
-            default: {
-                return createButtonStyle(
-                    'p-button-secondary',
-                    'pi pi-folder-open',
-                    `${CANNOT_SEE_THE_SIM} ${dossier.numero_demande}`,
-                    this.typeTreatment
-                );
-            }
-        }
+        return createButtonStyle(
+            'p-button-dark',
+            'pi pi-folder-open',
+            `${SIM_OF_THE_REQUEST} ${dossier.numero_demande}`,
+            this.typeTreatment
+        );
     }
 
     getTreatmentButtonPaymentStyle(dossier: {
@@ -397,5 +427,10 @@ export class TableImportationComponent {
                 this.typeTreatment
             );
         }
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

@@ -295,6 +295,9 @@
                                             <app-form-masse
                                                 class="col-md-12 d-flex align-items-end"
                                                 [fileModel]="fileModel"
+                                                [excelFileIsCorrect]="
+                                                    excelFileIsCorrect
+                                                "
                                                 (dataToSend)="
                                                     pushCurrentArrayForm($event)
                                                 "
@@ -737,13 +740,14 @@
                                             class="form-check-input"
                                             type="radio"
                                             [value]="true"
-                                            name="confirmation"
+                                            name="confirmation_contrat"
                                             id="confirmOrange"
                                             formControlName="confirmation_contrat"
                                             style="transform: scale(2)"
                                             required
                                         />
                                         <label
+                                            style="margin-left: 10px"
                                             class="form-check-label"
                                             for="confirmOrange"
                                         >

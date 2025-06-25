@@ -3,6 +3,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { ApnInterface } from '../../../../../../../../shared/interfaces/apn.interface';
 
 @Component({
     selector: `app-filter-details-importation`,
@@ -12,7 +14,9 @@ export class FilterDetailsImportationComponent {
     public formFilter: FormGroup;
     @Output() filter = new EventEmitter<{}>();
     @Input() listStepLine: Array<Object>;
+    @Input() listApn$: Observable<Array<ApnInterface>>;
     public urlParamTypeDemand: string;
+    public secondFilter: boolean = false;
 
     constructor(
         private toastrService: ToastrService,
@@ -49,6 +53,7 @@ export class FilterDetailsImportationComponent {
                     Validators.minLength(10),
                 ],
             ],
+            apn: [null],
         });
         this.formFilter.get('imsi')?.valueChanges.subscribe((value) => {
             if (value && value.length > 15) {
@@ -64,6 +69,10 @@ export class FilterDetailsImportationComponent {
                     ?.setValue(value.slice(0, 10), { emitEvent: false });
             }
         });
+    }
+
+    public showSecondFilter(): void {
+        this.secondFilter = !this.secondFilter;
     }
 
     public onSubmitFilterForm(): void {

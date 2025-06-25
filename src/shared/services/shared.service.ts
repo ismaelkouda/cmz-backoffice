@@ -46,7 +46,7 @@ export class SharedService {
     );
     private apiResponseDemandsImportedSubject = new BehaviorSubject<any>(null);
 
-    fetchDemandsImported(data: Object, nbrPage: string = '1'): void {
+    fetchDemandsImported(data: Object = {}, nbrPage: string = '1'): void {
         if (this.loadingDemandsImportedSubject.getValue()) return;
         this.loadingDemandsImportedSubject.next(true);
         const url: string = EndPointUrl.GET_LIST_DEMANDS_IMPORTED.replace(
@@ -62,7 +62,7 @@ export class SharedService {
                     const demandsImported = response?.['data']?.data.map(
                         (demande) => ({
                             ...demande,
-                            demandeur: `${demande.demandeur_nom} ${demande.demandeur_prenoms}`,
+                            demandeur: `[${demande.demandeur_matricule}] ${demande.demandeur_nom} ${demande.demandeur_prenoms}`,
                         })
                     );
                     this.demandsImportedSubject.next(demandsImported);
@@ -375,6 +375,42 @@ export class SharedService {
 
     getApiResponseSimDemand(): Observable<Object> {
         return this.apiResponseSimDemandSubject.asObservable();
+    }
+
+    /*********************Méthode pour récupérer la liste des lignes*************** */
+
+    private detailsLineSubject = new BehaviorSubject<Object>({});
+    private loadingDetailsLineSubject = new BehaviorSubject<boolean>(false);
+
+    fetchDetailsLine(data: Object): void {
+        if (this.loadingDetailsLineSubject.getValue()) return;
+
+        const url: string = EndPointUrl.GET_LINE_DETAILS;
+        this.loadingDetailsLineSubject.next(true);
+
+        this.http
+            .post<Object>(`${this.BASE_URL}${url}`, data)
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    this.detailsLineSubject.next(response?.data);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching detailsLine', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingDetailsLineSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getDetailsLine(): Observable<Object> {
+        return this.detailsLineSubject.asObservable();
+    }
+
+    isLoadingDetailsLine(): Observable<boolean> {
+        return this.loadingDetailsLineSubject.asObservable();
     }
 
     /*********************Méthode pour récupérer la liste des clients*************** */

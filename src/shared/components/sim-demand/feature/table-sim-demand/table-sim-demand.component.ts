@@ -34,6 +34,7 @@ export class TableSimDemandComponent {
     public IsLoading: boolean;
     public selectedDemand: Object;
     public readonly table: TableConfig;
+    public visibleFormLine: boolean = false;
 
     constructor(
         public toastrService: ToastrService,
@@ -165,6 +166,8 @@ export class TableSimDemandComponent {
     }
 
     showTraitement(sim: Object): void {
+        this.selectedDemand = sim;
+        this.visibleFormLine = true;
         // this.IsLoading = true;
         // const modalRef = this.ngbModal.open(TransactionShowComponent, ModalParams);
         // modalRef.componentInstance.transaction = { ...sim, current_date: sim.current_date, IsLoading: this.IsLoading };
@@ -181,5 +184,9 @@ export class TableSimDemandComponent {
         const modalRef = this.ngbModal.open(JournalComponent, ModalParams);
         modalRef.componentInstance.transaction = sim['transaction'];
         modalRef.componentInstance.typeJournal = 'transactions';
+    }
+
+    public hideDialog(): void {
+        this.visibleFormLine = false;
     }
 }

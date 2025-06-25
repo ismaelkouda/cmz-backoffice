@@ -1,6 +1,6 @@
 <form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
     <div class="row g-3">
-        <div class="col-12 col-sm-6 col-md-3">
+        <div class="col-12 col-sm-6 col-md-2">
             <label class="text-truncate" for="firstLevelLibel"
                 ><b>{{ firstLevelLibel }}</b></label
             >
@@ -20,7 +20,7 @@
             </p-dropdown>
         </div>
 
-        <div class="col-12 col-sm-6 col-md-3">
+        <div class="col-12 col-sm-6 col-md-2">
             <label class="text-truncate" for="secondLevelLibel"
                 ><b>{{ secondLevelLibel }}</b></label
             >
@@ -48,6 +48,22 @@
                 id="STATUS"
                 formControlName="statut"
                 [options]="listStatusSimCard"
+                [showClear]="true"
+                placeholder="{{ 'SELECT' | translate }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+            >
+            </p-dropdown>
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-2">
+            <label class="text-truncate" for="IDENTIFICATION"
+                ><b>{{ 'IDENTIFICATION' | translate }}</b></label
+            >
+            <p-dropdown
+                id="IDENTIFICATION"
+                formControlName="identification_fiabilite"
+                [options]="listStatusIdentification"
                 [showClear]="true"
                 placeholder="{{ 'SELECT' | translate }}"
                 emptyFilterMessage="{{ 'NO_MATCH' | translate }}"

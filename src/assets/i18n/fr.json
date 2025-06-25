@@ -92,7 +92,7 @@
     "BALANCE": "solde",
     "TRAFFIC_ZONE": "Zone Trafic",
     "ALARM": "Alarme",
-    "STATUS_OF_BALANCE": "etats des soldes",
+    "STATUS_OF_BALANCE": "états des soldes",
     "THE_INFORMATION_OF_THE_CONNECTED_EQUIPMENT_WILL_BE_ATTACHED_TO_THE_SIM": "Les informations de l'équipement connecté seront rattachées à la SIM",
     "THE_INFORMATION_OF_THIS_NATURAL_PERSON_WILL_BE_ATTACHED_TO_THE_SIM": "Les informations cette personne physique seront rattachées à la SIM",
     "DETAILS_OF_THE_SIM": "Détails de la SIM {MSISDN}",

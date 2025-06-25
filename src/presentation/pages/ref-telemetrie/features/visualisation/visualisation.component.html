@@ -67,6 +67,16 @@
                     </p-dropdown>
                 </div>
                 <div class="width-80">
+                    <label><b>N° Importation</b></label>
+                    <input
+                        placeholder="N° Importation"
+                        formControlName="numero_demande"
+                        type="text"
+                        pInputText
+                        [ngStyle]="{ width: '100%' }"
+                    />
+                </div>
+                <div class="width-80">
                     <label><b>MSISDN</b></label>
                     <input
                         placeholder="MSISDN"
@@ -107,16 +117,6 @@
                         </ng-template>
                     </p-dropdown>
                 </div>
-                <div class="width-80">
-                    <label><b>Adresse IP</b></label>
-                    <input
-                        placeholder="Adresse IP"
-                        formControlName="adresse_ip"
-                        type="text"
-                        pInputText
-                        [ngStyle]="{ width: '100%' }"
-                    />
-                </div>
                 <div [ngStyle]="{ width: 'auto' }" *ngIf="!secondFilter">
                     <label [ngStyle]="{ opacity: '0' }">Actions</label>
                     <br />
@@ -148,6 +148,16 @@
                 style="padding-top: 0.7rem"
                 *ngIf="secondFilter"
             >
+                <div class="width-80">
+                    <label><b>Adresse IP</b></label>
+                    <input
+                        placeholder="Adresse IP"
+                        formControlName="adresse_ip"
+                        type="text"
+                        pInputText
+                        [ngStyle]="{ width: '100%' }"
+                    />
+                </div>
                 <div class="width-100">
                     <label><b>Usage</b></label>
                     <p-dropdown

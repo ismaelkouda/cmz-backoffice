@@ -73,7 +73,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                                 break;
                             case 422:
                                 this.loadingBar.stop();
-                                this.errorMessages();
+                                // this.errorMessages();
                                 handled = false;
                                 break;
                             case 500:

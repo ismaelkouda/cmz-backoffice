@@ -72,6 +72,7 @@ export class AffectationSimComponent implements OnInit {
         this.formFilter = this.fb.group({
             niveau_un_uuid: null,
             niveau_deux_uuid: null,
+            numero_demande: null,
             msisdn: [
                 null,
                 [

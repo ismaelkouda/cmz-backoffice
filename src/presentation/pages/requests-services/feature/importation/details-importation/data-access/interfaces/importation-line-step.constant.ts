@@ -1,5 +1,5 @@
 export const IMPORTATION_LINE_STEP = {
-    FAILURE: 'echec',
+    FAILURE: 'échec',
     SUCCESS: 'succès',
 } as const;
 

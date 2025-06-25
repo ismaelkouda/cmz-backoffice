@@ -3,6 +3,7 @@ import { AbstractControl } from '@angular/forms';
 export interface simCardFilterInterface {
     imsi: AbstractControl<string>;
     statut: AbstractControl<string>;
+    identification_fiabilite: AbstractControl<string>;
     date_debut: AbstractControl<string>;
     date_fin: AbstractControl<string>;
     niveau_un_uuid: AbstractControl<string>;

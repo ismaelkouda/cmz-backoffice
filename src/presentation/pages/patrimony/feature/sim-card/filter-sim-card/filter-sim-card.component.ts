@@ -35,6 +35,7 @@ import { FormulasInterface } from '../../../../../../shared/interfaces/formulas.
 import { ThirdLevelInterface } from '../../../../../../shared/interfaces/third-level.interface';
 import { ApnInterface } from '../../../../../../shared/interfaces/apn.interface';
 import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
+import { T_SIM_CARD_IDENTIFICATION_ENUM } from '../../../data-access/sim-card/enums/sim-card-identification.enum';
 
 @Component({
     selector: 'app-filter-sim-card',
@@ -77,6 +78,7 @@ export class FilterSimCardComponent implements OnDestroy {
     @Input() listUsages$: Observable<Array<UsageInterface>>;
     @Input() listApn$: Observable<Array<ApnInterface>>;
     @Input() listStatusSimCard: Array<T_SIM_CARD_STATUS_ENUM>;
+    @Input() listStatusIdentification: Array<T_SIM_CARD_IDENTIFICATION_ENUM>;
 
     @Output() filter = new EventEmitter<simCardFilterInterface | {}>();
 
@@ -137,6 +139,12 @@ export class FilterSimCardComponent implements OnDestroy {
                     statut: new FormControl<string>(filterData?.['statut'], {
                         nonNullable: true,
                     }),
+                    identification_fiabilite: new FormControl<string>(
+                        filterData?.['identification_fiabilite'],
+                        {
+                            nonNullable: true,
+                        }
+                    ),
                     date_debut: new FormControl<string>(
                         filterData?.['date_debut'],
                         { nonNullable: true }

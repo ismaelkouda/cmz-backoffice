@@ -84,6 +84,7 @@ export class VisualisationComponent implements OnInit {
             profil_id: this.currentObject?.id,
             niveau_un_uuid: null,
             niveau_deux_uuid: null,
+            numero_demande: null,
             msisdn: [
                 null,
                 [

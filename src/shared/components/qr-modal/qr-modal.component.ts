@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MappingService } from 'src/shared/services/mapping.service';
+import { CurrentUser } from '../../interfaces/current-user.interface';
+import { StoreCurrentUserService } from '../../services/store-current-user.service';
 
 @Component({
     selector: 'app-qr-modal',
@@ -9,20 +10,22 @@ import { MappingService } from 'src/shared/services/mapping.service';
 })
 export class QrModalComponent implements OnInit {
     @Input() qr;
-    public minioUrl: string;
+    public simQrCode: string;
 
     constructor(
         private activeModal: NgbActiveModal,
-        private mappingService: MappingService
-    ) {
-        this.minioUrl = this.mappingService.minioUrl;
-    }
+        private storeCurrentUserService: StoreCurrentUserService
+    ) {}
 
     /**
      * @author André ATCHORI
      */
 
-    ngOnInit() {}
+    ngOnInit() {
+        const currentUser: CurrentUser | null =
+            this.storeCurrentUserService.getCurrentUser;
+        this.simQrCode = `${currentUser?.tenant?.url_minio}/${this.qr?.qrcode}`;
+    }
 
     closeModal() {
         this.activeModal.close();

@@ -70,7 +70,7 @@
         </div>
         <div class="col-md">
             <label
-                ><b>{{ 'STEP' | translate }}</b></label
+                ><b>{{ 'STATUS' | translate }}</b></label
             >
             <p-dropdown
                 formControlName="statut"
@@ -173,6 +173,7 @@
                 [showIcon]="true"
                 placeholder="JJ-MM-AAAA"
                 dateFormat="dd-mm-yy"
+                [showClear]="true"
             >
             </p-calendar>
         </div>

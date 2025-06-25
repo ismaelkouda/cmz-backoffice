@@ -1,12 +1,16 @@
 import { IMPORTATION_LINE_STEP } from './data-access/interfaces/importation-line-step.constant';
-import { IStatistiquesBox } from '../../interfaces/statistiquesBox.interface';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Paginate } from '../../interfaces/paginate';
-import { SharedService } from '../../services/shared.service';
 import { DetailsImportationInterface } from './data-access/interfaces/details-importation.interface';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { Paginate } from '../../../../../../shared/interfaces/paginate';
+import { IStatistiquesBox } from '../../../../../../shared/interfaces/statistiquesBox.interface';
+import { ImportationService } from '../../../data-access/importation/service/importation-api.service';
+import { MOBILE_IMPORTATION } from '../../../requests-services-routing.module';
+import { PATRIMONY } from '../../../../../../shared/routes/routes';
+import { ApnInterface } from '../../../../../../shared/interfaces/apn.interface';
+import { SharedService } from '../../../../../../shared/services/shared.service';
 
 type TYPEVIEW = 'open-folder-importation';
 const TYPEVIEW_VALUES: TYPEVIEW[] = ['open-folder-importation'];
@@ -31,24 +35,26 @@ function isTypeView(value: any): value is TYPEVIEW {
 export class DetailsImportationComponent implements OnInit, OnDestroy {
     public module: string;
     public subModule: string;
-    public pagination: Paginate<Array<DetailsImportationInterface>> | void;
-
+    public pagination$: Observable<
+        Paginate<Array<DetailsImportationInterface>>
+    >;
     public urlParamRef: TYPEVIEW;
     public urlParamId: string | null;
     public urlParamNumberDemand: string;
-
     public displayUrlErrorPage: boolean = false;
     public listStepLine: Array<any> = [];
     public statistiquesBox: Array<IStatistiquesBox> = [];
     public IMPORTATION_LINE_STEP = IMPORTATION_LINE_STEP;
-    public listSim: Array<DetailsImportationInterface>;
+    public listSim$: Observable<Array<DetailsImportationInterface>>;
+    public listApn$: Observable<Array<ApnInterface>>;
     private destroy$ = new Subject<void>();
 
     constructor(
         public toastrService: ToastrService,
         private activatedRoute: ActivatedRoute,
-        private sharedService: SharedService,
-        private router: Router
+        private router: Router,
+        private importationService: ImportationService,
+        private sharedService: SharedService
     ) {
         Object.values(IMPORTATION_LINE_STEP).forEach((item) => {
             this.listStepLine.push(item);
@@ -56,9 +62,11 @@ export class DetailsImportationComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.sharedService.fetchApn();
+        this.listApn$ = this.sharedService.getApn();
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
-            this.subModule = data.subModule[1];
+            this.subModule = data.subModule[5];
         });
         this.activatedRoute.queryParams.subscribe((params: Object) => {
             this.urlParamId = params?.['id'];
@@ -74,29 +82,27 @@ export class DetailsImportationComponent implements OnInit, OnDestroy {
         if (!isTypeView(this.urlParamRef)) {
             this.displayUrlErrorPage = true;
         } else {
-            this.getTitle();
-            this.sharedService.fetchSimDemand({
+            this.importationService.fetchSimDemand({
                 numero_demande: this.urlParamNumberDemand,
             });
-            this.sharedService.getSimDemand().subscribe((value) => {
-                this.listSim = value;
-            });
-            this.sharedService.getSimDemandPagination().subscribe((value) => {
-                this.pagination = value;
-            });
+            this.pagination$ = this.importationService.getSimDemandPagination();
+            this.listSim$ = this.importationService.getSimDemand();
         }
     }
 
     public filter(filterData: Object): void {
-        this.sharedService.fetchSimDemand(filterData);
+        this.importationService.fetchSimDemand({
+            ...filterData,
+            numero_demande: this.urlParamNumberDemand,
+        });
     }
 
     public onPageChange(event: number): void {
-        this.sharedService
+        this.importationService
             .getDataFilterSimDemand()
             .pipe(takeUntil(this.destroy$))
             .subscribe((filterData) => {
-                this.sharedService.fetchSimDemand(
+                this.importationService.fetchSimDemand(
                     filterData,
                     JSON.stringify(event + 1)
                 );
@@ -150,32 +156,6 @@ export class DetailsImportationComponent implements OnInit, OnDestroy {
     }
 
     public onGoToBack(): void {
-        this.router.navigateByUrl(
-            `/${this.getTitle().moduleRoute}/${this.getTitle().subModuleRoute}`
-        );
-    }
-
-    public getTitle(): {
-        module: string;
-        moduleRoute: string;
-        subModule: string;
-        subModuleRoute: string;
-    } {
-        switch (this.urlParamRef) {
-            case 'open-folder-importation':
-                return {
-                    module: 'REQUESTS_SERVICES',
-                    moduleRoute: 'requests-services',
-                    subModule: 'MOBILE_SUBSCRIPTIONS',
-                    subModuleRoute: 'mobile-subscriptions',
-                };
-            default:
-                return {
-                    module: '',
-                    moduleRoute: '',
-                    subModule: '',
-                    subModuleRoute: '',
-                };
-        }
+        this.router.navigateByUrl(`/${PATRIMONY}/${MOBILE_IMPORTATION}`);
     }
 }

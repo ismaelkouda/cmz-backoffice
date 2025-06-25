@@ -72,4 +72,5 @@ export const enum EndPointUrl {
     GET_INVOICE_DETAILS = 'gestion-facture/factures/{numberDemand}/details',
     GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_DETAILS = 'supervision-operations/demandes-services/{numberDemand}/details',
     PATRIMOINE_SIM_TRANSACTIONS_ALL_PAGE = 'patrimoine-sim/transactions/all?page={page}',
+    GET_LINE_DETAILS = 'gestion-transactions/details-transaction',
 }

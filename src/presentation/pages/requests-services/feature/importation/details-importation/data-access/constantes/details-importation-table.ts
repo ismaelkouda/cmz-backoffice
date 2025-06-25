@@ -14,28 +14,40 @@ export const DetailsImportationTableConstant = {
             width: '12rem',
         },
         {
-            field: 'imsi',
-            header: 'IMSI',
-            class: 'text-center',
-            width: '6rem',
-        },
-        {
             field: 'msisdn',
             header: 'MSISDN',
             class: 'text-center',
             width: '6rem',
         },
         {
-            field: 'statut',
-            header: 'Etape',
+            field: 'imsi',
+            header: 'IMSI',
             class: 'text-center',
             width: '6rem',
         },
         {
-            field: '',
-            header: 'Actions',
+            field: 'iccid',
+            header: 'ICCID',
             class: 'text-center',
-            width: '10rem',
+            width: '6rem',
+        },
+        {
+            field: 'apn',
+            header: 'APN',
+            class: 'text-center',
+            width: '4rem',
+        },
+        {
+            field: 'message',
+            header: 'Message',
+            class: 'text-center',
+            width: '6rem',
+        },
+        {
+            field: 'statut',
+            header: 'Statut',
+            class: 'text-center',
+            width: '4rem',
         },
     ],
     globalFilterFields: [
@@ -44,5 +56,6 @@ export const DetailsImportationTableConstant = {
         'imsi',
         'msisdn',
         'statut',
+        'message',
     ],
 };

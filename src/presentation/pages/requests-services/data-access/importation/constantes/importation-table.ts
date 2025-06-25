@@ -5,7 +5,7 @@ export const importationTableConstant = {
             field: 'created_at',
             header: 'Date / Heure',
             class: 'text-center',
-            width: '8rem',
+            width: '12rem',
         },
         {
             field: 'numero_demande',
@@ -14,22 +14,27 @@ export const importationTableConstant = {
             width: '12rem',
         },
         {
+            field: 'description',
+            header: 'Description',
+            width: '10rem',
+        },
+        {
             field: 'nb_demande_soumises',
             header: '# Lignes',
             class: 'text-center',
-            width: '5rem',
+            width: '3rem',
         },
         {
             field: 'nb_demande_importees',
             header: '# Importées',
             class: 'text-center',
-            width: '5rem',
+            width: '3rem',
         },
         {
             field: 'nb_demande_echouees',
             header: '# Echouées',
             class: 'text-center',
-            width: '5rem',
+            width: '3rem',
         },
         // {
         //     field: 'nb_demande_traitees',
@@ -39,9 +44,9 @@ export const importationTableConstant = {
         // },
         {
             field: 'statut',
-            header: 'Etape',
+            header: 'Statut',
             class: 'text-center',
-            width: '8rem',
+            width: '5rem',
         },
         // {
         //     field: 'traitement',
@@ -59,9 +64,9 @@ export const importationTableConstant = {
             field: 'demandeur',
             header: 'Demandeur',
             class: 'text-center',
-            width: '10rem',
+            width: '15rem',
         },
-        { field: '', header: 'Actions', class: 'text-center', width: '16rem' },
+        { field: '', header: 'Actions', class: 'text-center', width: '8rem' },
     ],
     globalFilterFields: [
         'created_at',

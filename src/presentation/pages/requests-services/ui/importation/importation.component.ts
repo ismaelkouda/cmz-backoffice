@@ -23,11 +23,6 @@ import { ImportationFilterInterface } from '../../data-access/importation/interf
 //     BADGE_ETAPE.FINALISATEUR,
 //     BADGE_ETAPE.CLOTURE,
 // ];
-const step_values = [
-    IMPORTATION_STEP.IN_WAITING,
-    IMPORTATION_STEP.PARTIAL,
-    IMPORTATION_STEP.COMPLETE,
-];
 const state_values = [
     BADGE_ETAT.RECU,
     BADGE_ETAT.EN_COURS,
@@ -57,7 +52,7 @@ export class ImportationComponent {
     public module: string;
     public subModule: string;
     public pagination$: Observable<Paginate<Folder>>;
-    public listStepFolder: Array<T_IMPORTATION_STEP> = step_values;
+    public listStepFolder = Object.values(IMPORTATION_STEP);
     public listStateFolder: Array<T_BADGE_ETAT> = state_values;
     public listApplicants$: Observable<Array<ApplicantInterface>>;
     public listDemands$: Observable<Array<Folder>>;

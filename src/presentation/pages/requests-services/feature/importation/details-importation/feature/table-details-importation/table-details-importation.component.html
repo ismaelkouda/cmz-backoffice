@@ -1,48 +1,39 @@
 <p-table
     #dt
-    [value]="listSim"
+    [value]="listSim$ | async"
     [rowHover]="true"
     dataKey="id"
     selectionMode="single"
     [(selection)]="selectedDemand"
-    [rows]="pagination?.per_page"
+    [rows]="(pagination$ | async)?.per_page"
     [globalFilterFields]="table.globalFilterFields"
     responsiveLayout="scroll"
     scrollable="true"
     scrollHeight="flex"
     width="100%"
+    [paginator]="false"
     class="responsive-claims-table"
 >
     <ng-template pTemplate="caption">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between flex-wrap align-items-start">
             <app-table-title
-                [count]="pagination?.total"
-                [legendePluriel]="'dossiers'"
-                [perPage]="pagination?.per_page"
-                [legendeSingulier]="'dossier'"
-                [page]="pagination?.current_page"
-                [totalPage]="pagination?.last_page"
-                responsiveLayout="scroll"
-                scrollable="true"
-                scrollHeight="flex"
-                width="100%"
-                class="responsive-claims-table"
+                [count]="(pagination$ | async)?.total"
+                [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page"
+                [totalPage]="(pagination$ | async)?.last_page"
             >
             </app-table-title>
-            <div class="d-flex gap-2 align-items-center">
-                <div class="d-flex gap-2">
-                    <app-table-button-header
-                        (refresh)="pageCallback()"
-                        (export)="onExportExcel()"
-                        [disabledButtonExport]="listSim?.length === 0"
-                        [colorOther]="'dark'"
-                        [hiddenButtonOther]="true"
-                    >
-                    </app-table-button-header>
-                </div>
-                <div>
-                    <app-search-table [dt]="dt"></app-search-table>
-                </div>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    (refresh)="pageCallback()"
+                    (export)="onExportExcel()"
+                    [disabledButtonExport]="(listSim$ | async)?.length === 0"
+                    [hiddenButtonOther]="true"
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt"></app-search-table>
             </div>
         </div>
     </ng-template>
@@ -70,8 +61,8 @@
                     <ng-container *ngSwitchCase="'MSISDN'">
                         {{ 'MSISDN' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Etape'">
-                        {{ 'STEP' | translate }}
+                    <ng-container *ngSwitchCase="'Statut'">
+                        {{ 'STATUS' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchDefault>
                         {{ col.header }}
@@ -90,7 +81,12 @@
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
-                        {{ rowIndex + pagination?.current_page }}
+                        {{
+                            ((pagination$ | async)?.current_page - 1) *
+                                (pagination$ | async)?.per_page +
+                                rowIndex +
+                                1
+                        }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'N° Transaction'">
                         <span (click)="copyToClipboard(dossier?.[col.field])">
@@ -107,28 +103,13 @@
                             {{ dossier?.[col.field] }}
                         </span>
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Etape'">
+                    <ng-container *ngSwitchCase="'Statut'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
                             [class]="'badge ' + getStepLine(dossier)"
                         >
                             {{ dossier?.[col.field] }}
                         </span>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'Actions'">
-                        <button
-                            pButton
-                            icon="pi pi-book"
-                            class="p-button-primary"
-                            pTooltip="Journal"
-                            (click)="
-                                handleAction({
-                                    data: dossier,
-                                    action: 'journal-sim-demand',
-                                    view: 'modal'
-                                })
-                            "
-                        ></button>
                     </ng-container>
                     <ng-container *ngSwitchDefault>
                         {{dossier?.[col.field]}}
@@ -139,7 +120,7 @@
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-        <tr *ngIf="listSim?.length <= 0 && !spinner">
+        <tr *ngIf="(listSim$ | async)?.length <= 0 && !spinner">
             <td class="posRelative" colspan="15">
                 <span class="posCenter">
                     {{ 'NO_DATA_FOUND' | translate }}

@@ -91,7 +91,12 @@
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
-                        {{ rowIndex + (pagination$ | async)?.current_page }}
+                        {{
+                            ((pagination$ | async)?.current_page - 1) *
+                                (pagination$ | async)?.per_page +
+                                rowIndex +
+                                1
+                        }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'MSISDN'">
                         <span (click)="copyToClipboard(item?.[col.field])">

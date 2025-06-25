@@ -34,6 +34,9 @@ import { ImportationComponent } from '../requests-services/ui/importation/import
 import { FilterImportationComponent } from '../requests-services/feature/importation/filter-importation/filter-importation.component';
 import { TableImportationComponent } from '../requests-services/feature/importation/table-importation/table-importation.component';
 import { ImportationService } from '../requests-services/data-access/importation/service/importation-api.service';
+import { DetailsImportationComponent } from '../requests-services/feature/importation/details-importation/details-importation.component';
+import { FilterDetailsImportationComponent } from '../requests-services/feature/importation/details-importation/feature/filter-details-importation/filter-details-importation.component';
+import { TableDetailsImportationComponent } from '../requests-services/feature/importation/details-importation/feature/table-details-importation/table-details-importation.component';
 
 @NgModule({
     declarations: [
@@ -63,6 +66,9 @@ import { ImportationService } from '../requests-services/data-access/importation
         ImportationComponent,
         FilterImportationComponent,
         TableImportationComponent,
+        DetailsImportationComponent,
+        FilterDetailsImportationComponent,
+        TableDetailsImportationComponent,
     ],
     imports: [
         SharedModule,

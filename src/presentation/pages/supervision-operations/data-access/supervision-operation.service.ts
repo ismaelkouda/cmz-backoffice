@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {
+    BehaviorSubject,
+    catchError,
+    debounceTime,
+    finalize,
+    Observable,
+    of,
+    switchMap,
+} from 'rxjs';
 import { EndPointUrl } from './api.enum';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { OperationTransaction } from '../../../../shared/enum/OperationTransaction.enum';

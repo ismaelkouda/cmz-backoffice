@@ -24,6 +24,10 @@ import {
     T_SIM_CARD_STATUS_ENUM,
 } from '../../data-access/sim-card/enums/sim-card-status.enum';
 import { UsageInterface } from '../../../../../shared/interfaces/usage.interface';
+import {
+    SIM_CARD_IDENTIFICATION_ENUM,
+    T_SIM_CARD_IDENTIFICATION_ENUM,
+} from '../../data-access/sim-card/enums/sim-card-identification.enum';
 
 const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT];
 const etat_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE];
@@ -51,6 +55,8 @@ export class SimCardComponent implements OnInit, OnDestroy {
     public listFirstLevel$: Observable<Array<FirstLevelInterface>>;
     public listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
     public listStatusSimCard: Array<T_SIM_CARD_STATUS_ENUM> = [];
+    public listStatusIdentification: Array<T_SIM_CARD_IDENTIFICATION_ENUM> =
+        Object.values(SIM_CARD_IDENTIFICATION_ENUM);
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
