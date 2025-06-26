@@ -210,7 +210,7 @@ export class VueGeographiqueComponent implements OnInit {
         const data = this.listZonesTrafics.map((item: any) => ({
             Département: item?.departement_nom,
             Commune: item?.commune_nom,
-            'Zone Trafic': item?.libelle,
+            'Zone trafic': item?.libelle,
             '# Sites': item?.sites_count,
             '# SIM': item?.sims_count,
         }));

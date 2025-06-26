@@ -213,10 +213,14 @@ export class SharedService {
                 debounceTime(1000),
                 switchMap((response: any) => {
                     const customData = {
+                        numero_dossier: response?.['data']?.numero_demande,
                         ...response?.['data'],
                         ...(response?.['data']?.reference ||
                         response?.['data']?.facture?.reference
                             ? {
+                                  ...response?.['data']?.facture,
+                                  type_form: 'invoice',
+
                                   ...(response?.['data']?.facture?.reference
                                       ? {
                                             numero_demande:
@@ -232,8 +236,6 @@ export class SharedService {
                                             etat_paiement:
                                                 response?.['data']?.statut,
                                         }),
-                                  ...response?.['data']?.facture,
-                                  type_form: 'invoice',
                               }
                             : {
                                   type_form: 'proforma',

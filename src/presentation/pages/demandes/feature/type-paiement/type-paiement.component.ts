@@ -239,7 +239,7 @@ export class TypePaiementComponent implements OnInit {
             case 'PostPaid':
                 htmlMessage = `Paiement différé !`;
                 break;
-            case 'mon compte':
+            case 'via Compte':
                 htmlMessage = `Le paiement de la facture <span style="color: #ff6600;"><strong>${this.demandeSelected?.['numero_demande']}</strong></span> a été débité de votre compte !`;
                 break;
 

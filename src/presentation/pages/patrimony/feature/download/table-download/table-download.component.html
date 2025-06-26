@@ -57,10 +57,12 @@
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'Date fichier'">
-                        {{ 'FILE' | translate }}&nbsp;{{ 'DATE' | translate }}
+                        {{ 'FILE' | translate | capitalize }}&nbsp;{{
+                            'DATE' | translate
+                        }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Nom fichier CSV'">
-                        {{ 'FILE' | translate }}&nbsp;{{
+                        {{ 'FILE' | translate | capitalize }}&nbsp;{{
                             'NAME' | translate
                         }}&nbsp;CSV
                     </ng-container>

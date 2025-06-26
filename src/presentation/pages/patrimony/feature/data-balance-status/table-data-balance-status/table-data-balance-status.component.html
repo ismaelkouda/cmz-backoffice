@@ -72,8 +72,8 @@
                     <ng-container *ngSwitchCase="'IMSI'">
                         {{ 'IMSI' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Solde SMS'">
-                        {{ 'BALANCE' | translate }}&nbsp;(Go)
+                    <ng-container *ngSwitchCase="'Solde (Go)'">
+                        {{ 'BALANCE' | translate | capitalize }}&nbsp;(Go)
                     </ng-container>
                     <ng-container *ngSwitchCase="'Date Solde'">
                         {{ 'DATE' | translate }}&nbsp;{{

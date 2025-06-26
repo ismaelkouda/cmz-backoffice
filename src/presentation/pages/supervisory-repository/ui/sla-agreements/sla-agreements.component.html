@@ -12,9 +12,11 @@
                             <app-patrimoine-header
                                 [displayDate]="false"
                                 [total]="(listSlaAgreements$ | async)?.length"
-                                [legendePluriel]="'SLA_AGREEMENTS' | translate"
+                                [legendePluriel]="
+                                    'SLA_AGREEMENTS' | translate | lowercase
+                                "
                                 [legendeSingulier]="
-                                    'SLA_AGREEMENTS' | translate
+                                    'SLA_AGREEMENTS' | translate | lowercase
                                 "
                             >
                             </app-patrimoine-header>

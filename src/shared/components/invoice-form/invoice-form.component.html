@@ -366,7 +366,7 @@
                                                         class="d-flex align-items-center"
                                                     >
                                                         La facture est réglée
-                                                        via le compte client.
+                                                        via le Compte client.
                                                     </span>
 
                                                     <span
@@ -502,7 +502,8 @@
                                                                 facture.
                                                             </span>
 
-                                                            <span
+                                                            <div
+                                                                class="d-flex align-items-center"
                                                                 *ngIf="
                                                                     immediat?.checked
                                                                 "
@@ -530,6 +531,8 @@
                                                                     pRipple
                                                                     icon="pi pi-download"
                                                                     class="p-button-success"
+                                                                    pTooltip="Télécharger le fichier précédent"
+                                                                    tooltipPosition="top"
                                                                     (click)="
                                                                         onDownloadPaymentReceipt()
                                                                     "
@@ -548,7 +551,7 @@
                                                                         uploadError
                                                                     }}
                                                                 </div>
-                                                            </span>
+                                                            </div>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -642,7 +645,7 @@
                                                 <tr style="border-color: black">
                                                     <td>
                                                         {{
-                                                            detailsInvoiceForm?.numero_demande ??
+                                                            detailsInvoiceForm?.numero_dossier ??
                                                                 'N/A'
                                                         }}
                                                     </td>

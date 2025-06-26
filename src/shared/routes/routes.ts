@@ -233,7 +233,7 @@ export const content: Routes = [
                 'MY_ACCOUNT_CREDITS',
                 'MY_INVOICES',
                 'MY_PAYMENTS',
-                'MY_ACCOUNT',
+                'MY_ACCOUNT_STATEMENT',
             ],
         },
     },

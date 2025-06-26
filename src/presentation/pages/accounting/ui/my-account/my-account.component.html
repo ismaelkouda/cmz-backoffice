@@ -13,8 +13,12 @@
                                 [displayDate]="false"
                                 [displayList]="false"
                                 [total]="(pagination$ | async)?.total"
-                                [legendePluriel]="'MY_ACCOUNT' | translate"
-                                [legendeSingulier]="'MY_ACCOUNT' | translate"
+                                [legendePluriel]="
+                                    'MY_ACCOUNT_STATEMENT' | translate
+                                "
+                                [legendeSingulier]="
+                                    'MY_ACCOUNT_STATEMENT' | translate
+                                "
                             >
                             </app-patrimoine-header>
                             <h3 class="d-flex align-items-end mb-2">

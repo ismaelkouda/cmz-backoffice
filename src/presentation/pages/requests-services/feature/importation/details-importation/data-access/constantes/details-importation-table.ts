@@ -5,13 +5,13 @@ export const DetailsImportationTableConstant = {
             field: 'created_at',
             header: 'Date / Heure',
             class: 'text-center',
-            width: '8rem',
+            width: '6rem',
         },
         {
             field: 'transaction',
             header: 'N° Transaction',
             class: 'text-center',
-            width: '12rem',
+            width: '6rem',
         },
         {
             field: 'msisdn',
@@ -29,7 +29,7 @@ export const DetailsImportationTableConstant = {
             field: 'iccid',
             header: 'ICCID',
             class: 'text-center',
-            width: '6rem',
+            width: '14rem',
         },
         {
             field: 'apn',

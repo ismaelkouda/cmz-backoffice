@@ -109,7 +109,7 @@ export class ProfilSupervisionComponent implements OnInit {
     public handleActivateProfil(data: any): void {
         Swal.fire({
             title: 'En êtes vous sûr ?',
-            html: `Voulez-vous Activer le profil <br> ${data.nom} ?`,
+            html: `Voulez-vous activer le profil <br> ${data.nom} ?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#569C5B',
@@ -133,7 +133,7 @@ export class ProfilSupervisionComponent implements OnInit {
     public handleDisableProfil(data: any): void {
         Swal.fire({
             title: 'En êtes vous sûr ?',
-            html: `Voulez-vous Désactiver le profil <br> ${data.nom} ?`,
+            html: `Voulez-vous désactiver le profil <br> ${data.nom} ?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#569C5B',
@@ -179,7 +179,7 @@ export class ProfilSupervisionComponent implements OnInit {
     public OnDeploy(data: any): void {
         Swal.fire({
             title: 'En êtes vous sûr ?',
-            html: `Voulez-vous Deployer le profil <br> ${data.nom} ?`,
+            html: `Voulez-vous déployer le profil <br> ${data.nom} ?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#569C5B',
@@ -209,8 +209,8 @@ export class ProfilSupervisionComponent implements OnInit {
     }
     public OnExportExcel(): void {
         const data = this.listProfils.map((item: any) => ({
-            'Nom du Profil': item?.nom,
-            'Description du Profil': item?.description,
+            'Nom du profil': item?.nom,
+            'Description du profil': item?.description,
             'Date de création': item?.created_at,
             'Date de modification': item?.updated_at,
             '# SIM affectés': item?.sims_count,
@@ -218,7 +218,7 @@ export class ProfilSupervisionComponent implements OnInit {
         }));
         this.excelService.exportAsExcelFile(
             data,
-            'Liste des Profils de supervisions'
+            'Liste des profils de supervisions'
         );
     }
 }

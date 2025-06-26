@@ -3,13 +3,13 @@ export const TABLE_DATA_BALANCE = {
         { field: '', header: '#', class: 'text-center', width: '2rem' },
         {
             field: 'nom',
-            header: 'Nom du Profil',
+            header: 'Nom du profil',
             class: 'text-center',
             width: '12rem',
         },
         {
             field: 'description',
-            header: 'Description du Profil',
+            header: 'Description du profil',
             class: 'text-center',
             width: '12rem',
         },

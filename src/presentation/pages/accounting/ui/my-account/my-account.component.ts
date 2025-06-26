@@ -47,7 +47,7 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
-            this.subModule = data.subModule[0];
+            this.subModule = data.subModule[3];
         });
         this.listAccount$ = this.myAccountApiService.getMyAccount();
         this.listMyAccountResponse$ =

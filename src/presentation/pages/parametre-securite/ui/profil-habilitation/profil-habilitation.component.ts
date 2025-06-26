@@ -185,11 +185,11 @@ export class ProfilHabilitationComponent implements OnInit {
     }
     public OnExportExcel(): void {
         const data = this.listProfils.map((item: any) => ({
-            'Nom du Profil': item?.nom,
-            'Description du Profil': item?.description,
+            'Nom du profil': item?.nom,
+            'Description du profil': item?.description,
             'Date de création': item?.created_at,
             'Date de modification': item?.updated_at,
-            '# Utilisateurs': item?.users_count,
+            '# Utilisateurss': item?.users_count,
             Statut: item?.statut,
         }));
         this.excelService.exportAsExcelFile(

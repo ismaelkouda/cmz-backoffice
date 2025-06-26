@@ -91,7 +91,7 @@ export class UsageMetierComponent implements OnInit {
     public handleActivate(data: any): void {
         Swal.fire({
             title: 'En êtes vous sûr ?',
-            html: `Voulez-vous Activer l'usage <br> ${data.nom_tenant} ?`,
+            html: `Voulez-vous activer l'usage <br> ${data.nom_usage} ?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#569C5B',
@@ -115,7 +115,7 @@ export class UsageMetierComponent implements OnInit {
     public handleDisable(data: any): void {
         Swal.fire({
             title: 'En êtes vous sûr ?',
-            html: `Voulez-vous Désactiver l'usage <br> ${data.nom_tenant} ?`,
+            html: `Voulez-vous désactiver l'usage <br> ${data.nom_usage} ?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#569C5B',
@@ -139,7 +139,7 @@ export class UsageMetierComponent implements OnInit {
     public handleDelete(data: any): void {
         Swal.fire({
             title: 'En êtes vous sûr ?',
-            html: `Voulez-vous Supprimer l'usage <br> ${data.nom_usage} ?`,
+            html: `Voulez-vous supprimer l'usage <br> ${data.nom_usage} ?`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#569C5B',
@@ -165,7 +165,7 @@ export class UsageMetierComponent implements OnInit {
     }
     public OnExportExcel(): void {
         const data = this.listUsages.map((item: any) => ({
-            'Nom Usage': item?.nom_usage,
+            'Nom usage': item?.nom_usage,
             Description: item?.description,
             Statut: item?.statut,
         }));
