@@ -144,7 +144,7 @@ export const content: Routes = [
             ).then((m) => m.RequestsProductsModule),
         data: {
             module: 'REQUESTS_PRODUCTS',
-            subModule: ['WHITE_SIM'],
+            subModule: ['SIM_ORDERS'],
         },
     },
     {
