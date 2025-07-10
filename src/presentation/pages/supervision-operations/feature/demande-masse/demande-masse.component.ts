@@ -98,7 +98,7 @@ export class DemandeMasseComponent implements OnInit {
         private settingService: SettingService,
         private fb: FormBuilder,
         private sharedDataService: SharedDataService,
-        private storage: EncodingDataService
+        private encodingService: EncodingDataService
     ) {
         this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
         this.secondLevelLibelle =
@@ -531,7 +531,7 @@ export class DemandeMasseComponent implements OnInit {
     }
 
     async onDownloadModel(): Promise<any> {
-        const tokenUser = JSON.parse(this.storage.getData('user')).token;
+        const tokenUser: any = this.encodingService.getData('token_data');
         if (this.listDemandes.operation === this.TYPE_FORM.ACTIVATION) {
             window.location.href =
                 this.supervisionOperationService.GetSupervisionOperationsTraitementsSuivisDownloadModeleData(

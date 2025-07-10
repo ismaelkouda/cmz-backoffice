@@ -5,7 +5,7 @@ export interface IStatistiquesBox {
     countColor?: string;
     legendColor?: string;
     legend: string;
-    count: number;
+    count: number | string;
     taux?: number;
     icon?: string;
     width?: String;

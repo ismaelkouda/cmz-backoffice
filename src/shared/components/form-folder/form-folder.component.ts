@@ -279,7 +279,12 @@ export class FormFolderComponent implements OnInit {
             this.formTreatmentDemand
                 .get('commentaire')
                 ?.setValidators([Validators.required]);
+            this.formTreatmentDemand
+                .get('notation_cloture')
+                ?.setValue('mécontent');
+            this.formTreatmentDemand.get('notation_cloture')?.disable();
         } else {
+            this.formTreatmentDemand.get('notation_cloture')?.enable();
             this.formTreatmentDemand.get('commentaire')?.clearValidators();
             this.formTreatmentDemand.get('commentaire')?.disabled;
         }

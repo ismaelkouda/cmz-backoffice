@@ -8,7 +8,9 @@
             <div class="card">
                 <div class="card-body">
                     <div *ngIf="!displayUrlErrorPage">
-                        <ng-container *ngIf="demandPrice; else loading">
+                        <ng-container
+                            *ngIf="isNumber(demandPrice); else loading"
+                        >
                             <div class="forms-feature-header">
                                 <div>
                                     <h4>

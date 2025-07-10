@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EndPointUrl } from './api.enum';
 import { Observable } from 'rxjs';
-import { EncodingDataService } from 'src/shared/services/encoding-data.service';
+import { CurrentUser } from '../../../../shared/interfaces/current-user.interface';
+import { EncodingDataService } from '../../../../shared/services/encoding-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -12,9 +13,10 @@ export class ProvisionningService {
 
     constructor(
         private http: HttpClient,
-        private storage: EncodingDataService
+        private encodingService: EncodingDataService
     ) {
-        const data = JSON?.parse(this.storage.getData('user') || null);
+        const data: CurrentUser | null =
+            this.encodingService.getData('user_data');
         this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`;
     }
 

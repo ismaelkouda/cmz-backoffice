@@ -5,7 +5,6 @@ import {
 } from '../../../../services/table-export-excel-file.service';
 import { historyTableConstant } from '../../data-access/constants/history-table.constant';
 import { TranslateService } from '@ngx-translate/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { HistoryApiService } from '../../data-access/services/history-api.service';
@@ -32,7 +31,6 @@ export class TableHistoryComponent {
     constructor(
         private toastService: ToastrService,
         private clipboardService: ClipboardService,
-        private ngbModal: NgbModal,
         private historyApiService: HistoryApiService,
         private tableExportExcelFileService: TableExportExcelFileService,
         private translate: TranslateService

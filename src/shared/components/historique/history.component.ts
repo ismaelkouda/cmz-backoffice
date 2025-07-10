@@ -1,11 +1,11 @@
+import { ApplicantInterface } from '../../interfaces/applicant';
 import { Component, Input, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HistoryApiService } from './data-access/services/history-api.service';
 import { SharedService } from '../../services/shared.service';
-import { Paginate } from '@shared/interfaces/paginate';
 import { historyInterface } from './data-access/interfaces/history.interface';
 import { historyFilterInterface } from './data-access/interfaces/history-filter.interface';
-import { ApplicantInterface } from '@shared/interfaces/applicant';
+import { Paginate } from '../../interfaces/paginate';
 
 @Component({
     selector: 'app-history',
@@ -51,7 +51,12 @@ export class HistoryComponent implements OnInit {
     }
 
     public filter(filterData: historyFilterInterface): void {
-        this.historyApiService.fetchHistory(filterData);
+        this.historyApiService.fetchHistory({
+            ...filterData,
+            typeModel: this.typeModel,
+            idModel: this.idModel,
+            module: this.module,
+        });
     }
 
     public onPageChange(event: number): void {

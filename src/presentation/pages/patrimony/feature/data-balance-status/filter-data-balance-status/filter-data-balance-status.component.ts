@@ -5,6 +5,7 @@ import {
     EventEmitter,
     Output,
     OnDestroy,
+    OnInit,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -26,15 +27,16 @@ import { ApnInterface } from '../../../../../../shared/interfaces/apn.interface'
 import { TypeAlarme } from '../../../../../../shared/enum/TypeAlarme.enum';
 import { dataBalanceStatusFilterInterface } from '../../../data-access/data-balance-status/interfaces/data-balance-status-filter.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
 import { dataBalanceStatusApiService } from '../../../data-access/data-balance-status/services/data-balance-status-api.service';
+import { EncodingDataService } from '../../../../../../shared/services/encoding-data.service';
+import { CurrentUser } from '../../../../../../shared/interfaces/current-user.interface';
 
 @Component({
     selector: `app-filter-data-balance-status`,
     templateUrl: `./filter-data-balance-status.component.html`,
     styleUrls: ['./filter-data-balance-status.component.scss'],
 })
-export class FilterDataBalanceStatusComponent implements OnDestroy {
+export class FilterDataBalanceStatusComponent implements OnInit, OnDestroy {
     @Input() listFormulas$: Observable<Array<FormulasInterface>>;
     @Input() listFirstLevel$: Observable<Array<FirstLevelInterface>>;
     @Input() listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
@@ -54,31 +56,32 @@ export class FilterDataBalanceStatusComponent implements OnDestroy {
     public secondFilter: boolean = false;
     public thirdFilter: boolean = false;
 
-    private destroy$ = new Subject<void>();
+    private destroyFilterData$ = new Subject<void>();
+    private destroyUserData$ = new Subject<void>();
 
     constructor(
         private toastService: ToastrService,
         private fb: FormBuilder,
-        private storeCurrentUserService: StoreCurrentUserService,
+        private encodingService: EncodingDataService,
         private translate: TranslateService,
         private secondLevelService: SecondLevelService,
         private dataBalanceStatusApiService: dataBalanceStatusApiService
-    ) {
-        this.initFormFilter();
+    ) {}
 
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.firstLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_1;
-        this.secondLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_2;
-        this.thirdLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_3;
+    ngOnInit() {
+        this.initFormFilter();
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.firstLevelLibel = user?.structure_organisationnelle?.niveau_1;
+        this.secondLevelLibel = user?.structure_organisationnelle?.niveau_2;
+        this.thirdLevelLibel = user?.structure_organisationnelle?.niveau_3;
     }
 
     public initFormFilter(): void {
         this.dataBalanceStatusApiService
             .getDataFilterDataBalanceStatus()
-            .pipe(takeUntil(this.destroy$))
+            .pipe(takeUntil(this.destroyFilterData$))
             .subscribe((filterData: dataBalanceStatusFilterInterface) => {
                 this.expandedSecondLine(filterData);
                 this.formFilter =
@@ -268,7 +271,9 @@ export class FilterDataBalanceStatusComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
+        this.destroyFilterData$.next();
+        this.destroyFilterData$.complete();
+        this.destroyUserData$.next();
+        this.destroyUserData$.complete();
     }
 }

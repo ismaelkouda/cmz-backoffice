@@ -5,6 +5,7 @@ import {
     EventEmitter,
     Output,
     OnDestroy,
+    OnInit,
 } from '@angular/core';
 import {
     FormBuilder,
@@ -26,15 +27,16 @@ import { ApnInterface } from '../../../../../../shared/interfaces/apn.interface'
 import { TypeAlarme } from '../../../../../../shared/enum/TypeAlarme.enum';
 import { smsBalanceStatusFilterInterface } from '../../../data-access/sms-balance-status/interfaces/sms-balance-status-filter.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
 import { smsBalanceStatusApiService } from '../../../data-access/sms-balance-status/services/sms-balance-status-api.service';
+import { EncodingDataService } from '../../../../../../shared/services/encoding-data.service';
+import { CurrentUser } from '../../../../../../shared/interfaces/current-user.interface';
 
 @Component({
     selector: `app-filter-sms-balance-status`,
     templateUrl: `./filter-sms-balance-status.component.html`,
     styleUrls: ['./filter-sms-balance-status.component.scss'],
 })
-export class FilterSmsBalanceStatusComponent implements OnDestroy {
+export class FilterSmsBalanceStatusComponent implements OnInit, OnDestroy {
     @Input() listFormulas$: Observable<Array<FormulasInterface>>;
     @Input() listFirstLevel$: Observable<Array<FirstLevelInterface>>;
     @Input() listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
@@ -55,24 +57,25 @@ export class FilterSmsBalanceStatusComponent implements OnDestroy {
     public thirdFilter: boolean = false;
 
     private destroy$ = new Subject<void>();
+    private destroyUserData$ = new Subject<void>();
 
     constructor(
         private toastService: ToastrService,
         private fb: FormBuilder,
-        private storeCurrentUserService: StoreCurrentUserService,
+        private encodingService: EncodingDataService,
         private translate: TranslateService,
         private secondLevelService: SecondLevelService,
         private smsBalanceStatusApiService: smsBalanceStatusApiService
-    ) {
-        this.initFormFilter();
+    ) {}
 
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.firstLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_1;
-        this.secondLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_2;
-        this.thirdLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_3;
+    ngOnInit(): void {
+        this.initFormFilter();
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.firstLevelLibel = user?.structure_organisationnelle?.niveau_1;
+        this.secondLevelLibel = user?.structure_organisationnelle?.niveau_2;
+        this.thirdLevelLibel = user?.structure_organisationnelle?.niveau_3;
     }
 
     public initFormFilter(): void {
@@ -259,5 +262,7 @@ export class FilterSmsBalanceStatusComponent implements OnDestroy {
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
+        this.destroyUserData$.next();
+        this.destroyUserData$.complete();
     }
 }

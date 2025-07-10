@@ -4,6 +4,7 @@ import {
     EventEmitter,
     Input,
     OnDestroy,
+    OnInit,
     Output,
 } from '@angular/core';
 import { simCardFilterInterface } from './../../../data-access/sim-card/interfaces/sim-card-filter.interface';
@@ -34,8 +35,9 @@ import { SecondLevelService } from '../../../../../../shared/services/second-lev
 import { FormulasInterface } from '../../../../../../shared/interfaces/formulas.interface';
 import { ThirdLevelInterface } from '../../../../../../shared/interfaces/third-level.interface';
 import { ApnInterface } from '../../../../../../shared/interfaces/apn.interface';
-import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
 import { T_SIM_CARD_IDENTIFICATION_ENUM } from '../../../data-access/sim-card/enums/sim-card-identification.enum';
+import { EncodingDataService } from '../../../../../../shared/services/encoding-data.service';
+import { CurrentUser } from '../../../../../../shared/interfaces/current-user.interface';
 
 @Component({
     selector: 'app-filter-sim-card',
@@ -71,7 +73,7 @@ import { T_SIM_CARD_IDENTIFICATION_ENUM } from '../../../data-access/sim-card/en
     ],
     styleUrls: ['./filter-sim-card.component.scss'],
 })
-export class FilterSimCardComponent implements OnDestroy {
+export class FilterSimCardComponent implements OnInit, OnDestroy {
     @Input() listFormulas$: Observable<Array<FormulasInterface>>;
     @Input() listFirstLevel$: Observable<Array<FirstLevelInterface>>;
     @Input() listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
@@ -85,6 +87,7 @@ export class FilterSimCardComponent implements OnDestroy {
     public listSecondLevel$: Observable<Array<SecondLevelInterface>>;
     public formFilter: FormGroup<simCardFilterInterface>;
     private destroy$ = new Subject<void>();
+    private destroyUserData$ = new Subject<void>();
 
     public firstLevelLibel: string | undefined;
     public secondLevelLibel: string | undefined;
@@ -96,20 +99,20 @@ export class FilterSimCardComponent implements OnDestroy {
     constructor(
         private fb: FormBuilder,
         private toastService: ToastrService,
-        private storeCurrentUserService: StoreCurrentUserService,
+        private encodingService: EncodingDataService,
         private translate: TranslateService,
         private secondLevelService: SecondLevelService,
         private simCardApiService: simCardApiService
-    ) {
-        this.initFormFilter();
+    ) {}
 
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.firstLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_1;
-        this.secondLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_2;
-        this.thirdLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_3;
+    ngOnInit() {
+        this.initFormFilter();
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.firstLevelLibel = user?.structure_organisationnelle?.niveau_1;
+        this.secondLevelLibel = user?.structure_organisationnelle?.niveau_2;
+        this.thirdLevelLibel = user?.structure_organisationnelle?.niveau_3;
     }
 
     public showSecondFilter() {
@@ -296,5 +299,7 @@ export class FilterSimCardComponent implements OnDestroy {
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
+        this.destroyUserData$.next();
+        this.destroyUserData$.complete();
     }
 }

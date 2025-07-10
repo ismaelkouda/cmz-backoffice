@@ -7,7 +7,14 @@ import {
 import { SIM_CARD_STATUS_ENUM } from './../../../data-access/sim-card/enums/sim-card-status.enum';
 import { simCardInterface } from './../../../data-access/sim-card/interfaces/sim-card.interface';
 import { ModalParams } from './../../../../../../shared/constants/modalParams.contant';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+    Component,
+    Input,
+    Output,
+    EventEmitter,
+    OnInit,
+    OnDestroy,
+} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -19,7 +26,7 @@ import { BADGE_ETAT } from '../../../../../../shared/constants/badge-etat.contan
 import { BADGE_ETAPE } from '../../../../../../shared/constants/badge-etape.constant';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { simCardTableConstant } from '../../../data-access/sim-card/constants/sim-card-table.constant';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { T_SIM_CARD_STATUS_ENUM } from '../../../data-access/sim-card/enums/sim-card-status.enum';
 import * as L from 'leaflet';
 const Swal = require('sweetalert2');
@@ -27,7 +34,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { QrModalComponent } from '../../../../../../shared/components/qr-modal/qr-modal.component';
 import { simCardFilterInterface } from '../../../data-access/sim-card/interfaces/sim-card-filter.interface';
 import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
-import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
+import { CurrentUser } from '../../../../../../shared/interfaces/current-user.interface';
+import { EncodingDataService } from '../../../../../../shared/services/encoding-data.service';
 
 type Action = PageAction | ModalAction;
 type PageAction = {
@@ -64,7 +72,7 @@ type ButtonQrCodeSimCardData = { qrcode: string; msisdn: string };
     templateUrl: './table-sim-card.component.html',
     styleUrls: ['./table-sim-card.component.scss'],
 })
-export class TableSimCardComponent {
+export class TableSimCardComponent implements OnInit, OnDestroy {
     @Input() spinner: boolean;
     @Input() listSimCard$: Observable<Array<simCardInterface>>;
     @Input() simCardSelected: simCardInterface;
@@ -78,6 +86,7 @@ export class TableSimCardComponent {
     public readonly table: TableConfig;
     public readonly BADGE_STEP = BADGE_ETAPE;
     public readonly BADGE_STATE = BADGE_ETAT;
+    private destroy$ = new Subject<void>();
     private map: L.Map | null = null;
     private openStreetMap = L.tileLayer(
         'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -121,19 +130,26 @@ export class TableSimCardComponent {
         private tableExportExcelFileService: TableExportExcelFileService,
         private translate: TranslateService,
         private asFeatureService: AsFeatureService,
-        private storeCurrentUserService: StoreCurrentUserService
+        private encodingService: EncodingDataService
     ) {
         this.asAccessFeatureIdentification = this.asFeatureService.hasFeature(
             OperationTransaction.IDENTIFICATION
         );
         this.table = simCardTableConstant(this.asFeatureService);
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.firstLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_1;
-        this.secondLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_2;
-        this.thirdLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_3;
+    }
+
+    ngOnInit(): void {
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.firstLevelLibel = user?.structure_organisationnelle?.niveau_1;
+        this.secondLevelLibel = user?.structure_organisationnelle?.niveau_2;
+        this.thirdLevelLibel = user?.structure_organisationnelle?.niveau_3;
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public pageCallback() {

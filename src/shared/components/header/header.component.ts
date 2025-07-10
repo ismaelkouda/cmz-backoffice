@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavService } from '../../services/nav.service';
 import { LayoutService } from '../../services/layout.service';
 import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
-// @ts-ignore
 import { Router } from '@angular/router';
 import { StoreCurrentUserService } from '../../services/store-current-user.service';
-import { CurrentUser } from '../../interfaces/current-user.interface';
 import { SharedService } from '../../services/shared.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { OVERSEEING_OPERATIONS } from '../../routes/routes';
+import { CurrentUser } from '../../interfaces/current-user.interface';
+import { EncodingDataService } from '../../services/encoding-data.service';
 SwiperCore.use([Navigation, Pagination, Autoplay]);
 const NOTIFICATIONS_ROUTE = 'notifications';
 
@@ -17,60 +17,39 @@ const NOTIFICATIONS_ROUTE = 'notifications';
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
-    public elem: any;
-    public profil: any;
+export class HeaderComponent implements OnInit, OnDestroy {
     public logoTenant: string;
-    public minioUrl: string;
     public nom_tenant: string;
     public soldeGlobal: string;
     public ligneCreditGlobal: string;
     public notificationCount$: Observable<number>;
+    private destroy$ = new Subject<void>();
 
     constructor(
         public layout: LayoutService,
         public navServices: NavService,
         private router: Router,
         private sharedService: SharedService,
-        private storeCurrentUserService: StoreCurrentUserService
+        private encodingService: EncodingDataService
     ) {
         this.sharedService.fetchUnReadNotifications();
         this.notificationCount$ =
             this.sharedService.getApiResponseUnReadNotifications();
-        const currentUser: CurrentUser | null =
-            this.storeCurrentUserService.getCurrentUser;
-        this.nom_tenant = currentUser?.tenant.nom_tenant as string;
-        this.logoTenant = `${currentUser?.tenant?.url_minio}/${currentUser?.tenant?.logo_tenant}`;
         this.statutLayout();
     }
 
     ngOnInit() {
-        this.elem = document.documentElement;
-        // this.mappingService.volumeDataGlobal$.subscribe((res: any) => {
-        //     this.soldeGlobal = res;
-        // });
-        // this.mappingService.ligneCreditGlobal$.subscribe((res: any) => {
-        //     this.ligneCreditGlobal = res;
-        // });
-        // this.notifyService.onData().subscribe((data: any) => {
-        //     this.OncountNotify();
-        // });
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.nom_tenant = user?.tenant.nom_tenant as string;
+        this.logoTenant = `${user?.tenant?.url_minio}/${user?.tenant?.logo_tenant}`;
     }
-    // public OncountNotify() {
-    //     this.notifyService.OncountNotify().subscribe({
-    //         next: (response) => {
 
-    //             let user = JSON.parse(this.storage.getData('user'));
-    //             this.countNotify = response['data'];
-    //             user.notifications = response['data'];
-    //             this.storage.saveData('user', JSON.stringify(user));
-    //             this.toastrService.success(response['message']);
-    //         },
-    //         error: (error) => {
-    //             this.toastrService.error(error.error.message);
-    //         },
-    //     });
-    // }
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
 
     public handleRefreshNotification(): void {
         this.sharedService.fetchUnReadNotifications();

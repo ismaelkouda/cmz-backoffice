@@ -16,9 +16,9 @@ svg-icon {
     padding-left: 20px;
 }
 
-// .page-wrapper .sidebar-main-title>div {
-//     background-color: rgba(255, 218, 173, 0.06) !important;
-//     padding: 15px 17px;
-//     border-radius: 10px;
-//     color: #ff6600 !important;
-// }
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+}

@@ -18,12 +18,13 @@ export class CourbeMessageComponent implements OnInit {
         'Courbe message - Système de Gestion de Collecte Centralisée';
     constructor(
         private activatedRoute: ActivatedRoute,
-        private storage: EncodingDataService,
+        private encodingService: EncodingDataService,
         private titleService: Title
     ) {
-        this.visualUrl = JSON.parse(
-            this.storage.getData('variables')
-        ).dashboardGrafana;
+        this.visualUrl =
+            this.encodingService.getData('dashboard_links')?.[
+                'dashboardGrafana'
+            ];
         this.titleService.setTitle(`${this.title}`);
     }
 

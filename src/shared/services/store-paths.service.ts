@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { EncodingDataService } from './encoding-data.service';
-import { StoreCurrentUserService } from './store-current-user.service';
+import { CurrentUser } from '../interfaces/current-user.interface';
 
 @Injectable({
     providedIn: 'root',
 })
-export class StorePathsService {
+export class StorePathsService implements OnInit, OnDestroy {
     private readonly STORAGE_KEY = 'paths_data';
+    private destroy$ = new Subject<void>();
 
     private pathsSubject = new BehaviorSubject<Array<string> | null>(
         this.getStoredPaths()
@@ -17,14 +18,19 @@ export class StorePathsService {
 
     constructor(
         private encodingDataService: EncodingDataService,
-        private storeCurrentUserService: StoreCurrentUserService
-    ) {
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        if (currentUser) {
-            this.setPaths(currentUser.paths);
-        } else {
-            this.setPaths([]);
-        }
+        private encodingService: EncodingDataService
+    ) {}
+
+    ngOnInit() {
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.setPaths(user?.paths as Array<string>);
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     private setPaths(paths: Array<string>): void {
@@ -41,7 +47,6 @@ export class StorePathsService {
 
     /** Récupère le paths stocké dans this.encodingDataService */
     private getStoredPaths(): Array<string> | null {
-        const storedPaths = this.encodingDataService.getData(this.STORAGE_KEY);
-        return storedPaths ? JSON.parse(storedPaths) : null;
+        return this.encodingDataService.getData(this.STORAGE_KEY);
     }
 }

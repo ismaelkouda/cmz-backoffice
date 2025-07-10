@@ -1,6 +1,12 @@
-import { StoreCurrentUserService } from './../../../../../shared/services/store-current-user.service';
 import { SettingService } from './../../../../../shared/services/setting.service';
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Output,
+    EventEmitter,
+    Input,
+    OnDestroy,
+} from '@angular/core';
 import { TelemetrieService } from '../../data-access/telemetrie.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +16,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { handle } from 'src/shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
+import { Subject } from 'rxjs';
+import { CurrentUser } from '../../../../../shared/interfaces/current-user.interface';
+import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -17,7 +26,7 @@ const Swal = require('sweetalert2');
     templateUrl: './visualisation.component.html',
     styleUrls: ['./visualisation.component.scss'],
 })
-export class VisualisationComponent implements OnInit {
+export class VisualisationComponent implements OnInit, OnDestroy {
     @Output() visualisationView = new EventEmitter();
     @Input() currentObject;
     @Output() listProfils = new EventEmitter();
@@ -48,8 +57,10 @@ export class VisualisationComponent implements OnInit {
     public secondLevelLibel: string | undefined;
     public thirdLevelLibel: string | undefined;
 
+    private destroy$ = new Subject<void>();
+
     constructor(
-        private storeCurrentUserService: StoreCurrentUserService,
+        private encodingService: EncodingDataService,
         private telemetrieService: TelemetrieService,
         private toastrService: ToastrService,
         private modalService: NgbModal,
@@ -59,17 +70,15 @@ export class VisualisationComponent implements OnInit {
         private clipboardApi: ClipboardService,
         private loadingBarService: LoadingBarService,
         private patrimoineService: PatrimoineService
-    ) {
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.firstLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_1;
-        this.secondLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_2;
-        this.thirdLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_3;
-    }
+    ) {}
 
     ngOnInit() {
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.firstLevelLibel = user?.structure_organisationnelle?.niveau_1;
+        this.secondLevelLibel = user?.structure_organisationnelle?.niveau_2;
+        this.thirdLevelLibel = user?.structure_organisationnelle?.niveau_3;
         this.initFormFilter();
         this.onChangeAPNValue();
         this.GetAllFirstLevel();
@@ -77,6 +86,11 @@ export class VisualisationComponent implements OnInit {
         this.GetAllUsages();
         this.GetAllFormules();
         this.GetAllListSimAffecte();
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     private initFormFilter() {

@@ -121,10 +121,12 @@
                         ></button
                         >&nbsp;
                         <button
-                            icon="pi pi-pencil"
+                            [icon]="getTreatmentButtonEditStyle(item)?.icon"
                             pButton
-                            class="p-button-secondary"
-                            pTooltip="Editer"
+                            [class]="getTreatmentButtonEditStyle(item)?.class"
+                            [pTooltip]="
+                                getTreatmentButtonEditStyle(item)?.tooltip
+                            "
                             tooltipPosition="top"
                             (click)="
                                 handleAction({

@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { EncodingDataService } from './encoding-data.service';
-import { StoreTokenService } from './store-token.service';
+import { StoreCurrentUserService } from './store-current-user.service';
+import { TokenInterface } from '../interfaces/token.interface';
 const Swal = require('sweetalert2');
 
 @Injectable()
@@ -21,8 +22,8 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
         public router: Router,
         private toastrService: ToastrService,
         private loadingBar: LoadingBarService,
-        private storage: EncodingDataService,
-        private storeTokenService: StoreTokenService
+        private encodingService: EncodingDataService,
+        private currentUserService: StoreCurrentUserService
     ) {}
 
     intercept(
@@ -30,8 +31,10 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
         let data;
-        const token = this.storeTokenService.getToken;
-        token ? (data = this.storeTokenService.getToken) : (data = {});
+        const token = this.encodingService.getData(
+            'token_data'
+        ) as TokenInterface | null;
+        token ? (data = token) : (data = {});
         req = req.clone({
             headers: req.headers.set('Authorization', 'Bearer ' + data.value),
         });
@@ -45,11 +48,20 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
                             case 401:
                                 if (data) {
                                     handled = true;
-                                    this.storage.removeData('user');
-                                    this.storage.removeData('token');
-                                    this.storage.removeData('current_menu');
-                                    this.storage.removeData('modules');
-                                    this.storeTokenService.removeToken();
+                                    this.encodingService.removeData(
+                                        'token_data'
+                                    );
+                                    this.encodingService.removeData('menu');
+                                    this.encodingService.removeData(
+                                        'dashboard_links'
+                                    );
+                                    this.encodingService.removeData(
+                                        'user_data'
+                                    );
+                                    this.encodingService.removeData(
+                                        'token_data'
+                                    );
+                                    this.encodingService.removeData('modules');
                                     this.router
                                         .navigateByUrl('auth/login')
                                         .then(() => window.location.reload());

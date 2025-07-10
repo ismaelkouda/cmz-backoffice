@@ -1,274 +1,351 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { IStatistiquesBox } from '../../../shared/interfaces/statistiquesBox.interface';
 import { EncodingDataService } from '../../../shared/services/encoding-data.service';
-import { Observable } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { SimStatut } from '../../../shared/enum/SimStatut.enum';
 import { PATRIMONY } from '../../../shared/routes/routes';
 import { DashboardApiService } from './data-access/services/dashboard-api.service';
 import { SIM_CARD } from '../patrimony/patrimony-routing.module';
-import { StoreCurrentUserService } from '../../../shared/services/store-current-user.service';
 import { AsFeatureService } from '../../../shared/services/as-feature.service';
 import { OperationTransaction } from '../../../shared/enum/OperationTransaction.enum';
+import { TranslateService } from '@ngx-translate/core';
+import {
+    NOM_APPLICATION,
+    T_NOM_APPLICATION,
+} from '../../../shared/constants/nom-aplication.contant';
+import { DashboardLink } from '../../../shared/interfaces/dashboard-link.interface';
+import { CurrentUser } from '../../../shared/interfaces/current-user.interface';
+import { separatorThousands } from '../../../shared/functions/separator-thousands';
 
 @Component({
     selector: 'app-dashboard',
     templateUrl: './dashboard.component.html',
-    styles: [
-        `
-            .col-md-3:hover {
-                transform: scale(1.1);
-            }
-            .col-md-3 {
-                transition: transform 0.5s;
-            }
-            .iframe__constainer {
-                margin-top: 10px;
-                appearance: none;
-                -webkit-appearance: none;
-                width: 100%;
-                border: none;
-                height: 100vh;
-            }
-        `,
-    ],
+    styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
     public loading: boolean = true;
-    public currrentDate: string;
-    public nom_tenant: string;
+    public currrentDate: string = '';
+    public nom_tenant: string = '';
+    public nom_application: T_NOM_APPLICATION = NOM_APPLICATION.PATRIMOINE_SIM;
     public title =
         'Tableau de bord - Système de Gestion de Collecte Centralisée';
-    public listStatisticsBox: Array<IStatistiquesBox> = [];
+    public listStatisticsBox: IStatistiquesBox[] = [];
 
-    simIcon = '../../../assets/svg/sim_loc_noir_white.png';
-    totalSimIcon = '../../../assets/svg/sim_loc_noir.svg';
-    simNormale = '../../../assets/svg/normal_dark.png';
-    simMineure = '../../../assets/svg/mineure.png';
-    simMajeure = '../../../assets/svg/majeure_white.png';
-    simCrique = '../../../assets/svg/critique_white.png';
+    // Icons
+    simIcon = 'assets/svg/sim-card.png';
+    simNormale = 'assets/svg/normal_dark.png';
+    simMineure = 'assets/svg/mineure.png';
+    simMajeure = 'assets/svg/majeure_white.png';
+    simCritique = 'assets/svg/critique_white.png';
 
-    public isMaximized: boolean = false;
+    IconDemandWaiting = 'assets/svg/demand_waiting.png';
+    IconDemandInTreatment = 'assets/svg/demand_in_treatment.png';
+    IconDemandToDelivery = 'assets/svg/demand_to_delivery.png';
+    IconDemandToClosure = 'assets/svg/demand_to_closure.png';
+
+    // Dialog state
     public showIframe: boolean = false;
     public iframeLink: string | undefined;
 
-    public asAccessFeatureDataBalance: boolean;
-    public asAccessFeatureSmsBalance: boolean;
+    // Feature flags
+    public asAccessFeatureDataBalance: boolean = false;
+    public asAccessFeatureSmsBalance: boolean = false;
 
-    public listDashboardStatistic$: Observable<Array<any>>;
+    private destroy$ = new Subject<void>();
 
     constructor(
         public router: Router,
         private titleService: Title,
         private asFeatureService: AsFeatureService,
         private dashboardApiService: DashboardApiService,
-        private storage: EncodingDataService,
-        private storeCurrentUserService: StoreCurrentUserService
+        private encodingService: EncodingDataService,
+        private translate: TranslateService
     ) {
         this.titleService.setTitle(`${this.title}`);
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.nom_tenant = currentUser?.tenant.nom_tenant as string;
     }
 
     ngOnInit() {
+        this.initializeDashboard();
+        this.loadDashboardData();
+        this.setupFeatureFlags();
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    private initializeDashboard(): void {
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.nom_tenant = user?.tenant?.nom_tenant || '';
+        this.nom_application =
+            user?.tenant?.application || NOM_APPLICATION.PATRIMOINE_SIM;
         localStorage.setItem('layout', 'Paris');
+    }
+
+    private loadDashboardData(): void {
         this.dashboardApiService
             .getDashboardStatistic()
+            .pipe(takeUntil(this.destroy$))
             .subscribe((statistic) => {
-                this.handleSuccessful(statistic);
+                this.handleDashboardData(statistic);
             });
+
         this.dashboardApiService.fetchDashboardStatistic();
+    }
+
+    private setupFeatureFlags(): void {
         this.asAccessFeatureDataBalance = this.asFeatureService.hasFeature(
             OperationTransaction.SOLDE_DATA
         );
+
         this.asAccessFeatureSmsBalance = this.asFeatureService.hasFeature(
             OperationTransaction.SOLDE_SMS
         );
     }
 
-    public refreshStatic(): void {
-        this.dashboardApiService.fetchDashboardStatistic();
-    }
-
-    private handleSuccessful(statistic: Object): void {
+    private handleDashboardData(statistic: any): void {
         this.loading = false;
-        this.currrentDate = statistic?.['date_derniere_maj'];
-        this.loadingBoxValues(statistic);
+        this.currrentDate = statistic?.['date_derniere_maj'] || '';
+        this.generateStatisticsBoxes(statistic);
     }
 
-    private loadingBoxValues(rapport: Object = {}): void {
-        const variables = this.storage.getData('variables') ?? null;
+    private generateStatisticsBoxes(rapport: any = {}): void {
         this.listStatisticsBox = [
-            {
-                cardBgColor: '#3498db',
-                cardBorderColor: '#FFF',
-                legendColor: '#FFF',
-                countColor: '#FFF',
-                legend: 'Total SIM',
-                count: rapport?.['totalSim'] || '0',
-                width: 'col-md-3',
-                icon: this.simIcon,
-                routerFilter: () =>
-                    this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`),
-            },
-            {
-                cardBgColor: '#27ae60',
-                cardBorderColor: '#FFF',
-                legendColor: '#FFF',
-                countColor: '#FFF',
-                legend: 'SIM Actives',
-                count: rapport?.['totalSimActives'] || '0',
-                width: 'col-md-3',
-                icon: this.simIcon,
-                routerFilter: () =>
+            // SIM Cards
+            this.createStatBox(
+                '#3498db',
+                'Total SIM',
+                separatorThousands(rapport?.['totalSim'] || '0'),
+                this.simIcon,
+                () => this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`)
+            ),
+
+            this.createStatBox(
+                '#27ae60',
+                'SIM Actives',
+                separatorThousands(rapport?.['totalSimActives'] || '0'),
+                this.simIcon,
+                () =>
                     this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`, {
                         state: { statut: SimStatut.ACTIF },
-                    }),
-            },
-            {
-                cardBgColor: '#000000',
-                cardBorderColor: '#000000',
-                legendColor: '#ff7f50',
-                countColor: '#ff7f50',
-                legend: 'SIM Suspendues',
-                count: rapport?.['totalSimSuspendues'] || '0',
-                width: 'col-md-3',
-                icon: this.simIcon,
-                routerFilter: () =>
+                    })
+            ),
+
+            this.createStatBox(
+                '#000000',
+                'SIM Suspendues',
+                separatorThousands(rapport?.['totalSimSuspendues'] || '0'),
+                this.simIcon,
+                () =>
                     this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`, {
                         state: { statut: SimStatut.SUSPENDU },
                     }),
-            },
-            {
-                cardBgColor: '#e74c3c',
-                cardBorderColor: '#FFF',
-                legendColor: '#FFF',
-                countColor: '#FFF',
-                legend: 'SIM Résiliées',
-                count: rapport?.['totalSimResiliees'] || '0',
-                width: 'col-md-3',
-                icon: this.simIcon,
-                routerFilter: () =>
+                '#ff7f50',
+                '#ff7f50'
+            ),
+
+            this.createStatBox(
+                '#e74c3c',
+                'SIM Résiliées',
+                separatorThousands(rapport?.['totalSimResiliees'] || '0'),
+                this.simIcon,
+                () =>
                     this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`, {
                         state: { statut: SimStatut.RESILIE },
-                    }),
-            },
+                    })
+            ),
 
-            ...(this.asAccessFeatureDataBalance
-                ? [
-                      {
-                          cardBgColor: '#FFF',
-                          cardBorderColor: '#27ae60',
-                          legendColor: '#27ae60',
-                          countColor: '#27ae60',
-                          legend: 'SIM Alar. Normales (Data)',
-                          count: rapport?.['totalAlarmesNormales'] || '0',
-                          width: 'col-md-3',
-                          icon: this.simNormale,
-                          iframeLink: variables?.analyseAlarmeNormales ?? '',
-                      },
-                      {
-                          cardBgColor: '#FFFF00',
-                          cardBorderColor: '#FFF',
-                          legendColor: '#130f40',
-                          countColor: '#130f40',
-                          legend: 'SIM Alar. Mineures (Data)',
-                          count: rapport?.['totalAlarmesMineures'] || '0',
-                          width: 'col-md-3',
-                          icon: this.simMineure,
-                          iframeLink: variables?.analyseAlarmeMineures ?? '',
-                      },
-                      {
-                          cardBgColor: '#FE9A2E',
-                          cardBorderColor: '#FFF',
-                          legendColor: '#FFF',
-                          countColor: '#FFF',
-                          legend: 'SIM Alar. Majeures (Data)',
-                          count: rapport?.['totalAlarmesMajeures'] || '0',
-                          width: 'col-md-3',
-                          icon: this.simMajeure,
-                          iframeLink: variables?.analyseAlarmeMajeures ?? '',
-                      },
-                      {
-                          cardBgColor: '#e74c3c',
-                          cardBorderColor: '#FFF',
-                          legendColor: '#FFF',
-                          countColor: '#FFF',
-                          legend: 'SIM Alar. Critiques (Data)',
-                          count: rapport?.['totalAlarmesCritiques'] || '0',
-                          width: 'col-md-3',
-                          icon: this.simCrique,
-                          iframeLink: variables?.analyseAlarmeCritiques ?? '',
-                      },
-                  ]
-                : []),
+            // Data Alarms
+            ...this.generateAlarmBoxes(
+                'Data',
+                rapport,
+                this.asAccessFeatureDataBalance
+            ),
 
-            ...(this.asAccessFeatureSmsBalance
-                ? [
-                      {
-                          cardBgColor: '#FFF',
-                          cardBorderColor: '#27ae60',
-                          legendColor: '#27ae60',
-                          countColor: '#27ae60',
-                          legend: 'SIM Alar. Normales (SMS)',
-                          count: rapport?.['totalAlarmesNormalesSms'] || '0',
-                          width: 'col-md-3',
-                          icon: this.simNormale,
-                          iframeLink: variables?.analyseAlarmeNormalesSms ?? '',
-                      },
-                      {
-                          cardBgColor: '#FFFF00',
-                          cardBorderColor: '#FFF',
-                          legendColor: '#130f40',
-                          countColor: '#130f40',
-                          legend: 'SIM Alar. Mineures (SMS)',
-                          count: rapport?.['totalAlarmesMineuresSms'] || '0',
-                          width: 'col-md-3',
-                          icon: this.simMineure,
-                          iframeLink: variables?.analyseAlarmeMineuresSms ?? '',
-                      },
-                      {
-                          cardBgColor: '#FE9A2E',
-                          cardBorderColor: '#FFF',
-                          legendColor: '#FFF',
-                          countColor: '#FFF',
-                          legend: 'SIM Alar. Majeures (SMS)',
-                          count: rapport?.['totalAlarmesMajeuresSms'] || '0',
-                          width: 'col-md-3',
-                          icon: this.simMajeure,
-                          iframeLink: variables?.analyseAlarmeMajeuresSms ?? '',
-                      },
-                      {
-                          cardBgColor: '#e74c3c',
-                          cardBorderColor: '#FFF',
-                          legendColor: '#FFF',
-                          countColor: '#FFF',
-                          legend: 'SIM Alar. Critiques (SMS)',
-                          count: rapport?.['totalAlarmesCritiquesSms'] || '0',
-                          width: 'col-md-3',
-                          icon: this.simCrique,
-                          iframeLink:
-                              variables?.analyseAlarmeCritiquesSms ?? '',
-                      },
-                  ]
-                : []),
+            // SMS Alarms
+            ...this.generateAlarmBoxes(
+                'SMS',
+                rapport,
+                this.asAccessFeatureSmsBalance
+            ),
+
+            // Additional boxes
+            ...this.generateAdditionalBoxes(rapport),
         ];
     }
 
-    public onVisualiserAlarme(statisticsBox: IStatistiquesBox) {
-        console.log('statisticsBox', statisticsBox);
+    private createStatBox(
+        bgColor: string,
+        legend: string,
+        count: number | string,
+        icon: string,
+        routerFilter?: () => void,
+        legendColor: string = '#FFF',
+        countColor: string = '#FFF',
+        borderColor: string = '#FFF'
+    ): IStatistiquesBox {
+        return {
+            cardBgColor: bgColor,
+            cardBorderColor: borderColor,
+            legendColor: legendColor,
+            countColor: countColor,
+            legend: legend,
+            count: count || 0,
+            icon: icon,
+            routerFilter: routerFilter,
+        };
+    }
 
+    private generateAlarmBoxes(
+        type: 'Data' | 'SMS',
+        rapport: any,
+        isEnabled: boolean
+    ): IStatistiquesBox[] {
+        if (!isEnabled) return [];
+
+        const dashboardLinks = this.encodingService.getData(
+            'dashboard_links'
+        ) as DashboardLink | null;
+        const suffix = type === 'Data' ? '' : 'Sms';
+
+        return [
+            this.createAlarmBox(
+                '#FFF',
+                `#27ae60`,
+                `SIM Alar. Normales (${type})`,
+                separatorThousands(
+                    rapport?.[`totalAlarmesNormales${suffix}`] || '0'
+                ),
+                this.simNormale,
+                dashboardLinks?.[`analyseAlarmeNormales${suffix}`] || '',
+                '#27ae60',
+                '#27ae60'
+            ),
+            this.createAlarmBox(
+                '#FFFF00',
+                '#FFF',
+                `SIM Alar. Mineures (${type})`,
+                separatorThousands(
+                    rapport?.[`totalAlarmesMineures${suffix}`] || '0'
+                ),
+                this.simMineure,
+                dashboardLinks?.[`analyseAlarmeMineures${suffix}`] || '',
+                '#130f40',
+                '#130f40'
+            ),
+            this.createAlarmBox(
+                '#FE9A2E',
+                '#FFF',
+                `SIM Alar. Majeures (${type})`,
+                separatorThousands(
+                    rapport?.[`totalAlarmesMajeures${suffix}`] || '0'
+                ),
+                this.simMajeure,
+                dashboardLinks?.[`analyseAlarmeMajeures${suffix}`] || ''
+            ),
+            this.createAlarmBox(
+                '#e74c3c',
+                '#FFF',
+                `SIM Alar. Critiques (${type})`,
+                separatorThousands(
+                    rapport?.[`totalAlarmesCritiques${suffix}`] || '0'
+                ),
+                this.simCritique,
+                dashboardLinks?.[`analyseAlarmeCritiques${suffix}`] || ''
+            ),
+        ];
+    }
+
+    private createAlarmBox(
+        bgColor: string,
+        borderColor: string,
+        legend: string,
+        count: number | string,
+        icon: string,
+        iframeLink: string,
+        legendColor: string = '#FFF',
+        countColor: string = '#FFF'
+    ): IStatistiquesBox {
+        return {
+            cardBgColor: bgColor,
+            cardBorderColor: borderColor,
+            legendColor: legendColor,
+            countColor: countColor,
+            legend: legend,
+            count: count,
+            icon: icon,
+            iframeLink: iframeLink,
+        };
+    }
+
+    private generateAdditionalBoxes(rapport: any): IStatistiquesBox[] {
+        if (this.nom_application !== NOM_APPLICATION.PATRIMOINE_SIM) return [];
+
+        return [
+            this.createStatBox(
+                '#ffA500',
+                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
+                    'TO_APPROVE'
+                )}`,
+                separatorThousands(
+                    rapport?.['total_dossiers_a_approuver'] || '0'
+                ),
+                this.IconDemandWaiting
+            ),
+
+            this.createStatBox(
+                '#f39c12',
+                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
+                    'IN_TREATMENT'
+                )}`,
+                separatorThousands(
+                    rapport?.['total_dossiers_en_traitement'] || '0'
+                ),
+                this.IconDemandInTreatment
+            ),
+
+            this.createStatBox(
+                '#28a745',
+                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
+                    'TO_DELIVER'
+                )}`,
+                separatorThousands(rapport?.['total_dossiers_a_livrer'] || '0'),
+                this.IconDemandToDelivery,
+                undefined,
+                '#fff',
+                '#fff',
+                '#28a745'
+            ),
+
+            this.createStatBox(
+                'rgb(52, 73, 94)',
+                `${this.translate.instant('CLOSURE')} ${this.translate.instant(
+                    'WAITING'
+                )}`,
+                separatorThousands(
+                    rapport?.['total_dossiers_clotures_ok'] || '0'
+                ),
+                this.IconDemandToClosure
+            ),
+        ];
+    }
+
+    public refreshStatic(): void {
+        this.loading = true;
+        this.dashboardApiService.fetchDashboardStatistic();
+    }
+
+    public onVisualiserAlarme(statisticsBox: IStatistiquesBox) {
         this.iframeLink = statisticsBox?.iframeLink;
         this.showIframe = true;
-        this.onDialogMaximized(true);
     }
+
     public hideDialog() {
         this.showIframe = false;
-    }
-    public onDialogMaximized(event) {
-        event.maximized
-            ? (this.isMaximized = true)
-            : (this.isMaximized = false);
     }
 }

@@ -31,14 +31,11 @@ import {
     takeUntil,
 } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
 import { PAYMENT_STATUS_ENUM } from '../../../../accounting/data-access/payment/enums/payment-status.enum';
 import {
     IMPORTATION_STEP,
     T_IMPORTATION_STEP,
 } from '../../../data-access/importation/enums/importation-step.constant';
-import { CurrentUser } from '../../../../../../shared/interfaces/current-user.interface';
-import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
 import { ImportationService } from '../../../data-access/importation/service/importation-api.service';
 import { DetailsImportationTableConstant } from '../details-importation/data-access/constantes/details-importation-table';
 import { OnDestroy } from '@angular/core';
@@ -107,7 +104,6 @@ export class TableImportationComponent implements OnDestroy {
         private sharedService: SharedService,
         private translate: TranslateService,
         private tableExportExcelFileService: TableExportExcelFileService,
-        private storeCurrentUserService: StoreCurrentUserService,
         private importationService: ImportationService
     ) {}
 

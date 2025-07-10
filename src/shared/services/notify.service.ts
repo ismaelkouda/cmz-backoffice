@@ -3,6 +3,7 @@ import { WebSocketSubject } from 'rxjs/webSocket';
 import { EncodingDataService } from './encoding-data.service';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { CurrentUser } from '../interfaces/current-user.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -13,9 +14,10 @@ export class NotifyService {
     constructor(
         private http: HttpClient,
         private socket$: WebSocketSubject<any>,
-        private storage: EncodingDataService
+        private encodingService: EncodingDataService
     ) {
-        const data = JSON.parse(this.storage.getData('user') || null);
+        const data: CurrentUser | null =
+            this.encodingService.getData('user_data');
         this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`;
     }
 

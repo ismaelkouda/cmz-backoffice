@@ -17,6 +17,7 @@ import { reloadMyAccountFilterInterface } from '../../../data-access/reload-my-a
 import { reloadMyAccountTableConstant } from '../../../data-access/reload-my-account/constants/reload-my-account-table.constant';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { TranslateService } from '@ngx-translate/core';
+import { createButtonStyle } from '../../../../../../shared/functions/treatment-demands.function';
 
 type Action = PageAction;
 type PageAction = {
@@ -95,6 +96,27 @@ export class TableReloadMyAccountComponent {
                 );
             }
         });
+    }
+    getTreatmentButtonEditStyle(selectedSimCard: {
+        statut: T_MY_RELOADS_STATUS_ENUM;
+        transaction: string;
+    }): { class: string; icon: string; tooltip: string } {
+        switch (selectedSimCard?.statut) {
+            case MY_RELOADS_STATUS_ENUM.WAITING: {
+                return {
+                    class: 'p-button-secondary',
+                    icon: 'pi pi-pencil',
+                    tooltip: `Editer ${selectedSimCard.transaction}`,
+                };
+            }
+            default: {
+                return {
+                    class: 'p-button-secondary',
+                    icon: 'pi pi-pencil',
+                    tooltip: `Impossible d'éditer ${selectedSimCard.transaction}`,
+                };
+            }
+        }
     }
 
     public handleAction(params: Action): void {

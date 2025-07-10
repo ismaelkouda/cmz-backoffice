@@ -58,7 +58,7 @@ export class NavService implements OnDestroy {
     // Full screen
     public fullScreen: boolean = false;
 
-    constructor(private router: Router, private storage: EncodingDataService) {
+    constructor(private router: Router) {
         this.setScreenWidth(window.innerWidth);
         fromEvent(window, 'resize')
             .pipe(debounceTime(1000), takeUntil(this.unsubscriber))

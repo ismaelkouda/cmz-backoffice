@@ -1,132 +1,196 @@
-import { handle } from '../../../../../shared/functions/api.function';
-import { LOGO_ORANGE } from '../../../../../shared/constants/logoOrange.constant';
-import { REINITIALISATION } from '../../../../app-routing.module';
-import { menuJson } from './../../../../../assets/menu';
-import { AuthenticationService } from './../../data-access/authentication.service';
-import { Component, OnInit, Pipe } from '@angular/core';
-import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+    FormGroup,
+    FormControl,
+    Validators,
+    AbstractControl,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { LoadingBarService } from '@ngx-loading-bar/core';
-
-// @ts-ignore
-import { environment } from 'src/environments/environment.prod';
-import { FORGOT_PASSWORD } from '../../../password-reset/password-reset-routing.module';
-import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
-import { DASHBOARD } from '../../../../../shared/routes/routes';
-import { AsFeatureService } from '../../../../../shared/services/as-feature.service';
-import { MappingService } from '../../../../../shared/services/mapping.service';
-import { StoreCurrentUserService } from '../../../../../shared/services/store-current-user.service';
-import { StoreTokenService } from '../../../../../shared/services/store-token.service';
-import { CryptoToken } from '../../../../../shared/crypto-data/crypto-token';
+import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
 import {
-    BehaviorSubject,
     catchError,
     debounceTime,
+    distinctUntilChanged,
     finalize,
-    of,
-    Subject,
     switchMap,
     takeUntil,
-} from 'rxjs';
+    tap,
+} from 'rxjs/operators';
+
+import { DASHBOARD } from '../../../../../shared/routes/routes';
+import { REINITIALISATION } from '../../../../app-routing.module';
+import { FORGOT_PASSWORD } from '../../../password-reset/password-reset-routing.module';
+
+import { AuthenticationService } from '../../data-access/authentication.service';
+import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
+import { AsFeatureService } from '../../../../../shared/services/as-feature.service';
+import { StoreCurrentUserService } from '../../../../../shared/services/store-current-user.service';
+
+import { LOGO_ORANGE } from '../../../../../shared/constants/logoOrange.constant';
+import { menuJson } from './../../../../../assets/menu';
+import {
+    AuthToken,
+    CurrentUser,
+    LoginResponse,
+} from '../../../../../shared/interfaces/current-user.interface';
+
+interface LoginCredentials {
+    username: string;
+    password: string;
+}
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
-    loginForm = new FormGroup({
-        username: new FormControl('', Validators.required),
-        password: new FormControl('', Validators.required),
-        port: new FormControl(''),
-    });
-    public show: boolean = false;
-    public siteKey: string;
-    public permissionsJson: any = [];
+export class LoginComponent implements OnInit, OnDestroy {
     readonly REINITIALISATION = REINITIALISATION;
     readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
-    public LOGO_ORANGE = LOGO_ORANGE;
-    private loadingFetchLoginSubject = new BehaviorSubject<boolean>(false);
+    readonly LOGO_ORANGE = LOGO_ORANGE;
+
+    loginForm = new FormGroup({
+        username: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [
+            Validators.required,
+            Validators.minLength(8),
+        ]),
+    });
+
+    private destroy$ = new Subject<void>();
+    loading$ = new BehaviorSubject<boolean>(false);
+    permissionsJson = menuJson;
 
     constructor(
-        private authenticationService: AuthenticationService,
+        private authService: AuthenticationService,
         private router: Router,
-        private toastService: ToastrService,
-        private storage: EncodingDataService,
-        private loadingBarService: LoadingBarService,
-        private storeCurrentUserService: StoreCurrentUserService,
-        private storeTokenService: StoreTokenService,
-        private asFeatureService: AsFeatureService
-    ) {
-        this.permissionsJson = menuJson;
+        private toastr: ToastrService,
+        private encodingService: EncodingDataService,
+        private currentUserService: StoreCurrentUserService,
+        private featureService: AsFeatureService
+    ) {}
+
+    ngOnInit(): void {
+        this.setupFormValidation();
     }
 
-    ngOnInit() {
-        this.siteKey = environment.recaptcha.siteKey;
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
-    public fetchLogin(): void {
-        if (this.loadingFetchLoginSubject.getValue()) return;
-        this.loadingFetchLoginSubject.next(true);
-        this.authenticationService
-            .OnLogin(this.loginForm.value)
+    get username(): AbstractControl | null {
+        return this.loginForm.get('username');
+    }
+
+    get password(): AbstractControl | null {
+        return this.loginForm.get('password');
+    }
+
+    private setupFormValidation(): void {
+        this.loginForm.valueChanges
             .pipe(
-                debounceTime(1000),
-                catchError((error) => {
-                    console.error('Error fetching login', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingFetchLoginSubject.next(false))
+                debounceTime(300),
+                distinctUntilChanged(
+                    (prev, curr) =>
+                        prev.username === curr.username &&
+                        prev.password === curr.password
+                ),
+                takeUntil(this.destroy$)
             )
-            .subscribe((response: any) => {
-                console.log('response', response);
-                if (response.error === false) {
-                    this.handleSuccessful(response);
-                } else {
-                    this.toastService.error(
-                        `${response?.message ?? 'Erreur de connexion'}`
-                    );
-                    this.loginForm.reset();
-                }
-            });
+            .subscribe();
     }
 
-    private async handleSuccessful(response): Promise<void> {
-        this.toastService.success(
-            `Bienvenue ${response?.data?.user?.nom} ${response?.data?.user?.prenoms}`
-        );
-        const currentUser = response.data?.user;
-        const token = response.data?.token;
-        this.storage.saveData('user', JSON.stringify(currentUser));
-        this.storage.saveData('token', JSON.stringify(token));
-
-        this.storeCurrentUserService.setCurrentUser(currentUser);
-        this.storeTokenService.setToken(token);
-        // await this.cryptoToken.saveTokenData('token', token);
-        this.storage.saveData(
-            'menu',
-            JSON.stringify(response.data?.user?.permissions)
-        );
-        this.getVariables();
-        // this.storage.saveData("current_menu", JSON.stringify(this.permissionsJson))
-        // this.storeLocaleService.OnEmitTenantData(response?.data)
-        // this.storeLocaleService.OnEmitCurrentPermission(this.permissionsJson)
-    }
-
-    async getVariables() {
-        const response = await handle(
-            () => this.authenticationService.getVariables({}),
-            this.toastService,
-            this.loadingBarService
-        );
-        if (!response.error) {
-            this.asFeatureService.setAsAccessFeature(response.data.modules);
-            this.storage.saveData(
-                'modules',
-                JSON.stringify(response.data.modules)
-            );
-            this.storage.saveData('variables', JSON.stringify(response.data));
-            this.router.navigateByUrl(`/${DASHBOARD}`);
+    fetchLogin(): void {
+        if (this.loginForm.invalid || this.loading$.value) {
+            this.markFormAsTouched();
+            return;
         }
+
+        this.loading$.next(true);
+        const credentials: LoginCredentials = this.loginForm
+            .value as LoginCredentials;
+
+        this.authService
+            .OnLogin(credentials)
+            .pipe(
+                switchMap((response) => this.handleAuthResponse(response)),
+                catchError((error) => this.handleAuthError(error)),
+                finalize(() => this.loading$.next(false))
+            )
+            .subscribe();
+    }
+
+    private markFormAsTouched(): void {
+        Object.values(this.loginForm.controls).forEach((control) => {
+            control.markAsTouched();
+        });
+    }
+
+    private handleAuthResponse(response: LoginResponse) {
+        if (response.error === false) {
+            return this.processSuccessfulAuth(response);
+        } else {
+            this.handleFailedAuth(response);
+            return throwError(() => new Error(response.message));
+        }
+    }
+
+    private processSuccessfulAuth(response: LoginResponse) {
+        const user = response.data.user;
+        const token = response.data.token;
+
+        this.storeAuthData(user, token);
+
+        this.toastr.success(`Bienvenue ${user.nom} ${user.prenoms}`);
+
+        return this.authService.getVariables({}).pipe(
+            tap((varsResponse) => this.handleVariablesResponse(varsResponse)),
+            catchError((error) => {
+                this.toastr.error('Erreur lors du chargement des variables');
+                return of(null);
+            }),
+            finalize(() => this.router.navigateByUrl(`/${DASHBOARD}`))
+        );
+    }
+
+    private storeAuthData(user: CurrentUser, token: AuthToken): void {
+        // this.currentUserService.setCurrentUser(user);
+        this.encodingService.saveData('user_data', user, true);
+        this.encodingService.saveData('token_data', token, true);
+        this.encodingService.saveData('menu', user.permissions, true);
+    }
+
+    private handleVariablesResponse(response: any): void {
+        if (!response.error) {
+            // this.featureService.setAsAccessFeature(response.data.modules);
+            this.encodingService.saveData(
+                'modules',
+                response.data.modules,
+                true
+            );
+            this.encodingService.saveData(
+                'dashboard_links',
+                response.data,
+                true
+            );
+            // this.encodingService.saveData('dashboard_links', response.data, true); // a supprimer quand tout sera remplacer
+        }
+    }
+
+    private handleFailedAuth(response: any): void {
+        const errorMessage = response?.message || 'Erreur de connexion';
+        this.toastr.error(errorMessage);
+        this.loginForm.get('password')?.reset();
+    }
+
+    private handleAuthError(error: any) {
+        const errorMessage =
+            error?.error?.message ||
+            "Une erreur est survenue lors de l'authentification";
+        this.toastr.error(errorMessage);
+        this.loginForm.get('password')?.reset();
+        return throwError(() => error);
     }
 }

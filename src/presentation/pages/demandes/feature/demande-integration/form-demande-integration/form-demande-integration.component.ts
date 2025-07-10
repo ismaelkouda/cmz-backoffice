@@ -77,7 +77,7 @@ export class FormDemandeIntegrationComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private supervisionOperationService: SupervisionOperationService,
         private demandeIntegrationStateService: DemandeIntegrationStateService,
-        private storage: EncodingDataService,
+        private encodingService: EncodingDataService,
         private sharedDataService: SharedDataService
     ) {
         this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
@@ -361,7 +361,7 @@ export class FormDemandeIntegrationComponent implements OnInit {
     }
 
     async onDownloadModel(event: any): Promise<any> {
-        const tokenUser = JSON.parse(this.storage.getData('user')).token;
+        const tokenUser = this.encodingService.getData('token_data');
         window.location.href =
             this.supervisionOperationService.GetSupervisionOperationsTraitementsSuivisDownloadModeleData(
                 this.INTEGRATION_EN_MASSE,

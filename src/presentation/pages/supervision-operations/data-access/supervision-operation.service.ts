@@ -19,14 +19,8 @@ const Swal = require('sweetalert2');
 })
 export class SupervisionOperationService {
     public baseUrl: string;
-    constructor(
-        private http: HttpClient,
-        private storage: EncodingDataService,
-        private envService: EnvService
-    ) {
-        const data = JSON.parse(this.storage.getData('user'));
+    constructor(private http: HttpClient, private envService: EnvService) {
         this.baseUrl = this.envService.apiUrl;
-        console.log('this.baseUrl', this.baseUrl);
     }
 
     postCommandeProduitCommandesDetails(numero_demande): Observable<any> {
@@ -41,6 +35,7 @@ export class SupervisionOperationService {
         numeroDemande: string = '',
         tokenUser: string = ''
     ): any {
+        const importationApiUrl = this.envService.importationApiUrl;
         const url: string = <string>(
             EndPointUrl.GET_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_DOWNLOAD_MODELE_DATA.replace(
                 '{operation}',
@@ -49,7 +44,7 @@ export class SupervisionOperationService {
                 .replace('{numeroDemande}', numeroDemande)
                 .replace('{tokenUser}', tokenUser)
         );
-        return `${this.baseUrl}${url}`;
+        return `${importationApiUrl}${url}`;
     }
 
     postGestionFacturePaiementsTransaction(data): Observable<any> {

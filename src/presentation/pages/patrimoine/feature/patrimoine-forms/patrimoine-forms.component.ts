@@ -84,7 +84,6 @@ export class PatrimoineFormsComponent implements OnInit {
         private toastrService: ToastrService,
         private patrimoineService: PatrimoineService,
         public mappingService: MappingService,
-        private storage: EncodingDataService,
         private router: Router
     ) {
         this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
@@ -93,8 +92,7 @@ export class PatrimoineFormsComponent implements OnInit {
         this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
         // this.minioUrl = this.mappingService.minioUrl;
         this.minioUrl = this.envService.fileUrl;
-        const data = JSON.parse(this.storage.getData('user'));
-        this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`;
+        this.baseUrl = this.envService.apiUrl;
         this.applicationType = this.mappingService.applicationType;
         this.patrimoineType = ApplicationType.PATRIMOINESIM;
         this.fileurl = this.envService.fileUrl;

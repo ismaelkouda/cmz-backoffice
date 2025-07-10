@@ -79,12 +79,17 @@
                         (click)="handleRefreshNotification()"
                     ></i
                     >&nbsp;
-
                     <i
                         class="pi pi-bell header-icon"
                         pBadge
-                        [value]="(notificationCount$ | async) || 0"
-                        severity="danger"
+                        [value]="
+                            (notificationCount$ | async) == 0
+                                ? ''
+                                : (notificationCount$ | async)
+                        "
+                        severity="{{
+                            (notificationCount$ | async) ? 'danger' : ''
+                        }}"
                         (click)="OnGoNotif()"
                         title="Notifications"
                     ></i>

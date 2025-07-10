@@ -29,7 +29,7 @@ export class NotificationComponent implements OnInit {
     constructor(
         private supervisionOperationService: SupervisionOperationService,
         private toastrService: ToastrService,
-        private storage: EncodingDataService,
+        private encodingService: EncodingDataService,
         private mappingService: MappingService,
         private titleService: Title,
         private storeLocaleService: StoreLocaleService
@@ -96,11 +96,11 @@ export class NotificationComponent implements OnInit {
                 next: (response) => {
                     this.GetAllNotifications();
                     setTimeout(() => {
-                        let user = JSON.parse(this.storage.getData('user'));
+                        let user: any =
+                            this.encodingService.getData('user_data');
                         user.notifications = this.listNotifys.length;
                         this.mappingService.notifications =
                             this.listNotifys.length;
-                        this.storage.saveData('user', JSON.stringify(user));
                         this.storeLocaleService.OnEmitNotify(
                             this.listNotifys.length
                         );

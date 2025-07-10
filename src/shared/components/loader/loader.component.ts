@@ -15,7 +15,7 @@ export class LoaderComponent implements OnInit {
     public appName: string;
 
     constructor(
-        private storage: EncodingDataService,
+        private encodingService: EncodingDataService,
         private mappingService: MappingService
     ) {
         setTimeout(() => {
@@ -25,7 +25,7 @@ export class LoaderComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.profil = JSON.parse(this.storage.getData('user') || null);
+        this.profil = this.encodingService.getData('user_data');
     }
 
     ngOnDestroy() {}

@@ -1,99 +1,72 @@
-<div class="container-fluid p-0">
-    <div class="row">
-        <div class="col-12">
-            <div class="login-card">
-                <div>
-                    <div>
-                        <a class="logo" routerLink="/">
-                            <img
-                                class="img-fluid for-light"
-                                width="200"
-                                [src]="LOGO_ORANGE"
-                                alt="looginpage"
-                            />
-                            <img
-                                class="img-fluid for-dark"
-                                width="200"
-                                [src]="LOGO_ORANGE"
-                                alt="looginpage"
-                            />
-                        </a>
-                    </div>
+<div class="auth-container">
+    <!-- Logo centré en haut -->
+    <div class="logo-container">
+        <a class="auth-logo" routerLink="/">
+            <img [src]="LOGO_ORANGE" alt="Orange Logo" />
+        </a>
+    </div>
 
-                    <div class="login-main">
-                        <div class="theme-form needs-validation">
-                            <h4 class="text-center mb-5">Authentification</h4>
+    <!-- Carte d'authentification centrée verticalement -->
+    <div class="auth-card">
+        <div class="auth-content">
+            <h1 class="auth-title">Authentification</h1>
 
-                            <form
-                                action="#"
-                                method="POST"
-                                [formGroup]="loginForm"
-                                (ngSubmit)="fetchLogin()"
-                            >
-                                <div class="form-group">
-                                    <label class="col-form-label"
-                                        ><b
-                                            >Username&nbsp;<span
-                                                class="text-danger"
-                                                >*</span
-                                            ></b
-                                        ></label
-                                    >
-                                    <input
-                                        class="form-control"
-                                        type="email"
-                                        formControlName="username"
-                                        placeholder="app@yourmail.com"
-                                    />
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-form-label"
-                                        ><b
-                                            >Mot de passe&nbsp;<span
-                                                class="text-danger"
-                                                >*</span
-                                            ></b
-                                        ></label
-                                    >
-                                    <p-password
-                                        formControlName="password"
-                                        [feedback]="false"
-                                        [toggleMask]="true"
-                                        styleClass="p-password p-component p-inputwrapper p-input-icon-right"
-                                    ></p-password>
-                                </div>
-
-                                <div class="form-group mb-0 mt-4">
-                                    <button
-                                        type="submit"
-                                        [disabled]="!loginForm.valid"
-                                        class="btn btn-primary d-block w-100"
-                                    >
-                                        Connexion
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <p
-                            class="mt-3 mb-0"
-                            style="display: flex; justify-content: center"
-                        >
-                            <a
-                                class="ms-2"
-                                [routerLink]="[
-                                    '/' +
-                                        REINITIALISATION +
-                                        '/' +
-                                        FORGOT_PASSWORD
-                                ]"
-                            >
-                                Mot de passe oublié ?
-                            </a>
-                        </p>
-                    </div>
+            <form
+                [formGroup]="loginForm"
+                (ngSubmit)="fetchLogin()"
+                class="auth-form"
+            >
+                <!-- Champ Email -->
+                <div class="form-group">
+                    <label class="form-label">
+                        Nom d'utilisateur
+                        <span class="required-indicator">*</span>
+                    </label>
+                    <input
+                        type="email"
+                        formControlName="username"
+                        placeholder="app@yourmail.com"
+                        class="form-input"
+                        aria-required="true"
+                    />
                 </div>
+
+                <!-- Champ Mot de passe -->
+                <div class="form-group">
+                    <label class="form-label">
+                        Mot de passe <span class="required-indicator">*</span>
+                    </label>
+                    <p-password
+                        formControlName="password"
+                        [feedback]="false"
+                        [toggleMask]="true"
+                        inputStyleClass="form-input"
+                        ariaLabel="Mot de passe"
+                    ></p-password>
+                </div>
+
+                <!-- Bouton de soumission -->
+                <button
+                    type="submit"
+                    [disabled]="!loginForm.valid"
+                    class="submit-button"
+                    aria-label="Se connecter"
+                >
+                    Connexion
+                </button>
+            </form>
+
+            <!-- Lien mot de passe oublié -->
+            <div class="forgot-password">
+                <a
+                    [routerLink]="[
+                        '/' + REINITIALISATION + '/' + FORGOT_PASSWORD
+                    ]"
+                    class="forgot-link"
+                    aria-label="Réinitialiser le mot de passe"
+                >
+                    Mot de passe oublié ?
+                </a>
             </div>
         </div>
     </div>

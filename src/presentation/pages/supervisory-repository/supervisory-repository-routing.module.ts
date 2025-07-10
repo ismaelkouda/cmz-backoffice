@@ -20,10 +20,10 @@ const routes: Routes = [
                 redirectTo: '',
             },
         ],
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${INDICATORS_ALARMS}`],
-        },
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${INDICATORS_ALARMS}`],
+        // },
     },
     {
         path: SLA_AGREEMENTS,
@@ -37,10 +37,10 @@ const routes: Routes = [
                 redirectTo: '',
             },
         ],
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${SLA_AGREEMENTS}`],
-        },
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${SLA_AGREEMENTS}`],
+        // },
     },
 ];
 

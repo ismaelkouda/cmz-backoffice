@@ -83,7 +83,7 @@ export class CarteSimFormComponent implements OnInit {
     public patrimoineType: string;
     public activation: string = OperationTransaction.ACTIVATION;
     public TypeUtilisateur = TypeUtilisateur;
-    public asAccessFeature: AccessFeature;
+    public asAccessFeature: AccessFeature | null;
     public asAccessFeatureIdentification: boolean;
     public asAccessFeatureDataBalance: boolean;
     public asAccessFeatureSmsBalance: boolean;
@@ -100,7 +100,7 @@ export class CarteSimFormComponent implements OnInit {
         private location: Location,
         private patrimoineService: PatrimoineService,
         private carteSimApiStateService: CarteSimApiStateService,
-        private storage: EncodingDataService,
+        private encodingService: EncodingDataService,
         private asFeatureService: AsFeatureService
     ) {
         this.asAccessFeatureIdentification = this.asFeatureService.hasFeature(
@@ -117,9 +117,7 @@ export class CarteSimFormComponent implements OnInit {
             this.mappingService.structureGlobale?.niveau_2;
         this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
         this.applicationType = this.mappingService.applicationType;
-        this.asAccessFeature = JSON.parse(
-            this.storage.getData('variables')
-        ).modules;
+        this.asAccessFeature = this.encodingService.getData('modules');
         this.patrimoineType = ApplicationType.PATRIMOINESIM;
         Object.values(TypeUtilisateur).forEach((item) => {
             this.listeTypeUtilisateur.push(item);

@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 export class EnvService {
     public apiUrl!: string;
     public fileUrl!: string;
+    public importationApiUrl!: string;
     public verifyIdentityDocumentUrl!: string;
     public environmentDeployment!: string;
     public enableDebug!: boolean;

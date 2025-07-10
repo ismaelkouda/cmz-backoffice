@@ -6,7 +6,6 @@ import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesB
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
-import { MappingService } from '../../../../../shared/services/mapping.service';
 import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import {
     BADGE_ETAT_FACTURE,
@@ -66,11 +65,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
     constructor(
         private activatedRoute: ActivatedRoute,
         private paymentApiService: PaymentApiService,
-        private router: Router,
-        private mappingService: MappingService
+        private router: Router
     ) {
         this.typePayment = Object.values(TypePayment);
-        this.listOperations = this.mappingService.listOperations;
     }
 
     ngOnInit(): void {

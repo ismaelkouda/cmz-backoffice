@@ -1,9 +1,9 @@
+import { EnvService } from 'src/shared/services/env.service';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EndPointUrl } from './api.enum';
-import { EncodingDataService } from '../../../../shared/services/encoding-data.service';
 
 @Injectable()
 export class PatrimoinesService {
@@ -11,10 +11,9 @@ export class PatrimoinesService {
 
     constructor(
         private httpClient: HttpClient,
-        private storage: EncodingDataService
+        private envService: EnvService
     ) {
-        const data = JSON.parse(this.storage.getData('user'));
-        this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`;
+        this.baseUrl = this.envService.apiUrl;
     }
     /*********************Méthode pour récupérer la liste des SIMS*************** */
 

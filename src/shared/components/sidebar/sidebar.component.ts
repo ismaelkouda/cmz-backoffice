@@ -1,3 +1,4 @@
+import { MenuItem } from './../../interfaces/menu-item.interface';
 import { Component, ViewEncapsulation, HostListener } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { NavService } from '../../services/nav.service';
@@ -16,7 +17,7 @@ export class SidebarComponent {
     public LOGO_ORANGE = LOGO_ORANGE;
     public ORANGE = ORANGE;
     public iconSidebar;
-    public menuItems: Array<any>;
+    public menuItems: Array<MenuItem> = [];
     public filterArray: Array<any> = [];
     public filterArray2: Array<any> = [];
 
@@ -35,9 +36,11 @@ export class SidebarComponent {
         private router: Router,
         public navServices: NavService,
         public layout: LayoutService,
-        private storage: EncodingDataService
+        private encodingService: EncodingDataService
     ) {
-        this.menuItems = JSON.parse(this.storage.getData('menu')) ?? [];
+        this.menuItems = this.encodingService.getData('menu') as
+            | Array<MenuItem>
+            | [];
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
                 this.menuItems.filter((items) => {
@@ -51,16 +54,20 @@ export class SidebarComponent {
                         if (subItems.path === event.url) {
                             this.setNavActive(subItems);
                         }
-                        if (!subItems.children) {
-                            return false;
-                        }
-                        subItems.children.filter((subSubItems) => {
-                            if (subSubItems.path === event.url) {
-                                this.setNavActive(subSubItems);
-                            }
-                        });
                     });
                 });
+            }
+        });
+    }
+
+    // Active Nave state
+    setNavActive(item) {
+        this.menuItems.filter((menuItem) => {
+            if (menuItem !== item) {
+                menuItem.active = false;
+            }
+            if (menuItem.children && menuItem.children.includes(item)) {
+                menuItem.active = true;
             }
         });
     }
@@ -74,29 +81,6 @@ export class SidebarComponent {
         this.navServices.collapseSidebar = !this.navServices.collapseSidebar;
     }
 
-    // Active Nave state
-    setNavActive(item) {
-        this.menuItems.filter((menuItem) => {
-            if (menuItem !== item) {
-                menuItem.active = false;
-            }
-            if (menuItem.children && menuItem.children.includes(item)) {
-                menuItem.active = true;
-            }
-            if (menuItem.children) {
-                menuItem.children.filter((submenuItems) => {
-                    if (
-                        submenuItems.children &&
-                        submenuItems.children.includes(item)
-                    ) {
-                        menuItem.active = true;
-                        submenuItems.active = true;
-                    }
-                });
-            }
-        });
-    }
-
     // Click Toggle menu
     toggletNavActive(item) {
         if (!item.active) {
@@ -107,11 +91,6 @@ export class SidebarComponent {
                 if (!a.children) {
                     return false;
                 }
-                a.children.forEach((b) => {
-                    if (a.children.includes(item)) {
-                        b.active = false;
-                    }
-                });
             });
         }
         item.active = !item.active;

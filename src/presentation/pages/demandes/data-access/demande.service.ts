@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EndPointUrl } from './api.enum';
+import { EnvService } from '../../../../shared/services/env.service';
 
 @Injectable({
     providedIn: 'root',
@@ -10,12 +11,8 @@ import { EndPointUrl } from './api.enum';
 export class DemandeService {
     public baseUrl: string;
 
-    constructor(
-        private http: HttpClient,
-        private storage: EncodingDataService
-    ) {
-        const data = JSON.parse(this.storage.getData('user'));
-        this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`;
+    constructor(private http: HttpClient, private envService: EnvService) {
+        this.baseUrl = this.envService.apiUrl;
     }
 
     GetDemandeServiceByTransaction(data, page): Observable<any> {

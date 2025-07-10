@@ -1,6 +1,6 @@
 import { FormatFormData } from 'src/shared/functions/formatFormData.function';
 import { Pargination } from '../../table/pargination';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from 'ngx-toastr';
@@ -26,11 +26,12 @@ import {
 } from '../../../presentation/pages/accounting/data-access/payment/enums/payment-status.enum';
 import { TypePayment } from '../../enum/type-payment.enum';
 import { CurrentUser } from '../../interfaces/current-user.interface';
-import { StoreCurrentUserService } from '../../services/store-current-user.service';
 import {
     OperationTransaction,
     TitleOperation,
 } from '../../enum/OperationTransaction.enum';
+import { Subject, takeUntil } from 'rxjs';
+import { EncodingDataService } from '../../services/encoding-data.service';
 const Swal = require('sweetalert2');
 
 type TYPEVIEW =
@@ -66,7 +67,7 @@ type TYPE_COLOR_PAYMENT_STATUS_BADGE =
     templateUrl: './invoice-form.component.html',
     styleUrls: [`./invoice-form.component.scss`],
 })
-export class InvoiceFormComponent {
+export class InvoiceFormComponent implements OnInit, OnDestroy {
     public spinner: boolean = true;
     public module: string;
     public subModule: string;
@@ -86,6 +87,7 @@ export class InvoiceFormComponent {
     public uploadedFileName: string | null = null;
     public uploadError: string | null = null;
     readonly MAX_FILE_SIZE_MB = 2;
+    private destroy$ = new Subject<void>();
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -97,16 +99,22 @@ export class InvoiceFormComponent {
         private fb: FormBuilder,
         private supervisionOperationService: SupervisionOperationService,
         private exportInvoiceService: ExportInvoiceService,
-        private storeCurrentUserService: StoreCurrentUserService
+        private encodingService: EncodingDataService
     ) {
-        const currentUser: CurrentUser | null =
-            this.storeCurrentUserService.getCurrentUser;
-        this.url_minio = currentUser?.tenant.url_minio as string;
         this.logoTenant = LOGO_ORANGE;
     }
 
     ngOnInit(): void {
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.url_minio = user?.tenant.url_minio as string;
         this.getParamsInUrl();
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     private getParamsInUrl(): void {

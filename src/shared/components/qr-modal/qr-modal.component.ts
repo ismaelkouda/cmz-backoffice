@@ -1,20 +1,22 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
 import { CurrentUser } from '../../interfaces/current-user.interface';
-import { StoreCurrentUserService } from '../../services/store-current-user.service';
+import { EncodingDataService } from '../../services/encoding-data.service';
 
 @Component({
     selector: 'app-qr-modal',
     templateUrl: './qr-modal.component.html',
     styleUrls: ['./qr-modal.component.scss'],
 })
-export class QrModalComponent implements OnInit {
+export class QrModalComponent implements OnInit, OnDestroy {
     @Input() qr;
     public simQrCode: string;
+    private destroy$ = new Subject<void>();
 
     constructor(
         private activeModal: NgbActiveModal,
-        private storeCurrentUserService: StoreCurrentUserService
+        private encodingService: EncodingDataService
     ) {}
 
     /**
@@ -22,9 +24,15 @@ export class QrModalComponent implements OnInit {
      */
 
     ngOnInit() {
-        const currentUser: CurrentUser | null =
-            this.storeCurrentUserService.getCurrentUser;
-        this.simQrCode = `${currentUser?.tenant?.url_minio}/${this.qr?.qrcode}`;
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.simQrCode = `${user?.tenant?.url_minio}/${this.qr?.qrcode}`;
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     closeModal() {

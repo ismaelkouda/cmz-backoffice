@@ -19,13 +19,14 @@ export class DetectionApproSmsComponent implements OnInit {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private storage: EncodingDataService,
+        private encodingService: EncodingDataService,
         private titleService: Title
     ) {
         this.titleService.setTitle(`${this.title}`);
-        this.visualUrl = JSON.parse(
-            this.storage.getData('variables')
-        ).dashboardApproSms;
+        this.visualUrl =
+            this.encodingService.getData('dashboard_links')?.[
+                'dashboardApproSms'
+            ];
         // this.visualUrl = JSON.parse(
         //     this.storage.getData('variables')
         // ).dashboardAppro;

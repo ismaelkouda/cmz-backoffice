@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MappingService } from '../../../../../../shared/services/mapping.service';
 import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
 import { TypeUtilisateur } from '../../../../../../shared/enum/TypeUtilisateur.enum';
 import { ApplicationType } from '../../../../../../shared/enum/ApplicationType.enum';
 import { SharedService } from '../../../../../../shared/services/shared.service';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import * as moment from 'moment';
 import { simCardApiService } from '../../../data-access/sim-card/services/sim-card-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,9 +22,10 @@ import { AsFeatureService } from '../../../../../../shared/services/as-feature.s
 import { simCardDetailsInterface } from '../../../data-access/sim-card/interfaces/sim-card-details.interface';
 import { NatureDocument } from '../../../../../../shared/enum/NatureDocument.enum';
 import { NaturePiece } from '../../../../../../shared/enum/NaturePiece.enum';
-import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
 import { SecondLevelInterface } from '../../../../../../shared/interfaces/first-level.interface';
 import { SecondLevelService } from '../../../../../../shared/services/second-level.service';
+import { CurrentUser } from '../../../../../../shared/interfaces/current-user.interface';
+import { EncodingDataService } from '../../../../../../shared/services/encoding-data.service';
 
 type TYPEVIEW = 'view-sim-card' | 'update-sim-card' | 'identification-sim-card';
 const TYPEVIEW_VALUES: TYPEVIEW[] = [
@@ -40,7 +41,7 @@ function isTypeView(value: any): value is TYPEVIEW {
     templateUrl: './form-sim-card.component.html',
     styleUrls: ['./form-sim-card.component.scss'],
 })
-export class FormSimCardComponent {
+export class FormSimCardComponent implements OnInit, OnDestroy {
     public module: string;
     public subModule: string;
     public urlParamRef: TYPEVIEW;
@@ -79,6 +80,8 @@ export class FormSimCardComponent {
     public asAccessFeatureDataBalance: boolean;
     public asAccessFeatureSmsBalance: boolean;
 
+    private destroy$ = new Subject<void>();
+
     constructor(
         private activatedRoute: ActivatedRoute,
         private loadingBar: LoadingBarService,
@@ -91,7 +94,7 @@ export class FormSimCardComponent {
         private simCardApiService: simCardApiService,
         private translate: TranslateService,
         private asFeatureService: AsFeatureService,
-        private storeCurrentUserService: StoreCurrentUserService,
+        private encodingService: EncodingDataService,
         private secondLevelService: SecondLevelService
     ) {
         this.asAccessFeatureIdentification = this.asFeatureService.hasFeature(
@@ -104,13 +107,6 @@ export class FormSimCardComponent {
             OperationTransaction.SOLDE_SMS
         );
 
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.firstLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_1;
-        this.secondLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_2;
-        this.thirdLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_3;
         this.applicationType = this.mappingService.applicationType;
         this.patrimoineType = ApplicationType.PATRIMOINESIM;
         Object.values(TypeUtilisateur).forEach((item) => {
@@ -125,11 +121,22 @@ export class FormSimCardComponent {
     }
 
     ngOnInit(): void {
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.firstLevelLibel = user?.structure_organisationnelle?.niveau_1;
+        this.secondLevelLibel = user?.structure_organisationnelle?.niveau_2;
+        this.thirdLevelLibel = user?.structure_organisationnelle?.niveau_3;
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
             this.subModule = data.subModule[0];
         });
         this.getParamsInUrl();
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     onSelectedFiles(event, typeFile: 'physique' | 'recto' | 'verso') {
@@ -592,10 +599,41 @@ export class FormSimCardComponent {
             nature_piece: response?.data?.nature_piece || '',
             numero_piece: response?.data?.numero_piece || '',
             lieu_naissance: response?.data?.lieu_naissance || '',
-            date_naissance: response?.data?.date_naissance
-                ? new Date(response.data.date_naissance)
-                : '',
+            date_naissance:
+                this.normalizeDate(response?.data?.date_naissance) || '',
         });
+    }
+    normalizeDate(input) {
+        console.log('====================================');
+        console.log(input);
+        console.log('====================================');
+        if (!input) return '';
+
+        // Cas 1: format JJ/MM/AAAA ou JJ-MM-AAAA
+        const regex = /^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/;
+        const match = input.match(regex);
+        if (match) {
+            const [, day, month, year] = match;
+            return `${day}/${month}/${year}`;
+        }
+
+        // Cas 2: format ISO valide déjà
+        const isoDate: any = new Date(input);
+        if (!isNaN(isoDate)) {
+            return isoDate.toISOString().split('T')[0];
+        }
+
+        // Cas 3: format texte (ex: "15 février 1990")
+        try {
+            const date: any = new Date(Date.parse(input));
+            if (!isNaN(date)) {
+                return date.toISOString().split('T')[0];
+            }
+        } catch (_) {
+            return '';
+        }
+
+        return '';
     }
 
     private get IdentifyCarteSimMessage(): string {

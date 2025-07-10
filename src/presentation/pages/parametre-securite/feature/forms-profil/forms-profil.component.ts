@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    Output,
+    EventEmitter,
+    OnDestroy,
+} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ParametreSecuriteService } from '../../data-access/parametre-securite.service';
 import { TreeNode } from 'primeng/api';
@@ -8,8 +15,9 @@ import { SettingService } from 'src/shared/services/setting.service';
 import { MappingService } from 'src/shared/services/mapping.service';
 import { ApplicationType } from 'src/shared/enum/ApplicationType.enum';
 import { FormsProfilApiService } from '../../data-access/services/forms-profil/forms-profil.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { StoreCurrentUserService } from '@shared/services/store-current-user.service';
+import { CurrentUser } from '../../../../../shared/interfaces/current-user.interface';
 
 // Définition du type des permissions pour une meilleure lisibilité
 interface PermissionNode {
@@ -26,7 +34,7 @@ interface PermissionNode {
     templateUrl: './forms-profil.component.html',
     styleUrls: ['./forms-profil.component.scss'],
 })
-export class FormsProfilComponent implements OnInit {
+export class FormsProfilComponent implements OnInit, OnDestroy {
     @Input() currentObject;
     @Output() formsView = new EventEmitter();
     @Output() listProfils = new EventEmitter();
@@ -54,33 +62,28 @@ export class FormsProfilComponent implements OnInit {
 
     public listHabilitation$: Observable<Array<any>>;
     public checkedHabilitation: Array<any>;
+    private destroy$ = new Subject<void>();
 
     constructor(
         private parametreSecuriteService: ParametreSecuriteService,
-        private settingService: SettingService,
         private toastrService: ToastrService,
         private mappingService: MappingService,
-        private storage: EncodingDataService,
         private formsProfilApiService: FormsProfilApiService,
-        private storeCurrentUserService: StoreCurrentUserService
+        private encodingService: EncodingDataService
     ) {
         this.newPermissions = menuJson;
         this.newPermissions.slice(1);
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.firstLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_1;
-        this.secondLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_2;
-        this.thirdLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_3;
-
-        // this.firstLevelLibel = this.mappingService.structureGlobale?.niveau_1;
-        // this.secondLevelLibelle = this.mappingService.structureGlobale?.niveau_2;
-        // this.thirdLevelLibelle = this.mappingService.structureGlobale?.niveau_3;
         this.applicationType = this.mappingService.applicationType;
     }
 
     ngOnInit() {
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.firstLevelLibel = user?.structure_organisationnelle?.niveau_1;
+        this.secondLevelLibel = user?.structure_organisationnelle?.niveau_2;
+        this.thirdLevelLibel = user?.structure_organisationnelle?.niveau_3;
+
         this.formsProfilApiService.fetchPermissions(
             this.currentObject?.id ? `/${this.currentObject?.id}` : ''
         );
@@ -173,6 +176,11 @@ export class FormsProfilComponent implements OnInit {
             //     })
             //   }, 2000);
         }
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
     getCheckedPermissions(nodes: any[]): any[] {
         let checkedItems: any[] = [];
@@ -337,7 +345,7 @@ export class FormsProfilComponent implements OnInit {
                 next: (response) => {
                     this.GetAllProfilHabilitations();
                     this.toastrService.success(response.message);
-                    this.storage.saveData('isProfil', 'is_profil');
+                    this.encodingService.saveData('isProfil', 'is_profil');
                 },
                 error: (error) => {
                     this.toastrService.error(error.error.message);
@@ -481,7 +489,7 @@ export class FormsProfilComponent implements OnInit {
                 next: (response) => {
                     this.GetAllProfilHabilitations();
                     this.toastrService.success(response.message);
-                    this.storage.saveData('isProfil', 'is_profil');
+                    this.encodingService.saveData('isProfil', 'is_profil');
                 },
                 error: (error) => {
                     this.toastrService.error(error.error.message);

@@ -6,7 +6,6 @@ import {
     FormGroup,
     Validators,
 } from '@angular/forms';
-import { MappingService } from '../../../../../../shared/services/mapping.service';
 import {
     filter,
     firstValueFrom,
@@ -17,10 +16,8 @@ import {
 } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { LoadingBarService } from '@ngx-loading-bar/core';
 const Swal = require('sweetalert2');
 import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../../../../../shared/constants/swalWithBootstrapButtonsParams.constant';
-import { handle } from '../../../../../../shared/functions/api.function';
 import { ACCOUNTING } from '../../../../../../shared/routes/routes';
 import { MY_RELOADS } from '../../../accounting-routing.module';
 import { TranslateService } from '@ngx-translate/core';
@@ -38,10 +35,7 @@ import {
 } from '../../../../../../shared/interfaces/bank-beneficiaire.interface';
 import { dateNotInPastValidator } from '../../../../../../shared/functions/control-date.function';
 import { ReloadAccountOperationDetailsInterface } from '../../../data-access/reload-my-account/interfaces/transaction-details.interface';
-import {
-    T_MY_RELOADS_STATUS_ENUM,
-    MY_RELOADS_STATUS_ENUM,
-} from '../../../data-access/reload-my-account/enums/reload-my-account-status.enum';
+import { MY_RELOADS_STATUS_ENUM } from '../../../data-access/reload-my-account/enums/reload-my-account-status.enum';
 
 type TYPEVIEW =
     | 'reload-my-account'
@@ -85,7 +79,6 @@ export class FormReloadMyAccountComponent {
         private toastrService: ToastrService,
         private fb: FormBuilder,
         private translate: TranslateService,
-        public mappingService: MappingService,
         private router: Router,
         private reloadMyAccountApiService: ReloadMyAccountApiService,
         private sharedService: SharedService

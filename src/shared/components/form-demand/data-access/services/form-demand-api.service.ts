@@ -1,20 +1,17 @@
-import { Observable, BehaviorSubject, of } from 'rxjs';
-import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EncodingDataService } from '../../../../services/encoding-data.service';
 import { FormDemandEndpointEnum } from '../enums/form-demand-endpoint.enum';
+import { EnvService } from '../../../../services/env.service';
 
 @Injectable()
 export class FormDemandApiService {
     public baseUrl: string;
+    public importationBaseUrl: string;
 
-    constructor(
-        private http: HttpClient,
-        private storage: EncodingDataService
-    ) {
-        const data = JSON.parse(this.storage.getData('user'));
-        this.baseUrl = `${data?.tenant?.url_backend}/api/v1/`;
+    constructor(private http: HttpClient, private envService: EnvService) {
+        this.baseUrl = this.envService.apiUrl;
+        this.importationBaseUrl = this.envService.importationApiUrl;
     }
     SaveDemand(data): Observable<any> {
         const url: string = <string>(
@@ -24,6 +21,6 @@ export class FormDemandApiService {
     }
     SaveImportation(data): Observable<any> {
         const url: string = <string>FormDemandEndpointEnum.SAVE_IMPORTATION_SIM;
-        return this.http.post(`${this.baseUrl}${url}`, data);
+        return this.http.post(`${this.importationBaseUrl}${url}`, data);
     }
 }

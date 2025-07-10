@@ -7,7 +7,9 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { FormValidator } from 'src/shared/utils/spacer.validator';
 import { Title } from '@angular/platform-browser';
-import { StoreCurrentUserService } from '../../../../../shared/services/store-current-user.service';
+import { Subject } from 'rxjs';
+import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
+import { CurrentUser } from '../../../../../shared/interfaces/current-user.interface';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -37,6 +39,8 @@ export class SecondLevelComponent implements OnInit {
     public currentLevelMenus: string | undefined;
     public adminForm: FormGroup;
     public currentTabsIndex: number = 0;
+
+    private destroy$ = new Subject<void>();
     public title = '2ème niveau - Système de Gestion de Collecte Centralisée';
     constructor(
         private settingService: SettingService,
@@ -46,25 +50,29 @@ export class SecondLevelComponent implements OnInit {
         private clipboardApi: ClipboardService,
         private titleService: Title,
         private fb: FormBuilder,
-        private storeCurrentUserService: StoreCurrentUserService
+        private encodingService: EncodingDataService
     ) {
         this.titleService.setTitle(`${this.title}`);
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.currentLevelLibelle =
-            currentUser?.structure_organisationnelle?.niveau_2;
-        this.childLevelLibelle =
-            currentUser?.structure_organisationnelle?.niveau_3;
-        this.parentLevelLibelle =
-            currentUser?.structure_organisationnelle?.niveau_1;
-        this.currentLevelMenus =
-            currentUser?.structure_organisationnelle?.niveau_2_menu;
     }
 
     ngOnInit() {
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.parentLevelLibelle = user?.structure_organisationnelle?.niveau_1;
+        this.currentLevelLibelle = user?.structure_organisationnelle?.niveau_2;
+        this.childLevelLibelle = user?.structure_organisationnelle?.niveau_3;
+        this.currentLevelMenus =
+            user?.structure_organisationnelle?.niveau_2_menu;
         this.GellCurrentLevel();
         this.GellAllFirstLevel();
         this.onInitForm();
         this.isFilter();
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public GellCurrentLevel() {

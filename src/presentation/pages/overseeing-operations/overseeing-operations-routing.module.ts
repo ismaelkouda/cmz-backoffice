@@ -33,10 +33,10 @@ const routes: Routes = [
                 redirectTo: '',
             },
         ],
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${WAITING}`],
-        },
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${WAITING}`],
+        // },
     },
     {
         path: TREATMENT_MONITORING,
@@ -54,10 +54,10 @@ const routes: Routes = [
                 redirectTo: '',
             },
         ],
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${TREATMENT_MONITORING}`],
-        },
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${TREATMENT_MONITORING}`],
+        // },
     },
     {
         path: CLAIMS,
@@ -100,10 +100,10 @@ const routes: Routes = [
                 redirectTo: '',
             },
         ],
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${NOTIFICATIONS}`],
-        },
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${NOTIFICATIONS}`],
+        // },
     },
     {
         path: MESSAGING,
@@ -117,10 +117,10 @@ const routes: Routes = [
                 redirectTo: '',
             },
         ],
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${MESSAGING}`],
-        },
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${MESSAGING}`],
+        // },
     },
 ];
 

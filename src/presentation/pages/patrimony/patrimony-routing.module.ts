@@ -38,7 +38,7 @@ const routes: Routes = [
                 redirectTo: '',
             },
         ],
-        canActivate: [PagesGuard],
+        // canActivate: [PagesGuard],
         // data: {
         //     allowedPaths: [`/${SIM_CARD}`],
         // },
@@ -63,10 +63,10 @@ const routes: Routes = [
                 redirectTo: '',
             },
         ],
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${WHITE_SIM_CARD}`],
-        },
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${WHITE_SIM_CARD}`],
+        // },
     },
     {
         path: DATA_BALANCE_STATUS,
@@ -80,10 +80,10 @@ const routes: Routes = [
                 redirectTo: '',
             },
         ],
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${DATA_BALANCE_STATUS}`],
-        },
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${DATA_BALANCE_STATUS}`],
+        // },
     },
     {
         path: SMS_BALANCE_STATUS,
@@ -97,10 +97,10 @@ const routes: Routes = [
                 redirectTo: '',
             },
         ],
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${SMS_BALANCE_STATUS}`],
-        },
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${SMS_BALANCE_STATUS}`],
+        // },
     },
     {
         path: DOWNLOAD,
@@ -114,10 +114,10 @@ const routes: Routes = [
                 redirectTo: '',
             },
         ],
-        canActivate: [PagesGuard],
-        data: {
-            allowedPaths: [`/${DOWNLOAD}`],
-        },
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${DOWNLOAD}`],
+        // },
     },
     {
         path: SIM_IMPORTATION,

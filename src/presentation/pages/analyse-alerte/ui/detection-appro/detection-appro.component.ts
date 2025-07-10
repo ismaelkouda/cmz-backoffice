@@ -21,16 +21,15 @@ export class DetectionApproComponent implements OnInit {
     constructor(
         private router: Router,
         private activatedRoute: ActivatedRoute,
-        private storage: EncodingDataService,
+        private encodingService: EncodingDataService,
         private titleService: Title
     ) {
         this.titleService.setTitle(`${this.title}`);
         // this.visualUrl = JSON.parse(
-        //     this.storage.getData('variables')
+        //     this.encodingService.getData('variables')
         // ).dashboardApproData;
-        this.visualUrl = JSON.parse(
-            this.storage.getData('variables')
-        ).dashboardAppro;
+        this.visualUrl =
+            this.encodingService.getData('dashboard_links')?.['dashboardAppro'];
     }
 
     ngOnInit() {

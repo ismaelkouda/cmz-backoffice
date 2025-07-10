@@ -88,7 +88,7 @@ importers:
         version: 11.0.0(@angular/common@15.2.10(@angular/core@15.2.10(rxjs@7.5.7)(zone.js@0.11.8))(rxjs@7.5.7))(@angular/core@15.2.10(rxjs@7.5.7)(zone.js@0.11.8))(sweetalert2@11.19.1)
       '@swimlane/ngx-charts':
         specifier: ^20.1.2
-        version: 20.5.0(bnmw3ecv73xujk7nyi32fnlr2a)
+        version: 20.5.0(08aa222cfdd7b60b976f5f7171c775b0)
       angular-calendar:
         specifier: ^0.30.1
         version: 0.30.1(@angular/core@15.2.10(rxjs@7.5.7)(zone.js@0.11.8))
@@ -149,6 +149,9 @@ importers:
       leaflet.markercluster:
         specifier: ^1.5.3
         version: 1.5.3(leaflet@1.9.4)
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
       moment:
         specifier: ^2.29.4
         version: 2.30.1
@@ -3922,6 +3925,9 @@ packages:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
 
+  lodash-es@4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+
   lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
@@ -7347,7 +7353,7 @@ snapshots:
       sweetalert2: 11.19.1
       tslib: 2.8.1
 
-  '@swimlane/ngx-charts@20.5.0(bnmw3ecv73xujk7nyi32fnlr2a)':
+  '@swimlane/ngx-charts@20.5.0(08aa222cfdd7b60b976f5f7171c775b0)':
     dependencies:
       '@angular/animations': 15.0.4(@angular/core@15.2.10(rxjs@7.5.7)(zone.js@0.11.8))
       '@angular/cdk': 14.2.7(@angular/common@15.2.10(@angular/core@15.2.10(rxjs@7.5.7)(zone.js@0.11.8))(rxjs@7.5.7))(@angular/core@15.2.10(rxjs@7.5.7)(zone.js@0.11.8))(rxjs@7.5.7)
@@ -9938,6 +9944,8 @@ snapshots:
   locate-path@6.0.0:
     dependencies:
       p-locate: 5.0.0
+
+  lodash-es@4.17.21: {}
 
   lodash.debounce@4.0.8: {}
 

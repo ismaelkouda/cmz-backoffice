@@ -7,23 +7,25 @@
     [(selection)]="historySelected"
     [rows]="(pagination$ | async)?.per_page"
     [globalFilterFields]="table.globalFilterFields"
+    [scrollable]="true"
     responsiveLayout="scroll"
     scrollable="true"
+    scrollHeight="500px"
     width="100%"
     class="responsive-claims-table"
 >
     <ng-template pTemplate="caption">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between flex-wrap align-items-start">
             <app-table-title
                 [count]="(pagination$ | async)?.total"
-                [legendePluriel]="'HISTORIES' | translate"
                 [perPage]="(pagination$ | async)?.per_page"
-                [legendeSingulier]="'HISTORIES' | translate"
                 [page]="(pagination$ | async)?.current_page"
                 [totalPage]="(pagination$ | async)?.last_page"
             >
             </app-table-title>
-            <div class="d-flex gap-2 align-items-center">
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
                 <app-table-button-header
                     (refresh)="pageCallback()"
                     (export)="onExportExcel()"
@@ -47,7 +49,6 @@
                 [ngStyle]="{
                     minWidth: col.width,
                     width: col.width,
-                    maxWidth: col.width,
                     textAlign: 'center'
                 }"
             >
@@ -87,7 +88,12 @@
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
-                        {{ rowIndex + (pagination$ | async)?.current_page }}
+                        {{
+                            ((pagination$ | async)?.current_page - 1) *
+                                (pagination$ | async)?.per_page +
+                                rowIndex +
+                                1
+                        }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Actions'">
                         <button

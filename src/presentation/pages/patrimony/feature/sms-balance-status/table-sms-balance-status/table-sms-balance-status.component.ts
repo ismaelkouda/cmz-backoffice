@@ -1,4 +1,4 @@
-import { Input } from '@angular/core';
+import { Input, OnDestroy, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -6,21 +6,21 @@ import {
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { MappingService } from '../../../../../../shared/services/mapping.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { smsBalanceStatusInterface } from '../../../data-access/sms-balance-status/interfaces/sms-balance-status.interface';
 import { smsBalanceStatusApiService } from '../../../data-access/sms-balance-status/services/sms-balance-status-api.service';
 import { smsBalanceStatusFilterInterface } from '../../../data-access/sms-balance-status/interfaces/sms-balance-status-filter.interface';
 import { smsBalanceStatusTableConstant } from '../../../data-access/sms-balance-status/constants/sms-balance-status-table.constant';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { TranslateService } from '@ngx-translate/core';
-import { StoreCurrentUserService } from '../../../../../../shared/services/store-current-user.service';
+import { CurrentUser } from '../../../../../../shared/interfaces/current-user.interface';
+import { EncodingDataService } from '../../../../../../shared/services/encoding-data.service';
 
 @Component({
     selector: `app-table-sms-balance-status`,
     templateUrl: `./table-sms-balance-status.component.html`,
 })
-export class TableSmsBalanceStatusComponent {
+export class TableSmsBalanceStatusComponent implements OnInit, OnDestroy {
     @Input() spinner: boolean;
     @Input() listSmsBalanceStatus$: Observable<
         Array<smsBalanceStatusInterface>
@@ -32,21 +32,28 @@ export class TableSmsBalanceStatusComponent {
     public secondLevelLibel: string | undefined;
     public thirdLevelLibel: string | undefined;
 
+    private destroy$ = new Subject<void>();
     constructor(
         public toastService: ToastrService,
         private smsBalanceStatusApiService: smsBalanceStatusApiService,
         private tableExportExcelFileService: TableExportExcelFileService,
         private translate: TranslateService,
         private clipboardService: ClipboardService,
-        private storeCurrentUserService: StoreCurrentUserService
-    ) {
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.firstLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_1;
-        this.secondLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_2;
-        this.thirdLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_3;
+        private encodingService: EncodingDataService
+    ) {}
+
+    ngOnInit() {
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.firstLevelLibel = user?.structure_organisationnelle?.niveau_1;
+        this.secondLevelLibel = user?.structure_organisationnelle?.niveau_2;
+        this.thirdLevelLibel = user?.structure_organisationnelle?.niveau_3;
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public copyToClipboard(data: string): void {

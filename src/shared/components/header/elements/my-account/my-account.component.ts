@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -9,8 +9,8 @@ import { EncodingDataService } from 'src/shared/services/encoding-data.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { StoreCurrentUserService } from '../../../../services/store-current-user.service';
 import { CurrentUser } from '../../../../interfaces/current-user.interface';
-import { StoreTokenService } from '../../../../services/store-token.service';
 import { CryptoToken } from '../../../../crypto-data/crypto-token';
+import { Subject } from 'rxjs';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -18,36 +18,44 @@ const Swal = require('sweetalert2');
     templateUrl: './my-account.component.html',
     styleUrls: ['./my-account.component.scss'],
 })
-export class MyAccountComponent implements OnInit {
+export class MyAccountComponent implements OnInit, OnDestroy {
     public userName: string;
     public profileImg: 'assets/images/dashboard/profile.jpg';
-    public currentUser: CurrentUser;
+    public currentUser: CurrentUser | null;
     public newPasswordValue: string;
     public confirmPasswordValue: string;
     public passwordForm: FormGroup;
     public submitted: boolean = false;
     public accountForm: FormGroup;
 
+    private destroy$ = new Subject<void>();
+
     constructor(
         private settingService: SettingService,
         private router: Router,
-        private storage: EncodingDataService,
         private fb: FormBuilder,
         private modalService: NgbModal,
         private toastrService: ToastrService,
         private loadingBarService: LoadingBarService,
-        private storeCurrentUserService: StoreCurrentUserService,
-        private storeTokenService: StoreTokenService,
+        private currentUserService: StoreCurrentUserService,
+        private encodingService: EncodingDataService,
         private cryptoToken: CryptoToken
     ) {}
 
     ngOnInit() {
-        this.currentUser = this.storeCurrentUserService
-            .getCurrentUser as CurrentUser;
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.currentUser = user;
         this.initFormPassword();
         this.initFormAccount();
         // this.OnChangeNewPasswordvalue()
         // this.OnChangeConfirmPasswordvalue()
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     // Password
@@ -176,16 +184,16 @@ export class MyAccountComponent implements OnInit {
     public handleLogout(): void {
         this.settingService.Logout({}).subscribe({
             next: (response) => {
-                this.storeCurrentUserService.removeCurrentUser();
-                this.storeTokenService.removeToken();
-                this.storage.removeData('current_menu');
-                this.storage.removeData('variables');
-                this.storage.removeData('user');
-                this.storage.removeData('token');
-                this.storage.removeData('modules');
+                // this.currentUserService.removeCurrentUser();
+                this.encodingService.removeData('token_data');
+                this.encodingService.removeData('menu');
+                this.encodingService.removeData('dashboard_links');
+                this.encodingService.removeData('user_data');
+                this.encodingService.removeData('token_data');
+                this.encodingService.removeData('modules');
                 // this.cryptoToken.clear();
-                if (this.storage.getData('isProfil') || null) {
-                    this.storage.removeData('isProfil');
+                if (this.encodingService.getData('isProfil') || null) {
+                    this.encodingService.removeData('isProfil');
                     window.location.reload();
                     // .then(() => window.location.reload());
                 }

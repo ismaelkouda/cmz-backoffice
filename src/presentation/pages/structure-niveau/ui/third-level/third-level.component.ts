@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClipboardService } from 'ngx-clipboard';
@@ -8,7 +8,9 @@ import { MappingService } from 'src/shared/services/mapping.service';
 import { SettingService } from 'src/shared/services/setting.service';
 import { FormValidator } from 'src/shared/utils/spacer.validator';
 import { Title } from '@angular/platform-browser';
-import { StoreCurrentUserService } from '../../../../../shared/services/store-current-user.service';
+import { Subject } from 'rxjs';
+import { CurrentUser } from '../../../../../shared/interfaces/current-user.interface';
+import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -16,7 +18,7 @@ const Swal = require('sweetalert2');
     templateUrl: './third-level.component.html',
     styleUrls: ['./third-level.component.scss'],
 })
-export class ThirdLevelComponent implements OnInit {
+export class ThirdLevelComponent implements OnInit, OnDestroy {
     public initialView: boolean = true;
     public formsView: boolean = false;
     public affectationView: boolean = false;
@@ -38,6 +40,8 @@ export class ThirdLevelComponent implements OnInit {
     public currentLevel: any;
     public adminForm: FormGroup;
     public currentTabsIndex: number = 0;
+
+    private destroy$ = new Subject<void>();
     public title = '3ème niveau - Système de Gestion de Collecte Centralisée';
     constructor(
         private settingService: SettingService,
@@ -48,21 +52,27 @@ export class ThirdLevelComponent implements OnInit {
         private clipboardApi: ClipboardService,
         private titleService: Title,
         private fb: FormBuilder,
-        private storeCurrentUserService: StoreCurrentUserService
+        private encodingService: EncodingDataService
     ) {
         this.titleService.setTitle(`${this.title}`);
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.currentLevelLibelle =
-            currentUser?.structure_organisationnelle?.niveau_3;
-        this.currentLevelMenus =
-            currentUser?.structure_organisationnelle?.niveau_3_menu;
     }
 
     ngOnInit() {
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.currentLevelLibelle = user?.structure_organisationnelle?.niveau_3;
+        this.currentLevelMenus =
+            user?.structure_organisationnelle?.niveau_3_menu;
         this.GellCurrentLevel();
         this.GellAllSecondLevel();
         this.onInitForm();
         this.isFilter();
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public GellCurrentLevel() {

@@ -18,15 +18,16 @@ export class AnalysisSmsAlarmsComponent implements OnInit {
         'Analyse des alarmes SMS - Système de Gestion de Collecte Centralisée';
     constructor(
         private activatedRoute: ActivatedRoute,
-        private storage: EncodingDataService,
+        private encodingService: EncodingDataService,
         private titleService: Title
     ) {
         // this.visualUrl = JSON.parse(
-        //     this.storage.getData('variables')
+        //     this.encodingService.getData('variables')
         // ).analyseAlarmeGenereesSms;
-        this.visualUrl = JSON.parse(
-            this.storage.getData('variables')
-        ).dashboardGrafanaSms;
+        this.visualUrl =
+            this.encodingService.getData('dashboard_links')?.[
+                'dashboardGrafanaSms'
+            ];
         this.titleService.setTitle(`${this.title}`);
     }
 

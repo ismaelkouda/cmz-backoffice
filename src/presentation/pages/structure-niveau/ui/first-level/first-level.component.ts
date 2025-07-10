@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MappingService } from 'src/shared/services/mapping.service';
@@ -7,14 +7,16 @@ import { FormValidator } from '../../../../../shared/utils/spacer.validator';
 import { ClipboardService } from 'ngx-clipboard';
 import { ExcelService } from 'src/shared/services/excel.service';
 import { Title } from '@angular/platform-browser';
-import { StoreCurrentUserService } from '@shared/services/store-current-user.service';
+import { Subject } from 'rxjs';
+import { CurrentUser } from '../../../../../shared/interfaces/current-user.interface';
+import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
 
 @Component({
     selector: 'app-first-level',
     templateUrl: './first-level.component.html',
     styleUrls: ['./first-level.component.scss'],
 })
-export class FirstLevelComponent implements OnInit {
+export class FirstLevelComponent implements OnInit, OnDestroy {
     public initialView: boolean = true;
     public formsView: boolean = false;
     public affectationView: boolean = false;
@@ -37,6 +39,8 @@ export class FirstLevelComponent implements OnInit {
     // public secondLevelLibelle: string;
     public adminForm: FormGroup;
     public currentTabsIndex: number = 0;
+
+    private destroy$ = new Subject<void>();
     public title = '1er niveau - Système de Gestion de Collecte Centralisée';
 
     constructor(
@@ -47,22 +51,27 @@ export class FirstLevelComponent implements OnInit {
         private clipboardApi: ClipboardService,
         private fb: FormBuilder,
         private titleService: Title,
-        private storeCurrentUserService: StoreCurrentUserService
+        private encodingService: EncodingDataService
     ) {
         this.titleService.setTitle(`${this.title}`);
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.firstLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_1;
-        this.secondLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_2;
-        this.firstLevelMenus =
-            currentUser?.structure_organisationnelle?.niveau_1_menu;
     }
 
     ngOnInit() {
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        this.firstLevelLibel = user?.structure_organisationnelle?.niveau_1;
+        this.secondLevelLibel = user?.structure_organisationnelle?.niveau_2;
+        this.firstLevelMenus = user?.structure_organisationnelle
+            ?.niveau_1_menu as string;
         this.GellAllFirstLevel();
         this.onInitForm();
         this.isFilter();
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public GellAllFirstLevel() {

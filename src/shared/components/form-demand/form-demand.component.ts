@@ -1,5 +1,5 @@
 import { IFormDemandValues } from './data-access/enums/form-demand-values.interface';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { SharedService } from '../../services/shared.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { distinctUntilChanged, Observable } from 'rxjs';
+import { distinctUntilChanged, Observable, Subject, takeUntil } from 'rxjs';
 const Swal = require('sweetalert2');
 import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../constants/swalWithBootstrapButtonsParams.constant';
 import { ToastrService } from 'ngx-toastr';
@@ -29,7 +29,6 @@ import { ClipboardService } from 'ngx-clipboard';
 import { TranslateService } from '@ngx-translate/core';
 import { UsageInterface } from '../../interfaces/usage.interface';
 import { FormulasInterface } from '../../interfaces/formulas.interface';
-import { StoreCurrentUserService } from '../../services/store-current-user.service';
 import { SecondLevelInterface } from '@shared/interfaces/first-level.interface';
 import { SecondLevelService } from '@shared/services/second-level.service';
 import {
@@ -43,8 +42,10 @@ import {
 } from '../../routes/routes';
 import { FirstLevelInterface } from '../../interfaces/first-level.interface';
 import { ThirdLevelInterface } from '../../interfaces/third-level.interface';
-import { StoreTokenService } from '../../services/store-token.service';
 import { SupervisionOperationService } from '../../../presentation/pages/supervision-operations/data-access/supervision-operation.service';
+import { EncodingDataService } from '../../services/encoding-data.service';
+import { TokenInterface } from '../../interfaces/token.interface';
+import { CurrentUser } from '../../interfaces/current-user.interface';
 
 type TYPEVIEW =
     | 'mass-add-mobile-subscription'
@@ -70,7 +71,7 @@ function isTypeView(value: any): value is TYPEVIEW {
     templateUrl: './form-demand.component.html',
     styleUrls: ['./form-demand.component.scss'],
 })
-export class FormDemandComponent implements OnInit {
+export class FormDemandComponent implements OnInit, OnDestroy {
     public module: string;
     public subModule: string;
     public firstLevelLibel: string | undefined;
@@ -81,7 +82,7 @@ export class FormDemandComponent implements OnInit {
     public listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
     public listUsages$: Observable<Array<UsageInterface>>;
     public listFormulas$: Observable<Array<FormulasInterface>>;
-    public demandPrice: number;
+    public demandPrice: number = 0;
     public formDemand!: FormGroup<IFormDemandValues>;
     public urlParamRef: TYPEVIEW;
     public urlParamId: string;
@@ -122,10 +123,11 @@ export class FormDemandComponent implements OnInit {
     public readonly table_simple_demand: TableConfig = TABLE_FORM_SIMPLE_DEMAND;
     public readonly table_mass_demand: TableConfig = TABLE_FORM_MASS_DEMAND;
 
+    private destroy$ = new Subject<void>();
+
     constructor(
         private sharedService: SharedService,
         private toastrService: ToastrService,
-        private storeCurrentUserService: StoreCurrentUserService,
         private fb: FormBuilder,
         private router: Router,
         private activatedRoute: ActivatedRoute,
@@ -134,26 +136,30 @@ export class FormDemandComponent implements OnInit {
         private clipboardService: ClipboardService,
         private loadingBarService: LoadingBarService,
         private secondLevelService: SecondLevelService,
-        private storeTokenService: StoreTokenService,
+        private encodingService: EncodingDataService,
         private supervisionOperationService: SupervisionOperationService
-    ) {
-        const currentUser = this.storeCurrentUserService.getCurrentUser;
-        this.firstLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_1;
-        this.secondLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_2;
-        this.thirdLevelLibel =
-            currentUser?.structure_organisationnelle?.niveau_3;
-    }
+    ) {}
 
     ngOnInit(): void {
+        const user = this.encodingService.getData(
+            'user_data'
+        ) as CurrentUser | null;
+        console.log('user', user);
+
+        this.firstLevelLibel = user?.structure_organisationnelle?.niveau_1;
+        this.secondLevelLibel = user?.structure_organisationnelle?.niveau_2;
+        this.thirdLevelLibel = user?.structure_organisationnelle?.niveau_3;
         this.activatedRoute.queryParams.subscribe((params: Object) => {
             this.urlParamId = params?.['id'];
             this.urlParamRef = params?.['ref'];
             this.urlParamTypeDemand = params?.['operation'];
         });
-        // si la ref dans l'url est different de  "simple-add-mobile-subscription" | "mass-add-mobile-subscription" alors affiche la page d'error
         this.getParamsInUrl();
+    }
+
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     private getParamsInUrl(): void {
@@ -168,11 +174,13 @@ export class FormDemandComponent implements OnInit {
             this.getTitle;
             this.initFormDemand();
             this.sharedService.fetchWhiteSimCardAvailable();
+            if (this.urlParamRef === 'mass-add-importation') return;
             this.sharedService.fetchDemandPrice(
                 this.getTypeDemand(this.urlParamTypeDemand)
             );
             this.sharedService.getDemandPrice().subscribe((value) => {
                 this.demandPrice = value;
+                console.log('demandPrice', this.demandPrice);
             });
             this.sharedService.fetchUsages();
             this.listUsages$ = this.sharedService.getUsages();
@@ -183,6 +191,10 @@ export class FormDemandComponent implements OnInit {
             this.sharedService.fetchThirdLevel();
             this.listThirdLevel$ = this.sharedService.getThirdLevel();
         }
+    }
+
+    public isNumber(value: unknown): value is number {
+        return typeof value === 'number' && !isNaN(value);
     }
 
     public initFormDemand(): void {
@@ -337,7 +349,18 @@ export class FormDemandComponent implements OnInit {
     }
 
     async onDownloadModel(event: any): Promise<any> {
-        const token = this.storeTokenService.getToken;
+        const token = this.encodingService.getData(
+            'token_data'
+        ) as TokenInterface | null;
+        console.log(
+            'token',
+            this.supervisionOperationService.GetSupervisionOperationsTraitementsSuivisDownloadModeleData(
+                OperationTransaction.IMPORTATION,
+                '',
+                token?.value
+            )
+        );
+
         window.location.href =
             this.supervisionOperationService.GetSupervisionOperationsTraitementsSuivisDownloadModeleData(
                 OperationTransaction.IMPORTATION,

@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { EndPointUrl } from '../enum/api.enum';
 import { OperationTransaction } from '../enum/OperationTransaction.enum';
 import { EnvService } from './env.service';
+import { CurrentUser } from '../interfaces/current-user.interface';
 
 export type AccessFeature = [
     'solde-data',
@@ -19,7 +20,7 @@ export type AccessFeature = [
     providedIn: 'root',
 })
 export class MappingService {
-    public currentUser: any;
+    public currentUser: CurrentUser | null;
     public profil: any;
     public appReadStatut: boolean;
     public currentPermissions: any[];
@@ -62,14 +63,12 @@ export class MappingService {
     public analyseAlarmeGenerees: any;
     public getAccessFeature: AccessFeature;
     constructor(
-        private storage: EncodingDataService,
+        private encodingService: EncodingDataService,
         private storeLocaleService: StoreLocaleService,
         private http: HttpClient,
         private envService: EnvService
     ) {
-        this.currentVariables = JSON.parse(
-            this.storage.getData('variables') || null
-        );
+        this.currentVariables = this.encodingService.getData('dashboard_links');
         this.grafanaLink = this.currentVariables?.dashboardGrafana;
         this.approLink = this.currentVariables?.dashboardAppro;
         this.detectionApproUrl = this.currentVariables?.dashboardAppro;
@@ -94,28 +93,27 @@ export class MappingService {
         this.sourceSoldeDotationOrange =
             this.envService.messageApp.sourceSoldeDotationOrange;
         this.storeLocaleService.tenantData$.subscribe((res: any) => {
-            this.currentUser =
-                res ?? JSON.parse(this.storage.getData('user') || null);
+            this.currentUser = res ?? this.encodingService.getData('user_data');
             this.baseUrl = `${this.currentUser?.tenant?.url_backend}/api/v1/`;
             this.fileUrl = `${this.currentUser?.tenant?.url_minio}/`;
             this.minioUrl = `${this.currentUser?.tenant?.url_minio}/`;
-            this.noderedUrl = this.currentUser?.tenant?.url_nodered;
-            this.ws_server = this.currentUser?.tenant?.ws_server;
+            // this.noderedUrl = this.currentUser?.tenant?.url_nodered;
+            // this.ws_server = this.currentUser?.tenant?.ws_server;
             this.tenant = this.currentUser?.tenant;
             this.structureGlobale =
                 this.currentUser?.structure_organisationnelle;
             this.logoTenant = `${this.fileUrl}${this.tenant?.logo_tenant}`;
-            this.profil = this.currentUser?.profil;
+            // this.profil = this.currentUser?.profil;
             this.appReadStatut = this.profil?.mode_lecture;
             this.dashbordTransactionSLa = this.tenant?.url_demandes_sla;
-            const newDatatEnv = {
-                ...this.currentUser?.env,
-                typeNiveau: 'Type Emplacement',
-            };
-            this.typeNiveau = newDatatEnv?.typeNiveau;
+            // const newDatatEnv = {
+            //     ...this.currentUser?.env,
+            //     typeNiveau: 'Type Emplacement',
+            // };
+            // this.typeNiveau = newDatatEnv?.typeNiveau;
             this.applicationType = this.tenant?.application;
             this.suffixEmail = this.tenant?.suffixe_email;
-            this.notifications = this.currentUser?.notifications;
+            // this.notifications = this.currentUser?.notifications;
             if (this.applicationType === ApplicationType.PATRIMOINESIM) {
                 this.appName = this.envService.headerSettings.appTypePS;
                 this.listOperations = Object.values(
@@ -155,9 +153,9 @@ export class MappingService {
         });
         this.storeLocaleService._permissions$.subscribe((res: any) => {
             this.currentPermissions =
-                res ?? JSON.parse(this.storage.getData('current_menu') || null);
+                res ?? this.encodingService.getData('current_menu');
         });
-        if (storage.getData('user')) {
+        if (encodingService.getData('user')) {
             // this.GetAllPortefeuille();
         }
         this.IsAction();

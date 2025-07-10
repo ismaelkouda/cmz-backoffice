@@ -5,19 +5,21 @@ import { EncodingDataService } from './encoding-data.service';
     providedIn: 'root',
 })
 export class AsFeatureService {
-    constructor(private storage: EncodingDataService) {}
+    constructor(private encodingService: EncodingDataService) {}
 
     public getAsAccessFeature(): string[] {
-        return this.storage.getData('modules');
+        return this.encodingService.getData('modules');
     }
 
     public setAsAccessFeature(value: string[]): void {
-        this.storage.saveData('modules', JSON.stringify(value));
+        this.encodingService.saveData('modules', JSON.stringify(value));
     }
 
     public hasFeature(feature: string): boolean {
-        this.storage.getData('modules');
-        const asAccessFeature = this.storage.getData('modules');
+        this.encodingService.getData('modules');
+        const asAccessFeature = this.encodingService.getData(
+            'modules'
+        ) as Array<string>;
         return asAccessFeature.includes(feature);
     }
 }

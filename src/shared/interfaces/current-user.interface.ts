@@ -1,4 +1,6 @@
-export interface Permission {
+import { T_NOM_APPLICATION } from '../constants/nom-aplication.contant';
+
+interface UserPermissions {
     id: number;
     level: number;
     title: string;
@@ -7,11 +9,11 @@ export interface Permission {
     headCode: string;
     icon: string;
     path?: string;
-    type: 'link' | 'sub';
+    type: string;
     active?: boolean;
     expanded?: boolean;
     statut?: boolean;
-    children?: Permission[];
+    children?: UserPermissions[];
 }
 
 export interface ProfilCurrentUser {
@@ -51,7 +53,7 @@ export interface Tenant {
     lien_dashboard_appro: string;
     lien_dashboard_rejets: string;
     logo_tenant: string;
-    application: string;
+    application: T_NOM_APPLICATION;
     suffixe_email: string;
     created_at: string;
     updated_at: string;
@@ -118,15 +120,32 @@ export interface CurrentUser {
     profil_slug: string;
     email_verified_at: string | null;
     statut: string;
-    profil_user: ProfilCurrentUser;
-    permissions: Permission[];
-    habilitationsNiveauUn: string[];
-    habilitationsNiveauDeux: string[];
-    habilitationsNiveauTrois: string[];
+    profil_user: {
+        slug: string;
+        nom: string;
+        mode_lecture: boolean;
+        statut: string;
+    };
+    permissions: UserPermissions[];
     tenant: Tenant;
-    notifications: number;
     structure_organisationnelle: StructureOrganisationnelle;
+    paths: string[];
     created_at: string;
     updated_at: string;
-    paths: Array<string>;
+}
+
+export interface AuthToken {
+    value: string;
+    expiresAt: string;
+}
+
+interface UserData {
+    token: AuthToken;
+    user: CurrentUser;
+}
+
+export interface LoginResponse {
+    data: UserData;
+    error: boolean;
+    message: string;
 }

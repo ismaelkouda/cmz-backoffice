@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MappingService } from 'src/shared/services/mapping.service';
 import { Title } from '@angular/platform-browser';
+import { StoreCurrentUserService } from '../../../../../shared/services/store-current-user.service';
+import { MappingService } from '../../../../../shared/services/mapping.service';
 
 @Component({
     selector: 'app-analyse-rejet',

@@ -17,12 +17,13 @@ export class DashboardDemandsComponent implements OnInit {
 
     constructor(
         private activatedRoute: ActivatedRoute,
-        private storage: EncodingDataService,
+        private encodingService: EncodingDataService,
         private titleService: Title
     ) {
-        this.visualUrl = JSON.parse(
-            this.storage.getData('variables')
-        ).dashboardDemandes;
+        this.visualUrl =
+            this.encodingService.getData('dashboard_links')?.[
+                'dashboardDemandes'
+            ];
         this.titleService.setTitle(`${this.title}`);
     }
 
