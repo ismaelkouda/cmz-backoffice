@@ -17,7 +17,7 @@ import {
 } from '../../../../../../shared/constants/badge-etape.constant';
 import { Folder } from '../../../../../../shared/interfaces/folder';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { waitingQueueTableConstant } from '../../../data-access/waiting-queue/constants/waiting-queue-table.constant';
 import { TranslateService } from '@ngx-translate/core';
 import { waitingQueueFilterInterface } from '../../../data-access/waiting-queue/interfaces/waiting-queue-filter.interface';
@@ -74,7 +74,7 @@ export class TableWaitingQueueComponent {
     ) {}
 
     public onExportExcel(): void {
-        this.listWaitingQueue$.subscribe((data) => {
+        this.listWaitingQueue$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

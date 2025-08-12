@@ -30,6 +30,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { UsageInterface } from '../../interfaces/usage.interface';
 import { TreatmentMonitoringApiService } from '../../../presentation/pages/overseeing-operations/data-access/treatment-monitoring/services/treatment-monitoring-api.service';
 import { StatutTransaction } from '../../enum/StatutTransaction.enum';
+import { WaitingQueueApiService } from '../../../presentation/pages/overseeing-operations/data-access/waiting-queue/services/waiting-queue-api.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -58,7 +59,7 @@ export class FormFolderComponent implements OnInit {
         private loadingBarService: LoadingBarService,
         private supervisionOperationService: SupervisionOperationService,
         private translate: TranslateService,
-        private treatmentMonitoringApiService: TreatmentMonitoringApiService
+        private waitingQueueApiService: WaitingQueueApiService
     ) {}
 
     ngOnInit(): void {
@@ -424,10 +425,10 @@ export class FormFolderComponent implements OnInit {
             this.sharedService.fetchDemands(filterData, nbrPageData);
         });
         combineLatest([
-            this.treatmentMonitoringApiService.getDataFilterTreatmentMonitoring(),
-            this.treatmentMonitoringApiService.getDataNbrPageTreatmentMonitoring(),
+            this.waitingQueueApiService.getDataFilterWaitingQueue(),
+            this.waitingQueueApiService.getDataNbrPageWaitingQueue(),
         ]).subscribe(([filterData, nbrPageData]) => {
-            this.treatmentMonitoringApiService.fetchTreatmentMonitoring(
+            this.waitingQueueApiService.fetchWaitingQueue(
                 filterData,
                 nbrPageData
             );

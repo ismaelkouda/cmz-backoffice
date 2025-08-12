@@ -348,13 +348,16 @@
             <div *ngIf="indexTabPanelActive === 0">
                 <div class="table_content_wrapper">
                     <p-table
+                        editMode="row"
+                        dataKey="id"
                         #dt
                         [value]="listAffectations"
                         [rows]="10"
+                        selectionMode="multiple"
+                        [(selection)]="globalWhiteSimCardEditRow"
                         [paginator]="true"
                         responsiveLayout="scroll"
                         [rowHover]="true"
-                        dataKey="id"
                         currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
                         données"
                         [showCurrentPageReport]="true"
@@ -408,7 +411,10 @@
                             let-editing="editing"
                             let-data
                         >
-                            <tr [pEditableRow]="data">
+                            <tr
+                                [pEditableRow]="data"
+                                [editableRow]="editableRowIndex === i"
+                            >
                                 <td class="text-center">{{ i + 1 }}</td>
                                 <td class="text-center">
                                     {{ data?.classification }}
@@ -424,16 +430,16 @@
                                 >
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
-                                            <input
-                                                class="text-center"
-                                                pInputText
-                                                type="number"
-                                                [(ngModel)]="data.seuil"
-                                                #data.seuil="ngModel"
-                                            />
+                                            <div class="d-flex gap-2">
+                                                <input
+                                                    pInputText
+                                                    type="number"
+                                                    [(ngModel)]="data.seuil"
+                                                />
+                                            </div>
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            <span>{{ data.seuil }}</span>
+                                            {{ data?.seuil || 0 }}
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
@@ -478,7 +484,7 @@
                                         pTooltip="Modifier"
                                         tooltipPosition="top"
                                         icon="pi pi-pencil"
-                                        (click)="OnEditOneRowMetrique(data)"
+                                        (click)="OnEditOneRowMetrique(data, i)"
                                         class="p-button-secondary"
                                     ></button>
                                     <button

@@ -4,7 +4,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
-import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
+import { IStatisticsBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
 import { SharedDataService } from '../../../../../shared/services/shared-data.service';
 import { StateWhiteSimCardService } from '../../data-access/white-sim-card/state-approbation.service';
 import { handle } from '../../../../../shared/functions/api.function';
@@ -32,7 +32,7 @@ export class WhiteSimCardComponent implements OnInit {
     public spinner: boolean = false;
     public selectedWhiteSimCard: DossierWhiteSimCard;
     public currentPage: string;
-    public statistiquesBox: Array<IStatistiquesBox> = [];
+    public statistiquesBox: Array<IStatisticsBox> = [];
     private pageCallbackSubscription: Subscription;
 
     constructor(

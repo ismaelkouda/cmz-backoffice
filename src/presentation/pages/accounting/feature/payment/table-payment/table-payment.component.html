@@ -44,7 +44,11 @@
             <th
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center'
+                }"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'Date / Heure'">
@@ -83,11 +87,17 @@
             <td
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{ minWidth: col.width, width: col.width }"
+                [attr.data-label]="col.header"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
-                        {{ rowIndex + (pagination$ | async)?.current_page }}
+                        {{
+                            ((pagination$ | async)?.current_page - 1) *
+                                (pagination$ | async)?.per_page +
+                                rowIndex +
+                                1
+                        }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'N° Dossier'">
                         <span (click)="copyToClipboard(item?.[col.field])">

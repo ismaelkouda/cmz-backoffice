@@ -8,7 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as L from 'leaflet';
 import { MappingService } from '../../../../../../shared/services/mapping.service';
 import { ModalParams } from '../../../../../../shared/constants/modalParams.contant';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
 import {
@@ -136,7 +136,7 @@ export class CarteSimTableComponent {
     }
 
     public onExportExcel(): void {
-        this.listSimCard$.subscribe((data) => {
+        this.listSimCard$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

@@ -6,7 +6,7 @@ import {
 } from '../../../../../../shared/services/table-export-excel-file.service';
 import { indicatorsAlarmsInterface } from '../../../data-access/indicators-alarms/interfaces/indicators-alarms.interface';
 import { indicatorsAlarmsTableConstant } from '../../../data-access/indicators-alarms/constants/indicators-alarms-table.constant';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { IndicatorsAlarmsApiService } from '../../../data-access/indicators-alarms/services/indicators-alarms-api.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class TableIndicatorsAlarmsComponent {
     ) {}
 
     public onExportExcel(): void {
-        this.listIndicatorsAlarms$.subscribe((data) => {
+        this.listIndicatorsAlarms$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

@@ -1,3 +1,4 @@
+import { getSimCardTable } from './../../../data-access/sim-card/constants/sim-card-table.constant';
 import { AsFeatureService } from './../../../../../../shared/services/as-feature.service';
 import { simCardApiService } from './../../../data-access/sim-card/services/sim-card-api.service';
 import {
@@ -25,15 +26,13 @@ import {
 import { BADGE_ETAT } from '../../../../../../shared/constants/badge-etat.contant';
 import { BADGE_ETAPE } from '../../../../../../shared/constants/badge-etape.constant';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { simCardTableConstant } from '../../../data-access/sim-card/constants/sim-card-table.constant';
-import { Observable, Subject } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { T_SIM_CARD_STATUS_ENUM } from '../../../data-access/sim-card/enums/sim-card-status.enum';
 import * as L from 'leaflet';
 const Swal = require('sweetalert2');
 import { TranslateService } from '@ngx-translate/core';
 import { QrModalComponent } from '../../../../../../shared/components/qr-modal/qr-modal.component';
 import { simCardFilterInterface } from '../../../data-access/sim-card/interfaces/sim-card-filter.interface';
-import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
 import { CurrentUser } from '../../../../../../shared/interfaces/current-user.interface';
 import { EncodingDataService } from '../../../../../../shared/services/encoding-data.service';
 
@@ -72,21 +71,20 @@ type ButtonQrCodeSimCardData = { qrcode: string; msisdn: string };
     templateUrl: './table-sim-card.component.html',
     styleUrls: ['./table-sim-card.component.scss'],
 })
-export class TableSimCardComponent implements OnInit, OnDestroy {
+export class TableSimCardComponent implements OnInit {
     @Input() spinner: boolean;
     @Input() listSimCard$: Observable<Array<simCardInterface>>;
-    @Input() simCardSelected: simCardInterface;
     @Input() pagination$: Observable<Paginate<simCardInterface>>;
+    @Input() asAccessFeatureIdentification: boolean;
     @Output() interfaceUser = new EventEmitter<any>();
-    public asAccessFeatureIdentification: boolean;
+    public simCardSelected: simCardInterface;
     public firstLevelLibel: string | undefined;
     public secondLevelLibel: string | undefined;
     public thirdLevelLibel: string | undefined;
     public visibleSimCardMap = false;
-    public readonly table: TableConfig;
+    public table: TableConfig;
     public readonly BADGE_STEP = BADGE_ETAPE;
     public readonly BADGE_STATE = BADGE_ETAT;
-    private destroy$ = new Subject<void>();
     private map: L.Map | null = null;
     private openStreetMap = L.tileLayer(
         'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -129,14 +127,8 @@ export class TableSimCardComponent implements OnInit, OnDestroy {
         private simCardApiService: simCardApiService,
         private tableExportExcelFileService: TableExportExcelFileService,
         private translate: TranslateService,
-        private asFeatureService: AsFeatureService,
         private encodingService: EncodingDataService
-    ) {
-        this.asAccessFeatureIdentification = this.asFeatureService.hasFeature(
-            OperationTransaction.IDENTIFICATION
-        );
-        this.table = simCardTableConstant(this.asFeatureService);
-    }
+    ) {}
 
     ngOnInit(): void {
         const user = this.encodingService.getData(
@@ -145,11 +137,13 @@ export class TableSimCardComponent implements OnInit, OnDestroy {
         this.firstLevelLibel = user?.structure_organisationnelle?.niveau_1;
         this.secondLevelLibel = user?.structure_organisationnelle?.niveau_2;
         this.thirdLevelLibel = user?.structure_organisationnelle?.niveau_3;
-    }
-
-    ngOnDestroy() {
-        this.destroy$.next();
-        this.destroy$.complete();
+        this.table = getSimCardTable(
+            this.asAccessFeatureIdentification,
+            this.firstLevelLibel,
+            this.secondLevelLibel,
+            this.thirdLevelLibel
+        );
+        console.log(this.table);
     }
 
     public pageCallback() {
@@ -157,15 +151,18 @@ export class TableSimCardComponent implements OnInit, OnDestroy {
     }
 
     public onExportExcel(): void {
-        this.listSimCard$.subscribe((data) => {
-            if (data) {
-                this.tableExportExcelFileService.exportAsExcelFile(
-                    data,
-                    this.table,
-                    'list_sim_cards'
-                );
-            }
-        });
+        this.simCardApiService
+            .getSimCard()
+            .pipe(take(1))
+            .subscribe((simCards) => {
+                if (simCards) {
+                    this.tableExportExcelFileService.exportAsExcelFile(
+                        simCards,
+                        this.table,
+                        'list_sim_cards'
+                    );
+                }
+            });
     }
 
     public copyToClipboard(data: string): void {
@@ -217,7 +214,6 @@ export class TableSimCardComponent implements OnInit, OnDestroy {
 
     private onSelectSimCard(selectedSimCard: simCardInterface): void {
         this.simCardSelected = selectedSimCard;
-        this.simCardApiService.setSimCardSelected(selectedSimCard);
     }
 
     public handleAction(params: Action): void {

@@ -35,7 +35,6 @@ export class SupervisionOperationService {
         numeroDemande: string = '',
         tokenUser: string = ''
     ): any {
-        const importationApiUrl = this.envService.importationApiUrl;
         const url: string = <string>(
             EndPointUrl.GET_SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_DOWNLOAD_MODELE_DATA.replace(
                 '{operation}',
@@ -44,7 +43,7 @@ export class SupervisionOperationService {
                 .replace('{numeroDemande}', numeroDemande)
                 .replace('{tokenUser}', tokenUser)
         );
-        return `${importationApiUrl}${url}`;
+        return `${this.baseUrl}${url}`;
     }
 
     postGestionFacturePaiementsTransaction(data): Observable<any> {

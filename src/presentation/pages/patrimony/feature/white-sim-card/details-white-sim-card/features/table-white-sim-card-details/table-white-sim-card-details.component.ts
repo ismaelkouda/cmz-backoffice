@@ -6,7 +6,7 @@ import {
     TableConfig,
     TableExportExcelFileService,
 } from '../../../../../../../../shared/services/table-export-excel-file.service';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { whiteSimCardDetailsInterface } from '../../../../../data-access/white-sim-card/interfaces/white-sim-card-details.interface';
 import { whiteSimCardApiService } from '../../../../../data-access/white-sim-card/services/white-sim-card-api.service';
 import { whiteSimCardDetailsFilterInterface } from '../../../../../data-access/white-sim-card/interfaces/white-sim-card-details-filter.interface';
@@ -62,7 +62,7 @@ export class TableWhiteSimCardDetailsComponent {
     }
 
     public onExportExcel(): void {
-        this.listWhiteSimCardDetails$.subscribe((data) => {
+        this.listWhiteSimCardDetails$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

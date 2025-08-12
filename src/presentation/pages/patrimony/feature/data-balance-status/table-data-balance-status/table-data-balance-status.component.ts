@@ -6,7 +6,7 @@ import {
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, take, takeUntil } from 'rxjs';
 import { dataBalanceStatusInterface } from '../../../data-access/data-balance-status/interfaces/data-balance-status.interface';
 import { dataBalanceStatusApiService } from '../../../data-access/data-balance-status/services/data-balance-status-api.service';
 import { dataBalanceStatusFilterInterface } from '../../../data-access/data-balance-status/interfaces/data-balance-status-filter.interface';
@@ -87,7 +87,7 @@ export class TableDataBalanceStatusComponent implements OnInit, OnDestroy {
     }
 
     public onExportExcel(): void {
-        this.listDataBalanceStatus$.subscribe((data) => {
+        this.listDataBalanceStatus$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

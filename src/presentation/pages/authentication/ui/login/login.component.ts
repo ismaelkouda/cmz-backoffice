@@ -1,3 +1,4 @@
+import { VariablesResponseInterface } from './../../data-access/interfaces/variables-response.interface';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
     FormGroup,
@@ -6,39 +7,22 @@ import {
     AbstractControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
-import {
-    catchError,
-    debounceTime,
-    distinctUntilChanged,
-    finalize,
-    switchMap,
-    takeUntil,
-    tap,
-} from 'rxjs/operators';
-
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { DASHBOARD } from '../../../../../shared/routes/routes';
 import { REINITIALISATION } from '../../../../app-routing.module';
 import { FORGOT_PASSWORD } from '../../../password-reset/password-reset-routing.module';
-
 import { AuthenticationService } from '../../data-access/authentication.service';
 import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
-import { AsFeatureService } from '../../../../../shared/services/as-feature.service';
-import { StoreCurrentUserService } from '../../../../../shared/services/store-current-user.service';
-
 import { LOGO_ORANGE } from '../../../../../shared/constants/logoOrange.constant';
 import { menuJson } from './../../../../../assets/menu';
 import {
     AuthToken,
     CurrentUser,
-    LoginResponse,
 } from '../../../../../shared/interfaces/current-user.interface';
-
-interface LoginCredentials {
-    username: string;
-    password: string;
-}
+import { LoginPayloadInterface } from '../../data-access/interfaces/login-payload.interface';
+import { LoginResponseInterface } from '../../data-access/interfaces/login-response.interface';
+import { LoginCredentialsInterface } from '../../data-access/interfaces/login-credentials-interface';
 
 @Component({
     selector: 'app-login',
@@ -46,29 +30,28 @@ interface LoginCredentials {
     styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-    readonly REINITIALISATION = REINITIALISATION;
+    readonly REINITIALIZATION = REINITIALISATION;
     readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
     readonly LOGO_ORANGE = LOGO_ORANGE;
 
-    loginForm = new FormGroup({
-        username: new FormControl('', [Validators.required, Validators.email]),
-        password: new FormControl('', [
-            Validators.required,
-            Validators.minLength(8),
-        ]),
+    loginForm = new FormGroup<LoginPayloadInterface>({
+        username: new FormControl('', {
+            validators: [Validators.required, Validators.email],
+            nonNullable: true,
+        }),
+        password: new FormControl('', {
+            validators: [Validators.required, Validators.minLength(6)],
+            nonNullable: true,
+        }),
     });
 
     private destroy$ = new Subject<void>();
-    loading$ = new BehaviorSubject<boolean>(false);
     permissionsJson = menuJson;
 
     constructor(
         private authService: AuthenticationService,
         private router: Router,
-        private toastr: ToastrService,
-        private encodingService: EncodingDataService,
-        private currentUserService: StoreCurrentUserService,
-        private featureService: AsFeatureService
+        private encodingService: EncodingDataService
     ) {}
 
     ngOnInit(): void {
@@ -102,24 +85,28 @@ export class LoginComponent implements OnInit, OnDestroy {
             .subscribe();
     }
 
-    fetchLogin(): void {
-        if (this.loginForm.invalid || this.loading$.value) {
+    public onSubmit(): void {
+        if (this.loginForm.invalid) {
             this.markFormAsTouched();
             return;
         }
 
-        this.loading$.next(true);
-        const credentials: LoginCredentials = this.loginForm
-            .value as LoginCredentials;
-
+        const credentials: LoginCredentialsInterface = this.loginForm
+            .value as LoginCredentialsInterface;
         this.authService
-            .OnLogin(credentials)
-            .pipe(
-                switchMap((response) => this.handleAuthResponse(response)),
-                catchError((error) => this.handleAuthError(error)),
-                finalize(() => this.loading$.next(false))
-            )
-            .subscribe();
+            .fetchLogin(credentials, () => this.handleAuthError())
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((loginResponse: LoginResponseInterface) => {
+                if (loginResponse.error === false) {
+                    const { user, token } = loginResponse?.data;
+                    this.storeUserAndToken(user, token);
+                    this.handleFetchVariables();
+                }
+            });
+    }
+
+    private handleAuthError() {
+        this.loginForm.get('password')?.reset();
     }
 
     private markFormAsTouched(): void {
@@ -128,69 +115,27 @@ export class LoginComponent implements OnInit, OnDestroy {
         });
     }
 
-    private handleAuthResponse(response: LoginResponse) {
-        if (response.error === false) {
-            return this.processSuccessfulAuth(response);
-        } else {
-            this.handleFailedAuth(response);
-            return throwError(() => new Error(response.message));
-        }
+    private handleFetchVariables(): void {
+        this.authService
+            .fetchVariables()
+            .subscribe((variablesResponse: VariablesResponseInterface) => {
+                if (variablesResponse?.error === false) {
+                    this.handleVariablesResponse(variablesResponse);
+                    this.router.navigate([DASHBOARD]);
+                }
+            });
     }
 
-    private processSuccessfulAuth(response: LoginResponse) {
-        const user = response.data.user;
-        const token = response.data.token;
-
-        this.storeAuthData(user, token);
-
-        this.toastr.success(`Bienvenue ${user.nom} ${user.prenoms}`);
-
-        return this.authService.getVariables({}).pipe(
-            tap((varsResponse) => this.handleVariablesResponse(varsResponse)),
-            catchError((error) => {
-                this.toastr.error('Erreur lors du chargement des variables');
-                return of(null);
-            }),
-            finalize(() => this.router.navigateByUrl(`/${DASHBOARD}`))
-        );
-    }
-
-    private storeAuthData(user: CurrentUser, token: AuthToken): void {
-        // this.currentUserService.setCurrentUser(user);
+    private storeUserAndToken(user: CurrentUser, token: AuthToken): void {
         this.encodingService.saveData('user_data', user, true);
         this.encodingService.saveData('token_data', token, true);
         this.encodingService.saveData('menu', user.permissions, true);
     }
 
-    private handleVariablesResponse(response: any): void {
-        if (!response.error) {
-            // this.featureService.setAsAccessFeature(response.data.modules);
-            this.encodingService.saveData(
-                'modules',
-                response.data.modules,
-                true
-            );
-            this.encodingService.saveData(
-                'dashboard_links',
-                response.data,
-                true
-            );
-            // this.encodingService.saveData('dashboard_links', response.data, true); // a supprimer quand tout sera remplacer
-        }
-    }
-
-    private handleFailedAuth(response: any): void {
-        const errorMessage = response?.message || 'Erreur de connexion';
-        this.toastr.error(errorMessage);
-        this.loginForm.get('password')?.reset();
-    }
-
-    private handleAuthError(error: any) {
-        const errorMessage =
-            error?.error?.message ||
-            "Une erreur est survenue lors de l'authentification";
-        this.toastr.error(errorMessage);
-        this.loginForm.get('password')?.reset();
-        return throwError(() => error);
+    private handleVariablesResponse(
+        response: VariablesResponseInterface
+    ): void {
+        this.encodingService.saveData('modules', response.data.modules, true);
+        this.encodingService.saveData('dashboard_links', response.data, true);
     }
 }

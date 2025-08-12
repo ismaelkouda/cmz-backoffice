@@ -32,6 +32,7 @@ export class InvoiceApiService {
         );
 
     private BASE_URL: string;
+
     constructor(
         private httpClient: HttpClient,
         private envService: EnvService

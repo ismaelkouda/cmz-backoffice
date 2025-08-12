@@ -22,7 +22,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Folder } from '../../../../../../shared/interfaces/folder';
 import { createButtonStyle } from '../../../../../../shared/functions/treatment-demands.function';
 import { TreatmentDemands } from '../../../../../../shared/interfaces/treatment-demands.interface';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
 import { PAYMENT_STATUS_ENUM } from '../../../../accounting/data-access/payment/enums/payment-status.enum';
@@ -96,7 +96,7 @@ export class TableMobileSubscriptionsComponent {
     }
 
     public onExportExcel(): void {
-        this.listDemands$.subscribe((data) => {
+        this.listDemands$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

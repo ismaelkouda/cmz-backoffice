@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { HistoryApiService } from '../../data-access/services/history-api.service';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, take } from 'rxjs';
 import { Paginate } from '@shared/interfaces/paginate';
 import { historyInterface } from '../../data-access/interfaces/history.interface';
 
@@ -25,6 +25,7 @@ export class TableHistoryComponent {
     @Input() idModel: number;
     @Input() typeModel: string;
     @Input() historySelected: any;
+    public spinner = false;
     public visibleDetailsHistory = false;
     public readonly table: TableConfig = historyTableConstant;
 
@@ -43,10 +44,15 @@ export class TableHistoryComponent {
         ]).subscribe(([filterData, nbrPageData]) => {
             this.historyApiService.fetchHistory(filterData, nbrPageData);
         });
+        this.historyApiService
+            .isLoadingHistory()
+            .subscribe((spinner: boolean) => {
+                this.spinner = spinner;
+            });
     }
 
     public onExportExcel(): void {
-        this.listHistory$.subscribe((data) => {
+        this.listHistory$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

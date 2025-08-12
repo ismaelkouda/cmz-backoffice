@@ -106,6 +106,7 @@ export class CarteSimFormComponent implements OnInit {
         this.asAccessFeatureIdentification = this.asFeatureService.hasFeature(
             OperationTransaction.IDENTIFICATION
         );
+
         this.asAccessFeatureDataBalance = this.asFeatureService.hasFeature(
             OperationTransaction.SOLDE_DATA
         );

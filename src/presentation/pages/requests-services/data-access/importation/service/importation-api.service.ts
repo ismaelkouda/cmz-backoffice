@@ -13,7 +13,7 @@ export class ImportationService {
     private BASE_URL: string;
 
     constructor(private http: HttpClient, private envService: EnvService) {
-        this.BASE_URL = this.envService.importationApiUrl;
+        this.BASE_URL = this.envService.apiUrl;
     }
 
     /*********************Méthode pour récupérer la liste des demands importées*************** */

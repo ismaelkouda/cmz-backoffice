@@ -1,4 +1,4 @@
-import { IStatistiquesBox } from './../../../../../shared/interfaces/statistiquesBox.interface';
+import { IStatisticsBox } from './../../../../../shared/interfaces/statistiquesBox.interface';
 import { ExcelService } from 'src/shared/services/excel.service';
 import { StateFileAttenteService } from './../../data-access/file-attente/state-file-attente.service';
 import { Pargination } from 'src/shared/class/pargination';
@@ -37,7 +37,7 @@ export class FileAttenteComponent implements OnInit {
     public selectedSim: Object | null;
     public filterData: Object;
     public currentPage: string;
-    public statistiquesBox: Array<IStatistiquesBox> = [];
+    public statistiquesBox: Array<IStatisticsBox> = [];
 
     constructor(
         private toastrService: ToastrService,

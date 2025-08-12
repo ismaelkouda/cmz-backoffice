@@ -360,7 +360,6 @@ export class FormDemandComponent implements OnInit, OnDestroy {
                 token?.value
             )
         );
-
         window.location.href =
             this.supervisionOperationService.GetSupervisionOperationsTraitementsSuivisDownloadModeleData(
                 OperationTransaction.IMPORTATION,

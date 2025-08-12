@@ -253,15 +253,15 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
         let htmlMessage: string;
         switch (this.formTypePaiement.get('type_paiement')?.value) {
             case 'PostPaid':
-                htmlMessage = `<span style="color: #ff6600;">Le montant de cette facture sera <strong>enregistré dans le système de facturation</strong>. Le règlement s'effectuera ultérieurement selon les conditions convenues.</span>`;
+                htmlMessage = `<span>Le montant de cette facture sera <strong style="color: #ff6600;">enregistré dans le système de facturation</strong>. Le règlement s'effectuera ultérieurement selon les conditions convenues.</span>`;
                 break;
 
             case 'PrePaid':
-                htmlMessage = `<span style="color: #ff6600;">Cette facture sera <strong>réglée immédiatement</strong> via un justificatif de paiement.</span>`;
+                htmlMessage = `<span>Cette facture sera <strong  style="color: #ff6600;">réglée immédiatement</strong> via un justificatif de paiement.</span>`;
                 break;
 
             case 'via Compte':
-                htmlMessage = `</span>Le montant <span style="color: #ff6600;"><strong>${this.detailsInvoiceForm?.['prix_ttc']}</strong></span> sera <strong>débité de votre compte</strong>.`;
+                htmlMessage = `</span>Le montant <span><strong  style="color: #ff6600;">${this.detailsInvoiceForm?.['prix_ttc']}</strong></span> sera <strong>débité de votre compte</strong>.`;
                 break;
 
             default:

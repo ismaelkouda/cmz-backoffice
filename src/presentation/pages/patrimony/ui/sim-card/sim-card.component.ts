@@ -28,6 +28,8 @@ import {
     SIM_CARD_IDENTIFICATION_ENUM,
     T_SIM_CARD_IDENTIFICATION_ENUM,
 } from '../../data-access/sim-card/enums/sim-card-identification.enum';
+import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
+import { AsFeatureService } from '../../../../../shared/services/as-feature.service';
 
 const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT];
 const etat_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE];
@@ -48,15 +50,16 @@ export class SimCardComponent implements OnInit, OnDestroy {
     public listStepSimCard: Array<T_BADGE_ETAPE> = step_values;
     public listStateSimCard: Array<T_BADGE_ETAT> = etat_values;
     public listSimCard$: Observable<simCardInterface[]>;
-    public simCardSelected$: Observable<simCardInterface>;
     public listUsages$: Observable<Array<UsageInterface>>;
     public listApn$: Observable<Array<ApnInterface>>;
     public listFormulas$: Observable<Array<FormulasInterface>>;
     public listFirstLevel$: Observable<Array<FirstLevelInterface>>;
     public listThirdLevel$: Observable<Array<ThirdLevelInterface>>;
-    public listStatusSimCard: Array<T_SIM_CARD_STATUS_ENUM> = [];
+    public listStatusSimCard: Array<T_SIM_CARD_STATUS_ENUM> =
+        Object.values(SIM_CARD_STATUS_ENUM);
     public listStatusIdentification: Array<T_SIM_CARD_IDENTIFICATION_ENUM> =
         Object.values(SIM_CARD_IDENTIFICATION_ENUM);
+    public asAccessFeatureIdentification: boolean;
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
@@ -64,11 +67,12 @@ export class SimCardComponent implements OnInit, OnDestroy {
         private router: Router,
         private sharedService: SharedService,
         private activatedRoute: ActivatedRoute,
-        private simCardApiService: simCardApiService
+        private simCardApiService: simCardApiService,
+        private asFeatureService: AsFeatureService
     ) {
-        Object.values(SIM_CARD_STATUS_ENUM).forEach((item) => {
-            this.listStatusSimCard.push(item);
-        });
+        this.asAccessFeatureIdentification = this.asFeatureService.hasFeature(
+            OperationTransaction.IDENTIFICATION
+        );
     }
 
     ngOnInit(): void {
@@ -88,7 +92,7 @@ export class SimCardComponent implements OnInit, OnDestroy {
         this.listThirdLevel$ = this.sharedService.getThirdLevel();
         this.listSimCard$ = this.simCardApiService.getSimCard();
         this.pagination$ = this.simCardApiService.getSimCardPagination();
-        this.simCardSelected$ = this.simCardApiService.getSimCardSelected();
+
         combineLatest([
             this.simCardApiService.getDataFilterSimCard(),
             this.simCardApiService.getDataNbrPageSimCard(),

@@ -6,7 +6,7 @@ import {
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { invoiceInterface } from '../../../data-access/invoice/interface/invoice.interface';
 import { invoiceTableConstant } from '../../../data-access/invoice/constantes/invoice-table';
@@ -58,7 +58,7 @@ export class TableInvoiceComponent {
     ) {}
 
     public onExportExcel(): void {
-        this.listInvoices$.subscribe((data) => {
+        this.listInvoices$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

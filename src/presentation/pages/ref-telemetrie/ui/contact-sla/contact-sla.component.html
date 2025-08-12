@@ -487,65 +487,53 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label>
-                                                        <b>Pièce d'identité</b>
-                                                    </label>
-                                                    <div
-                                                        class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                                <label>
+                                                    <b>Pièce d'identité</b>
+                                                </label>
+                                                <div
+                                                    class="d-flex justify-content-center align-items-center container-button-telecharger"
+                                                >
+                                                    <ng-container
+                                                        *ngIf="currentContact?.['piece_gerant'] else aucune_piece_gerant"
                                                     >
-                                                        <ng-container
-                                                            *ngIf="currentContact?.['piece_gerant'] else aucune_piece_gerant"
+                                                        <div
+                                                            style="
+                                                                margin-top: 2px;
+                                                                margin-bottom: 2px;
+                                                                display: flex;
+                                                                align-items: center;
+                                                            "
                                                         >
-                                                            <div
-                                                                style="
-                                                                    margin-top: 2px;
-                                                                    margin-bottom: 2px;
-                                                                    display: flex;
-                                                                    align-items: center;
+                                                            <button
+                                                                pButton
+                                                                pRipple
+                                                                label="Voir"
+                                                                icon="pi pi-eye"
+                                                                class="p-button-dark"
+                                                                (click)="
+                                                                    openModal(
+                                                                        'piece_gerant'
+                                                                    )
                                                                 "
-                                                            >
-                                                                <button
-                                                                    pButton
-                                                                    pRipple
-                                                                    label="Voir"
-                                                                    icon="pi pi-eye"
-                                                                    class="p-button-dark"
-                                                                    (click)="
-                                                                        openModal(
-                                                                            'piece_gerant'
-                                                                        )
-                                                                    "
-                                                                ></button>
-                                                            </div>
-                                                        </ng-container>
-                                                        <ng-template
-                                                            #aucune_piece_gerant
+                                                            ></button>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-template
+                                                        #aucune_piece_gerant
+                                                    >
+                                                        <div
+                                                            class="justificatif-error"
                                                         >
-                                                            <div
-                                                                style="
-                                                                    margin-top: 5px;
-                                                                    margin-bottom: 2px;
-                                                                    display: flex;
-                                                                    align-items: center;
-                                                                "
-                                                            >
-                                                                <p
-                                                                    style="
-                                                                        font-size: large;
-                                                                        margin-bottom: 12px;
-                                                                        margin-top: 12px;
-                                                                    "
+                                                            <span>
+                                                                <b
+                                                                    class="disabled-piece-jointe"
+                                                                    >Aucune
+                                                                    pièce
+                                                                    jointe</b
                                                                 >
-                                                                    <b
-                                                                        >Aucune
-                                                                        pièce
-                                                                        d'identité</b
-                                                                    >
-                                                                </p>
-                                                            </div>
-                                                        </ng-template>
-                                                    </div>
+                                                            </span>
+                                                        </div>
+                                                    </ng-template>
                                                 </div>
                                             </div>
                                         </div>

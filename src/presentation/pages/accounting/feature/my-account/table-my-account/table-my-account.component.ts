@@ -6,7 +6,7 @@ import {
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { myAccountInterface } from '../../../data-access/my-account/interfaces/my-account.interface';
 import { MyAccountApiService } from '../../../data-access/my-account/service/my-account-api.service';
 import { myAccountFilterInterface } from '../../../data-access/my-account/interfaces/my-account-filter.interface';
@@ -53,7 +53,7 @@ export class TableMyAccountComponent {
     }
 
     public onExportExcel(): void {
-        this.listAccount$.subscribe((data) => {
+        this.listAccount$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

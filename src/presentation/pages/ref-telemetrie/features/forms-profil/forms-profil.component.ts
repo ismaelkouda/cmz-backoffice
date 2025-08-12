@@ -7,6 +7,7 @@ import { handle } from 'src/shared/functions/api.function';
 import { SettingService } from 'src/shared/services/setting.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PatrimoineService } from 'src/presentation/pages/patrimoine/data-access/patrimoine.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-forms-profil',
@@ -31,7 +32,6 @@ export class FormsProfilComponent implements OnInit {
     public listSms: Array<any> = [];
     public clonedMetrique: { [s: string]: any } = {};
     public currentMetrique: any;
-    public globalMetriquesEditRow: Array<any> = [];
     public listSecondLevelDatas: Array<any> = [];
     public listFirstLeveDatas: Array<any> = [];
     public listThirdLevelDatas: Array<any> = [];
@@ -40,6 +40,10 @@ export class FormsProfilComponent implements OnInit {
     private response: any = {};
     public indexTabPanelActive: number = 0;
 
+    public globalMetriquesEditRow: Array<any> = [];
+    public editableRowIndex: number | null = null;
+    public initialRowValue: number;
+
     constructor(
         private telemetrieService: TelemetrieService,
         private toastrService: ToastrService,
@@ -47,7 +51,8 @@ export class FormsProfilComponent implements OnInit {
         public mappingService: MappingService,
         public settingService: SettingService,
         private loadingBarService: LoadingBarService,
-        private patrimoineService: PatrimoineService
+        private patrimoineService: PatrimoineService,
+        private translate: TranslateService
     ) {
         this.firstLevelLibelle = this.mappingService.structureGlobale?.niveau_1;
         this.secondLevelLibelle =
@@ -266,26 +271,26 @@ export class FormsProfilComponent implements OnInit {
             });
     }
 
-    public OnEditOneRowMetrique(item: any) {
+    public OnEditOneRowMetrique(item: any, rowIndex: number) {
+        this.initialRowValue = item.seuil;
         this.currentMetrique = item;
         this.clonedMetrique[item.id] = { ...item };
     }
 
     public onRowEditMetriqueSave(metrique: any) {
-        const currentMetrique = this.clonedMetrique[metrique.id];
+        const currentMetrique = this.clonedMetrique[metrique.metrique_id];
         const data = {
-            metrique_id: currentMetrique.id,
-            ...(metrique.seuil === null
-                ? { seuil: currentMetrique.seuil }
-                : { seuil: metrique.seuil }),
-            ...(metrique.statut === null
-                ? { statut: currentMetrique.statut }
-                : { statut: metrique.statut }),
+            metrique_id: metrique.id,
+            statut: metrique.statut ?? currentMetrique.statut,
+            seuil: metrique.seuil ?? currentMetrique.seuil,
+            classification:
+                metrique.classification ?? currentMetrique.classification,
         };
-        const checkValue = (metriqueParam) =>
-            this.globalMetriquesEditRow.some(
-                ({ metrique_id }) => metrique_id == metriqueParam
-            );
+
+        const checkValue = this.globalMetriquesEditRow.some(
+            (metrique_id) => metrique_id == data.metrique_id
+        );
+
         if (data?.statut === 'inactif' || data?.seuil === null) {
             const indexOfItemInArray = this.globalMetriquesEditRow.findIndex(
                 (q) => q.metrique_id === data.metrique_id
@@ -298,27 +303,39 @@ export class FormsProfilComponent implements OnInit {
             );
             return;
         } else {
-            if (checkValue(data.metrique_id) === false) {
+            if (!checkValue) {
                 this.globalMetriquesEditRow.push(data);
-                this.toastrService.info(
-                    'Enregistrement en attente !',
-                    'EDITION'
+                const EDIT_SUCCESSFULLY_ADDED = this.translate.instant(
+                    'EDIT_SUCCESSFULLY_ADDED'
                 );
+                this.toastrService.success(EDIT_SUCCESSFULLY_ADDED);
             } else {
                 const indexOfItemInArray =
                     this.globalMetriquesEditRow.findIndex(
                         (q) => q.metrique_id === data.metrique_id
                     );
-                this.globalMetriquesEditRow.splice(indexOfItemInArray, 1, data);
+                this.globalMetriquesEditRow[indexOfItemInArray] = data;
+                const UPDATED_CHANGE = this.translate.instant('UPDATED_CHANGE');
+                this.toastrService.info(UPDATED_CHANGE);
             }
         }
+
+        delete this.clonedMetrique[metrique.id]; // Supprime la sauvegarde temporaire
+        this.editableRowIndex = null;
     }
     public onCancelRowMetrique(metrique: any, index: number) {
+        metrique.seuil = this.clonedMetrique[metrique.id].seuil;
         this.listAffectations[index] = this.clonedMetrique[metrique.id];
         delete this.clonedMetrique[metrique.id];
+
         this.globalMetriquesEditRow.forEach((index) => {
             this.globalMetriquesEditRow.splice(index, 1);
         });
+        // Supprime la ligne de la liste des modifications globales
+        this.globalMetriquesEditRow = this.globalMetriquesEditRow.filter(
+            (row) => row.metrique_id !== metrique.metrique_id
+        );
+        this.editableRowIndex = null;
     }
     public onCancelRowSmsMetrique(metrique: any, index: number) {
         this.listSms[index] = this.clonedMetrique[metrique.id];
@@ -369,12 +386,37 @@ export class FormsProfilComponent implements OnInit {
             });
     }
     public handleUpdateProfilSupervision() {
+        const metriques = this.globalMetriquesEditRow.filter(
+            (metrique) =>
+                metrique.classification && metrique.classification !== null
+        );
+        console.log('metriques', metriques);
+
+        type Metrique = {
+            metrique_id: number;
+            seuil: string;
+            statut: string;
+            classification: string;
+        };
+
+        const allMetriques: Metrique[] = this.listAffectations
+            .filter(
+                (metrique) =>
+                    !metriques.map((m) => m.metrique_id).includes(metrique.id)
+            )
+            .map((metrique) => ({
+                metrique_id: metrique.id,
+                seuil: metrique.seuil,
+                statut: metrique.statut,
+                classification: metrique.classification,
+            }));
+
         this.telemetrieService
             .handleUpdateProfilSupervision({
                 profil_id: this.currentObject?.id,
                 nom: this.adminForm.get('nom').value,
                 description: this.adminForm.get('description').value,
-                metriques: [...this.globalMetriquesEditRow],
+                metriques: [...metriques, ...allMetriques],
             })
             .subscribe({
                 next: (response) => {
@@ -383,6 +425,7 @@ export class FormsProfilComponent implements OnInit {
                     this.toastrService.success(response.message);
                 },
                 error: (error) => {
+                    this.globalMetriquesEditRow = [];
                     this.toastrService.error(error.error.message);
                 },
             });

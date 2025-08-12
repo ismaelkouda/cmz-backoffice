@@ -1,4 +1,4 @@
-import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
+import { IStatisticsBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
@@ -57,7 +57,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     public listInvoicesResponse$: Observable<invoiceApiResponseInterface>;
     public listInvoices$: Observable<Array<invoiceInterface>>;
     public listOperations: Array<string> = [];
-    public statistiquesBox: Array<IStatistiquesBox> = [];
+    public statistiquesBox: Array<IStatisticsBox> = [];
     public indexBoxClickable = indexBoxClickable;
     public typePayment: Array<T_TypePayment>;
     public spinner: boolean = true;
@@ -178,7 +178,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         ];
     }
 
-    public onBoxClick(statistiqueBox: IStatistiquesBox) {
+    public onBoxClick(statistiqueBox: IStatisticsBox) {
         type IndexBoxClickable = typeof indexBoxClickable[number];
         if (
             indexBoxClickable.includes(statistiqueBox.id as IndexBoxClickable)

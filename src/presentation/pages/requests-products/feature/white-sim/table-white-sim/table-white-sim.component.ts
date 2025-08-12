@@ -21,7 +21,7 @@ import { whiteSimTableConstant } from '../../../data-access/white-sim/constants/
 import { TranslateService } from '@ngx-translate/core';
 import { createButtonStyle } from '../../../../../../shared/functions/treatment-demands.function';
 import { CommandWhiteSimApiService } from '../../../data-access/white-sim/services/white-sim-api.service';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { Folder } from '../../../../../../shared/interfaces/folder';
 import { OperationTransaction } from '../../../../../../shared/enum/OperationTransaction.enum';
@@ -98,7 +98,7 @@ export class TableWhiteSimComponent {
     }
 
     public onExportExcel(): void {
-        this.listCommandWhiteSim$.subscribe((data) => {
+        this.listCommandWhiteSim$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

@@ -19,11 +19,10 @@ export class PerformanceCollecteComponent implements OnInit {
         private router: Router,
         private titleService: Title,
         private mappingService: MappingService,
-        private storage: EncodingDataService
+        private encodingService: EncodingDataService
     ) {
-        this.visualUrl = JSON.parse(
-            this.storage.getData('variables')
-        ).dashboardAppro;
+        this.visualUrl =
+            this.encodingService.getData('dashboard_links')?.['dashboardAppro'];
         this.titleService.setTitle(`${this.title}`);
     }
 

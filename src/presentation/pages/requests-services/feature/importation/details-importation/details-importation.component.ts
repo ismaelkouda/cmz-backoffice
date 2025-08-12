@@ -5,7 +5,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DetailsImportationInterface } from './data-access/interfaces/details-importation.interface';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { IStatistiquesBox } from '../../../../../../shared/interfaces/statistiquesBox.interface';
+import { IStatisticsBox } from '../../../../../../shared/interfaces/statistiquesBox.interface';
 import { ImportationService } from '../../../data-access/importation/service/importation-api.service';
 import { SIM_IMPORTATION } from '../../../requests-services-routing.module';
 import { PATRIMONY } from '../../../../../../shared/routes/routes';
@@ -43,7 +43,7 @@ export class DetailsImportationComponent implements OnInit, OnDestroy {
     public urlParamNumberDemand: string;
     public displayUrlErrorPage: boolean = false;
     public listStepLine: Array<any> = [];
-    public statistiquesBox: Array<IStatistiquesBox> = [];
+    public statistiquesBox: Array<IStatisticsBox> = [];
     public IMPORTATION_LINE_STEP = IMPORTATION_LINE_STEP;
     public listSim$: Observable<Array<DetailsImportationInterface>>;
     public listApn$: Observable<Array<ApnInterface>>;

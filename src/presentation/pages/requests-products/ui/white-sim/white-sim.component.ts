@@ -18,7 +18,7 @@ import {
     INVOICE,
     PAYMENT,
 } from '../../../requests-products/requests-products-routing.module';
-import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
+import { IStatisticsBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { Folder } from '../../../../../shared/interfaces/folder';
 
@@ -58,7 +58,7 @@ export class WhiteSimComponent implements OnInit {
     public currentPage: string;
     public listStepCommandWhiteSim: Array<T_BADGE_ETAPE> = step_values;
     public listStateCommandWhiteSim: Array<T_BADGE_ETAT> = state_values;
-    public statistiquesBox: Array<IStatistiquesBox> = [];
+    public statistiquesBox: Array<IStatisticsBox> = [];
     public listCommandWhiteSim$: Observable<Array<Folder>>;
     public commandWhiteSimSelected$: Observable<Folder>;
     public listApplicants$: Observable<any[]>;

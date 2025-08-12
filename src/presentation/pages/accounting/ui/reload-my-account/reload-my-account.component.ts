@@ -13,7 +13,7 @@ import {
     reloadMyAccountInterface,
 } from '../../data-access/reload-my-account/interfaces/reload-my-account.interface';
 import { reloadMyAccountFilterInterface } from '../../data-access/reload-my-account/interfaces/reload-my-account-filter.interface';
-import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
+import { IStatisticsBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
 
 type PageAction = {
     data: reloadMyAccountInterface;
@@ -43,7 +43,7 @@ export class ReloadMyAccountComponent implements OnInit, OnDestroy {
     public listReloadAccountResponse$: Observable<reloadMyAccountApiResponseInterface>;
     public reloadAccountGlobalState$: Observable<reloadMyAccountGlobalStateInterface>;
     public listStatus: Array<T_MY_RELOADS_STATUS_ENUM> = etape_values;
-    public statisticsBox: Array<IStatistiquesBox> = [];
+    public statisticsBox: Array<IStatisticsBox> = [];
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 
@@ -168,7 +168,7 @@ export class ReloadMyAccountComponent implements OnInit, OnDestroy {
         ];
     }
 
-    public onBoxClick(statisticBox: IStatistiquesBox) {
+    public onBoxClick(statisticBox: IStatisticsBox) {
         type IndexBoxClickable = typeof indexBoxClickable[number];
         if (indexBoxClickable.includes(statisticBox.id as IndexBoxClickable)) {
             this.reloadMyAccountApiService

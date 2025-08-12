@@ -13,7 +13,7 @@ import {
     T_WHITE_SIM_CARD_STATUS_ENUM,
     WHITE_SIM_CARD_STATUS_ENUM,
 } from '../../data-access/white-sim-card/enums/white-sim-card-status.enum';
-import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
+import { IStatisticsBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
 
 type PageAction = {
     data: whiteSimCardInterface;
@@ -36,7 +36,7 @@ export class WhiteSimCardComponent implements OnInit, OnDestroy {
     public listWhiteSimCard$: Observable<whiteSimCardInterface[]>;
     public whiteSimCardSelected$: Observable<whiteSimCardInterface>;
     public whiteSimCardGlobalState$: Observable<whiteSimCardGlobalStateInterface>;
-    public statisticsBox: Array<IStatistiquesBox> = [];
+    public statisticsBox: Array<IStatisticsBox> = [];
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
 

@@ -8,7 +8,7 @@
             <div class="header-info">
                 <div class="update-info">
                     <span class="update-label">Date MAJ du TB :</span>
-                    <span class="update-date">{{ currrentDate }}</span>
+                    <span class="update-date">{{ current_date }}</span>
                 </div>
                 <button
                     pButton
@@ -33,7 +33,7 @@
                         box.routerFilter
                             ? box.routerFilter()
                             : box.iframeLink
-                            ? onVisualiserAlarme(box)
+                            ? showAlarms(box)
                             : null
                     "
                 >

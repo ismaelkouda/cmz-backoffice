@@ -27,7 +27,10 @@ const path = require('path');
 
 let config = {};
 const configPath = path.resolve(__dirname, './config.js');
-
+console.log('====================================');
+console.log('config', fs.existsSync());
+console.log('====================================');
+console.warn('configPath', configPath);
 if (fs.existsSync(configPath)) {
     config = require(configPath);
 } else {

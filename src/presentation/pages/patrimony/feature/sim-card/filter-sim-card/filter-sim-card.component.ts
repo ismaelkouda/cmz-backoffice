@@ -81,6 +81,7 @@ export class FilterSimCardComponent implements OnInit, OnDestroy {
     @Input() listApn$: Observable<Array<ApnInterface>>;
     @Input() listStatusSimCard: Array<T_SIM_CARD_STATUS_ENUM>;
     @Input() listStatusIdentification: Array<T_SIM_CARD_IDENTIFICATION_ENUM>;
+    @Input() asAccessFeatureIdentification: boolean;
 
     @Output() filter = new EventEmitter<simCardFilterInterface | {}>();
 

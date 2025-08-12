@@ -1,4 +1,4 @@
-import { IStatistiquesBox } from './../../../../../shared/interfaces/statistiquesBox.interface';
+import { IStatisticsBox } from './../../../../../shared/interfaces/statistiquesBox.interface';
 import { ComptabiliteService } from './../../data-access/comptabilite.service';
 import { StateFactureService } from './../../data-access/facture/state-facture.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -57,7 +57,7 @@ export class FactureComponent implements OnInit, OnDestroy {
     public listStatus: Array<T_BADGE_ETAT_FACTURE> = status_values;
     public typePaiement: Array<string> = [];
     public listOperations: Array<string> = [];
-    public statistiquesBox: Array<IStatistiquesBox> = [];
+    public statistiquesBox: Array<IStatisticsBox> = [];
     public indexBoxClickable = indexBoxClickable;
 
     constructor(
@@ -191,7 +191,7 @@ export class FactureComponent implements OnInit, OnDestroy {
         ];
     }
 
-    public onBoxClick(statistiqueBox: IStatistiquesBox) {
+    public onBoxClick(statistiqueBox: IStatisticsBox) {
         type IndexBoxClickable = typeof indexBoxClickable[number];
         if (
             indexBoxClickable.includes(statistiqueBox.id as IndexBoxClickable)

@@ -18,9 +18,6 @@ export class simCardApiService {
     private simCardPagination = new BehaviorSubject<Paginate<simCardInterface>>(
         {} as Paginate<simCardInterface>
     );
-    private simCardSelected = new BehaviorSubject<simCardInterface>(
-        {} as simCardInterface
-    );
     private loadingSimCardSubject = new BehaviorSubject<boolean>(false);
     private dataFilterSimCardSubject =
         new BehaviorSubject<simCardFilterInterface>(
@@ -89,12 +86,6 @@ export class simCardApiService {
     }
     getApiResponseSimCard(): Observable<simCardApiResponseInterface> {
         return this.apiResponseSimCardSubject.asObservable();
-    }
-    getSimCardSelected(): Observable<simCardInterface> {
-        return this.simCardSelected.asObservable();
-    }
-    setSimCardSelected(simCard: simCardInterface): void {
-        this.simCardSelected.next(simCard);
     }
 
     /*********************Méthode pour récupérer la liste des SIMS details*************** */

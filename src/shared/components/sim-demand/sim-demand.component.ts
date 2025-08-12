@@ -1,4 +1,4 @@
-import { IStatistiquesBox } from '../../interfaces/statistiquesBox.interface';
+import { IStatisticsBox } from '../../interfaces/statistiquesBox.interface';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -57,7 +57,7 @@ export class SimDemandComponent implements OnInit, OnDestroy {
     public displayUrlErrorPage: boolean = false;
     public listEtapeLigne: Array<any> = [];
     public listEtatLigne: Array<any> = [];
-    public statistiquesBox: Array<IStatistiquesBox> = [];
+    public statistiquesBox: Array<IStatisticsBox> = [];
     public BADGE_ETAPE = BADGE_ETAPE;
     public BADGE_ETAT = BADGE_ETAT;
     public listSim: Array<SimDemand>;

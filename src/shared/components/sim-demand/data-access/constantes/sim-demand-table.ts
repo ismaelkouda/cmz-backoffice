@@ -34,13 +34,13 @@ export const SimDemandTableConstant = (hiddenMsisdn: boolean = false) => {
                 field: 'statut',
                 header: 'Etape',
                 class: 'text-center',
-                width: '6rem',
+                width: '8rem',
             },
             {
                 field: 'traitement',
                 header: 'Etat',
                 class: 'text-center',
-                width: '6rem',
+                width: '8rem',
             },
             {
                 field: 'updated_at',

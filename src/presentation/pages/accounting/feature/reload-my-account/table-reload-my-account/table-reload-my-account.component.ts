@@ -10,7 +10,7 @@ import {
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { reloadMyAccountInterface } from '../../../data-access/reload-my-account/interfaces/reload-my-account.interface';
 import { ReloadMyAccountApiService } from '../../../data-access/reload-my-account/service/reload-my-account-api.service';
 import { reloadMyAccountFilterInterface } from '../../../data-access/reload-my-account/interfaces/reload-my-account-filter.interface';
@@ -87,7 +87,7 @@ export class TableReloadMyAccountComponent {
     }
 
     public onExportExcel(): void {
-        this.listReloadAccount$.subscribe((data) => {
+        this.listReloadAccount$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

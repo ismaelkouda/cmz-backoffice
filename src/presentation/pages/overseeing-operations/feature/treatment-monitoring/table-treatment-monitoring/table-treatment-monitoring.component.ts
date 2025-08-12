@@ -20,7 +20,7 @@ import { treatmentMonitoringTableConstant } from '../../../data-access/treatment
 import { TreatmentMonitoringApiService } from '../../../data-access/treatment-monitoring/services/treatment-monitoring-api.service';
 import { Folder } from '../../../../../../shared/interfaces/folder';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { treatmentMonitoringFilterInterface } from '../../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter.interface';
 import { createButtonStyle } from '../../../../../../shared/functions/treatment-demands.function';
@@ -81,7 +81,7 @@ export class TableTreatmentMonitoringComponent {
     ) {}
 
     public onExportExcel(): void {
-        this.listTreatmentMonitoring$.subscribe((data) => {
+        this.listTreatmentMonitoring$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

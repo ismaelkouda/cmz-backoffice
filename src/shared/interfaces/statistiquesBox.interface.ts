@@ -1,4 +1,4 @@
-export interface IStatistiquesBox {
+export interface IStatisticsBox {
     id?: number;
     cardBgColor: string;
     cardBorderColor?: string;

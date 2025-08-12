@@ -1,4 +1,12 @@
 {
+    "SIM_CRITICAL_ALARMS": "SIM critical alarms",
+    "SIM_MAJOR_ALARMS": "SIM major alarms",
+    "SIM_MINOR_ALARMS": "SIM minor alarms",
+    "SIM_NORMAL_ALARMS": "SIM normal alarms",
+    "SIM_TERMINATED": "SIM terminated",
+    "SIM_SUSPENDED": "SIM suspended",
+    "SIM_ACTIVE": "SIM active",
+    "SIM_TOTAL": "SIM total",
     "MY_ACCOUNT_STATEMENT": "my account statement",
     "SLA_MANAGEMENT_CONTRACT": "SLA management contract",
     "SUPERVISORY_PROFILES": "supervisory profiles",

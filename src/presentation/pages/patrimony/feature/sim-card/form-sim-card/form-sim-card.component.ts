@@ -100,6 +100,11 @@ export class FormSimCardComponent implements OnInit, OnDestroy {
         this.asAccessFeatureIdentification = this.asFeatureService.hasFeature(
             OperationTransaction.IDENTIFICATION
         );
+        console.log(
+            'asAccessFeatureIdentification form',
+            this.asAccessFeatureIdentification
+        );
+
         this.asAccessFeatureDataBalance = this.asFeatureService.hasFeature(
             OperationTransaction.SOLDE_DATA
         );
@@ -225,7 +230,9 @@ export class FormSimCardComponent implements OnInit, OnDestroy {
             imsi: simCardSelectedDetails?.imsi,
             iccid: simCardSelectedDetails?.iccid,
             msisdn: simCardSelectedDetails?.msisdn,
-            date_naissance: simCardSelectedDetails?.date_naissance,
+            date_naissance: this.normalizeDate(
+                simCardSelectedDetails?.date_naissance
+            ),
             lieu_naissance: simCardSelectedDetails?.lieu_naissance,
         });
 
@@ -602,28 +609,37 @@ export class FormSimCardComponent implements OnInit, OnDestroy {
             date_naissance:
                 this.normalizeDate(response?.data?.date_naissance) || '',
         });
+        console.log(
+            'formate Date value : ',
+            this.normalizeDate(response?.data?.date_naissance)
+        );
     }
-    normalizeDate(input) {
-        console.log('====================================');
-        console.log(input);
-        console.log('====================================');
+    normalizeDate(input: string): string {
         if (!input) return '';
 
-        // Cas 1: format JJ/MM/AAAA ou JJ-MM-AAAA
-        const regex = /^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/;
-        const match = input.match(regex);
-        if (match) {
-            const [, day, month, year] = match;
-            return `${day}/${month}/${year}`;
+        // Cas 1 : format DD/MM/YYYY ou DD-MM-YYYY
+        const regex1 = /^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/;
+        const match1 = input.match(regex1);
+        if (match1) {
+            const [, day, month, year] = match1;
+            return `${year}-${month}-${day}`;
         }
 
-        // Cas 2: format ISO valide déjà
+        // Cas 2 : format YYYY/MM/DD ou YYYY-MM-DD
+        const regexYMD = /^(\d{4})[\/\-](\d{2})[\/\-](\d{2})$/;
+        const matchYMD = input.match(regexYMD);
+        if (matchYMD) {
+            const [, year, month, day] = matchYMD;
+            return `${year}-${month}-${day}`;
+        }
+
+        // Cas 3 : format Date ISO ou objet Date
         const isoDate: any = new Date(input);
         if (!isNaN(isoDate)) {
             return isoDate.toISOString().split('T')[0];
         }
 
-        // Cas 3: format texte (ex: "15 février 1990")
+        // Cas 4 : format texte lisible
         try {
             const date: any = new Date(Date.parse(input));
             if (!isNaN(date)) {

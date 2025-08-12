@@ -56,7 +56,10 @@
             </p-dropdown>
         </div>
 
-        <div class="col-12 col-sm-6 col-md-2">
+        <div
+            class="col-12 col-sm-6 col-md-2"
+            *ngIf="asAccessFeatureIdentification"
+        >
             <label class="text-truncate" for="IDENTIFICATION"
                 ><b>{{ 'IDENTIFICATION' | translate }}</b></label
             >

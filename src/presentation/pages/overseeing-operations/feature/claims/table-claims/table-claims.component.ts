@@ -12,7 +12,7 @@ import {
 import { CLAIMS_STATUS_ENUM } from '../../../data-access/claims/enums/claims-status.enum';
 import { ClaimsApiService } from '../../../data-access/claims/services/claims-api.service';
 import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { TreatmentDemands } from '../../../../../../shared/interfaces/treatment-demands.interface';
 import { claimsTableConstant } from '../../../data-access/claims/constants/claims-table.constant';
@@ -84,7 +84,7 @@ export class TableClaimsComponent {
     ) {}
 
     public onExportExcel(): void {
-        this.listClaims$.subscribe((data) => {
+        this.listClaims$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

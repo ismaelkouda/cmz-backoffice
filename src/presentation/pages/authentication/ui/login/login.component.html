@@ -13,7 +13,7 @@
 
             <form
                 [formGroup]="loginForm"
-                (ngSubmit)="fetchLogin()"
+                (ngSubmit)="onSubmit()"
                 class="auth-form"
             >
                 <!-- Champ Email -->
@@ -60,7 +60,7 @@
             <div class="forgot-password">
                 <a
                     [routerLink]="[
-                        '/' + REINITIALISATION + '/' + FORGOT_PASSWORD
+                        '/' + REINITIALIZATION + '/' + FORGOT_PASSWORD
                     ]"
                     class="forgot-link"
                     aria-label="Réinitialiser le mot de passe"

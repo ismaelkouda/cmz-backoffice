@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { TYPE_PRODUITS } from '../../../../../shared/enum/type-produits.enum';
 import { DemandesProduitsService } from '../../data-access/demandes-produits.service';
-import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
+import { IStatisticsBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
 import { BADGE_ETAT } from '../../../../../shared/constants/badge-etat.contant';
 import { BADGE_ETAPE } from '../../../../../shared/constants/badge-etape.constant';
 import { ExcelService } from '../../../../../shared/services/excel.service';
@@ -55,7 +55,7 @@ export class DetailsAchatProduitsComponent implements OnInit {
     public listEtapeLigne: Array<any> = [];
     public listEtatLigne: Array<any> = [];
     public listOperations: Array<any> = [];
-    public statistiquesBox: Array<IStatistiquesBox> = [];
+    public statistiquesBox: Array<IStatisticsBox> = [];
 
     public isLoadingTitle: boolean = true;
 

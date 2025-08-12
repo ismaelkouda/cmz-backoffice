@@ -9,7 +9,7 @@ import {
 } from '../../../../../../shared/services/table-export-excel-file.service';
 import { slaAgreementsInterface } from '../../../data-access/sla-agreements/interfaces/sla-agreements.interface';
 import { slaAgreementsTableConstant } from '../../../data-access/sla-agreements/constants/sla-agreements-table.constant';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { SlaAgreementsApiService } from '../../../data-access/sla-agreements/services/sla-agreements-api.service';
 
 type TYPE_COLOR_STATUS_BADGE = 'badge-success' | 'badge-danger';
@@ -30,7 +30,7 @@ export class TableSlaAgreementsComponent {
     ) {}
 
     public onExportExcel(): void {
-        this.listSlaAgreements$.subscribe((data) => {
+        this.listSlaAgreements$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,

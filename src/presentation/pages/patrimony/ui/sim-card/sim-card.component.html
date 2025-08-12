@@ -29,6 +29,9 @@
                             [listStatusIdentification]="
                                 listStatusIdentification
                             "
+                            [asAccessFeatureIdentification]="
+                                asAccessFeatureIdentification
+                            "
                         >
                         </app-filter-sim-card>
 
@@ -38,8 +41,10 @@
                             [spinner]="spinner"
                             [pagination$]="pagination$"
                             [listSimCard$]="listSimCard$"
-                            [simCardSelected]="simCardSelected$ | async"
                             (interfaceUser)="navigateByUrl($event)"
+                            [asAccessFeatureIdentification]="
+                                asAccessFeatureIdentification
+                            "
                         >
                         </app-table-sim-card>
 

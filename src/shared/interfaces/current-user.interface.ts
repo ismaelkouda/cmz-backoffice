@@ -138,14 +138,3 @@ export interface AuthToken {
     value: string;
     expiresAt: string;
 }
-
-interface UserData {
-    token: AuthToken;
-    user: CurrentUser;
-}
-
-export interface LoginResponse {
-    data: UserData;
-    error: boolean;
-    message: string;
-}

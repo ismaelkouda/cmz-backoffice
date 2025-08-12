@@ -30,13 +30,13 @@ export const waitingQueueTableConstant = {
             field: 'statut',
             header: 'Etape',
             class: 'text-center',
-            width: '6rem',
+            width: '8rem',
         },
         {
             field: 'traitement',
             header: 'Etat',
             class: 'text-center',
-            width: '6rem',
+            width: '8rem',
         },
         {
             field: 'demandeur',

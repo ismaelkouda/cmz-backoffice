@@ -2,7 +2,7 @@ import {
     T_TypePayment,
     TypePayment,
 } from '../../../../../shared/enum/type-payment.enum';
-import { IStatistiquesBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
+import { IStatisticsBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
@@ -56,7 +56,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     public listPaymentResponse$: Observable<paymentApiResponseInterface>;
     public listPayments$: Observable<Array<paymentInterface>>;
     public listOperations: Array<string> = [];
-    public statisticsBox: Array<IStatistiquesBox> = [];
+    public statisticsBox: Array<IStatisticsBox> = [];
     public indexBoxClickable = indexBoxClickable;
     public typePayment: Array<T_TypePayment>;
     public spinner: boolean = true;
@@ -170,7 +170,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         ];
     }
 
-    public onBoxClick(statistiqueBox: IStatistiquesBox) {
+    public onBoxClick(statistiqueBox: IStatisticsBox) {
         type IndexBoxClickable = typeof indexBoxClickable[number];
         if (
             indexBoxClickable.includes(statistiqueBox.id as IndexBoxClickable)

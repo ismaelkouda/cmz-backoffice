@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { IStatistiquesBox } from '../../../shared/interfaces/statistiquesBox.interface';
+import { IStatisticsBox } from '../../../shared/interfaces/statistiquesBox.interface';
 import { EncodingDataService } from '../../../shared/services/encoding-data.service';
 import { Subject, takeUntil } from 'rxjs';
 import { SimStatut } from '../../../shared/enum/SimStatut.enum';
@@ -26,14 +26,13 @@ import { separatorThousands } from '../../../shared/functions/separator-thousand
 })
 export class DashboardComponent implements OnInit, OnDestroy {
     public loading: boolean = true;
-    public currrentDate: string = '';
-    public nom_tenant: string = '';
+    public current_date: string;
+    public nom_tenant: string;
     public nom_application: T_NOM_APPLICATION = NOM_APPLICATION.PATRIMOINE_SIM;
     public title =
         'Tableau de bord - Système de Gestion de Collecte Centralisée';
-    public listStatisticsBox: IStatistiquesBox[] = [];
+    public listStatisticsBox: IStatisticsBox[] = [];
 
-    // Icons
     simIcon = 'assets/svg/sim-card.png';
     simNormale = 'assets/svg/normal_dark.png';
     simMineure = 'assets/svg/mineure.png';
@@ -45,11 +44,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     IconDemandToDelivery = 'assets/svg/demand_to_delivery.png';
     IconDemandToClosure = 'assets/svg/demand_to_closure.png';
 
-    // Dialog state
     public showIframe: boolean = false;
     public iframeLink: string | undefined;
 
-    // Feature flags
     public asAccessFeatureDataBalance: boolean = false;
     public asAccessFeatureSmsBalance: boolean = false;
 
@@ -69,7 +66,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.initializeDashboard();
         this.loadDashboardData();
-        this.setupFeatureFlags();
+        this.setupFeature();
     }
 
     ngOnDestroy() {
@@ -88,17 +85,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     private loadDashboardData(): void {
+        this.dashboardApiService.fetchDashboardStatistic();
         this.dashboardApiService
             .getDashboardStatistic()
             .pipe(takeUntil(this.destroy$))
             .subscribe((statistic) => {
                 this.handleDashboardData(statistic);
             });
-
-        this.dashboardApiService.fetchDashboardStatistic();
     }
 
-    private setupFeatureFlags(): void {
+    private setupFeature(): void {
         this.asAccessFeatureDataBalance = this.asFeatureService.hasFeature(
             OperationTransaction.SOLDE_DATA
         );
@@ -110,7 +106,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     private handleDashboardData(statistic: any): void {
         this.loading = false;
-        this.currrentDate = statistic?.['date_derniere_maj'] || '';
+        this.current_date = statistic?.['date_derniere_maj'] || '';
         this.generateStatisticsBoxes(statistic);
     }
 
@@ -119,7 +115,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             // SIM Cards
             this.createStatBox(
                 '#3498db',
-                'Total SIM',
+                `${this.translate.instant('SIM_TOTAL')}`,
                 separatorThousands(rapport?.['totalSim'] || '0'),
                 this.simIcon,
                 () => this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`)
@@ -127,7 +123,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.createStatBox(
                 '#27ae60',
-                'SIM Actives',
+                `${this.translate.instant('SIM_ACTIVE')}`,
                 separatorThousands(rapport?.['totalSimActives'] || '0'),
                 this.simIcon,
                 () =>
@@ -138,7 +134,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.createStatBox(
                 '#000000',
-                'SIM Suspendues',
+                `${this.translate.instant('SIM_SUSPENDED')}`,
                 separatorThousands(rapport?.['totalSimSuspendues'] || '0'),
                 this.simIcon,
                 () =>
@@ -151,7 +147,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             this.createStatBox(
                 '#e74c3c',
-                'SIM Résiliées',
+                `${this.translate.instant('SIM_TERMINATED')}`,
                 separatorThousands(rapport?.['totalSimResiliees'] || '0'),
                 this.simIcon,
                 () =>
@@ -160,21 +156,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     })
             ),
 
-            // Data Alarms
             ...this.generateAlarmBoxes(
                 'Data',
                 rapport,
                 this.asAccessFeatureDataBalance
             ),
 
-            // SMS Alarms
             ...this.generateAlarmBoxes(
                 'SMS',
                 rapport,
                 this.asAccessFeatureSmsBalance
             ),
 
-            // Additional boxes
             ...this.generateAdditionalBoxes(rapport),
         ];
     }
@@ -188,7 +181,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         legendColor: string = '#FFF',
         countColor: string = '#FFF',
         borderColor: string = '#FFF'
-    ): IStatistiquesBox {
+    ): IStatisticsBox {
         return {
             cardBgColor: bgColor,
             cardBorderColor: borderColor,
@@ -205,7 +198,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         type: 'Data' | 'SMS',
         rapport: any,
         isEnabled: boolean
-    ): IStatistiquesBox[] {
+    ): IStatisticsBox[] {
         if (!isEnabled) return [];
 
         const dashboardLinks = this.encodingService.getData(
@@ -217,7 +210,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.createAlarmBox(
                 '#FFF',
                 `#27ae60`,
-                `SIM Alar. Normales (${type})`,
+                `${this.translate.instant('SIM_NORMAL_ALARMS')} (${type})`,
                 separatorThousands(
                     rapport?.[`totalAlarmesNormales${suffix}`] || '0'
                 ),
@@ -229,7 +222,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.createAlarmBox(
                 '#FFFF00',
                 '#FFF',
-                `SIM Alar. Mineures (${type})`,
+                `${this.translate.instant('SIM_MINOR_ALARMS')} (${type})`,
                 separatorThousands(
                     rapport?.[`totalAlarmesMineures${suffix}`] || '0'
                 ),
@@ -241,7 +234,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.createAlarmBox(
                 '#FE9A2E',
                 '#FFF',
-                `SIM Alar. Majeures (${type})`,
+                `${this.translate.instant('SIM_MAJOR_ALARMS')} (${type})`,
                 separatorThousands(
                     rapport?.[`totalAlarmesMajeures${suffix}`] || '0'
                 ),
@@ -251,7 +244,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.createAlarmBox(
                 '#e74c3c',
                 '#FFF',
-                `SIM Alar. Critiques (${type})`,
+                `${this.translate.instant('SIM_CRITICAL_ALARMS')} (${type})`,
                 separatorThousands(
                     rapport?.[`totalAlarmesCritiques${suffix}`] || '0'
                 ),
@@ -270,7 +263,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         iframeLink: string,
         legendColor: string = '#FFF',
         countColor: string = '#FFF'
-    ): IStatistiquesBox {
+    ): IStatisticsBox {
         return {
             cardBgColor: bgColor,
             cardBorderColor: borderColor,
@@ -283,7 +276,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         };
     }
 
-    private generateAdditionalBoxes(rapport: any): IStatistiquesBox[] {
+    private generateAdditionalBoxes(rapport: any): IStatisticsBox[] {
         if (this.nom_application !== NOM_APPLICATION.PATRIMOINE_SIM) return [];
 
         return [
@@ -340,7 +333,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.dashboardApiService.fetchDashboardStatistic();
     }
 
-    public onVisualiserAlarme(statisticsBox: IStatistiquesBox) {
+    public showAlarms(statisticsBox: IStatisticsBox) {
         this.iframeLink = statisticsBox?.iframeLink;
         this.showIframe = true;
     }

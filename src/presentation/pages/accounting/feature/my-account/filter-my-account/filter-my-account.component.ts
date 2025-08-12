@@ -53,10 +53,9 @@ export class FilterMyAccountComponent implements OnDestroy {
                         filterData?.['reference'],
                         { nonNullable: true }
                     ),
-                    operation: new FormControl<string>(
-                        filterData?.['operation'],
-                        { nonNullable: true }
-                    ),
+                    type: new FormControl<string>(filterData?.['type'], {
+                        nonNullable: true,
+                    }),
                 });
             });
     }

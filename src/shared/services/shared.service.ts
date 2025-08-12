@@ -23,11 +23,9 @@ import { ImportationInterface } from '../../presentation/pages/requests-services
 @Injectable({ providedIn: 'root' })
 export class SharedService {
     private BASE_URL: string;
-    private importationApiUrl: string;
 
     constructor(private http: HttpClient, private envService: EnvService) {
         this.BASE_URL = this.envService.apiUrl;
-        this.importationApiUrl = this.envService.importationApiUrl;
     }
 
     /*********************Méthode pour récupérer la liste des demands importées*************** */
@@ -57,7 +55,7 @@ export class SharedService {
         );
 
         this.http
-            .post<Object>(`${this.importationApiUrl}${url}`, data)
+            .post<Object>(`${this.BASE_URL}${url}`, data)
             .pipe(
                 debounceTime(1000),
                 switchMap((response: any) => {

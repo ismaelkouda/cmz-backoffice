@@ -6,7 +6,7 @@ import {
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
 import { ClipboardService } from 'ngx-clipboard';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { TranslateService } from '@ngx-translate/core';
 import { notificationsCenterTableConstant } from '../../../data-access/notifications-center/constants/notifications-center-table.constant';
@@ -49,7 +49,7 @@ export class TableNotificationsCenterComponent {
     ) {}
 
     public onExportExcel(): void {
-        this.notificationList$.subscribe((data) => {
+        this.notificationList$.pipe(take(1)).subscribe((data) => {
             if (data) {
                 this.tableExportExcelFileService.exportAsExcelFile(
                     data,
