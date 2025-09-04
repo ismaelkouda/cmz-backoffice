@@ -1,0 +1,355 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <ng-container
+                        *ngIf="
+                            (customerDetails | json) != '{}';
+                            else skeletonLoader
+                        "
+                    >
+                        <div
+                            style="
+                                margin-top: -2rem !important;
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                            "
+                        >
+                            <app-patrimoine-header
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [legendePluriel]="('DETAILS_OF_THE_CUSTOMER' | translate) + ' ' + customerDetails?.['nom_client']"
+                                [legendeSingulier]="('DETAILS_OF_THE_CUSTOMER' | translate) + ' ' + customerDetails?.['nom_client']"
+                            >
+                            </app-patrimoine-header>
+                            <div>
+                                <button
+                                    pButton
+                                    type="button"
+                                    class="p-button-danger"
+                                    (click)="onGoToBack()"
+                                    [label]="'CLOSE' | translate"
+                                    icon="pi pi-times"
+                                ></button>
+                            </div>
+                        </div>
+
+                        <div [formGroup]="customersDetailsForm">
+                            <p-tabView
+                                (onChange)="indexTabPanelActive = $event.index"
+                                class="custom-tabs"
+                            >
+                                <p-tabPanel header="IDENTIFICATION">
+                                    <div class="fade-in">
+                                        <app-identification-managed-customers
+                                            [customerDetails]="customerDetails"
+                                        ></app-identification-managed-customers>
+                                    </div>
+                                </p-tabPanel>
+                                <p-tabPanel header="HISTORIQUE">
+                                    <div class="fade-in">
+                                        <app-history
+                                            *ngIf="indexTabPanelActive === 1"
+                                            [typeModel]="'clients_b2b'"
+                                            [idModel]="customerDetails?.id"
+                                        ></app-history>
+                                    </div>
+                                </p-tabPanel>
+                            </p-tabView>
+                        </div>
+                    </ng-container>
+
+                    <ng-template #skeletonLoader>
+                        <div class="skeleton-container">
+                            <!-- Header Skeleton -->
+                            <div class="d-flex justify-content-between mb-4">
+                                <div>
+                                    <p-skeleton
+                                        width="250px"
+                                        height="35px"
+                                        class="mb-2"
+                                    ></p-skeleton>
+                                    <p-skeleton
+                                        width="200px"
+                                        height="20px"
+                                    ></p-skeleton>
+                                </div>
+                                <div>
+                                    <p-skeleton
+                                        width="120px"
+                                        height="40px"
+                                    ></p-skeleton>
+                                </div>
+                            </div>
+
+                            <!-- Tab Navigation Skeleton -->
+                            <div class="mb-4">
+                                <div class="d-flex">
+                                    <p-skeleton
+                                        width="150px"
+                                        height="45px"
+                                        class="me-2"
+                                    ></p-skeleton>
+                                    <p-skeleton
+                                        width="150px"
+                                        height="45px"
+                                    ></p-skeleton>
+                                </div>
+                            </div>
+
+                            <!-- Tab Content Skeleton -->
+                            <div class="tab-content-skeleton">
+                                <!-- Customer Information Section -->
+                                <div class="mb-4">
+                                    <p-skeleton
+                                        width="250px"
+                                        height="30px"
+                                        class="mb-3"
+                                    ></p-skeleton>
+                                    <div class="row mb-3">
+                                        <div class="col-md-3">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <div class="d-flex">
+                                                <p-skeleton
+                                                    width="120px"
+                                                    height="40px"
+                                                ></p-skeleton>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Manager Information Section -->
+                                <div class="mb-4">
+                                    <p-skeleton
+                                        width="250px"
+                                        height="30px"
+                                        class="mb-3"
+                                    ></p-skeleton>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <div class="d-flex">
+                                                <p-skeleton
+                                                    width="120px"
+                                                    height="40px"
+                                                ></p-skeleton>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Moral Declaration Section -->
+                                <div class="mb-4">
+                                    <p-skeleton
+                                        width="250px"
+                                        height="30px"
+                                        class="mb-3"
+                                    ></p-skeleton>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <div class="d-flex">
+                                                <p-skeleton
+                                                    width="120px"
+                                                    height="40px"
+                                                ></p-skeleton>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Fiscal Declaration Section -->
+                                <div class="mb-4">
+                                    <p-skeleton
+                                        width="250px"
+                                        height="30px"
+                                        class="mb-3"
+                                    ></p-skeleton>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <p-skeleton
+                                                width="100%"
+                                                height="40px"
+                                            ></p-skeleton>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p-skeleton
+                                                width="100%"
+                                                height="20px"
+                                                class="mb-2"
+                                            ></p-skeleton>
+                                            <div class="d-flex">
+                                                <p-skeleton
+                                                    width="120px"
+                                                    height="40px"
+                                                ></p-skeleton>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

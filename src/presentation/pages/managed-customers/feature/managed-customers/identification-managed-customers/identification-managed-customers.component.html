@@ -1,0 +1,276 @@
+<div class="mt-3">
+    <fieldset class="fieldset-premium">
+        <legend>
+            <b>{{ 'PHONE_MANAGER_INFORMATION' | translate }}</b>
+        </legend>
+        <div class="row">
+            <div class="col-md-4">
+                <label class="form-label"
+                    ><b>{{ 'NAME_PRENOMS' | translate }}</b
+                    ><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    [value]="customerDetails?.nom_client"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label"
+                    ><b>{{ 'ADDRESS' | translate }}</b
+                    ><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    [value]="customerDetails?.adresse"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label"
+                    ><b>{{ 'CUSTOMER_ACCOUNT' | translate }}</b
+                    ><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    [value]="customerDetails?.compte_client"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <label class="form-label"
+                    ><b>{{ 'EMAIL' | translate }}</b
+                    ><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="email"
+                    class="form-control"
+                    [value]="customerDetails?.email_admin_client"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label"
+                    ><b>{{ 'ACTIVITY_DOMAIN' | translate }}</b
+                    ><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    [value]="customerDetails?.domaine_activite"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label"
+                    ><b>{{ 'LOGO' | translate }}</b></label
+                >
+                <div>
+                    <button
+                        pButton
+                        type="button"
+                        class="p-button-secondary"
+                        icon="pi pi-eye"
+                        [label]="'VIEW' | translate"
+                        (click)="viewFile('logo_client')"
+                    ></button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="fieldset-premium mb-3">
+        <legend>
+            <b>{{ 'MANAGER_INFORMATION' | translate }}</b>
+        </legend>
+        <div class="row">
+            <div class="col-md-4">
+                <label class="form-label"
+                    ><b>{{ 'NAME_PRENOMS' | translate }}</b
+                    ><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    [value]="customerDetails?.nom_gerant"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label"
+                    ><b>{{ 'CONTACT' | translate }}</b
+                    ><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    [value]="customerDetails?.contact_gerant"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label"
+                    ><b>{{ 'EMAIL' | translate }}</b
+                    ><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="email"
+                    class="form-control"
+                    [value]="customerDetails?.email_gerant"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label"
+                    ><b>{{ 'IDENTITY_DOCUMENT' | translate }}</b></label
+                >
+                <div>
+                    <button
+                        pButton
+                        type="button"
+                        class="p-button-secondary"
+                        icon="pi pi-eye"
+                        [label]="'VIEW' | translate"
+                        (click)="viewFile('piece_gerant')"
+                    ></button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="fieldset-premium">
+        <legend>
+            <b>{{ 'MORAL_DECLARATION' | translate }}</b>
+        </legend>
+        <div class="row">
+            <div class="col-md-6">
+                <label class="form-label"
+                    ><b>RCCM</b><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    [value]="customerDetails?.numero_rccm"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label"
+                    ><b>{{ 'LEGAL_FORM' | translate }}</b
+                    ><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    [value]="customerDetails?.forme_juridique_code"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label"><b>RCCM</b></label>
+                <div>
+                    <button
+                        pButton
+                        type="button"
+                        class="p-button-secondary"
+                        icon="pi pi-eye"
+                        [label]="'VIEW' | translate"
+                        (click)="viewFile('fichier_rccm')"
+                    ></button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="fieldset-premium mb-3">
+        <legend>
+            <b>{{ 'FISCAL_DECLARATION' | translate }}</b>
+        </legend>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label"
+                    ><b>{{ 'NUMBER_CC' | translate }}</b
+                    ><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    [value]="customerDetails?.numero_cc"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label"
+                    ><b>{{ 'REGIME' | translate }}</b
+                    ><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    [value]="customerDetails?.regime_code"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label"
+                    ><b>{{ 'CENTER' | translate }}</b
+                    ><span class="text-danger">*</span></label
+                >
+                <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    [value]="customerDetails?.centre"
+                    [readonly]="true"
+                    disabled
+                />
+            </div>
+
+            <div class="col-md-1">
+                <label class="form-label"><b>DFE</b></label>
+                <div>
+                    <button
+                        pButton
+                        type="button"
+                        class="p-button-secondary"
+                        icon="pi pi-eye"
+                        [label]="'VIEW' | translate"
+                        (click)="viewFile('fichier_dfe')"
+                    ></button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>

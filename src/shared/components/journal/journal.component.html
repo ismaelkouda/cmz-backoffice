@@ -1,0 +1,178 @@
+<div class="modal-content">
+    <div
+        class="modal-header"
+        style="
+            background-color: #569c5b;
+            color: #fff;
+            cursor: all-scroll;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.2rem 1rem;
+        "
+    >
+        <h4 class="modal-title">
+            Journal <strong>{{ transaction ?? numero_demande }}</strong>
+        </h4>
+        <button
+            type="button"
+            class="close"
+            (click)="closeModal()"
+            aria-label="Close"
+            style="margin-left: auto"
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div *ngIf="displayDefaultJournal">
+        <p-table
+            #dt
+            [value]="listJournal"
+            [rows]="10"
+            [paginator]="true"
+            responsiveLayout="scroll"
+            [rowHover]="true"
+            dataKey="id"
+            currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords}
+              données"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="text-align: center">#</th>
+                    <th style="text-align: center">Date/Heure</th>
+                    <th style="text-align: center">Etape</th>
+                    <th>Etat</th>
+                    <th>Date Traitement</th>
+                    <th>Description</th>
+                    <th class="text-center"># Lignes</th>
+                </tr>
+            </ng-template>
+            <ng-template let-i="rowIndex" pTemplate="body" let-journal>
+                <tr>
+                    <td style="text-align: center">{{ i + 1 }}</td>
+                    <td style="text-align: center">
+                        {{ journal?.created_at }}
+                    </td>
+                    <td style="text-align: center">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            class="badge"
+                            [class.badge-dark]="
+                                journal?.statut === BADGE_ETAPE.SOUMISSION ||
+                                journal?.statut === BADGE_STATUT.SOUMIS
+                            "
+                            [class.badge-warning]="
+                                journal?.statut === BADGE_ETAPE.TRAITEMENT
+                            "
+                            [class.badge-success]="
+                                journal?.statut === BADGE_ETAPE.FINALISATEUR ||
+                                journal?.statut === BADGE_STATUT.CLOTURE
+                            "
+                            [class.badge-green]="
+                                journal?.statut === BADGE_ETAPE.CLOTURE
+                            "
+                            [class.badge-info]="
+                                journal?.statut === BADGE_STATUT.TRAITE
+                            "
+                        >
+                            {{ journal?.statut }}
+                        </span>
+                    </td>
+                    <td style="text-align: center">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            class="badge"
+                            [class.badge-dark]="
+                                journal?.traitement === BADGE_ETAT.RECU ||
+                                journal?.traitement === BADGE_ETAT.EN_ATTENTE ||
+                                journal?.traitement === BADGE_ETAT.AFFECTE
+                            "
+                            [class.badge-warning]="
+                                journal?.traitement === BADGE_ETAT.PARTIEL ||
+                                journal?.traitement === BADGE_ETAT.ABANDONNE ||
+                                journal?.traitement === BADGE_ETAT.EN_COURS
+                            "
+                            [class.badge-danger]="
+                                journal?.traitement === BADGE_ETAT.REJETE ||
+                                journal?.traitement === BADGE_ETAT.REFUSE
+                            "
+                            [class.badge-success]="
+                                journal?.traitement === BADGE_ETAT.CLOTURE ||
+                                journal?.traitement === BADGE_ETAT.TERMINE ||
+                                journal?.traitement === BADGE_ETAT.EFFECTUE ||
+                                journal?.traitement === BADGE_ETAT.APPROUVE
+                            "
+                            [class.badge-primary]="
+                                journal?.traitement === BADGE_ETAT.COMPLET ||
+                                journal?.traitement === BADGE_ETAT.LIVRE
+                            "
+                        >
+                            {{ journal.traitement }}
+                        </span>
+                    </td>
+                    <td style="text-align: center">
+                        {{ journal?.date_heure }}
+                    </td>
+                    <td>
+                        {{ journal?.description }}
+                    </td>
+                    <td style="text-align: center">
+                        {{ journal?.nbre_element }}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <div *ngIf="displayWhitesimCard">
+        <p-table
+            #dt
+            [value]="listJournal"
+            [rows]="10"
+            responsiveLayout="scroll"
+            [rowHover]="true"
+            dataKey="id"
+            [showCurrentPageReport]="true"
+            responsiveLayout="scroll"
+            scrollable="true"
+            scrollHeight="flex"
+            width="100%"
+            class="responsive-claims-table"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center" [style]="{ width: '2rem' }">#</th>
+                    <th style="text-align: center" [style]="{ width: '8rem' }">
+                        Date/Heure
+                    </th>
+                    <th style="text-align: center" [style]="{ width: '8rem' }">
+                        Opération
+                    </th>
+                    <th>Description</th>
+                    <th style="text-align: center" [style]="{ width: '6rem' }">
+                        # Lignes
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template let-i="rowIndex" pTemplate="body" let-journal>
+                <tr>
+                    <td class="text-center">{{ i + 1 }}</td>
+                    <td style="text-align: center">
+                        {{ journal?.created_at }}
+                    </td>
+                    <td style="text-align: center">{{ journal?.operation }}</td>
+                    <td style="width: 23rem; text-align: start">
+                        {{ journal?.description }}
+                    </td>
+                    <td style="text-align: center">
+                        {{ journal?.nbre_element }}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+        <app-pargination
+            [pargination]="pargination"
+            (pageChange)="onPageChange($event)"
+        ></app-pargination>
+    </div>
+</div>

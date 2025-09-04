@@ -1,0 +1,111 @@
+import {
+    MANAGED_CUSTOMERS_STEP_ENUM,
+    T_MANAGED_CUSTOMERS_STEP_ENUM,
+} from '../../data-access/managed-customers/enums/managed-customers-step.enum';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
+import { Paginate } from '../../../../../shared/interfaces/paginate';
+import { AssociationEnterprisesFilterInterface } from '../../data-access/association-enterprises/interfaces/association-enterprises-filter.interface';
+import { AssociationEnterprisesInterface } from '../../data-access/association-enterprises/interfaces/association-enterprises.interface';
+import { AssociationEnterprisesApiService } from '../../data-access/association-enterprises/services/association-enterprises-api.service';
+import {
+    MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM,
+    T_MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM,
+} from '../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
+import { TYPE_CUSTOMERS_ENUM } from '../../../../../shared/enum/type-customers.enum';
+
+type PageAction = {
+    data: AssociationEnterprisesInterface;
+    action: T_MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM;
+    view: 'page';
+};
+
+@Component({
+    selector: 'app-association-enterprises',
+    templateUrl: './association-enterprises.component.html',
+})
+export class AssociationEnterprisesComponent implements OnInit, OnDestroy {
+    public module: string;
+    public subModule: string;
+    public pagination$: Observable<Paginate<AssociationEnterprisesInterface>>;
+    public listAssociationEnterprises$: Observable<
+        AssociationEnterprisesInterface[]
+    >;
+    public spinner: boolean = true;
+    private destroy$ = new Subject<void>();
+    public listAssociationEnterprisesStep: Array<T_MANAGED_CUSTOMERS_STEP_ENUM> =
+        Object.values(MANAGED_CUSTOMERS_STEP_ENUM);
+
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private router: Router,
+        private associationEnterprisesApiService: AssociationEnterprisesApiService
+    ) {}
+
+    ngOnInit(): void {
+        this.activatedRoute.data.subscribe((data) => {
+            this.module = data.module;
+            this.subModule = data.subModule[2];
+        });
+        this.listAssociationEnterprises$ =
+            this.associationEnterprisesApiService.getAssociationEnterprises();
+        this.pagination$ =
+            this.associationEnterprisesApiService.getAssociationEnterprisesPagination();
+        combineLatest([
+            this.associationEnterprisesApiService.getDataFilterAssociationEnterprises(),
+            this.associationEnterprisesApiService.getDataNbrPageAssociationEnterprises(),
+        ]).subscribe(([filterData, nbrPageData]) => {
+            this.associationEnterprisesApiService.fetchAssociationEnterprises(
+                { ...filterData },
+                nbrPageData
+            );
+        });
+        this.associationEnterprisesApiService
+            .isLoadingAssociationEnterprises()
+            .subscribe((spinner) => {
+                this.spinner = spinner;
+            });
+    }
+
+    public filter(filterData: AssociationEnterprisesFilterInterface): void {
+        this.associationEnterprisesApiService.fetchAssociationEnterprises(
+            filterData
+        );
+    }
+
+    public onPageChange(event: number): void {
+        this.associationEnterprisesApiService
+            .getDataFilterAssociationEnterprises()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((filterData) => {
+                this.associationEnterprisesApiService.fetchAssociationEnterprises(
+                    filterData,
+                    JSON.stringify(event + 1)
+                );
+            });
+    }
+
+    public navigateByUrl(params: PageAction): void {
+        const code_client = params.data ? params.data['code_client'] : null;
+        const ref = params.action;
+        const type_enterprise = TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISES;
+        const queryParams = { ref, type_enterprise };
+        let routePath: string = '';
+
+        switch (params.action) {
+            case MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM.OPEN:
+                routePath = `${code_client}`;
+                this.router.navigate([routePath], {
+                    relativeTo: this.activatedRoute,
+                    queryParams,
+                });
+                break;
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+}

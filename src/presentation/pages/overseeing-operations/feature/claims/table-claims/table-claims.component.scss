@@ -1,0 +1,10 @@
+/* styles.scss */
+::ng-deep .p-datatable .p-datatable-tbody > tr > td,
+::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    white-space: nowrap; /* Prevents cell wrapping */
+}
+
+/* Optional: add horizontal scroll for very small screens */
+.responsive-claims-table .p-datatable-wrapper {
+    overflow-x: auto;
+}

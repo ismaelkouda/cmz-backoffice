@@ -1,0 +1,68 @@
+<div class="auth-container">
+    <div class="logo-container">
+        <a class="auth-logo" routerLink="/">
+            <img [src]="LOGO_IMAKO" alt="Orange Logo" />
+        </a>
+    </div>
+
+    <div class="auth-card">
+        <div class="auth-content">
+            <h1 class="auth-title">{{ 'AUTHENTICATION' | translate }}</h1>
+
+            <form
+                [formGroup]="loginForm"
+                (ngSubmit)="onSubmit()"
+                class="auth-form"
+            >
+                <div class="form-group">
+                    <label class="form-label">
+                        {{ 'USERNAME' | translate }}
+                        <span class="required-indicator">*</span>
+                    </label>
+                    <input
+                        type="email"
+                        formControlName="username"
+                        placeholder="app@yourmail.com"
+                        class="form-input"
+                        aria-required="true"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        {{ 'PASSWORD' | translate }}
+                        <span class="required-indicator">*</span>
+                    </label>
+                    <p-password
+                        formControlName="password"
+                        [feedback]="false"
+                        [toggleMask]="true"
+                        inputStyleClass="form-input"
+                        ariaLabel="Mot de passe"
+                    ></p-password>
+                </div>
+
+                <button
+                    type="submit"
+                    [disabled]="!loginForm.valid"
+                    class="submit-button"
+                    aria-label="Se connecter"
+                >
+                    {{ 'CONNECTION' | translate }}
+                </button>
+            </form>
+
+            <div class="forgot-password">
+                <a
+                    [routerLink]="[
+                        '/' + REINITIALIZATION + '/' + FORGOT_PASSWORD
+                    ]"
+                    class="forgot-link"
+                    aria-label="Réinitialiser le mot de passe"
+                >
+                    {{ 'FORGOT_PASSWORD' | translate }} ?
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

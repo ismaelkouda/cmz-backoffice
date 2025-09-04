@@ -1,0 +1,87 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="d-flex gap-1">
+        <div class="col-md">
+            <label
+                ><b>{{ 'OPERATION' | translate }}</b></label
+            >
+            <p-dropdown
+                formControlName="operation"
+                [options]="listOperations"
+                [showClear]="true"
+                [filter]="true"
+                placeholder="{{ 'SELECT' | translate }} {{
+                    'DEMAND' | translate
+                }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+            >
+            </p-dropdown>
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'NUMBER_FOLDER' | translate }}</b></label
+            >
+            <input
+                formControlName="numero_demande"
+                type="text"
+                pInputText
+                placeholder="{{ 'NUMBER_FOLDER' | translate }}"
+                [style]="{ minWidth: '100%' }"
+            />
+        </div>
+        <div class="col-md">
+            <label
+                ><b>{{ 'APPLICANT' | translate }}</b></label
+            >
+            <p-dropdown
+                formControlName="initie_par"
+                [options]="listApplicants$ | async"
+                optionLabel="fullName"
+                optionValue="id"
+                [filter]="true"
+                filterBy="fullName"
+                [showClear]="true"
+                placeholder="{{ 'SELECT' | translate }} {{
+                    'APPLICANT' | translate
+                }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+            >
+            </p-dropdown>
+        </div>
+        <div class="col-md-2">
+            <label
+                ><b>{{ 'START_DATE' | translate }}</b></label
+            >
+            <p-calendar
+                formControlName="date_debut"
+                [showIcon]="true"
+                [placeholder]="'JJ-MM-AAAA'"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+        <div class="col-md-2">
+            <label
+                ><b>{{ 'END_DATE' | translate }}</b></label
+            >
+            <p-calendar
+                formControlName="date_fin"
+                [showIcon]="true"
+                placeholder="JJ-MM-AAAA"
+                dateFormat="dd-mm-yy"
+            >
+            </p-calendar>
+        </div>
+
+        <div class="filter-button">
+            <button
+                pButton
+                pRipple
+                type="submit"
+                class="p-button-success"
+                icon="pi pi-filter"
+            ></button>
+        </div>
+    </div>
+</form>

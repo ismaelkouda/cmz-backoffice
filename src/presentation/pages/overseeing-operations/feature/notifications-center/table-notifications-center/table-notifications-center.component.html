@@ -1,0 +1,164 @@
+<p-table
+    #dt
+    [value]="notificationList$ | async"
+    [paginator]="false"
+    selectionMode="multiple"
+    dataKey="id"
+    [(selection)]="selectedNotifications"
+    [rows]="(notificationPagination$ | async)?.per_page"
+    [globalFilterFields]="table.globalFilterFields"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    width="100%"
+    class="responsive-claims-table"
+>
+    <ng-template pTemplate="caption">
+        <div class="d-flex justify-content-between flex-wrap align-items-start">
+            <app-table-title
+                [count]="(notificationPagination$ | async)?.total"
+                [perPage]="(notificationPagination$ | async)?.per_page"
+                [page]="(notificationPagination$ | async)?.current_page"
+                [totalPage]="(notificationPagination$ | async)?.last_page"
+            >
+            </app-table-title>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <div class="d-flex gap-2">
+                    <app-table-button-header
+                        (refresh)="pageCallback()"
+                        (export)="onExportExcel()"
+                        (other)="handleClearNotification()"
+                        [disabledButtonOther]="
+                            (notificationList$ | async)?.length === 0
+                        "
+                        [disabledButtonExport]="
+                            (notificationList$ | async)?.length === 0
+                        "
+                        [labelOther]="'CLEAR' | translate"
+                        [colorOther]="'danger'"
+                        [hiddenButtonOther]="false"
+                    >
+                    </app-table-button-header>
+                </div>
+                <div>
+                    <app-search-table [dt]="dt"></app-search-table>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    maxWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center'
+                }"
+            >
+                <ng-container [ngSwitch]="col.header">
+                    <ng-container *ngSwitchCase="'Date / Heure'">
+                        {{ 'DATE_TIME' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Référence'">
+                        {{ 'NUMBER_REFERENCE' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Type Notification'">
+                        {{ 'NOTIFICATION_TYPE' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Description'">
+                        {{ 'DESCRIPTION' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Actions'">
+                        <div style="display: flex; justify-content: center">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{ col.header }}
+                    </ng-container>
+                </ng-container>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
+        <tr>
+            <td
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    maxWidth: col.width,
+                    width: col.width
+                }"
+                [attr.data-label]="col.header"
+            >
+                <ng-container [ngSwitch]="col.header">
+                    <ng-container *ngSwitchCase="'#'">
+                        {{
+                            ((notificationPagination$ | async)?.current_page -
+                                1) *
+                                (notificationPagination$ | async)?.per_page +
+                                rowIndex +
+                                1
+                        }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Référence'">
+                        <span
+                            (click)="copyToClipboard(item?.[col.field])"
+                            [pTooltip]="'COPY' | translate"
+                            tooltipPosition="bottom"
+                        >
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Type Notification'">
+                        {{ getTitleForm(item?.[col.field]) }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Description'">
+                        <span
+                            [innerHTML]="getSanitizedHTML(item?.[col.field])"
+                        ></span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Actions'">
+                        <div style="display: flex; justify-content: center">
+                            <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{item?.[col.field]}}
+                    </ng-container>
+                </ng-container>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr
+            *ngIf="(notificationList$ | async)?.length <= 0 && !spinner"
+            class="loading-table"
+        >
+            <td class="posRelative" colspan="15">
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner" class="loading-table">
+            <td class="posRelative" colspan="15">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

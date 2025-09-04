@@ -1,0 +1,104 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { WaitingQueueComponent } from './ui/waiting-queue/waiting-queue.component';
+import { TreatmentMonitoringComponent } from './ui/treatment-monitoring/treatment-monitoring.component';
+import { ClaimsComponent } from './ui/claims/claims.component';
+import { NotificationsCenterComponent } from './ui/notifications-center/notifications-center.component';
+import { PagesGuard } from '../../../core/guard/PagesGuard';
+import { FormClaimsComponent } from './feature/claims/form-claims/form-claims.component';
+import { InvoiceFormComponent } from '../../../shared/components/invoice-form/invoice-form.component';
+
+export const WAITING = 'waiting';
+export const TREATMENT_MONITORING = 'treatment-monitoring';
+export const CLAIMS = 'claims';
+export const NOTIFICATIONS = 'notifications';
+export const MESSAGING = 'messaging';
+export const FORM = 'form';
+export const INVOICE = 'voice';
+export const OPERATION = 'operation';
+export const SIM_DEMAND_ROUTE = 'subscriptions';
+export const INVOICE_FORM_ROUTE = 'invoice-form';
+const routes: Routes = [
+    {
+        path: WAITING,
+        children: [
+            {
+                path: '',
+                component: WaitingQueueComponent,
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${WAITING}`],
+        // },
+    },
+    {
+        path: TREATMENT_MONITORING,
+        children: [
+            {
+                path: '',
+                component: TreatmentMonitoringComponent,
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${TREATMENT_MONITORING}`],
+        // },
+    },
+    {
+        path: CLAIMS,
+        children: [
+            {
+                path: '',
+                component: ClaimsComponent,
+            },
+            {
+                path: FORM,
+                component: FormClaimsComponent,
+            },
+            {
+                path: `${INVOICE_FORM_ROUTE}/:number_demand`,
+                component: InvoiceFormComponent,
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${CLAIMS}`],
+        // },
+    },
+    {
+        path: NOTIFICATIONS,
+        children: [
+            {
+                path: '',
+                component: NotificationsCenterComponent,
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+        // canActivate: [PagesGuard],
+        // data: {
+        //     allowedPaths: [`/${NOTIFICATIONS}`],
+        // },
+    },
+];
+
+@NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
+})
+export class OverseeingOperationsRoutingModule {}

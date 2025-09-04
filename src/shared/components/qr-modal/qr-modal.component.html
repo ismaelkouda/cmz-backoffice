@@ -1,0 +1,28 @@
+<div class="modal-content let-modal" #activeModal>
+    <div class="modal-header">
+        <h4 class="modal-title">{{ qr.msisdn }}</h4>
+        <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="closeModal()"
+        ></button>
+    </div>
+    <div class="modal-body">
+        <!-- Map -->
+        <div
+            class="preloader-scan col-sm-12 col-md-12 col-lg-12"
+            style="display: flex; justify-content: center"
+        >
+            <img
+                width="400"
+                height="400"
+                [src]="simQrCode"
+                alt="QR Illustration"
+            />
+            <div class="diode">
+                <div class="laser"></div>
+            </div>
+        </div>
+    </div>
+</div>

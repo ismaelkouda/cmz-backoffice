@@ -1,0 +1,216 @@
+<p-table
+    #dt
+    [value]="listClaims$ | async"
+    [rowHover]="true"
+    dataKey="id"
+    selectionMode="single"
+    [(selection)]="claimsSelected"
+    [rows]="(pagination$ | async)?.per_page"
+    [globalFilterFields]="table.globalFilterFields"
+    responsiveLayout="scroll"
+    scrollable="true"
+    scrollHeight="flex"
+    class="responsive-claims-table"
+>
+    <ng-template pTemplate="caption">
+        <div class="d-flex justify-content-between flex-wrap align-items-start">
+            <app-table-title
+                [count]="(pagination$ | async)?.total"
+                [perPage]="(pagination$ | async)?.per_page"
+                [page]="(pagination$ | async)?.current_page"
+                [totalPage]="(pagination$ | async)?.last_page"
+            >
+            </app-table-title>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    (refresh)="pageCallback()"
+                    (export)="onExportExcel()"
+                    [disabledButtonExport]="(listClaims$ | async)?.length === 0"
+                    [labelOther]="'CLAIM' | translate"
+                    [colorOther]="'dark'"
+                    [hiddenButtonOther]="false"
+                    [iconOther]="'pi pi-plus'"
+                    (other)="
+                        handleAction({
+                            data: null,
+                            action: 'add-claims',
+                            view: 'page'
+                        })
+                    "
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt"></app-search-table>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [ngStyle]="{ width: col.width }"
+            >
+                <ng-container [ngSwitch]="col.header">
+                    <ng-container *ngSwitchCase="'Date / Heure'">
+                        {{ 'DATE_TIME' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'N° Référence'">
+                        {{ 'NUMBER_REFERENCE' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Opération'">
+                        {{ 'OPERATION' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Etape'">
+                        {{ 'STEP' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Etat'">
+                        {{ 'STATE' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Date Etat'">
+                        {{ 'UPDATED_DATE' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Demandeur'">
+                        {{ 'APPLICANT' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{ col.header }}
+                    </ng-container>
+                </ng-container>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
+        <tr [pSelectableRow]="item">
+            <td
+                *ngFor="let col of table.cols"
+                [class]="col.class"
+                [attr.data-label]="col.header"
+                [ngStyle]="{ width: col.width }"
+            >
+                <ng-container [ngSwitch]="col.header">
+                    <ng-container *ngSwitchCase="'#'">
+                        {{ rowIndex + (pagination$ | async)?.current_page }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'N° Référence'">
+                        <span (click)="copyToClipboard(item?.[col.field])">
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Opération'">
+                        {{ item?.[col.field] }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Etape'">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            [class]="'badge ' + getStepClaimsBadge(item)"
+                        >
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Etat'">
+                        <span
+                            [ngStyle]="{ 'font-size': '16px' }"
+                            [class]="'badge ' + getStateClaimsBadge(item)"
+                        >
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Date Etat'">
+                        {{ item?.[col.field] }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Actions'">
+                        <button
+                            pButton
+                            [ngClass]="
+                                getTreatmentButtonOpenClaimsStyle(item)?.class
+                            "
+                            [icon]="
+                                getTreatmentButtonOpenClaimsStyle(item)?.icon
+                            "
+                            tooltipPosition="top"
+                            [pTooltip]="getTreatmentButtonOpenClaimsStyle(item)?.['tooltip']"
+                            (click)="
+                                handleAction({
+                                    data: item,
+                                    action: 'open-folder-claims',
+                                    view: 'page'
+                                })
+                            "
+                        ></button
+                        >&nbsp;
+                        <button
+                            pButton
+                            [ngClass]="
+                                getTreatmentButtonViewClaimsStyle(item)?.class
+                            "
+                            [icon]="
+                                getTreatmentButtonViewClaimsStyle(item)?.icon
+                            "
+                            tooltipPosition="top"
+                            [pTooltip]="getTreatmentButtonViewClaimsStyle(item)?.['tooltip']"
+                            (click)="
+                                handleAction({
+                                    data: item,
+                                    action: 'view-claims',
+                                    view: 'modal'
+                                })
+                            "
+                        ></button>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        {{item?.[col.field]}}
+                    </ng-container>
+                </ng-container>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr *ngIf="(listClaims$ | async)?.length <= 0 && !spinner">
+            <td class="posRelative" colspan="15">
+                <span class="posCenter">
+                    {{ 'NO_DATA_FOUND' | translate }}
+                </span>
+            </td>
+        </tr>
+        <tr *ngIf="spinner">
+            <td class="posRelative" colspan="15">
+                <p-progressSpinner
+                    class="posCenter"
+                    [style]="{ width: '40px', height: '50px' }"
+                    styleClass="custom-spinner"
+                    strokeWidth="8"
+                    fill="#EEEEEE"
+                    animationDuration=".5s"
+                >
+                </p-progressSpinner>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog
+    header="[{{ 'TRACKING_PROCESSING' | translate }}] {{
+        'CLAIMS' | translate
+    }} [{{ claimsSelected?.numero_demande }}]"
+    [(visible)]="visibleFormClaims"
+    (onHide)="hideDialog()"
+    [modal]="true"
+    [closable]="true"
+    [style]="{ width: '100%', 'min-height': '100%' }"
+    [responsive]="true"
+    [maximizable]="true"
+    [draggable]="false"
+    [resizable]="true"
+>
+    <ng-template pTemplate="content">
+        <!-- <app-form-folder
+            [demandSelected]="claimsSelected"
+            [typeTreatment]="typeTreatment"
+            (visibleFormDossier)="hideDialog()"
+        >
+        </app-form-folder> -->
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,245 @@
+.add-cs {
+    .page-head {
+        .title-block h3 {
+            letter-spacing: 0.3px;
+        }
+    }
+
+    .premium-form {
+        .treatment-fieldset {
+            border: 2px solid #198754;
+            border-radius: 1rem;
+            background: #fff;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 1.5rem;
+
+            &:hover {
+                box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+            }
+
+            .closing-legend {
+                font-size: 1.2rem;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                color: #198754;
+                padding: 0 1rem;
+                background: white;
+                width: auto;
+                margin-left: 1rem;
+            }
+
+            .closing-card {
+                border-radius: 1rem;
+                border: 1px solid #e0e0e0;
+                transition: box-shadow 0.3s ease;
+                background: #fafafa;
+
+                &:hover {
+                    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+                }
+            }
+
+            .big-radio {
+                padding: 0.3rem 1rem;
+                border-radius: 0.8rem;
+                background: white;
+                border: 1px solid #e9ecef;
+                transition: all 0.3s ease;
+                min-height: 120px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                &:hover {
+                    border-color: #198754;
+                    background: #f8fff9;
+                }
+
+                .form-check-input {
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    margin: 0;
+
+                    &:checked {
+                        background-color: #198754;
+                        border-color: #198754;
+                    }
+
+                    &:focus {
+                        box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+                    }
+                }
+
+                .form-check-label {
+                    font-size: 1.1rem;
+                    cursor: pointer;
+                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 0.5rem;
+                }
+            }
+
+            .form-textarea {
+                padding-top: 1.3rem !important;
+            }
+
+            @media (max-width: 768px) {
+                padding: 1rem;
+
+                .row {
+                    flex-direction: column;
+                    gap: 1.5rem !important;
+                }
+
+                .col-md-3,
+                .col-md-6 {
+                    width: 100%;
+                }
+
+                .big-radio {
+                    min-height: 100px;
+
+                    .form-check-label {
+                        font-size: 1rem;
+                    }
+                }
+            }
+        }
+        .card {
+            border-radius: 1rem;
+            border: none;
+            background: linear-gradient(135deg, #f9fafc, #ffffff);
+        }
+
+        .premium-card {
+            border: 0;
+            border-radius: 1rem;
+            box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08);
+        }
+
+        .fieldset-premium {
+            border: 1px solid #5b9bd5;
+            border-radius: 12px;
+            padding: 16px 16px 8px;
+            margin-bottom: 16px;
+            position: relative;
+            background: #fff;
+
+            legend {
+                font-size: 1rem;
+                padding: 0 8px;
+                margin-left: 8px;
+                color: #fff;
+                background: #5b9bd5;
+                border-radius: 6px;
+                line-height: 1.8;
+            }
+
+            .form-label {
+                font-weight: 600;
+            }
+            input[pInputText].is-invalid,
+            .p-dropdown.p-invalid .p-dropdown-label {
+                border-color: #dc3545 !important;
+            }
+        }
+
+        .forms-feature-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed #e9ecef;
+            margin-top: 0.75rem;
+        }
+
+        .input_file {
+            border: 1px dashed #ced4da;
+            border-radius: 10px;
+            width: 100%;
+            display: grid;
+            place-items: center;
+            padding: 0.75rem;
+            background: #f8f9fa;
+
+            label {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                cursor: pointer;
+                margin: 0;
+            }
+
+            input[type='file'] {
+                display: none;
+            }
+        }
+
+        .excel-headers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .file-input {
+            height: 3rem;
+            font-size: 1.1rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 0.5rem;
+            border: 1px solid #ced4da;
+            cursor: pointer;
+            &:hover {
+                border-color: #80bdff;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            }
+        }
+
+        .container-form-masse {
+            display: flex;
+            flex-direction: row;
+            align-items: end;
+
+            label.is-invalid {
+                color: #dc3545 !important;
+            }
+        }
+
+        input::file-selector-button {
+            background-color: #f0f0f0;
+            border: 1px solid #ced4da;
+            color: #569c5a;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .big-radio {
+            transform: scale(1.2);
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .animate-fadeOut {
+            animation: fadeOut 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+}

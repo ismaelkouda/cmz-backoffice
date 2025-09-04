@@ -1,0 +1,898 @@
+<div class="row">
+    <ng-container *ngIf="(customerDetails | json) != '{}'; else skeletonLoader">
+        <div class="col-lg-2 mt-2 sidebar-panel">
+            <div class="list-group pl-2 pb-2">
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-success w-100 mb-2"
+                    [label]="'TO_CLOSURE' | translate | capitalize"
+                    (click)="handleClosureDemand()"
+                    [disabled]="requestsServiceForm.invalid"
+                    *ngIf="displayClosureForm"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-success w-100 mb-2"
+                    [label]="'MODIFY' | translate"
+                    [disabled]="requestsServiceForm.invalid"
+                    (click)="handleUpdateDemand()"
+                    *ngIf="disabledEditableForm"
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    class="p-button-warning w-100"
+                    [label]="'TO_ABANDON' | translate"
+                    (click)="onLetDownDemand()"
+                    *ngIf="disabledEditableForm"
+                ></button>
+            </div>
+
+            <fieldset class="fieldset-premium">
+                <legend>
+                    <strong>{{ 'REQUESTER' | translate }}</strong>
+                </legend>
+                <div class="info-list small">
+                    <div>
+                        <strong>{{ 'MATRICULE' | translate }} :</strong>
+                        {{ customerDetails?.demandeur_matricule || '--' }}
+                    </div>
+                    <div>
+                        <strong>{{ 'FULL_NAME' | translate }} :</strong>
+                        {{ customerDetails?.demandeur_nom }}
+                        {{ customerDetails?.demandeur_prenoms }}
+                    </div>
+                    <div>
+                        <strong>{{ 'CONTACT' | translate }} :</strong>
+                        {{ customerDetails?.demandeur_contacts || '--' }}
+                    </div>
+                    <div>
+                        <strong>{{ 'EMAIL' | translate }} :</strong>
+                        {{ customerDetails?.demandeur_email || '--' }}
+                    </div>
+                    <div>
+                        <strong>{{ 'DATE' | translate }} :</strong>
+                        {{ customerDetails?.created_at || '--' }}
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset
+                *ngIf="displayApprovedBlock"
+                class="fieldset-premium approved"
+            >
+                <legend>
+                    <strong>{{ 'APPROBATION' | translate }}</strong>
+                </legend>
+                <div class="info-list">
+                    <div>
+                        <strong>{{ 'MATRICULE' | translate }} :</strong>
+                        {{ customerDetails?.approbateur?.matricule || '--' }}
+                    </div>
+                    <div>
+                        <strong>{{ 'FULL_NAME' | translate }} :</strong>
+                        {{ customerDetails?.approbateur?.nom }}
+                        {{ customerDetails?.approbateur?.prenoms }}
+                    </div>
+                    <div>
+                        <strong>{{ 'CONTACT' | translate }} :</strong>
+                        {{ customerDetails?.approbateur?.contacts || '--' }}
+                    </div>
+                    <div>
+                        <strong>{{ 'EMAIL' | translate }} :</strong>
+                        {{ customerDetails?.approbateur?.email || '--' }}
+                    </div>
+                    <div>
+                        <strong>{{ 'DATE' | translate }} :</strong>
+                        {{ customerDetails?.acquitte_a || '--' }}
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset *ngIf="displayFinalizedBlock" class="fieldset-premium">
+                <legend>
+                    <strong>{{ 'FINALIST' | translate }}</strong>
+                </legend>
+                <div class="info-list">
+                    <div>
+                        <strong>{{ 'MATRICULE' | translate }} :</strong>
+                        {{ customerDetails?.finalisateur?.matricule || '--' }}
+                    </div>
+                    <div>
+                        <strong>{{ 'FULL_NAME' | translate }} :</strong>
+                        {{ customerDetails?.finalisateur?.nom }}
+                        {{ customerDetails?.finalisateur?.prenoms }}
+                    </div>
+                    <div>
+                        <strong>{{ 'CONTACT' | translate }} :</strong>
+                        {{ customerDetails?.finalisateur?.contacts || '--' }}
+                    </div>
+                    <div>
+                        <strong>{{ 'EMAIL' | translate }} :</strong>
+                        {{ customerDetails?.finalisateur?.email || '--' }}
+                    </div>
+                    <div>
+                        <strong>{{ 'DATE' | translate }} :</strong>
+                        {{ customerDetails?.finalise_a || '--' }}
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="col-lg-10 mt-2">
+            <div class="card p-3 mb-3">
+                <div
+                    role="alert"
+                    class="row g-3"
+                    [ngClass]="OnGetRapportCodeStyle"
+                >
+                    <div class="col-12 col-md-6 col-lg-3 mt-0">
+                        <strong class="wrapper-header">
+                            {{ 'SUBMISSION' | translate | capitalize }} :
+                            {{ customerDetails?.etat_soumission }}
+                            <br />
+                            {{ 'DATE' | translate }} : [{{ dateSoumission }}]
+                        </strong>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3 mt-0">
+                        <strong class="wrapper-header">
+                            {{ 'TREATMENT' | translate | capitalize }} :
+                            {{ customerDetails?.etat_traitement }}
+                            <br />
+                            {{ 'DATE' | translate }} : [{{
+                                customerDetails?.traite_a ?? '-- : --'
+                            }}]
+                        </strong>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3 mt-0">
+                        <strong class="wrapper-header">
+                            {{ 'FINALIST' | translate | capitalize }} :
+                            {{ customerDetails?.etat_finalisation }}
+                            <br />
+                            {{ 'DATE' | translate }} : [{{
+                                customerDetails?.finalise_a ?? '-- : --'
+                            }}]
+                        </strong>
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-3 mt-0">
+                        <strong class="wrapper-header">
+                            <span class="text-capitalize">{{
+                                'CLOSURE' | translate | capitalize
+                            }}</span>
+                            : {{ customerDetails?.etat_cloture }}
+                            <br />
+                            {{ 'DATE' | translate }} : [{{
+                                customerDetails?.cloture_a ?? '-- : --'
+                            }}]
+                        </strong>
+                    </div>
+                </div>
+
+                <div class="premium-form" [formGroup]="requestsServiceForm">
+                    <div class="client-type-select card shadow-sm mb-4 p-3">
+                        <label class="form-label fw-bold text-primary mb-2">
+                            <i class="bi bi-people-fill me-2"></i>
+                            {{ 'SELECT_CUSTOMER_TYPE' | translate }}
+                        </label>
+                        <p-dropdown
+                            [options]="customerTypes"
+                            optionLabel="label"
+                            optionValue="value"
+                            formControlName="type_entreprise"
+                            class="w-100"
+                            placeholder="Choisissez un type de client"
+                        >
+                        </p-dropdown>
+                    </div>
+
+                    <fieldset class="fieldset-premium">
+                        <legend>
+                            <b>{{ 'PHONE_MANAGER_INFORMATION' | translate }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="form-label"
+                                    ><b>{{ 'NAME_PRENOMS' | translate }}</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="nom_client"
+                                    [readonly]="!disabledEditableForm"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid': isInvalid('nom_client')
+                                    }"
+                                />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label"
+                                    ><b>{{ 'ADDRESS' | translate }}</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="adresse"
+                                    class="form-control"
+                                    [readonly]="!disabledEditableForm"
+                                    [ngClass]="{
+                                        'is-invalid': isInvalid('adresse')
+                                    }"
+                                />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label"
+                                    ><b>{{ 'CUSTOMER_ACCOUNT' | translate }}</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="compte_client"
+                                    [readonly]="!disabledEditableForm"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid': isInvalid('compte_client')
+                                    }"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="form-label"
+                                    ><b>{{ 'EMAIL' | translate }}</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    pInputText
+                                    type="email"
+                                    formControlName="email_admin_client"
+                                    [readonly]="!disabledEditableForm"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            isInvalid('email_admin_client')
+                                    }"
+                                />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label"
+                                    ><b>{{ 'ACTIVITY_DOMAIN' | translate }}</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="domaine_activite"
+                                    [readonly]="!disabledEditableForm"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            isInvalid('domaine_activite')
+                                    }"
+                                />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label"
+                                    ><b>{{ 'LOGO' | translate }}</b></label
+                                >
+                                <div
+                                    class="d-flex justify-content-between align-items-center gap-2"
+                                >
+                                    <div
+                                        class="flex-grow-1"
+                                        *ngIf="disabledEditableForm"
+                                    >
+                                        <input
+                                            class="file-input"
+                                            type="file"
+                                            (change)="
+                                                onChangeFile(
+                                                    $event.target.files,
+                                                    'logo_client'
+                                                )
+                                            "
+                                            accept="image/png,image/jpeg"
+                                        />
+                                    </div>
+                                    <button
+                                        pButton
+                                        type="button"
+                                        class="p-button-secondary"
+                                        icon="pi pi-eye"
+                                        [label]="'SEE' | translate"
+                                        (click)="viewFile('logo_client')"
+                                    ></button>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="fieldset-premium mb3">
+                        <legend>
+                            <b>{{ 'PHONE_MANAGER_INFORMATION' | translate }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label"
+                                    ><b>{{ 'NAME_PRENOMS' | translate }}</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="nom_gerant"
+                                    [readonly]="!disabledEditableForm"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid': isInvalid('nom_gerant')
+                                    }"
+                                />
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label"
+                                    ><b>{{ 'CONTACT' | translate }}</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="contact_gerant"
+                                    [readonly]="!disabledEditableForm"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid':
+                                            isInvalid('contact_gerant')
+                                    }"
+                                />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label"
+                                    ><b>{{ 'EMAIL' | translate }}</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    pInputText
+                                    type="email"
+                                    formControlName="email_gerant"
+                                    [readonly]="!disabledEditableForm"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid': isInvalid('email_gerant')
+                                    }"
+                                />
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label"
+                                    ><b>{{
+                                        'IDENTITY_DOCUMENT' | translate
+                                    }}</b></label
+                                >
+                                <div
+                                    class="d-flex justify-content-between align-items-center gap-2"
+                                >
+                                    <div
+                                        class="flex-grow-1"
+                                        *ngIf="disabledEditableForm"
+                                    >
+                                        <input
+                                            class="file-input"
+                                            type="file"
+                                            (change)="
+                                                onChangeFile(
+                                                    $event.target.files,
+                                                    'piece_gerant'
+                                                )
+                                            "
+                                            accept="image/png,image/jpeg"
+                                        />
+                                    </div>
+                                    <button
+                                        pButton
+                                        type="button"
+                                        class="p-button-secondary"
+                                        icon="pi pi-eye"
+                                        [label]="'SEE' | translate"
+                                        (click)="viewFile('piece_gerant')"
+                                    ></button>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="fieldset-premium">
+                        <legend>
+                            <b>{{ 'MORAL_DECLARATION' | translate }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="form-label"
+                                    ><b>RCCM</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="numero_rccm"
+                                    [readonly]="!disabledEditableForm"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid': isInvalid('numero_rccm')
+                                    }"
+                                />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label"
+                                    ><b>{{ 'LEGAL_FORM' | translate }}</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <ng-container
+                                    *ngIf="
+                                        disabledEditableForm;
+                                        else disabledLegalForm
+                                    "
+                                >
+                                    <p-dropdown
+                                        [options]="listLegalForm$ | async"
+                                        optionLabel="nom"
+                                        optionValue="code"
+                                        placeholder="{{ 'SELECT' | translate }}"
+                                        emptyMessage="{{
+                                            'NO_DATA' | translate
+                                        }}"
+                                        formControlName="forme_juridique_code"
+                                        [filter]="true"
+                                        filterBy="nom"
+                                        [ngClass]="{
+                                            'p-invalid': isInvalid(
+                                                'forme_juridique_code'
+                                            )
+                                        }"
+                                    ></p-dropdown>
+                                </ng-container>
+                                <ng-template #disabledLegalForm>
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="forme_juridique_code"
+                                        [readonly]="!disabledEditableForm"
+                                        class="form-control"
+                                    />
+                                </ng-template>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label"><b>RCCM</b></label>
+                                <div
+                                    class="d-flex justify-content-between align-items-center gap-2"
+                                >
+                                    <div
+                                        class="flex-grow-1"
+                                        *ngIf="disabledEditableForm"
+                                    >
+                                        <input
+                                            class="file-input"
+                                            type="file"
+                                            (change)="
+                                                onChangeFile(
+                                                    $event.target.files,
+                                                    'fichier_rccm'
+                                                )
+                                            "
+                                            accept="image/png,image/jpeg"
+                                        />
+                                    </div>
+                                    <button
+                                        pButton
+                                        type="button"
+                                        class="p-button-secondary"
+                                        icon="pi pi-eye"
+                                        [label]="'SEE' | translate"
+                                        (click)="viewFile('fichier_rccm')"
+                                    ></button>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="fieldset-premium mb-3">
+                        <legend>
+                            <b>{{ 'FISCAL_DECLARATION' | translate }}</b>
+                        </legend>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label"
+                                    ><b>{{ 'NUMBER_CC' | translate }}</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="numero_cc"
+                                    [readonly]="!disabledEditableForm"
+                                    class="form-control"
+                                    [ngClass]="{
+                                        'is-invalid': isInvalid('numero_cc')
+                                    }"
+                                />
+                            </div>
+
+                            <div class="col-md-2">
+                                <label class="form-label"
+                                    ><b>{{ 'REGIME' | translate }}</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <ng-container
+                                    *ngIf="
+                                        disabledEditableForm;
+                                        else disabledRegimeForm
+                                    "
+                                >
+                                    <p-dropdown
+                                        [options]="listRegimesBusiness$ | async"
+                                        optionLabel="nom"
+                                        optionValue="code"
+                                        placeholder="{{ 'SELECT' | translate }}"
+                                        emptyMessage="{{
+                                            'NO_DATA' | translate
+                                        }}"
+                                        formControlName="regime_code"
+                                        [filter]="true"
+                                        filterBy="nom"
+                                        [ngClass]="{
+                                            'p-invalid':
+                                                isInvalid('regime_code')
+                                        }"
+                                    ></p-dropdown>
+                                </ng-container>
+                                <ng-template #disabledRegimeForm>
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="regime_code"
+                                        [readonly]="!disabledEditableForm"
+                                        class="form-control"
+                                    />
+                                </ng-template>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label class="form-label"
+                                    ><b>{{ 'CENTER' | translate }}</b
+                                    ><span class="text-danger">*</span></label
+                                >
+                                <input
+                                    pInputText
+                                    type="text"
+                                    formControlName="centre"
+                                    class="form-control"
+                                    [readonly]="!disabledEditableForm"
+                                    [ngClass]="{
+                                        'is-invalid': isInvalid('centre')
+                                    }"
+                                />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label"><b>DFE</b></label>
+                                <div
+                                    class="d-flex justify-content-between align-items-center gap-2"
+                                >
+                                    <div
+                                        class="flex-grow-1"
+                                        *ngIf="disabledEditableForm"
+                                    >
+                                        <input
+                                            class="file-input"
+                                            type="file"
+                                            (change)="
+                                                onChangeFile(
+                                                    $event.target.files,
+                                                    'fichier_dfe'
+                                                )
+                                            "
+                                            accept="image/png,image/jpeg"
+                                        />
+                                    </div>
+                                    <button
+                                        pButton
+                                        type="button"
+                                        class="p-button-secondary"
+                                        icon="pi pi-eye"
+                                        [label]="'SEE' | translate"
+                                        (click)="viewFile('fichier_dfe')"
+                                    ></button>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="fieldset-premium">
+                        <legend>
+                            <b>{{ 'REQUEST_DESCRIPTION' | translate }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-12">
+                                <input
+                                    type="text"
+                                    pInputText
+                                    formControlName="description"
+                                    [ngClass]="{
+                                        'is-invalid': isInvalid('description')
+                                    }"
+                                    placeholder="{{ 'COMMENT' | translate }}..."
+                                    class="form-control"
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset
+                        *ngIf="displayApprovedBlock"
+                        class="fieldset-premium mb-3"
+                    >
+                        <legend>
+                            <b>{{ 'COMMENT_ON_APPROVAL' | translate }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-12">
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    disabled
+                                    [value]="
+                                        customerDetails?.commentaire_approbation ||
+                                        ''
+                                    "
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset
+                        *ngIf="displayFinalizedBlock"
+                        class="fieldset-premium"
+                    >
+                        <legend>
+                            <b>{{ 'COMMENT_ON_FINALIZATION' | translate }}</b>
+                        </legend>
+                        <div class="row">
+                            <div class="col-12">
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    disabled
+                                    [value]="
+                                        customerDetails?.commentaire_finalisation ||
+                                        ''
+                                    "
+                                />
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset
+                        *ngIf="displayClosureForm || displayClosedBlock"
+                        class="treatment-fieldset"
+                    >
+                        <legend class="approval-legend mb-3">
+                            <i class="pi pi-check-circle me-2"></i>
+                            <strong>{{ 'CLOSING' | translate }}</strong>
+                        </legend>
+
+                        <div class="card shadow-sm p-3 approval-card">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-2">
+                                    <div
+                                        class="form-check d-flex justify-content-around gap-3"
+                                    >
+                                        <div
+                                            class="big-radio d-flex flex-column align-items-center"
+                                        >
+                                            <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                id="oui"
+                                                value="oui"
+                                                formControlName="accepte"
+                                                [ngClass]="{
+                                                    'is-invalid':
+                                                        isInvalid('accepte')
+                                                }"
+                                            />
+                                            <label
+                                                class="form-check-label fw-semibold mt-2"
+                                                for="oui"
+                                            >
+                                                {{ 'YES' | translate }}
+                                            </label>
+                                        </div>
+
+                                        <div
+                                            class="big-radio d-flex flex-column align-items-center"
+                                        >
+                                            <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                id="non"
+                                                value="non"
+                                                formControlName="accepte"
+                                                [ngClass]="{
+                                                    'is-invalid':
+                                                        isInvalid('accepte')
+                                                }"
+                                            />
+                                            <label
+                                                class="form-check-label fw-semibold mt-2"
+                                                for="non"
+                                            >
+                                                {{ 'NO' | translate }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div
+                                        class="form-check d-flex justify-content-around gap-3"
+                                    >
+                                        <div
+                                            class="big-radio d-flex flex-column align-items-center"
+                                        >
+                                            <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                id="notation-content"
+                                                value="content"
+                                                formControlName="notation_cloture"
+                                                [ngClass]="{
+                                                    'is-invalid':
+                                                        isInvalid(
+                                                            'notation_cloture'
+                                                        )
+                                                }"
+                                            />
+                                            <label
+                                                class="form-check-label fw-semibold mt-2 d-flex flex-column align-items-center"
+                                                for="notation-content"
+                                            >
+                                                <img
+                                                    src="assets/images/icones/smile.png"
+                                                    width="28"
+                                                    alt="Content"
+                                                />
+                                                <span class="mt-1"
+                                                    >Content</span
+                                                >
+                                            </label>
+                                        </div>
+
+                                        <div
+                                            class="big-radio d-flex flex-column align-items-center"
+                                        >
+                                            <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                id="notation-neutre"
+                                                value="neutre"
+                                                formControlName="notation_cloture"
+                                                [ngClass]="{
+                                                    'is-invalid':
+                                                        isInvalid(
+                                                            'notation_cloture'
+                                                        )
+                                                }"
+                                            />
+                                            <label
+                                                class="form-check-label fw-semibold mt-2 d-flex flex-column align-items-center"
+                                                for="notation-neutre"
+                                            >
+                                                <img
+                                                    src="assets/images/icones/confused.png"
+                                                    width="28"
+                                                    alt="Neutre"
+                                                />
+                                                <span class="mt-1">Neutre</span>
+                                            </label>
+                                        </div>
+
+                                        <div
+                                            class="big-radio d-flex flex-column align-items-center"
+                                        >
+                                            <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                id="notation-mecontent"
+                                                value="mécontent"
+                                                formControlName="notation_cloture"
+                                                [ngClass]="{
+                                                    'is-invalid':
+                                                        isInvalid(
+                                                            'notation_cloture'
+                                                        )
+                                                }"
+                                            />
+                                            <label
+                                                class="form-check-label fw-semibold mt-2 d-flex flex-column align-items-center"
+                                                for="notation-mecontent"
+                                            >
+                                                <img
+                                                    src="assets/images/icones/sad.png"
+                                                    width="28"
+                                                    alt="Mécontent"
+                                                />
+                                                <span class="mt-1"
+                                                    >Mécontent</span
+                                                >
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 form-textarea">
+                                    <textarea
+                                        class="form-control"
+                                        rows="4"
+                                        formControlName="commentaire"
+                                        [attr.placeholder]="
+                                            'Votre commentaire...'
+                                        "
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('commentaire')
+                                        }"
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- <div class="d-flex gap-2 justify-content-ed">
+                        <button pButton pRipple class="p-button-success w-100" [label]="'MODIFY' | translate"
+                            [disabled]="requestsServiceForm.invalid" (click)="handleUpdateDemand()"
+                            *ngIf="disabledEditableForm"></button>
+                        <button pButton pRipple class="p-button-warning w-100" [label]="'TO_ABANDON' | translate"
+                            (click)="onLetDownDemand()" *ngIf="disabledEditableForm"></button>
+                        <button pButton pRipple class="p-button-success w-100 mb-2" [label]="'ENREGISTER' | translate"
+                            (click)="handleClosureDemand()" [disabled]="requestsServiceForm.invalid"
+                            *ngIf="displayClosureForm"></button>
+                        <button pButton pRipple class="p-button-danger w-100" [label]="'CLOSE' | translate"
+                            (click)="handleCloseModal()"></button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-template #skeletonLoader>
+        <div class="col-lg-2 mt-2 sidebar-panel">
+            <div class="list-group pl-2 pb-2">
+                <p-skeleton
+                    width="100%"
+                    height="3rem"
+                    class="mb-2"
+                ></p-skeleton>
+                <p-skeleton
+                    width="100%"
+                    height="20rem"
+                    class="mb-2"
+                ></p-skeleton>
+            </div>
+        </div>
+
+        <div class="col-lg-10 mt-2">
+            <div class="card p-3">
+                <div class="mb-3">
+                    <p-skeleton width="100%" height="5rem"></p-skeleton>
+                </div>
+
+                <div class="mb-3">
+                    <p-skeleton width="100%" height="50rem"></p-skeleton>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

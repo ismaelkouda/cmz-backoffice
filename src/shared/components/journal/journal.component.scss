@@ -1,0 +1,32 @@
+.modal-content {
+    width: 75rem !important;
+    // height: 600px !important;
+    position: absolute;
+    left: -292px;
+    top: -350px;
+    z-index: 1300 !important;
+    background: #f8f8f8;
+
+    th {
+        background-color: black !important;
+    }
+}
+.close {
+    background-color: transparent;
+    border-color: transparent !important;
+    span {
+        color: #fff;
+        font-size: 25px;
+    }
+}
+
+.modal-backdrop {
+    z-index: 1200 !important;
+}
+
+.pagination-controls {
+    nav {
+        margin-top: 1rem !important;
+        float: right !important;
+    }
+}

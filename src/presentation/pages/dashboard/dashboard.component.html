@@ -1,0 +1,104 @@
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <div class="header-content">
+            <h1 class="dashboard-title">
+                <span class="dashboard-title-label">{{
+                    'DASHBOARD_TITLE' | translate
+                }}</span>
+                <span class="dashboard-title-name-tenant">{{
+                    nom_tenant
+                }}</span>
+            </h1>
+
+            <div class="header-info">
+                <div class="update-info">
+                    <span class="update-label"
+                        >{{ 'DASHBOARD_UPDATED_DATE' | translate }} :</span
+                    >
+                    <span class="update-date">{{ current_date }}</span>
+                </div>
+                <button
+                    pButton
+                    pRipple
+                    (click)="refreshStatic()"
+                    icon="pi pi-refresh"
+                    class="refresh-btn p-button-rounded p-button-outlined"
+                    aria-label="Refresh"
+                ></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-container fade-in">
+        <div class="stats-grid">
+            <ng-container *ngIf="!loading; else loadingSkeleton">
+                <div
+                    *ngFor="let box of listStatisticsBox"
+                    class="stat-card"
+                    [class.clickable]="box.routerFilter || box.iframeLink"
+                    (click)="
+                        box.routerFilter
+                            ? box.routerFilter()
+                            : box.iframeLink
+                            ? showAlarms(box)
+                            : null
+                    "
+                >
+                    <div
+                        class="card-content"
+                        [ngStyle]="{
+                            'background-color': box.cardBgColor,
+                            'border-color': box.cardBorderColor
+                        }"
+                    >
+                        <div class="card-icon">
+                            <img [src]="box.icon" alt="" />
+                        </div>
+                        <div class="card-text">
+                            <div
+                                class="stat-count"
+                                [ngStyle]="{ color: box.countColor }"
+                            >
+                                {{ box.count }}
+                            </div>
+                            <div
+                                class="stat-label"
+                                [ngStyle]="{ color: box.legendColor }"
+                            >
+                                {{ box.legend }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-template #loadingSkeleton>
+                <div *ngFor="let box of listStatisticsBox" class="stat-card">
+                    <p-skeleton></p-skeleton>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>
+
+<p-dialog
+    header="DETECTION APPRO."
+    [(visible)]="showIframe"
+    (onHide)="hideDialog()"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [breakpoints]="{ '960px': '75vw', '640px': '90vw' }"
+    [maximizable]="true"
+    [style]="{ width: '70vw' }"
+>
+    <ng-template pTemplate="content">
+        <div class="iframe-container">
+            <iframe
+                [src]="iframeLink | safe"
+                class="iframe-content"
+                [style]="{ height: '100vh' }"
+            ></iframe>
+        </div>
+    </ng-template>
+</p-dialog>

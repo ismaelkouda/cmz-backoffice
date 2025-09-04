@@ -1,0 +1,124 @@
+<div>
+    <div class="container_flex_space_between">
+        <div class="row filter_wrapper" style="width: 100%">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>
+                        <b>Nom du profil<span class="text-danger">*</span></b>
+                    </label>
+                    <input
+                        placeholder="Nom du profil"
+                        [disabled]="currentObject?.show"
+                        [(ngModel)]="selectedNom"
+                        type="text"
+                        pInputText
+                    />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>
+                        <b>Description</b>
+                    </label>
+                    <input
+                        placeholder="Description du profil"
+                        [disabled]="currentObject?.show"
+                        [(ngModel)]="selectedDescription"
+                        type="text"
+                        pInputText
+                    />
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="table_actions_wrapper pt-3">
+                <button
+                    class="p-button-success"
+                    *ngIf="!currentObject?.show"
+                    pButton
+                    pRipple
+                    icon="pi pi-save"
+                    label="Sauvegarder"
+                    (click)="
+                        !currentObject
+                            ? handleSavePermission()
+                            : handleUpdatePermission()
+                    "
+                ></button>
+                <button
+                    pButton
+                    pRipple
+                    label="Fermer"
+                    (click)="close()"
+                    class="p-button-danger"
+                ></button>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <p-tabView>
+        <p-tabPanel header="Permissions" *ngIf="!currentObject?.show">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <p-tree
+                        selectionMode="checkbox"
+                        [value]="listPermissions$ | async"
+                        [(selection)]="checkedPermission"
+                    >
+                    </p-tree>
+                </div>
+                <div>
+                    <button
+                        pButton
+                        type="button"
+                        label="Dérouler Tout"
+                        (click)="expandAllPermission()"
+                        style="margin-right: 0.5rem"
+                        class="p-button-secondary"
+                    ></button>
+                    <button
+                        pButton
+                        type="button"
+                        label="Fermer Tout"
+                        (click)="collapseAllPermission()"
+                        class="p-button-dark"
+                    ></button>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Habilitations" *ngIf="!currentObject?.show">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <p-tree
+                        selectionMode="checkbox"
+                        [value]="listHabilitation$ | async"
+                        [(selection)]="checkedHabilitation"
+                    ></p-tree>
+                </div>
+                <div>
+                    <button
+                        pButton
+                        type="button"
+                        label="Dérouler Tout"
+                        (click)="expandAllHabilitation()"
+                        style="margin-right: 0.5rem"
+                        class="p-button-secondary"
+                    ></button>
+                    <button
+                        pButton
+                        type="button"
+                        label="Fermer Tout"
+                        (click)="collapseAllHabilitation()"
+                        class="p-button-dark"
+                    ></button>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="HISTORIQUE" *ngIf="currentObject?.show">
+            <app-history
+                [typeModel]="'profil_users'"
+                [idModel]="currentObject?.id"
+            ></app-history>
+        </p-tabPanel>
+    </p-tabView>
+</div>

@@ -1,0 +1,64 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div style="margin-top: -2rem !important">
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [total]="(pagination$ | async)?.total"
+                            [legendePluriel]="
+                                'TREATMENT_MONITORING' | translate
+                            "
+                            [legendeSingulier]="
+                                'TREATMENT_MONITORING' | translate
+                            "
+                        >
+                        </app-patrimoine-header>
+                    </div>
+
+                    <div class="fade-in">
+                        <app-filter-treatment-monitoring
+                            (filter)="filter($event)"
+                            [listApplicants$]="listApplicants$"
+                            [listOperations]="listOperations"
+                            [listTreatmentMonitoringStep]="
+                                listTreatmentMonitoringStep
+                            "
+                            [listTreatmentMonitoringState]="
+                                listTreatmentMonitoringState
+                            "
+                        >
+                        </app-filter-treatment-monitoring>
+
+                        <hr />
+
+                        <app-table-treatment-monitoring
+                            [spinner]="spinner"
+                            [pagination$]="pagination$"
+                            [listTreatmentMonitoring$]="
+                                listTreatmentMonitoring$
+                            "
+                            [listTreatmentMonitoringStep]="
+                                listTreatmentMonitoringStep
+                            "
+                            [listTreatmentMonitoringState]="
+                                listTreatmentMonitoringState
+                            "
+                        >
+                        </app-table-treatment-monitoring>
+
+                        <app-pargination
+                            [pargination]="pagination$ | async"
+                            (pageChange)="onPageChange($event)"
+                        ></app-pargination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

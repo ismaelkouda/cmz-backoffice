@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div style="margin-top: -2rem !important">
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [legendePluriel]="
+                                'SLA_AGREEMENTS' | translate | lowercase
+                            "
+                            [legendeSingulier]="
+                                'SLA_AGREEMENTS' | translate | lowercase
+                            "
+                        >
+                        </app-patrimoine-header>
+                    </div>
+
+                    <div>
+                        <app-table-sla-agreements
+                            [spinner]="spinner"
+                            [listSlaAgreements$]="listSlaAgreements$"
+                        >
+                        </app-table-sla-agreements>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
