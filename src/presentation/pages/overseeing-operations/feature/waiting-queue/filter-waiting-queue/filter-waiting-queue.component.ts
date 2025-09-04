@@ -1,71 +1,105 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import {
+    Component,
+    Input,
+    EventEmitter,
+    Output,
+    OnInit,
+    OnDestroy,
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-import { waitingQueueFilterInterface } from '../../../data-access/waiting-queue/interfaces/waiting-queue-filter.interface';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { WaitingQueueFilterInterface } from '../../../data-access/waiting-queue/interfaces/waiting-queue-filter.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
+import { T_WAITING_QUEUE_STEP_ENUM } from '../../../data-access/waiting-queue/enums/waiting-queue-step.enum';
+import { T_WAITING_QUEUE_STATE_ENUM } from '../../../data-access/waiting-queue/enums/waiting-queue-state.enum';
+import { WaitingQueueFilterFormInterface } from '../../../data-access/waiting-queue/interfaces/waiting-queue-filter-form.interface';
+import { WaitingQueueApiService } from '../../../data-access/waiting-queue/services/waiting-queue-api.service';
+import { T_LIST_REQUESTS_SERVICE } from '../../../../../../shared/enum/list-requests-service';
 
 @Component({
     selector: 'app-filter-waiting-queue',
     templateUrl: './filter-waiting-queue.component.html',
     styleUrls: ['./filter-waiting-queue.component.scss'],
 })
-export class FilterWaitingQueueComponent {
+export class FilterWaitingQueueComponent implements OnInit, OnDestroy {
+    @Output() filter = new EventEmitter<WaitingQueueFilterInterface>();
+
+    @Input() listWaitingQueueStep: Array<T_WAITING_QUEUE_STEP_ENUM>;
+    @Input() listWaitingQueueState: Array<T_WAITING_QUEUE_STATE_ENUM>;
+
     @Input() listApplicants$: Observable<Array<ApplicantInterface>>;
-    @Input() listOperations: Array<string>;
-    @Input() filterData: waitingQueueFilterInterface;
+    @Input() listOperations: Array<T_LIST_REQUESTS_SERVICE>;
 
-    @Output() filter = new EventEmitter<waitingQueueFilterInterface>();
+    public formFilter: FormGroup<WaitingQueueFilterFormInterface>;
+    private destroy$ = new Subject<void>();
 
-    public formFilter: FormGroup;
+    public secondFilter: boolean = false;
+    public thirdFilter: boolean = false;
 
     constructor(
         private toastService: ToastrService,
         private fb: FormBuilder,
-        private translate: TranslateService
-    ) {
+        private translate: TranslateService,
+        private waitingQueueApiService: WaitingQueueApiService
+    ) {}
+
+    ngOnInit() {
         this.initFormFilter();
     }
 
+    public showSecondFilter() {
+        this.secondFilter = !this.secondFilter;
+        this.thirdFilter = false;
+    }
+
+    public showThirdFilter() {
+        this.thirdFilter = !this.thirdFilter;
+    }
+
     public initFormFilter(): void {
-        this.formFilter = this.fb.group<waitingQueueFilterInterface>({
-            date_debut: new FormControl<string>(
-                this.filterData?.['date_debut'],
-                { nonNullable: true }
-            ),
-            date_fin: new FormControl<string>(this.filterData?.['date_fin'], {
-                nonNullable: true,
-            }),
-            numero_demande: new FormControl<string>(
-                this.filterData?.['numero_demande'],
-                { nonNullable: true }
-            ),
-            initie_par: new FormControl<string>(
-                this.filterData?.['initie_par'],
-                { nonNullable: true }
-            ),
-            operation: new FormControl<string>(this.filterData?.['operation'], {
-                nonNullable: true,
-            }),
-        });
-
-        this.formFilter.get('imsi')?.valueChanges.subscribe((value) => {
-            if (value && value.length > 15) {
-                this.formFilter
-                    .get('imsi')
-                    ?.setValue(value.slice(0, 15), { emitEvent: false });
-            }
-        });
-
-        this.formFilter.get('msisdn')?.valueChanges.subscribe((value) => {
-            if (value && value.length > 10) {
-                this.formFilter
-                    .get('msisdn')
-                    ?.setValue(value.slice(0, 10), { emitEvent: false });
-            }
-        });
+        this.waitingQueueApiService
+            .getDataFilterWaitingQueue()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((filterData: WaitingQueueFilterInterface) => {
+                this.formFilter =
+                    this.fb.group<WaitingQueueFilterFormInterface>({
+                        operation: new FormControl<string>(
+                            filterData?.operation ?? '',
+                            { nonNullable: true }
+                        ),
+                        date_debut: new FormControl<string>(
+                            filterData?.date_debut ?? '',
+                            { nonNullable: true }
+                        ),
+                        date_fin: new FormControl<string>(
+                            filterData?.date_fin ?? '',
+                            { nonNullable: true }
+                        ),
+                        nom_tenant: new FormControl<string>(
+                            filterData?.nom_tenant ?? '',
+                            { nonNullable: true }
+                        ),
+                        initie_par: new FormControl<string>(
+                            filterData?.initie_par ?? '',
+                            { nonNullable: true }
+                        ),
+                        numero_demande: new FormControl<string>(
+                            filterData?.numero_demande ?? '',
+                            { nonNullable: true }
+                        ),
+                        statut: new FormControl<string>(
+                            filterData?.statut ?? '',
+                            { nonNullable: true }
+                        ),
+                        traitement: new FormControl<string>(
+                            filterData?.traitement ?? '',
+                            { nonNullable: true }
+                        ),
+                    });
+            });
     }
 
     public onSubmitFilterForm(): void {
@@ -105,5 +139,10 @@ export class FilterWaitingQueueComponent {
             const translatedMessage = this.translate.instant('FORM_INVALID');
             this.toastService.success(translatedMessage);
         }
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

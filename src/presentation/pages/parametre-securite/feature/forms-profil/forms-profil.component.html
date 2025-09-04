@@ -29,20 +29,6 @@
                     />
                 </div>
             </div>
-            <!-- <div class="col-md-4">
-                <div class="form-group">
-                    <label>
-                        <b>Mode Lecture</b>
-                    </label>
-                    <div style="margin-top: 0.4rem">
-                        <p-inputSwitch
-                            [disabled]="currentObject?.show"
-                            [(ngModel)]="selectedMode"
-                            class="me-5"
-                        ></p-inputSwitch>
-                    </div>
-                </div>
-            </div> -->
         </div>
         <div>
             <div class="table_actions_wrapper pt-3">
@@ -80,36 +66,6 @@
                         [(selection)]="checkedPermission"
                     >
                     </p-tree>
-
-                    <!-- <p-treetable [value]="listPermissions" [columns]="cols" selectionMode="checkbox"
-                        [(selectionKeys)]="selectionKeys" dataKey="data.value" [scrollable]="true"
-                        [tableStyle]="{ 'min-width': '50rem' }" (onNodeSelect)="onSelectionChange($event)"
-                        (onNodeUnselect)="onSelectionChange($event)">
-
-                        <ng-template pTemplate="header">
-                            <tr>
-                                <th *ngFor="let col of cols">
-                                    {{ col.header }}
-                                </th>
-                            </tr>
-                        </ng-template>
-
-                        <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-                            <tr>
-                                <td>
-
-                                    <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-
-                                    <p-treeTableCheckbox [value]="rowNode"></p-treeTableCheckbox>
-
-                                    {{ rowData.data?.title }}
-                                </td>
-                                <td>
-                                    {{ rowData.data?.value }}
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-treetable> -->
                 </div>
                 <div>
                     <button

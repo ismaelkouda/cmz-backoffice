@@ -1,9 +1,9 @@
 /* Variables du Design System Orange */
-$orange-primary: #ff7900;
-$text-primary: #000000;
+$primary-color: #5b9bd5;
+$black: #000000;
 $bg-primary: #f2f2f2;
 $white: #ffffff;
-$gray-light: #e5e5e5;
+$light-gray: #e5e5e5;
 $error-color: #d32f2f;
 
 /* Mixins */
@@ -79,7 +79,7 @@ $error-color: #d32f2f;
 
 .auth-title {
     font: 700 24px/32px 'Roboto', sans-serif;
-    color: $text-primary;
+    color: $black;
     text-align: center;
     margin-bottom: 32px;
 
@@ -102,7 +102,7 @@ $error-color: #d32f2f;
 
 .form-label {
     font: 500 14px/20px 'Roboto', sans-serif;
-    color: $text-primary;
+    color: $black;
 
     @media (min-width: 768px) {
         font-size: 16px;
@@ -117,25 +117,25 @@ $error-color: #d32f2f;
 .form-input {
     width: 100%;
     padding: 14px 16px;
-    border: 1px solid $gray-light;
+    border: 1px solid $light-gray;
     border-radius: 8px;
     font: 400 16px/24px 'Roboto', sans-serif;
-    color: $text-primary;
+    color: $black;
     @include transition(all);
 
     &:focus {
         outline: none;
-        border-color: $orange-primary;
-        box-shadow: 0 0 0 3px rgba($orange-primary, 0.2);
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.2);
     }
 
     &::placeholder {
-        color: rgba($text-primary, 0.5);
+        color: rgba($black, 0.5);
     }
 }
 
 .submit-button {
-    background-color: $orange-primary;
+    background-color: $primary-color;
     color: $white;
     border: none;
     border-radius: 8px;
@@ -146,14 +146,14 @@ $error-color: #d32f2f;
     margin-top: 8px;
 
     &:hover:not([disabled]) {
-        background-color: darken($orange-primary, 8%);
+        background-color: darken($primary-color, 8%);
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     &:focus {
         outline: none;
-        box-shadow: 0 0 0 3px rgba($orange-primary, 0.3);
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.3);
     }
 
     &[disabled] {
@@ -169,12 +169,12 @@ $error-color: #d32f2f;
 
 .forgot-link {
     font: 500 14px/20px 'Roboto', sans-serif;
-    color: $orange-primary;
+    color: $primary-color;
     text-decoration: none;
     @include transition(color);
 
     &:hover {
-        color: darken($orange-primary, 15%);
+        color: darken($primary-color, 15%);
         text-decoration: underline;
     }
 
@@ -194,12 +194,12 @@ $error-color: #d32f2f;
     }
 
     .p-password-toggle {
-        color: rgba($text-primary, 0.6);
+        color: rgba($black, 0.6);
         @include transition(color);
         right: 12px;
 
         &:hover {
-            color: $orange-primary;
+            color: $primary-color;
         }
     }
 }

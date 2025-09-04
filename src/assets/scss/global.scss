@@ -246,7 +246,7 @@ fieldset .row:not(:first-child) {
 }
 
 .current_values {
-    color: #ff6600;
+    color: #5b9bd5;
     padding: 0.5rem 1rem;
     border-radius: 0.3rem;
     font-weight: bold;
@@ -279,13 +279,6 @@ fieldset .row:not(:first-child) {
     border-radius: 50%;
     transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
     margin-right: 0.5rem;
-}
-
-.p-radiobutton-disabled {
-    .p-radiobutton .p-radiobutton-box {
-        background: #ccc !important;
-        font-weight: 800;
-    }
 }
 
 input::-webkit-outer-spin-button,
@@ -375,7 +368,7 @@ input::-webkit-inner-spin-button {
 
 .dropdown .dropdown-toggle {
     background-color: rgba(115, 102, 255, 0.08);
-    color: #ff6600;
+    color: #5b9bd5;
     border-radius: 6px !important;
     padding: 11px 22px !important;
     /* width: 100px; */

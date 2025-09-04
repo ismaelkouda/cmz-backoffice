@@ -1,0 +1,57 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div style="margin-top: -2rem !important">
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [total]="(pagination$ | async)?.total"
+                            [legendePluriel]="
+                                'COMMERCIAL_ENTERPRISES' | translate | lowercase
+                            "
+                            [legendeSingulier]="
+                                'COMMERCIAL_ENTERPRISES' | translate | lowercase
+                            "
+                        >
+                        </app-patrimoine-header>
+                    </div>
+
+                    <div class="fade-in">
+                        <app-filter-commercial-enterprises
+                            (filter)="filter($event)"
+                            [listCommercialEnterprisesStep]="
+                                listCommercialEnterprisesStep
+                            "
+                        >
+                        </app-filter-commercial-enterprises>
+
+                        <hr />
+
+                        <app-table-commercial-enterprises
+                            [spinner]="spinner"
+                            [pagination$]="pagination$"
+                            [listCommercialEnterprises$]="
+                                listCommercialEnterprises$
+                            "
+                            [listCommercialEnterprisesStep]="
+                                listCommercialEnterprisesStep
+                            "
+                            (interfaceUser)="navigateByUrl($event)"
+                        >
+                        </app-table-commercial-enterprises>
+
+                        <app-pargination
+                            [pargination]="pagination$ | async"
+                            (pageChange)="onPageChange($event)"
+                        ></app-pargination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

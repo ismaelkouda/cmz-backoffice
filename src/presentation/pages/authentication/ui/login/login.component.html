@@ -1,25 +1,22 @@
 <div class="auth-container">
-    <!-- Logo centré en haut -->
     <div class="logo-container">
         <a class="auth-logo" routerLink="/">
-            <img [src]="LOGO_ORANGE" alt="Orange Logo" />
+            <img [src]="LOGO_IMAKO" alt="Orange Logo" />
         </a>
     </div>
 
-    <!-- Carte d'authentification centrée verticalement -->
     <div class="auth-card">
         <div class="auth-content">
-            <h1 class="auth-title">Authentification</h1>
+            <h1 class="auth-title">{{ 'AUTHENTICATION' | translate }}</h1>
 
             <form
                 [formGroup]="loginForm"
                 (ngSubmit)="onSubmit()"
                 class="auth-form"
             >
-                <!-- Champ Email -->
                 <div class="form-group">
                     <label class="form-label">
-                        Nom d'utilisateur
+                        {{ 'USERNAME' | translate }}
                         <span class="required-indicator">*</span>
                     </label>
                     <input
@@ -31,10 +28,10 @@
                     />
                 </div>
 
-                <!-- Champ Mot de passe -->
                 <div class="form-group">
                     <label class="form-label">
-                        Mot de passe <span class="required-indicator">*</span>
+                        {{ 'PASSWORD' | translate }}
+                        <span class="required-indicator">*</span>
                     </label>
                     <p-password
                         formControlName="password"
@@ -45,18 +42,16 @@
                     ></p-password>
                 </div>
 
-                <!-- Bouton de soumission -->
                 <button
                     type="submit"
                     [disabled]="!loginForm.valid"
                     class="submit-button"
                     aria-label="Se connecter"
                 >
-                    Connexion
+                    {{ 'CONNECTION' | translate }}
                 </button>
             </form>
 
-            <!-- Lien mot de passe oublié -->
             <div class="forgot-password">
                 <a
                     [routerLink]="[
@@ -65,7 +60,7 @@
                     class="forgot-link"
                     aria-label="Réinitialiser le mot de passe"
                 >
-                    Mot de passe oublié ?
+                    {{ 'FORGOT_PASSWORD' | translate }} ?
                 </a>
             </div>
         </div>

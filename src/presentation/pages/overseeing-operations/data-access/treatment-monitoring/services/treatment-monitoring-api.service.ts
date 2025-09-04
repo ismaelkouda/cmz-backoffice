@@ -4,49 +4,50 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { treatmentMonitoringApiResponseInterface } from '../interfaces/treatment-monitoring.interface';
 import { treatmentMonitoringEndpointEnum } from '../enums/treatment-monitoring-endpoint.enum';
-import { treatmentMonitoringFilterInterface } from '../interfaces/treatment-monitoring-filter.interface';
-import { Folder } from '../../../../../../shared/interfaces/folder';
+import { TreatmentMonitoringFilterInterface } from '../interfaces/treatment-monitoring-filter.interface';
+import {
+    TreatmentMonitoringApiResponseInterface,
+    TreatmentMonitoringInterface,
+} from '../../../../../../shared/interfaces/treatment-monitoring.interface';
 
 @Injectable()
 export class TreatmentMonitoringApiService {
-    private treatmentMonitoringSubject = new BehaviorSubject<Array<Folder>>([]);
-    private treatmentMonitoringPagination = new BehaviorSubject<
-        Paginate<Folder>
-    >({} as Paginate<Folder>);
-    private treatmentMonitoringSelected = new BehaviorSubject<Folder>(
-        {} as Folder
-    );
-    private loadingTreatmentMonitoringSubject = new BehaviorSubject<boolean>(
-        false
-    );
-    private dataFilterTreatmentMonitoringSubject =
-        new BehaviorSubject<treatmentMonitoringFilterInterface>(
-            {} as treatmentMonitoringFilterInterface
-        );
-    private dataNbrPageTreatmentMonitoringSubject = new BehaviorSubject<string>(
-        '1'
-    );
-    private apiResponseTreatmentMonitoringSubject =
-        new BehaviorSubject<treatmentMonitoringApiResponseInterface>(
-            {} as treatmentMonitoringApiResponseInterface
-        );
-
     private BASE_URL: string;
     constructor(private http: HttpClient, private envService: EnvService) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
     /*********************Méthode pour récupérer la liste treatment-monitoring*************** */
+
+    private treatmentMonitoringSubject = new BehaviorSubject<
+        Array<TreatmentMonitoringInterface>
+    >([]);
+    private treatmentMonitoringPagination = new BehaviorSubject<
+        Paginate<TreatmentMonitoringInterface>
+    >({} as Paginate<TreatmentMonitoringInterface>);
+    private loadingTreatmentMonitoringSubject = new BehaviorSubject<boolean>(
+        false
+    );
+    private dataFilterTreatmentMonitoringSubject =
+        new BehaviorSubject<TreatmentMonitoringFilterInterface>(
+            {} as TreatmentMonitoringFilterInterface
+        );
+    private dataNbrPageTreatmentMonitoringSubject = new BehaviorSubject<string>(
+        '1'
+    );
+    private apiResponseTreatmentMonitoringSubject =
+        new BehaviorSubject<TreatmentMonitoringApiResponseInterface>(
+            {} as TreatmentMonitoringApiResponseInterface
+        );
     fetchTreatmentMonitoring(
-        data: treatmentMonitoringFilterInterface,
+        data: TreatmentMonitoringFilterInterface,
         nbrPage: string = '1'
     ): void {
         if (this.loadingTreatmentMonitoringSubject.getValue()) return;
         this.loadingTreatmentMonitoringSubject.next(true);
         const url: string =
-            treatmentMonitoringEndpointEnum.SUPERVISION_OPERATIONS_TRAITEMENTS_SUIVIS_DEMANDES_SERVICES_PAGE.replace(
+            treatmentMonitoringEndpointEnum.TREATMENT_MONITORING.replace(
                 '{page}',
                 nbrPage
             );
@@ -85,28 +86,24 @@ export class TreatmentMonitoringApiService {
             .subscribe();
     }
 
-    getTreatmentMonitoring(): Observable<Array<Folder>> {
+    getTreatmentMonitoring(): Observable<Array<TreatmentMonitoringInterface>> {
         return this.treatmentMonitoringSubject.asObservable();
     }
-    getTreatmentMonitoringPagination(): Observable<Paginate<Folder>> {
+    getTreatmentMonitoringPagination(): Observable<
+        Paginate<TreatmentMonitoringInterface>
+    > {
         return this.treatmentMonitoringPagination.asObservable();
     }
     isLoadingTreatmentMonitoring(): Observable<boolean> {
         return this.loadingTreatmentMonitoringSubject.asObservable();
     }
-    getDataFilterTreatmentMonitoring(): Observable<treatmentMonitoringFilterInterface> {
+    getDataFilterTreatmentMonitoring(): Observable<TreatmentMonitoringFilterInterface> {
         return this.dataFilterTreatmentMonitoringSubject.asObservable();
     }
     getDataNbrPageTreatmentMonitoring(): Observable<string> {
         return this.dataNbrPageTreatmentMonitoringSubject.asObservable();
     }
-    getApiResponseTreatmentMonitoring(): Observable<treatmentMonitoringApiResponseInterface> {
+    getApiResponseTreatmentMonitoring(): Observable<TreatmentMonitoringApiResponseInterface> {
         return this.apiResponseTreatmentMonitoringSubject.asObservable();
-    }
-    getTreatmentMonitoringSelected(): Observable<Folder> {
-        return this.treatmentMonitoringSelected.asObservable();
-    }
-    setTreatmentMonitoringSelected(treatmentMonitoring: Folder): void {
-        this.treatmentMonitoringSelected.next(treatmentMonitoring);
     }
 }

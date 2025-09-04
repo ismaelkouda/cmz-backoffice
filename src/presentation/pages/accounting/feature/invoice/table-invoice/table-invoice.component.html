@@ -87,22 +87,31 @@
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
-                        {{ rowIndex + (pagination$ | async)?.current_page }}
+                        {{
+                            ((pagination$ | async)?.current_page - 1) *
+                                (pagination$ | async)?.per_page +
+                                rowIndex +
+                                1
+                        }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Référence'">
-                        <span (click)="copyToClipboard(item?.[col.field])">
+                        <span
+                            (click)="copyToClipboard(item?.[col.field])"
+                            [pTooltip]="'COPY' | translate"
+                            tooltipPosition="bottom"
+                        >
                             {{ item?.[col.field] }}
                         </span>
                     </ng-container>
                     <ng-container *ngSwitchCase="'Opération'">
                         <span>
-                            {{ getTitleForm(item?.[col.field]) }}
+                            {{ item?.[col.field] }}
                         </span>
                     </ng-container>
                     <ng-container *ngSwitchCase="'Facture'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
-                            [class]="'badge ' + getStatusInvoiceBadge(item)"
+                            [class]="'badge ' + getStateBadge(item)"
                         >
                             {{ item?.[col.field] }}
                         </span>
@@ -113,16 +122,16 @@
                     <ng-container *ngSwitchCase="'Actions'">
                         <button
                             pButton
-                            [ngClass]="getTreatmentButtonViewStyle(item)?.style"
+                            [ngClass]="handleActionButtonViewStyle(item)?.style"
                             style="border-color: transparent"
                             icon="pi pi-print"
                             tooltipPosition="top"
                             pTooltip="Facture"
-                            [pTooltip]="getTreatmentButtonViewStyle(item)?.['tooltip']"
+                            [pTooltip]="handleActionButtonViewStyle(item)?.['tooltip']"
                             (click)="
                                 handleAction({
-                                    data: item,
-                                    action: 'invoice',
+                                    data: item.reference,
+                                    action: INVOICE_BUTTONS_ACTIONS_ENUM.INVOICE,
                                     view: 'page'
                                 })
                             "
@@ -141,15 +150,18 @@
         </tr>
     </ng-template>
 
-    <ng-template pTemplate=" emptymessage">
-        <tr *ngIf="(listInvoices$ | async)?.length <= 0 && !spinner">
+    <ng-template pTemplate="emptymessage">
+        <tr
+            *ngIf="(listInvoices$ | async)?.length <= 0 && !spinner"
+            class="loading-table"
+        >
             <td class="posRelative" colspan="15">
                 <span class="posCenter">
                     {{ 'NO_DATA_FOUND' | translate }}
                 </span>
             </td>
         </tr>
-        <tr *ngIf="spinner">
+        <tr *ngIf="spinner" class="loading-table">
             <td class="posRelative" colspan="15">
                 <p-progressSpinner
                     class="posCenter"

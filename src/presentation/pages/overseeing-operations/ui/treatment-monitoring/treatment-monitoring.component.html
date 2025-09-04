@@ -21,17 +21,16 @@
                         </app-patrimoine-header>
                     </div>
 
-                    <div>
+                    <div class="fade-in">
                         <app-filter-treatment-monitoring
                             (filter)="filter($event)"
-                            [filterData]="filterData"
                             [listApplicants$]="listApplicants$"
                             [listOperations]="listOperations"
-                            [listStepTreatmentMonitoring]="
-                                listStepTreatmentMonitoring
+                            [listTreatmentMonitoringStep]="
+                                listTreatmentMonitoringStep
                             "
-                            [listStateTreatmentMonitoring]="
-                                listStateTreatmentMonitoring
+                            [listTreatmentMonitoringState]="
+                                listTreatmentMonitoringState
                             "
                         >
                         </app-filter-treatment-monitoring>
@@ -39,14 +38,17 @@
                         <hr />
 
                         <app-table-treatment-monitoring
+                            [spinner]="spinner"
                             [pagination$]="pagination$"
                             [listTreatmentMonitoring$]="
                                 listTreatmentMonitoring$
                             "
-                            [treatmentMonitoringSelected]="
-                                treatmentMonitoringSelected$ | async
+                            [listTreatmentMonitoringStep]="
+                                listTreatmentMonitoringStep
                             "
-                            (interfaceUser)="navigateByUrl($event)"
+                            [listTreatmentMonitoringState]="
+                                listTreatmentMonitoringState
+                            "
                         >
                         </app-table-treatment-monitoring>
 

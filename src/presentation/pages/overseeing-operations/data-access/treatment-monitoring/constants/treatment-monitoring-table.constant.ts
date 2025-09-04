@@ -1,4 +1,4 @@
-export const treatmentMonitoringTableConstant = {
+export const TREATMENT_MONITORING_TABLE = {
     cols: [
         { field: '', header: '#', class: 'text-center', width: '2rem' },
         {
@@ -7,6 +7,7 @@ export const treatmentMonitoringTableConstant = {
             class: 'text-center',
             width: '12rem',
         },
+        { field: 'operation', header: 'Type Opération', width: '16rem' },
         {
             field: 'numero_demande',
             header: 'N° Dossier',
@@ -14,16 +15,16 @@ export const treatmentMonitoringTableConstant = {
             width: '12rem',
         },
         {
-            field: 'nb_demande_soumises',
-            header: '# Lignes',
+            field: 'nom_client',
+            header: 'Client',
             class: 'text-center',
-            width: '6rem',
+            width: '12rem',
         },
         {
-            field: 'nb_demande_traitees',
-            header: '# Traitées',
+            field: 'compte_client',
+            header: 'Compte client',
             class: 'text-center',
-            width: '6rem',
+            width: '8rem',
         },
         {
             field: 'statut',
@@ -49,13 +50,13 @@ export const treatmentMonitoringTableConstant = {
             class: 'text-center',
             width: '12rem',
         },
-        { field: '', header: 'Actions', class: 'text-center', width: '15rem' },
+        { field: '', header: 'Actions', class: 'text-center', width: '8rem' },
     ],
     globalFilterFields: [
         'created_at',
         'numero_demande',
-        'nb_demande_soumises',
-        'nb_demande_traitees',
+        'nom_client',
+        'compte_client',
         'statut',
         'traitement',
         'updated_at',

@@ -1,24 +1,23 @@
-import { BankBenefitInterface } from './../interfaces/bank-beneficiaire.interface';
-import { ApnInterface } from './../interfaces/apn.interface';
-import { ThirdLevelInterface } from './../interfaces/third-level.interface';
+import {
+    ApiResponseApplicantInterface,
+    ApplicantInterface,
+} from './../interfaces/applicant';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { EnvService } from './env.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EndPointUrl } from '../enum/api.enum';
-import { DetailsDemand } from '../components/form-folder/data-access/form-folder.interface';
-import { SimDemand } from '../interfaces/details-mobile-subscriptions.interface';
-import { Folder } from '../interfaces/folder';
 import { Paginate } from '../interfaces/paginate';
-import { FormulasInterface } from '../interfaces/formulas.interface';
-import { FirstLevelInterface } from '../interfaces/first-level.interface';
-import { BankInterface } from '../interfaces/bank.interface';
 import {
     notificationsCenterApiResponseInterface,
     notificationsCenterInterface,
 } from '../../presentation/pages/overseeing-operations/data-access/notifications-center/interfaces/notifications-center.interface';
-import { ImportationInterface } from '../../presentation/pages/requests-services/data-access/importation/interface/importation.interface';
+import { CustomersActivateFilterInterface } from '../../presentation/pages/requests-service/data-access/customers-activate/interfaces/customers-activate-filter.interface';
+import {
+    CustomersActivateApiResponseInterface,
+    CustomersActivateInterface,
+} from '../interfaces/customers-activate.interface';
 
 @Injectable({ providedIn: 'root' })
 export class SharedService {
@@ -28,398 +27,16 @@ export class SharedService {
         this.BASE_URL = this.envService.apiUrl;
     }
 
-    /*********************Méthode pour récupérer la liste des demands importées*************** */
-
-    private demandsImportedSubject = new BehaviorSubject<
-        ImportationInterface[]
-    >([]);
-    private demandsImportedPagination = new BehaviorSubject<
-        Paginate<ImportationInterface>
-    >({} as Paginate<ImportationInterface>);
-    private demandImportedSelected = new BehaviorSubject<ImportationInterface>(
-        {} as ImportationInterface
-    );
-    private loadingDemandsImportedSubject = new BehaviorSubject<boolean>(false);
-    private dataFilterDemandsImportedSubject = new BehaviorSubject<Object>({});
-    private dataNbrPageDemandsImportedSubject = new BehaviorSubject<string>(
-        '1'
-    );
-    private apiResponseDemandsImportedSubject = new BehaviorSubject<any>(null);
-
-    fetchDemandsImported(data: Object = {}, nbrPage: string = '1'): void {
-        if (this.loadingDemandsImportedSubject.getValue()) return;
-        this.loadingDemandsImportedSubject.next(true);
-        const url: string = EndPointUrl.GET_LIST_DEMANDS_IMPORTED.replace(
-            '{page}',
-            nbrPage
-        );
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, data)
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    const demandsImported = response?.['data']?.data.map(
-                        (demande) => ({
-                            ...demande,
-                            demandeur: `[${demande.demandeur_matricule}] ${demande.demandeur_nom} ${demande.demandeur_prenoms}`,
-                        })
-                    );
-                    this.demandsImportedSubject.next(demandsImported);
-                    this.demandsImportedPagination.next(response?.['data']);
-                    this.apiResponseDemandsImportedSubject.next(response);
-                    this.dataFilterDemandsImportedSubject.next(data);
-                    this.dataNbrPageDemandsImportedSubject.next(nbrPage);
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching demandsImported', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingDemandsImportedSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getDemandsImported(): Observable<any[]> {
-        return this.demandsImportedSubject.asObservable();
-    }
-    getDemandsImportedPagination(): any {
-        return this.demandsImportedPagination.asObservable();
-    }
-    isLoadingDemandsImported(): Observable<boolean> {
-        return this.loadingDemandsImportedSubject.asObservable();
-    }
-    getDataFilterDemandsImported(): Observable<Object> {
-        return this.dataFilterDemandsImportedSubject.asObservable();
-    }
-    getDataNbrPageDemandsImported(): Observable<string> {
-        return this.dataNbrPageDemandsImportedSubject.asObservable();
-    }
-    getApiResponseDemandsImported(): Observable<Object> {
-        return this.apiResponseDemandsImportedSubject.asObservable();
-    }
-    getDemandImportedSelected(): Observable<ImportationInterface> {
-        return this.demandImportedSelected.asObservable();
-    }
-    setDemandImportedSelected(demand: ImportationInterface): void {
-        this.demandImportedSelected.next(demand);
-    }
-
-    /*********************Méthode pour récupérer la liste des demands*************** */
-
-    private demandsSubject = new BehaviorSubject<Folder[]>([]);
-    private demandsPagination = new BehaviorSubject<Paginate<Folder>>(
-        {} as Paginate<Folder>
-    );
-    private demandSelected = new BehaviorSubject<Folder>({} as Folder);
-    private loadingDemandsSubject = new BehaviorSubject<boolean>(false);
-    private dataFilterDemandsSubject = new BehaviorSubject<Object>({});
-    private dataNbrPageDemandsSubject = new BehaviorSubject<string>('1');
-    private apiResponseDemandsSubject = new BehaviorSubject<any>(null);
-
-    fetchDemands(data: Object, nbrPage: string = '1'): void {
-        if (this.loadingDemandsSubject.getValue()) return;
-        this.loadingDemandsSubject.next(true);
-        const url: string =
-            EndPointUrl.PATRIMOINE_SIM_DEMANDES_SERVICES_ALL.replace(
-                '{page}',
-                nbrPage
-            );
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, data)
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    const demands = response?.['data']?.data.map((demande) => ({
-                        ...demande,
-                        demandeur: `${demande.demandeur_nom} ${demande.demandeur_prenoms}`,
-                    }));
-                    this.demandsSubject.next(demands);
-                    this.demandsPagination.next(response?.['data']);
-                    this.apiResponseDemandsSubject.next(response);
-                    this.dataFilterDemandsSubject.next(data);
-                    this.dataNbrPageDemandsSubject.next(nbrPage);
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching demands', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingDemandsSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getDemands(): Observable<any[]> {
-        return this.demandsSubject.asObservable();
-    }
-    getDemandsPagination(): any {
-        return this.demandsPagination.asObservable();
-    }
-    isLoadingDemands(): Observable<boolean> {
-        return this.loadingDemandsSubject.asObservable();
-    }
-    getDataFilterDemands(): Observable<Object> {
-        return this.dataFilterDemandsSubject.asObservable();
-    }
-    getDataNbrPageDemands(): Observable<string> {
-        return this.dataNbrPageDemandsSubject.asObservable();
-    }
-    getApiResponseDemands(): Observable<Object> {
-        return this.apiResponseDemandsSubject.asObservable();
-    }
-    getDemandSelected(): Observable<Folder> {
-        return this.demandSelected.asObservable();
-    }
-    setDemandSelected(demand: Folder): void {
-        this.demandSelected.next(demand);
-    }
-
-    /*********************Méthode pour récupérer la liste des détails demands*************** */
-
-    private detailsDemandSubject = new BehaviorSubject<DetailsDemand>(
-        {} as DetailsDemand
-    );
-    private detailsDemandPagination = new BehaviorSubject<any>(null);
-    private loadingDetailsDemandSubject = new BehaviorSubject<boolean>(false);
-    private lastRequestDetailsDemandSubject = new BehaviorSubject<any>(null);
-    private apiResponseDetailsDemandSubject = new BehaviorSubject<any>(null);
-
-    fetchDetailsDemand(numberDemand: string, type: any = null): void {
-        if (this.loadingDetailsDemandSubject.getValue()) return;
-
-        const url: string =
-            EndPointUrl.GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_DETAILS.replace(
-                '{numberDemand}',
-                numberDemand
-            );
-        const urlInvoice: string = EndPointUrl.GET_INVOICE_DETAILS.replace(
-            '{numberDemand}',
-            numberDemand
-        );
-
-        this.loadingDetailsDemandSubject.next(true);
-
-        this.http
-            .post<Object>(
-                type == 'invoice'
-                    ? `${this.BASE_URL}${urlInvoice}`
-                    : `${this.BASE_URL}${url}`,
-                {}
-            )
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    const customData = {
-                        numero_dossier: response?.['data']?.numero_demande,
-                        ...response?.['data'],
-                        ...(response?.['data']?.reference ||
-                        response?.['data']?.facture?.reference
-                            ? {
-                                  ...response?.['data']?.facture,
-                                  type_form: 'invoice',
-
-                                  ...(response?.['data']?.facture?.reference
-                                      ? {
-                                            numero_demande:
-                                                response?.['data']?.facture
-                                                    ?.reference,
-                                            etat_paiement:
-                                                response?.['data']?.facture
-                                                    ?.statut,
-                                        }
-                                      : {
-                                            numero_demande:
-                                                response?.['data']?.reference,
-                                            etat_paiement:
-                                                response?.['data']?.statut,
-                                        }),
-                              }
-                            : {
-                                  type_form: 'proforma',
-                                  qte: response?.['data']?.nb_demande_soumises,
-                              }),
-                    };
-                    console.log('customData', customData);
-
-                    this.detailsDemandSubject.next(customData);
-                    this.apiResponseDetailsDemandSubject.next(response);
-                    this.lastRequestDetailsDemandSubject.next({});
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching detailsDemand', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingDetailsDemandSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getDetailsDemand(): Observable<DetailsDemand> {
-        return this.detailsDemandSubject.asObservable();
-    }
-    getDetailsDemandPagination(): any {
-        return this.detailsDemandPagination.asObservable();
-    }
-
-    isLoadingDetailsDemand(): Observable<boolean> {
-        return this.loadingDetailsDemandSubject.asObservable();
-    }
-
-    getLastRequestDetailsDemand(): Observable<any> {
-        return this.lastRequestDetailsDemandSubject.asObservable();
-    }
-
-    getApiResponseDetailsDemand(): Observable<Object> {
-        return this.apiResponseDetailsDemandSubject.asObservable();
-    }
-
-    /*********************Méthode pour récupérer le prix d'une demande*************** */
-
-    private demandPriceSubject = new BehaviorSubject<number>(0);
-    private loadingDemandPriceSubject = new BehaviorSubject<boolean>(false);
-
-    fetchDemandPrice(demand: string): void {
-        if (this.loadingDemandPriceSubject.getValue()) return; // Évite les doublons
-
-        const url: string =
-            EndPointUrl.GET_CONTRATS_SLA_ENGAGEMENTS_SLA.replace(
-                '{demand}',
-                demand
-            );
-        this.loadingDemandPriceSubject.next(true);
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    this.demandPriceSubject.next(response?.['data']);
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching demandPrice', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingDemandPriceSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getDemandPrice(): Observable<number> {
-        return this.demandPriceSubject.asObservable();
-    }
-
-    isLoadingDemandPrice(): Observable<boolean> {
-        return this.loadingDemandPriceSubject.asObservable();
-    }
-
-    /*********************Méthode pour récupérer la liste des détails demands*************** */
-
-    private simDemandSubject = new BehaviorSubject<SimDemand[]>([]);
-    private simDemandPagination = new BehaviorSubject<any>(null);
-    private loadingSimDemandSubject = new BehaviorSubject<boolean>(false);
-    private lastRequestSimDemandSubject = new BehaviorSubject<any>(null);
-    private apiResponseSimDemandSubject = new BehaviorSubject<any>(null);
-    private dataFilterSimDemandSubject = new BehaviorSubject<any>({});
-
-    fetchSimDemand(data: Object, nbrPage: string = '1'): void {
-        if (this.loadingSimDemandSubject.getValue()) return;
-
-        const url: string =
-            EndPointUrl.PATRIMOINE_SIM_TRANSACTIONS_ALL_PAGE.replace(
-                '{page}',
-                nbrPage
-            );
-        this.loadingSimDemandSubject.next(true);
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, data)
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    this.simDemandSubject.next(response?.['data']?.data);
-                    this.simDemandPagination.next(response?.['data']);
-                    this.apiResponseSimDemandSubject.next(response);
-                    this.dataFilterSimDemandSubject.next(data);
-                    this.lastRequestSimDemandSubject.next({});
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching simDemand', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingSimDemandSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getSimDemand(): Observable<SimDemand[]> {
-        return this.simDemandSubject.asObservable();
-    }
-    getSimDemandPagination(): any {
-        return this.simDemandPagination.asObservable();
-    }
-    getDataFilterSimDemand(): Observable<any> {
-        return this.dataFilterSimDemandSubject.asObservable();
-    }
-
-    isLoadingSimDemand(): Observable<boolean> {
-        return this.loadingSimDemandSubject.asObservable();
-    }
-
-    getLastRequestSimDemand(): Observable<any> {
-        return this.lastRequestSimDemandSubject.asObservable();
-    }
-
-    getApiResponseSimDemand(): Observable<Object> {
-        return this.apiResponseSimDemandSubject.asObservable();
-    }
-
-    /*********************Méthode pour récupérer la liste des lignes*************** */
-
-    private detailsLineSubject = new BehaviorSubject<Object>({});
-    private loadingDetailsLineSubject = new BehaviorSubject<boolean>(false);
-
-    fetchDetailsLine(data: Object): void {
-        if (this.loadingDetailsLineSubject.getValue()) return;
-
-        const url: string = EndPointUrl.GET_LINE_DETAILS;
-        this.loadingDetailsLineSubject.next(true);
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, data)
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    this.detailsLineSubject.next(response?.data);
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching detailsLine', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingDetailsLineSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getDetailsLine(): Observable<Object> {
-        return this.detailsLineSubject.asObservable();
-    }
-
-    isLoadingDetailsLine(): Observable<boolean> {
-        return this.loadingDetailsLineSubject.asObservable();
-    }
-
     /*********************Méthode pour récupérer la liste des clients*************** */
 
-    private applicantsSubject = new BehaviorSubject<any[]>([]);
+    private applicantsSubject = new BehaviorSubject<Array<ApplicantInterface>>(
+        []
+    );
     private loadingApplicantsSubject = new BehaviorSubject<boolean>(false);
-    private apiResponseApplicantsSubject = new BehaviorSubject<any>(null);
+    private apiResponseApplicantsSubject =
+        new BehaviorSubject<ApiResponseApplicantInterface>(
+            {} as ApiResponseApplicantInterface
+        );
 
     fetchApplicants(): void {
         if (this.loadingApplicantsSubject.getValue()) return;
@@ -449,7 +66,7 @@ export class SharedService {
             .subscribe();
     }
 
-    getApplicants(): Observable<any[]> {
+    getApplicants(): Observable<ApplicantInterface[]> {
         return this.applicantsSubject.asObservable();
     }
 
@@ -457,360 +74,8 @@ export class SharedService {
         return this.loadingApplicantsSubject.asObservable();
     }
 
-    getApiResponseApplicants(): Observable<Object> {
+    getApiResponseApplicants(): Observable<ApiResponseApplicantInterface> {
         return this.apiResponseApplicantsSubject.asObservable();
-    }
-
-    /*********************Méthode pour récupérer la liste des usages*************** */
-
-    private usagesSubject = new BehaviorSubject<any[]>([]);
-    private loadingUsagesSubject = new BehaviorSubject<boolean>(false);
-
-    fetchUsages(): void {
-        if (this.loadingUsagesSubject.getValue()) return; // Évite les doublons
-
-        const url: string = EndPointUrl.PATRIMONY_SIM_SIMS_ALL_USAGES;
-        this.loadingUsagesSubject.next(true);
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    this.usagesSubject.next(response?.['data']);
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching usages', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingUsagesSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getUsages(): Observable<any[]> {
-        return this.usagesSubject.asObservable();
-    }
-
-    isLoadingUsages(): Observable<boolean> {
-        return this.loadingUsagesSubject.asObservable();
-    }
-
-    /*********************Méthode pour récupérer la liste des formules*************** */
-
-    private formulasSubject = new BehaviorSubject<Array<FormulasInterface>>([]);
-    private loadingFormulasSubject = new BehaviorSubject<boolean>(false);
-
-    fetchFormulas(): void {
-        if (this.loadingFormulasSubject.getValue()) return; // Évite les doublons
-
-        const url: string = EndPointUrl.GET_ALL_FORMULES;
-        this.loadingFormulasSubject.next(true);
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    this.formulasSubject.next(response?.['data']);
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching formulas', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingFormulasSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getFormulas(): Observable<Array<FormulasInterface>> {
-        return this.formulasSubject.asObservable();
-    }
-
-    isLoadingFormulas(): Observable<boolean> {
-        return this.loadingFormulasSubject.asObservable();
-    }
-
-    /*********************Méthode pour récupérer la liste des niveaux uns*************** */
-
-    private firstLevelSubject = new BehaviorSubject<Array<FirstLevelInterface>>(
-        []
-    );
-    private loadingFirstLevelSubject = new BehaviorSubject<boolean>(false);
-
-    fetchFirstLevel(): void {
-        if (this.loadingFirstLevelSubject.getValue()) return; // Évite les doublons
-
-        const url: string = EndPointUrl.GET_ALL_NIVEAUX_1_SIMPLE;
-        this.loadingFirstLevelSubject.next(true);
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    this.firstLevelSubject.next(response?.['data']);
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching firstLevel', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingFirstLevelSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getFirstLevel(): Observable<Array<FirstLevelInterface>> {
-        return this.firstLevelSubject.asObservable();
-    }
-
-    isLoadingFirstLevel(): Observable<boolean> {
-        return this.loadingFirstLevelSubject.asObservable();
-    }
-
-    /*********************Méthode pour récupérer la liste des niveaux trois*************** */
-
-    private thirdLevelSubject = new BehaviorSubject<Array<ThirdLevelInterface>>(
-        []
-    );
-    private loadingThirdLevelSubject = new BehaviorSubject<boolean>(false);
-
-    fetchThirdLevel(): void {
-        if (this.loadingThirdLevelSubject.getValue()) return; // Évite les doublons
-
-        const url: string = EndPointUrl.GET_ALL_NIVEAUX_3_SIMPLE;
-        this.loadingThirdLevelSubject.next(true);
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    this.thirdLevelSubject.next(response?.['data']);
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching thirdLevel', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingThirdLevelSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getThirdLevel(): Observable<Array<ThirdLevelInterface>> {
-        return this.thirdLevelSubject.asObservable();
-    }
-
-    isLoadingThirdLevel(): Observable<boolean> {
-        return this.loadingThirdLevelSubject.asObservable();
-    }
-
-    /*********************Méthode pour récupérer la liste des APN*************** */
-
-    private apnSubject = new BehaviorSubject<Array<ApnInterface>>([]);
-    private loadingApnSubject = new BehaviorSubject<boolean>(false);
-
-    fetchApn(): void {
-        if (this.loadingApnSubject.getValue()) return; // Évite les doublons
-
-        const url: string = EndPointUrl.GET_ALL_APN;
-        this.loadingApnSubject.next(true);
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    this.apnSubject.next(response?.['data']);
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching apn', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingApnSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getApn(): Observable<Array<ApnInterface>> {
-        return this.apnSubject.asObservable();
-    }
-
-    isLoadingApn(): Observable<boolean> {
-        return this.loadingApnSubject.asObservable();
-    }
-
-    /*********************Méthode pour récupérer la liste des usages*************** */
-
-    private whiteSimCardAvailableSubject = new BehaviorSubject<any[]>([]);
-    private totalLotWhiteSimCardAvailableSubject = new BehaviorSubject<number>(
-        0
-    );
-    private loadingWhiteSimCardAvailableSubject = new BehaviorSubject<boolean>(
-        false
-    );
-
-    fetchWhiteSimCardAvailable(): void {
-        if (this.loadingWhiteSimCardAvailableSubject.getValue()) return; // Évite les doublons
-
-        const url: string =
-            EndPointUrl.POST_PATRIMOINE_SIM_CARTON_SIM_BLANCHES_DISPONIBLES;
-        this.loadingWhiteSimCardAvailableSubject.next(true);
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    this.whiteSimCardAvailableSubject.next(
-                        response?.data?.data.map((whiteSimCard) => {
-                            return { ...whiteSimCard, selected_nb_restants: 0 };
-                        })
-                    );
-                    this.totalLotWhiteSimCardAvailableSubject.next(
-                        response?.['data'].total_disponibles
-                    );
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error(
-                        'Error fetching whiteSimCardAvailable',
-                        error
-                    );
-                    return of([]);
-                }),
-                finalize(() =>
-                    this.loadingWhiteSimCardAvailableSubject.next(false)
-                )
-            )
-            .subscribe();
-    }
-
-    getWhiteSimCardAvailable(): Observable<any[]> {
-        return this.whiteSimCardAvailableSubject.asObservable();
-    }
-
-    getTotalLotWhiteSimCardAvailable(): Observable<number> {
-        return this.totalLotWhiteSimCardAvailableSubject.asObservable();
-    }
-
-    isLoadingWhiteSimCardAvailable(): Observable<boolean> {
-        return this.loadingWhiteSimCardAvailableSubject.asObservable();
-    }
-
-    /*********************Méthode pour récupérer la liste des niveaux deux*************** */
-
-    private secondLevelSubject = new BehaviorSubject<any[]>([]);
-    private loadingSecondLevelSubject = new BehaviorSubject<boolean>(false);
-
-    fetchSecondLevel(firstLevelLibelIndex: string): void {
-        if (this.loadingSecondLevelSubject.getValue()) return; // Évite les doublons
-
-        const url: string = EndPointUrl.GET_ALL_NIVEAUX_2_SIMPLE;
-        this.loadingSecondLevelSubject.next(true);
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, firstLevelLibelIndex)
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    this.secondLevelSubject.next(response?.['data']);
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching secondLevel', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingSecondLevelSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getSecondLevel(): Observable<any[]> {
-        return this.secondLevelSubject.asObservable();
-    }
-
-    isLoadingSecondLevel(): Observable<boolean> {
-        return this.loadingSecondLevelSubject.asObservable();
-    }
-
-    /*********************Méthode pour récupérer la liste des Banks*************** */
-
-    private banksSubject = new BehaviorSubject<Array<BankInterface>>([]);
-    private loadingBanksSubject = new BehaviorSubject<boolean>(false);
-
-    fetchBanks(): void {
-        if (this.loadingBanksSubject.getValue()) return; // Évite les doublons
-
-        const url: string = EndPointUrl.BANKS_ALL;
-        this.loadingBanksSubject.next(true);
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    this.banksSubject.next(response?.['data']);
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching banks', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingBanksSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getBanks(): Observable<Array<BankInterface>> {
-        return this.banksSubject.asObservable();
-    }
-
-    isLoadingBanks(): Observable<boolean> {
-        return this.loadingBanksSubject.asObservable();
-    }
-
-    /*********************Méthode pour récupérer la liste des Banks bénéficiaire*************** */
-
-    private banksBenefitSubject = new BehaviorSubject<
-        Array<BankBenefitInterface>
-    >([]);
-    private loadingBanksBenefitSubject = new BehaviorSubject<boolean>(false);
-
-    fetchBanksBenefit(): void {
-        if (this.loadingBanksBenefitSubject.getValue()) return; // Évite les doublons
-
-        const url: string = EndPointUrl.BANKS_BENEFIT_ALL;
-        this.loadingBanksBenefitSubject.next(true);
-
-        this.http
-            .post<Object>(`${this.BASE_URL}${url}`, {})
-            .pipe(
-                debounceTime(1000),
-                switchMap((response: any) => {
-                    this.banksBenefitSubject.next(response?.['data']);
-                    return of(response);
-                }),
-                catchError((error) => {
-                    console.error('Error fetching banksBenefit', error);
-                    return of([]);
-                }),
-                finalize(() => this.loadingBanksBenefitSubject.next(false))
-            )
-            .subscribe();
-    }
-
-    getBanksBenefit(): Observable<Array<BankBenefitInterface>> {
-        return this.banksBenefitSubject.asObservable();
-    }
-
-    isLoadingBanksBenefit(): Observable<boolean> {
-        return this.loadingBanksBenefitSubject.asObservable();
     }
 
     /*********************Méthode pour récupérer les historiques*************** */
@@ -910,25 +175,6 @@ export class SharedService {
     //     const url: string = <string>EndPointUrl.GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_numeroDemande_DETAILS.replace('{numeroDemande}', numeroDemande);
     //     return this.http.get(`${this.BASE_URL}${url}`);
     // }
-
-    PostForceVenteCommercialAll(data: Object): Observable<any> {
-        const url: string = <string>EndPointUrl.FORCE_VENTE_COMMERCIAL_ALL;
-        return this.http.post(`${this.BASE_URL}${url}`, data);
-    }
-
-    PostGestionTenantsPortefeuillesTenantAll(
-        data: Object,
-        nbrPage: string
-    ): Observable<any> {
-        const url: string = <string>(
-            EndPointUrl.POST_GESTION_TENANTS_PORTEFEUILLES_TENANT_ALL.replace(
-                '${nbrPage}',
-                nbrPage
-            )
-        );
-        return this.http.post(`${this.BASE_URL}${url}`, data);
-    }
-
     /*********************Méthode pour récupérer la liste des notifications*************** */
 
     private notificationListSubject = new BehaviorSubject<
@@ -1018,5 +264,157 @@ export class SharedService {
     }
     getApiResponseUnReadNotifications(): Observable<number> {
         return this.apiResponseUnReadNotificationSubject.asObservable();
+    }
+
+    /*********************Méthode pour récupérer la liste des Regimes*************** */
+
+    private regimesBusinessSubject = new BehaviorSubject<
+        Array<{ code: string; nom: string }>
+    >([]);
+    private loadingRegimesBusinessSubject = new BehaviorSubject<boolean>(false);
+
+    fetchRegimesBusiness(): void {
+        if (this.loadingRegimesBusinessSubject.getValue()) return; // Évite les doublons
+
+        const url: string = EndPointUrl.REGIME_BUSINESS;
+        this.loadingRegimesBusinessSubject.next(true);
+
+        this.http
+            .post<Object>(`${this.BASE_URL}${url}`, {})
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    this.regimesBusinessSubject.next(response?.['data']);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching regimesBusiness', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingRegimesBusinessSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getRegimesBusiness(): Observable<Array<{ code: string; nom: string }>> {
+        return this.regimesBusinessSubject.asObservable();
+    }
+
+    isLoadingRegimesBusiness(): Observable<boolean> {
+        return this.loadingRegimesBusinessSubject.asObservable();
+    }
+
+    /*********************Méthode pour récupérer la liste des Formules legaux*************** */
+
+    private legalFormsSubject = new BehaviorSubject<
+        Array<{ code: string; nom: string }>
+    >([]);
+    private loadingLegalFormsSubject = new BehaviorSubject<boolean>(false);
+
+    fetchLegalForms(): void {
+        if (this.loadingLegalFormsSubject.getValue()) return;
+
+        const url: string = EndPointUrl.LEGAL_FORMS;
+        this.loadingLegalFormsSubject.next(true);
+
+        this.http
+            .post<Object>(`${this.BASE_URL}${url}`, {})
+            .pipe(
+                debounceTime(1000),
+                switchMap((response: any) => {
+                    this.legalFormsSubject.next(response?.['data']);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching legalForms', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingLegalFormsSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getLegalForms(): Observable<Array<{ code: string; nom: string }>> {
+        return this.legalFormsSubject.asObservable();
+    }
+
+    isLoadingLegalForms(): Observable<boolean> {
+        return this.loadingLegalFormsSubject.asObservable();
+    }
+
+    /*********************Méthode pour valider une activation de client *************** */
+
+    private customersActivateSubject = new BehaviorSubject<
+        Array<CustomersActivateInterface>
+    >([]);
+    private customersActivatePagination = new BehaviorSubject<
+        Paginate<CustomersActivateInterface>
+    >({} as Paginate<CustomersActivateInterface>);
+    private loadingCustomersActivateSubject = new BehaviorSubject<boolean>(
+        false
+    );
+    private dataFilterCustomersActivateSubject =
+        new BehaviorSubject<CustomersActivateFilterInterface>(
+            {} as CustomersActivateFilterInterface
+        );
+    private dataNbrPageCustomersActivateSubject = new BehaviorSubject<string>(
+        '1'
+    );
+    private apiResponseCustomersActivateSubject =
+        new BehaviorSubject<CustomersActivateApiResponseInterface>(
+            {} as CustomersActivateApiResponseInterface
+        );
+    fetchCustomersActivate(
+        data: CustomersActivateFilterInterface,
+        nbrPage: string = '1'
+    ): void {
+        if (this.loadingCustomersActivateSubject.getValue()) return;
+        this.loadingCustomersActivateSubject.next(true);
+        const url: string = EndPointUrl.MANAGED_CUSTOMERS.replace(
+            '{page}',
+            nbrPage
+        );
+
+        this.http
+            .post<Object>(this.BASE_URL + url, data)
+            .pipe(
+                debounceTime(500),
+                switchMap((response: any) => {
+                    const customersActivate = response?.['data']?.data;
+                    this.customersActivateSubject.next(customersActivate);
+                    this.customersActivatePagination.next(response?.['data']);
+                    this.apiResponseCustomersActivateSubject.next(response);
+                    this.dataFilterCustomersActivateSubject.next(data);
+                    this.dataNbrPageCustomersActivateSubject.next(nbrPage);
+                    return of(response);
+                }),
+                catchError((error) => {
+                    console.error('Error fetching sim-card', error);
+                    return of([]);
+                }),
+                finalize(() => this.loadingCustomersActivateSubject.next(false))
+            )
+            .subscribe();
+    }
+
+    getCustomersActivate(): Observable<Array<CustomersActivateInterface>> {
+        return this.customersActivateSubject.asObservable();
+    }
+    getCustomersActivatePagination(): Observable<
+        Paginate<CustomersActivateInterface>
+    > {
+        return this.customersActivatePagination.asObservable();
+    }
+    isLoadingCustomersActivate(): Observable<boolean> {
+        return this.loadingCustomersActivateSubject.asObservable();
+    }
+    getDataFilterCustomersActivate(): Observable<CustomersActivateFilterInterface> {
+        return this.dataFilterCustomersActivateSubject.asObservable();
+    }
+    getDataNbrPageCustomersActivate(): Observable<string> {
+        return this.dataNbrPageCustomersActivateSubject.asObservable();
+    }
+    getApiResponseCustomersActivate(): Observable<CustomersActivateApiResponseInterface> {
+        return this.apiResponseCustomersActivateSubject.asObservable();
     }
 }

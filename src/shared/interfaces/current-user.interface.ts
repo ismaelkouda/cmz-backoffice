@@ -36,7 +36,6 @@ export interface Tenant {
     intervenant_id: number | null;
     nom_admin_tenant: string;
     contact_admin_tenant: string;
-    email_admin_tenant: string;
     nom_gestionnaire: string;
     contact_gestionnnaire: string;
     email_gestionnnaire: string;
@@ -68,7 +67,7 @@ export interface Tenant {
     email_senior_manager: string | null;
     gestionnaire_tenant_id: number | null;
     escalade_tenant_id: number | null;
-    email_diffusion_tenant: string;
+    email_admin_client: string;
     url_detection_appro: string;
     url_consommation: string;
     compte_client: string;

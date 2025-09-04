@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-import { SettingService } from 'src/shared/services/setting.service';
 import { ParametreSecuriteService } from '../../data-access/parametre-securite.service';
 import { Title } from '@angular/platform-browser';
-import { handle } from 'src/shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 
 @Component({
@@ -32,10 +30,8 @@ export class JournalAuthenticationComponent implements OnInit {
     constructor(
         private parametreSecuriteService: ParametreSecuriteService,
         private toastrService: ToastrService,
-        private settingService: SettingService,
         private toastService: ToastrService,
-        private titleService: Title,
-        private loadingBarService: LoadingBarService
+        private titleService: Title
     ) {
         this.titleService.setTitle(`${this.title}`);
     }
@@ -56,12 +52,12 @@ export class JournalAuthenticationComponent implements OnInit {
     }
 
     async GetAllJournal(): Promise<void> {
-        this.response = await handle(
-            () => this.parametreSecuriteService.GetAllJournal({}),
-            this.toastrService,
-            this.loadingBarService
-        );
-        if (this.response) this.handleSuccessfulJournal(this.response);
+        // this.response = await handle(
+        //     () => this.parametreSecuriteService.GetAllJournal({}),
+        //     this.toastrService,
+        //     this.loadingBarService
+        // );
+        // if (this.response) this.handleSuccessfulJournal(this.response);
     }
     private handleSuccessfulJournal(response: any): void {
         this.listNotifications = response.data.map((item) => {
@@ -94,18 +90,18 @@ export class JournalAuthenticationComponent implements OnInit {
             );
     }
     GetAllUsers() {
-        this.settingService.getAllUsers({}).subscribe(
-            (response: any) => {
-                const users = response['data'];
-                this.listUsers = users.map((el) => {
-                    const data = { ...el, fullName: el.nom + ' ' + el.prenoms };
-                    return data;
-                });
-            },
-            (error) => {
-                this.toastrService.error(error.error.message);
-            }
-        );
+        // this.settingService.getAllUsers({}).subscribe(
+        //     (response: any) => {
+        //         const users = response['data'];
+        //         this.listUsers = users.map((el) => {
+        //             const data = { ...el, fullName: el.nom + ' ' + el.prenoms };
+        //             return data;
+        //         });
+        //     },
+        //     (error) => {
+        //         this.toastrService.error(error.error.message);
+        //     }
+        // );
     }
     changeDateStart(e) {
         if (moment(this.filterDateStart).isValid()) {

@@ -1,0 +1,55 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div style="margin-top: -2rem !important">
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [total]="(pagination$ | async)?.total"
+                            [legendePluriel]="
+                                'CUSTOMERS_ACTIVATE' | translate | lowercase
+                            "
+                            [legendeSingulier]="
+                                'CUSTOMERS_ACTIVATE' | translate | lowercase
+                            "
+                        >
+                        </app-patrimoine-header>
+                    </div>
+
+                    <div class="fade-in">
+                        <app-filter-customers-activate
+                            (filter)="filter($event)"
+                            [listCustomersActivateStep]="
+                                listCustomersActivateStep
+                            "
+                            [listCustomersActivateState]="
+                                listCustomersActivateState
+                            "
+                        >
+                        </app-filter-customers-activate>
+
+                        <hr />
+
+                        <app-table-customers-activate
+                            [spinner]="spinner"
+                            [pagination$]="pagination$"
+                            [listCustomersActivate$]="listCustomersActivate$"
+                            (interfaceUser)="navigateByUrl($event)"
+                        >
+                        </app-table-customers-activate>
+
+                        <app-pargination
+                            [pargination]="pagination$ | async"
+                            (pageChange)="onPageChange($event)"
+                        ></app-pargination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

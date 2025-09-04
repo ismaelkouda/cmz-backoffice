@@ -1,0 +1,109 @@
+.fieldset-premium {
+    border: 1px solid #5b9bd5;
+    border-radius: 12px;
+    padding: 16px 16px 8px;
+    margin-bottom: 16px;
+    position: relative;
+    background: #fff;
+
+    legend {
+        font-size: 1rem;
+        padding: 0 8px;
+        margin-left: 8px;
+        color: #fff;
+        background: #5b9bd5;
+        border-radius: 6px;
+        line-height: 1.8;
+    }
+
+    input.form-control {
+        border-radius: 0.6rem;
+        padding: 0.75rem 0.75rem;
+        border: 1px solid #ced4da;
+    }
+
+    textarea.form-control {
+        border-radius: 0.6rem;
+        resize: none;
+        min-height: 120px;
+        border: 1px solid #ced4da;
+
+        &:focus {
+            border-color: #198754;
+            box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.2);
+        }
+    }
+
+    .form-label {
+        font-weight: 600;
+    }
+
+    input[pInputText].is-invalid,
+    .p-dropdown.p-invalid .p-dropdown-label {
+        border-color: #dc3545 !important;
+    }
+}
+
+.file-input {
+    height: 3rem;
+    font-size: 1.1rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ced4da;
+    cursor: pointer;
+    &:hover {
+        border-color: #80bdff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+}
+
+input::file-selector-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ced4da;
+    color: #569c5a;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.container-form-masse {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+
+    label.is-invalid {
+        color: #dc3545 !important;
+    }
+}
+
+input::file-selector-button {
+    background-color: #f0f0f0;
+    border: 1px solid #ced4da;
+    color: #569c5a;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.big-radio {
+    transform: scale(1.2);
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.animate-fadeOut {
+    animation: fadeOut 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

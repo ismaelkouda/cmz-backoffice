@@ -1,0 +1,159 @@
+<form [formGroup]="formFilter" (ngSubmit)="onSubmitFilterForm()">
+    <div class="row g-3">
+        <div class="col-12 col-sm-6 col-md-3">
+            <label for="nom_client"
+                ><b
+                    >{{ 'NAME' | translate }} {{ 'CUSTOMER' | translate }}</b
+                ></label
+            >
+            <input
+                placeholder="{{ 'NAME' | translate }} {{
+                    'CUSTOMER' | translate
+                }}"
+                formControlName="nom_client"
+                type="text"
+                pInputText
+                id="nom_client"
+                autocomplete="off"
+            />
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+            <label for="code_client"
+                ><b
+                    >{{ 'CODE' | translate }}
+                    {{ 'CUSTOMER' | translate | lowercase }}</b
+                ></label
+            >
+            <input
+                placeholder="{{ 'CODE' | translate }} {{
+                    'CUSTOMER' | translate
+                }}"
+                formControlName="code_client"
+                type="text"
+                pInputText
+                id="code_client"
+                [attr.autocomplete]="'off'"
+            />
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-2">
+            <label for="compte_client"
+                ><b>{{ 'CUSTOMER_ACCOUNT' | translate }}</b></label
+            >
+            <input
+                placeholder="{{ 'CUSTOMER_ACCOUNT' | translate }}"
+                formControlName="compte_client"
+                type="text"
+                pInputText
+                id="compte_client"
+                [attr.autocomplete]="'off'"
+            />
+        </div>
+
+        <div class="col-12 col-sm-6 col-md-2">
+            <label for="type_client"
+                ><b>{{ 'CUSTOMER_TYPE' | translate }}</b></label
+            >
+            <p-dropdown
+                formControlName="type_client"
+                [options]="listCustomersType"
+                [showClear]="true"
+                placeholder="{{ 'CUSTOMER_TYPE' | translate }}"
+                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+                id="type_client"
+            >
+            </p-dropdown>
+        </div>
+
+        <div
+            class="col-12 col-sm-6 col-md-2 d-flex align-items-end justify-content-start gap-2 mt-2"
+        >
+            <button
+                *ngIf="!secondFilter"
+                pButton
+                pRipple
+                type="submit"
+                class="p-button-success"
+                icon="pi pi-filter"
+            ></button>
+            <button
+                *ngIf="!secondFilter"
+                (click)="showSecondFilter()"
+                pButton
+                pRipple
+                class="p-button-dark"
+                icon="pi pi-plus"
+            ></button>
+            <button
+                *ngIf="secondFilter"
+                (click)="showSecondFilter()"
+                pButton
+                pRipple
+                class="p-button-dark"
+                icon="pi pi-minus"
+            ></button>
+        </div>
+    </div>
+
+    <div *ngIf="secondFilter" class="mt-3">
+        <div class="row g-3">
+            <div class="col-12 col-sm-6 col-md-2">
+                <label for="statut"
+                    ><b>{{ 'STEP' | translate }}</b></label
+                >
+                <p-dropdown
+                    formControlName="statut"
+                    [options]="listIndividualsStep"
+                    [showClear]="true"
+                    placeholder="{{ 'STEP' | translate }}"
+                    emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
+                    emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
+                    id="statut"
+                >
+                </p-dropdown>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-2">
+                <label for="date_debut"
+                    ><b>{{ 'START_DATE' | translate }}</b></label
+                >
+                <p-calendar
+                    id="date_debut"
+                    formControlName="date_debut"
+                    [showIcon]="true"
+                    [placeholder]="'AAAA-MM-JJ'"
+                    dateFormat="yy-mm-dd"
+                >
+                </p-calendar>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-2">
+                <label for="date_fin"
+                    ><b>{{ 'END_DATE' | translate }}</b></label
+                >
+                <p-calendar
+                    id="date_fin"
+                    formControlName="date_fin"
+                    [showIcon]="true"
+                    [placeholder]="'AAAA-MM-JJ'"
+                    dateFormat="yy-mm-dd"
+                >
+                </p-calendar>
+            </div>
+
+            <div
+                class="col-12 col-sm-6 col-md-2 d-flex align-items-end justify-content-start gap-2 mt-2"
+            >
+                <button
+                    pButton
+                    pRipple
+                    type="submit"
+                    class="p-button-success"
+                    icon="pi pi-filter"
+                ></button>
+            </div>
+        </div>
+    </div>
+</form>

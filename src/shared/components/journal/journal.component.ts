@@ -1,13 +1,9 @@
 import { Pargination } from 'src/shared/table/pargination';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ToastrService } from 'ngx-toastr';
 import { BADGE_ETAPE } from 'src/shared/constants/badge-etape.constant';
 import { BADGE_TRAITEMENT } from 'src/shared/constants/badge-traitement.constant';
 import { BADGE_STATUT } from 'src/shared/constants/badge-statut.constant';
-import { StatutTransaction } from 'src/shared/enum/StatutTransaction.enum';
-import { TraitementTransaction } from 'src/shared/enum/TraitementTransaction.enum';
-import { SettingService } from '../../services/setting.service';
 import { BADGE_ETAT } from '../../constants/badge-etat.contant';
 
 @Component({
@@ -38,11 +34,7 @@ export class JournalComponent implements OnInit {
     public displayDefaultJournal: boolean = false;
     public displayWhitesimCard: boolean = false;
     public pargination = new Pargination(1, 50, 0, 0, 0, 1, 0);
-    constructor(
-        private activeModal: NgbActiveModal,
-        private settingsService: SettingService,
-        private toastrService: ToastrService
-    ) {}
+    constructor(private activeModal: NgbActiveModal) {}
 
     /**
      * @author André ATCHORI
@@ -63,65 +55,65 @@ export class JournalComponent implements OnInit {
     }
 
     public getAllJournal() {
-        this.settingsService
-            .getAllJournal(
-                {
-                    transaction: this.transaction,
-                    numero_demande: this.numero_demande,
-                },
-                this.typeJournal
-            )
-            .subscribe({
-                next: (response) => {
-                    this.listJournal = response['data'];
-                    // .map((data) => {
-                    //   if (data?.statut === StatutTransaction.TARITER) {
-                    //     return {...data,user: data?.intervenant}
-                    //   }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
-                    //     return {...data,user: data?.intervenant}
-                    //   }else if (data?.statut === StatutTransaction.CLOTURER) {
-                    //     return {...data,user: data?.demandeur}
-                    //   }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.EN_ENTENTE)) {
-                    //     return {...data,user: data?.demandeur}
-                    //   }
-                    // });
-                },
-                error: (error) => {
-                    this.toastrService.error(error.error.message);
-                },
-            });
+        // this.settingsService
+        //     .getAllJournal(
+        //         {
+        //             transaction: this.transaction,
+        //             numero_demande: this.numero_demande,
+        //         },
+        //         this.typeJournal
+        //     )
+        //     .subscribe({
+        //         next: (response) => {
+        //             this.listJournal = response['data'];
+        //             // .map((data) => {
+        //             //   if (data?.statut === StatutTransaction.TARITER) {
+        //             //     return {...data,user: data?.intervenant}
+        //             //   }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.ACQUITER)) {
+        //             //     return {...data,user: data?.intervenant}
+        //             //   }else if (data?.statut === StatutTransaction.CLOTURER) {
+        //             //     return {...data,user: data?.demandeur}
+        //             //   }else if ((data?.statut === StatutTransaction.SOUMIS) && (data?.traitement === TraitementTransaction.EN_ENTENTE)) {
+        //             //     return {...data,user: data?.demandeur}
+        //             //   }
+        //             // });
+        //         },
+        //         error: (error) => {
+        //             this.toastrService.error(error.error.message);
+        //         },
+        //     });
     }
 
     public getAllSimBlancheJournal(
         dataToSend: Object = { reference: this.numero_demande },
         nbrPage: string = '1'
     ) {
-        this.settingsService
-            .getAllSimBlancheJournal(dataToSend, nbrPage)
-            .subscribe({
-                next: (response) => {
-                    this.listJournal = response['data']?.['data'];
-                    this.pargination = new Pargination(
-                        response?.data?.p,
-                        response?.data?.to,
-                        response?.data?.last_page,
-                        response?.data?.total,
-                        response?.data?.per_page,
-                        response?.data?.current_page,
-                        (response?.data?.current_page - 1) *
-                            response.data?.per_page +
-                            1
-                    );
-                },
-                error: (error) => {
-                    this.toastrService.error(error.error.message);
-                },
-            });
+        // this.settingsService
+        //     .getAllSimBlancheJournal(dataToSend, nbrPage)
+        //     .subscribe({
+        //         next: (response) => {
+        //             this.listJournal = response['data']?.['data'];
+        //             this.pargination = new Pargination(
+        //                 response?.data?.p,
+        //                 response?.data?.to,
+        //                 response?.data?.last_page,
+        //                 response?.data?.total,
+        //                 response?.data?.per_page,
+        //                 response?.data?.current_page,
+        //                 (response?.data?.current_page - 1) *
+        //                     response.data?.per_page +
+        //                     1
+        //             );
+        //         },
+        //         error: (error) => {
+        //             this.toastrService.error(error.error.message);
+        //         },
+        //     });
     }
     public onPageChange(event: number): void {
-        this.getAllSimBlancheJournal(
-            { reference: this.numero_demande },
-            JSON.stringify(event + 1)
-        );
+        // this.getAllSimBlancheJournal(
+        //     { reference: this.numero_demande },
+        //     JSON.stringify(event + 1)
+        // );
     }
 }

@@ -2,8 +2,6 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Subject, BehaviorSubject, fromEvent } from 'rxjs';
 import { takeUntil, debounceTime } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { menuJson } from 'src/assets/menu';
-import { EncodingDataService } from './encoding-data.service';
 
 // Menu
 export interface Menu {
@@ -33,7 +31,7 @@ export class NavService implements OnDestroy {
     public screenWidth: BehaviorSubject<number> = new BehaviorSubject(
         window.innerWidth
     );
-    MENU_SIDEBAR: any = menuJson;
+    // MENU_SIDEBAR: any = menuJson;
 
     // Search Box
     public search: boolean = false;
@@ -93,5 +91,5 @@ export class NavService implements OnDestroy {
     }
 
     // Array
-    items = new BehaviorSubject<Menu[]>(this.MENU_SIDEBAR);
+    // items = new BehaviorSubject<Menu[]>(this.MENU_SIDEBAR);
 }

@@ -1,32 +1,57 @@
-export const slaAgreementsTableConstant = {
+export const SLA_AGREEMENTS_TABLE = {
     cols: [
-        { field: '', header: '#', class: 'text-center', width: '2rem' },
+        { field: '', header: '#', class: 'text-center' },
         {
             field: 'created_at',
             header: 'Date / Heure',
             class: 'text-center',
-            width: '12rem',
+            width: '8rem',
         },
         {
             field: 'nom_service',
-            header: 'Service',
+            header: 'Nom du service',
             class: 'text-center',
-            width: '12rem',
+            width: '8rem',
         },
         {
             field: 'description',
             header: 'Description du service',
             class: 'text-center',
+            width: '12rem',
         },
-        { field: 'ack', header: 'Réception', class: 'text-center' },
-        { field: 'traitement', header: 'Traitement', class: 'text-center' },
-        { field: 'cloture', header: 'Clôture', class: 'text-center' },
-        { field: 'escalade', header: 'Escalade', class: 'text-center' },
-        { field: 'statut', header: 'Statut', class: 'text-center' },
+        {
+            field: 'ack',
+            header: 'Réception (h)',
+            class: 'text-center',
+            width: '8rem',
+        },
+        {
+            field: 'traitement',
+            header: 'Traitement (h)',
+            class: 'text-center',
+            width: '8rem',
+        },
+        {
+            field: 'cloture',
+            header: 'Clôture (h)',
+            class: 'text-center',
+            width: '8rem',
+        },
+        {
+            field: 'cloture',
+            header: 'Escalade (h)',
+            class: 'text-center',
+            width: '8rem',
+        },
+        {
+            field: 'statut',
+            header: 'Statut',
+            class: 'text-center',
+            width: '8rem',
+        },
     ],
     globalFilterFields: [
         'created_at',
-        'nom_service',
         'nom_service',
         'description',
         'ack',

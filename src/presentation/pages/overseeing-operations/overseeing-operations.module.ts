@@ -23,7 +23,6 @@ import { ClaimsComponent } from './ui/claims/claims.component';
 import { FilterNotificationsCenterComponent } from './feature/notifications-center/filter-notifications-center/filter-notifications-center.component';
 import { TableNotificationsCenterComponent } from './feature/notifications-center/table-notifications-center/table-notifications-center.component';
 import { NotificationsCenterComponent } from './ui/notifications-center/notifications-center.component';
-import { MessagerieComponent } from '../supervision-operations/ui/messagerie/messagerie.component';
 import { FormClaimsComponent } from './feature/claims/form-claims/form-claims.component';
 
 @NgModule({
@@ -55,7 +54,6 @@ import { FormClaimsComponent } from './feature/claims/form-claims/form-claims.co
         WaitingQueueApiService,
         TreatmentMonitoringApiService,
         ClaimsApiService,
-        MessagerieComponent,
     ],
 })
 export class OverseeingOperationsModule {}

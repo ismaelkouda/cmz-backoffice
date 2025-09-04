@@ -3,8 +3,6 @@ export const enum EndPointUrl {
     PATRIMOINE_SIM_DEMANDES_SERVICES_ALL = 'patrimoine-sim/demandes-services/all?page={page}',
     GET_LIST_DEMANDS_IMPORTED = 'patrimoine-sim/importations/all?page={page}',
     GET_ALL_USERS = 'users/all',
-    PARAMETRES_SECURITE_FORME_JURIDIQUES_ALL = 'parametres-securite/forme-juridiques/all',
-    PARAMETRES_SECURITE_REGIMES_ENTREPRISE_ALL = 'parametres-securite/regimes-entreprise/all',
     SAVE_USER = 'users/store',
     UPDATE_USER = 'users/update',
     DELETE_USER = 'users/delete',
@@ -68,9 +66,14 @@ export const enum EndPointUrl {
     GET_ALL_APN = 'patrimoine-sim/apn/all',
 
     FORCE_VENTE_COMMERCIAL_ALL = 'force-vente/commercial/all?page={page}',
-    POST_GESTION_TENANTS_PORTEFEUILLES_TENANT_ALL = 'gestion-tenants/portefeuilles-tenant/all',
+    POST_GESTION_TENANTS_PORTEFEUILLES_TENANT_ALL = 'client-gere/{transaction}/details',
     GET_INVOICE_DETAILS = 'gestion-facture/factures/{numberDemand}/details',
     GET_SUPERVISION_OPERATIONS_DEMANDES_SERVICES_DETAILS = 'supervision-operations/demandes-services/{numberDemand}/details',
     PATRIMOINE_SIM_TRANSACTIONS_ALL_PAGE = 'patrimoine-sim/transactions/all?page={page}',
     GET_LINE_DETAILS = 'gestion-transactions/details-transaction',
+
+    LEGAL_FORMS = 'parametres-securite/forme-juridiques/all',
+    REGIME_BUSINESS = 'parametres-securite/regimes-entreprise/all',
+
+    MANAGED_CUSTOMERS = 'demandes-services/all?page={page}',
 }

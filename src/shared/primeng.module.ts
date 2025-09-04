@@ -30,7 +30,7 @@ import { SliderModule } from 'primeng/slider';
 // import { SharedModule } from "primeng/api";
 import { FileUploadModule } from 'primeng/fileupload';
 import { TagModule } from 'primeng/tag';
-import { MessageModule } from 'primeng/message';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 @NgModule({
     imports: [
@@ -65,7 +65,7 @@ import { MessageModule } from 'primeng/message';
         FileUploadModule,
         // SharedModule,
         TagModule,
-        MessageModule,
+        SelectButtonModule,
     ],
     exports: [
         PaginatorModule,
@@ -99,7 +99,7 @@ import { MessageModule } from 'primeng/message';
         FileUploadModule,
         // SharedModule,
         TagModule,
-        MessageModule,
+        SelectButtonModule,
     ],
     providers: [EditableRow],
 })

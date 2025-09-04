@@ -3,50 +3,50 @@ import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EnvService } from '../../../../../../shared/services/env.service';
-import { slaAgreementsEndpointEnum } from '../enums/sla-agreements-endpoint.enum';
 import {
-    slaAgreementsApiResponseInterface,
-    slaAgreementsInterface,
+    SlaAgreementsApiResponseInterface,
+    SlaAgreementsInterface,
+    SlaAgreementsStatsInterface,
 } from '../interfaces/sla-agreements.interface';
+import { SlaAgreementsEndpointEnum } from '../enums/sla-agreements-endpoint.enum';
 
 @Injectable()
 export class SlaAgreementsApiService {
-    private slaAgreementsSubject = new BehaviorSubject<
-        Array<slaAgreementsInterface>
-    >([]);
-    private slaAgreementsSelected = new BehaviorSubject<slaAgreementsInterface>(
-        {} as slaAgreementsInterface
-    );
-    private loadingSlaAgreementsSubject = new BehaviorSubject<boolean>(false);
-    private apiResponseSlaAgreementsSubject =
-        new BehaviorSubject<slaAgreementsApiResponseInterface>(
-            {} as slaAgreementsApiResponseInterface
-        );
-
     private BASE_URL: string;
-    constructor(private http: HttpClient, private envService: EnvService) {
+
+    constructor(
+        private httpClient: HttpClient,
+        private envService: EnvService
+    ) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
-    /*********************Méthode pour récupérer la liste slaAgreements*************** */
+    private slaAgreementsSubject = new BehaviorSubject<
+        Array<SlaAgreementsInterface>
+    >([]);
+    private loadingSlaAgreementsSubject = new BehaviorSubject<boolean>(false);
+    private apiResponseSlaAgreementsSubject =
+        new BehaviorSubject<SlaAgreementsApiResponseInterface>(
+            {} as SlaAgreementsApiResponseInterface
+        );
     fetchSlaAgreements(): void {
         if (this.loadingSlaAgreementsSubject.getValue()) return;
         this.loadingSlaAgreementsSubject.next(true);
         const url: string =
-            slaAgreementsEndpointEnum.SUPERVISION_OPERATIONS_ENGAGEMENTS_SLA_ALL;
+            SlaAgreementsEndpointEnum.SUPERVISORY_REFERENCE_SLA_AGREEMENTS;
 
-        this.http
+        this.httpClient
             .post<Object>(this.BASE_URL + url, {})
             .pipe(
                 debounceTime(500),
                 switchMap((response: any) => {
-                    const slaAgreements = response?.data;
+                    const slaAgreements = response?.['data'];
                     this.slaAgreementsSubject.next(slaAgreements);
                     this.apiResponseSlaAgreementsSubject.next(response);
                     return of(response);
                 }),
                 catchError((error) => {
-                    console.error('Error fetching slaAgreements', error);
+                    console.error('Error fetching sim-card', error);
                     return of([]);
                 }),
                 finalize(() => this.loadingSlaAgreementsSubject.next(false))
@@ -54,19 +54,13 @@ export class SlaAgreementsApiService {
             .subscribe();
     }
 
-    getSlaAgreements(): Observable<Array<slaAgreementsInterface>> {
+    getSlaAgreements(): Observable<Array<SlaAgreementsInterface>> {
         return this.slaAgreementsSubject.asObservable();
     }
     isLoadingSlaAgreements(): Observable<boolean> {
         return this.loadingSlaAgreementsSubject.asObservable();
     }
-    getApiResponseSlaAgreements(): Observable<Object> {
+    getApiResponseSlaAgreements(): Observable<SlaAgreementsApiResponseInterface> {
         return this.apiResponseSlaAgreementsSubject.asObservable();
-    }
-    getSlaAgreementsSelected(): Observable<slaAgreementsInterface> {
-        return this.slaAgreementsSelected.asObservable();
-    }
-    setSlaAgreementsSelected(slaAgreements: slaAgreementsInterface): void {
-        this.slaAgreementsSelected.next(slaAgreements);
     }
 }

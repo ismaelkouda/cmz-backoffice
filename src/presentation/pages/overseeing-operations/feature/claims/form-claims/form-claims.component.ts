@@ -14,7 +14,6 @@ import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from '../../../../../../shared/constan
 import { OVERSEEING_OPERATIONS } from '../../../../../../shared/routes/routes';
 import { TranslateService } from '@ngx-translate/core';
 import { SharedService } from '../../../../../../shared/services/shared.service';
-import { BankInterface } from '../../../../../../shared/interfaces/bank.interface';
 import { formDataBuilder } from '../../../../../../shared/constants/formDataBuilder.constant';
 import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';
 import * as moment from 'moment';
@@ -40,7 +39,7 @@ export class FormClaimsComponent {
     public urlParamTransaction: string;
     public displayUrlErrorPage: boolean = false;
     public formClaim: FormGroup<claimsFormInterface>;
-    public listBanks$: Observable<Array<BankInterface>>;
+    public listBanks$: Observable<Array<any>>;
     private destroy$ = new Subject<void>();
 
     constructor(
@@ -69,8 +68,6 @@ export class FormClaimsComponent {
             this.displayUrlErrorPage = true;
             return;
         } else {
-            this.sharedService.fetchBanks();
-            this.listBanks$ = this.sharedService.getBanks();
             this.initFormFundClaims();
         }
     }

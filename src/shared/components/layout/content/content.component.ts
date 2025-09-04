@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import * as feather from 'feather-icons';
 import { LayoutService } from '../../../services/layout.service';
 import { NavService } from '../../../services/nav.service';
 import { fadeInAnimation } from '../../../data/router-animation/router-animation';
+import { filter } from 'rxjs';
 
 @Component({
     selector: 'app-content',
@@ -12,12 +13,20 @@ import { fadeInAnimation } from '../../../data/router-animation/router-animation
     animations: [fadeInAnimation],
 })
 export class ContentComponent implements OnInit, AfterViewInit {
+    showTabs = false;
     constructor(
         private route: ActivatedRoute,
         public navServices: NavService,
         public layout: LayoutService,
         private router: Router
     ) {
+        this.router.events
+            .pipe(filter((event) => event instanceof NavigationEnd))
+            .subscribe(() => {
+                setTimeout(() => {
+                    this.showTabs = true;
+                }, 2500);
+            });
         this.route.queryParams.subscribe((params) => {
             this.layout.config.settings.layout = params.layout
                 ? params.layout

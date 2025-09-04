@@ -15,18 +15,14 @@ import {
     notificationsCenterInterface,
 } from '../../../data-access/notifications-center/interfaces/notifications-center.interface';
 import { NotificationsCenterApiService } from '../../../data-access/notifications-center/services/notifications-center-api.service';
-import { handle } from '../../../../../../shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { SharedService } from '../../../../../../shared/services/shared.service';
-import {
-    OperationTransaction,
-    TitleOperation,
-} from '../../../../../../shared/enum/OperationTransaction.enum';
 
 @Component({
     selector: `app-table-notifications-center`,
     templateUrl: `./table-notifications-center.component.html`,
+    styleUrls: [`./table-notifications-center.component.scss`],
 })
 export class TableNotificationsCenterComponent {
     @Input() notificationPagination$: Observable<
@@ -73,10 +69,8 @@ export class TableNotificationsCenterComponent {
         this.clipboardService.copyFromContent(data);
     }
 
-    public getTitleForm(operation: OperationTransaction): string {
-        const titleOp = new TitleOperation();
-        titleOp.setTitleForm(operation);
-        return titleOp.getTitleForm;
+    public getTitleForm(operation): string {
+        return '';
     }
 
     public getSanitizedHTML(content: string): SafeHtml {
@@ -85,17 +79,17 @@ export class TableNotificationsCenterComponent {
 
     async handleClearNotification(): Promise<void> {
         if (this.selectedNotifications.length === 0) return;
-        const response: any = await handle(
-            () =>
-                this.notificationsCenterApiService.ReadNotifications({
-                    notifications: this.selectedNotifications.map(
-                        (notif) => notif?.id
-                    ),
-                }),
-            this.toastService,
-            this.loadingBarService
-        );
-        if (response.error === false) this.handleSuccessful(response);
+        // const response: any = await handle(
+        //     () =>
+        //         this.notificationsCenterApiService.ReadNotifications({
+        //             notifications: this.selectedNotifications.map(
+        //                 (notif) => notif?.id
+        //             ),
+        //         }),
+        //     this.toastService,
+        //     this.loadingBarService
+        // );
+        // if (response.error === false) this.handleSuccessful(response);
     }
 
     private handleSuccessful(response): void {

@@ -1,29 +1,24 @@
 import { SharedService } from './../../../../../shared/services/shared.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Router } from '@angular/router';
-import {
-    BADGE_ETAPE,
-    T_BADGE_ETAPE,
-} from './../../../../../shared/constants/badge-etape.constant';
-import {
-    BADGE_ETAT,
-    T_BADGE_ETAT,
-} from './../../../../../shared/constants/badge-etat.contant';
-import { combineLatest, Observable } from 'rxjs';
-import { treatmentMonitoringFilterInterface } from '../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter.interface';
+import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
+import { TreatmentMonitoringFilterInterface } from '../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter.interface';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
-import { Folder } from '../../../../../shared/interfaces/folder';
 import { TreatmentMonitoringApiService } from '../../data-access/treatment-monitoring/services/treatment-monitoring-api.service';
-import { OperationTransaction } from '../../../../../shared/enum/OperationTransaction.enum';
-
-const step_values = [BADGE_ETAPE.SOUMISSION, BADGE_ETAPE.TRAITEMENT];
-const state_values = [BADGE_ETAT.RECU, BADGE_ETAT.EN_COURS, BADGE_ETAT.TERMINE];
-type PageAction = {
-    data: Folder;
-    action: 'open-folder-treatment-monitoring';
-    view: 'page';
-};
+import { TreatmentMonitoringInterface } from '../../../../../shared/interfaces/treatment-monitoring.interface';
+import {
+    T_TREATMENT_MONITORING_STEP_ENUM,
+    TREATMENT_MONITORING_STEP_ENUM,
+} from '../../data-access/treatment-monitoring/enums/treatment-monitoring-step.enum';
+import {
+    T_TREATMENT_MONITORING_STATE_ENUM,
+    TREATMENT_MONITORING_STATE_ENUM,
+} from '../../data-access/treatment-monitoring/enums/treatment-monitoring-state.enum';
+import {
+    LIST_REQUESTS_SERVICE,
+    T_LIST_REQUESTS_SERVICE,
+} from '../../../../../shared/enum/list-requests-service';
+import { ApplicantInterface } from '../../../../../shared/interfaces/applicant';
 
 @Component({
     selector: 'app-treatment-monitoring',
@@ -32,25 +27,27 @@ type PageAction = {
 export class TreatmentMonitoringComponent implements OnInit {
     public module: string;
     public subModule: string;
-    public pagination$: Observable<Paginate<Folder>>;
-    public filterData: treatmentMonitoringFilterInterface;
-    public listTreatmentMonitoring$: Observable<Array<Folder>>;
-    public treatmentMonitoringSelected$: Observable<Folder>;
-    public listOperations: Array<string> = [];
-    public listStepTreatmentMonitoring: Array<T_BADGE_ETAPE> = step_values;
-    public listStateTreatmentMonitoring: Array<T_BADGE_ETAT> = state_values;
-    public listApplicants$: Observable<any[]>;
+    public pagination$: Observable<Paginate<TreatmentMonitoringInterface>>;
+    public listTreatmentMonitoring$: Observable<
+        Array<TreatmentMonitoringInterface>
+    >;
+    public spinner: boolean = true;
+    private destroy$ = new Subject<void>();
+    public listTreatmentMonitoringStep: Array<T_TREATMENT_MONITORING_STEP_ENUM> =
+        Object.values(TREATMENT_MONITORING_STEP_ENUM);
+    public listTreatmentMonitoringState: Array<T_TREATMENT_MONITORING_STATE_ENUM> =
+        Object.values(TREATMENT_MONITORING_STATE_ENUM);
+
+    public listOperations: Array<T_LIST_REQUESTS_SERVICE> = Object.values(
+        LIST_REQUESTS_SERVICE
+    );
+    public listApplicants$: Observable<Array<ApplicantInterface>>;
 
     constructor(
-        private router: Router,
         private sharedService: SharedService,
         private activatedRoute: ActivatedRoute,
         private treatmentMonitoringApiService: TreatmentMonitoringApiService
-    ) {
-        Object.values(OperationTransaction).forEach((item) => {
-            this.listOperations.push(item);
-        });
-    }
+    ) {}
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
@@ -59,10 +56,12 @@ export class TreatmentMonitoringComponent implements OnInit {
         });
         this.sharedService.fetchApplicants();
         this.listApplicants$ = this.sharedService.getApplicants();
+
         this.listTreatmentMonitoring$ =
             this.treatmentMonitoringApiService.getTreatmentMonitoring();
         this.pagination$ =
             this.treatmentMonitoringApiService.getTreatmentMonitoringPagination();
+
         combineLatest([
             this.treatmentMonitoringApiService.getDataFilterTreatmentMonitoring(),
             this.treatmentMonitoringApiService.getDataNbrPageTreatmentMonitoring(),
@@ -72,37 +71,31 @@ export class TreatmentMonitoringComponent implements OnInit {
                 nbrPageData
             );
         });
+        this.treatmentMonitoringApiService
+            .isLoadingTreatmentMonitoring()
+            .subscribe((spinner) => {
+                this.spinner = spinner;
+            });
     }
 
-    public filter(filterData: treatmentMonitoringFilterInterface): void {
-        this.filterData = filterData;
+    public filter(filterData: TreatmentMonitoringFilterInterface): void {
         this.treatmentMonitoringApiService.fetchTreatmentMonitoring(filterData);
     }
 
     public onPageChange(event: number): void {
-        this.treatmentMonitoringApiService.fetchTreatmentMonitoring(
-            this.filterData,
-            JSON.stringify(event + 1)
-        );
+        this.treatmentMonitoringApiService
+            .getDataFilterTreatmentMonitoring()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((filterData) => {
+                this.treatmentMonitoringApiService.fetchTreatmentMonitoring(
+                    filterData,
+                    JSON.stringify(event + 1)
+                );
+            });
     }
 
-    public navigateByUrl(params: PageAction): void {
-        const number_demand = params.data
-            ? params.data['numero_demande']
-            : null;
-        const ref = params.action;
-        const operation = params.data.operation;
-        const queryParams = { ref, operation };
-        let routePath: string = '';
-
-        switch (params.action) {
-            case 'open-folder-treatment-monitoring':
-                routePath = `${number_demand}`;
-                this.router.navigate([routePath], {
-                    relativeTo: this.activatedRoute,
-                    queryParams,
-                });
-                break;
-        }
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

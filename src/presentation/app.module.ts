@@ -17,13 +17,12 @@ import { AppComponent } from './app.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { AppRoutingModule } from './app-routing.module';
 import { LocalStorageService } from 'ngx-webstorage';
-import { SupervisionOperationsModule } from './pages/supervision-operations/supervision-operations.module';
 import { WebSocketSubject } from 'rxjs/webSocket';
-// import { EnvServiceProvider } from '../shared/services/env.service.provider';
-import { NotifyService } from '../shared/services/notify.service';
 import { AuthGuard } from '../core/guard/auth.guard';
 import { GuestGuard } from '../core/guard/guest.guard';
 import { EnvService } from '../shared/services/env.service';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomRouteReuseStrategy } from '../shared/utils/custom-route-reuse-strategy';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -42,9 +41,7 @@ export function initEnv(envService: EnvService): () => void {
         OverlayModule,
         SharedModule,
         AppRoutingModule,
-        // HttpClientModule,
         NgbModule,
-        SupervisionOperationsModule,
         ToastrModule.forRoot(),
         TranslateModule.forRoot({
             loader: {
@@ -53,19 +50,14 @@ export function initEnv(envService: EnvService): () => void {
                 deps: [HttpClient],
             },
         }),
-        //For HttpClient use:
         LoadingBarHttpClientModule,
-        //For Router use:
         LoadingBarRouterModule,
-        //For Core use:
         LoadingBarModule,
     ],
     providers: [
         AuthGuard,
         GuestGuard,
-        // EnvServiceProvider,
         LocalStorageService,
-        NotifyService,
         {
             provide: WebSocketSubject,
             useFactory: initEnv,
@@ -76,6 +68,10 @@ export function initEnv(envService: EnvService): () => void {
             provide: HTTP_INTERCEPTORS,
             useClass: GlobalHttpInterceptorService,
             multi: true,
+        },
+        {
+            provide: RouteReuseStrategy,
+            useClass: CustomRouteReuseStrategy,
         },
     ],
     bootstrap: [AppComponent],

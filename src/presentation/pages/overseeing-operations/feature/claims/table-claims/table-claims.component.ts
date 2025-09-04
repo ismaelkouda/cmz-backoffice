@@ -9,15 +9,12 @@ import {
     TableConfig,
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
-import { CLAIMS_STATUS_ENUM } from '../../../data-access/claims/enums/claims-status.enum';
 import { ClaimsApiService } from '../../../data-access/claims/services/claims-api.service';
 import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';
 import { Observable, take } from 'rxjs';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { TreatmentDemands } from '../../../../../../shared/interfaces/treatment-demands.interface';
 import { claimsTableConstant } from '../../../data-access/claims/constants/claims-table.constant';
 import { TranslateService } from '@ngx-translate/core';
-import { createButtonStyle } from '../../../../../../shared/functions/treatment-demands.function';
 import { claimsInterface } from '../../../data-access/claims/interfaces/claims.interface';
 import { BADGE_STEP_CLAIMS } from '../../../data-access/claims/constants/claims-step.constant';
 import { BADGE_STATE_CLAIMS } from '../../../data-access/claims/constants/claims-state.constant';
@@ -41,13 +38,7 @@ type ModalAction = {
     action: 'view-claims' | 'journal-claims';
     view: 'modal';
 };
-const INIT_TYPE_TRAITEMENT: TreatmentDemands = {
-    module: 'tracking-processing',
-    abandonner: false,
-    modifier: false,
-    visualiser: false,
-    cloturer: false,
-};
+
 type TYPE_COLOR_ETAPE_BADGE =
     | 'badge-dark'
     | 'badge-warning'
@@ -69,7 +60,7 @@ export class TableClaimsComponent {
     @Input() claimsSelected: claimsInterface;
     @Input() pagination$: Observable<Paginate<claimsInterface>>;
     @Output() interfaceUser = new EventEmitter<any>();
-    public typeTreatment: TreatmentDemands = INIT_TYPE_TRAITEMENT;
+    public typeTreatment;
     public visibleFormClaims = false;
 
     public readonly table: TableConfig = claimsTableConstant;
@@ -214,12 +205,7 @@ export class TableClaimsComponent {
     getTreatmentButtonViewClaimsStyle(selectedClaims: {
         statut: string;
         traitement: string;
-    }): {
-        class: string;
-        icon: string;
-        tooltip: string;
-        typeTreatment: TreatmentDemands;
-    } {
+    }): any {
         const STOP_OR_CHANGE = this.translate.instant('STOP_OR_CHANGE');
         const DETAILS_OF_THE_CLAIM = this.translate.instant(
             'DETAILS_OF_THE_CLAIM'
@@ -230,80 +216,80 @@ export class TableClaimsComponent {
                 if (
                     selectedClaims?.traitement === BADGE_STATE_CLAIMS.IN_WAITING
                 ) {
-                    return createButtonStyle(
-                        'p-button-warning',
-                        'pi pi-times',
-                        STOP_OR_CHANGE,
-                        this.typeTreatment,
-                        { abandonner: true, modifier: true, visualiser: false }
-                    );
+                    // return createButtonStyle(
+                    //     'p-button-warning',
+                    //     'pi pi-times',
+                    //     STOP_OR_CHANGE,
+                    //     this.typeTreatment,
+                    //     { abandonner: true, modifier: true, visualiser: false }
+                    // );
                 }
                 if (
                     selectedClaims?.traitement === BADGE_STATE_CLAIMS.ABANDONED
                 ) {
-                    return createButtonStyle(
-                        'p-button-warning',
-                        'pi pi-times',
-                        STOP_OR_CHANGE,
-                        this.typeTreatment,
-                        { abandonner: false, modifier: false, visualiser: true }
-                    );
+                    // return createButtonStyle(
+                    //     'p-button-warning',
+                    //     'pi pi-times',
+                    //     STOP_OR_CHANGE,
+                    //     this.typeTreatment,
+                    //     { abandonner: false, modifier: false, visualiser: true }
+                    // );
                 }
             }
             case BADGE_STEP_CLAIMS.TRAITEMENT: {
                 if (
                     selectedClaims?.traitement === BADGE_STATE_CLAIMS.APPROVED
                 ) {
-                    return createButtonStyle(
-                        'p-button-success',
-                        'pi pi-check-circle',
-                        TO_CLOSURE,
-                        this.typeTreatment,
-                        {
-                            abandonner: false,
-                            modifier: false,
-                            visualiser: false,
-                            cloturer: true,
-                        }
-                    );
+                    // return createButtonStyle(
+                    //     'p-button-success',
+                    //     'pi pi-check-circle',
+                    //     TO_CLOSURE,
+                    //     this.typeTreatment,
+                    //     {
+                    //         abandonner: false,
+                    //         modifier: false,
+                    //         visualiser: false,
+                    //         cloturer: true,
+                    //     }
+                    // );
                 }
                 if (
                     selectedClaims?.traitement === BADGE_STATE_CLAIMS.REJECTED
                 ) {
-                    return createButtonStyle(
-                        'p-button-success',
-                        'pi pi-check-circle',
-                        TO_CLOSURE,
-                        this.typeTreatment,
-                        {
-                            abandonner: false,
-                            modifier: false,
-                            visualiser: false,
-                            cloturer: true,
-                        }
-                    );
+                    // return createButtonStyle(
+                    //     'p-button-success',
+                    //     'pi pi-check-circle',
+                    //     TO_CLOSURE,
+                    //     this.typeTreatment,
+                    //     {
+                    //         abandonner: false,
+                    //         modifier: false,
+                    //         visualiser: false,
+                    //         cloturer: true,
+                    //     }
+                    // );
                 }
             }
         }
-        return createButtonStyle(
-            'p-button-secondary',
-            'pi pi-eye',
-            DETAILS_OF_THE_CLAIM,
-            this.typeTreatment,
-            { abandonner: false, modifier: false, visualiser: true }
-        );
+        // return createButtonStyle(
+        //     'p-button-secondary',
+        //     'pi pi-eye',
+        //     DETAILS_OF_THE_CLAIM,
+        //     this.typeTreatment,
+        //     { abandonner: false, modifier: false, visualiser: true }
+        // );
     }
 
     getTreatmentButtonOpenClaimsStyle(selectedClaims: {
         statut: string;
         traitement: string;
-    }): { class: string; icon: string; tooltip: string } {
+    }): any {
         const SIM_OF_THE_REQUEST = this.translate.instant('SIM_OF_THE_REQUEST');
-        return createButtonStyle(
-            'p-button-success',
-            'pi pi-folder-open',
-            SIM_OF_THE_REQUEST,
-            this.typeTreatment
-        );
+        // return createButtonStyle(
+        //     'p-button-success',
+        //     'pi pi-folder-open',
+        //     SIM_OF_THE_REQUEST,
+        //     this.typeTreatment
+        // );
     }
 }

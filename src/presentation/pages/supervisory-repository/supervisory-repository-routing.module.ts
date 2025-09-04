@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { IndicatorsAlarmsComponent } from './ui/indicators-alarms/indicators-alarms.component';
 import { SlaAgreementsComponent } from './ui/sla-agreements/sla-agreements.component';
 import { PagesGuard } from '../../../core/guard/PagesGuard';
+import { SlaContactsComponent } from './ui/sla-contacts/sla-contacts.component';
 
-export const INDICATORS_ALARMS = 'indicators-alarms';
+export const SLA_CONTACTS = 'sla-contact';
 export const SLA_AGREEMENTS = 'sla-agreements';
 
 const routes: Routes = [
     {
-        path: INDICATORS_ALARMS,
+        path: SLA_AGREEMENTS,
         children: [
             {
                 path: '',
-                component: IndicatorsAlarmsComponent,
+                component: SlaAgreementsComponent,
             },
             {
                 path: '**',
@@ -22,15 +22,15 @@ const routes: Routes = [
         ],
         // canActivate: [PagesGuard],
         // data: {
-        //     allowedPaths: [`/${INDICATORS_ALARMS}`],
+        //     allowedPaths: [`/${SLA_AGREEMENTS}`],
         // },
     },
     {
-        path: SLA_AGREEMENTS,
+        path: SLA_CONTACTS,
         children: [
             {
                 path: '',
-                component: SlaAgreementsComponent,
+                component: SlaContactsComponent,
             },
             {
                 path: '**',

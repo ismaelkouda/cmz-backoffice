@@ -1,92 +1,90 @@
+import { InvoiceFilterFormInterface } from './../../../data-access/invoice/interface/invoice-filter-form.interface';
 import {
     Component,
     Input,
     EventEmitter,
     Output,
     OnDestroy,
-    OnChanges,
+    OnInit,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { T_BADGE_ETAT_FACTURE } from '../../../../../../shared/constants/badge-etat-facture.contant';
-import { invoiceFilterInterface } from '../../../data-access/invoice/interface/invoice-filter.interface';
+import { InvoiceFilterInterface } from '../../../data-access/invoice/interface/invoice-filter.interface';
 import { InvoiceApiService } from '../../../data-access/invoice/service/invoice-api.service';
-import { T_TypePayment } from '../../../../../../shared/enum/type-payment.enum';
+import { T_NOTIFICATIONS_CENTER_STATE_ENUM } from '../../../../overseeing-operations/data-access/notifications-center/enums/notifications-center-state.enum';
+import { T_LIST_REQUESTS_SERVICE } from '../../../../../../shared/enum/list-requests-service';
 
 @Component({
     selector: 'app-filter-invoice',
     templateUrl: './filter-invoice.component.html',
     styleUrls: ['./filter-invoice.component.scss'],
 })
-export class FilterInvoiceComponent implements OnChanges, OnDestroy {
-    @Input() listOperations: Array<string>;
-    @Input() listStatusInvoice: Array<T_BADGE_ETAT_FACTURE>;
-    @Input() typePayment: Array<T_TypePayment>;
-    @Input() filterData: invoiceFilterInterface;
+export class FilterInvoiceComponent implements OnInit, OnDestroy {
+    @Output() filter = new EventEmitter<InvoiceFilterInterface>();
 
-    @Output() filter = new EventEmitter<invoiceFilterInterface>();
+    @Input() listOperations: Array<T_LIST_REQUESTS_SERVICE>;
+    @Input() listInvoiceState: Array<T_NOTIFICATIONS_CENTER_STATE_ENUM>;
 
-    public formFilter: FormGroup;
-    public secondFilter: boolean = false;
+    public formFilter: FormGroup<InvoiceFilterFormInterface>;
     private destroy$ = new Subject<void>();
+
+    public secondFilter: boolean = false;
 
     constructor(
         private toastService: ToastrService,
         private fb: FormBuilder,
         private translate: TranslateService,
         private invoiceApiService: InvoiceApiService
-    ) {
+    ) {}
+
+    ngOnInit(): void {
         this.initFormFilter();
     }
 
-    ngOnChanges() {
-        this.formFilter.get('statut')?.setValue(this.filterData?.['statut']);
+    public showSecondFilter(): void {
+        this.secondFilter = !this.secondFilter;
     }
 
     public initFormFilter(): void {
         this.invoiceApiService
             .getDataFilterInvoice()
             .pipe(takeUntil(this.destroy$))
-            .subscribe((filterData) => {
-                this.formFilter = this.fb.group<invoiceFilterInterface>({
+            .subscribe((filterData: InvoiceFilterInterface) => {
+                this.formFilter = this.fb.group<InvoiceFilterFormInterface>({
                     date_debut: new FormControl<string>(
-                        filterData?.['date_debut'],
+                        filterData?.date_debut ?? '',
                         { nonNullable: true }
                     ),
                     date_fin: new FormControl<string>(
-                        filterData?.['date_fin'],
+                        filterData?.date_fin ?? '',
                         { nonNullable: true }
                     ),
+
                     numero_demande: new FormControl<string>(
-                        filterData?.['numero_demande'],
+                        filterData?.numero_demande ?? '',
                         { nonNullable: true }
                     ),
-                    initie_par: new FormControl<string>(
-                        filterData?.['initie_par'],
+
+                    reference: new FormControl<string>(
+                        filterData?.reference ?? '',
                         { nonNullable: true }
                     ),
-                    statut: new FormControl<string>(filterData?.['statut'], {
+                    statut: new FormControl<string>(filterData?.statut ?? '', {
                         nonNullable: true,
                     }),
-                    type_paiement: new FormControl<string>(
-                        filterData?.['type_paiement'],
-                        {
-                            nonNullable: true,
-                        }
-                    ),
                     operation: new FormControl<string>(
-                        filterData?.['operation'],
+                        filterData?.operation ?? '',
                         { nonNullable: true }
                     ),
                 });
-            });
-    }
 
-    public showSecondFilter(): void {
-        this.secondFilter = !this.secondFilter;
+                if (filterData.date_debut || filterData.date_fin) {
+                    this.secondFilter = true;
+                }
+            });
     }
 
     public onSubmitFilterForm(): void {

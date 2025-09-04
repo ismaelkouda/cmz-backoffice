@@ -1,12 +1,10 @@
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { SettingService } from 'src/shared/services/setting.service';
 import { ParametreSecuriteService } from '../../data-access/parametre-securite.service';
 import { Title } from '@angular/platform-browser';
 import { ExcelService } from 'src/shared/services/excel.service';
 import { SWALWITHBOOTSTRAPBUTTONSPARAMS } from 'src/shared/constants/swalWithBootstrapButtonsParams.constant';
-import { handle } from 'src/shared/functions/api.function';
 import { MappingService } from '../../../../../shared/services/mapping.service';
 const Swal = require('sweetalert2');
 
@@ -29,9 +27,7 @@ export class UsersComponent implements OnInit {
     public title = 'Utilisateurs - Système de Gestion de Collecte Centralisée';
     public nb_max_users: number;
     constructor(
-        private settingService: SettingService,
         private toastrService: ToastrService,
-        private loadingBarService: LoadingBarService,
         public mappingService: MappingService,
         private titleService: Title,
         private excelService: ExcelService,
@@ -49,14 +45,14 @@ export class UsersComponent implements OnInit {
         this.GetAllUsers();
     }
     public GetAllUsers() {
-        this.settingService.getAllUsers({}).subscribe({
-            next: (response) => {
-                this.listUsers = response['data'];
-            },
-            error: (error) => {
-                this.toastrService.error(error.error.message);
-            },
-        });
+        // this.settingService.getAllUsers({}).subscribe({
+        //     next: (response) => {
+        //         this.listUsers = response['data'];
+        //     },
+        //     error: (error) => {
+        //         this.toastrService.error(error.error.message);
+        //     },
+        // });
     }
 
     public onInitForm(): void {
@@ -85,19 +81,19 @@ export class UsersComponent implements OnInit {
             })
             .then((result) => {
                 if (result.isConfirmed) {
-                    handle(
-                        () =>
-                            this.parametreSecuriteService.handleChangePassword({
-                                id: data?.['id'],
-                            }),
-                        this.toastrService,
-                        this.loadingBarService
-                    ).then((response: any) => {
-                        if (response.error === false) {
-                            this.toastrService.success(response.message);
-                            this.GetAllUsers();
-                        }
-                    });
+                    // handle(
+                    //     () =>
+                    //         this.parametreSecuriteService.handleChangePassword({
+                    //             id: data?.['id'],
+                    //         }),
+                    //     this.toastrService,
+                    //     this.loadingBarService
+                    // ).then((response: any) => {
+                    //     if (response.error === false) {
+                    //         this.toastrService.success(response.message);
+                    //         this.GetAllUsers();
+                    //     }
+                    // });
                 }
             });
     }
@@ -166,19 +162,19 @@ export class UsersComponent implements OnInit {
             confirmButtonText: 'Oui',
         }).then((result) => {
             if (result.isConfirmed) {
-                this.settingService
-                    .OnDeleteUser({
-                        username: data?.username,
-                    })
-                    .subscribe({
-                        next: (response) => {
-                            this.toastrService.success(response.message);
-                            this.GetAllUsers();
-                        },
-                        error: (error) => {
-                            this.toastrService.error(error.error.message);
-                        },
-                    });
+                // this.settingService
+                //     .OnDeleteUser({
+                //         username: data?.username,
+                //     })
+                //     .subscribe({
+                //         next: (response) => {
+                //             this.toastrService.success(response.message);
+                //             this.GetAllUsers();
+                //         },
+                //         error: (error) => {
+                //             this.toastrService.error(error.error.message);
+                //         },
+                //     });
             }
         });
     }

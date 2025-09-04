@@ -8,23 +8,21 @@
             <div class="card">
                 <div class="card-body">
                     <div style="margin-top: -2rem !important">
-                        <div class="d-flex justify-content-between">
-                            <app-patrimoine-header
-                                [displayDate]="false"
-                                [total]="(listSlaAgreements$ | async)?.length"
-                                [legendePluriel]="
-                                    'SLA_AGREEMENTS' | translate | lowercase
-                                "
-                                [legendeSingulier]="
-                                    'SLA_AGREEMENTS' | translate | lowercase
-                                "
-                            >
-                            </app-patrimoine-header>
-                        </div>
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [legendePluriel]="
+                                'SLA_AGREEMENTS' | translate | lowercase
+                            "
+                            [legendeSingulier]="
+                                'SLA_AGREEMENTS' | translate | lowercase
+                            "
+                        >
+                        </app-patrimoine-header>
                     </div>
 
                     <div>
                         <app-table-sla-agreements
+                            [spinner]="spinner"
                             [listSlaAgreements$]="listSlaAgreements$"
                         >
                         </app-table-sla-agreements>

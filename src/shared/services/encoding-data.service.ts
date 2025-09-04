@@ -6,7 +6,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class EncodingDataService {
     private readonly DEFAULT_ENCRYPTION_KEY = 'Im@k0';
-    private readonly ENCRYPTION_PREFIX = 'enc:';
+    private readonly ENCRYPTION_PREFIX = '0715517685:';
 
     constructor() {}
 

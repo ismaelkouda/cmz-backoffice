@@ -10,8 +10,6 @@ import {
 } from '../interfaces/my-account.interface';
 import { myAccountEndpointEnum } from '../enums/my-account-endpoint.enum';
 import { myAccountFilterInterface } from '../interfaces/my-account-filter.interface';
-import { BankInterface } from '../../../../../../shared/interfaces/bank.interface';
-import { EndPointUrl } from '../../../../../../shared/enum/api.enum';
 
 @Injectable()
 export class MyAccountApiService {

@@ -3,7 +3,6 @@ import { NavService } from '../../services/nav.service';
 import { LayoutService } from '../../services/layout.service';
 import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
 import { Router } from '@angular/router';
-import { StoreCurrentUserService } from '../../services/store-current-user.service';
 import { SharedService } from '../../services/shared.service';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { OVERSEEING_OPERATIONS } from '../../routes/routes';

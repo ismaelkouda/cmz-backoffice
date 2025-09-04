@@ -1,0 +1,684 @@
+<div class="container-fluid add-cs">
+    <div class="row">
+        <div class="col-12">
+            <app-breadcrumb
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            >
+            </app-breadcrumb>
+
+            <div class="card premium-card mt-3">
+                <div class="card-body">
+                    <div
+                        class="page-head d-flex flex-wrap justify-content-between align-items-start mb-3"
+                    >
+                        <div class="title-block">
+                            <h3 class="mb-1 fw-bold">
+                                {{
+                                    'IMAKO_SERVICE_REQUEST_GATEWAY' | translate
+                                }}
+                            </h3>
+                            <!-- <small class="text-muted">{{ 'FILL_ALL_REQUIRED_FIELDS' | translate }}</small> -->
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button
+                                pButton
+                                type="button"
+                                class="p-button-success"
+                                (click)="handleSave()"
+                                [class.p-disabled]="
+                                    customersActivateForm.invalid
+                                "
+                                [label]="'SAVE' | translate"
+                                icon="pi pi-save"
+                            ></button>
+                            <button
+                                pButton
+                                type="button"
+                                class="p-button-danger"
+                                (click)="onBack()"
+                                [label]="'CLOSE' | translate"
+                                icon="pi pi-times"
+                            ></button>
+                        </div>
+                    </div>
+
+                    <form
+                        [formGroup]="customersActivateForm"
+                        class="premium-form row g-3"
+                    >
+                        <fieldset class="fieldset-premium treatment-fieldset">
+                            <legend class="approval-legend mb-3">
+                                <i class="bi bi-people-fill me-2"></i>
+                                <strong>{{
+                                    'SELECT_CUSTOMER_CATEGORY' | translate
+                                }}</strong>
+                            </legend>
+
+                            <div class="card mb-0 shadow-sm p-3 approval-card">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-12">
+                                        <div
+                                            class="form-check d-flex justify-content-around gap-3"
+                                        >
+                                            <div
+                                                class="big-radio d-flex flex-column align-items-center"
+                                                (click)="
+                                                    setRadioValue('Commerciale')
+                                                "
+                                            >
+                                                <input
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    id="Commerciale"
+                                                    value="Commerciale"
+                                                    formControlName="type_entreprise"
+                                                    [ngClass]="{
+                                                        'is-invalid':
+                                                            isInvalid(
+                                                                'type_entreprise'
+                                                            )
+                                                    }"
+                                                />
+                                                <label
+                                                    class="form-check-label fw-semibold mt-2"
+                                                    for="Commerciale"
+                                                >
+                                                    {{
+                                                        'COMMERCIAL_ENTERPRISE'
+                                                            | translate
+                                                    }}
+                                                </label>
+                                            </div>
+
+                                            <div
+                                                class="big-radio d-flex flex-column align-items-center"
+                                                (click)="
+                                                    setRadioValue('Publique')
+                                                "
+                                            >
+                                                <input
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    id="Publique"
+                                                    value="Publique"
+                                                    formControlName="type_entreprise"
+                                                    [ngClass]="{
+                                                        'is-invalid':
+                                                            isInvalid(
+                                                                'type_entreprise'
+                                                            )
+                                                    }"
+                                                />
+                                                <label
+                                                    class="form-check-label fw-semibold mt-2"
+                                                    for="Publique"
+                                                >
+                                                    {{
+                                                        'PUBLIC_ENTERPRISE'
+                                                            | translate
+                                                    }}
+                                                </label>
+                                            </div>
+
+                                            <div
+                                                class="big-radio d-flex flex-column align-items-center"
+                                                (click)="
+                                                    setRadioValue('Association')
+                                                "
+                                            >
+                                                <input
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    id="Association"
+                                                    value="Association"
+                                                    formControlName="type_entreprise"
+                                                    [ngClass]="{
+                                                        'is-invalid':
+                                                            isInvalid(
+                                                                'type_entreprise'
+                                                            )
+                                                    }"
+                                                />
+                                                <label
+                                                    class="form-check-label fw-semibold mt-2"
+                                                    for="Association"
+                                                >
+                                                    {{
+                                                        'Association'
+                                                            | translate
+                                                    }}
+                                                </label>
+                                            </div>
+
+                                            <div
+                                                class="big-radio d-flex flex-column align-items-center"
+                                                (click)="
+                                                    setRadioValue(
+                                                        'Personne physique'
+                                                    )
+                                                "
+                                            >
+                                                <input
+                                                    class="form-check-input"
+                                                    type="radio"
+                                                    id="Personne physique"
+                                                    value="Personne physique"
+                                                    formControlName="type_entreprise"
+                                                    [ngClass]="{
+                                                        'is-invalid':
+                                                            isInvalid(
+                                                                'type_entreprise'
+                                                            )
+                                                    }"
+                                                />
+                                                <label
+                                                    class="form-check-label fw-semibold mt-2"
+                                                    for="Personne physique"
+                                                >
+                                                    {{
+                                                        'Personne physique'
+                                                            | translate
+                                                    }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-md-12">
+                                        <div class="form-check d-flex justify-content-around gap-3">
+                                            <div class="big-radio d-flex flex-column align-items-center">
+                                                <input class="form-check-input" type="radio" id="notation-content"
+                                                    value="content" formControlName="notation_cloture"
+                                                    [ngClass]="{'is-invalid': isInvalid('notation_cloture')}" />
+                                                <label
+                                                    class="form-check-label fw-semibold mt-2 d-flex flex-column align-items-center"
+                                                    for="notation-content">
+                                                    <img src="assets/images/icones/smile.png" width="28"
+                                                        alt="Content" />
+                                                    <span class="mt-1">Content</span>
+                                                </label>
+                                            </div>
+
+                                            <div class="big-radio d-flex flex-column align-items-center">
+                                                <input class="form-check-input" type="radio" id="notation-neutre"
+                                                    value="neutre" formControlName="notation_cloture"
+                                                    [ngClass]="{'is-invalid': isInvalid('notation_cloture')}" />
+                                                <label
+                                                    class="form-check-label fw-semibold mt-2 d-flex flex-column align-items-center"
+                                                    for="notation-neutre">
+                                                    <img src="assets/images/icones/confused.png" width="28"
+                                                        alt="Neutre" />
+                                                    <span class="mt-1">Neutre</span>
+                                                </label>
+                                            </div>
+
+                                            <div class="big-radio d-flex flex-column align-items-center">
+                                                <input class="form-check-input" type="radio" id="notation-mecontent"
+                                                    value="mécontent" formControlName="notation_cloture"
+                                                    [ngClass]="{'is-invalid': isInvalid('notation_cloture')}" />
+                                                <label
+                                                    class="form-check-label fw-semibold mt-2 d-flex flex-column align-items-center"
+                                                    for="notation-mecontent">
+                                                    <img src="assets/images/icones/sad.png" width="28"
+                                                        alt="Mécontent" />
+                                                    <span class="mt-1">Mécontent</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="fieldset-premium">
+                            <legend>
+                                <b>{{
+                                    'PHONE_MANAGER_INFORMATION' | translate
+                                }}</b>
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{ 'NAME_PRENOMS' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="nom_client"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('nom_client')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{ 'ADDRESS' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="adresse"
+                                        [ngClass]="{
+                                            'is-invalid': isInvalid('adresse')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{
+                                            'CUSTOMER_ACCOUNT' | translate
+                                        }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="compte_client"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('compte_client')
+                                        }"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{ 'EMAIL' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="email"
+                                        formControlName="email_admin_client"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('email_admin_client')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{
+                                            'ACTIVITY_DOMAIN' | translate
+                                        }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="domaine_activite"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('domaine_activite')
+                                        }"
+                                    />
+                                </div>
+                                <div
+                                    class="col-md-4 animate-fadeIn animate-fadeOut"
+                                >
+                                    <label class="form-label"
+                                        ><b>{{ 'LOGO' | translate }}</b></label
+                                    >
+                                    <div
+                                        class="d-flex justify-content-between align-items-center gap-2"
+                                    >
+                                        <div class="flex-grow-1">
+                                            <input
+                                                class="form-control file-input"
+                                                type="file"
+                                                (change)="
+                                                    onChangeFile(
+                                                        $event.target.files,
+                                                        'logo_client'
+                                                    )
+                                                "
+                                                accept="image/png,image/jpeg"
+                                            />
+                                        </div>
+                                        <button
+                                            pButton
+                                            type="button"
+                                            class="p-button-secondary"
+                                            icon="pi pi-eye"
+                                            [label]="'VIEW' | translate"
+                                            (click)="viewFile('logo_client')"
+                                            [disabled]="
+                                                !customersActivateForm.value
+                                                    .logo_client
+                                            "
+                                        ></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="fieldset-premium">
+                            <legend>
+                                <b>{{ 'MANAGER_INFORMATION' | translate }}</b>
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="form-label"
+                                        ><b>{{ 'NAME_PRENOMS' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="nom_gerant"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('nom_gerant')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label"
+                                        ><b>{{ 'CONTACT' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="contact_gerant"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('contact_gerant')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label"
+                                        ><b>{{ 'EMAIL' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="email"
+                                        formControlName="email_gerant"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('email_gerant')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{
+                                            'IDENTITY_DOCUMENT' | translate
+                                        }}</b></label
+                                    >
+                                    <div
+                                        class="d-flex justify-content-between align-items-center gap-2"
+                                    >
+                                        <div class="flex-grow-1">
+                                            <input
+                                                class="form-control file-input"
+                                                type="file"
+                                                (change)="
+                                                    onChangeFile(
+                                                        $event.target.files,
+                                                        'piece_gerant'
+                                                    )
+                                                "
+                                                accept="image/png,image/jpeg"
+                                            />
+                                        </div>
+                                        <button
+                                            pButton
+                                            type="button"
+                                            class="p-button-secondary"
+                                            icon="pi pi-eye"
+                                            [label]="'VIEW' | translate"
+                                            (click)="viewFile('piece_gerant')"
+                                            [disabled]="
+                                                !customersActivateForm.value
+                                                    .piece_gerant
+                                            "
+                                        ></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="fieldset-premium">
+                            <legend>
+                                <b>{{ 'MORAL_DECLARATION' | translate }}</b>
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label class="form-label"
+                                        ><b>RCCM</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="numero_rccm"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('numero_rccm')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label"
+                                        ><b>{{ 'LEGAL_FORM' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <p-dropdown
+                                        [options]="listLegalForm$ | async"
+                                        optionLabel="nom"
+                                        optionValue="code"
+                                        placeholder="{{ 'SELECT' | translate }}"
+                                        [filter]="true"
+                                        filterBy="nom"
+                                        emptyMessage="{{
+                                            'NO_DATA' | translate
+                                        }}"
+                                        formControlName="forme_juridique_code"
+                                        [ngClass]="{
+                                            'p-invalid': isInvalid(
+                                                'forme_juridique_code'
+                                            )
+                                        }"
+                                    ></p-dropdown>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>RCCM</b></label
+                                    >
+                                    <div
+                                        class="d-flex justify-content-between align-items-center gap-2"
+                                    >
+                                        <div class="flex-grow-1">
+                                            <input
+                                                class="form-control file-input"
+                                                type="file"
+                                                (change)="
+                                                    onChangeFile(
+                                                        $event.target.files,
+                                                        'fichier_rccm'
+                                                    )
+                                                "
+                                                accept="image/png,image/jpeg"
+                                            />
+                                        </div>
+                                        <button
+                                            pButton
+                                            type="button"
+                                            class="p-button-secondary"
+                                            icon="pi pi-eye"
+                                            [label]="'VIEW' | translate"
+                                            (click)="viewFile('fichier_rccm')"
+                                            [disabled]="
+                                                !customersActivateForm.value
+                                                    .fichier_rccm
+                                            "
+                                        ></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="fieldset-premium">
+                            <legend>
+                                <b>{{ 'FISCAL_DECLARATION' | translate }}</b>
+                            </legend>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{ 'NUMBER_CC' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="numero_cc"
+                                        [ngClass]="{
+                                            'is-invalid': isInvalid('numero_cc')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label"
+                                        ><b>{{ 'REGIME' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <p-dropdown
+                                        [options]="listRegimesBusiness$ | async"
+                                        optionLabel="nom"
+                                        optionValue="code"
+                                        placeholder="{{ 'SELECT' | translate }}"
+                                        formControlName="regime_code"
+                                        [ngClass]="{
+                                            'p-invalid':
+                                                isInvalid('regime_code')
+                                        }"
+                                        [filter]="true"
+                                        filterBy="nom"
+                                    >
+                                    </p-dropdown>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label"
+                                        ><b>{{ 'CENTER' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="centre"
+                                        [ngClass]="{
+                                            'is-invalid': isInvalid('centre')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"><b>DFE</b></label>
+                                    <div
+                                        class="d-flex justify-content-between align-items-center gap-2"
+                                    >
+                                        <div class="flex-grow-1">
+                                            <input
+                                                class="form-control file-input"
+                                                type="file"
+                                                (change)="
+                                                    onChangeFile(
+                                                        $event.target.files,
+                                                        'fichier_dfe'
+                                                    )
+                                                "
+                                                accept="image/png,image/jpeg"
+                                            />
+                                        </div>
+                                        <button
+                                            pButton
+                                            type="button"
+                                            class="p-button-secondary"
+                                            icon="pi pi-eye"
+                                            [label]="'VIEW' | translate"
+                                            (click)="viewFile('fichier_dfe')"
+                                            [disabled]="
+                                                !customersActivateForm.value
+                                                    .fichier_dfe
+                                            "
+                                        ></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="fieldset-premium">
+                            <legend>
+                                <b>{{ 'REQUEST_DESCRIPTION' | translate }}</b>
+                            </legend>
+                            <div class="row">
+                                <div class="col-12">
+                                    <input
+                                        type="text"
+                                        pInputText
+                                        formControlName="description"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('description')
+                                        }"
+                                        placeholder="{{
+                                            'COMMENT' | translate
+                                        }}..."
+                                    />
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="forms-feature-footer">
+                            <button
+                                pButton
+                                type="button"
+                                class="p-button-success"
+                                (click)="handleSave()"
+                                [class.p-disabled]="
+                                    customersActivateForm.invalid
+                                "
+                                [label]="'SAVE' | translate"
+                                icon="pi pi-save"
+                            ></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

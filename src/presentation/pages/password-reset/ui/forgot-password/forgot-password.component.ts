@@ -2,9 +2,8 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
-import { LOGO_ORANGE } from 'src/shared/constants/logoOrange.constant';
+import { LOGO_IMAKO } from 'src/shared/constants/logoOrange.constant';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { handle } from 'src/shared/functions/api.function';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PasswordResetService } from '../../data-access/password-reset.service';
 
@@ -20,7 +19,7 @@ export class ForgotPasswordComponent {
     public submitted: boolean = false;
     public title =
         'Mot de passe oublié - Système de Gestion de Collecte Centralisée';
-    public LOGO_ORANGE = LOGO_ORANGE;
+    public LOGO_IMAKO = LOGO_IMAKO;
     private response: any = {};
 
     constructor(
@@ -36,15 +35,15 @@ export class ForgotPasswordComponent {
     async onFormForgotPassword(): Promise<void> {
         this.submitted = true;
         if (this.forgotPasswordForm.valid) {
-            this.response = await handle(
-                () =>
-                    this.passwordResetService.HandleForgotPassword(
-                        this.forgotPasswordForm.value
-                    ),
-                this.toastrService,
-                this.loadingBar
-            );
-            this.handleSuccessful(this.response);
+            // this.response = await handle(
+            //     () =>
+            //         this.passwordResetService.HandleForgotPassword(
+            //             this.forgotPasswordForm.value
+            //         ),
+            //     this.toastrService,
+            //     this.loadingBar
+            // );
+            // this.handleSuccessful(this.response);
         }
     }
 

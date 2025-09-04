@@ -1,48 +1,41 @@
+import {
+    OVERSEEING_OPERATIONS_TREATMENT_ENUM,
+    T_OVERSEEING_OPERATIONS_TREATMENT_ENUM,
+} from './../../../data-access/overseeing-operations/enums/overseeing-operations-treatment.enum';
 import { WaitingQueueApiService } from './../../../data-access/waiting-queue/services/waiting-queue-api.service';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
     TableConfig,
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
-import {
-    BADGE_ETAT,
-    T_BADGE_ETAT,
-} from '../../../../../../shared/constants/badge-etat.contant';
-import {
-    BADGE_ETAPE,
-    T_BADGE_ETAPE,
-} from '../../../../../../shared/constants/badge-etape.constant';
-import { Folder } from '../../../../../../shared/interfaces/folder';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { Observable, take } from 'rxjs';
-import { waitingQueueTableConstant } from '../../../data-access/waiting-queue/constants/waiting-queue-table.constant';
+import { Observable, Subject, take } from 'rxjs';
+import { WAITING_QUEUE_TABLE } from '../../../data-access/waiting-queue/constants/waiting-queue-table.constant';
 import { TranslateService } from '@ngx-translate/core';
-import { waitingQueueFilterInterface } from '../../../data-access/waiting-queue/interfaces/waiting-queue-filter.interface';
-import { createButtonStyle } from '../../../../../../shared/functions/treatment-demands.function';
-import { TreatmentDemands } from '../../../../../../shared/interfaces/treatment-demands.interface';
+import { WaitingQueueFilterInterface } from '../../../data-access/waiting-queue/interfaces/waiting-queue-filter.interface';
+import {
+    T_WAITING_QUEUE_STATE_ENUM,
+    WAITING_QUEUE_STATE_ENUM,
+} from '../../../data-access/waiting-queue/enums/waiting-queue-state.enum';
+import {
+    T_WAITING_QUEUE_STEP_ENUM,
+    WAITING_QUEUE_STEP_ENUM,
+} from '../../../data-access/waiting-queue/enums/waiting-queue-step.enum';
+import { WaitingQueueInterface } from '../../../../../../shared/interfaces/waiting-queue.interface';
+import { OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM } from '../../../data-access/overseeing-operations/enums/overseeing-operations-buttons-actions.enum';
+import {
+    MODULE_TREATMENT_CUSTOMERS_ACTIVATE,
+    T_MODULE_TREATMENT_CUSTOMERS_ACTIVATE,
+} from '../../../../../../shared/enum/module-treatment-customers-activate';
 
-type Action = ModalAction;
-type ModalAction = {
-    data: Folder;
-    action: 'view-waiting-queue';
-    view: 'modal';
-};
-const INIT_TYPE_TRAITEMENT: TreatmentDemands = {
-    module: 'overseeing-operations',
-    abandonner: false,
-    modifier: false,
-    visualiser: false,
-    cloturer: false,
-};
-type TYPE_COLOR_ETAPE_BADGE =
+type TYPE_COLOR_STEP_BADGE =
     | 'badge-dark'
     | 'badge-warning'
     | 'badge-info'
     | 'badge-success';
-type TYPE_COLOR_ETAT_BADGE =
+type TYPE_COLOR_STATE_BADGE =
     | 'badge-warning'
     | 'badge-dark'
     | 'badge-success'
@@ -53,180 +46,199 @@ type TYPE_COLOR_ETAT_BADGE =
     templateUrl: './table-waiting-queue.component.html',
 })
 export class TableWaitingQueueComponent {
-    @Input() listWaitingQueue$: Observable<Array<Folder>>;
-    @Input() waitingQueueSelected: Folder;
-    @Input() pagination$: Observable<Paginate<Folder>>;
-    @Output() interfaceUser = new EventEmitter<any>();
-    public typeTreatment: TreatmentDemands = INIT_TYPE_TRAITEMENT;
-    public visibleFormWaitingQueue = false;
+    @Input() spinner: boolean;
+    @Input() listWaitingQueue$: Observable<Array<WaitingQueueInterface>>;
+    @Input() pagination$: Observable<Paginate<WaitingQueueInterface>>;
 
-    public readonly table: TableConfig = waitingQueueTableConstant;
-    public readonly BADGE_STEP = BADGE_ETAPE;
-    public readonly BADGE_STATE = BADGE_ETAT;
+    @Input() listWaitingQueueStep: Array<T_WAITING_QUEUE_STEP_ENUM>;
+    @Input() listWaitingQueueState: Array<T_WAITING_QUEUE_STATE_ENUM>;
+
+    public waitingQueueSelected: WaitingQueueInterface;
+    public readonly table: TableConfig = WAITING_QUEUE_TABLE;
+    private destroy$ = new Subject<void>();
+
+    public visibleForm = false;
+
+    public OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM =
+        OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM;
 
     constructor(
-        private toastrService: ToastrService,
+        private toastService: ToastrService,
         private clipboardService: ClipboardService,
-        private tableExportExcelFileService: TableExportExcelFileService,
-        private translate: TranslateService,
         private waitingQueueApiService: WaitingQueueApiService,
-        private ngbModal: NgbModal
+        private tableExportExcelFileService: TableExportExcelFileService,
+        private translate: TranslateService
     ) {}
 
-    public onExportExcel(): void {
-        this.listWaitingQueue$.pipe(take(1)).subscribe((data) => {
-            if (data) {
-                this.tableExportExcelFileService.exportAsExcelFile(
-                    data,
-                    this.table,
-                    'List_waitingQueue'
-                );
-            }
-        });
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public pageCallback() {
-        this.waitingQueueApiService.fetchWaitingQueue(
-            {} as waitingQueueFilterInterface
+        return this.waitingQueueApiService.fetchWaitingQueue(
+            {} as WaitingQueueFilterInterface
         );
+    }
+
+    public onExportExcel(): void {
+        this.waitingQueueApiService
+            .getWaitingQueue()
+            .pipe(take(1))
+            .subscribe((waitingQueue) => {
+                if (waitingQueue) {
+                    this.tableExportExcelFileService.exportAsExcelFile(
+                        waitingQueue,
+                        this.table,
+                        'list_waiting_queue'
+                    );
+                } else {
+                    this.toastService.error(
+                        this.translate.instant('NO_DATA_TO_EXPORT')
+                    );
+                }
+            });
     }
 
     public copyToClipboard(data: string): void {
         const translatedMessage = this.translate.instant(
             'COPIED_TO_THE_CLIPBOARD'
         );
-        this.toastrService.success(translatedMessage);
+        this.toastService.success(translatedMessage);
         this.clipboardService.copyFromContent(data);
     }
 
-    public getStepWaitingQueueBadge(selectedWaitingQueue?: {
-        statut: T_BADGE_ETAPE;
-    }): TYPE_COLOR_ETAPE_BADGE {
-        if (!selectedWaitingQueue || !selectedWaitingQueue.statut) {
+    getStepBadge(dossier?: {
+        statut: T_WAITING_QUEUE_STEP_ENUM;
+    }): TYPE_COLOR_STEP_BADGE {
+        if (!dossier || !dossier.statut) {
             return 'badge-dark';
         }
 
-        const etapeMap: Record<T_BADGE_ETAPE, TYPE_COLOR_ETAPE_BADGE> = {
-            [BADGE_ETAPE.SOUMISSION]: 'badge-dark',
-            [BADGE_ETAPE.TRAITEMENT]: 'badge-warning',
-            [BADGE_ETAPE.FINALISATEUR]: 'badge-info',
-            [BADGE_ETAPE.CLOTURE]: 'badge-success',
+        const etapeMap: Record<
+            T_WAITING_QUEUE_STEP_ENUM,
+            TYPE_COLOR_STEP_BADGE
+        > = {
+            [WAITING_QUEUE_STEP_ENUM.SUBMISSION]: 'badge-dark',
+            [WAITING_QUEUE_STEP_ENUM.TREATMENT]: 'badge-warning',
+            [WAITING_QUEUE_STEP_ENUM.FINALIZATION]: 'badge-info',
+            [WAITING_QUEUE_STEP_ENUM.CLOSURE]: 'badge-success',
         };
-        return etapeMap[selectedWaitingQueue.statut] || 'badge-dark';
+        return etapeMap[dossier.statut] || 'badge-dark';
     }
 
-    public getStateWaitingQueueBadge(selectedWaitingQueue?: {
-        statut?: T_BADGE_ETAPE;
-        traitement?: T_BADGE_ETAT;
-    }): TYPE_COLOR_ETAT_BADGE {
-        if (
-            !selectedWaitingQueue ||
-            !selectedWaitingQueue.statut ||
-            !selectedWaitingQueue.traitement
-        ) {
+    getStateBadge(dossier?: {
+        statut?: T_WAITING_QUEUE_STEP_ENUM;
+        traitement?: T_WAITING_QUEUE_STATE_ENUM;
+    }): TYPE_COLOR_STATE_BADGE {
+        if (!dossier || !dossier.statut || !dossier.traitement) {
             return 'badge-dark';
         }
 
         const stateMap: Partial<
             Record<
-                T_BADGE_ETAPE,
-                Partial<Record<T_BADGE_ETAT, TYPE_COLOR_ETAT_BADGE>>
+                T_WAITING_QUEUE_STEP_ENUM,
+                Partial<
+                    Record<T_WAITING_QUEUE_STATE_ENUM, TYPE_COLOR_STATE_BADGE>
+                >
             >
         > = {
-            [BADGE_ETAPE.SOUMISSION]: {
-                [BADGE_ETAT.EN_ATTENTE]: 'badge-dark',
-                [BADGE_ETAT.PARTIEL]: 'badge-warning',
-                [BADGE_ETAT.RECU]: 'badge-dark',
-                [BADGE_ETAT.APPROUVE]: 'badge-success',
-                [BADGE_ETAT.REJETE]: 'badge-danger',
+            [WAITING_QUEUE_STEP_ENUM.SUBMISSION]: {
+                [WAITING_QUEUE_STATE_ENUM.IN_WAITING]: 'badge-dark',
+                [WAITING_QUEUE_STATE_ENUM.PARTIAL]: 'badge-warning',
+                [WAITING_QUEUE_STATE_ENUM.RECEIVE]: 'badge-dark',
+                [WAITING_QUEUE_STATE_ENUM.APPROVE]: 'badge-success',
+                [WAITING_QUEUE_STATE_ENUM.REJECT]: 'badge-danger',
             },
-            [BADGE_ETAPE.CLOTURE]: {
-                [BADGE_ETAT.ABANDONNE]: 'badge-warning',
+            [WAITING_QUEUE_STEP_ENUM.CLOSURE]: {
+                [WAITING_QUEUE_STATE_ENUM.LET_DOWN]: 'badge-warning',
+                [WAITING_QUEUE_STATE_ENUM.REJECT]: 'badge-danger',
+                [WAITING_QUEUE_STATE_ENUM.REFUSE]: 'badge-danger',
             },
         };
 
-        return (
-            stateMap[selectedWaitingQueue.statut]?.[
-                selectedWaitingQueue.traitement
-            ] || 'badge-dark'
-        );
+        return stateMap[dossier.statut]?.[dossier.traitement] || 'badge-dark';
     }
 
-    public handleAction(params: Action): void {
+    public handleAction(params): void {
         this.onSelectWaitingQueue(params.data);
 
         switch (params.view) {
             case 'modal':
-                if (params.action === 'view-waiting-queue') {
-                    this.handleWaitingQueueTreatment(params.data);
+                if (
+                    params.action ===
+                    OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.EDIT
+                ) {
+                    this.visibleForm = true;
                 }
-                break;
         }
     }
 
-    public handleWaitingQueueTreatment(selectedWaitingQueue: {
-        statut: string;
-        traitement: string;
-    }): void {
-        this.visibleFormWaitingQueue = true;
-        this.typeTreatment =
-            this.getTreatmentButtonViewStyle(
-                selectedWaitingQueue
-            )?.typeTreatment;
+    private onSelectWaitingQueue(
+        selectedWaitingQueue: WaitingQueueInterface
+    ): void {
+        this.waitingQueueSelected = selectedWaitingQueue;
     }
 
-    getTreatmentButtonViewStyle(dossier: {
+    public handleActionButtonEditStyle(waitingQueueSelected: {
         statut: string;
         traitement: string;
+        numero_demande: string;
     }): {
         class: string;
         icon: string;
         tooltip: string;
-        typeTreatment: TreatmentDemands;
+        handleTreatment: {
+            module: T_MODULE_TREATMENT_CUSTOMERS_ACTIVATE;
+            typeTreatment: T_OVERSEEING_OPERATIONS_TREATMENT_ENUM;
+        };
     } {
         const STOP_OR_CHANGE = this.translate.instant('STOP_OR_CHANGE');
         const DETAILS_OF_THE_REQUEST = this.translate.instant(
             'DETAILS_OF_THE_REQUEST'
         );
-        switch (dossier?.statut) {
-            case BADGE_ETAPE.SOUMISSION: {
-                if (dossier?.traitement === BADGE_ETAT.EN_ATTENTE) {
-                    return createButtonStyle(
-                        'p-button-warning',
-                        'pi pi-times',
-                        STOP_OR_CHANGE,
-                        this.typeTreatment,
-                        { abandonner: true, modifier: true, visualiser: false }
-                    );
+        switch (waitingQueueSelected?.statut) {
+            case WAITING_QUEUE_STEP_ENUM.SUBMISSION: {
+                if (
+                    waitingQueueSelected?.traitement ===
+                    WAITING_QUEUE_STATE_ENUM.IN_WAITING
+                ) {
+                    return {
+                        class: 'p-button-warning',
+                        icon: 'pi pi-times',
+                        tooltip: `${STOP_OR_CHANGE} ${waitingQueueSelected?.numero_demande}`,
+                        handleTreatment: {
+                            module: MODULE_TREATMENT_CUSTOMERS_ACTIVATE.OVERSEEING_OPERATIONS,
+                            typeTreatment:
+                                OVERSEEING_OPERATIONS_TREATMENT_ENUM.MODIFY,
+                        },
+                    };
                 }
-                if (dossier?.traitement === BADGE_ETAT.REJETE) {
-                    return createButtonStyle(
-                        'p-button-warning',
-                        'pi pi-times',
-                        STOP_OR_CHANGE,
-                        this.typeTreatment,
-                        { abandonner: true, modifier: true, visualiser: false }
-                    );
+                if (
+                    waitingQueueSelected?.traitement ===
+                    WAITING_QUEUE_STATE_ENUM.REJECT
+                ) {
+                    return {
+                        class: 'p-button-warning',
+                        icon: 'pi pi-times',
+                        tooltip: `${STOP_OR_CHANGE} ${waitingQueueSelected?.numero_demande}`,
+                        handleTreatment: {
+                            module: MODULE_TREATMENT_CUSTOMERS_ACTIVATE.REQUESTS_SERVICE,
+                            typeTreatment:
+                                OVERSEEING_OPERATIONS_TREATMENT_ENUM.MODIFY,
+                        },
+                    };
                 }
             }
         }
-        return createButtonStyle(
-            'p-button-secondary',
-            'pi pi-eye',
-            DETAILS_OF_THE_REQUEST,
-            this.typeTreatment,
-            { abandonner: false, modifier: false, visualiser: true }
-        );
-    }
-
-    private onSelectWaitingQueue(selectedWaitingQueue: Folder): void {
-        this.waitingQueueSelected = selectedWaitingQueue;
-        this.waitingQueueApiService.setWaitingQueueSelected(
-            selectedWaitingQueue
-        );
-    }
-
-    public hideDialog(): void {
-        this.visibleFormWaitingQueue = false;
+        return {
+            class: 'p-button-secondary',
+            icon: 'pi pi-eye',
+            tooltip: `${DETAILS_OF_THE_REQUEST} ${waitingQueueSelected?.numero_demande}`,
+            handleTreatment: {
+                module: MODULE_TREATMENT_CUSTOMERS_ACTIVATE.REQUESTS_SERVICE,
+                typeTreatment: OVERSEEING_OPERATIONS_TREATMENT_ENUM.MODIFY,
+            },
+        };
     }
 }

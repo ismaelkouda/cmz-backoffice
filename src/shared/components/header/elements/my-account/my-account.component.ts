@@ -1,16 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LoadingBarService } from '@ngx-loading-bar/core';
 import { ToastrService } from 'ngx-toastr';
-import { handle } from 'src/shared/functions/api.function';
-import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-import { SettingService } from 'src/shared/services/setting.service';
-import { StoreCurrentUserService } from '../../../../services/store-current-user.service';
 import { CurrentUser } from '../../../../interfaces/current-user.interface';
-import { CryptoToken } from '../../../../crypto-data/crypto-token';
 import { Subject } from 'rxjs';
+import { EncodingDataService } from '../../../../services/encoding-data.service';
 const Swal = require('sweetalert2');
 
 @Component({
@@ -31,15 +25,10 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     private destroy$ = new Subject<void>();
 
     constructor(
-        private settingService: SettingService,
-        private router: Router,
         private fb: FormBuilder,
         private modalService: NgbModal,
         private toastrService: ToastrService,
-        private loadingBarService: LoadingBarService,
-        private currentUserService: StoreCurrentUserService,
-        private encodingService: EncodingDataService,
-        private cryptoToken: CryptoToken
+        private encodingService: EncodingDataService
     ) {}
 
     ngOnInit() {
@@ -123,14 +112,14 @@ export class MyAccountComponent implements OnInit, OnDestroy {
                 ?.setErrors({ invalidPassword: true });
         }
         if (this.passwordForm.valid) {
-            const response: any = await handle(
-                () => this.settingService.HandleUpdatePassword(dataToSend),
-                this.toastrService,
-                this.loadingBarService
-            );
-            if (response?.error === false) {
-                this.handleSuccessful(response);
-            }
+            // const response: any = await handle(
+            //     () => this.settingService.HandleUpdatePassword(dataToSend),
+            //     this.toastrService,
+            //     this.loadingBarService
+            // );
+            // if (response?.error === false) {
+            //     this.handleSuccessful(response);
+            // }
         }
     }
 
@@ -168,42 +157,42 @@ export class MyAccountComponent implements OnInit, OnDestroy {
     }
 
     public handleUpdateAdmin(): void {
-        this.settingService.OnUpdateUser(this.accountForm.value).subscribe({
-            next: (response) => {
-                this.hideForm();
-                this.router
-                    .navigateByUrl('auth/login')
-                    .then(() => window.location.reload());
-                this.toastrService.success(response?.message);
-            },
-            error: (error) => {
-                this.toastrService.error(error.error.message);
-            },
-        });
+        // this.settingService.OnUpdateUser(this.accountForm.value).subscribe({
+        //     next: (response) => {
+        //         this.hideForm();
+        //         this.router
+        //             .navigateByUrl('auth/login')
+        //             .then(() => window.location.reload());
+        //         this.toastrService.success(response?.message);
+        //     },
+        //     error: (error) => {
+        //         this.toastrService.error(error.error.message);
+        //     },
+        // });
     }
     public handleLogout(): void {
-        this.settingService.Logout({}).subscribe({
-            next: (response) => {
-                // this.currentUserService.removeCurrentUser();
-                this.encodingService.removeData('token_data');
-                this.encodingService.removeData('menu');
-                this.encodingService.removeData('dashboard_links');
-                this.encodingService.removeData('user_data');
-                this.encodingService.removeData('token_data');
-                this.encodingService.removeData('modules');
-                // this.cryptoToken.clear();
-                if (this.encodingService.getData('isProfil') || null) {
-                    this.encodingService.removeData('isProfil');
-                    window.location.reload();
-                    // .then(() => window.location.reload());
-                }
-                this.router.navigateByUrl('auth/login');
-                this.toastrService.success(response?.message);
-            },
-            error: (error) => {
-                this.toastrService.error(error.error.message);
-            },
-        });
+        // this.settingService.Logout({}).subscribe({
+        //     next: (response) => {
+        //         // this.currentUserService.removeCurrentUser();
+        //         this.encodingService.removeData('token_data');
+        //         this.encodingService.removeData('menu');
+        //         this.encodingService.removeData('dashboard_links');
+        //         this.encodingService.removeData('user_data');
+        //         this.encodingService.removeData('token_data');
+        //         this.encodingService.removeData('modules');
+        //         // this.cryptoToken.clear();
+        //         if (this.encodingService.getData('isProfil') || null) {
+        //             this.encodingService.removeData('isProfil');
+        //             window.location.reload();
+        //             // .then(() => window.location.reload());
+        //         }
+        //         this.router.navigateByUrl('auth/login');
+        //         this.toastrService.success(response?.message);
+        //     },
+        //     error: (error) => {
+        //         this.toastrService.error(error.error.message);
+        //     },
+        // });
     }
     public logout(): void {
         Swal.fire({

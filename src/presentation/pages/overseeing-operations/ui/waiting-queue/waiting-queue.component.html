@@ -11,29 +11,34 @@
                         <app-patrimoine-header
                             [displayDate]="false"
                             [total]="(pagination$ | async)?.total"
-                            [legendePluriel]="'WAITING_QUEUE' | translate"
-                            [legendeSingulier]="'WAITING_QUEUE' | translate"
+                            [legendePluriel]="
+                                'WAITING_QUEUE' | translate | lowercase
+                            "
+                            [legendeSingulier]="
+                                'WAITING_QUEUE' | translate | lowercase
+                            "
                         >
                         </app-patrimoine-header>
                     </div>
 
-                    <div>
+                    <div class="fade-in">
                         <app-filter-waiting-queue
                             (filter)="filter($event)"
-                            [filterData]="filterData"
                             [listApplicants$]="listApplicants$"
                             [listOperations]="listOperations"
+                            [listWaitingQueueStep]="listWaitingQueueStep"
+                            [listWaitingQueueState]="listWaitingQueueState"
                         >
                         </app-filter-waiting-queue>
 
                         <hr />
 
                         <app-table-waiting-queue
+                            [spinner]="spinner"
                             [pagination$]="pagination$"
                             [listWaitingQueue$]="listWaitingQueue$"
-                            [waitingQueueSelected]="
-                                waitingQueueSelected$ | async
-                            "
+                            [listWaitingQueueStep]="listWaitingQueueStep"
+                            [listWaitingQueueState]="listWaitingQueueState"
                         >
                         </app-table-waiting-queue>
 

@@ -34,7 +34,7 @@
                 ><b>{{ 'LOT_REFERENCE_NUMBER' | translate }}</b></label
             >
             <input
-                formControlName="numero_demande"
+                formControlName="reference"
                 type="text"
                 pInputText
                 placeholder="{{ 'LOT_REFERENCE_NUMBER' | translate }}"
@@ -47,21 +47,7 @@
             >
             <p-dropdown
                 formControlName="statut"
-                [options]="listStatusInvoice"
-                [showClear]="true"
-                placeholder="{{ 'SELECT' | translate }}"
-                emptyFilterMessage="{{ 'NO_MATCH' | translate }}"
-                emptyMessage="{{ 'NO_DATA_FOUND' | translate }}"
-            >
-            </p-dropdown>
-        </div>
-        <div class="col-md">
-            <label
-                ><b>{{ 'PAYMENT_TYPE' | translate }}</b></label
-            >
-            <p-dropdown
-                formControlName="type_paiement"
-                [options]="typePayment"
+                [options]="listInvoiceState"
                 [showClear]="true"
                 placeholder="{{ 'SELECT' | translate }}"
                 emptyFilterMessage="{{ 'NO_MATCH' | translate }}"

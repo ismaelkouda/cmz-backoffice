@@ -7,23 +7,20 @@ import { Paginate } from '../../../../../../shared/interfaces/paginate';
 import { invoiceEndpointEnum } from '../enums/invoice-endpoint.enum';
 import {
     invoiceApiResponseInterface,
-    invoiceInterface,
+    InvoiceInterface,
 } from '../interface/invoice.interface';
-import { invoiceFilterInterface } from '../interface/invoice-filter.interface';
+import { InvoiceFilterInterface } from '../interface/invoice-filter.interface';
 
 @Injectable()
 export class InvoiceApiService {
-    private invoiceSubject = new BehaviorSubject<Array<invoiceInterface>>([]);
-    private invoicePagination = new BehaviorSubject<Paginate<invoiceInterface>>(
-        {} as Paginate<invoiceInterface>
-    );
-    private invoiceSelected = new BehaviorSubject<invoiceInterface>(
-        {} as invoiceInterface
+    private invoiceSubject = new BehaviorSubject<Array<InvoiceInterface>>([]);
+    private invoicePagination = new BehaviorSubject<Paginate<InvoiceInterface>>(
+        {} as Paginate<InvoiceInterface>
     );
     private loadingInvoiceSubject = new BehaviorSubject<boolean>(false);
     private dataFilterInvoiceSubject =
-        new BehaviorSubject<invoiceFilterInterface>(
-            {} as invoiceFilterInterface
+        new BehaviorSubject<InvoiceFilterInterface>(
+            {} as InvoiceFilterInterface
         );
     private dataNbrPageInvoiceSubject = new BehaviorSubject<string>('1');
     private apiResponseInvoiceSubject =
@@ -41,7 +38,7 @@ export class InvoiceApiService {
     }
 
     /*********************Méthode pour récupérer la liste invoice*************** */
-    fetchInvoice(data: invoiceFilterInterface, nbrPage: string = '1'): void {
+    fetchInvoice(data: InvoiceFilterInterface, nbrPage: string = '1'): void {
         if (this.loadingInvoiceSubject.getValue()) return;
         this.loadingInvoiceSubject.next(true);
         const url: string = invoiceEndpointEnum.POST_MANAGEMENT_PAYMENT.replace(
@@ -71,16 +68,16 @@ export class InvoiceApiService {
             .subscribe();
     }
 
-    getInvoice(): Observable<Array<invoiceInterface>> {
+    getInvoice(): Observable<Array<InvoiceInterface>> {
         return this.invoiceSubject.asObservable();
     }
-    getInvoicePagination(): Observable<Paginate<invoiceInterface>> {
+    getInvoicePagination(): Observable<Paginate<InvoiceInterface>> {
         return this.invoicePagination.asObservable();
     }
     isLoadingInvoice(): Observable<boolean> {
         return this.loadingInvoiceSubject.asObservable();
     }
-    getDataFilterInvoice(): Observable<invoiceFilterInterface> {
+    getDataFilterInvoice(): Observable<InvoiceFilterInterface> {
         return this.dataFilterInvoiceSubject.asObservable();
     }
     getDataNbrPageInvoice(): Observable<string> {
@@ -88,12 +85,6 @@ export class InvoiceApiService {
     }
     getApiResponseInvoice(): Observable<invoiceApiResponseInterface> {
         return this.apiResponseInvoiceSubject.asObservable();
-    }
-    getInvoiceSelected(): Observable<invoiceInterface> {
-        return this.invoiceSelected.asObservable();
-    }
-    setInvoiceSelected(invoice: invoiceInterface): void {
-        this.invoiceSelected.next(invoice);
     }
 
     /*********************Méthode pour récupérer la liste des SIMS details*************** */

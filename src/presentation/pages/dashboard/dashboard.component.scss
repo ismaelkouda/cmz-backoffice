@@ -12,7 +12,7 @@ $info: #3498db;
 .dashboard-container {
     padding: 1.5rem;
     background-color: $bg-light;
-    min-height: 100vh;
+    // min-height: 100vh;
 }
 
 .dashboard-header {
@@ -29,12 +29,18 @@ $info: #3498db;
     }
 
     .dashboard-title {
-        color: $text-primary;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
         font-weight: 700;
-        font-size: 1.75rem;
-        margin: 0;
-        flex: 1;
-        min-width: 300px;
+        font-size: 1.9rem;
+
+        .dashboard-title-label {
+            color: $text-primary;
+        }
+        .dashboard-title-name-tenant {
+            color: $orange-primary;
+        }
     }
 
     .header-info {

@@ -10,12 +10,11 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { DASHBOARD } from '../../../../../shared/routes/routes';
-import { REINITIALISATION } from '../../../../app-routing.module';
+import { REINITIALIZATION } from '../../../../app-routing.module';
 import { FORGOT_PASSWORD } from '../../../password-reset/password-reset-routing.module';
 import { AuthenticationService } from '../../data-access/authentication.service';
 import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
-import { LOGO_ORANGE } from '../../../../../shared/constants/logoOrange.constant';
-import { menuJson } from './../../../../../assets/menu';
+import { LOGO_IMAKO } from '../../../../../shared/constants/logoOrange.constant';
 import {
     AuthToken,
     CurrentUser,
@@ -30,11 +29,11 @@ import { LoginCredentialsInterface } from '../../data-access/interfaces/login-cr
     styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-    readonly REINITIALIZATION = REINITIALISATION;
-    readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
-    readonly LOGO_ORANGE = LOGO_ORANGE;
+    public readonly REINITIALIZATION = REINITIALIZATION;
+    public readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
+    public readonly LOGO_IMAKO = LOGO_IMAKO;
 
-    loginForm = new FormGroup<LoginPayloadInterface>({
+    public loginForm = new FormGroup<LoginPayloadInterface>({
         username: new FormControl('', {
             validators: [Validators.required, Validators.email],
             nonNullable: true,
@@ -46,7 +45,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
 
     private destroy$ = new Subject<void>();
-    permissionsJson = menuJson;
 
     constructor(
         private authService: AuthenticationService,

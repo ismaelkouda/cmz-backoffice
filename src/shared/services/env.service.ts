@@ -7,8 +7,7 @@ export class EnvService {
     public verifyIdentityDocumentUrl!: string;
     public environmentDeployment!: string;
     public enableDebug!: boolean;
-
-    public headerSettings: any = {};
+    public appSettings: any = {};
     public messageApp: any = {};
 
     constructor() {

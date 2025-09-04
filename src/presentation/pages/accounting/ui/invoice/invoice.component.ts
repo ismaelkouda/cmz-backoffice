@@ -1,74 +1,46 @@
-import { IStatisticsBox } from '../../../../../shared/interfaces/statistiquesBox.interface';
+import {
+    NOTIFICATIONS_CENTER_STATE_ENUM,
+    T_NOTIFICATIONS_CENTER_STATE_ENUM,
+} from './../../../overseeing-operations/data-access/notifications-center/enums/notifications-center-state.enum';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
-import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
-import {
-    BADGE_ETAT_FACTURE,
-    T_BADGE_ETAT_FACTURE,
-} from '../../../../../shared/constants/badge-etat-facture.contant';
-import {
-    invoiceApiResponseInterface,
-    invoiceGlobalStatsInterface,
-    invoiceInterface,
-} from '../../data-access/invoice/interface/invoice.interface';
-import { invoiceFilterInterface } from '../../data-access/invoice/interface/invoice-filter.interface';
+import { combineLatest, filter, Observable, Subject, takeUntil } from 'rxjs';
+import { InvoiceInterface } from '../../data-access/invoice/interface/invoice.interface';
+import { InvoiceFilterInterface } from '../../data-access/invoice/interface/invoice-filter.interface';
 import { InvoiceApiService } from '../../data-access/invoice/service/invoice-api.service';
+import { INVOICE_BUTTONS_ACTIONS_ENUM } from '../../data-access/invoice/enums/invoice-buttons-actions.enum';
+import { InvoicePageActionsType } from '../../data-access/invoice/types/invoice-page-actions.type';
 import {
-    T_TypePayment,
-    TypePayment,
-} from '../../../../../shared/enum/type-payment.enum';
-
-const status_values = [
-    BADGE_ETAT_FACTURE.POSTEE,
-    BADGE_ETAT_FACTURE.REPORTEE,
-    BADGE_ETAT_FACTURE.SOLDEE,
-    BADGE_ETAT_FACTURE.REJETEE,
-];
-
-const indexBoxClickable = [2, 3, 4] as const;
-type PageAction = {
-    data: invoiceInterface;
-    action: 'invoice';
-    view: 'page';
-};
+    LIST_REQUESTS_SERVICE,
+    T_LIST_REQUESTS_SERVICE,
+} from '../../../../../shared/enum/list-requests-service';
+import { InvoiceNavigationGuardService } from '../../data-access/invoice/service/invoice-navigation-guard.service';
 
 @Component({
     selector: `app-invoice`,
     templateUrl: `./invoice.component.html`,
-    styles: [
-        `
-            .panels-p-dropdown p-dropdown {
-                height: 100% !important;
-                display: flex;
-                align-items: center;
-            }
-            .boxClickable {
-                cursor: pointer;
-            }
-        `,
-    ],
 })
 export class InvoiceComponent implements OnInit, OnDestroy {
     public module: string;
     public subModule: string;
-    public listStatusInvoice: Array<T_BADGE_ETAT_FACTURE> = status_values;
-    public pagination$: Observable<Paginate<invoiceInterface>>;
-    public listInvoicesResponse$: Observable<invoiceApiResponseInterface>;
-    public listInvoices$: Observable<Array<invoiceInterface>>;
-    public listOperations: Array<string> = [];
-    public statistiquesBox: Array<IStatisticsBox> = [];
-    public indexBoxClickable = indexBoxClickable;
-    public typePayment: Array<T_TypePayment>;
+    public pagination$: Observable<Paginate<InvoiceInterface>>;
+    public listInvoices$: Observable<Array<InvoiceInterface>>;
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
+    public listInvoiceState: Array<T_NOTIFICATIONS_CENTER_STATE_ENUM> =
+        Object.values(NOTIFICATIONS_CENTER_STATE_ENUM);
+    public listOperations: Array<T_LIST_REQUESTS_SERVICE> = Object.values(
+        LIST_REQUESTS_SERVICE
+    );
 
     constructor(
         private activatedRoute: ActivatedRoute,
         private invoiceApiService: InvoiceApiService,
-        private router: Router
+        private router: Router,
+        private navigationGuardService: InvoiceNavigationGuardService
     ) {
-        this.typePayment = Object.values(TypePayment);
+        this.setupNavigationListener();
     }
 
     ngOnInit(): void {
@@ -76,11 +48,9 @@ export class InvoiceComponent implements OnInit, OnDestroy {
             this.module = data.module;
             this.subModule = data.subModule[1];
         });
-
         this.listInvoices$ = this.invoiceApiService.getInvoice();
-        this.listInvoicesResponse$ =
-            this.invoiceApiService.getApiResponseInvoice();
         this.pagination$ = this.invoiceApiService.getInvoicePagination();
+
         combineLatest([
             this.invoiceApiService.getDataFilterInvoice(),
             this.invoiceApiService.getDataNbrPageInvoice(),
@@ -94,8 +64,32 @@ export class InvoiceComponent implements OnInit, OnDestroy {
                 this.spinner = spinner;
             });
     }
+    private setupNavigationListener(): void {
+        this.navigationGuardService
+            .getInvoiceNavigationGuard()
+            .pipe(
+                takeUntil(this.destroy$),
+                filter(
+                    (params) =>
+                        params !== null &&
+                        params.action !== undefined &&
+                        params.action !== null
+                ),
+                filter(() => !this.navigationGuardService.isNavigating)
+            )
+            .subscribe((params) => {
+                if (
+                    params &&
+                    Object.values(INVOICE_BUTTONS_ACTIONS_ENUM).includes(
+                        params.action
+                    )
+                ) {
+                    this.executeNavigation(params);
+                }
+            });
+    }
 
-    public filter(filterData: invoiceFilterInterface): void {
+    public filter(filterData: InvoiceFilterInterface): void {
         this.invoiceApiService.fetchInvoice(filterData);
     }
 
@@ -111,96 +105,33 @@ export class InvoiceComponent implements OnInit, OnDestroy {
             });
     }
 
-    public navigateByUrl(params: PageAction): void {
-        const number_demand = params.data ? params.data['reference'] : null;
+    public executeNavigation(params: InvoicePageActionsType): void {
+        const reference = params.data ? params.data : null;
         const ref = params.action;
         const queryParams = { ref };
         let routePath: string = '';
 
         switch (params.action) {
-            case 'invoice':
-                routePath = `${number_demand}`;
-                this.router.navigate([routePath], {
-                    relativeTo: this.activatedRoute,
-                    queryParams,
-                });
+            case INVOICE_BUTTONS_ACTIONS_ENUM.INVOICE:
+                routePath = `${reference}`;
                 break;
+            default:
+                console.warn('Action non gérée:', params.action);
+                return;
         }
+
+        this.router.navigate([routePath], {
+            relativeTo: this.activatedRoute,
+            queryParams,
+        });
     }
 
-    private getTchesBoxValues(
-        rapport: invoiceGlobalStatsInterface | {} = {}
-    ): void {
-        this.statistiquesBox = [
-            {
-                cardBgColor: '#FFF',
-                cardBorderColor: 'rgb(52, 152, 219)',
-                legendColor: 'rgb(52, 152, 219)',
-                countColor: 'rgb(52, 152, 219)',
-                legend: '# En attente',
-                count: Number(rapport?.['mon_compte'].replace(/\s/g, '')),
-            },
-            {
-                id: 0,
-                cardBgColor: 'rgb(52, 73, 94)',
-                legend: '# Invoices',
-                count: rapport?.['total_factures'] || 0,
-                taux: rapport?.['pourcentage_factures'],
-            },
-            {
-                id: 1,
-                cardBgColor: 'rgb(254, 154, 46)',
-                legend: '# Postés',
-                count: rapport?.['total_postes'] || 0,
-                taux: rapport?.['pourcentage_en_attentes'],
-            },
-            {
-                id: 2,
-                cardBgColor: 'rgb(52, 152, 219)',
-                legend: '# Reportés',
-                count: rapport?.['total_reportes'] || 0,
-                taux: rapport?.['pourcentage_immediats'] || 0,
-            },
-            {
-                id: 3,
-                cardBgColor: '#27ae60',
-                legend: '# Soldés',
-                count: rapport?.['total_soldes'] || 0,
-                taux: rapport?.['pourcentage_differes'] || 0,
-            },
-            {
-                id: 4,
-                cardBgColor: '#e74c3c',
-                legend: '# Rejetés',
-                count: rapport?.['total_rejetes'] || 0,
-                taux: rapport?.['pourcentage_immediats'] || 0,
-            },
-        ];
-    }
-
-    public onBoxClick(statistiqueBox: IStatisticsBox) {
-        type IndexBoxClickable = typeof indexBoxClickable[number];
-        if (
-            indexBoxClickable.includes(statistiqueBox.id as IndexBoxClickable)
-        ) {
-            switch (statistiqueBox.id) {
-                case 2:
-                    this.invoiceApiService.fetchInvoice({
-                        statut: 'reportée',
-                    } as any);
-                    break;
-                case 3:
-                    this.invoiceApiService.fetchInvoice({
-                        statut: 'soldée',
-                    } as any);
-                    break;
-                case 4:
-                    this.invoiceApiService.fetchInvoice({
-                        statut: 'rejetée',
-                    } as any);
-                    break;
-            }
-        }
+    public navigateByUrl(params: InvoicePageActionsType): void {
+        this.navigationGuardService.setInvoiceNavigationGuard(
+            {} as InvoicePageActionsType,
+            true
+        );
+        this.navigationGuardService.setInvoiceNavigationGuard(params, true);
     }
 
     ngOnDestroy(): void {

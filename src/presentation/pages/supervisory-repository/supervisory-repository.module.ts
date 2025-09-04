@@ -7,20 +7,20 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import { SupervisoryRepositoryRoutingModule } from './supervisory-repository-routing.module';
-import { TableIndicatorsAlarmsComponent } from './feature/indicators-alarms/table-indicators-alarms/table-indicators-alarms.component';
-import { IndicatorsAlarmsComponent } from './ui/indicators-alarms/indicators-alarms.component';
-import { IndicatorsAlarmsApiService } from './data-access/indicators-alarms/services/indicators-alarms-api.service';
 import { SharedModule } from '../../../shared/shared.module';
 import { SlaAgreementsApiService } from './data-access/sla-agreements/services/sla-agreements-api.service';
 import { SlaAgreementsComponent } from './ui/sla-agreements/sla-agreements.component';
 import { TableSlaAgreementsComponent } from './feature/sla-agreements/table-sla-agreements/table-sla-agreements.component';
+import { SlaContactsApiService } from './data-access/sla-contacts/services/sla-contacts-api.service';
+import { SlaContactsComponent } from './ui/sla-contacts/sla-contacts.component';
+import { FormSlaContactsComponent } from './feature/sla-contacts/form-sla-contacts/form-sla-contacts.component';
 
 @NgModule({
     declarations: [
-        TableIndicatorsAlarmsComponent,
-        IndicatorsAlarmsComponent,
         TableSlaAgreementsComponent,
         SlaAgreementsComponent,
+        SlaContactsComponent,
+        FormSlaContactsComponent,
     ],
     imports: [
         SharedModule,
@@ -31,6 +31,6 @@ import { TableSlaAgreementsComponent } from './feature/sla-agreements/table-sla-
         Ng2SearchPipeModule,
         NgxPaginationModule,
     ],
-    providers: [IndicatorsAlarmsApiService, SlaAgreementsApiService],
+    providers: [SlaAgreementsApiService, SlaContactsApiService],
 })
 export class SupervisoryRepositoryModule {}

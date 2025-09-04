@@ -2,12 +2,19 @@
     <div class="dashboard-header">
         <div class="header-content">
             <h1 class="dashboard-title">
-                Vue générale - Plateforme {{ nom_tenant }}
+                <span class="dashboard-title-label">{{
+                    'DASHBOARD_TITLE' | translate
+                }}</span>
+                <span class="dashboard-title-name-tenant">{{
+                    nom_tenant
+                }}</span>
             </h1>
 
             <div class="header-info">
                 <div class="update-info">
-                    <span class="update-label">Date MAJ du TB :</span>
+                    <span class="update-label"
+                        >{{ 'DASHBOARD_UPDATED_DATE' | translate }} :</span
+                    >
                     <span class="update-date">{{ current_date }}</span>
                 </div>
                 <button
@@ -16,13 +23,13 @@
                     (click)="refreshStatic()"
                     icon="pi pi-refresh"
                     class="refresh-btn p-button-rounded p-button-outlined"
-                    aria-label="Rafraîchir"
+                    aria-label="Refresh"
                 ></button>
             </div>
         </div>
     </div>
 
-    <div class="stats-container">
+    <div class="stats-container fade-in">
         <div class="stats-grid">
             <ng-container *ngIf="!loading; else loadingSkeleton">
                 <div
@@ -67,7 +74,7 @@
 
             <ng-template #loadingSkeleton>
                 <div *ngFor="let box of listStatisticsBox" class="stat-card">
-                    <p-skeleton width="100%" height="100%"></p-skeleton>
+                    <p-skeleton></p-skeleton>
                 </div>
             </ng-template>
         </div>

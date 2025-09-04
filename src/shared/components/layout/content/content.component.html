@@ -13,8 +13,18 @@
                 <app-sidebar></app-sidebar>
             </div>
             <div class="page-body">
-                <main [@fadeInAnimation]="getRouterOutletState(o)">
-                    <router-outlet #o="outlet"></router-outlet>
+                <main>
+                    <div class="container-fluid">
+                        <ng-container *ngIf="showTabs">
+                            <div class="sticky-tabs-wrapper">
+                                <app-tabs></app-tabs>
+                            </div>
+                        </ng-container>
+
+                        <div class="page-content-wrapper">
+                            <router-outlet #o="outlet"></router-outlet>
+                        </div>
+                    </div>
                 </main>
             </div>
             <!-- footer start-->

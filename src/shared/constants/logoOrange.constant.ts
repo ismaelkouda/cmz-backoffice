@@ -1,2 +1,2 @@
-export const LOGO_ORANGE = 'assets/images/logo/logo-orange-full.png';
-export const ORANGE = 'assets/images/logo/logo_orange.png';
+export const LOGO_IMAKO = 'assets/images/logo/logo-imako-full.png';
+export const ORANGE = 'assets/images/logo/logo_imako.png';

@@ -4,9 +4,6 @@ import { InvoiceComponent } from './ui/invoice/invoice.component';
 import { PagesGuard } from '../../../core/guard/PagesGuard';
 import { MyAccountComponent } from './ui/my-account/my-account.component';
 import { InvoiceFormComponent } from '../../../shared/components/invoice-form/invoice-form.component';
-import { ReloadMyAccountComponent } from './ui/reload-my-account/reload-my-account.component';
-import { FormReloadMyAccountComponent } from './feature/reload-my-account/form-reload-my-account/form-reload-my-account.component';
-import { PaymentComponent } from './ui/payment/payment.component';
 
 export const MY_PAYMENTS = 'my-payments';
 export const MY_INVOICES = 'my-invoices';
@@ -23,24 +20,7 @@ const routes: Routes = [
                 component: InvoiceComponent,
             },
             {
-                path: `:number_demand`,
-                component: InvoiceFormComponent,
-            },
-            {
-                path: '**',
-                redirectTo: '',
-            },
-        ],
-    },
-    {
-        path: MY_PAYMENTS,
-        children: [
-            {
-                path: '',
-                component: PaymentComponent,
-            },
-            {
-                path: `:number_demand`,
+                path: `:id`,
                 component: InvoiceFormComponent,
             },
             {
@@ -55,23 +35,6 @@ const routes: Routes = [
             {
                 path: '',
                 component: MyAccountComponent,
-            },
-            {
-                path: '**',
-                redirectTo: '',
-            },
-        ],
-    },
-    {
-        path: MY_RELOADS,
-        children: [
-            {
-                path: '',
-                component: ReloadMyAccountComponent,
-            },
-            {
-                path: ':transaction',
-                component: FormReloadMyAccountComponent,
             },
             {
                 path: '**',

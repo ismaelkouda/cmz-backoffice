@@ -1,0 +1,9 @@
+export const OVERSEEING_OPERATIONS_TREATMENT_ENUM = {
+    MODIFY: 'Modifier',
+    CLOSURE: 'cloturer',
+    ABANDON: 'abandonner',
+    VIEW: 'voir',
+};
+
+export type T_OVERSEEING_OPERATIONS_TREATMENT_ENUM =
+    typeof OVERSEEING_OPERATIONS_TREATMENT_ENUM[keyof typeof OVERSEEING_OPERATIONS_TREATMENT_ENUM];

@@ -2,7 +2,6 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-import { TypeAlarme } from '../../../../../../shared/enum/TypeAlarme.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { notificationsCenterFilterInterface } from '../../../data-access/notifications-center/interfaces/notifications-center-filter.interface';
 
@@ -12,7 +11,7 @@ import { notificationsCenterFilterInterface } from '../../../data-access/notific
     styleUrls: ['./filter-notifications-center.component.scss'],
 })
 export class FilterNotificationsCenterComponent {
-    @Input() listTypeNotifications: Array<TypeAlarme> = [];
+    @Input() listTypeNotifications: Array<any> = [];
     @Input() filterData: notificationsCenterFilterInterface;
 
     @Output() filter = new EventEmitter<notificationsCenterFilterInterface>();

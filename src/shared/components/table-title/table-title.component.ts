@@ -10,7 +10,7 @@ import { Component, Input } from '@angular/core';
                     <span *ngIf="!label">Total :</span>
                     <span class="text-success"> {{ count || 0 }}</span>
                     <span *ngIf="count > 0 && page && totalPage">
-                        [Page <span style="color: #ff6600;">{{ page }}</span> /
+                        [Page <span style="color: #5B9BD5;">{{ page }}</span> /
                         {{ totalPage }}] [{{ perPage }}]
                     </span>
                 </b>

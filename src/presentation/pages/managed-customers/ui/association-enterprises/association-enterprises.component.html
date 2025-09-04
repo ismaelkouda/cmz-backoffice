@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <app-breadcrumb
+                [title]="module | translate"
+                [active_item]="subModule | translate"
+            ></app-breadcrumb>
+            <div class="card">
+                <div class="card-body">
+                    <div style="margin-top: -2rem !important">
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [total]="(pagination$ | async)?.total"
+                            [legendePluriel]="
+                                'ASSOCIATION_ENTERPRISES'
+                                    | translate
+                                    | lowercase
+                            "
+                            [legendeSingulier]="
+                                'ASSOCIATION_ENTERPRISES'
+                                    | translate
+                                    | lowercase
+                            "
+                        >
+                        </app-patrimoine-header>
+                    </div>
+
+                    <div class="fade-in">
+                        <app-filter-association-enterprises
+                            (filter)="filter($event)"
+                            [listAssociationEnterprisesStep]="
+                                listAssociationEnterprisesStep
+                            "
+                        >
+                        </app-filter-association-enterprises>
+
+                        <hr />
+
+                        <app-table-association-enterprises
+                            [spinner]="spinner"
+                            [pagination$]="pagination$"
+                            [listAssociationEnterprises$]="
+                                listAssociationEnterprises$
+                            "
+                            [listAssociationEnterprisesStep]="
+                                listAssociationEnterprisesStep
+                            "
+                            (interfaceUser)="navigateByUrl($event)"
+                        >
+                        </app-table-association-enterprises>
+
+                        <app-pargination
+                            [pargination]="pagination$ | async"
+                            (pageChange)="onPageChange($event)"
+                        ></app-pargination>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

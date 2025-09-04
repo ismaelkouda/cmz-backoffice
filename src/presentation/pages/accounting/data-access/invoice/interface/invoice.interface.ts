@@ -1,6 +1,6 @@
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
 
-export interface invoiceInterface {
+export interface InvoiceInterface {
     id: number;
     demande_id: number;
     tenant_code: string;
@@ -82,5 +82,5 @@ export interface invoiceGlobalStatsInterface {
     total_en_attentes: number;
     total_factures: number;
     total_immediats: number;
-    data: Paginate<invoiceInterface>;
+    data: Paginate<InvoiceInterface>;
 }

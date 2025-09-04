@@ -4,46 +4,49 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { EnvService } from '../../../../../../shared/services/env.service';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { waitingQueueApiResponseInterface } from '../interfaces/waiting-queue.interface';
 import { waitingQueueEndpointEnum } from '../enums/waiting-queue-endpoint.enum';
-import { waitingQueueFilterInterface } from '../interfaces/waiting-queue-filter.interface';
-import { Folder } from '../../../../../../shared/interfaces/folder';
+import { WaitingQueueFilterInterface } from '../interfaces/waiting-queue-filter.interface';
+import {
+    WaitingQueueApiResponseInterface,
+    WaitingQueueInterface,
+} from '../../../../../../shared/interfaces/waiting-queue.interface';
 
 @Injectable()
 export class WaitingQueueApiService {
-    private waitingQueueSubject = new BehaviorSubject<Array<Folder>>([]);
-    private waitingQueuePagination = new BehaviorSubject<Paginate<Folder>>(
-        {} as Paginate<Folder>
-    );
-    private waitingQueueSelected = new BehaviorSubject<Folder>({} as Folder);
-    private loadingWaitingQueueSubject = new BehaviorSubject<boolean>(false);
-    private dataFilterWaitingQueueSubject =
-        new BehaviorSubject<waitingQueueFilterInterface>(
-            {} as waitingQueueFilterInterface
-        );
-    private dataNbrPageWaitingQueueSubject = new BehaviorSubject<string>('1');
-    private apiResponseWaitingQueueSubject =
-        new BehaviorSubject<waitingQueueApiResponseInterface>(
-            {} as waitingQueueApiResponseInterface
-        );
-
     private BASE_URL: string;
     constructor(private http: HttpClient, private envService: EnvService) {
         this.BASE_URL = this.envService.apiUrl;
     }
 
     /*********************Méthode pour récupérer la liste waiting-queue*************** */
+
+    private waitingQueueSubject = new BehaviorSubject<
+        Array<WaitingQueueInterface>
+    >([]);
+    private waitingQueuePagination = new BehaviorSubject<
+        Paginate<WaitingQueueInterface>
+    >({} as Paginate<WaitingQueueInterface>);
+    private loadingWaitingQueueSubject = new BehaviorSubject<boolean>(false);
+    private dataFilterWaitingQueueSubject =
+        new BehaviorSubject<WaitingQueueFilterInterface>(
+            {} as WaitingQueueFilterInterface
+        );
+    private dataNbrPageWaitingQueueSubject = new BehaviorSubject<string>('1');
+    private apiResponseWaitingQueueSubject =
+        new BehaviorSubject<WaitingQueueApiResponseInterface>(
+            {} as WaitingQueueApiResponseInterface
+        );
+
     fetchWaitingQueue(
-        data: waitingQueueFilterInterface,
+        data: WaitingQueueFilterInterface,
         nbrPage: string = '1'
     ): void {
         if (this.loadingWaitingQueueSubject.getValue()) return;
         this.loadingWaitingQueueSubject.next(true);
-        const url: string =
-            waitingQueueEndpointEnum.SUPERVISION_OPERATIONS_FILE_ATTENTES.replace(
-                '{page}',
-                nbrPage
-            );
+        const url: string = waitingQueueEndpointEnum.WAITING_QUEUE.replace(
+            '{page}',
+            nbrPage
+        );
 
         this.http
             .post<Object>(this.BASE_URL + url, data)
@@ -77,28 +80,22 @@ export class WaitingQueueApiService {
             .subscribe();
     }
 
-    getWaitingQueue(): Observable<Array<Folder>> {
+    getWaitingQueue(): Observable<Array<WaitingQueueInterface>> {
         return this.waitingQueueSubject.asObservable();
     }
-    getWaitingQueuePagination(): Observable<Paginate<Folder>> {
+    getWaitingQueuePagination(): Observable<Paginate<WaitingQueueInterface>> {
         return this.waitingQueuePagination.asObservable();
     }
     isLoadingWaitingQueue(): Observable<boolean> {
         return this.loadingWaitingQueueSubject.asObservable();
     }
-    getDataFilterWaitingQueue(): Observable<waitingQueueFilterInterface> {
+    getDataFilterWaitingQueue(): Observable<WaitingQueueFilterInterface> {
         return this.dataFilterWaitingQueueSubject.asObservable();
     }
     getDataNbrPageWaitingQueue(): Observable<string> {
         return this.dataNbrPageWaitingQueueSubject.asObservable();
     }
-    getApiResponseWaitingQueue(): Observable<waitingQueueApiResponseInterface> {
+    getApiResponseWaitingQueue(): Observable<WaitingQueueApiResponseInterface> {
         return this.apiResponseWaitingQueueSubject.asObservable();
-    }
-    getWaitingQueueSelected(): Observable<Folder> {
-        return this.waitingQueueSelected.asObservable();
-    }
-    setWaitingQueueSelected(waitingQueue: Folder): void {
-        this.waitingQueueSelected.next(waitingQueue);
     }
 }

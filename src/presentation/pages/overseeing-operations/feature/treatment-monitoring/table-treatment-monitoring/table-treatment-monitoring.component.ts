@@ -1,55 +1,44 @@
+import { TREATMENT_MONITORING_TABLE } from './../../../data-access/treatment-monitoring/constants/treatment-monitoring-table.constant';
 import { ModalParams } from './../../../../../../shared/constants/modalParams.contant';
 import { JournalComponent } from './../../../../../../shared/components/journal/journal.component';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
     TableConfig,
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
-import {
-    BADGE_ETAT,
-    T_BADGE_ETAT,
-} from '../../../../../../shared/constants/badge-etat.contant';
-import {
-    BADGE_ETAPE,
-    T_BADGE_ETAPE,
-} from '../../../../../../shared/constants/badge-etape.constant';
-import { treatmentMonitoringTableConstant } from '../../../data-access/treatment-monitoring/constants/treatment-monitoring-table.constant';
 import { TreatmentMonitoringApiService } from '../../../data-access/treatment-monitoring/services/treatment-monitoring-api.service';
-import { Folder } from '../../../../../../shared/interfaces/folder';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { Observable, take } from 'rxjs';
+import { Observable, Subject, take } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { treatmentMonitoringFilterInterface } from '../../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter.interface';
-import { createButtonStyle } from '../../../../../../shared/functions/treatment-demands.function';
-import { TreatmentDemands } from '../../../../../../shared/interfaces/treatment-demands.interface';
+import { TreatmentMonitoringFilterInterface } from '../../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter.interface';
+import { TreatmentMonitoringInterface } from '../../../../../../shared/interfaces/treatment-monitoring.interface';
+import {
+    T_TREATMENT_MONITORING_STEP_ENUM,
+    TREATMENT_MONITORING_STEP_ENUM,
+} from '../../../data-access/treatment-monitoring/enums/treatment-monitoring-step.enum';
+import {
+    T_TREATMENT_MONITORING_STATE_ENUM,
+    TREATMENT_MONITORING_STATE_ENUM,
+} from '../../../data-access/treatment-monitoring/enums/treatment-monitoring-state.enum';
+import { OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM } from '../../../data-access/overseeing-operations/enums/overseeing-operations-buttons-actions.enum';
+import {
+    MODULE_TREATMENT_CUSTOMERS_ACTIVATE,
+    T_MODULE_TREATMENT_CUSTOMERS_ACTIVATE,
+} from '../../../../../../shared/enum/module-treatment-customers-activate';
+import {
+    OVERSEEING_OPERATIONS_TREATMENT_ENUM,
+    T_OVERSEEING_OPERATIONS_TREATMENT_ENUM,
+} from '../../../data-access/overseeing-operations/enums/overseeing-operations-treatment.enum';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-type Action = PageAction | ModalAction;
-type PageAction = {
-    data: Folder;
-    action: 'open-folder-treatment-monitoring';
-    view: 'page';
-};
-type ModalAction = {
-    data: Folder;
-    action: 'view-treatment-monitoring' | 'journal-treatment-monitoring';
-    view: 'modal';
-};
-const INIT_TYPE_TRAITEMENT: TreatmentDemands = {
-    module: 'overseeing-operations',
-    abandonner: false,
-    modifier: false,
-    visualiser: false,
-    cloturer: false,
-};
-type TYPE_COLOR_ETAPE_BADGE =
+type TYPE_COLOR_STEP_BADGE =
     | 'badge-dark'
     | 'badge-warning'
     | 'badge-info'
     | 'badge-success';
-type TYPE_COLOR_ETAT_BADGE =
+type TYPE_COLOR_STATE_BADGE =
     | 'badge-warning'
     | 'badge-dark'
     | 'badge-success'
@@ -60,42 +49,64 @@ type TYPE_COLOR_ETAT_BADGE =
     templateUrl: './table-treatment-monitoring.component.html',
 })
 export class TableTreatmentMonitoringComponent {
-    @Input() listTreatmentMonitoring$: Observable<Array<Folder>>;
-    @Input() treatmentMonitoringSelected: Folder;
-    @Input() pagination$: Observable<Paginate<Folder>>;
-    @Output() interfaceUser = new EventEmitter<any>();
-    public typeTreatment: TreatmentDemands = INIT_TYPE_TRAITEMENT;
-    public visibleFormTreatmentMonitoring = false;
+    @Input() spinner: boolean;
+    @Input() listTreatmentMonitoring$: Observable<
+        Array<TreatmentMonitoringInterface>
+    >;
+    @Input() pagination$: Observable<Paginate<TreatmentMonitoringInterface>>;
 
-    public readonly table: TableConfig = treatmentMonitoringTableConstant;
-    public readonly BADGE_STEP = BADGE_ETAPE;
-    public readonly BADGE_STATE = BADGE_ETAT;
+    @Input()
+    listTreatmentMonitoringStep: Array<T_TREATMENT_MONITORING_STEP_ENUM>;
+    @Input()
+    listTreatmentMonitoringState: Array<T_TREATMENT_MONITORING_STATE_ENUM>;
+
+    public treatmentMonitoringSelected: TreatmentMonitoringInterface;
+    public readonly table: TableConfig = TREATMENT_MONITORING_TABLE;
+    private destroy$ = new Subject<void>();
+
+    public visibleForm = false;
+
+    public OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM =
+        OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM;
+    public TREATMENT_MONITORING_STATE_ENUM = TREATMENT_MONITORING_STATE_ENUM;
 
     constructor(
         private toastService: ToastrService,
         private clipboardService: ClipboardService,
-        private ngbModal: NgbModal,
         private tableExportExcelFileService: TableExportExcelFileService,
         private translate: TranslateService,
+        private ngbModal: NgbModal,
         private treatmentMonitoringApiService: TreatmentMonitoringApiService
     ) {}
 
-    public onExportExcel(): void {
-        this.listTreatmentMonitoring$.pipe(take(1)).subscribe((data) => {
-            if (data) {
-                this.tableExportExcelFileService.exportAsExcelFile(
-                    data,
-                    this.table,
-                    'List_treatment'
-                );
-            }
-        });
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public pageCallback() {
-        this.treatmentMonitoringApiService.fetchTreatmentMonitoring(
-            {} as treatmentMonitoringFilterInterface
+        return this.treatmentMonitoringApiService.fetchTreatmentMonitoring(
+            {} as TreatmentMonitoringFilterInterface
         );
+    }
+
+    public onExportExcel(): void {
+        this.treatmentMonitoringApiService
+            .getTreatmentMonitoring()
+            .pipe(take(1))
+            .subscribe((treatmentMonitoring) => {
+                if (treatmentMonitoring) {
+                    this.tableExportExcelFileService.exportAsExcelFile(
+                        treatmentMonitoring,
+                        this.table,
+                        'list_treatment_monitoring'
+                    );
+                } else {
+                    this.toastService.error(
+                        this.translate.instant('NO_DATA_TO_EXPORT')
+                    );
+                }
+            });
     }
 
     public copyToClipboard(data: string): void {
@@ -106,117 +117,92 @@ export class TableTreatmentMonitoringComponent {
         this.clipboardService.copyFromContent(data);
     }
 
-    getStepTreatmentMonitoringBadge(selectedTreatmentMonitoring?: {
-        statut: T_BADGE_ETAPE;
-    }): TYPE_COLOR_ETAPE_BADGE {
-        if (
-            !selectedTreatmentMonitoring ||
-            !selectedTreatmentMonitoring.statut
-        ) {
+    getStepBadge(dossier?: {
+        statut: T_TREATMENT_MONITORING_STEP_ENUM;
+    }): TYPE_COLOR_STEP_BADGE {
+        if (!dossier || !dossier.statut) {
             return 'badge-dark';
         }
 
-        const etapeMap: Record<T_BADGE_ETAPE, TYPE_COLOR_ETAPE_BADGE> = {
-            [BADGE_ETAPE.SOUMISSION]: 'badge-dark',
-            [BADGE_ETAPE.TRAITEMENT]: 'badge-warning',
-            [BADGE_ETAPE.FINALISATEUR]: 'badge-info',
-            [BADGE_ETAPE.CLOTURE]: 'badge-success',
+        const etapeMap: Record<
+            T_TREATMENT_MONITORING_STEP_ENUM,
+            TYPE_COLOR_STEP_BADGE
+        > = {
+            [TREATMENT_MONITORING_STEP_ENUM.SUBMISSION]: 'badge-dark',
+            [TREATMENT_MONITORING_STEP_ENUM.TREATMENT]: 'badge-warning',
+            [TREATMENT_MONITORING_STEP_ENUM.FINALIZATION]: 'badge-info',
+            [TREATMENT_MONITORING_STEP_ENUM.CLOSURE]: 'badge-success',
         };
-        return etapeMap[selectedTreatmentMonitoring.statut] || 'badge-dark';
+        return etapeMap[dossier.statut] || 'badge-dark';
     }
 
-    getStateTreatmentMonitoringBadge(selectedTreatmentMonitoring?: {
-        statut?: T_BADGE_ETAPE;
-        traitement?: T_BADGE_ETAT;
-    }): TYPE_COLOR_ETAT_BADGE {
-        if (
-            !selectedTreatmentMonitoring ||
-            !selectedTreatmentMonitoring.statut ||
-            !selectedTreatmentMonitoring.traitement
-        ) {
+    getStateBadge(dossier?: {
+        statut?: T_TREATMENT_MONITORING_STEP_ENUM;
+        traitement?: T_TREATMENT_MONITORING_STATE_ENUM;
+    }): TYPE_COLOR_STATE_BADGE {
+        if (!dossier || !dossier.statut || !dossier.traitement) {
             return 'badge-dark';
         }
 
         const stateMap: Partial<
             Record<
-                T_BADGE_ETAPE,
-                Partial<Record<T_BADGE_ETAT, TYPE_COLOR_ETAT_BADGE>>
+                T_TREATMENT_MONITORING_STEP_ENUM,
+                Partial<
+                    Record<
+                        T_TREATMENT_MONITORING_STATE_ENUM,
+                        TYPE_COLOR_STATE_BADGE
+                    >
+                >
             >
         > = {
-            [BADGE_ETAPE.SOUMISSION]: {
-                [BADGE_ETAT.EN_ATTENTE]: 'badge-dark',
-                [BADGE_ETAT.PARTIEL]: 'badge-warning',
-                [BADGE_ETAT.RECU]: 'badge-dark',
-                [BADGE_ETAT.APPROUVE]: 'badge-success',
-                [BADGE_ETAT.REJETE]: 'badge-danger',
+            [TREATMENT_MONITORING_STEP_ENUM.SUBMISSION]: {
+                [TREATMENT_MONITORING_STATE_ENUM.IN_WAITING]: 'badge-dark',
+                [TREATMENT_MONITORING_STATE_ENUM.PARTIAL]: 'badge-warning',
+                [TREATMENT_MONITORING_STATE_ENUM.RECEIVE]: 'badge-dark',
+                [TREATMENT_MONITORING_STATE_ENUM.APPROVE]: 'badge-success',
+                [TREATMENT_MONITORING_STATE_ENUM.REJECT]: 'badge-danger',
             },
-            [BADGE_ETAPE.CLOTURE]: {
-                [BADGE_ETAT.ABANDONNE]: 'badge-warning',
+            [TREATMENT_MONITORING_STEP_ENUM.CLOSURE]: {
+                [TREATMENT_MONITORING_STATE_ENUM.LET_DOWN]: 'badge-warning',
+                [TREATMENT_MONITORING_STATE_ENUM.REJECT]: 'badge-danger',
+                [TREATMENT_MONITORING_STATE_ENUM.REFUSE]: 'badge-danger',
             },
         };
 
-        return (
-            stateMap[selectedTreatmentMonitoring.statut]?.[
-                selectedTreatmentMonitoring.traitement
-            ] || 'badge-dark'
-        );
+        return stateMap[dossier.statut]?.[dossier.traitement] || 'badge-dark';
     }
 
-    public handleAction(params: Action): void {
+    public handleAction(params): void {
         this.onSelectTreatmentMonitoring(params.data);
 
         switch (params.view) {
             case 'modal':
-                if (params.action === 'view-treatment-monitoring') {
-                    this.handleTreatmentMonitoringTreatment(params.data);
+                console.log(
+                    'Open modal for treatment monitoring:',
+                    params.data
+                );
+                if (
+                    params.action ===
+                    OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.CLOSURE
+                ) {
+                    this.visibleForm = true;
                 }
-                if (params.action === 'journal-treatment-monitoring') {
-                    this.handleJournal(params.data);
+                if (
+                    params.action ===
+                    OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.SEE
+                ) {
+                    this.visibleForm = true;
                 }
-                break;
-
-            case 'page':
-                if (params.action === 'open-folder-treatment-monitoring') {
-                    this.interfaceUser.emit(params);
-                }
-                break;
         }
     }
 
-    handleTreatmentMonitoringTreatment(selectedTreatmentMonitoring: {
-        statut: string;
-        traitement: string;
-        numero_demande: string;
-    }): void {
-        this.visibleFormTreatmentMonitoring = true;
-        this.typeTreatment =
-            this.getTreatmentButtonViewTreatmentMonitoringStyle(
-                selectedTreatmentMonitoring
-            )?.typeTreatment;
-    }
-    handleJournal(selectedTreatmentMonitoring: {
-        numero_demande: string;
-    }): void {
-        const modalRef = this.ngbModal.open(JournalComponent, ModalParams);
-        modalRef.componentInstance.numero_demande =
-            selectedTreatmentMonitoring?.numero_demande;
-        modalRef.componentInstance.typeJournal = 'demandes-services';
-    }
-
     private onSelectTreatmentMonitoring(
-        selectedTreatmentMonitoring: Folder
+        selectedTreatmentMonitoring: TreatmentMonitoringInterface
     ): void {
         this.treatmentMonitoringSelected = selectedTreatmentMonitoring;
-        this.treatmentMonitoringApiService.setTreatmentMonitoringSelected(
-            selectedTreatmentMonitoring
-        );
     }
 
-    public hideDialog(): void {
-        this.visibleFormTreatmentMonitoring = false;
-    }
-
-    getTreatmentButtonViewTreatmentMonitoringStyle(selectedTreatmentMonitoring: {
+    public handleActionButtonEditStyle(treatmentMonitoringSelected: {
         statut: string;
         traitement: string;
         numero_demande: string;
@@ -224,97 +210,84 @@ export class TableTreatmentMonitoringComponent {
         class: string;
         icon: string;
         tooltip: string;
-        typeTreatment: TreatmentDemands;
+        handleTreatment: {
+            module: T_MODULE_TREATMENT_CUSTOMERS_ACTIVATE;
+            typeTreatment: T_OVERSEEING_OPERATIONS_TREATMENT_ENUM;
+        };
     } {
         const STOP_OR_CHANGE = this.translate.instant('STOP_OR_CHANGE');
+        const TO_CLOSURE = this.translate.instant('TO_CLOSURE');
         const DETAILS_OF_THE_REQUEST = this.translate.instant(
             'DETAILS_OF_THE_REQUEST'
         );
-        const TO_CLOSURE = this.translate.instant('TO_CLOSURE');
-        switch (selectedTreatmentMonitoring?.statut) {
-            case BADGE_ETAPE.SOUMISSION: {
+        switch (treatmentMonitoringSelected?.statut) {
+            case TREATMENT_MONITORING_STEP_ENUM.SUBMISSION: {
                 if (
-                    selectedTreatmentMonitoring?.traitement ===
-                    BADGE_ETAT.EN_ATTENTE
+                    treatmentMonitoringSelected?.traitement ===
+                    TREATMENT_MONITORING_STATE_ENUM.IN_WAITING
                 ) {
-                    return createButtonStyle(
-                        'p-button-warning',
-                        'pi pi-times',
-                        `${STOP_OR_CHANGE} ${selectedTreatmentMonitoring?.numero_demande}`,
-                        this.typeTreatment,
-                        { abandonner: true, modifier: true, visualiser: false }
-                    );
+                    return {
+                        class: 'p-button-warning',
+                        icon: 'pi pi-times',
+                        tooltip: `${STOP_OR_CHANGE} ${treatmentMonitoringSelected?.numero_demande}`,
+                        handleTreatment: {
+                            module: MODULE_TREATMENT_CUSTOMERS_ACTIVATE.OVERSEEING_OPERATIONS,
+                            typeTreatment:
+                                OVERSEEING_OPERATIONS_TREATMENT_ENUM.VIEW,
+                        },
+                    };
                 }
                 if (
-                    selectedTreatmentMonitoring?.traitement ===
-                    BADGE_ETAT.REJETE
+                    treatmentMonitoringSelected?.traitement ===
+                    TREATMENT_MONITORING_STATE_ENUM.REJECT
                 ) {
-                    return createButtonStyle(
-                        'p-button-warning',
-                        'pi pi-times',
-                        `${STOP_OR_CHANGE} ${selectedTreatmentMonitoring?.numero_demande}`,
-                        this.typeTreatment,
-                        { abandonner: true, modifier: true, visualiser: false }
-                    );
-                }
-            }
-            case BADGE_ETAPE.FINALISATEUR: {
-                if (
-                    selectedTreatmentMonitoring?.traitement === BADGE_ETAT.LIVRE
-                ) {
-                    return createButtonStyle(
-                        'p-button-success',
-                        'pi pi-check-circle',
-                        `${TO_CLOSURE} ${selectedTreatmentMonitoring?.numero_demande}`,
-                        this.typeTreatment,
-                        {
-                            abandonner: false,
-                            modifier: false,
-                            visualiser: false,
-                            cloturer: true,
-                        }
-                    );
+                    return {
+                        class: 'p-button-warning',
+                        icon: 'pi pi-times',
+                        tooltip: `${STOP_OR_CHANGE} ${treatmentMonitoringSelected?.numero_demande}`,
+                        handleTreatment: {
+                            module: MODULE_TREATMENT_CUSTOMERS_ACTIVATE.REQUESTS_SERVICE,
+                            typeTreatment:
+                                OVERSEEING_OPERATIONS_TREATMENT_ENUM.MODIFY,
+                        },
+                    };
                 }
             }
-            default:
-                return createButtonStyle(
-                    'p-button-secondary',
-                    'pi pi-eye',
-                    `${DETAILS_OF_THE_REQUEST} ${selectedTreatmentMonitoring?.numero_demande}`,
-                    this.typeTreatment,
-                    { abandonner: false, modifier: false, visualiser: true }
-                );
+            case TREATMENT_MONITORING_STEP_ENUM.FINALIZATION: {
+                if (
+                    treatmentMonitoringSelected?.traitement ===
+                    TREATMENT_MONITORING_STATE_ENUM.DO
+                ) {
+                    return {
+                        class: 'p-button-success',
+                        icon: 'pi pi-check-circle',
+                        tooltip: `${TO_CLOSURE} ${treatmentMonitoringSelected?.numero_demande}`,
+                        handleTreatment: {
+                            module: MODULE_TREATMENT_CUSTOMERS_ACTIVATE.OVERSEEING_OPERATIONS,
+                            typeTreatment:
+                                OVERSEEING_OPERATIONS_TREATMENT_ENUM.CLOSURE,
+                        },
+                    };
+                }
+            }
         }
+        return {
+            class: 'p-button-secondary',
+            icon: 'pi pi-eye',
+            tooltip: `${DETAILS_OF_THE_REQUEST} ${treatmentMonitoringSelected?.numero_demande}`,
+            handleTreatment: {
+                module: MODULE_TREATMENT_CUSTOMERS_ACTIVATE.REQUESTS_SERVICE,
+                typeTreatment: OVERSEEING_OPERATIONS_TREATMENT_ENUM.MODIFY,
+            },
+        };
     }
 
-    getTreatmentButtonOpenTreatmentMonitoringStyle(selectedTreatmentMonitoring: {
-        statut: string;
-        traitement: string;
+    public handleNewspaper(selectedTreatmentMonitoring: {
         numero_demande: string;
-    }): { class: string; icon: string; tooltip: string } {
-        const SIM_OF_THE_REQUEST = this.translate.instant('SIM_OF_THE_REQUEST');
-        const CANNOT_SEE_THE_SIM = this.translate.instant('CANNOT_SEE_THE_SIM');
-        switch (selectedTreatmentMonitoring?.statut) {
-            case BADGE_ETAPE.FINALISATEUR: {
-                if (
-                    selectedTreatmentMonitoring?.traitement === BADGE_ETAT.LIVRE
-                ) {
-                    return createButtonStyle(
-                        'p-button-dark',
-                        'pi pi-folder-open',
-                        `${SIM_OF_THE_REQUEST} ${selectedTreatmentMonitoring.numero_demande}`,
-                        this.typeTreatment
-                    );
-                }
-            }
-            default: {
-                return createButtonStyle(
-                    'p-button-secondary',
-                    'pi pi-folder-open',
-                    `${CANNOT_SEE_THE_SIM} ${selectedTreatmentMonitoring.numero_demande}`,
-                    this.typeTreatment
-                );
-            }
-        }
+    }): void {
+        const modalRef = this.ngbModal.open(JournalComponent, ModalParams);
+        modalRef.componentInstance.numero_demande =
+            selectedTreatmentMonitoring?.numero_demande;
+        modalRef.componentInstance.typeJournal = 'demandes-services';
     }
 }

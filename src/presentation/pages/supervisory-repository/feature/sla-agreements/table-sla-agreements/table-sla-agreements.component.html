@@ -4,38 +4,37 @@
     [rowHover]="true"
     dataKey="id"
     selectionMode="single"
-    [(selection)]="slaAgreementsSelected"
-    [rows]="10"
-    [paginator]="true"
+    [(selection)]="slaAgreementSelected"
+    [rows]="nbDataPerPage"
+    [scrollable]="true"
     [globalFilterFields]="table.globalFilterFields"
-    currentPageReportTemplate="Affichage de {first} à {last} des {totalRecords} données"
     responsiveLayout="scroll"
     scrollable="true"
     scrollHeight="flex"
     width="100%"
     class="responsive-claims-table"
+    [paginator]="true"
 >
     <ng-template pTemplate="caption">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between flex-wrap align-items-start">
             <app-table-title
-                [label]="false"
                 [count]="(listSlaAgreements$ | async)?.length"
-            ></app-table-title>
-            <div class="d-flex gap-2 align-items-center">
-                <div class="d-flex gap-2">
-                    <app-table-button-header
-                        (refresh)="pageCallback()"
-                        (export)="onExportExcel()"
-                        [disabledButtonExport]="
-                            (listSlaAgreements$ | async)?.length === 0
-                        "
-                        [hiddenButtonOther]="true"
-                    >
-                    </app-table-button-header>
-                </div>
-                <div>
-                    <app-search-table [dt]="dt"></app-search-table>
-                </div>
+                [perPage]="nbDataPerPage"
+            >
+            </app-table-title>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    (refresh)="pageCallback()"
+                    (export)="onExportExcel()"
+                    [disabledButtonExport]="
+                        (listSlaAgreements$ | async)?.length === 0
+                    "
+                    [hiddenButtonOther]="true"
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt"></app-search-table>
             </div>
         </div>
     </ng-template>
@@ -44,7 +43,11 @@
             <th
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{
+                    minWidth: col.width,
+                    width: col.width,
+                    textAlign: 'center'
+                }"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'Date / Heure'">
@@ -56,16 +59,16 @@
                     <ng-container *ngSwitchCase="'Description du service'">
                         {{ 'SERVICE_DESCRIPTION' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Réception'">
+                    <ng-container *ngSwitchCase="'Réception (h)'">
                         {{ 'RECEPTION' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Traitement'">
+                    <ng-container *ngSwitchCase="'Traitement (h)'">
                         {{ 'TREATMENT' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Clôture'">
+                    <ng-container *ngSwitchCase="'Clôture (h)'">
                         {{ 'CLOSURE' | translate | capitalize }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Escalade'">
+                    <ng-container *ngSwitchCase="'Escalade (h)'">
                         {{ 'ESCALADE' | translate | capitalize }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Statut'">
@@ -79,22 +82,26 @@
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
-        <tr [pSelectableRow]="item">
+        <tr>
             <td
                 *ngFor="let col of table.cols"
                 [class]="col.class"
-                [ngStyle]="{ width: col.width }"
+                [ngStyle]="{ minWidth: col.width, width: col.width }"
+                [attr.data-label]="col.header"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
                         {{ rowIndex + 1 }}
                     </ng-container>
+                    <ng-container *ngSwitchCase="'Services'">
+                        <span (click)="copyToClipboard(item?.[col.field])">
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
                     <ng-container *ngSwitchCase="'Statut'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
-                            [class]="
-                                'badge ' + getStatusSlaAgreementsBadge(item)
-                            "
+                            [class]="'badge ' + getStepBadge(item?.[col.field])"
                         >
                             {{ item?.[col.field] }}
                         </span>
@@ -106,16 +113,18 @@
             </td>
         </tr>
     </ng-template>
-
     <ng-template pTemplate="emptymessage">
-        <tr *ngIf="(listSlaAgreements$ | async)?.length <= 0 && !spinner">
+        <tr
+            *ngIf="(listSlaAgreements$ | async)?.length <= 0 && !spinner"
+            class="loading-table"
+        >
             <td class="posRelative" colspan="15">
                 <span class="posCenter">
                     {{ 'NO_DATA_FOUND' | translate }}
                 </span>
             </td>
         </tr>
-        <tr *ngIf="spinner">
+        <tr *ngIf="spinner" class="loading-table">
             <td class="posRelative" colspan="15">
                 <p-progressSpinner
                     class="posCenter"

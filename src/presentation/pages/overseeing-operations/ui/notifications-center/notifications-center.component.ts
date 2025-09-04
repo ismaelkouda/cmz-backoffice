@@ -2,7 +2,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { Observable } from 'rxjs';
-import { TypeAlarme } from '../../../../../shared/enum/TypeAlarme.enum';
 import {
     notificationsCenterApiResponseInterface,
     notificationsCenterInterface,
@@ -25,30 +24,27 @@ export class NotificationsCenterComponent implements OnInit {
         Paginate<notificationsCenterApiResponseInterface>
     >;
     public spinner: boolean = false;
-    public listTypeNotifications: Array<TypeAlarme> = [];
+    public listTypeNotifications: Array<any> = [];
 
     constructor(
         private sharedService: SharedService,
         private activatedRoute: ActivatedRoute,
         private notificationsCenterApiService: NotificationsCenterApiService
-    ) {
-        this.sharedService.fetchNotification();
-        this.notificationsCenterApiService.fetchReadAllNotifications();
-        Object.values(TypeAlarme).forEach((item) => {
-            this.listTypeNotifications.push(item);
-        });
-    }
+    ) {}
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
             this.subModule = data.subModule[3];
         });
-        this.notificationCount$ =
-            this.sharedService.getApiResponseUnReadNotifications();
+        this.sharedService.fetchNotification();
         this.notificationList$ = this.sharedService.getNotificationList();
         this.notificationPagination$ =
             this.sharedService.getNotificationPagination();
+
+        this.notificationsCenterApiService.fetchReadAllNotifications();
+        this.notificationCount$ =
+            this.sharedService.getApiResponseUnReadNotifications();
     }
 
     public onPageChange(event: number): void {

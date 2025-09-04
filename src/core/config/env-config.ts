@@ -1,4 +1,4 @@
-export interface EnvConfig {
-    version: string;
-    serverUrl: string;
-}
+// export interface EnvConfig {
+//     version: string;
+//     serverUrl: string;
+// }

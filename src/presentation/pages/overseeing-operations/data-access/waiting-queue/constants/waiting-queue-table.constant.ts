@@ -1,4 +1,4 @@
-export const waitingQueueTableConstant = {
+export const WAITING_QUEUE_TABLE = {
     cols: [
         { field: '', header: '#', class: 'text-center', width: '2rem' },
         {
@@ -15,16 +15,16 @@ export const waitingQueueTableConstant = {
             width: '12rem',
         },
         {
-            field: 'nb_cycle',
-            header: '# Cycles',
+            field: 'nom_client',
+            header: 'Client',
             class: 'text-center',
-            width: '6rem',
+            width: '12rem',
         },
         {
-            field: 'nb_demande_soumises',
-            header: '# Lignes',
+            field: 'compte_client',
+            header: 'Compte client',
             class: 'text-center',
-            width: '6rem',
+            width: '8rem',
         },
         {
             field: 'statut',
@@ -50,8 +50,8 @@ export const waitingQueueTableConstant = {
         'created_at',
         'operation',
         'numero_demande',
-        'nb_demande_soumises',
-        'nb_cycle',
+        'nom_client',
+        'compte_client',
         'statut',
         'traitement',
         'updated_at',

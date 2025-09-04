@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MappingService } from 'src/shared/services/mapping.service';
-import { SettingService } from 'src/shared/services/setting.service';
 import { ParametreSecuriteService } from '../../data-access/parametre-securite.service';
 const Swal = require('sweetalert2');
 
@@ -24,7 +23,6 @@ export class AdminFormComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         public toastrService: ToastrService,
-        private settingService: SettingService,
         private parametreSecuriteService: ParametreSecuriteService,
         private mappingService: MappingService
     ) {
@@ -40,15 +38,15 @@ export class AdminFormComponent implements OnInit {
     }
 
     public GetAllUsers() {
-        this.settingService.getAllUsers({}).subscribe({
-            next: (response) => {
-                this.listUsers.emit(response['data']);
-                this.close();
-            },
-            error: (error) => {
-                this.toastrService.error(error.message);
-            },
-        });
+        // this.settingService.getAllUsers({}).subscribe({
+        //     next: (response) => {
+        //         this.listUsers.emit(response['data']);
+        //         this.close();
+        //     },
+        //     error: (error) => {
+        //         this.toastrService.error(error.message);
+        //     },
+        // });
     }
     public GetAllProfilHabilitations() {
         this.parametreSecuriteService.GetAllProfilHabilitations({}).subscribe({
@@ -93,32 +91,32 @@ export class AdminFormComponent implements OnInit {
     }
 
     public handleSave() {
-        this.settingService.OnSaveUser(this.adminForm.value).subscribe({
-            next: (response) => {
-                this.GetAllUsers();
-                // this.showPassword(response['message'])
-            },
-            error: (error) => {
-                this.toastrService.error(error.error.message);
-            },
-        });
+        // this.settingService.OnSaveUser(this.adminForm.value).subscribe({
+        //     next: (response) => {
+        //         this.GetAllUsers();
+        //         // this.showPassword(response['message'])
+        //     },
+        //     error: (error) => {
+        //         this.toastrService.error(error.error.message);
+        //     },
+        // });
     }
 
     handleUpdate() {
-        this.settingService
-            .OnUpdateUser({
-                ...this.adminForm.value,
-                user_id: this.currentObject.id,
-            })
-            .subscribe({
-                next: (response) => {
-                    this.GetAllUsers();
-                    this.toastrService.success(response.message);
-                },
-                error: (error) => {
-                    this.toastrService.error(error.error.message);
-                },
-            });
+        // this.settingService
+        //     .OnUpdateUser({
+        //         ...this.adminForm.value,
+        //         user_id: this.currentObject.id,
+        //     })
+        //     .subscribe({
+        //         next: (response) => {
+        //             this.GetAllUsers();
+        //             this.toastrService.success(response.message);
+        //         },
+        //         error: (error) => {
+        //             this.toastrService.error(error.error.message);
+        //         },
+        //     });
     }
 
     public onFormPachValues(): void {

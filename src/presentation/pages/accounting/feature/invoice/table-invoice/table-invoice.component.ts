@@ -6,28 +6,20 @@ import {
     TableExportExcelFileService,
 } from '../../../../../../shared/services/table-export-excel-file.service';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { Observable, take } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { invoiceInterface } from '../../../data-access/invoice/interface/invoice.interface';
+import { InvoiceInterface } from '../../../data-access/invoice/interface/invoice.interface';
 import { invoiceTableConstant } from '../../../data-access/invoice/constantes/invoice-table';
 import { InvoiceApiService } from '../../../data-access/invoice/service/invoice-api.service';
-import { invoiceFilterInterface } from '../../../data-access/invoice/interface/invoice-filter.interface';
 import {
-    INVOICE_STATUS_ENUM,
-    T_INVOICE_STATUS_ENUM,
-} from '../../../data-access/invoice/enums/invoice-status.enum';
-import {
-    OperationTransaction,
-    TitleOperation,
-} from '../../../../../../shared/enum/OperationTransaction.enum';
+    INVOICE_STATE_ENUM,
+    T_INVOICE_STATE_ENUM,
+} from '../../../data-access/invoice/enums/invoice-state.enum';
+import { INVOICE_BUTTONS_ACTIONS_ENUM } from '../../../data-access/invoice/enums/invoice-buttons-actions.enum';
+import { InvoicePageActionsType } from '../../../data-access/invoice/types/invoice-page-actions.type';
+import { InvoiceFilterInterface } from '../../../data-access/invoice/interface/invoice-filter.interface';
 
-type Action = PageAction;
-type PageAction = {
-    data: invoiceInterface;
-    action: 'invoice';
-    view: 'page';
-};
-type TYPE_COLOR_INVOICE_STATUS_BADGE =
+type TYPE_COLOR_STATE_BADGE =
     | 'badge-dark'
     | 'badge-warning'
     | 'badge-primary'
@@ -39,15 +31,19 @@ type TYPE_COLOR_INVOICE_STATUS_BADGE =
     templateUrl: './table-invoice.component.html',
 })
 export class TableInvoiceComponent {
-    @Input() listInvoices$: Observable<Array<invoiceInterface>>;
-    @Input() pagination$: Observable<Paginate<invoiceInterface>>;
-    @Input() spinner: boolean;
-    @Output() interfaceUser = new EventEmitter<Action>();
-    public invoiceSelected: invoiceInterface;
-    public visibleFormInvoice = false;
+    @Output() interfaceUser = new EventEmitter<InvoicePageActionsType>();
 
+    @Input() spinner: boolean;
+    @Input() listInvoices$: Observable<Array<InvoiceInterface>> =
+        new BehaviorSubject<Array<InvoiceInterface>>([]);
+    @Input() pagination$: Observable<Paginate<InvoiceInterface>>;
+
+    public invoiceSelected: InvoiceInterface;
     public readonly table: TableConfig = invoiceTableConstant;
-    public readonly INVOICE_STATUS_ENUM = INVOICE_STATUS_ENUM;
+    private destroy$ = new Subject<void>();
+
+    public INVOICE_BUTTONS_ACTIONS_ENUM = INVOICE_BUTTONS_ACTIONS_ENUM;
+    public readonly INVOICE_STATE_ENUM = INVOICE_STATE_ENUM;
 
     constructor(
         private toastService: ToastrService,
@@ -57,26 +53,34 @@ export class TableInvoiceComponent {
         private invoiceApiService: InvoiceApiService
     ) {}
 
-    public onExportExcel(): void {
-        this.listInvoices$.pipe(take(1)).subscribe((data) => {
-            if (data) {
-                this.tableExportExcelFileService.exportAsExcelFile(
-                    data,
-                    this.table,
-                    'List_invoice'
-                );
-            }
-        });
-    }
-
-    public getTitleForm(operation: OperationTransaction): string {
-        const titleOp = new TitleOperation();
-        titleOp.setTitleForm(operation);
-        return titleOp.getTitleForm;
+    ngOnDestroy() {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
     public pageCallback() {
-        this.invoiceApiService.fetchInvoice({} as invoiceFilterInterface);
+        return this.invoiceApiService.fetchInvoice(
+            {} as InvoiceFilterInterface
+        );
+    }
+
+    public onExportExcel(): void {
+        this.invoiceApiService
+            .getInvoice()
+            .pipe(take(1))
+            .subscribe((invoice) => {
+                if (invoice) {
+                    this.tableExportExcelFileService.exportAsExcelFile(
+                        invoice,
+                        this.table,
+                        'List_invoices'
+                    );
+                } else {
+                    this.toastService.error(
+                        this.translate.instant('NO_DATA_TO_EXPORT')
+                    );
+                }
+            });
     }
 
     public copyToClipboard(data: string): void {
@@ -87,29 +91,26 @@ export class TableInvoiceComponent {
         this.clipboardService.copyFromContent(data);
     }
 
-    public getStatusInvoiceBadge(selectedInvoice?: {
-        statut: T_INVOICE_STATUS_ENUM;
-    }): TYPE_COLOR_INVOICE_STATUS_BADGE {
+    public getStateBadge(selectedInvoice?: {
+        statut: T_INVOICE_STATE_ENUM;
+    }): TYPE_COLOR_STATE_BADGE {
         if (!selectedInvoice || !selectedInvoice.statut) {
             return 'badge-dark';
         }
 
-        const stateMap: Record<
-            T_INVOICE_STATUS_ENUM,
-            TYPE_COLOR_INVOICE_STATUS_BADGE
-        > = {
-            [INVOICE_STATUS_ENUM.WAITING]: 'badge-dark',
-            [INVOICE_STATUS_ENUM.POSTED]: 'badge-warning',
-            [INVOICE_STATUS_ENUM.REPORTED]: 'badge-primary',
-            [INVOICE_STATUS_ENUM.RESULTED]: 'badge-success',
-            [INVOICE_STATUS_ENUM.REJECTED]: 'badge-danger',
-            [INVOICE_STATUS_ENUM.NON_SOLDEE]: 'badge-danger',
+        const stateMap: Record<T_INVOICE_STATE_ENUM, TYPE_COLOR_STATE_BADGE> = {
+            [INVOICE_STATE_ENUM.WAITING]: 'badge-dark',
+            [INVOICE_STATE_ENUM.POSTED]: 'badge-warning',
+            [INVOICE_STATE_ENUM.REPORTED]: 'badge-primary',
+            [INVOICE_STATE_ENUM.RESULTED]: 'badge-success',
+            [INVOICE_STATE_ENUM.REJECTED]: 'badge-danger',
+            [INVOICE_STATE_ENUM.NON_SOLDEE]: 'badge-danger',
         };
 
         return stateMap[selectedInvoice.statut];
     }
 
-    public handleAction(params: Action): void {
+    public handleAction(params: InvoicePageActionsType): void {
         this.onSelectInvoice(params.data);
 
         switch (params.view) {
@@ -119,7 +120,7 @@ export class TableInvoiceComponent {
         }
     }
 
-    getTreatmentButtonViewStyle(selectedInvoice: {
+    handleActionButtonViewStyle(selectedInvoice: {
         type_paiement: any;
         etat_facture: string;
     }): { style: string; value: string } {
@@ -136,12 +137,7 @@ export class TableInvoiceComponent {
         }
     }
 
-    private onSelectInvoice(selectedInvoice: invoiceInterface): void {
+    private onSelectInvoice(selectedInvoice: InvoiceInterface): void {
         this.invoiceSelected = selectedInvoice;
-        this.invoiceApiService.setInvoiceSelected(selectedInvoice);
-    }
-
-    public hideDialog(): void {
-        this.visibleFormInvoice = false;
     }
 }

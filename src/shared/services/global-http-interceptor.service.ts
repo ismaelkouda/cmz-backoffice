@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { EncodingDataService } from './encoding-data.service';
-import { StoreCurrentUserService } from './store-current-user.service';
 import { TokenInterface } from '../interfaces/token.interface';
 const Swal = require('sweetalert2');
 
@@ -22,8 +21,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
         public router: Router,
         private toastrService: ToastrService,
         private loadingBar: LoadingBarService,
-        private encodingService: EncodingDataService,
-        private currentUserService: StoreCurrentUserService
+        private encodingService: EncodingDataService
     ) {}
 
     intercept(

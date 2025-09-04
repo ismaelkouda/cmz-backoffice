@@ -6,7 +6,7 @@ import { AuthGuard } from '../core/guard/auth.guard';
 import { ContentComponent } from '../shared/components/layout/content/content.component';
 // import { NotFoundComponent } from './pages/not-found/not-found.component';
 
-export const REINITIALISATION = 'reinitialisation';
+export const REINITIALIZATION = 'reinitialisation';
 export const AUTH = 'auth';
 
 const routes: Routes = [
@@ -19,7 +19,7 @@ const routes: Routes = [
         canActivate: [GuestGuard],
     },
     {
-        path: REINITIALISATION,
+        path: REINITIALIZATION,
         loadChildren: () =>
             import(
                 '../presentation/pages/password-reset/password-reset.module'
@@ -31,20 +31,11 @@ const routes: Routes = [
         children: content,
         canActivate: [AuthGuard],
     },
-    // {
-    //   path: "",
-    //   component: FullComponent,
-    //   children: full
-    // },
     {
         path: '',
         redirectTo: DASHBOARD,
         pathMatch: 'full',
     },
-    // {
-    //   path: '**',
-    //   component: NotFoundComponent,
-    // }
 ];
 
 @NgModule({

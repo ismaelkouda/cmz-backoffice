@@ -1,18 +1,16 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-import { treatmentMonitoringFilterInterface } from '../../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter.interface';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { TreatmentMonitoringFilterInterface } from '../../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { ApplicantInterface } from '../../../../../../shared/interfaces/applicant';
-import { T_BADGE_ETAPE } from '../../../../../../shared/constants/badge-etape.constant';
-import { T_BADGE_ETAT } from '../../../../../../shared/constants/badge-etat.contant';
+import { T_TREATMENT_MONITORING_STEP_ENUM } from '../../../data-access/treatment-monitoring/enums/treatment-monitoring-step.enum';
+import { T_TREATMENT_MONITORING_STATE_ENUM } from '../../../data-access/treatment-monitoring/enums/treatment-monitoring-state.enum';
+import { T_LIST_REQUESTS_SERVICE } from '../../../../../../shared/enum/list-requests-service';
+import { TreatmentMonitoringFilterFormInterface } from '../../../data-access/treatment-monitoring/interfaces/treatment-monitoring-filter-form.interface';
+import { TreatmentMonitoringApiService } from '../../../data-access/treatment-monitoring/services/treatment-monitoring-api.service';
 
 @Component({
     selector: 'app-filter-treatment-monitoring',
@@ -20,90 +18,83 @@ import { T_BADGE_ETAT } from '../../../../../../shared/constants/badge-etat.cont
     styleUrls: ['./filter-treatment-monitoring.component.scss'],
 })
 export class FilterTreatmentMonitoringComponent {
+    @Output() filter = new EventEmitter<TreatmentMonitoringFilterInterface>();
+
+    @Input()
+    listTreatmentMonitoringStep: Array<T_TREATMENT_MONITORING_STEP_ENUM>;
+    @Input()
+    listTreatmentMonitoringState: Array<T_TREATMENT_MONITORING_STATE_ENUM>;
+
     @Input() listApplicants$: Observable<Array<ApplicantInterface>>;
-    @Input() listOperations: Array<string>;
-    @Input() listStepTreatmentMonitoring: Array<T_BADGE_ETAPE>;
-    @Input() listStateTreatmentMonitoring: Array<T_BADGE_ETAT>;
-    @Input() filterData: treatmentMonitoringFilterInterface;
+    @Input() listOperations: Array<T_LIST_REQUESTS_SERVICE>;
 
-    @Output() filter = new EventEmitter<treatmentMonitoringFilterInterface>();
-
-    public formFilter: FormGroup;
+    public formFilter: FormGroup<TreatmentMonitoringFilterFormInterface>;
+    private destroy$ = new Subject<void>();
 
     public secondFilter: boolean = false;
+    public thirdFilter: boolean = false;
 
     constructor(
         private toastService: ToastrService,
         private fb: FormBuilder,
-        private translate: TranslateService
-    ) {
+        private translate: TranslateService,
+        private treatmentMonitoringApiService: TreatmentMonitoringApiService
+    ) {}
+
+    ngOnInit() {
         this.initFormFilter();
-    }
-
-    public initFormFilter(): void {
-        this.formFilter = this.fb.group<treatmentMonitoringFilterInterface>({
-            initie_par: new FormControl<string>(
-                this.filterData?.['initie_par'],
-                { nonNullable: true }
-            ),
-            numero_demande: new FormControl<string>(
-                this.filterData?.['numero_demande'],
-                { nonNullable: true }
-            ),
-            operation: new FormControl<string>(this.filterData?.['operation'], {
-                nonNullable: true,
-            }),
-            statut: new FormControl<string>(this.filterData?.['statut'], {
-                nonNullable: true,
-            }),
-            traitement: new FormControl<string>(
-                this.filterData?.['traitement'],
-                { nonNullable: true }
-            ),
-            msisdn: new FormControl<string>(this.filterData?.['msisdn'], {
-                nonNullable: true,
-                validators: [
-                    Validators.pattern('^[0-9]*$'),
-                    Validators.maxLength(15),
-                    Validators.minLength(15),
-                ],
-            }),
-            imsi: new FormControl<string>(this.filterData?.['imsi'], {
-                nonNullable: true,
-                validators: [
-                    Validators.pattern('^[0-9]*$'),
-                    Validators.maxLength(15),
-                    Validators.minLength(15),
-                ],
-            }),
-            date_debut: new FormControl<string>(
-                this.filterData?.['date_debut'],
-                { nonNullable: true }
-            ),
-            date_fin: new FormControl<string>(this.filterData?.['date_fin'], {
-                nonNullable: true,
-            }),
-        });
-
-        this.formFilter.get('imsi')?.valueChanges.subscribe((value) => {
-            if (value && value.length > 15) {
-                this.formFilter
-                    .get('imsi')
-                    ?.setValue(value.slice(0, 15), { emitEvent: false });
-            }
-        });
-
-        this.formFilter.get('msisdn')?.valueChanges.subscribe((value) => {
-            if (value && value.length > 10) {
-                this.formFilter
-                    .get('msisdn')
-                    ?.setValue(value.slice(0, 10), { emitEvent: false });
-            }
-        });
     }
 
     public showSecondFilter() {
         this.secondFilter = !this.secondFilter;
+        this.thirdFilter = false;
+    }
+
+    public showThirdFilter() {
+        this.thirdFilter = !this.thirdFilter;
+    }
+
+    public initFormFilter(): void {
+        this.treatmentMonitoringApiService
+            .getDataFilterTreatmentMonitoring()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((filterData: TreatmentMonitoringFilterInterface) => {
+                this.formFilter =
+                    this.fb.group<TreatmentMonitoringFilterFormInterface>({
+                        operation: new FormControl<string>(
+                            filterData?.operation ?? '',
+                            { nonNullable: true }
+                        ),
+                        date_debut: new FormControl<string>(
+                            filterData?.date_debut ?? '',
+                            { nonNullable: true }
+                        ),
+                        date_fin: new FormControl<string>(
+                            filterData?.date_fin ?? '',
+                            { nonNullable: true }
+                        ),
+                        nom_tenant: new FormControl<string>(
+                            filterData?.nom_tenant ?? '',
+                            { nonNullable: true }
+                        ),
+                        initie_par: new FormControl<string>(
+                            filterData?.initie_par ?? '',
+                            { nonNullable: true }
+                        ),
+                        numero_demande: new FormControl<string>(
+                            filterData?.numero_demande ?? '',
+                            { nonNullable: true }
+                        ),
+                        statut: new FormControl<string>(
+                            filterData?.statut ?? '',
+                            { nonNullable: true }
+                        ),
+                        traitement: new FormControl<string>(
+                            filterData?.traitement ?? '',
+                            { nonNullable: true }
+                        ),
+                    });
+            });
     }
 
     public onSubmitFilterForm(): void {
@@ -143,5 +134,10 @@ export class FilterTreatmentMonitoringComponent {
             const translatedMessage = this.translate.instant('FORM_INVALID');
             this.toastService.success(translatedMessage);
         }
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

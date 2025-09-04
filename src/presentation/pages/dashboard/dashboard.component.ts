@@ -5,11 +5,8 @@ import { IStatisticsBox } from '../../../shared/interfaces/statistiquesBox.inter
 import { EncodingDataService } from '../../../shared/services/encoding-data.service';
 import { Subject, takeUntil } from 'rxjs';
 import { SimStatut } from '../../../shared/enum/SimStatut.enum';
-import { PATRIMONY } from '../../../shared/routes/routes';
 import { DashboardApiService } from './data-access/services/dashboard-api.service';
-import { SIM_CARD } from '../patrimony/patrimony-routing.module';
 import { AsFeatureService } from '../../../shared/services/as-feature.service';
-import { OperationTransaction } from '../../../shared/enum/OperationTransaction.enum';
 import { TranslateService } from '@ngx-translate/core';
 import {
     NOM_APPLICATION,
@@ -95,13 +92,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
     private setupFeature(): void {
-        this.asAccessFeatureDataBalance = this.asFeatureService.hasFeature(
-            OperationTransaction.SOLDE_DATA
-        );
-
-        this.asAccessFeatureSmsBalance = this.asFeatureService.hasFeature(
-            OperationTransaction.SOLDE_SMS
-        );
+        // this.asAccessFeatureDataBalance = this.asFeatureService.hasFeature(
+        //     OperationTransaction.SOLDE_DATA
+        // );
+        // this.asAccessFeatureSmsBalance = this.asFeatureService.hasFeature(
+        //     OperationTransaction.SOLDE_SMS
+        // );
     }
 
     private handleDashboardData(statistic: any): void {
@@ -112,46 +108,167 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     private generateStatisticsBoxes(rapport: any = {}): void {
         this.listStatisticsBox = [
-            // SIM Cards
             this.createStatBox(
                 '#3498db',
-                `${this.translate.instant('SIM_TOTAL')}`,
-                separatorThousands(rapport?.['totalSim'] || '0'),
+                `${this.translate.instant('CUSTOMERS')}`,
+                separatorThousands(rapport?.['total_tenants'] || '0'),
                 this.simIcon,
-                () => this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`)
+                () => this.router.navigateByUrl(``)
             ),
 
             this.createStatBox(
                 '#27ae60',
-                `${this.translate.instant('SIM_ACTIVE')}`,
-                separatorThousands(rapport?.['totalSimActives'] || '0'),
+                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
+                    'TO_APPROVE'
+                )}`,
+                separatorThousands(
+                    rapport?.['total_dossiers_a_approuver'] || '0'
+                ),
                 this.simIcon,
                 () =>
-                    this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`, {
+                    this.router.navigateByUrl(``, {
                         state: { statut: SimStatut.ACTIF },
                     })
             ),
 
             this.createStatBox(
-                '#000000',
-                `${this.translate.instant('SIM_SUSPENDED')}`,
-                separatorThousands(rapport?.['totalSimSuspendues'] || '0'),
+                '#ff7f50',
+                `${this.translate.instant(
+                    'TO_APPROVE'
+                )} ${this.translate.instant('SLA_KO')}`,
+                separatorThousands(rapport?.['total_a_approuve_sla_ko'] || '0'),
                 this.simIcon,
                 () =>
-                    this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`, {
+                    this.router.navigateByUrl(``, {
                         state: { statut: SimStatut.SUSPENDU },
                     }),
-                '#ff7f50',
-                '#ff7f50'
+                '#000000',
+                '#000000'
             ),
 
             this.createStatBox(
                 '#e74c3c',
-                `${this.translate.instant('SIM_TERMINATED')}`,
-                separatorThousands(rapport?.['totalSimResiliees'] || '0'),
+                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
+                    'IN_TREATMENT'
+                )}`,
+                separatorThousands(
+                    rapport?.['total_dossiers_en_traitement'] || '0'
+                ),
                 this.simIcon,
                 () =>
-                    this.router.navigateByUrl(`${PATRIMONY}/${SIM_CARD}`, {
+                    this.router.navigateByUrl(``, {
+                        state: { statut: SimStatut.RESILIE },
+                    })
+            ),
+
+            this.createStatBox(
+                '#28a745',
+                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
+                    'TO_DELIVER'
+                )}`,
+                separatorThousands(rapport?.['total_dossiers_a_livrer'] || '0'),
+                this.simIcon,
+                () => this.router.navigateByUrl(``)
+            ),
+
+            this.createStatBox(
+                '#ff7f50',
+                `${this.translate.instant(
+                    'IN_TREATMENT'
+                )} ${this.translate.instant('SLA_KO')}`,
+                separatorThousands(rapport?.['total_traitement_sla_ko'] || '0'),
+                this.simIcon,
+                () =>
+                    this.router.navigateByUrl(``, {
+                        state: { statut: SimStatut.ACTIF },
+                    })
+            ),
+
+            this.createStatBox(
+                '#ff7f50',
+                `${this.translate.instant(
+                    'TO_DELIVER'
+                )} ${this.translate.instant('SLA_KO')}`,
+                separatorThousands(rapport?.['total_a_livres_sla_ko'] || '0'),
+                this.simIcon,
+                () =>
+                    this.router.navigateByUrl(``, {
+                        state: { statut: SimStatut.SUSPENDU },
+                    }),
+                '#000000',
+                '#000000'
+            ),
+
+            this.createStatBox(
+                '#e74c3c',
+                `${this.translate.instant(
+                    'IN_TREATMENT'
+                )} ${this.translate.instant('SLA')} ${this.translate.instant(
+                    'IN_PROGRESS'
+                )}`,
+                separatorThousands(
+                    rapport?.['total_traitement_en_cours'] || '0'
+                ),
+                this.simIcon,
+                () =>
+                    this.router.navigateByUrl(``, {
+                        state: { statut: SimStatut.RESILIE },
+                    })
+            ),
+
+            this.createStatBox(
+                '#27ae60',
+                `${this.translate.instant('CLOSURE')} ${this.translate.instant(
+                    'WAITING'
+                )}`,
+                separatorThousands(
+                    rapport?.['total_dossiers_clotures_ok'] || '0'
+                ),
+                this.simIcon,
+                () => this.router.navigateByUrl(``)
+            ),
+
+            this.createStatBox(
+                '#ff7f50',
+                `${this.translate.instant('CLAIMS')}`,
+                separatorThousands(
+                    rapport?.['total_dossiers_en_reclamations'] || '0'
+                ),
+                this.simIcon,
+                () =>
+                    this.router.navigateByUrl(``, {
+                        state: { statut: SimStatut.ACTIF },
+                    })
+            ),
+
+            this.createStatBox(
+                '#555555',
+                `${this.translate.instant(
+                    'SATISFACTION_RATE'
+                )} ${this.translate.instant('CUSTOMERS')}`,
+                separatorThousands(
+                    rapport?.['pourcentage_satisfactions_clients'] || '0'
+                ),
+                this.simIcon,
+                () =>
+                    this.router.navigateByUrl(``, {
+                        state: { statut: SimStatut.SUSPENDU },
+                    }),
+                '#ffffff',
+                '#ffffff'
+            ),
+
+            this.createStatBox(
+                '#ff6600',
+                `${this.translate.instant(
+                    'IN_TREATMENT'
+                )} ${this.translate.instant('SLA')} ${this.translate.instant(
+                    'IN_PROGRESS'
+                )}`,
+                separatorThousands(rapport?.['total_messages_clients'] || '0'),
+                this.simIcon,
+                () =>
+                    this.router.navigateByUrl(``, {
                         state: { statut: SimStatut.RESILIE },
                     })
             ),

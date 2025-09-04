@@ -8,54 +8,20 @@
             <div class="card">
                 <div class="card-body">
                     <div style="margin-top: -2rem !important">
-                        <div class="d-flex justify-content-between">
-                            <app-patrimoine-header
-                                [displayDate]="false"
-                                [total]="(pagination$ | async)?.total"
-                                [legendePluriel]="'INVOICES' | translate"
-                                [legendeSingulier]="'INVOICE' | translate"
-                            >
-                            </app-patrimoine-header>
-                            <h3 class="d-flex align-items-end mb-2">
-                                <span
-                                    [ngStyle]="{ 'font-size': '27px' }"
-                                    class="badge badge-primary"
-                                >
-                                    <b>{{ 'MY_BALANCE' | translate }} : </b>
-                                    {{
-                                        (listInvoicesResponse$ | async)?.data
-                                            ?.mon_compte || 0
-                                    }}&nbsp;Fcfa
-                                </span>
-                            </h3>
-                        </div>
+                        <app-patrimoine-header
+                            [displayDate]="false"
+                            [total]="(pagination$ | async)?.total"
+                            [legendePluriel]="'INVOICES' | translate"
+                            [legendeSingulier]="'INVOICE' | translate"
+                        >
+                        </app-patrimoine-header>
                     </div>
 
-                    <div>
-                        <!-- <div class="container-box">
-                            <app-box-container
-                                *ngFor="let box of statistiquesBox"
-                                [ngClass]="{boxClickable: indexBoxClickable.includes(box?.id)}"
-                                [pTooltip]="indexBoxClickable.includes(box?.id) ? ('FILTER' | translate) box?.['legendColor'] : ''"
-                                tooltipPosition="top"
-                                (click)="onBoxClick(box)"
-                                class="col-md"
-                                [cardBgColor]="box?.['cardBgColor']"
-                                [cardBorderColor]="box?.['cardBorderColor'] ?? '#FFF'"
-                                [legend]="box?.['legend']"
-                                [count]="box?.['count']"
-                                [legendColor]="box?.['legendColor'] ?? '#FFF'"
-                                [countColor]="box?.['countColor'] ?? '#FFF'"
-                                [taux]="box?.['taux']"
-                            >
-                            </app-box-container>
-                        </div> -->
-
+                    <div class="fade-in">
                         <app-filter-invoice
                             (filter)="filter($event)"
                             [listOperations]="listOperations"
-                            [listStatusInvoice]="listStatusInvoice"
-                            [typePayment]="typePayment"
+                            [listInvoiceState]="listInvoiceState"
                         >
                         </app-filter-invoice>
 

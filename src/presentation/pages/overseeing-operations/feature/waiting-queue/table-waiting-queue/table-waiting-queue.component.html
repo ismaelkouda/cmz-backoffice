@@ -6,6 +6,7 @@
     selectionMode="single"
     [(selection)]="waitingQueueSelected"
     [rows]="(pagination$ | async)?.per_page"
+    [scrollable]="true"
     [globalFilterFields]="table.globalFilterFields"
     responsiveLayout="scroll"
     scrollable="true"
@@ -14,7 +15,7 @@
     class="responsive-claims-table"
 >
     <ng-template pTemplate="caption">
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between flex-wrap align-items-start">
             <app-table-title
                 [count]="(pagination$ | async)?.total"
                 [perPage]="(pagination$ | async)?.per_page"
@@ -22,22 +23,19 @@
                 [totalPage]="(pagination$ | async)?.last_page"
             >
             </app-table-title>
-            <div class="d-flex gap-2 align-items-center">
-                <div class="d-flex gap-2">
-                    <app-table-button-header
-                        (refresh)="pageCallback()"
-                        (export)="onExportExcel()"
-                        [disabledButtonExport]="
-                            (listWaitingQueue$ | async)?.length === 0
-                        "
-                        [colorOther]="'dark'"
-                        [hiddenButtonOther]="true"
-                    >
-                    </app-table-button-header>
-                </div>
-                <div>
-                    <app-search-table [dt]="dt"></app-search-table>
-                </div>
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
+            >
+                <app-table-button-header
+                    (refresh)="pageCallback()"
+                    (export)="onExportExcel()"
+                    [disabledButtonExport]="
+                        (listWaitingQueue$ | async)?.length === 0
+                    "
+                    [hiddenButtonOther]="true"
+                >
+                </app-table-button-header>
+                <app-search-table [dt]="dt"></app-search-table>
             </div>
         </div>
     </ng-template>
@@ -62,14 +60,11 @@
                     <ng-container *ngSwitchCase="'N° Dossier'">
                         {{ 'NUMBER_FOLDER' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'# Lignes'">
-                        {{ 'NUMBER_LINES' | translate }}
+                    <ng-container *ngSwitchCase="'Client'">
+                        {{ 'CUSTOMER' | translate | capitalize }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'# Traitées'">
-                        {{ 'NUMBER_TREATED' | translate }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'# Identifiées'">
-                        {{ 'NUMBER_IDENTIFIED' | translate }}
+                    <ng-container *ngSwitchCase="'Compte client'">
+                        {{ 'CUSTOMER_ACCOUNT' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Etape'">
                         {{ 'STEP' | translate }}
@@ -100,17 +95,44 @@
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
-                        {{ rowIndex + (pagination$ | async)?.current_page }}
+                        {{
+                            ((pagination$ | async)?.current_page - 1) *
+                                (pagination$ | async)?.per_page +
+                                rowIndex +
+                                1
+                        }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'N° Dossier'">
-                        <span (click)="copyToClipboard(item?.[col.field])">
+                        <span
+                            (click)="copyToClipboard(item?.[col.field])"
+                            [pTooltip]="'COPY' | translate"
+                            tooltipPosition="bottom"
+                        >
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Code'">
+                        <span
+                            (click)="copyToClipboard(item?.[col.field])"
+                            [pTooltip]="'COPY' | translate"
+                            tooltipPosition="bottom"
+                        >
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Compte client'">
+                        <span
+                            (click)="copyToClipboard(item?.[col.field])"
+                            [pTooltip]="'COPY' | translate"
+                            tooltipPosition="bottom"
+                        >
                             {{ item?.[col.field] }}
                         </span>
                     </ng-container>
                     <ng-container *ngSwitchCase="'Etape'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
-                            [class]="'badge ' + getStepWaitingQueueBadge(item)"
+                            [class]="'badge ' + getStepBadge(item)"
                         >
                             {{ item?.[col.field] }}
                         </span>
@@ -118,7 +140,7 @@
                     <ng-container *ngSwitchCase="'Etat'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
-                            [class]="'badge ' + getStateWaitingQueueBadge(item)"
+                            [class]="'badge ' + getStateBadge(item)"
                         >
                             {{ item?.[col.field] }}
                         </span>
@@ -129,14 +151,14 @@
                     <ng-container *ngSwitchCase="'Actions'">
                         <button
                             pButton
-                            [ngClass]="getTreatmentButtonViewStyle(item)?.class"
-                            [icon]="getTreatmentButtonViewStyle(item)?.icon"
                             tooltipPosition="top"
-                            [pTooltip]="getTreatmentButtonViewStyle(item)?.['tooltip']"
+                            [pTooltip]="handleActionButtonEditStyle(item)?.['tooltip']"
+                            [ngClass]="handleActionButtonEditStyle(item)?.class"
+                            [icon]="handleActionButtonEditStyle(item)?.icon"
                             (click)="
                                 handleAction({
                                     data: item,
-                                    action: 'view-waiting-queue',
+                                    action: OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.EDIT,
                                     view: 'modal'
                                 })
                             "
@@ -151,14 +173,17 @@
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-        <tr *ngIf="(listWaitingQueue$ | async)?.length <= 0 && !spinner">
+        <tr
+            *ngIf="(listWaitingQueue$ | async)?.length <= 0 && !spinner"
+            class="loading-table"
+        >
             <td class="posRelative" colspan="15">
                 <span class="posCenter">
                     {{ 'NO_DATA_FOUND' | translate }}
                 </span>
             </td>
         </tr>
-        <tr *ngIf="spinner">
+        <tr *ngIf="spinner" class="loading-table">
             <td class="posRelative" colspan="15">
                 <p-progressSpinner
                     class="posCenter"
@@ -175,23 +200,27 @@
 </p-table>
 
 <p-dialog
-    [header]="['WAITING_QUEUE' | translate]+' '+('FOLDER' | translate)+' '+waitingQueueSelected?.['numero_demande']"
+    [header]="['WAITING_QUEUE' | translate]+' '+('DEMAND' | translate)+' '+waitingQueueSelected?.['numero_demande']"
     [resizable]="true"
-    [(visible)]="visibleFormWaitingQueue"
-    (onHide)="hideDialog()"
+    [(visible)]="visibleForm"
+    (onHide)="visibleForm = false"
     [modal]="true"
     [closable]="true"
-    [style]="{ width: '100%', 'min-height': '100%' }"
     [responsive]="true"
-    [maximizable]="true"
     [draggable]="false"
+    [style]="{ width: '95vw', minHeight: '80vh' }"
+    [breakpoints]="{ '575px': '95vw', '1199px': '90vw' }"
 >
     <ng-template pTemplate="content">
-        <app-form-folder
-            [demandSelected]="waitingQueueSelected"
-            [typeTreatment]="typeTreatment"
-            (visibleFormDossier)="hideDialog()"
+        <app-treatment-requests-service-form
+            [customerSelected]="waitingQueueSelected"
+            [handleTreatment]="
+                handleActionButtonEditStyle(waitingQueueSelected)
+                    ?.handleTreatment
+            "
+            (visibleForm)="visibleForm = false"
+            [fetchCustomers]="pageCallback.bind(this)"
         >
-        </app-form-folder>
+        </app-treatment-requests-service-form>
     </ng-template>
 </p-dialog>

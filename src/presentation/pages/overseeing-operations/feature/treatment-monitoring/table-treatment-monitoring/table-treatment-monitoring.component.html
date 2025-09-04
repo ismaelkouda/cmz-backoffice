@@ -52,17 +52,20 @@
                 }"
             >
                 <ng-container [ngSwitch]="col.header">
-                    <ng-container *ngSwitchCase="'Date demande'">
+                    <ng-container *ngSwitchCase="'Date / Heure'">
                         {{ 'DATE_TIME' | translate }}
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Opération'">
+                        {{ 'OPERATION' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'N° Dossier'">
                         {{ 'NUMBER_FOLDER' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'# Lignes'">
-                        {{ 'NUMBER_LINES' | translate }}
+                    <ng-container *ngSwitchCase="'Client'">
+                        {{ 'CUSTOMER' | translate | capitalize }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'# Traitées'">
-                        {{ 'NUMBER_TREATED' | translate }}
+                    <ng-container *ngSwitchCase="'Compte client'">
+                        {{ 'CUSTOMER_ACCOUNT' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Etape'">
                         {{ 'STEP' | translate }}
@@ -70,7 +73,7 @@
                     <ng-container *ngSwitchCase="'Etat'">
                         {{ 'STATE' | translate }}
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Date traitement'">
+                    <ng-container *ngSwitchCase="'Date Etat'">
                         {{ 'UPDATED_DATE' | translate }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'Demandeur'">
@@ -93,9 +96,19 @@
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
-                        {{ rowIndex + (pagination$ | async)?.current_page }}
+                        {{
+                            ((pagination$ | async)?.current_page - 1) *
+                                (pagination$ | async)?.per_page +
+                                rowIndex +
+                                1
+                        }}
                     </ng-container>
                     <ng-container *ngSwitchCase="'N° Dossier'">
+                        <span (click)="copyToClipboard(item?.[col.field])">
+                            {{ item?.[col.field] }}
+                        </span>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'Compte client'">
                         <span (click)="copyToClipboard(item?.[col.field])">
                             {{ item?.[col.field] }}
                         </span>
@@ -103,9 +116,7 @@
                     <ng-container *ngSwitchCase="'Etape'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
-                            [class]="
-                                'badge ' + getStepTreatmentMonitoringBadge(item)
-                            "
+                            [class]="'badge ' + getStepBadge(item)"
                         >
                             {{ item?.[col.field] }}
                         </span>
@@ -113,61 +124,29 @@
                     <ng-container *ngSwitchCase="'Etat'">
                         <span
                             [ngStyle]="{ 'font-size': '16px' }"
-                            [class]="
-                                'badge ' +
-                                getStateTreatmentMonitoringBadge(item)
-                            "
+                            [class]="'badge ' + getStateBadge(item)"
                         >
                             {{ item?.[col.field] }}
                         </span>
                     </ng-container>
+                    <ng-container *ngSwitchCase="'Date Etat'">
+                        {{ item?.[col.field] }}
+                    </ng-container>
                     <ng-container *ngSwitchCase="'Actions'">
                         <button
                             pButton
-                            [ngClass]="
-                                getTreatmentButtonOpenTreatmentMonitoringStyle(
-                                    item
-                                )?.class
-                            "
-                            [icon]="
-                                getTreatmentButtonOpenTreatmentMonitoringStyle(
-                                    item
-                                )?.icon
-                            "
                             tooltipPosition="top"
-                            [pTooltip]="getTreatmentButtonOpenTreatmentMonitoringStyle(item)?.['tooltip']"
-                            [disabled]="
-                                getTreatmentButtonOpenTreatmentMonitoringStyle(
-                                    item
-                                )?.class === 'p-button-secondary'
-                            "
+                            [pTooltip]="handleActionButtonEditStyle(item)?.['tooltip']"
+                            [ngClass]="handleActionButtonEditStyle(item)?.class"
+                            [icon]="handleActionButtonEditStyle(item)?.icon"
                             (click)="
                                 handleAction({
                                     data: item,
-                                    action: 'open-folder-treatment-monitoring',
-                                    view: 'page'
-                                })
-                            "
-                        ></button
-                        >&nbsp;
-                        <button
-                            pButton
-                            [ngClass]="
-                                getTreatmentButtonViewTreatmentMonitoringStyle(
-                                    item
-                                )?.class
-                            "
-                            [icon]="
-                                getTreatmentButtonViewTreatmentMonitoringStyle(
-                                    item
-                                )?.icon
-                            "
-                            tooltipPosition="top"
-                            [pTooltip]="getTreatmentButtonViewTreatmentMonitoringStyle(item)?.['tooltip']"
-                            (click)="
-                                handleAction({
-                                    data: item,
-                                    action: 'view-treatment-monitoring',
+                                    action:
+                                        item.traitement ===
+                                        TREATMENT_MONITORING_STATE_ENUM.DO
+                                            ? OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.CLOSURE
+                                            : OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.SEE,
                                     view: 'modal'
                                 })
                             "
@@ -178,13 +157,13 @@
                             icon="pi pi-book"
                             class="p-button-primary"
                             tooltipPosition="top"
-                            [pTooltip]="
-                                'Journal de la demande ' + item.numero_demande
-                            "
+                            pTooltip="{{ 'NEWSPAPER' | translate }} {{
+                                item?.numero_demande
+                            }}"
                             (click)="
                                 handleAction({
                                     data: item,
-                                    action: 'journal-treatment-monitoring',
+                                    action: OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.NEWSPAPER,
                                     view: 'modal'
                                 })
                             "
@@ -199,14 +178,17 @@
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-        <tr *ngIf="(listTreatmentMonitoring$ | async)?.length <= 0 && !spinner">
+        <tr
+            *ngIf="(listTreatmentMonitoring$ | async)?.length <= 0 && !spinner"
+            class="loading-table"
+        >
             <td class="posRelative" colspan="15">
                 <span class="posCenter">
                     {{ 'NO_DATA_FOUND' | translate }}
                 </span>
             </td>
         </tr>
-        <tr *ngIf="spinner">
+        <tr *ngIf="spinner" class="loading-table">
             <td class="posRelative" colspan="15">
                 <p-progressSpinner
                     class="posCenter"
@@ -226,22 +208,26 @@
     header="[{{ 'TRACKING_PROCESSING' | translate }}] {{
         'DEMAND' | translate
     }} [{{ treatmentMonitoringSelected?.numero_demande }}]"
-    [(visible)]="visibleFormTreatmentMonitoring"
-    (onHide)="hideDialog()"
+    [resizable]="true"
+    [(visible)]="visibleForm"
+    (onHide)="visibleForm = false"
     [modal]="true"
     [closable]="true"
-    [style]="{ width: '100%', 'min-height': '100%' }"
-    [responsive]="true"
+    [style]="{ width: '95vw', minHeight: '80vh' }"
+    [breakpoints]="{ '1199px': '90vw', '575px': '95vw' }"
     [maximizable]="true"
     [draggable]="false"
-    [resizable]="true"
 >
     <ng-template pTemplate="content">
-        <app-form-folder
-            [demandSelected]="treatmentMonitoringSelected"
-            [typeTreatment]="typeTreatment"
-            (visibleFormDossier)="hideDialog()"
+        <app-treatment-requests-service-form
+            [customerSelected]="treatmentMonitoringSelected"
+            [handleTreatment]="
+                handleActionButtonEditStyle(treatmentMonitoringSelected)
+                    ?.handleTreatment
+            "
+            (visibleForm)="visibleForm = false"
+            [fetchCustomers]="pageCallback.bind(this)"
         >
-        </app-form-folder>
+        </app-treatment-requests-service-form>
     </ng-template>
 </p-dialog>
