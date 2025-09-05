@@ -7,7 +7,7 @@ import {
     Output,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -18,7 +18,7 @@ import {
     transition,
     animate,
 } from '@angular/animations';
-import { T_MANAGED_CUSTOMERS_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
+import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { CustomersFilterInterface } from '../../../data-access/customers/interfaces/customers-filter.interface';
 import { CustomersApiService } from '../../../data-access/customers/services/customers-api.service';
 import { T_TYPE_CUSTOMERS_ENUM } from '../../../../../../shared/enum/type-customers.enum';
@@ -59,7 +59,7 @@ import { T_TYPE_CUSTOMERS_ENUM } from '../../../../../../shared/enum/type-custom
 })
 export class FilterCustomersComponent implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<CustomersFilterInterface | {}>();
-    @Input() listCustomersStep: Array<T_MANAGED_CUSTOMERS_STEP_ENUM>;
+    @Input() listCustomersStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
     @Input() listCustomersType: Array<T_TYPE_CUSTOMERS_ENUM>;
 
     public formFilter: FormGroup<CustomersFilterInterface>;

@@ -1,3 +1,3 @@
 export const enum CommercialEnterprisesEndpointEnum {
-    MANAGED_CUSTOMERS_COMMERCIAL_ENTERPRISES = 'client-gere/all?page={page}',
+    CUSTOMERS_MANAGED_COMMERCIAL_ENTERPRISE = 'client-gere/all?page={page}',
 }

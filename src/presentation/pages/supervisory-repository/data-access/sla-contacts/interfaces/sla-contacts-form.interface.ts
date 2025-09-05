@@ -23,13 +23,13 @@ export interface SlaContactsFormInterface {
 
     piece_gerant: FormControl<File | null>;
 
-    numero_rccm: FormControl<string>;
+    numero_rccm: FormControl<string | null>;
     forme_juridique_code: FormControl<string | null>;
     fichier_rccm: FormControl<File | null>;
 
-    numero_cc: FormControl<string>;
+    numero_cc: FormControl<string | null>;
     regime_code: FormControl<string | null>;
-    centre: FormControl<string>;
+    centre: FormControl<string | null>;
     fichier_dfe: FormControl<File | null>;
 
     description: FormControl<string>;

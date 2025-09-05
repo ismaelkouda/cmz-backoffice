@@ -1,5 +1,5 @@
 export const TYPE_CUSTOMERS_ENUM = {
-    COMMERCIAL_ENTERPRISES: 'Commerciale',
+    COMMERCIAL_ENTERPRISE: 'Commerciale',
     PUBLIC_ENTERPRISES: 'Publique',
     ASSOCIATION_ENTERPRISES: 'Association',
     INDIVIDUALS: 'Personne physique',

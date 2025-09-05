@@ -1,0 +1,21 @@
+/* TypeScript configuration for end-to-end (E2E) tests */
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "outDir": "./out-tsc/e2e",
+
+        "target": "ES2022",
+        "module": "ES2022",
+        "lib": ["ES2022", "dom"],
+
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "allowJs": true,
+        "importHelpers": true,
+
+        "types": ["jasmine", "node"]
+    },
+    "include": ["e2e/**/*.ts", "e2e/**/*.d.ts"]
+}

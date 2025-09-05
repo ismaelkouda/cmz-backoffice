@@ -54,7 +54,7 @@ export class PublicEnterprisesApiService {
         if (this.loadingPublicEnterprisesSubject.getValue()) return;
         this.loadingPublicEnterprisesSubject.next(true);
         const url: string =
-            PublicEnterprisesEndpointEnum.MANAGED_CUSTOMERS_PUBLIC_ENTERPRISES.replace(
+            PublicEnterprisesEndpointEnum.CUSTOMERS_MANAGED_PUBLIC_ENTERPRISES.replace(
                 '{page}',
                 nbrPage
             );

@@ -1,6 +1,6 @@
 import {
-    MANAGED_CUSTOMERS_STEP_ENUM,
-    T_MANAGED_CUSTOMERS_STEP_ENUM,
+    CUSTOMERS_MANAGED_STEP_ENUM,
+    T_CUSTOMERS_MANAGED_STEP_ENUM,
 } from '../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,13 +10,13 @@ import { PublicEnterprisesFilterInterface } from '../../data-access/public-enter
 import { PublicEnterprisesInterface } from '../../data-access/public-enterprises/interfaces/public-enterprises.interface';
 import { PublicEnterprisesApiService } from '../../data-access/public-enterprises/services/public-enterprises-api.service';
 import {
-    MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM,
-    T_MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM,
+    CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
+    T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
 } from '../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
 
 type PageAction = {
     data: PublicEnterprisesInterface;
-    action: T_MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM;
+    action: T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;
     view: 'page';
 };
 
@@ -31,8 +31,8 @@ export class PublicEnterprisesComponent implements OnInit, OnDestroy {
     public listPublicEnterprises$: Observable<PublicEnterprisesInterface[]>;
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
-    public listPublicEnterprisesStep: Array<T_MANAGED_CUSTOMERS_STEP_ENUM> =
-        Object.values(MANAGED_CUSTOMERS_STEP_ENUM);
+    public listPublicEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM> =
+        Object.values(CUSTOMERS_MANAGED_STEP_ENUM);
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -88,7 +88,7 @@ export class PublicEnterprisesComponent implements OnInit, OnDestroy {
         let routePath: string = '';
 
         switch (params.action) {
-            case MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM.OPEN:
+            case CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN:
                 routePath = `${code_client}`;
                 this.router.navigate([routePath], {
                     relativeTo: this.activatedRoute,

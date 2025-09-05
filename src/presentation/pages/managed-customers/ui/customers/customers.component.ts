@@ -1,6 +1,6 @@
 import {
-    MANAGED_CUSTOMERS_STEP_ENUM,
-    T_MANAGED_CUSTOMERS_STEP_ENUM,
+    CUSTOMERS_MANAGED_STEP_ENUM,
+    T_CUSTOMERS_MANAGED_STEP_ENUM,
 } from '../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,14 +10,14 @@ import { CustomersFilterInterface } from '../../data-access/customers/interfaces
 import { CustomersInterface } from '../../data-access/customers/interfaces/customers.interface';
 import { CustomersApiService } from '../../data-access/customers/services/customers-api.service';
 import {
-    MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM,
-    T_MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM,
+    CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
+    T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
 } from '../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
 import { TYPE_CUSTOMERS_ENUM } from '../../../../../shared/enum/type-customers.enum';
 
 type PageAction = {
     data: CustomersInterface;
-    action: T_MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM;
+    action: T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;
     view: 'page';
 };
 
@@ -32,8 +32,8 @@ export class CustomersComponent implements OnInit, OnDestroy {
     public listCustomers$: Observable<CustomersInterface[]>;
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
-    public listCustomersStep: Array<T_MANAGED_CUSTOMERS_STEP_ENUM> =
-        Object.values(MANAGED_CUSTOMERS_STEP_ENUM);
+    public listCustomersStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM> =
+        Object.values(CUSTOMERS_MANAGED_STEP_ENUM);
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -82,13 +82,13 @@ export class CustomersComponent implements OnInit, OnDestroy {
     public navigateByUrl(params: PageAction): void {
         const code_client = params.data ? params.data['code_client'] : null;
         const ref = params.action;
-        const type_enterprise = TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISES;
+        const type_enterprise = TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISE;
         const queryParams = { ref, type_enterprise };
         let routePath: string = '';
         console.log('Navigating to:', params);
 
         switch (params.action) {
-            case MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM.OPEN:
+            case CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN:
                 routePath = `${code_client}`;
                 this.router.navigate([routePath], {
                     relativeTo: this.activatedRoute,

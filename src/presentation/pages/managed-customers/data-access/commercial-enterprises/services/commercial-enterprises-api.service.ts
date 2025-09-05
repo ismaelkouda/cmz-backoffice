@@ -55,7 +55,7 @@ export class CommercialEnterprisesApiService {
         if (this.loadingCommercialEnterprisesSubject.getValue()) return;
         this.loadingCommercialEnterprisesSubject.next(true);
         const url: string =
-            CommercialEnterprisesEndpointEnum.MANAGED_CUSTOMERS_COMMERCIAL_ENTERPRISES.replace(
+            CommercialEnterprisesEndpointEnum.CUSTOMERS_MANAGED_COMMERCIAL_ENTERPRISE.replace(
                 '{page}',
                 nbrPage
             );
@@ -63,7 +63,7 @@ export class CommercialEnterprisesApiService {
         this.httpClient
             .post<Object>(this.BASE_URL + url, {
                 ...data,
-                type_entreprise: TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISES,
+                type_entreprise: TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISE,
             })
             .pipe(
                 debounceTime(500),

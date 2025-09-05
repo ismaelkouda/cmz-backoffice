@@ -62,7 +62,7 @@
                                             class="form-check d-flex justify-content-around gap-3"
                                         >
                                             <div
-                                                class="big-radio d-flex flex-column align-items-center"
+                                                class="big-radio d-flex flex-row gap-3 align-items-center"
                                                 (click)="
                                                     setRadioValue('Commerciale')
                                                 "
@@ -92,7 +92,7 @@
                                             </div>
 
                                             <div
-                                                class="big-radio d-flex flex-column align-items-center"
+                                                class="big-radio d-flex flex-row gap-3 align-items-center"
                                                 (click)="
                                                     setRadioValue('Publique')
                                                 "
@@ -122,7 +122,7 @@
                                             </div>
 
                                             <div
-                                                class="big-radio d-flex flex-column align-items-center"
+                                                class="big-radio d-flex flex-row gap-3 align-items-center"
                                                 (click)="
                                                     setRadioValue('Association')
                                                 "
@@ -152,7 +152,7 @@
                                             </div>
 
                                             <div
-                                                class="big-radio d-flex flex-column align-items-center"
+                                                class="big-radio d-flex flex-row gap-3 align-items-center"
                                                 (click)="
                                                     setRadioValue(
                                                         'Personne physique'
@@ -184,49 +184,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- <div class="col-md-12">
-                                        <div class="form-check d-flex justify-content-around gap-3">
-                                            <div class="big-radio d-flex flex-column align-items-center">
-                                                <input class="form-check-input" type="radio" id="notation-content"
-                                                    value="content" formControlName="notation_cloture"
-                                                    [ngClass]="{'is-invalid': isInvalid('notation_cloture')}" />
-                                                <label
-                                                    class="form-check-label fw-semibold mt-2 d-flex flex-column align-items-center"
-                                                    for="notation-content">
-                                                    <img src="assets/images/icones/smile.png" width="28"
-                                                        alt="Content" />
-                                                    <span class="mt-1">Content</span>
-                                                </label>
-                                            </div>
-
-                                            <div class="big-radio d-flex flex-column align-items-center">
-                                                <input class="form-check-input" type="radio" id="notation-neutre"
-                                                    value="neutre" formControlName="notation_cloture"
-                                                    [ngClass]="{'is-invalid': isInvalid('notation_cloture')}" />
-                                                <label
-                                                    class="form-check-label fw-semibold mt-2 d-flex flex-column align-items-center"
-                                                    for="notation-neutre">
-                                                    <img src="assets/images/icones/confused.png" width="28"
-                                                        alt="Neutre" />
-                                                    <span class="mt-1">Neutre</span>
-                                                </label>
-                                            </div>
-
-                                            <div class="big-radio d-flex flex-column align-items-center">
-                                                <input class="form-check-input" type="radio" id="notation-mecontent"
-                                                    value="mécontent" formControlName="notation_cloture"
-                                                    [ngClass]="{'is-invalid': isInvalid('notation_cloture')}" />
-                                                <label
-                                                    class="form-check-label fw-semibold mt-2 d-flex flex-column align-items-center"
-                                                    for="notation-mecontent">
-                                                    <img src="assets/images/icones/sad.png" width="28"
-                                                        alt="Mécontent" />
-                                                    <span class="mt-1">Mécontent</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                 </div>
                             </div>
                         </fieldset>
@@ -333,7 +290,9 @@
                                     class="col-md-4 animate-fadeIn animate-fadeOut"
                                 >
                                     <label class="form-label"
-                                        ><b>{{ 'LOGO' | translate }}</b></label
+                                        ><b>{{
+                                            'LOGO_ENTERPRISE' | translate
+                                        }}</b></label
                                     >
                                     <div
                                         class="d-flex justify-content-between align-items-center gap-2"
@@ -479,18 +438,13 @@
                                         pInputText
                                         type="text"
                                         formControlName="numero_rccm"
-                                        [ngClass]="{
-                                            'is-invalid':
-                                                isInvalid('numero_rccm')
-                                        }"
                                     />
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label"
-                                        ><b>{{ 'LEGAL_FORM' | translate }}</b
-                                        ><span class="text-danger"
-                                            >*</span
-                                        ></label
+                                        ><b>{{
+                                            'LEGAL_FORM' | translate
+                                        }}</b></label
                                     >
                                     <p-dropdown
                                         [options]="listLegalForm$ | async"
@@ -503,11 +457,6 @@
                                             'NO_DATA' | translate
                                         }}"
                                         formControlName="forme_juridique_code"
-                                        [ngClass]="{
-                                            'p-invalid': isInvalid(
-                                                'forme_juridique_code'
-                                            )
-                                        }"
                                     ></p-dropdown>
                                 </div>
                                 <div class="col-md-4">
@@ -563,9 +512,6 @@
                                         pInputText
                                         type="text"
                                         formControlName="numero_cc"
-                                        [ngClass]="{
-                                            'is-invalid': isInvalid('numero_cc')
-                                        }"
                                     />
                                 </div>
                                 <div class="col-md-2">
@@ -581,10 +527,6 @@
                                         optionValue="code"
                                         placeholder="{{ 'SELECT' | translate }}"
                                         formControlName="regime_code"
-                                        [ngClass]="{
-                                            'p-invalid':
-                                                isInvalid('regime_code')
-                                        }"
                                         [filter]="true"
                                         filterBy="nom"
                                     >
@@ -601,9 +543,6 @@
                                         pInputText
                                         type="text"
                                         formControlName="centre"
-                                        [ngClass]="{
-                                            'is-invalid': isInvalid('centre')
-                                        }"
                                     />
                                 </div>
                                 <div class="col-md-4">

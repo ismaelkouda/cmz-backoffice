@@ -278,7 +278,9 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label"
-                                    ><b>{{ 'LOGO' | translate }}</b></label
+                                    ><b>{{
+                                        'LOGO_ENTERPRISE' | translate
+                                    }}</b></label
                                 >
                                 <div
                                     class="d-flex justify-content-between align-items-center gap-2"
@@ -421,9 +423,6 @@
                                     formControlName="numero_rccm"
                                     [readonly]="!disabledEditableForm"
                                     class="form-control"
-                                    [ngClass]="{
-                                        'is-invalid': isInvalid('numero_rccm')
-                                    }"
                                 />
                             </div>
                             <div class="col-md-3">
@@ -448,11 +447,6 @@
                                         formControlName="forme_juridique_code"
                                         [filter]="true"
                                         filterBy="nom"
-                                        [ngClass]="{
-                                            'p-invalid': isInvalid(
-                                                'forme_juridique_code'
-                                            )
-                                        }"
                                     ></p-dropdown>
                                 </ng-container>
                                 <ng-template #disabledLegalForm>
@@ -515,9 +509,6 @@
                                     formControlName="numero_cc"
                                     [readonly]="!disabledEditableForm"
                                     class="form-control"
-                                    [ngClass]="{
-                                        'is-invalid': isInvalid('numero_cc')
-                                    }"
                                 />
                             </div>
 
@@ -543,10 +534,6 @@
                                         formControlName="regime_code"
                                         [filter]="true"
                                         filterBy="nom"
-                                        [ngClass]="{
-                                            'p-invalid':
-                                                isInvalid('regime_code')
-                                        }"
                                     ></p-dropdown>
                                 </ng-container>
                                 <ng-template #disabledRegimeForm>
@@ -571,9 +558,6 @@
                                     formControlName="centre"
                                     class="form-control"
                                     [readonly]="!disabledEditableForm"
-                                    [ngClass]="{
-                                        'is-invalid': isInvalid('centre')
-                                    }"
                                 />
                             </div>
                             <div class="col-md-4">

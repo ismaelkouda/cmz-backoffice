@@ -53,7 +53,7 @@ export class AssociationEnterprisesApiService {
         if (this.loadingAssociationEnterprisesSubject.getValue()) return;
         this.loadingAssociationEnterprisesSubject.next(true);
         const url: string =
-            AssociationEnterprisesEndpointEnum.MANAGED_CUSTOMERS_ASSOCIATION_ENTERPRISES.replace(
+            AssociationEnterprisesEndpointEnum.CUSTOMERS_MANAGED_ASSOCIATION_ENTERPRISES.replace(
                 '{page}',
                 nbrPage
             );

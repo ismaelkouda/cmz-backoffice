@@ -161,31 +161,16 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
                 //     validators: [Validators.required],
                 // }),
 
-                numero_rccm: new FormControl('', {
-                    nonNullable: true,
-                    validators: [Validators.required],
-                }),
-                forme_juridique_code: new FormControl<string | null>(null, {
-                    nonNullable: true,
-                    validators: [Validators.required],
-                }),
+                numero_rccm: new FormControl(''),
+                forme_juridique_code: new FormControl<string | null>(null),
                 fichier_rccm: new FormControl<File | null>(null, {
                     nonNullable: true,
                     validators: [Validators.required],
                 }),
 
-                numero_cc: new FormControl('', {
-                    nonNullable: true,
-                    validators: [Validators.required],
-                }),
-                regime_code: new FormControl<string | null>(null, {
-                    nonNullable: true,
-                    validators: [Validators.required],
-                }),
-                centre: new FormControl('', {
-                    nonNullable: true,
-                    validators: [Validators.required],
-                }),
+                numero_cc: new FormControl(''),
+                regime_code: new FormControl<string | null>(null),
+                centre: new FormControl(''),
                 fichier_dfe: new FormControl<File | null>(null, {
                     nonNullable: true,
                     validators: [Validators.required],

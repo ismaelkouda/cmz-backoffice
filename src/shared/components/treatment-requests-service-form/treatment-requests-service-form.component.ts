@@ -192,45 +192,29 @@ export class TreatmentRequestsServiceFormComponent
                 ),
                 piece_gerant: new FormControl<File | null>(null),
 
-                numero_rccm: new FormControl(
-                    {
-                        value: this.customerDetails.tenant?.numero_rccm ?? '',
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
-                ),
-                forme_juridique_code: new FormControl(
-                    {
-                        value:
-                            this.customerDetails.tenant?.forme_juridique_code ??
-                            '',
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
-                ),
+                numero_rccm: new FormControl({
+                    value: this.customerDetails.tenant?.numero_rccm ?? '',
+                    disabled,
+                }),
+                forme_juridique_code: new FormControl({
+                    value:
+                        this.customerDetails.tenant?.forme_juridique_code ?? '',
+                    disabled,
+                }),
                 fichier_rccm: new FormControl<File | null>(null),
 
-                numero_cc: new FormControl(
-                    {
-                        value: this.customerDetails.tenant?.numero_cc ?? '',
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
-                ),
-                regime_code: new FormControl(
-                    {
-                        value: this.customerDetails.tenant?.regime_code,
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
-                ),
-                centre: new FormControl(
-                    {
-                        value: this.customerDetails.tenant?.centre ?? '',
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
-                ),
+                numero_cc: new FormControl({
+                    value: this.customerDetails.tenant?.numero_cc ?? '',
+                    disabled,
+                }),
+                regime_code: new FormControl({
+                    value: this.customerDetails.tenant?.regime_code,
+                    disabled,
+                }),
+                centre: new FormControl({
+                    value: this.customerDetails.tenant?.centre ?? '',
+                    disabled,
+                }),
                 fichier_dfe: new FormControl<File | null>(null),
 
                 description: new FormControl(

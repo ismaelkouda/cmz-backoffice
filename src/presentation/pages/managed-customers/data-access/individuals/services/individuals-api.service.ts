@@ -50,7 +50,7 @@ export class IndividualsApiService {
         if (this.loadingIndividualsSubject.getValue()) return;
         this.loadingIndividualsSubject.next(true);
         const url: string =
-            IndividualsEndpointEnum.MANAGED_CUSTOMERS_INDIVIDUALS.replace(
+            IndividualsEndpointEnum.CUSTOMERS_MANAGED_INDIVIDUALS.replace(
                 '{page}',
                 nbrPage
             );

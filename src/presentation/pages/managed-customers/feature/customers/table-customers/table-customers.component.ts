@@ -13,10 +13,10 @@ import { CustomersFilterInterface } from '../../../data-access/customers/interfa
 import { CustomersInterface } from '../../../data-access/customers/interfaces/customers.interface';
 import { CustomersApiService } from '../../../data-access/customers/services/customers-api.service';
 import {
-    MANAGED_CUSTOMERS_STEP_ENUM,
-    T_MANAGED_CUSTOMERS_STEP_ENUM,
+    CUSTOMERS_MANAGED_STEP_ENUM,
+    T_CUSTOMERS_MANAGED_STEP_ENUM,
 } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
-import { MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM } from '../../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
+import { CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM } from '../../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
 
 type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
 
@@ -33,7 +33,7 @@ export class TableCustomersComponent {
         new BehaviorSubject<Array<CustomersInterface>>([]);
     @Input() pagination$: Observable<Paginate<CustomersInterface>>;
 
-    @Input() listCustomersStep: Array<T_MANAGED_CUSTOMERS_STEP_ENUM>;
+    @Input() listCustomersStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
 
     public customerSelected: CustomersInterface;
     public table: TableConfig = CUSTOMERS_TABLE;
@@ -41,8 +41,8 @@ export class TableCustomersComponent {
 
     public visibleForm: boolean = false;
 
-    public MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM =
-        MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM;
+    public CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM =
+        CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;
 
     constructor(
         private toastService: ToastrService,
@@ -90,12 +90,12 @@ export class TableCustomersComponent {
     }
 
     public getStepBadge(
-        statut: T_MANAGED_CUSTOMERS_STEP_ENUM
+        statut: T_CUSTOMERS_MANAGED_STEP_ENUM
     ): TYPE_COLOR_STEP_BADGE {
         switch (statut) {
-            case MANAGED_CUSTOMERS_STEP_ENUM.ON:
+            case CUSTOMERS_MANAGED_STEP_ENUM.ON:
                 return 'badge-success';
-            case MANAGED_CUSTOMERS_STEP_ENUM.OFF:
+            case CUSTOMERS_MANAGED_STEP_ENUM.OFF:
                 return 'badge-danger';
             default:
                 return 'badge-danger';
@@ -123,7 +123,7 @@ export class TableCustomersComponent {
         const SIM_OF_THE_REQUEST = this.translate.instant('SIM_OF_THE_REQUEST');
         const CANNOT_SEE_THE_SIM = this.translate.instant('CANNOT_SEE_THE_SIM');
         switch (customerSelected?.statut) {
-            case MANAGED_CUSTOMERS_STEP_ENUM.ON: {
+            case CUSTOMERS_MANAGED_STEP_ENUM.ON: {
                 return {
                     class: 'p-button-dark',
                     icon: 'pi pi-folder-open',

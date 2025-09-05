@@ -423,7 +423,7 @@ export class ${subModuleName}ApiService {
 import { SecondLevelService } from '../../../../../../shared/services/second-level.service';
 import { Component, Input, EventEmitter, Output } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import * as moment from 'moment';
+import moment from 'moment';
 import { ToastrService } from "ngx-toastr";
 import { MappingService } from '../../../../../../shared/services/mapping.service';
 import { Observable } from 'rxjs';
@@ -1586,7 +1586,7 @@ if (-not (Test-Path $featurePath)) {
     import { SecondLevelService } from '../../../../../../shared/services/second-level.service';
 import { Component, Input, EventEmitter, Output } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import * as moment from 'moment';
+import moment from 'moment';
 import { ToastrService } from "ngx-toastr";
 import { MappingService } from '../../../../../../shared/services/mapping.service';
 import { Observable } from 'rxjs';

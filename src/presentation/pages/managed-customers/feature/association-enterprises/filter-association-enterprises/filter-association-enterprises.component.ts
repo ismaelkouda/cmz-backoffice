@@ -7,7 +7,7 @@ import {
     Output,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -18,7 +18,7 @@ import {
     transition,
     animate,
 } from '@angular/animations';
-import { T_MANAGED_CUSTOMERS_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
+import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { AssociationEnterprisesFilterInterface } from '../../../data-access/association-enterprises/interfaces/association-enterprises-filter.interface';
 import { AssociationEnterprisesApiService } from '../../../data-access/association-enterprises/services/association-enterprises-api.service';
 
@@ -63,7 +63,7 @@ export class FilterAssociationEnterprisesComponent
         AssociationEnterprisesFilterInterface | {}
     >();
     @Input()
-    listAssociationEnterprisesStep: Array<T_MANAGED_CUSTOMERS_STEP_ENUM>;
+    listAssociationEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
 
     public formFilter: FormGroup<AssociationEnterprisesFilterInterface>;
     private destroy$ = new Subject<void>();

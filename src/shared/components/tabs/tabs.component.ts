@@ -6,8 +6,9 @@ import {
     AfterViewInit,
     HostListener,
 } from '@angular/core';
-
 import { TabService } from '../../services/tab.service';
+import { EncodingDataService } from '../../services/encoding-data.service';
+
 @Component({
     selector: 'app-tabs',
     template: `
@@ -75,18 +76,17 @@ import { TabService } from '../../services/tab.service';
                 background: rgba(255, 255, 255, 0.75);
                 border: none;
                 border-radius: 0.75rem 0.75rem 0 0;
-                padding: 0.25rem 0.5rem;
 
                 .nav-item {
                     transition: all 0.3s ease;
                     cursor: pointer;
+                    padding: 0.2rem 0.2rem;
                 }
 
                 .nav-link {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    padding: 0.6rem 1rem;
                     margin-right: 4px;
                     border: none;
                     border-radius: 0.65rem 0.65rem 0 0;
@@ -165,9 +165,15 @@ export class TabsComponent implements OnInit, AfterViewInit {
 
     @ViewChild('tabsContainer') tabsContainer!: ElementRef;
 
-    constructor(private tabService: TabService, private el: ElementRef) {}
+    constructor(
+        private tabService: TabService,
+        private el: ElementRef,
+        private encodingService: EncodingDataService
+    ) {}
 
     ngOnInit(): void {
+        console.log('tabs', this.tabs);
+
         this.tabService.tabs$.subscribe((tabs) => {
             this.tabs = tabs;
             setTimeout(() => this.adjustTabsAppearance(), 10);
@@ -191,27 +197,27 @@ export class TabsComponent implements OnInit, AfterViewInit {
         const tabCount = tabs.length;
 
         if (tabCount > 1) {
-            let fontSize = '0.9rem';
-            let padding = '10px 15px';
+            // let fontSize = '0.9rem';
+            // let padding = '10px 15px';
 
-            if (tabCount > 5) fontSize = '0.85rem';
-            if (tabCount > 10) fontSize = '0.8rem';
-            if (tabCount > 15) fontSize = '0.75rem';
+            // if (tabCount > 5) fontSize = '0.85rem';
+            // if (tabCount > 10) fontSize = '0.8rem';
+            // if (tabCount > 15) fontSize = '0.75rem';
 
-            if (tabCount > 5) padding = '8px 12px';
-            if (tabCount > 10) padding = '6px 10px';
+            // if (tabCount > 5) padding = '8px 12px';
+            // if (tabCount > 10) padding = '6px 10px';
 
             tabs.forEach((tab: Element) => {
                 const titleEl = tab.querySelector('.tab-title');
                 const linkEl = tab.querySelector('.nav-link');
 
-                if (titleEl) {
-                    (titleEl as HTMLElement).style.fontSize = fontSize;
-                }
+                // if (titleEl) {
+                //     (titleEl as HTMLElement).style.fontSize = fontSize;
+                // }
 
-                if (linkEl) {
-                    (linkEl as HTMLElement).style.padding = padding;
-                }
+                // if (linkEl) {
+                //     (linkEl as HTMLElement).style.padding = padding;
+                // }
             });
         }
     }

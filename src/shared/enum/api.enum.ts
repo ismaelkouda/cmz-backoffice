@@ -75,5 +75,5 @@ export const enum EndPointUrl {
     LEGAL_FORMS = 'parametres-securite/forme-juridiques/all',
     REGIME_BUSINESS = 'parametres-securite/regimes-entreprise/all',
 
-    MANAGED_CUSTOMERS = 'demandes-services/all?page={page}',
+    CUSTOMERS_MANAGED = 'demandes-services/all?page={page}',
 }

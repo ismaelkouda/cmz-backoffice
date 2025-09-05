@@ -7,7 +7,7 @@ import { IndividualsComponent } from './ui/individuals/individuals.component';
 import { CustomersComponent } from './ui/customers/customers.component';
 import { DetailsManagedCustomersComponent } from './feature/managed-customers/details-managed-customers/details-managed-customers.component';
 
-export const COMMERCIAL_ENTERPRISES = 'commercial-enterprises';
+export const COMMERCIAL_ENTERPRISE = 'commercial-enterprises';
 export const PUBLIC_ENTERPRISES = 'public-enterprises';
 export const ASSOCIATION_ENTERPRISES = 'association-enterprises';
 export const INDIVIDUALS = 'individuals';
@@ -15,7 +15,7 @@ export const CUSTOMERS = 'customers';
 
 const routes: Routes = [
     {
-        path: COMMERCIAL_ENTERPRISES,
+        path: COMMERCIAL_ENTERPRISE,
         children: [
             {
                 path: '',
@@ -28,7 +28,7 @@ const routes: Routes = [
         ],
         // canActivate: [PagesGuard],
         // data: {
-        //     allowedPaths: [`/${COMMERCIAL_ENTERPRISES}`],
+        //     allowedPaths: [`/${COMMERCIAL_ENTERPRISE}`],
         // },
     },
     {
@@ -45,7 +45,7 @@ const routes: Routes = [
         ],
         // canActivate: [PagesGuard],
         // data: {
-        //     allowedPaths: [`/${COMMERCIAL_ENTERPRISES}`],
+        //     allowedPaths: [`/${COMMERCIAL_ENTERPRISE}`],
         // },
     },
     {
@@ -62,7 +62,7 @@ const routes: Routes = [
         ],
         // canActivate: [PagesGuard],
         // data: {
-        //     allowedPaths: [`/${COMMERCIAL_ENTERPRISES}`],
+        //     allowedPaths: [`/${COMMERCIAL_ENTERPRISE}`],
         // },
     },
     {
@@ -79,7 +79,7 @@ const routes: Routes = [
         ],
         // canActivate: [PagesGuard],
         // data: {
-        //     allowedPaths: [`/${COMMERCIAL_ENTERPRISES}`],
+        //     allowedPaths: [`/${COMMERCIAL_ENTERPRISE}`],
         // },
     },
     {
@@ -96,7 +96,7 @@ const routes: Routes = [
         ],
         // canActivate: [PagesGuard],
         // data: {
-        //     allowedPaths: [`/${COMMERCIAL_ENTERPRISES}`],
+        //     allowedPaths: [`/${COMMERCIAL_ENTERPRISE}`],
         // },
     },
 ];

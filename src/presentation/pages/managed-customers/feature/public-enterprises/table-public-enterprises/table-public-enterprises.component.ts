@@ -14,10 +14,10 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PublicEnterprisesInterface } from '../../../data-access/public-enterprises/interfaces/public-enterprises.interface';
 import { PublicEnterprisesApiService } from '../../../data-access/public-enterprises/services/public-enterprises-api.service';
 import {
-    MANAGED_CUSTOMERS_STEP_ENUM,
-    T_MANAGED_CUSTOMERS_STEP_ENUM,
+    CUSTOMERS_MANAGED_STEP_ENUM,
+    T_CUSTOMERS_MANAGED_STEP_ENUM,
 } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
-import { MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM } from '../../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
+import { CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM } from '../../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
 
 type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
 
@@ -35,7 +35,7 @@ export class TablePublicEnterprisesComponent {
     > = new BehaviorSubject<Array<PublicEnterprisesInterface>>([]);
     @Input() pagination$: Observable<Paginate<PublicEnterprisesInterface>>;
 
-    @Input() listPublicEnterprisesStep: Array<T_MANAGED_CUSTOMERS_STEP_ENUM>;
+    @Input() listPublicEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
 
     public publicEnterpriseSelected: PublicEnterprisesInterface;
     public table: TableConfig = PUBLIC_ENTERPRISES_TABLE;
@@ -43,8 +43,8 @@ export class TablePublicEnterprisesComponent {
 
     public visibleForm: boolean = false;
 
-    public MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM =
-        MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM;
+    public CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM =
+        CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;
 
     constructor(
         private toastService: ToastrService,
@@ -93,12 +93,12 @@ export class TablePublicEnterprisesComponent {
     }
 
     public getStepBadge(
-        statut: T_MANAGED_CUSTOMERS_STEP_ENUM
+        statut: T_CUSTOMERS_MANAGED_STEP_ENUM
     ): TYPE_COLOR_STEP_BADGE {
         switch (statut) {
-            case MANAGED_CUSTOMERS_STEP_ENUM.ON:
+            case CUSTOMERS_MANAGED_STEP_ENUM.ON:
                 return 'badge-success';
-            case MANAGED_CUSTOMERS_STEP_ENUM.OFF:
+            case CUSTOMERS_MANAGED_STEP_ENUM.OFF:
                 return 'badge-danger';
             default:
                 return 'badge-danger';
@@ -128,7 +128,7 @@ export class TablePublicEnterprisesComponent {
         const SIM_OF_THE_REQUEST = this.translate.instant('SIM_OF_THE_REQUEST');
         const CANNOT_SEE_THE_SIM = this.translate.instant('CANNOT_SEE_THE_SIM');
         switch (publicEnterpriseSelected?.statut) {
-            case MANAGED_CUSTOMERS_STEP_ENUM.ON: {
+            case CUSTOMERS_MANAGED_STEP_ENUM.ON: {
                 return {
                     class: 'p-button-dark',
                     icon: 'pi pi-folder-open',

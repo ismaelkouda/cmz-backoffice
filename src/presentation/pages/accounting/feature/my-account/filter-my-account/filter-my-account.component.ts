@@ -6,7 +6,7 @@ import {
     OnDestroy,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 import { myAccountFilterInterface } from '../../../data-access/my-account/interfaces/my-account-filter.interface';

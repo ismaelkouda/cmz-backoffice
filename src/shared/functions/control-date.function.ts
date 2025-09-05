@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export function dateNotInPastValidator(

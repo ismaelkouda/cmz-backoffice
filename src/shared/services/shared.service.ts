@@ -370,7 +370,7 @@ export class SharedService {
     ): void {
         if (this.loadingCustomersActivateSubject.getValue()) return;
         this.loadingCustomersActivateSubject.next(true);
-        const url: string = EndPointUrl.MANAGED_CUSTOMERS.replace(
+        const url: string = EndPointUrl.CUSTOMERS_MANAGED.replace(
             '{page}',
             nbrPage
         );
