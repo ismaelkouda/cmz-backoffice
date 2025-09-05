@@ -16,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SharedService } from '../../../../../../shared/services/shared.service';
 import { formDataBuilder } from '../../../../../../shared/constants/formDataBuilder.constant';
 import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';
-import * as moment from 'moment';
+import moment from 'moment';
 import { dateNotInPastValidator } from '../../../../../../shared/functions/control-date.function';
 import { CLAIMS } from '../../../overseeing-operations-routing.module';
 import { ClaimsApiService } from '../../../data-access/claims/services/claims-api.service';

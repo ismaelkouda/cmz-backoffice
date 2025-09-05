@@ -12,8 +12,8 @@ import { Location } from '@angular/common';
 import { SharedService } from '../../../../../../shared/services/shared.service';
 import { ManagedCustomersIdentificationInterface } from '../../../data-access/managed-customers/interfaces/managed-customers-identification.interface';
 import {
-    MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM,
-    T_MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM,
+    CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
+    T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
 } from '../../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
 import { ManagedCustomersDetailsInterface } from '../../../data-access/managed-customers/interfaces/managed-customers-details.interface';
 
@@ -58,11 +58,11 @@ export class DetailsManagedCustomersComponent implements OnInit {
     }
 
     private validateParams(params: {
-        ref?: T_MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM;
+        ref?: T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;
     }): void {
         if (
-            !Object.values(MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM).includes(
-                params.ref as T_MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM
+            !Object.values(CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM).includes(
+                params.ref as T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM
             )
         ) {
             this.router.navigate(['customers-activate']);

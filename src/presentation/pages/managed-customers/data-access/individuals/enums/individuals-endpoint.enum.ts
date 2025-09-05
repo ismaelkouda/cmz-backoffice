@@ -1,3 +1,3 @@
 export const enum IndividualsEndpointEnum {
-    MANAGED_CUSTOMERS_INDIVIDUALS = 'client-gere/all?page={page}',
+    CUSTOMERS_MANAGED_INDIVIDUALS = 'client-gere/all?page={page}',
 }

@@ -1,4 +1,4 @@
-export const COMMERCIAL_ENTERPRISES_TABLE = {
+export const COMMERCIAL_ENTERPRISE_TABLE = {
     cols: [
         { field: '', header: '#', class: 'text-center' },
         {

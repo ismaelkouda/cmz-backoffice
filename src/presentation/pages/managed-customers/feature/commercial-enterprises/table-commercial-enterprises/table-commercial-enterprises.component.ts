@@ -8,15 +8,15 @@ import {
 import { BehaviorSubject, Observable, Subject, take } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { Paginate } from '../../../../../../shared/interfaces/paginate';
-import { COMMERCIAL_ENTERPRISES_TABLE } from '../../../data-access/commercial-enterprises/constants/commercial-enterprises-table.constant';
+import { COMMERCIAL_ENTERPRISE_TABLE } from '../../../data-access/commercial-enterprises/constants/commercial-enterprises-table.constant';
 import { CommercialEnterprisesFilterInterface } from '../../../data-access/commercial-enterprises/interfaces/commercial-enterprises-filter.interface';
 import { CommercialEnterprisesInterface } from '../../../data-access/commercial-enterprises/interfaces/commercial-enterprises.interface';
 import { CommercialEnterprisesApiService } from '../../../data-access/commercial-enterprises/services/commercial-enterprises-api.service';
 import {
-    MANAGED_CUSTOMERS_STEP_ENUM,
-    T_MANAGED_CUSTOMERS_STEP_ENUM,
+    CUSTOMERS_MANAGED_STEP_ENUM,
+    T_CUSTOMERS_MANAGED_STEP_ENUM,
 } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
-import { MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM } from '../../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
+import { CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM } from '../../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
 
 type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
 
@@ -35,16 +35,16 @@ export class TableCommercialEnterprisesComponent {
     @Input() pagination$: Observable<Paginate<CommercialEnterprisesInterface>>;
 
     @Input()
-    listCommercialEnterprisesStep: Array<T_MANAGED_CUSTOMERS_STEP_ENUM>;
+    listCommercialEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
 
     public commercialEnterpriseSelected: CommercialEnterprisesInterface;
-    public table: TableConfig = COMMERCIAL_ENTERPRISES_TABLE;
+    public table: TableConfig = COMMERCIAL_ENTERPRISE_TABLE;
     private destroy$ = new Subject<void>();
 
     public visibleForm: boolean = false;
 
-    public MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM =
-        MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM;
+    public CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM =
+        CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;
 
     constructor(
         private toastService: ToastrService,
@@ -73,7 +73,7 @@ export class TableCommercialEnterprisesComponent {
                     this.tableExportExcelFileService.exportAsExcelFile(
                         commercialEnterprises,
                         this.table,
-                        'list_commercial_enterprises'
+                        'list_COMMERCIAL_ENTERPRISE'
                     );
                 } else {
                     this.toastService.error(
@@ -92,12 +92,12 @@ export class TableCommercialEnterprisesComponent {
     }
 
     public getStepBadge(
-        statut: T_MANAGED_CUSTOMERS_STEP_ENUM
+        statut: T_CUSTOMERS_MANAGED_STEP_ENUM
     ): TYPE_COLOR_STEP_BADGE {
         switch (statut) {
-            case MANAGED_CUSTOMERS_STEP_ENUM.ON:
+            case CUSTOMERS_MANAGED_STEP_ENUM.ON:
                 return 'badge-success';
-            case MANAGED_CUSTOMERS_STEP_ENUM.OFF:
+            case CUSTOMERS_MANAGED_STEP_ENUM.OFF:
                 return 'badge-danger';
             default:
                 return 'badge-danger';
@@ -128,7 +128,7 @@ export class TableCommercialEnterprisesComponent {
         const SIM_OF_THE_REQUEST = this.translate.instant('SIM_OF_THE_REQUEST');
         const CANNOT_SEE_THE_SIM = this.translate.instant('CANNOT_SEE_THE_SIM');
         switch (commercialEnterpriseSelected?.statut) {
-            case MANAGED_CUSTOMERS_STEP_ENUM.ON: {
+            case CUSTOMERS_MANAGED_STEP_ENUM.ON: {
                 return {
                     class: 'p-button-dark',
                     icon: 'pi pi-folder-open',

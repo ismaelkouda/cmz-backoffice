@@ -4,7 +4,7 @@ import { Routes } from '@angular/router';
 export const SEARCH = 'search';
 
 export const DASHBOARD = 'dashboard';
-export const MANAGED_CUSTOMERS = 'managed-customers';
+export const CUSTOMERS_MANAGED = 'managed-customers';
 export const REQUESTS_SERVICE = 'requests-services';
 export const SUPERVISORY_REPOSITORY = 'sla-reference';
 export const PARAMETRE_SECURITE = 'parametre-securite';
@@ -24,15 +24,15 @@ export const content: Routes = [
         },
     },
     {
-        path: MANAGED_CUSTOMERS,
+        path: CUSTOMERS_MANAGED,
         loadChildren: () =>
             import(
                 '../../presentation/pages/managed-customers/managed-customers.module'
             ).then((m) => m.ManagedCustomersModule),
         data: {
-            module: 'MANAGED_CUSTOMERS',
+            module: 'CUSTOMERS_MANAGED',
             subModule: [
-                'COMMERCIAL_ENTERPRISES',
+                'COMMERCIAL_ENTERPRISE',
                 'PUBLIC_ENTERPRISES',
                 'ASSOCIATION_ENTERPRISES',
                 'INDIVIDUALS',

@@ -1,33 +1,21 @@
 /*
-  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
-  It is not intended to be used to perform a compilation.
+  Root configuration file for TypeScript.
+  This file is used by editors and TypeScript’s language server.
+  It is not intended for direct compilation.
 
-  To learn more about this file see: https://angular.io/config/solution-tsconfig.
+  See: https://angular.io/config/solution-tsconfig
 */
 {
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    },
-    {
-      "path": "./e2e/tsconfig.json"
-    }
-  ],
-  "compilerOptions": {
-    "allowJs": true,
-    "target": "ES2022",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "importHelpers": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "resolveJsonModule": true,
-    "useDefineForClassFields": false,
-    "moduleResolution": "node"
-  }
+    "files": [],
+    "references": [
+        {
+            "path": "./tsconfig.app.json"
+        },
+        {
+            "path": "./tsconfig.spec.json"
+        },
+        {
+            "path": "./e2e/tsconfig.json"
+        }
+    ]
 }
-

@@ -14,10 +14,10 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { AssociationEnterprisesInterface } from '../../../data-access/association-enterprises/interfaces/association-enterprises.interface';
 import { AssociationEnterprisesApiService } from '../../../data-access/association-enterprises/services/association-enterprises-api.service';
 import {
-    MANAGED_CUSTOMERS_STEP_ENUM,
-    T_MANAGED_CUSTOMERS_STEP_ENUM,
+    CUSTOMERS_MANAGED_STEP_ENUM,
+    T_CUSTOMERS_MANAGED_STEP_ENUM,
 } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
-import { MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM } from '../../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
+import { CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM } from '../../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
 
 type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
 
@@ -36,7 +36,7 @@ export class TableAssociationEnterprisesComponent {
     @Input() pagination$: Observable<Paginate<AssociationEnterprisesInterface>>;
 
     @Input()
-    listAssociationEnterprisesStep: Array<T_MANAGED_CUSTOMERS_STEP_ENUM>;
+    listAssociationEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
 
     public associationEnterpriseSelected: AssociationEnterprisesInterface;
     public table: TableConfig = ASSOCIATION_ENTERPRISES_TABLE;
@@ -44,8 +44,8 @@ export class TableAssociationEnterprisesComponent {
 
     public visibleForm: boolean = false;
 
-    public MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM =
-        MANAGED_CUSTOMERS_BUTTONS_ACTIONS_ENUM;
+    public CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM =
+        CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;
 
     constructor(
         private toastService: ToastrService,
@@ -94,12 +94,12 @@ export class TableAssociationEnterprisesComponent {
     }
 
     public getStepBadge(
-        statut: T_MANAGED_CUSTOMERS_STEP_ENUM
+        statut: T_CUSTOMERS_MANAGED_STEP_ENUM
     ): TYPE_COLOR_STEP_BADGE {
         switch (statut) {
-            case MANAGED_CUSTOMERS_STEP_ENUM.ON:
+            case CUSTOMERS_MANAGED_STEP_ENUM.ON:
                 return 'badge-success';
-            case MANAGED_CUSTOMERS_STEP_ENUM.OFF:
+            case CUSTOMERS_MANAGED_STEP_ENUM.OFF:
                 return 'badge-danger';
             default:
                 return 'badge-danger';
@@ -129,7 +129,7 @@ export class TableAssociationEnterprisesComponent {
         const SIM_OF_THE_REQUEST = this.translate.instant('SIM_OF_THE_REQUEST');
         const CANNOT_SEE_THE_SIM = this.translate.instant('CANNOT_SEE_THE_SIM');
         switch (associationEnterpriseSelected?.statut) {
-            case MANAGED_CUSTOMERS_STEP_ENUM.ON: {
+            case CUSTOMERS_MANAGED_STEP_ENUM.ON: {
                 return {
                     class: 'p-button-dark',
                     icon: 'pi pi-folder-open',

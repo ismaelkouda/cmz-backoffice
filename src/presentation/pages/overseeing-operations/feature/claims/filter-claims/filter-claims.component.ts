@@ -8,7 +8,7 @@ import {
     OnDestroy,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { claimsFilterInterface } from '../../../data-access/claims/interfaces/claims-filter.interface';

@@ -396,7 +396,6 @@
                         type="text"
                         formControlName="numero_rccm"
                         [readonly]="!disabledEditableForm"
-                        [ngClass]="{ 'is-invalid': isInvalid('numero_rccm') }"
                         class="form-control"
                     />
                 </div>
@@ -417,9 +416,6 @@
                             formControlName="forme_juridique_code"
                             [filter]="true"
                             filterBy="nom"
-                            [ngClass]="{
-                                'p-invalid': isInvalid('forme_juridique_code')
-                            }"
                         ></p-dropdown>
                     </ng-container>
                     <ng-template #disabledLegalForm>
@@ -478,7 +474,6 @@
                         type="text"
                         formControlName="numero_cc"
                         [readonly]="!disabledEditableForm"
-                        [ngClass]="{ 'is-invalid': isInvalid('numero_cc') }"
                         class="form-control"
                     />
                 </div>
@@ -499,9 +494,6 @@
                             formControlName="regime_code"
                             [filter]="true"
                             filterBy="nom"
-                            [ngClass]="{
-                                'p-invalid': isInvalid('regime_code')
-                            }"
                         >
                         </p-dropdown>
                     </ng-container>
@@ -525,7 +517,6 @@
                         type="text"
                         formControlName="centre"
                         [readonly]="!disabledEditableForm"
-                        [ngClass]="{ 'is-invalid': isInvalid('centre') }"
                         class="form-control"
                     />
                 </div>

@@ -109,7 +109,7 @@ export class CustomersActivateComponent implements OnInit, OnDestroy {
         const number_demand = params.data ? params.data : null;
         const ref = params.action;
         const type_enterprise: T_TYPE_CUSTOMERS_ENUM =
-            TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISES;
+            TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISE;
         const queryParams = { ref, type_enterprise };
         let routePath: string = '';
 

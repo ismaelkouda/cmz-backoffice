@@ -28,7 +28,7 @@ export class ManagedCustomersApiService {
         if (this.loadingCustomersDetailsSubject.getValue()) return;
         this.loadingCustomersDetailsSubject.next(true);
         const url: string =
-            ManagedCustomersDetailsEndpointEnum.MANAGED_CUSTOMERS_DETAILS.replace(
+            ManagedCustomersDetailsEndpointEnum.CUSTOMERS_MANAGED_DETAILS.replace(
                 '{codeClient}',
                 codeClient
             );

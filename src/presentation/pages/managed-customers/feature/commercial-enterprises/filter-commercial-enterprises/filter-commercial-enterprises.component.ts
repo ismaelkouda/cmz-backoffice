@@ -7,7 +7,7 @@ import {
     Output,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import * as moment from 'moment';
+import moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -18,7 +18,7 @@ import {
     transition,
     animate,
 } from '@angular/animations';
-import { T_MANAGED_CUSTOMERS_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
+import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { CommercialEnterprisesFilterInterface } from '../../../data-access/commercial-enterprises/interfaces/commercial-enterprises-filter.interface';
 import { CommercialEnterprisesApiService } from '../../../data-access/commercial-enterprises/services/commercial-enterprises-api.service';
 
@@ -61,7 +61,7 @@ export class FilterCommercialEnterprisesComponent implements OnInit, OnDestroy {
         CommercialEnterprisesFilterInterface | {}
     >();
     @Input()
-    listCommercialEnterprisesStep: Array<T_MANAGED_CUSTOMERS_STEP_ENUM>;
+    listCommercialEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
 
     public formFilter: FormGroup<CommercialEnterprisesFilterInterface>;
     private destroy$ = new Subject<void>();

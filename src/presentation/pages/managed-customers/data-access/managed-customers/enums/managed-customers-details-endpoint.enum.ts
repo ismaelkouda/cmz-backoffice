@@ -1,3 +1,3 @@
 export const enum ManagedCustomersDetailsEndpointEnum {
-    MANAGED_CUSTOMERS_DETAILS = 'client-gere/{codeClient}/details',
+    CUSTOMERS_MANAGED_DETAILS = 'client-gere/{codeClient}/details',
 }

@@ -50,7 +50,7 @@ export class CustomersApiService {
         if (this.loadingCustomersSubject.getValue()) return;
         this.loadingCustomersSubject.next(true);
         const url: string =
-            CustomersEndpointEnum.MANAGED_CUSTOMERS_CUSTOMERS.replace(
+            CustomersEndpointEnum.CUSTOMERS_MANAGED_CUSTOMERS.replace(
                 '{page}',
                 nbrPage
             );
