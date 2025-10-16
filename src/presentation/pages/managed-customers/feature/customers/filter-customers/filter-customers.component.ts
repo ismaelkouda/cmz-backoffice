@@ -21,7 +21,10 @@ import {
 import { T_CUSTOMERS_MANAGED_STEP_ENUM } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { CustomersFilterInterface } from '../../../data-access/customers/interfaces/customers-filter.interface';
 import { CustomersApiService } from '../../../data-access/customers/services/customers-api.service';
-import { T_TYPE_CUSTOMERS_ENUM } from '../../../../../../shared/enum/type-customers.enum';
+import {
+    T_TYPE_CUSTOMERS_ENUM,
+    TYPE_CUSTOMERS_ENUM,
+} from '../../../../../../shared/enum/type-customers.enum';
 
 @Component({
     selector: 'app-filter-customers',
@@ -59,10 +62,11 @@ import { T_TYPE_CUSTOMERS_ENUM } from '../../../../../../shared/enum/type-custom
 })
 export class FilterCustomersComponent implements OnInit, OnDestroy {
     @Output() filter = new EventEmitter<CustomersFilterInterface | {}>();
-    @Input() listCustomersStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
-    @Input() listCustomersType: Array<T_TYPE_CUSTOMERS_ENUM>;
+    @Input() listCustomersStep!: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
+    public listCustomersType: Array<T_TYPE_CUSTOMERS_ENUM> =
+        Object.values(TYPE_CUSTOMERS_ENUM);
 
-    public formFilter: FormGroup<CustomersFilterInterface>;
+    public formFilter!: FormGroup<CustomersFilterInterface>;
     private destroy$ = new Subject<void>();
 
     public secondFilter: boolean = false;

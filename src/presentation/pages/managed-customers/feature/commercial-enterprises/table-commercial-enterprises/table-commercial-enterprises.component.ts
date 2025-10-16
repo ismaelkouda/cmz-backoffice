@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnDestroy,
+    Output,
+} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 import {
@@ -17,6 +23,7 @@ import {
     T_CUSTOMERS_MANAGED_STEP_ENUM,
 } from '../../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM } from '../../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
+import { ManagedCustomersPageActionsType } from '../../../data-access/managed-customers/types/managed-customers-page-actions.type';
 
 type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
 
@@ -25,17 +32,15 @@ type TYPE_COLOR_STEP_BADGE = 'badge-success' | 'badge-danger';
     templateUrl: './table-commercial-enterprises.component.html',
     styleUrls: ['./table-commercial-enterprises.component.scss'],
 })
-export class TableCommercialEnterprisesComponent {
-    @Output() interfaceUser = new EventEmitter<any>();
+export class TableCommercialEnterprisesComponent implements OnDestroy {
+    @Output() interfaceUser =
+        new EventEmitter<ManagedCustomersPageActionsType>();
 
     @Input() spinner: boolean;
     @Input() listCommercialEnterprises$: Observable<
         Array<CommercialEnterprisesInterface>
     > = new BehaviorSubject<Array<CommercialEnterprisesInterface>>([]);
     @Input() pagination$: Observable<Paginate<CommercialEnterprisesInterface>>;
-
-    @Input()
-    listCommercialEnterprisesStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM>;
 
     public commercialEnterpriseSelected: CommercialEnterprisesInterface;
     public table: TableConfig = COMMERCIAL_ENTERPRISE_TABLE;
@@ -73,7 +78,7 @@ export class TableCommercialEnterprisesComponent {
                     this.tableExportExcelFileService.exportAsExcelFile(
                         commercialEnterprises,
                         this.table,
-                        'list_COMMERCIAL_ENTERPRISE'
+                        'list_commercial_enterprises'
                     );
                 } else {
                     this.toastService.error(
@@ -104,11 +109,10 @@ export class TableCommercialEnterprisesComponent {
         }
     }
 
-    public handleAction(params): void {
-        this.onSelectCommercialEnterprise(params.data);
+    public handleAction(params: ManagedCustomersPageActionsType): void {
+        // this.onSelectCommercialEnterprise(params.data);
         switch (params.view) {
             case 'page':
-                console.log('Navigating to page:', params);
                 this.interfaceUser.emit(params);
                 break;
         }

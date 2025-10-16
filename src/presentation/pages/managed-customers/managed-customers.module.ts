@@ -30,6 +30,7 @@ import { CustomersApiService } from './data-access/customers/services/customers-
 import { ManagedCustomersApiService } from './data-access/managed-customers/services/managed-customers-api.service';
 import { DetailsManagedCustomersComponent } from './feature/managed-customers/details-managed-customers/details-managed-customers.component';
 import { IdentificationManagedCustomersComponent } from './feature/managed-customers/identification-managed-customers/identification-managed-customers.component';
+import { CommercialEnterprisesNavigationGuardService } from './data-access/commercial-enterprises/services/commercial-enterprises-navigation-guard.service';
 
 @NgModule({
     declarations: [
@@ -62,6 +63,7 @@ import { IdentificationManagedCustomersComponent } from './feature/managed-custo
     ],
     providers: [
         CommercialEnterprisesApiService,
+        CommercialEnterprisesNavigationGuardService,
         PublicEnterprisesApiService,
         AssociationEnterprisesApiService,
         IndividualsApiService,

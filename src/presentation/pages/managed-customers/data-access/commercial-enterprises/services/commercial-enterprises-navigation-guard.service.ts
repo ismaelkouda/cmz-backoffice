@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { filter, Observable } from 'rxjs';
-import { InvoicePageActionsType } from '../types/invoice-page-actions.type';
-import { InvoiceNavigationStoreService } from './invoice-navigation-store.service';
+import { CommercialEnterprisesNavigationStoreService } from './commercial-enterprises-navigation-store.service';
+import { ManagedCustomersPageActionsType } from '../../managed-customers/types/managed-customers-page-actions.type';
 
 interface NavigationState {
-    routeData: InvoicePageActionsType | null;
+    routeData: ManagedCustomersPageActionsType | null;
     navigationInProgress: boolean;
     lastUpdated: number;
 }
@@ -16,13 +16,13 @@ const initialNavigationState: NavigationState = {
 };
 
 @Injectable()
-export class InvoiceNavigationGuardService extends InvoiceNavigationStoreService<NavigationState> {
+export class CommercialEnterprisesNavigationGuardService extends CommercialEnterprisesNavigationStoreService<NavigationState> {
     constructor() {
         super(initialNavigationState);
     }
 
-    setInvoiceNavigationGuard(
-        customersActivateRoute: InvoicePageActionsType,
+    setCommercialEnterprisesNavigationGuard(
+        customersActivateRoute: ManagedCustomersPageActionsType,
         isInternal: boolean = false
     ): void {
         const newState: NavigationState = {
@@ -34,13 +34,13 @@ export class InvoiceNavigationGuardService extends InvoiceNavigationStoreService
         this.setState(newState, isInternal);
     }
 
-    getInvoiceNavigationGuard(): Observable<InvoicePageActionsType> {
+    getCommercialEnterprisesNavigationGuard(): Observable<ManagedCustomersPageActionsType> {
         return this.select((state) => state.routeData).pipe(
             filter((routeData) => routeData !== null)
-        ) as Observable<InvoicePageActionsType>;
+        ) as Observable<ManagedCustomersPageActionsType>;
     }
 
-    clearInvoiceNavigationGuard(): void {
+    clearCommercialEnterprisesNavigationGuard(): void {
         this.setState({
             ...this.state,
             routeData: null,

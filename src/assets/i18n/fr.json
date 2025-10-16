@@ -17,6 +17,7 @@
     "ACCOUNT_RESERVED": "Compte bénéficiaire",
     "CLOSING": "Clôture",
     "ACCEPTED": "Accepté",
+    "REJECTED": "Rejeté",
     "REQUESTS_PRODUCTS": "Commandes produits",
     "NUMBER_PHONE_APPLICANT": "Contact Déposant",
     "PRENAME_OF_APPLICANT": "Prénoms Déposant",
@@ -224,6 +225,7 @@
     "CLOSE": "Fermer",
     "TO_DELIVER": "À livrer",
     "SLA_KO": "SLA KO",
+    "SLA_OK": "SLA OK",
     "SLA": "SLA",
     "SIM": "SIM",
     "CLOSURE": "Clôture",
@@ -298,7 +300,7 @@
     "UPDATED_DATE": "Date MAJ",
     "DASHBOARD": "Tableau de bord",
     "BACK-OFFICE": "BACK-OFFICE",
-    "DASHBOARD_TITLE": "Vue générale - Portail web IMAKO - Système de Gestion d'activation de client",
+    "DASHBOARD_TITLE": "Statistiques générales - ",
     "HANDLE_ACTIVATE_CUSTOMER": "Voulez-vous activer le client nom_tenant",
     "HANDLE_DISABLE_CUSTOMER": "Voulez-vous désactiver le client nom_tenant",
     "TRACKING_PROCESSING": "Suivi & Traitement",
@@ -373,5 +375,7 @@
     "CANCEL": "Annuler",
     "DASHBOARD_UPDATED_DATE": "Dernière mise à jour",
     "LOGO_ENTERPRISE": "Logo de l'entreprise",
-    "SUPERVISORY_REPOSITORY": "Référentiel de supervision"
+    "SUPERVISORY_REPOSITORY": "Référentiel de supervision",
+    "VIEW": "Voir",
+    "VIEW_ALL": "Voir tout"
 }

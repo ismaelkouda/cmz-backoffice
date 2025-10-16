@@ -36,6 +36,7 @@ export const content: Routes = [
                 'PUBLIC_ENTERPRISES',
                 'ASSOCIATION_ENTERPRISES',
                 'INDIVIDUALS',
+                'CUSTOMERS',
             ],
         },
     },

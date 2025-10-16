@@ -13,7 +13,10 @@ import {
     CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
     T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
 } from '../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
-import { TYPE_CUSTOMERS_ENUM } from '../../../../../shared/enum/type-customers.enum';
+import {
+    T_TYPE_CUSTOMERS_ENUM,
+    TYPE_CUSTOMERS_ENUM,
+} from '../../../../../shared/enum/type-customers.enum';
 
 type PageAction = {
     data: CustomersInterface;
@@ -26,10 +29,10 @@ type PageAction = {
     templateUrl: './customers.component.html',
 })
 export class CustomersComponent implements OnInit, OnDestroy {
-    public module: string;
-    public subModule: string;
-    public pagination$: Observable<Paginate<CustomersInterface>>;
-    public listCustomers$: Observable<CustomersInterface[]>;
+    public module!: string;
+    public subModule!: string;
+    public pagination$!: Observable<Paginate<CustomersInterface>>;
+    public listCustomers$!: Observable<CustomersInterface[]>;
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
     public listCustomersStep: Array<T_CUSTOMERS_MANAGED_STEP_ENUM> =
@@ -44,11 +47,10 @@ export class CustomersComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
             this.module = data.module;
-            this.subModule = data.subModule[3];
+            this.subModule = data.subModule[4];
         });
         this.listCustomers$ = this.customersApiService.getCustomers();
         this.pagination$ = this.customersApiService.getCustomersPagination();
-
         combineLatest([
             this.customersApiService.getDataFilterCustomers(),
             this.customersApiService.getDataNbrPageCustomers(),
@@ -84,18 +86,23 @@ export class CustomersComponent implements OnInit, OnDestroy {
         const ref = params.action;
         const type_enterprise = TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISE;
         const queryParams = { ref, type_enterprise };
-        let routePath: string = '';
-        console.log('Navigating to:', params);
 
-        switch (params.action) {
-            case CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN:
-                routePath = `${code_client}`;
-                this.router.navigate([routePath], {
-                    relativeTo: this.activatedRoute,
-                    queryParams,
-                });
-                break;
+        const actionHandlers: Record<string, () => string> = {
+            [CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN]: () =>
+                `${code_client}`,
+        };
+
+        const handler = actionHandlers[params.action];
+        if (!handler) {
+            console.warn('Action non gérée:', params.action);
+            return;
         }
+
+        const routePath = handler();
+        this.router.navigate([routePath], {
+            relativeTo: this.activatedRoute,
+            queryParams,
+        });
     }
 
     ngOnDestroy(): void {

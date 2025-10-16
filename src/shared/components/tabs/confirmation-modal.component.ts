@@ -145,7 +145,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
             .modal-title {
                 margin: 0;
                 font-size: 18px;
-                color: #5b9bd5;
+                color: #fff;
                 font-weight: 600;
                 letter-spacing: -0.01em;
             }

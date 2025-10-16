@@ -21,7 +21,11 @@ import {
             <p-button
                 *ngIf="!hiddenButtonOther"
                 [class.p-disabled]="disabledButtonOther"
-                [label]="showLabels ? labelOther : ''"
+                [label]="
+                    showLabels
+                        ? labelOther ?? ('CREATE' | translate)
+                        : ('' | translate)
+                "
                 icon="pi pi-plus"
                 [styleClass]="'p-button-' + colorOther"
                 class="margin-right-5"

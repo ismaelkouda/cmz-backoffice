@@ -4,21 +4,14 @@ import {
 } from './../../data-access/managed-customers/enums/managed-customers-step.enum';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
+import { combineLatest, filter, Observable, Subject, takeUntil } from 'rxjs';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { CommercialEnterprisesFilterInterface } from '../../data-access/commercial-enterprises/interfaces/commercial-enterprises-filter.interface';
 import { CommercialEnterprisesInterface } from '../../data-access/commercial-enterprises/interfaces/commercial-enterprises.interface';
 import { CommercialEnterprisesApiService } from '../../data-access/commercial-enterprises/services/commercial-enterprises-api.service';
-import {
-    CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
-    T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
-} from '../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
-
-type PageAction = {
-    data: CommercialEnterprisesInterface;
-    action: T_CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM;
-    view: 'page';
-};
+import { CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM } from '../../data-access/managed-customers/interfaces/managed-customers-buttons-actions.enum';
+import { CommercialEnterprisesNavigationGuardService } from '../../data-access/commercial-enterprises/services/commercial-enterprises-navigation-guard.service';
+import { ManagedCustomersPageActionsType } from '../../data-access/managed-customers/types/managed-customers-page-actions.type';
 
 @Component({
     selector: 'app-commercial-enterprises',
@@ -39,8 +32,11 @@ export class CommercialEnterprisesComponent implements OnInit, OnDestroy {
     constructor(
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private commercialEnterprisesApiService: CommercialEnterprisesApiService
-    ) {}
+        private commercialEnterprisesApiService: CommercialEnterprisesApiService,
+        private navigationGuardService: CommercialEnterprisesNavigationGuardService
+    ) {
+        this.setupNavigationListener();
+    }
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
@@ -66,6 +62,30 @@ export class CommercialEnterprisesComponent implements OnInit, OnDestroy {
                 this.spinner = spinner;
             });
     }
+    private setupNavigationListener(): void {
+        this.navigationGuardService
+            .getCommercialEnterprisesNavigationGuard()
+            .pipe(
+                takeUntil(this.destroy$),
+                filter(
+                    (params) =>
+                        params !== null &&
+                        params.action !== undefined &&
+                        params.action !== null
+                ),
+                filter(() => !this.navigationGuardService.isNavigating)
+            )
+            .subscribe((params) => {
+                if (
+                    params &&
+                    Object.values(
+                        CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM
+                    ).includes(params.action)
+                ) {
+                    this.executeNavigation(params);
+                }
+            });
+    }
 
     public filter(filterData: CommercialEnterprisesFilterInterface): void {
         this.commercialEnterprisesApiService.fetchCommercialEnterprises(
@@ -85,21 +105,38 @@ export class CommercialEnterprisesComponent implements OnInit, OnDestroy {
             });
     }
 
-    public navigateByUrl(params: PageAction): void {
-        const code_client = params.data ? params.data['code_client'] : null;
+    public executeNavigation(params: ManagedCustomersPageActionsType): void {
+        const code_client = params.data ?? null;
         const ref = params.action;
         const queryParams = { ref };
-        let routePath: string = '';
 
-        switch (params.action) {
-            case CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN:
-                routePath = `${code_client}`;
+        const actionHandlers: Record<string, () => void> = {
+            [CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN]: () => {
+                const routePath = `${code_client}`;
                 this.router.navigate([routePath], {
                     relativeTo: this.activatedRoute,
                     queryParams,
                 });
-                break;
+            },
+        };
+
+        const handler = actionHandlers[params.action];
+        if (handler) {
+            handler();
+        } else {
+            console.warn('Action non gérée :', params.action);
         }
+    }
+
+    public navigateByUrl(params: ManagedCustomersPageActionsType): void {
+        this.navigationGuardService.setCommercialEnterprisesNavigationGuard(
+            {} as ManagedCustomersPageActionsType,
+            true
+        );
+        this.navigationGuardService.setCommercialEnterprisesNavigationGuard(
+            params,
+            true
+        );
     }
 
     ngOnDestroy(): void {

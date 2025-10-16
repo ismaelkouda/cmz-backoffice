@@ -21,4 +21,5 @@ export interface MenuItemChildren {
     data: string;
     type: 'link' | 'sub';
     active?: boolean;
+    children?: MenuItemChildren[];
 }

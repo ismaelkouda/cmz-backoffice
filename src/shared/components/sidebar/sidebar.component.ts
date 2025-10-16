@@ -71,26 +71,43 @@ export class SidebarComponent implements OnInit, OnDestroy {
                             this.setNavActive(subItems);
                         }
                     });
+                    // items.children.filter((subItems) => {
+                    //     const basePath = event.url.split('?')[0];
+                    //     const trimmedPath = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
+                    //     const menuPath = subItems.path.endsWith('/') ? subItems.path.slice(0, -1) : subItems.path;
+                    //     if (menuPath === trimmedPath || trimmedPath.startsWith(menuPath + '/')) {
+                    //         this.setNavActive(subItems);
+                    //     }
+                    // });
                 });
             }
         });
     }
 
     // Active Nave state
-    setNavActive(item) {
-        console.log('item', item);
-
+    setNavActive(itemSelected) {
         this.menuItems.filter((menuItem) => {
-            if (menuItem !== item) {
+            if (menuItem !== itemSelected) {
                 menuItem.active = false;
             }
             if (
-                (menuItem.children && menuItem.children.includes(item)) ||
-                (menuItem.path && menuItem.path === item.path)
+                (menuItem.children &&
+                    menuItem.children.some(
+                        (item) => item.data === itemSelected.data
+                    )) ||
+                (menuItem.path && menuItem.path === itemSelected.path)
             ) {
+                console.log('menuItem', menuItem);
+                console.log('item', itemSelected);
                 menuItem.active = true;
-                this.addTab(item);
+                this.addTab(itemSelected);
             }
+            // menuItem.children?.filter((subItem) => {
+            //     if (subItem.children && subItem.children.includes(item)) {
+            //         subItem.active = true;
+            //         this.addTab(item);
+            //     }
+            // })
         });
     }
 

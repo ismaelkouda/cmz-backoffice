@@ -12,7 +12,7 @@ import {
     Validators,
 } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 const Swal = require('sweetalert2');
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,7 +23,8 @@ import {
     T_TYPE_CUSTOMERS_ENUM,
     TYPE_CUSTOMERS_ENUM,
 } from '../../../../../../shared/enum/type-customers.enum';
-import { CustomersActivateNavigationGuardService } from '../../../data-access/customers-activate/services/customers-activate-navigation-guard.service';
+import { EncodingDataService } from '../../../../../../shared/services/encoding-data.service';
+import { MenuItem } from '../../../../../../shared/interfaces/menu-item.interface';
 
 @Component({
     selector: 'app-form-customers-activate',
@@ -42,6 +43,7 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
     public listLegalForm$: Observable<Array<{ code: string; nom: string }>>;
 
     private destroy$ = new Subject<void>();
+    private STORAGE_KEY!: string;
 
     constructor(
         private fb: FormBuilder,
@@ -51,7 +53,7 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private sharedService: SharedService,
         private requestsServiceApiService: RequestsServiceApiService,
-        private navigationGuardService: CustomersActivateNavigationGuardService
+        private encodingService: EncodingDataService
     ) {}
 
     ngOnInit(): void {
@@ -59,6 +61,39 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
         this.initializeForm();
         this.fetchRegimesBusiness();
         this.fetchLegalForms();
+        this.setupNavigationListener();
+    }
+
+    private setupNavigationListener(): void {
+        const menuItems = this.encodingService.getData('menu') as
+            | Array<MenuItem>
+            | [];
+        this.activatedRoute.url
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((event: any) => {
+                const url =
+                    this.activatedRoute.snapshot['_routerState'].url.split(
+                        '?'
+                    )[0];
+                for (const parent of menuItems) {
+                    if (parent.children) {
+                        const child = parent.children.find((c) =>
+                            url.startsWith(c.path)
+                        );
+                        if (child) {
+                            this.STORAGE_KEY = child.path;
+                            return;
+                        }
+                    }
+                }
+            });
+        console.log('this.STORAGE_KEY', this.STORAGE_KEY);
+        const savedState = this.encodingService.getData(
+            `${this.STORAGE_KEY}_children_component`
+        );
+        if (!savedState) {
+            return;
+        }
     }
 
     private initializeState(): void {
@@ -81,7 +116,7 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
                 params.type_enterprise as T_TYPE_CUSTOMERS_ENUM
             )
         ) {
-            this.router.navigate(['customers-activate']);
+            // this.router.navigate(['customers-activate']);
             return;
         }
 
@@ -274,7 +309,9 @@ export class FormCustomersActivateComponent implements OnInit, OnDestroy {
     }
 
     onBack(): void {
-        this.navigationGuardService.clearCustomersActivateNavigationGuard();
+        this.encodingService.removeData(
+            `${this.STORAGE_KEY}_children_component`
+        );
         this.router.navigate(['../'], { relativeTo: this.activatedRoute });
     }
 

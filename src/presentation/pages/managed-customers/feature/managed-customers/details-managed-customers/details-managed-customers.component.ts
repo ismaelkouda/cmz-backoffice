@@ -9,7 +9,6 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { SharedService } from '../../../../../../shared/services/shared.service';
 import { ManagedCustomersIdentificationInterface } from '../../../data-access/managed-customers/interfaces/managed-customers-identification.interface';
 import {
     CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM,
@@ -23,19 +22,18 @@ import { ManagedCustomersDetailsInterface } from '../../../data-access/managed-c
     styleUrls: ['./details-managed-customers.component.scss'],
 })
 export class DetailsManagedCustomersComponent implements OnInit {
-    public module: string;
-    public subModule: string;
+    public module: string = 'Clients gérés';
+    public subModule: string = 'Entreprise commerciale';
     public customersDetailsForm!: FormGroup<ManagedCustomersIdentificationInterface>;
-    public code_client: string;
-    public customerDetails: ManagedCustomersDetailsInterface;
+    public code_client!: string;
+    public customerDetails!: ManagedCustomersDetailsInterface;
 
     @Output() formsView = new EventEmitter();
-    public indexTabPanelActive: number;
+    public indexTabPanelActive: number = 0;
 
     constructor(
         private fb: FormBuilder,
         public toastService: ToastrService,
-        private sharedService: SharedService,
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private location: Location,
@@ -174,15 +172,6 @@ export class DetailsManagedCustomersComponent implements OnInit {
                 ),
                 fichier_dfe: new FormControl<File | null>(null),
             });
-    }
-
-    public viewFile(field: string) {
-        const defaultFile = this.customerDetails?.[field];
-        if (!defaultFile) {
-            this.toastService.info('Aucun fichier à afficher');
-            return;
-        }
-        if (defaultFile) window.open(defaultFile, '_blank');
     }
 
     public closeInterface(): void {

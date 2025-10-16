@@ -52,6 +52,7 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
         });
 
         routesToDelete.forEach((key) => {
+            console.log('key:', key);
             this.storedRoutes.delete(key);
         });
     }

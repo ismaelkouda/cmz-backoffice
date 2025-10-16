@@ -12,7 +12,6 @@ import { CustomersActivateComponent } from './ui/customers-activate/customers-ac
 import { FormCustomersActivateComponent } from './feature/customers-activate/form-customers-activate/form-customers-activate.component';
 import { FilterCustomersActivateComponent } from './feature/customers-activate/filter-customers-activate/filter-customers-activate.component';
 import { RequestsServiceApiService } from './data-access/requests-service/services/requests-service-api.service';
-import { CustomersActivateNavigationGuardService } from './data-access/customers-activate/services/customers-activate-navigation-guard.service';
 
 @NgModule({
     declarations: [
@@ -30,9 +29,6 @@ import { CustomersActivateNavigationGuardService } from './data-access/customers
         Ng2SearchPipeModule,
         NgxPaginationModule,
     ],
-    providers: [
-        RequestsServiceApiService,
-        CustomersActivateNavigationGuardService,
-    ],
+    providers: [RequestsServiceApiService],
 })
 export class RequestsServiceModule {}

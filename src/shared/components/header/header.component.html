@@ -14,37 +14,7 @@
                         alt=""
                     />
                 </div>
-                <!-- <div>
-                    <h3
-                        style="
-                            font-weight: bold;
-                            font-size: 24px;
-                            position: relative;
-                        "
-                    >
-                        <span class="legende">
-                            <b>{{ nom_tenant }}</b>
-                        </span>
-                    </h3>
-                </div> -->
             </div>
-            <!-- <div
-                *ngIf="nom_application === patrimoineType"
-                style="display: flex; gap: 2rem"
-            >
-                <div class="box-card">
-                    <span class="title">Solde Data Global (Go) :</span>
-                    <span class="valeur">
-                        <span>{{ soldeGlobal | formatNumber: 2 || '0' }}</span>
-                    </span>
-                </div>
-                <div class="box-card">
-                    <span class="title">Ligne Crédit (FCFA) :</span>
-                    <span class="valeur">
-                        <span>{{ pipeValue(ligneCreditGlobal || '0') }}</span>
-                    </span>
-                </div>
-            </div> -->
             <div class="nav-right" style="margin-top: 0.4rem">
                 <ul class="nav-menus">
                     <li class="profile-nav onhover-dropdown">
@@ -90,7 +60,7 @@
                         severity="{{
                             (notificationCount$ | async) ? 'danger' : ''
                         }}"
-                        (click)="OnGoNotif()"
+                        (click)="OnGoNotifications()"
                         title="Notifications"
                     ></i>
                 </div>
@@ -105,27 +75,3 @@
         </div>
     </nav>
 </div>
-<!-- <nav class="navbar m-0" [hidden]="statutLayout()">
-    <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap px-3 py-2">
-
-        <div class="d-flex align-items-center gap-3">
-            <img class="img-fluid sidebar-logo" [src]="logoTenant" alt="Logo" />
-            <h3 class="sidebar-tenant mb-0">
-                <span class="legende"><b>{{ nom_tenant }}</b></span>
-            </h3>
-        </div>
-
-        <div class="d-flex align-items-center gap-4 mt-3 mt-md-0">
-            <i class="pi pi-bell text-3xl notification-icon" *ngIf="countNotify > 0" pBadge [value]="countNotify"
-                severity="danger" (click)="OnGoNotif()"></i>
-            <ul class="nav-menus mb-0">
-                <li class="profile-nav onhover-dropdown p-0">
-                    <app-my-account></app-my-account>
-                </li>
-            </ul>
-        </div>
-
-    </div>
-</nav> -->
-
-<!-- Page Header Ends -->

@@ -1,5 +1,5 @@
 import { EnvService } from './../shared/services/env.service';
-import { Component, inject, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { EncodingDataService } from '../shared/services/encoding-data.service';
 import { DOCUMENT } from '@angular/common';
@@ -17,7 +17,6 @@ export class AppComponent {
         private envService: EnvService,
         private encodingService: EncodingDataService
     ) {
-        // this.translate.setDefaultLang('fr');
         const userLang = this.getUserLanguage();
         this.setDefaultLanguage(userLang);
         this.getAppSettings();
@@ -48,6 +47,7 @@ export class AppComponent {
         link.rel = 'icon';
         link.type = 'image/png';
         link.href = appLogoIcon;
+
         this.document.head.appendChild(link);
     }
 }

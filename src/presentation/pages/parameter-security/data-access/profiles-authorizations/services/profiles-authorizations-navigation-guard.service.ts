@@ -30,7 +30,6 @@ export class ProfilesAuthorizationsNavigationGuardService extends ProfilesAuthor
             navigationInProgress: !isInternal,
             lastUpdated: Date.now(),
         };
-        console.log("Mise à jour de l'etat:", newState);
 
         this.setState(newState, isInternal);
     }
@@ -42,7 +41,6 @@ export class ProfilesAuthorizationsNavigationGuardService extends ProfilesAuthor
     }
 
     clearProfilesAuthorizationsNavigationGuard(): void {
-        console.log("Mise à jour de l'etat:", this.state);
         this.setState({
             ...this.state,
             routeData: null,

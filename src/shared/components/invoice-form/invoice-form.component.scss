@@ -480,8 +480,8 @@ $danger-color: #dc3545;
     .p-datatable-thead
     > tr
     > th:nth-child(1) {
-    min-width: 15rem !important;
-    max-width: 15rem !important;
+    // min-width: 15rem !important;
+    // max-width: 15rem !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -492,8 +492,8 @@ $danger-color: #dc3545;
     .p-datatable-tbody
     > tr
     > td:nth-child(1) {
-    min-width: 15rem !important;
-    max-width: 15rem !important;
+    // min-width: 15rem !important;
+    // max-width: 15rem !important;
     display: flex;
     align-items: center;
     justify-content: center;

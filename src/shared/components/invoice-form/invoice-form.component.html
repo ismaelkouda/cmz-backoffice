@@ -601,8 +601,9 @@
                                         <tr>
                                             <th
                                                 style="
-                                                    min-width: 100px;
-                                                    width: 100px;
+                                                    min-width: 200px;
+                                                    width: 200px;
+                                                    max-width: 200px;
                                                 "
                                             >
                                                 Réf
@@ -619,8 +620,9 @@
                                             <th
                                                 class="text-center"
                                                 style="
-                                                    min-width: 150px;
-                                                    width: 150px;
+                                                    min-width: 220px;
+                                                    width: 220px;
+                                                    max-width: 220px;
                                                 "
                                             >
                                                 P.U. HT (FCFA)
@@ -628,8 +630,9 @@
                                             <th
                                                 class="text-center"
                                                 style="
-                                                    min-width: 50px;
-                                                    width: 50px;
+                                                    min-width: 120px;
+                                                    width: 120px;
+                                                    max-width: 120px;
                                                 "
                                             >
                                                 Quantité
@@ -637,8 +640,9 @@
                                             <th
                                                 class="text-center"
                                                 style="
-                                                    min-width: 50px;
-                                                    width: 50px;
+                                                    min-width: 120px;
+                                                    width: 120px;
+                                                    max-width: 120px;
                                                 "
                                             >
                                                 Taxes (%)
@@ -646,8 +650,9 @@
                                             <th
                                                 class="text-center"
                                                 style="
-                                                    min-width: 50px;
-                                                    width: 50px;
+                                                    min-width: 120px;
+                                                    width: 120px;
+                                                    max-width: 120px;
                                                 "
                                             >
                                                 Rem. (%)
@@ -655,8 +660,9 @@
                                             <th
                                                 class="text-center"
                                                 style="
-                                                    min-width: 150px;
-                                                    width: 150px;
+                                                    min-width: 220px;
+                                                    width: 220px;
+                                                    max-width: 220px;
                                                 "
                                             >
                                                 Montant HT (FCFA)
@@ -667,8 +673,9 @@
                                         <tr>
                                             <td
                                                 style="
-                                                    min-width: 100px;
-                                                    width: 100px;
+                                                    min-width: 200px;
+                                                    width: 200px;
+                                                    max-width: 200px;
                                                 "
                                             >
                                                 {{
@@ -693,8 +700,9 @@
                                             <td
                                                 class="text-center"
                                                 style="
-                                                    min-width: 150px;
-                                                    width: 150px;
+                                                    min-width: 220px;
+                                                    width: 220px;
+                                                    max-width: 220px;
                                                 "
                                             >
                                                 {{ item?.prix_unitaire }}
@@ -702,8 +710,9 @@
                                             <td
                                                 class="text-center"
                                                 style="
-                                                    min-width: 50px;
-                                                    width: 50px;
+                                                    min-width: 120px;
+                                                    width: 120px;
+                                                    max-width: 120px;
                                                 "
                                             >
                                                 {{
@@ -714,8 +723,9 @@
                                             <td
                                                 class="text-center"
                                                 style="
-                                                    min-width: 50px;
-                                                    width: 50px;
+                                                    min-width: 120px;
+                                                    width: 120px;
+                                                    max-width: 120px;
                                                 "
                                             >
                                                 {{ item?.tva ?? '0' }}
@@ -723,8 +733,9 @@
                                             <td
                                                 class="text-center"
                                                 style="
-                                                    min-width: 50px;
-                                                    width: 50px;
+                                                    min-width: 120px;
+                                                    width: 120px;
+                                                    max-width: 120px;
                                                 "
                                             >
                                                 {{
@@ -734,8 +745,9 @@
                                             <td
                                                 class="text-center"
                                                 style="
-                                                    min-width: 150px;
-                                                    width: 150px;
+                                                    min-width: 220px;
+                                                    width: 220px;
+                                                    max-width: 220px;
                                                 "
                                             >
                                                 {{ item?.prix_ht }}
@@ -844,13 +856,22 @@
                                                 <th class="text-center">
                                                     CATÉGORIE
                                                 </th>
-                                                <th class="text-center">
+                                                <th
+                                                    class="text-center"
+                                                    style="max-width: 350px"
+                                                >
                                                     SOUS-TOTAL
                                                 </th>
-                                                <th class="text-center">
+                                                <th
+                                                    class="text-center"
+                                                    style="max-width: 200px"
+                                                >
                                                     TAUX (%)
                                                 </th>
-                                                <th class="text-center">
+                                                <th
+                                                    class="text-center"
+                                                    style="max-width: 350px"
+                                                >
                                                     TOTAL TAXES
                                                 </th>
                                             </tr>
@@ -861,15 +882,24 @@
                                                     TVA normal : TVA sur HT
                                                     IB/DVR - A
                                                 </td>
-                                                <td class="text-center">
+                                                <td
+                                                    class="text-center"
+                                                    style="max-width: 350px"
+                                                >
                                                     {{
                                                         customerDetails?.prix_ht
                                                     }}
                                                 </td>
-                                                <td class="text-center">
+                                                <td
+                                                    class="text-center"
+                                                    style="max-width: 200px"
+                                                >
                                                     {{ item?.tva }}
                                                 </td>
-                                                <td class="text-center">
+                                                <td
+                                                    class="text-center"
+                                                    style="max-width: 350px"
+                                                >
                                                     {{ item?.prix_tva }}
                                                 </td>
                                             </tr>

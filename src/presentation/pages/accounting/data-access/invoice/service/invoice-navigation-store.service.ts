@@ -26,11 +26,8 @@ export abstract class InvoiceNavigationStoreService<T> {
         }
 
         if (!isInternal) {
-            console.log("Mise à jour de l'etat:", newState);
-
             this._updateLock = true;
         }
-        console.log('newState', newState);
 
         this._state.next(newState);
 

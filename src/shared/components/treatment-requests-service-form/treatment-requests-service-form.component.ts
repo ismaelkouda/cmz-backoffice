@@ -17,7 +17,7 @@ import {
 } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { getRapportCodeStyle } from '../../functions/rapport-code-style.function';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { TreatmentRequestsServiceDetailsInterface } from './data-access/interfaces/treatment-requests-service-form.interface';
 import { SharedService } from '../../services/shared.service';
 import { TreatmentRequestsServiceFormApiService } from './data-access/services/treatment-requests-service-form-api.service';
@@ -30,6 +30,7 @@ import { CustomersActivateInterface } from '../../interfaces/customers-activate.
 import { TreatmentMonitoringInterface } from '../../interfaces/treatment-monitoring.interface';
 import { T_HandleTreatment } from './data-access/types/treatment-requests-service-form.type';
 import { TREATMENT_MONITORING_STATE_ENUM } from '../../../presentation/pages/overseeing-operations/data-access/treatment-monitoring/enums/treatment-monitoring-state.enum';
+import { TYPE_CUSTOMERS_ENUM } from '../../enum/type-customers.enum';
 
 type customerSelectedType =
     | CustomersActivateInterface
@@ -58,6 +59,9 @@ export class TreatmentRequestsServiceFormComponent
 
     private destroy$ = new Subject<void>();
 
+    public isInvalidMemoized: Record<string, boolean> = {};
+    private objectUrls: string[] = [];
+
     public selectedFile: File | null = null;
     public previewRows: string[][] = [];
     public headersValid = false;
@@ -84,17 +88,21 @@ export class TreatmentRequestsServiceFormComponent
     ) {}
 
     ngOnInit(): void {
-        console.log('customerSelected', this.customerSelected);
-
         this.fetchRegimesBusiness();
         this.fetchLegalForms();
+        this.loadCustomerDetails(this.customerSelected.numero_demande);
+    }
+
+    private loadCustomerDetails(numero_demande: string): void {
         this.requestsServiceFormApiService.fetchRequestsServiceDetails(
-            this.customerSelected?.numero_demande
+            numero_demande
         );
+
         this.requestsServiceFormApiService
             .getRequestsServiceDetails()
-            .subscribe((value) => {
-                this.customerDetails = value;
+            .pipe(filter(Boolean), takeUntil(this.destroy$))
+            .subscribe((details) => {
+                this.customerDetails = details;
                 this.initializeForm();
             });
     }
@@ -114,309 +122,280 @@ export class TreatmentRequestsServiceFormComponent
 
         this.requestsServiceForm =
             this.fb.group<IAddTreatmentRequestsServiceFormValues>({
-                type_entreprise: new FormControl(
-                    {
-                        value:
-                            this.customerDetails.tenant?.type_entreprise ?? '',
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
+                type_entreprise: this.createControl(
+                    this.customerDetails.tenant?.type_entreprise ?? '',
+                    disabled,
+                    [Validators.required]
                 ),
-                nom_client: new FormControl(
-                    {
-                        value: this.customerDetails.tenant?.nom_client ?? '',
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
+                nom_client: this.createControl(
+                    this.customerDetails.tenant?.nom_client ?? '',
+                    disabled,
+                    [Validators.required]
                 ),
-                adresse: new FormControl(
-                    {
-                        value: this.customerDetails.tenant?.adresse ?? '',
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
+                adresse: this.createControl(
+                    this.customerDetails.tenant?.adresse ?? '',
+                    disabled,
+                    [Validators.required]
                 ),
-                compte_client: new FormControl(
-                    {
-                        value: this.customerDetails.tenant?.compte_client ?? '',
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
+                compte_client: this.createControl(
+                    this.customerDetails.tenant?.compte_client ?? '',
+                    disabled,
+                    [Validators.required]
                 ),
-                email_admin_client: new FormControl(
-                    {
-                        value:
-                            this.customerDetails.tenant?.email_admin_client ??
-                            '',
-                        disabled,
-                    },
-                    {
-                        nonNullable: true,
-                        validators: [Validators.required, Validators.email],
-                    }
+                email_admin_client: this.createControl(
+                    this.customerDetails.tenant?.email_admin_client ?? '',
+                    disabled,
+                    [Validators.required, Validators.email]
                 ),
-                domaine_activite: new FormControl(
-                    {
-                        value:
-                            this.customerDetails.tenant?.domaine_activite ?? '',
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
+                domaine_activite: this.createControl(
+                    this.customerDetails.tenant?.domaine_activite ?? '',
+                    disabled,
+                    [Validators.required]
                 ),
                 logo_client: new FormControl<File | null>(null),
 
-                nom_gerant: new FormControl(
-                    {
-                        value: this.customerDetails.tenant?.nom_gerant ?? '',
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
+                nom_gerant: this.createControl(
+                    this.customerDetails.tenant?.nom_gerant ?? '',
+                    disabled,
+                    [Validators.required]
                 ),
-                contact_gerant: new FormControl(
-                    {
-                        value:
-                            this.customerDetails.tenant?.contact_gerant ?? '',
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
+                contact_gerant: this.createControl(
+                    this.customerDetails.tenant?.contact_gerant ?? '',
+                    disabled,
+                    [Validators.required]
                 ),
-                email_gerant: new FormControl(
-                    {
-                        value: this.customerDetails.tenant?.email_gerant ?? '',
-                        disabled,
-                    },
-                    {
-                        nonNullable: true,
-                        validators: [Validators.required, Validators.email],
-                    }
+                email_gerant: this.createControl(
+                    this.customerDetails.tenant?.email_gerant ?? '',
+                    disabled,
+                    [Validators.required, Validators.email]
                 ),
                 piece_gerant: new FormControl<File | null>(null),
 
-                numero_rccm: new FormControl({
-                    value: this.customerDetails.tenant?.numero_rccm ?? '',
-                    disabled,
-                }),
-                forme_juridique_code: new FormControl({
-                    value:
-                        this.customerDetails.tenant?.forme_juridique_code ?? '',
-                    disabled,
-                }),
+                numero_rccm: this.createControl(
+                    this.customerDetails.tenant?.numero_rccm ?? '',
+                    disabled
+                ),
+                forme_juridique_code: this.createControl(
+                    this.customerDetails.tenant?.forme_juridique_code ?? '',
+                    disabled
+                ),
                 fichier_rccm: new FormControl<File | null>(null),
 
-                numero_cc: new FormControl({
-                    value: this.customerDetails.tenant?.numero_cc ?? '',
-                    disabled,
-                }),
-                regime_code: new FormControl({
-                    value: this.customerDetails.tenant?.regime_code,
-                    disabled,
-                }),
-                centre: new FormControl({
-                    value: this.customerDetails.tenant?.centre ?? '',
-                    disabled,
-                }),
+                numero_cc: this.createControl(
+                    this.customerDetails.tenant?.numero_cc ?? '',
+                    disabled
+                ),
+                regime_code: this.createControl(
+                    this.customerDetails.tenant?.regime_code ?? '',
+                    disabled
+                ),
+                centre: this.createControl(
+                    this.customerDetails.tenant?.centre ?? '',
+                    disabled
+                ),
                 fichier_dfe: new FormControl<File | null>(null),
 
-                description: new FormControl(
-                    {
-                        value: this.customerDetails?.description ?? '',
-                        disabled,
-                    },
-                    { nonNullable: true, validators: [Validators.required] }
+                description: this.createControl(
+                    this.customerDetails?.description ?? '',
+                    disabled,
+                    [Validators.required]
                 ),
-                commentaire_traitement: new FormControl(
-                    {
-                        value:
-                            this.customerDetails?.commentaire_traitement ?? '',
-                        disabled: true,
-                    },
-                    { nonNullable: true }
+                commentaire_traitement: this.createControl(
+                    this.customerDetails?.commentaire_traitement ?? '',
+                    true
                 ),
-                commentaire_finalisation: new FormControl(
-                    {
-                        value:
-                            this.customerDetails?.commentaire_finalisation ??
-                            '',
-                        disabled: true,
-                    },
-                    { nonNullable: true }
+                commentaire_finalisation: this.createControl(
+                    this.customerDetails?.commentaire_finalisation ?? '',
+                    true
                 ),
-                commentaire_approbation: new FormControl(
-                    {
-                        value:
-                            this.customerDetails?.commentaire_approbation ?? '',
-                        disabled: true,
-                    },
-                    { nonNullable: true }
+                commentaire_approbation: this.createControl(
+                    this.customerDetails?.commentaire_approbation ?? '',
+                    true
                 ),
 
-                accepte: new FormControl(
-                    {
-                        value: this.customerDetails?.accepte ?? '',
-                        disabled: !this.displayClosureForm,
-                    },
-                    {
-                        nonNullable: true,
-                        validators: this.displayClosureForm
-                            ? [Validators.required]
-                            : [],
-                    }
+                accepte: this.createControl(
+                    this.customerDetails?.accepte ?? '',
+                    !this.displayClosureForm,
+                    this.displayClosureForm ? [Validators.required] : []
                 ),
-                notation_cloture: new FormControl(
-                    {
-                        value: this.customerDetails?.notation_cloture ?? '',
-                        disabled: !this.displayClosureForm,
-                    },
-                    {
-                        nonNullable: true,
-                        validators: this.displayClosureForm
-                            ? [Validators.required]
-                            : [],
-                    }
+                notation_cloture: this.createControl(
+                    this.customerDetails?.notation_cloture ?? '',
+                    !this.displayClosureForm,
+                    this.displayClosureForm ? [Validators.required] : []
                 ),
-                commentaire: new FormControl(
-                    {
-                        value: this.customerDetails?.commentaire_cloture ?? '',
-                        disabled: !this.displayClosureForm,
-                    },
-                    {
-                        nonNullable: true,
-                        validators: this.displayClosureForm
-                            ? [Validators.required]
-                            : [],
-                    }
+                commentaire: this.createControl(
+                    this.customerDetails?.commentaire_cloture ?? '',
+                    !this.displayClosureForm,
+                    this.displayClosureForm ? [Validators.required] : []
                 ),
             });
 
         this.requestsServiceForm
             .get('accepte')
             ?.valueChanges.pipe(takeUntil(this.destroy$))
-            .subscribe((v) => this.handleAcceptChange(v));
-
-        // if (!this.disabledEditableForm) {
-        //     this.requestsServiceForm.disable();
-        // }
-
+            .subscribe(this.handleAcceptChange.bind(this));
         this.requestsServiceForm
             .get('type_entreprise')
-            ?.valueChanges.subscribe((type) => {
-                if (type === 'Personne physique') {
-                    this.requestsServiceForm
-                        .get('piece_identite')
-                        ?.setValidators([Validators.required]);
-                    this.requestsServiceForm
-                        .get('numero_rccm')
-                        ?.clearValidators();
-                    this.requestsServiceForm
-                        .get('numero_cc')
-                        ?.clearValidators();
-                } else {
-                    this.requestsServiceForm
-                        .get('numero_rccm')
-                        ?.setValidators([Validators.required]);
-                    this.requestsServiceForm
-                        .get('numero_cc')
-                        ?.setValidators([Validators.required]);
-                    this.requestsServiceForm
-                        .get('piece_identite')
-                        ?.clearValidators();
-                }
-                this.requestsServiceForm.updateValueAndValidity();
-            });
+            ?.valueChanges.pipe(takeUntil(this.destroy$))
+            .subscribe(this.handleTypeEnterpriseChange.bind(this));
+        this.requestsServiceForm.valueChanges
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => this.memoizeInvalids());
+
+        this.memoizeInvalids();
     }
 
-    isClientType(type: string): boolean {
-        return this.requestsServiceForm.get('type_entreprise')?.value === type;
+    private createControl<T>(
+        value: T,
+        disabled: boolean,
+        validators: any[] = []
+    ): FormControl<T> {
+        return new FormControl(
+            { value, disabled },
+            { nonNullable: true, validators }
+        );
     }
 
-    private getAcceptInitialValue(): string {
-        if (!this.customerDetails) return '';
-        if (this.customerDetails.traitement === 'DONE') return 'oui';
-        if (this.customerDetails.traitement === 'REJECT') return 'non';
-        return '';
+    private setControlValidators(
+        ctrl: FormControl | null,
+        validators: any[] = []
+    ): void {
+        if (!ctrl) return;
+        ctrl.setValidators(validators);
+        ctrl.updateValueAndValidity();
     }
 
-    private handleAcceptChange(value: 'oui' | 'non' | string) {
-        if (value === 'non') {
-            this.requestsServiceForm
-                .get('commentaire')
-                ?.setValidators([Validators.required]);
-            this.requestsServiceForm
-                .get('notation_cloture')
-                ?.setValue('mécontent');
-            this.requestsServiceForm.get('notation_cloture')?.disable();
-        } else if (value === 'oui') {
-            this.requestsServiceForm.get('commentaire')?.clearValidators();
-            this.requestsServiceForm.get('notation_cloture')?.enable();
+    private handleTypeEnterpriseChange(type: string): void {
+        const numeroRccm = this.requestsServiceForm.get('numero_rccm');
+        const numeroCc = this.requestsServiceForm.get('numero_cc');
+        // const pieceIdentite = this.requestsServiceForm.get('piece_identite');
+
+        if (!numeroRccm || !numeroCc) return;
+
+        if (type === 'Personne physique') {
+            // this.setControlValidators(pieceIdentite as FormControl, [Validators.required]);
+            this.setControlValidators(numeroRccm as FormControl);
+            this.setControlValidators(numeroCc as FormControl);
         } else {
-            this.requestsServiceForm.get('commentaire')?.clearValidators();
+            this.setControlValidators(numeroRccm as FormControl, [
+                Validators.required,
+            ]);
+            this.setControlValidators(numeroCc as FormControl, [
+                Validators.required,
+            ]);
+            // this.setControlValidators(pieceIdentite as FormControl);
         }
-        this.requestsServiceForm.get('commentaire')?.updateValueAndValidity();
-        this.requestsServiceForm
-            .get('notation_cloture')
-            ?.updateValueAndValidity();
     }
 
-    onChangeFile(
+    private handleAcceptChange(value: 'oui' | 'non' | string): void {
+        const commentaireCtrl = this.requestsServiceForm.get(
+            'commentaire'
+        ) as FormControl;
+        const notationCtrl = this.requestsServiceForm.get(
+            'notation_cloture'
+        ) as FormControl;
+
+        if (!commentaireCtrl || !notationCtrl) return;
+
+        if (value === 'non') {
+            this.setControlValidators(commentaireCtrl, [Validators.required]);
+            notationCtrl.setValue('mécontent');
+            notationCtrl.disable();
+        } else if (value === 'oui') {
+            this.setControlValidators(commentaireCtrl);
+            if (notationCtrl.disabled) notationCtrl.enable();
+        } else {
+            this.setControlValidators(commentaireCtrl);
+        }
+    }
+
+    private memoizeInvalids(): void {
+        if (!this.requestsServiceForm) return;
+        Object.keys(this.requestsServiceForm.controls).forEach((k) => {
+            const ctrl = this.requestsServiceForm.get(k);
+            this.isInvalidMemoized[k] = !!(
+                ctrl &&
+                ctrl.invalid &&
+                (ctrl.dirty || ctrl.touched)
+            );
+        });
+    }
+
+    public isInvalid(path: string): boolean {
+        return !!this.isInvalidMemoized[path];
+    }
+
+    public onChangeFile(
         list: FileList | null,
         control: keyof IAddTreatmentRequestsServiceFormValues
     ): void {
         if (!list || list.length === 0) {
-            this.clearExcelFile(control);
+            this.clearFileControl(control);
             return;
         }
+
         const file = list.item(0) as File;
-        this.requestsServiceForm.patchValue({ [control]: file } as any);
-        this.requestsServiceForm.get(control)?.updateValueAndValidity();
-        if (
-            control === 'piece_gerant' ||
-            control === 'fichier_rccm' ||
-            control === 'fichier_dfe' ||
-            control === 'logo_client'
-        ) {
-            const valid = /(png|jpg|jpeg)$/i.test(file.name);
-            if (!valid) {
-                this.requestsServiceForm.get(control)?.reset();
-                this.toastService.error(
-                    this.translate.instant('INVALID_FILE_FORMAT')
-                );
-                return;
-            }
-        }
-    }
+        const allowedTypes = ['image/png', 'image/jpeg'];
+        const maxSize = 5 * 1024 * 1024;
 
-    private clearExcelFile(
-        control: keyof IAddTreatmentRequestsServiceFormValues,
-        excelInput?: HTMLInputElement
-    ): void {
-        this.requestsServiceForm.get(control)?.reset();
-        if (excelInput) excelInput.value = '';
-    }
-
-    public viewFile(field: string) {
-        const file = this.requestsServiceForm.get(field)?.value as File | null;
-        const defaultFile = this.customerDetails.tenant?.[field];
-        if (!file && !defaultFile) {
-            this.toastService.info('Aucun fichier à afficher');
+        if (!allowedTypes.includes(file.type) || file.size > maxSize) {
+            this.requestsServiceForm.get(control as string)?.reset();
+            this.toastService.error(
+                this.translate.instant('INVALID_FILE_FORMAT')
+            );
             return;
         }
-        if (file) window.open(URL.createObjectURL(file as File), '_blank');
-        if (defaultFile) window.open(defaultFile, '_blank');
+
+        this.requestsServiceForm.patchValue({ [control]: file } as any);
+        this.requestsServiceForm
+            .get(control as string)
+            ?.updateValueAndValidity();
+    }
+
+    private clearFileControl(
+        control: keyof IAddTreatmentRequestsServiceFormValues,
+        inputEl?: HTMLInputElement
+    ) {
+        this.requestsServiceForm.get(control as string)?.reset();
+        if (inputEl) inputEl.value = '';
+    }
+
+    public viewFile(field: string): void {
+        const fileOrUrl =
+            this.requestsServiceForm.get(field as string)?.value ||
+            (this.customerDetails?.tenant &&
+                (this.customerDetails.tenant as any)[field]);
+
+        if (!fileOrUrl) {
+            this.toastService.info(this.translate.instant('NO_FILE_TO_VIEW'));
+            return;
+        }
+
+        let url: string;
+        if (fileOrUrl instanceof File) {
+            url = URL.createObjectURL(fileOrUrl);
+            this.objectUrls.push(url);
+        } else {
+            url = fileOrUrl;
+        }
+
+        const win = window.open(url, '_blank');
+        if (fileOrUrl instanceof File && win) {
+            win.addEventListener('beforeunload', () => {
+                try {
+                    URL.revokeObjectURL(url);
+                } catch {}
+            });
+        }
     }
 
     public handleCloseModal(): void {
         this.visibleForm.emit(false);
     }
 
-    isInvalid(path): boolean {
-        const ctrl = this.requestsServiceForm.get(path as string);
-        return !!ctrl && ctrl.invalid && (ctrl.dirty || ctrl.touched);
-    }
-
     private buildPayload(): FormData {
         const v = this.requestsServiceForm.getRawValue();
-        const fd = FormatFormData(v);
-        return fd;
+        return FormatFormData(v);
     }
 
     public async handleUpdateDemand(): Promise<void> {
@@ -424,20 +403,20 @@ export class TreatmentRequestsServiceFormComponent
             this.handleTreatment?.typeTreatment !==
             REQUESTS_SERVICE_TREATMENT_ENUM.MODIFY
         ) {
-            this.toastService.warning('Modification non autorisée');
+            this.toastService.warning(
+                this.translate.instant('MODIFICATION_NOT_ALLOWED')
+            );
             return;
         }
-        if (this.requestsServiceForm.invalid) {
-            this.toastService.error('Formulaire invalide');
-            return;
-        }
-        const payload: FormData = this.buildPayload();
 
+        if (!this.requestsServiceForm || this.requestsServiceForm.invalid) {
+            this.toastService.error(this.translate.instant('FORM_INVALID'));
+            return;
+        }
+
+        const payload = this.buildPayload();
         const CONFIRM_CLIENT_MODIFICATION = this.translate.instant(
             'CONFIRM_CLIENT_MODIFICATION'
-        );
-        const NUMBER_OF_IMPORTED_SIM = this.translate.instant(
-            'NUMBER_OF_IMPORTED_SIM'
         );
 
         const result = await Swal.mixin({
@@ -455,12 +434,113 @@ export class TreatmentRequestsServiceFormComponent
                 payload,
                 this.customerSelected.numero_demande,
                 this.toastService,
-                () => {
-                    this.fetchCustomers();
-                },
-                () => {
-                    this.handleCloseModal();
+                () => this.fetchCustomers(),
+                () => this.handleCloseModal()
+            );
+        }
+    }
+
+    public async onLetDownDemand(): Promise<void> {
+        if (
+            this.handleTreatment?.typeTreatment !==
+            REQUESTS_SERVICE_TREATMENT_ENUM.MODIFY
+        ) {
+            this.toastService.warning(
+                this.translate.instant('MODIFICATION_NOT_ALLOWED')
+            );
+            return;
+        }
+
+        const CONFIRM_CLIENT_ABANDON = this.translate.instant(
+            'CONFIRM_CLIENT_ABANDON'
+        );
+        const YOU_ARE_ABOUT_TO_ABANDON_THE_TRANSACTION = this.translate.instant(
+            'YOU_ARE_ABOUT_TO_ABANDON_THE_TRANSACTION'
+        );
+        const COMMENT = this.translate.instant('COMMENT');
+
+        await Swal.mixin({
+            customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass,
+        }).fire({
+            title: `${YOU_ARE_ABOUT_TO_ABANDON_THE_TRANSACTION} [<span style="color: #5B9BD5">${this.customerSelected?.numero_demande}</span>]`,
+            html: `<span><strong>${CONFIRM_CLIENT_ABANDON}</strong></span><span style="color: #5B9BD5; font-weight: bold; text-transform: uppercase"> ${
+                this.requestsServiceForm.get('nom_client')?.value || ''
+            }</span>`,
+            input: 'text',
+            inputPlaceholder: `Ex: ${COMMENT}...`,
+            inputAttributes: { autocapitalize: 'off', autocomplete: 'off' },
+            showCancelButton: true,
+            cancelButtonText: this.translate.instant('CANCEL'),
+            confirmButtonText: this.translate.instant('CONFIRM'),
+            confirmButtonColor: '#569C5B',
+            cancelButtonColor: '#dc3545',
+            showLoaderOnConfirm: true,
+            backdrop: false,
+            width: 800,
+            didOpen: () => {
+                const input = Swal.getInput();
+                const confirmButton = Swal.getConfirmButton();
+                if (input && confirmButton) {
+                    confirmButton.disabled = true;
+                    input.addEventListener('input', () => {
+                        confirmButton.disabled = !input.value.trim();
+                    });
                 }
+            },
+            preConfirm: async (comment: string) => {
+                const payload = { commentaire: comment || '' };
+                try {
+                    await this.requestsServiceFormApiService.fetchAbandonRequestsService(
+                        payload,
+                        this.customerSelected.numero_demande,
+                        this.toastService,
+                        () => this.fetchCustomers?.(),
+                        () => this.handleCloseModal()
+                    );
+                } catch (error) {
+                    Swal.showValidationMessage(`${error}`);
+                }
+            },
+            allowOutsideClick: () => !Swal.isLoading(),
+        });
+    }
+
+    public async handleClosureDemand(): Promise<void> {
+        if (
+            this.handleTreatment?.typeTreatment !==
+            REQUESTS_SERVICE_TREATMENT_ENUM.CLOSURE
+        ) {
+            this.toastService.warning(
+                this.translate.instant('CLOSURE_NOT_ALLOWED')
+            );
+            return;
+        }
+
+        if (!this.requestsServiceForm || this.requestsServiceForm.invalid) {
+            this.toastService.error(this.translate.instant('FORM_INVALID'));
+            return;
+        }
+
+        const payload = this.requestsServiceForm.getRawValue();
+        const CONFIRM_CLOSURE_DEMAND = this.translate.instant(
+            'CONFIRM_CLOSURE_DEMAND'
+        );
+
+        const result = await Swal.mixin({
+            customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass,
+        }).fire({
+            ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message,
+            html: `<span><strong>${CONFIRM_CLOSURE_DEMAND}</strong></span><span style="color: #5B9BD5; font-weight: bold; text-transform: uppercase"> ${this.customerSelected?.numero_demande}</span>`,
+            width: 800,
+        });
+
+        if (result.isConfirmed) {
+            this.requestsServiceFormApiService.fetchClosureRequestsService(
+                payload,
+                this.customerSelected.numero_demande,
+                this.toastService,
+                () => this.fetchCustomers(),
+                () => this.handleCloseModal()
             );
         }
     }
@@ -491,113 +571,7 @@ export class TreatmentRequestsServiceFormComponent
         return !!this.customerDetails?.cloture_a;
     }
 
-    public async onLetDownDemand(): Promise<void> {
-        if (
-            this.handleTreatment?.typeTreatment !==
-            REQUESTS_SERVICE_TREATMENT_ENUM.MODIFY
-        ) {
-            this.toastService.warning('Modification non autorisée');
-            return;
-        }
-
-        const CONFIRM_CLIENT_ABANDON = this.translate.instant(
-            'CONFIRM_CLIENT_ABANDON'
-        );
-        const YOU_ARE_ABOUT_TO_ABANDON_THE_TRANSACTION = this.translate.instant(
-            'YOU_ARE_ABOUT_TO_ABANDON_THE_TRANSACTION'
-        );
-        const COMMENT = this.translate.instant('COMMENT');
-
-        await Swal.mixin({
-            customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass,
-        }).fire({
-            title: `${YOU_ARE_ABOUT_TO_ABANDON_THE_TRANSACTION} [<span style="color: #5B9BD5">${this.customerSelected?.numero_demande}</span>]`,
-            html: `<span><strong>${CONFIRM_CLIENT_ABANDON}</strong></span><span style="color: #5B9BD5; font-weight: bold; text-transform: uppercase"> ${
-                this.requestsServiceForm.get('nom_client')?.value
-            }</span>`,
-            input: 'text',
-            inputPlaceholder: `Ex: ${COMMENT}...`,
-            inputAttributes: { autocapitalize: 'off', autocomplete: 'off' },
-            showCancelButton: true,
-            cancelButtonText: 'Annuler        ',
-            confirmButtonText: 'Confirmer',
-            confirmButtonColor: '#569C5B',
-            cancelButtonColor: '#dc3545',
-            showLoaderOnConfirm: true,
-            backdrop: false,
-            width: 800,
-            didOpen: () => {
-                const input = Swal.getInput();
-                const confirmButton = Swal.getConfirmButton();
-                confirmButton.disabled = true;
-                input?.addEventListener('input', () => {
-                    confirmButton.disabled = !input.value.trim();
-                });
-            },
-            preConfirm: async (comment: string) => {
-                const payload = { commentaire: comment };
-                try {
-                    this.requestsServiceFormApiService.fetchAbandonRequestsService(
-                        payload,
-                        this.customerSelected.numero_demande,
-                        this.toastService,
-                        () => {
-                            this.fetchCustomers();
-                        },
-                        () => {
-                            this.handleCloseModal();
-                        }
-                    );
-                } catch (error) {
-                    Swal.showValidationMessage(`${error}`);
-                }
-            },
-            allowOutsideClick: () => !Swal.isLoading(),
-        });
-    }
-
-    public async handleClosureDemand(): Promise<void> {
-        if (
-            this.handleTreatment?.typeTreatment !==
-            REQUESTS_SERVICE_TREATMENT_ENUM.CLOSURE
-        ) {
-            this.toastService.warning('Clôture non autorisée');
-            return;
-        }
-        if (this.requestsServiceForm.invalid) {
-            this.toastService.error('Formulaire invalide');
-            return;
-        }
-        const payload = this.requestsServiceForm.getRawValue();
-
-        const CONFIRM_CLOSURE_DEMAND = this.translate.instant(
-            'CONFIRM_CLOSURE_DEMAND'
-        );
-
-        const result = await Swal.mixin({
-            customClass: SWALWITHBOOTSTRAPBUTTONSPARAMS.customClass,
-        }).fire({
-            ...SWALWITHBOOTSTRAPBUTTONSPARAMS.message,
-            html: `<span><strong>${CONFIRM_CLOSURE_DEMAND}</strong></span><span style="color: #5B9BD5; font-weight: bold; text-transform: uppercase"> ${this.customerSelected?.numero_demande}</span>`,
-            width: 800,
-        });
-
-        if (result.isConfirmed) {
-            this.requestsServiceFormApiService.fetchClosureRequestsService(
-                payload,
-                this.customerSelected.numero_demande,
-                this.toastService,
-                () => {
-                    this.fetchCustomers();
-                },
-                () => {
-                    this.handleCloseModal();
-                }
-            );
-        }
-    }
-
-    public get OnGetRapportCodeStyle(): string {
+    public get rapportCodeStyle(): string {
         return getRapportCodeStyle(this.customerDetails);
     }
 
@@ -623,6 +597,13 @@ export class TreatmentRequestsServiceFormComponent
     }
 
     ngOnDestroy(): void {
+        this.objectUrls.forEach((u) => {
+            try {
+                URL.revokeObjectURL(u);
+            } catch {}
+        });
+        this.objectUrls = [];
+
         this.destroy$.next();
         this.destroy$.complete();
     }

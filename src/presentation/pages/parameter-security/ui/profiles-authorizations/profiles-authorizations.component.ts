@@ -81,21 +81,24 @@ export class ProfilesAuthorizationsComponent implements OnInit, OnDestroy {
     public executeNavigation(
         params: ProfilesAuthorizationsPageActionsType
     ): void {
-        const id = params.data ? params.data : null;
+        const id = params.data ?? null;
         const ref = params.action;
         const queryParams = { ref };
-        let routePath: string = '';
 
-        switch (params.action) {
-            case PROFILES_AUTHORIZATIONS_BUTTONS_ACTIONS_ENUM.EDIT:
-            case PROFILES_AUTHORIZATIONS_BUTTONS_ACTIONS_ENUM.ADD:
-                routePath = `${FORM}/${id}`;
-                break;
-            default:
-                console.warn('Action non gérée:', params.action);
-                return;
+        const actionHandlers: Record<string, () => string> = {
+            [PROFILES_AUTHORIZATIONS_BUTTONS_ACTIONS_ENUM.EDIT]: () =>
+                `${FORM}/${id}`,
+            [PROFILES_AUTHORIZATIONS_BUTTONS_ACTIONS_ENUM.ADD]: () =>
+                `${FORM}/${id}`,
+        };
+
+        const handler = actionHandlers[params.action];
+        if (!handler) {
+            console.warn('Action non gérée:', params.action);
+            return;
         }
-        console.log('Navigating to:', routePath);
+
+        const routePath = handler();
 
         this.router.navigate([routePath], {
             relativeTo: this.activatedRoute,
