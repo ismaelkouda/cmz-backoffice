@@ -106,20 +106,22 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     }
 
     public executeNavigation(params: InvoicePageActionsType): void {
-        const reference = params.data ? params.data : null;
+        const reference = params.data ?? null;
         const ref = params.action;
         const queryParams = { ref };
-        let routePath: string = '';
 
-        switch (params.action) {
-            case INVOICE_BUTTONS_ACTIONS_ENUM.INVOICE:
-                routePath = `${reference}`;
-                break;
-            default:
-                console.warn('Action non gérée:', params.action);
-                return;
+        // Dictionnaire des actions
+        const actionHandlers: Record<string, () => string> = {
+            [INVOICE_BUTTONS_ACTIONS_ENUM.INVOICE]: () => `${reference}`,
+        };
+
+        const handler = actionHandlers[params.action];
+        if (!handler) {
+            console.warn('Action non gérée:', params.action);
+            return;
         }
 
+        const routePath = handler();
         this.router.navigate([routePath], {
             relativeTo: this.activatedRoute,
             queryParams,

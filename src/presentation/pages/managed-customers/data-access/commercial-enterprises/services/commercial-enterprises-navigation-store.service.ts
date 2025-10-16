@@ -1,6 +1,6 @@
 import { BehaviorSubject, distinctUntilChanged, map, Observable } from 'rxjs';
 
-export abstract class ProfilesAuthorizationsNavigationStoreService<T> {
+export abstract class CommercialEnterprisesNavigationStoreService<T> {
     private _state: BehaviorSubject<T>;
     private _updateLock = false;
 

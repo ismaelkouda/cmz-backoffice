@@ -36,7 +36,8 @@ export class StorePathsService implements OnInit, OnDestroy {
     private setPaths(paths: Array<string>): void {
         this.encodingDataService.saveData(
             this.STORAGE_KEY,
-            JSON.stringify(paths)
+            JSON.stringify(paths),
+            true
         );
         this.pathsSubject.next(paths);
     }

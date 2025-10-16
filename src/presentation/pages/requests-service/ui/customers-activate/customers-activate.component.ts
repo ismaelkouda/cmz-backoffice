@@ -1,7 +1,7 @@
 import { FORM, INVOICE, PAYMENT } from '../../requests-service-routing.module';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest, filter, Observable, Subject, takeUntil } from 'rxjs';
+import { combineLatest, Observable, Subject, takeUntil } from 'rxjs';
 import { Paginate } from '../../../../../shared/interfaces/paginate';
 import { CustomersActivateFilterInterface } from '../../data-access/customers-activate/interfaces/customers-activate-filter.interface';
 import { REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM } from '../../data-access/requests-service/enums/requests-service-buttons-actions.enum';
@@ -20,32 +20,32 @@ import {
 import { SharedService } from '../../../../../shared/services/shared.service';
 import { CustomersActivateInterface } from '../../../../../shared/interfaces/customers-activate.interface';
 import { CustomersActivatePageActionsType } from '../../data-access/customers-activate/types/customers-activate-page-actions.type';
-import { CustomersActivateNavigationGuardService } from '../../data-access/customers-activate/services/customers-activate-navigation-guard.service';
+import { MenuItem } from '../../../../../shared/interfaces/menu-item.interface';
+import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
 
 @Component({
     selector: 'app-customers-activate',
     templateUrl: './customers-activate.component.html',
 })
 export class CustomersActivateComponent implements OnInit, OnDestroy {
-    public module: string;
-    public subModule: string;
-    public pagination$: Observable<Paginate<CustomersActivateInterface>>;
-    public listCustomersActivate$: Observable<CustomersActivateInterface[]>;
+    public module: string = '';
+    public subModule: string = '';
+    public pagination$!: Observable<Paginate<CustomersActivateInterface>>;
+    public listCustomersActivate$!: Observable<CustomersActivateInterface[]>;
     public spinner: boolean = true;
     private destroy$ = new Subject<void>();
     public listCustomersActivateStep: Array<T_CUSTOMERS_ACTIVATE_STEP_ENUM> =
         Object.values(CUSTOMERS_ACTIVATE_STEP_ENUM);
     public listCustomersActivateState: Array<T_CUSTOMERS_ACTIVATE_STATE_ENUM> =
         Object.values(CUSTOMERS_ACTIVATE_STATE_ENUM);
+    private STORAGE_KEY!: string;
 
     constructor(
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private sharedService: SharedService,
-        private navigationGuardService: CustomersActivateNavigationGuardService
-    ) {
-        this.setupNavigationListener();
-    }
+        private encodingService: EncodingDataService
+    ) {}
 
     ngOnInit(): void {
         this.activatedRoute.data.subscribe((data) => {
@@ -64,30 +64,39 @@ export class CustomersActivateComponent implements OnInit, OnDestroy {
         this.sharedService.isLoadingCustomersActivate().subscribe((spinner) => {
             this.spinner = spinner;
         });
+        this.setupNavigationListener();
     }
     private setupNavigationListener(): void {
-        this.navigationGuardService
-            .getCustomersActivateNavigationGuard()
-            .pipe(
-                takeUntil(this.destroy$),
-                filter(
-                    (params) =>
-                        params !== null &&
-                        params.action !== undefined &&
-                        params.action !== null
-                ),
-                filter(() => !this.navigationGuardService.isNavigating)
-            )
-            .subscribe((params) => {
-                if (
-                    params &&
-                    Object.values(
-                        REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM
-                    ).includes(params.action)
-                ) {
-                    this.executeNavigation(params);
+        const menuItems = this.encodingService.getData('menu') as
+            | Array<MenuItem>
+            | [];
+        this.activatedRoute.url.pipe(takeUntil(this.destroy$)).subscribe(() => {
+            const url = this.router.url.split('?')[0];
+            for (const parent of menuItems) {
+                if (parent.children) {
+                    const child = parent.children.find((c) =>
+                        url.startsWith(c.path)
+                    );
+                    if (child) {
+                        this.STORAGE_KEY = child.path;
+                        return;
+                    }
                 }
-            });
+            }
+        });
+        console.log('this.STORAGE_KEY', this.STORAGE_KEY);
+        const savedState = this.encodingService.getData(
+            `${this.STORAGE_KEY}_children_component`
+        );
+        if (!savedState) {
+            return;
+        }
+        // je fais pastienté cette methode que que la methode de tabs active soit appeler avant la methode de navigation ci-dessous
+        setTimeout(() => {
+            this.executeNavigation(
+                savedState as CustomersActivatePageActionsType
+            );
+        }, 100);
     }
     public filter(filterData: CustomersActivateFilterInterface): void {
         this.sharedService.fetchCustomersActivate(filterData);
@@ -106,44 +115,37 @@ export class CustomersActivateComponent implements OnInit, OnDestroy {
     }
 
     public executeNavigation(params: CustomersActivatePageActionsType): void {
-        const number_demand = params.data ? params.data : null;
+        if (!params.action) return;
+        const number_demand = params.data ?? null;
         const ref = params.action;
         const type_enterprise: T_TYPE_CUSTOMERS_ENUM =
             TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISE;
         const queryParams = { ref, type_enterprise };
-        let routePath: string = '';
 
-        switch (params.action) {
-            case REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.OPEN:
-                routePath = `${number_demand}`;
-                break;
-            case REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.EDIT:
-            case REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.ADD:
-                routePath = FORM;
-                break;
-            case REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.PAYMENT:
-                routePath = `${PAYMENT}/${number_demand}`;
-                break;
-            case REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.INVOICE:
-                routePath = `${INVOICE}/${number_demand}`;
-                break;
-            default:
-                console.warn('Action non gérée:', params.action);
-                return;
+        const actionHandlers: Record<string, () => string> = {
+            [REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.OPEN]: () =>
+                `${number_demand}`,
+            [REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.EDIT]: () => FORM,
+            [REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.ADD]: () => FORM,
+            [REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.PAYMENT]: () =>
+                `${PAYMENT}/${number_demand}`,
+            [REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.INVOICE]: () =>
+                `${INVOICE}/${number_demand}`,
+        };
+
+        const handler = actionHandlers[params.action];
+        if (!handler) {
+            console.warn('Action non gérée:', params.action);
+            return;
         }
 
+        const routePath = handler();
         this.router.navigate([routePath], {
             relativeTo: this.activatedRoute,
             queryParams,
         });
-    }
-
-    public navigateByUrl(params: CustomersActivatePageActionsType): void {
-        this.navigationGuardService.setCustomersActivateNavigationGuard(
-            {} as CustomersActivatePageActionsType,
-            true
-        );
-        this.navigationGuardService.setCustomersActivateNavigationGuard(
+        this.encodingService.saveData(
+            `${this.STORAGE_KEY}_children_component`,
             params,
             true
         );

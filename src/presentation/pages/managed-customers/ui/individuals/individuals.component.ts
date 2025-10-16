@@ -87,7 +87,6 @@ export class IndividualsComponent implements OnInit, OnDestroy {
         const type_enterprise = TYPE_CUSTOMERS_ENUM.COMMERCIAL_ENTERPRISE;
         const queryParams = { ref, type_enterprise };
         let routePath: string = '';
-        console.log('Navigating to:', params);
 
         switch (params.action) {
             case CUSTOMERS_MANAGED_BUTTONS_ACTIONS_ENUM.OPEN:

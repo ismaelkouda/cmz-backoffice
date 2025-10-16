@@ -4,7 +4,7 @@ import { LayoutService } from '../../services/layout.service';
 import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
 import { Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { OVERSEEING_OPERATIONS } from '../../routes/routes';
 import { CurrentUser } from '../../interfaces/current-user.interface';
 import { EncodingDataService } from '../../services/encoding-data.service';
@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.sharedService.fetchUnReadNotifications();
     }
 
-    OnGoNotif() {
+    OnGoNotifications() {
         this.router.navigateByUrl(
             `${OVERSEEING_OPERATIONS}/${NOTIFICATIONS_ROUTE}`
         );

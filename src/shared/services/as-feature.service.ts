@@ -12,7 +12,7 @@ export class AsFeatureService {
     }
 
     public setAsAccessFeature(value: string[]): void {
-        this.encodingService.saveData('modules', value);
+        this.encodingService.saveData('modules', value, true);
     }
 
     public hasFeature(feature: string): boolean {

@@ -34,7 +34,8 @@ import { InvoiceFormDetailsInterface } from './data-access/interfaces/invoice-fo
 const Swal = require('sweetalert2');
 import html2pdf from 'html2pdf.js';
 import { InvoicePdfService } from './data-access/services/invoice-pdf.service';
-import { CustomersActivateNavigationGuardService } from '../../../presentation/pages/requests-service/data-access/customers-activate/services/customers-activate-navigation-guard.service';
+import { MenuItem } from '../../interfaces/menu-item.interface';
+import { EncodingDataService } from '../../services/encoding-data.service';
 
 export interface InvoiceFormInterfaceValues {
     numero_demande: FormControl<string>;
@@ -62,6 +63,7 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
     public uploadError: string | null = null;
     readonly MAX_FILE_SIZE_MB = 2;
     private destroy$ = new Subject<void>();
+    private STORAGE_KEY!: string;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -71,13 +73,46 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
         private translate: TranslateService,
         private invoiceFormApiService: InvoiceFormApiService,
         private invoicePdfService: InvoicePdfService,
-        private navigationGuardService: CustomersActivateNavigationGuardService
+        private encodingService: EncodingDataService
     ) {
         this.logoTenant = LOGO_IMAKO;
+        this.setupNavigationListener();
     }
 
     ngOnInit(): void {
         this.initializeState();
+    }
+
+    private setupNavigationListener(): void {
+        const menuItems = this.encodingService.getData('menu') as
+            | Array<MenuItem>
+            | [];
+        this.activatedRoute.url
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((event: any) => {
+                const url =
+                    this.activatedRoute.snapshot['_routerState'].url.split(
+                        '?'
+                    )[0];
+                for (const parent of menuItems) {
+                    if (parent.children) {
+                        const child = parent.children.find((c) =>
+                            url.startsWith(c.path)
+                        );
+                        if (child) {
+                            this.STORAGE_KEY = child.path;
+                            return;
+                        }
+                    }
+                }
+            });
+        console.log('this.STORAGE_KEY', this.STORAGE_KEY);
+        const savedState = this.encodingService.getData(
+            `${this.STORAGE_KEY}_children_component`
+        );
+        if (!savedState) {
+            return;
+        }
     }
 
     private initializeState(): void {
@@ -196,7 +231,6 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
 
         // this.convertFileToBase64(file).then(base64 => {
         //     if (fieldName === 'justificatif' && this.customerDetails) {
-        //         console.log('File converted to base64:', base64);
         //         this.customerDetails.justificatif = base64;
         //     }
         // });
@@ -241,7 +275,9 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
     }
 
     public onGoToBack(): void {
-        this.navigationGuardService.clearCustomersActivateNavigationGuard();
+        this.encodingService.removeData(
+            `${this.STORAGE_KEY}_children_component`
+        );
         this.router.navigateByUrl(
             `/${this.getTitle.moduleRoute}/${this.getTitle.subModuleRoute}`
         );

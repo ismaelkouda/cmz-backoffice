@@ -75,7 +75,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         const user = this.encodingService.getData(
             'user_data'
         ) as CurrentUser | null;
-        this.nom_tenant = user?.tenant?.nom_tenant || '';
+        console.log('user', user);
+
+        this.nom_tenant = `[${user?.matricule}] ${user?.nom} ${user?.prenoms}`;
         this.nom_application =
             user?.tenant?.application || NOM_APPLICATION.PATRIMOINE_SIM;
         localStorage.setItem('layout', 'Paris');
@@ -111,7 +113,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.createStatBox(
                 '#3498db',
                 `${this.translate.instant('CUSTOMERS')}`,
-                separatorThousands(rapport?.['total_tenants'] || '0'),
+                separatorThousands(rapport?.['total_clients'] || '0'),
                 this.simIcon,
                 () => this.router.navigateByUrl(``)
             ),
@@ -122,7 +124,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     'TO_APPROVE'
                 )}`,
                 separatorThousands(
-                    rapport?.['total_dossiers_a_approuver'] || '0'
+                    rapport?.['total_dossiers_approuves'] || '0'
                 ),
                 this.simIcon,
                 () =>
@@ -136,21 +138,23 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 `${this.translate.instant(
                     'TO_APPROVE'
                 )} ${this.translate.instant('SLA_KO')}`,
-                separatorThousands(rapport?.['total_a_approuve_sla_ko'] || '0'),
+                separatorThousands(
+                    rapport?.['total_dossiers_approuves_sla_ko'] || '0'
+                ),
                 this.simIcon,
                 () =>
                     this.router.navigateByUrl(``, {
                         state: { statut: SimStatut.SUSPENDU },
-                    }),
-                '#000000',
-                '#000000'
+                    })
+                // '#000000',
+                // '#000000'
             ),
 
             this.createStatBox(
-                '#e74c3c',
-                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
+                '#ff6600',
+                `${this.translate.instant(
                     'IN_TREATMENT'
-                )}`,
+                )} ${this.translate.instant('IN_PROGRESS')}`,
                 separatorThousands(
                     rapport?.['total_dossiers_en_traitement'] || '0'
                 ),
@@ -162,21 +166,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
             ),
 
             this.createStatBox(
-                '#28a745',
-                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
-                    'TO_DELIVER'
-                )}`,
-                separatorThousands(rapport?.['total_dossiers_a_livrer'] || '0'),
-                this.simIcon,
-                () => this.router.navigateByUrl(``)
-            ),
-
-            this.createStatBox(
                 '#ff7f50',
                 `${this.translate.instant(
                     'IN_TREATMENT'
-                )} ${this.translate.instant('SLA_KO')}`,
-                separatorThousands(rapport?.['total_traitement_sla_ko'] || '0'),
+                )} ${this.translate.instant('SLA_OK')}`,
+                separatorThousands(
+                    rapport?.['total_dossiers_en_traitement_sla_ok'] || '0'
+                ),
                 this.simIcon,
                 () =>
                     this.router.navigateByUrl(``, {
@@ -185,29 +181,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
             ),
 
             this.createStatBox(
-                '#ff7f50',
-                `${this.translate.instant(
-                    'TO_DELIVER'
-                )} ${this.translate.instant('SLA_KO')}`,
-                separatorThousands(rapport?.['total_a_livres_sla_ko'] || '0'),
-                this.simIcon,
-                () =>
-                    this.router.navigateByUrl(``, {
-                        state: { statut: SimStatut.SUSPENDU },
-                    }),
-                '#000000',
-                '#000000'
-            ),
-
-            this.createStatBox(
                 '#e74c3c',
-                `${this.translate.instant(
+                `${this.translate.instant('FOLDERS')} ${this.translate.instant(
                     'IN_TREATMENT'
-                )} ${this.translate.instant('SLA')} ${this.translate.instant(
-                    'IN_PROGRESS'
-                )}`,
+                )} ${this.translate.instant('SLA_KO')}`,
                 separatorThousands(
-                    rapport?.['total_traitement_en_cours'] || '0'
+                    rapport?.['total_dossiers_en_traitement_sla_ko'] || '0'
                 ),
                 this.simIcon,
                 () =>
@@ -217,22 +196,74 @@ export class DashboardComponent implements OnInit, OnDestroy {
             ),
 
             this.createStatBox(
-                '#27ae60',
+                'rgb(52, 73, 94)',
                 `${this.translate.instant('CLOSURE')} ${this.translate.instant(
                     'WAITING'
                 )}`,
                 separatorThousands(
                     rapport?.['total_dossiers_clotures_ok'] || '0'
                 ),
-                this.simIcon,
-                () => this.router.navigateByUrl(``)
+                this.IconDemandToClosure
             ),
+
+            this.createStatBox(
+                '#e74c3c',
+                `${this.translate.instant('CLOSURE')} ${this.translate.instant(
+                    'REJECTED'
+                )}`,
+                separatorThousands(rapport?.['total_dossiers_rejetes'] || '0'),
+                this.simIcon
+            ),
+
+            // this.createStatBox(
+            //     '#ff7f50',
+            //     `${this.translate.instant(
+            //         'TO_DELIVER'
+            //     )} ${this.translate.instant('SLA_KO')}`,
+            //     separatorThousands(rapport?.['total_a_livres_sla_ko'] || '0'),
+            //     this.simIcon,
+            //     () =>
+            //         this.router.navigateByUrl(``, {
+            //             state: { statut: SimStatut.SUSPENDU },
+            //         }),
+            //     '#000000',
+            //     '#000000'
+            // ),
+
+            // this.createStatBox(
+            //     '#e74c3c',
+            //     `${this.translate.instant(
+            //         'IN_TREATMENT'
+            //     )} ${this.translate.instant('SLA')} ${this.translate.instant(
+            //         'IN_PROGRESS'
+            //     )}`,
+            //     separatorThousands(
+            //         rapport?.['total_traitement_en_cours'] || '0'
+            //     ),
+            //     this.simIcon,
+            //     () =>
+            //         this.router.navigateByUrl(``, {
+            //             state: { statut: SimStatut.RESILIE },
+            //         })
+            // ),
+
+            // this.createStatBox(
+            //     '#27ae60',
+            //     `${this.translate.instant('CLOSURE')} ${this.translate.instant(
+            //         'WAITING'
+            //     )}`,
+            //     separatorThousands(
+            //         rapport?.['total_dossiers_cloture_en_attente'] || '0'
+            //     ),
+            //     this.simIcon,
+            //     () => this.router.navigateByUrl(``)
+            // ),
 
             this.createStatBox(
                 '#ff7f50',
                 `${this.translate.instant('CLAIMS')}`,
                 separatorThousands(
-                    rapport?.['total_dossiers_en_reclamations'] || '0'
+                    rapport?.['total_dossiers_reclamation'] || '0'
                 ),
                 this.simIcon,
                 () =>
@@ -246,9 +277,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 `${this.translate.instant(
                     'SATISFACTION_RATE'
                 )} ${this.translate.instant('CUSTOMERS')}`,
-                separatorThousands(
-                    rapport?.['pourcentage_satisfactions_clients'] || '0'
-                ),
+                separatorThousands(rapport?.['taux_satisfaction'] || '0'),
                 this.simIcon,
                 () =>
                     this.router.navigateByUrl(``, {
@@ -256,21 +285,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     }),
                 '#ffffff',
                 '#ffffff'
-            ),
-
-            this.createStatBox(
-                '#ff6600',
-                `${this.translate.instant(
-                    'IN_TREATMENT'
-                )} ${this.translate.instant('SLA')} ${this.translate.instant(
-                    'IN_PROGRESS'
-                )}`,
-                separatorThousands(rapport?.['total_messages_clients'] || '0'),
-                this.simIcon,
-                () =>
-                    this.router.navigateByUrl(``, {
-                        state: { statut: SimStatut.RESILIE },
-                    })
             ),
 
             ...this.generateAlarmBoxes(
@@ -285,7 +299,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.asAccessFeatureSmsBalance
             ),
 
-            ...this.generateAdditionalBoxes(rapport),
+            // ...this.generateAdditionalBoxes(rapport),
         ];
     }
 
@@ -403,7 +417,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     'TO_APPROVE'
                 )}`,
                 separatorThousands(
-                    rapport?.['total_dossiers_a_approuver'] || '0'
+                    rapport?.['total_dossiers_approuves'] || '0'
                 ),
                 this.IconDemandWaiting
             ),
@@ -430,17 +444,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 '#fff',
                 '#fff',
                 '#28a745'
-            ),
-
-            this.createStatBox(
-                'rgb(52, 73, 94)',
-                `${this.translate.instant('CLOSURE')} ${this.translate.instant(
-                    'WAITING'
-                )}`,
-                separatorThousands(
-                    rapport?.['total_dossiers_clotures_ok'] || '0'
-                ),
-                this.IconDemandToClosure
             ),
         ];
     }

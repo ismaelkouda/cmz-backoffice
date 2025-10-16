@@ -1,11 +1,11 @@
-::ng-deep .p-datatable-scrollable .p-datatable-thead > tr > th:nth-child(1) {
+.p-datatable-scrollable .p-datatable-thead > tr > th:nth-child(1) {
     min-width: 6rem !important;
     max-width: 6rem !important;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-::ng-deep .p-datatable-scrollable .p-datatable-tbody > tr > td:nth-child(1) {
+.p-datatable-scrollable .p-datatable-tbody > tr > td:nth-child(1) {
     min-width: 6rem !important;
     max-width: 6rem !important;
     .tableCheckbox {
@@ -15,11 +15,11 @@
         justify-content: center;
     }
 }
-::ng-deep .p-datatable-scrollable .p-datatable-thead > tr > th.text-center {
+.p-datatable-scrollable .p-datatable-thead > tr > th.text-center {
     display: flex;
     justify-content: center;
 }
-::ng-deep .p-datatable-scrollable .p-datatable-tbody > tr.loading-table > td {
+.p-datatable-scrollable .p-datatable-tbody > tr.loading-table > td {
     min-width: 100% !important;
     max-width: 100% !important;
 }

@@ -50,7 +50,6 @@ export class SlaContactsComponent implements OnInit, OnDestroy {
             .getSlaContactsFormMode()
             .subscribe((formMode) => {
                 this.formMode = formMode ?? SLA_CONTACTS_FORM_MODE_ENUM.EDIT;
-                console.log('this.formMode', this.formMode);
             });
     }
 

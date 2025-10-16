@@ -19,11 +19,6 @@ function loadEnvConfig(): Promise<void> {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
         script.src = 'assets/config/env.js';
-        console.log(
-            'script.src<cwvsffffffffffffffffffffffffffffffffffffffffffff',
-            script.src
-        );
-
         script.onload = () => resolve();
         script.onerror = () => reject(`❌ Could not load env.js`);
         document.head.appendChild(script);

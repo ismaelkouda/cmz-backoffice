@@ -177,10 +177,6 @@ export class TableTreatmentMonitoringComponent {
 
         switch (params.view) {
             case 'modal':
-                console.log(
-                    'Open modal for treatment monitoring:',
-                    params.data
-                );
                 if (
                     params.action ===
                     OVERSEEING_OPERATIONS_BUTTONS_ACTIONS_ENUM.CLOSURE

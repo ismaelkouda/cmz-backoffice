@@ -14,8 +14,8 @@
     },
     "appSettings": {
         "appName": "IMAKO",
-        "appLogoFull": "/src/assets/images/logo/logo-imako-full.png",
-        "appLogoIcon": "/src/assets/images/logo/logo_imako.png",
+        "appLogoFull": "assets/images/logo/logo-imako-full.png",
+        "appLogoIcon": "assets/images/logo/logo_imako.png",
         "appPrimaryColor": "#5B9BD5",
         "appSecondaryColor": "#252831"
     }

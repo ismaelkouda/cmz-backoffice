@@ -172,8 +172,6 @@ export class TabsComponent implements OnInit, AfterViewInit {
     ) {}
 
     ngOnInit(): void {
-        console.log('tabs', this.tabs);
-
         this.tabService.tabs$.subscribe((tabs) => {
             this.tabs = tabs;
             setTimeout(() => this.adjustTabsAppearance(), 10);
@@ -238,9 +236,8 @@ export class TabsComponent implements OnInit, AfterViewInit {
 
     // Confirme la fermeture de tous les onglets
     confirmCloseAllTabs(): void {
-        // this.tabService.closeAllTabsExceptDashboard();
-        // this.isModalOpen = false;
-        window.location.reload(); // Actualiser la page pour refléter les changements
+        this.tabService.closeAllTabsExceptDashboard();
+        this.isModalOpen = false;
     }
 
     // Annule la fermeture de tous les onglets

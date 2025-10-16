@@ -73,7 +73,6 @@ export class FormSlaContactsComponent implements OnChanges {
     private fetchRegimesBusiness(): void {
         this.sharedService.fetchRegimesBusiness();
         this.listRegimesBusiness$ = this.sharedService.getRegimesBusiness();
-        console.log('1');
     }
 
     private fetchLegalForms(): void {
@@ -296,7 +295,6 @@ export class FormSlaContactsComponent implements OnChanges {
                 }
             ),
         });
-        console.log('2');
 
         this.setupApplicantBinding(
             'admin_tenant_id',
@@ -389,8 +387,6 @@ export class FormSlaContactsComponent implements OnChanges {
 
     public viewFile(field: string) {
         const file = this.slaContactsForm.get(field)?.value as File | null;
-        console.log('file', file);
-
         const defaultFile = this.slaContacts?.[field];
         if (!file && !defaultFile) {
             this.toastService.info('Aucun fichier à afficher');

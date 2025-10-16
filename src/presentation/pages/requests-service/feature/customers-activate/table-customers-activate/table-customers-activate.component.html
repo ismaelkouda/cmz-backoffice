@@ -1,15 +1,14 @@
 <p-table
     #dt
-    [value]="listCustomersActivate$ | async"
+    [value]="list"
     [rowHover]="true"
-    dataKey="id"
+    dataKey="numero_demande"
     selectionMode="single"
     [(selection)]="customerActivateSelected"
-    [rows]="(pagination$ | async)?.per_page"
+    [rows]="page?.per_page"
     [scrollable]="true"
     [globalFilterFields]="table.globalFilterFields"
     responsiveLayout="scroll"
-    scrollable="true"
     scrollHeight="flex"
     width="100%"
     class="responsive-claims-table"
@@ -17,37 +16,29 @@
     <ng-template pTemplate="caption">
         <div class="d-flex justify-content-between flex-wrap align-items-start">
             <app-table-title
-                [count]="(pagination$ | async)?.total"
-                [perPage]="(pagination$ | async)?.per_page"
-                [page]="(pagination$ | async)?.current_page"
-                [totalPage]="(pagination$ | async)?.last_page"
+                [count]="page?.total"
+                [perPage]="page?.per_page"
+                [page]="page?.current_page"
+                [totalPage]="page?.last_page"
             >
             </app-table-title>
+
             <div
                 class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
             >
                 <app-table-button-header
+                    [disabledButtonExport]="!list || list.length === 0"
+                    [hiddenButtonOther]="false"
                     (refresh)="pageCallback()"
                     (export)="onExportExcel()"
-                    [disabledButtonExport]="
-                        (listCustomersActivate$ | async)?.length === 0
-                    "
-                    (other)="
-                        handleAction({
-                            data: null,
-                            action: REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.ADD,
-                            view: 'page'
-                        })
-                    "
-                    [hiddenButtonOther]="false"
-                    [labelOther]="'CREATE' | translate"
-                    [iconOther]="'pi pi-plus'"
+                    (other)="onActionButtonClick(null, null, createMetaMap)"
                 >
                 </app-table-button-header>
                 <app-search-table [dt]="dt"></app-search-table>
             </div>
         </div>
     </ng-template>
+
     <ng-template pTemplate="header">
         <tr>
             <th
@@ -59,132 +50,103 @@
                     textAlign: 'center'
                 }"
             >
-                <ng-container [ngSwitch]="col.header">
-                    <ng-container *ngSwitchCase="'Date / Heure'">
-                        {{ 'DATE_TIME' | translate }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'Client'">
-                        {{ 'CUSTOMER' | translate | capitalize }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'Compte client'">
-                        {{ 'CUSTOMER_ACCOUNT' | translate }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'Etape'">
-                        {{ 'STEP' | translate }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'Etat'">
-                        {{ 'STATE' | translate }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'Date Etat'">
-                        {{ 'UPDATED_DATE' | translate }}
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'Demandeur'">
-                        {{ 'APPLICANT' | translate }}
-                    </ng-container>
-                    <ng-container *ngSwitchDefault>
-                        {{ col.header }}
-                    </ng-container>
-                </ng-container>
+                {{ col.header }}
             </th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-rowIndex="rowIndex" let-item>
-        <tr [pSelectableRow]="item">
+
+    <ng-template pTemplate="body" let-item let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="item" [attr.data-id]="item.numero_demande">
             <td
-                *ngFor="let col of table.cols"
+                *ngFor="let col of table.cols; trackBy: trackByCol"
                 [class]="col.class"
                 [ngStyle]="{ minWidth: col.width, width: col.width }"
                 [attr.data-label]="col.header"
             >
                 <ng-container [ngSwitch]="col.header">
                     <ng-container *ngSwitchCase="'#'">
-                        {{
-                            ((pagination$ | async)?.current_page - 1) *
-                                (pagination$ | async)?.per_page +
-                                rowIndex +
-                                1
-                        }}
+                        {{ computeIndex(rowIndex) }}
                     </ng-container>
+
                     <ng-container *ngSwitchCase="'Compte client'">
                         <span
-                            (click)="copyToClipboard(item?.[col.field])"
+                            (click)="copyToClipboard(item?.[col.field]); $event.stopPropagation();"
                             [pTooltip]="'COPY' | translate"
                             tooltipPosition="bottom"
                         >
                             {{ item?.[col.field] }}
                         </span>
                     </ng-container>
+
                     <ng-container *ngSwitchCase="'Etape'">
                         <span
-                            [ngStyle]="{ 'font-size': '16px' }"
-                            [class]="'badge ' + getStepBadge(item)"
+                            class="badge"
+                            [ngClass]="
+                                stepBadgeMap[item?.statut] ?? 'badge-dark'
+                            "
+                            style="font-size: 16px"
                         >
                             {{ item?.[col.field] }}
                         </span>
                     </ng-container>
+
                     <ng-container *ngSwitchCase="'Etat'">
                         <span
-                            [ngStyle]="{ 'font-size': '16px' }"
-                            [class]="'badge ' + getStateBadge(item)"
+                            class="badge"
+                            [ngClass]="stateBadgeMap[item?.statut]?.[item?.traitement] ?? 'badge-dark'"
+                            style="font-size: 16px"
                         >
                             {{ item?.[col.field] }}
                         </span>
                     </ng-container>
-                    <ng-container *ngSwitchCase="'Date Etat'">
-                        {{ item?.[col.field] }}
-                    </ng-container>
+
                     <ng-container *ngSwitchCase="'Actions'">
-                        <!-- <button pButton tooltipPosition="top" [pTooltip]="handleActionButtonOpenStyle(item)?.tooltip"
-              [ngClass]="handleActionButtonOpenStyle(item)?.class" [icon]="handleActionButtonOpenStyle(item)?.icon"
-              [disabled]="handleActionButtonOpenStyle(item)?.class === 'p-button-secondary'"
-              (click)="handleAction({data : item, action: REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.OPEN, view: 'page'})">
-            </button>&nbsp; -->
                         <button
                             pButton
+                            type="button"
                             tooltipPosition="top"
                             [pTooltip]="
-                                handleActionButtonEditStyle(item)?.tooltip
+                                editMetaMap[item.numero_demande]?.tooltip
                             "
-                            [ngClass]="handleActionButtonEditStyle(item)?.class"
-                            [icon]="handleActionButtonEditStyle(item)?.icon"
+                            [ngClass]="editMetaMap[item.numero_demande]?.class"
+                            [icon]="editMetaMap[item.numero_demande]?.icon"
                             (click)="
-                                handleAction({
-                                    data: item,
-                                    action: REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.EDIT,
-                                    view: 'modal'
-                                })
+                                onActionButtonClick(
+                                    $event,
+                                    item,
+                                    editMetaMap[item.numero_demande]?.params
+                                )
                             "
                         ></button
                         >&nbsp;
+
                         <button
                             pButton
+                            type="button"
                             tooltipPosition="top"
                             [pTooltip]="
-                                handleActionButtonPaymentStyle(item)?.tooltip
+                                paymentMetaMap[item.numero_demande]?.tooltip
                             "
                             [ngClass]="
-                                handleActionButtonPaymentStyle(item)?.class
+                                paymentMetaMap[item.numero_demande]?.class
                             "
-                            [icon]="handleActionButtonPaymentStyle(item)?.icon"
+                            [icon]="paymentMetaMap[item.numero_demande]?.icon"
                             [disabled]="
-                                handleActionButtonPaymentStyle(item)?.class ===
-                                'p-button-secondary'
+                                paymentMetaMap[item.numero_demande]?.disabled
                             "
                             (click)="
-                                handleAction({
-                                    data: item.numero_demande,
-                                    action:
-                                        item.traitement ===
-                                        REQUESTS_SERVICE_PAYMENT_STATE_ENUM.VALIDATED
-                                            ? REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.INVOICE
-                                            : REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.PAYMENT,
-                                    view: 'page'
-                                })
+                                onActionButtonClick(
+                                    $event,
+                                    item,
+                                    paymentMetaMap[item.numero_demande]?.params
+                                )
                             "
                         ></button
                         >&nbsp;
+
                         <button
                             pButton
+                            type="button"
                             tooltipPosition="top"
                             pTooltip="{{ 'NEWSPAPER' | translate }} {{
                                 item?.numero_demande
@@ -192,7 +154,7 @@
                             class="p-button-primary"
                             icon="pi pi-book"
                             (click)="
-                                handleAction({
+                                onActionButtonClick($event, item, {
                                     data: item,
                                     action: REQUESTS_SERVICE_BUTTONS_ACTIONS_ENUM.NEWSPAPER,
                                     view: 'modal'
@@ -200,22 +162,22 @@
                             "
                         ></button>
                     </ng-container>
+
                     <ng-container *ngSwitchDefault>
-                        {{item?.[col.field]}}
+                        {{ item?.[col.field] }}
                     </ng-container>
                 </ng-container>
             </td>
         </tr>
     </ng-template>
+
     <ng-template pTemplate="emptymessage">
         <tr
-            *ngIf="(listCustomersActivate$ | async)?.length <= 0 && !spinner"
+            *ngIf="(!list || list.length === 0) && !spinner"
             class="loading-table"
         >
             <td class="posRelative" colspan="15">
-                <span class="posCenter">
-                    {{ 'NO_DATA_FOUND' | translate }}
-                </span>
+                <span class="posCenter">{{ 'NO_DATA_FOUND' | translate }}</span>
             </td>
         </tr>
         <tr *ngIf="spinner" class="loading-table">
@@ -236,7 +198,7 @@
 
 <p-dialog
     header="[{{ 'CUSTOMERS_ACTIVATE' | translate }}] {{ 'DEMAND' | translate }} 
-  [{{ customerActivateSelected?.numero_demande }}]"
+  [{{ customerActivateSelected.numero_demande }}]"
     [(visible)]="visibleForm"
     [maximizable]="true"
     [draggable]="false"
@@ -251,11 +213,11 @@
         <app-treatment-requests-service-form
             [customerSelected]="customerActivateSelected"
             [handleTreatment]="
-                handleActionButtonEditStyle(customerActivateSelected)
-                    ?.handleTreatment
+                editMetaMap[customerSelected?.numero_demande]?.handleTreatment
             "
             (visibleForm)="visibleForm = false"
             [fetchCustomers]="pageCallback.bind(this)"
-        ></app-treatment-requests-service-form>
+        >
+        </app-treatment-requests-service-form>
     </ng-template>
 </p-dialog>
