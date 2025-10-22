@@ -8,6 +8,7 @@
     <div class="auth-card">
         <div class="auth-content">
             <h1 class="auth-title">{{ 'AUTHENTICATION' | translate }}</h1>
+            <div class="form-error" *ngIf="apiError">{{ apiError }}</div>
 
             <form
                 [formGroup]="loginForm"

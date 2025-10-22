@@ -35,7 +35,7 @@ export class AuthenticationService {
 
     fetchLogin(
         credentials: LoginCredentialsInterface,
-        onAuthError: () => void
+        onAuthError: (error: any) => void
     ): Observable<LoginResponseInterface> {
         if (this.loadingLoginSubject.getValue())
             return of({} as LoginResponseInterface);
@@ -53,12 +53,12 @@ export class AuthenticationService {
                     );
                 } else {
                     this.toastService.error(response.message);
-                    onAuthError();
                 }
                 return of(response);
             }),
             catchError((error) => {
                 console.error('Error fetching login', error);
+                onAuthError(error);
                 return of({} as LoginResponseInterface);
             }),
             finalize(() => this.loadingLoginSubject.next(false))
