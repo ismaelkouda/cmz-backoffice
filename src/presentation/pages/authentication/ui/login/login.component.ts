@@ -29,6 +29,7 @@ import { LoginCredentialsInterface } from '../../data-access/interfaces/login-cr
     styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
+    public apiError: string | null = null;
     public readonly REINITIALIZATION = REINITIALIZATION;
     public readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
     public readonly LOGO_IMAKO = LOGO_IMAKO;
@@ -92,7 +93,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         const credentials: LoginCredentialsInterface = this.loginForm
             .value as LoginCredentialsInterface;
         this.authService
-            .fetchLogin(credentials, () => this.handleAuthError())
+            .fetchLogin(credentials, (error) => this.handleAuthError(error))
             .pipe(takeUntil(this.destroy$))
             .subscribe((loginResponse: LoginResponseInterface) => {
                 if (loginResponse.error === false) {
@@ -103,7 +104,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             });
     }
 
-    private handleAuthError() {
+    private handleAuthError(error: any) {
+        this.apiError = `${error.error.message}`;
         this.loginForm.get('password')?.reset();
     }
 

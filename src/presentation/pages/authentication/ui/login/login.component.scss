@@ -212,3 +212,15 @@ $error-color: #d32f2f;
         box-shadow: 0 0 0 3px rgba($error-color, 0.1);
     }
 }
+
+.form-error {
+    color: #b42318;
+    background: #fee4e2;
+    border: 1px solid #fda29b;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
+  }
