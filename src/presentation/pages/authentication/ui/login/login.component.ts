@@ -105,7 +105,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     private handleAuthError(error: any) {
-        this.apiError = `${error.error.message}. Veuillez réessayer.`;
+        this.apiError = `${error.error.message}`;
         this.loginForm.get('password')?.reset();
     }
 
