@@ -47,6 +47,7 @@
                 [ngStyle]="{
                     minWidth: col.width,
                     width: col.width,
+                    maxWidth: col.maxWidth,
                     textAlign: 'center'
                 }"
             >
@@ -60,7 +61,7 @@
             <td
                 *ngFor="let col of table.cols; trackBy: trackByCol"
                 [class]="col.class"
-                [ngStyle]="{ minWidth: col.width, width: col.width }"
+                [ngStyle]="{ minWidth: col.width, width: col.width, maxWidth: col.maxWidth }"
                 [attr.data-label]="col.header"
             >
                 <ng-container [ngSwitch]="col.header">

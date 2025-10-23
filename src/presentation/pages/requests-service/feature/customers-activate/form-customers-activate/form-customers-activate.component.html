@@ -47,6 +47,7 @@
                         [formGroup]="customersActivateForm"
                         class="premium-form row g-3"
                     >
+                        <!-- CLIENT CATEGORY -->
                         <fieldset class="fieldset-premium treatment-fieldset">
                             <legend class="approval-legend mb-3">
                                 <i class="bi bi-people-fill me-2"></i>
@@ -64,14 +65,14 @@
                                             <div
                                                 class="big-radio d-flex flex-row gap-3 align-items-center"
                                                 (click)="
-                                                    setRadioValue('Commerciale')
+                                                    setRadioValue('Private')
                                                 "
                                             >
                                                 <input
                                                     class="form-check-input"
                                                     type="radio"
-                                                    id="Commerciale"
-                                                    value="Commerciale"
+                                                    id="Private"
+                                                    value="Private"
                                                     formControlName="type_entreprise"
                                                     [ngClass]="{
                                                         'is-invalid':
@@ -82,10 +83,10 @@
                                                 />
                                                 <label
                                                     class="form-check-label fw-semibold mt-2"
-                                                    for="Commerciale"
+                                                    for="Private"
                                                 >
                                                     {{
-                                                        'COMMERCIAL_ENTERPRISE'
+                                                        'PRIVATE_ENTERPRISE'
                                                             | translate
                                                     }}
                                                 </label>
@@ -151,7 +152,7 @@
                                                 </label>
                                             </div>
 
-                                            <div
+                                            <!-- <div
                                                 class="big-radio d-flex flex-row gap-3 align-items-center"
                                                 (click)="
                                                     setRadioValue(
@@ -181,23 +182,24 @@
                                                             | translate
                                                     }}
                                                 </label>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </fieldset>
 
+                        <!-- CLIENT INFOS -->
                         <fieldset class="fieldset-premium">
                             <legend>
                                 <b>{{
-                                    'PHONE_MANAGER_INFORMATION' | translate
+                                    'CLIENT_INFORMATION' | translate
                                 }}</b>
                             </legend>
                             <div class="row">
                                 <div class="col-md-4">
                                     <label class="form-label"
-                                        ><b>{{ 'NAME_PRENOMS' | translate }}</b
+                                        ><b>{{ 'COMMERCIAL_NAME' | translate }}</b
                                         ><span class="text-danger"
                                             >*</span
                                         ></label
@@ -205,7 +207,7 @@
                                     <input
                                         pInputText
                                         type="text"
-                                        formControlName="nom_client"
+                                        formControlName="commercial_name"
                                         [ngClass]="{
                                             'is-invalid':
                                                 isInvalid('nom_client')
@@ -214,15 +216,13 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label"
-                                        ><b>{{ 'ADDRESS' | translate }}</b
-                                        ><span class="text-danger"
-                                            >*</span
-                                        ></label
-                                    >
+                                        ><b>{{ 'CLIENT_ABREVIATION' | translate }}</b
+                                        >
+                                    </label>
                                     <input
                                         pInputText
                                         type="text"
-                                        formControlName="adresse"
+                                        formControlName="abbreviation_cn"
                                         [ngClass]="{
                                             'is-invalid': isInvalid('adresse')
                                         }"
@@ -248,25 +248,7 @@
                                     />
                                 </div>
                             </div>
-
                             <div class="row">
-                                <div class="col-md-4">
-                                    <label class="form-label"
-                                        ><b>{{ 'EMAIL' | translate }}</b
-                                        ><span class="text-danger"
-                                            >*</span
-                                        ></label
-                                    >
-                                    <input
-                                        pInputText
-                                        type="email"
-                                        formControlName="email_admin_client"
-                                        [ngClass]="{
-                                            'is-invalid':
-                                                isInvalid('email_admin_client')
-                                        }"
-                                    />
-                                </div>
                                 <div class="col-md-4">
                                     <label class="form-label"
                                         ><b>{{
@@ -283,6 +265,59 @@
                                         [ngClass]="{
                                             'is-invalid':
                                                 isInvalid('domaine_activite')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{
+                                            'TELEPHONE' | translate
+                                        }}</b
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="client_phone"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('compte_client')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{
+                                            'EMAIL' | translate
+                                        }}</b
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="client_email"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('compte_client')
+                                        }"
+                                    />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{
+                                            'ADDRESS' | translate
+                                        }}</b
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="client_address"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('compte_client')
                                         }"
                                     />
                                 </div>
@@ -327,14 +362,17 @@
                             </div>
                         </fieldset>
 
+                        <!-- MANAGER INFOS / PHONE -->
                         <fieldset class="fieldset-premium">
                             <legend>
-                                <b>{{ 'MANAGER_INFORMATION' | translate }}</b>
+                                <b>{{
+                                    'MANAGER_INFORMATION2' | translate
+                                }}</b>
                             </legend>
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <label class="form-label"
-                                        ><b>{{ 'NAME_PRENOMS' | translate }}</b
+                                        ><b>{{ 'LAST_NAME' | translate }}</b
                                         ><span class="text-danger"
                                             >*</span
                                         ></label
@@ -342,16 +380,16 @@
                                     <input
                                         pInputText
                                         type="text"
-                                        formControlName="nom_gerant"
+                                        formControlName="nom_client"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('nom_gerant')
+                                                isInvalid('nom_client')
                                         }"
                                     />
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-4">
                                     <label class="form-label"
-                                        ><b>{{ 'CONTACT' | translate }}</b
+                                        ><b>{{ 'FIRST_NAME' | translate }}</b
                                         ><span class="text-danger"
                                             >*</span
                                         ></label
@@ -359,13 +397,156 @@
                                     <input
                                         pInputText
                                         type="text"
-                                        formControlName="contact_gerant"
+                                        formControlName="nom_client"
                                         [ngClass]="{
                                             'is-invalid':
-                                                isInvalid('contact_gerant')
+                                                isInvalid('nom_client')
                                         }"
                                     />
                                 </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{
+                                            'TELEPHONE' | translate
+                                        }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="client_phone"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('compte_client')
+                                        }"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{ 'EMAIL' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="email"
+                                        formControlName="email_admin_client"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('email_admin_client')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{
+                                            'IDENTITY_DOCUMENT' | translate
+                                        }}</b><span class="text-danger"
+                                        >*</span
+                                    ></label
+                                    >
+                                    <div
+                                        class="d-flex justify-content-between align-items-center gap-2"
+                                    >
+                                        <div class="flex-grow-1">
+                                            <input
+                                                class="form-control file-input"
+                                                type="file"
+                                                (change)="
+                                                    onChangeFile(
+                                                        $event.target.files,
+                                                        'piece_gerant'
+                                                    )
+                                                "
+                                                accept="image/png,image/jpeg"
+                                            />
+                                        </div>
+                                        <button
+                                            pButton
+                                            type="button"
+                                            class="p-button-secondary"
+                                            icon="pi pi-eye"
+                                            [label]="'VIEW' | translate"
+                                            (click)="viewFile('piece_gerant')"
+                                            [disabled]="
+                                                !customersActivateForm.value
+                                                    .piece_gerant
+                                            "
+                                        ></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- MANAGER INFOS -->
+                        <fieldset class="fieldset-premium">
+                            <legend>
+                                <b>{{ 'ADMIN_PHONE_INFORMATION' | translate }}</b>
+                            </legend>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{ 'LAST_NAME' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="nom_client"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('nom_client')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{ 'FIRST_NAME' | translate }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="nom_client"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('nom_client')
+                                        }"
+                                    />
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label"
+                                        ><b>{{
+                                            'TELEPHONE' | translate
+                                        }}</b
+                                        ><span class="text-danger"
+                                            >*</span
+                                        ></label
+                                    >
+                                    <input
+                                        pInputText
+                                        type="text"
+                                        formControlName="client_phone"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                isInvalid('compte_client')
+                                        }"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-3">
                                     <label class="form-label"
                                         ><b>{{ 'EMAIL' | translate }}</b
@@ -422,6 +603,7 @@
                             </div>
                         </fieldset>
 
+                        <!-- MORAL DECLARATION -->
                         <fieldset class="fieldset-premium">
                             <legend>
                                 <b>{{ 'MORAL_DECLARATION' | translate }}</b>
@@ -430,8 +612,6 @@
                                 <div class="col-md-5">
                                     <label class="form-label"
                                         ><b>RCCM</b
-                                        ><span class="text-danger"
-                                            >*</span
                                         ></label
                                     >
                                     <input
@@ -496,6 +676,7 @@
                             </div>
                         </fieldset>
 
+                        <!-- FISCAL DECLARATION -->
                         <fieldset class="fieldset-premium">
                             <legend>
                                 <b>{{ 'FISCAL_DECLARATION' | translate }}</b>
@@ -504,8 +685,6 @@
                                 <div class="col-md-4">
                                     <label class="form-label"
                                         ><b>{{ 'NUMBER_CC' | translate }}</b
-                                        ><span class="text-danger"
-                                            >*</span
                                         ></label
                                     >
                                     <input
@@ -517,8 +696,6 @@
                                 <div class="col-md-2">
                                     <label class="form-label"
                                         ><b>{{ 'REGIME' | translate }}</b
-                                        ><span class="text-danger"
-                                            >*</span
                                         ></label
                                     >
                                     <p-dropdown
@@ -535,8 +712,6 @@
                                 <div class="col-md-2">
                                     <label class="form-label"
                                         ><b>{{ 'CENTER' | translate }}</b
-                                        ><span class="text-danger"
-                                            >*</span
                                         ></label
                                     >
                                     <input
@@ -580,6 +755,7 @@
                             </div>
                         </fieldset>
 
+                        <!-- REQUEST DESCRIPTION -->
                         <fieldset class="fieldset-premium">
                             <legend>
                                 <b>{{ 'REQUEST_DESCRIPTION' | translate }}</b>
@@ -602,6 +778,7 @@
                             </div>
                         </fieldset>
 
+                        <!-- SAVE BUTTON -->
                         <div class="forms-feature-footer">
                             <button
                                 pButton
