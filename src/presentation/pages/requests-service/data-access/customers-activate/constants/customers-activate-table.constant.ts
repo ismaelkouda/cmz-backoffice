@@ -1,41 +1,53 @@
 export const CUSTOMERS_ACTIVATE_TABLE = {
     cols: [
-        { field: '', header: '#', class: 'text-center' },
+        { 
+            field: '', 
+            header: '#', 
+            class: 'text-center', 
+            maxWidth: '3rem',
+            width: '3rem' 
+        },
         {
             field: 'created_at',
             header: 'Date / Heure',
             class: 'text-center',
             width: '8rem',
-        },
-        {
-            field: 'nom_client',
-            header: 'Client',
-            class: 'text-center',
-            width: '12rem',
+            maxWidth: '8rem',
         },
         {
             field: 'compte_client',
-            header: 'Compte client',
+            header: 'Compte Client',
             class: 'text-center',
-            width: '8rem',
+            width: 'auto',
+            maxWidth: 'auto',
+        },
+        {
+            field: 'nom_client',
+            header: 'Nom Commercial',
+            class: 'text-center',
+            width: 'auto',
+            maxWidth: 'auto',
         },
         {
             field: 'statut',
             header: 'Etape',
             class: 'text-center',
             width: '8rem',
+            maxWidth: '8rem',
         },
         {
             field: 'traitement',
             header: 'Etat',
             class: 'text-center',
             width: '8rem',
+            maxidth: '8rem',
         },
         {
             field: 'updated_at',
             header: 'Date Etat',
             class: 'text-center',
             width: '8rem',
+            maxWidth: '8rem',
         },
         // {
         //   field: 'demandeur',
