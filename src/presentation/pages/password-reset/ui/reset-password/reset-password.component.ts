@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { LOGO_IMAKO } from 'src/shared/constants/logoOrange.constant';
+import { LOGO_ANSUT } from 'src/shared/constants/logoAnsut.constant';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { AUTH } from 'src/shared/routes/full.routes';
 import { LOGIN } from 'src/presentation/pages/authentication/authentication-routing.module';
@@ -24,7 +24,7 @@ export class ResetPasswordComponent implements OnInit {
     public queryValue: any;
     public title =
         'Réinitialisation mot de passe - Système de Gestion de Collecte Centralisée';
-    public LOGO_IMAKO = LOGO_IMAKO;
+    public LOGO_ANSUT = LOGO_ANSUT;
     private response: any;
 
     constructor(

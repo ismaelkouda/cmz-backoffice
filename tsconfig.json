@@ -6,6 +6,7 @@
   See: https://angular.io/config/solution-tsconfig
 */
 {
+    "strict": true,
     "files": [],
     "references": [
         {

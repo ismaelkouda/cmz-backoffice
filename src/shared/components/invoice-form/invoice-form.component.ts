@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { LOGO_IMAKO } from '../../constants/logoOrange.constant';
+import { LOGO_ANSUT } from '../../constants/logoAnsut.constant';
 import {
     FormBuilder,
     FormControl,
@@ -75,7 +75,7 @@ export class InvoiceFormComponent implements OnInit, OnDestroy {
         private invoicePdfService: InvoicePdfService,
         private encodingService: EncodingDataService
     ) {
-        this.logoTenant = LOGO_IMAKO;
+        this.logoTenant = LOGO_ANSUT;
         this.setupNavigationListener();
     }
 

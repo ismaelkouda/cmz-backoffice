@@ -13,8 +13,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { NavService } from '../../services/nav.service';
 import { LayoutService } from '../../services/layout.service';
 import { EncodingDataService } from 'src/shared/services/encoding-data.service';
-import { LOGO_IMAKO } from 'src/shared/constants/logoOrange.constant';
-import { ORANGE } from '../../constants/logoOrange.constant';
+import { LOGO_ANSUT } from 'src/shared/constants/logoAnsut.constant';
 import { TabService } from '../../services/tab.service';
 import { Subscription } from 'rxjs';
 
@@ -25,8 +24,7 @@ import { Subscription } from 'rxjs';
     encapsulation: ViewEncapsulation.None,
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-    public LOGO_IMAKO = LOGO_IMAKO;
-    public ORANGE = ORANGE;
+    public LOGO_ANSUT = LOGO_ANSUT;
     public iconSidebar;
     public menuItems: Array<MenuItem> = [];
     public filterArray: Array<any> = [];

@@ -14,10 +14,11 @@
     },
     "appSettings": {
         "appName": "IMAKO",
-        "appLogoFull": "assets/images/logo/logo-imako-full.png",
-        "appLogoIcon": "assets/images/logo/logo_imako.png",
-        "appPrimaryColor": "#5B9BD5",
-        "appSecondaryColor": "#252831"
+        "appLogoFull": "assets/images/logo/logo-ansut-full.png",
+        "appLogoIcon": "assets/images/favicon.png",
+        "appPrimaryColor": "#0566FF",
+        "appSecondaryColor": "#F08224",
+        "appTertiaryColor": "#FFFFFF"
     }
 };
         })(this);

@@ -5,6 +5,15 @@
     "editor.formatOnPaste": true, // optional
     "editor.formatOnSave": true, // optional
     "editor.formatOnSaveMode": "file", // required to format on save
-    "files.autoSave": "afterDelay", // optional but recommended
-    "vs-code-prettier-eslint.prettierLast": false
+    "files.autoSave": "off", // optional but recommended
+    "vs-code-prettier-eslint.prettierLast": false,
+
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit",
+        "source.fixAll.eslint": "explicit"
+    },
+    "typescript.suggest.autoImports": true,
+    "eslint.validate": ["javascript", "typescript", "html"],
+    "files.eol": "\n",
+    "typescript.tsdk": "node_modules/typescript/libs"
 }

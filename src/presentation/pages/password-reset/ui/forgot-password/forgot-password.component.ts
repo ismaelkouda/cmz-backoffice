@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Title } from '@angular/platform-browser';
-import { LOGO_IMAKO } from 'src/shared/constants/logoOrange.constant';
+import { LOGO_ANSUT } from 'src/shared/constants/logoAnsut.constant';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { PasswordResetService } from '../../data-access/password-reset.service';
@@ -19,7 +19,7 @@ export class ForgotPasswordComponent {
     public submitted: boolean = false;
     public title =
         'Mot de passe oublié - Système de Gestion de Collecte Centralisée';
-    public LOGO_IMAKO = LOGO_IMAKO;
+    public LOGO_ANSUT = LOGO_ANSUT;
     private response: any = {};
 
     constructor(

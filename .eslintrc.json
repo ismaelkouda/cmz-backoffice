@@ -1,7 +1,7 @@
 {
   "root": true,
   "ignorePatterns": [
-    "projects/**/*"
+    "dist", "node_modules", "src/assets"
   ],
   "overrides": [
     {
@@ -12,9 +12,17 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:import/recommended",
+        "plugin:jsdoc/recommended",
+        "plugin:unicorn/recommended",
+        "plugin:prettier/recommended"
       ],
+      "parserOptions": {
+        "sourceType": "module"
+      },
       "rules": {
+        "unicorn/filename-case": "off",
         "@angular-eslint/directive-selector": [
           "error",
           {
@@ -34,12 +42,8 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
     }
   ]

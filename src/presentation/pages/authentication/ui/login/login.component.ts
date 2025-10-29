@@ -1,27 +1,28 @@
-import { VariablesResponseInterface } from './../../data-access/interfaces/variables-response.interface';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
-    FormGroup,
-    FormControl,
-    Validators,
     AbstractControl,
+    FormControl,
+    FormGroup,
+    Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { DASHBOARD } from '../../../../../shared/routes/routes';
-import { REINITIALIZATION } from '../../../../app-routing.module';
-import { FORGOT_PASSWORD } from '../../../password-reset/password-reset-routing.module';
-import { AuthenticationService } from '../../data-access/authentication.service';
-import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
-import { LOGO_IMAKO } from '../../../../../shared/constants/logoOrange.constant';
+import { LOGO_ANSUT } from '../../../../../shared/constants/logoAnsut.constant';
 import {
     AuthToken,
     CurrentUser,
 } from '../../../../../shared/interfaces/current-user.interface';
+import { DASHBOARD } from '../../../../../shared/routes/routes';
+import { EncodingDataService } from '../../../../../shared/services/encoding-data.service';
+import { EnvService } from '../../../../../shared/services/env.service';
+import { REINITIALIZATION } from '../../../../app-routing.module';
+import { FORGOT_PASSWORD } from '../../../password-reset/password-reset-routing.module';
+import { AuthenticationService } from '../../data-access/authentication.service';
+import { LoginCredentialsInterface } from '../../data-access/interfaces/login-credentials-interface';
 import { LoginPayloadInterface } from '../../data-access/interfaces/login-payload.interface';
 import { LoginResponseInterface } from '../../data-access/interfaces/login-response.interface';
-import { LoginCredentialsInterface } from '../../data-access/interfaces/login-credentials-interface';
+import { VariablesResponseInterface } from './../../data-access/interfaces/variables-response.interface';
 
 @Component({
     selector: 'app-login',
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public apiError: string | null = null;
     public readonly REINITIALIZATION = REINITIALIZATION;
     public readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
-    public readonly LOGO_IMAKO = LOGO_IMAKO;
+    public readonly LOGO_ANSUT = LOGO_ANSUT;
 
     public loginForm = new FormGroup<LoginPayloadInterface>({
         username: new FormControl('', {
@@ -50,7 +51,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     constructor(
         private authService: AuthenticationService,
         private router: Router,
-        private encodingService: EncodingDataService
+        private encodingService: EncodingDataService,
+                private envService: EnvService
     ) {}
 
     ngOnInit(): void {
@@ -96,10 +98,13 @@ export class LoginComponent implements OnInit, OnDestroy {
             .fetchLogin(credentials, (error) => this.handleAuthError(error))
             .pipe(takeUntil(this.destroy$))
             .subscribe((loginResponse: LoginResponseInterface) => {
-                if (loginResponse.error === false) {
-                    const { user, token } = loginResponse?.data;
-                    this.storeUserAndToken(user, token);
-                    this.handleFetchVariables();
+                if (loginResponse && loginResponse.error === false) {
+                    const data = loginResponse.data ?? ({} as { user?: CurrentUser; token?: AuthToken });
+                    const { user, token } = data as { user?: CurrentUser; token?: AuthToken };
+                    if (user && token) {
+                        this.storeUserAndToken(user, token);
+                        this.handleFetchVariables();
+                    }
                 }
             });
     }
@@ -110,9 +115,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     private markFormAsTouched(): void {
-        Object.values(this.loginForm.controls).forEach((control) => {
+        for (const control of Object.values(this.loginForm.controls)) {
             control.markAsTouched();
-        });
+        }
     }
 
     private handleFetchVariables(): void {
