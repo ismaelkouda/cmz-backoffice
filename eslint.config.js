@@ -1,52 +1,136 @@
-module.exports = {
-    root: true,
-    env: {
-        browser: true,
-        es2021: true,
-    },
-    extends: ['eslint:recommended'],
-    parserOptions: {
-        ecmaVersion: 12,
-        sourceType: 'module',
-    },
-    rules: {
-        eqeqeq: 'error', // Require the use of === and !== instead of == and !=
-        curly: 'error', // Require all multi-line blocks to use braces
-        'no-eval': 'error', // Prohibit the use of the eval() function
-        'no-unused-vars': 'warn', // Warn about variables that are declared but not used
-        indent: ['error', 4], // Require indentation of 4 spaces
-        quotes: ['error', 'single'], // Require the use of single quotes
-        semi: ['error', 'always'], // Require the use of semicolons
-        'no-var': 'error', // Require the use of let or const instead of var
-        'prefer-const': 'error', // Suggest using const for variables that are never reassigned after declaration
+// @ts-check
+import angularESLint from '@angular-eslint/eslint-plugin';
+import js from '@eslint/js';
+import prettierConfig from 'eslint-config-prettier';
+import importPlugin from 'eslint-plugin-import';
+import jsdocPlugin from 'eslint-plugin-jsdoc';
+import prettierPlugin from 'eslint-plugin-prettier';
+import unicornPlugin from 'eslint-plugin-unicorn';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+
+module.exports = tseslint.config(
+  {
+    ignores: [
+      "dist/**",
+      "node_modules/**", 
+      "src/assets/**",
+      "*.js",
+      "*.map",
+      "*.min.js", 
+      "*.d.ts",
+      "build/",
+      ".angular/",
+      "package-lock.json",
+      "yarn.lock"
+    ]
+  },
+
+  {
+    files: ["**/*.ts"],
+    
+    extends: [
+      js.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.stylistic,
+      prettierConfig,
+    ],
+
+    plugins: {
+      "@angular-eslint": angularESLint,
+      "@typescript-eslint": tseslint.plugin,
+      "import": importPlugin,
+      "jsdoc": jsdocPlugin,
+      "unicorn": unicornPlugin,
+      "prettier": prettierPlugin
     },
 
-    overrides: [
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: ["tsconfig.json", "tsconfig.app.json", "tsconfig.spec.json"],
+        createDefaultProgram: true,
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.es2021 
+      }
+    },
+
+    rules: {
+      "unicorn/filename-case": "off",
+
+      "@angular-eslint/directive-selector": [
+        "error",
         {
-            files: ['*.ts'],
-            parser: '@typescript-eslint/parser',
-            parserOptions: {
-                project: ['tsconfig.json'],
-                createDefaultProgram: true,
-            },
-            plugins: ['@angular-eslint', '@typescript-eslint'],
-            extends: [
-                'eslint:recommended',
-                'plugin:@typescript-eslint/recommended',
-                'plugin:@angular-eslint/recommended',
-            ],
-            rules: {
-                '@typescript-eslint/no-explicit-any': 'warn',
-                'prefer-const': 'error',
-                semi: ['error', 'always'],
-            },
-        },
+          "type": "attribute",
+          "prefix": "app", 
+          "style": "camelCase"
+        }
+      ],
+      "@angular-eslint/component-selector": [
+        "error",
         {
-            files: ['*.html'],
-            parser: '@angular-eslint/template-parser',
-            plugins: ['@angular-eslint/template'],
-            extends: ['plugin:@angular-eslint/template/recommended'],
-            rules: {},
-        },
+          "type": "element",
+          "prefix": "app",
+          "style": "kebab-case"
+        }
+      ],
+
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/no-explicit-any": "warn",
+
+      "@angular-eslint/template/banana-in-box": "error",
+        "@angular-eslint/template/no-negated-async": "error",
+        "@angular-eslint/template/accessibility-alt-text": "error",
+        "@angular-eslint/template/click-events-have-key-events": "error", 
+      
+      "@angular-eslint/no-forward-ref": "error",
+      "@angular-eslint/use-injectable-provided-in": "error",
+      
+      "@angular-eslint/component-class-suffix": [
+        "error", 
+        { "suffixes": ["Component", "Page", "Dialog"] }
+      ],
+
+      "jsdoc/check-alignment": "warn",
+      "jsdoc/check-indentation": "warn",
+      "jsdoc/newline-after-description": "warn",
+      "jsdoc/require-param": "warn",
+      "jsdoc/require-returns": "warn",
+
+      "deprecation/deprecation": "warn",
+
+      "prettier/prettier": "error",
+      
+      "@angular-eslint/no-empty-lifecycle-method": "warn",
+      "@angular-eslint/prefer-on-push-component-change-detection": "warn",
+      
+      "eqeqeq": "error",
+      "no-eval": "error",
+      "curly": "error",
+      "no-var": "error",
+      "prefer-const": "error",
+      
+      "complexity": ["warn", 15],
+      "max-lines": ["warn", 300],
+      
+      "import/order": ["warn", { 
+        "alphabetize": { "order": "asc" },
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"]
+      }]
+    }
+  },
+
+  {
+    files: ["**/*.html"],
+    extends: [
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.stylistic,
     ],
-};
+    rules: {
+      "@angular-eslint/template/banana-in-box": "error",
+      "@angular-eslint/template/no-negated-async": "error"
+    }
+  }
+);

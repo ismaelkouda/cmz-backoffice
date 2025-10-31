@@ -8,4 +8,4 @@ export const WAITING_QUEUE_STEP_ENUM = {
 } as const;
 
 export type T_WAITING_QUEUE_STEP_ENUM =
-    typeof WAITING_QUEUE_STEP_ENUM[keyof typeof WAITING_QUEUE_STEP_ENUM];
+    (typeof WAITING_QUEUE_STEP_ENUM)[keyof typeof WAITING_QUEUE_STEP_ENUM];

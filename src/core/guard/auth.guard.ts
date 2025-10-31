@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { EncodingDataService } from '../../shared/services/encoding-data.service';
 import { TokenInterface } from '../../shared/interfaces/token.interface';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthGuard {
     constructor(
         private router: Router,
         private encodingService: EncodingDataService

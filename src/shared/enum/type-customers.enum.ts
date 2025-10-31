@@ -6,4 +6,4 @@ export const TYPE_CUSTOMERS_ENUM = {
 };
 
 export type T_TYPE_CUSTOMERS_ENUM =
-    typeof TYPE_CUSTOMERS_ENUM[keyof typeof TYPE_CUSTOMERS_ENUM];
+    (typeof TYPE_CUSTOMERS_ENUM)[keyof typeof TYPE_CUSTOMERS_ENUM];

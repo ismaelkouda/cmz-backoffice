@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         private authService: AuthenticationService,
         private router: Router,
         private encodingService: EncodingDataService,
-                private envService: EnvService
+        private envService: EnvService
     ) {}
 
     ngOnInit(): void {
@@ -99,8 +99,13 @@ export class LoginComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe((loginResponse: LoginResponseInterface) => {
                 if (loginResponse && loginResponse.error === false) {
-                    const data = loginResponse.data ?? ({} as { user?: CurrentUser; token?: AuthToken });
-                    const { user, token } = data as { user?: CurrentUser; token?: AuthToken };
+                    const data =
+                        loginResponse.data ??
+                        ({} as { user?: CurrentUser; token?: AuthToken });
+                    const { user, token } = data as {
+                        user?: CurrentUser;
+                        token?: AuthToken;
+                    };
                     if (user && token) {
                         this.storeUserAndToken(user, token);
                         this.handleFetchVariables();

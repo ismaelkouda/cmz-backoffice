@@ -5,4 +5,4 @@ export const BADGE_ETAPE = {
     CLOTURE: 'clôture',
 } as const;
 
-export type T_BADGE_ETAPE = typeof BADGE_ETAPE[keyof typeof BADGE_ETAPE];
+export type T_BADGE_ETAPE = (typeof BADGE_ETAPE)[keyof typeof BADGE_ETAPE];

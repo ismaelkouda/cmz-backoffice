@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
     ActivatedRouteSnapshot,
-    CanActivate,
     Router,
     RouterStateSnapshot,
 } from '@angular/router';
@@ -9,7 +8,7 @@ import { StorePathsService } from '../../shared/services/store-paths.service';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class PagesGuard implements CanActivate {
+export class PagesGuard {
     constructor(
         private storePathsService: StorePathsService,
         private router: Router

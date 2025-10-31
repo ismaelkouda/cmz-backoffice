@@ -1,3 +1,41 @@
+📋 Scripts et Configuration du Projet
+
+npm run env:dev Génère l'environnement de développement
+npm run env:prod Génère l'environnement de production
+npm run env:test	Génère l'environnement de test
+
+npm run test	Lance les tests unitaires en mode watch
+npm run test:ci	Lance les tests en mode CI (sans watch)
+
+npm run build:ci	Build complet pour CI (lint + tests + build)
+
+npm run deploy:test	Build et déploie sur l'environnement de test
+npm run deploy:prod	Build et déploie sur l'environnement de production
+
+npm run lint	Analyse le code TypeScript/HTML avec ESLint
+npm run lint:fix	Corrige automatiquement les erreurs ESLint
+npm run lint:styles	Analyse les fichiers CSS/SCSS avec Stylelint
+npm run lint:all	Exécute toutes les vérifications de code
+npm run format	Formate le code avec Prettier
+npm run format:check	Vérifie le format sans corriger
+
+npm run security:audit	Vérifie les vulnérabilités de sécurité
+npm run deps:check	Affiche les dépendances obsolètes
+npx npm-check-updates -u Mettre à jour les dépendances
+npm run clean	Nettoie les dossiers de build et cache
+npm run clean:install	Nettoyage complet et réinstallation
+
+npm run generate-structure	Génère la structure du projet (PowerShell)
+npm run gsc	Commande raccourcie pour generate-structure
+
+generate-env.js          # Génère les fichiers d'environnement
+
+# 1. Démarrer l'environnement de dev
+npm run start:dev
+npm run lint:all
+npm run format
+
+
 # env-client-psim-frontend-tenant
 
 

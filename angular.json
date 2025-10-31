@@ -212,7 +212,6 @@
       }
     }
   },
-  "defaultProject": "ps",
   "cli": {
     "analytics": false,
     "schematicCollections": [

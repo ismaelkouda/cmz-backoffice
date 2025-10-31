@@ -4,4 +4,4 @@ export const BADGE_STEP_CLAIMS = {
 } as const;
 
 export type T_BADGE_STEP_CLAIMS =
-    typeof BADGE_STEP_CLAIMS[keyof typeof BADGE_STEP_CLAIMS];
+    (typeof BADGE_STEP_CLAIMS)[keyof typeof BADGE_STEP_CLAIMS];

@@ -4,4 +4,4 @@ export const SLA_CONTACTS_STATUS_ENUM = {
 } as const;
 
 export type T_SLA_CONTACTS_STATUS_ENUM =
-    typeof SLA_CONTACTS_STATUS_ENUM[keyof typeof SLA_CONTACTS_STATUS_ENUM];
+    (typeof SLA_CONTACTS_STATUS_ENUM)[keyof typeof SLA_CONTACTS_STATUS_ENUM];

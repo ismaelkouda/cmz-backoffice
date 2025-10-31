@@ -13,4 +13,4 @@ export const BADGE_ETAT_FACTURE = {
 } as const;
 
 export type T_BADGE_ETAT_FACTURE =
-    typeof BADGE_ETAT_FACTURE[keyof typeof BADGE_ETAT_FACTURE];
+    (typeof BADGE_ETAT_FACTURE)[keyof typeof BADGE_ETAT_FACTURE];

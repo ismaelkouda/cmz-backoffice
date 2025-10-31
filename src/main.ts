@@ -9,9 +9,9 @@ loadEnvConfig().then(() => {
         enableProdMode();
     }
 
-    platformBrowserDynamic().bootstrapModule(AppModule).catch((err) => console.error(err));
-
-    //bootstrapApplication(AppComponent).catch((err) => console.error(err));
+    platformBrowserDynamic()
+        .bootstrapModule(AppModule)
+        .catch((err) => console.error(err));
 });
 
 function loadEnvConfig(): Promise<void> {
@@ -23,3 +23,5 @@ function loadEnvConfig(): Promise<void> {
         document.head.appendChild(script);
     });
 }
+
+//bootstrapApplication(AppComponent, ).catch((err) => console.error(err));

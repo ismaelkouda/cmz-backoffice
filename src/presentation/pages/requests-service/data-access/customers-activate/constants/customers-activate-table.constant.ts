@@ -1,11 +1,11 @@
 export const CUSTOMERS_ACTIVATE_TABLE = {
     cols: [
-        { 
-            field: '', 
-            header: '#', 
-            class: 'text-center', 
+        {
+            field: '',
+            header: '#',
+            class: 'text-center',
             maxWidth: '3rem',
-            width: '3rem' 
+            width: '3rem',
         },
         {
             field: 'created_at',

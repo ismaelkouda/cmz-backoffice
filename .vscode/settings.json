@@ -10,10 +10,14 @@
 
     "editor.codeActionsOnSave": {
         "source.organizeImports": "explicit",
-        "source.fixAll.eslint": "explicit"
+        "source.fixAll.eslint": "always",
     },
     "typescript.suggest.autoImports": true,
     "eslint.validate": ["javascript", "typescript", "html"],
     "files.eol": "\n",
-    "typescript.tsdk": "node_modules/typescript/libs"
+    "typescript.tsdk": "node_modules/typescript/libs",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    
 }

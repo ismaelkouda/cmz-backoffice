@@ -4,4 +4,4 @@ export const NOM_APPLICATION = {
 } as const;
 
 export type T_NOM_APPLICATION =
-    typeof NOM_APPLICATION[keyof typeof NOM_APPLICATION];
+    (typeof NOM_APPLICATION)[keyof typeof NOM_APPLICATION];

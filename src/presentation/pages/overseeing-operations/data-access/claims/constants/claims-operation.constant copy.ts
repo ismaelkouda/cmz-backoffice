@@ -8,4 +8,4 @@ export const BADGE_OPERATION_CLAIMS = {
 } as const;
 
 export type T_BADGE_OPERATION_CLAIMS =
-    typeof BADGE_OPERATION_CLAIMS[keyof typeof BADGE_OPERATION_CLAIMS];
+    (typeof BADGE_OPERATION_CLAIMS)[keyof typeof BADGE_OPERATION_CLAIMS];

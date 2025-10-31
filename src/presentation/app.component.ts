@@ -40,8 +40,7 @@ export class AppComponent {
         const appSettings = this.envService.appSettings;
         this.setFavicon(appSettings.appLogoIcon);
         this.encodingService.saveData('app_settings', appSettings, true);
-        console.log("appSettings", appSettings);
-        
+        console.log('appSettings', appSettings);
     }
 
     private setFavicon(appLogoIcon: string): void {

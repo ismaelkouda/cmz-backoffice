@@ -7,4 +7,4 @@ export const BADGE_STATE_CLAIMS = {
 } as const;
 
 export type T_BADGE_STATE_CLAIMS =
-    typeof BADGE_STATE_CLAIMS[keyof typeof BADGE_STATE_CLAIMS];
+    (typeof BADGE_STATE_CLAIMS)[keyof typeof BADGE_STATE_CLAIMS];

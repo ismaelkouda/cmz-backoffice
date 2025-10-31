@@ -1,9 +1,13 @@
 /* Application TypeScript configuration for Angular app */
 {
     "compilerOptions": {
-        "baseUrl": "./",
+        "baseUrl": "src",
         "paths": {
-            "@shared/*": ["src/shared/*"]
+            "@app/*": ["app/*"],
+            "@shared/*": ["src/shared/*"],
+            "@presentation/*": ["src/presentation/*"],
+            "@core/*": ["src/core/*"],
+            "@pages/*": ["src/presentation/pages/*"],
         },
 
         "outDir": "./out-tsc/app",

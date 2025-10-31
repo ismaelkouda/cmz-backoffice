@@ -15,4 +15,4 @@ export const WAITING_QUEUE_STATE_ENUM = {
 } as const;
 
 export type T_WAITING_QUEUE_STATE_ENUM =
-    typeof WAITING_QUEUE_STATE_ENUM[keyof typeof WAITING_QUEUE_STATE_ENUM];
+    (typeof WAITING_QUEUE_STATE_ENUM)[keyof typeof WAITING_QUEUE_STATE_ENUM];
