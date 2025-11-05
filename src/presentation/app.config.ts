@@ -2,14 +2,17 @@ import {
     provideHttpClient,
     withFetch,
     withInterceptors,
-    withJsonpSupport,
+    withJsonpSupport
 } from '@angular/common/http';
 import {
     ApplicationConfig,
+    EnvironmentInjector,
     importProvidersFrom,
     inject,
     isDevMode,
     provideAppInitializer,
+    provideZoneChangeDetection,
+    runInInjectionContext,
 } from '@angular/core';
 import {
     provideRouter,
@@ -35,25 +38,32 @@ import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
 
+
 function initializeApp(): () => Promise<void> {
-    const configService = inject(ConfigurationService);
-    const translationManager = inject(TranslationManagerService);
+  
+  return () => {
+        const injector = inject(EnvironmentInjector);
+        
+        return runInInjectionContext(injector, async () => {
+            const configService = inject(ConfigurationService);
+            const translationManager = inject(TranslationManagerService);
 
-    return async () => {
-        try {
-            console.log(`🚀 Application initializing in ${configService.environment} mode`);
+            try {
+                console.log(`🚀 Application initializing in ${configService.environment} mode`);
 
-            if (!configService.apiUrl) {
-                console.warn('⚠️ Configuration API URL manquante');
+                if (!configService.apiUrl) {
+                    throw new Error('Configuration API URL is required');
+                }
+
+                await translationManager.initialize();
+                
+                console.log('🎉 Application initialized successfully');
+                
+            } catch (error) {
+                console.error('💥 Application initialization failed:', error);
+                throw error;
             }
-
-            await translationManager.initialize();
-            
-            console.log('🎉 Application initialized successfully');
-            
-        } catch (error) {
-            console.error('💥 Application initialization failed:', error);
-        }
+        });
     };
 }
 
@@ -69,9 +79,18 @@ const environmentInterceptors = isDevMode()
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        provideZoneChangeDetection({ 
+            eventCoalescing: true,
+            runCoalescing: true 
+        }),
         provideRouter(
             routes,
-            withViewTransitions(),
+            withViewTransitions({
+                skipInitialTransition: true,
+                onViewTransitionCreated: (transitionInfo) => {
+                    console.log('🎭 View transition created:', transitionInfo);
+                }
+            }),
             withInMemoryScrolling({
                 scrollPositionRestoration: 'enabled',
                 anchorScrolling: 'enabled',
@@ -88,13 +107,19 @@ export const appConfig: ApplicationConfig = {
             withInterceptors([...coreInterceptors, ...environmentInterceptors])
         ),
 
-        provideTranslateService({
-            defaultLanguage: 'fr'
+         provideTranslateService({
+            defaultLanguage: 'fr',
+            useDefaultLang: true,
+        }),
+
+        provideTranslateHttpLoader({
+            prefix: '../assets/i18n/',
+            suffix: '.json'
         }),
 
         ...provideTranslateHttpLoader({
-            prefix: './assets/i18n/',
-            suffix: '.json',
+            prefix: '../assets/i18n/',
+            suffix: '.json'
         }),
 
         provideServiceWorker('ngsw-worker.js', {

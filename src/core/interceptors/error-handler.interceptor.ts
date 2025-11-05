@@ -6,6 +6,10 @@ import { ConfigurationService } from '../services/configuration.service';
 export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
     const configService = inject(ConfigurationService);
 
+     if (isAssetRequest(req) || isI18nRequest(req)) {
+        return next(req); // Passer sans interception
+    }
+
     return next(req).pipe(
         catchError((error) => {
             if (configService.isDevelopment) {
@@ -62,4 +66,32 @@ function handleUnauthorizedError(): void {
         sessionStorage.clear();
         globalThis.location.href = '/auth/login';
     }
+}
+
+
+function isAssetRequest(req: HttpRequest<any>): boolean {
+    const assetPatterns = [
+        '/assets/',
+        '.json',
+        '.png',
+        '.jpg',
+        '.jpeg',
+        '.gif',
+        '.svg',
+        '.css',
+        '.js',
+        '.woff',
+        '.woff2',
+        '.ttf',
+        '.ico'
+    ];
+
+    return assetPatterns.some(pattern => 
+        req.url.includes(pattern)
+    );
+}
+
+function isI18nRequest(req: HttpRequest<any>): boolean {
+    return req.url.includes('/assets/i18n/') || 
+           req.url.includes('.json') && req.url.includes('i18n');
 }

@@ -3,8 +3,7 @@ import { AppComponent } from './presentation/app.component';
 import { appConfig } from './presentation/app.config';
 
 try {
-    console.log('🎉 Application successfully bootstrapped!');
-    
+
     globalThis.window?.addEventListener('error', (event) => {
         console.error('🚨 Global Error:', event.error);
     });

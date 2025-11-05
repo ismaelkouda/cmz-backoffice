@@ -55,35 +55,34 @@ class EnvironmentGenerator {
         const selectedConfig = this.validateEnvironment(config, env);
 
         const output = `(function (window) {
-    window.__env = ${JSON.stringify(selectedConfig, null, 4)};
-    window.__env.buildInfo = {
-        timestamp: '${new Date().toISOString()}',
-        environment: '${env}',
-        version: '${process.env.npm_package_version || '1.0.0'}',
-        commitHash: '${process.env.GIT_COMMIT_HASH || 'local'}'
-    };
-    
-    // Validation de la configuration
-    if (typeof window.__env.apiUrl === 'undefined') {
-        console.error('❌ Configuration API manquante');
-    }
-    
-    // Lock la configuration
-    Object.freeze(window.__env);
-    Object.freeze(window.__env.messageApp);
-    Object.freeze(window.__env.appSettings);
-})(this);`;
+            window.__env = ${JSON.stringify(selectedConfig, null, 4)};
+            window.__env.buildInfo = {
+                timestamp: '${new Date().toISOString()}',
+                environment: '${env}',
+                version: '${process.env.npm_package_version || '1.0.0'}',
+                commitHash: '${process.env.GIT_COMMIT_HASH || 'local'}'
+            };
+            
+            // Validation de la configuration
+            if (typeof window.__env.apiUrl === 'undefined') {
+                console.error('❌ Configuration API manquante');
+            }
+            
+            // Lock la configuration
+            Object.freeze(window.__env);
+            Object.freeze(window.__env.messageApp);
+            Object.freeze(window.__env.appSettings);
+        })(this);`;
 
         // Création du dossier si nécessaire
         const outputDir = path.dirname(this.envOutputPath);
         if (!fs.existsSync(outputDir)) {
             fs.mkdirSync(outputDir, { recursive: true });
         }
-
-        fs.writeFileSync(this.envOutputPath, output, 'utf8');
         console.log(
             `✅ Fichier env.js généré pour '${env}' → ${this.envOutputPath}`
         );
+        fs.writeFileSync(this.envOutputPath, output, 'utf8');
     }
 
     generate(env) {

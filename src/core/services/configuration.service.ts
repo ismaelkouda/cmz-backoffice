@@ -24,16 +24,15 @@ export class ConfigurationService {
 
     private loadConfiguration(): { config: AppConfig; buildInfo: BuildInfo } {
         if (isPlatformBrowser(this.platformId)) {
-            // Client-side: configuration dynamique
             return this.loadBrowserConfig();
         } else {
-            // Server-side: configuration statique
             return this.loadServerConfig();
         }
     }
 
     private loadBrowserConfig(): { config: AppConfig; buildInfo: BuildInfo } {
-        const windowConfig = (globalThis as any).__env;
+        const windowConfig = this.getWindowConfig();
+        console.log("azerty", (globalThis))
 
         if (!windowConfig) {
             throw new Error('❌ Configuration client non trouvée');
@@ -44,6 +43,28 @@ export class ConfigurationService {
             buildInfo: windowConfig.buildInfo || this.createDefaultBuildInfo(),
         };
     }
+
+  private getWindowConfig(): any {
+    try {
+      // Essayer multiple méthodes d'accès
+      if (typeof window !== 'undefined' && (window as any).__env) {
+        return (window as any).__env;
+      }
+      
+      if (typeof globalThis !== 'undefined' && (globalThis as any).__env) {
+        return (globalThis as any).__env;;
+      }
+      
+      if (typeof self !== 'undefined' && (self as any).__env) {
+        return (self as any).__env;;
+      }
+
+      return null;
+    } catch (error) {
+      console.warn('⚠️ Error accessing window configuration:', error);
+      return null;
+    }
+  }
 
     private loadServerConfig(): { config: AppConfig; buildInfo: BuildInfo } {
         const nodeEnv =

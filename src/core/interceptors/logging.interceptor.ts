@@ -1,4 +1,4 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { tap } from 'rxjs';
 import { ConfigurationService } from '../services/configuration.service';
@@ -6,6 +6,10 @@ import { ConfigurationService } from '../services/configuration.service';
 export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
     const configService = inject(ConfigurationService);
     const startTime = Date.now();
+
+    if (isAssetRequest(req) || isI18nRequest(req)) {
+        return next(req); // Passer sans interception
+    }
 
     return next(req).pipe(
         tap({
@@ -40,3 +44,30 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
         })
     );
 };
+
+function isAssetRequest(req: HttpRequest<any>): boolean {
+    const assetPatterns = [
+        '/assets/',
+        '.json',
+        '.png',
+        '.jpg',
+        '.jpeg',
+        '.gif',
+        '.svg',
+        '.css',
+        '.js',
+        '.woff',
+        '.woff2',
+        '.ttf',
+        '.ico'
+    ];
+
+    return assetPatterns.some(pattern => 
+        req.url.includes(pattern)
+    );
+}
+
+function isI18nRequest(req: HttpRequest<any>): boolean {
+    return req.url.includes('/assets/i18n/') || 
+           req.url.includes('.json') && req.url.includes('i18n');
+}

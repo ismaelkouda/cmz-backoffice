@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { CurrentUser } from '../../../../interfaces/current-user.interface';
 import { EncodingDataService } from '../../../../services/encoding-data.service';
-const Swal = require('sweetalert2');
+//const Swal = require('sweetalert2');
 
 @Component({
     selector: 'app-my-account',
@@ -187,18 +187,5 @@ export class MyAccountComponent implements OnInit, OnDestroy {
         // });
     }
     public logout(): void {
-        Swal.fire({
-            title: 'En êtes vous sûr ?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#569C5B',
-            cancelButtonColor: '#dc3545',
-            cancelButtonText: 'Annuler',
-            confirmButtonText: 'Oui',
-        }).then((result: any) => {
-            if (result.isConfirmed) {
-                this.handleLogout();
-            }
-        });
     }
 }
